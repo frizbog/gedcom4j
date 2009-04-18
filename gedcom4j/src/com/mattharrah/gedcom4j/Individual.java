@@ -30,4 +30,5 @@ public class Individual {
 	public LdsOrdinance ldsIndividualOrdinance;
 	public List<String> aliases = new ArrayList<String>();
 	public List<Multimedia> multimedia = new ArrayList<Multimedia>();
+	public String restrictionNotice;
 }

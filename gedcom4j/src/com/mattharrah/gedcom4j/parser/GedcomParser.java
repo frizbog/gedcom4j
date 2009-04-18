@@ -91,7 +91,7 @@ public class GedcomParser {
 			} else if ("CONT".equals(ch.tag)) {
 				address.lines.add(ch.value);
 			} else {
-				unknownTagWarning(st, ch);
+				unknownTagWarning(ch);
 			}
 		}
 	}
@@ -112,7 +112,7 @@ public class GedcomParser {
 
 	private void loadCitation(StringTree st, List<Citation> list) {
 		Citation source;
-		if (st.id == null) {
+		if (st.value == null || !st.value.trim().matches("\\@.*\\@")) {
 			source = new CitationWithoutSource();
 			loadCitationWithoutSource(st, source);
 		} else {
@@ -133,11 +133,11 @@ public class GedcomParser {
 					if ("CONC".equals(chch.tag) || "CONT".equals(chch.tag)) {
 						ls.add(chch.value);
 					} else {
-						unknownTagWarning(ch, chch);
+						unknownTagWarning(chch);
 					}
 				}
 			} else {
-				unknownTagWarning(st, ch);
+				unknownTagWarning(ch);
 			}
 		}
 
@@ -157,22 +157,22 @@ public class GedcomParser {
 					if ("CONC".equals(chch.tag) || "CONT".equals(chch.tag)) {
 						ls.add(chch.value);
 					} else {
-						unknownTagWarning(ch, chch);
+						unknownTagWarning(chch);
 					}
 				}
 			} else {
-				unknownTagWarning(st, ch);
+				unknownTagWarning(ch);
 			}
 		}
 	}
 
 	private void loadCitationWithSource(StringTree st, Citation citation) {
 		CitationWithSource cws = (CitationWithSource) citation;
-		Source src = gedcom.sources.get(st.id);
+		Source src = gedcom.sources.get(st.value);
 		if (src == null) {
 			src = new Source();
-			src.xref = st.id;
-			gedcom.sources.put(st.id, src);
+			src.xref = st.value;
+			gedcom.sources.put(src.xref, src);
 		}
 		cws.source = src;
 		for (StringTree ch : st.children) {
@@ -186,8 +186,10 @@ public class GedcomParser {
 				loadCitationData(ch, d);
 			} else if ("QUAY".equals(ch.tag)) {
 				cws.certainty = ch.value;
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, cws.notes);
 			} else {
-				unknownTagWarning(st, ch);
+				unknownTagWarning(ch);
 			}
 		}
 	}
@@ -201,7 +203,7 @@ public class GedcomParser {
 			} else if ("PHON".equals(ch.tag)) {
 				corporation.phoneNumbers.add(ch.value);
 			} else {
-				unknownTagWarning(st, ch);
+				unknownTagWarning(ch);
 			}
 		}
 	}
@@ -213,7 +215,7 @@ public class GedcomParser {
 			} else if ("FORM".equals(ch.tag)) {
 				gedcomVersion.gedcomForm = ch.value;
 			} else {
-				unknownTagWarning(st, ch);
+				unknownTagWarning(ch);
 			}
 		}
 	}
@@ -261,12 +263,12 @@ public class GedcomParser {
 					if ("CONC".equals(chch.tag) || "CONT".equals(chch.tag)) {
 						header.notes.add(chch.value);
 					} else {
-						unknownTagWarning(ch, chch);
+						unknownTagWarning(chch);
 					}
 				}
 
 			} else {
-				unknownTagWarning(st, ch);
+				unknownTagWarning(ch);
 			}
 		}
 	}
@@ -292,8 +294,12 @@ public class GedcomParser {
 				i.regFileNumber = ch.value;
 			} else if ("OBJE".equals(ch.tag)) {
 				loadMultimedia(ch, i.multimedia);
+			} else if ("RESN".equals(ch.tag)) {
+				i.restrictionNotice = ch.value;
+			} else if ("SOUR".equals(ch.tag)) {
+				loadCitation(ch, i.citations);
 			} else {
-				unknownTagWarning(st, ch);
+				unknownTagWarning(ch);
 			}
 		}
 
@@ -308,6 +314,7 @@ public class GedcomParser {
 			} else if ("DATE".equals(ch.tag)) {
 				e.date = ch.value;
 			} else if ("PLAC".equals(ch.tag)) {
+				e.place = new Place();
 				loadPlace(ch, e.place);
 			} else if ("OBJE".equals(ch.tag)) {
 				loadMultimedia(ch, e.multimedia);
@@ -317,8 +324,15 @@ public class GedcomParser {
 				e.causeOfEvent = ch.value;
 			} else if ("SOUR".equals(ch.tag)) {
 				loadCitation(ch, e.citations);
+			} else if ("ADDR".equals(ch.tag)) {
+				e.address = new Address();
+				loadAddress(ch, e.address);
+			} else if ("AGNC".equals(ch.tag)) {
+				e.respAgency = ch.value;
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, e.notes);
 			} else {
-				unknownTagWarning(st, ch);
+				unknownTagWarning(ch);
 			}
 		}
 
@@ -348,7 +362,7 @@ public class GedcomParser {
 			} else if ("NOTE".equals(ch.tag)) {
 				loadNote(ch, m.notes);
 			} else {
-				unknownTagWarning(st, ch);
+				unknownTagWarning(ch);
 			}
 		}
 
@@ -396,15 +410,28 @@ public class GedcomParser {
 				pn.suffix = ch.value;
 			} else if ("SOUR".equals(ch.tag)) {
 				loadCitation(ch, pn.sources);
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, pn.notes);
 			} else {
-				unknownTagWarning(st, ch);
+				unknownTagWarning(ch);
 			}
 		}
 
 	}
 
 	private void loadPlace(StringTree st, Place place) {
-		errors.add("loadPlace not implemented yet");
+		place.placeName = st.value;
+		for (StringTree ch : st.children) {
+			if ("FORM".equals(ch.tag)) {
+				place.placeFormat = ch.value;
+			} else if ("SOUR".equals(ch.tag)) {
+				loadCitation(ch, place.citations);
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, place.notes);
+			} else {
+				unknownTagWarning(ch);
+			}
+		}
 
 	}
 
@@ -428,7 +455,7 @@ public class GedcomParser {
 			} else if ("NOTE".equals(ch.tag)) {
 				loadNote(ch, null);
 			} else {
-				unknownTagWarning(st, ch);
+				unknownTagWarning(ch);
 			}
 		}
 	}
@@ -441,7 +468,7 @@ public class GedcomParser {
 			} else if ("COPR".equals(ch.tag)) {
 				sourceData.copyright = ch.value;
 			} else {
-				unknownTagWarning(st, ch);
+				unknownTagWarning(ch);
 			}
 		}
 
@@ -461,7 +488,7 @@ public class GedcomParser {
 				sourceSystem.sourceData = new SourceData();
 				loadSourceData(ch, sourceSystem.sourceData);
 			} else {
-				unknownTagWarning(st, ch);
+				unknownTagWarning(ch);
 			}
 		}
 	}
@@ -487,7 +514,7 @@ public class GedcomParser {
 			} else if ("RIN".equals(ch.tag)) {
 				submission.recIdNumber = ch.value;
 			} else {
-				unknownTagWarning(st, ch);
+				unknownTagWarning(ch);
 			}
 		}
 
@@ -514,7 +541,7 @@ public class GedcomParser {
 			} else if ("RFN".equals(ch.tag)) {
 				submitter.regFileNumber = ch.value;
 			} else {
-				unknownTagWarning(st, ch);
+				unknownTagWarning(ch);
 			}
 		}
 	}
@@ -557,15 +584,20 @@ public class GedcomParser {
 		return result;
 	}
 
-	private void unknownTagWarning(StringTree parentNode, StringTree childNode) {
-		if (childNode.tag.startsWith("_")) {
-			warnings.add("Line " + childNode.lineNum + ": Cannot handle level "
-					+ childNode.level + " tag " + childNode.tag + " in "
-					+ parentNode.level + " " + parentNode.tag + ", ignored");
+	private void unknownTagWarning(StringTree node) {
+		StringBuilder sb = new StringBuilder("Line " + node.lineNum
+				+ ": Cannot handle tag ");
+		sb.append(node.tag);
+		StringTree st = node;
+		while (st.parent != null) {
+			st = st.parent;
+			sb.append(", child of ").append(st.tag).append(" on line ").append(
+					st.lineNum);
+		}
+		if (node.tag.startsWith("_")) {
+			warnings.add(sb.toString());
 		} else {
-			errors.add("Line " + childNode.lineNum + ": Cannot handle level "
-					+ childNode.level + " tag " + childNode.tag + " in "
-					+ parentNode.level + " " + parentNode.tag + ", ignored");
+			errors.add(sb.toString());
 		}
 	}
 
