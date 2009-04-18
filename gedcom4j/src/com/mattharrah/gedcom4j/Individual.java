@@ -10,8 +10,8 @@ import java.util.List;
  */
 public class Individual {
 
-	public String recFileNumber;
-	public String recIdNumber;
+	public String regFileNumber;
+	public String regIdNumber;
 	public String ancestralFileNumber;
 	public String sex;
 	public String permanentRecFileNumber;

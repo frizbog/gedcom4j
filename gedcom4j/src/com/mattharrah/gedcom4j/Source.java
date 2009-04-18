@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Source {
-	public String recFileNumber;
-	public String recIdNumber;
+	public String regFileNumber;
+	public String regIdNumber;
 	public String sourceFilledBy;
 	public List<String> titles = new ArrayList<String>();
 	public List<Note> notes = new ArrayList<Note>();
@@ -16,6 +16,7 @@ public class Source {
 	public List<UserReference> userReferences = new ArrayList<UserReference>();
 	public List<Data> data = new ArrayList<Data>();
 	public List<String> sourceText = new ArrayList<String>();
-	public RepositoryCitation repositoryCitation; 
+	public RepositoryCitation repositoryCitation;
+	public String xref; 
 
 }

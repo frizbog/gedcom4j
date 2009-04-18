@@ -15,9 +15,10 @@ class StringTree {
 	String value;
 	List<StringTree> children = new ArrayList<StringTree>();
 	StringTree parent = null;
+	public int lineNum;
 
 	@Override
 	public String toString() {
-		return level + " " + tag + " " + value;
+		return "Line " + lineNum + ": " + level + " " + tag + " " + value;
 	}
 }

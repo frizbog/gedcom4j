@@ -10,9 +10,14 @@ public class GedcomParserTest extends TestCase {
 
 	public void testLoad() throws IOException, GedcomParserException {
 		GedcomParser gp = new GedcomParser();
-		gp.load("C:\\Documents and Settings\\Matt\\My Documents\\eclipse-workspace\\Gedcom4J\\sample\\Harrah.GED");
+		gp.load("sample\\allged.ged");
 		for (String s: gp.warnings) {
 			System.out.println(s);
+			System.out.flush();
+		}
+		for (String s: gp.errors) {
+			System.err.println(s);
+			System.err.flush();
 		}
 	}
 

@@ -11,5 +11,4 @@ public class Address {
 	public String stateProvince;
 	public String postalCode;
 	public String country;
-	public List<String> phoneNumbers = new ArrayList<String>();
 }

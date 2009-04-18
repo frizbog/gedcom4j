@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Family {
-	public String recFileNumber;
-	public String recIdNumber;
+	public String regFileNumber;
+	public String regIdNumber;
 	public Individual mother;
 	public Individual father;
 	public List<Individual> children = new ArrayList<Individual>();
@@ -16,4 +16,5 @@ public class Family {
 	public List<MultimediaLink> multimediaLinks = new ArrayList<MultimediaLink>();
 	public ChangeDate changeDate;
 	public List<FamilyEvent> events = new ArrayList<FamilyEvent>();
+	public String xref;
 }

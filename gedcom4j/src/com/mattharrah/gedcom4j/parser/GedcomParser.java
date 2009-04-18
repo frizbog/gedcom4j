@@ -8,21 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mattharrah.gedcom4j.Address;
+import com.mattharrah.gedcom4j.ChangeDate;
 import com.mattharrah.gedcom4j.CharacterSet;
 import com.mattharrah.gedcom4j.Citation;
 import com.mattharrah.gedcom4j.CitationData;
 import com.mattharrah.gedcom4j.CitationWithSource;
 import com.mattharrah.gedcom4j.CitationWithoutSource;
 import com.mattharrah.gedcom4j.Corporation;
-import com.mattharrah.gedcom4j.EventDetail;
 import com.mattharrah.gedcom4j.Gedcom;
 import com.mattharrah.gedcom4j.GedcomVersion;
 import com.mattharrah.gedcom4j.Header;
 import com.mattharrah.gedcom4j.Individual;
 import com.mattharrah.gedcom4j.IndividualEvent;
 import com.mattharrah.gedcom4j.IndividualEventType;
+import com.mattharrah.gedcom4j.Note;
 import com.mattharrah.gedcom4j.PersonalName;
 import com.mattharrah.gedcom4j.Source;
+import com.mattharrah.gedcom4j.SourceData;
 import com.mattharrah.gedcom4j.SourceSystem;
 import com.mattharrah.gedcom4j.Submitter;
 
@@ -71,9 +73,9 @@ public class GedcomParser {
 			address.lines.add(st.value);
 		}
 		for (StringTree ch : st.children) {
-			if ("ADD1".equals(ch.tag)) {
+			if ("ADR1".equals(ch.tag)) {
 				address.addr1 = ch.value;
-			} else if ("ADD2".equals(ch.tag)) {
+			} else if ("ADR2".equals(ch.tag)) {
 				address.addr2 = ch.value;
 			} else if ("CITY".equals(ch.tag)) {
 				address.city = ch.value;
@@ -109,7 +111,7 @@ public class GedcomParser {
 				ls.add(ch.value);
 				d.sourceText.add(ls);
 				for (StringTree chch : ch.children) {
-					if ("CONC".equals(ch.tag) || "CONT".equals(ch.tag)) {
+					if ("CONC".equals(chch.tag) || "CONT".equals(chch.tag)) {
 						ls.add(chch.value);
 					} else {
 						unknownTagWarning(ch, chch);
@@ -135,7 +137,7 @@ public class GedcomParser {
 				cws.textFromSource.add(ls);
 				ls.add(ch.value);
 				for (StringTree chch : ch.children) {
-					if ("CONC".equals(ch.tag) || "CONT".equals(ch.tag)) {
+					if ("CONC".equals(chch.tag) || "CONT".equals(chch.tag)) {
 						ls.add(chch.value);
 					} else {
 						unknownTagWarning(ch, chch);
@@ -152,7 +154,7 @@ public class GedcomParser {
 		Source src = gedcom.sources.get(st.id);
 		if (src == null) {
 			src = new Source();
-			src.recFileNumber = st.id;
+			src.xref = st.id;
 			gedcom.sources.put(st.id, src);
 		}
 		cws.source = src;
@@ -180,7 +182,7 @@ public class GedcomParser {
 				corporation.address = new Address();
 				loadAddress(ch, corporation.address);
 			} else if ("PHON".equals(ch.tag)) {
-				corporation.address.phoneNumbers.add(ch.value);
+				corporation.phoneNumbers.add(ch.value);
 			} else {
 				unknownTagWarning(st, ch);
 			}
@@ -221,7 +223,7 @@ public class GedcomParser {
 				}
 			} else if ("SUBM".equals(ch.tag)) {
 				gedcom.submitter = new Submitter();
-				gedcom.submitter.recFileNumber = ch.id;
+				gedcom.submitter.xref = ch.id;
 				header.submitter = gedcom.submitter;
 			} else if ("FILE".equals(ch.tag)) {
 				header.fileName = ch.value;
@@ -230,6 +232,20 @@ public class GedcomParser {
 				loadGedcomVersion(ch, header.gedcomVersion);
 			} else if ("COPR".equals(ch.tag)) {
 				header.copyrightData = ch.value;
+			} else if ("SUBN".equals(ch.tag)) {
+				; // do nothing, who cares
+			} else if ("LANG".equals(ch.tag)) {
+				header.language = ch.value;
+			} else if ("NOTE".equals(ch.tag)) {
+				header.notes.add(ch.value);
+				for (StringTree chch : ch.children) {
+					if ("CONC".equals(chch.tag) || "CONT".equals(chch.tag)) {
+						header.notes.add(chch.value);
+					} else {
+						unknownTagWarning(ch, chch);
+					}
+				}
+
 			} else {
 				unknownTagWarning(st, ch);
 			}
@@ -267,8 +283,7 @@ public class GedcomParser {
 	}
 
 	private void loadIndividualEvent(StringTree ch, IndividualEvent e) {
-		warnings.add("loadIndividualEvent is not implemented yet");
-
+		errors.add("loadIndividualEvent is not implemented yet");
 	}
 
 	/**
@@ -284,11 +299,14 @@ public class GedcomParser {
 		StringTree result = new StringTree();
 		result.level = -1;
 		BufferedReader f = new BufferedReader(new FileReader(filename));
+		int lineNum = 0;
 		try {
 			String line = f.readLine();
 			while (line != null) {
+				lineNum++;
 				LinePieces lp = new LinePieces(line);
 				StringTree st = new StringTree();
+				st.lineNum = lineNum;
 				st.level = lp.level;
 				st.id = lp.id;
 				st.tag = lp.tag;
@@ -367,10 +385,27 @@ public class GedcomParser {
 			} else if ("CORP".equals(ch.tag)) {
 				sourceSystem.corporation = new Corporation();
 				loadCorporation(ch, sourceSystem.corporation);
+			} else if ("DATA".equals(ch.tag)) {
+				sourceSystem.sourceData = new SourceData();
+				loadSourceData(ch, sourceSystem.sourceData);
 			} else {
 				unknownTagWarning(st, ch);
 			}
 		}
+	}
+
+	private void loadSourceData(StringTree st, SourceData sourceData) {
+		sourceData.name = st.value;
+		for (StringTree ch : st.children) {
+			if ("DATE".equals(ch.tag)) {
+				sourceData.publishDate = ch.value;
+			} else if ("COPR".equals(ch.tag)) {
+				sourceData.copyright = ch.value;
+			} else {
+				unknownTagWarning(st, ch);
+			}
+		}
+
 	}
 
 	private void loadSubmitter(StringTree st, Submitter submitter) {
@@ -380,21 +415,46 @@ public class GedcomParser {
 			} else if ("ADDR".equals(ch.tag)) {
 				submitter.address = new Address();
 				loadAddress(ch, submitter.address);
+			} else if ("PHON".equals(ch.tag)) {
+				submitter.phoneNumbers.add(ch.value);
+			} else if ("LANG".equals(ch.tag)) {
+				submitter.languagePref.add(ch.value);
+			} else if ("CHAN".equals(ch.tag)) {
+				submitter.changeDate = new ChangeDate();
+				loadChangeDate(ch, submitter.changeDate);
 			} else {
 				unknownTagWarning(st, ch);
 			}
 		}
 	}
 
+	private void loadChangeDate(StringTree st, ChangeDate changeDate) {
+		for (StringTree ch : st.children) {
+			if ("DATE".equals(ch.tag)) {
+				changeDate.date = ch.value;
+				if (!ch.children.isEmpty()) {
+					changeDate.time = ch.children.get(0).value;
+				}
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, changeDate.notes);
+			}
+		}
+
+	}
+
+	private void loadNote(StringTree ch, List<Note> notes) {
+		errors.add("loadNote not implemented yet");		
+	}
+
 	private void unknownTagWarning(StringTree parentNode, StringTree childNode) {
 		if (childNode.tag.startsWith("_")) {
-			warnings.add("Cannot handle level " + childNode.level + " tag "
-					+ childNode.tag + " in " + parentNode.level + " "
-					+ parentNode.tag + ", ignored");
+			warnings.add("Line " + childNode.lineNum + ": Cannot handle level "
+					+ childNode.level + " tag " + childNode.tag + " in "
+					+ parentNode.level + " " + parentNode.tag + ", ignored");
 		} else {
-			errors.add("Cannot handle level " + childNode.level + " tag "
-					+ childNode.tag + " in " + parentNode.level + " "
-					+ parentNode.tag + ", ignored");
+			errors.add("Line " + childNode.lineNum + ": Cannot handle level "
+					+ childNode.level + " tag " + childNode.tag + " in "
+					+ parentNode.level + " " + parentNode.tag + ", ignored");
 		}
 	}
 
