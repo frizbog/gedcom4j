@@ -10,7 +10,7 @@ public class GedcomParserTest extends TestCase {
 
 	public void testLoad() throws IOException, GedcomParserException {
 		GedcomParser gp = new GedcomParser();
-		gp.load("sample\\allged.ged");
+		gp.load("sample\\TGC551.ged");
 		for (String s: gp.warnings) {
 			System.out.println(s);
 			System.out.flush();
