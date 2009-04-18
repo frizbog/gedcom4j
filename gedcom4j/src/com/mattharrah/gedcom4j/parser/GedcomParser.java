@@ -21,11 +21,14 @@ import com.mattharrah.gedcom4j.Header;
 import com.mattharrah.gedcom4j.Individual;
 import com.mattharrah.gedcom4j.IndividualEvent;
 import com.mattharrah.gedcom4j.IndividualEventType;
+import com.mattharrah.gedcom4j.Multimedia;
 import com.mattharrah.gedcom4j.Note;
 import com.mattharrah.gedcom4j.PersonalName;
+import com.mattharrah.gedcom4j.Place;
 import com.mattharrah.gedcom4j.Source;
 import com.mattharrah.gedcom4j.SourceData;
 import com.mattharrah.gedcom4j.SourceSystem;
+import com.mattharrah.gedcom4j.Submission;
 import com.mattharrah.gedcom4j.Submitter;
 
 public class GedcomParser {
@@ -45,7 +48,7 @@ public class GedcomParser {
 	 *             if the file cannot be parsed
 	 */
 	public void load(String filename) throws IOException, GedcomParserException {
-		StringTree stringTree = loadIntoTree(filename);
+		StringTree stringTree = readFile(filename);
 		loadRootItems(stringTree);
 	}
 
@@ -93,13 +96,29 @@ public class GedcomParser {
 		}
 	}
 
-	private void loadCitation(StringTree st, Citation source) {
-		if (st.id == null) {
-			loadCitationWithoutSource(st, source);
-		} else {
-			loadCitationWithSource(st, source);
+	private void loadChangeDate(StringTree st, ChangeDate changeDate) {
+		for (StringTree ch : st.children) {
+			if ("DATE".equals(ch.tag)) {
+				changeDate.date = ch.value;
+				if (!ch.children.isEmpty()) {
+					changeDate.time = ch.children.get(0).value;
+				}
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, changeDate.notes);
+			}
 		}
 
+	}
+
+	private void loadCitation(StringTree st, List<Citation> list) {
+		Citation source;
+		if (st.id == null) {
+			source = new CitationWithoutSource();
+			loadCitationWithoutSource(st, source);
+		} else {
+			source = new CitationWithSource();
+			loadCitationWithSource(st, source);
+		}
 	}
 
 	private void loadCitationData(StringTree st, CitationData d) {
@@ -120,14 +139,12 @@ public class GedcomParser {
 			} else {
 				unknownTagWarning(st, ch);
 			}
-
 		}
 
 	}
 
-	private void loadCitationWithoutSource(StringTree st,
-			Citation sourceCitation) {
-		CitationWithoutSource cws = (CitationWithoutSource) sourceCitation;
+	private void loadCitationWithoutSource(StringTree st, Citation citation) {
+		CitationWithoutSource cws = (CitationWithoutSource) citation;
 		cws.description.add(st.value);
 		for (StringTree ch : st.children) {
 			if ("CONC".equals(ch.tag) || "CONT".equals(ch.tag)) {
@@ -149,8 +166,8 @@ public class GedcomParser {
 		}
 	}
 
-	private void loadCitationWithSource(StringTree st, Citation sourceCitation) {
-		CitationWithSource cws = (CitationWithSource) sourceCitation;
+	private void loadCitationWithSource(StringTree st, Citation citation) {
+		CitationWithSource cws = (CitationWithSource) citation;
 		Source src = gedcom.sources.get(st.id);
 		if (src == null) {
 			src = new Source();
@@ -236,6 +253,8 @@ public class GedcomParser {
 				; // do nothing, who cares
 			} else if ("LANG".equals(ch.tag)) {
 				header.language = ch.value;
+			} else if ("PLAC".equals(ch.tag)) {
+				header.placeStructure = ch.children.get(0).value;
 			} else if ("NOTE".equals(ch.tag)) {
 				header.notes.add(ch.value);
 				for (StringTree chch : ch.children) {
@@ -260,21 +279,19 @@ public class GedcomParser {
 				loadPersonalName(ch, pn);
 			} else if ("SEX".equals(ch.tag)) {
 				i.sex = ch.value;
-			} else if ("BIRT".equals(ch.tag)) {
-				IndividualEvent e = new IndividualEvent();
-				i.events.add(e);
-				e.type = IndividualEventType.BIRTH;
-				loadIndividualEvent(ch, e);
-			} else if ("GRAD".equals(ch.tag)) {
-				IndividualEvent e = new IndividualEvent();
-				i.events.add(e);
-				e.type = IndividualEventType.GRADUATION;
-				loadIndividualEvent(ch, e);
-			} else if ("EVEN".equals(ch.tag)) {
-				IndividualEvent e = new IndividualEvent();
-				i.events.add(e);
-				e.type = IndividualEventType.EVENT;
-				loadIndividualEvent(ch, e);
+			} else if (IndividualEventType.isValidTag(ch.tag)) {
+				loadIndividualEvent(ch, i.events);
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, i.notes);
+			} else if ("CHAN".equals(ch.tag)) {
+				i.changeDate = new ChangeDate();
+				loadChangeDate(ch, i.changeDate);
+			} else if ("RIN".equals(ch.tag)) {
+				i.recIdNumber = ch.value;
+			} else if ("RFN".equals(ch.tag)) {
+				i.regFileNumber = ch.value;
+			} else if ("OBJE".equals(ch.tag)) {
+				loadMultimedia(ch, i.multimedia);
 			} else {
 				unknownTagWarning(st, ch);
 			}
@@ -282,8 +299,224 @@ public class GedcomParser {
 
 	}
 
-	private void loadIndividualEvent(StringTree ch, IndividualEvent e) {
-		errors.add("loadIndividualEvent is not implemented yet");
+	private void loadIndividualEvent(StringTree st, List<IndividualEvent> events) {
+		IndividualEvent e = new IndividualEvent();
+		events.add(e);
+		for (StringTree ch : st.children) {
+			if ("TYPE".equals(ch.tag)) {
+				e.type = ch.value;
+			} else if ("DATE".equals(ch.tag)) {
+				e.date = ch.value;
+			} else if ("PLAC".equals(ch.tag)) {
+				loadPlace(ch, e.place);
+			} else if ("OBJE".equals(ch.tag)) {
+				loadMultimedia(ch, e.multimedia);
+			} else if ("AGE".equals(ch.tag)) {
+				e.ageAtEvent = ch.value;
+			} else if ("CAUS".equals(ch.tag)) {
+				e.causeOfEvent = ch.value;
+			} else if ("SOUR".equals(ch.tag)) {
+				loadCitation(ch, e.citations);
+			} else {
+				unknownTagWarning(st, ch);
+			}
+		}
+
+	}
+
+	private void loadMultimedia(StringTree st, List<Multimedia> multimedia) {
+		Multimedia m = null;
+		if (st.id != null) {
+			m = gedcom.multimedia.get(st.id);
+			if (m == null) {
+				m = new Multimedia();
+				gedcom.multimedia.put(st.id, m);
+			}
+			m.xref = st.id;
+		} else {
+			m = new Multimedia();
+		}
+		multimedia.add(m);
+
+		for (StringTree ch : st.children) {
+			if ("FORM".equals(ch.tag)) {
+				m.format = ch.value;
+			} else if ("TITL".equals(ch.tag)) {
+				m.title = ch.value;
+			} else if ("FILE".equals(ch.tag)) {
+				m.fileReference = ch.value;
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, m.notes);
+			} else {
+				unknownTagWarning(st, ch);
+			}
+		}
+
+	}
+
+	private void loadNote(StringTree st, List<Note> notes) {
+		Note note = null;
+		if (st.id != null) {
+			note = gedcom.notes.get(st.id);
+			if (note == null) {
+				note = new Note();
+				gedcom.notes.put(st.id, note);
+			}
+			note.xref = st.id;
+		} else {
+			note = new Note();
+			note.lines.add(st.value);
+		}
+		if (notes != null) {
+			notes.add(note);
+		}
+		for (StringTree ch : st.children) {
+			if ("CONC".equals(ch.tag) || "CONT".equals(ch.tag)) {
+				note.lines.add(st.value);
+			} else if ("SOUR".equals(ch.tag)) {
+				loadCitation(ch, note.citations);
+			}
+		}
+	}
+
+	private void loadPersonalName(StringTree st, PersonalName pn) {
+		pn.basic = st.value;
+		for (StringTree ch : st.children) {
+			if ("NPFX".equals(ch.tag)) {
+				pn.prefix = ch.value;
+			} else if ("GIVN".equals(ch.tag)) {
+				pn.givenName = ch.value;
+			} else if ("NICK".equals(ch.tag)) {
+				pn.nickname = ch.value;
+			} else if ("SPFX".equals(ch.tag)) {
+				pn.surnamePrefix = ch.value;
+			} else if ("SURN".equals(ch.tag)) {
+				pn.surname = ch.value;
+			} else if ("NSFX".equals(ch.tag)) {
+				pn.suffix = ch.value;
+			} else if ("SOUR".equals(ch.tag)) {
+				loadCitation(ch, pn.sources);
+			} else {
+				unknownTagWarning(st, ch);
+			}
+		}
+
+	}
+
+	private void loadPlace(StringTree st, Place place) {
+		errors.add("loadPlace not implemented yet");
+
+	}
+
+	private void loadRootItems(StringTree st) {
+		for (StringTree ch : st.children) {
+			if ("HEAD".equals(ch.tag)) {
+				gedcom.header = new Header();
+				loadHeader(ch, gedcom.header);
+			} else if ("SUBM".equals(ch.tag)) {
+				if (gedcom.submitter == null) {
+					gedcom.submitter = new Submitter();
+				}
+				loadSubmitter(ch, gedcom.submitter);
+			} else if ("INDI".equals(ch.tag)) {
+				Individual i = new Individual();
+				gedcom.individuals.put(ch.id, i);
+				loadIndividual(ch, i);
+			} else if ("SUBN".equals(ch.tag)) {
+				gedcom.submission = new Submission();
+				loadSubmission(ch, gedcom.submission);
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, null);
+			} else {
+				unknownTagWarning(st, ch);
+			}
+		}
+	}
+
+	private void loadSourceData(StringTree st, SourceData sourceData) {
+		sourceData.name = st.value;
+		for (StringTree ch : st.children) {
+			if ("DATE".equals(ch.tag)) {
+				sourceData.publishDate = ch.value;
+			} else if ("COPR".equals(ch.tag)) {
+				sourceData.copyright = ch.value;
+			} else {
+				unknownTagWarning(st, ch);
+			}
+		}
+
+	}
+
+	private void loadSourceSystem(StringTree st, SourceSystem sourceSystem) {
+		sourceSystem.systemId = st.value;
+		for (StringTree ch : st.children) {
+			if ("VERS".equals(ch.tag)) {
+				sourceSystem.versionNum = ch.value;
+			} else if ("NAME".equals(ch.tag)) {
+				sourceSystem.productName = ch.value;
+			} else if ("CORP".equals(ch.tag)) {
+				sourceSystem.corporation = new Corporation();
+				loadCorporation(ch, sourceSystem.corporation);
+			} else if ("DATA".equals(ch.tag)) {
+				sourceSystem.sourceData = new SourceData();
+				loadSourceData(ch, sourceSystem.sourceData);
+			} else {
+				unknownTagWarning(st, ch);
+			}
+		}
+	}
+
+	private void loadSubmission(StringTree st, Submission submission) {
+		for (StringTree ch : st.children) {
+			if ("SUBM".equals(ch.tag)) {
+				if (gedcom.submitter != null) {
+					gedcom.submitter = new Submitter();
+					gedcom.submitter.xref = ch.id;
+				}
+				submission.submitter = gedcom.submitter;
+			} else if ("FAMF".equals(ch.tag)) {
+				submission.nameOfFamilyFile = ch.value;
+			} else if ("TEMP".equals(ch.tag)) {
+				submission.templeCode = ch.value;
+			} else if ("ANCE".equals(ch.tag)) {
+				submission.ancestorsCount = ch.value;
+			} else if ("DESC".equals(ch.tag)) {
+				submission.descendantsCount = ch.value;
+			} else if ("ORDI".equals(ch.tag)) {
+				submission.ordinanceProcessFlag = ch.value;
+			} else if ("RIN".equals(ch.tag)) {
+				submission.recIdNumber = ch.value;
+			} else {
+				unknownTagWarning(st, ch);
+			}
+		}
+
+	}
+
+	private void loadSubmitter(StringTree st, Submitter submitter) {
+		for (StringTree ch : st.children) {
+			if ("NAME".equals(ch.tag)) {
+				submitter.name = ch.value;
+			} else if ("ADDR".equals(ch.tag)) {
+				submitter.address = new Address();
+				loadAddress(ch, submitter.address);
+			} else if ("PHON".equals(ch.tag)) {
+				submitter.phoneNumbers.add(ch.value);
+			} else if ("LANG".equals(ch.tag)) {
+				submitter.languagePref.add(ch.value);
+			} else if ("CHAN".equals(ch.tag)) {
+				submitter.changeDate = new ChangeDate();
+				loadChangeDate(ch, submitter.changeDate);
+			} else if ("OBJE".equals(ch.tag)) {
+				loadMultimedia(ch, submitter.multimedia);
+			} else if ("RIN".equals(ch.tag)) {
+				submitter.recIdNumber = ch.value;
+			} else if ("RFN".equals(ch.tag)) {
+				submitter.regFileNumber = ch.value;
+			} else {
+				unknownTagWarning(st, ch);
+			}
+		}
 	}
 
 	/**
@@ -294,8 +527,8 @@ public class GedcomParser {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	private StringTree loadIntoTree(String filename)
-			throws FileNotFoundException, IOException {
+	private StringTree readFile(String filename) throws FileNotFoundException,
+			IOException {
 		StringTree result = new StringTree();
 		result.level = -1;
 		BufferedReader f = new BufferedReader(new FileReader(filename));
@@ -322,128 +555,6 @@ public class GedcomParser {
 			}
 		}
 		return result;
-	}
-
-	private void loadPersonalName(StringTree st, PersonalName pn) {
-		pn.basic = st.value;
-		for (StringTree ch : st.children) {
-			if ("NPFX".equals(ch.tag)) {
-				pn.prefix = ch.value;
-			} else if ("GIVN".equals(ch.tag)) {
-				pn.givenName = ch.value;
-			} else if ("NICK".equals(ch.tag)) {
-				pn.nickname = ch.value;
-			} else if ("SPFX".equals(ch.tag)) {
-				pn.surnamePrefix = ch.value;
-			} else if ("SURN".equals(ch.tag)) {
-				pn.surname = ch.value;
-			} else if ("NSFX".equals(ch.tag)) {
-				pn.suffix = ch.value;
-			} else if ("SOUR".equals(ch.tag)) {
-				Citation source;
-				if (ch.id != null) {
-					source = new CitationWithSource();
-				} else {
-					source = new CitationWithoutSource();
-				}
-				pn.citation = source;
-				loadCitation(ch, source);
-			} else {
-				unknownTagWarning(st, ch);
-			}
-		}
-
-	}
-
-	private void loadRootItems(StringTree st) {
-		for (StringTree ch : st.children) {
-			if ("HEAD".equals(ch.tag)) {
-				gedcom.header = new Header();
-				loadHeader(ch, gedcom.header);
-			} else if ("SUBM".equals(ch.tag)) {
-				if (gedcom.submitter == null) {
-					gedcom.submitter = new Submitter();
-				}
-				loadSubmitter(ch, gedcom.submitter);
-			} else if ("INDI".equals(ch.tag)) {
-				Individual i = new Individual();
-				gedcom.individuals.put(ch.id, i);
-				loadIndividual(ch, i);
-			} else {
-				unknownTagWarning(st, ch);
-			}
-		}
-	}
-
-	private void loadSourceSystem(StringTree st, SourceSystem sourceSystem) {
-		sourceSystem.systemId = st.value;
-		for (StringTree ch : st.children) {
-			if ("VERS".equals(ch.tag)) {
-				sourceSystem.versionNum = ch.value;
-			} else if ("NAME".equals(ch.tag)) {
-				sourceSystem.productName = ch.value;
-			} else if ("CORP".equals(ch.tag)) {
-				sourceSystem.corporation = new Corporation();
-				loadCorporation(ch, sourceSystem.corporation);
-			} else if ("DATA".equals(ch.tag)) {
-				sourceSystem.sourceData = new SourceData();
-				loadSourceData(ch, sourceSystem.sourceData);
-			} else {
-				unknownTagWarning(st, ch);
-			}
-		}
-	}
-
-	private void loadSourceData(StringTree st, SourceData sourceData) {
-		sourceData.name = st.value;
-		for (StringTree ch : st.children) {
-			if ("DATE".equals(ch.tag)) {
-				sourceData.publishDate = ch.value;
-			} else if ("COPR".equals(ch.tag)) {
-				sourceData.copyright = ch.value;
-			} else {
-				unknownTagWarning(st, ch);
-			}
-		}
-
-	}
-
-	private void loadSubmitter(StringTree st, Submitter submitter) {
-		for (StringTree ch : st.children) {
-			if ("NAME".equals(ch.tag)) {
-				submitter.name = ch.value;
-			} else if ("ADDR".equals(ch.tag)) {
-				submitter.address = new Address();
-				loadAddress(ch, submitter.address);
-			} else if ("PHON".equals(ch.tag)) {
-				submitter.phoneNumbers.add(ch.value);
-			} else if ("LANG".equals(ch.tag)) {
-				submitter.languagePref.add(ch.value);
-			} else if ("CHAN".equals(ch.tag)) {
-				submitter.changeDate = new ChangeDate();
-				loadChangeDate(ch, submitter.changeDate);
-			} else {
-				unknownTagWarning(st, ch);
-			}
-		}
-	}
-
-	private void loadChangeDate(StringTree st, ChangeDate changeDate) {
-		for (StringTree ch : st.children) {
-			if ("DATE".equals(ch.tag)) {
-				changeDate.date = ch.value;
-				if (!ch.children.isEmpty()) {
-					changeDate.time = ch.children.get(0).value;
-				}
-			} else if ("NOTE".equals(ch.tag)) {
-				loadNote(ch, changeDate.notes);
-			}
-		}
-
-	}
-
-	private void loadNote(StringTree ch, List<Note> notes) {
-		errors.add("loadNote not implemented yet");		
 	}
 
 	private void unknownTagWarning(StringTree parentNode, StringTree childNode) {

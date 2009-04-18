@@ -5,6 +5,7 @@ import java.util.Map;
 
 /**
  * Main (root) class for an entire GEDCOM file.
+ * 
  * @author Matt
  */
 public class Gedcom {
@@ -15,4 +16,7 @@ public class Gedcom {
 	public Map<String, Family> families = new HashMap<String, Family>();
 	public Map<String, Source> sources = new HashMap<String, Source>();
 	public Trailer trailer;
+	public Submission submission;
+	public Map<String, Multimedia> multimedia = new HashMap<String, Multimedia>();
+
 }

@@ -10,7 +10,7 @@ public class Header {
 	public String destinationSystem;
 	public String fileName;
 	public GedcomVersion gedcomVersion;
-	public Place place;
+	public String placeStructure;
 	public SourceSystem sourceSystem;
 	public Submission submission;
 	public Submitter submitter;

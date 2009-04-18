@@ -5,18 +5,18 @@ import java.util.List;
 
 public class Source {
 	public String regFileNumber;
-	public String regIdNumber;
+	public String recIdNumber;
 	public String sourceFilledBy;
 	public List<String> titles = new ArrayList<String>();
 	public List<Note> notes = new ArrayList<Note>();
 	public List<String> publicationFacts = new ArrayList<String>();
 	public List<String> originatorsAuthors = new ArrayList<String>();
-	public List<MultimediaLink> multimediaLinks = new ArrayList<MultimediaLink>();
+	public List<Multimedia> multimedia = new ArrayList<Multimedia>();
 	public ChangeDate changeDate;
 	public List<UserReference> userReferences = new ArrayList<UserReference>();
 	public List<Data> data = new ArrayList<Data>();
 	public List<String> sourceText = new ArrayList<String>();
 	public RepositoryCitation repositoryCitation;
-	public String xref; 
+	public String xref;
 
 }

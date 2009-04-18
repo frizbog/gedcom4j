@@ -6,7 +6,7 @@ import java.util.List;
 public class Repository {
 	public String name;
 	public String regFileNumber;
-	public String regIdNumber;
+	public String recIdNumber;
 	public Address address;
 	public List<Note> notes;
 	public ChangeDate changeDate;

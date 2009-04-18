@@ -1,7 +1,6 @@
 package com.mattharrah.gedcom4j;
 
-public class IndividualEvent {
-	public IndividualEventType type;
-	public EventDetail eventDetails;
+public class IndividualEvent extends Event {
+	public String type;
 	public AdoptedByWhichParent adoptedBy;
 }

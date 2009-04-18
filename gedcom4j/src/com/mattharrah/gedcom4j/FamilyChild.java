@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Represent's an individuals membership, as a child, in a family
+ * 
  * @author Matt
  */
 public class FamilyChild {

@@ -1,6 +1,5 @@
 package com.mattharrah.gedcom4j;
 
-
 public class SourceSystem {
 	public String systemId;
 	public String versionNum;

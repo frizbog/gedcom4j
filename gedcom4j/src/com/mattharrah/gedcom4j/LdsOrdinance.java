@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * An LDS Ordinance
+ * 
  * @author Matt
  */
 public class LdsOrdinance {

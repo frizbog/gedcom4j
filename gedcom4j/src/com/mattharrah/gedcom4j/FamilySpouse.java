@@ -5,8 +5,9 @@ import java.util.List;
 
 /**
  * Indicates an individual's membership, as a spouse, in a family
+ * 
  * @author Matt
- *
+ * 
  */
 public class FamilySpouse {
 	public Family family;
