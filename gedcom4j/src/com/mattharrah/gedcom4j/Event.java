@@ -5,8 +5,9 @@ import java.util.List;
 
 public class Event {
 	public Address address;
-	public String ageAtEvent;
-	public String causeOfEvent;
+	public List<String> phoneNumbers = new ArrayList<String>();
+	public String age;
+	public String cause;
 	public List<Citation> citations = new ArrayList<Citation>();
 	public String date;
 	public String description;

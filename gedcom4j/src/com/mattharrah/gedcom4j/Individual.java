@@ -27,7 +27,7 @@ public class Individual {
 	public ChangeDate changeDate;
 	public List<FamilySpouse> familiesWhereSpouse = new ArrayList<FamilySpouse>();
 	public List<FamilyChild> familiesWhereChild = new ArrayList<FamilyChild>();
-	public LdsOrdinance ldsIndividualOrdinance;
+	public List<LdsIndividualOrdinance> ldsIndividualOrdinances = new ArrayList<LdsIndividualOrdinance>();
 	public List<String> aliases = new ArrayList<String>();
 	public List<Multimedia> multimedia = new ArrayList<Multimedia>();
 	public String restrictionNotice;

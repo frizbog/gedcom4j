@@ -1,6 +1,6 @@
 package com.mattharrah.gedcom4j;
 
-public class IndividualAttribute {
-	public IndividualAttributeType type;
+public class IndividualAttribute extends Event {
+	public String type;
 	public String description;
 }

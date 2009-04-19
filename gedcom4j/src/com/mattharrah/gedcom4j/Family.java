@@ -11,7 +11,7 @@ public class Family {
 	public List<Individual> children = new ArrayList<Individual>();
 	public Integer numChildren;
 	public List<Submitter> submitters = new ArrayList<Submitter>();
-	public List<LdsOrdinance> ldsSpouseSealings = new ArrayList<LdsOrdinance>();
+	public List<LdsFamilyOrdinance> ldsSpouseSealings = new ArrayList<LdsFamilyOrdinance>();
 	public List<Citation> citations = new ArrayList<Citation>();
 	public List<Multimedia> multimedia = new ArrayList<Multimedia>();
 	public ChangeDate changeDate;

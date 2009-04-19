@@ -8,7 +8,8 @@ import java.util.List;
  * 
  * @author Matt
  */
-public class LdsOrdinance {
+public class LdsIndividualOrdinance {
+	public LdsIndividualOrdinanceType type;
 	public String status;
 	public String date;
 	public String temple;

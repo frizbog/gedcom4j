@@ -15,12 +15,19 @@ import com.mattharrah.gedcom4j.CitationData;
 import com.mattharrah.gedcom4j.CitationWithSource;
 import com.mattharrah.gedcom4j.CitationWithoutSource;
 import com.mattharrah.gedcom4j.Corporation;
+import com.mattharrah.gedcom4j.Family;
+import com.mattharrah.gedcom4j.FamilyChild;
+import com.mattharrah.gedcom4j.FamilySpouse;
 import com.mattharrah.gedcom4j.Gedcom;
 import com.mattharrah.gedcom4j.GedcomVersion;
 import com.mattharrah.gedcom4j.Header;
 import com.mattharrah.gedcom4j.Individual;
+import com.mattharrah.gedcom4j.IndividualAttribute;
+import com.mattharrah.gedcom4j.IndividualAttributeType;
 import com.mattharrah.gedcom4j.IndividualEvent;
 import com.mattharrah.gedcom4j.IndividualEventType;
+import com.mattharrah.gedcom4j.LdsIndividualOrdinance;
+import com.mattharrah.gedcom4j.LdsIndividualOrdinanceType;
 import com.mattharrah.gedcom4j.Multimedia;
 import com.mattharrah.gedcom4j.Note;
 import com.mattharrah.gedcom4j.PersonalName;
@@ -71,6 +78,48 @@ public class GedcomParser {
 		return findLast(lastChild, level);
 	}
 
+	private Family getFamily(String xref) {
+		Family f = gedcom.families.get(xref);
+		if (f == null) {
+			f = new Family();
+			f.xref = xref;
+			gedcom.families.put(xref, f);
+		}
+		return f;
+	}
+
+	private Multimedia getMultimedia(String xref) {
+		Multimedia m;
+		m = gedcom.multimedia.get(xref);
+		if (m == null) {
+			m = new Multimedia();
+			m.xref = xref;
+			gedcom.multimedia.put(xref, m);
+		}
+		return m;
+	}
+
+	private Note getNote(String xref) {
+		Note note;
+		note = gedcom.notes.get(xref);
+		if (note == null) {
+			note = new Note();
+			note.xref = xref;
+			gedcom.notes.put(xref, note);
+		}
+		return note;
+	}
+
+	private Source getSource(String xref) {
+		Source src = gedcom.sources.get(xref);
+		if (src == null) {
+			src = new Source();
+			src.xref = xref;
+			gedcom.sources.put(src.xref, src);
+		}
+		return src;
+	}
+
 	private void loadAddress(StringTree st, Address address) {
 		if (st.value != null) {
 			address.lines.add(st.value);
@@ -91,7 +140,7 @@ public class GedcomParser {
 			} else if ("CONT".equals(ch.tag)) {
 				address.lines.add(ch.value);
 			} else {
-				unknownTagWarning(ch);
+				unknownTag(ch);
 			}
 		}
 	}
@@ -112,12 +161,12 @@ public class GedcomParser {
 
 	private void loadCitation(StringTree st, List<Citation> list) {
 		Citation source;
-		if (st.value == null || !st.value.trim().matches("\\@.*\\@")) {
-			source = new CitationWithoutSource();
-			loadCitationWithoutSource(st, source);
-		} else {
+		if (referencesAnotherNode(st)) {
 			source = new CitationWithSource();
 			loadCitationWithSource(st, source);
+		} else {
+			source = new CitationWithoutSource();
+			loadCitationWithoutSource(st, source);
 		}
 	}
 
@@ -133,11 +182,11 @@ public class GedcomParser {
 					if ("CONC".equals(chch.tag) || "CONT".equals(chch.tag)) {
 						ls.add(chch.value);
 					} else {
-						unknownTagWarning(chch);
+						unknownTag(chch);
 					}
 				}
 			} else {
-				unknownTagWarning(ch);
+				unknownTag(ch);
 			}
 		}
 
@@ -157,22 +206,20 @@ public class GedcomParser {
 					if ("CONC".equals(chch.tag) || "CONT".equals(chch.tag)) {
 						ls.add(chch.value);
 					} else {
-						unknownTagWarning(chch);
+						unknownTag(chch);
 					}
 				}
 			} else {
-				unknownTagWarning(ch);
+				unknownTag(ch);
 			}
 		}
 	}
 
 	private void loadCitationWithSource(StringTree st, Citation citation) {
 		CitationWithSource cws = (CitationWithSource) citation;
-		Source src = gedcom.sources.get(st.value);
-		if (src == null) {
-			src = new Source();
-			src.xref = st.value;
-			gedcom.sources.put(src.xref, src);
+		Source src = null;
+		if (referencesAnotherNode(st)) {
+			src = getSource(st.value);
 		}
 		cws.source = src;
 		for (StringTree ch : st.children) {
@@ -189,7 +236,7 @@ public class GedcomParser {
 			} else if ("NOTE".equals(ch.tag)) {
 				loadNote(ch, cws.notes);
 			} else {
-				unknownTagWarning(ch);
+				unknownTag(ch);
 			}
 		}
 	}
@@ -203,7 +250,39 @@ public class GedcomParser {
 			} else if ("PHON".equals(ch.tag)) {
 				corporation.phoneNumbers.add(ch.value);
 			} else {
-				unknownTagWarning(ch);
+				unknownTag(ch);
+			}
+		}
+	}
+
+	private void loadFamilyWhereChild(StringTree st,
+			List<FamilyChild> familiesWhereChild) {
+		Family f = getFamily(st.value);
+		FamilyChild fc = new FamilyChild();
+		fc.family = f;
+		for (StringTree ch : st.children) {
+			if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, fc.notes);
+			} else if ("PEDI".equals(ch.tag)) {
+				fc.pedigree = ch.value;
+			} else if ("ADOP".equals(ch.tag)) {
+			} else {
+				unknownTag(ch);
+			}
+		}
+
+	}
+
+	private void loadFamilyWhereSpouse(StringTree st,
+			List<FamilySpouse> familiesWhereSpouse) {
+		Family f = getFamily(st.value);
+		FamilySpouse fs = new FamilySpouse();
+		fs.family = f;
+		for (StringTree ch : st.children) {
+			if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, fs.notes);
+			} else {
+				unknownTag(ch);
 			}
 		}
 	}
@@ -215,7 +294,7 @@ public class GedcomParser {
 			} else if ("FORM".equals(ch.tag)) {
 				gedcomVersion.gedcomForm = ch.value;
 			} else {
-				unknownTagWarning(ch);
+				unknownTag(ch);
 			}
 		}
 	}
@@ -263,12 +342,12 @@ public class GedcomParser {
 					if ("CONC".equals(chch.tag) || "CONT".equals(chch.tag)) {
 						header.notes.add(chch.value);
 					} else {
-						unknownTagWarning(chch);
+						unknownTag(chch);
 					}
 				}
 
 			} else {
-				unknownTagWarning(ch);
+				unknownTag(ch);
 			}
 		}
 	}
@@ -283,6 +362,10 @@ public class GedcomParser {
 				i.sex = ch.value;
 			} else if (IndividualEventType.isValidTag(ch.tag)) {
 				loadIndividualEvent(ch, i.events);
+			} else if (IndividualAttributeType.isValidTag(ch.tag)) {
+				loadIndividualAttribute(ch, i.attributes);
+			} else if (LdsIndividualOrdinanceType.isValidTag(ch.tag)) {
+				loadLdsIndividualOrdinance(ch, i.ldsIndividualOrdinances);
 			} else if ("NOTE".equals(ch.tag)) {
 				loadNote(ch, i.notes);
 			} else if ("CHAN".equals(ch.tag)) {
@@ -298,11 +381,53 @@ public class GedcomParser {
 				i.restrictionNotice = ch.value;
 			} else if ("SOUR".equals(ch.tag)) {
 				loadCitation(ch, i.citations);
+			} else if ("FAMS".equals(ch.tag)) {
+				loadFamilyWhereSpouse(ch, i.familiesWhereSpouse);
+			} else if ("FAMC".equals(ch.tag)) {
+				loadFamilyWhereChild(ch, i.familiesWhereChild);
 			} else {
-				unknownTagWarning(ch);
+				unknownTag(ch);
 			}
 		}
 
+	}
+
+	private void loadIndividualAttribute(StringTree st,
+			List<IndividualAttribute> attributes) {
+		IndividualAttribute a = new IndividualAttribute();
+		attributes.add(a);
+		a.type = IndividualAttributeType.getFromTag(st.tag).toString();
+		for (StringTree ch : st.children) {
+			if ("TYPE".equals(ch.tag)) {
+				a.type = ch.value;
+			} else if ("DATE".equals(ch.tag)) {
+				a.date = ch.value;
+			} else if ("PLAC".equals(ch.tag)) {
+				a.place = new Place();
+				loadPlace(ch, a.place);
+			} else if ("AGE".equals(ch.tag)) {
+				a.age = ch.value;
+			} else if ("CAUS".equals(ch.tag)) {
+				a.cause = ch.value;
+			} else if ("SOUR".equals(ch.tag)) {
+				loadCitation(ch, a.citations);
+			} else if ("AGNC".equals(ch.tag)) {
+				a.respAgency = ch.value;
+			} else if ("PHON".equals(ch.tag)) {
+				a.phoneNumbers.add(ch.value);
+			} else if ("ADDR".equals(ch.tag)) {
+				a.address = new Address();
+				loadAddress(ch, a.address);
+			} else if ("OBJE".equals(ch.tag)) {
+				loadMultimedia(ch, a.multimedia);
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, a.notes);
+			} else if ("SOUR".equals(ch.tag)) {
+				loadCitation(ch, a.citations);
+			} else {
+				unknownTag(ch);
+			}
+		}
 	}
 
 	private void loadIndividualEvent(StringTree st, List<IndividualEvent> events) {
@@ -318,35 +443,68 @@ public class GedcomParser {
 				loadPlace(ch, e.place);
 			} else if ("OBJE".equals(ch.tag)) {
 				loadMultimedia(ch, e.multimedia);
-			} else if ("AGE".equals(ch.tag)) {
-				e.ageAtEvent = ch.value;
-			} else if ("CAUS".equals(ch.tag)) {
-				e.causeOfEvent = ch.value;
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, e.notes);
 			} else if ("SOUR".equals(ch.tag)) {
 				loadCitation(ch, e.citations);
+			} else if ("AGE".equals(ch.tag)) {
+				e.age = ch.value;
+			} else if ("CAUS".equals(ch.tag)) {
+				e.cause = ch.value;
 			} else if ("ADDR".equals(ch.tag)) {
 				e.address = new Address();
 				loadAddress(ch, e.address);
 			} else if ("AGNC".equals(ch.tag)) {
 				e.respAgency = ch.value;
-			} else if ("NOTE".equals(ch.tag)) {
-				loadNote(ch, e.notes);
+			} else if ("PHON".equals(ch.tag)) {
+				e.phoneNumbers.add(ch.value);
+			} else if ("FAMC".equals(ch.tag)) {
+				List<FamilyChild> families = new ArrayList<FamilyChild>();
+				loadFamilyWhereChild(ch, families);
+				if (!families.isEmpty()) {
+					e.family = families.get(0);
+				}
 			} else {
-				unknownTagWarning(ch);
+				unknownTag(ch);
 			}
 		}
 
 	}
 
+	private void loadLdsIndividualOrdinance(StringTree st,
+			List<LdsIndividualOrdinance> ldsIndividualOrdinances) {
+		LdsIndividualOrdinance o = new LdsIndividualOrdinance();
+		ldsIndividualOrdinances.add(o);
+		o.type = LdsIndividualOrdinanceType.getFromTag(st.tag);
+		for (StringTree ch : st.children) {
+			if ("DATE".equals(ch.tag)) {
+				o.date = ch.value;
+			} else if ("PLAC".equals(ch.tag)) {
+				o.place = ch.value;
+			} else if ("STAT".equals(ch.tag)) {
+				o.status = ch.value;
+			} else if ("TEMP".equals(ch.tag)) {
+				o.temple = ch.value;
+			} else if ("SOUR".equals(ch.tag)) {
+				loadCitation(ch, o.citations);
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, o.notes);
+			} else if ("FAMC".equals(ch.tag)) {
+				List<FamilyChild> families = new ArrayList<FamilyChild>();
+				loadFamilyWhereChild(ch, families);
+				if (!families.isEmpty()) {
+					o.familyWhereChild = families.get(0);
+				}
+			} else {
+				unknownTag(ch);
+			}
+		}
+	}
+
 	private void loadMultimedia(StringTree st, List<Multimedia> multimedia) {
 		Multimedia m = null;
-		if (st.id != null) {
-			m = gedcom.multimedia.get(st.id);
-			if (m == null) {
-				m = new Multimedia();
-				gedcom.multimedia.put(st.id, m);
-			}
-			m.xref = st.id;
+		if (referencesAnotherNode(st)) {
+			m = getMultimedia(st.value);
 		} else {
 			m = new Multimedia();
 		}
@@ -362,7 +520,7 @@ public class GedcomParser {
 			} else if ("NOTE".equals(ch.tag)) {
 				loadNote(ch, m.notes);
 			} else {
-				unknownTagWarning(ch);
+				unknownTag(ch);
 			}
 		}
 
@@ -370,25 +528,17 @@ public class GedcomParser {
 
 	private void loadNote(StringTree st, List<Note> notes) {
 		Note note = null;
-		if (st.id != null) {
-			note = gedcom.notes.get(st.id);
-			if (note == null) {
-				note = new Note();
-				gedcom.notes.put(st.id, note);
-			}
-			note.xref = st.id;
+		if (referencesAnotherNode(st)) {
+			note = getNote(st.value);
 		} else {
 			note = new Note();
 			note.lines.add(st.value);
-		}
-		if (notes != null) {
-			notes.add(note);
-		}
-		for (StringTree ch : st.children) {
-			if ("CONC".equals(ch.tag) || "CONT".equals(ch.tag)) {
-				note.lines.add(st.value);
-			} else if ("SOUR".equals(ch.tag)) {
-				loadCitation(ch, note.citations);
+			for (StringTree ch : st.children) {
+				if ("CONC".equals(ch.tag) || "CONT".equals(ch.tag)) {
+					note.lines.add(st.value);
+				} else if ("SOUR".equals(ch.tag)) {
+					loadCitation(ch, note.citations);
+				}
 			}
 		}
 	}
@@ -413,7 +563,7 @@ public class GedcomParser {
 			} else if ("NOTE".equals(ch.tag)) {
 				loadNote(ch, pn.notes);
 			} else {
-				unknownTagWarning(ch);
+				unknownTag(ch);
 			}
 		}
 
@@ -429,7 +579,7 @@ public class GedcomParser {
 			} else if ("NOTE".equals(ch.tag)) {
 				loadNote(ch, place.notes);
 			} else {
-				unknownTagWarning(ch);
+				unknownTag(ch);
 			}
 		}
 
@@ -455,7 +605,7 @@ public class GedcomParser {
 			} else if ("NOTE".equals(ch.tag)) {
 				loadNote(ch, null);
 			} else {
-				unknownTagWarning(ch);
+				unknownTag(ch);
 			}
 		}
 	}
@@ -468,7 +618,7 @@ public class GedcomParser {
 			} else if ("COPR".equals(ch.tag)) {
 				sourceData.copyright = ch.value;
 			} else {
-				unknownTagWarning(ch);
+				unknownTag(ch);
 			}
 		}
 
@@ -488,7 +638,7 @@ public class GedcomParser {
 				sourceSystem.sourceData = new SourceData();
 				loadSourceData(ch, sourceSystem.sourceData);
 			} else {
-				unknownTagWarning(ch);
+				unknownTag(ch);
 			}
 		}
 	}
@@ -514,7 +664,7 @@ public class GedcomParser {
 			} else if ("RIN".equals(ch.tag)) {
 				submission.recIdNumber = ch.value;
 			} else {
-				unknownTagWarning(ch);
+				unknownTag(ch);
 			}
 		}
 
@@ -541,7 +691,7 @@ public class GedcomParser {
 			} else if ("RFN".equals(ch.tag)) {
 				submitter.regFileNumber = ch.value;
 			} else {
-				unknownTagWarning(ch);
+				unknownTag(ch);
 			}
 		}
 	}
@@ -584,7 +734,28 @@ public class GedcomParser {
 		return result;
 	}
 
-	private void unknownTagWarning(StringTree node) {
+	/**
+	 * Returns true if the node passed in uses a cross-reference to another node
+	 * 
+	 * @param st
+	 *            the node
+	 * @return true if and only if the node passed in uses a cross-reference to
+	 *         another node
+	 */
+	private boolean referencesAnotherNode(StringTree st) {
+		return st.value != null && st.value.matches("\\@.*\\@");
+	}
+
+	/**
+	 * Note unknown tags. If the tag begins with an underscore, it is a
+	 * vendor/system-specific tag, which is unrecognized and just ignored and
+	 * added as a warning. If it does not begin with an underscore, it is a real
+	 * tag from the spec and should be processed, so that would indicate a bug.
+	 * 
+	 * @param node
+	 *            the node containing the unknown tag.
+	 */
+	private void unknownTag(StringTree node) {
 		StringBuilder sb = new StringBuilder("Line " + node.lineNum
 				+ ": Cannot handle tag ");
 		sb.append(node.tag);
@@ -597,6 +768,7 @@ public class GedcomParser {
 		if (node.tag.startsWith("_")) {
 			warnings.add(sb.toString());
 		} else {
+			// new Exception(sb.toString()).printStackTrace();
 			errors.add(sb.toString());
 		}
 	}

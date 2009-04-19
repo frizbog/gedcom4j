@@ -1,7 +1,7 @@
 package com.mattharrah.gedcom4j;
 
 public enum IndividualEventType {
-	ADOPTION("ADOP", "Adoption"), BIRTH("BIRT", "Birth"), BAPTISM("BAPT",
+	ADOPTION("ADOP", "Adoption"), BIRTH("BIRT", "Birth"), BAPTISM("BAPM",
 			"Baptism"), BAR_MITZVAH("BARM", "Bar Mitzvah"), BAS_MITZVAH("BASM",
 			"Bas Miztvah"), BLESSING("BLES", "Blessing"), BURIAL("BURI",
 			"Burial"), CENSUS("CENS", "Census"), CHRISTENING("CHR",
@@ -12,13 +12,17 @@ public enum IndividualEventType {
 			"IMMI", "Immigration"), NATURALIZATION("NATU", "Naturalization"), ORDINATION(
 			"ORDN", "Ordination"), RETIREMENT("RETI", "Retirement"), PROBATE(
 			"PROB", "Probate"), WILL("WILL", "Will"), EVENT("EVEN", "Event");
-	public static boolean isValidTag(String tag) {
+	public static IndividualEventType getFromTag(String tag) {
 		for (IndividualEventType t : values()) {
 			if (t.tag.equals(tag)) {
-				return true;
+				return t;
 			}
 		}
-		return false;
+		return null;
+	}
+
+	public static boolean isValidTag(String tag) {
+		return (getFromTag(tag) != null);
 	}
 
 	public final String tag;

@@ -11,5 +11,5 @@ import java.util.List;
 public class FamilyChild {
 	public Family family;
 	public List<Note> notes = new ArrayList<Note>();
-	public List<String> pedigreeTypes = new ArrayList<String>();
+	public String pedigree;
 }
