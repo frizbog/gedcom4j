@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Repository {
+	public String xref;
 	public String name;
 	public String regFileNumber;
 	public String recIdNumber;

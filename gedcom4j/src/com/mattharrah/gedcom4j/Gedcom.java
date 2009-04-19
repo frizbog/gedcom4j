@@ -18,5 +18,6 @@ public class Gedcom {
 	public Trailer trailer;
 	public Submission submission;
 	public Map<String, Multimedia> multimedia = new HashMap<String, Multimedia>();
+	public Map<String, Repository> repositories = new HashMap<String, Repository>();
 
 }

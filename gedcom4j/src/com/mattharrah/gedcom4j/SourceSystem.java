@@ -5,5 +5,5 @@ public class SourceSystem {
 	public String versionNum;
 	public String productName;
 	public Corporation corporation;
-	public SourceData sourceData;
+	public HeaderSourceData sourceData;
 }

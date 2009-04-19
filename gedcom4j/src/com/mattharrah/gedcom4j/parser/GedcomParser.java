@@ -17,6 +17,7 @@ import com.mattharrah.gedcom4j.CitationData;
 import com.mattharrah.gedcom4j.CitationWithSource;
 import com.mattharrah.gedcom4j.CitationWithoutSource;
 import com.mattharrah.gedcom4j.Corporation;
+import com.mattharrah.gedcom4j.EventRecorded;
 import com.mattharrah.gedcom4j.Family;
 import com.mattharrah.gedcom4j.FamilyChild;
 import com.mattharrah.gedcom4j.FamilyEvent;
@@ -25,6 +26,7 @@ import com.mattharrah.gedcom4j.FamilySpouse;
 import com.mattharrah.gedcom4j.Gedcom;
 import com.mattharrah.gedcom4j.GedcomVersion;
 import com.mattharrah.gedcom4j.Header;
+import com.mattharrah.gedcom4j.HeaderSourceData;
 import com.mattharrah.gedcom4j.Individual;
 import com.mattharrah.gedcom4j.IndividualAttribute;
 import com.mattharrah.gedcom4j.IndividualAttributeType;
@@ -37,6 +39,8 @@ import com.mattharrah.gedcom4j.Multimedia;
 import com.mattharrah.gedcom4j.Note;
 import com.mattharrah.gedcom4j.PersonalName;
 import com.mattharrah.gedcom4j.Place;
+import com.mattharrah.gedcom4j.Repository;
+import com.mattharrah.gedcom4j.RepositoryCitation;
 import com.mattharrah.gedcom4j.Source;
 import com.mattharrah.gedcom4j.SourceData;
 import com.mattharrah.gedcom4j.SourceSystem;
@@ -161,6 +165,25 @@ public class GedcomParser {
 	}
 
 	/**
+	 * Get a repository by its xref, adding it to the gedcom collection of
+	 * repositories if needed.
+	 * 
+	 * @param xref
+	 *            the xref of the repository
+	 * @return the repository with the specified xref
+	 */
+	private Repository getRepository(String xref) {
+		Repository r = gedcom.repositories.get(xref);
+		if (r == null) {
+			r = new Repository();
+			r.xref = xref;
+			gedcom.repositories.put(xref, r);
+		}
+		return r;
+
+	}
+
+	/**
 	 * Get a source by its xref, adding it to the gedcom collection of sources
 	 * if needed.
 	 * 
@@ -251,15 +274,8 @@ public class GedcomParser {
 				d.entryDate = ch.value;
 			} else if ("TEXT".equals(ch.tag)) {
 				List<String> ls = new ArrayList<String>();
-				ls.add(ch.value);
 				d.sourceText.add(ls);
-				for (StringTree chch : ch.children) {
-					if ("CONC".equals(chch.tag) || "CONT".equals(chch.tag)) {
-						ls.add(chch.value);
-					} else {
-						unknownTag(chch);
-					}
-				}
+				loadMultiLinesOfText(ch, ls);
 			} else {
 				unknownTag(ch);
 			}
@@ -276,14 +292,7 @@ public class GedcomParser {
 			} else if ("TEXT".equals(ch.tag)) {
 				List<String> ls = new ArrayList<String>();
 				cws.textFromSource.add(ls);
-				ls.add(ch.value);
-				for (StringTree chch : ch.children) {
-					if ("CONC".equals(chch.tag) || "CONT".equals(chch.tag)) {
-						ls.add(chch.value);
-					} else {
-						unknownTag(chch);
-					}
-				}
+				loadMultiLinesOfText(ch, ls);
 			} else if ("NOTE".equals(ch.tag)) {
 				loadNote(ch, cws.notes);
 			} else {
@@ -501,19 +510,25 @@ public class GedcomParser {
 			} else if ("PLAC".equals(ch.tag)) {
 				header.placeStructure = ch.children.get(0).value;
 			} else if ("NOTE".equals(ch.tag)) {
-				header.notes.add(ch.value);
-				for (StringTree chch : ch.children) {
-					if ("CONC".equals(chch.tag) || "CONT".equals(chch.tag)) {
-						header.notes.add(chch.value);
-					} else {
-						unknownTag(chch);
-					}
-				}
-
+				loadMultiLinesOfText(ch, header.notes);
 			} else {
 				unknownTag(ch);
 			}
 		}
+	}
+
+	private void loadHeaderSourceData(StringTree st, HeaderSourceData sourceData) {
+		sourceData.name = st.value;
+		for (StringTree ch : st.children) {
+			if ("DATE".equals(ch.tag)) {
+				sourceData.publishDate = ch.value;
+			} else if ("COPR".equals(ch.tag)) {
+				sourceData.copyright = ch.value;
+			} else {
+				unknownTag(ch);
+			}
+		}
+
 	}
 
 	private void loadIndividual(StringTree st, Individual i) {
@@ -705,6 +720,17 @@ public class GedcomParser {
 
 	}
 
+	private void loadMultiLinesOfText(StringTree st, List<String> listOfString) {
+		listOfString.add(st.value);
+		for (StringTree ch : st.children) {
+			if ("CONC".equals(ch.tag) || "CONT".equals(ch.tag)) {
+				listOfString.add(ch.value);
+			} else {
+				unknownTag(ch);
+			}
+		}
+	}
+
 	private void loadMultimedia(StringTree st, List<Multimedia> multimedia) {
 		Multimedia m = null;
 		if (referencesAnotherNode(st)) {
@@ -789,6 +815,24 @@ public class GedcomParser {
 
 	}
 
+	private void loadRepositoryCitation(StringTree st, Source s) {
+		RepositoryCitation r = new RepositoryCitation();
+		r.repository = getRepository(st.value);
+		for (StringTree ch : st.children) {
+			if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, r.notes);
+			} else if ("CALN".equals(ch.tag)) {
+				r.callNumber = ch.value;
+				if (!ch.children.isEmpty()) {
+					r.mediaType = ch.children.get(0).value;
+				}
+			} else {
+				unknownTag(ch);
+			}
+		}
+
+	}
+
 	private void loadRootItems(StringTree st) {
 		for (StringTree ch : st.children) {
 			if ("HEAD".equals(ch.tag)) {
@@ -812,19 +856,75 @@ public class GedcomParser {
 				loadFamily(ch, gedcom.families);
 			} else if ("TRLR".equals(ch.tag)) {
 				gedcom.trailer = new Trailer();
+			} else if ("SOUR".equals(ch.tag)) {
+				loadSource(ch);
 			} else {
 				unknownTag(ch);
 			}
 		}
 	}
 
-	private void loadSourceData(StringTree st, SourceData sourceData) {
-		sourceData.name = st.value;
+	private void loadSource(StringTree st) {
+		Source s = getSource(st.id);
+		for (StringTree ch : st.children) {
+			if ("DATA".equals(ch.tag)) {
+				s.data = new SourceData();
+				loadSourceData(ch, s.data);
+			} else if ("TITL".equals(ch.tag)) {
+				loadMultiLinesOfText(ch, s.title);
+			} else if ("PUBL".equals(ch.tag)) {
+				loadMultiLinesOfText(ch, s.publicationFacts);
+			} else if ("TEXT".equals(ch.tag)) {
+				loadMultiLinesOfText(ch, s.sourceText);
+			} else if ("ABBR".equals(ch.tag)) {
+				s.sourceFiledBy = ch.value;
+			} else if ("AUTH".equals(ch.tag)) {
+				loadMultiLinesOfText(ch, s.originatorsAuthors);
+			} else if ("REPO".equals(ch.tag)) {
+				loadRepositoryCitation(ch, s);
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, s.notes);
+			} else if ("OBJE".equals(ch.tag)) {
+				loadMultimedia(ch, s.multimedia);
+			} else if ("REFN".equals(ch.tag)) {
+				UserReference u = new UserReference();
+				s.userReferences.add(u);
+				loadUserReference(ch, u);
+			} else if ("RIN".equals(ch.tag)) {
+				s.recIdNumber = ch.value;
+			} else if ("RFN".equals(ch.tag)) {
+				s.regFileNumber = ch.value;
+			} else if ("CHAN".equals(ch.tag)) {
+				s.changeDate = new ChangeDate();
+				loadChangeDate(ch, s.changeDate);
+			} else {
+				unknownTag(ch);
+			}
+		}
+	}
+
+	private void loadSourceData(StringTree st, SourceData data) {
+		for (StringTree ch : st.children) {
+			if ("EVEN".equals(ch.tag)) {
+				loadSourceDataEventRecorded(ch, data);
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, data.notes);
+			} else if ("AGNC".equals(ch.tag)) {
+				data.respAgency = ch.value;
+			} else {
+				unknownTag(ch);
+			}
+		}
+	}
+
+	private void loadSourceDataEventRecorded(StringTree st, SourceData data) {
+		EventRecorded e = new EventRecorded();
+		e.eventType = st.value;
 		for (StringTree ch : st.children) {
 			if ("DATE".equals(ch.tag)) {
-				sourceData.publishDate = ch.value;
-			} else if ("COPR".equals(ch.tag)) {
-				sourceData.copyright = ch.value;
+				e.datePeriod = ch.value;
+			} else if ("PLAC".equals(ch.tag)) {
+				e.jurisdiction = ch.value;
 			} else {
 				unknownTag(ch);
 			}
@@ -843,8 +943,8 @@ public class GedcomParser {
 				sourceSystem.corporation = new Corporation();
 				loadCorporation(ch, sourceSystem.corporation);
 			} else if ("DATA".equals(ch.tag)) {
-				sourceSystem.sourceData = new SourceData();
-				loadSourceData(ch, sourceSystem.sourceData);
+				sourceSystem.sourceData = new HeaderSourceData();
+				loadHeaderSourceData(ch, sourceSystem.sourceData);
 			} else {
 				unknownTag(ch);
 			}
