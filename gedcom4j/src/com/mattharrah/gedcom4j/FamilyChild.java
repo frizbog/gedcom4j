@@ -12,4 +12,5 @@ public class FamilyChild {
 	public Family family;
 	public List<Note> notes = new ArrayList<Note>();
 	public String pedigree;
+	public String adoptedBy;
 }

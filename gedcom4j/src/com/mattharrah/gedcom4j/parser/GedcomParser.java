@@ -6,8 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.mattharrah.gedcom4j.Address;
+import com.mattharrah.gedcom4j.Association;
 import com.mattharrah.gedcom4j.ChangeDate;
 import com.mattharrah.gedcom4j.CharacterSet;
 import com.mattharrah.gedcom4j.Citation;
@@ -17,6 +19,8 @@ import com.mattharrah.gedcom4j.CitationWithoutSource;
 import com.mattharrah.gedcom4j.Corporation;
 import com.mattharrah.gedcom4j.Family;
 import com.mattharrah.gedcom4j.FamilyChild;
+import com.mattharrah.gedcom4j.FamilyEvent;
+import com.mattharrah.gedcom4j.FamilyEventType;
 import com.mattharrah.gedcom4j.FamilySpouse;
 import com.mattharrah.gedcom4j.Gedcom;
 import com.mattharrah.gedcom4j.GedcomVersion;
@@ -26,6 +30,7 @@ import com.mattharrah.gedcom4j.IndividualAttribute;
 import com.mattharrah.gedcom4j.IndividualAttributeType;
 import com.mattharrah.gedcom4j.IndividualEvent;
 import com.mattharrah.gedcom4j.IndividualEventType;
+import com.mattharrah.gedcom4j.LdsFamilyOrdinance;
 import com.mattharrah.gedcom4j.LdsIndividualOrdinance;
 import com.mattharrah.gedcom4j.LdsIndividualOrdinanceType;
 import com.mattharrah.gedcom4j.Multimedia;
@@ -37,6 +42,8 @@ import com.mattharrah.gedcom4j.SourceData;
 import com.mattharrah.gedcom4j.SourceSystem;
 import com.mattharrah.gedcom4j.Submission;
 import com.mattharrah.gedcom4j.Submitter;
+import com.mattharrah.gedcom4j.Trailer;
+import com.mattharrah.gedcom4j.UserReference;
 
 public class GedcomParser {
 
@@ -78,6 +85,14 @@ public class GedcomParser {
 		return findLast(lastChild, level);
 	}
 
+	/**
+	 * Get a family by their xref, adding them to the gedcom collection of
+	 * families if needed.
+	 * 
+	 * @param xref
+	 *            the xref of the family
+	 * @return the family with the specified xref
+	 */
 	private Family getFamily(String xref) {
 		Family f = gedcom.families.get(xref);
 		if (f == null) {
@@ -88,6 +103,33 @@ public class GedcomParser {
 		return f;
 	}
 
+	/**
+	 * Get an individual by their xref, adding them to the gedcom collection of
+	 * individuals if needed.
+	 * 
+	 * @param xref
+	 *            the xref of the individual
+	 * @return the individual with the specified xref
+	 */
+	private Individual getIndividual(String xref) {
+		Individual i;
+		i = gedcom.individuals.get(xref);
+		if (i == null) {
+			i = new Individual();
+			i.xref = xref;
+			gedcom.individuals.put(xref, i);
+		}
+		return i;
+	}
+
+	/**
+	 * Get a multimedia item by its xref, adding it to the gedcom collection of
+	 * multimedia items if needed.
+	 * 
+	 * @param xref
+	 *            the xref of the multimedia item
+	 * @return the multimedia item with the specified xref
+	 */
 	private Multimedia getMultimedia(String xref) {
 		Multimedia m;
 		m = gedcom.multimedia.get(xref);
@@ -99,6 +141,14 @@ public class GedcomParser {
 		return m;
 	}
 
+	/**
+	 * Get a note by its xref, adding it to the gedcom collection of notes if
+	 * needed.
+	 * 
+	 * @param xref
+	 *            the xref of the note
+	 * @return the note with the specified xref
+	 */
 	private Note getNote(String xref) {
 		Note note;
 		note = gedcom.notes.get(xref);
@@ -110,6 +160,14 @@ public class GedcomParser {
 		return note;
 	}
 
+	/**
+	 * Get a source by its xref, adding it to the gedcom collection of sources
+	 * if needed.
+	 * 
+	 * @param xref
+	 *            the xref of the source
+	 * @return the source with the specified xref
+	 */
 	private Source getSource(String xref) {
 		Source src = gedcom.sources.get(xref);
 		if (src == null) {
@@ -143,6 +201,23 @@ public class GedcomParser {
 				unknownTag(ch);
 			}
 		}
+	}
+
+	private void loadAssociation(StringTree st, List<Association> associations) {
+		Association a = new Association();
+		a.otherIndividual = getIndividual(st.value);
+		for (StringTree ch : st.children) {
+			if ("RELA".equals(ch.tag)) {
+				a.relationship = ch.value;
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, a.notes);
+			} else if ("SOUR".equals(ch.tag)) {
+				loadCitation(ch, a.citations);
+			} else {
+				unknownTag(ch);
+			}
+		}
+
 	}
 
 	private void loadChangeDate(StringTree st, ChangeDate changeDate) {
@@ -209,6 +284,8 @@ public class GedcomParser {
 						unknownTag(chch);
 					}
 				}
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, cws.notes);
 			} else {
 				unknownTag(ch);
 			}
@@ -255,6 +332,92 @@ public class GedcomParser {
 		}
 	}
 
+	private void loadFamily(StringTree st, Map<String, Family> families) {
+		Family f = getFamily(st.id);
+		for (StringTree ch : st.children) {
+			if ("HUSB".equals(ch.tag)) {
+				f.husband = getIndividual(ch.value);
+			} else if ("WIFE".equals(ch.tag)) {
+				f.wife = getIndividual(ch.value);
+			} else if ("CHIL".equals(ch.tag)) {
+				f.children.add(getIndividual(ch.value));
+			} else if ("NCHI".equals(ch.tag)) {
+				f.numChildren = Integer.parseInt(ch.value);
+			} else if ("SOUR".equals(ch.tag)) {
+				loadCitation(ch, f.citations);
+			} else if ("OBJE".equals(ch.tag)) {
+				loadMultimedia(ch, f.multimedia);
+			} else if ("CHAN".equals(ch.tag)) {
+				f.changeDate = new ChangeDate();
+				loadChangeDate(ch, f.changeDate);
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, f.notes);
+			} else if ("RIN".equals(ch.tag)) {
+				f.recIdNumber = ch.value;
+			} else if ("RFN".equals(ch.tag)) {
+				f.regFileNumber = ch.value;
+			} else if (FamilyEventType.isValidTag(ch.tag)) {
+				loadFamilyEvent(ch, f.events);
+			} else if ("SLGS".equals(ch.tag)) {
+				loadLdsSpouseSealing(ch, f.ldsSpouseSealings);
+			} else if ("SUBM".equals(ch.tag)) {
+				f.submitters.add(getIndividual(ch.value));
+			} else if ("REFN".equals(ch.tag)) {
+				UserReference u = new UserReference();
+				f.userReferences.add(u);
+				loadUserReference(ch, u);
+			} else {
+				unknownTag(ch);
+			}
+		}
+
+	}
+
+	private void loadFamilyEvent(StringTree st, List<FamilyEvent> events) {
+		FamilyEvent e = new FamilyEvent();
+		events.add(e);
+		for (StringTree ch : st.children) {
+			if ("TYPE".equals(ch.tag)) {
+				e.type = ch.value;
+			} else if ("DATE".equals(ch.tag)) {
+				e.date = ch.value;
+			} else if ("PLAC".equals(ch.tag)) {
+				e.place = new Place();
+				loadPlace(ch, e.place);
+			} else if ("OBJE".equals(ch.tag)) {
+				loadMultimedia(ch, e.multimedia);
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, e.notes);
+			} else if ("SOUR".equals(ch.tag)) {
+				loadCitation(ch, e.citations);
+			} else if ("AGE".equals(ch.tag)) {
+				e.age = ch.value;
+			} else if ("CAUS".equals(ch.tag)) {
+				e.cause = ch.value;
+			} else if ("ADDR".equals(ch.tag)) {
+				e.address = new Address();
+				loadAddress(ch, e.address);
+			} else if ("AGNC".equals(ch.tag)) {
+				e.respAgency = ch.value;
+			} else if ("PHON".equals(ch.tag)) {
+				e.phoneNumbers.add(ch.value);
+			} else if ("HUSB".equals(ch.tag)) {
+				e.husbandAge = ch.children.get(0).value;
+			} else if ("WIFE".equals(ch.tag)) {
+				e.wifeAge = ch.children.get(0).value;
+			} else if ("FAMC".equals(ch.tag)) {
+				List<FamilyChild> families = new ArrayList<FamilyChild>();
+				loadFamilyWhereChild(ch, families);
+				if (!families.isEmpty()) {
+					e.family = families.get(0);
+				}
+			} else {
+				unknownTag(ch);
+			}
+		}
+
+	}
+
 	private void loadFamilyWhereChild(StringTree st,
 			List<FamilyChild> familiesWhereChild) {
 		Family f = getFamily(st.value);
@@ -266,6 +429,7 @@ public class GedcomParser {
 			} else if ("PEDI".equals(ch.tag)) {
 				fc.pedigree = ch.value;
 			} else if ("ADOP".equals(ch.tag)) {
+				fc.adoptedBy = ch.value;
 			} else {
 				unknownTag(ch);
 			}
@@ -381,10 +545,26 @@ public class GedcomParser {
 				i.restrictionNotice = ch.value;
 			} else if ("SOUR".equals(ch.tag)) {
 				loadCitation(ch, i.citations);
+			} else if ("ALIA".equals(ch.tag)) {
+				i.aliases.add(getIndividual(ch.value));
 			} else if ("FAMS".equals(ch.tag)) {
 				loadFamilyWhereSpouse(ch, i.familiesWhereSpouse);
 			} else if ("FAMC".equals(ch.tag)) {
 				loadFamilyWhereChild(ch, i.familiesWhereChild);
+			} else if ("ASSO".equals(ch.tag)) {
+				loadAssociation(ch, i.associations);
+			} else if ("ANCI".equals(ch.tag)) {
+				i.ancestorInterest.add(getIndividual(ch.value));
+			} else if ("DESI".equals(ch.tag)) {
+				i.descendantInterest.add(getIndividual(ch.value));
+			} else if ("AFN".equals(ch.tag)) {
+				i.ancestralFileNumber = ch.value;
+			} else if ("REFN".equals(ch.tag)) {
+				UserReference u = new UserReference();
+				i.userReferences.add(u);
+				loadUserReference(ch, u);
+			} else if ("SUBM".equals(ch.tag)) {
+				i.submitters.add(getIndividual(ch.value));
 			} else {
 				unknownTag(ch);
 			}
@@ -501,6 +681,30 @@ public class GedcomParser {
 		}
 	}
 
+	private void loadLdsSpouseSealing(StringTree st,
+			List<LdsFamilyOrdinance> ldsSpouseSealings) {
+		LdsFamilyOrdinance o = new LdsFamilyOrdinance();
+		for (StringTree ch : st.children) {
+			if ("DATE".equals(ch.tag)) {
+				o.date = ch.value;
+			} else if ("PLAC".equals(ch.tag)) {
+				o.place = ch.value;
+			} else if ("STAT".equals(ch.tag)) {
+				o.status = ch.value;
+			} else if ("TEMP".equals(ch.tag)) {
+				o.temple = ch.value;
+			} else if ("SOUR".equals(ch.tag)) {
+				loadCitation(ch, o.citations);
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, o.notes);
+			} else {
+				unknownTag(ch);
+			}
+
+		}
+
+	}
+
 	private void loadMultimedia(StringTree st, List<Multimedia> multimedia) {
 		Multimedia m = null;
 		if (referencesAnotherNode(st)) {
@@ -604,6 +808,10 @@ public class GedcomParser {
 				loadSubmission(ch, gedcom.submission);
 			} else if ("NOTE".equals(ch.tag)) {
 				loadNote(ch, null);
+			} else if ("FAM".equals(ch.tag)) {
+				loadFamily(ch, gedcom.families);
+			} else if ("TRLR".equals(ch.tag)) {
+				gedcom.trailer = new Trailer();
 			} else {
 				unknownTag(ch);
 			}
@@ -696,6 +904,14 @@ public class GedcomParser {
 		}
 	}
 
+	private void loadUserReference(StringTree ch, UserReference u) {
+		u.referenceNum = ch.value;
+		if (!ch.children.isEmpty()) {
+			u.type = ch.children.get(0).value;
+		}
+
+	}
+
 	/**
 	 * Load the file into a tree structure
 	 * 
@@ -768,7 +984,7 @@ public class GedcomParser {
 		if (node.tag.startsWith("_")) {
 			warnings.add(sb.toString());
 		} else {
-			// new Exception(sb.toString()).printStackTrace();
+			new Exception(sb.toString()).printStackTrace();
 			errors.add(sb.toString());
 		}
 	}

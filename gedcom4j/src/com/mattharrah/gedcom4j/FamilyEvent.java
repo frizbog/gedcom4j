@@ -1,8 +1,8 @@
 package com.mattharrah.gedcom4j;
 
-import java.util.List;
-
 public class FamilyEvent extends Event {
-	public FamilyEventType type;
-	public List<AgeAtEvent> agesAtEvent;
+	public String type;
+	public FamilyChild family;
+	public String husbandAge;
+	public String wifeAge;
 }

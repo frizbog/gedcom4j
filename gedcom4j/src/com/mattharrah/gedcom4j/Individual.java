@@ -9,26 +9,27 @@ import java.util.List;
  * @author Matt
  */
 public class Individual {
-
-	public String regFileNumber;
-	public String recIdNumber;
+	public List<Individual> aliases = new ArrayList<Individual>();
+	public List<Individual> ancestorInterest = new ArrayList<Individual>();
 	public String ancestralFileNumber;
-	public String sex;
-	public String permanentRecFileNumber;
-	public List<PersonalName> names = new ArrayList<PersonalName>();
 	public List<Association> associations = new ArrayList<Association>();
-	public List<Submitter> ancestorInterest = new ArrayList<Submitter>();
-	public List<Submitter> descendantInterest = new ArrayList<Submitter>();
-	public List<UserReference> userReferences = new ArrayList<UserReference>();
-	public List<IndividualEvent> events = new ArrayList<IndividualEvent>();
 	public List<IndividualAttribute> attributes = new ArrayList<IndividualAttribute>();
-	public List<Citation> citations = new ArrayList<Citation>();
-	public List<Note> notes = new ArrayList<Note>();
 	public ChangeDate changeDate;
-	public List<FamilySpouse> familiesWhereSpouse = new ArrayList<FamilySpouse>();
+	public List<Citation> citations = new ArrayList<Citation>();
+	public List<Individual> descendantInterest = new ArrayList<Individual>();
+	public List<IndividualEvent> events = new ArrayList<IndividualEvent>();
 	public List<FamilyChild> familiesWhereChild = new ArrayList<FamilyChild>();
+	public List<FamilySpouse> familiesWhereSpouse = new ArrayList<FamilySpouse>();
 	public List<LdsIndividualOrdinance> ldsIndividualOrdinances = new ArrayList<LdsIndividualOrdinance>();
-	public List<String> aliases = new ArrayList<String>();
 	public List<Multimedia> multimedia = new ArrayList<Multimedia>();
+	public List<PersonalName> names = new ArrayList<PersonalName>();
+	public List<Note> notes = new ArrayList<Note>();
+	public String permanentRecFileNumber;
+	public String recIdNumber;
+	public String regFileNumber;
 	public String restrictionNotice;
+	public String sex;
+	public List<Individual> submitters = new ArrayList<Individual>();
+	public List<UserReference> userReferences = new ArrayList<UserReference>();
+	public String xref;
 }
