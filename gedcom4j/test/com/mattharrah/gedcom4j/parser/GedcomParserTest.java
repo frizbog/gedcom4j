@@ -29,7 +29,9 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import com.mattharrah.gedcom4j.Family;
+import com.mattharrah.gedcom4j.Gedcom;
 import com.mattharrah.gedcom4j.Source;
+import com.mattharrah.gedcom4j.Submitter;
 
 public class GedcomParserTest extends TestCase {
 
@@ -46,12 +48,17 @@ public class GedcomParserTest extends TestCase {
 			System.err.println(s);
 			System.err.flush();
 		}
-		assertEquals("H. Eichmann", gp.gedcom.submitter.name);
+		Gedcom g = gp.gedcom;
+		assertNotNull(g.header);
+		assertEquals(3, g.submitters.size());
+		Submitter submitter = g.submitters.values().iterator().next();
+		assertNotNull(submitter);
+		assertEquals("H. Eichmann", submitter.name);
 
-		assertEquals(15, gp.gedcom.individuals.size());
-		assertEquals(7, gp.gedcom.families.size());
-		assertEquals(2, gp.gedcom.sources.size());
-		assertEquals(1, gp.gedcom.multimedia.size());
+		assertEquals(7, g.families.size());
+		assertEquals(2, g.sources.size());
+		assertEquals(1, g.multimedia.size());
+		assertEquals(15, g.individuals.size());
 	}
 
 	public void testLoad2() throws IOException, GedcomParserException {
@@ -67,7 +74,11 @@ public class GedcomParserTest extends TestCase {
 			System.err.println(s);
 			System.err.flush();
 		}
-		assertNull(gp.gedcom.submitter.name);
+		Gedcom g = gp.gedcom;
+		assertFalse(g.submitters.isEmpty());
+		Submitter submitter = g.submitters.values().iterator().next();
+		assertNotNull(submitter);
+		assertEquals("/Submitter-Name/", submitter.name);
 	}
 
 	public void testLoad3() throws IOException, GedcomParserException {
@@ -83,28 +94,32 @@ public class GedcomParserTest extends TestCase {
 			System.err.println(s);
 			System.err.flush();
 		}
+		Gedcom g = gp.gedcom;
 
 		// Check submitter
-		assertNull(gp.gedcom.submitter.name);
+		assertFalse(g.submitters.isEmpty());
+		Submitter submitter = g.submitters.values().iterator().next();
+		assertNotNull(submitter);
+		assertNull(submitter.name);
 
 		// Check header
-		assertEquals("6.00", gp.gedcom.header.sourceSystem.versionNum);
+		assertEquals("6.00", g.header.sourceSystem.versionNum);
 		assertEquals("(510) 794-6850",
-				gp.gedcom.header.sourceSystem.corporation.phoneNumbers.get(0));
+				g.header.sourceSystem.corporation.phoneNumbers.get(0));
 
 		// There are two sources in this file, and their names should be as
 		// shown
-		assertEquals(2, gp.gedcom.sources.size());
-		for (Source s : gp.gedcom.sources.values()) {
+		assertEquals(2, g.sources.size());
+		for (Source s : g.sources.values()) {
 			assertTrue(s.title.get(0).equals("William Barnett Family.FTW")
 					|| s.title.get(0).equals("Warrick County, IN WPA Indexes"));
 		}
 
-		assertEquals(17, gp.gedcom.families.size());
-		assertEquals(64, gp.gedcom.individuals.size());
+		assertEquals(17, g.families.size());
+		assertEquals(64, g.individuals.size());
 
 		// Check a specific family
-		Family family = gp.gedcom.families.get("@F1428@");
+		Family family = g.families.get("@F1428@");
 		assertNotNull(family);
 		assertEquals(3, family.children.size());
 		assertEquals("Lawrence Henry /Barnett/",
@@ -127,11 +142,16 @@ public class GedcomParserTest extends TestCase {
 			System.err.println(s);
 			System.err.flush();
 		}
-		assertEquals("H. Eichmann", gp.gedcom.submitter.name);
+		Gedcom g = gp.gedcom;
+		assertNotNull(g.header);
+		assertEquals(3, g.submitters.size());
+		Submitter submitter = g.submitters.values().iterator().next();
+		assertNotNull(submitter);
+		assertEquals("H. Eichmann", submitter.name);
 
-		assertEquals(44, gp.gedcom.individuals.size());
-		assertEquals(1, gp.gedcom.families.size());
-		assertEquals(1, gp.gedcom.sources.size());
-		assertEquals(1, gp.gedcom.multimedia.size());
+		assertEquals(7, g.families.size());
+		assertEquals(2, g.sources.size());
+		assertEquals(1, g.multimedia.size());
+		assertEquals(15, g.individuals.size());
 	}
 }

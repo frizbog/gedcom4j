@@ -33,15 +33,14 @@ import java.util.Map;
  * @author Matt
  */
 public class Gedcom {
-	public Header header;
-	public Submitter submitter;
-	public Map<String, Individual> individuals = new HashMap<String, Individual>();
-	public Map<String, Note> notes = new HashMap<String, Note>();
 	public Map<String, Family> families = new HashMap<String, Family>();
-	public Map<String, Source> sources = new HashMap<String, Source>();
-	public Trailer trailer;
-	public Submission submission;
+	public Header header;
+	public Map<String, Individual> individuals = new HashMap<String, Individual>();
 	public Map<String, Multimedia> multimedia = new HashMap<String, Multimedia>();
+	public Map<String, Note> notes = new HashMap<String, Note>();
 	public Map<String, Repository> repositories = new HashMap<String, Repository>();
-
+	public Map<String, Source> sources = new HashMap<String, Source>();
+	public Submission submission;
+	public Map<String, Submitter> submitters = new HashMap<String, Submitter>();
+	public Trailer trailer;
 }

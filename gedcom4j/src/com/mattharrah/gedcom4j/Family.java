@@ -34,7 +34,7 @@ public class Family {
 	public Individual husband;
 	public List<Individual> children = new ArrayList<Individual>();
 	public Integer numChildren;
-	public List<Individual> submitters = new ArrayList<Individual>();
+	public List<Submitter> submitters = new ArrayList<Submitter>();
 	public List<LdsFamilyOrdinance> ldsSpouseSealings = new ArrayList<LdsFamilyOrdinance>();
 	public List<Citation> citations = new ArrayList<Citation>();
 	public List<Multimedia> multimedia = new ArrayList<Multimedia>();

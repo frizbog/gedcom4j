@@ -34,13 +34,13 @@ import java.util.List;
  */
 public class Individual {
 	public List<Individual> aliases = new ArrayList<Individual>();
-	public List<Individual> ancestorInterest = new ArrayList<Individual>();
+	public List<Submitter> ancestorInterest = new ArrayList<Submitter>();
 	public String ancestralFileNumber;
 	public List<Association> associations = new ArrayList<Association>();
 	public List<IndividualAttribute> attributes = new ArrayList<IndividualAttribute>();
 	public ChangeDate changeDate;
 	public List<Citation> citations = new ArrayList<Citation>();
-	public List<Individual> descendantInterest = new ArrayList<Individual>();
+	public List<Submitter> descendantInterest = new ArrayList<Submitter>();
 	public List<IndividualEvent> events = new ArrayList<IndividualEvent>();
 	public List<FamilyChild> familiesWhereChild = new ArrayList<FamilyChild>();
 	public List<FamilySpouse> familiesWhereSpouse = new ArrayList<FamilySpouse>();
@@ -53,7 +53,7 @@ public class Individual {
 	public String regFileNumber;
 	public String restrictionNotice;
 	public String sex;
-	public List<Individual> submitters = new ArrayList<Individual>();
+	public List<Submitter> submitters = new ArrayList<Submitter>();
 	public List<UserReference> userReferences = new ArrayList<UserReference>();
 	public String xref;
 	public Address address;

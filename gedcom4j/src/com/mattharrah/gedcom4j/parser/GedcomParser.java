@@ -233,6 +233,25 @@ public class GedcomParser {
 		return src;
 	}
 
+	/**
+	 * Get a submitter by their xref, adding them to the gedcom collection of
+	 * submitters if needed.
+	 * 
+	 * @param xref
+	 *            the xref of the submitter
+	 * @return the submitter with the specified xref
+	 */
+	private Submitter getSubmitter(String xref) {
+		Submitter i;
+		i = gedcom.submitters.get(xref);
+		if (i == null) {
+			i = new Submitter();
+			i.xref = xref;
+			gedcom.submitters.put(xref, i);
+		}
+		return i;
+	}
+
 	private void loadAddress(StringTree st, Address address) {
 		if (st.value != null) {
 			address.lines.add(st.value);
@@ -402,7 +421,7 @@ public class GedcomParser {
 			} else if ("SLGS".equals(ch.tag)) {
 				loadLdsSpouseSealing(ch, f.ldsSpouseSealings);
 			} else if ("SUBM".equals(ch.tag)) {
-				f.submitters.add(getIndividual(ch.value));
+				f.submitters.add(getSubmitter(ch.value));
 			} else if ("REFN".equals(ch.tag)) {
 				UserReference u = new UserReference();
 				f.userReferences.add(u);
@@ -504,7 +523,9 @@ public class GedcomParser {
 		}
 	}
 
-	private void loadHeader(StringTree st, Header header) {
+	private void loadHeader(StringTree st) {
+		Header header = new Header();
+		gedcom.header = header;
 		for (StringTree ch : st.children) {
 			if ("SOUR".equals(ch.tag)) {
 				header.sourceSystem = new SourceSystem();
@@ -525,9 +546,7 @@ public class GedcomParser {
 					header.characterSet.versionNum = ch.children.get(0).value;
 				}
 			} else if ("SUBM".equals(ch.tag)) {
-				gedcom.submitter = new Submitter();
-				gedcom.submitter.xref = ch.id;
-				header.submitter = gedcom.submitter;
+				header.submitter = getSubmitter(ch.value);
 			} else if ("FILE".equals(ch.tag)) {
 				header.fileName = ch.value;
 			} else if ("GEDC".equals(ch.tag)) {
@@ -608,9 +627,9 @@ public class GedcomParser {
 			} else if ("ASSO".equals(ch.tag)) {
 				loadAssociation(ch, i.associations);
 			} else if ("ANCI".equals(ch.tag)) {
-				i.ancestorInterest.add(getIndividual(ch.value));
+				i.ancestorInterest.add(getSubmitter(ch.value));
 			} else if ("DESI".equals(ch.tag)) {
-				i.descendantInterest.add(getIndividual(ch.value));
+				i.descendantInterest.add(getSubmitter(ch.value));
 			} else if ("AFN".equals(ch.tag)) {
 				i.ancestralFileNumber = ch.value;
 			} else if ("REFN".equals(ch.tag)) {
@@ -618,7 +637,7 @@ public class GedcomParser {
 				i.userReferences.add(u);
 				loadUserReference(ch, u);
 			} else if ("SUBM".equals(ch.tag)) {
-				i.submitters.add(getIndividual(ch.value));
+				i.submitters.add(getSubmitter(ch.value));
 			} else {
 				unknownTag(ch);
 			}
@@ -940,13 +959,9 @@ public class GedcomParser {
 	private void loadRootItems(StringTree st) {
 		for (StringTree ch : st.children) {
 			if ("HEAD".equals(ch.tag)) {
-				gedcom.header = new Header();
-				loadHeader(ch, gedcom.header);
+				loadHeader(ch);
 			} else if ("SUBM".equals(ch.tag)) {
-				if (gedcom.submitter == null) {
-					gedcom.submitter = new Submitter();
-				}
-				loadSubmitter(ch, gedcom.submitter);
+				loadSubmitter(ch);
 			} else if ("INDI".equals(ch.tag)) {
 				loadIndividual(ch);
 			} else if ("SUBN".equals(ch.tag)) {
@@ -1057,14 +1072,11 @@ public class GedcomParser {
 	}
 
 	private void loadSubmission(StringTree st) {
-		gedcom.submission = new Submission();
+		Submission s = new Submission();
+		gedcom.submission = s;
 		for (StringTree ch : st.children) {
 			if ("SUBM".equals(ch.tag)) {
-				if (gedcom.submitter != null) {
-					gedcom.submitter = new Submitter();
-					gedcom.submitter.xref = ch.id;
-				}
-				gedcom.submission.submitter = gedcom.submitter;
+				gedcom.submission.submitter = getSubmitter(ch.value);
 			} else if ("FAMF".equals(ch.tag)) {
 				gedcom.submission.nameOfFamilyFile = ch.value;
 			} else if ("TEMP".equals(ch.tag)) {
@@ -1084,7 +1096,9 @@ public class GedcomParser {
 
 	}
 
-	private void loadSubmitter(StringTree st, Submitter submitter) {
+	private void loadSubmitter(StringTree st) {
+		Submitter submitter = getSubmitter(st.id);
+		gedcom.submitters.put(st.id, submitter);
 		for (StringTree ch : st.children) {
 			if ("NAME".equals(ch.tag)) {
 				submitter.name = ch.value;
