@@ -32,4 +32,6 @@ public class Individual {
 	public List<Individual> submitters = new ArrayList<Individual>();
 	public List<UserReference> userReferences = new ArrayList<UserReference>();
 	public String xref;
+	public Address address;
+	public List<String> phoneNumbers = new ArrayList<String>();
 }

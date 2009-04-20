@@ -1,0 +1,460 @@
+0 HEAD
+1 SOUR FTW
+2 VERS 6.00
+2 NAME Family Tree Maker for Windows
+2 CORP The Learning Company, Inc., Banner Blue Division
+3 ADDR 39500 Stevenson Pl.  #204
+4 CONT Fremont, CA 95439
+3 PHON (510) 794-6850
+1 DEST FTM
+1 DATE 11 NOV 1999
+1 CHAR ANSI
+1 SUBM @SUBM@
+1 FILE C:\FTW\William Barnett I Descendents.GED
+1 GEDC
+2 VERS 5.5
+0 @SUBM@ SUBM
+0 @I4004@ INDI
+1 NAME August Valentine /Barnett/
+2 SOUR @S02915@
+3 NOTE Brøderbund WFT Vol. 3, Ed. 1, Tree #5321, Date of Import: Dec 13, 1996
+1 SEX M
+1 BIRT
+2 DATE 14 JUL 1900
+2 PLAC Warrick, Indiana
+2 SOUR @S02915@
+3 NOTE Brøderbund WFT Vol. 3, Ed. 1, Tree #5321, Date of Import: Dec 13, 1996
+1 FAMS @F1423@
+1 FAMC @F1407@
+0 @I4027@ INDI
+1 NAME Marie Elizabeth /Grin/
+2 SOUR @S02915@
+3 NOTE Brøderbund WFT Vol. 3, Ed. 1, Tree #5321, Date of Import: Dec 13, 1996
+1 SEX F
+1 BIRT
+2 DATE 11 AUG
+2 SOUR @S02915@
+3 NOTE Brøderbund WFT Vol. 3, Ed. 1, Tree #5321, Date of Import: Dec 13, 1996
+1 FAMS @F1423@
+0 @I4028@ INDI
+1 NAME Lawrence Henry /Barnett/
+2 SOUR @S02915@
+3 NOTE Brøderbund WFT Vol. 3, Ed. 1, Tree #5321, Date of Import: Dec 13, 1996
+1 SEX M
+1 BIRT
+2 DATE 1 JUN 1920
+2 PLAC Indiana
+2 SOUR @S02915@
+3 NOTE Brøderbund WFT Vol. 3, Ed. 1, Tree #5321, Date of Import: Dec 13, 1996
+1 FAMS @F1428@
+1 FAMC @F1423@
+0 @I4029@ INDI
+1 NAME Elouise Deloris /Barnett/
+2 SOUR @S02915@
+3 NOTE Brøderbund WFT Vol. 3, Ed. 1, Tree #5321, Date of Import: Dec 13, 1996
+1 SEX F
+1 BIRT
+2 DATE 18 FEB 1922
+2 PLAC Indiana
+2 SOUR @S02915@
+3 NOTE Brøderbund WFT Vol. 3, Ed. 1, Tree #5321, Date of Import: Dec 13, 1996
+1 FAMS @F1429@
+1 FAMC @F1423@
+0 @I4030@ INDI
+1 NAME Virginia Nadine /Barnett/
+2 SOUR @S02915@
+3 NOTE Brøderbund WFT Vol. 3, Ed. 1, Tree #5321, Date of Import: Dec 13, 1996
+1 SEX F
+1 BIRT
+2 DATE 9 OCT 1923
+2 PLAC Indiana
+2 SOUR @S02915@
+3 NOTE Brøderbund WFT Vol. 3, Ed. 1, Tree #5321, Date of Import: Dec 13, 1996
+1 FAMC @F1423@
+0 @I4031@ INDI
+1 NAME Joyce Clara /Barnett/
+2 SOUR @S02915@
+3 NOTE Brøderbund WFT Vol. 3, Ed. 1, Tree #5321, Date of Import: Dec 13, 1996
+1 SEX F
+1 BIRT
+2 DATE 31 JAN 1928
+2 PLAC Indiana
+2 SOUR @S02915@
+3 NOTE Brøderbund WFT Vol. 3, Ed. 1, Tree #5321, Date of Import: Dec 13, 1996
+1 FAMS @F1430@
+1 FAMC @F1423@
+0 @I4032@ INDI
+1 NAME Living /Barnett/
+1 SEX F
+1 FAMS @F1431@
+1 FAMC @F1423@
+0 @I4033@ INDI
+1 NAME Living /Barnett/
+1 SEX M
+1 FAMS @F1432@
+1 FAMC @F1423@
+0 @I4034@ INDI
+1 NAME Velma //
+2 SOUR @S02915@
+3 NOTE Brøderbund WFT Vol. 3, Ed. 1, Tree #5321, Date of Import: Dec 13, 1996
+1 SEX F
+1 FAMS @F1428@
+0 @I4035@ INDI
+1 NAME Living /Barnett/
+1 SEX M
+1 FAMS @F1433@
+1 FAMC @F1428@
+0 @I4036@ INDI
+1 NAME Living /Barnett/
+1 SEX M
+1 FAMS @F1434@
+1 FAMC @F1428@
+0 @I4037@ INDI
+1 NAME Living /Barnett/
+1 SEX M
+1 FAMC @F1428@
+0 @I4038@ INDI
+1 NAME Living //
+1 SEX F
+1 FAMS @F1433@
+0 @I4039@ INDI
+1 NAME Living /Barnett/
+1 SEX F
+1 FAMC @F1433@
+0 @I4040@ INDI
+1 NAME Living /Barnett/
+1 SEX F
+1 FAMC @F1433@
+0 @I4041@ INDI
+1 NAME Living /Barnett/
+1 SEX F
+1 FAMC @F1433@
+0 @I4042@ INDI
+1 NAME Living //
+1 SEX F
+1 FAMS @F1434@
+0 @I4043@ INDI
+1 NAME Living /Barnett/
+1 SEX F
+1 FAMC @F1434@
+0 @I4044@ INDI
+1 NAME Living /Barnett/
+1 SEX F
+1 FAMC @F1434@
+0 @I4045@ INDI
+1 NAME Ronald /Brendel/
+2 SOUR @S02915@
+3 NOTE Brøderbund WFT Vol. 3, Ed. 1, Tree #5321, Date of Import: Dec 13, 1996
+1 SEX M
+1 FAMS @F1429@
+0 @I4046@ INDI
+1 NAME Living /Brendel/
+1 SEX M
+1 TITL Jr.
+1 FAMS @F1435@
+1 FAMC @F1429@
+0 @I4047@ INDI
+1 NAME Living /Brendel/
+1 SEX M
+1 FAMS @F1436@
+1 FAMC @F1429@
+0 @I4048@ INDI
+1 NAME Living /Brendel/
+1 SEX M
+1 FAMC @F1429@
+0 @I4049@ INDI
+1 NAME Living /Brendel/
+1 SEX M
+1 FAMS @F1437@
+1 FAMC @F1429@
+0 @I4050@ INDI
+1 NAME Living /Brendel/
+1 SEX F
+1 FAMC @F1429@
+0 @I4051@ INDI
+1 NAME Living //
+1 SEX F
+1 FAMS @F1435@
+0 @I4052@ INDI
+1 NAME Living /Brendel/
+1 SEX M
+1 FAMC @F1435@
+0 @I4053@ INDI
+1 NAME Living /Brendel/
+1 SEX F
+1 FAMC @F1435@
+0 @I4054@ INDI
+1 NAME Living /Brendel/
+1 SEX F
+1 FAMC @F1435@
+0 @I4055@ INDI
+1 NAME Living /Brendel/
+1 SEX F
+1 FAMC @F1435@
+0 @I4056@ INDI
+1 NAME Living //
+1 SEX F
+1 FAMS @F1436@
+0 @I4057@ INDI
+1 NAME Living /Brendel/
+1 SEX F
+1 FAMC @F1436@
+0 @I4058@ INDI
+1 NAME Living /Brendel/
+1 SEX F
+1 FAMC @F1436@
+0 @I4059@ INDI
+1 NAME Living //
+1 SEX F
+1 FAMS @F1437@
+0 @I4060@ INDI
+1 NAME Living /Brendel/
+1 SEX M
+1 FAMC @F1437@
+0 @I4061@ INDI
+1 NAME Living /Brendel/
+1 SEX M
+1 FAMC @F1437@
+0 @I4062@ INDI
+1 NAME Living /Brendel/
+1 SEX M
+1 FAMC @F1437@
+0 @I4063@ INDI
+1 NAME Jack /Schauss/
+2 SOUR @S02915@
+3 NOTE Brøderbund WFT Vol. 3, Ed. 1, Tree #5321, Date of Import: Dec 13, 1996
+1 SEX M
+1 FAMS @F1430@
+0 @I4064@ INDI
+1 NAME Living /Schauss/
+1 SEX F
+1 FAMS @F1438@
+1 FAMC @F1430@
+0 @I4065@ INDI
+1 NAME Living /Schauss/
+1 SEX M
+1 FAMS @F1439@
+1 FAMC @F1430@
+0 @I4066@ INDI
+1 NAME Living /Kurtz/
+1 SEX M
+1 FAMS @F1438@
+0 @I4067@ INDI
+1 NAME Living /Kurtz/
+1 SEX M
+1 FAMC @F1438@
+0 @I4068@ INDI
+1 NAME Living /Kurtz/
+1 SEX F
+1 FAMC @F1438@
+0 @I4069@ INDI
+1 NAME Living /Young/
+1 SEX F
+1 FAMS @F1439@
+0 @I4070@ INDI
+1 NAME Living /Schauss/
+1 SEX M
+1 FAMC @F1439@
+0 @I4071@ INDI
+1 NAME Living /Schauss/
+1 SEX M
+1 FAMC @F1439@
+0 @I4082@ INDI
+1 NAME Carl /Brendel/
+2 SOUR @S02915@
+3 NOTE Brøderbund WFT Vol. 3, Ed. 1, Tree #5321, Date of Import: Dec 13, 1996
+1 SEX M
+1 FAMS @F1431@
+0 @I4083@ INDI
+1 NAME Living /Brendel/
+1 SEX M
+1 FAMC @F1431@
+0 @I4084@ INDI
+1 NAME Living /Brendel/
+1 SEX M
+1 FAMS @F1440@
+1 FAMC @F1431@
+0 @I4085@ INDI
+1 NAME Living /Brendel/
+1 SEX M
+1 FAMS @F1441@
+1 FAMC @F1431@
+0 @I4086@ INDI
+1 NAME Living /Brendel/
+1 SEX M
+1 FAMC @F1431@
+0 @I4087@ INDI
+1 NAME Living /Brendel/
+1 SEX F
+1 FAMC @F1431@
+0 @I4088@ INDI
+1 NAME Living /Boisvert/
+1 SEX F
+1 FAMS @F1440@
+0 @I4089@ INDI
+1 NAME Living /Brendel/
+1 SEX M
+1 FAMC @F1440@
+0 @I4090@ INDI
+1 NAME Living /Brendel/
+1 SEX M
+1 FAMC @F1440@
+0 @I4091@ INDI
+1 NAME Living /Brendel/
+1 SEX M
+1 FAMC @F1440@
+0 @I4092@ INDI
+1 NAME Living //
+1 SEX F
+1 FAMS @F1441@
+0 @I4093@ INDI
+1 NAME Living /Brendel/
+1 SEX M
+1 FAMC @F1441@
+0 @I4094@ INDI
+1 NAME Living //
+1 SEX F
+1 FAMS @F1432@
+0 @I4095@ INDI
+1 NAME Living /Barnett/
+1 SEX M
+1 FAMS @F1442@
+1 FAMC @F1432@
+0 @I4096@ INDI
+1 NAME Living /Barnett/
+1 SEX M
+1 FAMC @F1432@
+0 @I4097@ INDI
+1 NAME Living //
+1 SEX F
+1 FAMS @F1442@
+0 @I4098@ INDI
+1 NAME Living /Barnett/
+1 SEX M
+1 FAMC @F1442@
+0 @I4099@ INDI
+1 NAME Living /Barnett/
+1 SEX M
+1 FAMC @F1442@
+0 @F1407@ FAM
+1 CHIL @I4004@
+1 MARR
+2 DATE 2 JUL 1892
+2 PLAC Warrick, Indiana
+2 SOUR @S02892@
+2 SOUR @S02915@
+3 NOTE Brøderbund WFT Vol. 3, Ed. 1, Tree #5321, Date of Import: Dec 13, 1996
+0 @F1423@ FAM
+1 HUSB @I4004@
+1 WIFE @I4027@
+1 CHIL @I4028@
+1 CHIL @I4029@
+1 CHIL @I4030@
+1 CHIL @I4031@
+1 CHIL @I4032@
+1 CHIL @I4033@
+1 MARR
+2 DATE 31 MAY 1919
+2 PLAC Warrick, Indiana
+2 SOUR @S02915@
+3 NOTE Brøderbund WFT Vol. 3, Ed. 1, Tree #5321, Date of Import: Dec 13, 1996
+0 @F1428@ FAM
+1 HUSB @I4028@
+1 WIFE @I4034@
+1 CHIL @I4035@
+1 CHIL @I4036@
+1 CHIL @I4037@
+0 @F1429@ FAM
+1 HUSB @I4045@
+1 WIFE @I4029@
+1 CHIL @I4046@
+1 CHIL @I4047@
+1 CHIL @I4048@
+1 CHIL @I4049@
+1 CHIL @I4050@
+0 @F1430@ FAM
+1 HUSB @I4063@
+1 WIFE @I4031@
+1 CHIL @I4064@
+1 CHIL @I4065@
+0 @F1431@ FAM
+1 HUSB @I4082@
+1 WIFE @I4032@
+1 CHIL @I4083@
+1 CHIL @I4084@
+1 CHIL @I4085@
+1 CHIL @I4086@
+1 CHIL @I4087@
+0 @F1432@ FAM
+1 HUSB @I4033@
+1 WIFE @I4094@
+1 CHIL @I4095@
+1 CHIL @I4096@
+0 @F1433@ FAM
+1 HUSB @I4035@
+1 WIFE @I4038@
+1 CHIL @I4039@
+1 CHIL @I4040@
+1 CHIL @I4041@
+0 @F1434@ FAM
+1 HUSB @I4036@
+1 WIFE @I4042@
+1 CHIL @I4043@
+1 CHIL @I4044@
+0 @F1435@ FAM
+1 HUSB @I4046@
+1 WIFE @I4051@
+1 CHIL @I4052@
+1 CHIL @I4053@
+1 CHIL @I4054@
+1 CHIL @I4055@
+0 @F1436@ FAM
+1 HUSB @I4047@
+1 WIFE @I4056@
+1 CHIL @I4057@
+1 CHIL @I4058@
+0 @F1437@ FAM
+1 HUSB @I4049@
+1 WIFE @I4059@
+1 CHIL @I4060@
+1 CHIL @I4061@
+1 CHIL @I4062@
+0 @F1438@ FAM
+1 HUSB @I4066@
+1 WIFE @I4064@
+1 CHIL @I4067@
+1 CHIL @I4068@
+0 @F1439@ FAM
+1 HUSB @I4065@
+1 WIFE @I4069@
+1 CHIL @I4070@
+1 CHIL @I4071@
+0 @F1440@ FAM
+1 HUSB @I4084@
+1 WIFE @I4088@
+1 CHIL @I4089@
+1 CHIL @I4090@
+1 CHIL @I4091@
+0 @F1441@ FAM
+1 HUSB @I4085@
+1 WIFE @I4092@
+1 CHIL @I4093@
+0 @F1442@ FAM
+1 HUSB @I4095@
+1 WIFE @I4097@
+1 CHIL @I4098@
+1 CHIL @I4099@
+0 @S02892@ SOUR
+1 TITL Warrick County, IN WPA Indexes
+1 AUTH Works Progress Administration, 1936-40
+1 REPO
+2 NOTE @NS28923@
+0 @S02915@ SOUR
+1 TITL William Barnett Family.FTW
+1 REPO
+2 CALN
+3 MEDI Other
+0 @NS28923@ NOTE NAME Willard Library
+1 CONT ADDR 21 First Avenue
+1 CONT CONT Evansville, IN 47710
+0 TRLR

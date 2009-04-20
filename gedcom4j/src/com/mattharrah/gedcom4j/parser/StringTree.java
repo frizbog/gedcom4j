@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Inner class for the heirarchical structure
+ * This is a tree structure containing a single line of text from the gedcom
+ * file, and a list of child structures, used by the parser for temporary
+ * storage of the text of the gedcom. the class and its members are deliberately
+ * package private so only the parser will reference it.
  * 
  * @author Matt
  */
@@ -15,7 +18,7 @@ class StringTree {
 	String value;
 	List<StringTree> children = new ArrayList<StringTree>();
 	StringTree parent = null;
-	public int lineNum;
+	int lineNum;
 
 	@Override
 	public String toString() {

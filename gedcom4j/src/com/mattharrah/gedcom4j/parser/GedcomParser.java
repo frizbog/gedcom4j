@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.mattharrah.gedcom4j.Address;
 import com.mattharrah.gedcom4j.Association;
@@ -51,8 +50,17 @@ import com.mattharrah.gedcom4j.UserReference;
 
 public class GedcomParser {
 
-	public List<String> errors = new ArrayList<String>();
+	/**
+	 * The content of the gedcom file
+	 */
 	public Gedcom gedcom = new Gedcom();
+	/**
+	 * The things that went wrong while parsing the gedcom file
+	 */
+	public List<String> errors = new ArrayList<String>();
+	/**
+	 * The warnings issued during the parsing of the gedcome file
+	 */
 	public List<String> warnings = new ArrayList<String>();
 
 	/**
@@ -341,7 +349,7 @@ public class GedcomParser {
 		}
 	}
 
-	private void loadFamily(StringTree st, Map<String, Family> families) {
+	private void loadFamily(StringTree st) {
 		Family f = getFamily(st.id);
 		for (StringTree ch : st.children) {
 			if ("HUSB".equals(ch.tag)) {
@@ -356,13 +364,13 @@ public class GedcomParser {
 				loadCitation(ch, f.citations);
 			} else if ("OBJE".equals(ch.tag)) {
 				loadMultimedia(ch, f.multimedia);
+			} else if ("RIN".equals(ch.tag)) {
+				f.recIdNumber = ch.value;
 			} else if ("CHAN".equals(ch.tag)) {
 				f.changeDate = new ChangeDate();
 				loadChangeDate(ch, f.changeDate);
 			} else if ("NOTE".equals(ch.tag)) {
 				loadNote(ch, f.notes);
-			} else if ("RIN".equals(ch.tag)) {
-				f.recIdNumber = ch.value;
 			} else if ("RFN".equals(ch.tag)) {
 				f.regFileNumber = ch.value;
 			} else if (FamilyEventType.isValidTag(ch.tag)) {
@@ -531,7 +539,9 @@ public class GedcomParser {
 
 	}
 
-	private void loadIndividual(StringTree st, Individual i) {
+	private void loadIndividual(StringTree st) {
+		Individual i = new Individual();
+		gedcom.individuals.put(st.id, i);
 		for (StringTree ch : st.children) {
 			if ("NAME".equals(ch.tag)) {
 				PersonalName pn = new PersonalName();
@@ -539,6 +549,11 @@ public class GedcomParser {
 				loadPersonalName(ch, pn);
 			} else if ("SEX".equals(ch.tag)) {
 				i.sex = ch.value;
+			} else if ("ADDR".equals(ch.tag)) {
+				i.address = new Address();
+				loadAddress(ch, i.address);
+			} else if ("PHON".equals(ch.tag)) {
+				i.phoneNumbers.add(ch.value);
 			} else if (IndividualEventType.isValidTag(ch.tag)) {
 				loadIndividualEvent(ch, i.events);
 			} else if (IndividualAttributeType.isValidTag(ch.tag)) {
@@ -721,7 +736,9 @@ public class GedcomParser {
 	}
 
 	private void loadMultiLinesOfText(StringTree st, List<String> listOfString) {
-		listOfString.add(st.value);
+		if (st.value != null) {
+			listOfString.add(st.value);
+		}
 		for (StringTree ch : st.children) {
 			if ("CONC".equals(ch.tag) || "CONT".equals(ch.tag)) {
 				listOfString.add(ch.value);
@@ -749,6 +766,39 @@ public class GedcomParser {
 				m.fileReference = ch.value;
 			} else if ("NOTE".equals(ch.tag)) {
 				loadNote(ch, m.notes);
+			} else {
+				unknownTag(ch);
+			}
+		}
+
+	}
+
+	private void loadMultimediaRecord(StringTree st) {
+		Multimedia m = getMultimedia(st.id);
+		for (StringTree ch : st.children) {
+			if ("FORM".equals(ch.tag)) {
+				m.format = ch.value;
+			} else if ("TITL".equals(ch.tag)) {
+				m.title = ch.value;
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, m.notes);
+			} else if ("SOUR".equals(ch.tag)) {
+				loadCitation(ch, m.citations);
+			} else if ("BLOB".equals(ch.tag)) {
+				loadMultiLinesOfText(ch, m.blob);
+			} else if ("OBJE".equals(ch.tag)) {
+				List<Multimedia> continuedObjects = new ArrayList<Multimedia>();
+				loadMultimedia(ch, continuedObjects);
+				m.continuedObject = continuedObjects.get(0);
+			} else if ("REFN".equals(ch.tag)) {
+				UserReference u = new UserReference();
+				m.userReferences.add(u);
+				loadUserReference(ch, u);
+			} else if ("RIN".equals(ch.tag)) {
+				m.recIdNumber = ch.value;
+			} else if ("CHAN".equals(ch.tag)) {
+				m.changeDate = new ChangeDate();
+				loadChangeDate(ch, m.changeDate);
 			} else {
 				unknownTag(ch);
 			}
@@ -808,6 +858,36 @@ public class GedcomParser {
 				loadCitation(ch, place.citations);
 			} else if ("NOTE".equals(ch.tag)) {
 				loadNote(ch, place.notes);
+			} else if ("CONC".equals(ch.tag) || "CONT".equals(ch.tag)) {
+				place.placeName += ch.value;
+			} else {
+				unknownTag(ch);
+			}
+		}
+
+	}
+
+	private void loadRepository(StringTree st) {
+		Repository r = getRepository(st.id);
+		for (StringTree ch : st.children) {
+			if ("NAME".equals(ch.tag)) {
+				r.name = ch.value;
+			} else if ("ADDR".equals(ch.tag)) {
+				r.address = new Address();
+				loadAddress(ch, r.address);
+			} else if ("PHON".equals(ch.tag)) {
+				r.phoneNumbers.add(ch.value);
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, r.notes);
+			} else if ("REFN".equals(ch.tag)) {
+				UserReference u = new UserReference();
+				r.userReferences.add(u);
+				loadUserReference(ch, u);
+			} else if ("RIN".equals(ch.tag)) {
+				r.recIdNumber = ch.value;
+			} else if ("CHAN".equals(ch.tag)) {
+				r.changeDate = new ChangeDate();
+				loadChangeDate(ch, r.changeDate);
 			} else {
 				unknownTag(ch);
 			}
@@ -844,20 +924,21 @@ public class GedcomParser {
 				}
 				loadSubmitter(ch, gedcom.submitter);
 			} else if ("INDI".equals(ch.tag)) {
-				Individual i = new Individual();
-				gedcom.individuals.put(ch.id, i);
-				loadIndividual(ch, i);
+				loadIndividual(ch);
 			} else if ("SUBN".equals(ch.tag)) {
-				gedcom.submission = new Submission();
-				loadSubmission(ch, gedcom.submission);
+				loadSubmission(ch);
 			} else if ("NOTE".equals(ch.tag)) {
 				loadNote(ch, null);
 			} else if ("FAM".equals(ch.tag)) {
-				loadFamily(ch, gedcom.families);
+				loadFamily(ch);
 			} else if ("TRLR".equals(ch.tag)) {
 				gedcom.trailer = new Trailer();
 			} else if ("SOUR".equals(ch.tag)) {
 				loadSource(ch);
+			} else if ("REPO".equals(ch.tag)) {
+				loadRepository(ch);
+			} else if ("OBJE".equals(ch.tag)) {
+				loadMultimediaRecord(ch);
 			} else {
 				unknownTag(ch);
 			}
@@ -951,26 +1032,27 @@ public class GedcomParser {
 		}
 	}
 
-	private void loadSubmission(StringTree st, Submission submission) {
+	private void loadSubmission(StringTree st) {
+		gedcom.submission = new Submission();
 		for (StringTree ch : st.children) {
 			if ("SUBM".equals(ch.tag)) {
 				if (gedcom.submitter != null) {
 					gedcom.submitter = new Submitter();
 					gedcom.submitter.xref = ch.id;
 				}
-				submission.submitter = gedcom.submitter;
+				gedcom.submission.submitter = gedcom.submitter;
 			} else if ("FAMF".equals(ch.tag)) {
-				submission.nameOfFamilyFile = ch.value;
+				gedcom.submission.nameOfFamilyFile = ch.value;
 			} else if ("TEMP".equals(ch.tag)) {
-				submission.templeCode = ch.value;
+				gedcom.submission.templeCode = ch.value;
 			} else if ("ANCE".equals(ch.tag)) {
-				submission.ancestorsCount = ch.value;
+				gedcom.submission.ancestorsCount = ch.value;
 			} else if ("DESC".equals(ch.tag)) {
-				submission.descendantsCount = ch.value;
+				gedcom.submission.descendantsCount = ch.value;
 			} else if ("ORDI".equals(ch.tag)) {
-				submission.ordinanceProcessFlag = ch.value;
+				gedcom.submission.ordinanceProcessFlag = ch.value;
 			} else if ("RIN".equals(ch.tag)) {
-				submission.recIdNumber = ch.value;
+				gedcom.submission.recIdNumber = ch.value;
 			} else {
 				unknownTag(ch);
 			}
