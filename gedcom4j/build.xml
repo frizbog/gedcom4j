@@ -1,0 +1,25 @@
+<project name="gedcom4j" default="release">
+
+	<target name="clean">
+		<delete>
+			<fileset dir="bin" />
+		</delete>
+	</target>
+
+	<target name="compile">
+		<javac srcdir="src" destdir="bin" deprecation="true" debug="true" debuglevel="lines,vars,source" />
+	</target>
+
+	<target name="release" depends="clean, compile">
+		<mkdir dir="dist"/>
+		<copy todir="bin">
+			<fileset dir="." includes="*.txt"/>
+		</copy>
+		<jar basedir="bin" destfile="dist/gedcom4j.jar">
+			<manifest>
+				<attribute name="Source" value="http://code.google.com/p/gedcom4j/"/>
+			</manifest>
+		</jar>
+	</target>
+
+</project>
