@@ -252,6 +252,14 @@ public class GedcomParser {
 		return i;
 	}
 
+	/**
+	 * Load an address node into an address structure
+	 * 
+	 * @param st
+	 *            the string tree node
+	 * @param address
+	 *            the address to load into
+	 */
 	private void loadAddress(StringTree st, Address address) {
 		if (st.value != null) {
 			address.lines.add(st.value);
@@ -277,6 +285,14 @@ public class GedcomParser {
 		}
 	}
 
+	/**
+	 * Load an association between two individuals from a string tree node
+	 * 
+	 * @param st
+	 *            the node
+	 * @param associations
+	 *            the list of associations to load into
+	 */
 	private void loadAssociation(StringTree st, List<Association> associations) {
 		Association a = new Association();
 		a.otherIndividual = getIndividual(st.value);
@@ -294,6 +310,14 @@ public class GedcomParser {
 
 	}
 
+	/**
+	 * Load a change date structure from a string tree node
+	 * 
+	 * @param st
+	 *            the node
+	 * @param changeDate
+	 *            the change date to load into
+	 */
 	private void loadChangeDate(StringTree st, ChangeDate changeDate) {
 		for (StringTree ch : st.children) {
 			if ("DATE".equals(ch.tag)) {
@@ -308,6 +332,14 @@ public class GedcomParser {
 
 	}
 
+	/**
+	 * Load a source citation from a string tree node into a list of citations
+	 * 
+	 * @param st
+	 *            the string tree node
+	 * @param list
+	 *            the list of citations to load into
+	 */
 	private void loadCitation(StringTree st, List<Citation> list) {
 		Citation source;
 		if (referencesAnotherNode(st)) {
@@ -319,6 +351,14 @@ public class GedcomParser {
 		}
 	}
 
+	/**
+	 * Load a DATA structure in a source citation from a string tree node
+	 * 
+	 * @param st
+	 *            the node
+	 * @param d
+	 *            the CitationData structure
+	 */
 	private void loadCitationData(StringTree st, CitationData d) {
 		for (StringTree ch : st.children) {
 			if ("DATE".equals(ch.tag)) {
@@ -334,6 +374,14 @@ public class GedcomParser {
 
 	}
 
+	/**
+	 * Load the non-cross-referenced source citation from a string tree node
+	 * 
+	 * @param st
+	 *            the node
+	 * @param citation
+	 *            the citation to load into
+	 */
 	private void loadCitationWithoutSource(StringTree st, Citation citation) {
 		CitationWithoutSource cws = (CitationWithoutSource) citation;
 		cws.description.add(st.value);
@@ -352,6 +400,14 @@ public class GedcomParser {
 		}
 	}
 
+	/**
+	 * Load a cross-referenced source citation from a string tree node
+	 * 
+	 * @param st
+	 *            the node
+	 * @param citation
+	 *            the citation to load into
+	 */
 	private void loadCitationWithSource(StringTree st, Citation citation) {
 		CitationWithSource cws = (CitationWithSource) citation;
 		Source src = null;
@@ -378,6 +434,14 @@ public class GedcomParser {
 		}
 	}
 
+	/**
+	 * Load a corporation structure from a string tree node
+	 * 
+	 * @param st
+	 *            the node
+	 * @param corporation
+	 *            the corporation structure to fill
+	 */
 	private void loadCorporation(StringTree st, Corporation corporation) {
 		corporation.businessName = st.value;
 		for (StringTree ch : st.children) {
@@ -392,6 +456,13 @@ public class GedcomParser {
 		}
 	}
 
+	/**
+	 * Load a family structure from a stringtree node, and load it into the
+	 * gedcom family collection
+	 * 
+	 * @param st
+	 *            the node
+	 */
 	private void loadFamily(StringTree st) {
 		Family f = getFamily(st.id);
 		for (StringTree ch : st.children) {
@@ -433,6 +504,14 @@ public class GedcomParser {
 
 	}
 
+	/**
+	 * Load a family event from a string tree node into a list of family events
+	 * 
+	 * @param st
+	 *            the node
+	 * @param events
+	 *            the list of family events
+	 */
 	private void loadFamilyEvent(StringTree st, List<FamilyEvent> events) {
 		FamilyEvent e = new FamilyEvent();
 		events.add(e);
@@ -478,6 +557,15 @@ public class GedcomParser {
 
 	}
 
+	/**
+	 * Load a reference to a family where this individual was a child, from a
+	 * string tree node
+	 * 
+	 * @param st
+	 *            the string tree node
+	 * @param familiesWhereChild
+	 *            the list of families where the individual was a child
+	 */
 	private void loadFamilyWhereChild(StringTree st,
 			List<FamilyChild> familiesWhereChild) {
 		Family f = getFamily(st.value);
@@ -497,6 +585,15 @@ public class GedcomParser {
 
 	}
 
+	/**
+	 * Load a reference to a family where this individual was a spouse, from a
+	 * string tree node
+	 * 
+	 * @param st
+	 *            the string tree node
+	 * @param familiesWhereSpouse
+	 *            the list of families where the individual was a child
+	 */
 	private void loadFamilyWhereSpouse(StringTree st,
 			List<FamilySpouse> familiesWhereSpouse) {
 		Family f = getFamily(st.value);
@@ -511,6 +608,14 @@ public class GedcomParser {
 		}
 	}
 
+	/**
+	 * Load a gedcom version from the string tree node
+	 * 
+	 * @param st
+	 *            the node
+	 * @param gedcomVersion
+	 *            the gedcom version structure to load
+	 */
 	private void loadGedcomVersion(StringTree st, GedcomVersion gedcomVersion) {
 		for (StringTree ch : st.children) {
 			if ("VERS".equals(ch.tag)) {
@@ -523,6 +628,12 @@ public class GedcomParser {
 		}
 	}
 
+	/**
+	 * Load a gedcom header from a string tree node
+	 * 
+	 * @param st
+	 *            the node
+	 */
 	private void loadHeader(StringTree st) {
 		Header header = new Header();
 		gedcom.header = header;
@@ -568,6 +679,14 @@ public class GedcomParser {
 		}
 	}
 
+	/**
+	 * Load the header source data structure from a string tree node
+	 * 
+	 * @param st
+	 *            the node
+	 * @param sourceData
+	 *            the header source data
+	 */
 	private void loadHeaderSourceData(StringTree st, HeaderSourceData sourceData) {
 		sourceData.name = st.value;
 		for (StringTree ch : st.children) {
@@ -582,6 +701,12 @@ public class GedcomParser {
 
 	}
 
+	/**
+	 * Load an individual from a string tree node
+	 * 
+	 * @param st
+	 *            the node
+	 */
 	private void loadIndividual(StringTree st) {
 		Individual i = new Individual();
 		gedcom.individuals.put(st.id, i);
@@ -645,6 +770,14 @@ public class GedcomParser {
 
 	}
 
+	/**
+	 * Load an attribute about an individual from a string tree node
+	 * 
+	 * @param st
+	 *            the node
+	 * @param attributes
+	 *            the list of individual attributes
+	 */
 	private void loadIndividualAttribute(StringTree st,
 			List<IndividualAttribute> attributes) {
 		IndividualAttribute a = new IndividualAttribute();
@@ -683,6 +816,14 @@ public class GedcomParser {
 		}
 	}
 
+	/**
+	 * Load an event about an individual from a string tree node
+	 * 
+	 * @param st
+	 *            the node
+	 * @param events
+	 *            the list of events about an individual
+	 */
 	private void loadIndividualEvent(StringTree st, List<IndividualEvent> events) {
 		IndividualEvent e = new IndividualEvent();
 		events.add(e);
@@ -724,6 +865,14 @@ public class GedcomParser {
 
 	}
 
+	/**
+	 * Load an LDS individual ordinance from a string tree node
+	 * 
+	 * @param st
+	 *            the node
+	 * @param ldsIndividualOrdinances
+	 *            the list of LDS ordinances
+	 */
 	private void loadLdsIndividualOrdinance(StringTree st,
 			List<LdsIndividualOrdinance> ldsIndividualOrdinances) {
 		LdsIndividualOrdinance o = new LdsIndividualOrdinance();
@@ -754,6 +903,14 @@ public class GedcomParser {
 		}
 	}
 
+	/**
+	 * Load an LDS Spouse Sealing from a string tree node
+	 * 
+	 * @param st
+	 *            the string tree node
+	 * @param ldsSpouseSealings
+	 *            the list of LDS spouse sealings on the family
+	 */
 	private void loadLdsSpouseSealing(StringTree st,
 			List<LdsFamilyOrdinance> ldsSpouseSealings) {
 		LdsFamilyOrdinance o = new LdsFamilyOrdinance();
@@ -778,6 +935,14 @@ public class GedcomParser {
 
 	}
 
+	/**
+	 * Load multiple (continued) lines of text from a string tree node
+	 * 
+	 * @param st
+	 *            the node
+	 * @param listOfString
+	 *            the list of string to load into
+	 */
 	private void loadMultiLinesOfText(StringTree st, List<String> listOfString) {
 		if (st.value != null) {
 			listOfString.add(st.value);
@@ -791,6 +956,14 @@ public class GedcomParser {
 		}
 	}
 
+	/**
+	 * Load a multimedia reference from a string tree node
+	 * 
+	 * @param st
+	 *            the string tree node
+	 * @param multimedia
+	 *            the list of multimedia on the current object
+	 */
 	private void loadMultimedia(StringTree st, List<Multimedia> multimedia) {
 		Multimedia m = null;
 		if (referencesAnotherNode(st)) {
@@ -816,6 +989,13 @@ public class GedcomParser {
 
 	}
 
+	/**
+	 * Load a multimedia record (that could be referenced from another object)
+	 * from a string tree node
+	 * 
+	 * @param st
+	 *            the node
+	 */
 	private void loadMultimediaRecord(StringTree st) {
 		Multimedia m = getMultimedia(st.id);
 		for (StringTree ch : st.children) {
@@ -849,6 +1029,14 @@ public class GedcomParser {
 
 	}
 
+	/**
+	 * Load a note from a string tree node into a list of notes
+	 * 
+	 * @param st
+	 *            the node
+	 * @param notes
+	 *            the list of notes
+	 */
 	private void loadNote(StringTree st, List<Note> notes) {
 		Note note = null;
 		if (referencesAnotherNode(st)) {
@@ -866,6 +1054,14 @@ public class GedcomParser {
 		}
 	}
 
+	/**
+	 * Load a personal name structure from a string tree node
+	 * 
+	 * @param st
+	 *            the node
+	 * @param pn
+	 *            the personal name structure to fill in
+	 */
 	private void loadPersonalName(StringTree st, PersonalName pn) {
 		pn.basic = st.value;
 		for (StringTree ch : st.children) {
@@ -892,6 +1088,14 @@ public class GedcomParser {
 
 	}
 
+	/**
+	 * Load a place structure from a string tree node
+	 * 
+	 * @param st
+	 *            the node
+	 * @param place
+	 *            the place structure to fill in
+	 */
 	private void loadPlace(StringTree st, Place place) {
 		place.placeName = st.value;
 		for (StringTree ch : st.children) {
@@ -910,6 +1114,13 @@ public class GedcomParser {
 
 	}
 
+	/**
+	 * Load a repository for sources from a string tree node, and put it in the
+	 * gedcom collection of repositories
+	 * 
+	 * @param st
+	 *            the node
+	 */
 	private void loadRepository(StringTree st) {
 		Repository r = getRepository(st.id);
 		for (StringTree ch : st.children) {
@@ -938,6 +1149,14 @@ public class GedcomParser {
 
 	}
 
+	/**
+	 * Load a reference to a repository in a source, from a string tree node
+	 * 
+	 * @param st
+	 *            the node
+	 * @param s
+	 *            the source which is referencing a repository
+	 */
 	private void loadRepositoryCitation(StringTree st, Source s) {
 		RepositoryCitation r = new RepositoryCitation();
 		r.repository = getRepository(st.value);
@@ -956,6 +1175,12 @@ public class GedcomParser {
 
 	}
 
+	/**
+	 * Load the root level items for the gedcom
+	 * 
+	 * @param st
+	 *            the root of the string tree
+	 */
 	private void loadRootItems(StringTree st) {
 		for (StringTree ch : st.children) {
 			if ("HEAD".equals(ch.tag)) {
@@ -984,6 +1209,13 @@ public class GedcomParser {
 		}
 	}
 
+	/**
+	 * Load a source (which may be referenced later) from a source tree node,
+	 * and put it in the gedcom collection of sources.
+	 * 
+	 * @param st
+	 *            the node
+	 */
 	private void loadSource(StringTree st) {
 		Source s = getSource(st.id);
 		for (StringTree ch : st.children) {
@@ -1023,6 +1255,15 @@ public class GedcomParser {
 		}
 	}
 
+	/**
+	 * Load data for a source from a string tree node into a source data
+	 * structure
+	 * 
+	 * @param st
+	 *            the node
+	 * @param data
+	 *            the source data structure
+	 */
 	private void loadSourceData(StringTree st, SourceData data) {
 		for (StringTree ch : st.children) {
 			if ("EVEN".equals(ch.tag)) {
@@ -1037,6 +1278,14 @@ public class GedcomParser {
 		}
 	}
 
+	/**
+	 * Load the data for a recorded event from a string tree node
+	 * 
+	 * @param st
+	 *            the node
+	 * @param data
+	 *            the source data
+	 */
 	private void loadSourceDataEventRecorded(StringTree st, SourceData data) {
 		EventRecorded e = new EventRecorded();
 		e.eventType = st.value;
@@ -1052,6 +1301,14 @@ public class GedcomParser {
 
 	}
 
+	/**
+	 * Load a source system structure from a string tree node
+	 * 
+	 * @param st
+	 *            the node
+	 * @param sourceSystem
+	 *            the source system structure
+	 */
 	private void loadSourceSystem(StringTree st, SourceSystem sourceSystem) {
 		sourceSystem.systemId = st.value;
 		for (StringTree ch : st.children) {
@@ -1071,6 +1328,12 @@ public class GedcomParser {
 		}
 	}
 
+	/**
+	 * Load the submission structure from a string tree node
+	 * 
+	 * @param st
+	 *            the node
+	 */
 	private void loadSubmission(StringTree st) {
 		Submission s = new Submission();
 		gedcom.submission = s;
@@ -1096,6 +1359,13 @@ public class GedcomParser {
 
 	}
 
+	/**
+	 * Load a submitter from a string tree node into the gedcom global
+	 * colelction of submitters
+	 * 
+	 * @param st
+	 *            the node
+	 */
 	private void loadSubmitter(StringTree st) {
 		Submitter submitter = getSubmitter(st.id);
 		gedcom.submitters.put(st.id, submitter);
@@ -1124,10 +1394,18 @@ public class GedcomParser {
 		}
 	}
 
-	private void loadUserReference(StringTree ch, UserReference u) {
-		u.referenceNum = ch.value;
-		if (!ch.children.isEmpty()) {
-			u.type = ch.children.get(0).value;
+	/**
+	 * Load a user reference to from a string tree node
+	 * 
+	 * @param st
+	 *            the string tree node
+	 * @param u
+	 *            the user reference object
+	 */
+	private void loadUserReference(StringTree st, UserReference u) {
+		u.referenceNum = st.value;
+		if (!st.children.isEmpty()) {
+			u.type = st.children.get(0).value;
 		}
 
 	}
@@ -1136,9 +1414,12 @@ public class GedcomParser {
 	 * Load the file into a tree structure
 	 * 
 	 * @param filename
-	 * @return
+	 *            the file to load
+	 * @return the string tree
 	 * @throws FileNotFoundException
+	 *             if the file cannot be found
 	 * @throws IOException
+	 *             if there is a problem reading the file
 	 */
 	private StringTree readFile(String filename) throws FileNotFoundException,
 			IOException {
