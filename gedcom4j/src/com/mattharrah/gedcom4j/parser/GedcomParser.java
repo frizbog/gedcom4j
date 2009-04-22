@@ -341,14 +341,15 @@ public class GedcomParser {
 	 *            the list of citations to load into
 	 */
 	private void loadCitation(StringTree st, List<Citation> list) {
-		Citation source;
+		Citation citation;
 		if (referencesAnotherNode(st)) {
-			source = new CitationWithSource();
-			loadCitationWithSource(st, source);
+			citation = new CitationWithSource();
+			loadCitationWithSource(st, citation);
 		} else {
-			source = new CitationWithoutSource();
-			loadCitationWithoutSource(st, source);
+			citation = new CitationWithoutSource();
+			loadCitationWithoutSource(st, citation);
 		}
+		list.add(citation);
 	}
 
 	/**
@@ -1078,7 +1079,7 @@ public class GedcomParser {
 			} else if ("NSFX".equals(ch.tag)) {
 				pn.suffix = ch.value;
 			} else if ("SOUR".equals(ch.tag)) {
-				loadCitation(ch, pn.sources);
+				loadCitation(ch, pn.citations);
 			} else if ("NOTE".equals(ch.tag)) {
 				loadNote(ch, pn.notes);
 			} else {

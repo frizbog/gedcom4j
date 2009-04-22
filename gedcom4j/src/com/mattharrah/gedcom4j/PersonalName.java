@@ -24,6 +24,7 @@
  */
 package com.mattharrah.gedcom4j;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PersonalName {
@@ -34,6 +35,6 @@ public class PersonalName {
 	public String surnamePrefix;
 	public String surname;
 	public String suffix;
-	public List<Note> notes;
-	public List<Citation> sources;
+	public List<Note> notes = new ArrayList<Note>();
+	public List<Citation> citations = new ArrayList<Citation>();
 }

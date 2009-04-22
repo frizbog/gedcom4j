@@ -59,6 +59,13 @@ public class GedcomParserTest extends TestCase {
 		assertEquals(2, g.sources.size());
 		assertEquals(1, g.multimedia.size());
 		assertEquals(15, g.individuals.size());
+
+		for (Family f : g.families.values()) {
+			if (f.husband != null && f.wife != null) {
+				System.out.println("" + f.husband.names.get(0).basic
+						+ " married " + f.wife.names.get(0).basic);
+			}
+		}
 	}
 
 	public void testLoad2() throws IOException, GedcomParserException {
