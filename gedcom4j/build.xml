@@ -10,14 +10,22 @@
 		<javac srcdir="src" destdir="bin" deprecation="true" debug="true" debuglevel="lines,vars,source" />
 	</target>
 
+	<target name="javadoc">
+		<delete includeemptydirs="">
+			<fileset dir="../gedcom4j_javadoc" includes="com/**/*" />
+		</delete>
+		<mkdir dir="../gedcom4j_javadoc" />
+		<javadoc sourcepath="src" destdir="../gedcom4j_javadoc" access="private"/>
+	</target>
+
 	<target name="release" depends="clean, compile">
-		<mkdir dir="dist"/>
+		<mkdir dir="dist" />
 		<copy todir="bin">
-			<fileset dir="." includes="*.txt"/>
+			<fileset dir="." includes="*.txt" />
 		</copy>
 		<jar basedir="bin" destfile="dist/gedcom4j.jar">
 			<manifest>
-				<attribute name="Source" value="http://code.google.com/p/gedcom4j/"/>
+				<attribute name="Source" value="http://code.google.com/p/gedcom4j/" />
 			</manifest>
 		</jar>
 	</target>
