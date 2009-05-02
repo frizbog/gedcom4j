@@ -812,6 +812,12 @@ public class GedcomParser {
 				loadNote(ch, a.notes);
 			} else if ("SOUR".equals(ch.tag)) {
 				loadCitation(ch, a.citations);
+			} else if ("CONC".equals(ch.tag)) {
+				if (a.description == null) {
+					a.description = ch.value;
+				} else {
+					a.description += ch.value;
+				}
 			} else {
 				unknownTag(ch);
 			}
@@ -854,6 +860,12 @@ public class GedcomParser {
 				e.respAgency = ch.value;
 			} else if ("PHON".equals(ch.tag)) {
 				e.phoneNumbers.add(ch.value);
+			} else if ("CONC".equals(ch.tag)) {
+				if (e.description == null) {
+					e.description = ch.value;
+				} else {
+					e.description += ch.value;
+				}
 			} else if ("FAMC".equals(ch.tag)) {
 				List<FamilyChild> families = new ArrayList<FamilyChild>();
 				loadFamilyWhereChild(ch, families);
@@ -1144,6 +1156,8 @@ public class GedcomParser {
 			} else if ("CHAN".equals(ch.tag)) {
 				r.changeDate = new ChangeDate();
 				loadChangeDate(ch, r.changeDate);
+			} else if ("EMAIL".equals(ch.tag)) {
+				r.emails.add(ch.value);
 			} else {
 				unknownTag(ch);
 			}
@@ -1390,6 +1404,8 @@ public class GedcomParser {
 				submitter.recIdNumber = ch.value;
 			} else if ("RFN".equals(ch.tag)) {
 				submitter.regFileNumber = ch.value;
+			} else if ("EMAIL".equals(ch.tag)) {
+				submitter.emails.add(ch.value);
 			} else {
 				unknownTag(ch);
 			}

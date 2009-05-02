@@ -25,17 +25,18 @@
 package com.mattharrah.gedcom4j;
 
 public enum IndividualEventType {
-	ADOPTION("ADOP", "Adoption"), BIRTH("BIRT", "Birth"), BAPTISM("BAPM",
-			"Baptism"), BAR_MITZVAH("BARM", "Bar Mitzvah"), BAS_MITZVAH("BASM",
-			"Bas Miztvah"), BLESSING("BLES", "Blessing"), BURIAL("BURI",
-			"Burial"), CENSUS("CENS", "Census"), CHRISTENING("CHR",
-			"Christening"), CHRISTENING_ADULT("CHRA", "Christening (Adult)"), CONFIRMATION(
-			"CONF", "Confirmation"), CREMATION("CREM", "Cremation"), DEATH(
-			"DEAT", "Death"), EMIGRATION("EMIG", "Emigration"), FIRST_COMMUNION(
-			"FCOM", "First Communion"), GRADUATION("GRAD", "Graduation"), IMMIGRATION(
-			"IMMI", "Immigration"), NATURALIZATION("NATU", "Naturalization"), ORDINATION(
-			"ORDN", "Ordination"), RETIREMENT("RETI", "Retirement"), PROBATE(
-			"PROB", "Probate"), WILL("WILL", "Will"), EVENT("EVEN", "Event");
+	ADOPTION("ADOP", "Adoption"), ARRIVAL("ARVL", "Arrival"), BIRTH("BIRT",
+			"Birth"), BAPTISM("BAPM", "Baptism"), BAR_MITZVAH("BARM",
+			"Bar Mitzvah"), BAS_MITZVAH("BASM", "Bas Miztvah"), BLESSING(
+			"BLES", "Blessing"), BURIAL("BURI", "Burial"), CENSUS("CENS",
+			"Census"), CHRISTENING("CHR", "Christening"), CHRISTENING_ADULT(
+			"CHRA", "Christening (Adult)"), CONFIRMATION("CONF", "Confirmation"), CREMATION(
+			"CREM", "Cremation"), DEATH("DEAT", "Death"), EMIGRATION("EMIG",
+			"Emigration"), FIRST_COMMUNION("FCOM", "First Communion"), GRADUATION(
+			"GRAD", "Graduation"), IMMIGRATION("IMMI", "Immigration"), NATURALIZATION(
+			"NATU", "Naturalization"), ORDINATION("ORDN", "Ordination"), RETIREMENT(
+			"RETI", "Retirement"), PROBATE("PROB", "Probate"), WILL("WILL",
+			"Will"), EVENT("EVEN", "Event");
 	public static IndividualEventType getFromTag(String tag) {
 		for (IndividualEventType t : values()) {
 			if (t.tag.equals(tag)) {

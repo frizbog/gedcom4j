@@ -38,4 +38,5 @@ public class Submitter {
 	public List<Multimedia> multimedia = new ArrayList<Multimedia>();
 	public ChangeDate changeDate;
 	public List<UserReference> userReferences = new ArrayList<UserReference>();
+	public List<String> emails = new ArrayList<String>();
 }

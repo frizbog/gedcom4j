@@ -37,5 +37,6 @@ public class Repository {
 	public ChangeDate changeDate;
 	public List<UserReference> userReferences = new ArrayList<UserReference>();
 	public List<String> phoneNumbers = new ArrayList<String>();
+	public List<String> emails = new ArrayList<String>();
 
 }
