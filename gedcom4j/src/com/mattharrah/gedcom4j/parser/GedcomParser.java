@@ -571,6 +571,7 @@ public class GedcomParser {
 			List<FamilyChild> familiesWhereChild) {
 		Family f = getFamily(st.value);
 		FamilyChild fc = new FamilyChild();
+		familiesWhereChild.add(fc);
 		fc.family = f;
 		for (StringTree ch : st.children) {
 			if ("NOTE".equals(ch.tag)) {
