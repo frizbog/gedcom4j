@@ -37,4 +37,13 @@ public class PersonalName {
 	public String suffix;
 	public List<Note> notes = new ArrayList<Note>();
 	public List<Citation> citations = new ArrayList<Citation>();
+
+	@Override
+	public String toString() {
+		if (surname != null || givenName != null) {
+			return "" + givenName + " " + surname;
+		}
+		return basic;
+
+	}
 }
