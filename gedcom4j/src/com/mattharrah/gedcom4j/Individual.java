@@ -25,7 +25,9 @@
 package com.mattharrah.gedcom4j;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * An individual person.
@@ -58,4 +60,61 @@ public class Individual {
 	public String xref;
 	public Address address;
 	public List<String> phoneNumbers = new ArrayList<String>();
+
+	public Set<Individual> getAncestors() {
+		Set<Individual> result = new HashSet<Individual>();
+		for (FamilyChild f : this.familiesWhereChild) {
+			if (f.family.husband != null) {
+				result.add(f.family.husband);
+				result.addAll(f.family.husband.getAncestors());
+			}
+			if (f.family.wife != null) {
+				result.add(f.family.wife);
+				result.addAll(f.family.wife.getAncestors());
+			}
+		}
+		return result;
+	}
+
+	public Set<Individual> getDescendants() {
+		Set<Individual> result = new HashSet<Individual>();
+		for (FamilySpouse f : this.familiesWhereSpouse) {
+			result.addAll(f.family.children);
+			for (Individual i : f.family.children) {
+				result.addAll(i.getDescendants());
+			}
+		}
+		return result;
+	}
+
+	public List<IndividualEvent> getEventsOfType(IndividualEventType type) {
+		List<IndividualEvent> result = new ArrayList<IndividualEvent>();
+		for (IndividualEvent ie : events) {
+			if (type.tag.equalsIgnoreCase(ie.type)) {
+				result.add(ie);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for (PersonalName n : names) {
+			sb.append(n);
+			break;
+		}
+		if (sb.length() == 0) {
+			sb.append("Unknown name");
+		}
+		for (IndividualEvent b : getEventsOfType(IndividualEventType.BIRTH)) {
+			sb.append(", b." + b.date);
+			break;
+		}
+		for (IndividualEvent b : getEventsOfType(IndividualEventType.DEATH)) {
+			sb.append(", d." + b.date);
+			break;
+		}
+		return sb.toString();
+	}
 }
