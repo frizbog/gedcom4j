@@ -568,7 +568,7 @@ public class GedcomParser {
 	 *            the list of families where the individual was a child
 	 */
 	private void loadFamilyWhereChild(StringTree st,
-			List<FamilyChild> familiesWhereChild) {
+	        List<FamilyChild> familiesWhereChild) {
 		Family f = getFamily(st.value);
 		FamilyChild fc = new FamilyChild();
 		familiesWhereChild.add(fc);
@@ -597,7 +597,7 @@ public class GedcomParser {
 	 *            the list of families where the individual was a child
 	 */
 	private void loadFamilyWhereSpouse(StringTree st,
-			List<FamilySpouse> familiesWhereSpouse) {
+	        List<FamilySpouse> familiesWhereSpouse) {
 		Family f = getFamily(st.value);
 		FamilySpouse fs = new FamilySpouse();
 		fs.family = f;
@@ -747,7 +747,7 @@ public class GedcomParser {
 			} else if ("SOUR".equals(ch.tag)) {
 				loadCitation(ch, i.citations);
 			} else if ("ALIA".equals(ch.tag)) {
-				i.aliases.add(getIndividual(ch.value));
+				i.aliases.add(ch.value);
 			} else if ("FAMS".equals(ch.tag)) {
 				loadFamilyWhereSpouse(ch, i.familiesWhereSpouse);
 			} else if ("FAMC".equals(ch.tag)) {
@@ -782,7 +782,7 @@ public class GedcomParser {
 	 *            the list of individual attributes
 	 */
 	private void loadIndividualAttribute(StringTree st,
-			List<IndividualAttribute> attributes) {
+	        List<IndividualAttribute> attributes) {
 		IndividualAttribute a = new IndividualAttribute();
 		attributes.add(a);
 		a.type = IndividualAttributeType.getFromTag(st.tag).toString();
@@ -835,6 +835,7 @@ public class GedcomParser {
 	 */
 	private void loadIndividualEvent(StringTree st, List<IndividualEvent> events) {
 		IndividualEvent e = new IndividualEvent();
+		e.type = st.tag;
 		events.add(e);
 		for (StringTree ch : st.children) {
 			if ("TYPE".equals(ch.tag)) {
@@ -889,7 +890,7 @@ public class GedcomParser {
 	 *            the list of LDS ordinances
 	 */
 	private void loadLdsIndividualOrdinance(StringTree st,
-			List<LdsIndividualOrdinance> ldsIndividualOrdinances) {
+	        List<LdsIndividualOrdinance> ldsIndividualOrdinances) {
 		LdsIndividualOrdinance o = new LdsIndividualOrdinance();
 		ldsIndividualOrdinances.add(o);
 		o.type = LdsIndividualOrdinanceType.getFromTag(st.tag);
@@ -927,7 +928,7 @@ public class GedcomParser {
 	 *            the list of LDS spouse sealings on the family
 	 */
 	private void loadLdsSpouseSealing(StringTree st,
-			List<LdsFamilyOrdinance> ldsSpouseSealings) {
+	        List<LdsFamilyOrdinance> ldsSpouseSealings) {
 		LdsFamilyOrdinance o = new LdsFamilyOrdinance();
 		for (StringTree ch : st.children) {
 			if ("DATE".equals(ch.tag)) {
@@ -1441,7 +1442,7 @@ public class GedcomParser {
 	 *             if there is a problem reading the file
 	 */
 	private StringTree readFile(String filename) throws FileNotFoundException,
-			IOException {
+	        IOException {
 		StringTree result = new StringTree();
 		result.level = -1;
 		BufferedReader f = new BufferedReader(new FileReader(filename));
@@ -1493,13 +1494,13 @@ public class GedcomParser {
 	 */
 	private void unknownTag(StringTree node) {
 		StringBuilder sb = new StringBuilder("Line " + node.lineNum
-				+ ": Cannot handle tag ");
+		        + ": Cannot handle tag ");
 		sb.append(node.tag);
 		StringTree st = node;
 		while (st.parent != null) {
 			st = st.parent;
 			sb.append(", child of ").append(st.tag).append(" on line ").append(
-					st.lineNum);
+			        st.lineNum);
 		}
 		if (node.tag.startsWith("_")) {
 			warnings.add(sb.toString());
