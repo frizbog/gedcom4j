@@ -41,9 +41,9 @@ public class PersonalName {
 	@Override
 	public String toString() {
 		if (surname != null || givenName != null) {
-			return "" + givenName + " " + surname;
+			return "" + surname + ", " + givenName
+			        + (nickname == null ? "" : " \"" + nickname + "\"");
 		}
 		return basic;
-
 	}
 }

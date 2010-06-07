@@ -35,7 +35,7 @@ import java.util.Set;
  * @author Matt
  */
 public class Individual {
-	public List<Individual> aliases = new ArrayList<Individual>();
+	public List<String> aliases = new ArrayList<String>();
 	public List<Submitter> ancestorInterest = new ArrayList<Submitter>();
 	public String ancestralFileNumber;
 	public List<Association> associations = new ArrayList<Association>();
@@ -101,15 +101,41 @@ public class Individual {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		for (PersonalName n : names) {
+			if (sb.length() > 0) {
+				sb.append(" aka ");
+			}
 			sb.append(n);
-			break;
+		}
+		for (String n : aliases) {
+			if (sb.length() > 0) {
+				sb.append(" aka ");
+			}
+			sb.append(n);
 		}
 		if (sb.length() == 0) {
 			sb.append("Unknown name");
 		}
+		for (FamilySpouse f : familiesWhereSpouse) {
+			sb.append(", spouse of ");
+			if (f.family.husband == this) {
+				sb.append(f.family.wife);
+			} else {
+				sb.append(f.family.husband);
+			}
+		}
+		for (FamilyChild f : familiesWhereChild) {
+			sb.append(", child of ");
+			sb.append(f.family.wife);
+			sb.append(" and ");
+			sb.append(f.family.husband);
+		}
+		boolean found = false;
 		for (IndividualEvent b : getEventsOfType(IndividualEventType.BIRTH)) {
-			sb.append(", b." + b.date);
-			break;
+			if (!found) {
+				sb.append(", b.");
+			}
+			sb.append(b.date);
+			found = true;
 		}
 		for (IndividualEvent b : getEventsOfType(IndividualEventType.DEATH)) {
 			sb.append(", d." + b.date);
