@@ -61,6 +61,17 @@ public class Individual {
 	public Address address;
 	public List<String> phoneNumbers = new ArrayList<String>();
 
+	public String formattedName() {
+		StringBuilder sb = new StringBuilder();
+		for (PersonalName n : names) {
+			if (sb.length() > 0) {
+				sb.append(" aka ");
+			}
+			sb.append(n);
+		}
+		return sb.toString();
+	}
+
 	public Set<Individual> getAncestors() {
 		Set<Individual> result = new HashSet<Individual>();
 		for (FamilyChild f : this.familiesWhereChild) {
@@ -81,7 +92,9 @@ public class Individual {
 		for (FamilySpouse f : this.familiesWhereSpouse) {
 			result.addAll(f.family.children);
 			for (Individual i : f.family.children) {
-				result.addAll(i.getDescendants());
+				if (i != this && !result.contains(i)) {
+					result.addAll(i.getDescendants());
+				}
 			}
 		}
 		return result;
@@ -97,15 +110,23 @@ public class Individual {
 		return result;
 	}
 
+	public Set<Individual> getSpouses() {
+		Set<Individual> result = new HashSet<Individual>();
+		for (FamilySpouse f : this.familiesWhereSpouse) {
+			if (this != f.family.husband && f.family.husband != null) {
+				result.add(f.family.husband);
+			}
+			if (this != f.family.wife && f.family.wife != null) {
+				result.add(f.family.wife);
+			}
+		}
+		return result;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		for (PersonalName n : names) {
-			if (sb.length() > 0) {
-				sb.append(" aka ");
-			}
-			sb.append(n);
-		}
+		sb.append(formattedName());
 		for (String n : aliases) {
 			if (sb.length() > 0) {
 				sb.append(" aka ");
@@ -118,16 +139,30 @@ public class Individual {
 		for (FamilySpouse f : familiesWhereSpouse) {
 			sb.append(", spouse of ");
 			if (f.family.husband == this) {
-				sb.append(f.family.wife);
+				if (f.family.wife == null) {
+					sb.append("unknown");
+				} else {
+					sb.append(f.family.wife.formattedName());
+				}
 			} else {
-				sb.append(f.family.husband);
+				if (f.family.husband == null) {
+					sb.append("unknown");
+				} else {
+					sb.append(f.family.husband.formattedName());
+				}
 			}
 		}
 		for (FamilyChild f : familiesWhereChild) {
 			sb.append(", child of ");
-			sb.append(f.family.wife);
-			sb.append(" and ");
-			sb.append(f.family.husband);
+			if (f.family.wife != null) {
+				sb.append(f.family.wife.formattedName());
+				sb.append(" and ");
+			}
+			if (f.family.husband == null) {
+				sb.append("unknown");
+			} else {
+				sb.append(f.family.husband.formattedName());
+			}
 		}
 		boolean found = false;
 		for (IndividualEvent b : getEventsOfType(IndividualEventType.BIRTH)) {
