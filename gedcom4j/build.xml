@@ -1,12 +1,15 @@
 <project name="gedcom4j" default="release">
+	<property file="gedcom4j.properties" />
 
 	<target name="clean" description="Remove all build artifacts">
+		<delete dir="tmp" />
 		<delete dir="bin" />
 		<delete dir="dist" />
 		<delete dir="testbin" />
 	</target>
 
 	<target name="init" description="Create necessary directories for build">
+		<mkdir dir="tmp" />
 		<mkdir dir="bin" />
 		<mkdir dir="dist" />
 		<mkdir dir="testbin" />
@@ -29,11 +32,16 @@
 		<copy todir="bin">
 			<fileset dir="." includes="*.txt" />
 		</copy>
-		<jar basedir="bin" destfile="dist/gedcom4j.jar">
+		<jar basedir="bin" destfile="dist/gedcom4j-${release.version}.jar">
 			<manifest>
-				<attribute name="Source" value="http://code.google.com/p/gedcom4j/" />
+				<attribute name="Source" value="http://gedcom4j.googlecode.com" />
+				<attribute name="Release-Version" value="${release.version}" />
 			</manifest>
 		</jar>
+	</target>
+
+	<target name="explode-jar" depends="release" description="Convenience target for unjarring the distribution to the temp directory for inspection">
+		<unjar dest="tmp" src="dist/gedcom4j-${release.version}.jar" />
 	</target>
 
 	<target name="run-tests" depends="compile" description="Run the unit tests">
