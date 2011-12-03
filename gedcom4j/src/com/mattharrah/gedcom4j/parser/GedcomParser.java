@@ -830,11 +830,11 @@ public class GedcomParser {
 	 */
 	private void loadIndividualEvent(StringTree st, List<IndividualEvent> events) {
 		IndividualEvent e = new IndividualEvent();
-		e.type = st.tag;
 		events.add(e);
+		e.type = IndividualEventType.getFromTag(st.tag);
 		for (StringTree ch : st.children) {
 			if ("TYPE".equals(ch.tag)) {
-				e.type = ch.value;
+				e.subType = ch.value;
 			} else if ("DATE".equals(ch.tag)) {
 				e.date = ch.value;
 			} else if ("PLAC".equals(ch.tag)) {

@@ -6,7 +6,6 @@ import junit.framework.TestCase;
 
 import com.mattharrah.gedcom4j.Family;
 import com.mattharrah.gedcom4j.FamilyEvent;
-import com.mattharrah.gedcom4j.FamilyEventType;
 import com.mattharrah.gedcom4j.Gedcom;
 
 /**

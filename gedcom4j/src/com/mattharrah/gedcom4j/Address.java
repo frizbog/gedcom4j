@@ -27,6 +27,12 @@ package com.mattharrah.gedcom4j;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents an address. Corresponds to the ADDRESS_STRUCTURE element in the
+ * GEDCOM specification.
+ * 
+ * @author frizbog1
+ */
 public class Address {
 	public List<String> lines = new ArrayList<String>();
 	public String addr1;

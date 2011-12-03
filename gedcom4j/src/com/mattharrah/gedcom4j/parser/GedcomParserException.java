@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Matthew R. Harrah
+ * Copyright (c) 2009-2011 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -24,6 +24,12 @@
  */
 package com.mattharrah.gedcom4j.parser;
 
+/**
+ * An exception thrown by the parser indicating inability to deal with the input
+ * file
+ * 
+ * @author frizbog1
+ */
 public class GedcomParserException extends Exception {
 
 	public static final long serialVersionUID = 6803960812766915985L;

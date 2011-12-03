@@ -48,7 +48,7 @@ public class FamilyEvent extends Event {
 	public String wifeAge;
 
 	/**
-	 * A subtype of event for use when {@link FamilyEventType#type} is
+	 * A subtype of event for use when {@link FamilyEvent#type} is
 	 * &quot;EVEN&quot;
 	 */
 	public String subType;

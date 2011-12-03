@@ -24,12 +24,37 @@
  */
 package com.mattharrah.gedcom4j.parser;
 
+/**
+ * A class that breaks up a line in a GEDCOM file into its component parts.
+ * 
+ * @author frizbog1
+ * 
+ */
 public class LinePieces {
+	/**
+	 * The level of the line
+	 */
 	public int level;
+	/**
+	 * The ID number of the item (optional)
+	 */
 	public String id;
+	/**
+	 * The tag for the line
+	 */
 	public String tag;
+	/**
+	 * The remainder of the line after the tag
+	 */
 	public String remainder;
 
+	/**
+	 * Constructor that makes a {@link LinePieces} object from a line of text
+	 * input from a GEDCOM file
+	 * 
+	 * @param line
+	 *            a single line of text from the GEDCOM file
+	 */
 	public LinePieces(String line) {
 		String[] parts = line.split(" ");
 		level = Integer.parseInt(parts[0]);
@@ -47,6 +72,19 @@ public class LinePieces {
 		}
 	}
 
+	/**
+	 * Takes an array of strings (representing a bunch of words and terms) and
+	 * joins them all together with spaces between each, starting at a specific
+	 * element in the array and continuing to the end of the array.
+	 * 
+	 * @param parts
+	 *            the array of strings to be joined
+	 * @param startFrom
+	 *            the first element of the array to be joined
+	 * @return a string containing all the words in the array, starting at the
+	 *         <tt>startFrom</tt>th element and continuing to the end of the
+	 *         array, delimited with a single space between each element
+	 */
 	private String joinParts(String[] parts, int startFrom) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = startFrom; i < parts.length; i++) {

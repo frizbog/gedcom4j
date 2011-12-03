@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Matthew R. Harrah
+ * Copyright (c) 2009-2011 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -24,6 +24,12 @@
  */
 package com.mattharrah.gedcom4j;
 
+/**
+ * An enumeration of who adopted a child. Corresponds to the
+ * ADOPTED_BY_WHICH_PARENT definition in the GEDCOM specification.
+ * 
+ * @author frizbog1
+ */
 public enum AdoptedByWhichParent {
 	HUSBAND, WIFE, BOTH;
 }

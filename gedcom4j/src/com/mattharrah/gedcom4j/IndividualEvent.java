@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Matthew R. Harrah
+ * Copyright (c) 2009-2011 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -24,8 +24,28 @@
  */
 package com.mattharrah.gedcom4j;
 
+/**
+ * Represents an individual event. Corresponds to the INDIVIDUAL_EVENT_STRUCTURE
+ * item in the GEDCOM specification.
+ * 
+ * @author frizbog1
+ */
 public class IndividualEvent extends Event {
-	public String type;
+	/**
+	 * The type of event this represents
+	 */
+	public IndividualEventType type;
+	/**
+	 * Which parent did the adoption
+	 */
 	public AdoptedByWhichParent adoptedBy;
+	/**
+	 * The family to which this individual adopted was adopted
+	 */
 	public FamilyChild family;
+	/**
+	 * A subtype of individual event. Used when the main type is the generic
+	 * "EVEN" value.
+	 */
+	public String subType;
 }

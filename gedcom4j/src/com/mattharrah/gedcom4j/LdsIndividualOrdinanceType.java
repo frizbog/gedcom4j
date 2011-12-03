@@ -26,7 +26,7 @@ package com.mattharrah.gedcom4j;
 
 public enum LdsIndividualOrdinanceType {
 	BAPTISM("BAPL", "LDS Baptism"), CONFIRMATION("CONL", "LDS Confirmation"), ENDOWMENT(
-			"ENDL", "LDS Endowment"), CHILD_SEALING("SLGC", "LDS Child Sealing");
+	        "ENDL", "LDS Endowment"), CHILD_SEALING("SLGC", "LDS Child Sealing");
 
 	public static LdsIndividualOrdinanceType getFromTag(String tag) {
 		for (LdsIndividualOrdinanceType t : values()) {

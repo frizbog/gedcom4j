@@ -28,20 +28,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This is a tree structure containing a single line of text from the gedcom
- * file, and a list of child structures, used by the parser for temporary
- * storage of the text of the gedcom. the class and its members are deliberately
- * package private so only the parser will reference it.
+ * <p>
+ * A structure to hold an element (as string data) from a GEDCOM file in such a
+ * way as to preserve and recognize the hierarchical structure of GEDCOMs (based
+ * on the level field of each line)
+ * </p>
+ * <p>
+ * This is tree structure represents the parsed fields from a single line of
+ * text from the gedcom file, and all the parsed fields of all the child
+ * structures as well.
+ * </p>
+ * <p>
+ * This class is used by the parser for temporary storage of the text of the
+ * gedcom. The class and its members are deliberately package private so only
+ * the parser will reference it.
+ * </p>
  * 
- * @author Matt
+ * @author frizbog1
  */
 class StringTree {
+	/**
+	 * The level of this element
+	 */
 	int level;
+	/**
+	 * The ID number of this element
+	 */
 	String id;
+	/**
+	 * The tag for this element
+	 */
 	String tag;
+	/**
+	 * The value for this element (basically everything after the tag)
+	 */
 	String value;
+	/**
+	 * All the elements that are child elements of this element
+	 */
 	List<StringTree> children = new ArrayList<StringTree>();
+	/**
+	 * The element to which this element is a child
+	 */
 	StringTree parent = null;
+	/**
+	 * The line number of the GEDCOM from which this element was derived
+	 */
 	int lineNum;
 
 	@Override

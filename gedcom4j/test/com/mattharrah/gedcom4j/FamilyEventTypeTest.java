@@ -1,4 +1,4 @@
-package com.mattharrah.gedcom4j.parser;
+package com.mattharrah.gedcom4j;
 
 import junit.framework.TestCase;
 
