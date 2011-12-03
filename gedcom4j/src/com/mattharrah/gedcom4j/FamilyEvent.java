@@ -24,9 +24,46 @@
  */
 package com.mattharrah.gedcom4j;
 
+/**
+ * Represents a family event. Corresponds to the FAMILY_EVENT_STRUCTURE from the
+ * GEDCOM standard along with the two child elements of the wife and husband
+ * ages.
+ * 
+ * @author frizbog1
+ * 
+ */
 public class FamilyEvent extends Event {
-	public String type;
-	public FamilyChild family;
+	/**
+	 * The type of event. See FAMILY_EVENT_STRUCTURE in teh GEDCOM standard for
+	 * more info.
+	 */
+	public FamilyEventType type;
+	/**
+	 * Age of husband at time of event
+	 */
 	public String husbandAge;
+	/**
+	 * Age of wife at time of event
+	 */
 	public String wifeAge;
+
+	/**
+	 * A subtype of event for use when {@link FamilyEventType#type} is
+	 * &quot;EVEN&quot;
+	 */
+	public String subType;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "FamilyEvent [type=" + type + ", husbandAge=" + husbandAge
+		        + ", wifeAge=" + wifeAge
+		        + (type == FamilyEventType.EVENT ? ", subtype=" + subType : "")
+		        + "]";
+	}
+
 }

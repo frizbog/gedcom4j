@@ -516,9 +516,10 @@ public class GedcomParser {
 	private void loadFamilyEvent(StringTree st, List<FamilyEvent> events) {
 		FamilyEvent e = new FamilyEvent();
 		events.add(e);
+		e.type = FamilyEventType.getFromTag(st.tag);
 		for (StringTree ch : st.children) {
 			if ("TYPE".equals(ch.tag)) {
-				e.type = ch.value;
+				e.subType = ch.value;
 			} else if ("DATE".equals(ch.tag)) {
 				e.date = ch.value;
 			} else if ("PLAC".equals(ch.tag)) {
@@ -545,12 +546,6 @@ public class GedcomParser {
 				e.husbandAge = ch.children.get(0).value;
 			} else if ("WIFE".equals(ch.tag)) {
 				e.wifeAge = ch.children.get(0).value;
-			} else if ("FAMC".equals(ch.tag)) {
-				List<FamilyChild> families = new ArrayList<FamilyChild>();
-				loadFamilyWhereChild(ch, families);
-				if (!families.isEmpty()) {
-					e.family = families.get(0);
-				}
 			} else {
 				unknownTag(ch);
 			}
@@ -1499,8 +1494,8 @@ public class GedcomParser {
 		StringTree st = node;
 		while (st.parent != null) {
 			st = st.parent;
-			sb.append(", child of ").append(st.tag).append(" on line ").append(
-			        st.lineNum);
+			sb.append(", child of ").append(st.tag).append(" on line ")
+			        .append(st.lineNum);
 		}
 		if (node.tag.startsWith("_")) {
 			warnings.add(sb.toString());

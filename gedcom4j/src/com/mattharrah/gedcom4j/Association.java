@@ -24,11 +24,18 @@
  */
 package com.mattharrah.gedcom4j;
 
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents an Association between two individuals. Corresponds to
+ * ASSOCIATION_STRUCTURE in the GEDCOM spec.
+ * 
+ * @author frizbog1
+ */
 public class Association {
 	public String relationship;
 	public Individual otherIndividual;
-	public List<Citation> citations;
-	public List<Note> notes;
+	public List<Citation> citations = new ArrayList<Citation>();
+	public List<Note> notes = new ArrayList<Note>();
 }

@@ -1,24 +1,30 @@
 <project name="gedcom4j" default="release">
 
-	<target name="clean">
-		<delete>
-			<fileset dir="bin" />
-		</delete>
+	<target name="clean" description="Remove all build artifacts">
+		<delete dir="bin" />
+		<delete dir="dist" />
+		<delete dir="testbin" />
 	</target>
 
-	<target name="compile">
-		<javac srcdir="src" destdir="bin" deprecation="true" debug="true" debuglevel="lines,vars,source" />
+	<target name="init" description="Create necessary directories for build">
+		<mkdir dir="bin" />
+		<mkdir dir="dist" />
+		<mkdir dir="testbin" />
 	</target>
 
-	<target name="javadoc">
+	<target name="compile" depends="init" description="Compile all source code">
+		<javac srcdir="src" destdir="bin" deprecation="true" debug="true" debuglevel="lines,vars,source" includeantruntime="false" />
+	</target>
+
+	<target name="javadoc" depends="compile" description="Generate javadoc">
 		<delete includeemptydirs="">
 			<fileset dir="../gedcom4j_javadoc" includes="com/**/*" />
 		</delete>
 		<mkdir dir="../gedcom4j_javadoc" />
-		<javadoc sourcepath="src" destdir="../gedcom4j_javadoc" access="private"/>
+		<javadoc sourcepath="src" destdir="../gedcom4j_javadoc" access="private" />
 	</target>
 
-	<target name="release" depends="clean, compile">
+	<target name="release" depends="clean, compile" description="Build a distribution jar">
 		<mkdir dir="dist" />
 		<copy todir="bin">
 			<fileset dir="." includes="*.txt" />
@@ -30,4 +36,25 @@
 		</jar>
 	</target>
 
+	<target name="run-tests" depends="compile" description="Run the unit tests">
+		<delete dir="testbin" />
+		<mkdir dir="testbin" />
+		<javac srcdir="test" destdir="testbin" deprecation="true" debug="true" debuglevel="lines,vars,source" includeantruntime="false">
+			<classpath>
+				<fileset dir="lib" includes="junit-4.10.jar" />
+				<pathelement location="bin" />
+			</classpath>
+		</javac>
+		<junit haltonfailure="true" haltonerror="true">
+			<classpath>
+				<fileset dir="lib" includes="junit-4.10.jar" />
+				<pathelement location="bin" />
+				<pathelement location="testbin" />
+			</classpath>
+			<batchtest>
+				<fileset dir="test" />
+				<formatter type="plain" usefile="false" />
+			</batchtest>
+		</junit>
+	</target>
 </project>

@@ -37,7 +37,7 @@ public class GedcomParserTest extends TestCase {
 
 	public void testLoad1() throws IOException, GedcomParserException {
 		GedcomParser gp = new GedcomParser();
-		gp.load("sample\\TGC551.ged");
+		gp.load("sample/TGC551.ged");
 		assertTrue(gp.errors.isEmpty());
 		assertFalse(gp.warnings.isEmpty());
 		for (String s : gp.warnings) {
@@ -53,7 +53,7 @@ public class GedcomParserTest extends TestCase {
 		assertEquals(3, g.submitters.size());
 		Submitter submitter = g.submitters.values().iterator().next();
 		assertNotNull(submitter);
-		assertEquals("H. Eichmann", submitter.name);
+		assertEquals("John A. Nairn", submitter.name);
 
 		assertEquals(7, g.families.size());
 		assertEquals(2, g.sources.size());
@@ -63,14 +63,14 @@ public class GedcomParserTest extends TestCase {
 		for (Family f : g.families.values()) {
 			if (f.husband != null && f.wife != null) {
 				System.out.println("" + f.husband.names.get(0).basic
-						+ " married " + f.wife.names.get(0).basic);
+				        + " married " + f.wife.names.get(0).basic);
 			}
 		}
 	}
 
 	public void testLoad2() throws IOException, GedcomParserException {
 		GedcomParser gp = new GedcomParser();
-		gp.load("sample\\allged.ged");
+		gp.load("sample/allged.ged");
 		assertTrue(gp.errors.isEmpty());
 		assertFalse(gp.warnings.isEmpty());
 		for (String s : gp.warnings) {
@@ -90,7 +90,7 @@ public class GedcomParserTest extends TestCase {
 
 	public void testLoad3() throws IOException, GedcomParserException {
 		GedcomParser gp = new GedcomParser();
-		gp.load("sample\\a31486.ged");
+		gp.load("sample/a31486.ged");
 		assertTrue(gp.errors.isEmpty());
 		assertTrue(gp.warnings.isEmpty());
 		for (String s : gp.warnings) {
@@ -112,14 +112,14 @@ public class GedcomParserTest extends TestCase {
 		// Check header
 		assertEquals("6.00", g.header.sourceSystem.versionNum);
 		assertEquals("(510) 794-6850",
-				g.header.sourceSystem.corporation.phoneNumbers.get(0));
+		        g.header.sourceSystem.corporation.phoneNumbers.get(0));
 
 		// There are two sources in this file, and their names should be as
 		// shown
 		assertEquals(2, g.sources.size());
 		for (Source s : g.sources.values()) {
 			assertTrue(s.title.get(0).equals("William Barnett Family.FTW")
-					|| s.title.get(0).equals("Warrick County, IN WPA Indexes"));
+			        || s.title.get(0).equals("Warrick County, IN WPA Indexes"));
 		}
 
 		assertEquals(17, g.families.size());
@@ -130,7 +130,7 @@ public class GedcomParserTest extends TestCase {
 		assertNotNull(family);
 		assertEquals(3, family.children.size());
 		assertEquals("Lawrence Henry /Barnett/",
-				family.husband.names.get(0).basic);
+		        family.husband.names.get(0).basic);
 		assertEquals("Velma //", family.wife.names.get(0).basic);
 
 	}
@@ -138,7 +138,7 @@ public class GedcomParserTest extends TestCase {
 	public void testLoad4() throws IOException, GedcomParserException {
 		GedcomParser gp = new GedcomParser();
 		// Different line end char seq than the other file
-		gp.load("sample\\TGC551LF.ged");
+		gp.load("sample/TGC551LF.ged");
 		assertTrue(gp.errors.isEmpty());
 		assertFalse(gp.warnings.isEmpty());
 		for (String s : gp.warnings) {
@@ -154,7 +154,7 @@ public class GedcomParserTest extends TestCase {
 		assertEquals(3, g.submitters.size());
 		Submitter submitter = g.submitters.values().iterator().next();
 		assertNotNull(submitter);
-		assertEquals("H. Eichmann", submitter.name);
+		assertEquals("John A. Nairn", submitter.name);
 
 		assertEquals(7, g.families.size());
 		assertEquals(2, g.sources.size());
