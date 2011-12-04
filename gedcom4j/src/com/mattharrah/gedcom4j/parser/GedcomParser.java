@@ -28,6 +28,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +90,25 @@ public class GedcomParser {
 	public List<String> warnings = new ArrayList<String>();
 
 	/**
-	 * Load a gedcom file and create an object heirarchy from the data therein.
+	 * Load a gedcom file from an input stream and create an object heirarchy
+	 * from the data therein.
+	 * 
+	 * @param filename
+	 *            the name of the file to load
+	 * @throws IOException
+	 *             if the file cannot be read
+	 * @throws GedcomParserException
+	 *             if the file cannot be parsed
+	 */
+	public void load(InputStream stream) throws IOException,
+	        GedcomParserException {
+		StringTree stringTree = readStream(stream);
+		loadRootItems(stringTree);
+	}
+
+	/**
+	 * Load a gedcom file by filename and create an object heirarchy from the
+	 * data therein.
 	 * 
 	 * @param filename
 	 *            the name of the file to load
@@ -1425,22 +1445,10 @@ public class GedcomParser {
 
 	}
 
-	/**
-	 * Load the file into a tree structure
-	 * 
-	 * @param filename
-	 *            the file to load
-	 * @return the string tree
-	 * @throws FileNotFoundException
-	 *             if the file cannot be found
-	 * @throws IOException
-	 *             if there is a problem reading the file
-	 */
-	private StringTree readFile(String filename) throws FileNotFoundException,
-	        IOException {
+	private StringTree makeStringTreeFromReader(BufferedReader f)
+	        throws IOException {
 		StringTree result = new StringTree();
 		result.level = -1;
-		BufferedReader f = new BufferedReader(new FileReader(filename));
 		int lineNum = 0;
 		try {
 			String line = f.readLine();
@@ -1464,6 +1472,40 @@ public class GedcomParser {
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * Load the flat file into a tree structure that reflects the heirarchy of
+	 * its contents
+	 * 
+	 * @param filename
+	 *            the file to load
+	 * @return the string tree representation of the data from the file
+	 * @throws FileNotFoundException
+	 *             if the file cannot be found
+	 * @throws IOException
+	 *             if there is a problem reading the file
+	 */
+	private StringTree readFile(String filename) throws FileNotFoundException,
+	        IOException {
+		BufferedReader f = new BufferedReader(new FileReader(filename));
+		return makeStringTreeFromReader(f);
+	}
+
+	/**
+	 * Read all the data from a stream and return the StringTree representation
+	 * of that data
+	 * 
+	 * @param stream
+	 *            the stream to read
+	 * @return the data from the stream as a StringTree
+	 * @throws IOException
+	 *             if there's a problem reading the data off the stream
+	 */
+	private StringTree readStream(InputStream stream) throws IOException {
+		BufferedReader reader = new BufferedReader(
+		        new InputStreamReader(stream));
+		return makeStringTreeFromReader(reader);
 	}
 
 	/**

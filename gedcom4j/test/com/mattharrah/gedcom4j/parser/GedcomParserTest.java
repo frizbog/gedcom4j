@@ -24,7 +24,9 @@
  */
 package com.mattharrah.gedcom4j.parser;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import junit.framework.TestCase;
 
@@ -38,27 +40,8 @@ public class GedcomParserTest extends TestCase {
 	public void testLoad1() throws IOException, GedcomParserException {
 		GedcomParser gp = new GedcomParser();
 		gp.load("sample/TGC551.ged");
-		assertTrue(gp.errors.isEmpty());
-		assertFalse(gp.warnings.isEmpty());
-		for (String s : gp.warnings) {
-			System.out.println(s);
-			System.out.flush();
-		}
-		for (String s : gp.errors) {
-			System.err.println(s);
-			System.err.flush();
-		}
 		Gedcom g = gp.gedcom;
-		assertNotNull(g.header);
-		assertEquals(3, g.submitters.size());
-		Submitter submitter = g.submitters.values().iterator().next();
-		assertNotNull(submitter);
-		assertEquals("John A. Nairn", submitter.name);
-
-		assertEquals(7, g.families.size());
-		assertEquals(2, g.sources.size());
-		assertEquals(1, g.multimedia.size());
-		assertEquals(15, g.individuals.size());
+		checkTGC551LF(gp);
 
 		for (Family f : g.families.values()) {
 			if (f.husband != null && f.wife != null) {
@@ -139,6 +122,31 @@ public class GedcomParserTest extends TestCase {
 		GedcomParser gp = new GedcomParser();
 		// Different line end char seq than the other file
 		gp.load("sample/TGC551LF.ged");
+		checkTGC551LF(gp);
+	}
+
+	/**
+	 * Test for loading file from stream.
+	 * 
+	 * @throws IOException
+	 *             if the file can't be read from the stream
+	 * @throws GedcomParserException
+	 *             if the parsing goes wrong
+	 */
+	public void testLoadStream() throws IOException, GedcomParserException {
+		GedcomParser gp = new GedcomParser();
+		InputStream stream = new FileInputStream("sample/TGC551LF.ged");
+		gp.load(stream);
+		checkTGC551LF(gp);
+	}
+
+	/**
+	 * The same sample file is used several times, this helper method ensures
+	 * consistent assertions for all tests using the same file
+	 * 
+	 * @param gp
+	 */
+	private void checkTGC551LF(GedcomParser gp) {
 		assertTrue(gp.errors.isEmpty());
 		assertFalse(gp.warnings.isEmpty());
 		for (String s : gp.warnings) {
