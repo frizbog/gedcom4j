@@ -6,7 +6,6 @@
 		<delete dir="bin" />
 		<delete dir="dist" />
 		<delete dir="testbin" />
-		<delete dir="../gedcom4j_javadoc"/>
 	</target>
 
 	<target name="init" description="Create necessary directories for build">
@@ -14,7 +13,6 @@
 		<mkdir dir="bin" />
 		<mkdir dir="dist" />
 		<mkdir dir="testbin" />
-		<mkdir dir="../gedcom4j_javadoc"/>
 	</target>
 
 	<target name="compile" depends="init" description="Compile all source code">
@@ -22,10 +20,9 @@
 	</target>
 
 	<target name="javadoc" depends="compile" description="Generate javadoc">
-		<delete includeemptydirs="">
-			<fileset dir="../gedcom4j_javadoc" includes="com/**/*" />
+		<delete includeemptydirs="false">
+			<fileset dir="../gedcom4j_javadoc" includes="**/*" />
 		</delete>
-		<mkdir dir="../gedcom4j_javadoc" />
 		<javadoc sourcepath="src" destdir="../gedcom4j_javadoc" access="private" />
 	</target>
 

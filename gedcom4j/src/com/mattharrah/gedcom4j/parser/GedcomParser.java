@@ -93,8 +93,8 @@ public class GedcomParser {
 	 * Load a gedcom file from an input stream and create an object heirarchy
 	 * from the data therein.
 	 * 
-	 * @param filename
-	 *            the name of the file to load
+	 * @param stream
+	 *            the stream to load from
 	 * @throws IOException
 	 *             if the file cannot be read
 	 * @throws GedcomParserException
