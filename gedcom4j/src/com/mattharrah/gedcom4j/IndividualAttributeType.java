@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Matthew R. Harrah
+ * Copyright (c) 2009-2011 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -24,6 +24,21 @@
  */
 package com.mattharrah.gedcom4j;
 
+/**
+ * <p>
+ * The types of attributes that can be recorded for an individual. This enum
+ * covers the valid tags for an individual attribute. Corresponds to
+ * ATTRIBUTE_TYPE in the GEDCOM spec.
+ * </p>
+ * 
+ * <p>
+ * Implements the marker interface {@link EventAttributeType} so you can declare
+ * variables of that type to hold one of these.
+ * </p>
+ * 
+ * @author frizbog1
+ * 
+ */
 public enum IndividualAttributeType {
 	CASTE_NAME("CAST", "Caste Type"), PHYSICAL_DESCRIPTION("DSCR",
 	        "Physical Description"), SCHOLASTIC_ACHIEVEMENT("EDUC",

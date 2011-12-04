@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Matthew R. Harrah
+ * Copyright (c) 2009-2011 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * Main (root) class for an entire GEDCOM file.
  * 
- * @author Matt
+ * @author frizbog1
  */
 public class Gedcom {
 	public Map<String, Family> families = new HashMap<String, Family>();

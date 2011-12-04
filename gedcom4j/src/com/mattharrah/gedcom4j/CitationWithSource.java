@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Matthew R. Harrah
+ * Copyright (c) 2009-2011 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -27,12 +27,36 @@ package com.mattharrah.gedcom4j;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A citation with a source. Corresponds to the first (preferred) form of the
+ * SOURCE_CITATION structure (which you'd do in Pascal with a variant record,
+ * but here we use subclasses of a parent abstract class).
+ * 
+ * @author frizbog1
+ * 
+ */
 public class CitationWithSource extends Citation {
+	/**
+	 * Where within the source is the information being cited
+	 */
 	public String whereInSource;
+	/**
+	 * The quality of this citation. Supposed to be 0, 1, 2, or 3, but stored as
+	 * a string since we're not doing math on it.
+	 */
 	public String certainty;
+	/**
+	 * The event or attribute type cited from
+	 */
 	public String eventCited;
 	public List<CitationData> data = new ArrayList<CitationData>();
 	public Source source;
+	/**
+	 * Notes on this source citation
+	 */
 	public List<Note> notes = new ArrayList<Note>();
+	/**
+	 * Multimedia links for this source citation
+	 */
 	public List<Multimedia> multimedia = new ArrayList<Multimedia>();
 }

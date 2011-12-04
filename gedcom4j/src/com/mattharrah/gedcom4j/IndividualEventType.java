@@ -24,6 +24,13 @@
  */
 package com.mattharrah.gedcom4j;
 
+/**
+ * An event type that occurs for an individual. This enum lists the valid tags
+ * for individual events,
+ * 
+ * @author frizbog1
+ * 
+ */
 public enum IndividualEventType {
 	ADOPTION("ADOP", "Adoption"), ARRIVAL("ARVL", "Arrival"), BIRTH("BIRT",
 	        "Birth"), BAPTISM("BAPM", "Baptism"), BAR_MITZVAH("BARM",

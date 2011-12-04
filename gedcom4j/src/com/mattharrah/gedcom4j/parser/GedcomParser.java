@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Matthew R. Harrah
+ * Copyright (c) 2009-2011 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -420,7 +420,8 @@ public class GedcomParser {
 			if ("PAGE".equals(ch.tag)) {
 				cws.whereInSource = ch.value;
 			} else if ("EVEN".equals(ch.tag)) {
-				cws.eventCited = ch.value;
+				System.out.println("Yo!!! " + ch);
+				// cws.eventCited = ch.value;
 			} else if ("DATA".equals(ch.tag)) {
 				CitationData d = new CitationData();
 				cws.data.add(d);

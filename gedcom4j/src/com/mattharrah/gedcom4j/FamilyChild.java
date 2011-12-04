@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Matthew R. Harrah
+ * Copyright (c) 2009-2011 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * Represent's an individuals membership, as a child, in a family
  * 
- * @author Matt
+ * @author frizbog1
  */
 public class FamilyChild {
 	public Family family;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Matthew R. Harrah
+ * Copyright (c) 2009-2011 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -24,6 +24,13 @@
  */
 package com.mattharrah.gedcom4j;
 
+/**
+ * An abstract base class for other source citations (both with and without
+ * source)
+ * 
+ * @author frizbog1
+ * 
+ */
 public abstract class Citation {
-	// TODO - implement this class
+	// Nothing to do.
 }

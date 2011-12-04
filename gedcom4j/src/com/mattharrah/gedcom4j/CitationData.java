@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Matthew R. Harrah
+ * Copyright (c) 2009-2011 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -27,7 +27,18 @@ package com.mattharrah.gedcom4j;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class for source citation data.
+ * 
+ * @author frizbog1
+ */
 public class CitationData {
+	/**
+	 * The date of the entry
+	 */
 	public String entryDate;
+	/**
+	 * The source text - one or more lines of it
+	 */
 	public List<List<String>> sourceText = new ArrayList<List<String>>();
 }

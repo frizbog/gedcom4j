@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Matthew R. Harrah
+ * Copyright (c) 2009-2011 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -24,7 +24,18 @@
  */
 package com.mattharrah.gedcom4j;
 
+/**
+ * A character set. (Does anyone really use this??)
+ * 
+ * @author frizbog1
+ */
 public class CharacterSet {
+	/**
+	 * The name of a character set
+	 */
 	public String characterSetName;
+	/**
+	 * A version number of the character set
+	 */
 	public String versionNum;
 }

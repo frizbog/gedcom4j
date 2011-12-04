@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Matthew R. Harrah
+ * Copyright (c) 2009-2011 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -27,8 +27,26 @@ package com.mattharrah.gedcom4j;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A citation without a source. Corresponds to the second form of the
+ * SOURCE_CITATION structure (which you'd do in Pascal with a variant record,
+ * but here we use subclasses of a parent abstract class).
+ * 
+ * 
+ * @author frizbog1
+ * 
+ */
 public class CitationWithoutSource extends Citation {
+	/**
+	 * Lines of text describing this citation
+	 */
 	public List<String> description = new ArrayList<String>();
+	/**
+	 * Lines of Lines of text from the source (yeah, really)
+	 */
 	public List<List<String>> textFromSource = new ArrayList<List<String>>();
+	/**
+	 * A list of notes about this citation
+	 */
 	public List<Note> notes = new ArrayList<Note>();
 }

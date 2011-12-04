@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Matthew R. Harrah
+ * Copyright (c) 2009-2011 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -24,6 +24,13 @@
  */
 package com.mattharrah.gedcom4j;
 
+/**
+ * An event type that occurs for a family. This enum lists the valid tags for
+ * family events.
+ * 
+ * @author frizbog1
+ * 
+ */
 public enum FamilyEventType {
 	ANNULMENT("ANUL", "Annulment"), CENSUS("CENS", "Census"), DIVORCE("DIV",
 	        "Divorce"), DIVORCE_FILED("DIVF", "Divorce filed"), ENGAGEMENT(
