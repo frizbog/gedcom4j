@@ -24,7 +24,19 @@
  */
 package com.mattharrah.gedcom4j;
 
+/**
+ * Information about the version of the GEDCOM spec used
+ * 
+ * @author frizbog1
+ * 
+ */
 public class GedcomVersion {
+	/**
+	 * The version number
+	 */
 	public String versionNumber;
+	/**
+	 * The form
+	 */
 	public String gedcomForm;
 }

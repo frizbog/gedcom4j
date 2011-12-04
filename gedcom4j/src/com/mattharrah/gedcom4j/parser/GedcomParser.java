@@ -420,8 +420,7 @@ public class GedcomParser {
 			if ("PAGE".equals(ch.tag)) {
 				cws.whereInSource = ch.value;
 			} else if ("EVEN".equals(ch.tag)) {
-				System.out.println("Yo!!! " + ch);
-				// cws.eventCited = ch.value;
+				cws.eventCited = ch.value;
 			} else if ("DATA".equals(ch.tag)) {
 				CitationData d = new CitationData();
 				cws.data.add(d);
@@ -481,14 +480,14 @@ public class GedcomParser {
 			} else if ("OBJE".equals(ch.tag)) {
 				loadMultimedia(ch, f.multimedia);
 			} else if ("RIN".equals(ch.tag)) {
-				f.recIdNumber = ch.value;
+				f.automatedRecordId = ch.value;
 			} else if ("CHAN".equals(ch.tag)) {
 				f.changeDate = new ChangeDate();
 				loadChangeDate(ch, f.changeDate);
 			} else if ("NOTE".equals(ch.tag)) {
 				loadNote(ch, f.notes);
 			} else if ("RFN".equals(ch.tag)) {
-				f.regFileNumber = ch.value;
+				f.recFileNumber = ch.value;
 			} else if (FamilyEventType.isValidTag(ch.tag)) {
 				loadFamilyEvent(ch, f.events);
 			} else if ("SLGS".equals(ch.tag)) {

@@ -24,7 +24,23 @@
  */
 package com.mattharrah.gedcom4j;
 
+/**
+ * A cited event. Corresponds to the "Event Cited" item in the data model chart
+ * at the end of the GEDCOM spec.
+ * 
+ * @author frizbog1
+ * 
+ */
 public class EventCited {
+	/**
+	 * The event type. This is a tag that will be in either the
+	 * {@link IndividualEventType} enum or the {@link FamilyEventType} enum, and
+	 * corresponds to EVENT_TYPE_CITED_FROM in the GEDCOM spec.
+	 */
 	public String eventType;
+	/**
+	 * A description of the person's role in the event. Corresponds to
+	 * ROLE_IN_EVENT in GEDCOM spec.
+	 */
 	public String roleInEvent;
 }

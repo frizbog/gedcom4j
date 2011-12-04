@@ -33,8 +33,20 @@ import java.util.List;
  * @author frizbog1
  */
 public class FamilyChild {
+	/**
+	 * The family to which the child belonged
+	 */
 	public Family family;
+	/**
+	 * Notes on the membership
+	 */
 	public List<Note> notes = new ArrayList<Note>();
+	/**
+	 * Pedigree information
+	 */
 	public String pedigree;
+	/**
+	 * Who did the adopting.
+	 */
 	public String adoptedBy;
 }

@@ -24,8 +24,26 @@
  */
 package com.mattharrah.gedcom4j;
 
+/**
+ * A event that was recorded in a source. Corresponds to a single instance of
+ * the Events Recorded multi-block in the Data Model Chart at the end of the
+ * GEDCOM spec.
+ * 
+ * @author frizbog1
+ * 
+ */
 public class EventRecorded {
+	/**
+	 * The event type (tag)
+	 */
 	public String eventType;
+	/**
+	 * The date period covered in the source
+	 */
 	public String datePeriod;
+	/**
+	 * The jurisdiction of the source. Corresponds to SOURCE_JURISDICTION_PLACE
+	 * in the GEDCOM spec.
+	 */
 	public String jurisdiction;
 }

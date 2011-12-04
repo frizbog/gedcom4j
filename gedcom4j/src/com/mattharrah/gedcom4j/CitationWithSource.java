@@ -46,10 +46,18 @@ public class CitationWithSource extends Citation {
 	 */
 	public String certainty;
 	/**
-	 * The event or attribute type cited from
+	 * The type of event or attribute cited from. Will be the tag from one of
+	 * the the following three enum types: {@link FamilyEventType},
+	 * {@link IndividualEventType}, {@link IndividualAttributeType}.
 	 */
 	public String eventCited;
+	/**
+	 * A list of citation data entries
+	 */
 	public List<CitationData> data = new ArrayList<CitationData>();
+	/**
+	 * A reference to the cited source
+	 */
 	public Source source;
 	/**
 	 * Notes on this source citation

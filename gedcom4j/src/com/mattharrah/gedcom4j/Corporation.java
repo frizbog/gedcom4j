@@ -27,9 +27,24 @@ package com.mattharrah.gedcom4j;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a Corporation.
+ * 
+ * @author frizbog1
+ * 
+ */
 public class Corporation {
+	/**
+	 * The business name
+	 */
 	public String businessName;
+	/**
+	 * The address
+	 */
 	public Address address;
+	/**
+	 * The phone numbers
+	 */
 	public List<String> phoneNumbers = new ArrayList<String>();
 
 }

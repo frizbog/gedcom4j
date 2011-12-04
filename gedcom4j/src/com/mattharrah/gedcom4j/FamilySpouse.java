@@ -34,6 +34,12 @@ import java.util.List;
  * 
  */
 public class FamilySpouse {
+	/**
+	 * The family in which the person was one of the spouses
+	 */
 	public Family family;
+	/**
+	 * Notes on the membership
+	 */
 	public List<Note> notes = new ArrayList<Note>();
 }

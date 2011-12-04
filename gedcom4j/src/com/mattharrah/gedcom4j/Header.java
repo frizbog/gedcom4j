@@ -27,19 +27,67 @@ package com.mattharrah.gedcom4j;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Header information about the GEDCOM file
+ * 
+ * @author frizbog1
+ * 
+ */
 public class Header {
+	/**
+	 * The character set in use in the GEDCOM file
+	 */
 	public CharacterSet characterSet;
+	/**
+	 * Copyright information for the GEDCOM file.
+	 */
 	public String copyrightData;
+	/**
+	 * The date of the GEDCOM file
+	 */
 	public String date;
+	/**
+	 * The destination system for the GEDCOM file.
+	 */
 	public String destinationSystem;
+	/**
+	 * The filename for the GEDCOM file
+	 */
 	public String fileName;
+	/**
+	 * The version information for the GEDCOM file
+	 */
 	public GedcomVersion gedcomVersion;
+	/**
+	 * The place structure for the file
+	 */
 	public String placeStructure;
+	/**
+	 * The source system for the GEDCOM file
+	 */
 	public SourceSystem sourceSystem;
+	/**
+	 * Information about the file submission
+	 */
 	public Submission submission;
+	/**
+	 * Information about the submitter of the file
+	 */
 	public Submitter submitter;
+	/**
+	 * The time of the file
+	 */
 	public String time;
+	/**
+	 * Information about the transmission of the file
+	 */
 	public Transmission transmission;
+	/**
+	 * The language for the file
+	 */
 	public String language;
+	/**
+	 * A bunch of textual notes
+	 */
 	public List<String> notes = new ArrayList<String>();
 }

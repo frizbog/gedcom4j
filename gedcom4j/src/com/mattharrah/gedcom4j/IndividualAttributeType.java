@@ -31,11 +31,6 @@ package com.mattharrah.gedcom4j;
  * ATTRIBUTE_TYPE in the GEDCOM spec.
  * </p>
  * 
- * <p>
- * Implements the marker interface {@link EventAttributeType} so you can declare
- * variables of that type to hold one of these.
- * </p>
- * 
  * @author frizbog1
  * 
  */

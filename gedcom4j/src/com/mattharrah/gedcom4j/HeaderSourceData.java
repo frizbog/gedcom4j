@@ -24,8 +24,23 @@
  */
 package com.mattharrah.gedcom4j;
 
+/**
+ * Information about the header source data
+ * 
+ * @author frizbog1
+ * 
+ */
 public class HeaderSourceData {
+	/**
+	 * The name
+	 */
 	public String name;
+	/**
+	 * The publish date
+	 */
 	public String publishDate;
+	/**
+	 * Copyright information
+	 */
 	public String copyright;
 }

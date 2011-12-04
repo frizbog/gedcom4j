@@ -27,20 +27,70 @@ package com.mattharrah.gedcom4j;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A family record. Corrsponds to FAM_RECORD in the GEDCOM spec.
+ * 
+ * @author frizbog1
+ */
 public class Family {
-	public String regFileNumber;
-	public String recIdNumber;
+	/**
+	 * The permanent record file number
+	 */
+	public String recFileNumber;
+	/**
+	 * The automated record ID number
+	 */
+	public String automatedRecordId;
+	/**
+	 * The wife in the family
+	 */
 	public Individual wife;
+	/**
+	 * The husband in the family
+	 */
 	public Individual husband;
+	/**
+	 * A list of the children in the family
+	 */
 	public List<Individual> children = new ArrayList<Individual>();
+	/**
+	 * The number of children
+	 */
 	public Integer numChildren;
+	/**
+	 * A list of the submitters for this family
+	 */
 	public List<Submitter> submitters = new ArrayList<Submitter>();
+	/**
+	 * The LDS Spouse Sealings for this family
+	 */
 	public List<LdsFamilyOrdinance> ldsSpouseSealings = new ArrayList<LdsFamilyOrdinance>();
+	/**
+	 * The source citations for this family
+	 */
 	public List<Citation> citations = new ArrayList<Citation>();
+	/**
+	 * The multimedia for this family
+	 */
 	public List<Multimedia> multimedia = new ArrayList<Multimedia>();
+	/**
+	 * The change date information for this family record
+	 */
 	public ChangeDate changeDate;
+	/**
+	 * All the family events
+	 */
 	public List<FamilyEvent> events = new ArrayList<FamilyEvent>();
+	/**
+	 * Notes on this family
+	 */
 	public List<Note> notes = new ArrayList<Note>();
+	/**
+	 * A cross reference id that things can use to identify this family
+	 */
 	public String xref;
+	/**
+	 * The user references
+	 */
 	public List<UserReference> userReferences = new ArrayList<UserReference>();
 }
