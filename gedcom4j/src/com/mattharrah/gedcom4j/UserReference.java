@@ -27,4 +27,43 @@ package com.mattharrah.gedcom4j;
 public class UserReference {
 	public String referenceNum;
 	public String type;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		UserReference other = (UserReference) obj;
+		if (referenceNum == null) {
+			if (other.referenceNum != null) {
+				return false;
+			}
+		} else if (!referenceNum.equals(other.referenceNum)) {
+			return false;
+		}
+		if (type == null) {
+			if (other.type != null) {
+				return false;
+			}
+		} else if (!type.equals(other.type)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+		        + ((referenceNum == null) ? 0 : referenceNum.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
 }

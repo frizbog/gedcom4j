@@ -684,11 +684,21 @@ public class GedcomParser {
 			} else if ("COPR".equals(ch.tag)) {
 				header.copyrightData = ch.value;
 			} else if ("SUBN".equals(ch.tag)) {
-				; // TODO - actually process these, see issue 10 at
-				  // gedcom4j.googlecode.com
+				if (header.submission == null) {
+					/*
+					 * There can only be one SUBMISSION record per GEDCOM, and
+					 * it's found at the root level, but the HEAD structure has
+					 * a cross-reference to that root-level structure, so we're
+					 * setting it here (if it hasn't already been loaded, which
+					 * it probably isn't yet)
+					 */
+					header.submission = gedcom.submission;
+				}
 			} else if ("LANG".equals(ch.tag)) {
 				header.language = ch.value;
 			} else if ("PLAC".equals(ch.tag)) {
+				// TODO - Need a more robust handler for PLAC structures on
+				// headers
 				header.placeStructure = ch.children.get(0).value;
 			} else if ("NOTE".equals(ch.tag)) {
 				loadMultiLinesOfText(ch, header.notes);
@@ -1370,7 +1380,19 @@ public class GedcomParser {
 	 */
 	private void loadSubmission(StringTree st) {
 		Submission s = new Submission();
+		s.xref = st.id;
 		gedcom.submission = s;
+		if (gedcom.header == null) {
+			gedcom.header = new Header();
+		}
+		if (gedcom.header.submission == null) {
+			/*
+			 * The GEDCOM spec puts a cross reference to the root-level SUBN
+			 * element in the HEAD structure. Now that we have a submission
+			 * object, represent that cross reference in the header object
+			 */
+			gedcom.header.submission = s;
+		}
 		for (StringTree ch : st.children) {
 			if ("SUBM".equals(ch.tag)) {
 				gedcom.submission.submitter = getSubmitter(ch.value);

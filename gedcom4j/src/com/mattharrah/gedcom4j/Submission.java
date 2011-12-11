@@ -25,6 +25,7 @@
 package com.mattharrah.gedcom4j;
 
 public class Submission {
+	public String xref;
 	public Submitter submitter;
 	public String nameOfFamilyFile;
 	public String templeCode;
@@ -32,4 +33,101 @@ public class Submission {
 	public String descendantsCount;
 	public String ordinanceProcessFlag;
 	public String recIdNumber;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Submission other = (Submission) obj;
+		if (ancestorsCount == null) {
+			if (other.ancestorsCount != null) {
+				return false;
+			}
+		} else if (!ancestorsCount.equals(other.ancestorsCount)) {
+			return false;
+		}
+		if (descendantsCount == null) {
+			if (other.descendantsCount != null) {
+				return false;
+			}
+		} else if (!descendantsCount.equals(other.descendantsCount)) {
+			return false;
+		}
+		if (nameOfFamilyFile == null) {
+			if (other.nameOfFamilyFile != null) {
+				return false;
+			}
+		} else if (!nameOfFamilyFile.equals(other.nameOfFamilyFile)) {
+			return false;
+		}
+		if (ordinanceProcessFlag == null) {
+			if (other.ordinanceProcessFlag != null) {
+				return false;
+			}
+		} else if (!ordinanceProcessFlag.equals(other.ordinanceProcessFlag)) {
+			return false;
+		}
+		if (recIdNumber == null) {
+			if (other.recIdNumber != null) {
+				return false;
+			}
+		} else if (!recIdNumber.equals(other.recIdNumber)) {
+			return false;
+		}
+		if (submitter == null) {
+			if (other.submitter != null) {
+				return false;
+			}
+		} else if (!submitter.equals(other.submitter)) {
+			return false;
+		}
+		if (templeCode == null) {
+			if (other.templeCode != null) {
+				return false;
+			}
+		} else if (!templeCode.equals(other.templeCode)) {
+			return false;
+		}
+		if (xref == null) {
+			if (other.xref != null) {
+				return false;
+			}
+		} else if (!xref.equals(other.xref)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+		        + ((ancestorsCount == null) ? 0 : ancestorsCount.hashCode());
+		result = prime
+		        * result
+		        + ((descendantsCount == null) ? 0 : descendantsCount.hashCode());
+		result = prime
+		        * result
+		        + ((nameOfFamilyFile == null) ? 0 : nameOfFamilyFile.hashCode());
+		result = prime
+		        * result
+		        + ((ordinanceProcessFlag == null) ? 0 : ordinanceProcessFlag
+		                .hashCode());
+		result = prime * result
+		        + ((recIdNumber == null) ? 0 : recIdNumber.hashCode());
+		result = prime * result
+		        + ((submitter == null) ? 0 : submitter.hashCode());
+		result = prime * result
+		        + ((templeCode == null) ? 0 : templeCode.hashCode());
+		result = prime * result + ((xref == null) ? 0 : xref.hashCode());
+		return result;
+	}
 }

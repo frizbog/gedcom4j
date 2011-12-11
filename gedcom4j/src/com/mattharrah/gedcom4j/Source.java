@@ -43,4 +43,153 @@ public class Source {
 	public RepositoryCitation repositoryCitation;
 	public String xref;
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Source other = (Source) obj;
+		if (changeDate == null) {
+			if (other.changeDate != null) {
+				return false;
+			}
+		} else if (!changeDate.equals(other.changeDate)) {
+			return false;
+		}
+		if (data == null) {
+			if (other.data != null) {
+				return false;
+			}
+		} else if (!data.equals(other.data)) {
+			return false;
+		}
+		if (multimedia == null) {
+			if (other.multimedia != null) {
+				return false;
+			}
+		} else if (!multimedia.equals(other.multimedia)) {
+			return false;
+		}
+		if (notes == null) {
+			if (other.notes != null) {
+				return false;
+			}
+		} else if (!notes.equals(other.notes)) {
+			return false;
+		}
+		if (originatorsAuthors == null) {
+			if (other.originatorsAuthors != null) {
+				return false;
+			}
+		} else if (!originatorsAuthors.equals(other.originatorsAuthors)) {
+			return false;
+		}
+		if (publicationFacts == null) {
+			if (other.publicationFacts != null) {
+				return false;
+			}
+		} else if (!publicationFacts.equals(other.publicationFacts)) {
+			return false;
+		}
+		if (recIdNumber == null) {
+			if (other.recIdNumber != null) {
+				return false;
+			}
+		} else if (!recIdNumber.equals(other.recIdNumber)) {
+			return false;
+		}
+		if (regFileNumber == null) {
+			if (other.regFileNumber != null) {
+				return false;
+			}
+		} else if (!regFileNumber.equals(other.regFileNumber)) {
+			return false;
+		}
+		if (repositoryCitation == null) {
+			if (other.repositoryCitation != null) {
+				return false;
+			}
+		} else if (!repositoryCitation.equals(other.repositoryCitation)) {
+			return false;
+		}
+		if (sourceFiledBy == null) {
+			if (other.sourceFiledBy != null) {
+				return false;
+			}
+		} else if (!sourceFiledBy.equals(other.sourceFiledBy)) {
+			return false;
+		}
+		if (sourceText == null) {
+			if (other.sourceText != null) {
+				return false;
+			}
+		} else if (!sourceText.equals(other.sourceText)) {
+			return false;
+		}
+		if (title == null) {
+			if (other.title != null) {
+				return false;
+			}
+		} else if (!title.equals(other.title)) {
+			return false;
+		}
+		if (userReferences == null) {
+			if (other.userReferences != null) {
+				return false;
+			}
+		} else if (!userReferences.equals(other.userReferences)) {
+			return false;
+		}
+		if (xref == null) {
+			if (other.xref != null) {
+				return false;
+			}
+		} else if (!xref.equals(other.xref)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+		        + ((changeDate == null) ? 0 : changeDate.hashCode());
+		result = prime * result + ((data == null) ? 0 : data.hashCode());
+		result = prime * result
+		        + ((multimedia == null) ? 0 : multimedia.hashCode());
+		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
+		result = prime
+		        * result
+		        + ((originatorsAuthors == null) ? 0 : originatorsAuthors
+		                .hashCode());
+		result = prime
+		        * result
+		        + ((publicationFacts == null) ? 0 : publicationFacts.hashCode());
+		result = prime * result
+		        + ((recIdNumber == null) ? 0 : recIdNumber.hashCode());
+		result = prime * result
+		        + ((regFileNumber == null) ? 0 : regFileNumber.hashCode());
+		result = prime
+		        * result
+		        + ((repositoryCitation == null) ? 0 : repositoryCitation
+		                .hashCode());
+		result = prime * result
+		        + ((sourceFiledBy == null) ? 0 : sourceFiledBy.hashCode());
+		result = prime * result
+		        + ((sourceText == null) ? 0 : sourceText.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		result = prime * result
+		        + ((userReferences == null) ? 0 : userReferences.hashCode());
+		result = prime * result + ((xref == null) ? 0 : xref.hashCode());
+		return result;
+	}
+
 }

@@ -37,7 +37,7 @@ public class Header {
 	/**
 	 * The character set in use in the GEDCOM file
 	 */
-	public CharacterSet characterSet;
+	public CharacterSet characterSet = new CharacterSet();
 	/**
 	 * Copyright information for the GEDCOM file.
 	 */
@@ -57,7 +57,7 @@ public class Header {
 	/**
 	 * The version information for the GEDCOM file
 	 */
-	public GedcomVersion gedcomVersion;
+	public GedcomVersion gedcomVersion = new GedcomVersion();
 	/**
 	 * The place structure for the file
 	 */
@@ -90,4 +90,152 @@ public class Header {
 	 * A bunch of textual notes
 	 */
 	public List<String> notes = new ArrayList<String>();
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Header other = (Header) obj;
+		if (characterSet == null) {
+			if (other.characterSet != null) {
+				return false;
+			}
+		} else if (!characterSet.equals(other.characterSet)) {
+			return false;
+		}
+		if (copyrightData == null) {
+			if (other.copyrightData != null) {
+				return false;
+			}
+		} else if (!copyrightData.equals(other.copyrightData)) {
+			return false;
+		}
+		if (date == null) {
+			if (other.date != null) {
+				return false;
+			}
+		} else if (!date.equals(other.date)) {
+			return false;
+		}
+		if (destinationSystem == null) {
+			if (other.destinationSystem != null) {
+				return false;
+			}
+		} else if (!destinationSystem.equals(other.destinationSystem)) {
+			return false;
+		}
+		if (fileName == null) {
+			if (other.fileName != null) {
+				return false;
+			}
+		} else if (!fileName.equals(other.fileName)) {
+			return false;
+		}
+		if (gedcomVersion == null) {
+			if (other.gedcomVersion != null) {
+				return false;
+			}
+		} else if (!gedcomVersion.equals(other.gedcomVersion)) {
+			return false;
+		}
+		if (language == null) {
+			if (other.language != null) {
+				return false;
+			}
+		} else if (!language.equals(other.language)) {
+			return false;
+		}
+		if (notes == null) {
+			if (other.notes != null) {
+				return false;
+			}
+		} else if (!notes.equals(other.notes)) {
+			return false;
+		}
+		if (placeStructure == null) {
+			if (other.placeStructure != null) {
+				return false;
+			}
+		} else if (!placeStructure.equals(other.placeStructure)) {
+			return false;
+		}
+		if (sourceSystem == null) {
+			if (other.sourceSystem != null) {
+				return false;
+			}
+		} else if (!sourceSystem.equals(other.sourceSystem)) {
+			return false;
+		}
+		if (submission == null) {
+			if (other.submission != null) {
+				return false;
+			}
+		} else if (!submission.equals(other.submission)) {
+			return false;
+		}
+		if (submitter == null) {
+			if (other.submitter != null) {
+				return false;
+			}
+		} else if (!submitter.equals(other.submitter)) {
+			return false;
+		}
+		if (time == null) {
+			if (other.time != null) {
+				return false;
+			}
+		} else if (!time.equals(other.time)) {
+			return false;
+		}
+		if (transmission == null) {
+			if (other.transmission != null) {
+				return false;
+			}
+		} else if (!transmission.equals(other.transmission)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+		        + ((characterSet == null) ? 0 : characterSet.hashCode());
+		result = prime * result
+		        + ((copyrightData == null) ? 0 : copyrightData.hashCode());
+		result = prime * result + ((date == null) ? 0 : date.hashCode());
+		result = prime
+		        * result
+		        + ((destinationSystem == null) ? 0 : destinationSystem
+		                .hashCode());
+		result = prime * result
+		        + ((fileName == null) ? 0 : fileName.hashCode());
+		result = prime * result
+		        + ((gedcomVersion == null) ? 0 : gedcomVersion.hashCode());
+		result = prime * result
+		        + ((language == null) ? 0 : language.hashCode());
+		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
+		result = prime * result
+		        + ((placeStructure == null) ? 0 : placeStructure.hashCode());
+		result = prime * result
+		        + ((sourceSystem == null) ? 0 : sourceSystem.hashCode());
+		result = prime * result
+		        + ((submission == null) ? 0 : submission.hashCode());
+		result = prime * result
+		        + ((submitter == null) ? 0 : submitter.hashCode());
+		result = prime * result + ((time == null) ? 0 : time.hashCode());
+		result = prime * result
+		        + ((transmission == null) ? 0 : transmission.hashCode());
+		return result;
+	}
+
 }

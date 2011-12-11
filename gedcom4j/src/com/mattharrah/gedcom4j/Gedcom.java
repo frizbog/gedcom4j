@@ -86,4 +86,112 @@ public class Gedcom {
 	 * The trailer of the file
 	 */
 	public Trailer trailer = new Trailer();
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Gedcom other = (Gedcom) obj;
+		if (families == null) {
+			if (other.families != null) {
+				return false;
+			}
+		} else if (!families.equals(other.families)) {
+			return false;
+		}
+		if (header == null) {
+			if (other.header != null) {
+				return false;
+			}
+		} else if (!header.equals(other.header)) {
+			return false;
+		}
+		if (individuals == null) {
+			if (other.individuals != null) {
+				return false;
+			}
+		} else if (!individuals.equals(other.individuals)) {
+			return false;
+		}
+		if (multimedia == null) {
+			if (other.multimedia != null) {
+				return false;
+			}
+		} else if (!multimedia.equals(other.multimedia)) {
+			return false;
+		}
+		if (notes == null) {
+			if (other.notes != null) {
+				return false;
+			}
+		} else if (!notes.equals(other.notes)) {
+			return false;
+		}
+		if (repositories == null) {
+			if (other.repositories != null) {
+				return false;
+			}
+		} else if (!repositories.equals(other.repositories)) {
+			return false;
+		}
+		if (sources == null) {
+			if (other.sources != null) {
+				return false;
+			}
+		} else if (!sources.equals(other.sources)) {
+			return false;
+		}
+		if (submission == null) {
+			if (other.submission != null) {
+				return false;
+			}
+		} else if (!submission.equals(other.submission)) {
+			return false;
+		}
+		if (submitters == null) {
+			if (other.submitters != null) {
+				return false;
+			}
+		} else if (!submitters.equals(other.submitters)) {
+			return false;
+		}
+		if (trailer == null) {
+			if (other.trailer != null) {
+				return false;
+			}
+		} else if (!trailer.equals(other.trailer)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+		        + ((families == null) ? 0 : families.hashCode());
+		result = prime * result + ((header == null) ? 0 : header.hashCode());
+		result = prime * result
+		        + ((individuals == null) ? 0 : individuals.hashCode());
+		result = prime * result
+		        + ((multimedia == null) ? 0 : multimedia.hashCode());
+		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
+		result = prime * result
+		        + ((repositories == null) ? 0 : repositories.hashCode());
+		result = prime * result + ((sources == null) ? 0 : sources.hashCode());
+		result = prime * result
+		        + ((submission == null) ? 0 : submission.hashCode());
+		result = prime * result
+		        + ((submitters == null) ? 0 : submitters.hashCode());
+		result = prime * result + ((trailer == null) ? 0 : trailer.hashCode());
+		return result;
+	}
 }

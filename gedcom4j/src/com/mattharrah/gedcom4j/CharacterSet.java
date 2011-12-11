@@ -33,9 +33,50 @@ public class CharacterSet {
 	/**
 	 * The name of a character set
 	 */
-	public String characterSetName;
+	public String characterSetName = "ANSEL";
 	/**
 	 * A version number of the character set
 	 */
 	public String versionNum;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		CharacterSet other = (CharacterSet) obj;
+		if (characterSetName == null) {
+			if (other.characterSetName != null) {
+				return false;
+			}
+		} else if (!characterSetName.equals(other.characterSetName)) {
+			return false;
+		}
+		if (versionNum == null) {
+			if (other.versionNum != null) {
+				return false;
+			}
+		} else if (!versionNum.equals(other.versionNum)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+		        * result
+		        + ((characterSetName == null) ? 0 : characterSetName.hashCode());
+		result = prime * result
+		        + ((versionNum == null) ? 0 : versionNum.hashCode());
+		return result;
+	}
 }

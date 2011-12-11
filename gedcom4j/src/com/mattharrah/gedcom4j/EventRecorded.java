@@ -46,4 +46,53 @@ public class EventRecorded {
 	 * in the GEDCOM spec.
 	 */
 	public String jurisdiction;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		EventRecorded other = (EventRecorded) obj;
+		if (datePeriod == null) {
+			if (other.datePeriod != null) {
+				return false;
+			}
+		} else if (!datePeriod.equals(other.datePeriod)) {
+			return false;
+		}
+		if (eventType == null) {
+			if (other.eventType != null) {
+				return false;
+			}
+		} else if (!eventType.equals(other.eventType)) {
+			return false;
+		}
+		if (jurisdiction == null) {
+			if (other.jurisdiction != null) {
+				return false;
+			}
+		} else if (!jurisdiction.equals(other.jurisdiction)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+		        + ((datePeriod == null) ? 0 : datePeriod.hashCode());
+		result = prime * result
+		        + ((eventType == null) ? 0 : eventType.hashCode());
+		result = prime * result
+		        + ((jurisdiction == null) ? 0 : jurisdiction.hashCode());
+		return result;
+	}
 }

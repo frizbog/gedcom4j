@@ -25,5 +25,20 @@
 package com.mattharrah.gedcom4j;
 
 public class Trailer {
-	// Nothing needed
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		// All trailer records are equivalent - they have no fields!!!
+		return obj != null && obj instanceof Trailer;
+	}
+
+	@Override
+	public int hashCode() {
+		// All trailer records are equivalent - they have no fields!!!
+		return 31;
+	}
 }

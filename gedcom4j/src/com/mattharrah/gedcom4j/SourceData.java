@@ -32,4 +32,60 @@ public class SourceData {
 	public String respAgency;
 	public List<EventRecorded> eventsRecorded = new ArrayList<EventRecorded>();
 	public List<Note> notes = new ArrayList<Note>();
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		SourceData other = (SourceData) obj;
+		if (eventsRecorded == null) {
+			if (other.eventsRecorded != null) {
+				return false;
+			}
+		} else if (!eventsRecorded.equals(other.eventsRecorded)) {
+			return false;
+		}
+		if (notes == null) {
+			if (other.notes != null) {
+				return false;
+			}
+		} else if (!notes.equals(other.notes)) {
+			return false;
+		}
+		if (respAgency == null) {
+			if (other.respAgency != null) {
+				return false;
+			}
+		} else if (!respAgency.equals(other.respAgency)) {
+			return false;
+		}
+		if (type == null) {
+			if (other.type != null) {
+				return false;
+			}
+		} else if (!type.equals(other.type)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+		        + ((eventsRecorded == null) ? 0 : eventsRecorded.hashCode());
+		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
+		result = prime * result
+		        + ((respAgency == null) ? 0 : respAgency.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
 }

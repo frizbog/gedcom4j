@@ -41,4 +41,84 @@ public class Address {
 	public String stateProvince;
 	public String postalCode;
 	public String country;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Address other = (Address) obj;
+		if (addr1 == null) {
+			if (other.addr1 != null) {
+				return false;
+			}
+		} else if (!addr1.equals(other.addr1)) {
+			return false;
+		}
+		if (addr2 == null) {
+			if (other.addr2 != null) {
+				return false;
+			}
+		} else if (!addr2.equals(other.addr2)) {
+			return false;
+		}
+		if (city == null) {
+			if (other.city != null) {
+				return false;
+			}
+		} else if (!city.equals(other.city)) {
+			return false;
+		}
+		if (country == null) {
+			if (other.country != null) {
+				return false;
+			}
+		} else if (!country.equals(other.country)) {
+			return false;
+		}
+		if (lines == null) {
+			if (other.lines != null) {
+				return false;
+			}
+		} else if (!lines.equals(other.lines)) {
+			return false;
+		}
+		if (postalCode == null) {
+			if (other.postalCode != null) {
+				return false;
+			}
+		} else if (!postalCode.equals(other.postalCode)) {
+			return false;
+		}
+		if (stateProvince == null) {
+			if (other.stateProvince != null) {
+				return false;
+			}
+		} else if (!stateProvince.equals(other.stateProvince)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((addr1 == null) ? 0 : addr1.hashCode());
+		result = prime * result + ((addr2 == null) ? 0 : addr2.hashCode());
+		result = prime * result + ((city == null) ? 0 : city.hashCode());
+		result = prime * result + ((country == null) ? 0 : country.hashCode());
+		result = prime * result + ((lines == null) ? 0 : lines.hashCode());
+		result = prime * result
+		        + ((postalCode == null) ? 0 : postalCode.hashCode());
+		result = prime * result
+		        + ((stateProvince == null) ? 0 : stateProvince.hashCode());
+		return result;
+	}
 }

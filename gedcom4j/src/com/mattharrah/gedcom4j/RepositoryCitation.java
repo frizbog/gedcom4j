@@ -34,4 +34,61 @@ public class RepositoryCitation {
 	public String callNumber;
 	public String mediaType;
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		RepositoryCitation other = (RepositoryCitation) obj;
+		if (callNumber == null) {
+			if (other.callNumber != null) {
+				return false;
+			}
+		} else if (!callNumber.equals(other.callNumber)) {
+			return false;
+		}
+		if (mediaType == null) {
+			if (other.mediaType != null) {
+				return false;
+			}
+		} else if (!mediaType.equals(other.mediaType)) {
+			return false;
+		}
+		if (notes == null) {
+			if (other.notes != null) {
+				return false;
+			}
+		} else if (!notes.equals(other.notes)) {
+			return false;
+		}
+		if (repository == null) {
+			if (other.repository != null) {
+				return false;
+			}
+		} else if (!repository.equals(other.repository)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+		        + ((callNumber == null) ? 0 : callNumber.hashCode());
+		result = prime * result
+		        + ((mediaType == null) ? 0 : mediaType.hashCode());
+		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
+		result = prime * result
+		        + ((repository == null) ? 0 : repository.hashCode());
+		return result;
+	}
+
 }

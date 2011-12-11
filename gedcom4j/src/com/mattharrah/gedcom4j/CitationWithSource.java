@@ -67,4 +67,86 @@ public class CitationWithSource extends Citation {
 	 * Multimedia links for this source citation
 	 */
 	public List<Multimedia> multimedia = new ArrayList<Multimedia>();
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		CitationWithSource other = (CitationWithSource) obj;
+		if (certainty == null) {
+			if (other.certainty != null) {
+				return false;
+			}
+		} else if (!certainty.equals(other.certainty)) {
+			return false;
+		}
+		if (data == null) {
+			if (other.data != null) {
+				return false;
+			}
+		} else if (!data.equals(other.data)) {
+			return false;
+		}
+		if (eventCited == null) {
+			if (other.eventCited != null) {
+				return false;
+			}
+		} else if (!eventCited.equals(other.eventCited)) {
+			return false;
+		}
+		if (multimedia == null) {
+			if (other.multimedia != null) {
+				return false;
+			}
+		} else if (!multimedia.equals(other.multimedia)) {
+			return false;
+		}
+		if (notes == null) {
+			if (other.notes != null) {
+				return false;
+			}
+		} else if (!notes.equals(other.notes)) {
+			return false;
+		}
+		if (source == null) {
+			if (other.source != null) {
+				return false;
+			}
+		} else if (!source.equals(other.source)) {
+			return false;
+		}
+		if (whereInSource == null) {
+			if (other.whereInSource != null) {
+				return false;
+			}
+		} else if (!whereInSource.equals(other.whereInSource)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+		        + ((certainty == null) ? 0 : certainty.hashCode());
+		result = prime * result + ((data == null) ? 0 : data.hashCode());
+		result = prime * result
+		        + ((eventCited == null) ? 0 : eventCited.hashCode());
+		result = prime * result
+		        + ((multimedia == null) ? 0 : multimedia.hashCode());
+		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
+		result = prime * result + ((source == null) ? 0 : source.hashCode());
+		result = prime * result
+		        + ((whereInSource == null) ? 0 : whereInSource.hashCode());
+		return result;
+	}
 }

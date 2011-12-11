@@ -31,4 +31,51 @@ public class Note {
 	public String xref;
 	public List<String> lines = new ArrayList<String>();
 	public List<Citation> citations = new ArrayList<Citation>();
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Note other = (Note) obj;
+		if (citations == null) {
+			if (other.citations != null) {
+				return false;
+			}
+		} else if (!citations.equals(other.citations)) {
+			return false;
+		}
+		if (lines == null) {
+			if (other.lines != null) {
+				return false;
+			}
+		} else if (!lines.equals(other.lines)) {
+			return false;
+		}
+		if (xref == null) {
+			if (other.xref != null) {
+				return false;
+			}
+		} else if (!xref.equals(other.xref)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+		        + ((citations == null) ? 0 : citations.hashCode());
+		result = prime * result + ((lines == null) ? 0 : lines.hashCode());
+		result = prime * result + ((xref == null) ? 0 : xref.hashCode());
+		return result;
+	}
 }

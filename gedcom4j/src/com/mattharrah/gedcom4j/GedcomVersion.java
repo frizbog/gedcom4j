@@ -34,9 +34,49 @@ public class GedcomVersion {
 	/**
 	 * The version number
 	 */
-	public String versionNumber;
+	public String versionNumber = "5.5";
 	/**
 	 * The form
 	 */
-	public String gedcomForm;
+	public String gedcomForm = "LINEAGE-LINKED";
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		GedcomVersion other = (GedcomVersion) obj;
+		if (gedcomForm == null) {
+			if (other.gedcomForm != null) {
+				return false;
+			}
+		} else if (!gedcomForm.equals(other.gedcomForm)) {
+			return false;
+		}
+		if (versionNumber == null) {
+			if (other.versionNumber != null) {
+				return false;
+			}
+		} else if (!versionNumber.equals(other.versionNumber)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+		        + ((gedcomForm == null) ? 0 : gedcomForm.hashCode());
+		result = prime * result
+		        + ((versionNumber == null) ? 0 : versionNumber.hashCode());
+		return result;
+	}
 }

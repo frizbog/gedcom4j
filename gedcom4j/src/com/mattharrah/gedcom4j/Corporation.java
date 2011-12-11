@@ -47,4 +47,52 @@ public class Corporation {
 	 */
 	public List<String> phoneNumbers = new ArrayList<String>();
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Corporation other = (Corporation) obj;
+		if (address == null) {
+			if (other.address != null) {
+				return false;
+			}
+		} else if (!address.equals(other.address)) {
+			return false;
+		}
+		if (businessName == null) {
+			if (other.businessName != null) {
+				return false;
+			}
+		} else if (!businessName.equals(other.businessName)) {
+			return false;
+		}
+		if (phoneNumbers == null) {
+			if (other.phoneNumbers != null) {
+				return false;
+			}
+		} else if (!phoneNumbers.equals(other.phoneNumbers)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result
+		        + ((businessName == null) ? 0 : businessName.hashCode());
+		result = prime * result
+		        + ((phoneNumbers == null) ? 0 : phoneNumbers.hashCode());
+		return result;
+	}
+
 }

@@ -139,6 +139,197 @@ public class Individual {
 	public Address address;
 	public List<String> phoneNumbers = new ArrayList<String>();
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Individual other = (Individual) obj;
+		if (address == null) {
+			if (other.address != null) {
+				return false;
+			}
+		} else if (!address.equals(other.address)) {
+			return false;
+		}
+		if (aliases == null) {
+			if (other.aliases != null) {
+				return false;
+			}
+		} else if (!aliases.equals(other.aliases)) {
+			return false;
+		}
+		if (ancestorInterest == null) {
+			if (other.ancestorInterest != null) {
+				return false;
+			}
+		} else if (!ancestorInterest.equals(other.ancestorInterest)) {
+			return false;
+		}
+		if (ancestralFileNumber == null) {
+			if (other.ancestralFileNumber != null) {
+				return false;
+			}
+		} else if (!ancestralFileNumber.equals(other.ancestralFileNumber)) {
+			return false;
+		}
+		if (associations == null) {
+			if (other.associations != null) {
+				return false;
+			}
+		} else if (!associations.equals(other.associations)) {
+			return false;
+		}
+		if (attributes == null) {
+			if (other.attributes != null) {
+				return false;
+			}
+		} else if (!attributes.equals(other.attributes)) {
+			return false;
+		}
+		if (changeDate == null) {
+			if (other.changeDate != null) {
+				return false;
+			}
+		} else if (!changeDate.equals(other.changeDate)) {
+			return false;
+		}
+		if (citations == null) {
+			if (other.citations != null) {
+				return false;
+			}
+		} else if (!citations.equals(other.citations)) {
+			return false;
+		}
+		if (descendantInterest == null) {
+			if (other.descendantInterest != null) {
+				return false;
+			}
+		} else if (!descendantInterest.equals(other.descendantInterest)) {
+			return false;
+		}
+		if (events == null) {
+			if (other.events != null) {
+				return false;
+			}
+		} else if (!events.equals(other.events)) {
+			return false;
+		}
+		if (familiesWhereChild == null) {
+			if (other.familiesWhereChild != null) {
+				return false;
+			}
+		} else if (!familiesWhereChild.equals(other.familiesWhereChild)) {
+			return false;
+		}
+		if (familiesWhereSpouse == null) {
+			if (other.familiesWhereSpouse != null) {
+				return false;
+			}
+		} else if (!familiesWhereSpouse.equals(other.familiesWhereSpouse)) {
+			return false;
+		}
+		if (ldsIndividualOrdinances == null) {
+			if (other.ldsIndividualOrdinances != null) {
+				return false;
+			}
+		} else if (!ldsIndividualOrdinances
+		        .equals(other.ldsIndividualOrdinances)) {
+			return false;
+		}
+		if (multimedia == null) {
+			if (other.multimedia != null) {
+				return false;
+			}
+		} else if (!multimedia.equals(other.multimedia)) {
+			return false;
+		}
+		if (names == null) {
+			if (other.names != null) {
+				return false;
+			}
+		} else if (!names.equals(other.names)) {
+			return false;
+		}
+		if (notes == null) {
+			if (other.notes != null) {
+				return false;
+			}
+		} else if (!notes.equals(other.notes)) {
+			return false;
+		}
+		if (permanentRecFileNumber == null) {
+			if (other.permanentRecFileNumber != null) {
+				return false;
+			}
+		} else if (!permanentRecFileNumber.equals(other.permanentRecFileNumber)) {
+			return false;
+		}
+		if (phoneNumbers == null) {
+			if (other.phoneNumbers != null) {
+				return false;
+			}
+		} else if (!phoneNumbers.equals(other.phoneNumbers)) {
+			return false;
+		}
+		if (recIdNumber == null) {
+			if (other.recIdNumber != null) {
+				return false;
+			}
+		} else if (!recIdNumber.equals(other.recIdNumber)) {
+			return false;
+		}
+		if (regFileNumber == null) {
+			if (other.regFileNumber != null) {
+				return false;
+			}
+		} else if (!regFileNumber.equals(other.regFileNumber)) {
+			return false;
+		}
+		if (restrictionNotice == null) {
+			if (other.restrictionNotice != null) {
+				return false;
+			}
+		} else if (!restrictionNotice.equals(other.restrictionNotice)) {
+			return false;
+		}
+		if (sex == null) {
+			if (other.sex != null) {
+				return false;
+			}
+		} else if (!sex.equals(other.sex)) {
+			return false;
+		}
+		if (submitters == null) {
+			if (other.submitters != null) {
+				return false;
+			}
+		} else if (!submitters.equals(other.submitters)) {
+			return false;
+		}
+		if (userReferences == null) {
+			if (other.userReferences != null) {
+				return false;
+			}
+		} else if (!userReferences.equals(other.userReferences)) {
+			return false;
+		}
+		if (xref == null) {
+			if (other.xref != null) {
+				return false;
+			}
+		} else if (!xref.equals(other.xref)) {
+			return false;
+		}
+		return true;
+	}
+
 	/**
 	 * Get all the individual's names formatted as a single string. Names after
 	 * the first one found are shown with "aka" in between each.
@@ -233,6 +424,71 @@ public class Individual {
 				result.add(f.family.wife);
 			}
 		}
+		return result;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + ((aliases == null) ? 0 : aliases.hashCode());
+		result = prime
+		        * result
+		        + ((ancestorInterest == null) ? 0 : ancestorInterest.hashCode());
+		result = prime
+		        * result
+		        + ((ancestralFileNumber == null) ? 0 : ancestralFileNumber
+		                .hashCode());
+		result = prime * result
+		        + ((associations == null) ? 0 : associations.hashCode());
+		result = prime * result
+		        + ((attributes == null) ? 0 : attributes.hashCode());
+		result = prime * result
+		        + ((changeDate == null) ? 0 : changeDate.hashCode());
+		result = prime * result
+		        + ((citations == null) ? 0 : citations.hashCode());
+		result = prime
+		        * result
+		        + ((descendantInterest == null) ? 0 : descendantInterest
+		                .hashCode());
+		result = prime * result + ((events == null) ? 0 : events.hashCode());
+		result = prime
+		        * result
+		        + ((familiesWhereChild == null) ? 0 : familiesWhereChild
+		                .hashCode());
+		result = prime
+		        * result
+		        + ((familiesWhereSpouse == null) ? 0 : familiesWhereSpouse
+		                .hashCode());
+		result = prime
+		        * result
+		        + ((ldsIndividualOrdinances == null) ? 0
+		                : ldsIndividualOrdinances.hashCode());
+		result = prime * result
+		        + ((multimedia == null) ? 0 : multimedia.hashCode());
+		result = prime * result + ((names == null) ? 0 : names.hashCode());
+		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
+		result = prime
+		        * result
+		        + ((permanentRecFileNumber == null) ? 0
+		                : permanentRecFileNumber.hashCode());
+		result = prime * result
+		        + ((phoneNumbers == null) ? 0 : phoneNumbers.hashCode());
+		result = prime * result
+		        + ((recIdNumber == null) ? 0 : recIdNumber.hashCode());
+		result = prime * result
+		        + ((regFileNumber == null) ? 0 : regFileNumber.hashCode());
+		result = prime
+		        * result
+		        + ((restrictionNotice == null) ? 0 : restrictionNotice
+		                .hashCode());
+		result = prime * result + ((sex == null) ? 0 : sex.hashCode());
+		result = prime * result
+		        + ((submitters == null) ? 0 : submitters.hashCode());
+		result = prime * result
+		        + ((userReferences == null) ? 0 : userReferences.hashCode());
+		result = prime * result + ((xref == null) ? 0 : xref.hashCode());
 		return result;
 	}
 
