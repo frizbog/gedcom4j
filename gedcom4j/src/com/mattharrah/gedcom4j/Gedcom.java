@@ -42,7 +42,7 @@ public class Gedcom {
 	/**
 	 * Header information about the GEDCOM
 	 */
-	public Header header;
+	public Header header = new Header();
 	/**
 	 * A map of all the individuals in the GEDCOM file. The map is keyed on the
 	 * individual cross-reference numbers and the individuals themselves are in
@@ -85,5 +85,5 @@ public class Gedcom {
 	/**
 	 * The trailer of the file
 	 */
-	public Trailer trailer;
+	public Trailer trailer = new Trailer();
 }
