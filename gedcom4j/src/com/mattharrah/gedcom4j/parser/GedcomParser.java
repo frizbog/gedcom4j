@@ -684,7 +684,8 @@ public class GedcomParser {
 			} else if ("COPR".equals(ch.tag)) {
 				header.copyrightData = ch.value;
 			} else if ("SUBN".equals(ch.tag)) {
-				; // do nothing, who cares
+				; // TODO - actually process these, see issue 10 at
+				  // gedcom4j.googlecode.com
 			} else if ("LANG".equals(ch.tag)) {
 				header.language = ch.value;
 			} else if ("PLAC".equals(ch.tag)) {
