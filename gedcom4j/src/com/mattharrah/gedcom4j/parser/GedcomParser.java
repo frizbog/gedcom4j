@@ -1184,8 +1184,6 @@ public class GedcomParser {
 			} else if ("CHAN".equals(ch.tag)) {
 				r.changeDate = new ChangeDate();
 				loadChangeDate(ch, r.changeDate);
-			} else if ("EMAIL".equals(ch.tag)) {
-				r.emails.add(ch.value);
 			} else {
 				unknownTag(ch);
 			}

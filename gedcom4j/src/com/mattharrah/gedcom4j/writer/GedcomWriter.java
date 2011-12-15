@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import com.mattharrah.gedcom4j.Address;
+import com.mattharrah.gedcom4j.ChangeDate;
 import com.mattharrah.gedcom4j.Citation;
 import com.mattharrah.gedcom4j.Corporation;
 import com.mattharrah.gedcom4j.Gedcom;
@@ -16,9 +17,12 @@ import com.mattharrah.gedcom4j.Header;
 import com.mattharrah.gedcom4j.HeaderSourceData;
 import com.mattharrah.gedcom4j.Multimedia;
 import com.mattharrah.gedcom4j.Note;
+import com.mattharrah.gedcom4j.Repository;
+import com.mattharrah.gedcom4j.Source;
 import com.mattharrah.gedcom4j.SourceSystem;
 import com.mattharrah.gedcom4j.Submission;
 import com.mattharrah.gedcom4j.Submitter;
+import com.mattharrah.gedcom4j.UserReference;
 import com.mattharrah.gedcom4j.validate.GedcomValidationException;
 import com.mattharrah.gedcom4j.validate.GedcomValidator;
 
@@ -151,6 +155,16 @@ public class GedcomWriter {
 		        address.stateProvince);
 		emitTagIfValueNotNull(pw, level + 1, null, "POST", address.postalCode);
 		emitTagIfValueNotNull(pw, level + 1, null, "CTRY", address.country);
+	}
+
+	private void emitChangeDate(PrintWriter pw, int level, ChangeDate cd)
+	        throws GedcomWriterException {
+		if (cd != null) {
+			emitTag(pw, level, null, "CHAN");
+			emitTagWithRequiredValue(pw, level + 1, null, "DATE", cd.date);
+			emitTagIfValueNotNull(pw, level + 2, null, "TIME", cd.time);
+			emitNotes(pw, level + 1, cd.notes);
+		}
 	}
 
 	/**
@@ -381,9 +395,24 @@ public class GedcomWriter {
 	 * 
 	 * @param pw
 	 *            the {@link PrintWriter} we're writing to
+	 * @throws GedcomWriterException
+	 *             if the data being written is malformed
 	 */
-	private void emitRepositories(PrintWriter pw) {
-		// TODO Auto-generated method stub
+	private void emitRepositories(PrintWriter pw) throws GedcomWriterException {
+		for (Repository r : gedcom.repositories.values()) {
+			emitTag(pw, 0, r.xref, "REPO");
+			emitTagIfValueNotNull(pw, 1, null, "NAME", r.name);
+			emitAddress(pw, 1, r.address);
+			emitNotes(pw, 1, r.notes);
+			for (UserReference u : r.userReferences) {
+				emitTagWithRequiredValue(pw, 1, null, "REFN", u.referenceNum);
+				emitTagIfValueNotNull(pw, 2, null, "TYPE", u.type);
+			}
+			emitTagIfValueNotNull(pw, 1, null, "RIN", r.recIdNumber);
+			emitTagIfValueNotNull(pw, 1, null, "RFN", r.regFileNumber);
+			emitPhoneNumbers(pw, 1, r.phoneNumbers);
+			emitChangeDate(pw, 1, r.changeDate);
+		}
 
 	}
 
@@ -410,8 +439,9 @@ public class GedcomWriter {
 	 *            the {@link PrintWriter} we're writing to
 	 */
 	private void emitSources(PrintWriter pw) {
-		// TODO Auto-generated method stub
-
+		for (Source s : gedcom.sources.values()) {
+			// Emit the source
+		}
 	}
 
 	/**
@@ -504,12 +534,7 @@ public class GedcomWriter {
 
 			emitTagIfValueNotNull(pw, 1, null, "RFN", s.regFileNumber);
 			emitTagIfValueNotNull(pw, 1, null, "RIN", s.recIdNumber);
-			if (s.changeDate != null) {
-				emitTag(pw, 1, null, "CHAN");
-				emitTagWithRequiredValue(pw, 2, null, "DATE", s.changeDate.date);
-				emitTagIfValueNotNull(pw, 3, null, "TIME", s.changeDate.time);
-				emitNotes(pw, 2, s.changeDate.notes);
-			}
+			emitChangeDate(pw, 1, s.changeDate);
 		}
 	}
 

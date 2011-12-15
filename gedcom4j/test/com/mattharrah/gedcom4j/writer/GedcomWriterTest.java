@@ -7,11 +7,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
 import com.mattharrah.gedcom4j.Gedcom;
 import com.mattharrah.gedcom4j.Header;
+import com.mattharrah.gedcom4j.Repository;
 import com.mattharrah.gedcom4j.parser.GedcomParser;
 import com.mattharrah.gedcom4j.validate.GedcomValidationException;
 
@@ -109,6 +111,27 @@ public class GedcomWriterTest extends TestCase {
 		                        + "2 CONT denotes this file as using the ANSEL character set. The importing software should handle these special characters in a\n"
 		                        + "2 CONT reasonable way."));
 
+	}
+
+	public void testRepositories() {
+		Map<String, Repository> r1 = gedcomOrig.repositories;
+		Map<String, Repository> r2 = gedcomReadback.repositories;
+		assertEquals("Lists of repositories should be equal", r1, r2);
+		assertTrue("The file as read back should have a repository",
+		        writtenFileAsString.contains("0 @R1@ REPO\n"
+		                + "1 NAME Family History Library\n"
+		                + "1 ADDR 35 North West Temple\n"
+		                + "2 CONT Salt Lake City, UT 84111\n2 CONT USA\n"
+		                + "2 ADR1 35 North West Temple\n"
+		                + "2 ADR2 Across the street from Temple Square\n"
+		                + "2 CITY Salt Lake City\n2 STAE Utah\n"
+		                + "2 POST 84111\n2 CTRY USA\n"
+		                + "1 REFN User Ref Number\n2 TYPE Sample\n"
+		                + "1 RIN 1\n"
+		                + "1 PHON +1-801-240-2331 (information)\n"
+		                + "1 PHON +1-801-240-1278 (gifts & donations)\n"
+		                + "1 PHON +1-801-240-2584 (support)\n1 CHAN\n"
+		                + "2 DATE 12 Mar 2000\n3 TIME 10:36:02"));
 	}
 
 	/**
