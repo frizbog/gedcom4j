@@ -1417,14 +1417,13 @@ public class GedcomParser {
 
 	/**
 	 * Load a submitter from a string tree node into the gedcom global
-	 * colelction of submitters
+	 * collection of submitters
 	 * 
 	 * @param st
 	 *            the node
 	 */
 	private void loadSubmitter(StringTree st) {
 		Submitter submitter = getSubmitter(st.id);
-		gedcom.submitters.put(st.id, submitter);
 		for (StringTree ch : st.children) {
 			if ("NAME".equals(ch.tag)) {
 				submitter.name = ch.value;

@@ -9,12 +9,16 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import com.mattharrah.gedcom4j.Address;
+import com.mattharrah.gedcom4j.Citation;
 import com.mattharrah.gedcom4j.Corporation;
 import com.mattharrah.gedcom4j.Gedcom;
 import com.mattharrah.gedcom4j.Header;
 import com.mattharrah.gedcom4j.HeaderSourceData;
+import com.mattharrah.gedcom4j.Multimedia;
+import com.mattharrah.gedcom4j.Note;
 import com.mattharrah.gedcom4j.SourceSystem;
 import com.mattharrah.gedcom4j.Submission;
+import com.mattharrah.gedcom4j.Submitter;
 import com.mattharrah.gedcom4j.validate.GedcomValidationException;
 import com.mattharrah.gedcom4j.validate.GedcomValidator;
 
@@ -150,6 +154,17 @@ public class GedcomWriter {
 	}
 
 	/**
+	 * Write out all the Families
+	 * 
+	 * @param pw
+	 *            the {@link PrintWriter} we're writing to
+	 */
+	private void emitFamilies(PrintWriter pw) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
 	 * Write the header record (see the HEADER structure in the GEDCOM standard)
 	 * 
 	 * @param gedcom
@@ -172,7 +187,7 @@ public class GedcomWriter {
 			emitTagIfValueNotNull(pw, 2, null, "TIME", header.time);
 		}
 		if (header.submitter != null) {
-			emitTagWithOptionalValue(pw, 1, null, "SUBM", header.submitter.xref);
+			emitTagWithRequiredValue(pw, 1, null, "SUBM", header.submitter.xref);
 		}
 		if (header.submission != null) {
 			emitTagWithRequiredValue(pw, 1, null, "SUBN",
@@ -195,15 +210,120 @@ public class GedcomWriter {
 			emitTag(pw, 1, null, "PLAC");
 			emitTagWithRequiredValue(pw, 2, null, "FORM", header.placeStructure);
 		}
-		int noteLineNum = 0;
-		for (String n : header.notes) {
-			if (noteLineNum++ == 0) {
-				emitTagIfValueNotNull(pw, 1, null, "NOTE", n);
-			} else {
-				pw.println(2 + " " + "CONT" + " " + (n == null ? "" : n));
-			}
+		emitNote(pw, 1, header.notes);
+	}
 
+	/**
+	 * Write out all the individuals
+	 * 
+	 * @param pw
+	 *            the {@link PrintWriter} we're writing to
+	 */
+	private void emitIndividuals(PrintWriter pw) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * Write out all the multimedia references
+	 * 
+	 * @param pw
+	 *            the {@link PrintWriter} we're writing to
+	 */
+	private void emitMultimedia(PrintWriter pw) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * Emit a list of multimedia links
+	 * 
+	 * @param pw
+	 *            the {@link PrintWriter} we are writing to
+	 * @param level
+	 *            the level in the hierarchy we are writing at
+	 * @param multimedia
+	 *            the {@link List} of {@link Multimedia} objects
+	 */
+	private void emitMultimediaLinks(PrintWriter pw, int level,
+	        List<Multimedia> multimedia) {
+		if (multimedia == null) {
+			return;
 		}
+		// TODO - complete writing out the multimedia links
+	}
+
+	/**
+	 * Emit a note (possibly multi-line)
+	 * 
+	 * @param pw
+	 *            the {@link PrintWriter} we are writing to
+	 * @param level
+	 *            the level in the hierarchy we are writing at
+	 * @param notes
+	 *            the Notes text
+	 */
+	private void emitNote(PrintWriter pw, int level, List<String> notes) {
+		int noteLineNum = 0;
+		for (String n : notes) {
+			if (noteLineNum++ == 0) {
+				emitTagIfValueNotNull(pw, level, null, "NOTE", n);
+			} else {
+				pw.println(level + 1 + " " + "CONT" + " "
+				        + (n == null ? "" : n));
+			}
+		}
+	}
+
+	/**
+	 * Emit a note structure (possibly multi-line)
+	 * 
+	 * @param pw
+	 *            the {@link PrintWriter} we are writing to
+	 * @param level
+	 *            the level in the hierarchy we are writing at
+	 * @param notes
+	 *            the Notes text
+	 */
+	private void emitNote(PrintWriter pw, int level, Note note) {
+		int noteLineNum = 0;
+		for (String n : note.lines) {
+			if (noteLineNum++ == 0) {
+				emitTagIfValueNotNull(pw, level, null, "NOTE", n);
+			} else {
+				pw.println(level + 1 + " " + "CONT" + " "
+				        + (n == null ? "" : n));
+			}
+		}
+		emitSourceCitations(pw, level, note.citations);
+	}
+
+	/**
+	 * Emit a list of note structures
+	 * 
+	 * @param pw
+	 *            the {@link PrintWriter} we are writing to
+	 * @param level
+	 *            the level in the hierarchy we are writing at
+	 * @param notes
+	 *            a list of {@link Note} structures
+	 */
+	private void emitNotes(PrintWriter pw, int level, List<Note> notes) {
+		for (Note n : notes) {
+			emitNote(pw, level, n);
+		}
+	}
+
+	/**
+	 * Write out all the notes
+	 * 
+	 * @param pw
+	 *            the {@link PrintWriter} we're writing to
+	 */
+
+	private void emitNoteStructures(PrintWriter pw) {
+		// TODO Auto-generated method stub
+
 	}
 
 	/**
@@ -227,12 +347,55 @@ public class GedcomWriter {
 	/**
 	 * Write the records (see the RECORD structure in the GEDCOM standard)
 	 * 
-	 * @param gedcom
-	 *            the {@link Gedcom} structure containing the header
+	 * @param pw
+	 *            the {@link PrintWriter} we're writing to
+	 * @throws GedcomWriterException
+	 *             if the data is malformed and cannot be written
+	 */
+	private void emitRecords(PrintWriter pw) throws GedcomWriterException {
+		emitSubmitter(pw);
+		emitIndividuals(pw);
+		emitFamilies(pw);
+		emitMultimedia(pw);
+		emitNoteStructures(pw);
+		emitRepositories(pw);
+		emitSources(pw);
+	}
+
+	/**
+	 * Write out all the repositories
+	 * 
 	 * @param pw
 	 *            the {@link PrintWriter} we're writing to
 	 */
-	private void emitRecords(PrintWriter pw) {
+	private void emitRepositories(PrintWriter pw) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * Write out a list of source citations
+	 * 
+	 * @param pw
+	 *            the {@link PrintWriter} we are writing to
+	 * @param level
+	 *            the level in the hierarchy we are writing at
+	 * @param citations
+	 *            the source citations
+	 */
+	private void emitSourceCitations(PrintWriter pw, int level,
+	        List<Citation> citations) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * Write out all the sources
+	 * 
+	 * @param pw
+	 *            the {@link PrintWriter} we're writing to
+	 */
+	private void emitSources(PrintWriter pw) {
 		// TODO Auto-generated method stub
 
 	}
@@ -297,7 +460,43 @@ public class GedcomWriter {
 		emitTagIfValueNotNull(pw, 1, null, "DESC", s.descendantsCount);
 		emitTagIfValueNotNull(pw, 1, null, "ORDI", s.ordinanceProcessFlag);
 		emitTagIfValueNotNull(pw, 1, null, "RIN", s.recIdNumber);
+	}
 
+	/**
+	 * Write out the submitter record
+	 * 
+	 * @param pw
+	 *            the {@link PrintWriter} we're writing to
+	 * @throws GedcomWriterException
+	 *             if the data is malformed and cannot be written
+	 */
+	private void emitSubmitter(PrintWriter pw) throws GedcomWriterException {
+		for (Submitter s : gedcom.submitters.values()) {
+			emitTag(pw, 0, s.xref, "SUBM");
+			emitTagWithOptionalValue(pw, 1, null, "NAME", s.name);
+			emitAddress(pw, 1, s.address);
+			emitMultimediaLinks(pw, 1, s.multimedia);
+			for (String l : s.languagePref) {
+				emitTagWithRequiredValue(pw, 1, null, "LANG", l);
+			}
+			/*
+			 * Unclear if really part of the GEDCOM or not - a stress test file
+			 * includes them, and the tool can parse them, so if we have them,
+			 * write them. Won't hurt anything if the collection is empty.
+			 */
+			for (String l : s.phoneNumbers) {
+				emitTagWithRequiredValue(pw, 1, null, "PHON", l);
+			}
+
+			emitTagIfValueNotNull(pw, 1, null, "RFN", s.regFileNumber);
+			emitTagIfValueNotNull(pw, 1, null, "RIN", s.recIdNumber);
+			if (s.changeDate != null) {
+				emitTag(pw, 1, null, "CHAN");
+				emitTagWithRequiredValue(pw, 2, null, "DATE", s.changeDate.date);
+				emitTagIfValueNotNull(pw, 3, null, "TIME", s.changeDate.time);
+				emitNotes(pw, 2, s.changeDate.notes);
+			}
+		}
 	}
 
 	/**

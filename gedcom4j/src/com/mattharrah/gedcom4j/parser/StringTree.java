@@ -78,6 +78,7 @@ class StringTree {
 
 	@Override
 	public String toString() {
-		return "Line " + lineNum + ": " + level + " " + tag + " " + value;
+		return "Line " + lineNum + ": " + level + (id != null ? " " + id : "")
+		        + " " + tag + " " + value;
 	}
 }
