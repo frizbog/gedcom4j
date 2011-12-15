@@ -7,14 +7,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Map;
 
 import junit.framework.TestCase;
 
 import com.mattharrah.gedcom4j.Gedcom;
 import com.mattharrah.gedcom4j.Header;
-import com.mattharrah.gedcom4j.Repository;
 import com.mattharrah.gedcom4j.parser.GedcomParser;
+import com.mattharrah.gedcom4j.parser.GedcomParserException;
 import com.mattharrah.gedcom4j.validate.GedcomValidationException;
 
 /**
@@ -31,20 +30,54 @@ import com.mattharrah.gedcom4j.validate.GedcomValidationException;
 public class GedcomWriterTest extends TestCase {
 
 	/**
-	 * The original gedcom structure read in from the torture test file. Test
-	 * fixture loaded in setUp().
+	 * The original gedcom structure read in from the torture test file.
 	 */
 	private Gedcom gedcomOrig;
 	/**
 	 * The read-back gedcom structure read in from the file we write as part of
-	 * the test. Test fixture loaded in setUp().
+	 * the test.
 	 */
 	private Gedcom gedcomReadback;
 	/**
-	 * The entire contents of the written out file, as a string. Test fixture
-	 * loaded in setUp().
+	 * The entire contents of the written out file, as a string.
 	 */
 	private String writtenFileAsString;
+
+	/**
+	 * Constructor. Does some test fixture initialization once for the whole
+	 * class rather than in setUp().
+	 * 
+	 * @throws IOException
+	 *             if there's a file i/o error
+	 * @throws GedcomParserException
+	 *             if a gedcom file won't parse
+	 * @throws GedcomValidationException
+	 *             if a gedcom datastructure doesn't pass validation
+	 * @throws GedcomWriterException
+	 *             if a gedcom data structure can't be written (usually due to
+	 *             invalid data, shouldn't happen)
+	 */
+	public GedcomWriterTest() throws IOException, GedcomParserException,
+	        GedcomValidationException, GedcomWriterException {
+		// Load a file
+		GedcomParser p = new GedcomParser();
+		p.load("sample/TGC551.ged");
+		gedcomOrig = p.gedcom;
+
+		GedcomWriter gw = new GedcomWriter(gedcomOrig);
+		File tempFile = new File(System.getProperty("java.io.tmpdir")
+		        + "gedcom4j.writertest.ged");
+		System.out.println(tempFile.getAbsolutePath());
+		gw.write(tempFile);
+
+		writtenFileAsString = loadFileIntoString(tempFile);
+		System.out.println(writtenFileAsString);
+
+		// Reload the file we just wrote
+		p = new GedcomParser();
+		p.load(tempFile.getAbsolutePath());
+		gedcomReadback = p.gedcom;
+	}
 
 	/**
 	 * Check if headers are written out and read back the same
@@ -113,10 +146,12 @@ public class GedcomWriterTest extends TestCase {
 
 	}
 
+	/**
+	 * Test the writing of repositories.
+	 */
 	public void testRepositories() {
-		Map<String, Repository> r1 = gedcomOrig.repositories;
-		Map<String, Repository> r2 = gedcomReadback.repositories;
-		assertEquals("Lists of repositories should be equal", r1, r2);
+		assertEquals("Lists of repositories should be equal",
+		        gedcomOrig.repositories, gedcomReadback.repositories);
 		assertTrue("The file as read back should have a repository",
 		        writtenFileAsString.contains("0 @R1@ REPO\n"
 		                + "1 NAME Family History Library\n"
@@ -132,6 +167,14 @@ public class GedcomWriterTest extends TestCase {
 		                + "1 PHON +1-801-240-1278 (gifts & donations)\n"
 		                + "1 PHON +1-801-240-2584 (support)\n1 CHAN\n"
 		                + "2 DATE 12 Mar 2000\n3 TIME 10:36:02"));
+	}
+
+	/**
+	 * Check that the sources are written out and readback identically.
+	 */
+	public void testSources() {
+		assertNotSame(gedcomOrig.sources, gedcomReadback.sources);
+		assertEquals(gedcomOrig.sources, gedcomReadback.sources);
 	}
 
 	/**
@@ -246,28 +289,9 @@ public class GedcomWriterTest extends TestCase {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		// Load a file
-		GedcomParser p = new GedcomParser();
-		p.load("sample/TGC551.ged");
-		gedcomOrig = p.gedcom;
-
-		GedcomWriter gw = new GedcomWriter(gedcomOrig);
-		File tempFile = new File(System.getProperty("java.io.tmpdir")
-		        + "gedcom4j.writertest.ged");
-		System.out.println(tempFile.getAbsolutePath());
-		gw.write(tempFile);
-
-		writtenFileAsString = loadFileIntoString(tempFile);
-		System.out.println(writtenFileAsString);
-
-		// Reload the file we just wrote
-		p = new GedcomParser();
-		p.load(tempFile.getAbsolutePath());
-		gedcomReadback = p.gedcom;
-
-		// Compare what was loaded from original file and what was reloaded from
-		// the file we just wrote
-		// Should be basically the same.
+		// Make sure we actually have test fixtures to work with
+		assertNotNull(gedcomOrig);
 		assertNotNull(gedcomReadback);
+		assertNotNull(writtenFileAsString);
 	}
 }

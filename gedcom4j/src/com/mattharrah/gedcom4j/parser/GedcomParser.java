@@ -67,6 +67,7 @@ import com.mattharrah.gedcom4j.Place;
 import com.mattharrah.gedcom4j.Repository;
 import com.mattharrah.gedcom4j.RepositoryCitation;
 import com.mattharrah.gedcom4j.Source;
+import com.mattharrah.gedcom4j.SourceCallNumber;
 import com.mattharrah.gedcom4j.SourceData;
 import com.mattharrah.gedcom4j.SourceSystem;
 import com.mattharrah.gedcom4j.Submission;
@@ -991,7 +992,11 @@ public class GedcomParser {
 		}
 		for (StringTree ch : st.children) {
 			if ("CONC".equals(ch.tag) || "CONT".equals(ch.tag)) {
-				listOfString.add(ch.value);
+				if (ch.value == null) {
+					listOfString.add("");
+				} else {
+					listOfString.add(ch.value);
+				}
 			} else {
 				unknownTag(ch);
 			}
@@ -1206,9 +1211,11 @@ public class GedcomParser {
 			if ("NOTE".equals(ch.tag)) {
 				loadNote(ch, r.notes);
 			} else if ("CALN".equals(ch.tag)) {
-				r.callNumber = ch.value;
+				SourceCallNumber scn = new SourceCallNumber();
+				r.callNumbers.add(scn);
+				scn.callNumber = ch.value;
 				if (!ch.children.isEmpty()) {
-					r.mediaType = ch.children.get(0).value;
+					scn.mediaType = ch.children.get(0).value;
 				}
 			} else {
 				unknownTag(ch);

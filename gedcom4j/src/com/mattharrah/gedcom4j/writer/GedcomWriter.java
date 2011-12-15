@@ -12,13 +12,17 @@ import com.mattharrah.gedcom4j.Address;
 import com.mattharrah.gedcom4j.ChangeDate;
 import com.mattharrah.gedcom4j.Citation;
 import com.mattharrah.gedcom4j.Corporation;
+import com.mattharrah.gedcom4j.EventRecorded;
 import com.mattharrah.gedcom4j.Gedcom;
 import com.mattharrah.gedcom4j.Header;
 import com.mattharrah.gedcom4j.HeaderSourceData;
 import com.mattharrah.gedcom4j.Multimedia;
 import com.mattharrah.gedcom4j.Note;
 import com.mattharrah.gedcom4j.Repository;
+import com.mattharrah.gedcom4j.RepositoryCitation;
 import com.mattharrah.gedcom4j.Source;
+import com.mattharrah.gedcom4j.SourceCallNumber;
+import com.mattharrah.gedcom4j.SourceData;
 import com.mattharrah.gedcom4j.SourceSystem;
 import com.mattharrah.gedcom4j.Submission;
 import com.mattharrah.gedcom4j.Submitter;
@@ -140,14 +144,7 @@ public class GedcomWriter {
 		if (address == null) {
 			return;
 		}
-		int addrLineNum = 0;
-		for (String l : address.lines) {
-			if (addrLineNum++ == 0) {
-				emitTagIfValueNotNull(pw, level, null, "ADDR", l);
-			} else {
-				emitTagIfValueNotNull(pw, level + 1, null, "CONT", l);
-			}
-		}
+		emitLinesOfText(pw, level, "ADDR", address.lines);
 		emitTagIfValueNotNull(pw, level + 1, null, "ADR1", address.addr1);
 		emitTagIfValueNotNull(pw, level + 1, null, "ADR2", address.addr2);
 		emitTagIfValueNotNull(pw, level + 1, null, "CITY", address.city);
@@ -236,6 +233,32 @@ public class GedcomWriter {
 	private void emitIndividuals(PrintWriter pw) {
 		// TODO Auto-generated method stub
 
+	}
+
+	/**
+	 * Emit a multi-line text value.
+	 * 
+	 * @param pw
+	 *            the {@link PrintWriter} we're writing to
+	 * @param level
+	 *            the level we are starting at. Continuation lines will be one
+	 *            level deeper than this value
+	 * @param startingTag
+	 *            the tag to use for the first line of the text. All subsequent
+	 *            lines will be "CONT" lines.
+	 * @param linesOfText
+	 *            the lines of text
+	 */
+	private void emitLinesOfText(PrintWriter pw, int level, String startingTag,
+	        List<String> linesOfText) {
+		int lineNum = 0;
+		for (String l : linesOfText) {
+			if (lineNum++ == 0) {
+				emitTagIfValueNotNull(pw, level, null, startingTag, l);
+			} else {
+				emitTagIfValueNotNull(pw, level + 1, null, "CONT", l);
+			}
+		}
 	}
 
 	/**
@@ -355,7 +378,7 @@ public class GedcomWriter {
 	}
 
 	/**
-	 * Write out the phone numbers
+	 * Write out a list of phone numbers
 	 * 
 	 * @param pw
 	 *            the {@link PrintWriter} we are writing to
@@ -369,7 +392,6 @@ public class GedcomWriter {
 		for (String ph : phoneNumbers) {
 			emitTagIfValueNotNull(pw, level, null, "PHON", ph);
 		}
-
 	}
 
 	/**
@@ -391,7 +413,7 @@ public class GedcomWriter {
 	}
 
 	/**
-	 * Write out all the repositories
+	 * Write out all the repositories (see REPOSITORY_RECORD in the Gedcom spec)
 	 * 
 	 * @param pw
 	 *            the {@link PrintWriter} we're writing to
@@ -413,6 +435,39 @@ public class GedcomWriter {
 			emitPhoneNumbers(pw, 1, r.phoneNumbers);
 			emitChangeDate(pw, 1, r.changeDate);
 		}
+	}
+
+	/**
+	 * Write out a repository citation (see SOURCE_REPOSITORY_CITATION in the
+	 * gedcom spec)
+	 * 
+	 * @param pw
+	 *            the {@link PrintWriter} we're writing to
+	 * @param level
+	 *            the level we're writing at
+	 * @param repositoryCitation
+	 *            the repository citation to write out
+	 * @throws GedcomWriterException
+	 *             if the repository citation passed in has a null repository
+	 *             reference
+	 */
+	private void emitRepositoryCitation(PrintWriter pw, int level,
+	        RepositoryCitation repositoryCitation) throws GedcomWriterException {
+		if (repositoryCitation != null) {
+			if (repositoryCitation.repository == null) {
+				throw new GedcomWriterException(
+				        "Repository Citation has null repository reference");
+			}
+			emitTagWithRequiredValue(pw, level, null, "REPO",
+			        repositoryCitation.repository.xref);
+			emitNotes(pw, level + 1, repositoryCitation.notes);
+			for (SourceCallNumber scn : repositoryCitation.callNumbers) {
+				emitTagWithRequiredValue(pw, level + 1, null, "CALN",
+				        scn.callNumber);
+				emitTagIfValueNotNull(pw, level + 2, null, "MEDI",
+				        scn.mediaType);
+			}
+		}
 
 	}
 
@@ -433,20 +488,48 @@ public class GedcomWriter {
 	}
 
 	/**
-	 * Write out all the sources
+	 * Write out all the sources (see SOURCE_RECORD in the Gedcom spec)
 	 * 
 	 * @param pw
 	 *            the {@link PrintWriter} we're writing to
+	 * @throws GedcomWriterException
+	 *             if the data being written is malformed
 	 */
-	private void emitSources(PrintWriter pw) {
+	private void emitSources(PrintWriter pw) throws GedcomWriterException {
 		for (Source s : gedcom.sources.values()) {
-			// Emit the source
+			emitTag(pw, 0, s.xref, "SOUR");
+			SourceData d = s.data;
+			if (d != null) {
+				emitTag(pw, 1, null, "DATA");
+				for (EventRecorded e : d.eventsRecorded) {
+					emitTagWithOptionalValue(pw, 2, null, "EVEN", e.eventType);
+					emitTagIfValueNotNull(pw, 2, null, "DATE", e.datePeriod);
+					emitTagIfValueNotNull(pw, 2, null, "PLAC", e.jurisdiction);
+				}
+				emitTagIfValueNotNull(pw, 2, null, "AGNC", d.respAgency);
+				emitNotes(pw, 2, d.notes);
+			}
+			emitLinesOfText(pw, 1, "AUTH", s.originatorsAuthors);
+			emitLinesOfText(pw, 1, "TITL", s.title);
+			emitTagIfValueNotNull(pw, 1, null, "ABBR", s.sourceFiledBy);
+			emitLinesOfText(pw, 1, "PUBL", s.publicationFacts);
+			emitLinesOfText(pw, 1, "TEXT", s.sourceText);
+			emitRepositoryCitation(pw, 1, s.repositoryCitation);
+			emitMultimediaLinks(pw, 1, s.multimedia);
+			emitNotes(pw, 1, s.notes);
+			for (UserReference u : s.userReferences) {
+				emitTagWithRequiredValue(pw, 1, null, "REFN", u.referenceNum);
+				emitTagIfValueNotNull(pw, 2, null, "TYPE", u.type);
+			}
+			emitTagIfValueNotNull(pw, 1, null, "RIN", s.recIdNumber);
+			emitTagIfValueNotNull(pw, 1, null, "RFN", s.regFileNumber);
+			emitChangeDate(pw, 1, s.changeDate);
 		}
 	}
 
 	/**
-	 * Write a source system structure (see APPROVED_SYSTEM_ID) in the GEDCOM
-	 * spec
+	 * Write a source system structure (see APPROVED_SYSTEM_ID in the GEDCOM
+	 * spec)
 	 * 
 	 * @param pw
 	 *            the {@link PrintWriter} we're writing to

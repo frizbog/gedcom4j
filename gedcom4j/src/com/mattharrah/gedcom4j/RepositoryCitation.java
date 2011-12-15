@@ -31,8 +31,7 @@ public class RepositoryCitation {
 
 	public Repository repository;
 	public List<Note> notes = new ArrayList<Note>();
-	public String callNumber;
-	public String mediaType;
+	public List<SourceCallNumber> callNumbers = new ArrayList<SourceCallNumber>();
 
 	@Override
 	public boolean equals(Object obj) {
@@ -46,18 +45,11 @@ public class RepositoryCitation {
 			return false;
 		}
 		RepositoryCitation other = (RepositoryCitation) obj;
-		if (callNumber == null) {
-			if (other.callNumber != null) {
+		if (callNumbers == null) {
+			if (other.callNumbers != null) {
 				return false;
 			}
-		} else if (!callNumber.equals(other.callNumber)) {
-			return false;
-		}
-		if (mediaType == null) {
-			if (other.mediaType != null) {
-				return false;
-			}
-		} else if (!mediaType.equals(other.mediaType)) {
+		} else if (!callNumbers.equals(other.callNumbers)) {
 			return false;
 		}
 		if (notes == null) {
@@ -82,9 +74,7 @@ public class RepositoryCitation {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-		        + ((callNumber == null) ? 0 : callNumber.hashCode());
-		result = prime * result
-		        + ((mediaType == null) ? 0 : mediaType.hashCode());
+		        + ((callNumbers == null) ? 0 : callNumbers.hashCode());
 		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
 		result = prime * result
 		        + ((repository == null) ? 0 : repository.hashCode());
