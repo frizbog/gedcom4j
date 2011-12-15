@@ -244,13 +244,27 @@ public class GedcomWriter {
 	 *            the level in the hierarchy we are writing at
 	 * @param multimedia
 	 *            the {@link List} of {@link Multimedia} objects
+	 * @throws GedcomWriterException
+	 *             if the data is malformed and cannot be written
 	 */
 	private void emitMultimediaLinks(PrintWriter pw, int level,
-	        List<Multimedia> multimedia) {
+	        List<Multimedia> multimedia) throws GedcomWriterException {
 		if (multimedia == null) {
 			return;
 		}
-		// TODO - complete writing out the multimedia links
+		for (Multimedia m : multimedia) {
+			// TODO - complete writing out the multimedia links
+			if (m.xref != null) {
+				emitTagWithRequiredValue(pw, level, null, "OBJE", m.xref);
+			} else {
+				emitTag(pw, level, null, "OBJE");
+				emitTagWithRequiredValue(pw, level + 1, null, "FORM", m.format);
+				emitTagIfValueNotNull(pw, level + 1, null, "TITL", m.title);
+				emitTagWithRequiredValue(pw, level + 1, null, "FILE",
+				        m.fileReference);
+				emitNotes(pw, level, m.notes);
+			}
+		}
 	}
 
 	/**
