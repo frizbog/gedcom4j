@@ -147,6 +147,31 @@ public class GedcomWriterTest extends TestCase {
 	}
 
 	/**
+	 * Test for embedded multimedia objects at the top level of the gedcom
+	 * structure
+	 */
+	public void testMultimedia() {
+		assertNotSame(gedcomOrig.multimedia, gedcomReadback.multimedia);
+		assertTrue(writtenFileAsString
+		        .contains("0 @M1@ OBJE\n"
+		                + "1 FORM PICT\n"
+		                + "1 TITL Dummy Multimedia Object\n"
+		                + "1 BLOB\n"
+		                + "2 CONT .HM.......k.1..F.jwA.Dzzzzw............A....1.........0U.66..E.8\n"
+		                + "2 CONT .......A..k.a6.A.......A..k.........../6....G.......0../..U.....\n"
+		                + "2 CONT .w1/m........HC0..../...zzzzzzzz..5zzk..AnA..U..W6U....2rRrRrRrR\n"
+		                + "2 CONT .Dw...............k.1.......1..A...5ykE/zzzx/.g//.Hxzk6/.Tzy/.k1\n"
+		                + "2 CONT /Dw/.Tvz.E5zzUE9/kHz.Tw2/DzzzEEA.kE2zk5yzk2/zzs21.U2/Dw/.Tw/.Tzy\n"
+		                + "2 CONT /.fy/.HzzkHzzzo21Ds00.E2.UE2.U62/.k./Ds0.UE0/Do0..E8/UE2.U62.U9w\n"
+		                + "2 CONT /.Tx/.20.jg2/jo2..9u/.0U.6A.zk\n"
+		                + "1 REFN User Reference Number\n"
+		                + "2 TYPE User Reference Type\n" + "1 RIN 1\n"
+		                + "1 CHAN\n" + "2 DATE 14 Jan 2001\n"
+		                + "3 TIME 14:10:31"));
+		assertEquals(gedcomOrig.multimedia, gedcomReadback.multimedia);
+	}
+
+	/**
 	 * Test the writing of repositories.
 	 */
 	public void testRepositories() {

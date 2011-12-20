@@ -171,7 +171,7 @@ public class GedcomWriter {
 	 *            the {@link PrintWriter} we're writing to
 	 */
 	private void emitFamilies(PrintWriter pw) {
-		// TODO Auto-generated method stub
+		// TODO write out families
 
 	}
 
@@ -231,7 +231,7 @@ public class GedcomWriter {
 	 *            the {@link PrintWriter} we're writing to
 	 */
 	private void emitIndividuals(PrintWriter pw) {
-		// TODO Auto-generated method stub
+		// TODO write out individuals
 
 	}
 
@@ -262,14 +262,35 @@ public class GedcomWriter {
 	}
 
 	/**
-	 * Write out all the multimedia references
+	 * Write out all the embedded multimedia objects
 	 * 
 	 * @param pw
 	 *            the {@link PrintWriter} we're writing to
+	 * @throws GedcomWriterException
+	 *             if the data is malformed and cannot be written
 	 */
-	private void emitMultimedia(PrintWriter pw) {
-		// TODO Auto-generated method stub
+	private void emitMultimedia(PrintWriter pw) throws GedcomWriterException {
+		for (Multimedia m : gedcom.multimedia.values()) {
+			emitTag(pw, 0, m.xref, "OBJE");
+			emitTagWithRequiredValue(pw, 1, null, "FORM", m.format);
+			emitTagIfValueNotNull(pw, 1, null, "TITL", m.title);
+			emitNotes(pw, 1, m.notes);
+			emitTag(pw, 1, null, "BLOB");
+			for (String b : m.blob) {
+				emitTagWithRequiredValue(pw, 2, null, "CONT", b);
+			}
+			if (m.continuedObject != null && m.continuedObject.xref != null) {
+				emitTagWithRequiredValue(pw, 1, null, "OBJE",
+				        m.continuedObject.xref);
+			}
+			for (UserReference u : m.userReferences) {
+				emitTagWithRequiredValue(pw, 1, null, "REFN", u.referenceNum);
+				emitTagIfValueNotNull(pw, 2, null, "TYPE", u.type);
+			}
+			emitTagIfValueNotNull(pw, 1, null, "RIN", m.recIdNumber);
+			emitChangeDate(pw, 1, m.changeDate);
 
+		}
 	}
 
 	/**
@@ -290,10 +311,11 @@ public class GedcomWriter {
 			return;
 		}
 		for (Multimedia m : multimedia) {
-			// TODO - complete writing out the multimedia links
 			if (m.xref != null) {
+				// Link to the embedded form
 				emitTagWithRequiredValue(pw, level, null, "OBJE", m.xref);
 			} else {
+				// Link to external file
 				emitTag(pw, level, null, "OBJE");
 				emitTagWithRequiredValue(pw, level + 1, null, "FORM", m.format);
 				emitTagIfValueNotNull(pw, level + 1, null, "TITL", m.title);
@@ -373,7 +395,7 @@ public class GedcomWriter {
 	 */
 
 	private void emitNoteStructures(PrintWriter pw) {
-		// TODO Auto-generated method stub
+		// TODO write out note structures
 
 	}
 
@@ -483,7 +505,7 @@ public class GedcomWriter {
 	 */
 	private void emitSourceCitations(PrintWriter pw, int level,
 	        List<Citation> citations) {
-		// TODO Auto-generated method stub
+		// TODO write out source citations
 
 	}
 
