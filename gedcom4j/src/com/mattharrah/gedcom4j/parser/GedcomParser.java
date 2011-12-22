@@ -549,6 +549,7 @@ public class GedcomParser {
 		FamilyEvent e = new FamilyEvent();
 		events.add(e);
 		e.type = FamilyEventType.getFromTag(st.tag);
+		e.yNull = st.value;
 		for (StringTree ch : st.children) {
 			if ("TYPE".equals(ch.tag)) {
 				e.subType = ch.value;
@@ -751,6 +752,7 @@ public class GedcomParser {
 	private void loadIndividual(StringTree st) {
 		Individual i = new Individual();
 		gedcom.individuals.put(st.id, i);
+		i.xref = st.id;
 		for (StringTree ch : st.children) {
 			if ("NAME".equals(ch.tag)) {
 				PersonalName pn = new PersonalName();

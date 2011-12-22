@@ -40,8 +40,8 @@ public class Individual {
 	 * Aliases for the current individual. Not yet fully implemented as a link
 	 * to the other individual.
 	 */
-	public List<String> aliases = new ArrayList<String>(); // TODO - link to
-	                                                       // aliased individual
+	public List<String> aliases = new ArrayList<String>();
+
 	/**
 	 * A list of submitter(s) who are interested in the ancestry of this
 	 * individual.

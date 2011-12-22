@@ -7,9 +7,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
+import com.mattharrah.gedcom4j.Family;
 import com.mattharrah.gedcom4j.Gedcom;
 import com.mattharrah.gedcom4j.Header;
 import com.mattharrah.gedcom4j.parser.GedcomParser;
@@ -79,8 +81,22 @@ public class GedcomWriterTest extends TestCase {
 	}
 
 	/**
+	 * Test that the families are written out and read back the same
+	 */
+	public void testFamilies() {
+		Map<String, Family> f1 = gedcomOrig.families;
+		Map<String, Family> f2 = gedcomReadback.families;
+		assertNotSame(f1, f2);
+		assertEquals(f1.keySet().size(), f2.keySet().size());
+		assertTrue(writtenFileAsString.contains("0 @F6@ FAM\n"
+		        + "1 HUSB @I14@\n1 WIFE @I13@\n1 CHIL @PERSON5@\n"
+		        + "1 NOTE @N37@\n1 RIN 6\n1 CHAN\n"
+		        + "2 DATE 11 Jan 2001\n3 TIME 16:51:48\n"));
+		assertEquals(f1, f2);
+	}
+
+	/**
 	 * Check if headers are written out and read back the same
-	 * 
 	 */
 	public void testHeader() {
 		Header h1 = gedcomOrig.header;
@@ -218,7 +234,7 @@ public class GedcomWriterTest extends TestCase {
 		        + "1 AUTH Second Source Author\n"
 		        + "1 TITL All I Know About GEDCOM, I Learned on the Internet\n"
 		        + "1 ABBR What I Know About GEDCOM\n1 NOTE @N16@\n"
-		        + "1 RIN 2\n1 CHAN\n2 DATE 11 Jan 2001\n" + "3 TIME 16:21:39"));
+		        + "1 RIN 2\n1 CHAN\n2 DATE 11 Jan 2001\n3 TIME 16:21:39"));
 		assertEquals(gedcomOrig.sources, gedcomReadback.sources);
 	}
 
@@ -236,31 +252,28 @@ public class GedcomWriterTest extends TestCase {
 		                + "1 DESC 1\n1 ORDI yes\n1 RIN 1\n"));
 		assertTrue(
 		        "File as read back is does not have the primary submitter included as expected",
-		        writtenFileAsString
-		                .contains("0 @SUBMITTER@ SUBM\n"
-		                        + "1 NAME John A. Nairn\n"
-		                        + "1 ADDR Submitter address line 1\n"
-		                        + "2 CONT Submitter address line 2\n"
-		                        + "2 CONT Submitter address line 3\n"
-		                        + "2 CONT Submitter address line 4\n"
-		                        + "2 ADR1 Submitter address line 1\n"
-		                        + "2 ADR2 Submitter address line 2\n"
-		                        + "2 CITY Submitter address city\n"
-		                        + "2 STAE Submitter address state\n"
-		                        + "2 POST Submitter address ZIP code\n"
-		                        + "2 CTRY Submitter address country\n"
-		                        + "1 OBJE\n"
-		                        + "2 FORM jpeg\n"
-		                        + "2 TITL Submitter Multimedia File\n"
-		                        + "2 FILE ImgFile.JPG\n"
-		                        + "2 NOTE @N1@\n"
-		                        + "1 LANG English\n"
-		                        + "1 PHON Submitter phone number 1\n"
-		                        + "1 PHON Submitter phone number 2\n"
-		                        + "1 PHON Submitter phone number 3 (last one!)\n"
-		                        + "1 RFN Submitter Registered RFN\n"
-		                        + "1 RIN 1\n" + "1 CHAN\n"
-		                        + "2 DATE 7 Sep 2000\n" + "3 TIME 8:35:36"));
+		        writtenFileAsString.contains("0 @SUBMITTER@ SUBM\n"
+		                + "1 NAME John A. Nairn\n"
+		                + "1 ADDR Submitter address line 1\n"
+		                + "2 CONT Submitter address line 2\n"
+		                + "2 CONT Submitter address line 3\n"
+		                + "2 CONT Submitter address line 4\n"
+		                + "2 ADR1 Submitter address line 1\n"
+		                + "2 ADR2 Submitter address line 2\n"
+		                + "2 CITY Submitter address city\n"
+		                + "2 STAE Submitter address state\n"
+		                + "2 POST Submitter address ZIP code\n"
+		                + "2 CTRY Submitter address country\n" + "1 OBJE\n"
+		                + "2 FORM jpeg\n"
+		                + "2 TITL Submitter Multimedia File\n"
+		                + "2 FILE ImgFile.JPG\n" + "2 NOTE @N1@\n"
+		                + "1 LANG English\n"
+		                + "1 PHON Submitter phone number 1\n"
+		                + "1 PHON Submitter phone number 2\n"
+		                + "1 PHON Submitter phone number 3 (last one!)\n"
+		                + "1 RFN Submitter Registered RFN\n"
+		                + "1 RIN 1\n1 CHAN\n"
+		                + "2 DATE 7 Sep 2000\n3 TIME 8:35:36"));
 		assertTrue(
 		        "File as read back does not have the expected secondary submitter",
 		        writtenFileAsString

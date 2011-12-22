@@ -93,4 +93,160 @@ public class Family {
 	 * The user references
 	 */
 	public List<UserReference> userReferences = new ArrayList<UserReference>();
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Family other = (Family) obj;
+		if (automatedRecordId == null) {
+			if (other.automatedRecordId != null) {
+				return false;
+			}
+		} else if (!automatedRecordId.equals(other.automatedRecordId)) {
+			return false;
+		}
+		if (changeDate == null) {
+			if (other.changeDate != null) {
+				return false;
+			}
+		} else if (!changeDate.equals(other.changeDate)) {
+			return false;
+		}
+		if (children == null) {
+			if (other.children != null) {
+				return false;
+			}
+		} else if (!children.equals(other.children)) {
+			return false;
+		}
+		if (citations == null) {
+			if (other.citations != null) {
+				return false;
+			}
+		} else if (!citations.equals(other.citations)) {
+			return false;
+		}
+		if (events == null) {
+			if (other.events != null) {
+				return false;
+			}
+		} else if (!events.equals(other.events)) {
+			return false;
+		}
+		if (husband == null) {
+			if (other.husband != null) {
+				return false;
+			}
+		} else if (!husband.equals(other.husband)) {
+			return false;
+		}
+		if (ldsSpouseSealings == null) {
+			if (other.ldsSpouseSealings != null) {
+				return false;
+			}
+		} else if (!ldsSpouseSealings.equals(other.ldsSpouseSealings)) {
+			return false;
+		}
+		if (multimedia == null) {
+			if (other.multimedia != null) {
+				return false;
+			}
+		} else if (!multimedia.equals(other.multimedia)) {
+			return false;
+		}
+		if (notes == null) {
+			if (other.notes != null) {
+				return false;
+			}
+		} else if (!notes.equals(other.notes)) {
+			return false;
+		}
+		if (numChildren == null) {
+			if (other.numChildren != null) {
+				return false;
+			}
+		} else if (!numChildren.equals(other.numChildren)) {
+			return false;
+		}
+		if (recFileNumber == null) {
+			if (other.recFileNumber != null) {
+				return false;
+			}
+		} else if (!recFileNumber.equals(other.recFileNumber)) {
+			return false;
+		}
+		if (submitters == null) {
+			if (other.submitters != null) {
+				return false;
+			}
+		} else if (!submitters.equals(other.submitters)) {
+			return false;
+		}
+		if (userReferences == null) {
+			if (other.userReferences != null) {
+				return false;
+			}
+		} else if (!userReferences.equals(other.userReferences)) {
+			return false;
+		}
+		if (wife == null) {
+			if (other.wife != null) {
+				return false;
+			}
+		} else if (!wife.equals(other.wife)) {
+			return false;
+		}
+		if (xref == null) {
+			if (other.xref != null) {
+				return false;
+			}
+		} else if (!xref.equals(other.xref)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+		        * result
+		        + ((automatedRecordId == null) ? 0 : automatedRecordId
+		                .hashCode());
+		result = prime * result
+		        + ((changeDate == null) ? 0 : changeDate.hashCode());
+		result = prime * result
+		        + ((children == null) ? 0 : children.hashCode());
+		result = prime * result
+		        + ((citations == null) ? 0 : citations.hashCode());
+		result = prime * result + ((events == null) ? 0 : events.hashCode());
+		result = prime * result + ((husband == null) ? 0 : husband.hashCode());
+		result = prime
+		        * result
+		        + ((ldsSpouseSealings == null) ? 0 : ldsSpouseSealings
+		                .hashCode());
+		result = prime * result
+		        + ((multimedia == null) ? 0 : multimedia.hashCode());
+		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
+		result = prime * result
+		        + ((numChildren == null) ? 0 : numChildren.hashCode());
+		result = prime * result
+		        + ((recFileNumber == null) ? 0 : recFileNumber.hashCode());
+		result = prime * result
+		        + ((submitters == null) ? 0 : submitters.hashCode());
+		result = prime * result
+		        + ((userReferences == null) ? 0 : userReferences.hashCode());
+		result = prime * result + ((wife == null) ? 0 : wife.hashCode());
+		result = prime * result + ((xref == null) ? 0 : xref.hashCode());
+		return result;
+	}
 }

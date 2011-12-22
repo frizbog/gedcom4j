@@ -38,6 +38,11 @@ public class FamilyEvent extends Event {
 	 * more info.
 	 */
 	public FamilyEventType type;
+
+	/**
+	 * Either a Y or a null after the event type;
+	 */
+	public String yNull;
 	/**
 	 * Age of husband at time of event
 	 */
