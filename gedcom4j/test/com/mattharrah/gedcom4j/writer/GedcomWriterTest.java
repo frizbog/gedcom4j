@@ -65,8 +65,7 @@ public class GedcomWriterTest extends TestCase {
 		gedcomOrig = p.gedcom;
 
 		GedcomWriter gw = new GedcomWriter(gedcomOrig);
-		File tempFile = new File(System.getProperty("java.io.tmpdir")
-		        + "gedcom4j.writertest.ged");
+		File tempFile = new File("tmp/gedcom4j.writertest.ged");
 		System.out.println(tempFile.getAbsolutePath());
 		gw.write(tempFile);
 
@@ -152,10 +151,15 @@ public class GedcomWriterTest extends TestCase {
 	 */
 	public void testMultimedia() {
 		assertNotSame(gedcomOrig.multimedia, gedcomReadback.multimedia);
+		assertTrue(writtenFileAsString.contains("1 OBJE\n2 FORM jpeg\n"
+		        + "2 TITL Submitter Multimedia File\n2 FILE ImgFile.JPG\n"
+		        + "2 NOTE @N1@\n1 "));
 		assertTrue(writtenFileAsString
 		        .contains("0 @M1@ OBJE\n"
 		                + "1 FORM PICT\n"
 		                + "1 TITL Dummy Multimedia Object\n"
+		                + "1 NOTE Here are some notes on this multimedia object.\n"
+		                + "2 CONT If decoded it should be an image of a flower.\n"
 		                + "1 BLOB\n"
 		                + "2 CONT .HM.......k.1..F.jwA.Dzzzzw............A....1.........0U.66..E.8\n"
 		                + "2 CONT .......A..k.a6.A.......A..k.........../6....G.......0../..U.....\n"
@@ -165,10 +169,20 @@ public class GedcomWriterTest extends TestCase {
 		                + "2 CONT /.fy/.HzzkHzzzo21Ds00.E2.UE2.U62/.k./Ds0.UE0/Do0..E8/UE2.U62.U9w\n"
 		                + "2 CONT /.Tx/.20.jg2/jo2..9u/.0U.6A.zk\n"
 		                + "1 REFN User Reference Number\n"
-		                + "2 TYPE User Reference Type\n" + "1 RIN 1\n"
-		                + "1 CHAN\n" + "2 DATE 14 Jan 2001\n"
-		                + "3 TIME 14:10:31"));
+		                + "2 TYPE User Reference Type\n1 RIN 1\n"
+		                + "1 CHAN\n2 DATE 14 Jan 2001\n3 TIME 14:10:31"));
 		assertEquals(gedcomOrig.multimedia, gedcomReadback.multimedia);
+	}
+
+	/**
+	 * Check that the notes are written out and readback identically.
+	 */
+	public void testNotes() {
+		assertNotSame(gedcomOrig.notes, gedcomReadback.notes);
+		assertTrue(writtenFileAsString.contains("0 @N19@ NOTE \n"
+		        + "1 CONT A note about this LDS spouse sealing source.\n"
+		        + "1 CHAN\n2 DATE 12 Mar 2000\n3 TIME 12:32:13\n"));
+		assertEquals(gedcomOrig.notes, gedcomReadback.notes);
 	}
 
 	/**
@@ -177,7 +191,8 @@ public class GedcomWriterTest extends TestCase {
 	public void testRepositories() {
 		assertEquals("Lists of repositories should be equal",
 		        gedcomOrig.repositories, gedcomReadback.repositories);
-		assertTrue("The file as read back should have a repository",
+		assertTrue(
+		        "The file as read back should have repository @R1@ in the expected format",
 		        writtenFileAsString.contains("0 @R1@ REPO\n"
 		                + "1 NAME Family History Library\n"
 		                + "1 ADDR 35 North West Temple\n"
@@ -185,7 +200,7 @@ public class GedcomWriterTest extends TestCase {
 		                + "2 ADR1 35 North West Temple\n"
 		                + "2 ADR2 Across the street from Temple Square\n"
 		                + "2 CITY Salt Lake City\n2 STAE Utah\n"
-		                + "2 POST 84111\n2 CTRY USA\n"
+		                + "2 POST 84111\n2 CTRY USA\n1 NOTE @N2@\n"
 		                + "1 REFN User Ref Number\n2 TYPE Sample\n"
 		                + "1 RIN 1\n"
 		                + "1 PHON +1-801-240-2331 (information)\n"
@@ -199,6 +214,11 @@ public class GedcomWriterTest extends TestCase {
 	 */
 	public void testSources() {
 		assertNotSame(gedcomOrig.sources, gedcomReadback.sources);
+		assertTrue(writtenFileAsString.contains("0 @SR2@ SOUR\n"
+		        + "1 AUTH Second Source Author\n"
+		        + "1 TITL All I Know About GEDCOM, I Learned on the Internet\n"
+		        + "1 ABBR What I Know About GEDCOM\n1 NOTE @N16@\n"
+		        + "1 RIN 2\n1 CHAN\n2 DATE 11 Jan 2001\n" + "3 TIME 16:21:39"));
 		assertEquals(gedcomOrig.sources, gedcomReadback.sources);
 	}
 
@@ -216,26 +236,31 @@ public class GedcomWriterTest extends TestCase {
 		                + "1 DESC 1\n1 ORDI yes\n1 RIN 1\n"));
 		assertTrue(
 		        "File as read back is does not have the primary submitter included as expected",
-		        writtenFileAsString.contains("0 @SUBMITTER@ SUBM\n"
-		                + "1 NAME John A. Nairn\n"
-		                + "1 ADDR Submitter address line 1\n"
-		                + "2 CONT Submitter address line 2\n"
-		                + "2 CONT Submitter address line 3\n"
-		                + "2 CONT Submitter address line 4\n"
-		                + "2 ADR1 Submitter address line 1\n"
-		                + "2 ADR2 Submitter address line 2\n"
-		                + "2 CITY Submitter address city\n"
-		                + "2 STAE Submitter address state\n"
-		                + "2 POST Submitter address ZIP code\n"
-		                + "2 CTRY Submitter address country\n1 OBJE\n"
-		                + "2 FORM jpeg\n"
-		                + "2 TITL Submitter Multimedia File\n"
-		                + "2 FILE ImgFile.JPG\n1 LANG English\n"
-		                + "1 PHON Submitter phone number 1\n"
-		                + "1 PHON Submitter phone number 2\n"
-		                + "1 PHON Submitter phone number 3 (last one!)\n"
-		                + "1 RFN Submitter Registered RFN\n1 RIN 1\n1 CHAN\n"
-		                + "2 DATE 7 Sep 2000\n3 TIME 8:35:36"));
+		        writtenFileAsString
+		                .contains("0 @SUBMITTER@ SUBM\n"
+		                        + "1 NAME John A. Nairn\n"
+		                        + "1 ADDR Submitter address line 1\n"
+		                        + "2 CONT Submitter address line 2\n"
+		                        + "2 CONT Submitter address line 3\n"
+		                        + "2 CONT Submitter address line 4\n"
+		                        + "2 ADR1 Submitter address line 1\n"
+		                        + "2 ADR2 Submitter address line 2\n"
+		                        + "2 CITY Submitter address city\n"
+		                        + "2 STAE Submitter address state\n"
+		                        + "2 POST Submitter address ZIP code\n"
+		                        + "2 CTRY Submitter address country\n"
+		                        + "1 OBJE\n"
+		                        + "2 FORM jpeg\n"
+		                        + "2 TITL Submitter Multimedia File\n"
+		                        + "2 FILE ImgFile.JPG\n"
+		                        + "2 NOTE @N1@\n"
+		                        + "1 LANG English\n"
+		                        + "1 PHON Submitter phone number 1\n"
+		                        + "1 PHON Submitter phone number 2\n"
+		                        + "1 PHON Submitter phone number 3 (last one!)\n"
+		                        + "1 RFN Submitter Registered RFN\n"
+		                        + "1 RIN 1\n" + "1 CHAN\n"
+		                        + "2 DATE 7 Sep 2000\n" + "3 TIME 8:35:36"));
 		assertTrue(
 		        "File as read back does not have the expected secondary submitter",
 		        writtenFileAsString
@@ -265,8 +290,7 @@ public class GedcomWriterTest extends TestCase {
 		Gedcom g = new Gedcom();
 		GedcomWriter gw = new GedcomWriter(g);
 		gw.validationSuppressed = true;
-		File tempFile = new File(System.getProperty("java.io.tmpdir")
-		        + "gedcom4j.writertest.ged");
+		File tempFile = new File("tmp/gedcom4j.writertest.ged");
 		System.out.println(tempFile.getAbsolutePath());
 		gw.write(tempFile);
 

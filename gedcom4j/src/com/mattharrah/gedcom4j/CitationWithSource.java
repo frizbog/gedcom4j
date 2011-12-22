@@ -67,6 +67,10 @@ public class CitationWithSource extends Citation {
 	 * Multimedia links for this source citation
 	 */
 	public List<Multimedia> multimedia = new ArrayList<Multimedia>();
+	/**
+	 * The role in the event cited
+	 */
+	public String roleInEvent;
 
 	@Override
 	public boolean equals(Object obj) {
@@ -115,6 +119,13 @@ public class CitationWithSource extends Citation {
 		} else if (!notes.equals(other.notes)) {
 			return false;
 		}
+		if (roleInEvent == null) {
+			if (other.roleInEvent != null) {
+				return false;
+			}
+		} else if (!roleInEvent.equals(other.roleInEvent)) {
+			return false;
+		}
 		if (source == null) {
 			if (other.source != null) {
 				return false;
@@ -144,6 +155,8 @@ public class CitationWithSource extends Citation {
 		result = prime * result
 		        + ((multimedia == null) ? 0 : multimedia.hashCode());
 		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
+		result = prime * result
+		        + ((roleInEvent == null) ? 0 : roleInEvent.hashCode());
 		result = prime * result + ((source == null) ? 0 : source.hashCode());
 		result = prime * result
 		        + ((whereInSource == null) ? 0 : whereInSource.hashCode());

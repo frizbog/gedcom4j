@@ -31,6 +31,9 @@ public class Note {
 	public String xref;
 	public List<String> lines = new ArrayList<String>();
 	public List<Citation> citations = new ArrayList<Citation>();
+	public List<UserReference> userReferences = new ArrayList<UserReference>();
+	public ChangeDate changeDate;
+	public String recIdNumber;
 
 	@Override
 	public boolean equals(Object obj) {
@@ -44,6 +47,13 @@ public class Note {
 			return false;
 		}
 		Note other = (Note) obj;
+		if (changeDate == null) {
+			if (other.changeDate != null) {
+				return false;
+			}
+		} else if (!changeDate.equals(other.changeDate)) {
+			return false;
+		}
 		if (citations == null) {
 			if (other.citations != null) {
 				return false;
@@ -56,6 +66,20 @@ public class Note {
 				return false;
 			}
 		} else if (!lines.equals(other.lines)) {
+			return false;
+		}
+		if (recIdNumber == null) {
+			if (other.recIdNumber != null) {
+				return false;
+			}
+		} else if (!recIdNumber.equals(other.recIdNumber)) {
+			return false;
+		}
+		if (userReferences == null) {
+			if (other.userReferences != null) {
+				return false;
+			}
+		} else if (!userReferences.equals(other.userReferences)) {
 			return false;
 		}
 		if (xref == null) {
@@ -73,9 +97,23 @@ public class Note {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
+		        + ((changeDate == null) ? 0 : changeDate.hashCode());
+		result = prime * result
 		        + ((citations == null) ? 0 : citations.hashCode());
 		result = prime * result + ((lines == null) ? 0 : lines.hashCode());
+		result = prime * result
+		        + ((recIdNumber == null) ? 0 : recIdNumber.hashCode());
+		result = prime * result
+		        + ((userReferences == null) ? 0 : userReferences.hashCode());
 		result = prime * result + ((xref == null) ? 0 : xref.hashCode());
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "Note [xref=" + xref + ", citations=" + citations
+		        + ", userReferences=" + userReferences + ", changeDate="
+		        + changeDate + ", recIdNumber=" + recIdNumber + ", lines="
+		        + lines + "]";
 	}
 }

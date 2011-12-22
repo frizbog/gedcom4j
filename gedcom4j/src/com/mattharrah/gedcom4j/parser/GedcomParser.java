@@ -348,6 +348,8 @@ public class GedcomParser {
 				}
 			} else if ("NOTE".equals(ch.tag)) {
 				loadNote(ch, changeDate.notes);
+			} else {
+				unknownTag(ch);
 			}
 		}
 
@@ -442,6 +444,15 @@ public class GedcomParser {
 				cws.whereInSource = ch.value;
 			} else if ("EVEN".equals(ch.tag)) {
 				cws.eventCited = ch.value;
+				if (ch.children != null) {
+					for (StringTree gc : ch.children) {
+						if ("ROLE".equals(gc.tag)) {
+							cws.roleInEvent = gc.value;
+						} else {
+							unknownTag(gc);
+						}
+					}
+				}
 			} else if ("DATA".equals(ch.tag)) {
 				CitationData d = new CitationData();
 				cws.data.add(d);
@@ -1082,21 +1093,37 @@ public class GedcomParser {
 	 * @param st
 	 *            the node
 	 * @param notes
-	 *            the list of notes
+	 *            the list of notes to add the note to as it is parsed.
 	 */
 	private void loadNote(StringTree st, List<Note> notes) {
 		Note note = null;
 		if (referencesAnotherNode(st)) {
 			note = getNote(st.value);
+			notes.add(note);
+			return;
+		} else if (st.id != null) {
+			note = getNote(st.id);
 		} else {
 			note = new Note();
-			note.lines.add(st.value);
-			for (StringTree ch : st.children) {
-				if ("CONC".equals(ch.tag) || "CONT".equals(ch.tag)) {
-					note.lines.add(st.value);
-				} else if ("SOUR".equals(ch.tag)) {
-					loadCitation(ch, note.citations);
-				}
+			notes.add(note);
+		}
+		note.lines.add(st.value);
+		for (StringTree ch : st.children) {
+			if ("CONC".equals(ch.tag) || "CONT".equals(ch.tag)) {
+				note.lines.add(ch.value);
+			} else if ("SOUR".equals(ch.tag)) {
+				loadCitation(ch, note.citations);
+			} else if ("REFN".equals(ch.tag)) {
+				UserReference u = new UserReference();
+				note.userReferences.add(u);
+				loadUserReference(ch, u);
+			} else if ("RIN".equals(ch.tag)) {
+				note.recIdNumber = ch.value;
+			} else if ("CHAN".equals(ch.tag)) {
+				note.changeDate = new ChangeDate();
+				loadChangeDate(ch, note.changeDate);
+			} else {
+				unknownTag(ch);
 			}
 		}
 	}
@@ -1229,8 +1256,11 @@ public class GedcomParser {
 	 * 
 	 * @param st
 	 *            the root of the string tree
+	 * @throws GedcomParserException
+	 *             if the data cannot be parsed because it's not in the format
+	 *             expected
 	 */
-	private void loadRootItems(StringTree st) {
+	private void loadRootItems(StringTree st) throws GedcomParserException {
 		for (StringTree ch : st.children) {
 			if ("HEAD".equals(ch.tag)) {
 				loadHeader(ch);
@@ -1241,7 +1271,7 @@ public class GedcomParser {
 			} else if ("SUBN".equals(ch.tag)) {
 				loadSubmission(ch);
 			} else if ("NOTE".equals(ch.tag)) {
-				loadNote(ch, null);
+				loadRootNote(ch);
 			} else if ("FAM".equals(ch.tag)) {
 				loadFamily(ch);
 			} else if ("TRLR".equals(ch.tag)) {
@@ -1256,6 +1286,27 @@ public class GedcomParser {
 				unknownTag(ch);
 			}
 		}
+	}
+
+	/**
+	 * Load a note at the root level of the GEDCOM. All these should have
+	 * &#64;ID&#64;'s and thus should get added to the GEDCOM's collection of
+	 * notes rather than the one passed to <code>loadNote()</code>
+	 * 
+	 * @param ch
+	 *            the child nodes to be loaded as a note
+	 * @throws GedcomParserException
+	 *             if the data cannot be parsed because it's not in the format
+	 *             expected
+	 */
+	private void loadRootNote(StringTree ch) throws GedcomParserException {
+		List<Note> dummyList = new ArrayList<Note>();
+		loadNote(ch, dummyList);
+		if (dummyList.size() > 0) {
+			throw new GedcomParserException(
+			        "At root level NOTE structures should have @ID@'s");
+		}
+
 	}
 
 	/**
@@ -1450,6 +1501,8 @@ public class GedcomParser {
 				submitter.regFileNumber = ch.value;
 			} else if ("EMAIL".equals(ch.tag)) {
 				submitter.emails.add(ch.value);
+			} else if ("NOTE".equals(ch.tag)) {
+				loadNote(ch, submitter.notes);
 			} else {
 				unknownTag(ch);
 			}
@@ -1472,6 +1525,17 @@ public class GedcomParser {
 
 	}
 
+	/**
+	 * Read data from a buffered reader and construct a {@link StringTree}
+	 * object from its contents
+	 * 
+	 * @param f
+	 *            the buffered reader
+	 * @return the {@link StringTree} created from the contents of the buffered
+	 *         reader
+	 * @throws IOException
+	 *             if there is a problem reading the data from the reader
+	 */
 	private StringTree makeStringTreeFromReader(BufferedReader f)
 	        throws IOException {
 		StringTree result = new StringTree();
@@ -1499,6 +1563,28 @@ public class GedcomParser {
 			}
 		}
 		return result;
+	}
+
+	private void parseNote(StringTree st, Note note) {
+		note.lines.add(st.value);
+		for (StringTree ch : st.children) {
+			if ("CONC".equals(ch.tag) || "CONT".equals(ch.tag)) {
+				note.lines.add(st.value);
+			} else if ("SOUR".equals(ch.tag)) {
+				loadCitation(ch, note.citations);
+			} else if ("REFN".equals(ch.tag)) {
+				UserReference u = new UserReference();
+				note.userReferences.add(u);
+				loadUserReference(ch, u);
+			} else if ("RIN".equals(ch.tag)) {
+				note.recIdNumber = ch.value;
+			} else if ("CHAN".equals(ch.tag)) {
+				note.changeDate = new ChangeDate();
+				loadChangeDate(ch, note.changeDate);
+			} else {
+				unknownTag(ch);
+			}
+		}
 	}
 
 	/**
@@ -1563,8 +1649,11 @@ public class GedcomParser {
 		StringTree st = node;
 		while (st.parent != null) {
 			st = st.parent;
-			sb.append(", child of ").append(st.tag).append(" on line ")
-			        .append(st.lineNum);
+			sb.append(", child of ").append(st.tag);
+			if (st.id != null) {
+				sb.append(" ").append(st.id);
+			}
+			sb.append(" on line ").append(st.lineNum);
 		}
 		if (node.tag.startsWith("_")) {
 			warnings.add(sb.toString());

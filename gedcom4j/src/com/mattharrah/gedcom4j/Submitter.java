@@ -39,6 +39,7 @@ public class Submitter {
 	public ChangeDate changeDate;
 	public List<UserReference> userReferences = new ArrayList<UserReference>();
 	public List<String> emails = new ArrayList<String>();
+	public List<Note> notes = new ArrayList<Note>();
 
 	@Override
 	public boolean equals(Object obj) {
@@ -94,6 +95,13 @@ public class Submitter {
 		} else if (!name.equals(other.name)) {
 			return false;
 		}
+		if (notes == null) {
+			if (other.notes != null) {
+				return false;
+			}
+		} else if (!notes.equals(other.notes)) {
+			return false;
+		}
 		if (phoneNumbers == null) {
 			if (other.phoneNumbers != null) {
 				return false;
@@ -145,6 +153,7 @@ public class Submitter {
 		result = prime * result
 		        + ((multimedia == null) ? 0 : multimedia.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
 		result = prime * result
 		        + ((phoneNumbers == null) ? 0 : phoneNumbers.hashCode());
 		result = prime * result

@@ -6,11 +6,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.mattharrah.gedcom4j.Address;
 import com.mattharrah.gedcom4j.ChangeDate;
 import com.mattharrah.gedcom4j.Citation;
+import com.mattharrah.gedcom4j.CitationData;
+import com.mattharrah.gedcom4j.CitationWithSource;
+import com.mattharrah.gedcom4j.CitationWithoutSource;
 import com.mattharrah.gedcom4j.Corporation;
 import com.mattharrah.gedcom4j.EventRecorded;
 import com.mattharrah.gedcom4j.Gedcom;
@@ -42,6 +46,8 @@ public class GedcomWriter {
 	 * package-private so unit tests can fiddle with it to make testing easy.
 	 */
 	boolean validationSuppressed = false;
+
+	private PrintWriter pw;
 
 	/**
 	 * Constructor
@@ -102,11 +108,11 @@ public class GedcomWriter {
 			GedcomValidator gv = new GedcomValidator(gedcom);
 			gv.validate();
 		}
-		PrintWriter pw = new PrintWriter(out);
-		emitHeader(pw);
-		emitSubmissionRecord(pw);
-		emitRecords(pw);
-		emitTrailer(pw);
+		pw = new PrintWriter(out);
+		emitHeader();
+		emitSubmissionRecord();
+		emitRecords();
+		emitTrailer();
 		pw.flush();
 		pw.close();
 	}
@@ -136,41 +142,79 @@ public class GedcomWriter {
 	/**
 	 * Write an address
 	 * 
-	 * @param pw
 	 * @param level
 	 * @param address
 	 */
-	private void emitAddress(PrintWriter pw, int level, Address address) {
+	private void emitAddress(int level, Address address) {
 		if (address == null) {
 			return;
 		}
-		emitLinesOfText(pw, level, "ADDR", address.lines);
-		emitTagIfValueNotNull(pw, level + 1, null, "ADR1", address.addr1);
-		emitTagIfValueNotNull(pw, level + 1, null, "ADR2", address.addr2);
-		emitTagIfValueNotNull(pw, level + 1, null, "CITY", address.city);
-		emitTagIfValueNotNull(pw, level + 1, null, "STAE",
-		        address.stateProvince);
-		emitTagIfValueNotNull(pw, level + 1, null, "POST", address.postalCode);
-		emitTagIfValueNotNull(pw, level + 1, null, "CTRY", address.country);
+		emitLinesOfText(level, "ADDR", address.lines);
+		emitTagIfValueNotNull(level + 1, null, "ADR1", address.addr1);
+		emitTagIfValueNotNull(level + 1, null, "ADR2", address.addr2);
+		emitTagIfValueNotNull(level + 1, null, "CITY", address.city);
+		emitTagIfValueNotNull(level + 1, null, "STAE", address.stateProvince);
+		emitTagIfValueNotNull(level + 1, null, "POST", address.postalCode);
+		emitTagIfValueNotNull(level + 1, null, "CTRY", address.country);
 	}
 
-	private void emitChangeDate(PrintWriter pw, int level, ChangeDate cd)
+	private void emitChangeDate(int level, ChangeDate cd)
 	        throws GedcomWriterException {
 		if (cd != null) {
-			emitTag(pw, level, null, "CHAN");
-			emitTagWithRequiredValue(pw, level + 1, null, "DATE", cd.date);
-			emitTagIfValueNotNull(pw, level + 2, null, "TIME", cd.time);
-			emitNotes(pw, level + 1, cd.notes);
+			emitTag(level, null, "CHAN");
+			emitTagWithRequiredValue(level + 1, null, "DATE", cd.date);
+			emitTagIfValueNotNull(level + 2, null, "TIME", cd.time);
+			emitNotes(level + 1, cd.notes);
 		}
+	}
+
+	private void emitCitationWithoutSource(int level, Citation c)
+	        throws GedcomWriterException {
+		CitationWithoutSource cws = (CitationWithoutSource) c;
+		emitLinesOfText(level, "SOUR", cws.description);
+		for (List<String> linesOfText : cws.textFromSource) {
+			emitLinesOfText(level, "TEXT", linesOfText);
+		}
+		emitNotes(level + 1, cws.notes);
+	}
+
+	/**
+	 * Emit a citation with source
+	 * 
+	 * @param level
+	 * @param cws
+	 * @throws GedcomWriterException
+	 */
+	private void emitCitationWithSource(int level, CitationWithSource cws)
+	        throws GedcomWriterException {
+		Source source = cws.source;
+		if (source == null || source.xref == null || source.xref.isEmpty()) {
+			throw new GedcomWriterException(
+			        "Citation with source must have a source record with an xref/id");
+		}
+		emitTagWithRequiredValue(level, null, "SOUR", source.xref);
+		emitTagIfValueNotNull(level + 1, null, "PAGE", cws.whereInSource);
+		emitTagIfValueNotNull(level + 1, null, "EVEN", cws.eventCited);
+		emitTagIfValueNotNull(level + 2, null, "ROLE", cws.roleInEvent);
+		if (cws.data != null && !cws.data.isEmpty()) {
+			emitTag(level + 1, null, "DATA");
+			for (CitationData cd : cws.data) {
+				emitTagIfValueNotNull(level + 2, null, "DATE", cd.entryDate);
+				for (List<String> linesOfText : cd.sourceText) {
+					emitLinesOfText(level + 2, "TEXT", linesOfText);
+				}
+			}
+		}
+		emitTagIfValueNotNull(level + 1, null, "QUAY", cws.certainty);
+		emitMultimediaLinks(level + 1, cws.multimedia);
+		emitNotes(level + 1, cws.notes);
 	}
 
 	/**
 	 * Write out all the Families
 	 * 
-	 * @param pw
-	 *            the {@link PrintWriter} we're writing to
 	 */
-	private void emitFamilies(PrintWriter pw) {
+	private void emitFamilies() {
 		// TODO write out families
 
 	}
@@ -180,57 +224,51 @@ public class GedcomWriter {
 	 * 
 	 * @param gedcom
 	 *            the {@link Gedcom} structure containing the header
-	 * @param pw
-	 *            the {@link PrintWriter} we're writing to
 	 * @throws GedcomWriterException
 	 *             if the data is malformed and cannot be written
 	 */
-	private void emitHeader(PrintWriter pw) throws GedcomWriterException {
+	private void emitHeader() throws GedcomWriterException {
 		Header header = gedcom.header;
 		if (header == null) {
 			header = new Header();
 		}
 		pw.println("0 HEAD");
-		emitSourceSystem(pw, header.sourceSystem);
-		emitTagIfValueNotNull(pw, 1, null, "DEST", header.destinationSystem);
+		emitSourceSystem(header.sourceSystem);
+		emitTagIfValueNotNull(1, null, "DEST", header.destinationSystem);
 		if (header.date != null) {
-			emitTagIfValueNotNull(pw, 1, null, "DATE", header.date);
-			emitTagIfValueNotNull(pw, 2, null, "TIME", header.time);
+			emitTagIfValueNotNull(1, null, "DATE", header.date);
+			emitTagIfValueNotNull(2, null, "TIME", header.time);
 		}
 		if (header.submitter != null) {
-			emitTagWithRequiredValue(pw, 1, null, "SUBM", header.submitter.xref);
+			emitTagWithRequiredValue(1, null, "SUBM", header.submitter.xref);
 		}
 		if (header.submission != null) {
-			emitTagWithRequiredValue(pw, 1, null, "SUBN",
-			        header.submission.xref);
+			emitTagWithRequiredValue(1, null, "SUBN", header.submission.xref);
 		}
-		emitTagIfValueNotNull(pw, 1, null, "FILE", header.fileName);
-		emitTagIfValueNotNull(pw, 1, null, "COPR", header.copyrightData);
-		emitTag(pw, 1, null, "GEDC");
-		emitTagWithRequiredValue(pw, 2, null, "VERS",
+		emitTagIfValueNotNull(1, null, "FILE", header.fileName);
+		emitTagIfValueNotNull(1, null, "COPR", header.copyrightData);
+		emitTag(1, null, "GEDC");
+		emitTagWithRequiredValue(2, null, "VERS",
 		        header.gedcomVersion.versionNumber);
-		emitTagWithRequiredValue(pw, 2, null, "FORM",
+		emitTagWithRequiredValue(2, null, "FORM",
 		        header.gedcomVersion.gedcomForm);
-		emitTagWithRequiredValue(pw, 1, null, "CHAR",
+		emitTagWithRequiredValue(1, null, "CHAR",
 		        header.characterSet.characterSetName);
-		emitTagIfValueNotNull(pw, 2, null, "VERS",
-		        header.characterSet.versionNum);
-		emitTagIfValueNotNull(pw, 1, null, "LANG", header.language);
+		emitTagIfValueNotNull(2, null, "VERS", header.characterSet.versionNum);
+		emitTagIfValueNotNull(1, null, "LANG", header.language);
 		if (header.placeStructure != null && !header.placeStructure.isEmpty()) {
 			// TODO - need better handling for PLAC structures in the header
-			emitTag(pw, 1, null, "PLAC");
-			emitTagWithRequiredValue(pw, 2, null, "FORM", header.placeStructure);
+			emitTag(1, null, "PLAC");
+			emitTagWithRequiredValue(2, null, "FORM", header.placeStructure);
 		}
-		emitNote(pw, 1, header.notes);
+		emitNoteLines(1, null, header.notes);
 	}
 
 	/**
 	 * Write out all the individuals
 	 * 
-	 * @param pw
-	 *            the {@link PrintWriter} we're writing to
 	 */
-	private void emitIndividuals(PrintWriter pw) {
+	private void emitIndividuals() {
 		// TODO write out individuals
 
 	}
@@ -238,8 +276,6 @@ public class GedcomWriter {
 	/**
 	 * Emit a multi-line text value.
 	 * 
-	 * @param pw
-	 *            the {@link PrintWriter} we're writing to
 	 * @param level
 	 *            the level we are starting at. Continuation lines will be one
 	 *            level deeper than this value
@@ -249,14 +285,14 @@ public class GedcomWriter {
 	 * @param linesOfText
 	 *            the lines of text
 	 */
-	private void emitLinesOfText(PrintWriter pw, int level, String startingTag,
+	private void emitLinesOfText(int level, String startingTag,
 	        List<String> linesOfText) {
 		int lineNum = 0;
 		for (String l : linesOfText) {
 			if (lineNum++ == 0) {
-				emitTagIfValueNotNull(pw, level, null, startingTag, l);
+				emitTagIfValueNotNull(level, null, startingTag, l);
 			} else {
-				emitTagIfValueNotNull(pw, level + 1, null, "CONT", l);
+				emitTagIfValueNotNull(level + 1, null, "CONT", l);
 			}
 		}
 	}
@@ -264,40 +300,35 @@ public class GedcomWriter {
 	/**
 	 * Write out all the embedded multimedia objects
 	 * 
-	 * @param pw
-	 *            the {@link PrintWriter} we're writing to
 	 * @throws GedcomWriterException
 	 *             if the data is malformed and cannot be written
 	 */
-	private void emitMultimedia(PrintWriter pw) throws GedcomWriterException {
+	private void emitMultimedia() throws GedcomWriterException {
 		for (Multimedia m : gedcom.multimedia.values()) {
-			emitTag(pw, 0, m.xref, "OBJE");
-			emitTagWithRequiredValue(pw, 1, null, "FORM", m.format);
-			emitTagIfValueNotNull(pw, 1, null, "TITL", m.title);
-			emitNotes(pw, 1, m.notes);
-			emitTag(pw, 1, null, "BLOB");
+			emitTag(0, m.xref, "OBJE");
+			emitTagWithRequiredValue(1, null, "FORM", m.format);
+			emitTagIfValueNotNull(1, null, "TITL", m.title);
+			emitNotes(1, m.notes);
+			emitTag(1, null, "BLOB");
 			for (String b : m.blob) {
-				emitTagWithRequiredValue(pw, 2, null, "CONT", b);
+				emitTagWithRequiredValue(2, null, "CONT", b);
 			}
 			if (m.continuedObject != null && m.continuedObject.xref != null) {
-				emitTagWithRequiredValue(pw, 1, null, "OBJE",
+				emitTagWithRequiredValue(1, null, "OBJE",
 				        m.continuedObject.xref);
 			}
 			for (UserReference u : m.userReferences) {
-				emitTagWithRequiredValue(pw, 1, null, "REFN", u.referenceNum);
-				emitTagIfValueNotNull(pw, 2, null, "TYPE", u.type);
+				emitTagWithRequiredValue(1, null, "REFN", u.referenceNum);
+				emitTagIfValueNotNull(2, null, "TYPE", u.type);
 			}
-			emitTagIfValueNotNull(pw, 1, null, "RIN", m.recIdNumber);
-			emitChangeDate(pw, 1, m.changeDate);
-
+			emitTagIfValueNotNull(1, null, "RIN", m.recIdNumber);
+			emitChangeDate(1, m.changeDate);
 		}
 	}
 
 	/**
 	 * Emit a list of multimedia links
 	 * 
-	 * @param pw
-	 *            the {@link PrintWriter} we are writing to
 	 * @param level
 	 *            the level in the hierarchy we are writing at
 	 * @param multimedia
@@ -305,45 +336,23 @@ public class GedcomWriter {
 	 * @throws GedcomWriterException
 	 *             if the data is malformed and cannot be written
 	 */
-	private void emitMultimediaLinks(PrintWriter pw, int level,
-	        List<Multimedia> multimedia) throws GedcomWriterException {
+	private void emitMultimediaLinks(int level, List<Multimedia> multimedia)
+	        throws GedcomWriterException {
 		if (multimedia == null) {
 			return;
 		}
 		for (Multimedia m : multimedia) {
 			if (m.xref != null) {
 				// Link to the embedded form
-				emitTagWithRequiredValue(pw, level, null, "OBJE", m.xref);
+				emitTagWithRequiredValue(level, null, "OBJE", m.xref);
 			} else {
 				// Link to external file
-				emitTag(pw, level, null, "OBJE");
-				emitTagWithRequiredValue(pw, level + 1, null, "FORM", m.format);
-				emitTagIfValueNotNull(pw, level + 1, null, "TITL", m.title);
-				emitTagWithRequiredValue(pw, level + 1, null, "FILE",
+				emitTag(level, null, "OBJE");
+				emitTagWithRequiredValue(level + 1, null, "FORM", m.format);
+				emitTagIfValueNotNull(level + 1, null, "TITL", m.title);
+				emitTagWithRequiredValue(level + 1, null, "FILE",
 				        m.fileReference);
-				emitNotes(pw, level, m.notes);
-			}
-		}
-	}
-
-	/**
-	 * Emit a note (possibly multi-line)
-	 * 
-	 * @param pw
-	 *            the {@link PrintWriter} we are writing to
-	 * @param level
-	 *            the level in the hierarchy we are writing at
-	 * @param notes
-	 *            the Notes text
-	 */
-	private void emitNote(PrintWriter pw, int level, List<String> notes) {
-		int noteLineNum = 0;
-		for (String n : notes) {
-			if (noteLineNum++ == 0) {
-				emitTagIfValueNotNull(pw, level, null, "NOTE", n);
-			} else {
-				pw.println(level + 1 + " " + "CONT" + " "
-				        + (n == null ? "" : n));
+				emitNotes(level + 1, m.notes);
 			}
 		}
 	}
@@ -351,111 +360,115 @@ public class GedcomWriter {
 	/**
 	 * Emit a note structure (possibly multi-line)
 	 * 
-	 * @param pw
-	 *            the {@link PrintWriter} we are writing to
+	 * @param level
+	 *            the level in the hierarchy we are writing at
+	 * @param notes
+	 *            the Notes text
+	 * @throws GedcomWriterException
+	 *             if the data is malformed and cannot be written
+	 */
+	private void emitNote(int level, Note note) throws GedcomWriterException {
+		if (level > 0 && note.xref != null) {
+			emitTagWithRequiredValue(level, null, "NOTE", note.xref);
+			return;
+		}
+		emitNoteLines(level, note.xref, note.lines);
+		emitSourceCitations(level + 1, note.citations);
+		for (UserReference u : note.userReferences) {
+			emitTagWithRequiredValue(level + 1, null, "REFN", u.referenceNum);
+			emitTagIfValueNotNull(level + 2, null, "TYPE", u.type);
+		}
+		emitTagIfValueNotNull(level + 1, null, "RIN", note.recIdNumber);
+		emitChangeDate(level + 1, note.changeDate);
+	}
+
+	/**
+	 * Emit line(s) of a note
+	 * 
 	 * @param level
 	 *            the level in the hierarchy we are writing at
 	 * @param notes
 	 *            the Notes text
 	 */
-	private void emitNote(PrintWriter pw, int level, Note note) {
+	private void emitNoteLines(int level, String xref, List<String> notes) {
 		int noteLineNum = 0;
-		for (String n : note.lines) {
+		for (String n : notes) {
 			if (noteLineNum++ == 0) {
-				emitTagIfValueNotNull(pw, level, null, "NOTE", n);
+				emitTagIfValueNotNull(level, xref, "NOTE", n);
 			} else {
-				pw.println(level + 1 + " " + "CONT" + " "
-				        + (n == null ? "" : n));
+				pw.println(level + 1 + " " + "CONT"
+				        + (n == null ? "" : " " + n));
 			}
 		}
-		emitSourceCitations(pw, level, note.citations);
 	}
 
 	/**
 	 * Emit a list of note structures
 	 * 
-	 * @param pw
-	 *            the {@link PrintWriter} we are writing to
 	 * @param level
 	 *            the level in the hierarchy we are writing at
 	 * @param notes
 	 *            a list of {@link Note} structures
+	 * @throws GedcomWriterException
+	 *             if the data is malformed and cannot be written
 	 */
-	private void emitNotes(PrintWriter pw, int level, List<Note> notes) {
+	private void emitNotes(int level, List<Note> notes)
+	        throws GedcomWriterException {
 		for (Note n : notes) {
-			emitNote(pw, level, n);
+			emitNote(level, n);
 		}
-	}
-
-	/**
-	 * Write out all the notes
-	 * 
-	 * @param pw
-	 *            the {@link PrintWriter} we're writing to
-	 */
-
-	private void emitNoteStructures(PrintWriter pw) {
-		// TODO write out note structures
-
 	}
 
 	/**
 	 * Write out a list of phone numbers
 	 * 
-	 * @param pw
-	 *            the {@link PrintWriter} we are writing to
 	 * @param level
 	 *            the level in the hierarchy we are writing at
 	 * @param phoneNumbers
 	 *            a list of phone numbers
 	 */
-	private void emitPhoneNumbers(PrintWriter pw, int level,
-	        List<String> phoneNumbers) {
+	private void emitPhoneNumbers(int level, List<String> phoneNumbers) {
 		for (String ph : phoneNumbers) {
-			emitTagIfValueNotNull(pw, level, null, "PHON", ph);
+			emitTagIfValueNotNull(level, null, "PHON", ph);
 		}
 	}
 
 	/**
 	 * Write the records (see the RECORD structure in the GEDCOM standard)
 	 * 
-	 * @param pw
-	 *            the {@link PrintWriter} we're writing to
 	 * @throws GedcomWriterException
 	 *             if the data is malformed and cannot be written
 	 */
-	private void emitRecords(PrintWriter pw) throws GedcomWriterException {
-		emitSubmitter(pw);
-		emitIndividuals(pw);
-		emitFamilies(pw);
-		emitMultimedia(pw);
-		emitNoteStructures(pw);
-		emitRepositories(pw);
-		emitSources(pw);
+	private void emitRecords() throws GedcomWriterException {
+		emitIndividuals();
+		emitFamilies();
+		emitMultimedia();
+		emitNotes(0, new ArrayList<Note>(gedcom.notes.values()));
+		emitRepositories();
+		emitSources();
+		emitSubmitter();
 	}
 
 	/**
 	 * Write out all the repositories (see REPOSITORY_RECORD in the Gedcom spec)
 	 * 
-	 * @param pw
-	 *            the {@link PrintWriter} we're writing to
 	 * @throws GedcomWriterException
 	 *             if the data being written is malformed
 	 */
-	private void emitRepositories(PrintWriter pw) throws GedcomWriterException {
+	private void emitRepositories() throws GedcomWriterException {
 		for (Repository r : gedcom.repositories.values()) {
-			emitTag(pw, 0, r.xref, "REPO");
-			emitTagIfValueNotNull(pw, 1, null, "NAME", r.name);
-			emitAddress(pw, 1, r.address);
-			emitNotes(pw, 1, r.notes);
+			emitTag(0, r.xref, "REPO");
+			emitTagIfValueNotNull(1, null, "NAME", r.name);
+			emitAddress(1, r.address);
+			emitNotes(1, r.notes);
 			for (UserReference u : r.userReferences) {
-				emitTagWithRequiredValue(pw, 1, null, "REFN", u.referenceNum);
-				emitTagIfValueNotNull(pw, 2, null, "TYPE", u.type);
+				emitTagWithRequiredValue(1, null, "REFN", u.referenceNum);
+				emitTagIfValueNotNull(2, null, "TYPE", u.type);
 			}
-			emitTagIfValueNotNull(pw, 1, null, "RIN", r.recIdNumber);
-			emitTagIfValueNotNull(pw, 1, null, "RFN", r.regFileNumber);
-			emitPhoneNumbers(pw, 1, r.phoneNumbers);
-			emitChangeDate(pw, 1, r.changeDate);
+			emitTagIfValueNotNull(1, null, "RIN", r.recIdNumber);
+			emitTagIfValueNotNull(1, null, "RFN", r.regFileNumber);
+			emitPhoneNumbers(1, r.phoneNumbers);
+			emitChangeDate(1, r.changeDate);
 		}
 	}
 
@@ -463,8 +476,6 @@ public class GedcomWriter {
 	 * Write out a repository citation (see SOURCE_REPOSITORY_CITATION in the
 	 * gedcom spec)
 	 * 
-	 * @param pw
-	 *            the {@link PrintWriter} we're writing to
 	 * @param level
 	 *            the level we're writing at
 	 * @param repositoryCitation
@@ -473,21 +484,20 @@ public class GedcomWriter {
 	 *             if the repository citation passed in has a null repository
 	 *             reference
 	 */
-	private void emitRepositoryCitation(PrintWriter pw, int level,
+	private void emitRepositoryCitation(int level,
 	        RepositoryCitation repositoryCitation) throws GedcomWriterException {
 		if (repositoryCitation != null) {
 			if (repositoryCitation.repository == null) {
 				throw new GedcomWriterException(
 				        "Repository Citation has null repository reference");
 			}
-			emitTagWithRequiredValue(pw, level, null, "REPO",
+			emitTagWithRequiredValue(level, null, "REPO",
 			        repositoryCitation.repository.xref);
-			emitNotes(pw, level + 1, repositoryCitation.notes);
+			emitNotes(level + 1, repositoryCitation.notes);
 			for (SourceCallNumber scn : repositoryCitation.callNumbers) {
-				emitTagWithRequiredValue(pw, level + 1, null, "CALN",
+				emitTagWithRequiredValue(level + 1, null, "CALN",
 				        scn.callNumber);
-				emitTagIfValueNotNull(pw, level + 2, null, "MEDI",
-				        scn.mediaType);
+				emitTagIfValueNotNull(level + 2, null, "MEDI", scn.mediaType);
 			}
 		}
 
@@ -496,56 +506,63 @@ public class GedcomWriter {
 	/**
 	 * Write out a list of source citations
 	 * 
-	 * @param pw
-	 *            the {@link PrintWriter} we are writing to
 	 * @param level
 	 *            the level in the hierarchy we are writing at
 	 * @param citations
 	 *            the source citations
+	 * @throws GedcomWriterException
+	 *             if the data is malformed and cannot be written
 	 */
-	private void emitSourceCitations(PrintWriter pw, int level,
-	        List<Citation> citations) {
-		// TODO write out source citations
+	private void emitSourceCitations(int level, List<Citation> citations)
+	        throws GedcomWriterException {
+		if (citations == null) {
+			return;
+		}
+		for (Citation c : citations) {
+			if (c instanceof CitationWithoutSource) {
+				emitCitationWithoutSource(level, c);
+			} else if (c instanceof CitationWithSource) {
+				emitCitationWithSource(level, (CitationWithSource) c);
+			}
+		}
 
 	}
 
 	/**
 	 * Write out all the sources (see SOURCE_RECORD in the Gedcom spec)
 	 * 
-	 * @param pw
-	 *            the {@link PrintWriter} we're writing to
 	 * @throws GedcomWriterException
 	 *             if the data being written is malformed
 	 */
-	private void emitSources(PrintWriter pw) throws GedcomWriterException {
+	private void emitSources() throws GedcomWriterException {
 		for (Source s : gedcom.sources.values()) {
-			emitTag(pw, 0, s.xref, "SOUR");
+			emitTag(0, s.xref, "SOUR");
 			SourceData d = s.data;
 			if (d != null) {
-				emitTag(pw, 1, null, "DATA");
+				emitTag(1, null, "DATA");
 				for (EventRecorded e : d.eventsRecorded) {
-					emitTagWithOptionalValue(pw, 2, null, "EVEN", e.eventType);
-					emitTagIfValueNotNull(pw, 2, null, "DATE", e.datePeriod);
-					emitTagIfValueNotNull(pw, 2, null, "PLAC", e.jurisdiction);
+					emitTagWithOptionalValue(2, null, "EVEN", e.eventType);
+					emitTagIfValueNotNull(2, null, "DATE", e.datePeriod);
+					emitTagIfValueNotNull(2, null, "PLAC", e.jurisdiction);
 				}
-				emitTagIfValueNotNull(pw, 2, null, "AGNC", d.respAgency);
-				emitNotes(pw, 2, d.notes);
+				emitTagIfValueNotNull(2, null, "AGNC", d.respAgency);
+				emitNotes(2, d.notes);
 			}
-			emitLinesOfText(pw, 1, "AUTH", s.originatorsAuthors);
-			emitLinesOfText(pw, 1, "TITL", s.title);
-			emitTagIfValueNotNull(pw, 1, null, "ABBR", s.sourceFiledBy);
-			emitLinesOfText(pw, 1, "PUBL", s.publicationFacts);
-			emitLinesOfText(pw, 1, "TEXT", s.sourceText);
-			emitRepositoryCitation(pw, 1, s.repositoryCitation);
-			emitMultimediaLinks(pw, 1, s.multimedia);
-			emitNotes(pw, 1, s.notes);
+			emitLinesOfText(1, "AUTH", s.originatorsAuthors);
+			emitLinesOfText(1, "TITL", s.title);
+			emitTagIfValueNotNull(1, null, "ABBR", s.sourceFiledBy);
+			emitLinesOfText(1, "PUBL", s.publicationFacts);
+			emitLinesOfText(1, "TEXT", s.sourceText);
+			emitRepositoryCitation(1, s.repositoryCitation);
+			emitMultimediaLinks(1, s.multimedia);
+			emitNotes(1, s.notes);
 			for (UserReference u : s.userReferences) {
-				emitTagWithRequiredValue(pw, 1, null, "REFN", u.referenceNum);
-				emitTagIfValueNotNull(pw, 2, null, "TYPE", u.type);
+				emitTagWithRequiredValue(1, null, "REFN", u.referenceNum);
+				emitTagIfValueNotNull(2, null, "TYPE", u.type);
 			}
-			emitTagIfValueNotNull(pw, 1, null, "RIN", s.recIdNumber);
-			emitTagIfValueNotNull(pw, 1, null, "RFN", s.regFileNumber);
-			emitChangeDate(pw, 1, s.changeDate);
+			emitTagIfValueNotNull(1, null, "RIN", s.recIdNumber);
+			emitTagIfValueNotNull(1, null, "RFN", s.regFileNumber);
+			emitChangeDate(1, s.changeDate);
 		}
 	}
 
@@ -553,33 +570,30 @@ public class GedcomWriter {
 	 * Write a source system structure (see APPROVED_SYSTEM_ID in the GEDCOM
 	 * spec)
 	 * 
-	 * @param pw
-	 *            the {@link PrintWriter} we're writing to
 	 * @param sourceSystem
 	 *            the source system
 	 * @throws GedcomWriterException
 	 *             if data is malformed and cannot be written
 	 */
-	private void emitSourceSystem(PrintWriter pw, SourceSystem sourceSystem)
+	private void emitSourceSystem(SourceSystem sourceSystem)
 	        throws GedcomWriterException {
 		if (sourceSystem == null) {
 			return;
 		}
-		emitTagIfValueNotNull(pw, 1, null, "SOUR", sourceSystem.systemId);
-		emitTagWithOptionalValue(pw, 2, null, "VERS", sourceSystem.versionNum);
-		emitTagWithOptionalValue(pw, 2, null, "NAME", sourceSystem.productName);
+		emitTagIfValueNotNull(1, null, "SOUR", sourceSystem.systemId);
+		emitTagWithOptionalValue(2, null, "VERS", sourceSystem.versionNum);
+		emitTagWithOptionalValue(2, null, "NAME", sourceSystem.productName);
 		Corporation corporation = sourceSystem.corporation;
 		if (corporation != null) {
-			emitTagWithOptionalValue(pw, 2, null, "CORP",
-			        corporation.businessName);
-			emitAddress(pw, 3, corporation.address);
-			emitPhoneNumbers(pw, 3, corporation.phoneNumbers);
+			emitTagWithOptionalValue(2, null, "CORP", corporation.businessName);
+			emitAddress(3, corporation.address);
+			emitPhoneNumbers(3, corporation.phoneNumbers);
 		}
 		HeaderSourceData sourceData = sourceSystem.sourceData;
 		if (sourceData != null) {
-			emitTagIfValueNotNull(pw, 2, null, "DATA", sourceData.name);
-			emitTagIfValueNotNull(pw, 3, null, "DATE", sourceData.publishDate);
-			emitTagIfValueNotNull(pw, 3, null, "COPR", sourceData.copyright);
+			emitTagIfValueNotNull(2, null, "DATA", sourceData.name);
+			emitTagIfValueNotNull(3, null, "DATE", sourceData.publishDate);
+			emitTagIfValueNotNull(3, null, "COPR", sourceData.copyright);
 		}
 	}
 
@@ -588,45 +602,40 @@ public class GedcomWriter {
 	 * 
 	 * @param gedcom
 	 *            the {@link Gedcom} structure containing the header
-	 * @param pw
-	 *            the {@link PrintWriter} we're writing to
 	 * @throws GedcomWriterException
 	 *             if the data is malformed and cannot be written
 	 */
-	private void emitSubmissionRecord(PrintWriter pw)
-	        throws GedcomWriterException {
+	private void emitSubmissionRecord() throws GedcomWriterException {
 		Submission s = gedcom.submission;
 		if (s == null) {
 			return;
 		}
-		emitTag(pw, 0, s.xref, "SUBN");
+		emitTag(0, s.xref, "SUBN");
 		if (s.submitter != null) {
-			emitTagWithOptionalValue(pw, 1, null, "SUBM", s.submitter.xref);
+			emitTagWithOptionalValue(1, null, "SUBM", s.submitter.xref);
 		}
-		emitTagIfValueNotNull(pw, 1, null, "FAMF", s.nameOfFamilyFile);
-		emitTagIfValueNotNull(pw, 1, null, "TEMP", s.templeCode);
-		emitTagIfValueNotNull(pw, 1, null, "ANCE", s.ancestorsCount);
-		emitTagIfValueNotNull(pw, 1, null, "DESC", s.descendantsCount);
-		emitTagIfValueNotNull(pw, 1, null, "ORDI", s.ordinanceProcessFlag);
-		emitTagIfValueNotNull(pw, 1, null, "RIN", s.recIdNumber);
+		emitTagIfValueNotNull(1, null, "FAMF", s.nameOfFamilyFile);
+		emitTagIfValueNotNull(1, null, "TEMP", s.templeCode);
+		emitTagIfValueNotNull(1, null, "ANCE", s.ancestorsCount);
+		emitTagIfValueNotNull(1, null, "DESC", s.descendantsCount);
+		emitTagIfValueNotNull(1, null, "ORDI", s.ordinanceProcessFlag);
+		emitTagIfValueNotNull(1, null, "RIN", s.recIdNumber);
 	}
 
 	/**
 	 * Write out the submitter record
 	 * 
-	 * @param pw
-	 *            the {@link PrintWriter} we're writing to
 	 * @throws GedcomWriterException
 	 *             if the data is malformed and cannot be written
 	 */
-	private void emitSubmitter(PrintWriter pw) throws GedcomWriterException {
+	private void emitSubmitter() throws GedcomWriterException {
 		for (Submitter s : gedcom.submitters.values()) {
-			emitTag(pw, 0, s.xref, "SUBM");
-			emitTagWithOptionalValue(pw, 1, null, "NAME", s.name);
-			emitAddress(pw, 1, s.address);
-			emitMultimediaLinks(pw, 1, s.multimedia);
+			emitTag(0, s.xref, "SUBM");
+			emitTagWithOptionalValue(1, null, "NAME", s.name);
+			emitAddress(1, s.address);
+			emitMultimediaLinks(1, s.multimedia);
 			for (String l : s.languagePref) {
-				emitTagWithRequiredValue(pw, 1, null, "LANG", l);
+				emitTagWithRequiredValue(1, null, "LANG", l);
 			}
 			/*
 			 * Unclear if really part of the GEDCOM or not - a stress test file
@@ -634,26 +643,24 @@ public class GedcomWriter {
 			 * write them. Won't hurt anything if the collection is empty.
 			 */
 			for (String l : s.phoneNumbers) {
-				emitTagWithRequiredValue(pw, 1, null, "PHON", l);
+				emitTagWithRequiredValue(1, null, "PHON", l);
 			}
 
-			emitTagIfValueNotNull(pw, 1, null, "RFN", s.regFileNumber);
-			emitTagIfValueNotNull(pw, 1, null, "RIN", s.recIdNumber);
-			emitChangeDate(pw, 1, s.changeDate);
+			emitTagIfValueNotNull(1, null, "RFN", s.regFileNumber);
+			emitTagIfValueNotNull(1, null, "RIN", s.recIdNumber);
+			emitChangeDate(1, s.changeDate);
 		}
 	}
 
 	/**
 	 * Write a line with a tag, with no value following the tag
 	 * 
-	 * @param pw
-	 *            the {@link PrintWriter} we're writing to
 	 * @param level
 	 *            the level within the file hierarchy
 	 * @param tag
 	 *            the tag for the line of the file
 	 */
-	private void emitTag(PrintWriter pw, int level, String xref, String tag) {
+	private void emitTag(int level, String xref, String tag) {
 		pw.print(level);
 		if (xref != null && !xref.isEmpty()) {
 			pw.print(" " + xref);
@@ -664,8 +671,6 @@ public class GedcomWriter {
 	/**
 	 * Write a line if the value is non-null
 	 * 
-	 * @param pw
-	 *            the {@link PrintWriter} we're writing to
 	 * @param level
 	 *            the level within the file hierarchy
 	 * @param tag
@@ -673,8 +678,8 @@ public class GedcomWriter {
 	 * @param value
 	 *            the value to write to the right of the tag
 	 */
-	private void emitTagIfValueNotNull(PrintWriter pw, int level, String xref,
-	        String tag, String value) {
+	private void emitTagIfValueNotNull(int level, String xref, String tag,
+	        String value) {
 		if (value != null) {
 			pw.print(level);
 			if (xref != null && !xref.isEmpty()) {
@@ -687,8 +692,6 @@ public class GedcomWriter {
 	/**
 	 * Write a line and tag, with an optional value for the tag
 	 * 
-	 * @param pw
-	 *            the {@link PrintWriter} we're writing to
 	 * @param level
 	 *            the level within the file hierarchy
 	 * @param xref
@@ -701,10 +704,10 @@ public class GedcomWriter {
 	 *             if the value is null or blank (which never happens, because
 	 *             we check for it)
 	 */
-	private void emitTagWithOptionalValue(PrintWriter pw, int level,
-	        String xref, String tag, String value) throws GedcomWriterException {
+	private void emitTagWithOptionalValue(int level, String xref, String tag,
+	        String value) throws GedcomWriterException {
 		if (value == null) {
-			emitTag(pw, level, xref, tag);
+			emitTag(level, xref, tag);
 		} else {
 			pw.print(level);
 			if (xref != null && !xref.isEmpty()) {
@@ -717,8 +720,6 @@ public class GedcomWriter {
 	/**
 	 * Write a line and tag, with an optional value for the tag
 	 * 
-	 * @param pw
-	 *            the {@link PrintWriter} we're writing to
 	 * @param level
 	 *            the level within the file hierarchy
 	 * @param tag
@@ -729,8 +730,8 @@ public class GedcomWriter {
 	 * @throws GedcomWriterException
 	 *             if the value is null or blank
 	 */
-	private void emitTagWithRequiredValue(PrintWriter pw, int level,
-	        String xref, String tag, String value) throws GedcomWriterException {
+	private void emitTagWithRequiredValue(int level, String xref, String tag,
+	        String value) throws GedcomWriterException {
 		if (value == null || "".equals(value)) {
 			throw new GedcomWriterException("Required value for tag " + tag
 			        + " at level " + level + " was null or blank");
@@ -748,7 +749,7 @@ public class GedcomWriter {
 	 * @param gedcom
 	 *            the {@link Gedcom} structure containing the header
 	 */
-	private void emitTrailer(PrintWriter pw) {
+	private void emitTrailer() {
 		pw.println("0 TRLR");
 	}
 }
