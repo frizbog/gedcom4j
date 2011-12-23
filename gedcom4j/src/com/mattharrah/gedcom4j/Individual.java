@@ -137,6 +137,9 @@ public class Individual {
 	 * The address of this individual
 	 */
 	public Address address;
+	/**
+	 * The phone numbers for the individual
+	 */
 	public List<String> phoneNumbers = new ArrayList<String>();
 
 	@Override
