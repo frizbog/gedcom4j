@@ -7,6 +7,12 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+/**
+ * Test for the individual event type
+ * 
+ * @author frizbog1
+ * 
+ */
 public class IndividualEventTypeTest {
 
 	/**

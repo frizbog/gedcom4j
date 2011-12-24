@@ -1,26 +1,23 @@
 /*
  * Copyright (c) 2009-2011 Matthew R. Harrah
  * 
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following
- * conditions:
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  * 
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- * OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 package com.mattharrah.gedcom4j.parser;
 
@@ -35,34 +32,42 @@ import com.mattharrah.gedcom4j.Gedcom;
 import com.mattharrah.gedcom4j.Source;
 import com.mattharrah.gedcom4j.Submitter;
 
+/**
+ * Tests for the {@link GedcomParser} class
+ * 
+ * @author frizbog1
+ * 
+ */
 public class GedcomParserTest extends TestCase {
 
+	/**
+	 * Test loading a file...it's a stress test file.
+	 * 
+	 * @throws IOException
+	 * @throws GedcomParserException
+	 */
 	public void testLoad1() throws IOException, GedcomParserException {
 		GedcomParser gp = new GedcomParser();
 		gp.load("sample/TGC551.ged");
-		Gedcom g = gp.gedcom;
 		checkTGC551LF(gp);
-
-		for (Family f : g.families.values()) {
-			if (f.husband != null && f.wife != null) {
-				System.out.println("" + f.husband.names.get(0).basic
-				        + " married " + f.wife.names.get(0).basic);
-			}
-		}
 	}
 
+	/**
+	 * Test loading a sample file ... another stress-test file. This one should
+	 * have warnings.
+	 * 
+	 * @throws IOException
+	 * @throws GedcomParserException
+	 */
 	public void testLoad2() throws IOException, GedcomParserException {
 		GedcomParser gp = new GedcomParser();
 		gp.load("sample/allged.ged");
 		assertTrue(gp.errors.isEmpty());
-		assertFalse(gp.warnings.isEmpty());
+		assertEquals(
+		        "There are exactly 7 warning items in the file due to custom tags",
+		        7, gp.warnings.size());
 		for (String s : gp.warnings) {
-			System.out.println(s);
-			System.out.flush();
-		}
-		for (String s : gp.errors) {
-			System.err.println(s);
-			System.err.flush();
+			assertTrue(s.contains("_MYOWNTAG"));
 		}
 		Gedcom g = gp.gedcom;
 		assertFalse(g.submitters.isEmpty());
@@ -71,19 +76,17 @@ public class GedcomParserTest extends TestCase {
 		assertEquals("/Submitter-Name/", submitter.name);
 	}
 
+	/**
+	 * Test loading another sample file
+	 * 
+	 * @throws IOException
+	 * @throws GedcomParserException
+	 */
 	public void testLoad3() throws IOException, GedcomParserException {
 		GedcomParser gp = new GedcomParser();
 		gp.load("sample/a31486.ged");
 		assertTrue(gp.errors.isEmpty());
 		assertTrue(gp.warnings.isEmpty());
-		for (String s : gp.warnings) {
-			System.out.println(s);
-			System.out.flush();
-		}
-		for (String s : gp.errors) {
-			System.err.println(s);
-			System.err.flush();
-		}
 		Gedcom g = gp.gedcom;
 
 		// Check submitter
@@ -118,6 +121,12 @@ public class GedcomParserTest extends TestCase {
 
 	}
 
+	/**
+	 * Test loading a file with a different line terminator sequence.
+	 * 
+	 * @throws IOException
+	 * @throws GedcomParserException
+	 */
 	public void testLoad4() throws IOException, GedcomParserException {
 		GedcomParser gp = new GedcomParser();
 		// Different line end char seq than the other file
@@ -149,14 +158,6 @@ public class GedcomParserTest extends TestCase {
 	private void checkTGC551LF(GedcomParser gp) {
 		assertTrue(gp.errors.isEmpty());
 		assertFalse(gp.warnings.isEmpty());
-		for (String s : gp.warnings) {
-			System.out.println(s);
-			System.out.flush();
-		}
-		for (String s : gp.errors) {
-			System.err.println(s);
-			System.err.flush();
-		}
 		Gedcom g = gp.gedcom;
 		assertNotNull(g.header);
 		assertEquals(3, g.submitters.size());

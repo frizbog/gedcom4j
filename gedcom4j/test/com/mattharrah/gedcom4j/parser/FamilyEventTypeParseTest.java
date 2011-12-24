@@ -34,7 +34,6 @@ public class FamilyEventTypeParseTest extends TestCase {
 			familyCount++;
 			assertNotNull(fam.events);
 			for (FamilyEvent event : fam.events) {
-				System.out.println(event);
 				assertNotNull(event.type);
 			}
 		}
