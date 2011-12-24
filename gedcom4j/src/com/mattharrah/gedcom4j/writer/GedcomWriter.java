@@ -512,7 +512,7 @@ public class GedcomWriter {
 			emitSourceCitations(1, i.citations);
 			emitMultimediaLinks(1, i.multimedia);
 			emitNotes(1, i.notes);
-			emitTagIfValueNotNull(1, "RFN", i.regFileNumber);
+			emitTagIfValueNotNull(1, "RFN", i.permanentRecFileNumber);
 			emitTagIfValueNotNull(1, "AFN", i.ancestralFileNumber);
 			for (UserReference u : i.userReferences) {
 				emitTagWithRequiredValue(1, "REFN", u.referenceNum);

@@ -1,41 +1,71 @@
 /*
  * Copyright (c) 2009-2011 Matthew R. Harrah
  * 
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following
- * conditions:
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  * 
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- * OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 package com.mattharrah.gedcom4j;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A repository. Corresponds to REPOSITORY_RECORD in the GEDCOM standard.
+ * 
+ * @author frizbog1
+ * 
+ */
 public class Repository {
+	/**
+	 * The xref for this repository
+	 */
 	public String xref;
+	/**
+	 * The name of this repository
+	 */
 	public String name;
-	public String regFileNumber;
+	/**
+	 * The record ID for this repository
+	 */
 	public String recIdNumber;
+	/**
+	 * The registered file number
+	 */
+	public String regFileNumber;
+	/**
+	 * The address for this repository
+	 */
 	public Address address;
+	/**
+	 * The notes for this repository
+	 */
 	public List<Note> notes = new ArrayList<Note>();
+	/**
+	 * The change date for this repository
+	 */
 	public ChangeDate changeDate;
+	/**
+	 * The user references to this repository
+	 */
 	public List<UserReference> userReferences = new ArrayList<UserReference>();
+	/**
+	 * The phone numbers for this repository
+	 */
 	public List<String> phoneNumbers = new ArrayList<String>();
 
 	@Override
@@ -46,7 +76,7 @@ public class Repository {
 		if (obj == null) {
 			return false;
 		}
-		if (getClass() != obj.getClass()) {
+		if (!(obj instanceof Repository)) {
 			return false;
 		}
 		Repository other = (Repository) obj;
