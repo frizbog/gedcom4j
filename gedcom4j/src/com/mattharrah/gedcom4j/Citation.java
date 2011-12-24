@@ -24,6 +24,11 @@
  */
 package com.mattharrah.gedcom4j;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * An abstract base class for other source citations (both with and without
  * source)
@@ -32,5 +37,26 @@ package com.mattharrah.gedcom4j;
  * 
  */
 public abstract class Citation {
-	// Nothing to do.
+
+	/**
+	 * Notes on this source citation
+	 */
+	public List<Note> notes = new ArrayList<Note>();
+
+	/**
+	 * This method gets a set of all the XREFs of all the notes in this
+	 * Citation. This can be used in equals() implementations to avoid circular
+	 * references (e.g., Note -> CitationWithSource -> Source -> Repository ->
+	 * Note)
+	 * 
+	 * @return a set of xrefs of all the notes on this citation.
+	 */
+	public Set<String> getNoteXrefs() {
+		Set<String> result = new HashSet<String>();
+		for (Note n : notes) {
+			result.add(n.xref);
+		}
+		return result;
+	}
+
 }

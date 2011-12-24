@@ -27,10 +27,28 @@ package com.mattharrah.gedcom4j;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A citation to a repository
+ * 
+ * @author frizbog1
+ * 
+ */
 public class RepositoryCitation {
 
-	public Repository repository;
+	/**
+	 * The xref of the repository. Kept as a string copy of the xref
+	 * deliberately to avoid circular references in the object graph
+	 * (particularly, Note -> Citation -> Source -> Repository -> Note ->
+	 * Citation...)
+	 */
+	public String repositoryXref;
+	/**
+	 * Notes on this repository citation
+	 */
 	public List<Note> notes = new ArrayList<Note>();
+	/**
+	 * Call numbers
+	 */
 	public List<SourceCallNumber> callNumbers = new ArrayList<SourceCallNumber>();
 
 	@Override
@@ -41,7 +59,7 @@ public class RepositoryCitation {
 		if (obj == null) {
 			return false;
 		}
-		if (getClass() != obj.getClass()) {
+		if (!(obj instanceof RepositoryCitation)) {
 			return false;
 		}
 		RepositoryCitation other = (RepositoryCitation) obj;
@@ -59,11 +77,11 @@ public class RepositoryCitation {
 		} else if (!notes.equals(other.notes)) {
 			return false;
 		}
-		if (repository == null) {
-			if (other.repository != null) {
+		if (repositoryXref == null) {
+			if (other.repositoryXref != null) {
 				return false;
 			}
-		} else if (!repository.equals(other.repository)) {
+		} else if (!repositoryXref.equals(other.repositoryXref)) {
 			return false;
 		}
 		return true;
@@ -77,8 +95,14 @@ public class RepositoryCitation {
 		        + ((callNumbers == null) ? 0 : callNumbers.hashCode());
 		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
 		result = prime * result
-		        + ((repository == null) ? 0 : repository.hashCode());
+		        + ((repositoryXref == null) ? 0 : repositoryXref.hashCode());
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "RepositoryCitation [repositoryXref=" + repositoryXref
+		        + ", notes=" + notes + ", callNumbers=" + callNumbers + "]";
 	}
 
 }

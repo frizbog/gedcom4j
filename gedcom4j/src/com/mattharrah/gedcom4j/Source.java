@@ -27,20 +27,67 @@ package com.mattharrah.gedcom4j;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A source for citations.
+ * 
+ * @author frizbog1
+ */
 public class Source {
+	/**
+	 * The registered file number
+	 */
 	public String regFileNumber;
+	/**
+	 * The record id number
+	 */
 	public String recIdNumber;
+	/**
+	 * Who filed the source
+	 */
 	public String sourceFiledBy;
+	/**
+	 * The title text
+	 */
 	public List<String> title = new ArrayList<String>();
+	/**
+	 * Notes on this source
+	 */
 	public List<Note> notes = new ArrayList<Note>();
+	/**
+	 * Publication facts on this source
+	 */
 	public List<String> publicationFacts = new ArrayList<String>();
+	/**
+	 * The originators/authors
+	 */
 	public List<String> originatorsAuthors = new ArrayList<String>();
+	/**
+	 * Multimedia for this source
+	 */
 	public List<Multimedia> multimedia = new ArrayList<Multimedia>();
+	/**
+	 * The change date for this source
+	 */
 	public ChangeDate changeDate;
+	/**
+	 * User references for this source
+	 */
 	public List<UserReference> userReferences = new ArrayList<UserReference>();
+	/**
+	 * Source data
+	 */
 	public SourceData data;
+	/**
+	 * Text from the source
+	 */
 	public List<String> sourceText = new ArrayList<String>();
+	/**
+	 * A repository Citation
+	 */
 	public RepositoryCitation repositoryCitation;
+	/**
+	 * The xref of this source
+	 */
 	public String xref;
 
 	@Override
@@ -51,7 +98,7 @@ public class Source {
 		if (obj == null) {
 			return false;
 		}
-		if (getClass() != obj.getClass()) {
+		if (!(obj instanceof Source)) {
 			return false;
 		}
 		Source other = (Source) obj;
@@ -190,6 +237,19 @@ public class Source {
 		        + ((userReferences == null) ? 0 : userReferences.hashCode());
 		result = prime * result + ((xref == null) ? 0 : xref.hashCode());
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "Source [xref=" + xref + ", regFileNumber=" + regFileNumber
+		        + ", recIdNumber=" + recIdNumber + ", sourceFiledBy="
+		        + sourceFiledBy + ", title=" + title + ", notes=" + notes
+		        + ", publicationFacts=" + publicationFacts
+		        + ", originatorsAuthors=" + originatorsAuthors
+		        + ", multimedia=" + multimedia + ", changeDate=" + changeDate
+		        + ", userReferences=" + userReferences + ", data=" + data
+		        + ", sourceText=" + sourceText + ", repositoryCitation="
+		        + repositoryCitation + "]";
 	}
 
 }

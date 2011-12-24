@@ -822,12 +822,12 @@ public class GedcomWriter {
 	private void emitRepositoryCitation(int level,
 	        RepositoryCitation repositoryCitation) throws GedcomWriterException {
 		if (repositoryCitation != null) {
-			if (repositoryCitation.repository == null) {
+			if (repositoryCitation.repositoryXref == null) {
 				throw new GedcomWriterException(
 				        "Repository Citation has null repository reference");
 			}
 			emitTagWithRequiredValue(level, "REPO",
-			        repositoryCitation.repository.xref);
+			        repositoryCitation.repositoryXref);
 			emitNotes(level + 1, repositoryCitation.notes);
 			for (SourceCallNumber scn : repositoryCitation.callNumbers) {
 				emitTagWithRequiredValue(level + 1, "CALN", scn.callNumber);

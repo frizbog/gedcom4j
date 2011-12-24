@@ -60,10 +60,6 @@ public class CitationWithSource extends Citation {
 	 */
 	public Source source;
 	/**
-	 * Notes on this source citation
-	 */
-	public List<Note> notes = new ArrayList<Note>();
-	/**
 	 * Multimedia links for this source citation
 	 */
 	public List<Multimedia> multimedia = new ArrayList<Multimedia>();

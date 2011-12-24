@@ -25,7 +25,9 @@
 package com.mattharrah.gedcom4j;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A citation without a source. Corresponds to the second form of the
@@ -45,11 +47,6 @@ public class CitationWithoutSource extends Citation {
 	 * Lines of Lines of text from the source (yeah, really)
 	 */
 	public List<List<String>> textFromSource = new ArrayList<List<String>>();
-	/**
-	 * A list of notes about this citation
-	 */
-	public List<Note> notes = new ArrayList<Note>();
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -85,6 +82,7 @@ public class CitationWithoutSource extends Citation {
 		}
 		return true;
 	}
+
 
 	@Override
 	public int hashCode() {

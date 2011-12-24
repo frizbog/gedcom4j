@@ -1239,10 +1239,11 @@ public class GedcomParser {
 	 *            the node
 	 * @param s
 	 *            the source which is referencing a repository
+	 * @return the RepositoryCitation loaded
 	 */
-	private void loadRepositoryCitation(StringTree st, Source s) {
+	private RepositoryCitation loadRepositoryCitation(StringTree st, Source s) {
 		RepositoryCitation r = new RepositoryCitation();
-		r.repository = getRepository(st.value);
+		r.repositoryXref = st.value;
 		for (StringTree ch : st.children) {
 			if ("NOTE".equals(ch.tag)) {
 				loadNote(ch, r.notes);
@@ -1257,7 +1258,7 @@ public class GedcomParser {
 				unknownTag(ch);
 			}
 		}
-
+		return r;
 	}
 
 	/**
@@ -1342,7 +1343,7 @@ public class GedcomParser {
 			} else if ("AUTH".equals(ch.tag)) {
 				loadMultiLinesOfText(ch, s.originatorsAuthors);
 			} else if ("REPO".equals(ch.tag)) {
-				loadRepositoryCitation(ch, s);
+				s.repositoryCitation = loadRepositoryCitation(ch, s);
 			} else if ("NOTE".equals(ch.tag)) {
 				loadNote(ch, s.notes);
 			} else if ("OBJE".equals(ch.tag)) {

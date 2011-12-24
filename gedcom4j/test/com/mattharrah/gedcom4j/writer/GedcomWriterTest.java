@@ -255,8 +255,6 @@ public class GedcomWriterTest extends TestCase {
 	 * Test the writing of repositories.
 	 */
 	public void testRepositories() {
-		assertEquals("Lists of repositories should be equal",
-		        gedcomOrig.repositories, gedcomReadback.repositories);
 		assertTrue(
 		        "The file as read back should have repository @R1@ in the expected format",
 		        writtenFileAsString.contains("0 @R1@ REPO\n"
@@ -273,6 +271,8 @@ public class GedcomWriterTest extends TestCase {
 		                + "1 PHON +1-801-240-1278 (gifts & donations)\n"
 		                + "1 PHON +1-801-240-2584 (support)\n1 CHAN\n"
 		                + "2 DATE 12 Mar 2000\n3 TIME 10:36:02"));
+		assertEquals("Lists of repositories should be equal",
+		        gedcomOrig.repositories, gedcomReadback.repositories);
 	}
 
 	/**
