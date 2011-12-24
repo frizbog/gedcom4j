@@ -4,6 +4,13 @@ import java.util.Comparator;
 
 import com.mattharrah.gedcom4j.Individual;
 
+/**
+ * Comparator for sorting individuals by last name (surname) first, then first
+ * (given) name
+ * 
+ * @author frizbog1
+ * 
+ */
 public class IndividualByLastNameFirstNameComparator implements
         Comparator<Individual> {
 

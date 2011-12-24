@@ -34,12 +34,33 @@ import java.util.List;
  * @author frizbog1
  */
 public class Address {
+	/**
+	 * The lines of the address
+	 */
 	public List<String> lines = new ArrayList<String>();
+	/**
+	 * Line one of the address
+	 */
 	public String addr1;
+	/**
+	 * Line two of the address
+	 */
 	public String addr2;
+	/**
+	 * City
+	 */
 	public String city;
+	/**
+	 * State/province
+	 */
 	public String stateProvince;
+	/**
+	 * Postal code
+	 */
 	public String postalCode;
+	/**
+	 * Country
+	 */
 	public String country;
 
 	@Override

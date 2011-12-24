@@ -75,6 +75,25 @@ import com.mattharrah.gedcom4j.Submitter;
 import com.mattharrah.gedcom4j.Trailer;
 import com.mattharrah.gedcom4j.UserReference;
 
+/**
+ * <p>
+ * Class for parsing GEDCOM 5.5 files and creating a {@link Gedcom} structure
+ * from them.
+ * </p>
+ * <p>
+ * General usage is as follows:
+ * <ol>
+ * <li>Instantiate a <code>GedcomParser</code> object</li>
+ * <li>Call the <code>GedcomParser.load()</code> method (in one of its various
+ * forms) to parse a file/stream</li>
+ * <li>Access the parser's <code>gedcom</code> property to access the parsed
+ * data</li>
+ * </ol>
+ * </p>
+ * 
+ * @author frizbog1
+ * 
+ */
 public class GedcomParser {
 
 	/**
@@ -1574,28 +1593,6 @@ public class GedcomParser {
 			}
 		}
 		return result;
-	}
-
-	private void parseNote(StringTree st, Note note) {
-		note.lines.add(st.value);
-		for (StringTree ch : st.children) {
-			if ("CONC".equals(ch.tag) || "CONT".equals(ch.tag)) {
-				note.lines.add(st.value);
-			} else if ("SOUR".equals(ch.tag)) {
-				loadCitation(ch, note.citations);
-			} else if ("REFN".equals(ch.tag)) {
-				UserReference u = new UserReference();
-				note.userReferences.add(u);
-				loadUserReference(ch, u);
-			} else if ("RIN".equals(ch.tag)) {
-				note.recIdNumber = ch.value;
-			} else if ("CHAN".equals(ch.tag)) {
-				note.changeDate = new ChangeDate();
-				loadChangeDate(ch, note.changeDate);
-			} else {
-				unknownTag(ch);
-			}
-		}
 	}
 
 	/**
