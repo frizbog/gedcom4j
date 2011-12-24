@@ -43,9 +43,5 @@ public class IndividualEvent extends Event {
 	 * The family to which this individual adopted was adopted
 	 */
 	public FamilyChild family;
-	/**
-	 * A subtype of individual event. Used when the main type is the generic
-	 * "EVEN" value.
-	 */
-	public String subType;
+
 }

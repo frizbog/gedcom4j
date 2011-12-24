@@ -27,9 +27,84 @@ package com.mattharrah.gedcom4j;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A Place. Corresponds to PLACE_STRUCTURE in GEDCOM standard.
+ * 
+ * @author frizbog1
+ * 
+ */
 public class Place {
+	/**
+	 * The place name (value)
+	 */
 	public String placeName;
+	/**
+	 * The place format (hierarchy)
+	 */
 	public String placeFormat;
+	/**
+	 * Source citations for this place
+	 */
 	public List<Citation> citations = new ArrayList<Citation>();
+	/**
+	 * Notes for this place
+	 */
 	public List<Note> notes = new ArrayList<Note>();
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Place other = (Place) obj;
+		if (citations == null) {
+			if (other.citations != null) {
+				return false;
+			}
+		} else if (!citations.equals(other.citations)) {
+			return false;
+		}
+		if (notes == null) {
+			if (other.notes != null) {
+				return false;
+			}
+		} else if (!notes.equals(other.notes)) {
+			return false;
+		}
+		if (placeFormat == null) {
+			if (other.placeFormat != null) {
+				return false;
+			}
+		} else if (!placeFormat.equals(other.placeFormat)) {
+			return false;
+		}
+		if (placeName == null) {
+			if (other.placeName != null) {
+				return false;
+			}
+		} else if (!placeName.equals(other.placeName)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+		        + ((citations == null) ? 0 : citations.hashCode());
+		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
+		result = prime * result
+		        + ((placeFormat == null) ? 0 : placeFormat.hashCode());
+		result = prime * result
+		        + ((placeName == null) ? 0 : placeName.hashCode());
+		return result;
+	}
 }

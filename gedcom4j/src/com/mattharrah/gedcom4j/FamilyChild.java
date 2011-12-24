@@ -49,4 +49,74 @@ public class FamilyChild {
 	 * Who did the adopting.
 	 */
 	public String adoptedBy;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof FamilyChild)) {
+			return false;
+		}
+		FamilyChild other = (FamilyChild) obj;
+		if (adoptedBy == null) {
+			if (other.adoptedBy != null) {
+				return false;
+			}
+		} else if (!adoptedBy.equals(other.adoptedBy)) {
+			return false;
+		}
+		if (family == null) {
+			if (other.family != null) {
+				return false;
+			}
+		} else {
+			if (other.family == null) {
+				return false;
+			}
+			if (family.xref == null) {
+				if (other.family.xref != null) {
+					return false;
+				}
+			} else {
+				if (!family.xref.equals(other.family.xref)) {
+					return false;
+				}
+			}
+		}
+		if (notes == null) {
+			if (other.notes != null) {
+				return false;
+			}
+		} else if (!notes.equals(other.notes)) {
+			return false;
+		}
+		if (pedigree == null) {
+			if (other.pedigree != null) {
+				return false;
+			}
+		} else if (!pedigree.equals(other.pedigree)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+		        + ((adoptedBy == null) ? 0 : adoptedBy.hashCode());
+		result = prime
+		        * result
+		        + ((family == null || family.xref == null) ? 0 : family.xref
+		                .hashCode());
+		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
+		result = prime * result
+		        + ((pedigree == null) ? 0 : pedigree.hashCode());
+		return result;
+	}
 }

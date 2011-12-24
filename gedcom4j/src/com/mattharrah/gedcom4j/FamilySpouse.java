@@ -42,4 +42,56 @@ public class FamilySpouse {
 	 * Notes on the membership
 	 */
 	public List<Note> notes = new ArrayList<Note>();
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof FamilySpouse)) {
+			return false;
+		}
+		FamilySpouse other = (FamilySpouse) obj;
+		if (family == null) {
+			if (other.family != null) {
+				return false;
+			}
+		} else {
+			if (other.family == null) {
+				return false;
+			}
+			if (family.xref == null) {
+				if (other.family.xref != null) {
+					return false;
+				}
+			} else {
+				if (!family.xref.equals(other.family.xref)) {
+					return false;
+				}
+			}
+		}
+		if (notes == null) {
+			if (other.notes != null) {
+				return false;
+			}
+		} else if (!notes.equals(other.notes)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+		        * result
+		        + ((family == null || family.xref == null) ? 0 : family.xref
+		                .hashCode());
+		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
+		return result;
+	}
 }

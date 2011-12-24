@@ -34,8 +34,94 @@ import java.util.List;
  * @author frizbog1
  */
 public class Association {
+	/**
+	 * Relationship description
+	 */
 	public String relationship;
-	public Individual otherIndividual;
+	/**
+	 * The XREF to the associated entity
+	 */
+	public String associatedEntityXref;
+	/**
+	 * The type of the associated entity
+	 */
+	public String associatedEntityType;
+	/**
+	 * The citations for this association
+	 */
 	public List<Citation> citations = new ArrayList<Citation>();
+	/**
+	 * Notes about this association
+	 */
 	public List<Note> notes = new ArrayList<Note>();
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Association)) {
+			return false;
+		}
+		Association other = (Association) obj;
+		if (associatedEntityType == null) {
+			if (other.associatedEntityType != null) {
+				return false;
+			}
+		} else if (!associatedEntityType.equals(other.associatedEntityType)) {
+			return false;
+		}
+		if (associatedEntityXref == null) {
+			if (other.associatedEntityXref != null) {
+				return false;
+			}
+		} else if (!associatedEntityXref.equals(other.associatedEntityXref)) {
+			return false;
+		}
+		if (citations == null) {
+			if (other.citations != null) {
+				return false;
+			}
+		} else if (!citations.equals(other.citations)) {
+			return false;
+		}
+		if (notes == null) {
+			if (other.notes != null) {
+				return false;
+			}
+		} else if (!notes.equals(other.notes)) {
+			return false;
+		}
+		if (relationship == null) {
+			if (other.relationship != null) {
+				return false;
+			}
+		} else if (!relationship.equals(other.relationship)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+		        * result
+		        + ((associatedEntityType == null) ? 0 : associatedEntityType
+		                .hashCode());
+		result = prime
+		        * result
+		        + ((associatedEntityXref == null) ? 0 : associatedEntityXref
+		                .hashCode());
+		result = prime * result
+		        + ((citations == null) ? 0 : citations.hashCode());
+		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
+		result = prime * result
+		        + ((relationship == null) ? 0 : relationship.hashCode());
+		return result;
+	}
 }

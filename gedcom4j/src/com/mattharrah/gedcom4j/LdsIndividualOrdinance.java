@@ -24,21 +24,68 @@
  */
 package com.mattharrah.gedcom4j;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * An LDS Ordinance
+ * An LDS Ordinance for an individual
  * 
  * @author frizbog1
  */
-public class LdsIndividualOrdinance {
-	public LdsIndividualOrdinanceType type;
-	public String status;
-	public String date;
-	public String temple;
-	public String place;
+public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
+	/**
+	 * The family in which the individual was a child - used for SLGC types
+	 */
 	public FamilyChild familyWhereChild;
-	public List<Citation> citations = new ArrayList<Citation>();
-	public List<Note> notes = new ArrayList<Note>();
+	/**
+	 * The type
+	 */
+	public LdsIndividualOrdinanceType type;
+
+	/**
+	 * Allows for a Y or null to be processed after the type. Not strictly part
+	 * of the GEDCOM, but allows for flexibility
+	 */
+	public String yNull;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (!(obj instanceof LdsIndividualOrdinance)) {
+			return false;
+		}
+		LdsIndividualOrdinance other = (LdsIndividualOrdinance) obj;
+		if (familyWhereChild == null) {
+			if (other.familyWhereChild != null) {
+				return false;
+			}
+		} else if (!familyWhereChild.equals(other.familyWhereChild)) {
+			return false;
+		}
+		if (type != other.type) {
+			return false;
+		}
+		if (yNull == null) {
+			if (other.yNull != null) {
+				return false;
+			}
+		} else if (!yNull.equals(other.yNull)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime
+		        * result
+		        + ((familyWhereChild == null) ? 0 : familyWhereChild.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((yNull == null) ? 0 : yNull.hashCode());
+		return result;
+	}
 }

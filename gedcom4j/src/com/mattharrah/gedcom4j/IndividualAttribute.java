@@ -25,5 +25,31 @@
 package com.mattharrah.gedcom4j;
 
 public class IndividualAttribute extends Event {
-	public String type;
+	public IndividualAttributeType type;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (!(obj instanceof IndividualAttribute)) {
+			return false;
+		}
+		IndividualAttribute other = (IndividualAttribute) obj;
+		if (type != other.type) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
 }

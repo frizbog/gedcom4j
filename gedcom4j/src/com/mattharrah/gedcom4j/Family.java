@@ -64,7 +64,7 @@ public class Family {
 	/**
 	 * The LDS Spouse Sealings for this family
 	 */
-	public List<LdsFamilyOrdinance> ldsSpouseSealings = new ArrayList<LdsFamilyOrdinance>();
+	public List<LdsSpouseSealing> ldsSpouseSealings = new ArrayList<LdsSpouseSealing>();
 	/**
 	 * The source citations for this family
 	 */

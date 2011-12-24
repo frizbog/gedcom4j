@@ -40,10 +40,6 @@ public class FamilyEvent extends Event {
 	public FamilyEventType type;
 
 	/**
-	 * Either a Y or a null after the event type;
-	 */
-	public String yNull;
-	/**
 	 * Age of husband at time of event
 	 */
 	public String husbandAge;
@@ -51,12 +47,6 @@ public class FamilyEvent extends Event {
 	 * Age of wife at time of event
 	 */
 	public String wifeAge;
-
-	/**
-	 * A subtype of event for use when {@link FamilyEvent#type} is
-	 * &quot;EVEN&quot;
-	 */
-	public String subType;
 
 	/*
 	 * (non-Javadoc)

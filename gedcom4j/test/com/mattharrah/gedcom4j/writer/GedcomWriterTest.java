@@ -14,6 +14,7 @@ import junit.framework.TestCase;
 import com.mattharrah.gedcom4j.Family;
 import com.mattharrah.gedcom4j.Gedcom;
 import com.mattharrah.gedcom4j.Header;
+import com.mattharrah.gedcom4j.Individual;
 import com.mattharrah.gedcom4j.parser.GedcomParser;
 import com.mattharrah.gedcom4j.parser.GedcomParserException;
 import com.mattharrah.gedcom4j.validate.GedcomValidationException;
@@ -31,6 +32,10 @@ import com.mattharrah.gedcom4j.validate.GedcomValidationException;
  */
 public class GedcomWriterTest extends TestCase {
 
+	/**
+	 * The name of the file used for stress-testing the parser
+	 */
+	private static final String SAMPLE_STRESS_TEST_FILENAME = "sample/TGC551.ged";
 	/**
 	 * The original gedcom structure read in from the torture test file.
 	 */
@@ -63,21 +68,23 @@ public class GedcomWriterTest extends TestCase {
 	        GedcomValidationException, GedcomWriterException {
 		// Load a file
 		GedcomParser p = new GedcomParser();
-		p.load("sample/TGC551.ged");
+		p.load(SAMPLE_STRESS_TEST_FILENAME);
 		gedcomOrig = p.gedcom;
 
 		GedcomWriter gw = new GedcomWriter(gedcomOrig);
 		File tempFile = new File("tmp/gedcom4j.writertest.ged");
-		System.out.println(tempFile.getAbsolutePath());
 		gw.write(tempFile);
 
 		writtenFileAsString = loadFileIntoString(tempFile);
-		System.out.println(writtenFileAsString);
 
 		// Reload the file we just wrote
 		p = new GedcomParser();
 		p.load(tempFile.getAbsolutePath());
 		gedcomReadback = p.gedcom;
+		for (String e : p.errors) {
+			System.err.println(e);
+		}
+		assertTrue(p.errors.isEmpty());
 	}
 
 	/**
@@ -159,6 +166,49 @@ public class GedcomWriterTest extends TestCase {
 		                        + "2 CONT denotes this file as using the ANSEL character set. The importing software should handle these special characters in a\n"
 		                        + "2 CONT reasonable way."));
 
+	}
+
+	/**
+	 * Test that the individuals written and read back match the originals
+	 */
+	public void testIndividuals() {
+		Map<String, Individual> f1 = gedcomOrig.individuals;
+		Map<String, Individual> f2 = gedcomReadback.individuals;
+		assertNotSame(f1, f2);
+		assertEquals(f1.keySet().size(), f2.keySet().size());
+	}
+
+	/**
+	 * Test by reading the original file and making sure each line in it exists
+	 * somewhere in the re-written/re-read file.
+	 * 
+	 * @throws IOException
+	 */
+	public void testLinesOfOriginalFile() throws IOException {
+		BufferedReader br = new BufferedReader(new FileReader(
+		        SAMPLE_STRESS_TEST_FILENAME));
+		String s = br.readLine();
+		int lineNum = 1;
+		while (s != null) {
+			// CONC and CONT are synonymous
+			s = s.replaceAll(" CONC ", " CONT ");
+			// Ignore the known and expected differences
+			if (s.contains(" _HME")) {
+				assertNotNull("Custom tags are ignored by this parser");
+			} else if (s.equals("1 FILE TGC55C.ged")) {
+				assertNotNull("We expect the filenames to change");
+			} else {
+				// At this point, all the known and expected differences are
+				// accounted for. This line should be in the rewritten file.
+				assertTrue(
+				        "Line "
+				                + lineNum
+				                + " from the original file was not found in the re-written file: "
+				                + s, writtenFileAsString.contains(s.trim()));
+			}
+			s = br.readLine();
+			lineNum++;
+		}
 	}
 
 	/**
@@ -303,14 +353,13 @@ public class GedcomWriterTest extends TestCase {
 		Gedcom g = new Gedcom();
 		GedcomWriter gw = new GedcomWriter(g);
 		gw.validationSuppressed = true;
-		File tempFile = new File("tmp/gedcom4j.writertest.ged");
-		System.out.println(tempFile.getAbsolutePath());
+		File tempFile = new File("tmp/gedcom4j.emptywritertest.ged");
 		gw.write(tempFile);
 
 		// Read back the empty file and check its contents
 		String string = loadFileIntoString(tempFile);
 
-		assertEquals("0 HEAD\n1 FILE gedcom4j.writertest.ged\n"
+		assertEquals("0 HEAD\n1 FILE gedcom4j.emptywritertest.ged\n"
 		        + "1 GEDC\n2 VERS 5.5\n2 FORM LINEAGE-LINKED\n"
 		        + "1 CHAR ANSEL\n0 TRLR\n", string);
 

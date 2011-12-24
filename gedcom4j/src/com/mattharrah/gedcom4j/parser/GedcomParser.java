@@ -57,9 +57,9 @@ import com.mattharrah.gedcom4j.IndividualAttribute;
 import com.mattharrah.gedcom4j.IndividualAttributeType;
 import com.mattharrah.gedcom4j.IndividualEvent;
 import com.mattharrah.gedcom4j.IndividualEventType;
-import com.mattharrah.gedcom4j.LdsFamilyOrdinance;
 import com.mattharrah.gedcom4j.LdsIndividualOrdinance;
 import com.mattharrah.gedcom4j.LdsIndividualOrdinanceType;
+import com.mattharrah.gedcom4j.LdsSpouseSealing;
 import com.mattharrah.gedcom4j.Multimedia;
 import com.mattharrah.gedcom4j.Note;
 import com.mattharrah.gedcom4j.PersonalName;
@@ -316,7 +316,8 @@ public class GedcomParser {
 	 */
 	private void loadAssociation(StringTree st, List<Association> associations) {
 		Association a = new Association();
-		a.otherIndividual = getIndividual(st.value);
+		associations.add(a);
+		a.associatedEntityXref = st.value;
 		for (StringTree ch : st.children) {
 			if ("RELA".equals(ch.tag)) {
 				a.relationship = ch.value;
@@ -324,6 +325,8 @@ public class GedcomParser {
 				loadNote(ch, a.notes);
 			} else if ("SOUR".equals(ch.tag)) {
 				loadCitation(ch, a.citations);
+			} else if ("TYPE".equals(ch.tag)) {
+				a.associatedEntityType = ch.value;
 			} else {
 				unknownTag(ch);
 			}
@@ -825,10 +828,11 @@ public class GedcomParser {
 	        List<IndividualAttribute> attributes) {
 		IndividualAttribute a = new IndividualAttribute();
 		attributes.add(a);
-		a.type = IndividualAttributeType.getFromTag(st.tag).toString();
+		a.type = IndividualAttributeType.getFromTag(st.tag);
+		a.description = st.value;
 		for (StringTree ch : st.children) {
 			if ("TYPE".equals(ch.tag)) {
-				a.type = ch.value;
+				a.subType = ch.value;
 			} else if ("DATE".equals(ch.tag)) {
 				a.date = ch.value;
 			} else if ("PLAC".equals(ch.tag)) {
@@ -877,6 +881,7 @@ public class GedcomParser {
 		IndividualEvent e = new IndividualEvent();
 		events.add(e);
 		e.type = IndividualEventType.getFromTag(st.tag);
+		e.yNull = st.value;
 		for (StringTree ch : st.children) {
 			if ("TYPE".equals(ch.tag)) {
 				e.subType = ch.value;
@@ -934,6 +939,7 @@ public class GedcomParser {
 		LdsIndividualOrdinance o = new LdsIndividualOrdinance();
 		ldsIndividualOrdinances.add(o);
 		o.type = LdsIndividualOrdinanceType.getFromTag(st.tag);
+		o.yNull = st.value;
 		for (StringTree ch : st.children) {
 			if ("DATE".equals(ch.tag)) {
 				o.date = ch.value;
@@ -968,8 +974,8 @@ public class GedcomParser {
 	 *            the list of LDS spouse sealings on the family
 	 */
 	private void loadLdsSpouseSealing(StringTree st,
-	        List<LdsFamilyOrdinance> ldsSpouseSealings) {
-		LdsFamilyOrdinance o = new LdsFamilyOrdinance();
+	        List<LdsSpouseSealing> ldsSpouseSealings) {
+		LdsSpouseSealing o = new LdsSpouseSealing();
 		for (StringTree ch : st.children) {
 			if ("DATE".equals(ch.tag)) {
 				o.date = ch.value;

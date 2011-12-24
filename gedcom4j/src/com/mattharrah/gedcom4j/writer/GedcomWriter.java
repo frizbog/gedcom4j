@@ -16,6 +16,7 @@ import com.mattharrah.gedcom4j.CitationData;
 import com.mattharrah.gedcom4j.CitationWithSource;
 import com.mattharrah.gedcom4j.CitationWithoutSource;
 import com.mattharrah.gedcom4j.Corporation;
+import com.mattharrah.gedcom4j.Event;
 import com.mattharrah.gedcom4j.EventRecorded;
 import com.mattharrah.gedcom4j.Family;
 import com.mattharrah.gedcom4j.FamilyChild;
@@ -27,7 +28,10 @@ import com.mattharrah.gedcom4j.HeaderSourceData;
 import com.mattharrah.gedcom4j.Individual;
 import com.mattharrah.gedcom4j.IndividualAttribute;
 import com.mattharrah.gedcom4j.IndividualEvent;
-import com.mattharrah.gedcom4j.LdsFamilyOrdinance;
+import com.mattharrah.gedcom4j.IndividualEventType;
+import com.mattharrah.gedcom4j.LdsIndividualOrdinance;
+import com.mattharrah.gedcom4j.LdsIndividualOrdinanceType;
+import com.mattharrah.gedcom4j.LdsSpouseSealing;
 import com.mattharrah.gedcom4j.Multimedia;
 import com.mattharrah.gedcom4j.Note;
 import com.mattharrah.gedcom4j.PersonalName;
@@ -167,16 +171,33 @@ public class GedcomWriter {
 		emitTagIfValueNotNull(level + 1, "CTRY", address.country);
 	}
 
-	private void emitAssociationStructures(int i, List<Association> associations) {
-		// TODO Auto-generated method stub
-
+	/**
+	 * Emit the person-to-person associations an individual was in - see
+	 * ASSOCIATION_STRUCTURE in the GEDCOM spec.
+	 * 
+	 * @param level
+	 *            the level at which to start recording
+	 * @param associations
+	 *            the list of associations
+	 * @throws GedcomWriterException
+	 *             if the data is malformed and cannot be written
+	 */
+	private void emitAssociationStructures(int level,
+	        List<Association> associations) throws GedcomWriterException {
+		for (Association a : associations) {
+			emitTagWithRequiredValue(level, "ASSO", a.associatedEntityXref);
+			emitTagIfValueNotNull(level + 1, "TYPE", a.associatedEntityType);
+			emitTagWithRequiredValue(level + 1, "RELA", a.relationship);
+			emitNotes(level + 1, a.notes);
+			emitSourceCitations(level + 1, a.citations);
+		}
 	}
 
 	/**
 	 * Emit a change date
 	 * 
 	 * @param level
-	 *            the level we're emitting at
+	 *            the level at which we are emitting data
 	 * @param cd
 	 *            the change date
 	 * @throws GedcomWriterException
@@ -192,23 +213,38 @@ public class GedcomWriter {
 		}
 	}
 
-	private void emitChildToFamilyLinks(int i,
-	        List<FamilyChild> familiesWhereChild) {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void emitChildToParentLinks(int i,
-	        List<FamilySpouse> familiesWhereSpouse) {
-		// TODO Auto-generated method stub
-
+	/**
+	 * Emit links to all the families to which this individual was a child
+	 * 
+	 * @param level
+	 *            the level in the hierarchy at which we are emitting
+	 * @param i
+	 *            the individual we're dealing with
+	 * @throws GedcomWriterException
+	 *             if the data is malformed and cannot be written
+	 */
+	private void emitChildToFamilyLinks(int level, Individual i)
+	        throws GedcomWriterException {
+		for (FamilyChild familyChild : i.familiesWhereChild) {
+			if (familyChild == null) {
+				throw new GedcomWriterException("Family to which " + i
+				        + " was a child was null");
+			}
+			if (familyChild.family == null) {
+				throw new GedcomWriterException("Family to which " + i
+				        + " was a child had a null family reference");
+			}
+			emitTagWithRequiredValue(level, "FAMC", familyChild.family.xref);
+			emitTagIfValueNotNull(level + 1, "PEDI", familyChild.pedigree);
+			emitNotes(level + 1, familyChild.notes);
+		}
 	}
 
 	/**
 	 * Emit a citation without a source
 	 * 
 	 * @param level
-	 *            the level in the hierarchy we're emitting at
+	 *            the level in the hierarchy at which we are emitting data
 	 * @param c
 	 *            the citation
 	 * @throws GedcomWriterException
@@ -256,6 +292,36 @@ public class GedcomWriter {
 	}
 
 	/**
+	 * Emit an event detail structure - see EVENT_DETAIL in the GEDCOM spec
+	 * 
+	 * @param level
+	 *            the level at which we are emitting data
+	 * @param e
+	 *            the event being emitted
+	 * @throws GedcomWriterException
+	 *             if the data is malformed and cannot be written
+	 */
+	private void emitEventDetail(int level, Event e)
+	        throws GedcomWriterException {
+		emitTagIfValueNotNull(level, "TYPE", e.subType);
+		emitTagIfValueNotNull(level, "DATE", e.date);
+		if (e.place != null) {
+			Place p = e.place;
+			emitTagWithOptionalValue(level, "PLAC", p.placeName);
+			emitTagIfValueNotNull(level + 1, "FORM", p.placeFormat);
+			emitSourceCitations(level + 1, p.citations);
+			emitNotes(level + 1, p.notes);
+		}
+		emitAddress(level, e.address);
+		emitTagIfValueNotNull(level, "AGE", e.age);
+		emitTagIfValueNotNull(level, "AGNC", e.respAgency);
+		emitTagIfValueNotNull(level, "CAUS", e.cause);
+		emitSourceCitations(level, e.citations);
+		emitMultimediaLinks(level, e.multimedia);
+		emitNotes(level, e.notes);
+	}
+
+	/**
 	 * Write out all the Families
 	 * 
 	 * @throws GedcomWriterException
@@ -280,7 +346,7 @@ public class GedcomWriter {
 			for (Submitter s : f.submitters) {
 				emitTagWithRequiredValue(1, "SUBM", s.xref);
 			}
-			for (LdsFamilyOrdinance s : f.ldsSpouseSealings) {
+			for (LdsSpouseSealing s : f.ldsSpouseSealings) {
 				emitLdsFamilyOrdinance(1, s);
 			}
 			emitSourceCitations(1, f.citations);
@@ -309,22 +375,7 @@ public class GedcomWriter {
 	private void emitFamilyEventStructure(int level, FamilyEvent e)
 	        throws GedcomWriterException {
 		emitTagWithOptionalValue(level, e.type.tag, e.yNull);
-		emitTagIfValueNotNull(level + 1, "TYPE", e.subType);
-		emitTagIfValueNotNull(level + 1, "DATE", e.date);
-		if (e.place != null) {
-			Place p = e.place;
-			emitTagWithOptionalValue(level + 1, "PLAC", p.placeName);
-			emitTagIfValueNotNull(level + 2, "FORM", p.placeFormat);
-			emitSourceCitations(level + 2, p.citations);
-			emitNotes(level + 2, p.notes);
-		}
-		emitAddress(level + 1, e.address);
-		emitTagIfValueNotNull(level + 1, "AGE", e.age);
-		emitTagIfValueNotNull(level + 1, "AGNC", e.respAgency);
-		emitTagIfValueNotNull(level + 1, "CAUS", e.cause);
-		emitSourceCitations(level + 1, e.citations);
-		emitMultimediaLinks(level + 1, e.multimedia);
-		emitNotes(level + 1, e.notes);
+		emitEventDetail(level + 1, e);
 		if (e.husbandAge != null) {
 			emitTag(level + 1, "HUSB");
 			emitTagWithRequiredValue(level + 2, "AGE", e.husbandAge);
@@ -383,11 +434,16 @@ public class GedcomWriter {
 	 *            the level to start emitting at
 	 * @param attributes
 	 *            the attributes
+	 * @throws GedcomWriterException
+	 *             if the data is malformed and cannot be written
 	 */
 	private void emitIndividualAttributes(int level,
-	        List<IndividualAttribute> attributes) {
-		// TODO Auto-generated method stub
-
+	        List<IndividualAttribute> attributes) throws GedcomWriterException {
+		for (IndividualAttribute a : attributes) {
+			emitTagWithOptionalValue(level, a.type.tag, a.description);
+			emitEventDetail(level + 1, a);
+			emitPhoneNumbers(level + 1, a.phoneNumbers);
+		}
 	}
 
 	/**
@@ -397,10 +453,29 @@ public class GedcomWriter {
 	 *            the level to start emitting at
 	 * @param events
 	 *            the events
+	 * @throws GedcomWriterException
+	 *             if the data is malformed and cannot be written
 	 */
-	private void emitIndividualEvents(int level, List<IndividualEvent> events) {
+	private void emitIndividualEvents(int level, List<IndividualEvent> events)
+	        throws GedcomWriterException {
 		for (IndividualEvent e : events) {
-			// TODO Auto-generated method stub
+			emitTagWithOptionalValue(level, e.type.tag, e.yNull);
+			emitEventDetail(level + 1, e);
+			if (e.type == IndividualEventType.BIRTH
+			        || e.type == IndividualEventType.CHRISTENING) {
+				if (e.family != null && e.family.family != null
+				        && e.family.family.xref != null) {
+					emitTagWithRequiredValue(level + 1, "FAMC",
+					        e.family.family.xref);
+				}
+			} else if (e.type == IndividualEventType.ADOPTION) {
+				if (e.family != null && e.family.family != null
+				        && e.family.family.xref != null) {
+					emitTagWithRequiredValue(level + 1, "FAMC",
+					        e.family.family.xref);
+					emitTagIfValueNotNull(level + 2, "ADOP", e.family.adoptedBy);
+				}
+			}
 		}
 	}
 
@@ -418,10 +493,11 @@ public class GedcomWriter {
 			emitTagIfValueNotNull(1, "SEX", i.sex);
 			emitIndividualEvents(1, i.events);
 			emitIndividualAttributes(1, i.attributes);
-			emitChildToFamilyLinks(1, i.familiesWhereChild);
-			emitChildToParentLinks(1, i.familiesWhereSpouse);
+			emitLdsIndividualOrdinances(1, i.ldsIndividualOrdinances);
+			emitChildToFamilyLinks(1, i);
+			emitSpouseInFamilyLinks(1, i);
 			for (Submitter s : i.submitters) {
-				emitTagWithRequiredValue(2, "SUBM", s.xref);
+				emitTagWithRequiredValue(1, "SUBM", s.xref);
 			}
 			emitAssociationStructures(1, i.associations);
 			for (String s : i.aliases) {
@@ -450,14 +526,16 @@ public class GedcomWriter {
 	}
 
 	/**
+	 * Emit the LDS spouse sealing information
+	 * 
 	 * @param level
 	 *            the level we're writing at
 	 * @param sealings
-	 *            the {@link LdsFamilyOrdinance} structure
+	 *            the {@link LdsSpouseSealing} structure
 	 * @throws GedcomWriterException
 	 *             if the data is malformed and cannot be written
 	 */
-	private void emitLdsFamilyOrdinance(int level, LdsFamilyOrdinance sealings)
+	private void emitLdsFamilyOrdinance(int level, LdsSpouseSealing sealings)
 	        throws GedcomWriterException {
 		emitTag(level, "SLGS");
 		emitTagIfValueNotNull(level + 1, "STAT", sealings.status);
@@ -467,6 +545,42 @@ public class GedcomWriter {
 		emitSourceCitations(level + 1, sealings.citations);
 		emitNotes(level + 1, sealings.notes);
 
+	}
+
+	/**
+	 * Emit the LDS individual ordinances
+	 * 
+	 * @param level
+	 *            the level in the hierarchy we are processing
+	 * @param ldsIndividualOrdinances
+	 *            the list of LDS individual ordinances to emit
+	 * @throws GedcomWriterException
+	 *             if the data is malformed and cannot be written
+	 */
+	private void emitLdsIndividualOrdinances(int level,
+	        List<LdsIndividualOrdinance> ldsIndividualOrdinances)
+	        throws GedcomWriterException {
+		for (LdsIndividualOrdinance o : ldsIndividualOrdinances) {
+			emitTagWithOptionalValue(level, o.type.tag, o.yNull);
+			emitTagIfValueNotNull(level + 1, "STAT", o.status);
+			emitTagIfValueNotNull(level + 1, "DATE", o.date);
+			emitTagIfValueNotNull(level + 1, "TEMP", o.temple);
+			emitTagIfValueNotNull(level + 1, "PLAC", o.place);
+			if (o.type == LdsIndividualOrdinanceType.CHILD_SEALING) {
+				if (o.familyWhereChild == null) {
+					throw new GedcomWriterException(
+					        "LDS Ordinance info for a child sealing had no reference to a family");
+				}
+				if (o.familyWhereChild.family == null) {
+					throw new GedcomWriterException(
+					        "LDS Ordinance info for a child sealing had familyChild object with a null reference to a family");
+				}
+				emitTagWithRequiredValue(level + 1, "FAMC",
+				        o.familyWhereChild.family.xref);
+			}
+			emitSourceCitations(level + 1, o.citations);
+			emitNotes(level + 1, o.notes);
+		}
 	}
 
 	/**
@@ -622,10 +736,21 @@ public class GedcomWriter {
 	 *            the level to start emitting at
 	 * @param names
 	 *            the names
+	 * @throws GedcomWriterException
+	 *             if the data is malformed and cannot be written
 	 */
-	private void emitPersonalNames(int level, List<PersonalName> names) {
+	private void emitPersonalNames(int level, List<PersonalName> names)
+	        throws GedcomWriterException {
 		for (PersonalName n : names) {
-			// TODO Auto-generated method stub
+			emitTagWithOptionalValue(level, "NAME", n.basic);
+			emitTagIfValueNotNull(level + 1, "NPFX", n.prefix);
+			emitTagIfValueNotNull(level + 1, "GIVN", n.givenName);
+			emitTagIfValueNotNull(level + 1, "NICK", n.nickname);
+			emitTagIfValueNotNull(level + 1, "SPFX", n.surnamePrefix);
+			emitTagIfValueNotNull(level + 1, "SURN", n.surname);
+			emitTagIfValueNotNull(level + 1, "NSFX", n.suffix);
+			emitSourceCitations(level + 1, n.citations);
+			emitNotes(level + 1, n.notes);
 		}
 	}
 
@@ -803,6 +928,33 @@ public class GedcomWriter {
 			emitTagIfValueNotNull(2, "DATA", sourceData.name);
 			emitTagIfValueNotNull(3, "DATE", sourceData.publishDate);
 			emitTagIfValueNotNull(3, "COPR", sourceData.copyright);
+		}
+	}
+
+	/**
+	 * Emit links to all the families to which the supplied individual was a
+	 * spouse
+	 * 
+	 * @param level
+	 *            the level in the hierarchy at which we are emitting
+	 * @param i
+	 *            the individual we are dealing with
+	 * @throws GedcomWriterException
+	 *             if data is malformed and cannot be written
+	 */
+	private void emitSpouseInFamilyLinks(int level, Individual i)
+	        throws GedcomWriterException {
+		for (FamilySpouse familySpouse : i.familiesWhereSpouse) {
+			if (familySpouse == null) {
+				throw new GedcomWriterException("Family in which " + i
+				        + " was a spouse was null");
+			}
+			if (familySpouse.family == null) {
+				throw new GedcomWriterException("Family in which " + i
+				        + " was a spouse had a null family reference");
+			}
+			emitTagWithRequiredValue(level, "FAMS", familySpouse.family.xref);
+			emitNotes(level + 1, familySpouse.notes);
 		}
 	}
 
