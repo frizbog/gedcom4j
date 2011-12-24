@@ -1398,6 +1398,7 @@ public class GedcomParser {
 	 */
 	private void loadSourceDataEventRecorded(StringTree st, SourceData data) {
 		EventRecorded e = new EventRecorded();
+		data.eventsRecorded.add(e);
 		e.eventType = st.value;
 		for (StringTree ch : st.children) {
 			if ("DATE".equals(ch.tag)) {

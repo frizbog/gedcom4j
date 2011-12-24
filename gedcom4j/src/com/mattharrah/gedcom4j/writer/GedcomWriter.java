@@ -876,8 +876,8 @@ public class GedcomWriter {
 				emitTag(1, "DATA");
 				for (EventRecorded e : d.eventsRecorded) {
 					emitTagWithOptionalValue(2, "EVEN", e.eventType);
-					emitTagIfValueNotNull(2, "DATE", e.datePeriod);
-					emitTagIfValueNotNull(2, "PLAC", e.jurisdiction);
+					emitTagIfValueNotNull(3, "DATE", e.datePeriod);
+					emitTagIfValueNotNull(3, "PLAC", e.jurisdiction);
 				}
 				emitTagIfValueNotNull(2, "AGNC", d.respAgency);
 				emitNotes(2, d.notes);
