@@ -185,29 +185,35 @@ public class GedcomWriterTest extends TestCase {
 	 * @throws IOException
 	 */
 	public void testLinesOfOriginalFile() throws IOException {
-		BufferedReader br = new BufferedReader(new FileReader(
-		        SAMPLE_STRESS_TEST_FILENAME));
-		String s = br.readLine();
-		int lineNum = 1;
-		while (s != null) {
-			// CONC and CONT are synonymous
-			s = s.replaceAll(" CONC ", " CONT ");
-			// Ignore the known and expected differences
-			if (s.contains(" _HME")) {
-				assertNotNull("Custom tags are ignored by this parser");
-			} else if (s.equals("1 FILE TGC55C.ged")) {
-				assertNotNull("We expect the filenames to change");
-			} else {
-				// At this point, all the known and expected differences are
-				// accounted for. This line should be in the rewritten file.
-				assertTrue(
-				        "Line "
-				                + lineNum
-				                + " from the original file was not found in the re-written file: "
-				                + s, writtenFileAsString.contains(s.trim()));
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new FileReader(SAMPLE_STRESS_TEST_FILENAME));
+			String s = br.readLine();
+			int lineNum = 1;
+			while (s != null) {
+				// CONC and CONT are synonymous
+				s = s.replaceAll(" CONC ", " CONT ");
+				// Ignore the known and expected differences
+				if (s.contains(" _HME")) {
+					assertNotNull("Custom tags are ignored by this parser");
+				} else if (s.equals("1 FILE TGC55C.ged")) {
+					assertNotNull("We expect the filenames to change");
+				} else {
+					// At this point, all the known and expected differences are
+					// accounted for. This line should be in the rewritten file.
+					assertTrue(
+					        "Line "
+					                + lineNum
+					                + " from the original file was not found in the re-written file: "
+					                + s, writtenFileAsString.contains(s.trim()));
+				}
+				s = br.readLine();
+				lineNum++;
 			}
-			s = br.readLine();
-			lineNum++;
+		} finally {
+			if (br != null) {
+				br.close();
+			}
 		}
 	}
 
@@ -380,16 +386,21 @@ public class GedcomWriterTest extends TestCase {
 	        IOException {
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
-		BufferedReader br = new BufferedReader(new FileReader(file));
-		String s = br.readLine();
-		while (s != null) {
-			pw.println(s);
-			s = br.readLine();
+		FileReader fileReader = new FileReader(file);
+		BufferedReader br = new BufferedReader(fileReader);
+		try {
+			String s = br.readLine();
+			while (s != null) {
+				pw.println(s);
+				s = br.readLine();
+			}
+			pw.flush();
+			String string = sw.toString();
+			return string;
+		} finally {
+			br.close();
+			pw.close();
 		}
-		pw.flush();
-		pw.close();
-		String string = sw.toString();
-		return string;
 	}
 
 	/**
