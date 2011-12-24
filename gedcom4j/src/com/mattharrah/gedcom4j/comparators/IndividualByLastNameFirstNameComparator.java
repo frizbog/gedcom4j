@@ -1,5 +1,6 @@
 package com.mattharrah.gedcom4j.comparators;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import com.mattharrah.gedcom4j.Individual;
@@ -11,8 +12,13 @@ import com.mattharrah.gedcom4j.Individual;
  * @author frizbog1
  * 
  */
-public class IndividualByLastNameFirstNameComparator implements
+public class IndividualByLastNameFirstNameComparator implements Serializable,
         Comparator<Individual> {
+
+	/**
+	 * Serial Version UID
+	 */
+	private static final long serialVersionUID = -8121061183483337581L;
 
 	@Override
 	public int compare(Individual i1, Individual i2) {
