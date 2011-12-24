@@ -976,6 +976,7 @@ public class GedcomParser {
 	private void loadLdsSpouseSealing(StringTree st,
 	        List<LdsSpouseSealing> ldsSpouseSealings) {
 		LdsSpouseSealing o = new LdsSpouseSealing();
+		ldsSpouseSealings.add(o);
 		for (StringTree ch : st.children) {
 			if ("DATE".equals(ch.tag)) {
 				o.date = ch.value;
