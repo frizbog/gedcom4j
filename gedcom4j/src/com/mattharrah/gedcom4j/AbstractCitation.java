@@ -21,23 +21,21 @@
  */
 package com.mattharrah.gedcom4j;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * An enumeration of who adopted a child. Corresponds to the
- * ADOPTED_BY_WHICH_PARENT definition in the GEDCOM specification.
+ * An abstract base class for other source citations (both with and without
+ * source)
  * 
  * @author frizbog1
+ * 
  */
-public enum AdoptedByWhichParent {
+public abstract class AbstractCitation {
+
     /**
-     * The husband did the adopting
+     * Notes on this source citation
      */
-    HUSBAND,
-    /**
-     * The wife did the adopting
-     */
-    WIFE,
-    /**
-     * Both parents adopted
-     */
-    BOTH;
+    public List<Note> notes = new ArrayList<Note>();
+
 }

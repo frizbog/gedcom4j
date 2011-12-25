@@ -28,12 +28,12 @@ package com.mattharrah.gedcom4j;
  * 
  */
 public enum HusbandWife {
-	/**
-	 * Husband
-	 */
-	HUSBAND,
-	/**
-	 * Wife
-	 */
-	WIFE
+    /**
+     * Husband
+     */
+    HUSBAND,
+    /**
+     * Wife
+     */
+    WIFE
 }

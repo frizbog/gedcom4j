@@ -30,75 +30,75 @@ package com.mattharrah.gedcom4j;
  * 
  */
 public class FamilyEvent extends Event {
-	/**
-	 * The type of event. See FAMILY_EVENT_STRUCTURE in teh GEDCOM standard for
-	 * more info.
-	 */
-	public FamilyEventType type;
+    /**
+     * The type of event. See FAMILY_EVENT_STRUCTURE in teh GEDCOM standard for
+     * more info.
+     */
+    public FamilyEventType type;
 
-	/**
-	 * Age of husband at time of event
-	 */
-	public String husbandAge;
-	/**
-	 * Age of wife at time of event
-	 */
-	public String wifeAge;
+    /**
+     * Age of husband at time of event
+     */
+    public String husbandAge;
+    /**
+     * Age of wife at time of event
+     */
+    public String wifeAge;
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!super.equals(obj)) {
-			return false;
-		}
-		if (!(obj instanceof FamilyEvent)) {
-			return false;
-		}
-		FamilyEvent other = (FamilyEvent) obj;
-		if (husbandAge == null) {
-			if (other.husbandAge != null) {
-				return false;
-			}
-		} else if (!husbandAge.equals(other.husbandAge)) {
-			return false;
-		}
-		if (type != other.type) {
-			return false;
-		}
-		if (wifeAge == null) {
-			if (other.wifeAge != null) {
-				return false;
-			}
-		} else if (!wifeAge.equals(other.wifeAge)) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (!(obj instanceof FamilyEvent)) {
+            return false;
+        }
+        FamilyEvent other = (FamilyEvent) obj;
+        if (husbandAge == null) {
+            if (other.husbandAge != null) {
+                return false;
+            }
+        } else if (!husbandAge.equals(other.husbandAge)) {
+            return false;
+        }
+        if (type != other.type) {
+            return false;
+        }
+        if (wifeAge == null) {
+            if (other.wifeAge != null) {
+                return false;
+            }
+        } else if (!wifeAge.equals(other.wifeAge)) {
+            return false;
+        }
+        return true;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result
-		        + ((husbandAge == null) ? 0 : husbandAge.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		result = prime * result + ((wifeAge == null) ? 0 : wifeAge.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result
+                + ((husbandAge == null) ? 0 : husbandAge.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + ((wifeAge == null) ? 0 : wifeAge.hashCode());
+        return result;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "FamilyEvent [type=" + type + ", husbandAge=" + husbandAge
-		        + ", wifeAge=" + wifeAge
-		        + (type == FamilyEventType.EVENT ? ", subtype=" + subType : "")
-		        + "]";
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "FamilyEvent [type=" + type + ", husbandAge=" + husbandAge
+                + ", wifeAge=" + wifeAge
+                + (type == FamilyEventType.EVENT ? ", subtype=" + subType : "")
+                + "]";
+    }
 
 }

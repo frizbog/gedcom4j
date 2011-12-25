@@ -24,56 +24,71 @@ package com.mattharrah.gedcom4j;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Data in a Source structure. Corresponds to the set of fields under the DATA
+ * tag on a SOURCE_RECORD.
+ * 
+ * @author frizbog1
+ */
 public class SourceData {
-	public String respAgency;
-	public List<EventRecorded> eventsRecorded = new ArrayList<EventRecorded>();
-	public List<Note> notes = new ArrayList<Note>();
+    /**
+     * The responsible agency.
+     */
+    public String respAgency;
+    /**
+     * The events recorded.
+     */
+    public List<EventRecorded> eventsRecorded = new ArrayList<EventRecorded>();
+    /**
+     * The notes.
+     */
+    public List<Note> notes = new ArrayList<Note>();
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		SourceData other = (SourceData) obj;
-		if (eventsRecorded == null) {
-			if (other.eventsRecorded != null) {
-				return false;
-			}
-		} else if (!eventsRecorded.equals(other.eventsRecorded)) {
-			return false;
-		}
-		if (notes == null) {
-			if (other.notes != null) {
-				return false;
-			}
-		} else if (!notes.equals(other.notes)) {
-			return false;
-		}
-		if (respAgency == null) {
-			if (other.respAgency != null) {
-				return false;
-			}
-		} else if (!respAgency.equals(other.respAgency)) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        SourceData other = (SourceData) obj;
+        if (eventsRecorded == null) {
+            if (other.eventsRecorded != null) {
+                return false;
+            }
+        } else if (!eventsRecorded.equals(other.eventsRecorded)) {
+            return false;
+        }
+        if (notes == null) {
+            if (other.notes != null) {
+                return false;
+            }
+        } else if (!notes.equals(other.notes)) {
+            return false;
+        }
+        if (respAgency == null) {
+            if (other.respAgency != null) {
+                return false;
+            }
+        } else if (!respAgency.equals(other.respAgency)) {
+            return false;
+        }
+        return true;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-		        + ((eventsRecorded == null) ? 0 : eventsRecorded.hashCode());
-		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-		result = prime * result
-		        + ((respAgency == null) ? 0 : respAgency.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((eventsRecorded == null) ? 0 : eventsRecorded.hashCode());
+        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
+        result = prime * result
+                + ((respAgency == null) ? 0 : respAgency.hashCode());
+        return result;
+    }
 }

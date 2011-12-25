@@ -28,56 +28,48 @@ package com.mattharrah.gedcom4j;
  * @author frizbog1
  */
 public class IndividualEvent extends Event {
-	/**
-	 * The type of event this represents
-	 */
-	public IndividualEventType type;
-	/**
-	 * Which parent did the adoption
-	 */
-	public AdoptedByWhichParent adoptedBy;
-	/**
-	 * The family to which this individual adopted was adopted
-	 */
-	public FamilyChild family;
+    /**
+     * The type of event this represents
+     */
+    public IndividualEventType type;
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!super.equals(obj)) {
-			return false;
-		}
-		if (!(obj instanceof IndividualEvent)) {
-			return false;
-		}
-		IndividualEvent other = (IndividualEvent) obj;
-		if (adoptedBy != other.adoptedBy) {
-			return false;
-		}
-		if (family == null) {
-			if (other.family != null) {
-				return false;
-			}
-		} else if (!family.equals(other.family)) {
-			return false;
-		}
-		if (type != other.type) {
-			return false;
-		}
-		return true;
-	}
+    /**
+     * The family to which this individual adopted was adopted
+     */
+    public FamilyChild family;
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result
-		        + ((adoptedBy == null) ? 0 : adoptedBy.hashCode());
-		result = prime * result + ((family == null) ? 0 : family.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		return result;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (!(obj instanceof IndividualEvent)) {
+            return false;
+        }
+        IndividualEvent other = (IndividualEvent) obj;
+        if (family == null) {
+            if (other.family != null) {
+                return false;
+            }
+        } else if (!family.equals(other.family)) {
+            return false;
+        }
+        if (type != other.type) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((family == null) ? 0 : family.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        return result;
+    }
 
 }

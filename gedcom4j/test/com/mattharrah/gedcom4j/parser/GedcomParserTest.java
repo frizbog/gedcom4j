@@ -40,134 +40,143 @@ import com.mattharrah.gedcom4j.Submitter;
  */
 public class GedcomParserTest extends TestCase {
 
-	/**
-	 * Test loading a file...it's a stress test file.
-	 * 
-	 * @throws IOException
-	 * @throws GedcomParserException
-	 */
-	public void testLoad1() throws IOException, GedcomParserException {
-		GedcomParser gp = new GedcomParser();
-		gp.load("sample/TGC551.ged");
-		checkTGC551LF(gp);
-	}
+    /**
+     * Test loading a file...it's a stress test file.
+     * 
+     * @throws IOException
+     *             if the file can't be read
+     * @throws GedcomParserException
+     *             if there's a problem parsing the data
+     */
+    public void testLoad1() throws IOException, GedcomParserException {
+        GedcomParser gp = new GedcomParser();
+        gp.load("sample/TGC551.ged");
+        checkTGC551LF(gp);
+    }
 
-	/**
-	 * Test loading a sample file ... another stress-test file. This one should
-	 * have warnings.
-	 * 
-	 * @throws IOException
-	 * @throws GedcomParserException
-	 */
-	public void testLoad2() throws IOException, GedcomParserException {
-		GedcomParser gp = new GedcomParser();
-		gp.load("sample/allged.ged");
-		assertTrue(gp.errors.isEmpty());
-		assertEquals(
-		        "There are exactly 7 warning items in the file due to custom tags",
-		        7, gp.warnings.size());
-		for (String s : gp.warnings) {
-			assertTrue(s.contains("_MYOWNTAG"));
-		}
-		Gedcom g = gp.gedcom;
-		assertFalse(g.submitters.isEmpty());
-		Submitter submitter = g.submitters.values().iterator().next();
-		assertNotNull(submitter);
-		assertEquals("/Submitter-Name/", submitter.name);
-	}
+    /**
+     * Test loading a sample file ... another stress-test file. This one should
+     * have warnings.
+     * 
+     * @throws IOException
+     *             if the file can't be read
+     * @throws GedcomParserException
+     *             if there's a problem parsing the data
+     */
+    public void testLoad2() throws IOException, GedcomParserException {
+        GedcomParser gp = new GedcomParser();
+        gp.load("sample/allged.ged");
+        assertTrue(gp.errors.isEmpty());
+        assertEquals(
+                "There are exactly 7 warning items in the file due to custom tags",
+                7, gp.warnings.size());
+        for (String s : gp.warnings) {
+            assertTrue(s.contains("_MYOWNTAG"));
+        }
+        Gedcom g = gp.gedcom;
+        assertFalse(g.submitters.isEmpty());
+        Submitter submitter = g.submitters.values().iterator().next();
+        assertNotNull(submitter);
+        assertEquals("/Submitter-Name/", submitter.name);
+    }
 
-	/**
-	 * Test loading another sample file
-	 * 
-	 * @throws IOException
-	 * @throws GedcomParserException
-	 */
-	public void testLoad3() throws IOException, GedcomParserException {
-		GedcomParser gp = new GedcomParser();
-		gp.load("sample/a31486.ged");
-		assertTrue(gp.errors.isEmpty());
-		assertTrue(gp.warnings.isEmpty());
-		Gedcom g = gp.gedcom;
+    /**
+     * Test loading another sample file
+     * 
+     * @throws IOException
+     *             if the file can't be read
+     * @throws GedcomParserException
+     *             if there's a problem parsing the data
+     */
+    public void testLoad3() throws IOException, GedcomParserException {
+        GedcomParser gp = new GedcomParser();
+        gp.load("sample/a31486.ged");
+        assertTrue(gp.errors.isEmpty());
+        assertTrue(gp.warnings.isEmpty());
+        Gedcom g = gp.gedcom;
 
-		// Check submitter
-		assertFalse(g.submitters.isEmpty());
-		Submitter submitter = g.submitters.values().iterator().next();
-		assertNotNull(submitter);
-		assertNull(submitter.name);
+        // Check submitter
+        assertFalse(g.submitters.isEmpty());
+        Submitter submitter = g.submitters.values().iterator().next();
+        assertNotNull(submitter);
+        assertNull(submitter.name);
 
-		// Check header
-		assertEquals("6.00", g.header.sourceSystem.versionNum);
-		assertEquals("(510) 794-6850",
-		        g.header.sourceSystem.corporation.phoneNumbers.get(0));
+        // Check header
+        assertEquals("6.00", g.header.sourceSystem.versionNum);
+        assertEquals("(510) 794-6850",
+                g.header.sourceSystem.corporation.phoneNumbers.get(0));
 
-		// There are two sources in this file, and their names should be as
-		// shown
-		assertEquals(2, g.sources.size());
-		for (Source s : g.sources.values()) {
-			assertTrue(s.title.get(0).equals("William Barnett Family.FTW")
-			        || s.title.get(0).equals("Warrick County, IN WPA Indexes"));
-		}
+        // There are two sources in this file, and their names should be as
+        // shown
+        assertEquals(2, g.sources.size());
+        for (Source s : g.sources.values()) {
+            assertTrue(s.title.get(0).equals("William Barnett Family.FTW")
+                    || s.title.get(0).equals("Warrick County, IN WPA Indexes"));
+        }
 
-		assertEquals(17, g.families.size());
-		assertEquals(64, g.individuals.size());
+        assertEquals(17, g.families.size());
+        assertEquals(64, g.individuals.size());
 
-		// Check a specific family
-		Family family = g.families.get("@F1428@");
-		assertNotNull(family);
-		assertEquals(3, family.children.size());
-		assertEquals("Lawrence Henry /Barnett/",
-		        family.husband.names.get(0).basic);
-		assertEquals("Velma //", family.wife.names.get(0).basic);
+        // Check a specific family
+        Family family = g.families.get("@F1428@");
+        assertNotNull(family);
+        assertEquals(3, family.children.size());
+        assertEquals("Lawrence Henry /Barnett/",
+                family.husband.names.get(0).basic);
+        assertEquals("Velma //", family.wife.names.get(0).basic);
 
-	}
+    }
 
-	/**
-	 * Test loading a file with a different line terminator sequence.
-	 * 
-	 * @throws IOException
-	 * @throws GedcomParserException
-	 */
-	public void testLoad4() throws IOException, GedcomParserException {
-		GedcomParser gp = new GedcomParser();
-		// Different line end char seq than the other file
-		gp.load("sample/TGC551LF.ged");
-		checkTGC551LF(gp);
-	}
+    /**
+     * Test loading a file with a different line terminator sequence.
+     * 
+     * @throws IOException
+     *             if the file can't be read
+     * @throws GedcomParserException
+     *             if there's a problem parsing the data
+     */
+    public void testLoad4() throws IOException, GedcomParserException {
+        GedcomParser gp = new GedcomParser();
+        // Different line end char seq than the other file
+        gp.load("sample/TGC551LF.ged");
+        checkTGC551LF(gp);
+    }
 
-	/**
-	 * Test for loading file from stream.
-	 * 
-	 * @throws IOException
-	 *             if the file can't be read from the stream
-	 * @throws GedcomParserException
-	 *             if the parsing goes wrong
-	 */
-	public void testLoadStream() throws IOException, GedcomParserException {
-		GedcomParser gp = new GedcomParser();
-		InputStream stream = new FileInputStream("sample/TGC551LF.ged");
-		gp.load(stream);
-		checkTGC551LF(gp);
-	}
+    /**
+     * Test for loading file from stream.
+     * 
+     * @throws IOException
+     *             if the file can't be read from the stream
+     * @throws GedcomParserException
+     *             if the parsing goes wrong
+     */
+    public void testLoadStream() throws IOException, GedcomParserException {
+        GedcomParser gp = new GedcomParser();
+        InputStream stream = new FileInputStream("sample/TGC551LF.ged");
+        gp.load(stream);
+        checkTGC551LF(gp);
+    }
 
-	/**
-	 * The same sample file is used several times, this helper method ensures
-	 * consistent assertions for all tests using the same file
-	 * 
-	 * @param gp
-	 */
-	private void checkTGC551LF(GedcomParser gp) {
-		assertTrue(gp.errors.isEmpty());
-		assertFalse(gp.warnings.isEmpty());
-		Gedcom g = gp.gedcom;
-		assertNotNull(g.header);
-		assertEquals(3, g.submitters.size());
-		Submitter submitter = g.submitters.values().iterator().next();
-		assertNotNull(submitter);
-		assertEquals("John A. Nairn", submitter.name);
+    /**
+     * The same sample file is used several times, this helper method ensures
+     * consistent assertions for all tests using the same file
+     * 
+     * @param gp
+     *            the {@link GedcomParser}
+     */
+    private void checkTGC551LF(GedcomParser gp) {
+        assertTrue(gp.errors.isEmpty());
+        assertFalse(gp.warnings.isEmpty());
+        Gedcom g = gp.gedcom;
+        assertNotNull(g.header);
+        assertEquals(3, g.submitters.size());
+        Submitter submitter = g.submitters.values().iterator().next();
+        assertNotNull(submitter);
+        assertEquals("John A. Nairn", submitter.name);
 
-		assertEquals(7, g.families.size());
-		assertEquals(2, g.sources.size());
-		assertEquals(1, g.multimedia.size());
-		assertEquals(15, g.individuals.size());
-	}
+        assertEquals(7, g.families.size());
+        assertEquals(2, g.sources.size());
+        assertEquals(1, g.multimedia.size());
+        assertEquals(15, g.individuals.size());
+    }
 }

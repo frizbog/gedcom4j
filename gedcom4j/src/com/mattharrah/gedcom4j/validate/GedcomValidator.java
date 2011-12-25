@@ -9,31 +9,32 @@ import com.mattharrah.gedcom4j.Gedcom;
  */
 public class GedcomValidator {
 
-	/**
-	 * The gedcom structure being validated
-	 */
-	private Gedcom gedcom = null;
+    /**
+     * The gedcom structure being validated
+     */
+    private Gedcom gedcom = null;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param gedcom
-	 *            the gedcom structure being validated
-	 */
-	public GedcomValidator(Gedcom gedcom) {
-		this.gedcom = gedcom;
-	}
+    /**
+     * Constructor
+     * 
+     * @param gedcom
+     *            the gedcom structure being validated
+     */
+    public GedcomValidator(Gedcom gedcom) {
+        this.gedcom = gedcom;
+    }
 
-	/**
-	 * Validate the gedcom file
-	 * 
-	 * @throws GedcomValidationException
-	 */
-	public void validate() throws GedcomValidationException {
-		if (gedcom == null) {
-			throw new GedcomValidationException(
-			        "Gedcom structure is null - nothing to validate");
-		}
-	}
+    /**
+     * Validate the gedcom file
+     * 
+     * @throws GedcomValidationException
+     *             if there is anything wrong with the data being validated
+     */
+    public void validate() throws GedcomValidationException {
+        if (gedcom == null) {
+            throw new GedcomValidationException(
+                    "Gedcom structure is null - nothing to validate");
+        }
+    }
 
 }

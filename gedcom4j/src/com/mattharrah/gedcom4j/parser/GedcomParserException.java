@@ -29,48 +29,48 @@ package com.mattharrah.gedcom4j.parser;
  */
 public class GedcomParserException extends Exception {
 
-	/**
-	 * The serial version UID
-	 */
-	public static final long serialVersionUID = 6803960812766915985L;
+    /**
+     * The serial version UID
+     */
+    public static final long serialVersionUID = 6803960812766915985L;
 
-	/**
-	 * No-arg constructor.
-	 */
-	public GedcomParserException() {
-		super();
-	}
+    /**
+     * No-arg constructor.
+     */
+    public GedcomParserException() {
+        super();
+    }
 
-	/**
-	 * Constructor that takes a message only
-	 * 
-	 * @param message
-	 *            the message
-	 */
-	public GedcomParserException(String message) {
-		super(message);
-	}
+    /**
+     * Constructor that takes a message only
+     * 
+     * @param message
+     *            the message
+     */
+    public GedcomParserException(String message) {
+        super(message);
+    }
 
-	/**
-	 * Constructor that takes a message and a causing exception
-	 * 
-	 * @param message
-	 *            the message
-	 * @param cause
-	 *            the causing exception
-	 */
-	public GedcomParserException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    /**
+     * Constructor that takes a message and a causing exception
+     * 
+     * @param message
+     *            the message
+     * @param cause
+     *            the causing exception
+     */
+    public GedcomParserException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-	/**
-	 * Constructor that takes only a causing exception
-	 * 
-	 * @param cause
-	 *            the causing exception
-	 */
-	public GedcomParserException(Throwable cause) {
-		super(cause);
-	}
+    /**
+     * Constructor that takes only a causing exception
+     * 
+     * @param cause
+     *            the causing exception
+     */
+    public GedcomParserException(Throwable cause) {
+        super(cause);
+    }
 
 }

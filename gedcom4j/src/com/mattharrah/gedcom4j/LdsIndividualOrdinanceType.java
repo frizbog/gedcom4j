@@ -28,72 +28,72 @@ package com.mattharrah.gedcom4j;
  * 
  */
 public enum LdsIndividualOrdinanceType {
-	/**
-	 * Baptism
-	 */
-	BAPTISM("BAPL", "LDS Baptism"),
-	/**
-	 * Confirmation
-	 */
-	CONFIRMATION("CONL", "LDS Confirmation"),
-	/**
-	 * Endowment
-	 */
-	ENDOWMENT("ENDL", "LDS Endowment"),
-	/**
-	 * Child sealing
-	 */
-	CHILD_SEALING("SLGC", "LDS Child Sealing");
+    /**
+     * Baptism
+     */
+    BAPTISM("BAPL", "LDS Baptism"),
+    /**
+     * Confirmation
+     */
+    CONFIRMATION("CONL", "LDS Confirmation"),
+    /**
+     * Endowment
+     */
+    ENDOWMENT("ENDL", "LDS Endowment"),
+    /**
+     * Child sealing
+     */
+    CHILD_SEALING("SLGC", "LDS Child Sealing");
 
-	/**
-	 * Get an enum constant from the tag it corresponds to
-	 * 
-	 * @param tag
-	 *            the tag
-	 * @return the corresponding enum constant for the supplied tag (if any)
-	 */
-	public static LdsIndividualOrdinanceType getFromTag(String tag) {
-		for (LdsIndividualOrdinanceType t : values()) {
-			if (t.tag.equals(tag)) {
-				return t;
-			}
-		}
-		return null;
-	}
+    /**
+     * Get an enum constant from the tag it corresponds to
+     * 
+     * @param tag
+     *            the tag
+     * @return the corresponding enum constant for the supplied tag (if any)
+     */
+    public static LdsIndividualOrdinanceType getFromTag(String tag) {
+        for (LdsIndividualOrdinanceType t : values()) {
+            if (t.tag.equals(tag)) {
+                return t;
+            }
+        }
+        return null;
+    }
 
-	/**
-	 * Is the supplied tag value one of the known tags for an LDS individual
-	 * ordinance?
-	 * 
-	 * @param tag
-	 *            the tag
-	 * @return true if and only if the supplied tag corresponds to a known LDS
-	 *         individual ordinance type
-	 */
-	public static boolean isValidTag(String tag) {
-		return (getFromTag(tag) != null);
-	}
+    /**
+     * Is the supplied tag value one of the known tags for an LDS individual
+     * ordinance?
+     * 
+     * @param tag
+     *            the tag
+     * @return true if and only if the supplied tag corresponds to a known LDS
+     *         individual ordinance type
+     */
+    public static boolean isValidTag(String tag) {
+        return (getFromTag(tag) != null);
+    }
 
-	/**
-	 * The tag
-	 */
-	public final String tag;
+    /**
+     * The tag
+     */
+    public final String tag;
 
-	/**
-	 * The display value
-	 */
-	public final String display;
+    /**
+     * The display value
+     */
+    public final String display;
 
-	/**
-	 * Contructor
-	 * 
-	 * @param tag
-	 *            the tag
-	 * @param display
-	 *            the display value
-	 */
-	private LdsIndividualOrdinanceType(String tag, String display) {
-		this.tag = tag;
-		this.display = display;
-	}
+    /**
+     * Contructor
+     * 
+     * @param tag
+     *            the tag
+     * @param display
+     *            the display value
+     */
+    private LdsIndividualOrdinanceType(String tag, String display) {
+        this.tag = tag;
+        this.display = display;
+    }
 }
