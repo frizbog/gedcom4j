@@ -808,6 +808,9 @@ public class GedcomWriter {
             }
             emitTagIfValueNotNull(1, "RIN", r.recIdNumber);
             emitTagIfValueNotNull(1, "RFN", r.regFileNumber);
+            for (String s : r.emails) {
+                emitTagIfValueNotNull(1, "EMAIL", s);
+            }
             emitPhoneNumbers(1, r.phoneNumbers);
             emitChangeDate(1, r.changeDate);
         }

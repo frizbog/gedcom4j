@@ -67,6 +67,10 @@ public class Repository {
      * The phone numbers for this repository
      */
     public List<String> phoneNumbers = new ArrayList<String>();
+    /**
+     * List of emails
+     */
+    public List<String> emails = new ArrayList<String>();
 
     @Override
     public boolean equals(Object obj) {
@@ -92,6 +96,13 @@ public class Repository {
                 return false;
             }
         } else if (!changeDate.equals(other.changeDate)) {
+            return false;
+        }
+        if (emails == null) {
+            if (other.emails != null) {
+                return false;
+            }
+        } else if (!emails.equals(other.emails)) {
             return false;
         }
         if (name == null) {
@@ -153,6 +164,7 @@ public class Repository {
         result = prime * result + ((address == null) ? 0 : address.hashCode());
         result = prime * result
                 + ((changeDate == null) ? 0 : changeDate.hashCode());
+        result = prime * result + ((emails == null) ? 0 : emails.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((notes == null) ? 0 : notes.hashCode());
         result = prime * result

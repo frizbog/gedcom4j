@@ -1245,6 +1245,11 @@ public class GedcomParser {
             } else if ("CHAN".equals(ch.tag)) {
                 r.changeDate = new ChangeDate();
                 loadChangeDate(ch, r.changeDate);
+            } else if ("CHAN".equals(ch.tag)) {
+                r.changeDate = new ChangeDate();
+                loadChangeDate(ch, r.changeDate);
+            } else if ("EMAIL".equals(ch.tag)) {
+                r.emails.add(ch.value);
             } else {
                 unknownTag(ch);
             }
@@ -1664,7 +1669,6 @@ public class GedcomParser {
         if (node.tag.startsWith("_")) {
             warnings.add(sb.toString());
         } else {
-            new Exception(sb.toString()).printStackTrace();
             errors.add(sb.toString());
         }
     }
