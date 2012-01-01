@@ -34,8 +34,7 @@ import java.util.Set;
  */
 public class Individual {
     /**
-     * Aliases for the current individual. Not yet fully implemented as a link
-     * to the other individual.
+     * Aliases for the current individual.
      */
     public List<String> aliases = new ArrayList<String>();
 
