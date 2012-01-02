@@ -21,7 +21,7 @@
  */
 package com.mattharrah.gedcom4j.validate;
 
-import com.mattharrah.gedcom4j.Gedcom;
+import com.mattharrah.gedcom4j.Submitter;
 
 /**
  * Test cas for {@link SubmitterValidator}
@@ -35,23 +35,76 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
      * Test method for
      * {@link com.mattharrah.gedcom4j.validate.SubmitterValidator#validate()}.
      */
-    public void testValidate() {
-        SubmitterValidator sv = new SubmitterValidator(rootValidator, null);
+    public void testValidateNullSubmitter() {
+        AbstractValidator sv = new SubmitterValidator(rootValidator, null);
         sv.validate();
-        if (rootValidator.findings.size() != 1) {
-            dumpFindings();
-            fail("There should be exactly one issue because the submitter was null");
-        }
+        assertFindingsContain(Severity.ERROR, "submitter", "null");
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see junit.framework.TestCase#setUp()
+    /**
+     * Test method for
+     * {@link com.mattharrah.gedcom4j.validate.SubmitterValidator#validate()}.
      */
-    @Override
-    protected void setUp() throws Exception {
-        gedcom = new Gedcom();
-        rootValidator = new GedcomValidator(null);
+    public void testValidateSubmitterHappyPath() {
+        Submitter submitter = new Submitter();
+        submitter.name = "somebody";
+        submitter.xref = "@nobody@";
+        AbstractValidator sv = new SubmitterValidator(rootValidator, submitter);
+        sv.validate();
+        dumpFindings();
+        assertTrue(rootValidator.findings.isEmpty());
     }
+
+    /**
+     * Test method for
+     * {@link com.mattharrah.gedcom4j.validate.SubmitterValidator#validate()}.
+     */
+    public void testValidateSubmitterHasBlankName() {
+        Submitter submitter = new Submitter();
+        submitter.xref = "@SOMEVALUE@";
+        submitter.name = "";
+        AbstractValidator sv = new SubmitterValidator(rootValidator, submitter);
+        sv.validate();
+        assertFindingsContain(Severity.ERROR, "name", "blank", "null");
+    }
+
+    /**
+     * Test method for
+     * {@link com.mattharrah.gedcom4j.validate.SubmitterValidator#validate()}.
+     */
+    public void testValidateSubmitterHasBlankXref() {
+        Submitter submitter = new Submitter();
+        submitter.name = "somebody";
+        submitter.xref = "";
+        AbstractValidator sv = new SubmitterValidator(rootValidator, submitter);
+        sv.validate();
+        assertFindingsContain(Severity.ERROR, "xref", "too short");
+        assertFindingsContain(Severity.ERROR, "xref", "null");
+        assertFindingsContain(Severity.ERROR, "xref", "@");
+    }
+
+    /**
+     * Test method for
+     * {@link com.mattharrah.gedcom4j.validate.SubmitterValidator#validate()}.
+     */
+    public void testValidateSubmitterHasNoName() {
+        Submitter submitter = new Submitter();
+        submitter.xref = "@SOMEVALUE@";
+        AbstractValidator sv = new SubmitterValidator(rootValidator, submitter);
+        sv.validate();
+        assertFindingsContain(Severity.ERROR, "name", "blank", "null");
+    }
+
+    /**
+     * Test method for
+     * {@link com.mattharrah.gedcom4j.validate.SubmitterValidator#validate()}.
+     */
+    public void testValidateSubmitterHasNoXref() {
+        Submitter submitter = new Submitter();
+        submitter.name = "somebody";
+        AbstractValidator sv = new SubmitterValidator(rootValidator, submitter);
+        sv.validate();
+        assertFindingsContain(Severity.ERROR, "xref", "blank", "null");
+    }
+
 }

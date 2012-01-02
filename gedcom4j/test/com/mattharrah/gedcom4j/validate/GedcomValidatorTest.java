@@ -1,12 +1,8 @@
 package com.mattharrah.gedcom4j.validate;
 
 import java.io.IOException;
-import java.util.Map;
-
-import junit.framework.TestCase;
 
 import com.mattharrah.gedcom4j.Gedcom;
-import com.mattharrah.gedcom4j.Individual;
 import com.mattharrah.gedcom4j.parser.GedcomParser;
 import com.mattharrah.gedcom4j.parser.GedcomParserException;
 
@@ -15,7 +11,7 @@ import com.mattharrah.gedcom4j.parser.GedcomParserException;
  * 
  * @author frizbog1
  */
-public class GedcomValidatorTest extends TestCase {
+public class GedcomValidatorTest extends AbstractValidatorTestCase {
 
     /**
      * The name of the file used for stress-testing the parser
@@ -74,14 +70,27 @@ public class GedcomValidatorTest extends TestCase {
         // Load a file
         GedcomParser p = new GedcomParser();
         p.load(SAMPLE_STRESS_TEST_FILENAME);
-        GedcomValidator v = new GedcomValidator(p.gedcom);
-        v.validate();
-        assertTrue(v.findings.isEmpty());
+        rootValidator = new GedcomValidator(p.gedcom);
+        rootValidator.validate();
+        assertTrue(rootValidator.findings.isEmpty());
     }
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+    }
+
+    /**
+     * Test for {@link GedcomValidator#validateIndividuals()} with default,
+     * empty {@link Gedcom} structure.
+     * 
+     */
+    public void testValidateEmptyGedcom() {
+        Gedcom g = new Gedcom();
+        GedcomValidator v = new GedcomValidator(g);
+        v.validate();
+        assertTrue("There should be no findings on an empty Gedcom",
+                v.findings.isEmpty());
     }
 
 }

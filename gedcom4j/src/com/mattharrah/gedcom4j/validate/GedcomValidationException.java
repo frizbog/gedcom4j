@@ -22,12 +22,14 @@
 package com.mattharrah.gedcom4j.validate;
 
 /**
- * A base exception class for when Gedcom data validation fails
+ * An exception indicating that the process of validation failed. Does not mean
+ * that there is a problem with the data -- those are found in the
+ * {@link GedcomValidator#findings} collection.
  * 
  * @author frizbog1
  * 
  */
-public class GedcomValidationException extends Exception {
+public class GedcomValidationException extends RuntimeException {
 
     /**
      * Serial Version UID

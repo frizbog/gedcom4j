@@ -45,7 +45,6 @@ import com.mattharrah.gedcom4j.SourceSystem;
 import com.mattharrah.gedcom4j.Submission;
 import com.mattharrah.gedcom4j.Submitter;
 import com.mattharrah.gedcom4j.UserReference;
-import com.mattharrah.gedcom4j.validate.GedcomValidationException;
 import com.mattharrah.gedcom4j.validate.GedcomValidator;
 
 /**
@@ -89,14 +88,10 @@ public class GedcomWriter {
      *            the {@link File} to write to
      * @throws IOException
      *             if there's a problem writing the data
-     * @throws GedcomValidationException
-     *             if the gedcom data has validation errors that won't allow it
-     *             to be written
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    public void write(File file) throws IOException, GedcomValidationException,
-            GedcomWriterException {
+    public void write(File file) throws IOException, GedcomWriterException {
         // Automatically replace the contents of the filename in the header
         gedcom.header.fileName = file.getName();
 
@@ -111,14 +106,10 @@ public class GedcomWriter {
      * 
      * @param out
      *            the output stream we're writing to
-     * @throws GedcomValidationException
-     *             if the gedcom data has validation errors that won't allow it
-     *             to be written
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    public void write(OutputStream out) throws GedcomValidationException,
-            GedcomWriterException {
+    public void write(OutputStream out) throws GedcomWriterException {
         if (!validationSuppressed) {
             GedcomValidator gv = new GedcomValidator(gedcom);
             gv.validate();
@@ -140,14 +131,11 @@ public class GedcomWriter {
      *            the name of the file to write
      * @throws IOException
      *             if there's a problem writing the data
-     * @throws GedcomValidationException
-     *             if the gedcom data has validation errors that won't allow it
-     *             to be written
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
     public void write(String filename) throws IOException,
-            GedcomValidationException, GedcomWriterException {
+            GedcomWriterException {
         File f = new File(filename);
         write(f);
     }

@@ -2,8 +2,6 @@ package com.mattharrah.gedcom4j.validate;
 
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 import com.mattharrah.gedcom4j.Gedcom;
 import com.mattharrah.gedcom4j.Individual;
 
@@ -13,26 +11,24 @@ import com.mattharrah.gedcom4j.Individual;
  * @author frizbog1
  * 
  */
-public class IndividualValidatorTest extends TestCase {
+public class IndividualValidatorTest extends AbstractValidatorTestCase {
 
     /**
-     * Test for {@link GedcomValidator#validateIndividuals()}
-     * 
+     * Test for a default individual (no xref)
      */
-    public void testValidateIndividuals1() {
-        Gedcom g = new Gedcom();
-        GedcomValidator v = new GedcomValidator(g);
+    public void testValidateIndividual() {
+        Individual i = new Individual();
+        AbstractValidator v = new IndividualValidator(rootValidator, i);
         v.validate();
-        assertTrue("There should be no findings on an empty Gedcom",
-                v.findings.isEmpty());
+        assertFindingsContain(Severity.ERROR, "xref", "null");
     }
 
     /**
-     * Test for {@link GedcomValidator#validateIndividuals()}
-     * 
-     * @throws GedcomValidationException
+     * Test for {@link GedcomValidator#validateIndividuals()} with a malformed
+     * xref on an individual, which does not match its key in the individuals
+     * map
      */
-    public void testValidateIndividuals2() throws GedcomValidationException {
+    public void testValidateIndividuals2() {
         Gedcom g = new Gedcom();
 
         // Deliberately introduce a problem
