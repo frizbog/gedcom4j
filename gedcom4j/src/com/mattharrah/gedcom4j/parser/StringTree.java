@@ -75,7 +75,12 @@ class StringTree {
 
     @Override
     public String toString() {
-        return "Line " + lineNum + ": " + level + (id != null ? " " + id : "")
-                + " " + tag + " " + value;
+        StringBuilder sb = new StringBuilder("Line " + lineNum + ": " + level
+                + (id != null ? " " + id : "") + " " + tag + " " + value);
+        for (StringTree ch : children) {
+            sb.append("\n").append(ch);
+        }
+        return sb.toString();
     }
+
 }
