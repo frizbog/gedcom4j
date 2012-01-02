@@ -188,7 +188,7 @@ public class GedcomWriter {
             List<Association> associations) throws GedcomWriterException {
         for (Association a : associations) {
             emitTagWithRequiredValue(level, "ASSO", a.associatedEntityXref);
-            emitTagIfValueNotNull(level + 1, "TYPE", a.associatedEntityType);
+            emitTagWithRequiredValue(level + 1, "TYPE", a.associatedEntityType);
             emitTagWithRequiredValue(level + 1, "RELA", a.relationship);
             emitNotes(level + 1, a.notes);
             emitSourceCitations(level + 1, a.citations);
