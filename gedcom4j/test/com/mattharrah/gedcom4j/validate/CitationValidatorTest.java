@@ -34,10 +34,7 @@ public class CitationValidatorTest extends AbstractValidatorTestCase {
     public void testValidate() {
         CitationValidator cv = new CitationValidator(rootValidator, null);
         cv.validate();
-        if (rootValidator.findings.size() != 1) {
-            dumpFindings();
-            fail("There should be exactly one issue because the citation was null");
-        }
+        assertFindingsContain(Severity.ERROR, "citation", "null");
     }
 
 }

@@ -58,6 +58,19 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
     }
 
     /**
+     * Test for {@link GedcomValidator#validateIndividuals()} with default,
+     * empty {@link Gedcom} structure.
+     * 
+     */
+    public void testValidateEmptyGedcom() {
+        Gedcom g = new Gedcom();
+        GedcomValidator v = new GedcomValidator(g);
+        v.validate();
+        assertTrue("There should be no findings on an empty Gedcom",
+                v.findings.isEmpty());
+    }
+
+    /**
      * Validate the stress test file
      * 
      * @throws IOException
@@ -72,25 +85,13 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
         p.load(SAMPLE_STRESS_TEST_FILENAME);
         rootValidator = new GedcomValidator(p.gedcom);
         rootValidator.validate();
+        dumpFindings();
         assertTrue(rootValidator.findings.isEmpty());
     }
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-    }
-
-    /**
-     * Test for {@link GedcomValidator#validateIndividuals()} with default,
-     * empty {@link Gedcom} structure.
-     * 
-     */
-    public void testValidateEmptyGedcom() {
-        Gedcom g = new Gedcom();
-        GedcomValidator v = new GedcomValidator(g);
-        v.validate();
-        assertTrue("There should be no findings on an empty Gedcom",
-                v.findings.isEmpty());
     }
 
 }

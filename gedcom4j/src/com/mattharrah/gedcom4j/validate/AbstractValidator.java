@@ -1,7 +1,12 @@
 package com.mattharrah.gedcom4j.validate;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
+
+import com.mattharrah.gedcom4j.ChangeDate;
+import com.mattharrah.gedcom4j.Note;
+import com.mattharrah.gedcom4j.UserReference;
 
 /**
  * A base class for all validators
@@ -90,6 +95,41 @@ public abstract class AbstractValidator {
     }
 
     /**
+     * Check a change date structure
+     * 
+     * @param changeDate
+     *            the change date structure to check
+     * @param objectWithChangeDate
+     *            the object with the change date
+     */
+    protected void checkChangeDate(ChangeDate changeDate,
+            Object objectWithChangeDate) {
+        if (changeDate == null) {
+            // Change dates are always optional
+            return;
+        }
+        checkRequiredString(changeDate.date, "change date",
+                objectWithChangeDate);
+        checkOptionalString(changeDate.time, "change time",
+                objectWithChangeDate);
+        if (changeDate.notes == null) {
+            if (rootValidator.autorepair) {
+                changeDate.notes = new ArrayList<Note>();
+                addInfo("Notes collection was null on "
+                        + changeDate.getClass().getSimpleName()
+                        + " - autorepaired");
+            } else {
+                addError("Notes collection is null on "
+                        + changeDate.getClass().getSimpleName());
+            }
+        } else {
+            new NotesValidator(rootValidator, changeDate, changeDate.notes)
+                    .validate();
+        }
+
+    }
+
+    /**
      * Checks that an optional string field is either null, or greater than zero
      * characters long after trimming
      * 
@@ -134,46 +174,48 @@ public abstract class AbstractValidator {
      * Check a string list (List&lt;String&gt;) on an object. All strings in the
      * list must be non-null and non-blank when trimmed.
      * 
-     * @param fieldName
-     *            the name of the string list on the object
-     * @param objectWithStringList
-     *            the object containing the string list
+     * @param stringList
+     *            the stringlist being validated
+     * @param description
+     *            a description of the string list
      * @param blanksAllowed
      *            are blank strings allowed in the string list?
      */
-    protected void checkStringList(String fieldName,
-            Object objectWithStringList, boolean blanksAllowed) {
-        try {
-            Field f = objectWithStringList.getClass().getField(fieldName);
-            @SuppressWarnings("unchecked")
-            List<String> stringList = (List<String>) f
-                    .get(objectWithStringList);
-            for (String a : stringList) {
-                if (a == null) {
-                    addError("String list " + fieldName + " on "
-                            + objectWithStringList.getClass().getSimpleName()
-                            + " contains null entry", objectWithStringList);
-                } else if (!blanksAllowed && a.trim().length() == 0) {
-                    addError("String list " + fieldName + " on "
-                            + objectWithStringList.getClass().getSimpleName()
-                            + " contains blank entry", objectWithStringList);
-                }
+    protected void checkStringList(List<String> stringList, String description,
+            boolean blanksAllowed) {
+        for (String a : stringList) {
+            if (a == null) {
+                addError("String list (" + description
+                        + ") contains null entry", stringList);
+            } else if (!blanksAllowed && a.trim().length() == 0) {
+                addError("String list (" + description
+                        + ") contains blank entry where none are allowed",
+                        stringList);
             }
-        } catch (ClassCastException e) {
-            throw new GedcomValidationException(
-                    "Unable to validate string list", e);
-        } catch (SecurityException e) {
-            throw new GedcomValidationException(
-                    "Unable to validate string list", e);
-        } catch (NoSuchFieldException e) {
-            throw new GedcomValidationException(
-                    "Unable to validate string list", e);
-        } catch (IllegalArgumentException e) {
-            throw new GedcomValidationException(
-                    "Unable to validate string list", e);
-        } catch (IllegalAccessException e) {
-            throw new GedcomValidationException(
-                    "Unable to validate string list", e);
+        }
+    }
+
+    /**
+     * Check a collection of user references
+     * 
+     * @param userReferences
+     *            the collection of user references
+     * @param objectWithUserReferences
+     *            the object that contains the collection of user references
+     */
+    protected void checkUserReferences(List<UserReference> userReferences,
+            Object objectWithUserReferences) {
+        for (UserReference userReference : userReferences) {
+            if (userReference == null) {
+                addError("Null user reference in collection on "
+                        + objectWithUserReferences.getClass().getSimpleName(),
+                        objectWithUserReferences);
+            } else {
+                checkRequiredString(userReference.referenceNum,
+                        "reference number", userReference);
+                checkOptionalString(userReference.type, "reference type",
+                        userReference);
+            }
         }
     }
 

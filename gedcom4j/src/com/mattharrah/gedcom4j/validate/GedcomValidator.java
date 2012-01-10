@@ -14,6 +14,7 @@ import com.mattharrah.gedcom4j.Individual;
  * @author frizbog1
  */
 public class GedcomValidator extends AbstractValidator {
+
     /**
      * Will the most simple, obvious, non-destructive errors be automatically
      * fixed? This includes things like creating empty collections where one is

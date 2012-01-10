@@ -66,7 +66,7 @@ public class IndividualValidator extends AbstractValidator {
                         individual);
             }
         } else {
-            checkStringList("aliases", individual, false);
+            checkStringList(individual.aliases, "aliases on individual", false);
         }
     }
 
