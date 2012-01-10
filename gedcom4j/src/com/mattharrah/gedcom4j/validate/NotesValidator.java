@@ -25,6 +25,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mattharrah.gedcom4j.AbstractCitation;
 import com.mattharrah.gedcom4j.Note;
 
 /**
@@ -111,11 +112,22 @@ public class NotesValidator extends AbstractValidator {
                         addError("Note " + i + " without xref has no lines", n);
                     }
                 }
-                // TODO - Validate source citations
                 checkOptionalString(n.recIdNumber, "automated record id", n);
+                if (n.citations == null) {
+                    if (rootValidator.autorepair) {
+                        addInfo("Source citations collection on note was null - autorepaired");
+                    } else {
+                        addError("Source citations collection on note is null",
+                                n);
+                    }
+                } else {
+                    for (AbstractCitation c : n.citations) {
+                        new CitationValidator(rootValidator, c).validate();
+                    }
+                }
                 if (n.userReferences == null) {
                     if (rootValidator.autorepair) {
-                        addInfo("User references collection on not was null - autorepaired");
+                        addInfo("User references collection on note was null - autorepaired");
                     } else {
                         addError("User references collection on note is null",
                                 n);
