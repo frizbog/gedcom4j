@@ -891,7 +891,6 @@ public class GedcomWriter {
                 emitTagIfValueNotNull(2, "TYPE", u.type);
             }
             emitTagIfValueNotNull(1, "RIN", s.recIdNumber);
-            emitTagIfValueNotNull(1, "RFN", s.regFileNumber);
             emitChangeDate(1, s.changeDate);
         }
     }

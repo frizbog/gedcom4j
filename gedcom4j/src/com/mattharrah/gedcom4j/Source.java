@@ -31,10 +31,6 @@ import java.util.List;
  */
 public class Source {
     /**
-     * The registered file number
-     */
-    public String regFileNumber;
-    /**
      * The record id number
      */
     public String recIdNumber;
@@ -148,13 +144,6 @@ public class Source {
         } else if (!recIdNumber.equals(other.recIdNumber)) {
             return false;
         }
-        if (regFileNumber == null) {
-            if (other.regFileNumber != null) {
-                return false;
-            }
-        } else if (!regFileNumber.equals(other.regFileNumber)) {
-            return false;
-        }
         if (repositoryCitation == null) {
             if (other.repositoryCitation != null) {
                 return false;
@@ -219,8 +208,6 @@ public class Source {
                 + ((publicationFacts == null) ? 0 : publicationFacts.hashCode());
         result = prime * result
                 + ((recIdNumber == null) ? 0 : recIdNumber.hashCode());
-        result = prime * result
-                + ((regFileNumber == null) ? 0 : regFileNumber.hashCode());
         result = prime
                 * result
                 + ((repositoryCitation == null) ? 0 : repositoryCitation
@@ -238,10 +225,9 @@ public class Source {
 
     @Override
     public String toString() {
-        return "Source [xref=" + xref + ", regFileNumber=" + regFileNumber
-                + ", recIdNumber=" + recIdNumber + ", sourceFiledBy="
-                + sourceFiledBy + ", title=" + title + ", notes=" + notes
-                + ", publicationFacts=" + publicationFacts
+        return "Source [xref=" + xref + ", recIdNumber=" + recIdNumber
+                + ", sourceFiledBy=" + sourceFiledBy + ", title=" + title
+                + ", notes=" + notes + ", publicationFacts=" + publicationFacts
                 + ", originatorsAuthors=" + originatorsAuthors
                 + ", multimedia=" + multimedia + ", changeDate=" + changeDate
                 + ", userReferences=" + userReferences + ", data=" + data
