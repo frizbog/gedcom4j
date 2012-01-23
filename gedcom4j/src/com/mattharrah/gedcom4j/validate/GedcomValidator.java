@@ -8,6 +8,8 @@ import java.util.Map.Entry;
 import com.mattharrah.gedcom4j.Gedcom;
 import com.mattharrah.gedcom4j.Individual;
 import com.mattharrah.gedcom4j.Note;
+import com.mattharrah.gedcom4j.Repository;
+import com.mattharrah.gedcom4j.Source;
 import com.mattharrah.gedcom4j.Submission;
 
 /**
@@ -72,13 +74,13 @@ public class GedcomValidator extends AbstractValidator {
         // TODO - validate header
         validateIndividuals();
         // TODO - validate families
-        // TODO - validate repositories
+        validateRepositories();
         // TODO - validate media
-        // TODO - validate sources
+        validateSources();
         // TODO - validate submitters
+        // TODO - validate trailer
         validateSubmission();
-        ArrayList<Note> notes = new ArrayList<Note>(gedcom.notes.values());
-        new NotesValidator(this, gedcom, notes).validate();
+        checkNotes(new ArrayList<Note>(gedcom.notes.values()), gedcom);
     }
 
     /**
@@ -111,6 +113,72 @@ public class GedcomValidator extends AbstractValidator {
                 return;
             }
             new IndividualValidator(this, e.getValue()).validate();
+        }
+    }
+
+    /**
+     * Validate the repositories collection
+     */
+    private void validateRepositories() {
+        if (gedcom.repositories == null) {
+            if (autorepair) {
+                gedcom.repositories = new HashMap<String, Repository>();
+                addInfo("Repositories collection on root gedcom was null - autorepaired",
+                        gedcom);
+                return;
+            }
+            addError("Repositories collection on root gedcom is null", gedcom);
+            return;
+        }
+        for (Entry<String, Repository> e : gedcom.repositories.entrySet()) {
+            if (e.getKey() == null) {
+                addError("Entry in repositories collection has null key", e);
+                return;
+            }
+            if (e.getValue() == null) {
+                addError("Entry in repositories collection has null value", e);
+                return;
+            }
+            if (!e.getKey().equals(e.getValue().xref)) {
+                addError(
+                        "Entry in repositories collection is not keyed by the Repository's xref",
+                        e);
+                return;
+            }
+            new RepositoryValidator(this, e.getValue()).validate();
+        }
+
+    }
+
+    /**
+     * Validate the {@link Gedcom#sources} collection
+     */
+    private void validateSources() {
+        if (gedcom.sources == null) {
+            if (autorepair) {
+                gedcom.sources = new HashMap<String, Source>();
+                addInfo("Sources collection was null - autorepaired", gedcom);
+            } else {
+                addError("Sources collection is null", gedcom);
+                return;
+            }
+        }
+        for (Entry<String, Source> e : gedcom.sources.entrySet()) {
+            if (e.getKey() == null) {
+                addError("Entry in sources collection has null key", e);
+                return;
+            }
+            if (e.getValue() == null) {
+                addError("Entry in sources collection has null value", e);
+                return;
+            }
+            if (!e.getKey().equals(e.getValue().xref)) {
+                addError(
+                        "Entry in sources collection is not keyed by the individual's xref",
+                        e);
+                return;
+            }
+            new SourceValidator(this, e.getValue()).validate();
         }
     }
 

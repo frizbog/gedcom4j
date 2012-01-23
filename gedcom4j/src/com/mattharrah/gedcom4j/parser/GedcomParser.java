@@ -1240,8 +1240,6 @@ public class GedcomParser {
                 loadUserReference(ch, u);
             } else if ("RIN".equals(ch.tag)) {
                 r.recIdNumber = ch.value;
-            } else if ("RFN".equals(ch.tag)) {
-                r.regFileNumber = ch.value;
             } else if ("CHAN".equals(ch.tag)) {
                 r.changeDate = new ChangeDate();
                 loadChangeDate(ch, r.changeDate);

@@ -16,7 +16,6 @@ import com.mattharrah.gedcom4j.Header;
 import com.mattharrah.gedcom4j.Individual;
 import com.mattharrah.gedcom4j.parser.GedcomParser;
 import com.mattharrah.gedcom4j.parser.GedcomParserException;
-import com.mattharrah.gedcom4j.validate.GedcomValidationException;
 
 /**
  * A test for the {@link GedcomWriter} class. The majority of the testing done
@@ -57,14 +56,12 @@ public class GedcomWriterTest extends TestCase {
      *             if there's a file i/o error
      * @throws GedcomParserException
      *             if a gedcom file won't parse
-     * @throws GedcomValidationException
-     *             if a gedcom datastructure doesn't pass validation
      * @throws GedcomWriterException
      *             if a gedcom data structure can't be written (usually due to
      *             invalid data, shouldn't happen)
      */
     public GedcomWriterTest() throws IOException, GedcomParserException,
-            GedcomValidationException, GedcomWriterException {
+            GedcomWriterException {
         // Load a file
         GedcomParser p = new GedcomParser();
         p.load(SAMPLE_STRESS_TEST_FILENAME);
@@ -354,13 +351,11 @@ public class GedcomWriterTest extends TestCase {
      * 
      * @throws IOException
      *             if some file somewhere can't be read or written
-     * @throws GedcomValidationException
-     *             if the data doesn't pass validation
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
     public void testWriteEmptyGedcom() throws IOException,
-            GedcomValidationException, GedcomWriterException {
+            GedcomWriterException {
         // Write an empty file
         Gedcom g = new Gedcom();
         GedcomWriter gw = new GedcomWriter(g);
@@ -373,8 +368,24 @@ public class GedcomWriterTest extends TestCase {
 
         assertEquals("0 HEAD\n1 FILE gedcom4j.emptywritertest.ged\n"
                 + "1 GEDC\n2 VERS 5.5\n2 FORM LINEAGE-LINKED\n"
-                + "1 CHAR ANSEL\n0 TRLR\n", string);
+                + "1 CHAR ANSEL\n0 @SUBMISSION@ SUBN\n0 TRLR\n", string);
 
+    }
+
+    /**
+     * Set up the test fixtures. Load a file, rewrite it, reload the written
+     * file, so comparisons can be made.
+     * 
+     * @see junit.framework.TestCase#setUp()
+     * @throws Exception
+     *             if anything goes wrong
+     */
+    @Override
+    protected void setUp() throws Exception {
+        // Make sure we actually have test fixtures to work with
+        assertNotNull(gedcomOrig);
+        assertNotNull(gedcomReadback);
+        assertNotNull(writtenFileAsString);
     }
 
     /**
@@ -404,21 +415,5 @@ public class GedcomWriterTest extends TestCase {
             br.close();
             pw.close();
         }
-    }
-
-    /**
-     * Set up the test fixtures. Load a file, rewrite it, reload the written
-     * file, so comparisons can be made.
-     * 
-     * @see junit.framework.TestCase#setUp()
-     * @throws Exception
-     *             if anything goes wrong
-     */
-    @Override
-    protected void setUp() throws Exception {
-        // Make sure we actually have test fixtures to work with
-        assertNotNull(gedcomOrig);
-        assertNotNull(gedcomReadback);
-        assertNotNull(writtenFileAsString);
     }
 }

@@ -795,7 +795,6 @@ public class GedcomWriter {
                 emitTagIfValueNotNull(2, "TYPE", u.type);
             }
             emitTagIfValueNotNull(1, "RIN", r.recIdNumber);
-            emitTagIfValueNotNull(1, "RFN", r.regFileNumber);
             for (String s : r.emails) {
                 emitTagIfValueNotNull(1, "EMAIL", s);
             }

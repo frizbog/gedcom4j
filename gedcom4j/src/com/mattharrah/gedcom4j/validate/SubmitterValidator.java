@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import com.mattharrah.gedcom4j.Submitter;
 
 /**
- * Validate a submitter
+ * Validate a {@link Submitter} object. See {@link GedcomValidator} for usage
+ * information.
  * 
  * @author frizbog1
  * 

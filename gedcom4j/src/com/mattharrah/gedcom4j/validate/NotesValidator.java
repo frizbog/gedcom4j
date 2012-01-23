@@ -29,7 +29,8 @@ import com.mattharrah.gedcom4j.AbstractCitation;
 import com.mattharrah.gedcom4j.Note;
 
 /**
- * A validator for lists of {@link Note}s
+ * A validator for lists of {@link Note} object. See {@link GedcomValidator} for
+ * usage information.
  * 
  * @author frizbog1
  * 

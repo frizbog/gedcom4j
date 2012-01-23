@@ -10,7 +10,8 @@ import com.mattharrah.gedcom4j.Note;
 
 /**
  * A validator for source citations - both {@link CitationWithoutSource} and
- * {@link CitationWithSource}
+ * {@link CitationWithSource}. See {@link GedcomValidator} for usage
+ * information.
  * 
  * @author frizbog1
  * 
@@ -103,8 +104,8 @@ public class CitationValidator extends AbstractValidator {
                         + citation.getClass().getSimpleName());
             }
         } else {
-            new NotesValidator(rootValidator, citation, citation.notes)
-                    .validate();
+            checkNotes(citation.notes, citation);
+
         }
 
     }

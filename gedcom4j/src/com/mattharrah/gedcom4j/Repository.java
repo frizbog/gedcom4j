@@ -44,10 +44,6 @@ public class Repository {
      */
     public String recIdNumber;
     /**
-     * The registered file number
-     */
-    public String regFileNumber;
-    /**
      * The address for this repository
      */
     public Address address;
@@ -133,13 +129,6 @@ public class Repository {
         } else if (!recIdNumber.equals(other.recIdNumber)) {
             return false;
         }
-        if (regFileNumber == null) {
-            if (other.regFileNumber != null) {
-                return false;
-            }
-        } else if (!regFileNumber.equals(other.regFileNumber)) {
-            return false;
-        }
         if (userReferences == null) {
             if (other.userReferences != null) {
                 return false;
@@ -171,8 +160,6 @@ public class Repository {
                 + ((phoneNumbers == null) ? 0 : phoneNumbers.hashCode());
         result = prime * result
                 + ((recIdNumber == null) ? 0 : recIdNumber.hashCode());
-        result = prime * result
-                + ((regFileNumber == null) ? 0 : regFileNumber.hashCode());
         result = prime * result
                 + ((userReferences == null) ? 0 : userReferences.hashCode());
         result = prime * result + ((xref == null) ? 0 : xref.hashCode());

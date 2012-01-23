@@ -123,10 +123,21 @@ public abstract class AbstractValidator {
                         + changeDate.getClass().getSimpleName());
             }
         } else {
-            new NotesValidator(rootValidator, changeDate, changeDate.notes)
-                    .validate();
+            checkNotes(changeDate.notes, changeDate);
         }
 
+    }
+
+    /**
+     * Check a notes collection
+     * 
+     * @param notes
+     *            the notes collection
+     * @param objectWithNotes
+     *            the object that has notes
+     */
+    protected void checkNotes(List<Note> notes, Object objectWithNotes) {
+        new NotesValidator(rootValidator, objectWithNotes, notes).validate();
     }
 
     /**

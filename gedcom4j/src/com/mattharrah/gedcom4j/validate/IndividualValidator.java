@@ -10,7 +10,8 @@ import com.mattharrah.gedcom4j.IndividualEvent;
 import com.mattharrah.gedcom4j.Submitter;
 
 /**
- * A validator for an individual
+ * A validator for an {@link Individual}. See {@link GedcomValidator} for usage
+ * information.
  * 
  * @author frizbog1
  * 
