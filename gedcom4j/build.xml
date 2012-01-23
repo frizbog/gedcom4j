@@ -1,6 +1,15 @@
 <project name="gedcom4j" default="release">
 	<property file="gedcom4j.properties" />
 
+	<!-- Stuff for Emma for test coverage -->
+	<property name="emma.dir" value="lib" />
+	<property name="emma.enabled" value="true" />
+	<path id="emma.lib">
+		<pathelement location="${emma.dir}/emma.jar" />
+		<pathelement location="${emma.dir}/emma_ant.jar" />
+	</path>
+	<taskdef resource="emma_ant.properties" classpathref="emma.lib" />
+
 	<target name="clean" description="Remove all build artifacts">
 		<delete dir="tmp" />
 		<delete dir="bin" />
@@ -43,25 +52,44 @@
 		<unjar dest="tmp" src="dist/gedcom4j-${release.version}.jar" />
 	</target>
 
+
+
 	<target name="run-tests" depends="compile" description="Run the unit tests">
 		<delete dir="testbin" />
-		<mkdir dir="testbin" />
-		<javac srcdir="test" destdir="testbin" deprecation="true" debug="true" debuglevel="lines,vars,source" includeantruntime="false">
+		<mkdir dir="testbin/classes" />
+		<property name="coverage.dir" value="tmp/emma"/>
+		<delete dir="${coverage.dir}" />
+		<mkdir dir="${coverage.dir}" />
+		<javac srcdir="test" destdir="testbin/classes" deprecation="true" debug="true" debuglevel="lines,vars,source" includeantruntime="false">
 			<classpath>
 				<fileset dir="lib" includes="junit-4.10.jar" />
 				<pathelement location="bin" />
 			</classpath>
 		</javac>
-		<junit haltonfailure="true" haltonerror="true">
+		<emma enabled="${emma.enabled}">
+			<instr instrpath="bin" mode="fullcopy" destdir="testbin" metadatafile="${coverage.dir}/metadata.emma" />
+		</emma>
+		<junit haltonfailure="true" haltonerror="true" fork="true">
 			<classpath>
-				<fileset dir="lib" includes="junit-4.10.jar" />
-				<pathelement location="bin" />
-				<pathelement location="testbin" />
+				<fileset dir="lib" includes="*.jar" />
+				<!--pathelement location="bin" /-->
+				<pathelement location="testbin/classes" />
 			</classpath>
 			<batchtest>
-				<fileset dir="test" />
+				<fileset dir="test">
+					<include name="**/*Test*" />
+					<exclude name="**/Abstract*" />
+				</fileset>
 				<formatter type="plain" usefile="false" />
 			</batchtest>
+			<jvmarg value="-Demma.coverage.out.file=${coverage.dir}/coverage.emma" />
+			<jvmarg value="-Demma.coverage.out.merge=false" />
 		</junit>
+		<emma enabled="${emma.enabled}">
+			<report sourcepath="src">
+				<infileset dir="${coverage.dir}" />
+				<html outfile="${coverage.dir}/report.html" />
+			</report>
+		</emma>
 	</target>
 </project>
