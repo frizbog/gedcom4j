@@ -66,6 +66,7 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
         Gedcom g = new Gedcom();
         GedcomValidator v = new GedcomValidator(g);
         v.validate();
+        dumpFindings(v);
         assertTrue("There should be no findings on an empty Gedcom",
                 v.findings.isEmpty());
     }
@@ -85,7 +86,7 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
         p.load(SAMPLE_STRESS_TEST_FILENAME);
         rootValidator = new GedcomValidator(p.gedcom);
         rootValidator.validate();
-        dumpFindings();
+        dumpFindings(rootValidator);
         assertTrue(rootValidator.findings.isEmpty());
     }
 

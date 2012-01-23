@@ -72,7 +72,7 @@ public class Gedcom {
     /**
      * Information about the GEDCOM submission.
      */
-    public Submission submission;
+    public Submission submission = new Submission();
     /**
      * A map of the submitters in the GEDCOM file. The map is keyed on submitter
      * cross-reference numbers, and the submitters themselves are in the value

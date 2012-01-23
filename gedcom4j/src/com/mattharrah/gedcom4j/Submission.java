@@ -30,9 +30,9 @@ package com.mattharrah.gedcom4j;
  */
 public class Submission {
     /**
-     * The xref for this submission
+     * The xref for this submission - required field, default to '@SUBMISSION@'
      */
-    public String xref;
+    public String xref = "@SUBMISSION@";
     /**
      * The submitter of this submission
      */

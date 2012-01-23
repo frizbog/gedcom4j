@@ -73,7 +73,7 @@ public abstract class AbstractValidatorTestCase extends TestCase {
                 sb.append(substringOfDescription[i]).append("'");
             }
         }
-        dumpFindings();
+        dumpFindings(rootValidator);
         fail(sb.toString());
     }
 
@@ -82,16 +82,22 @@ public abstract class AbstractValidatorTestCase extends TestCase {
      */
     protected void assertNoIssues() {
         if (rootValidator.hasErrors() || rootValidator.hasWarnings()) {
-            dumpFindings();
+            dumpFindings(rootValidator);
             fail("There should not be any warnings or errors");
         }
     }
 
     /**
      * Write all the findings out to stdout
+     * 
+     * @param v
      */
-    protected void dumpFindings() {
-        for (GedcomValidationFinding f : rootValidator.findings) {
+    protected void dumpFindings(AbstractValidator v) {
+        if (v.rootValidator.findings.size() > 0) {
+            System.out.println(v.rootValidator.findings.size()
+                    + " finding(s) from validation");
+        }
+        for (GedcomValidationFinding f : v.rootValidator.findings) {
             System.out.println(f);
         }
     }
