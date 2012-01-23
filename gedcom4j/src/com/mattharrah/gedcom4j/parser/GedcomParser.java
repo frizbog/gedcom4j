@@ -264,8 +264,7 @@ public class GedcomParser {
     private Source getSource(String xref) {
         Source src = gedcom.sources.get(xref);
         if (src == null) {
-            src = new Source();
-            src.xref = xref;
+            src = new Source(xref);
             gedcom.sources.put(src.xref, src);
         }
         return src;
@@ -1467,8 +1466,7 @@ public class GedcomParser {
      *            the node
      */
     private void loadSubmission(StringTree st) {
-        Submission s = new Submission();
-        s.xref = st.id;
+        Submission s = new Submission(st.id);
         gedcom.submission = s;
         if (gedcom.header == null) {
             gedcom.header = new Header();

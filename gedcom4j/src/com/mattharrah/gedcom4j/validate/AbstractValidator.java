@@ -269,6 +269,12 @@ public abstract class AbstractValidator {
                             + " is doesn't start with an at-sign (@)",
                             objectContainingXref);
                 }
+                if (!xref.endsWith("@")) {
+                    addError("xref on "
+                            + objectContainingXref.getClass().getSimpleName()
+                            + " is doesn't end with an at-sign (@)",
+                            objectContainingXref);
+                }
             }
         } catch (SecurityException e) {
             throw new GedcomValidationException(objectContainingXref.getClass()

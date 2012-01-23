@@ -21,7 +21,14 @@
  */
 package com.mattharrah.gedcom4j.validate;
 
+import java.util.ArrayList;
+
+import com.mattharrah.gedcom4j.EventRecorded;
+import com.mattharrah.gedcom4j.Multimedia;
+import com.mattharrah.gedcom4j.RepositoryCitation;
 import com.mattharrah.gedcom4j.Source;
+import com.mattharrah.gedcom4j.SourceCallNumber;
+import com.mattharrah.gedcom4j.SourceData;
 
 /**
  * A validator for {@link Source} objects. See {@link GedcomValidator} for usage
@@ -38,7 +45,12 @@ public class SourceValidator extends AbstractValidator {
     private Source source;
 
     /**
+     * Constructor
      * 
+     * @param rootValidator
+     *            the root validator
+     * @param source
+     *            the source being validated
      */
     public SourceValidator(GedcomValidator rootValidator, Source source) {
         this.rootValidator = rootValidator;
@@ -52,8 +64,90 @@ public class SourceValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        // TODO Auto-generated method stub
+        if (source == null) {
+            addError("Source is null and cannot be validated");
+            return;
+        }
+        checkXref(source);
+        checkChangeDate(source.changeDate, source);
+        if (source.data != null) {
+            SourceData sd = source.data;
+            checkNotes(sd.notes, sd);
+            checkOptionalString(sd.respAgency, "responsible agency", sd);
+            if (sd.eventsRecorded == null) {
+                if (rootValidator.autorepair) {
+                    sd.eventsRecorded = new ArrayList<EventRecorded>();
+                    addInfo("Collection of recorded events in source data structure was null - autorepaired",
+                            sd);
+                } else {
+                    addError(
+                            "Collection of recorded events in source data structure is null",
+                            sd);
+                }
+            } else {
+                for (EventRecorded er : sd.eventsRecorded) {
+                    checkOptionalString(er.datePeriod, "date period", er);
+                    checkOptionalString(er.eventType, "event type", er);
+                    checkOptionalString(er.jurisdiction, "jurisdiction", er);
+                }
+            }
+        }
+        if (source.multimedia == null) {
+            if (rootValidator.autorepair) {
+                source.multimedia = new ArrayList<Multimedia>();
+                addInfo("Multimedia collection on source was null - autorepaired",
+                        source);
+            }
+            addError("Multimedia collection on source is null", source);
+        } else {
+            for (Multimedia multimedia : source.multimedia) {
+                new MultimediaValidator(rootValidator, multimedia).validate();
+            }
+        }
+        checkNotes(source.notes, source);
+        checkStringList(source.originatorsAuthors, "originators/authors", false);
+        checkStringList(source.publicationFacts, "publication facts", false);
+        checkOptionalString(source.recIdNumber, "automated record id", source);
+        checkStringList(source.sourceText, "source text", true);
+        checkOptionalString(source.sourceFiledBy, "source filed by", source);
+        checkStringList(source.title, "title", true);
+        checkUserReferences(source.userReferences, source);
 
+        RepositoryCitation c = source.repositoryCitation;
+        if (c != null) {
+            checkNotes(c.notes, c);
+            checkRequiredString(c.repositoryXref, "repository xref", c);
+            checkCallNumbers(c);
+        }
     }
 
+    /**
+     * Check the call numbers on a RepositoryCitation objct
+     * 
+     * @param c
+     */
+    private void checkCallNumbers(RepositoryCitation c) {
+        if (c.callNumbers == null) {
+            if (rootValidator.autorepair) {
+                c.callNumbers = new ArrayList<SourceCallNumber>();
+                addInfo("Call numbers collection on repository citation was null - autorepaired",
+                        c);
+            } else {
+                addError(
+                        "Call numbers collection on repository citation is null",
+                        c);
+            }
+        } else {
+            for (SourceCallNumber scn : c.callNumbers) {
+                checkOptionalString(scn.callNumber, "call number", scn);
+                if (scn.callNumber != null) {
+                    checkOptionalString(scn.mediaType, "media type", scn);
+                } else if (scn.mediaType != null) {
+                    addError(
+                            "You cannot specify media type without a call number in a SourceCallNumber structure",
+                            scn);
+                }
+            }
+        }
+    }
 }

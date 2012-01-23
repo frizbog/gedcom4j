@@ -30,9 +30,9 @@ package com.mattharrah.gedcom4j;
  */
 public class Submission {
     /**
-     * The xref for this submission - required field, default to '@SUBMISSION@'
+     * The xref for this submission - required field
      */
-    public String xref = "@SUBMISSION@";
+    public String xref;
     /**
      * The submitter of this submission
      */
@@ -61,6 +61,16 @@ public class Submission {
      * The automated record id
      */
     public String recIdNumber;
+
+    /**
+     * Constructor, takes required xref value
+     * 
+     * @param xref
+     *            the xref id for this submission
+     */
+    public Submission(String xref) {
+        this.xref = xref;
+    }
 
     @Override
     public boolean equals(Object obj) {

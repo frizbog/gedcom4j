@@ -188,12 +188,6 @@ public class GedcomValidator extends AbstractValidator {
     private void validateSubmission() {
         Submission s = gedcom.submission;
         if (s == null) {
-            if (autorepair) {
-                gedcom.submission = new Submission();
-                addInfo("Submission record on root gedcom was null - autorepaired",
-                        gedcom);
-                return;
-            }
             addError("Submission record on root gedcom is null", gedcom);
             return;
         }

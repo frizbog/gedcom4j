@@ -83,6 +83,15 @@ public class Source {
      */
     public String xref;
 
+    /**
+     * Constructor, takes required xref value
+     * 
+     * @param xref
+     */
+    public Source(String xref) {
+        this.xref = xref;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -234,5 +243,4 @@ public class Source {
                 + ", sourceText=" + sourceText + ", repositoryCitation="
                 + repositoryCitation + "]";
     }
-
 }

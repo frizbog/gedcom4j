@@ -70,9 +70,10 @@ public class Gedcom {
      */
     public Map<String, Source> sources = new HashMap<String, Source>();
     /**
-     * Information about the GEDCOM submission.
+     * Information about the GEDCOM submission. There is only one and it is
+     * required, so the xref ID has a default.
      */
-    public Submission submission = new Submission();
+    public Submission submission = new Submission("@SUBMISSION@");
     /**
      * A map of the submitters in the GEDCOM file. The map is keyed on submitter
      * cross-reference numbers, and the submitters themselves are in the value
