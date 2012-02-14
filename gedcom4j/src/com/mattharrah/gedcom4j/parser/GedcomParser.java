@@ -314,8 +314,16 @@ public class GedcomParser {
                 address.postalCode = ch.value;
             } else if ("CTRY".equals(ch.tag)) {
                 address.country = ch.value;
+            } else if ("CONC".equals(ch.tag)) {
+                if (address.lines.size() == 0) {
+                    address.lines.add(ch.value);
+                } else {
+                    address.lines.set(address.lines.size() - 1,
+                            address.lines.get(address.lines.size() - 1) + " "
+                                    + ch.value);
+                }
             } else if ("CONT".equals(ch.tag)) {
-                address.lines.add(ch.value);
+                address.lines.add((ch.value == null ? "" : ch.value));
             } else {
                 unknownTag(ch);
             }
@@ -430,8 +438,17 @@ public class GedcomParser {
         CitationWithoutSource cws = (CitationWithoutSource) citation;
         cws.description.add(st.value);
         for (StringTree ch : st.children) {
-            if ("CONC".equals(ch.tag) || "CONT".equals(ch.tag)) {
-                cws.description.add(ch.value);
+            if ("CONT".equals(ch.tag)) {
+                cws.description.add((ch.value == null ? "" : ch.value));
+            } else if ("CONC".equals(ch.tag)) {
+                if (cws.description.size() == 0) {
+                    cws.description.add(ch.value);
+                } else {
+                    // Append to last value in string list
+                    cws.description.set(cws.description.size() - 1,
+                            cws.description.get(cws.description.size() - 1)
+                                    + " " + ch.value);
+                }
             } else if ("TEXT".equals(ch.tag)) {
                 List<String> ls = new ArrayList<String>();
                 cws.textFromSource.add(ls);
@@ -878,7 +895,7 @@ public class GedcomParser {
                 if (a.description == null) {
                     a.description = ch.value;
                 } else {
-                    a.description += ch.value;
+                    a.description += " " + ch.value;
                 }
             } else {
                 unknownTag(ch);
@@ -928,7 +945,13 @@ public class GedcomParser {
                 if (e.description == null) {
                     e.description = ch.value;
                 } else {
-                    e.description += ch.value;
+                    e.description += " " + ch.value;
+                }
+            } else if ("CONT".equals(ch.tag)) {
+                if (e.description == null) {
+                    e.description = (ch.value == null ? "" : ch.value);
+                } else {
+                    e.description += "\n" + ch.value;
                 }
             } else if ("FAMC".equals(ch.tag)) {
                 List<FamilyChild> families = new ArrayList<FamilyChild>();
@@ -1028,11 +1051,22 @@ public class GedcomParser {
             listOfString.add(st.value);
         }
         for (StringTree ch : st.children) {
-            if ("CONC".equals(ch.tag) || "CONT".equals(ch.tag)) {
+            if ("CONT".equals(ch.tag)) {
                 if (ch.value == null) {
                     listOfString.add("");
                 } else {
                     listOfString.add(ch.value);
+                }
+            } else if ("CONC".equals(ch.tag)) {
+                // If there's no value to concatenate, ignore it
+                if (ch.value != null) {
+                    if (listOfString.size() == 0) {
+                        listOfString.add(ch.value);
+                    } else {
+                        listOfString.set(listOfString.size() - 1,
+                                listOfString.get(listOfString.size() - 1) + " "
+                                        + ch.value);
+                    }
                 }
             } else {
                 unknownTag(ch);
@@ -1135,8 +1169,20 @@ public class GedcomParser {
         }
         note.lines.add(st.value);
         for (StringTree ch : st.children) {
-            if ("CONC".equals(ch.tag) || "CONT".equals(ch.tag)) {
-                note.lines.add(ch.value);
+            if ("CONC".equals(ch.tag)) {
+                if (note.lines.size() == 0) {
+                    note.lines.add(ch.value);
+                } else {
+                    String lastNote = note.lines.get(note.lines.size() - 1);
+                    if (lastNote == null || lastNote.isEmpty()) {
+                        note.lines.set(note.lines.size() - 1, ch.value);
+                    } else {
+                        note.lines.set(note.lines.size() - 1, lastNote + " "
+                                + ch.value);
+                    }
+                }
+            } else if ("CONT".equals(ch.tag)) {
+                note.lines.add((ch.value == null ? "" : ch.value));
             } else if ("SOUR".equals(ch.tag)) {
                 loadCitation(ch, note.citations);
             } else if ("REFN".equals(ch.tag)) {
@@ -1205,8 +1251,10 @@ public class GedcomParser {
                 loadCitation(ch, place.citations);
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, place.notes);
-            } else if ("CONC".equals(ch.tag) || "CONT".equals(ch.tag)) {
-                place.placeName += ch.value;
+            } else if ("CONC".equals(ch.tag)) {
+                place.placeName += (ch.value == null ? "" : ch.value);
+            } else if ("CONT".equals(ch.tag)) {
+                place.placeName += "\n" + (ch.value == null ? "" : ch.value);
             } else {
                 unknownTag(ch);
             }

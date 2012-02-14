@@ -162,6 +162,38 @@ public class GedcomWriter {
     }
 
     /**
+     * Write a line out to the print writer, splitting if needed with CONC lines
+     * 
+     * @param level
+     *            the level at which we are recording
+     * @param line
+     *            the line to be written
+     */
+    private void emitAndSplit(int level, String line) {
+        if (line.length() <= 128) {
+            pw.println(line);
+        } else {
+            int i = splitSpace(line);
+            // First part
+            pw.println(line.substring(0, i));
+            // Now a series of as many CONC lines as needed
+            String remainder = line.substring(i + 1);
+            while (remainder.length() > 0) {
+                if (remainder.length() > 128) {
+                    i = splitSpace(remainder);
+                    pw.println((level + 1) + " CONC "
+                            + remainder.substring(0, i));
+                    remainder = remainder.substring(i + 1);
+                } else {
+                    pw.println((level + 1) + " CONC " + remainder);
+                    remainder = "";
+                }
+            }
+        }
+
+    }
+
+    /**
      * Emit the person-to-person associations an individual was in - see
      * ASSOCIATION_STRUCTURE in the GEDCOM spec.
      * 
@@ -578,7 +610,8 @@ public class GedcomWriter {
     }
 
     /**
-     * Emit a multi-line text value.
+     * Convenience method for emitting lines of text when there is no xref, so
+     * you don't have to pass null all the time
      * 
      * @param level
      *            the level we are starting at. Continuation lines will be one
@@ -591,13 +624,43 @@ public class GedcomWriter {
      */
     private void emitLinesOfText(int level, String startingTag,
             List<String> linesOfText) {
+        emitLinesOfText(level, null, startingTag, linesOfText);
+    }
+
+    /**
+     * Emit a multi-line text value.
+     * 
+     * @param level
+     *            the level we are starting at. Continuation lines will be one
+     *            level deeper than this value
+     * @param startingTag
+     *            the tag to use for the first line of the text. All subsequent
+     *            lines will be "CONT" lines.
+     * @param xref
+     *            the xref of the item with lines of text
+     * @param linesOfText
+     *            the lines of text
+     */
+    private void emitLinesOfText(int level, String xref, String startingTag,
+            List<String> linesOfText) {
         int lineNum = 0;
         for (String l : linesOfText) {
-            if (lineNum++ == 0) {
-                emitTagIfValueNotNull(level, startingTag, l);
+            StringBuilder line = new StringBuilder();
+            if (lineNum == 0) {
+                line.append(level).append(" ");
+                if (xref != null && !xref.isEmpty()) {
+                    line.append(xref).append(" ");
+                }
+                line.append(startingTag).append(" ").append(l);
             } else {
-                emitTagIfValueNotNull(level + 1, "CONT", l);
+                line.append(level + 1).append(" ");
+                if (xref != null && !xref.isEmpty()) {
+                    line.append(xref).append(" ");
+                }
+                line.append("CONT ").append(l);
             }
+            lineNum++;
+            emitAndSplit(level, line.toString());
         }
     }
 
@@ -695,15 +758,16 @@ public class GedcomWriter {
      *            the Notes text
      */
     private void emitNoteLines(int level, String xref, List<String> noteLines) {
-        int noteLineNum = 0;
-        for (String n : noteLines) {
-            if (noteLineNum++ == 0) {
-                emitTagIfValueNotNull(level, xref, "NOTE", n);
-            } else {
-                pw.println(level + 1 + " " + "CONT"
-                        + (n == null ? "" : " " + n));
-            }
-        }
+        // int noteLineNum = 0;
+        // for (String n : noteLines) {
+        // if (noteLineNum++ == 0) {
+        // emitTagIfValueNotNull(level, xref, "NOTE", n);
+        // } else {
+        // pw.println(level + 1 + " " + "CONT"
+        // + (n == null ? "" : " " + n));
+        // }
+        // }
+        emitLinesOfText(level, xref, "NOTE", noteLines);
     }
 
     /**
@@ -1065,11 +1129,13 @@ public class GedcomWriter {
     private void emitTagIfValueNotNull(int level, String xref, String tag,
             Object value) {
         if (value != null) {
-            pw.print(level);
+            StringBuilder line = new StringBuilder();
+            line.append(level);
             if (xref != null && !xref.isEmpty()) {
-                pw.print(" " + xref);
+                line.append(" " + xref);
             }
-            pw.println(" " + tag + " " + value);
+            line.append(" " + tag + " " + value);
+            emitAndSplit(level, line.toString());
         }
     }
 
@@ -1145,5 +1211,22 @@ public class GedcomWriter {
      */
     private void emitTrailer() {
         pw.println("0 TRLR");
+    }
+
+    /**
+     * Get the position of the "split-space", which is here defined as the last
+     * space that appears in a string prior to the 128th character. This way,
+     * you can take the substring of the string up to the value returned from
+     * here, and be sure that it A) is on a space boundary, and B) is not
+     * greater than 128.
+     * 
+     * @param line
+     *            a string that exceeds 245 characters.
+     * @return that portion of the string that appears BEFORE the last space
+     *         BEFORE the 245th character.
+     */
+    private int splitSpace(String line) {
+        String t = line.substring(0, 128);
+        return t.lastIndexOf(' ');
     }
 }
