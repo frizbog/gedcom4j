@@ -54,7 +54,7 @@
 
 
 
-	<target name="run-tests" depends="compile" description="Run the unit tests">
+	<target name="run-tests" depends="clean, compile" description="Run the unit tests">
 		<delete dir="testbin" />
 		<mkdir dir="testbin/classes" />
 		<property name="coverage.dir" value="tmp/emma"/>
