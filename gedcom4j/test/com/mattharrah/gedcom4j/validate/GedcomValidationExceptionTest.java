@@ -77,7 +77,6 @@ public class GedcomValidationExceptionTest {
             Assert.assertEquals("java.lang.RuntimeException", e.getMessage());
             Assert.assertNotNull(e.getCause());
         }
-        Assert.fail("Ti");
     }
 
     /**

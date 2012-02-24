@@ -1,20 +1,29 @@
 <project name="gedcom4j" default="release">
 	<property file="gedcom4j.properties" />
 
-	<!-- Stuff for Emma for test coverage -->
-	<property name="emma.dir" value="lib" />
-	<property name="emma.enabled" value="true" />
-	<path id="emma.lib">
-		<pathelement location="${emma.dir}/emma.jar" />
-		<pathelement location="${emma.dir}/emma_ant.jar" />
+	<!-- Stuff for Cobertura -->
+	<property name="cobertura.dir" value="lib" />
+	<path id="cobertura.classpath">
+		<fileset dir="${cobertura.dir}">
+			<include name="cobertura.jar" />
+			<include name="asm*.jar" />
+			<include name="jakarta*.jar" />
+			<include name="log4j*.jar" />
+		</fileset>
 	</path>
-	<taskdef resource="emma_ant.properties" classpathref="emma.lib" />
+	<taskdef resource="tasks.properties" classpathref="cobertura.classpath" />
+
+
 
 	<target name="clean" description="Remove all build artifacts">
 		<delete dir="tmp" />
 		<delete dir="bin" />
 		<delete dir="dist" />
 		<delete dir="testbin" />
+		<delete dir=".">
+			<include name="**/cobertura.ser" />
+		</delete>
+
 	</target>
 
 	<target name="init" description="Create necessary directories for build">
@@ -53,27 +62,32 @@
 	</target>
 
 
-
 	<target name="run-tests" depends="clean, compile" description="Run the unit tests">
-		<delete dir="testbin" />
-		<mkdir dir="testbin/classes" />
-		<property name="coverage.dir" value="tmp/emma"/>
-		<delete dir="${coverage.dir}" />
-		<mkdir dir="${coverage.dir}" />
-		<javac srcdir="test" destdir="testbin/classes" deprecation="true" debug="true" debuglevel="lines,vars,source" includeantruntime="false">
+		<javac srcdir="test" destdir="testbin" deprecation="true" debug="true" debuglevel="lines,vars,source" includeantruntime="false">
 			<classpath>
 				<fileset dir="lib" includes="junit-4.10.jar" />
 				<pathelement location="bin" />
 			</classpath>
 		</javac>
-		<emma enabled="${emma.enabled}">
-			<instr instrpath="bin" mode="fullcopy" destdir="testbin" metadatafile="${coverage.dir}/metadata.emma" />
-		</emma>
-		<junit haltonfailure="false" haltonerror="false" fork="true">
+		<property name="instr.bin" value="tmp/cobertura-instrumented-bin" />
+		<property name="data.file" value="${basedir}/cobertura.ser" />
+		<mkdir dir="${instr.bin}" />
+		<delete file="${data.file}" />
+		<cobertura-instrument todir="${instr.bin}">
+			<includeClasses regex="com\.mattharrah\.gedcom4j\..*" />
+			<excludeClasses regex=".*\.Test.*" />
+			<excludeClasses regex=".*\.Abstract.*" />
+			<instrumentationClasspath>
+				<path location="bin" />
+			</instrumentationClasspath>
+		</cobertura-instrument>
+		<junit haltonfailure="false" haltonerror="false" fork="yes" forkmode="once">
+			<sysproperty key="net.sourceforge.cobertura.datafile" file="${data.file}" />
 			<classpath>
+				<pathelement location="${instr.bin}" />
+				<pathelement location="bin" />
+				<pathelement location="testbin" />
 				<fileset dir="lib" includes="*.jar" />
-				<!--pathelement location="bin" /-->
-				<pathelement location="testbin/classes" />
 			</classpath>
 			<batchtest>
 				<fileset dir="test">
@@ -82,14 +96,10 @@
 				</fileset>
 				<formatter type="plain" usefile="false" />
 			</batchtest>
-			<jvmarg value="-Demma.coverage.out.file=${coverage.dir}/coverage.emma" />
-			<jvmarg value="-Demma.coverage.out.merge=false" />
 		</junit>
-		<emma enabled="${emma.enabled}">
-			<report sourcepath="src">
-				<infileset dir="${coverage.dir}" />
-				<html outfile="${coverage.dir}/report.html" />
-			</report>
-		</emma>
+		<mkdir dir="tmp/cobertura" />
+		<cobertura-report datafile="${data.file}" format="html" destdir="tmp/cobertura">
+			<fileset dir="src" />
+		</cobertura-report>
 	</target>
 </project>
