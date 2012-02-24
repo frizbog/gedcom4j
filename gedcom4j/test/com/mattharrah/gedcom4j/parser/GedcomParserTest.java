@@ -27,10 +27,10 @@ import java.io.InputStream;
 
 import junit.framework.TestCase;
 
-import com.mattharrah.gedcom4j.Family;
-import com.mattharrah.gedcom4j.Gedcom;
-import com.mattharrah.gedcom4j.Source;
-import com.mattharrah.gedcom4j.Submitter;
+import com.mattharrah.gedcom4j.model.Family;
+import com.mattharrah.gedcom4j.model.Gedcom;
+import com.mattharrah.gedcom4j.model.Source;
+import com.mattharrah.gedcom4j.model.Submitter;
 
 /**
  * Tests for the {@link GedcomParser} class

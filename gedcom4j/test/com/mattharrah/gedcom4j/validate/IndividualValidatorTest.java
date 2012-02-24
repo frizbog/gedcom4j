@@ -2,8 +2,8 @@ package com.mattharrah.gedcom4j.validate;
 
 import java.util.Map;
 
-import com.mattharrah.gedcom4j.Gedcom;
-import com.mattharrah.gedcom4j.Individual;
+import com.mattharrah.gedcom4j.model.Gedcom;
+import com.mattharrah.gedcom4j.model.Individual;
 
 /**
  * Tests for {@link IndividualValidator}

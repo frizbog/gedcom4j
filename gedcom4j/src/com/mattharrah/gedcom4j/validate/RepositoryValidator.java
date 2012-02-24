@@ -1,7 +1,7 @@
 package com.mattharrah.gedcom4j.validate;
 
-import com.mattharrah.gedcom4j.Address;
-import com.mattharrah.gedcom4j.Repository;
+import com.mattharrah.gedcom4j.model.Address;
+import com.mattharrah.gedcom4j.model.Repository;
 
 /**
  * A validator for a {@link Repository} structure. See {@link GedcomValidator}

@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import com.mattharrah.gedcom4j.Gedcom;
-import com.mattharrah.gedcom4j.Individual;
-import com.mattharrah.gedcom4j.Note;
-import com.mattharrah.gedcom4j.Repository;
-import com.mattharrah.gedcom4j.Source;
-import com.mattharrah.gedcom4j.Submission;
+import com.mattharrah.gedcom4j.model.Gedcom;
+import com.mattharrah.gedcom4j.model.Individual;
+import com.mattharrah.gedcom4j.model.Note;
+import com.mattharrah.gedcom4j.model.Repository;
+import com.mattharrah.gedcom4j.model.Source;
+import com.mattharrah.gedcom4j.model.Submission;
 
 /**
  * <p>

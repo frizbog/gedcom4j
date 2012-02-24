@@ -2,12 +2,12 @@ package com.mattharrah.gedcom4j.validate;
 
 import java.util.ArrayList;
 
-import com.mattharrah.gedcom4j.AbstractCitation;
-import com.mattharrah.gedcom4j.Association;
-import com.mattharrah.gedcom4j.Individual;
-import com.mattharrah.gedcom4j.IndividualAttribute;
-import com.mattharrah.gedcom4j.IndividualEvent;
-import com.mattharrah.gedcom4j.Submitter;
+import com.mattharrah.gedcom4j.model.AbstractCitation;
+import com.mattharrah.gedcom4j.model.Association;
+import com.mattharrah.gedcom4j.model.Individual;
+import com.mattharrah.gedcom4j.model.IndividualAttribute;
+import com.mattharrah.gedcom4j.model.IndividualEvent;
+import com.mattharrah.gedcom4j.model.Submitter;
 
 /**
  * A validator for an {@link Individual}. See {@link GedcomValidator} for usage

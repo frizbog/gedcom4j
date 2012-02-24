@@ -2,7 +2,7 @@ package com.mattharrah.gedcom4j.validate;
 
 import java.util.ArrayList;
 
-import com.mattharrah.gedcom4j.Submitter;
+import com.mattharrah.gedcom4j.model.Submitter;
 
 /**
  * Validate a {@link Submitter} object. See {@link GedcomValidator} for usage

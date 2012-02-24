@@ -2,7 +2,7 @@ package com.mattharrah.gedcom4j.validate;
 
 import junit.framework.TestCase;
 
-import com.mattharrah.gedcom4j.Gedcom;
+import com.mattharrah.gedcom4j.model.Gedcom;
 
 /**
  * A base class for validator tests with handy helper methods

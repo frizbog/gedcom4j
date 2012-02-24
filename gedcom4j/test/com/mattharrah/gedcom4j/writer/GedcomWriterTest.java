@@ -10,10 +10,10 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import com.mattharrah.gedcom4j.Family;
-import com.mattharrah.gedcom4j.Gedcom;
-import com.mattharrah.gedcom4j.Header;
-import com.mattharrah.gedcom4j.Individual;
+import com.mattharrah.gedcom4j.model.Family;
+import com.mattharrah.gedcom4j.model.Gedcom;
+import com.mattharrah.gedcom4j.model.Header;
+import com.mattharrah.gedcom4j.model.Individual;
 import com.mattharrah.gedcom4j.parser.GedcomParser;
 import com.mattharrah.gedcom4j.parser.GedcomParserException;
 

@@ -23,12 +23,12 @@ package com.mattharrah.gedcom4j.validate;
 
 import java.util.ArrayList;
 
-import com.mattharrah.gedcom4j.EventRecorded;
-import com.mattharrah.gedcom4j.Multimedia;
-import com.mattharrah.gedcom4j.RepositoryCitation;
-import com.mattharrah.gedcom4j.Source;
-import com.mattharrah.gedcom4j.SourceCallNumber;
-import com.mattharrah.gedcom4j.SourceData;
+import com.mattharrah.gedcom4j.model.EventRecorded;
+import com.mattharrah.gedcom4j.model.Multimedia;
+import com.mattharrah.gedcom4j.model.RepositoryCitation;
+import com.mattharrah.gedcom4j.model.Source;
+import com.mattharrah.gedcom4j.model.SourceCallNumber;
+import com.mattharrah.gedcom4j.model.SourceData;
 
 /**
  * A validator for {@link Source} objects. See {@link GedcomValidator} for usage

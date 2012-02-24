@@ -4,9 +4,9 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mattharrah.gedcom4j.ChangeDate;
-import com.mattharrah.gedcom4j.Note;
-import com.mattharrah.gedcom4j.UserReference;
+import com.mattharrah.gedcom4j.model.ChangeDate;
+import com.mattharrah.gedcom4j.model.Note;
+import com.mattharrah.gedcom4j.model.UserReference;
 
 /**
  * A base class for all validators

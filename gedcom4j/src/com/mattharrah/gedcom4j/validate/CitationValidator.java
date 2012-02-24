@@ -3,10 +3,10 @@ package com.mattharrah.gedcom4j.validate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mattharrah.gedcom4j.AbstractCitation;
-import com.mattharrah.gedcom4j.CitationWithSource;
-import com.mattharrah.gedcom4j.CitationWithoutSource;
-import com.mattharrah.gedcom4j.Note;
+import com.mattharrah.gedcom4j.model.AbstractCitation;
+import com.mattharrah.gedcom4j.model.CitationWithSource;
+import com.mattharrah.gedcom4j.model.CitationWithoutSource;
+import com.mattharrah.gedcom4j.model.Note;
 
 /**
  * A validator for source citations - both {@link CitationWithoutSource} and

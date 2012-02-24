@@ -21,9 +21,9 @@
  */
 package com.mattharrah.gedcom4j.validate;
 
-import com.mattharrah.gedcom4j.EventRecorded;
-import com.mattharrah.gedcom4j.Source;
-import com.mattharrah.gedcom4j.SourceData;
+import com.mattharrah.gedcom4j.model.EventRecorded;
+import com.mattharrah.gedcom4j.model.Source;
+import com.mattharrah.gedcom4j.model.SourceData;
 
 /**
  * @author frizbog1

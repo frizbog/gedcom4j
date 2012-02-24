@@ -1,6 +1,6 @@
 package com.mattharrah.gedcom4j.validate;
 
-import com.mattharrah.gedcom4j.Multimedia;
+import com.mattharrah.gedcom4j.model.Multimedia;
 
 /**
  * A validator for {@link Multimedia} objects. See {@link GedcomValidator} for

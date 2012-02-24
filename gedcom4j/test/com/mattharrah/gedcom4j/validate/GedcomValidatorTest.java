@@ -2,7 +2,7 @@ package com.mattharrah.gedcom4j.validate;
 
 import java.io.IOException;
 
-import com.mattharrah.gedcom4j.Gedcom;
+import com.mattharrah.gedcom4j.model.Gedcom;
 import com.mattharrah.gedcom4j.parser.GedcomParser;
 import com.mattharrah.gedcom4j.parser.GedcomParserException;
 

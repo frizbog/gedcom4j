@@ -21,7 +21,7 @@
  */
 package com.mattharrah.gedcom4j.validate;
 
-import com.mattharrah.gedcom4j.Submitter;
+import com.mattharrah.gedcom4j.model.Submitter;
 
 /**
  * Test cas for {@link SubmitterValidator}

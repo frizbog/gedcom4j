@@ -25,8 +25,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mattharrah.gedcom4j.AbstractCitation;
-import com.mattharrah.gedcom4j.Note;
+import com.mattharrah.gedcom4j.model.AbstractCitation;
+import com.mattharrah.gedcom4j.model.Note;
 
 /**
  * A validator for lists of {@link Note} object. See {@link GedcomValidator} for

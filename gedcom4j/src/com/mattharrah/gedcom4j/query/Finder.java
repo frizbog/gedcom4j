@@ -3,9 +3,9 @@ package com.mattharrah.gedcom4j.query;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mattharrah.gedcom4j.Gedcom;
-import com.mattharrah.gedcom4j.Individual;
-import com.mattharrah.gedcom4j.PersonalName;
+import com.mattharrah.gedcom4j.model.Gedcom;
+import com.mattharrah.gedcom4j.model.Individual;
+import com.mattharrah.gedcom4j.model.PersonalName;
 
 /**
  * A class for finding specific data in a GEDCOM object graph

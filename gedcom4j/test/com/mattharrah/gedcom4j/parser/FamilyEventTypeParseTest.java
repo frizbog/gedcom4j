@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
-import com.mattharrah.gedcom4j.Family;
-import com.mattharrah.gedcom4j.FamilyEvent;
-import com.mattharrah.gedcom4j.Gedcom;
+import com.mattharrah.gedcom4j.model.Family;
+import com.mattharrah.gedcom4j.model.FamilyEvent;
+import com.mattharrah.gedcom4j.model.Gedcom;
 
 /**
  * A test specifically for issue 2 (see gedcom4j.googlecode.com)

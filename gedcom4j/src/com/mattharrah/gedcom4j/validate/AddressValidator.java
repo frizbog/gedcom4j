@@ -21,7 +21,7 @@
  */
 package com.mattharrah.gedcom4j.validate;
 
-import com.mattharrah.gedcom4j.Address;
+import com.mattharrah.gedcom4j.model.Address;
 
 /**
  * Validator for an {@link Address}. See {@link GedcomValidator} for usage
