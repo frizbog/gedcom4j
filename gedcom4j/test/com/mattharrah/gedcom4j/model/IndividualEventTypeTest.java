@@ -3,8 +3,6 @@ package com.mattharrah.gedcom4j.model;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.mattharrah.gedcom4j.model.IndividualEventType;
-
 /**
  * Test for the individual event type
  * 

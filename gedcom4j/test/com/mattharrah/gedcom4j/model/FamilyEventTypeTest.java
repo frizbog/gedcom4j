@@ -1,7 +1,5 @@
 package com.mattharrah.gedcom4j.model;
 
-import com.mattharrah.gedcom4j.model.FamilyEventType;
-
 import junit.framework.TestCase;
 
 /**
