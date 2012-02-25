@@ -13,7 +13,8 @@
 	</path>
 	<taskdef resource="tasks.properties" classpathref="cobertura.classpath" />
 
-
+	<!-- Stuff for Checkstyle-->
+	<taskdef resource="checkstyletask.properties" classpath="/path/to/checkstyle-5.5-all.jar" />
 
 	<target name="clean" description="Remove all build artifacts">
 		<delete dir="tmp" />
@@ -23,7 +24,7 @@
 		<delete dir=".">
 			<include name="**/cobertura.ser" />
 		</delete>
-		<delete dir="reports"/>
+		<delete dir="reports" />
 
 	</target>
 
@@ -32,7 +33,7 @@
 		<mkdir dir="bin" />
 		<mkdir dir="dist" />
 		<mkdir dir="testbin" />
-		<mkdir dir="reports"/>
+		<mkdir dir="reports" />
 	</target>
 
 	<target name="compile" depends="init" description="Compile all source code">
@@ -40,7 +41,7 @@
 	</target>
 
 	<target name="javadoc" depends="compile" description="Generate javadoc">
-		<delete dir="reports/javadoc"/>
+		<delete dir="reports/javadoc" />
 		<javadoc sourcepath="src" destdir="reports/javadoc" access="private" />
 	</target>
 
@@ -57,8 +58,8 @@
 			</manifest>
 		</jar>
 	</target>
-	
-	<target name="release" depends="clean, dist"/>
+
+	<target name="release" depends="clean, dist" />
 
 	<target name="explode-jar" depends="release" description="Convenience target for unjarring the distribution to the temp directory for inspection">
 		<unjar dest="tmp" src="dist/gedcom4j-${release.version}.jar" />
@@ -66,12 +67,14 @@
 
 
 	<target name="run-tests" depends="compile" description="Run the unit tests">
-		<delete dir="tmp/junit"/>
-		<mkdir dir="tmp/junit"/>
-		<delete dir="reports/junit"/>
-		<mkdir dir="reports/junit"/>
-		<delete dir="reports/coverage"/>
-		<mkdir dir="reports/coverage"/>
+		<delete dir="tmp/junit" />
+		<mkdir dir="tmp/junit" />
+		<delete dir="tmp/cobertura" />
+		<mkdir dir="tmp/cobertura" />
+		<delete dir="reports/junit" />
+		<mkdir dir="reports/junit" />
+		<delete dir="reports/coverage" />
+		<mkdir dir="reports/coverage" />
 		<javac srcdir="test" destdir="testbin" deprecation="true" debug="true" debuglevel="lines,vars,source" includeantruntime="false">
 			<classpath>
 				<fileset dir="lib" includes="junit-4.10.jar" />
@@ -105,15 +108,18 @@
 				</fileset>
 				<formatter type="plain" usefile="false" />
 			</batchtest>
-			<formatter type="xml"/>
+			<formatter type="xml" />
 		</junit>
 		<junitreport todir="tmp/junit">
 			<fileset dir="tmp/junit">
-				<include name="TEST-*.xml"/>
+				<include name="TEST-*.xml" />
 			</fileset>
-			<report format="frames" todir="reports/junit"/>
+			<report format="frames" todir="reports/junit" />
 		</junitreport>
 		<cobertura-report datafile="${data.file}" format="html" destdir="reports/coverage">
+			<fileset dir="src" />
+		</cobertura-report>
+		<cobertura-report datafile="${data.file}" format="xml" destdir="tmp/cobertura">
 			<fileset dir="src" />
 		</cobertura-report>
 	</target>
