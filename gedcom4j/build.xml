@@ -14,7 +14,7 @@
 	<taskdef resource="tasks.properties" classpathref="cobertura.classpath" />
 
 	<!-- Stuff for Checkstyle-->
-	<taskdef resource="checkstyletask.properties" classpath="/path/to/checkstyle-5.5-all.jar" />
+	<taskdef resource="checkstyletask.properties" classpath="lib/checkstyle-5.5-all.jar" />
 
 	<target name="clean" description="Remove all build artifacts">
 		<delete dir="tmp" />
@@ -122,5 +122,20 @@
 		<cobertura-report datafile="${data.file}" format="xml" destdir="tmp/cobertura">
 			<fileset dir="src" />
 		</cobertura-report>
+		<delete file="${data.file}" />
+	</target>
+
+
+	<target name="checkstyle" description="Run Checkstyle over the source, and produce a report of violations">
+		<delete dir="tmp/checkstyle" />
+		<mkdir dir="tmp/checkstyle" />
+		<delete dir="reports/checkstyle" />
+		<mkdir dir="reports/checkstyle" />
+		<checkstyle config="checkstyle-config.xml" failureProperty="checkstyle.failure" failOnViolation="false">
+			<formatter type="xml" tofile="tmp/checkstyle/checkstyle_report.xml" />
+			<fileset dir="src" includes="**/*.java" />
+		</checkstyle>
+
+		<xslt in="tmp/checkstyle/checkstyle_report.xml" out="reports/checkstyle/index.html" style="checkstyle-noframes-severity-sorted.xsl" />
 	</target>
 </project>
