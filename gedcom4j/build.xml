@@ -32,9 +32,7 @@
 		<mkdir dir="bin" />
 		<mkdir dir="dist" />
 		<mkdir dir="testbin" />
-		<mkdir dir="reports/junit"/>
-		<mkdir dir="reports/javadoc"/>
-		<mkdir dir="reports/coverage"/>
+		<mkdir dir="reports"/>
 	</target>
 
 	<target name="compile" depends="init" description="Compile all source code">
@@ -46,7 +44,8 @@
 		<javadoc sourcepath="src" destdir="reports/javadoc" access="private" />
 	</target>
 
-	<target name="release" depends="clean, compile" description="Build a distribution jar">
+	<target name="dist" depends="compile" description="Build a distribution jar">
+		<delete dir="dist" />
 		<mkdir dir="dist" />
 		<copy todir="bin">
 			<fileset dir="." includes="*.txt" />
@@ -58,13 +57,21 @@
 			</manifest>
 		</jar>
 	</target>
+	
+	<target name="release" depends="clean, dist"/>
 
 	<target name="explode-jar" depends="release" description="Convenience target for unjarring the distribution to the temp directory for inspection">
 		<unjar dest="tmp" src="dist/gedcom4j-${release.version}.jar" />
 	</target>
 
 
-	<target name="run-tests" depends="clean, compile" description="Run the unit tests">
+	<target name="run-tests" depends="compile" description="Run the unit tests">
+		<delete dir="tmp/junit"/>
+		<mkdir dir="tmp/junit"/>
+		<delete dir="reports/junit"/>
+		<mkdir dir="reports/junit"/>
+		<delete dir="reports/coverage"/>
+		<mkdir dir="reports/coverage"/>
 		<javac srcdir="test" destdir="testbin" deprecation="true" debug="true" debuglevel="lines,vars,source" includeantruntime="false">
 			<classpath>
 				<fileset dir="lib" includes="junit-4.10.jar" />
@@ -83,7 +90,6 @@
 				<path location="bin" />
 			</instrumentationClasspath>
 		</cobertura-instrument>
-		<mkdir dir="tmp/junit"/>
 		<junit haltonfailure="false" haltonerror="false" fork="yes" forkmode="once">
 			<sysproperty key="net.sourceforge.cobertura.datafile" file="${data.file}" />
 			<classpath>
