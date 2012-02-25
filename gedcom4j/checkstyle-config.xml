@@ -39,12 +39,19 @@
 	<!-- See http://checkstyle.sf.net/config_whitespace.html -->
 	<module name="FileTabCharacter" />
 
+	<!--  Allow suppressing checks with CHECKSTYLE:OFF and CHECKSTYLE:ON in comments -->
+	<module name="SuppressionCommentFilter"/>
+
 	<!-- Miscellaneous other checks. -->
 	<!-- See http://checkstyle.sf.net/config_misc.html -->
 	<!-- <module name="RegexpSingleline"> <property name="format" value="\s+$"/> 
 		<property name="minimum" value="0"/> <property name="maximum" value="0"/> 
 		<property name="message" value="Line has trailing spaces."/> </module> -->
 	<module name="TreeWalker">
+
+		<!--  required for the suppression comments filter to work -->
+ 		<module name="FileContentsHolder"/>
+
 
 		<!-- Checks for Javadoc comments. -->
 		<!-- See http://checkstyle.sf.net/config_javadoc.html -->
