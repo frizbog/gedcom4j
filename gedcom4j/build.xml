@@ -137,6 +137,9 @@
 		<checkstyle config="checkstyle-config.xml" failureProperty="checkstyle.failure" failOnViolation="false">
 			<formatter type="xml" tofile="tmp/checkstyle/checkstyle_report.xml" />
 			<fileset dir="src" includes="**/*.java" />
+			<classpath>
+				<pathelement location="bin"/>
+			</classpath>
 		</checkstyle>
 
 		<xslt in="tmp/checkstyle/checkstyle_report.xml" out="reports/checkstyle/index.html" style="checkstyle-noframes-severity-sorted.xsl" />
