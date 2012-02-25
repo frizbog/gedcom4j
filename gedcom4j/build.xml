@@ -23,6 +23,7 @@
 		<delete dir=".">
 			<include name="**/cobertura.ser" />
 		</delete>
+		<delete dir="reports"/>
 
 	</target>
 
@@ -31,6 +32,9 @@
 		<mkdir dir="bin" />
 		<mkdir dir="dist" />
 		<mkdir dir="testbin" />
+		<mkdir dir="reports/junit"/>
+		<mkdir dir="reports/javadoc"/>
+		<mkdir dir="reports/coverage"/>
 	</target>
 
 	<target name="compile" depends="init" description="Compile all source code">
@@ -38,10 +42,8 @@
 	</target>
 
 	<target name="javadoc" depends="compile" description="Generate javadoc">
-		<delete includeemptydirs="false">
-			<fileset dir="../gedcom4j_javadoc" includes="**/*" />
-		</delete>
-		<javadoc sourcepath="src" destdir="../gedcom4j_javadoc" access="private" />
+		<delete dir="reports/javadoc"/>
+		<javadoc sourcepath="src" destdir="reports/javadoc" access="private" />
 	</target>
 
 	<target name="release" depends="clean, compile" description="Build a distribution jar">
@@ -81,6 +83,7 @@
 				<path location="bin" />
 			</instrumentationClasspath>
 		</cobertura-instrument>
+		<mkdir dir="tmp/junit"/>
 		<junit haltonfailure="false" haltonerror="false" fork="yes" forkmode="once">
 			<sysproperty key="net.sourceforge.cobertura.datafile" file="${data.file}" />
 			<classpath>
@@ -89,16 +92,22 @@
 				<pathelement location="testbin" />
 				<fileset dir="lib" includes="*.jar" />
 			</classpath>
-			<batchtest>
+			<batchtest todir="tmp/junit">
 				<fileset dir="test">
 					<include name="**/*" />
 					<exclude name="**/Abstract*" />
 				</fileset>
 				<formatter type="plain" usefile="false" />
 			</batchtest>
+			<formatter type="xml"/>
 		</junit>
-		<mkdir dir="tmp/cobertura" />
-		<cobertura-report datafile="${data.file}" format="html" destdir="tmp/cobertura">
+		<junitreport todir="tmp/junit">
+			<fileset dir="tmp/junit">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="reports/junit"/>
+		</junitreport>
+		<cobertura-report datafile="${data.file}" format="html" destdir="reports/coverage">
 			<fileset dir="src" />
 		</cobertura-report>
 	</target>
