@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.mattharrah.gedcom4j.validate;
+package com.mattharrah.gedcom4j.parser;
 
 import junit.framework.Assert;
 
@@ -29,18 +29,18 @@ import org.junit.Test;
  * @author frizbog1
  * 
  */
-public class GedcomValidationExceptionTest {
+public class GedcomParserExceptionTest {
 
     /**
      * Test method for
-     * {@link com.mattharrah.gedcom4j.validate.GedcomValidationException#GedcomValidationException()}
+     * {@link com.mattharrah.gedcom4j.parser.GedcomParserException#GedcomParserException()}
      * .
      */
     @Test
-    public void testGedcomValidationException() {
+    public void testGedcomWriterException() {
         try {
-            throw new GedcomValidationException();
-        } catch (GedcomValidationException e) {
+            throw new GedcomParserException();
+        } catch (GedcomParserException e) {
             Assert.assertNotNull(e);
             Assert.assertNull(e.getMessage());
             Assert.assertNull(e.getCause());
@@ -49,14 +49,14 @@ public class GedcomValidationExceptionTest {
 
     /**
      * Test method for
-     * {@link com.mattharrah.gedcom4j.validate.GedcomValidationException#GedcomValidationException(java.lang.String)}
+     * {@link com.mattharrah.gedcom4j.parser.GedcomParserException#GedcomParserException(java.lang.String)}
      * .
      */
     @Test
-    public void testGedcomValidationExceptionString() {
+    public void testGedcomWriterExceptionString() {
         try {
-            throw new GedcomValidationException("Yo");
-        } catch (GedcomValidationException e) {
+            throw new GedcomParserException("Yo");
+        } catch (GedcomParserException e) {
             Assert.assertNotNull(e);
             Assert.assertEquals("Yo", e.getMessage());
             Assert.assertNull(e.getCause());
@@ -65,14 +65,14 @@ public class GedcomValidationExceptionTest {
 
     /**
      * Test method for
-     * {@link com.mattharrah.gedcom4j.validate.GedcomValidationException#GedcomValidationException(java.lang.String, java.lang.Throwable)}
+     * {@link com.mattharrah.gedcom4j.parser.GedcomParserException#GedcomParserException(java.lang.String, java.lang.Throwable)}
      * .
      */
     @Test
-    public void testGedcomValidationExceptionStringThrowable() {
+    public void testGedcomWriterExceptionStringThrowable() {
         try {
-            throw new GedcomValidationException(new RuntimeException());
-        } catch (GedcomValidationException e) {
+            throw new GedcomParserException(new RuntimeException());
+        } catch (GedcomParserException e) {
             Assert.assertNotNull(e);
             Assert.assertEquals("java.lang.RuntimeException", e.getMessage());
             Assert.assertNotNull(e.getCause());
@@ -81,14 +81,14 @@ public class GedcomValidationExceptionTest {
 
     /**
      * Test method for
-     * {@link com.mattharrah.gedcom4j.validate.GedcomValidationException#GedcomValidationException(java.lang.Throwable)}
+     * {@link com.mattharrah.gedcom4j.parser.GedcomParserException#GedcomParserException(java.lang.Throwable)}
      * .
      */
     @Test
-    public void testGedcomValidationExceptionThrowable() {
+    public void testGedcomWriterExceptionThrowable() {
         try {
-            throw new GedcomValidationException("Yo", new RuntimeException());
-        } catch (GedcomValidationException e) {
+            throw new GedcomParserException("Yo", new RuntimeException());
+        } catch (GedcomParserException e) {
             Assert.assertNotNull(e);
             Assert.assertEquals("Yo", e.getMessage());
             Assert.assertNotNull(e.getCause());
