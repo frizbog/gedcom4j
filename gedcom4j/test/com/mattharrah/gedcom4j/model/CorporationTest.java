@@ -22,6 +22,7 @@
 package com.mattharrah.gedcom4j.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import org.junit.Test;
 
@@ -29,31 +30,48 @@ import org.junit.Test;
  * @author frizbog1
  * 
  */
-public class TrailerTest extends Trailer {
+public class CorporationTest {
 
     /**
      * Test method for
-     * {@link com.mattharrah.gedcom4j.model.Trailer#equals(java.lang.Object)}.
+     * {@link com.mattharrah.gedcom4j.model.Corporation#equals(java.lang.Object)}
+     * .
      */
     @Test
     public void testEqualsObject() {
-        Trailer t1 = new Trailer();
-        Trailer t2 = new Trailer();
+        Corporation o1 = new Corporation();
+        Corporation o2 = new Corporation();
         assertEquals(
-                "Hashcodes for trailers are always equal - they have no properties",
-                t1, t2);
+                "CorporationTests are equal, so equals() should return true",
+                o1, o2);
+        o1.businessName = "Frying Pan";
+        assertFalse(
+                "CorporationTests are no longer equal, so hashcodes should no longer equal",
+                o1.equals(o2));
+        o2.businessName = "Frying Pan";
+        assertEquals(
+                "CorporationTests are equal again, so equals() should return true again",
+                o1.hashCode(), o2.hashCode());
     }
 
     /**
-     * Test method for {@link com.mattharrah.gedcom4j.model.Trailer#hashCode()}.
+     * Test method for
+     * {@link com.mattharrah.gedcom4j.model.Corporation#hashCode()}.
      */
     @Test
     public void testHashCode() {
-        Trailer t1 = new Trailer();
-        Trailer t2 = new Trailer();
+        Corporation c1 = new Corporation();
+        Corporation c2 = new Corporation();
+        assertEquals("Objects are equal, so equals() should return true",
+                c1.hashCode(), c2.hashCode());
+        c1.businessName = "Frying Pan";
+        assertFalse(
+                "Objects are no longer equal, so equals() should return false",
+                c1.hashCode() == c2.hashCode());
+        c2.businessName = "Frying Pan";
         assertEquals(
-                "Hashcodes for trailers are always equal - they have no properties",
-                t1.hashCode(), t2.hashCode());
+                "Objects are equal again, so equals() should return true again",
+                c1.hashCode(), c2.hashCode());
     }
 
 }
