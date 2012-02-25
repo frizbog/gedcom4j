@@ -50,6 +50,8 @@ public class SourceSystemTest {
         ss2.productName = "Frying Pan";
         assertEquals("equals() should be the same for equivalent objects", ss1,
                 ss2);
+        assertFalse(ss1.equals(null));
+        assertFalse(ss1.equals(this));
     }
 
     /**

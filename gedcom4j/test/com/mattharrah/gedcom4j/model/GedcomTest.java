@@ -58,6 +58,8 @@ public class GedcomTest {
         assertEquals(
                 "objects are equal again, so equals() should return true again",
                 g1, g2);
+        assertFalse(g1.equals(null));
+        assertFalse(g1.equals(this));
     }
 
     /**

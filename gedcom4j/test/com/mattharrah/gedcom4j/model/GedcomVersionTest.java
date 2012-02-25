@@ -50,6 +50,8 @@ public class GedcomVersionTest extends GedcomVersion {
         gv2.gedcomForm = "Frying Pan";
         assertEquals("objects are equal again, so equals() should return true",
                 gv1, gv2);
+        assertFalse(gv1.equals(null));
+        assertFalse(gv1.equals(this));
     }
 
     /**

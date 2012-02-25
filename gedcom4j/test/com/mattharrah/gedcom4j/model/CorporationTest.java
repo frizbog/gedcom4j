@@ -39,19 +39,21 @@ public class CorporationTest {
      */
     @Test
     public void testEqualsObject() {
-        Corporation o1 = new Corporation();
-        Corporation o2 = new Corporation();
+        Corporation c1 = new Corporation();
+        Corporation c2 = new Corporation();
         assertEquals(
                 "CorporationTests are equal, so equals() should return true",
-                o1, o2);
-        o1.businessName = "Frying Pan";
+                c1, c2);
+        c1.businessName = "Frying Pan";
         assertFalse(
                 "CorporationTests are no longer equal, so hashcodes should no longer equal",
-                o1.equals(o2));
-        o2.businessName = "Frying Pan";
+                c1.equals(c2));
+        c2.businessName = "Frying Pan";
         assertEquals(
                 "CorporationTests are equal again, so equals() should return true again",
-                o1.hashCode(), o2.hashCode());
+                c1.hashCode(), c2.hashCode());
+        assertFalse(c1.equals(null));
+        assertFalse(c1.equals(this));
     }
 
     /**

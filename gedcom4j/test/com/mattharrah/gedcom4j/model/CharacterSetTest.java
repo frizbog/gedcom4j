@@ -50,6 +50,8 @@ public class CharacterSetTest {
         cs2.characterSetName = "Frying Pan";
         assertEquals("objects are equal again, so equals() should return true",
                 cs1, cs2);
+        assertFalse(cs1.equals(null));
+        assertFalse(cs1.equals(this));
     }
 
     /**

@@ -30,33 +30,39 @@ import org.junit.Test;
  * @author frizbog1
  * 
  */
-public class TrailerTest extends Trailer {
+public class HeaderSourceDataTest {
 
     /**
      * Test method for
-     * {@link com.mattharrah.gedcom4j.model.Trailer#equals(java.lang.Object)}.
+     * {@link com.mattharrah.gedcom4j.model.HeaderSourceData#equals(java.lang.Object)}
+     * .
      */
     @Test
     public void testEqualsObject() {
-        Trailer t1 = new Trailer();
-        Trailer t2 = new Trailer();
-        assertEquals(
-                "Hashcodes for trailers are always equal - they have no properties",
-                t1, t2);
-        assertFalse(t1.equals(null));
-        assertFalse(t1.equals(this));
+        HeaderSourceData h1 = new HeaderSourceData();
+        HeaderSourceData h2 = new HeaderSourceData();
+        assertEquals(h1, h2);
+        h1.copyright = "Frying Pan";
+        assertFalse(h1.equals(h2));
+        h2.copyright = "Frying Pan";
+        assertEquals(h1, h2);
+        assertFalse(h1.equals(null));
+        assertFalse(h1.equals(this));
     }
 
     /**
-     * Test method for {@link com.mattharrah.gedcom4j.model.Trailer#hashCode()}.
+     * Test method for
+     * {@link com.mattharrah.gedcom4j.model.HeaderSourceData#hashCode()}.
      */
     @Test
     public void testHashCode() {
-        Trailer t1 = new Trailer();
-        Trailer t2 = new Trailer();
-        assertEquals(
-                "Hashcodes for trailers are always equal - they have no properties",
-                t1.hashCode(), t2.hashCode());
+        HeaderSourceData h1 = new HeaderSourceData();
+        HeaderSourceData h2 = new HeaderSourceData();
+        assertEquals(h1.hashCode(), h2.hashCode());
+        h1.copyright = "Frying Pan";
+        assertFalse(h1.hashCode() == h2.hashCode());
+        h2.copyright = "Frying Pan";
+        assertEquals(h1.hashCode(), h2.hashCode());
     }
 
 }
