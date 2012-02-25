@@ -40,7 +40,7 @@ public class GedcomValidationException extends RuntimeException {
      * Default constructor
      */
     public GedcomValidationException() {
-        ; // Nothing to do
+        super();
     }
 
     /**

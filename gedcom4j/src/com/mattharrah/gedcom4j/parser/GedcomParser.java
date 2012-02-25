@@ -22,7 +22,7 @@
 package com.mattharrah.gedcom4j.parser;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -1645,7 +1645,7 @@ public class GedcomParser {
 
     /**
      * Load the flat file into a tree structure that reflects the heirarchy of
-     * its contents
+     * its contents, using the default encoding for yor JVM
      * 
      * @param filename
      *            the file to load
@@ -1654,13 +1654,31 @@ public class GedcomParser {
      *             if there is a problem reading the file
      */
     private StringTree readFile(String filename) throws IOException {
-        BufferedReader f = new BufferedReader(new FileReader(filename));
+        return readFile(filename, System.getProperty("file.encoding"));
+    }
+
+    /**
+     * Load the flat file into a tree structure that reflects the heirarchy of
+     * its contents, using a specific charset
+     * 
+     * @param filename
+     *            the file to load
+     * @param charsetName
+     *            the name of the charset to use (e.g., "US-ASCII", "UTF-16")
+     * @return the string tree representation of the data from the file
+     * @throws IOException
+     *             if there is a problem reading the file
+     */
+    private StringTree readFile(String filename, String charsetName)
+            throws IOException {
+        BufferedReader f = new BufferedReader(new InputStreamReader(
+                new FileInputStream(filename), charsetName));
         return makeStringTreeFromReader(f);
     }
 
     /**
      * Read all the data from a stream and return the StringTree representation
-     * of that data
+     * of that data, using the default file encoding for your JVM
      * 
      * @param stream
      *            the stream to read
@@ -1669,8 +1687,25 @@ public class GedcomParser {
      *             if there's a problem reading the data off the stream
      */
     private StringTree readStream(InputStream stream) throws IOException {
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(stream));
+        return readStream(stream, System.getProperty("file.encoding"));
+    }
+
+    /**
+     * Read all the data from a stream and return the StringTree representation
+     * of that data
+     * 
+     * @param stream
+     *            the stream to read
+     * @param charsetName
+     *            the name of the charset to use (e.g., "US-ASCII", "UTF-16")
+     * @return the data from the stream as a StringTree
+     * @throws IOException
+     *             if there's a problem reading the data off the stream
+     */
+    private StringTree readStream(InputStream stream, String charsetName)
+            throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(
+                stream, charsetName));
         return makeStringTreeFromReader(reader);
     }
 

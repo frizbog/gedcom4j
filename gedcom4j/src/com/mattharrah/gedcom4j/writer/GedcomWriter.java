@@ -25,7 +25,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,11 +120,30 @@ public class GedcomWriter {
      *             if the data is malformed and cannot be written
      */
     public void write(File file) throws IOException, GedcomWriterException {
+        write(file, System.getProperty("file.encoding"));
+    }
+
+    /**
+     * Write the {@link Gedcom} data as a GEDCOM 5.5 file. Automatically fills
+     * in the value for the FILE tag in the HEAD structure.
+     * 
+     * @param file
+     *            the {@link File} to write to
+     * @param charsetName
+     *            the name of the charset to use (e.g., "US-ASCII", "UTF-16")
+     *            IOException if there's a problem writing the data
+     * @throws IOException
+     *             if there's a problem writing the data
+     * @throws GedcomWriterException
+     *             if the data is malformed and cannot be written
+     */
+    public void write(File file, String charsetName) throws IOException,
+            GedcomWriterException {
         // Automatically replace the contents of the filename in the header
         gedcom.header.fileName = file.getName();
 
         OutputStream o = new FileOutputStream(file);
-        write(o);
+        write(o, charsetName);
         o.flush();
         o.close();
     }
@@ -132,15 +153,23 @@ public class GedcomWriter {
      * 
      * @param out
      *            the output stream we're writing to
+     * @param charsetName
+     *            the name of the charset to use (e.g., "US-ASCII", "UTF-16")
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    public void write(OutputStream out) throws GedcomWriterException {
+    public void write(OutputStream out, String charsetName)
+            throws GedcomWriterException {
         if (!validationSuppressed) {
             GedcomValidator gv = new GedcomValidator(gedcom);
             gv.validate();
         }
-        pw = new PrintWriter(out);
+        try {
+            pw = new PrintWriter(new OutputStreamWriter(out, charsetName));
+        } catch (UnsupportedEncodingException e) {
+            throw new GedcomWriterException(
+                    "Unable to write file with encoding " + charsetName, e);
+        }
         emitHeader();
         emitSubmissionRecord();
         emitRecords();

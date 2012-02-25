@@ -134,6 +134,12 @@ public class Individual {
      */
     public List<String> phoneNumbers = new ArrayList<String>();
 
+    // CHECKSTYLE:OFF for method length
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -318,6 +324,8 @@ public class Individual {
         }
         return true;
     }
+
+    // CHECKSTYLE:ON
 
     /**
      * Get all the individual's names formatted as a single string. Names after
