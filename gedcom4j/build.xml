@@ -2,19 +2,21 @@
 	<property file="gedcom4j.properties" />
 
 	<!-- Stuff for Cobertura -->
-	<property name="cobertura.dir" value="lib" />
+	<property name="cobertura.dir" value="lib/cobertura" />
 	<path id="cobertura.classpath">
-		<fileset dir="${cobertura.dir}">
-			<include name="cobertura.jar" />
-			<include name="asm*.jar" />
-			<include name="jakarta*.jar" />
-			<include name="log4j*.jar" />
-		</fileset>
+		<fileset dir="${cobertura.dir}" includes="*.jar" />
 	</path>
 	<taskdef resource="tasks.properties" classpathref="cobertura.classpath" />
 
-	<!-- Stuff for Checkstyle-->
+	<!-- Stuff for Checkstyle -->
 	<taskdef resource="checkstyletask.properties" classpath="lib/checkstyle-5.5-all.jar" />
+
+	<!-- Stuff for Findbugs -->
+	<property name="findbugs.home" value="lib/findbugs"/>
+	<path id="findbugs.classpath">
+		<fileset dir="${findbugs.home}" includes="*.jar" />
+	</path>
+	<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpathref="findbugs.classpath" />
 
 	<target name="clean" description="Remove all build artifacts">
 		<delete dir="tmp" />
@@ -99,7 +101,8 @@
 				<pathelement location="${instr.bin}" />
 				<pathelement location="bin" />
 				<pathelement location="testbin" />
-				<fileset dir="lib" includes="*.jar" />
+				<path refid="cobertura.classpath" />
+				<fileset dir="lib" includes="junit-4.10.jar" />
 			</classpath>
 			<batchtest todir="tmp/junit">
 				<fileset dir="test">
@@ -137,5 +140,16 @@
 		</checkstyle>
 
 		<xslt in="tmp/checkstyle/checkstyle_report.xml" out="reports/checkstyle/index.html" style="checkstyle-noframes-severity-sorted.xsl" />
+	</target>
+
+	<target name="findbugs" depends="compile">
+		<findbugs home="${findbugs.home}" output="xml" outputFile="tmp/findbugs.xml">
+			<sourcePath path="src" />
+			<class location="bin" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" output="html" outputFile="reports/findbugs.html">
+			<sourcePath path="src" />
+			<class location="bin" />
+		</findbugs>
 	</target>
 </project>
