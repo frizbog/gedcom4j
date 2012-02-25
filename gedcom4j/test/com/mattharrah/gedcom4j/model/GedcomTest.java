@@ -40,23 +40,24 @@ public class GedcomTest {
     public void testEqualsObject() {
         Gedcom g1 = new Gedcom();
         Gedcom g2 = new Gedcom();
-        assertEquals("objects are equal, so hashcodes should equal", g1, g2);
+        assertEquals("objects are equal, so equals() should return true", g1,
+                g2);
         g1.trailer = null;
         assertFalse(
-                "objects are no longer equal, so hashcodes should no longer equal",
+                "objects are no longer equal, so equals() should return false",
                 g1.equals(g2));
         g2.trailer = null;
         assertEquals(
-                "objects are equal again, so hashcodes should equal again", g1,
-                g2);
+                "objects are equal again, so equals() should return true again",
+                g1, g2);
         g1.individuals.put("FryingPan", new Individual());
         assertFalse(
-                "objects are no longer equal, so hashcodes should no longer equal",
+                "objects are no longer equal, so equals() should return false",
                 g1.equals(g2));
         g2.individuals.put("FryingPan", new Individual());
         assertEquals(
-                "objects are equal again, so hashcodes should equal again", g1,
-                g2);
+                "objects are equal again, so equals() should return true again",
+                g1, g2);
     }
 
     /**
