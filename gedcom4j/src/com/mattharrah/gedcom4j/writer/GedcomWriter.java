@@ -145,8 +145,8 @@ public class GedcomWriter {
         OutputStream o = new FileOutputStream(file);
         try {
             write(o, charsetName);
-        } finally {
             o.flush();
+        } finally {
             o.close();
         }
     }
