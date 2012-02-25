@@ -170,12 +170,18 @@ public class GedcomWriter {
             throw new GedcomWriterException(
                     "Unable to write file with encoding " + charsetName, e);
         }
-        emitHeader();
-        emitSubmissionRecord();
-        emitRecords();
-        emitTrailer();
-        pw.flush();
-        pw.close();
+        try {
+            emitHeader();
+            emitSubmissionRecord();
+            emitRecords();
+            emitTrailer();
+        } finally {
+            if (pw != null) {
+                pw.flush();
+                pw.close();
+            }
+        }
+
     }
 
     /**
