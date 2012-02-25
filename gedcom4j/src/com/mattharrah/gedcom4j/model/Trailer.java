@@ -39,9 +39,13 @@ public class Trailer {
         return obj != null && obj instanceof Trailer;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
-        // All trailer records are equivalent - they have no fields!!!
-        return 31;
+        return 1;
     }
 }

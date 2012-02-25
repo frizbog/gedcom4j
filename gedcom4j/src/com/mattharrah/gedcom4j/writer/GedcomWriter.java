@@ -76,6 +76,11 @@ import com.mattharrah.gedcom4j.validate.GedcomValidator;
 public class GedcomWriter {
 
     /**
+     * The maximum length of lines to be written out before splitting
+     */
+    private static final int MAX_LINE_LENGTH = 128;
+
+    /**
      * The Gedcom data to write
      */
     private Gedcom gedcom;
@@ -191,7 +196,7 @@ public class GedcomWriter {
      *            the line to be written
      */
     private void emitAndSplit(int level, String line) {
-        if (line.length() <= 128) {
+        if (line.length() <= MAX_LINE_LENGTH) {
             pw.println(line);
         } else {
             int i = splitSpace(line);
@@ -200,7 +205,7 @@ public class GedcomWriter {
             // Now a series of as many CONC lines as needed
             String remainder = line.substring(i + 1);
             while (remainder.length() > 0) {
-                if (remainder.length() > 128) {
+                if (remainder.length() > MAX_LINE_LENGTH) {
                     i = splitSpace(remainder);
                     pw.println((level + 1) + " CONC "
                             + remainder.substring(0, i));
@@ -1246,7 +1251,7 @@ public class GedcomWriter {
      *         BEFORE the 245th character.
      */
     private int splitSpace(String line) {
-        String t = line.substring(0, 128);
+        String t = line.substring(0, MAX_LINE_LENGTH);
         return t.lastIndexOf(' ');
     }
 }

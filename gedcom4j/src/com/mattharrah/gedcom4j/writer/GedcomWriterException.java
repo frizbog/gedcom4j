@@ -38,7 +38,7 @@ public class GedcomWriterException extends Exception {
      * Default constructor
      */
     public GedcomWriterException() {
-        ; // Nothing to do
+        super();
     }
 
     /**

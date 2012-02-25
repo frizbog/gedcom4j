@@ -124,21 +124,22 @@ public class SourceValidator extends AbstractValidator {
     /**
      * Check the call numbers on a RepositoryCitation objct
      * 
-     * @param c
+     * @param citation
+     *            the citation to check the call numbers on
      */
-    private void checkCallNumbers(RepositoryCitation c) {
-        if (c.callNumbers == null) {
+    private void checkCallNumbers(RepositoryCitation citation) {
+        if (citation.callNumbers == null) {
             if (rootValidator.autorepair) {
-                c.callNumbers = new ArrayList<SourceCallNumber>();
+                citation.callNumbers = new ArrayList<SourceCallNumber>();
                 addInfo("Call numbers collection on repository citation was null - autorepaired",
-                        c);
+                        citation);
             } else {
                 addError(
                         "Call numbers collection on repository citation is null",
-                        c);
+                        citation);
             }
         } else {
-            for (SourceCallNumber scn : c.callNumbers) {
+            for (SourceCallNumber scn : citation.callNumbers) {
                 checkOptionalString(scn.callNumber, "call number", scn);
                 if (scn.callNumber != null) {
                     checkOptionalString(scn.mediaType, "media type", scn);

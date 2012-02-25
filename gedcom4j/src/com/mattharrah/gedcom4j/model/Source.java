@@ -87,6 +87,7 @@ public class Source {
      * Constructor, takes required xref value
      * 
      * @param xref
+     *            the xref
      */
     public Source(String xref) {
         this.xref = xref;
