@@ -30,7 +30,7 @@ import org.junit.Test;
  * @author frizbog1
  * 
  */
-public class TrailerTest extends Trailer {
+public class TrailerTest {
 
     /**
      * Test method for

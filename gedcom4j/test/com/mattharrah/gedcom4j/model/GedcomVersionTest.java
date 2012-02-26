@@ -30,7 +30,7 @@ import org.junit.Test;
  * @author frizbog1
  * 
  */
-public class GedcomVersionTest extends GedcomVersion {
+public class GedcomVersionTest {
 
     /**
      * Test method for
