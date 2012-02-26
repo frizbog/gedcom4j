@@ -52,7 +52,7 @@ public class HeaderSourceDataTest {
         h1.copyright = null;
         assertFalse(h1.equals(h2));
         h2.copyright = null;
-        assertFalse(h1.equals(h2));
+        assertEquals(h1, h2);
 
         h1.name = "Frying Pan";
         assertFalse(h1.equals(h2));
@@ -61,7 +61,7 @@ public class HeaderSourceDataTest {
         h1.name = null;
         assertFalse(h1.equals(h2));
         h2.name = null;
-        assertFalse(h1.equals(h2));
+        assertEquals(h1, h2);
 
         h1.publishDate = "Frying Pan";
         assertFalse(h1.equals(h2));
@@ -70,7 +70,7 @@ public class HeaderSourceDataTest {
         h1.publishDate = null;
         assertFalse(h1.equals(h2));
         h2.publishDate = null;
-        assertFalse(h1.equals(h2));
+        assertEquals(h1, h2);
 
         assertFalse(h1.equals(null));
         assertFalse(h1.equals(this));
@@ -93,7 +93,7 @@ public class HeaderSourceDataTest {
         h1.copyright = null;
         assertFalse(h1.hashCode() == h2.hashCode());
         h2.copyright = null;
-        assertFalse(h1.hashCode() == h2.hashCode());
+        assertEquals(h1.hashCode(), h2.hashCode());
 
         h1.name = "Frying Pan";
         assertFalse(h1.hashCode() == h2.hashCode());
@@ -102,7 +102,7 @@ public class HeaderSourceDataTest {
         h1.name = null;
         assertFalse(h1.hashCode() == h2.hashCode());
         h2.name = null;
-        assertFalse(h1.hashCode() == h2.hashCode());
+        assertEquals(h1.hashCode(), h2.hashCode());
 
         h1.publishDate = "Frying Pan";
         assertFalse(h1.hashCode() == h2.hashCode());
@@ -111,7 +111,7 @@ public class HeaderSourceDataTest {
         h1.publishDate = null;
         assertFalse(h1.hashCode() == h2.hashCode());
         h2.publishDate = null;
-        assertFalse(h1.hashCode() == h2.hashCode());
+        assertEquals(h1.hashCode(), h2.hashCode());
     }
 
 }
