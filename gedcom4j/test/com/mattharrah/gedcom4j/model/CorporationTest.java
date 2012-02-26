@@ -40,6 +40,7 @@ public class CorporationTest {
     @Test
     public void testEqualsObject() {
         Corporation c1 = new Corporation();
+        assertEquals(c1, c1);
         Corporation c2 = new Corporation();
         assertEquals(
                 "CorporationTests are equal, so equals() should return true",

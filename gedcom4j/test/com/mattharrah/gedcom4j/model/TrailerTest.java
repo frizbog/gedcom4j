@@ -39,10 +39,13 @@ public class TrailerTest {
     @Test
     public void testEqualsObject() {
         Trailer t1 = new Trailer();
+        assertEquals(t1, t1);
+
         Trailer t2 = new Trailer();
         assertEquals(
                 "Hashcodes for trailers are always equal - they have no properties",
                 t1, t2);
+
         assertFalse(t1.equals(null));
         assertFalse(t1.equals(this));
     }

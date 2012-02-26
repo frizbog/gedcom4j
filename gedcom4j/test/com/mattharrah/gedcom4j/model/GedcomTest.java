@@ -39,6 +39,7 @@ public class GedcomTest {
     @Test
     public void testEqualsObject() {
         Gedcom g1 = new Gedcom();
+        assertEquals(g1, g1);
         Gedcom g2 = new Gedcom();
         assertEquals("objects are equal, so equals() should return true", g1,
                 g2);

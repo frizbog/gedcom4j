@@ -40,6 +40,8 @@ public class RepositoryTest {
     @Test
     public void testEqualsObject() {
         Repository r1 = new Repository();
+        assertEquals(r1, r1);
+
         Repository r2 = new Repository();
         assertEquals(r1, r2);
 

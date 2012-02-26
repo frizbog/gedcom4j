@@ -40,6 +40,8 @@ public class CharacterSetTest {
     @Test
     public void testEqualsObject() {
         CharacterSet cs1 = new CharacterSet();
+        assertEquals(cs1, cs1);
+
         CharacterSet cs2 = new CharacterSet();
         assertEquals("objects are equal, so equals() should return true", cs1,
                 cs2);

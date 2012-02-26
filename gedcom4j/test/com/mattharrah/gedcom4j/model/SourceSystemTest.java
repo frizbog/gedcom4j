@@ -40,14 +40,39 @@ public class SourceSystemTest {
     @Test
     public void testEqualsObject() {
         SourceSystem ss1 = new SourceSystem();
+        assertEquals(ss1, ss1);
         SourceSystem ss2 = new SourceSystem();
         assertEquals("equals() should be the same for equivalent objects", ss1,
                 ss2);
+
         ss1.productName = "Frying Pan";
         assertFalse(
                 "They're not equivalent anymore, so equals should be false",
                 ss1.equals(ss2));
         ss2.productName = "Frying Pan";
+        assertEquals("equals() should be the same for equivalent objects", ss1,
+                ss2);
+        ss1.productName = null;
+        assertFalse(
+                "They're not equivalent anymore, so equals should be false",
+                ss1.equals(ss2));
+        ss2.productName = null;
+        assertEquals("equals() should be the same for equivalent objects", ss1,
+                ss2);
+
+        ss1.systemId = "Frying Pan";
+        assertFalse(
+                "They're not equivalent anymore, so equals should be false",
+                ss1.equals(ss2));
+        ss2.systemId = "Frying Pan";
+        assertEquals("equals() should be the same for equivalent objects", ss1,
+                ss2);
+        ss1.systemId = null;
+        assertFalse(
+                "They're not equivalent anymore, so equals should be false",
+                ss1.equals(ss2));
+        ss2.systemId = null;
+
         assertEquals("equals() should be the same for equivalent objects", ss1,
                 ss2);
         assertFalse(ss1.equals(null));
@@ -69,6 +94,7 @@ public class SourceSystemTest {
                 "They're not equivalent anymore, so the hashcodes should differ",
                 ss1.hashCode() == ss2.hashCode());
         ss2.productName = "Frying Pan";
+
         assertEquals("Hashcodes should be the same for equivalent objects",
                 ss1.hashCode(), ss2.hashCode());
     }

@@ -40,6 +40,7 @@ public class GedcomVersionTest {
     @Test
     public void testEqualsObject() {
         GedcomVersion gv1 = new GedcomVersion();
+        assertEquals(gv1, gv1);
         GedcomVersion gv2 = new GedcomVersion();
         assertEquals("objects are equal, so equals() should return true", gv1,
                 gv2);

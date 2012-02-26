@@ -40,12 +40,38 @@ public class HeaderSourceDataTest {
     @Test
     public void testEqualsObject() {
         HeaderSourceData h1 = new HeaderSourceData();
+        assertEquals(h1, h1);
+
         HeaderSourceData h2 = new HeaderSourceData();
         assertEquals(h1, h2);
+
         h1.copyright = "Frying Pan";
         assertFalse(h1.equals(h2));
         h2.copyright = "Frying Pan";
         assertEquals(h1, h2);
+        h1.copyright = null;
+        assertFalse(h1.equals(h2));
+        h2.copyright = null;
+        assertFalse(h1.equals(h2));
+
+        h1.name = "Frying Pan";
+        assertFalse(h1.equals(h2));
+        h2.name = "Frying Pan";
+        assertEquals(h1, h2);
+        h1.name = null;
+        assertFalse(h1.equals(h2));
+        h2.name = null;
+        assertFalse(h1.equals(h2));
+
+        h1.publishDate = "Frying Pan";
+        assertFalse(h1.equals(h2));
+        h2.publishDate = "Frying Pan";
+        assertEquals(h1, h2);
+        h1.publishDate = null;
+        assertFalse(h1.equals(h2));
+        h2.publishDate = null;
+        assertFalse(h1.equals(h2));
+
         assertFalse(h1.equals(null));
         assertFalse(h1.equals(this));
     }
@@ -59,10 +85,33 @@ public class HeaderSourceDataTest {
         HeaderSourceData h1 = new HeaderSourceData();
         HeaderSourceData h2 = new HeaderSourceData();
         assertEquals(h1.hashCode(), h2.hashCode());
+
         h1.copyright = "Frying Pan";
         assertFalse(h1.hashCode() == h2.hashCode());
         h2.copyright = "Frying Pan";
         assertEquals(h1.hashCode(), h2.hashCode());
+        h1.copyright = null;
+        assertFalse(h1.hashCode() == h2.hashCode());
+        h2.copyright = null;
+        assertFalse(h1.hashCode() == h2.hashCode());
+
+        h1.name = "Frying Pan";
+        assertFalse(h1.hashCode() == h2.hashCode());
+        h2.name = "Frying Pan";
+        assertEquals(h1.hashCode(), h2.hashCode());
+        h1.name = null;
+        assertFalse(h1.hashCode() == h2.hashCode());
+        h2.name = null;
+        assertFalse(h1.hashCode() == h2.hashCode());
+
+        h1.publishDate = "Frying Pan";
+        assertFalse(h1.hashCode() == h2.hashCode());
+        h2.publishDate = "Frying Pan";
+        assertEquals(h1.hashCode(), h2.hashCode());
+        h1.publishDate = null;
+        assertFalse(h1.hashCode() == h2.hashCode());
+        h2.publishDate = null;
+        assertFalse(h1.hashCode() == h2.hashCode());
     }
 
 }

@@ -40,6 +40,8 @@ public class AssociationTest {
     @Test
     public void testEqualsObject() {
         Association a1 = new Association();
+        assertEquals(a1, a1);
+
         Association a2 = new Association();
         assertEquals(a1, a2);
 
