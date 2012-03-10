@@ -215,7 +215,7 @@ public final class AnselMapping {
      * Private constructor prevents instantiation and subclassing
      */
     private AnselMapping() {
-        // TODO Auto-generated constructor stub
+        super();
     }
 
 }
