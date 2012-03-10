@@ -21,14 +21,13 @@
  */
 package com.mattharrah.gedcom4j.parser;
 
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mattharrah.gedcom4j.io.GedcomReader;
 import com.mattharrah.gedcom4j.model.AbstractCitation;
 import com.mattharrah.gedcom4j.model.Address;
 import com.mattharrah.gedcom4j.model.AdoptedByWhichParent;
@@ -543,7 +542,7 @@ public class GedcomParser {
             } else if ("CHIL".equals(ch.tag)) {
                 f.children.add(getIndividual(ch.value));
             } else if ("NCHI".equals(ch.tag)) {
-                f.numChildren = Integer.parseInt(ch.value);
+                f.numChildren = Integer.valueOf(Integer.parseInt(ch.value));
             } else if ("SOUR".equals(ch.tag)) {
                 loadCitation(ch, f.citations);
             } else if ("OBJE".equals(ch.tag)) {
@@ -1604,25 +1603,24 @@ public class GedcomParser {
     }
 
     /**
-     * Read data from a buffered reader and construct a {@link StringTree}
+     * Read data from an {@link InputStream} and construct a {@link StringTree}
      * object from its contents
      * 
-     * @param f
-     *            the buffered reader
-     * @return the {@link StringTree} created from the contents of the buffered
-     *         reader
+     * @param bytes
+     *            the input stream over the bytes of the file
+     * @return the {@link StringTree} created from the contents of the input
+     *         stream
      * @throws IOException
      *             if there is a problem reading the data from the reader
      */
-    private StringTree makeStringTreeFromReader(BufferedReader f)
+    private StringTree makeStringTreeFromStream(InputStream bytes)
             throws IOException {
+        List<String> lines = new GedcomReader().getLines(bytes);
         StringTree result = new StringTree();
         result.level = -1;
-        int lineNum = 0;
         try {
-            String line = f.readLine();
-            while (line != null) {
-                lineNum++;
+            for (int lineNum = 1; lineNum <= lines.size(); lineNum++) {
+                String line = lines.get(lineNum - 1);
                 LinePieces lp = new LinePieces(line);
                 StringTree st = new StringTree();
                 st.lineNum = lineNum;
@@ -1633,11 +1631,10 @@ public class GedcomParser {
                 StringTree addTo = findLast(result, lp.level - 1);
                 addTo.children.add(st);
                 st.parent = addTo;
-                line = f.readLine();
             }
         } finally {
-            if (f != null) {
-                f.close();
+            if (bytes != null) {
+                bytes.close();
             }
         }
         return result;
@@ -1654,40 +1651,7 @@ public class GedcomParser {
      *             if there is a problem reading the file
      */
     private StringTree readFile(String filename) throws IOException {
-        return readFile(filename, System.getProperty("file.encoding"));
-    }
-
-    /**
-     * Load the flat file into a tree structure that reflects the heirarchy of
-     * its contents, using a specific charset
-     * 
-     * @param filename
-     *            the file to load
-     * @param charsetName
-     *            the name of the charset to use (e.g., "US-ASCII", "UTF-16")
-     * @return the string tree representation of the data from the file
-     * @throws IOException
-     *             if there is a problem reading the file
-     */
-    private StringTree readFile(String filename, String charsetName)
-            throws IOException {
-        BufferedReader f = new BufferedReader(new InputStreamReader(
-                new FileInputStream(filename), charsetName));
-        return makeStringTreeFromReader(f);
-    }
-
-    /**
-     * Read all the data from a stream and return the StringTree representation
-     * of that data, using the default file encoding for your JVM
-     * 
-     * @param stream
-     *            the stream to read
-     * @return the data from the stream as a StringTree
-     * @throws IOException
-     *             if there's a problem reading the data off the stream
-     */
-    private StringTree readStream(InputStream stream) throws IOException {
-        return readStream(stream, System.getProperty("file.encoding"));
+        return makeStringTreeFromStream(new FileInputStream(filename));
     }
 
     /**
@@ -1696,17 +1660,12 @@ public class GedcomParser {
      * 
      * @param stream
      *            the stream to read
-     * @param charsetName
-     *            the name of the charset to use (e.g., "US-ASCII", "UTF-16")
      * @return the data from the stream as a StringTree
      * @throws IOException
      *             if there's a problem reading the data off the stream
      */
-    private StringTree readStream(InputStream stream, String charsetName)
-            throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(
-                stream, charsetName));
-        return makeStringTreeFromReader(reader);
+    private StringTree readStream(InputStream stream) throws IOException {
+        return makeStringTreeFromStream(stream);
     }
 
     /**

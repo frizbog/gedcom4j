@@ -185,7 +185,7 @@ public class RepositoryTest {
         r2.recIdNumber = null;
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        assertFalse(r1.equals(this.hashCode()));
+        assertFalse(r1.equals(Integer.valueOf(this.hashCode())));
     }
 
 }

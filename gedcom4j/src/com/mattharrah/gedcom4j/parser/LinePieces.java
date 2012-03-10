@@ -54,7 +54,13 @@ public class LinePieces {
      */
     public LinePieces(String line) {
         String[] parts = line.split(" ");
-        level = Integer.parseInt(parts[0]);
+        try {
+            level = Integer.parseInt(parts[0]);
+        } catch (NumberFormatException nfe) {
+            System.err
+                    .println("Unable to split line into chunks and parse first chunk into integer: \n"
+                            + line);
+        }
         if (parts.length == 2) {
             tag = parts[1];
         } else if (parts.length >= 3) {

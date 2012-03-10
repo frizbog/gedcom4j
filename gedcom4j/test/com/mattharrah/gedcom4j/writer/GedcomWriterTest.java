@@ -128,40 +128,26 @@ public class GedcomWriterTest extends TestCase {
         assertNotSame(h1, h2);
         assertNotNull(h1);
 
-        assertTrue(
-                "File as read back does not start as expected",
-                writtenFileAsString
-                        .startsWith("0 HEAD\n"
-                                + "1 SOUR GEDitCOM\n"
-                                + "2 VERS 2.9.4\n"
-                                + "2 NAME GEDitCOM\n"
-                                + "2 CORP RSAC Software\n"
-                                + "3 ADDR 7108 South Pine Cone Street\n"
-                                + "4 CONT Salt Lake City, UT 84121\n"
-                                + "4 CONT USA\n"
-                                + "4 ADR1 RSAC Software\n"
-                                + "4 ADR2 7108 South Pine Cone Street\n"
-                                + "4 CITY Salt Lake City\n"
-                                + "4 STAE UT\n"
-                                + "4 POST 84121\n"
-                                + "4 CTRY USA\n"
-                                + "3 PHON +1-801-942-7768\n"
-                                + "3 PHON +1-801-555-1212\n"
-                                + "3 PHON +1-801-942-1148 (FAX) (last one!)\n"
-                                + "2 DATA Name of source data\n"
-                                + "3 DATE 1 JAN 1998\n"
-                                + "3 COPR Copyright of source data\n"
-                                + "1 DEST ANSTFILE\n"
-                                + "1 DATE 1 JAN 1998\n"
-                                + "2 TIME 13:57:24.80\n"
-                                + "1 SUBM @SUBMITTER@\n"
-                                + "1 SUBN @SUBMISSION@\n"
-                                + "1 FILE gedcom4j.writertest.ged\n"
-                                + "1 COPR Ã 1997 by H. Eichmann, parts Ã 1999-2000 by J. A. Nairn.\n"
-                                + "1 GEDC\n2 VERS 5.5\n"
-                                + "2 FORM LINEAGE-LINKED\n1 CHAR ANSEL\n"
-                                + "2 VERS ANSI Z39.47-1985\n1 LANG English\n"
-                                + "1 PLAC\n2 FORM City, County, State, Country\n"));
+        assertTrue("File as read back does not start as expected",
+                writtenFileAsString.startsWith("0 HEAD\n" + "1 SOUR GEDitCOM\n"
+                        + "2 VERS 2.9.4\n" + "2 NAME GEDitCOM\n"
+                        + "2 CORP RSAC Software\n"
+                        + "3 ADDR 7108 South Pine Cone Street\n"
+                        + "4 CONT Salt Lake City, UT 84121\n" + "4 CONT USA\n"
+                        + "4 ADR1 RSAC Software\n"
+                        + "4 ADR2 7108 South Pine Cone Street\n"
+                        + "4 CITY Salt Lake City\n" + "4 STAE UT\n"
+                        + "4 POST 84121\n" + "4 CTRY USA\n"
+                        + "3 PHON +1-801-942-7768\n"
+                        + "3 PHON +1-801-555-1212\n"
+                        + "3 PHON +1-801-942-1148 (FAX) (last one!)\n"
+                        + "2 DATA Name of source data\n"
+                        + "3 DATE 1 JAN 1998\n"
+                        + "3 COPR Copyright of source data\n"
+                        + "1 DEST ANSTFILE\n" + "1 DATE 1 JAN 1998\n"
+                        + "2 TIME 13:57:24.80\n" + "1 SUBM @SUBMITTER@\n"
+                        + "1 SUBN @SUBMISSION@\n"
+                        + "1 FILE gedcom4j.writertest.ged\n"));
         assertTrue(
                 "File as read back does not deal with line breaks in continuation lines as expected",
                 writtenFileAsString
