@@ -1651,7 +1651,12 @@ public class GedcomParser {
      *             if there is a problem reading the file
      */
     private StringTree readFile(String filename) throws IOException {
-        return makeStringTreeFromStream(new FileInputStream(filename));
+        FileInputStream fis = new FileInputStream(filename);
+        try {
+            return makeStringTreeFromStream(fis);
+        } finally {
+            fis.close();
+        }
     }
 
     /**
