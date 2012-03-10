@@ -25,12 +25,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mattharrah.gedcom4j.io.GedcomFileWriter;
 import com.mattharrah.gedcom4j.model.AbstractCitation;
 import com.mattharrah.gedcom4j.model.Address;
 import com.mattharrah.gedcom4j.model.Association;
@@ -94,9 +92,11 @@ public class GedcomWriter {
     boolean validationSuppressed = false;
 
     /**
-     * The {@link PrintWriter} we are writing to
+     * The lines of the GEDCOM transmission, which will be written using a
+     * {@link GedcomFileWriter}. Deliberately package-private so tests can
+     * access it but others can't alter it.
      */
-    private PrintWriter pw;
+    List<String> lines = new ArrayList<String>();
 
     /**
      * Constructor
@@ -120,31 +120,12 @@ public class GedcomWriter {
      *             if the data is malformed and cannot be written
      */
     public void write(File file) throws IOException, GedcomWriterException {
-        write(file, System.getProperty("file.encoding"));
-    }
-
-    /**
-     * Write the {@link Gedcom} data as a GEDCOM 5.5 file. Automatically fills
-     * in the value for the FILE tag in the HEAD structure.
-     * 
-     * @param file
-     *            the {@link File} to write to
-     * @param charsetName
-     *            the name of the charset to use (e.g., "US-ASCII", "UTF-16")
-     *            IOException if there's a problem writing the data
-     * @throws IOException
-     *             if there's a problem writing the data
-     * @throws GedcomWriterException
-     *             if the data is malformed and cannot be written
-     */
-    public void write(File file, String charsetName) throws IOException,
-            GedcomWriterException {
         // Automatically replace the contents of the filename in the header
         gedcom.header.fileName = file.getName();
 
         OutputStream o = new FileOutputStream(file);
         try {
-            write(o, charsetName);
+            write(o);
             o.flush();
         } finally {
             o.close();
@@ -152,39 +133,45 @@ public class GedcomWriter {
     }
 
     /**
+     * Write the {@link Gedcom} data in GEDCOM 5.5 format to an output stream.
+     * If the data is unicode, the data will be written in little-endian format.
+     * 
+     * @param out
+     *            the output stream we're writing to
+     * @throws GedcomWriterException
+     *             if the data is malformed and cannot be written
+     */
+    public void write(OutputStream out) throws GedcomWriterException {
+        write(out, true);
+    }
+
+    /**
      * Write the {@link Gedcom} data in GEDCOM 5.5 format to an output stream
      * 
      * @param out
      *            the output stream we're writing to
-     * @param charsetName
-     *            the name of the charset to use (e.g., "US-ASCII", "UTF-16")
+     * @param littleEndianForUnicode
+     *            if writing unicode, should the byte-order be little-endian?
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    public void write(OutputStream out, String charsetName)
+    public void write(OutputStream out, boolean littleEndianForUnicode)
             throws GedcomWriterException {
         if (!validationSuppressed) {
             GedcomValidator gv = new GedcomValidator(gedcom);
             gv.validate();
         }
+        emitHeader();
+        emitSubmissionRecord();
+        emitRecords();
+        emitTrailer();
         try {
-            pw = new PrintWriter(new OutputStreamWriter(out, charsetName));
-        } catch (UnsupportedEncodingException e) {
-            throw new GedcomWriterException(
-                    "Unable to write file with encoding " + charsetName, e);
+            GedcomFileWriter gfw = new GedcomFileWriter(lines);
+            gfw.setLittleEndianForUnicode(littleEndianForUnicode);
+            gfw.write(out);
+        } catch (IOException e) {
+            throw new GedcomWriterException("Unable to write file", e);
         }
-        try {
-            emitHeader();
-            emitSubmissionRecord();
-            emitRecords();
-            emitTrailer();
-        } finally {
-            if (pw != null) {
-                pw.flush();
-                pw.close();
-            }
-        }
-
     }
 
     /**
@@ -235,21 +222,21 @@ public class GedcomWriter {
      */
     private void emitAndSplit(int level, String line) {
         if (line.length() <= MAX_LINE_LENGTH) {
-            pw.println(line);
+            lines.add(line);
         } else {
             int i = splitSpace(line);
             // First part
-            pw.println(line.substring(0, i));
+            lines.add(line.substring(0, i));
             // Now a series of as many CONC lines as needed
             String remainder = line.substring(i + 1);
             while (remainder.length() > 0) {
                 if (remainder.length() > MAX_LINE_LENGTH) {
                     i = splitSpace(remainder);
-                    pw.println((level + 1) + " CONC "
+                    lines.add((level + 1) + " CONC "
                             + remainder.substring(0, i));
                     remainder = remainder.substring(i + 1);
                 } else {
-                    pw.println((level + 1) + " CONC " + remainder);
+                    lines.add((level + 1) + " CONC " + remainder);
                     remainder = "";
                 }
             }
@@ -486,7 +473,7 @@ public class GedcomWriter {
         if (header == null) {
             header = new Header();
         }
-        pw.println("0 HEAD");
+        lines.add("0 HEAD");
         emitSourceSystem(header.sourceSystem);
         emitTagIfValueNotNull(1, "DEST", header.destinationSystem);
         if (header.date != null) {
@@ -826,7 +813,7 @@ public class GedcomWriter {
         // if (noteLineNum++ == 0) {
         // emitTagIfValueNotNull(level, xref, "NOTE", n);
         // } else {
-        // pw.println(level + 1 + " " + "CONT"
+        // lines.add(level + 1 + " " + "CONT"
         // + (n == null ? "" : " " + n));
         // }
         // }
@@ -1142,7 +1129,7 @@ public class GedcomWriter {
      *            the tag for the line of the file
      */
     private void emitTag(int level, String tag) {
-        pw.println(level + " " + tag);
+        lines.add(level + " " + tag);
     }
 
     /**
@@ -1156,11 +1143,12 @@ public class GedcomWriter {
      *            the tag for the line of the file
      */
     private void emitTag(int level, String xref, String tag) {
-        pw.print(level);
+        StringBuilder line = new StringBuilder(Integer.toString(level));
         if (xref != null && !xref.isEmpty()) {
-            pw.print(" " + xref);
+            line.append(" " + xref);
         }
-        pw.println(" " + tag);
+        line.append(" " + tag);
+        lines.add(line.toString());
     }
 
     /**
@@ -1217,12 +1205,11 @@ public class GedcomWriter {
      */
     private void emitTagWithOptionalValue(int level, String tag, String value)
             throws GedcomWriterException {
-
-        pw.print(level + " " + tag);
+        StringBuilder line = new StringBuilder(level + " " + tag);
         if (value != null) {
-            pw.print(" " + value);
+            line.append(" " + value);
         }
-        pw.println();
+        lines.add(line.toString());
     }
 
     /**
@@ -1262,18 +1249,19 @@ public class GedcomWriter {
             throw new GedcomWriterException("Required value for tag " + tag
                     + " at level " + level + " was null or blank");
         }
-        pw.print(level);
+        StringBuilder line = new StringBuilder(Integer.toString(level));
         if (xref != null && !xref.isEmpty()) {
-            pw.print(" " + xref);
+            line.append(" " + xref);
         }
-        pw.println(" " + tag + " " + value);
+        line.append(" " + tag + " " + value);
+        lines.add(line.toString());
     }
 
     /**
      * Write out the trailer record
      */
     private void emitTrailer() {
-        pw.println("0 TRLR");
+        lines.add("0 TRLR");
     }
 
     /**

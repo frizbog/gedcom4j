@@ -21,16 +21,16 @@
  */
 package com.mattharrah.gedcom4j.writer;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
+import com.mattharrah.gedcom4j.io.GedcomFileReader;
 import com.mattharrah.gedcom4j.model.Family;
 import com.mattharrah.gedcom4j.model.Gedcom;
 import com.mattharrah.gedcom4j.model.Header;
@@ -65,10 +65,16 @@ public class GedcomWriterTest extends TestCase {
      * the test.
      */
     private Gedcom gedcomReadback;
+
     /**
-     * The entire contents of the written out file, as a string.
+     * Lines that are read back from the files we write during the test
      */
-    private String writtenFileAsString;
+    private List<String> readbackLines;
+
+    /**
+     * The lines of the file that are written during the test
+     */
+    private List<String> writtenLines;
 
     /**
      * Constructor. Does some test fixture initialization once for the whole
@@ -92,8 +98,10 @@ public class GedcomWriterTest extends TestCase {
         GedcomWriter gw = new GedcomWriter(gedcomOrig);
         File tempFile = new File("tmp/gedcom4j.writertest.ged");
         gw.write(tempFile);
+        writtenLines = gw.lines;
 
-        writtenFileAsString = loadFileIntoString(tempFile);
+        GedcomFileReader gfr = new GedcomFileReader();
+        readbackLines = gfr.getLines(new FileInputStream(tempFile));
 
         // Reload the file we just wrote
         p = new GedcomParser();
@@ -113,10 +121,6 @@ public class GedcomWriterTest extends TestCase {
         Map<String, Family> fm2 = gedcomReadback.families;
         assertNotSame(fm1, fm2);
         assertEquals(fm1.keySet(), fm2.keySet());
-        assertTrue(writtenFileAsString.contains("0 @F6@ FAM\n"
-                + "1 HUSB @I14@\n1 WIFE @I13@\n1 CHIL @PERSON5@\n"
-                + "1 NOTE @N37@\n1 RIN 6\n1 CHAN\n"
-                + "2 DATE 11 Jan 2001\n3 TIME 16:51:48\n"));
         for (String xref : fm1.keySet()) {
             Family f1 = fm1.get(xref);
             Family f2 = fm2.get(xref);
@@ -134,48 +138,29 @@ public class GedcomWriterTest extends TestCase {
         assertNotSame(h1, h2);
         assertNotNull(h1);
 
-        assertTrue("File as read back does not start as expected",
-                writtenFileAsString.startsWith("0 HEAD\n" + "1 SOUR GEDitCOM\n"
-                        + "2 VERS 2.9.4\n" + "2 NAME GEDitCOM\n"
-                        + "2 CORP RSAC Software\n"
-                        + "3 ADDR 7108 South Pine Cone Street\n"
-                        + "4 CONT Salt Lake City, UT 84121\n" + "4 CONT USA\n"
-                        + "4 ADR1 RSAC Software\n"
-                        + "4 ADR2 7108 South Pine Cone Street\n"
-                        + "4 CITY Salt Lake City\n" + "4 STAE UT\n"
-                        + "4 POST 84121\n" + "4 CTRY USA\n"
-                        + "3 PHON +1-801-942-7768\n"
-                        + "3 PHON +1-801-555-1212\n"
-                        + "3 PHON +1-801-942-1148 (FAX) (last one!)\n"
-                        + "2 DATA Name of source data\n"
-                        + "3 DATE 1 JAN 1998\n"
-                        + "3 COPR Copyright of source data\n"
-                        + "1 DEST ANSTFILE\n" + "1 DATE 1 JAN 1998\n"
-                        + "2 TIME 13:57:24.80\n" + "1 SUBM @SUBMITTER@\n"
-                        + "1 SUBN @SUBMISSION@\n"
-                        + "1 FILE gedcom4j.writertest.ged\n"));
-        assertTrue(
-                "File as read back does not deal with line breaks in continuation lines as expected",
-                writtenFileAsString
-                        .contains("1 NOTE This file demonstrates all tags that are allowed in GEDCOM 5.5. "
-                                + "Here are some comments about the HEADER record and\n"
-                                + "2 CONC comments about where to look for information on the other 9 types of "
-                                + "GEDCOM records. Most other records will have their own\n"
-                                + "2 CONC notes that describe what to look for in that record and what to hope the "
-                                + "importing software will find.\n"
-                                + "2 CONT \n"
-                                + "2 CONT Many applications will fail to import these notes. The notes are therefore "
-                                + "also provided with the files as a plain-text\n"
-                                + "2 CONC \"Read-Me\" file."));
-        assertTrue(
+        int i = 0;
+        assertLineSequence("Header not as expected in readback", readbackLines,
+                "0 HEAD", "1 SOUR GEDitCOM", "2 VERS 2.9.4", "2 NAME GEDitCOM",
+                "2 CORP RSAC Software", "3 ADDR 7108 South Pine Cone Street",
+                "4 CONT Salt Lake City, UT 84121", "4 CONT USA");
+
+        assertLineSequence(
+                "Readback file with line breaks in CONC/CONT lines as expected",
+                readbackLines,
+                "1 NOTE This file demonstrates all tags that are allowed in GEDCOM 5.5. Here are some comments about the HEADER record and",
+                "2 CONC comments about where to look for information on the other 9 types of GEDCOM records. Most other records will have their own",
+                "2 CONC notes that describe what to look for in that record and what to hope the importing software will find.",
+                "2 CONT ",
+                "2 CONT Many applications will fail to import these notes. The notes are therefore also provided with the files as a plain-text",
+                "2 CONC \"Read-Me\" file.");
+        assertLineSequence(
                 "File as read back does not preserve whitespace as expected",
-                writtenFileAsString
-                        .contains("2 CONT \n"
-                                + "2 CONT      Name: Standard GEDCOM Filelinks\n"
-                                + "2 CONT      Name: Nonstandard Multimedia Filelinks\n"
-                                + "2 CONT      Name: General Custom Filelinks\n"
-                                + "2 CONT      Name: Extra URL Filelinks\n"
-                                + "2 CONT           These records link to"));
+                readbackLines,
+                "2 CONT INDIVIDUAL Records:",
+                "2 CONT      This file has a small number of INDIVIDUAL records. The record named \"Joseph Tag Torture\" has all possible tags for",
+                "2 CONC an INDIVIDUAL record. All remaining  individuals have less tags. Some test specific features; for example:",
+                "2 CONT ", "2 CONT      Name: Standard GEDCOM Filelinks",
+                "2 CONT      Name: Nonstandard Multimedia Filelinks");
 
     }
 
@@ -195,26 +180,29 @@ public class GedcomWriterTest extends TestCase {
      */
     public void testMultimedia() {
         assertNotSame(gedcomOrig.multimedia, gedcomReadback.multimedia);
-        assertTrue(writtenFileAsString.contains("1 OBJE\n2 FORM jpeg\n"
-                + "2 TITL Submitter Multimedia File\n2 FILE ImgFile.JPG\n"
-                + "2 NOTE @N1@\n1 "));
-        assertTrue(writtenFileAsString
-                .contains("0 @M1@ OBJE\n"
-                        + "1 FORM PICT\n"
-                        + "1 TITL Dummy Multimedia Object\n"
-                        + "1 NOTE Here are some notes on this multimedia object.\n"
-                        + "2 CONT If decoded it should be an image of a flower.\n"
-                        + "1 BLOB\n"
-                        + "2 CONT .HM.......k.1..F.jwA.Dzzzzw............A....1.........0U.66..E.8\n"
-                        + "2 CONT .......A..k.a6.A.......A..k.........../6....G.......0../..U.....\n"
-                        + "2 CONT .w1/m........HC0..../...zzzzzzzz..5zzk..AnA..U..W6U....2rRrRrRrR\n"
-                        + "2 CONT .Dw...............k.1.......1..A...5ykE/zzzx/.g//.Hxzk6/.Tzy/.k1\n"
-                        + "2 CONT /Dw/.Tvz.E5zzUE9/kHz.Tw2/DzzzEEA.kE2zk5yzk2/zzs21.U2/Dw/.Tw/.Tzy\n"
-                        + "2 CONT /.fy/.HzzkHzzzo21Ds00.E2.UE2.U62/.k./Ds0.UE0/Do0..E8/UE2.U62.U9w\n"
-                        + "2 CONT /.Tx/.20.jg2/jo2..9u/.0U.6A.zk\n"
-                        + "1 REFN User Reference Number\n"
-                        + "2 TYPE User Reference Type\n1 RIN 1\n"
-                        + "1 CHAN\n2 DATE 14 Jan 2001\n3 TIME 14:10:31"));
+        assertLineSequence("Multimedia via reference not found as expected",
+                readbackLines, "2 FORM PICT", "2 TITL Macintosh PICT file",
+                "2 FILE ImgFile.PIC", "1 OBJE", "2 FORM PNTG",
+                "2 TITL Macintosh MacPaint file", "2 FILE ImgFile.MAC",
+                "1 OBJE");
+        assertLineSequence(
+                "Embedded and encoded multimedia not found as expected",
+                readbackLines,
+                "0 @M1@ OBJE",
+                "1 FORM PICT",
+                "1 TITL Dummy Multimedia Object",
+                "1 NOTE Here are some notes on this multimedia object.",
+                "2 CONT If decoded it should be an image of a flower.",
+                "1 BLOB",
+                "2 CONT .HM.......k.1..F.jwA.Dzzzzw............A....1.........0U.66..E.8",
+                "2 CONT .......A..k.a6.A.......A..k.........../6....G.......0../..U.....",
+                "2 CONT .w1/m........HC0..../...zzzzzzzz..5zzk..AnA..U..W6U....2rRrRrRrR",
+                "2 CONT .Dw...............k.1.......1..A...5ykE/zzzx/.g//.Hxzk6/.Tzy/.k1",
+                "2 CONT /Dw/.Tvz.E5zzUE9/kHz.Tw2/DzzzEEA.kE2zk5yzk2/zzs21.U2/Dw/.Tw/.Tzy",
+                "2 CONT /.fy/.HzzkHzzzo21Ds00.E2.UE2.U62/.k./Ds0.UE0/Do0..E8/UE2.U62.U9w",
+                "2 CONT /.Tx/.20.jg2/jo2..9u/.0U.6A.zk",
+                "1 REFN User Reference Number", "2 TYPE User Reference Type",
+                "1 RIN 1", "1 CHAN", "2 DATE 14 Jan 2001", "3 TIME 14:10:31");
         assertEquals(gedcomOrig.multimedia, gedcomReadback.multimedia);
     }
 
@@ -223,9 +211,11 @@ public class GedcomWriterTest extends TestCase {
      */
     public void testNotes() {
         assertNotSame(gedcomOrig.notes, gedcomReadback.notes);
-        assertTrue(writtenFileAsString
-                .contains("0 @N19@ NOTE A note about this LDS spouse sealing source.\n"
-                        + "1 CHAN\n2 DATE 12 Mar 2000\n3 TIME 12:32:13\n"));
+        assertLineSequence(
+                "Note with xref and text on same line not found as expected",
+                readbackLines,
+                "0 @N19@ NOTE A note about this LDS spouse sealing source.",
+                "1 CHAN", "2 DATE 12 Mar 2000", "3 TIME 12:32:13");
         assertEquals(gedcomOrig.notes.keySet(), gedcomReadback.notes.keySet());
         for (String xref : gedcomOrig.notes.keySet()) {
             Note n1 = gedcomOrig.notes.get(xref);
@@ -238,22 +228,19 @@ public class GedcomWriterTest extends TestCase {
      * Test the writing of repositories.
      */
     public void testRepositories() {
-        assertTrue(
-                "The file as read back should have repository @R1@ in the expected format",
-                writtenFileAsString.contains("0 @R1@ REPO\n"
-                        + "1 NAME Family History Library\n"
-                        + "1 ADDR 35 North West Temple\n"
-                        + "2 CONT Salt Lake City, UT 84111\n2 CONT USA\n"
-                        + "2 ADR1 35 North West Temple\n"
-                        + "2 ADR2 Across the street from Temple Square\n"
-                        + "2 CITY Salt Lake City\n2 STAE Utah\n"
-                        + "2 POST 84111\n2 CTRY USA\n1 NOTE @N2@\n"
-                        + "1 REFN User Ref Number\n2 TYPE Sample\n"
-                        + "1 RIN 1\n"
-                        + "1 PHON +1-801-240-2331 (information)\n"
-                        + "1 PHON +1-801-240-1278 (gifts & donations)\n"
-                        + "1 PHON +1-801-240-2584 (support)\n1 CHAN\n"
-                        + "2 DATE 12 Mar 2000\n3 TIME 10:36:02"));
+        assertLineSequence("Repository @R1@ not read back as expected",
+                readbackLines, "0 @R1@ REPO", "1 NAME Family History Library",
+                "1 ADDR 35 North West Temple",
+                "2 CONT Salt Lake City, UT 84111", "2 CONT USA",
+                "2 ADR1 35 North West Temple",
+                "2 ADR2 Across the street from Temple Square",
+                "2 CITY Salt Lake City", "2 STAE Utah", "2 POST 84111",
+                "2 CTRY USA", "1 NOTE @N2@", "1 REFN User Ref Number",
+                "2 TYPE Sample", "1 RIN 1",
+                "1 PHON +1-801-240-2331 (information)",
+                "1 PHON +1-801-240-1278 (gifts & donations)",
+                "1 PHON +1-801-240-2584 (support)", "1 CHAN",
+                "2 DATE 12 Mar 2000", "3 TIME 10:36:02");
         assertEquals("Lists of repositories should be equal",
                 gedcomOrig.repositories, gedcomReadback.repositories);
     }
@@ -263,11 +250,11 @@ public class GedcomWriterTest extends TestCase {
      */
     public void testSources() {
         assertNotSame(gedcomOrig.sources, gedcomReadback.sources);
-        assertTrue(writtenFileAsString.contains("0 @SR2@ SOUR\n"
-                + "1 AUTH Second Source Author\n"
-                + "1 TITL All I Know About GEDCOM, I Learned on the Internet\n"
-                + "1 ABBR What I Know About GEDCOM\n1 NOTE @N16@\n"
-                + "1 RIN 2\n1 CHAN\n2 DATE 11 Jan 2001\n3 TIME 16:21:39"));
+        assertLineSequence("Source @SR2@ not read back as expected",
+                readbackLines, "0 @SR2@ SOUR", "1 AUTH Second Source Author",
+                "1 TITL All I Know About GEDCOM, I Learned on the Internet",
+                "1 ABBR What I Know About GEDCOM", "1 NOTE @N16@", "1 RIN 2",
+                "1 CHAN", "2 DATE 11 Jan 2001", "3 TIME 16:21:39");
         assertEquals(gedcomOrig.sources, gedcomReadback.sources);
     }
 
@@ -277,44 +264,36 @@ public class GedcomWriterTest extends TestCase {
     public void testSubmitterSubmissions() {
         assertEquals(gedcomOrig.submission, gedcomReadback.submission);
         assertEquals(gedcomOrig.submitters, gedcomReadback.submitters);
-        assertTrue(
-                "File as read back does not contain submission record as expected",
-                writtenFileAsString.contains("0 @SUBMISSION@ SUBN\n"
-                        + "1 SUBM @SUBMITTER@\n1 FAMF NameOfFamilyFile\n"
-                        + "1 TEMP Abbreviated Temple Code\n1 ANCE 1\n"
-                        + "1 DESC 1\n1 ORDI yes\n1 RIN 1\n"));
-        assertTrue(
-                "File as read back is does not have the primary submitter included as expected",
-                writtenFileAsString.contains("0 @SUBMITTER@ SUBM\n"
-                        + "1 NAME John A. Nairn\n"
-                        + "1 ADDR Submitter address line 1\n"
-                        + "2 CONT Submitter address line 2\n"
-                        + "2 CONT Submitter address line 3\n"
-                        + "2 CONT Submitter address line 4\n"
-                        + "2 ADR1 Submitter address line 1\n"
-                        + "2 ADR2 Submitter address line 2\n"
-                        + "2 CITY Submitter address city\n"
-                        + "2 STAE Submitter address state\n"
-                        + "2 POST Submitter address ZIP code\n"
-                        + "2 CTRY Submitter address country\n" + "1 OBJE\n"
-                        + "2 FORM jpeg\n"
-                        + "2 TITL Submitter Multimedia File\n"
-                        + "2 FILE ImgFile.JPG\n" + "2 NOTE @N1@\n"
-                        + "1 LANG English\n"
-                        + "1 PHON Submitter phone number 1\n"
-                        + "1 PHON Submitter phone number 2\n"
-                        + "1 PHON Submitter phone number 3 (last one!)\n"
-                        + "1 RFN Submitter Registered RFN\n"
-                        + "1 RIN 1\n1 CHAN\n"
-                        + "2 DATE 7 Sep 2000\n3 TIME 8:35:36"));
-        assertTrue(
+        assertLineSequence("Submission @SUBMISSION@ not read back as expected",
+                readbackLines, "0 @SUBMISSION@ SUBN", "1 SUBM @SUBMITTER@",
+                "1 FAMF NameOfFamilyFile", "1 TEMP Abbreviated Temple Code",
+                "1 ANCE 1", "1 DESC 1", "1 ORDI yes", "1 RIN 1");
+        assertLineSequence(
+                "Primary submitter @SUBMITTER@ not read back as expected",
+                readbackLines, "0 @SUBMITTER@ SUBM", "1 NAME John A. Nairn",
+                "1 ADDR Submitter address line 1",
+                "2 CONT Submitter address line 2",
+                "2 CONT Submitter address line 3",
+                "2 CONT Submitter address line 4",
+                "2 ADR1 Submitter address line 1",
+                "2 ADR2 Submitter address line 2",
+                "2 CITY Submitter address city",
+                "2 STAE Submitter address state",
+                "2 POST Submitter address ZIP code",
+                "2 CTRY Submitter address country", "1 OBJE", "2 FORM jpeg",
+                "2 TITL Submitter Multimedia File", "2 FILE ImgFile.JPG",
+                "2 NOTE @N1@", "1 LANG English",
+                "1 PHON Submitter phone number 1",
+                "1 PHON Submitter phone number 2",
+                "1 PHON Submitter phone number 3 (last one!)",
+                "1 RFN Submitter Registered RFN", "1 RIN 1", "1 CHAN",
+                "2 DATE 7 Sep 2000", "3 TIME 8:35:36");
+        assertLineSequence(
                 "File as read back does not have the expected secondary submitter",
-                writtenFileAsString
-                        .contains("0 @SM2@ SUBM\n"
-                                + "1 NAME Secondary Submitter\n"
-                                + "1 ADDR Secondary Submitter Address 1\n"
-                                + "2 CONT Secondary Submitter Address 2\n1 LANG English\n"
-                                + "1 RIN 2\n1 CHAN\n2 DATE 12 Mar 2000\n3 TIME 10:38:33"));
+                readbackLines, "0 @SM2@ SUBM", "1 NAME Secondary Submitter",
+                "1 ADDR Secondary Submitter Address 1",
+                "2 CONT Secondary Submitter Address 2", "1 LANG English",
+                "1 RIN 2", "1 CHAN", "2 DATE 12 Mar 2000", "3 TIME 10:38:33");
 
     }
 
@@ -336,13 +315,14 @@ public class GedcomWriterTest extends TestCase {
         gw.validationSuppressed = true;
         File tempFile = new File("tmp/gedcom4j.emptywritertest.ged");
         gw.write(tempFile);
+        writtenLines = gw.lines;
 
         // Read back the empty file and check its contents
-        String string = loadFileIntoString(tempFile);
-
-        assertEquals("0 HEAD\n1 FILE gedcom4j.emptywritertest.ged\n"
-                + "1 GEDC\n2 VERS 5.5\n2 FORM LINEAGE-LINKED\n"
-                + "1 CHAR ANSEL\n0 @SUBMISSION@ SUBN\n0 TRLR\n", string);
+        assertLineSequence("Empty file contents not as expected",
+                readBack(tempFile), "0 HEAD",
+                "1 FILE gedcom4j.emptywritertest.ged", "1 GEDC", "2 VERS 5.5",
+                "2 FORM LINEAGE-LINKED", "1 CHAR ANSEL", "0 @SUBMISSION@ SUBN",
+                "0 TRLR");
 
     }
 
@@ -359,35 +339,68 @@ public class GedcomWriterTest extends TestCase {
         // Make sure we actually have test fixtures to work with
         assertNotNull(gedcomOrig);
         assertNotNull(gedcomReadback);
-        assertNotNull(writtenFileAsString);
     }
 
     /**
-     * Loads a file into a string for easy test assertions
+     * <p>
+     * Assert that a sequence of strings appears, in order, in the supplied
+     * {@link List} of strings.
+     * </p>
      * 
-     * @param file
-     *            the file
-     * @return the file's contents in a string
-     * @throws IOException
-     *             if the file can't be read or written
+     * @param lookIn
+     *            the {@link List} of Strings to be searched
+     * @param lookFor
+     *            the strings to find in <code>lookIn</code>
      */
-    private String loadFileIntoString(File file) throws IOException {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        FileReader fileReader = new FileReader(file);
-        BufferedReader br = new BufferedReader(fileReader);
-        try {
-            String s = br.readLine();
-            while (s != null) {
-                pw.println(s);
-                s = br.readLine();
+    private void assertLineSequence(String failureMessage, List<String> lookIn,
+            String... lookFor) {
+        int indexOf = lookIn.indexOf(lookFor[0]);
+        assertTrue(failureMessage + ": first string being looked for (\""
+                + lookFor[0]
+                + "\") was not found in in the list being searched",
+                indexOf >= 0);
+
+        boolean matches = true; // optimistic
+        for (int i = 0; i < lookFor.length; i++) {
+            if (!lookFor[i].equals(lookIn.get(i + indexOf))) {
+                matches = false;
+                break;
             }
-            pw.flush();
-            String string = sw.toString();
-            return string;
-        } finally {
-            br.close();
-            pw.close();
         }
+
+        if (matches == false) {
+            System.out.println("\n----------------------------------");
+            System.out.println(failureMessage);
+            System.out.println("Line sequence mismatch");
+            System.out.println("Starting at line " + indexOf);
+            for (int i = 0; i < lookFor.length; i++) {
+                if (!lookIn.get(indexOf + i).equals(lookFor[i])) {
+                    System.out.println("+" + i);
+                    System.out.println("lookIn : |" + lookIn.get(indexOf + i)
+                            + "|");
+                    System.out.println("lookFor: |" + lookFor[i] + "|");
+                    System.out.println();
+                }
+            }
+        }
+        assertTrue(failureMessage, matches);
     }
+
+    /**
+     * Read back the lines of a file
+     * 
+     * @param fileToRead
+     *            the file to read
+     * @return the lines of the file
+     * @throws IOException
+     *             if the file can't be read
+     * @throws FileNotFoundException
+     *             if the file can't be found
+     */
+    private List<String> readBack(File fileToRead)
+            throws FileNotFoundException, IOException {
+        GedcomFileReader gfr = new GedcomFileReader();
+        return gfr.getLines(new FileInputStream(fileToRead));
+    }
+
 }
