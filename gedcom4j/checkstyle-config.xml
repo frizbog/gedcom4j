@@ -39,8 +39,8 @@
 	<!-- See http://checkstyle.sf.net/config_whitespace.html -->
 	<module name="FileTabCharacter" />
 
-	<!--  Allow suppressing checks with CHECKSTYLE:OFF and CHECKSTYLE:ON in comments -->
-	<module name="SuppressionCommentFilter"/>
+	<!-- Allow suppressing checks with CHECKSTYLE:OFF and CHECKSTYLE:ON in comments -->
+	<module name="SuppressionCommentFilter" />
 
 	<!-- Miscellaneous other checks. -->
 	<!-- See http://checkstyle.sf.net/config_misc.html -->
@@ -49,8 +49,8 @@
 		<property name="message" value="Line has trailing spaces."/> </module> -->
 	<module name="TreeWalker">
 
-		<!--  required for the suppression comments filter to work -->
- 		<module name="FileContentsHolder"/>
+		<!-- required for the suppression comments filter to work -->
+		<module name="FileContentsHolder" />
 
 
 		<!-- Checks for Javadoc comments. -->
@@ -149,9 +149,6 @@
 		</module>
 		<module name="IllegalInstantiation" />
 		<module name="InnerAssignment" />
-		<module name="MagicNumber" >
-			<property name="ignoreNumbers" value="-1, 0, 1, 2, 3"/>
-		</module>
 		<module name="MissingSwitchDefault" />
 		<module name="RedundantThrows" />
 		<module name="SimplifyBooleanExpression" />
