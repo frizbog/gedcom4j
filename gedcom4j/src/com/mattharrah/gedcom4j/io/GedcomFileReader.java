@@ -28,14 +28,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.mattharrah.gedcom4j.parser.GedcomParser;
+
 /**
- * A class for reading the gedcom files and handling ANSEL coding if needed.
- * This class is needed because the built-in character encodings in Java don't
- * support ANSEL encoding, which is the default encoding for gedcom files.
+ * A class for reading the gedcom files and handling ASCII, ANSEL, and UNICODE
+ * coding as needed. It's basic job is to turn the bytes from the file into a
+ * buffer (a {@link List} of Strings) that the {@link GedcomParser} can work
+ * with. This class is needed because the built-in character encodings in Java
+ * don't support ANSEL encoding, which is the default encoding for gedcom files.
  * 
  * @author frizbog1
  */
-public class GedcomReader {
+public class GedcomFileReader {
 
     /**
      * The encoding that this reader is using

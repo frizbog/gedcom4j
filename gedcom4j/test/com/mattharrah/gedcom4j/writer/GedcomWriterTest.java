@@ -35,6 +35,7 @@ import com.mattharrah.gedcom4j.model.Family;
 import com.mattharrah.gedcom4j.model.Gedcom;
 import com.mattharrah.gedcom4j.model.Header;
 import com.mattharrah.gedcom4j.model.Individual;
+import com.mattharrah.gedcom4j.model.Note;
 import com.mattharrah.gedcom4j.parser.GedcomParser;
 import com.mattharrah.gedcom4j.parser.GedcomParserException;
 
@@ -108,15 +109,20 @@ public class GedcomWriterTest extends TestCase {
      * Test that the families are written out and read back the same
      */
     public void testFamilies() {
-        Map<String, Family> f1 = gedcomOrig.families;
-        Map<String, Family> f2 = gedcomReadback.families;
-        assertNotSame(f1, f2);
-        assertEquals(f1.keySet().size(), f2.keySet().size());
+        Map<String, Family> fm1 = gedcomOrig.families;
+        Map<String, Family> fm2 = gedcomReadback.families;
+        assertNotSame(fm1, fm2);
+        assertEquals(fm1.keySet(), fm2.keySet());
         assertTrue(writtenFileAsString.contains("0 @F6@ FAM\n"
                 + "1 HUSB @I14@\n1 WIFE @I13@\n1 CHIL @PERSON5@\n"
                 + "1 NOTE @N37@\n1 RIN 6\n1 CHAN\n"
                 + "2 DATE 11 Jan 2001\n3 TIME 16:51:48\n"));
-        assertEquals(f1, f2);
+        for (String xref : fm1.keySet()) {
+            Family f1 = fm1.get(xref);
+            Family f2 = fm2.get(xref);
+            assertEquals("Family " + xref + " should be the same but isn't",
+                    f1, f2);
+        }
     }
 
     /**
@@ -220,7 +226,12 @@ public class GedcomWriterTest extends TestCase {
         assertTrue(writtenFileAsString
                 .contains("0 @N19@ NOTE A note about this LDS spouse sealing source.\n"
                         + "1 CHAN\n2 DATE 12 Mar 2000\n3 TIME 12:32:13\n"));
-        assertEquals(gedcomOrig.notes, gedcomReadback.notes);
+        assertEquals(gedcomOrig.notes.keySet(), gedcomReadback.notes.keySet());
+        for (String xref : gedcomOrig.notes.keySet()) {
+            Note n1 = gedcomOrig.notes.get(xref);
+            Note n2 = gedcomReadback.notes.get(xref);
+            assertEquals("Note " + xref + " should be equal, but isn't", n1, n2);
+        }
     }
 
     /**

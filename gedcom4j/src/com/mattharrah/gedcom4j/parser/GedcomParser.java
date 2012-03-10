@@ -27,7 +27,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mattharrah.gedcom4j.io.GedcomReader;
+import com.mattharrah.gedcom4j.io.GedcomFileReader;
 import com.mattharrah.gedcom4j.model.AbstractCitation;
 import com.mattharrah.gedcom4j.model.Address;
 import com.mattharrah.gedcom4j.model.AdoptedByWhichParent;
@@ -1615,7 +1615,7 @@ public class GedcomParser {
      */
     private StringTree makeStringTreeFromStream(InputStream bytes)
             throws IOException {
-        List<String> lines = new GedcomReader().getLines(bytes);
+        List<String> lines = new GedcomFileReader().getLines(bytes);
         StringTree result = new StringTree();
         result.level = -1;
         try {
