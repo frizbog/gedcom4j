@@ -52,6 +52,7 @@ public abstract class AbstractValidatorTestCase extends TestCase {
      * Constructor that takes a test name
      * 
      * @param name
+     *            the test name
      */
     public AbstractValidatorTestCase(String name) {
         super(name);

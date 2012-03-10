@@ -29,7 +29,7 @@ import java.util.Map.Entry;
  * @author frizbog1
  * 
  */
-public class AnselMapping {
+public final class AnselMapping {
 
     /**
      * The encoding mapping from characters to arrays of byte
@@ -199,8 +199,8 @@ public class AnselMapping {
     /**
      * Encode a UTF-16 character into an ANSEL byte
      * 
-     * @param b
-     *            the ANSEL byte
+     * @param c
+     *            the ANSEL byte (as a char)
      * @return the character (in UTF-16) represented by the byte
      */
     public static char encode(char c) {
@@ -209,6 +209,13 @@ public class AnselMapping {
             return b.charValue();
         }
         return c;
+    }
+
+    /**
+     * Private constructor prevents instantiation and subclassing
+     */
+    private AnselMapping() {
+        // TODO Auto-generated constructor stub
     }
 
 }

@@ -23,10 +23,10 @@ package com.mattharrah.gedcom4j.writer;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import junit.framework.TestCase;
 
@@ -72,11 +72,6 @@ public class GedcomWriterTest extends TestCase {
     private List<String> readbackLines;
 
     /**
-     * The lines of the file that are written during the test
-     */
-    private List<String> writtenLines;
-
-    /**
      * Constructor. Does some test fixture initialization once for the whole
      * class rather than in setUp().
      * 
@@ -98,7 +93,6 @@ public class GedcomWriterTest extends TestCase {
         GedcomWriter gw = new GedcomWriter(gedcomOrig);
         File tempFile = new File("tmp/gedcom4j.writertest.ged");
         gw.write(tempFile);
-        writtenLines = gw.lines;
 
         GedcomFileReader gfr = new GedcomFileReader();
         readbackLines = gfr.getLines(new FileInputStream(tempFile));
@@ -121,10 +115,10 @@ public class GedcomWriterTest extends TestCase {
         Map<String, Family> fm2 = gedcomReadback.families;
         assertNotSame(fm1, fm2);
         assertEquals(fm1.keySet(), fm2.keySet());
-        for (String xref : fm1.keySet()) {
-            Family f1 = fm1.get(xref);
-            Family f2 = fm2.get(xref);
-            assertEquals("Family " + xref + " should be the same but isn't",
+        for (Entry<String, Family> e : fm1.entrySet()) {
+            Family f1 = e.getValue();
+            Family f2 = fm2.get(e.getKey());
+            assertEquals("Family " + f1.xref + " should be the same but isn't",
                     f1, f2);
         }
     }
@@ -138,7 +132,6 @@ public class GedcomWriterTest extends TestCase {
         assertNotSame(h1, h2);
         assertNotNull(h1);
 
-        int i = 0;
         assertLineSequence("Header not as expected in readback", readbackLines,
                 "0 HEAD", "1 SOUR GEDitCOM", "2 VERS 2.9.4", "2 NAME GEDitCOM",
                 "2 CORP RSAC Software", "3 ADDR 7108 South Pine Cone Street",
@@ -147,18 +140,24 @@ public class GedcomWriterTest extends TestCase {
         assertLineSequence(
                 "Readback file with line breaks in CONC/CONT lines as expected",
                 readbackLines,
-                "1 NOTE This file demonstrates all tags that are allowed in GEDCOM 5.5. Here are some comments about the HEADER record and",
-                "2 CONC comments about where to look for information on the other 9 types of GEDCOM records. Most other records will have their own",
-                "2 CONC notes that describe what to look for in that record and what to hope the importing software will find.",
+                "1 NOTE This file demonstrates all tags that are allowed in GEDCOM 5.5. "
+                        + "Here are some comments about the HEADER record and",
+                "2 CONC comments about where to look for information on the other 9 types of "
+                        + "GEDCOM records. Most other records will have their own",
+                "2 CONC notes that describe what to look for in that record and what to hope "
+                        + "the importing software will find.",
                 "2 CONT ",
-                "2 CONT Many applications will fail to import these notes. The notes are therefore also provided with the files as a plain-text",
+                "2 CONT Many applications will fail to import these notes. The notes are "
+                        + "therefore also provided with the files as a plain-text",
                 "2 CONC \"Read-Me\" file.");
         assertLineSequence(
                 "File as read back does not preserve whitespace as expected",
                 readbackLines,
                 "2 CONT INDIVIDUAL Records:",
-                "2 CONT      This file has a small number of INDIVIDUAL records. The record named \"Joseph Tag Torture\" has all possible tags for",
-                "2 CONC an INDIVIDUAL record. All remaining  individuals have less tags. Some test specific features; for example:",
+                "2 CONT      This file has a small number of INDIVIDUAL records. "
+                        + "The record named \"Joseph Tag Torture\" has all possible tags for",
+                "2 CONC an INDIVIDUAL record. All remaining  individuals have less tags. "
+                        + "Some test specific features; for example:",
                 "2 CONT ", "2 CONT      Name: Standard GEDCOM Filelinks",
                 "2 CONT      Name: Nonstandard Multimedia Filelinks");
 
@@ -315,7 +314,6 @@ public class GedcomWriterTest extends TestCase {
         gw.validationSuppressed = true;
         File tempFile = new File("tmp/gedcom4j.emptywritertest.ged");
         gw.write(tempFile);
-        writtenLines = gw.lines;
 
         // Read back the empty file and check its contents
         assertLineSequence("Empty file contents not as expected",
@@ -347,6 +345,9 @@ public class GedcomWriterTest extends TestCase {
      * {@link List} of strings.
      * </p>
      * 
+     * @param failureMessage
+     *            The message to use if there is a failure
+     * 
      * @param lookIn
      *            the {@link List} of Strings to be searched
      * @param lookFor
@@ -368,7 +369,7 @@ public class GedcomWriterTest extends TestCase {
             }
         }
 
-        if (matches == false) {
+        if (!matches) {
             System.out.println("\n----------------------------------");
             System.out.println(failureMessage);
             System.out.println("Line sequence mismatch");
@@ -394,11 +395,8 @@ public class GedcomWriterTest extends TestCase {
      * @return the lines of the file
      * @throws IOException
      *             if the file can't be read
-     * @throws FileNotFoundException
-     *             if the file can't be found
      */
-    private List<String> readBack(File fileToRead)
-            throws FileNotFoundException, IOException {
+    private List<String> readBack(File fileToRead) throws IOException {
         GedcomFileReader gfr = new GedcomFileReader();
         return gfr.getLines(new FileInputStream(fileToRead));
     }

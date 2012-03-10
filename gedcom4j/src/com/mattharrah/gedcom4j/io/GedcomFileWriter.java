@@ -109,7 +109,11 @@ public class GedcomFileWriter {
     }
 
     /**
+     * Change whether this GedcomFileWriter will use little-endian byte-ordering
+     * for Unicode.
+     * 
      * @param useLittleEndian
+     *            pass in true if you want little-endian byte-ordering
      */
     public void setLittleEndianForUnicode(boolean useLittleEndian) {
         this.useLittleEndianForUnicode = useLittleEndian;

@@ -31,6 +31,9 @@ import org.junit.Test;
  */
 public class AnselMappingTest {
 
+    /**
+     * Test decoding bytes into characters
+     */
     @Test
     public void testDecode() {
         assertEquals("Capital A is ASCII/ANSEL 0x41", 'A',
@@ -45,6 +48,9 @@ public class AnselMappingTest {
                 '\u266D', AnselMapping.decode((char) 0xA9));
     }
 
+    /**
+     * Test encoding characters into bytes
+     */
     @Test
     public void testEncode() {
         assertEquals("Capital A is ASCII/ANSEL 0x41", 0x41,
