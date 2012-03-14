@@ -38,6 +38,10 @@ import com.mattharrah.gedcom4j.model.Submission;
  * A class to validate the contents of a {@link Gedcom} structure.
  * </p>
  * <p>
+ * <b>Note that the validation framework is a work in progress and as such, is
+ * incompletely implemented at this time.</b>
+ * </p>
+ * <p>
  * General usage is as follows:
  * <ol>
  * <li>Instantiate a {@link GedcomValidator}, passing the {@link Gedcom}
