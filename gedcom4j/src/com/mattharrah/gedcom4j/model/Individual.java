@@ -348,7 +348,8 @@ public class Individual {
      * Get a set of ALL the direct ancestors of the current individual, in all
      * generations. Includes parents, and all their parents, and all
      * <i>their</i> parents, and so on. Siblings, cousins, aunts/uncles, etc.
-     * are not included in the results.
+     * are not included in the results, nor are alternate spouses for parents
+     * (unless this individual was also a child of that family).
      * 
      * @return a set of ancestors for the current individual.
      */
