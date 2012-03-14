@@ -83,7 +83,7 @@ public enum IndividualAttributeType {
     /**
      * Nobility type title
      */
-    NOBILITY_TYPE_TITLE("TITL", "Nobility Type Title");
+    NOBILITY_TYPE_TITLE("TITL", "Title");
 
     /**
      * Get an enum constant from its tag value
