@@ -1,5 +1,4 @@
 /*
- * Copyright (c) 2009-2012 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -60,6 +59,7 @@ public final class SimplificationRules {
         grandparentsAndGrandchildren();
         greatGrandparentsAndGreatGrandchildren();
         greatGreatGrandparentsAndGreatGreatGrandchildren();
+        greatGreatGreatGrandparentsAndGreatGreatGreatGrandchildren();
         auntsUnclesNiecesNephews();
     }
 
@@ -67,292 +67,233 @@ public final class SimplificationRules {
      * Load the rules for aunts, uncles, nieces, and nephews
      */
     static void auntsUnclesNiecesNephews() {
-        rules.add(new RelationshipName[] {
-                MOTHER, BROTHER, UNCLE
-        });
-        rules.add(new RelationshipName[] {
-                FATHER, BROTHER, UNCLE
-        });
-        rules.add(new RelationshipName[] {
-                MOTHER, SISTER, AUNT
-        });
-        rules.add(new RelationshipName[] {
-                FATHER, SISTER, AUNT
-        });
-        rules.add(new RelationshipName[] {
-                BROTHER, SON, NEPHEW
-        });
-        rules.add(new RelationshipName[] {
-                BROTHER, DAUGHTER, NIECE
-        });
-        rules.add(new RelationshipName[] {
-                SISTER, SON, NEPHEW
-        });
-        rules.add(new RelationshipName[] {
-                SISTER, DAUGHTER, NIECE
-        });
+        newRule(MOTHER, BROTHER, UNCLE);
+        newRule(FATHER, BROTHER, UNCLE);
+        newRule(MOTHER, SISTER, AUNT);
+        newRule(FATHER, SISTER, AUNT);
+        newRule(BROTHER, SON, NEPHEW);
+        newRule(BROTHER, DAUGHTER, NIECE);
+        newRule(SISTER, SON, NEPHEW);
+        newRule(SISTER, DAUGHTER, NIECE);
     }
 
     /**
      * Load the rules for grandparents and grandchildren
      */
     static void grandparentsAndGrandchildren() {
-        rules.add(new RelationshipName[] {
-                FATHER, FATHER, GRANDFATHER
-        });
-        rules.add(new RelationshipName[] {
-                MOTHER, FATHER, GRANDFATHER
-        });
-        rules.add(new RelationshipName[] {
-                FATHER, MOTHER, GRANDMOTHER
-        });
-        rules.add(new RelationshipName[] {
-                MOTHER, MOTHER, GRANDMOTHER
-        });
-        rules.add(new RelationshipName[] {
-                SON, SON, GRANDSON
-        });
-        rules.add(new RelationshipName[] {
-                SON, DAUGHTER, GRANDDAUGHTER
-        });
-        rules.add(new RelationshipName[] {
-                SON, CHILD, GRANDCHILD
-        });
-        rules.add(new RelationshipName[] {
-                DAUGHTER, SON, GRANDSON
-        });
-        rules.add(new RelationshipName[] {
-                DAUGHTER, DAUGHTER, GRANDDAUGHTER
-        });
-        rules.add(new RelationshipName[] {
-                DAUGHTER, CHILD, GRANDCHILD
-        });
+        newRule(FATHER, FATHER, GRANDFATHER);
+        newRule(MOTHER, FATHER, GRANDFATHER);
+        newRule(FATHER, MOTHER, GRANDMOTHER);
+        newRule(MOTHER, MOTHER, GRANDMOTHER);
+        newRule(SON, SON, GRANDSON);
+        newRule(SON, DAUGHTER, GRANDDAUGHTER);
+        newRule(SON, CHILD, GRANDCHILD);
+        newRule(DAUGHTER, SON, GRANDSON);
+        newRule(DAUGHTER, DAUGHTER, GRANDDAUGHTER);
+        newRule(DAUGHTER, CHILD, GRANDCHILD);
     }
 
     /**
      * Load the rules for great-grandparents and great-grandchildren
      */
     static void greatGrandparentsAndGreatGrandchildren() {
-        rules.add(new RelationshipName[] {
-                GRANDFATHER, FATHER, GREAT_GRANDFATHER
-        });
-        rules.add(new RelationshipName[] {
-                GRANDMOTHER, FATHER, GREAT_GRANDFATHER
-        });
-        rules.add(new RelationshipName[] {
-                GRANDFATHER, MOTHER, GREAT_GRANDMOTHER
-        });
-        rules.add(new RelationshipName[] {
-                GRANDMOTHER, MOTHER, GREAT_GRANDMOTHER
-        });
-        rules.add(new RelationshipName[] {
-                GRANDSON, SON, GREAT_GRANDSON
-        });
-        rules.add(new RelationshipName[] {
-                GRANDSON, DAUGHTER, GREAT_GRANDDAUGHTER
-        });
-        rules.add(new RelationshipName[] {
-                GRANDSON, CHILD, GREAT_GRANDCHILD
-        });
-        rules.add(new RelationshipName[] {
-                GRANDDAUGHTER, SON, GREAT_GRANDSON
-        });
-        rules.add(new RelationshipName[] {
-                GRANDDAUGHTER, DAUGHTER, GREAT_GRANDDAUGHTER
-        });
-        rules.add(new RelationshipName[] {
-                GRANDDAUGHTER, CHILD, GREAT_GRANDCHILD
-        });
-        rules.add(new RelationshipName[] {
-                GRANDCHILD, SON, GREAT_GRANDSON
-        });
-        rules.add(new RelationshipName[] {
-                GRANDCHILD, DAUGHTER, GREAT_GRANDDAUGHTER
-        });
-        rules.add(new RelationshipName[] {
-                GRANDCHILD, CHILD, GREAT_GRANDCHILD
-        });
-        rules.add(new RelationshipName[] {
-                FATHER, GRANDFATHER, GREAT_GRANDFATHER
-        });
-        rules.add(new RelationshipName[] {
-                MOTHER, GRANDFATHER, GREAT_GRANDFATHER
-        });
-        rules.add(new RelationshipName[] {
-                FATHER, GRANDMOTHER, GREAT_GRANDMOTHER
-        });
-        rules.add(new RelationshipName[] {
-                MOTHER, GRANDMOTHER, GREAT_GRANDMOTHER
-        });
-        rules.add(new RelationshipName[] {
-                SON, GRANDSON, GREAT_GRANDSON
-        });
-        rules.add(new RelationshipName[] {
-                SON, GRANDDAUGHTER, GREAT_GRANDDAUGHTER
-        });
-        rules.add(new RelationshipName[] {
-                SON, GRANDCHILD, GREAT_GRANDCHILD
-        });
-        rules.add(new RelationshipName[] {
-                DAUGHTER, GRANDSON, GREAT_GRANDSON
-        });
-        rules.add(new RelationshipName[] {
-                DAUGHTER, GRANDDAUGHTER, GREAT_GRANDDAUGHTER
-        });
-        rules.add(new RelationshipName[] {
-                DAUGHTER, GRANDCHILD, GREAT_GRANDCHILD
-        });
+        newRule(GRANDFATHER, FATHER, GREAT_GRANDFATHER);
+        newRule(GRANDMOTHER, FATHER, GREAT_GRANDFATHER);
+        newRule(GRANDFATHER, MOTHER, GREAT_GRANDMOTHER);
+        newRule(GRANDMOTHER, MOTHER, GREAT_GRANDMOTHER);
+        newRule(GRANDSON, SON, GREAT_GRANDSON);
+        newRule(GRANDSON, DAUGHTER, GREAT_GRANDDAUGHTER);
+        newRule(GRANDSON, CHILD, GREAT_GRANDCHILD);
+        newRule(GRANDDAUGHTER, SON, GREAT_GRANDSON);
+        newRule(GRANDDAUGHTER, DAUGHTER, GREAT_GRANDDAUGHTER);
+        newRule(GRANDDAUGHTER, CHILD, GREAT_GRANDCHILD);
+        newRule(GRANDCHILD, SON, GREAT_GRANDSON);
+        newRule(GRANDCHILD, DAUGHTER, GREAT_GRANDDAUGHTER);
+        newRule(GRANDCHILD, CHILD, GREAT_GRANDCHILD);
+        newRule(FATHER, GRANDFATHER, GREAT_GRANDFATHER);
+        newRule(MOTHER, GRANDFATHER, GREAT_GRANDFATHER);
+        newRule(FATHER, GRANDMOTHER, GREAT_GRANDMOTHER);
+        newRule(MOTHER, GRANDMOTHER, GREAT_GRANDMOTHER);
+        newRule(SON, GRANDSON, GREAT_GRANDSON);
+        newRule(SON, GRANDDAUGHTER, GREAT_GRANDDAUGHTER);
+        newRule(SON, GRANDCHILD, GREAT_GRANDCHILD);
+        newRule(DAUGHTER, GRANDSON, GREAT_GRANDSON);
+        newRule(DAUGHTER, GRANDDAUGHTER, GREAT_GRANDDAUGHTER);
+        newRule(DAUGHTER, GRANDCHILD, GREAT_GRANDCHILD);
     }
 
     /**
      * Load the rules for great-great-grandparents and great-great-grandchildren
      */
     static void greatGreatGrandparentsAndGreatGreatGrandchildren() {
-        rules.add(new RelationshipName[] {
-                GREAT_GRANDFATHER, FATHER, GREAT_GREAT_GRANDFATHER
-        });
-        rules.add(new RelationshipName[] {
-                GREAT_GRANDMOTHER, FATHER, GREAT_GREAT_GRANDFATHER
-        });
-        rules.add(new RelationshipName[] {
-                GREAT_GRANDFATHER, MOTHER, GREAT_GREAT_GRANDMOTHER
-        });
-        rules.add(new RelationshipName[] {
-                GREAT_GRANDMOTHER, MOTHER, GREAT_GREAT_GRANDMOTHER
-        });
-        rules.add(new RelationshipName[] {
-                GREAT_GRANDSON, SON, GREAT_GREAT_GRANDSON
-        });
-        rules.add(new RelationshipName[] {
-                GREAT_GRANDSON, DAUGHTER, GREAT_GREAT_GRANDDAUGHTER
-        });
-        rules.add(new RelationshipName[] {
-                GREAT_GRANDSON, CHILD, GREAT_GREAT_GRANDCHILD
-        });
-        rules.add(new RelationshipName[] {
-                GREAT_GRANDDAUGHTER, SON, GREAT_GREAT_GRANDSON
-        });
-        rules.add(new RelationshipName[] {
-                GREAT_GRANDDAUGHTER, DAUGHTER, GREAT_GREAT_GRANDDAUGHTER
-        });
-        rules.add(new RelationshipName[] {
-                GREAT_GRANDDAUGHTER, CHILD, GREAT_GREAT_GRANDCHILD
-        });
-        rules.add(new RelationshipName[] {
-                GREAT_GRANDCHILD, SON, GREAT_GREAT_GRANDSON
-        });
-        rules.add(new RelationshipName[] {
-                GREAT_GRANDCHILD, DAUGHTER, GREAT_GREAT_GRANDDAUGHTER
-        });
-        rules.add(new RelationshipName[] {
-                GREAT_GRANDCHILD, CHILD, GREAT_GREAT_GRANDCHILD
-        });
-        rules.add(new RelationshipName[] {
-                FATHER, GREAT_GRANDFATHER, GREAT_GREAT_GRANDFATHER
-        });
-        rules.add(new RelationshipName[] {
-                MOTHER, GREAT_GRANDFATHER, GREAT_GREAT_GRANDFATHER
-        });
-        rules.add(new RelationshipName[] {
-                FATHER, GREAT_GRANDMOTHER, GREAT_GREAT_GRANDMOTHER
-        });
-        rules.add(new RelationshipName[] {
-                MOTHER, GREAT_GRANDMOTHER, GREAT_GREAT_GRANDMOTHER
-        });
-        rules.add(new RelationshipName[] {
-                SON, GREAT_GRANDSON, GREAT_GREAT_GRANDSON
-        });
-        rules.add(new RelationshipName[] {
-                SON, GREAT_GRANDDAUGHTER, GREAT_GREAT_GRANDDAUGHTER
-        });
-        rules.add(new RelationshipName[] {
-                SON, GREAT_GRANDCHILD, GREAT_GREAT_GRANDCHILD
-        });
-        rules.add(new RelationshipName[] {
-                DAUGHTER, GREAT_GRANDSON, GREAT_GREAT_GRANDSON
-        });
-        rules.add(new RelationshipName[] {
-                DAUGHTER, GREAT_GRANDDAUGHTER, GREAT_GREAT_GRANDDAUGHTER
-        });
-        rules.add(new RelationshipName[] {
-                DAUGHTER, GREAT_GRANDCHILD, GREAT_GREAT_GRANDCHILD
-        });
-        rules.add(new RelationshipName[] {
-                GRANDMOTHER, GRANDMOTHER, GREAT_GREAT_GRANDMOTHER
-        });
-        rules.add(new RelationshipName[] {
-                GRANDFATHER, GRANDMOTHER, GREAT_GREAT_GRANDMOTHER
-        });
-        rules.add(new RelationshipName[] {
-                GRANDMOTHER, GRANDFATHER, GREAT_GREAT_GRANDFATHER
-        });
-        rules.add(new RelationshipName[] {
-                GRANDFATHER, GRANDFATHER, GREAT_GREAT_GRANDFATHER
-        });
-        rules.add(new RelationshipName[] {
-                GRANDDAUGHTER, GRANDDAUGHTER, GREAT_GREAT_GRANDDAUGHTER
-        });
-        rules.add(new RelationshipName[] {
-                GRANDSON, GRANDDAUGHTER, GREAT_GREAT_GRANDDAUGHTER
-        });
-        rules.add(new RelationshipName[] {
-                GRANDCHILD, GRANDDAUGHTER, GREAT_GREAT_GRANDDAUGHTER
-        });
-        rules.add(new RelationshipName[] {
-                GRANDDAUGHTER, GRANDSON, GREAT_GREAT_GRANDSON
-        });
-        rules.add(new RelationshipName[] {
-                GRANDSON, GRANDSON, GREAT_GREAT_GRANDSON
-        });
-        rules.add(new RelationshipName[] {
-                GRANDCHILD, GRANDSON, GREAT_GREAT_GRANDSON
-        });
-        rules.add(new RelationshipName[] {
-                GRANDDAUGHTER, GRANDCHILD, GREAT_GREAT_GRANDCHILD
-        });
-        rules.add(new RelationshipName[] {
-                GRANDSON, GRANDCHILD, GREAT_GREAT_GRANDCHILD
-        });
-        rules.add(new RelationshipName[] {
-                GRANDCHILD, GRANDCHILD, GREAT_GREAT_GRANDCHILD
-        });
-
+        newRule(GREAT_GRANDFATHER, FATHER, GREAT_GREAT_GRANDFATHER);
+        newRule(GREAT_GRANDMOTHER, FATHER, GREAT_GREAT_GRANDFATHER);
+        newRule(GREAT_GRANDFATHER, MOTHER, GREAT_GREAT_GRANDMOTHER);
+        newRule(GREAT_GRANDMOTHER, MOTHER, GREAT_GREAT_GRANDMOTHER);
+        newRule(GREAT_GRANDSON, SON, GREAT_GREAT_GRANDSON);
+        newRule(GREAT_GRANDSON, DAUGHTER, GREAT_GREAT_GRANDDAUGHTER);
+        newRule(GREAT_GRANDSON, CHILD, GREAT_GREAT_GRANDCHILD);
+        newRule(GREAT_GRANDDAUGHTER, SON, GREAT_GREAT_GRANDSON);
+        newRule(GREAT_GRANDDAUGHTER, DAUGHTER, GREAT_GREAT_GRANDDAUGHTER);
+        newRule(GREAT_GRANDDAUGHTER, CHILD, GREAT_GREAT_GRANDCHILD);
+        newRule(GREAT_GRANDCHILD, SON, GREAT_GREAT_GRANDSON);
+        newRule(GREAT_GRANDCHILD, DAUGHTER, GREAT_GREAT_GRANDDAUGHTER);
+        newRule(GREAT_GRANDCHILD, CHILD, GREAT_GREAT_GRANDCHILD);
+        newRule(FATHER, GREAT_GRANDFATHER, GREAT_GREAT_GRANDFATHER);
+        newRule(MOTHER, GREAT_GRANDFATHER, GREAT_GREAT_GRANDFATHER);
+        newRule(FATHER, GREAT_GRANDMOTHER, GREAT_GREAT_GRANDMOTHER);
+        newRule(MOTHER, GREAT_GRANDMOTHER, GREAT_GREAT_GRANDMOTHER);
+        newRule(SON, GREAT_GRANDSON, GREAT_GREAT_GRANDSON);
+        newRule(SON, GREAT_GRANDDAUGHTER, GREAT_GREAT_GRANDDAUGHTER);
+        newRule(SON, GREAT_GRANDCHILD, GREAT_GREAT_GRANDCHILD);
+        newRule(DAUGHTER, GREAT_GRANDSON, GREAT_GREAT_GRANDSON);
+        newRule(DAUGHTER, GREAT_GRANDDAUGHTER, GREAT_GREAT_GRANDDAUGHTER);
+        newRule(DAUGHTER, GREAT_GRANDCHILD, GREAT_GREAT_GRANDCHILD);
+        newRule(GRANDMOTHER, GRANDMOTHER, GREAT_GREAT_GRANDMOTHER);
+        newRule(GRANDFATHER, GRANDMOTHER, GREAT_GREAT_GRANDMOTHER);
+        newRule(GRANDMOTHER, GRANDFATHER, GREAT_GREAT_GRANDFATHER);
+        newRule(GRANDFATHER, GRANDFATHER, GREAT_GREAT_GRANDFATHER);
+        newRule(GRANDDAUGHTER, GRANDDAUGHTER, GREAT_GREAT_GRANDDAUGHTER);
+        newRule(GRANDSON, GRANDDAUGHTER, GREAT_GREAT_GRANDDAUGHTER);
+        newRule(GRANDCHILD, GRANDDAUGHTER, GREAT_GREAT_GRANDDAUGHTER);
+        newRule(GRANDDAUGHTER, GRANDSON, GREAT_GREAT_GRANDSON);
+        newRule(GRANDSON, GRANDSON, GREAT_GREAT_GRANDSON);
+        newRule(GRANDCHILD, GRANDSON, GREAT_GREAT_GRANDSON);
+        newRule(GRANDDAUGHTER, GRANDCHILD, GREAT_GREAT_GRANDCHILD);
+        newRule(GRANDSON, GRANDCHILD, GREAT_GREAT_GRANDCHILD);
+        newRule(GRANDCHILD, GRANDCHILD, GREAT_GREAT_GRANDCHILD);
     }
 
     /**
      * Load rules for mothers and fathers
      */
     static void mothersAndFathers() {
-        rules.add(new RelationshipName[] {
-                FATHER, WIFE, MOTHER
-        });
-        rules.add(new RelationshipName[] {
-                MOTHER, HUSBAND, FATHER
-        });
+        newRule(FATHER, WIFE, MOTHER);
+        newRule(MOTHER, HUSBAND, FATHER);
     }
 
     /**
      * Load rules for siblings
      */
     static void siblings() {
-        rules.add(new RelationshipName[] {
-                FATHER, SON, BROTHER
-        });
-        rules.add(new RelationshipName[] {
-                MOTHER, SON, BROTHER
-        });
-        rules.add(new RelationshipName[] {
-                FATHER, DAUGHTER, SISTER
-        });
-        rules.add(new RelationshipName[] {
-                MOTHER, DAUGHTER, SISTER
-        });
-        rules.add(new RelationshipName[] {
-                FATHER, CHILD, SIBLING
-        });
-        rules.add(new RelationshipName[] {
-                MOTHER, CHILD, SIBLING
-        });
+        newRule(FATHER, SON, BROTHER);
+        newRule(MOTHER, SON, BROTHER);
+        newRule(FATHER, DAUGHTER, SISTER);
+        newRule(MOTHER, DAUGHTER, SISTER);
+        newRule(FATHER, CHILD, SIBLING);
+        newRule(MOTHER, CHILD, SIBLING);
+    }
+
+    /**
+     * 
+     */
+    private static void greatGreatGreatGrandparentsAndGreatGreatGreatGrandchildren() {
+        newRule(GREAT_GRANDFATHER, GRANDFATHER, GREAT_GREAT_GREAT_GRANDFATHER);
+        newRule(GREAT_GRANDMOTHER, GRANDFATHER, GREAT_GREAT_GREAT_GRANDFATHER);
+        newRule(GREAT_GRANDFATHER, GRANDMOTHER, GREAT_GREAT_GREAT_GRANDMOTHER);
+        newRule(GREAT_GRANDMOTHER, GRANDMOTHER, GREAT_GREAT_GREAT_GRANDMOTHER);
+        newRule(GREAT_GRANDSON, GRANDSON, GREAT_GREAT_GREAT_GRANDSON);
+        newRule(GREAT_GRANDSON, GRANDDAUGHTER, GREAT_GREAT_GREAT_GRANDDAUGHTER);
+        newRule(GREAT_GRANDSON, GRANDCHILD, GREAT_GREAT_GREAT_GRANDCHILD);
+        newRule(GREAT_GRANDDAUGHTER, GRANDSON, GREAT_GREAT_GREAT_GRANDSON);
+        newRule(GREAT_GRANDDAUGHTER, GRANDDAUGHTER,
+                GREAT_GREAT_GREAT_GRANDDAUGHTER);
+        newRule(GREAT_GRANDDAUGHTER, GRANDCHILD, GREAT_GREAT_GREAT_GRANDCHILD);
+        newRule(GREAT_GRANDCHILD, GRANDSON, GREAT_GREAT_GREAT_GRANDSON);
+        newRule(GREAT_GRANDCHILD, GRANDDAUGHTER,
+                GREAT_GREAT_GREAT_GRANDDAUGHTER);
+        newRule(GREAT_GRANDCHILD, GRANDCHILD, GREAT_GREAT_GREAT_GRANDCHILD);
+        newRule(GRANDFATHER, GREAT_GRANDFATHER, GREAT_GREAT_GREAT_GRANDFATHER);
+        newRule(GRANDMOTHER, GREAT_GRANDFATHER, GREAT_GREAT_GREAT_GRANDFATHER);
+        newRule(GRANDFATHER, GREAT_GRANDMOTHER, GREAT_GREAT_GREAT_GRANDMOTHER);
+        newRule(GRANDMOTHER, GREAT_GRANDMOTHER, GREAT_GREAT_GREAT_GRANDMOTHER);
+        newRule(GRANDSON, GREAT_GRANDSON, GREAT_GREAT_GREAT_GRANDSON);
+        newRule(GRANDSON, GREAT_GRANDDAUGHTER, GREAT_GREAT_GREAT_GRANDDAUGHTER);
+        newRule(GRANDSON, GREAT_GRANDCHILD, GREAT_GREAT_GREAT_GRANDCHILD);
+        newRule(GRANDDAUGHTER, GREAT_GRANDSON, GREAT_GREAT_GREAT_GRANDSON);
+        newRule(GRANDDAUGHTER, GREAT_GRANDDAUGHTER,
+                GREAT_GREAT_GREAT_GRANDDAUGHTER);
+        newRule(GRANDDAUGHTER, GREAT_GRANDCHILD, GREAT_GREAT_GREAT_GRANDCHILD);
+
+        newRule(GREAT_GREAT_GRANDFATHER, FATHER, GREAT_GREAT_GREAT_GRANDFATHER);
+        newRule(GREAT_GREAT_GRANDMOTHER, FATHER, GREAT_GREAT_GREAT_GRANDFATHER);
+        newRule(GREAT_GREAT_GRANDFATHER, MOTHER, GREAT_GREAT_GREAT_GRANDMOTHER);
+        newRule(GREAT_GREAT_GRANDMOTHER, MOTHER, GREAT_GREAT_GREAT_GRANDMOTHER);
+        newRule(GREAT_GREAT_GRANDSON, SON, GREAT_GREAT_GREAT_GRANDSON);
+        newRule(GREAT_GREAT_GRANDSON, DAUGHTER, GREAT_GREAT_GREAT_GRANDDAUGHTER);
+        newRule(GREAT_GREAT_GRANDSON, CHILD, GREAT_GREAT_GREAT_GRANDCHILD);
+        newRule(GREAT_GREAT_GRANDDAUGHTER, SON, GREAT_GREAT_GREAT_GRANDSON);
+        newRule(GREAT_GREAT_GRANDDAUGHTER, DAUGHTER,
+                GREAT_GREAT_GREAT_GRANDDAUGHTER);
+        newRule(GREAT_GREAT_GRANDDAUGHTER, CHILD, GREAT_GREAT_GREAT_GRANDCHILD);
+        newRule(GREAT_GREAT_GRANDCHILD, SON, GREAT_GREAT_GREAT_GRANDSON);
+        newRule(GREAT_GREAT_GRANDCHILD, DAUGHTER,
+                GREAT_GREAT_GREAT_GRANDDAUGHTER);
+        newRule(GREAT_GREAT_GRANDCHILD, CHILD, GREAT_GREAT_GREAT_GRANDCHILD);
+        newRule(FATHER, GREAT_GREAT_GRANDFATHER, GREAT_GREAT_GREAT_GRANDFATHER);
+        newRule(MOTHER, GREAT_GREAT_GRANDFATHER, GREAT_GREAT_GREAT_GRANDFATHER);
+        newRule(FATHER, GREAT_GREAT_GRANDMOTHER, GREAT_GREAT_GREAT_GRANDMOTHER);
+        newRule(MOTHER, GREAT_GREAT_GRANDMOTHER, GREAT_GREAT_GREAT_GRANDMOTHER);
+        newRule(SON, GREAT_GREAT_GRANDSON, GREAT_GREAT_GREAT_GRANDSON);
+        newRule(SON, GREAT_GREAT_GRANDDAUGHTER, GREAT_GREAT_GREAT_GRANDDAUGHTER);
+        newRule(SON, GREAT_GREAT_GRANDCHILD, GREAT_GREAT_GREAT_GRANDCHILD);
+        newRule(DAUGHTER, GREAT_GREAT_GRANDSON, GREAT_GREAT_GREAT_GRANDSON);
+        newRule(DAUGHTER, GREAT_GREAT_GRANDDAUGHTER,
+                GREAT_GREAT_GREAT_GRANDDAUGHTER);
+        newRule(DAUGHTER, GREAT_GREAT_GRANDCHILD, GREAT_GREAT_GREAT_GRANDCHILD);
+
+        newRule(GREAT_GRANDMOTHER, GRANDMOTHER, GREAT_GREAT_GREAT_GRANDMOTHER);
+        newRule(GREAT_GRANDFATHER, GRANDMOTHER, GREAT_GREAT_GREAT_GRANDMOTHER);
+        newRule(GREAT_GRANDMOTHER, GRANDFATHER, GREAT_GREAT_GREAT_GRANDFATHER);
+        newRule(GREAT_GRANDFATHER, GRANDFATHER, GREAT_GREAT_GREAT_GRANDFATHER);
+        newRule(GREAT_GRANDDAUGHTER, GRANDDAUGHTER,
+                GREAT_GREAT_GREAT_GRANDDAUGHTER);
+        newRule(GREAT_GRANDSON, GRANDDAUGHTER, GREAT_GREAT_GREAT_GRANDDAUGHTER);
+        newRule(GREAT_GRANDCHILD, GRANDDAUGHTER,
+                GREAT_GREAT_GREAT_GRANDDAUGHTER);
+        newRule(GREAT_GRANDDAUGHTER, GRANDSON, GREAT_GREAT_GREAT_GRANDSON);
+        newRule(GREAT_GRANDSON, GRANDSON, GREAT_GREAT_GREAT_GRANDSON);
+        newRule(GREAT_GRANDCHILD, GRANDSON, GREAT_GREAT_GREAT_GRANDSON);
+        newRule(GREAT_GRANDDAUGHTER, GRANDCHILD, GREAT_GREAT_GREAT_GRANDCHILD);
+        newRule(GREAT_GRANDSON, GRANDCHILD, GREAT_GREAT_GREAT_GRANDCHILD);
+        newRule(GREAT_GRANDCHILD, GRANDCHILD, GREAT_GREAT_GREAT_GRANDCHILD);
+
+        newRule(GRANDMOTHER, GREAT_GRANDMOTHER, GREAT_GREAT_GREAT_GRANDMOTHER);
+        newRule(GRANDFATHER, GREAT_GRANDMOTHER, GREAT_GREAT_GREAT_GRANDMOTHER);
+        newRule(GRANDMOTHER, GREAT_GRANDFATHER, GREAT_GREAT_GREAT_GRANDFATHER);
+        newRule(GRANDFATHER, GREAT_GRANDFATHER, GREAT_GREAT_GREAT_GRANDFATHER);
+        newRule(GRANDDAUGHTER, GREAT_GRANDDAUGHTER,
+                GREAT_GREAT_GREAT_GRANDDAUGHTER);
+        newRule(GRANDSON, GREAT_GRANDDAUGHTER, GREAT_GREAT_GREAT_GRANDDAUGHTER);
+        newRule(GRANDCHILD, GREAT_GRANDDAUGHTER,
+                GREAT_GREAT_GREAT_GRANDDAUGHTER);
+        newRule(GRANDDAUGHTER, GREAT_GRANDSON, GREAT_GREAT_GREAT_GRANDSON);
+        newRule(GRANDSON, GREAT_GRANDSON, GREAT_GREAT_GREAT_GRANDSON);
+        newRule(GRANDCHILD, GREAT_GRANDSON, GREAT_GREAT_GREAT_GRANDSON);
+        newRule(GRANDDAUGHTER, GREAT_GRANDCHILD, GREAT_GREAT_GREAT_GRANDCHILD);
+        newRule(GRANDSON, GREAT_GRANDCHILD, GREAT_GREAT_GREAT_GRANDCHILD);
+        newRule(GRANDCHILD, GREAT_GRANDCHILD, GREAT_GREAT_GREAT_GRANDCHILD);
+
+    }
+
+    /**
+     * Convenience method to keep code brief
+     * 
+     * @param r1
+     *            relationship1
+     * @param r2
+     *            relationship2
+     * @param r3
+     *            relationship3
+     * @return the three relationships as a rule
+     */
+    private static void newRule(RelationshipName r1, RelationshipName r2,
+            RelationshipName r3) {
+        RelationshipName[] r = new RelationshipName[3];
+        r[0] = r1;
+        r[1] = r2;
+        r[2] = r3;
+        rules.add(r);
     }
 
     /**
