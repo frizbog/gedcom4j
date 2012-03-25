@@ -93,8 +93,8 @@ public class AncestryCalculatorTest {
         Set<Individual> extendedAncestry = rc.getExtendedAncestry(alex);
         assertNotNull(extendedAncestry);
         // dumpIndividuals(extendedAncestry);
-        assertEquals("Alex has 16 ancestors (including 1 step!) in the gedcom",
-                16, extendedAncestry.size());
+        assertEquals("Alex has 20 ancestors (including 1 step!) in the gedcom",
+                20, extendedAncestry.size());
     }
 
     /**
