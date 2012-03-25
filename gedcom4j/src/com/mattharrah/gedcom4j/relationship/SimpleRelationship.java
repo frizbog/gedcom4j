@@ -40,13 +40,13 @@ public class SimpleRelationship {
     public Individual individual2;
 
     /**
-     * The relationship from person 1 to person 2
+     * The name of the relationship from person 1 to person 2
      */
-    public RelationshipName relationship;
+    public RelationshipName name;
     /**
-     * The relationship from person 2 to person 1
+     * The name of the relationship from person 2 to person 1
      */
-    public RelationshipName reverseRelationship;
+    public RelationshipName reverseName;
 
     /**
      * Default constructor
@@ -64,8 +64,8 @@ public class SimpleRelationship {
     public SimpleRelationship(SimpleRelationship sr) {
         this.individual1 = sr.individual1;
         this.individual2 = sr.individual2;
-        this.relationship = sr.relationship;
-        this.reverseRelationship = sr.reverseRelationship;
+        this.name = sr.name;
+        this.reverseName = sr.reverseName;
     }
 
     @Override
@@ -94,10 +94,10 @@ public class SimpleRelationship {
         } else if (individual2 != other.individual2) {
             return false;
         }
-        if (relationship != other.relationship) {
+        if (name != other.name) {
             return false;
         }
-        if (reverseRelationship != other.reverseRelationship) {
+        if (reverseName != other.reverseName) {
             return false;
         }
         return true;
@@ -111,12 +111,9 @@ public class SimpleRelationship {
                 + ((individual1 == null) ? 0 : individual1.hashCode());
         result = prime * result
                 + ((individual2 == null) ? 0 : individual2.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result
-                + ((relationship == null) ? 0 : relationship.hashCode());
-        result = prime
-                * result
-                + ((reverseRelationship == null) ? 0 : reverseRelationship
-                        .hashCode());
+                + ((reverseName == null) ? 0 : reverseName.hashCode());
         return result;
     }
 
@@ -129,7 +126,7 @@ public class SimpleRelationship {
     @Override
     public String toString() {
         return (individual1 == null ? "null" : individual1.names.get(0))
-                + "'s " + relationship + " "
+                + "'s " + name + " "
                 + (individual2 == null ? "null" : individual2.names.get(0));
     }
 }

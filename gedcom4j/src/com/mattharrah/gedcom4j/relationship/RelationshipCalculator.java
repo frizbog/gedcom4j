@@ -21,6 +21,8 @@
  */
 package com.mattharrah.gedcom4j.relationship;
 
+import static com.mattharrah.gedcom4j.relationship.RelationshipName.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -106,9 +108,12 @@ public class RelationshipCalculator {
      *            the first individual
      * @param individual2
      *            the second individual
+     * @param simplified
+     *            should the list be reduced to a simplified form (for example,
+     *            should Father of Father be collapsed to Grandfather)
      */
     public void calculateRelationships(Individual individual1,
-            Individual individual2) {
+            Individual individual2, boolean simplified) {
 
         // Clear out the results from last time
         relationshipsFound = new ArrayList<Relationship>();
@@ -128,21 +133,14 @@ public class RelationshipCalculator {
         }
 
         if (relationshipsFound.size() > 1) {
-            for (Relationship r : relationshipsFound) {
-                simplifyRelationship(r);
-            }
-
-            System.out.println("About to remove duplicates: ");
-            for (Relationship r : relationshipsFound) {
-                System.out.println("   " + r);
+            if (simplified) {
+                for (Relationship r : relationshipsFound) {
+                    simplifyRelationship(r);
+                }
             }
             // Remove duplicates
             relationshipsFound = new ArrayList<Relationship>(
                     new HashSet<Relationship>(relationshipsFound));
-            System.out.println("After removing  duplicates: ");
-            for (Relationship r : relationshipsFound) {
-                System.out.println("   " + r);
-            }
             Collections.sort(relationshipsFound);
 
             int shortestLength = relationshipsFound.get(0).chain.size();
@@ -192,7 +190,7 @@ public class RelationshipCalculator {
             SimpleRelationship s1 = chain.get(i);
             SimpleRelationship s2 = chain.get(i + 1);
 
-            if (s1.relationship == rel1 && s2.relationship == rel2
+            if (s1.name == rel1 && s2.name == rel2
                     && s1.individual2 == s2.individual1) {
                 // Get the reverse relationship
                 RelationshipName rr = getReverseRelationship(newRel,
@@ -201,8 +199,8 @@ public class RelationshipCalculator {
                     // Only collapse if we actually could derive a reverse
                     // relationship
                     s1.individual2 = s2.individual2;
-                    s1.relationship = newRel;
-                    s1.reverseRelationship = rr;
+                    s1.name = newRel;
+                    s1.reverseName = rr;
                     chain.remove(i + 1);
                 }
             }
@@ -253,11 +251,9 @@ public class RelationshipCalculator {
                 /* and check the children */
                 for (Individual c : fs.family.children) {
                     if (fs.family.husband == personBeingExamined) {
-                        examineChild(personBeingExamined, c,
-                                RelationshipName.FATHER);
+                        examineChild(personBeingExamined, c, FATHER);
                     } else if (fs.family.wife == personBeingExamined) {
-                        examineChild(personBeingExamined, c,
-                                RelationshipName.MOTHER);
+                        examineChild(personBeingExamined, c, MOTHER);
                     }
                 }
             }
@@ -285,13 +281,13 @@ public class RelationshipCalculator {
         r.individual1 = personBeingExamined;
         r.individual2 = child;
         if ("M".equals(child.sex)) {
-            r.relationship = RelationshipName.SON;
+            r.name = SON;
         } else if ("F".equals(child.sex)) {
-            r.relationship = RelationshipName.DAUGHTER;
+            r.name = DAUGHTER;
         } else {
-            r.relationship = RelationshipName.CHILD;
+            r.name = CHILD;
         }
-        r.reverseRelationship = reverseRelationship;
+        r.reverseName = reverseRelationship;
         currentChain.add(r);
         examine(r.individual2);
         currentChain.remove(currentChain.size() - 1);
@@ -310,13 +306,13 @@ public class RelationshipCalculator {
         r.individual1 = personBeingExamined;
         r.individual2 = father;
         if ("M".equals(personBeingExamined.sex)) {
-            r.reverseRelationship = RelationshipName.SON;
+            r.reverseName = SON;
         } else if ("F".equals(personBeingExamined.sex)) {
-            r.reverseRelationship = RelationshipName.DAUGHTER;
+            r.reverseName = DAUGHTER;
         } else {
-            r.reverseRelationship = RelationshipName.CHILD;
+            r.reverseName = CHILD;
         }
-        r.relationship = RelationshipName.FATHER;
+        r.name = FATHER;
         currentChain.add(r);
         examine(r.individual2);
         currentChain.remove(currentChain.size() - 1);
@@ -335,7 +331,7 @@ public class RelationshipCalculator {
         SimpleRelationship r = new SimpleRelationship();
         r.individual1 = personBeingExamined;
         r.individual2 = fs.family.husband;
-        r.relationship = RelationshipName.HUSBAND;
+        r.name = RelationshipName.HUSBAND;
         currentChain.add(r);
         examine(r.individual2);
         currentChain.remove(currentChain.size() - 1);
@@ -354,13 +350,13 @@ public class RelationshipCalculator {
         r.individual1 = personBeingExamined;
         r.individual2 = mother;
         if ("M".equals(personBeingExamined.sex)) {
-            r.reverseRelationship = RelationshipName.SON;
+            r.reverseName = SON;
         } else if ("F".equals(personBeingExamined.sex)) {
-            r.reverseRelationship = RelationshipName.DAUGHTER;
+            r.reverseName = DAUGHTER;
         } else {
-            r.reverseRelationship = RelationshipName.CHILD;
+            r.reverseName = CHILD;
         }
-        r.relationship = RelationshipName.MOTHER;
+        r.name = MOTHER;
         currentChain.add(r);
         examine(r.individual2);
         currentChain.remove(currentChain.size() - 1);
@@ -379,7 +375,7 @@ public class RelationshipCalculator {
         SimpleRelationship r = new SimpleRelationship();
         r.individual1 = personBeingExamined;
         r.individual2 = fs.family.wife;
-        r.relationship = RelationshipName.WIFE;
+        r.name = RelationshipName.WIFE;
         currentChain.add(r);
         examine(r.individual2);
         currentChain.remove(currentChain.size() - 1);
@@ -399,44 +395,13 @@ public class RelationshipCalculator {
      */
     private RelationshipName getReverseRelationship(
             RelationshipName relationship, String sex) {
-        if (relationship == RelationshipName.WIFE) {
-            return RelationshipName.HUSBAND;
+        if ("M".equals(sex)) {
+            return relationship.reverseForMale;
         }
-        if (relationship == RelationshipName.HUSBAND) {
-            return RelationshipName.WIFE;
+        if ("F".equals(sex)) {
+            return relationship.reverseForFemale;
         }
-        if (relationship == RelationshipName.BROTHER
-                || relationship == RelationshipName.SISTER
-                || relationship == RelationshipName.SIBLING) {
-            if ("M".equals(sex)) {
-                return RelationshipName.BROTHER;
-            }
-            if ("F".equals(sex)) {
-                return RelationshipName.SISTER;
-            }
-            return RelationshipName.SIBLING;
-        }
-        if (relationship == RelationshipName.FATHER
-                || relationship == RelationshipName.MOTHER) {
-            if ("M".equals(sex)) {
-                return RelationshipName.SON;
-            }
-            if ("F".equals(sex)) {
-                return RelationshipName.DAUGHTER;
-            }
-            return RelationshipName.CHILD;
-        }
-        if (relationship == RelationshipName.SON
-                || relationship == RelationshipName.DAUGHTER
-                || relationship == RelationshipName.CHILD) {
-            if ("M".equals(sex)) {
-                return RelationshipName.FATHER;
-            }
-            if ("F".equals(sex)) {
-                return RelationshipName.MOTHER;
-            }
-        }
-        return null;
+        return relationship.reverseForUnknown;
     }
 
     /**
@@ -477,20 +442,9 @@ public class RelationshipCalculator {
             // improvement.
             previousLength = relationship.chain.size();
 
-            collapse(relationship.chain, RelationshipName.FATHER,
-                    RelationshipName.SON, RelationshipName.BROTHER);
-            collapse(relationship.chain, RelationshipName.MOTHER,
-                    RelationshipName.SON, RelationshipName.BROTHER);
-            collapse(relationship.chain, RelationshipName.FATHER,
-                    RelationshipName.DAUGHTER, RelationshipName.SISTER);
-            collapse(relationship.chain, RelationshipName.MOTHER,
-                    RelationshipName.DAUGHTER, RelationshipName.SISTER);
-            collapse(relationship.chain, RelationshipName.FATHER,
-                    RelationshipName.CHILD, RelationshipName.SIBLING);
-            collapse(relationship.chain, RelationshipName.MOTHER,
-                    RelationshipName.CHILD, RelationshipName.SIBLING);
-            collapse(relationship.chain, RelationshipName.MOTHER,
-                    RelationshipName.CHILD, RelationshipName.SIBLING);
+            for (RelationshipName[] rule : SimplificationRules.rules) {
+                collapse(relationship.chain, rule[0], rule[1], rule[2]);
+            }
         }
     }
 }

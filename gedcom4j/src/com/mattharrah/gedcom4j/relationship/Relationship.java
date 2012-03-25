@@ -158,7 +158,7 @@ public class Relationship implements Comparable<Relationship> {
             }
             first = false;
             sb.append(sr.individual1.names.get(0));
-            sb.append("'s ").append(sr.relationship).append(" ");
+            sb.append("'s ").append(sr.name).append(" ");
             sb.append(sr.individual2.names.get(0));
         }
         sb.append(">, ").append(chain.size()).append(" step(s)");
