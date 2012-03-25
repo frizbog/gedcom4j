@@ -78,7 +78,6 @@ public class RelationshipCalculatorTest {
                 "There are supposed to be 18 families in the gedcom - are you using the right file/file version?",
                 18, g.families.size());
         finder = new Finder(g);
-
     }
 
     /**
