@@ -71,7 +71,7 @@ public enum RelationshipName {
 
         MOTHER.reverseForMale = SON;
         MOTHER.reverseForFemale = DAUGHTER;
-        MOTHER.reverseForFemale = CHILD;
+        MOTHER.reverseForUnknown = CHILD;
 
         SON.reverseForMale = FATHER;
         SON.reverseForFemale = MOTHER;
