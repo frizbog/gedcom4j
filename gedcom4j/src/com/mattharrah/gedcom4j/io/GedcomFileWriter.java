@@ -136,8 +136,11 @@ public class GedcomFileWriter {
      */
     public void write(File file) throws IOException {
         FileOutputStream fos = new FileOutputStream(file);
-        write(fos);
-        fos.close();
+        try {
+            write(fos);
+        } finally {
+            fos.close();
+        }
     }
 
     /**
