@@ -44,6 +44,11 @@ public class IndividualByLastNameFirstNameComparator implements Serializable,
     /**
      * Compare two individuals
      * 
+     * @param i1
+     *            individual 1
+     * @param i2
+     *            individual 2
+     * @return -1 if i1 < i2, 0 if i1 == i2, 1 if i1 > i2
      * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
      */
     public int compare(Individual i1, Individual i2) {

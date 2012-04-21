@@ -285,7 +285,6 @@ public final class SimplificationRules {
      *            relationship2
      * @param r3
      *            relationship3
-     * @return the three relationships as a rule
      */
     private static void newRule(RelationshipName r1, RelationshipName r2,
             RelationshipName r3) {
