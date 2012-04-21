@@ -345,7 +345,7 @@ public class GedcomWriter {
     private void emitCitationWithSource(int level, CitationWithSource cws)
             throws GedcomWriterException {
         Source source = cws.source;
-        if (source == null || source.xref == null || source.xref.isEmpty()) {
+        if (source == null || source.xref == null || source.xref.length() == 0) {
             throw new GedcomWriterException(
                     "Citation with source must have a source record with an xref/id");
         }
@@ -495,7 +495,7 @@ public class GedcomWriter {
                 header.characterSet.characterSetName);
         emitTagIfValueNotNull(2, "VERS", header.characterSet.versionNum);
         emitTagIfValueNotNull(1, "LANG", header.language);
-        if (header.placeStructure != null && !header.placeStructure.isEmpty()) {
+        if (header.placeStructure != null && header.placeStructure.length() > 0) {
             // TODO - need better handling for PLAC structures in the header
             emitTag(1, "PLAC");
             emitTagWithRequiredValue(2, "FORM", header.placeStructure);
@@ -698,13 +698,13 @@ public class GedcomWriter {
             StringBuilder line = new StringBuilder();
             if (lineNum == 0) {
                 line.append(level).append(" ");
-                if (xref != null && !xref.isEmpty()) {
+                if (xref != null && xref.length() > 0) {
                     line.append(xref).append(" ");
                 }
                 line.append(startingTag).append(" ").append(l);
             } else {
                 line.append(level + 1).append(" ");
-                if (xref != null && !xref.isEmpty()) {
+                if (xref != null && xref.length() > 0) {
                     line.append(xref).append(" ");
                 }
                 line.append("CONT ").append(l);
@@ -1144,7 +1144,7 @@ public class GedcomWriter {
      */
     private void emitTag(int level, String xref, String tag) {
         StringBuilder line = new StringBuilder(Integer.toString(level));
-        if (xref != null && !xref.isEmpty()) {
+        if (xref != null && xref.length() > 0) {
             line.append(" " + xref);
         }
         line.append(" " + tag);
@@ -1182,7 +1182,7 @@ public class GedcomWriter {
         if (value != null) {
             StringBuilder line = new StringBuilder();
             line.append(level);
-            if (xref != null && !xref.isEmpty()) {
+            if (xref != null && xref.length() > 0) {
                 line.append(" " + xref);
             }
             line.append(" " + tag + " " + value);
@@ -1250,7 +1250,7 @@ public class GedcomWriter {
                     + " at level " + level + " was null or blank");
         }
         StringBuilder line = new StringBuilder(Integer.toString(level));
-        if (xref != null && !xref.isEmpty()) {
+        if (xref != null && xref.length() > 0) {
             line.append(" " + xref);
         }
         line.append(" " + tag + " " + value);

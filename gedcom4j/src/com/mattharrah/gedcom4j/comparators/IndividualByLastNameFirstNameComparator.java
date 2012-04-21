@@ -41,7 +41,11 @@ public class IndividualByLastNameFirstNameComparator implements Serializable,
      */
     private static final long serialVersionUID = -8121061183483337581L;
 
-    @Override
+    /**
+     * Compare two individuals
+     * 
+     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+     */
     public int compare(Individual i1, Individual i2) {
 
         String n1 = "-unknown-";

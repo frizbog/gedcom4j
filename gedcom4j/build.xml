@@ -39,7 +39,7 @@
 	</target>
 
 	<target name="compile" depends="init" description="Compile all source code">
-		<javac srcdir="src" destdir="bin" deprecation="true" debug="true" debuglevel="lines,vars,source" includeantruntime="false" />
+		<javac srcdir="src" destdir="bin" deprecation="true" debug="true" debuglevel="lines,vars,source" source="1.5" target="1.5" includeantruntime="false" />
 	</target>
 
 	<target name="javadoc" depends="compile" description="Generate javadoc">
@@ -77,7 +77,7 @@
 		<mkdir dir="reports/junit" />
 		<delete dir="reports/coverage" />
 		<mkdir dir="reports/coverage" />
-		<javac srcdir="test" destdir="testbin" deprecation="true" debug="true" debuglevel="lines,vars,source" includeantruntime="false">
+		<javac source="1.5" target="1.5" srcdir="test" destdir="testbin" deprecation="true" debug="true" debuglevel="lines,vars,source" includeantruntime="false">
 			<classpath>
 				<fileset dir="lib" includes="junit-4.10.jar" />
 				<pathelement location="bin" />

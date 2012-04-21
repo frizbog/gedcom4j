@@ -1173,7 +1173,7 @@ public class GedcomParser {
                     note.lines.add(ch.value);
                 } else {
                     String lastNote = note.lines.get(note.lines.size() - 1);
-                    if (lastNote == null || lastNote.isEmpty()) {
+                    if (lastNote == null || lastNote.length() == 0) {
                         note.lines.set(note.lines.size() - 1, ch.value);
                     } else {
                         note.lines.set(note.lines.size() - 1, lastNote + " "

@@ -86,7 +86,6 @@ public class Relationship implements Comparable<Relationship> {
      *         complex, and 1 if the other one is longer (or null)
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
-    @Override
     public int compareTo(Relationship other) {
         if (other == null) {
             return 1;
