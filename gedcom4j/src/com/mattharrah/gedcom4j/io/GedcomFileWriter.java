@@ -21,8 +21,6 @@
  */
 package com.mattharrah.gedcom4j.io;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -127,23 +125,6 @@ public class GedcomFileWriter {
     }
 
     /**
-     * Write to a file
-     * 
-     * @param file
-     *            the {@link File} object to write to
-     * @throws IOException
-     *             if the data can't be written to the file
-     */
-    public void write(File file) throws IOException {
-        FileOutputStream fos = new FileOutputStream(file);
-        try {
-            write(fos);
-        } finally {
-            fos.close();
-        }
-    }
-
-    /**
      * Write the gedcom lines to an output stream, encoding as needed
      * 
      * @param out
@@ -174,19 +155,6 @@ public class GedcomFileWriter {
     }
 
     /**
-     * Write to a file with the supplied name
-     * 
-     * @param fileName
-     *            the name of the new file to write to
-     * @throws IOException
-     *             if the data can't be written
-     */
-    public void write(String fileName) throws IOException {
-        File f = new File(fileName);
-        write(f);
-    }
-
-    /**
      * Set default line terminator based on JVM settings
      */
     private void setDefaultLineTerminator() {
@@ -194,17 +162,15 @@ public class GedcomFileWriter {
 
         if (Character.toString((char) 0x0D).equals(jvmLineTerm)) {
             terminator = LineTerminator.CR_ONLY;
-        }
-        if (Character.toString((char) 0x0A).equals(jvmLineTerm)) {
+        } else if (Character.toString((char) 0x0A).equals(jvmLineTerm)) {
             terminator = LineTerminator.LF_ONLY;
-        }
-        if ((Character.toString((char) 0x0D) + Character.toString((char) 0x0A))
-                .equals(jvmLineTerm)) {
+        } else if ((Character.toString((char) 0x0D) + Character
+                .toString((char) 0x0A)).equals(jvmLineTerm)) {
+            terminator = LineTerminator.CRLF;
+        } else {
+            // When all else fails, CRLF is a safe choice
             terminator = LineTerminator.CRLF;
         }
-
-        // When all else fails, CRLF is a safe choice
-        terminator = LineTerminator.CRLF;
     }
 
     /**

@@ -34,6 +34,9 @@ import java.util.List;
 import org.junit.Test;
 
 import com.mattharrah.gedcom4j.io.GedcomFileWriter.LineTerminator;
+import com.mattharrah.gedcom4j.model.Gedcom;
+import com.mattharrah.gedcom4j.writer.GedcomWriter;
+import com.mattharrah.gedcom4j.writer.GedcomWriterException;
 
 /**
  * @author frizbog1
@@ -680,6 +683,25 @@ public class GedcomFileWriterTest {
         };
         assertTrue("Output bytes are not the expected value",
                 Arrays.equals(expected, out.toByteArray()));
+    }
+
+    /**
+     * Test writing a gedcom to a file by its filename
+     * 
+     * @throws GedcomWriterException
+     *             if there is a writing failure
+     * @throws IOException
+     *             if there is an io failure
+     */
+    @Test
+    public void testWriteFileWithName() throws IOException,
+            GedcomWriterException {
+        String fn = System.getProperty("java.io.tmpdir")
+                + System.getProperty("path.separator")
+                + "gedcomfilewritertest.ged";
+        Gedcom g = new Gedcom();
+        GedcomWriter gw = new GedcomWriter(g);
+        gw.write(fn);
     }
 
 }
