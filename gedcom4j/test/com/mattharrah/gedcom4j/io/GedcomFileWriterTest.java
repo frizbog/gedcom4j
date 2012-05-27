@@ -697,7 +697,7 @@ public class GedcomFileWriterTest {
     public void testWriteFileWithName() throws IOException,
             GedcomWriterException {
         String fn = System.getProperty("java.io.tmpdir")
-                + System.getProperty("path.separator")
+                + System.getProperty("file.separator")
                 + "gedcomfilewritertest.ged";
         Gedcom g = new Gedcom();
         GedcomWriter gw = new GedcomWriter(g);
