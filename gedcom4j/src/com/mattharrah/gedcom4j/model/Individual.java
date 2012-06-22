@@ -533,13 +533,20 @@ public class Individual {
         for (IndividualEvent b : getEventsOfType(IndividualEventType.BIRTH)) {
             if (!found) {
                 sb.append(", b.");
+            } else {
+                sb.append(" / ");
             }
             sb.append(b.date);
             found = true;
         }
-        for (IndividualEvent b : getEventsOfType(IndividualEventType.DEATH)) {
-            sb.append(", d." + b.date);
-            break;
+        for (IndividualEvent d : getEventsOfType(IndividualEventType.DEATH)) {
+            if (!found) {
+                sb.append(", d.");
+            } else {
+                sb.append(" / ");
+            }
+            sb.append(d.date);
+            found = true;
         }
         return sb.toString();
     }
