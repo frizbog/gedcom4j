@@ -158,6 +158,8 @@ public class GedcomFileWriter {
      * Set default line terminator based on JVM settings
      */
     private void setDefaultLineTerminator() {
+        // Default setting is CRLF - a good, safe choice
+        terminator = LineTerminator.CRLF;
         String jvmLineTerm = System.getProperty("line.separator");
 
         if (Character.toString((char) 0x0D).equals(jvmLineTerm)) {
@@ -167,9 +169,10 @@ public class GedcomFileWriter {
         } else if ((Character.toString((char) 0x0D) + Character
                 .toString((char) 0x0A)).equals(jvmLineTerm)) {
             terminator = LineTerminator.CRLF;
-        } else {
-            // When all else fails, CRLF is a safe choice
-            terminator = LineTerminator.CRLF;
+        } else if ((Character.toString((char) 0x0A) + Character
+                .toString((char) 0x0D)).equals(jvmLineTerm)) {
+            // Who does this?!
+            terminator = LineTerminator.LFCR;
         }
     }
 
