@@ -141,21 +141,21 @@ public class GedcomWriterTest extends TestCase {
                 "Readback file with line breaks in CONC/CONT lines as expected",
                 readbackLines,
                 "1 NOTE This file demonstrates all tags that are allowed in GEDCOM 5.5. "
-                        + "Here are some comments about the HEADER record and",
-                "2 CONC comments about where to look for information on the other 9 types of "
-                        + "GEDCOM records. Most other records will have their own",
-                "2 CONC notes that describe what to look for in that record and what to hope "
+                        + "Here are some comments about the HEADER record and commen",
+                "2 CONC ts about where to look for information on the other 9 types of "
+                        + "GEDCOM records. Most other records will have their own notes that",
+                "2 CONC  describe what to look for in that record and what to hope "
                         + "the importing software will find.",
                 "2 CONT ",
                 "2 CONT Many applications will fail to import these notes. The notes are "
-                        + "therefore also provided with the files as a plain-text",
-                "2 CONC \"Read-Me\" file.");
+                        + "therefore also provided with the files as a plain-text \"",
+                "2 CONC Read-Me\" file.");
         assertLineSequence(
                 "File as read back does not preserve whitespace as expected",
                 readbackLines,
                 "2 CONT INDIVIDUAL Records:",
                 "2 CONT      This file has a small number of INDIVIDUAL records. "
-                        + "The record named \"Joseph Tag Torture\" has all possible tags for",
+                        + "The record named \"Joseph Tag Torture\" has all possible tags for ",
                 "2 CONC an INDIVIDUAL record. All remaining  individuals have less tags. "
                         + "Some test specific features; for example:",
                 "2 CONT ", "2 CONT      Name: Standard GEDCOM Filelinks",
@@ -356,6 +356,15 @@ public class GedcomWriterTest extends TestCase {
     private void assertLineSequence(String failureMessage, List<String> lookIn,
             String... lookFor) {
         int indexOf = lookIn.indexOf(lookFor[0]);
+        if (indexOf < 0) {
+            System.out.println("\n====");
+            System.out.println("Looking for: ");
+            System.out.println(lookFor[0]);
+            System.out.println("Looking in:");
+            for (String l : lookIn) {
+                System.out.println(l);
+            }
+        }
         assertTrue(failureMessage + ": first string being looked for (\""
                 + lookFor[0]
                 + "\") was not found in in the list being searched",

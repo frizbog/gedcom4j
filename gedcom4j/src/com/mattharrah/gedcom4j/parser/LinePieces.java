@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2012 Matthew R. Harrah
+ * h * Copyright (c) 2009-2012 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -53,25 +53,35 @@ public class LinePieces {
      *            a single line of text from the GEDCOM file
      */
     public LinePieces(String line) {
-        String[] parts = line.split(" ");
-        try {
-            level = Integer.parseInt(parts[0]);
-        } catch (NumberFormatException nfe) {
-            System.err
-                    .println("Unable to split line into chunks and parse first chunk into integer: \n"
-                            + line);
-        }
-        if (parts.length == 2) {
-            tag = parts[1];
-        } else if (parts.length >= 3) {
-            if (parts[1].startsWith("@") && parts[1].endsWith("@")) {
-                tag = parts[2];
-                id = parts[1];
-                remainder = joinParts(parts, 3);
-            } else {
-                tag = parts[1];
-                remainder = joinParts(parts, 2);
+
+        // Level is always 1st character
+        level = Integer.parseInt(line.substring(0, 1));
+
+        int c = 2; // 3rd character in line
+
+        // Take care of the id, if any
+        if ('@' == (line.charAt(c))) {
+            while (c < line.length() && line.charAt(c) != ' ') {
+                if (id == null) {
+                    id = "" + line.charAt(c++);
+                } else {
+                    id += line.charAt(c++);
+                }
             }
+            c++;
+        }
+
+        // Parse the tag
+        while (c < line.length() && line.charAt(c) != ' ') {
+            if (tag == null) {
+                tag = "" + line.charAt(c++);
+            } else {
+                tag += line.charAt(c++);
+            }
+        }
+
+        if (c < line.length()) {
+            remainder = line.substring(c + 1);
         }
     }
 

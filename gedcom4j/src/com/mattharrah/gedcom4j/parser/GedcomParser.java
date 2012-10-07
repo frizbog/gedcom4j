@@ -318,7 +318,7 @@ public class GedcomParser {
                     address.lines.add(ch.value);
                 } else {
                     address.lines.set(address.lines.size() - 1,
-                            address.lines.get(address.lines.size() - 1) + " "
+                            address.lines.get(address.lines.size() - 1)
                                     + ch.value);
                 }
             } else if ("CONT".equals(ch.tag)) {
@@ -446,7 +446,7 @@ public class GedcomParser {
                     // Append to last value in string list
                     cws.description.set(cws.description.size() - 1,
                             cws.description.get(cws.description.size() - 1)
-                                    + " " + ch.value);
+                                    + ch.value);
                 }
             } else if ("TEXT".equals(ch.tag)) {
                 List<String> ls = new ArrayList<String>();
@@ -894,7 +894,7 @@ public class GedcomParser {
                 if (a.description == null) {
                     a.description = ch.value;
                 } else {
-                    a.description += " " + ch.value;
+                    a.description += ch.value;
                 }
             } else {
                 unknownTag(ch);
@@ -944,7 +944,7 @@ public class GedcomParser {
                 if (e.description == null) {
                     e.description = ch.value;
                 } else {
-                    e.description += " " + ch.value;
+                    e.description += ch.value;
                 }
             } else if ("CONT".equals(ch.tag)) {
                 if (e.description == null) {
@@ -1063,7 +1063,7 @@ public class GedcomParser {
                         listOfString.add(ch.value);
                     } else {
                         listOfString.set(listOfString.size() - 1,
-                                listOfString.get(listOfString.size() - 1) + " "
+                                listOfString.get(listOfString.size() - 1)
                                         + ch.value);
                     }
                 }
@@ -1176,7 +1176,7 @@ public class GedcomParser {
                     if (lastNote == null || lastNote.length() == 0) {
                         note.lines.set(note.lines.size() - 1, ch.value);
                     } else {
-                        note.lines.set(note.lines.size() - 1, lastNote + " "
+                        note.lines.set(note.lines.size() - 1, lastNote
                                 + ch.value);
                     }
                 }

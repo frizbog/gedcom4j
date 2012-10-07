@@ -1,0 +1,144 @@
+0 HEAD
+1 SOUR AncestQuest
+2 NAME Ancestral Quest
+2 VERS 14.00.6
+2 CORP Incline Software, LC
+3 ADDR PO Box 95543
+4 CONT South Jordan, UT 84095
+4 CONT USA
+1 DEST Ancestral Quest
+1 DATE 6 OCT 2012
+2 TIME 18:12:10
+1 FILE test.ged
+1 GEDC
+2 VERS 5.5
+2 FORM LINEAGE-LINKED
+1 CHAR UTF-8
+0 @I1@ INDI
+1 NAME John /Smith/
+1 SEX M
+1 BIRT
+2 DATE 1 JAN 1900
+2 PLAC New York, New York
+1 DEAT
+2 DATE 31 DEC 2000
+2 PLAC New York, New York
+1 _UID 9516D41C3401CD4FAA10257D71D0D0BC1581
+1 FAMS @F1@
+1 NOTE Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo
+2 CONC d tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim ve
+2 CONC niam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea com
+2 CONC modo consequat. Duis aute irure dolor in reprehenderit in voluptate veli
+2 CONC t esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cu
+2 CONC pidatat non proident, sunt in culpa qui officia deserunt mollit anim id e
+2 CONC st laborum.
+1 CHAN
+2 DATE 6 OCT 2012
+3 TIME 18:11:42
+0 @I2@ INDI
+1 NAME Mary /Brown/
+1 SEX F
+1 BIRT
+2 DATE 1 JAN 1900
+1 NOTE Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo
+2 CONC d tempor incididunt ut labore et dolore magna aliqua. 
+2 CONT Ut enim ad minim ve
+2 CONC niam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea com
+2 CONC modo consequat. Duis aute irure dolor in reprehenderit in voluptate 
+2 CONC velit esse cillum dolore eu fugiat nulla pariatur. 
+2 CONT Excepteur sint occaecat cu
+2 CONC pidatat non proident, sunt in culpa qui officia deserunt mollit anim id e
+2 CONC st laborum.
+1 DEAT
+2 DATE BEF 31 DEC 2000
+1 _UID 33D936EFDC800D47B2DF8A0458C15949BB66
+1 FAMS @F1@
+1 CHAN
+2 DATE 6 OCT 2012
+3 TIME 18:08:17
+0 @I3@ INDI
+1 NAME Abraham /Smith/
+1 SEX M
+1 BIRT
+2 DATE 1 JAN 1921
+1 DEAT
+2 DATE 31 DEC 2001
+1 _UID 35E6438837564544A8EEE8B1CFB9A14B9F53
+1 FAMS @F2@
+1 FAMC @F1@
+1 CHAN
+2 DATE 6 OCT 2012
+3 TIME 18:08:57
+0 @I4@ INDI
+1 NAME Betsy /Smith/
+1 SEX F
+1 BIRT
+2 DATE 1 JAN 1922
+1 DEAT
+2 DATE DECEASED
+1 _UID C68F55AB54B65A48A4E74C663314C4AEF759
+1 FAMS @F3@
+1 FAMC @F1@
+1 CHAN
+2 DATE 6 OCT 2012
+3 TIME 18:09:17
+0 @I5@ INDI
+1 NAME Cleo /Smith/
+1 _UID 8C59B63D80A7344988E8A8046844F3C8FF80
+1 FAMC @F1@
+0 @I6@ INDI
+1 NAME Elizabeth /Johnson/
+1 SEX F
+1 _UID 23CEC13824B99F4BB40032BD175A1D543699
+1 FAMS @F2@
+0 @I7@ INDI
+1 NAME Daniel /Smith/
+1 SEX M
+1 _UID 90F822B245CD6A48AE2195A91DC3A707BB59
+1 FAMS @F4@
+1 FAMC @F2@
+0 @I8@ INDI
+1 NAME Michael /Roberts/
+1 SEX M
+1 _UID 4C277D5FFDFEB54CA14E8A48D8913611BC94
+1 FAMS @F3@
+0 @I9@ INDI
+1 NAME Ellen /Roberts/
+1 SEX F
+1 _UID 927C1C5310BDDC4894DF789853A3BD7A1ECC
+1 FAMS @F4@
+1 FAMC @F3@
+0 @I10@ INDI
+1 NAME Fred /Smith/
+1 SEX M
+1 _UID 928DF9240A740943811FF945BE5D62C324A4
+1 FAMC @F4@
+0 @F1@ FAM
+1 _STAT MARRIED
+1 HUSB @I1@
+1 WIFE @I2@
+1 _UID 8761C4DCC7697A46850B03CD16293288D15B
+1 CHIL @I3@
+1 CHIL @I4@
+1 CHIL @I5@
+1 MARR
+2 DATE 1 JAN 1920
+0 @F2@ FAM
+1 _STAT MARRIED
+1 HUSB @I3@
+1 WIFE @I6@
+1 _UID DB27B711FB88544884D8C974852A672CC4D2
+1 CHIL @I7@
+0 @F3@ FAM
+1 _STAT MARRIED
+1 HUSB @I8@
+1 WIFE @I4@
+1 _UID B133EAB556A26346A4C75F1E88BEDBD502A2
+1 CHIL @I9@
+0 @F4@ FAM
+1 _STAT MARRIED
+1 HUSB @I7@
+1 WIFE @I9@
+1 _UID 154BCADB3C9FFF44B050C5ABFAAC3E1087FC
+1 CHIL @I10@
+0 TRLR

@@ -224,17 +224,15 @@ public class GedcomWriter {
         if (line.length() <= MAX_LINE_LENGTH) {
             lines.add(line);
         } else {
-            int i = splitSpace(line);
             // First part
-            lines.add(line.substring(0, i));
+            lines.add(line.substring(0, MAX_LINE_LENGTH));
             // Now a series of as many CONC lines as needed
-            String remainder = line.substring(i + 1);
+            String remainder = line.substring(MAX_LINE_LENGTH);
             while (remainder.length() > 0) {
                 if (remainder.length() > MAX_LINE_LENGTH) {
-                    i = splitSpace(remainder);
                     lines.add((level + 1) + " CONC "
-                            + remainder.substring(0, i));
-                    remainder = remainder.substring(i + 1);
+                            + remainder.substring(0, MAX_LINE_LENGTH));
+                    remainder = remainder.substring(MAX_LINE_LENGTH);
                 } else {
                     lines.add((level + 1) + " CONC " + remainder);
                     remainder = "";
@@ -808,15 +806,6 @@ public class GedcomWriter {
      *            the Notes text
      */
     private void emitNoteLines(int level, String xref, List<String> noteLines) {
-        // int noteLineNum = 0;
-        // for (String n : noteLines) {
-        // if (noteLineNum++ == 0) {
-        // emitTagIfValueNotNull(level, xref, "NOTE", n);
-        // } else {
-        // lines.add(level + 1 + " " + "CONT"
-        // + (n == null ? "" : " " + n));
-        // }
-        // }
         emitLinesOfText(level, xref, "NOTE", noteLines);
     }
 
@@ -1262,22 +1251,5 @@ public class GedcomWriter {
      */
     private void emitTrailer() {
         lines.add("0 TRLR");
-    }
-
-    /**
-     * Get the position of the "split-space", which is here defined as the last
-     * space that appears in a string prior to the 128th character. This way,
-     * you can take the substring of the string up to the value returned from
-     * here, and be sure that it A) is on a space boundary, and B) is not
-     * greater than 128.
-     * 
-     * @param line
-     *            a string that exceeds 245 characters.
-     * @return that portion of the string that appears BEFORE the last space
-     *         BEFORE the 245th character.
-     */
-    private int splitSpace(String line) {
-        String t = line.substring(0, MAX_LINE_LENGTH);
-        return t.lastIndexOf(' ');
     }
 }
