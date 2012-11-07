@@ -107,6 +107,31 @@ public class IndividualTest {
 
     /**
      * Test method for
+     * {@link com.mattharrah.gedcom4j.model.Individual#getAttributesOfType(com.mattharrah.gedcom4j.model.IndividualAttributeType)}
+     * .
+     */
+    @Test
+    public void testGetAttributesOfType() {
+        Individual i = new Individual();
+        addAttributeOfType(i, IndividualAttributeType.OCCUPATION);
+        addAttributeOfType(i, IndividualAttributeType.RELIGIOUS_AFFILIATION);
+        addAttributeOfType(i, IndividualAttributeType.RESIDENCE);
+        addAttributeOfType(i, IndividualAttributeType.RESIDENCE);
+        List<IndividualAttribute> events = i
+                .getAttributesOfType(IndividualAttributeType.OCCUPATION);
+        assertNotNull(events);
+        assertEquals(1, events.size());
+        events = i.getAttributesOfType(IndividualAttributeType.RESIDENCE);
+        assertNotNull(events);
+        assertEquals(2, events.size());
+        events = i
+                .getAttributesOfType(IndividualAttributeType.SOCIAL_SECURITY_NUMBER);
+        assertNotNull(events);
+        assertEquals(0, events.size());
+    }
+
+    /**
+     * Test method for
      * {@link com.mattharrah.gedcom4j.model.Individual#getDescendants()}.
      * 
      * @throws GedcomParserException
@@ -265,6 +290,21 @@ public class IndividualTest {
         assertEquals(
                 "Donald /Draper/, spouse of Anna //, spouse of Elizabeth /Hofstadt/",
                 i.toString());
+    }
+
+    /**
+     * Helper method to add attributes of a specific type to an individual
+     * 
+     * @param i
+     *            the individual to add to
+     * @param t
+     *            the type of attribute
+     */
+    private void addAttributeOfType(Individual i, IndividualAttributeType t) {
+        IndividualAttribute e = new IndividualAttribute();
+        e.type = t;
+        e.description = "Random text for uniqueness " + Math.random();
+        i.attributes.add(e);
     }
 
     /**
