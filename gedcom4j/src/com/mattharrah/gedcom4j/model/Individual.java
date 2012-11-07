@@ -369,6 +369,27 @@ public class Individual {
     }
 
     /**
+     * Get a list of attributes of the supplied type for this individual. For
+     * example, calling this method passing
+     * <code>IndividualAttributeType.OCCUPATION</code> will return a list of all
+     * the occupations recorded for this individual.
+     * 
+     * @param type
+     *            the type of attribute to get
+     * @return a list of attributes of the specified type
+     */
+    public List<IndividualAttribute> getAttributesOfType(
+            IndividualAttributeType type) {
+        List<IndividualAttribute> result = new ArrayList<IndividualAttribute>();
+        for (IndividualAttribute ir : attributes) {
+            if (ir.type == type) {
+                result.add(ir);
+            }
+        }
+        return result;
+    }
+
+    /**
      * Get all the direct blood-line descendants of the current individual, in
      * all generations. Includes children, their children, <i>their</i>
      * children, and so on. Spouses of descendants are not included in the

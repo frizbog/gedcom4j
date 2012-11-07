@@ -59,4 +59,35 @@ public class IndividualAttribute extends Event {
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         return result;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("IndividualAttribute [type=");
+        sb.append(type);
+        if (address != null) {
+            sb.append(", address=").append(address.toString());
+        }
+        if (age != null) {
+            sb.append(", age=").append(age.toString());
+        }
+        if (cause != null) {
+            sb.append(", cause=").append(cause.toString());
+        }
+        if (date != null) {
+            sb.append(", date=").append(date.toString());
+        }
+        if (description != null) {
+            sb.append(", description=").append(description.toString());
+        }
+        if (place != null) {
+            sb.append(", place=").append(place.toString());
+        }
+        if (subType != null) {
+            sb.append(", subType=").append(subType.toString());
+        }
+
+        sb.append("]");
+        return sb.toString();
+    }
+
 }
