@@ -91,6 +91,8 @@ public class GedcomWriterTest extends TestCase {
         gedcomOrig = p.gedcom;
 
         GedcomWriter gw = new GedcomWriter(gedcomOrig);
+        File tmpDir = new File("tmp");
+        tmpDir.mkdirs();
         File tempFile = new File("tmp/gedcom4j.writertest.ged");
         gw.write(tempFile);
 
