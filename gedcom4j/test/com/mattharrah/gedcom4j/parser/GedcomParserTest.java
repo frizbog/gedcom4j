@@ -170,7 +170,7 @@ public class GedcomParserTest extends TestCase {
         Gedcom g = gp.gedcom;
         assertNotNull(g.header);
         assertEquals(3, g.submitters.size());
-        Submitter submitter = g.submitters.values().iterator().next();
+        Submitter submitter = g.submitters.get("@SUBMITTER@");
         assertNotNull(submitter);
         assertEquals("John A. Nairn", submitter.name);
 
