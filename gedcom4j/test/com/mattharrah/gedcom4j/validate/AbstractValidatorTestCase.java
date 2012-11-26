@@ -36,10 +36,17 @@ public abstract class AbstractValidatorTestCase extends TestCase {
      * Root validator - test fixture
      */
     protected GedcomValidator rootValidator;
+
     /**
      * The test fixture gedcom structure
      */
     protected Gedcom gedcom;
+
+    /**
+     * Determines whether to write noise out to System.out. Useful to change to true temporarily for debugging this test but should be always set to
+     * false when checked into repository.
+     */
+    private static final boolean VERBOSE = false;
 
     /**
      * Default constructor
@@ -59,16 +66,14 @@ public abstract class AbstractValidatorTestCase extends TestCase {
     }
 
     /**
-     * Assert that the findings collection on the root validator contains at
-     * least one finding of the specified severity with a given substring
+     * Assert that the findings collection on the root validator contains at least one finding of the specified severity with a given substring
      * 
      * @param severity
      *            the expected severity
      * @param substringOfDescription
      *            substring to look for in the finding's description
      */
-    protected void assertFindingsContain(Severity severity,
-            String... substringOfDescription) {
+    protected void assertFindingsContain(Severity severity, String... substringOfDescription) {
         for (GedcomValidationFinding f : rootValidator.findings) {
             if (f.severity == severity) {
                 boolean matchAllSoFar = true;
@@ -83,8 +88,7 @@ public abstract class AbstractValidatorTestCase extends TestCase {
                 }
             }
         }
-        StringBuilder sb = new StringBuilder(
-                "Expected to find at least one finding at severity " + severity);
+        StringBuilder sb = new StringBuilder("Expected to find at least one finding at severity " + severity);
         if (substringOfDescription != null && substringOfDescription.length > 0) {
             for (int i = 0; i < substringOfDescription.length; i++) {
                 if (i == 0) {
@@ -115,9 +119,11 @@ public abstract class AbstractValidatorTestCase extends TestCase {
      * 
      */
     protected void dumpFindings() {
+        if (!VERBOSE) {
+            return;
+        }
         if (rootValidator.findings.size() > 0) {
-            System.out.println(rootValidator.findings.size()
-                    + " finding(s) from validation");
+            System.out.println(rootValidator.findings.size() + " finding(s) from validation");
         }
         for (GedcomValidationFinding f : rootValidator.findings) {
             System.out.println(f);

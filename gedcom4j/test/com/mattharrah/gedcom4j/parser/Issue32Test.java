@@ -52,11 +52,12 @@ public class Issue32Test {
     @Test
     public void test() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
+        gp.verbose = true;
         gp.load("sample/issue32.ged");
+        assertTrue(gp.errors.isEmpty());
         assertNotNull(gp.gedcom);
         assertNotNull(gp.gedcom.individuals);
-        assertEquals("There are ten individuals in the test gedcom", 10,
-                gp.gedcom.individuals.size());
+        assertEquals("There are ten individuals in the test gedcom", 10, gp.gedcom.individuals.size());
         boolean foundJohn = false;
         boolean foundMary = false;
         for (Entry<String, Individual> i : gp.gedcom.individuals.entrySet()) {
@@ -90,14 +91,12 @@ public class Issue32Test {
         assertNotNull(note);
         assertNotNull(note.lines);
         assertEquals(1, note.lines.size());
-        assertEquals(
-                "Lorem ipsum dolor sit amet, consectetur adipisicing elit, "
-                        + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
-                        + "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris "
-                        + "nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in "
-                        + "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla "
-                        + "pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa "
-                        + "qui officia deserunt mollit anim id est laborum.",
+        assertEquals("Lorem ipsum dolor sit amet, consectetur adipisicing elit, "
+                + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+                + "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris "
+                + "nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in "
+                + "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla "
+                + "pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa " + "qui officia deserunt mollit anim id est laborum.",
                 note.lines.get(0));
     }
 
@@ -113,18 +112,12 @@ public class Issue32Test {
         assertNotNull(note);
         assertNotNull(note.lines);
         assertEquals(3, note.lines.size());
-        assertEquals(
-                "Lorem ipsum dolor sit amet, consectetur adipisicing elit, "
-                        + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-                note.lines.get(0));
-        assertEquals(
-                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris "
-                        + "nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in "
-                        + "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla "
-                        + "pariatur. ", note.lines.get(1));
-        assertEquals(
-                "Excepteur sint occaecat cupidatat non proident, sunt in culpa "
-                        + "qui officia deserunt mollit anim id est laborum.",
+        assertEquals("Lorem ipsum dolor sit amet, consectetur adipisicing elit, "
+                + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", note.lines.get(0));
+        assertEquals("Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris "
+                + "nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in "
+                + "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla " + "pariatur. ", note.lines.get(1));
+        assertEquals("Excepteur sint occaecat cupidatat non proident, sunt in culpa " + "qui officia deserunt mollit anim id est laborum.",
                 note.lines.get(2));
 
     }

@@ -1,0 +1,39 @@
+0 HEAD
+1 SOUR PAF
+2 NAME Personal Ancestral File
+2 VERS 5.1.12.0
+2 CORP The Church of Jesus Christ of Latter-day Saints
+3 ADDR 50 East North Temple Street
+4 CONT Salt Lake City, UT 84150
+4 CONT USA
+1 DEST PAF
+1 DATE 29 Feb 2004
+2 TIME 11:24:01
+1 FILE 5.5.1 sample 4.ged
+1 GEDC
+2 VERS 5.5.1
+2 FORM LINEAGE-LINKED
+1 CHAR UTF-8
+1 LANG English
+1 SUBM @SUB1@
+0 @SUB1@ SUBM
+1 NAME Frizbog Gordnik
+1 PHON n/a
+1 EMAIL frizbog1<rem0ve_this>@gmail.com
+0 @I1@ INDI
+1 NAME Adalbertus /Stowik/
+2 SURN Stowik
+2 GIVN Adalbertus
+1 SEX M
+1 BIRT
+2 DATE 1800
+2 PLAC Tarnowie, Kraków, Poland
+3 ROMN Tarnow, Cracow, Poland
+4 TYPE Google translate
+3 FONE Tarr-now, Krack-ow, Poh-land
+4 TYPE guessing
+3 MAP
+4 LAT +50° 3' 1.49"
+4 LONG +19° 56' 21.48"
+3 NOTE this is a note
+0 @M1@ OBJE1 TITL Dummy Multimedia Object1 FORM PICT1 BLOB2 CONT .HM.......k.1..F.jwA.Dzzzzw............A....1.........0U.66..E.82 CONT .......A..k.a6.A.......A..k.........../6....G.......0../..U.....2 CONT .w1/m........HC0..../...zzzzzzzz..5zzk..AnA..U..W6U....2rRrRrRrR2 CONT .Dw...............k.1.......1..A...5ykE/zzzx/.g//.Hxzk6/.Tzy/.k12 CONT /Dw/.Tvz.E5zzUE9/kHz.Tw2/DzzzEEA.kE2zk5yzk2/zzs21.U2/Dw/.Tw/.Tzy2 CONT /.fy/.HzzkHzzzo21Ds00.E2.UE2.U62/.k./Ds0.UE0/Do0..E8/UE2.U62.U9w2 CONT /.Tx/.20.jg2/jo2..9u/.0U.6A.zk1 NOTE Here are some notes on this multimedia object.2 CONT If decoded it should be an image of a flower.1 REFN User Reference Number2 TYPE User Reference Type1 RIN 11 CHAN2 DATE 14 Jan 20013 TIME 14:10:310 TRLR

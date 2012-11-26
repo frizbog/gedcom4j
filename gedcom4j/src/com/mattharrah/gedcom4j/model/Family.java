@@ -34,62 +34,82 @@ public class Family {
      * The permanent record file number
      */
     public String recFileNumber;
+
     /**
      * The automated record ID number
      */
     public String automatedRecordId;
+
     /**
      * The wife in the family
      */
     public Individual wife;
+
     /**
      * The husband in the family
      */
     public Individual husband;
+
     /**
      * A list of the children in the family
      */
     public List<Individual> children = new ArrayList<Individual>();
+
     /**
      * The number of children
      */
     public Integer numChildren;
+
     /**
      * A list of the submitters for this family
      */
     public List<Submitter> submitters = new ArrayList<Submitter>();
+
     /**
      * The LDS Spouse Sealings for this family
      */
     public List<LdsSpouseSealing> ldsSpouseSealings = new ArrayList<LdsSpouseSealing>();
+
     /**
      * The source citations for this family
      */
     public List<AbstractCitation> citations = new ArrayList<AbstractCitation>();
+
     /**
      * The multimedia for this family
      */
     public List<Multimedia> multimedia = new ArrayList<Multimedia>();
+
     /**
      * The change date information for this family record
      */
     public ChangeDate changeDate;
+
     /**
      * All the family events
      */
     public List<FamilyEvent> events = new ArrayList<FamilyEvent>();
+
     /**
      * Notes on this family
      */
     public List<Note> notes = new ArrayList<Note>();
+
     /**
      * A cross reference id that things can use to identify this family
      */
     public String xref;
+
     /**
      * The user references
      */
     public List<UserReference> userReferences = new ArrayList<UserReference>();
+
+    /**
+     * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be "confidential", "locked", or
+     * "privacy" but this implementation allows any value.
+     */
+    public String restrictionNotice;
 
     @Override
     public boolean equals(Object obj) {
@@ -208,6 +228,13 @@ public class Family {
         } else if (!xref.equals(other.xref)) {
             return false;
         }
+        if (restrictionNotice == null) {
+            if (other.restrictionNotice != null) {
+                return false;
+            }
+        } else if (!restrictionNotice.equals(other.restrictionNotice)) {
+            return false;
+        }
         return true;
     }
 
@@ -215,35 +242,31 @@ public class Family {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime
-                * result
-                + ((automatedRecordId == null) ? 0 : automatedRecordId
-                        .hashCode());
-        result = prime * result
-                + ((changeDate == null) ? 0 : changeDate.hashCode());
-        result = prime * result
-                + ((children == null) ? 0 : children.hashCode());
-        result = prime * result
-                + ((citations == null) ? 0 : citations.hashCode());
-        result = prime * result + ((events == null) ? 0 : events.hashCode());
-        result = prime * result + ((husband == null) ? 0 : husband.hashCode());
-        result = prime
-                * result
-                + ((ldsSpouseSealings == null) ? 0 : ldsSpouseSealings
-                        .hashCode());
-        result = prime * result
-                + ((multimedia == null) ? 0 : multimedia.hashCode());
-        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-        result = prime * result
-                + ((numChildren == null) ? 0 : numChildren.hashCode());
-        result = prime * result
-                + ((recFileNumber == null) ? 0 : recFileNumber.hashCode());
-        result = prime * result
-                + ((submitters == null) ? 0 : submitters.hashCode());
-        result = prime * result
-                + ((userReferences == null) ? 0 : userReferences.hashCode());
-        result = prime * result + ((wife == null) ? 0 : wife.hashCode());
-        result = prime * result + ((xref == null) ? 0 : xref.hashCode());
+        result = prime * result + (automatedRecordId == null ? 0 : automatedRecordId.hashCode());
+        result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
+        result = prime * result + (children == null ? 0 : children.hashCode());
+        result = prime * result + (citations == null ? 0 : citations.hashCode());
+        result = prime * result + (events == null ? 0 : events.hashCode());
+        result = prime * result + (husband == null ? 0 : husband.hashCode());
+        result = prime * result + (ldsSpouseSealings == null ? 0 : ldsSpouseSealings.hashCode());
+        result = prime * result + (multimedia == null ? 0 : multimedia.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (numChildren == null ? 0 : numChildren.hashCode());
+        result = prime * result + (recFileNumber == null ? 0 : recFileNumber.hashCode());
+        result = prime * result + (submitters == null ? 0 : submitters.hashCode());
+        result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
+        result = prime * result + (wife == null ? 0 : wife.hashCode());
+        result = prime * result + (xref == null ? 0 : xref.hashCode());
+        result = prime * result + (restrictionNotice == null ? 0 : restrictionNotice.hashCode());
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Family [recFileNumber=" + recFileNumber + ", automatedRecordId=" + automatedRecordId + ", wife=" + wife + ", husband=" + husband
+                + ", children=" + children + ", numChildren=" + numChildren + ", submitters=" + submitters + ", ldsSpouseSealings="
+                + ldsSpouseSealings + ", citations=" + citations + ", multimedia=" + multimedia + ", changeDate=" + changeDate + ", events=" + events
+                + ", notes=" + notes + ", xref=" + xref + ", userReferences=" + userReferences + ", restrictionNotice=" + restrictionNotice + "]";
+    }
+
 }

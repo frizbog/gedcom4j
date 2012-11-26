@@ -27,8 +27,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * An individual person. Corresponds to the INDIVIDUAL_RECORD structure in the
- * GEDCOM specification.
+ * An individual person. Corresponds to the INDIVIDUAL_RECORD structure in the GEDCOM specification.
  * 
  * @author frizbog1
  */
@@ -39,100 +38,134 @@ public class Individual {
     public List<String> aliases = new ArrayList<String>();
 
     /**
-     * A list of submitter(s) who are interested in the ancestry of this
-     * individual.
+     * A list of submitter(s) who are interested in the ancestry of this individual.
      */
     public List<Submitter> ancestorInterest = new ArrayList<Submitter>();
+
     /**
      * The Ancestral File Number of this individual.
      */
     public String ancestralFileNumber;
+
     /**
      * A list of associations to which this individual belongs/belonged.
      */
     public List<Association> associations = new ArrayList<Association>();
+
     /**
      * A list of individual attributes about this individual.
      */
     public List<IndividualAttribute> attributes = new ArrayList<IndividualAttribute>();
+
     /**
      * The change date for this individual
      */
     public ChangeDate changeDate;
+
     /**
      * A list of citations of sources about this individual
      */
     public List<AbstractCitation> citations = new ArrayList<AbstractCitation>();
+
     /**
-     * A list of submitters who are interested in the descendants of this
-     * individual.
+     * A list of submitters who are interested in the descendants of this individual.
      */
     public List<Submitter> descendantInterest = new ArrayList<Submitter>();
+
     /**
      * A list of events for this individual.
      */
     public List<IndividualEvent> events = new ArrayList<IndividualEvent>();
+
     /**
      * A list of families to which this individual was a child
      */
     public List<FamilyChild> familiesWhereChild = new ArrayList<FamilyChild>();
+
     /**
-     * A list of families to which this individual was either the husband or
-     * wife
+     * A list of families to which this individual was either the husband or wife
      */
     public List<FamilySpouse> familiesWhereSpouse = new ArrayList<FamilySpouse>();
+
     /**
      * A list of LDS individual ordinances for this individual
      */
     public List<LdsIndividualOrdinance> ldsIndividualOrdinances = new ArrayList<LdsIndividualOrdinance>();
+
     /**
      * A list of multimedia items for this individual
      */
     public List<Multimedia> multimedia = new ArrayList<Multimedia>();
+
     /**
      * A list of names for this individual
      */
     public List<PersonalName> names = new ArrayList<PersonalName>();
+
     /**
      * A list of notes for this individual
      */
     public List<Note> notes = new ArrayList<Note>();
+
     /**
      * The permanent record file number for this individual
      */
     public String permanentRecFileNumber;
+
     /**
      * The record ID number for this individual
      */
     public String recIdNumber;
+
     /**
      * The restriction notice (if any) for this individual
      */
     public String restrictionNotice;
+
     /**
      * The sex of this individual
      */
     public String sex;
+
     /**
      * A list of submitter(s) of this individual
      */
     public List<Submitter> submitters = new ArrayList<Submitter>();
+
     /**
      * A list of user references for this individual
      */
     public List<UserReference> userReferences = new ArrayList<UserReference>();
+
     /**
      * The cross-reference ID for this individual
      */
     public String xref;
+
     /**
      * The address of this individual
      */
     public Address address;
+
     /**
      * The phone numbers for the individual
      */
     public List<String> phoneNumbers = new ArrayList<String>();
+
+    /**
+     * Web URL's. New for GEDCOM 5.5.1.
+     */
+    public List<String> wwwUrls = new ArrayList<String>();
+
+    /**
+     * Fax numbers. New for GEDCOM 5.5.1.
+     */
+    public List<String> faxNumbers = new ArrayList<String>();
+
+    /**
+     * The emails for this submitter. New for GEDCOM 5.5.1
+     */
+    public List<String> emails = new ArrayList<String>();
 
     // CHECKSTYLE:OFF for method length
     /*
@@ -240,8 +273,7 @@ public class Individual {
             if (other.ldsIndividualOrdinances != null) {
                 return false;
             }
-        } else if (!ldsIndividualOrdinances
-                .equals(other.ldsIndividualOrdinances)) {
+        } else if (!ldsIndividualOrdinances.equals(other.ldsIndividualOrdinances)) {
             return false;
         }
         if (multimedia == null) {
@@ -277,6 +309,27 @@ public class Individual {
                 return false;
             }
         } else if (!phoneNumbers.equals(other.phoneNumbers)) {
+            return false;
+        }
+        if (wwwUrls == null) {
+            if (other.wwwUrls != null) {
+                return false;
+            }
+        } else if (!wwwUrls.equals(other.wwwUrls)) {
+            return false;
+        }
+        if (faxNumbers == null) {
+            if (other.faxNumbers != null) {
+                return false;
+            }
+        } else if (!faxNumbers.equals(other.faxNumbers)) {
+            return false;
+        }
+        if (emails == null) {
+            if (other.emails != null) {
+                return false;
+            }
+        } else if (!emails.equals(other.emails)) {
             return false;
         }
         if (recIdNumber == null) {
@@ -328,8 +381,7 @@ public class Individual {
     // CHECKSTYLE:ON
 
     /**
-     * Get all the individual's names formatted as a single string. Names after
-     * the first one found are shown with "aka" in between each.
+     * Get all the individual's names formatted as a single string. Names after the first one found are shown with "aka" in between each.
      * 
      * @return a string with all the various names for the current individual
      */
@@ -345,17 +397,15 @@ public class Individual {
     }
 
     /**
-     * Get a set of ALL the direct ancestors of the current individual, in all
-     * generations. Includes parents, and all their parents, and all
-     * <i>their</i> parents, and so on. Siblings, cousins, aunts/uncles, etc.
-     * are not included in the results, nor are alternate spouses for parents
+     * Get a set of ALL the direct ancestors of the current individual, in all generations. Includes parents, and all their parents, and all
+     * <i>their</i> parents, and so on. Siblings, cousins, aunts/uncles, etc. are not included in the results, nor are alternate spouses for parents
      * (unless this individual was also a child of that family).
      * 
      * @return a set of ancestors for the current individual.
      */
     public Set<Individual> getAncestors() {
         Set<Individual> result = new HashSet<Individual>();
-        for (FamilyChild f : this.familiesWhereChild) {
+        for (FamilyChild f : familiesWhereChild) {
             if (f.family.husband != null) {
                 result.add(f.family.husband);
                 result.addAll(f.family.husband.getAncestors());
@@ -369,17 +419,14 @@ public class Individual {
     }
 
     /**
-     * Get a list of attributes of the supplied type for this individual. For
-     * example, calling this method passing
-     * <code>IndividualAttributeType.OCCUPATION</code> will return a list of all
-     * the occupations recorded for this individual.
+     * Get a list of attributes of the supplied type for this individual. For example, calling this method passing
+     * <code>IndividualAttributeType.OCCUPATION</code> will return a list of all the occupations recorded for this individual.
      * 
      * @param type
      *            the type of attribute to get
      * @return a list of attributes of the specified type
      */
-    public List<IndividualAttribute> getAttributesOfType(
-            IndividualAttributeType type) {
+    public List<IndividualAttribute> getAttributesOfType(IndividualAttributeType type) {
         List<IndividualAttribute> result = new ArrayList<IndividualAttribute>();
         for (IndividualAttribute ir : attributes) {
             if (ir.type == type) {
@@ -390,16 +437,14 @@ public class Individual {
     }
 
     /**
-     * Get all the direct blood-line descendants of the current individual, in
-     * all generations. Includes children, their children, <i>their</i>
-     * children, and so on. Spouses of descendants are not included in the
-     * results.
+     * Get all the direct blood-line descendants of the current individual, in all generations. Includes children, their children, <i>their</i>
+     * children, and so on. Spouses of descendants are not included in the results.
      * 
      * @return a set of descendants for the current individual
      */
     public Set<Individual> getDescendants() {
         Set<Individual> result = new HashSet<Individual>();
-        for (FamilySpouse f : this.familiesWhereSpouse) {
+        for (FamilySpouse f : familiesWhereSpouse) {
             result.addAll(f.family.children);
             for (Individual i : f.family.children) {
                 if (i != this && !result.contains(i)) {
@@ -428,14 +473,13 @@ public class Individual {
     }
 
     /**
-     * Get a set of spouses for the current individual. Always returns a set,
-     * although it may be empty. The returned set is in no particular order.
+     * Get a set of spouses for the current individual. Always returns a set, although it may be empty. The returned set is in no particular order.
      * 
      * @return a set of spouses for the current individual.
      */
     public Set<Individual> getSpouses() {
         Set<Individual> result = new HashSet<Individual>();
-        for (FamilySpouse f : this.familiesWhereSpouse) {
+        for (FamilySpouse f : familiesWhereSpouse) {
             if (this != f.family.husband && f.family.husband != null) {
                 result.add(f.family.husband);
             }
@@ -450,62 +494,33 @@ public class Individual {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((address == null) ? 0 : address.hashCode());
-        result = prime * result + ((aliases == null) ? 0 : aliases.hashCode());
-        result = prime
-                * result
-                + ((ancestorInterest == null) ? 0 : ancestorInterest.hashCode());
-        result = prime
-                * result
-                + ((ancestralFileNumber == null) ? 0 : ancestralFileNumber
-                        .hashCode());
-        result = prime * result
-                + ((associations == null) ? 0 : associations.hashCode());
-        result = prime * result
-                + ((attributes == null) ? 0 : attributes.hashCode());
-        result = prime * result
-                + ((changeDate == null) ? 0 : changeDate.hashCode());
-        result = prime * result
-                + ((citations == null) ? 0 : citations.hashCode());
-        result = prime
-                * result
-                + ((descendantInterest == null) ? 0 : descendantInterest
-                        .hashCode());
-        result = prime * result + ((events == null) ? 0 : events.hashCode());
-        result = prime
-                * result
-                + ((familiesWhereChild == null) ? 0 : familiesWhereChild
-                        .hashCode());
-        result = prime
-                * result
-                + ((familiesWhereSpouse == null) ? 0 : familiesWhereSpouse
-                        .hashCode());
-        result = prime
-                * result
-                + ((ldsIndividualOrdinances == null) ? 0
-                        : ldsIndividualOrdinances.hashCode());
-        result = prime * result
-                + ((multimedia == null) ? 0 : multimedia.hashCode());
-        result = prime * result + ((names == null) ? 0 : names.hashCode());
-        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-        result = prime
-                * result
-                + ((permanentRecFileNumber == null) ? 0
-                        : permanentRecFileNumber.hashCode());
-        result = prime * result
-                + ((phoneNumbers == null) ? 0 : phoneNumbers.hashCode());
-        result = prime * result
-                + ((recIdNumber == null) ? 0 : recIdNumber.hashCode());
-        result = prime
-                * result
-                + ((restrictionNotice == null) ? 0 : restrictionNotice
-                        .hashCode());
-        result = prime * result + ((sex == null) ? 0 : sex.hashCode());
-        result = prime * result
-                + ((submitters == null) ? 0 : submitters.hashCode());
-        result = prime * result
-                + ((userReferences == null) ? 0 : userReferences.hashCode());
-        result = prime * result + ((xref == null) ? 0 : xref.hashCode());
+        result = prime * result + (address == null ? 0 : address.hashCode());
+        result = prime * result + (aliases == null ? 0 : aliases.hashCode());
+        result = prime * result + (ancestorInterest == null ? 0 : ancestorInterest.hashCode());
+        result = prime * result + (ancestralFileNumber == null ? 0 : ancestralFileNumber.hashCode());
+        result = prime * result + (associations == null ? 0 : associations.hashCode());
+        result = prime * result + (attributes == null ? 0 : attributes.hashCode());
+        result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
+        result = prime * result + (citations == null ? 0 : citations.hashCode());
+        result = prime * result + (descendantInterest == null ? 0 : descendantInterest.hashCode());
+        result = prime * result + (events == null ? 0 : events.hashCode());
+        result = prime * result + (familiesWhereChild == null ? 0 : familiesWhereChild.hashCode());
+        result = prime * result + (familiesWhereSpouse == null ? 0 : familiesWhereSpouse.hashCode());
+        result = prime * result + (ldsIndividualOrdinances == null ? 0 : ldsIndividualOrdinances.hashCode());
+        result = prime * result + (multimedia == null ? 0 : multimedia.hashCode());
+        result = prime * result + (names == null ? 0 : names.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (permanentRecFileNumber == null ? 0 : permanentRecFileNumber.hashCode());
+        result = prime * result + (phoneNumbers == null ? 0 : phoneNumbers.hashCode());
+        result = prime * result + (faxNumbers == null ? 0 : faxNumbers.hashCode());
+        result = prime * result + (wwwUrls == null ? 0 : wwwUrls.hashCode());
+        result = prime * result + (emails == null ? 0 : emails.hashCode());
+        result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
+        result = prime * result + (restrictionNotice == null ? 0 : restrictionNotice.hashCode());
+        result = prime * result + (sex == null ? 0 : sex.hashCode());
+        result = prime * result + (submitters == null ? 0 : submitters.hashCode());
+        result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
+        result = prime * result + (xref == null ? 0 : xref.hashCode());
         return result;
     }
 

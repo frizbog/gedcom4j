@@ -43,9 +43,7 @@ import com.mattharrah.gedcom4j.query.Finder;
 public class IndividualTest {
 
     /**
-     * Test method for
-     * {@link com.mattharrah.gedcom4j.model.Individual#equals(java.lang.Object)}
-     * .
+     * Test method for {@link com.mattharrah.gedcom4j.model.Individual#equals(java.lang.Object)} .
      */
     @Test
     public void testEqualsObject() {
@@ -59,8 +57,7 @@ public class IndividualTest {
     }
 
     /**
-     * Test method for
-     * {@link com.mattharrah.gedcom4j.model.Individual#formattedName()}.
+     * Test method for {@link com.mattharrah.gedcom4j.model.Individual#formattedName()}.
      */
     @Test
     public void testFormattedName() {
@@ -68,13 +65,11 @@ public class IndividualTest {
         addBasicName(i, "Bob /Dylan/");
         assertEquals("Bob /Dylan/", i.formattedName());
         addBasicName(i, "Robert Allen /Zimmerman/");
-        assertEquals("Bob /Dylan/ aka Robert Allen /Zimmerman/",
-                i.formattedName());
+        assertEquals("Bob /Dylan/ aka Robert Allen /Zimmerman/", i.formattedName());
     }
 
     /**
-     * Test method for
-     * {@link com.mattharrah.gedcom4j.model.Individual#getAncestors()}.
+     * Test method for {@link com.mattharrah.gedcom4j.model.Individual#getAncestors()}.
      * 
      * @throws GedcomParserException
      *             if the sample gedcom won't parse
@@ -84,15 +79,14 @@ public class IndividualTest {
     @Test
     public void testGetAncestors() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
+        gp.verbose = true;
         gp.load("sample/RelationshipTest.ged");
+        assertTrue(gp.errors.isEmpty());
+        assertTrue(gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
-        assertEquals(
-                "There are supposed to be 43 people in the gedcom - are you using the right file/file version?",
-                43, g.individuals.size());
-        assertEquals(
-                "There are supposed to be 18 families in the gedcom - are you using the right file/file version?",
-                18, g.families.size());
+        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g.individuals.size());
+        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?", 18, g.families.size());
 
         Individual robert = getPerson(g, "Andrews", "Robert");
         Set<Individual> ancestors = robert.getAncestors();
@@ -106,9 +100,7 @@ public class IndividualTest {
     }
 
     /**
-     * Test method for
-     * {@link com.mattharrah.gedcom4j.model.Individual#getAttributesOfType(com.mattharrah.gedcom4j.model.IndividualAttributeType)}
-     * .
+     * Test method for {@link com.mattharrah.gedcom4j.model.Individual#getAttributesOfType(com.mattharrah.gedcom4j.model.IndividualAttributeType)} .
      */
     @Test
     public void testGetAttributesOfType() {
@@ -117,22 +109,19 @@ public class IndividualTest {
         addAttributeOfType(i, IndividualAttributeType.RELIGIOUS_AFFILIATION);
         addAttributeOfType(i, IndividualAttributeType.RESIDENCE);
         addAttributeOfType(i, IndividualAttributeType.RESIDENCE);
-        List<IndividualAttribute> events = i
-                .getAttributesOfType(IndividualAttributeType.OCCUPATION);
+        List<IndividualAttribute> events = i.getAttributesOfType(IndividualAttributeType.OCCUPATION);
         assertNotNull(events);
         assertEquals(1, events.size());
         events = i.getAttributesOfType(IndividualAttributeType.RESIDENCE);
         assertNotNull(events);
         assertEquals(2, events.size());
-        events = i
-                .getAttributesOfType(IndividualAttributeType.SOCIAL_SECURITY_NUMBER);
+        events = i.getAttributesOfType(IndividualAttributeType.SOCIAL_SECURITY_NUMBER);
         assertNotNull(events);
         assertEquals(0, events.size());
     }
 
     /**
-     * Test method for
-     * {@link com.mattharrah.gedcom4j.model.Individual#getDescendants()}.
+     * Test method for {@link com.mattharrah.gedcom4j.model.Individual#getDescendants()}.
      * 
      * @throws GedcomParserException
      *             if the sample file can't be parsed
@@ -142,15 +131,14 @@ public class IndividualTest {
     @Test
     public void testGetDescendants() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
+        gp.verbose = true;
         gp.load("sample/RelationshipTest.ged");
+        assertTrue(gp.errors.isEmpty());
+        assertTrue(gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
-        assertEquals(
-                "There are supposed to be 43 people in the gedcom - are you using the right file/file version?",
-                43, g.individuals.size());
-        assertEquals(
-                "There are supposed to be 18 families in the gedcom - are you using the right file/file version?",
-                18, g.families.size());
+        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g.individuals.size());
+        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?", 18, g.families.size());
 
         Individual alex = getPerson(g, "Zucco", "Alex");
         Set<Individual> descendants = alex.getDescendants();
@@ -163,9 +151,7 @@ public class IndividualTest {
     }
 
     /**
-     * Test method for
-     * {@link com.mattharrah.gedcom4j.model.Individual#getEventsOfType(com.mattharrah.gedcom4j.model.IndividualEventType)}
-     * .
+     * Test method for {@link com.mattharrah.gedcom4j.model.Individual#getEventsOfType(com.mattharrah.gedcom4j.model.IndividualEventType)} .
      */
     @Test
     public void testGetEventsOfType() {
@@ -174,8 +160,7 @@ public class IndividualTest {
         addEventOfType(i, IndividualEventType.CENSUS);
         addEventOfType(i, IndividualEventType.CENSUS);
         addEventOfType(i, IndividualEventType.CENSUS);
-        List<IndividualEvent> events = i
-                .getEventsOfType(IndividualEventType.ADOPTION);
+        List<IndividualEvent> events = i.getEventsOfType(IndividualEventType.ADOPTION);
         assertNotNull(events);
         assertEquals(1, events.size());
         events = i.getEventsOfType(IndividualEventType.CENSUS);
@@ -187,8 +172,7 @@ public class IndividualTest {
     }
 
     /**
-     * Test method for
-     * {@link com.mattharrah.gedcom4j.model.Individual#getSpouses()}.
+     * Test method for {@link com.mattharrah.gedcom4j.model.Individual#getSpouses()}.
      */
     @Test
     public void testGetSpouses() {
@@ -200,14 +184,11 @@ public class IndividualTest {
         f.family.husband = i;
         i.familiesWhereSpouse.add(f);
         assertNotNull(i.getSpouses());
-        assertTrue(
-                "Should still be empty because there is no wife in the family that this guy's a spouse in",
-                i.getSpouses().isEmpty());
+        assertTrue("Should still be empty because there is no wife in the family that this guy's a spouse in", i.getSpouses().isEmpty());
         f.family.wife = new Individual();
         addBasicName(f.family.wife, "Anna //");
         assertNotNull(i.getSpouses());
-        assertEquals("Ok, now there's a wife, should be exactly one spouse", 1,
-                i.getSpouses().size());
+        assertEquals("Ok, now there's a wife, should be exactly one spouse", 1, i.getSpouses().size());
 
         // Add a second family and spouse
         f = new FamilySpouse();
@@ -215,21 +196,17 @@ public class IndividualTest {
         f.family.husband = i;
         i.familiesWhereSpouse.add(f);
         assertNotNull(i.getSpouses());
-        assertEquals(
-                "Should still be just one spouse because there is no wife in the 2nd family that this guy's a spouse in",
-                1, i.getSpouses().size());
+        assertEquals("Should still be just one spouse because there is no wife in the 2nd family that this guy's a spouse in", 1, i.getSpouses()
+                .size());
 
         f.family.wife = new Individual();
         addBasicName(f.family.wife, "Elizabeth /Hofstadt/");
         assertNotNull(i.getSpouses());
-        assertEquals(
-                "Ok, now there's a wife in the 2nd family, should be exactly two spouses",
-                2, i.getSpouses().size());
+        assertEquals("Ok, now there's a wife in the 2nd family, should be exactly two spouses", 2, i.getSpouses().size());
     }
 
     /**
-     * Test method for
-     * {@link com.mattharrah.gedcom4j.model.Individual#hashCode()}.
+     * Test method for {@link com.mattharrah.gedcom4j.model.Individual#hashCode()}.
      */
     @Test
     public void testHashCode() {
@@ -243,8 +220,7 @@ public class IndividualTest {
     }
 
     /**
-     * Test method for
-     * {@link com.mattharrah.gedcom4j.model.Individual#toString()}.
+     * Test method for {@link com.mattharrah.gedcom4j.model.Individual#toString()}.
      */
     @Test
     public void testToString1() {
@@ -253,8 +229,7 @@ public class IndividualTest {
     }
 
     /**
-     * Test method for
-     * {@link com.mattharrah.gedcom4j.model.Individual#toString()}.
+     * Test method for {@link com.mattharrah.gedcom4j.model.Individual#toString()}.
      */
     @Test
     public void testToString2() {
@@ -266,8 +241,7 @@ public class IndividualTest {
     }
 
     /**
-     * Test method for
-     * {@link com.mattharrah.gedcom4j.model.Individual#toString()}.
+     * Test method for {@link com.mattharrah.gedcom4j.model.Individual#toString()}.
      */
     @Test
     public void testToString3() {
@@ -287,9 +261,7 @@ public class IndividualTest {
 
         f.family.wife = new Individual();
         addBasicName(f.family.wife, "Elizabeth /Hofstadt/");
-        assertEquals(
-                "Donald /Draper/, spouse of Anna //, spouse of Elizabeth /Hofstadt/",
-                i.toString());
+        assertEquals("Donald /Draper/, spouse of Anna //, spouse of Elizabeth /Hofstadt/", i.toString());
     }
 
     /**
@@ -349,10 +321,8 @@ public class IndividualTest {
      * @return the person
      */
     private Individual getPerson(Gedcom gedcom, String surname, String givenName) {
-        Individual result = new Finder(gedcom).findByName(surname, givenName)
-                .get(0);
-        assertNotNull("Couldn't find " + givenName + " " + surname
-                + " by name in the gedcom", result);
+        Individual result = new Finder(gedcom).findByName(surname, givenName).get(0);
+        assertNotNull("Couldn't find " + givenName + " " + surname + " by name in the gedcom", result);
         return result;
     }
 

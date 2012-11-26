@@ -22,32 +22,55 @@
 package com.mattharrah.gedcom4j.io;
 
 /**
- * An encoding for a gedcom file.
+ * Represents an unsupported/illegal value for a charset encoding in a GEDCOM
+ * file
  * 
  * @author frizbog1
  */
-public enum Encoding {
+public class UnsupportedGedcomCharsetException extends Exception {
+
     /**
-     * ASCII. Only characters from 0x00 to 0x7F are expected, one byte per
-     * character.
+     * Serial Version UID
      */
-    ASCII,
+    private static final long serialVersionUID = -1209602510830929697L;
+
     /**
-     * ANSEL (American National Standard for Extended Latin), aka ANSI
-     * Z39.47-1985, aka MARC-8. This is the default for GEDCOM files. One byte
-     * per character.
+     * Default constructor
      */
-    ANSEL,
+    public UnsupportedGedcomCharsetException() {
+        // Superclass handles just fine
+    }
+
     /**
-     * Unicode, big-endian. Two bytes per character.
+     * Constructor that takes just the message
+     * 
+     * @param message
+     *            the message
      */
-    UNICODE_BIG_ENDIAN,
+    public UnsupportedGedcomCharsetException(String message) {
+        super(message);
+    }
+
     /**
-     * Unicode, little-endian. Two bytes per character.
+     * Constructor that takes the message and cause
+     * 
+     * @param message
+     *            the message
+     * @param cause
+     *            the cause
      */
-    UNICODE_LITTLE_ENDIAN,
+    public UnsupportedGedcomCharsetException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
     /**
-     * UTF-8 encoding.
+     * Constructor that takes just the cause
+     * 
+     * @param cause
+     *            the cause
      */
-    UTF_8;
+    public UnsupportedGedcomCharsetException(Throwable cause) {
+        super(cause);
+    }
+
 }

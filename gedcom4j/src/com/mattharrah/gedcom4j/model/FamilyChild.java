@@ -34,18 +34,27 @@ public class FamilyChild {
      * The family to which the child belonged
      */
     public Family family;
+
     /**
      * Notes on the membership
      */
     public List<Note> notes = new ArrayList<Note>();
+
     /**
      * Pedigree information
      */
     public String pedigree;
+
     /**
      * Who did the adopting.
      */
     public AdoptedByWhichParent adoptedBy;
+
+    /**
+     * The status of this Family/Child relationship. New for GEDCOM 5.5.1. Supposed to be "challenged", "disproven", or "proven", but this
+     * implementation allows any value.
+     */
+    public String status;
 
     @Override
     public boolean equals(Object obj) {
@@ -98,6 +107,13 @@ public class FamilyChild {
         } else if (!pedigree.equals(other.pedigree)) {
             return false;
         }
+        if (status == null) {
+            if (other.status != null) {
+                return false;
+            }
+        } else if (!status.equals(other.status)) {
+            return false;
+        }
         return true;
     }
 
@@ -105,15 +121,17 @@ public class FamilyChild {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result
-                + ((adoptedBy == null) ? 0 : adoptedBy.hashCode());
-        result = prime
-                * result
-                + ((family == null || family.xref == null) ? 0 : family.xref
-                        .hashCode());
-        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-        result = prime * result
-                + ((pedigree == null) ? 0 : pedigree.hashCode());
+        result = prime * result + (adoptedBy == null ? 0 : adoptedBy.hashCode());
+        result = prime * result + (family == null || family.xref == null ? 0 : family.xref.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (pedigree == null ? 0 : pedigree.hashCode());
+        result = prime * result + (status == null ? 0 : status.hashCode());
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "FamilyChild [family=" + family + ", notes=" + notes + ", pedigree=" + pedigree + ", adoptedBy=" + adoptedBy + ", status=" + status
+                + "]";
     }
 }

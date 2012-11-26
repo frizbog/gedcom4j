@@ -26,6 +26,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -311,4 +313,81 @@ public class GedcomFileReaderTest {
         assertEquals("1 CHAR", lines.get(1));
     }
 
+    /**
+     * Test reading a UTF8 file using CRLF delimiters and Byte order markers
+     * 
+     * @throws IOException
+     *             if the data can't be read
+     */
+    @Test
+    public void testUtf8CrLfBOM() throws IOException {
+        testUtf8File("sample/utf8_crlf_bom.ged");
+    }
+
+    /**
+     * Test reading a UTF8 file using CRLF delimiters and no Byte order markers
+     * 
+     * @throws IOException
+     *             if the data can't be read
+     */
+    @Test
+    public void testUtf8CrLfNoBOM() throws IOException {
+        testUtf8File("sample/utf8_crlf_nobom.ged");
+    }
+
+    /**
+     * Test reading a UTF8 file using CR delimiters and no Byte order markers
+     * 
+     * @throws IOException
+     *             if the data can't be read
+     */
+    @Test
+    public void testUtf8CrNoBOM() throws IOException {
+        testUtf8File("sample/utf8_cr_nobom.ged");
+    }
+
+    /**
+     * Test reading a UTF8 file using LF delimiters and no Byte order markers
+     * 
+     * @throws IOException
+     *             if the data can't be read
+     */
+    @Test
+    public void testUtf8LfNoBOM() throws IOException {
+        testUtf8File("sample/utf8_lf_nobom.ged");
+    }
+
+    /**
+     * Test that a UTF file was read and character decoded correctly
+     * 
+     * @param fileName
+     *            the name of the file to load and check
+     * @throws IOException
+     *             if the file can't be loaded
+     * @throws FileNotFoundException
+     *             if the file can't be found
+     */
+    void testUtf8File(String fileName) throws IOException,
+            FileNotFoundException {
+        GedcomFileReader gr = new GedcomFileReader();
+        List<String> lines = gr.getLines(new FileInputStream(fileName));
+        assertNotNull(lines);
+        assertEquals(77, lines.size());
+        assertEquals("2 VERS 5.5.1", lines.get(6));
+        assertEquals("1 CHAR UTF-8", lines.get(8));
+
+        // Check all the non-ascii characters in the names - just a sample but
+        // should give pretty good confidence
+        assertEquals("1 NAME John /Gr\u00FCber/", lines.get(10));
+        assertEquals("1 NAME Mary /H\u00E6germann/", lines.get(16));
+        assertEquals("1 NAME Abraham /Sm\u00EEth/", lines.get(22));
+        assertEquals("1 NAME Betsy /Gro\u00DFmann/", lines.get(29));
+        assertEquals("1 NAME Cleo /N\u00F4rden/", lines.get(36));
+        assertEquals("1 NAME Elizabeth /J\u00e5ckson/", lines.get(39));
+        assertEquals("1 NAME Daniel /\u0106uar\u00f3n/", lines.get(42));
+        assertEquals("1 NAME Michael /Gar\u00E7on/", lines.get(46));
+        assertEquals("1 NAME Ellen /\u0141owenst\u0117in/", lines.get(49));
+        assertEquals("1 NAME Fred /\u00DBlrich/", lines.get(53));
+
+    }
 }

@@ -35,36 +35,54 @@ public class Repository {
      * The xref for this repository
      */
     public String xref;
+
     /**
      * The name of this repository
      */
     public String name;
+
     /**
      * The record ID for this repository
      */
     public String recIdNumber;
+
     /**
      * The address for this repository
      */
     public Address address;
+
     /**
      * The notes for this repository
      */
     public List<Note> notes = new ArrayList<Note>();
+
     /**
      * The change date for this repository
      */
     public ChangeDate changeDate;
+
     /**
      * The user references to this repository
      */
     public List<UserReference> userReferences = new ArrayList<UserReference>();
+
     /**
      * The phone numbers for this repository
      */
     public List<String> phoneNumbers = new ArrayList<String>();
+
     /**
-     * List of emails
+     * Web URL's. New for GEDCOM 5.5.1.
+     */
+    public List<String> wwwUrls = new ArrayList<String>();
+
+    /**
+     * Fax numbers. New for GEDCOM 5.5.1.
+     */
+    public List<String> faxNumbers = new ArrayList<String>();
+
+    /**
+     * The emails for this submitter. New for GEDCOM 5.5.1
      */
     public List<String> emails = new ArrayList<String>();
 
@@ -92,6 +110,20 @@ public class Repository {
                 return false;
             }
         } else if (!changeDate.equals(other.changeDate)) {
+            return false;
+        }
+        if (wwwUrls == null) {
+            if (other.wwwUrls != null) {
+                return false;
+            }
+        } else if (!wwwUrls.equals(other.wwwUrls)) {
+            return false;
+        }
+        if (faxNumbers == null) {
+            if (other.faxNumbers != null) {
+                return false;
+            }
+        } else if (!faxNumbers.equals(other.faxNumbers)) {
             return false;
         }
         if (emails == null) {
@@ -150,19 +182,17 @@ public class Repository {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((address == null) ? 0 : address.hashCode());
-        result = prime * result
-                + ((changeDate == null) ? 0 : changeDate.hashCode());
-        result = prime * result + ((emails == null) ? 0 : emails.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-        result = prime * result
-                + ((phoneNumbers == null) ? 0 : phoneNumbers.hashCode());
-        result = prime * result
-                + ((recIdNumber == null) ? 0 : recIdNumber.hashCode());
-        result = prime * result
-                + ((userReferences == null) ? 0 : userReferences.hashCode());
-        result = prime * result + ((xref == null) ? 0 : xref.hashCode());
+        result = prime * result + (address == null ? 0 : address.hashCode());
+        result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
+        result = prime * result + (faxNumbers == null ? 0 : faxNumbers.hashCode());
+        result = prime * result + (wwwUrls == null ? 0 : wwwUrls.hashCode());
+        result = prime * result + (emails == null ? 0 : emails.hashCode());
+        result = prime * result + (name == null ? 0 : name.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (phoneNumbers == null ? 0 : phoneNumbers.hashCode());
+        result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
+        result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
+        result = prime * result + (xref == null ? 0 : xref.hashCode());
         return result;
     }
 

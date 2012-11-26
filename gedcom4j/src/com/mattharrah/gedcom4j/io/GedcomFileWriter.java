@@ -27,17 +27,13 @@ import java.util.List;
 
 /**
  * <p>
- * A class for writing staged gedcom file lines out to a file. The
- * {@link com.mattharrah.gedcom4j.writer.GedcomWriter} class prepares a buffer
- * of gedcom lines (a {@link List} of String) that this class writes out to a
- * file, a stream, etc., after encoding the data into ANSEL, ASCII, or UNICODE,
- * as needed. A separate class is needed because GEDCOM requires ANSEL support
- * which Java doesn't have, and also limits the encodings to the three choices
- * mentioned.
+ * A class for writing staged gedcom file lines out to a file. The {@link com.mattharrah.gedcom4j.writer.GedcomWriter} class prepares a buffer of
+ * gedcom lines (a {@link List} of String) that this class writes out to a file, a stream, etc., after encoding the data into ANSEL, ASCII, or
+ * UNICODE, as needed. A separate class is needed because GEDCOM requires ANSEL support which Java doesn't have, and also limits the encodings to the
+ * three choices mentioned.
  * </p>
  * <p>
- * Note that GEDCOM standard does not allow for BOM's or other preambles for
- * encodings, so none is created by this class.
+ * Note that GEDCOM standard does not allow for BOM's or other preambles for encodings, so none is created by this class.
  * </p>
  * 
  * @author frizbog1
@@ -69,28 +65,23 @@ public class GedcomFileWriter {
     }
 
     /**
-     * The encoding to use when writing the data. Defaults to ANSEL, per GEDCOM
-     * spec, unless the gedcom content overrides in the header. Deliberately
-     * package private so unit tests can examine it, but so client code can't
-     * manipulate it.
+     * The encoding to use when writing the data. Defaults to ANSEL, per GEDCOM spec, unless the gedcom content overrides in the header. Deliberately
+     * package private so unit tests can examine it, but so client code can't manipulate it.
      */
     Encoding encoding;
 
     /**
-     * Should this writer use little-endian ordering when writing unicode data?
-     * Defaults to true.
+     * Should this writer use little-endian ordering when writing unicode data? Defaults to true.
      */
     private boolean useLittleEndianForUnicode = true;
 
     /**
-     * The line terminator character to use - defaults to JVM settings but can
-     * be overridden
+     * The line terminator character to use - defaults to JVM settings but can be overridden
      */
     public LineTerminator terminator;
 
     /**
-     * The lines of the gedcom file (in internal java string format - that is,
-     * UTF-16)
+     * The lines of the gedcom file (in internal java string format - that is, UTF-16)
      */
     private List<String> gedcomLines;
 
@@ -107,14 +98,13 @@ public class GedcomFileWriter {
     }
 
     /**
-     * Change whether this GedcomFileWriter will use little-endian byte-ordering
-     * for Unicode.
+     * Change whether this GedcomFileWriter will use little-endian byte-ordering for Unicode.
      * 
      * @param useLittleEndian
      *            pass in true if you want little-endian byte-ordering
      */
     public void setLittleEndianForUnicode(boolean useLittleEndian) {
-        this.useLittleEndianForUnicode = useLittleEndian;
+        useLittleEndianForUnicode = useLittleEndian;
         // Swap encoding as needed
         if (useLittleEndian && encoding == Encoding.UNICODE_BIG_ENDIAN) {
             encoding = Encoding.UNICODE_LITTLE_ENDIAN;
@@ -147,9 +137,11 @@ public class GedcomFileWriter {
             case UNICODE_LITTLE_ENDIAN:
                 writeUnicodeLittleEndianLine(out, line);
                 break;
+            case UTF_8:
+                writeUtf8Line(out, line);
+                break;
             default:
-                throw new IllegalStateException("Encoding " + encoding
-                        + " is an unrecognized value");
+                throw new IllegalStateException("Encoding " + encoding + " is an unrecognized value");
             }
         }
     }
@@ -166,20 +158,17 @@ public class GedcomFileWriter {
             terminator = LineTerminator.CR_ONLY;
         } else if (Character.toString((char) 0x0A).equals(jvmLineTerm)) {
             terminator = LineTerminator.LF_ONLY;
-        } else if ((Character.toString((char) 0x0D) + Character
-                .toString((char) 0x0A)).equals(jvmLineTerm)) {
+        } else if ((Character.toString((char) 0x0D) + Character.toString((char) 0x0A)).equals(jvmLineTerm)) {
             terminator = LineTerminator.CRLF;
-        } else if ((Character.toString((char) 0x0A) + Character
-                .toString((char) 0x0D)).equals(jvmLineTerm)) {
+        } else if ((Character.toString((char) 0x0A) + Character.toString((char) 0x0D)).equals(jvmLineTerm)) {
             // Who does this?!
             terminator = LineTerminator.LFCR;
         }
     }
 
     /**
-     * Set the encoding for the writer from the content. Defaults to ANSEL (per
-     * GEDCOM spec), but if it sees that ASCII or UNICODE are to be used
-     * (according to the header) it will use that instead.
+     * Set the encoding for the writer from the content. Defaults to ANSEL (per GEDCOM spec), but if it sees that ASCII, UTF-8, or UNICODE are to be
+     * used (according to the header) it will use that instead.
      */
     private void setEncodingFromContent() {
         encoding = Encoding.ANSEL;
@@ -187,6 +176,10 @@ public class GedcomFileWriter {
         for (String line : gedcomLines) {
             if ("1 CHAR ASCII".equals(line)) {
                 encoding = Encoding.ASCII;
+                return;
+            }
+            if ("1 CHAR UTF-8".equals(line)) {
+                encoding = Encoding.UTF_8;
                 return;
             }
             if ("1 CHAR UNICODE".equals(line)) {
@@ -210,8 +203,7 @@ public class GedcomFileWriter {
      * @throws IOException
      *             if the data can't be written to the stream
      */
-    private void writeAnselLine(OutputStream out, String line)
-            throws IOException {
+    private void writeAnselLine(OutputStream out, String line) throws IOException {
         for (int i = 0; i < line.length(); i++) {
             char c = line.charAt(i);
             out.write(AnselMapping.encode(c));
@@ -220,8 +212,7 @@ public class GedcomFileWriter {
     }
 
     /**
-     * Write data out as ASCII lines. ANy characters in the line that are
-     * outside the 0x00-0x7F range allowed by ASCII are written out as question
+     * Write data out as ASCII lines. ANy characters in the line that are outside the 0x00-0x7F range allowed by ASCII are written out as question
      * marks.
      * 
      * @param out
@@ -231,8 +222,7 @@ public class GedcomFileWriter {
      * @throws IOException
      *             if the data can't be written to the stream
      */
-    private void writeAsciiLine(OutputStream out, String line)
-            throws IOException {
+    private void writeAsciiLine(OutputStream out, String line) throws IOException {
         for (int i = 0; i < line.length(); i++) {
             char c = line.charAt(i);
             if (c < 0 || c > 0x7f) {
@@ -244,8 +234,7 @@ public class GedcomFileWriter {
     }
 
     /**
-     * Write out the appropriate line terminator based on the encoding and
-     * terminator selection for this instance
+     * Write out the appropriate line terminator based on the encoding and terminator selection for this instance
      * 
      * @param out
      *            the output stream we're writing to
@@ -255,6 +244,7 @@ public class GedcomFileWriter {
     private void writeLineTerminator(OutputStream out) throws IOException {
         switch (encoding) {
         case ASCII: // Use ANSEL's, it's the same
+        case UTF_8: // Use ANSEL's, it's the same
         case ANSEL:
             switch (terminator) {
             case CR_ONLY:
@@ -272,8 +262,7 @@ public class GedcomFileWriter {
                 out.write((byte) 0x0A);
                 break;
             default:
-                throw new IllegalStateException("Terminator selection of "
-                        + terminator + " is an unrecognized value");
+                throw new IllegalStateException("Terminator selection of " + terminator + " is an unrecognized value");
             }
             break;
         case UNICODE_BIG_ENDIAN:
@@ -299,8 +288,7 @@ public class GedcomFileWriter {
                 out.write((byte) 0x0A);
                 break;
             default:
-                throw new IllegalStateException("Terminator selection of "
-                        + terminator + " is an unrecognized value");
+                throw new IllegalStateException("Terminator selection of " + terminator + " is an unrecognized value");
             }
             break;
         case UNICODE_LITTLE_ENDIAN:
@@ -326,13 +314,11 @@ public class GedcomFileWriter {
                 out.write((byte) 0x00);
                 break;
             default:
-                throw new IllegalStateException("Terminator selection of "
-                        + terminator + " is an unrecognized value");
+                throw new IllegalStateException("Terminator selection of " + terminator + " is an unrecognized value");
             }
             break;
         default:
-            throw new IllegalStateException("Encoding " + encoding
-                    + " is an unrecognized value");
+            throw new IllegalStateException("Encoding " + encoding + " is an unrecognized value");
         }
     }
 
@@ -346,8 +332,7 @@ public class GedcomFileWriter {
      * @throws IOException
      *             if the data can't be written to the stream
      */
-    private void writeUnicodeBigEndianLine(OutputStream out, String line)
-            throws IOException {
+    private void writeUnicodeBigEndianLine(OutputStream out, String line) throws IOException {
         for (int i = 0; i < line.length(); i++) {
             char c = line.charAt(i);
             out.write(c >> 8);
@@ -367,12 +352,29 @@ public class GedcomFileWriter {
      * @throws IOException
      *             if the data can't be written to the stream
      */
-    private void writeUnicodeLittleEndianLine(OutputStream out, String line)
-            throws IOException {
+    private void writeUnicodeLittleEndianLine(OutputStream out, String line) throws IOException {
         for (int i = 0; i < line.length(); i++) {
             char c = line.charAt(i);
             out.write(c & 0x00FF);
             out.write(c >> 8);
+        }
+        writeLineTerminator(out);
+    }
+
+    /**
+     * Write data out as UTF-8 lines.
+     * 
+     * @param out
+     *            the output stream we're writing to
+     * @param line
+     *            the line of text we're writing
+     * @throws IOException
+     *             if the data can't be written to the stream
+     */
+    private void writeUtf8Line(OutputStream out, String line) throws IOException {
+        for (int i = 0; i < line.length(); i++) {
+            char c = line.charAt(i);
+            out.write(c);
         }
         writeLineTerminator(out);
     }

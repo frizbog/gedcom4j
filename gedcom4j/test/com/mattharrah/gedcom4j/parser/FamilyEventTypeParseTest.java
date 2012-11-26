@@ -21,6 +21,8 @@
  */
 package com.mattharrah.gedcom4j.parser;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 
 import junit.framework.TestCase;
@@ -58,13 +60,11 @@ public class FamilyEventTypeParseTest extends TestCase {
                 assertNotNull(event.type);
             }
         }
-        assertEquals("There are 7 families in the stress test file", 7,
-                familyCount);
+        assertEquals("There are 7 families in the stress test file", 7, familyCount);
     }
 
     /**
-     * Set up test fixture by loading stress test file into a {@link Gedcom}
-     * struture
+     * Set up test fixture by loading stress test file into a {@link Gedcom} struture
      * 
      * @throws GedcomParserException
      *             if the file cannot be parsed
@@ -74,6 +74,7 @@ public class FamilyEventTypeParseTest extends TestCase {
     @Override
     protected void setUp() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
+        gp.verbose = true;
         gp.load("sample/TGC551.ged");
         assertTrue(gp.errors.isEmpty());
         g = gp.gedcom;

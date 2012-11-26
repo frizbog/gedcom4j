@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents an address. Corresponds to the ADDRESS_STRUCTURE element in the
- * GEDCOM specification.
+ * Represents an address. Corresponds to part of the ADDRESS_STRUCTURE element in the GEDCOM specification. The other parts of the structure
+ * containing phone numbers, faxes, urls, and emails are kept in in the objects that have those attributes.
  * 
  * @author frizbog1
  */
@@ -35,26 +35,32 @@ public class Address {
      * The lines of the address
      */
     public List<String> lines = new ArrayList<String>();
+
     /**
      * Line one of the address
      */
     public String addr1;
+
     /**
      * Line two of the address
      */
     public String addr2;
+
     /**
      * City
      */
     public String city;
+
     /**
      * State/province
      */
     public String stateProvince;
+
     /**
      * Postal code
      */
     public String postalCode;
+
     /**
      * Country
      */
@@ -128,15 +134,13 @@ public class Address {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((addr1 == null) ? 0 : addr1.hashCode());
-        result = prime * result + ((addr2 == null) ? 0 : addr2.hashCode());
-        result = prime * result + ((city == null) ? 0 : city.hashCode());
-        result = prime * result + ((country == null) ? 0 : country.hashCode());
-        result = prime * result + ((lines == null) ? 0 : lines.hashCode());
-        result = prime * result
-                + ((postalCode == null) ? 0 : postalCode.hashCode());
-        result = prime * result
-                + ((stateProvince == null) ? 0 : stateProvince.hashCode());
+        result = prime * result + (addr1 == null ? 0 : addr1.hashCode());
+        result = prime * result + (addr2 == null ? 0 : addr2.hashCode());
+        result = prime * result + (city == null ? 0 : city.hashCode());
+        result = prime * result + (country == null ? 0 : country.hashCode());
+        result = prime * result + (lines == null ? 0 : lines.hashCode());
+        result = prime * result + (postalCode == null ? 0 : postalCode.hashCode());
+        result = prime * result + (stateProvince == null ? 0 : stateProvince.hashCode());
         return result;
     }
 }

@@ -28,10 +28,11 @@ package com.mattharrah.gedcom4j.model;
  * 
  */
 public class GedcomVersion {
+
     /**
-     * The version number
+     * The version number for this GEDCOM
      */
-    public String versionNumber = "5.5";
+    public SupportedVersion versionNumber = SupportedVersion.V5_5_1;
     /**
      * The form
      */

@@ -25,8 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A submitter. Corresponds to the SUBMITTER_RECORD structure in the GEDCOM
- * standard.
+ * A submitter. Corresponds to the SUBMITTER_RECORD structure in the GEDCOM standard.
  * 
  * @author frizbog1
  */
@@ -35,46 +34,67 @@ public class Submitter {
      * The xref for this submitter
      */
     public String xref;
+
     /**
      * The registration file number for this submitter
      */
     public String regFileNumber;
+
     /**
      * The name of this submitter
      */
     public String name;
+
     /**
      * The record ID number
      */
     public String recIdNumber;
+
     /**
      * The language preferences
      */
     public List<String> languagePref = new ArrayList<String>();
+
     /**
      * The address of this submitter
      */
     public Address address;
+
     /**
      * The phone numbers for this submitter
      */
     public List<String> phoneNumbers = new ArrayList<String>();
+
+    /**
+     * Web URL's. New for GEDCOM 5.5.1.
+     */
+    public List<String> wwwUrls = new ArrayList<String>();
+
+    /**
+     * Fax numbers. New for GEDCOM 5.5.1.
+     */
+    public List<String> faxNumbers = new ArrayList<String>();
+
+    /**
+     * The emails for this submitter. New for GEDCOM 5.5.1
+     */
+    public List<String> emails = new ArrayList<String>();
+
     /**
      * The multimedia for this submitter
      */
     public List<Multimedia> multimedia = new ArrayList<Multimedia>();
+
     /**
      * The change date for this submitter
      */
     public ChangeDate changeDate;
+
     /**
      * The user references for this submitter
      */
     public List<UserReference> userReferences = new ArrayList<UserReference>();
-    /**
-     * The emails for this submitter
-     */
-    public List<String> emails = new ArrayList<String>();
+
     /**
      * The notes for this submitter
      */
@@ -104,13 +124,6 @@ public class Submitter {
                 return false;
             }
         } else if (!changeDate.equals(other.changeDate)) {
-            return false;
-        }
-        if (emails == null) {
-            if (other.emails != null) {
-                return false;
-            }
-        } else if (!emails.equals(other.emails)) {
             return false;
         }
         if (languagePref == null) {
@@ -148,6 +161,27 @@ public class Submitter {
         } else if (!phoneNumbers.equals(other.phoneNumbers)) {
             return false;
         }
+        if (wwwUrls == null) {
+            if (other.wwwUrls != null) {
+                return false;
+            }
+        } else if (!wwwUrls.equals(other.wwwUrls)) {
+            return false;
+        }
+        if (faxNumbers == null) {
+            if (other.faxNumbers != null) {
+                return false;
+            }
+        } else if (!faxNumbers.equals(other.faxNumbers)) {
+            return false;
+        }
+        if (emails == null) {
+            if (other.emails != null) {
+                return false;
+            }
+        } else if (!emails.equals(other.emails)) {
+            return false;
+        }
         if (recIdNumber == null) {
             if (other.recIdNumber != null) {
                 return false;
@@ -183,25 +217,28 @@ public class Submitter {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((address == null) ? 0 : address.hashCode());
-        result = prime * result
-                + ((changeDate == null) ? 0 : changeDate.hashCode());
-        result = prime * result + ((emails == null) ? 0 : emails.hashCode());
-        result = prime * result
-                + ((languagePref == null) ? 0 : languagePref.hashCode());
-        result = prime * result
-                + ((multimedia == null) ? 0 : multimedia.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-        result = prime * result
-                + ((phoneNumbers == null) ? 0 : phoneNumbers.hashCode());
-        result = prime * result
-                + ((recIdNumber == null) ? 0 : recIdNumber.hashCode());
-        result = prime * result
-                + ((regFileNumber == null) ? 0 : regFileNumber.hashCode());
-        result = prime * result
-                + ((userReferences == null) ? 0 : userReferences.hashCode());
-        result = prime * result + ((xref == null) ? 0 : xref.hashCode());
+        result = prime * result + (address == null ? 0 : address.hashCode());
+        result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
+        result = prime * result + (languagePref == null ? 0 : languagePref.hashCode());
+        result = prime * result + (multimedia == null ? 0 : multimedia.hashCode());
+        result = prime * result + (name == null ? 0 : name.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (phoneNumbers == null ? 0 : phoneNumbers.hashCode());
+        result = prime * result + (faxNumbers == null ? 0 : faxNumbers.hashCode());
+        result = prime * result + (wwwUrls == null ? 0 : wwwUrls.hashCode());
+        result = prime * result + (emails == null ? 0 : emails.hashCode());
+        result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
+        result = prime * result + (regFileNumber == null ? 0 : regFileNumber.hashCode());
+        result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
+        result = prime * result + (xref == null ? 0 : xref.hashCode());
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Submitter [xref=" + xref + ", regFileNumber=" + regFileNumber + ", name=" + name + ", recIdNumber=" + recIdNumber + ", languagePref="
+                + languagePref + ", address=" + address + ", phoneNumbers=" + phoneNumbers + ", wwwUrls=" + wwwUrls + ", faxNumbers=" + faxNumbers
+                + ", emails=" + emails + ", multimedia=" + multimedia + ", changeDate=" + changeDate + ", userReferences=" + userReferences
+                + ", notes=" + notes + "]";
     }
 }

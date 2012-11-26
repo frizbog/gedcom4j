@@ -35,42 +35,52 @@ public class Header {
      * The character set in use in the GEDCOM file
      */
     public CharacterSet characterSet = new CharacterSet();
+
     /**
      * Copyright information for the GEDCOM file.
      */
-    public String copyrightData;
+    public List<String> copyrightData = new ArrayList<String>();
+
     /**
      * The date of the GEDCOM file
      */
     public String date;
+
     /**
      * The destination system for the GEDCOM file.
      */
     public String destinationSystem;
+
     /**
      * The filename for the GEDCOM file
      */
     public String fileName;
+
     /**
      * The version information for the GEDCOM file
      */
     public GedcomVersion gedcomVersion = new GedcomVersion();
+
     /**
      * The place structure for the file
      */
-    public String placeStructure;
+    public String placeHierarchy;
+
     /**
      * The source system for the GEDCOM file
      */
     public SourceSystem sourceSystem;
+
     /**
      * Information about the file submission
      */
     public Submission submission;
+
     /**
      * Information about the submitter of the file
      */
     public Submitter submitter;
+
     /**
      * The time of the file
      */
@@ -80,6 +90,7 @@ public class Header {
      * The language for the file
      */
     public String language;
+
     /**
      * A bunch of textual notes
      */
@@ -153,11 +164,11 @@ public class Header {
         } else if (!notes.equals(other.notes)) {
             return false;
         }
-        if (placeStructure == null) {
-            if (other.placeStructure != null) {
+        if (placeHierarchy == null) {
+            if (other.placeHierarchy != null) {
                 return false;
             }
-        } else if (!placeStructure.equals(other.placeStructure)) {
+        } else if (!placeHierarchy.equals(other.placeHierarchy)) {
             return false;
         }
         if (sourceSystem == null) {
@@ -196,31 +207,19 @@ public class Header {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result
-                + ((characterSet == null) ? 0 : characterSet.hashCode());
-        result = prime * result
-                + ((copyrightData == null) ? 0 : copyrightData.hashCode());
-        result = prime * result + ((date == null) ? 0 : date.hashCode());
-        result = prime
-                * result
-                + ((destinationSystem == null) ? 0 : destinationSystem
-                        .hashCode());
-        result = prime * result
-                + ((fileName == null) ? 0 : fileName.hashCode());
-        result = prime * result
-                + ((gedcomVersion == null) ? 0 : gedcomVersion.hashCode());
-        result = prime * result
-                + ((language == null) ? 0 : language.hashCode());
-        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-        result = prime * result
-                + ((placeStructure == null) ? 0 : placeStructure.hashCode());
-        result = prime * result
-                + ((sourceSystem == null) ? 0 : sourceSystem.hashCode());
-        result = prime * result
-                + ((submission == null) ? 0 : submission.hashCode());
-        result = prime * result
-                + ((submitter == null) ? 0 : submitter.hashCode());
-        result = prime * result + ((time == null) ? 0 : time.hashCode());
+        result = prime * result + (characterSet == null ? 0 : characterSet.hashCode());
+        result = prime * result + (copyrightData == null ? 0 : copyrightData.hashCode());
+        result = prime * result + (date == null ? 0 : date.hashCode());
+        result = prime * result + (destinationSystem == null ? 0 : destinationSystem.hashCode());
+        result = prime * result + (fileName == null ? 0 : fileName.hashCode());
+        result = prime * result + (gedcomVersion == null ? 0 : gedcomVersion.hashCode());
+        result = prime * result + (language == null ? 0 : language.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (placeHierarchy == null ? 0 : placeHierarchy.hashCode());
+        result = prime * result + (sourceSystem == null ? 0 : sourceSystem.hashCode());
+        result = prime * result + (submission == null ? 0 : submission.hashCode());
+        result = prime * result + (submitter == null ? 0 : submitter.hashCode());
+        result = prime * result + (time == null ? 0 : time.hashCode());
 
         return result;
     }

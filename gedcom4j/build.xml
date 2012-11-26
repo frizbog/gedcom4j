@@ -146,11 +146,11 @@
 	</target>
 
 	<target name="findbugs" depends="compile">
-		<findbugs home="${findbugs.home}" output="xml" outputFile="tmp/findbugs.xml">
+		<findbugs home="${findbugs.home}" output="xml" outputFile="tmp/findbugs.xml" jvmargs="-Xmx128m">
 			<sourcePath path="src" />
 			<class location="bin" />
 		</findbugs>
-		<findbugs home="${findbugs.home}" output="html" outputFile="reports/findbugs.html">
+		<findbugs home="${findbugs.home}" output="html" outputFile="reports/findbugs.html" jvmargs="-Xmx128m">
 			<sourcePath path="src" />
 			<class location="bin" />
 		</findbugs>

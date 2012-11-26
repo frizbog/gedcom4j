@@ -25,8 +25,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A class for representing multimedia items. Corrsponds to MULTIMEDIA_RECORD in
- * the GEDCOM standard.
+ * <p>
+ * A class for representing multimedia items. Corresponds to MULTIMEDIA_RECORD in the GEDCOM standard.
+ * </p>
+ * <p>
+ * Please note that when gedcom4j v1.1.0 was released to include GEDCOM 5.5.1 support, the data model got a bit more complicated. The changes to the
+ * multimedia specs were among the most drastic and most difficult to deal with. Not only did version 5.5 do away with embedded multimedia support
+ * (i.e., the `BLOB` tag), it also changed cardinalities (multiple file references per MULTIMEDIA_RECORD in 5.5.1, where 5.5 only allowed one), and
+ * moved tags to become children of other tags (i.e., the `FORM` tag is now a child of the new `FILE` tag in 5.5.1).
+ * </p>
+ * <p>
+ * Users who plan to read files produced by other systems and rewrite them with gedcom4j should pay special attention to the multimedia section and
+ * ensure that the data in the model is compliant with the version of GEDCOM being used, and making adjustments as needed.
+ * </p>
  * 
  * @author frizbog1
  * 
@@ -36,47 +47,56 @@ public class Multimedia {
      * The xref for this multimedia item
      */
     public String xref;
+
     /**
-     * The format of this multimedia item
+     * The title of this multimedia item. This field should ONLY be used when the spec is 5.5 and should be null for 5.5.1 files.
      */
-    public String format;
-    /**
-     * The title of this multimedia item
-     */
-    public String title;
+    public String embeddedTitle;
+
     /**
      * The file reference for this multimedia item
      */
-    public String fileReference;
+    public List<FileReference> fileReferences = new ArrayList<FileReference>();
+
     /**
      * Notes for this multimedia item
      */
     public List<Note> notes = new ArrayList<Note>();
+
     /**
      * Source citations for this multimedia item
      */
     public List<AbstractCitation> citations = new ArrayList<AbstractCitation>();
+
     /**
-     * The binary (blob) for this multimedia item. Encoded as string data.
+     * The binary (blob) for this multimedia item. Encoded as string data. This field should always be an empty list for 5.5.1 files.
      */
     public List<String> blob = new ArrayList<String>();
+
     /**
-     * The next object in the chain holding binary data if it needs to be
-     * continued due to size
+     * The next object in the chain holding binary data if it needs to be continued due to size. This field should always be null for 5.5.1 files.
      */
     public Multimedia continuedObject;
+
     /**
      * User references
      */
     public List<UserReference> userReferences = new ArrayList<UserReference>();
+
     /**
      * The change date for this multimedia item
      */
     public ChangeDate changeDate;
+
     /**
      * The record id number for this multimedia item
      */
     public String recIdNumber;
+
+    /**
+     * The format of the multimedia object - only for 5.5 style multimedia files, and should be null for 5.5.1 files.
+     */
+    public String embeddedMediaFormat;
 
     @Override
     public boolean equals(Object obj) {
@@ -95,6 +115,13 @@ public class Multimedia {
                 return false;
             }
         } else if (!blob.equals(other.blob)) {
+            return false;
+        }
+        if (embeddedMediaFormat == null) {
+            if (other.embeddedMediaFormat != null) {
+                return false;
+            }
+        } else if (!embeddedMediaFormat.equals(other.embeddedMediaFormat)) {
             return false;
         }
         if (changeDate == null) {
@@ -118,18 +145,11 @@ public class Multimedia {
         } else if (!continuedObject.equals(other.continuedObject)) {
             return false;
         }
-        if (fileReference == null) {
-            if (other.fileReference != null) {
+        if (fileReferences == null) {
+            if (other.fileReferences != null) {
                 return false;
             }
-        } else if (!fileReference.equals(other.fileReference)) {
-            return false;
-        }
-        if (format == null) {
-            if (other.format != null) {
-                return false;
-            }
-        } else if (!format.equals(other.format)) {
+        } else if (!fileReferences.equals(other.fileReferences)) {
             return false;
         }
         if (notes == null) {
@@ -146,11 +166,11 @@ public class Multimedia {
         } else if (!recIdNumber.equals(other.recIdNumber)) {
             return false;
         }
-        if (title == null) {
-            if (other.title != null) {
+        if (embeddedTitle == null) {
+            if (other.embeddedTitle != null) {
                 return false;
             }
-        } else if (!title.equals(other.title)) {
+        } else if (!embeddedTitle.equals(other.embeddedTitle)) {
             return false;
         }
         if (userReferences == null) {
@@ -174,23 +194,17 @@ public class Multimedia {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((blob == null) ? 0 : blob.hashCode());
-        result = prime * result
-                + ((changeDate == null) ? 0 : changeDate.hashCode());
-        result = prime * result
-                + ((citations == null) ? 0 : citations.hashCode());
-        result = prime * result
-                + ((continuedObject == null) ? 0 : continuedObject.hashCode());
-        result = prime * result
-                + ((fileReference == null) ? 0 : fileReference.hashCode());
-        result = prime * result + ((format == null) ? 0 : format.hashCode());
-        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-        result = prime * result
-                + ((recIdNumber == null) ? 0 : recIdNumber.hashCode());
-        result = prime * result + ((title == null) ? 0 : title.hashCode());
-        result = prime * result
-                + ((userReferences == null) ? 0 : userReferences.hashCode());
-        result = prime * result + ((xref == null) ? 0 : xref.hashCode());
+        result = prime * result + (blob == null ? 0 : blob.hashCode());
+        result = prime * result + (embeddedMediaFormat == null ? 0 : embeddedMediaFormat.hashCode());
+        result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
+        result = prime * result + (citations == null ? 0 : citations.hashCode());
+        result = prime * result + (continuedObject == null ? 0 : continuedObject.hashCode());
+        result = prime * result + (fileReferences == null ? 0 : fileReferences.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
+        result = prime * result + (embeddedTitle == null ? 0 : embeddedTitle.hashCode());
+        result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
+        result = prime * result + (xref == null ? 0 : xref.hashCode());
         return result;
     }
 

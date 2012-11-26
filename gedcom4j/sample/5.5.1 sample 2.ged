@@ -1,0 +1,2247 @@
+0 HEAD
+1 SOUR PAF
+2 NAME Personal Ancestral File
+2 VERS 5.2.18.0
+2 CORP The Church of Jesus Christ of Latter-day Saints
+3 ADDR 50 East North Temple Street
+4 CONT Salt Lake City, UT 84150
+4 CONT USA
+1 DEST PAF
+1 DATE 3 Nov 2006
+2 TIME 16:38:56
+1 FILE tbinder.ged
+1 GEDC
+2 VERS 5.5
+2 FORM LINEAGE-LINKED
+1 CHAR UTF-8
+1 LANG German
+1 SUBM @SUB1@
+0 @SUB1@ SUBM
+1 NAME Thomas Binder
+1 ADDR Finkenweg 12
+2 CONT 78564 Wehingen
+2 CONT Kreis Tuttlingen
+2 CTRY Germany
+1 PHON +49-7426-7186
+1 EMAIL thomas@binder-online.de
+0 @I1@ INDI
+1 NAME LIVING
+1 SEX M
+1 FAMC @F1@
+0 @I2@ INDI
+1 NAME LIVING
+1 SEX M
+1 FAMS @F1@
+1 FAMC @F30@
+0 @I3@ INDI
+1 NAME LIVING
+1 SEX F
+1 FAMS @F1@
+1 FAMC @F3@
+0 @I6@ INDI
+1 NAME Heinrich Wilhelm /Hehl/
+2 SURN Hehl
+2 GIVN Heinrich Wilhelm
+1 SEX M
+1 BIRT
+2 DATE 23 Apr 1920
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 1945
+2 PLAC Russland
+1 FAMS @F3@
+1 FAMC @F4@
+1 CHAN
+2 DATE 30 Apr 2001
+3 TIME 23:27:12
+0 @I7@ INDI
+1 NAME Emma Frida /Maier/
+2 SURN Maier
+2 GIVN Emma Frida
+1 SEX F
+1 BIRT
+2 DATE 30 Jul 1923
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 30 Aug 1998
+2 PLAC Brackenheim, Württemberg
+1 FAMS @F3@
+1 FAMC @F5@
+1 CHAN
+2 DATE 30 Apr 2001
+3 TIME 23:27:24
+0 @I9@ INDI
+1 NAME Jacob Heinrich /Hehl/
+2 SURN Hehl
+2 GIVN Jacob Heinrich
+1 SEX M
+1 BIRT
+2 DATE 20 Feb 1895
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 2 Jun 1968
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F4@
+1 FAMC @F6@
+1 CHAN
+2 DATE 6 May 2001
+3 TIME 14:36:35
+0 @I10@ INDI
+1 NAME Frida Sophie /Pleiss/
+2 SURN Pleiss
+2 GIVN Frida Sophie
+1 SEX F
+1 BIRT
+2 DATE 21 Feb 1895
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 27 Oct 1970
+2 PLAC Brackenheim, Württemberg
+1 FAMS @F4@
+1 FAMC @F31@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:47:23
+0 @I11@ INDI
+1 NAME Josef /Maier/
+2 SURN Maier
+2 GIVN Josef
+1 SEX M
+1 BIRT
+2 DATE 29 Sep 1897
+2 PLAC Günzburg, Bayern
+1 DEAT
+2 DATE 6 Jun 1985
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F5@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:57:53
+0 @I12@ INDI
+1 NAME Sophie /Rüb/
+2 SURN Rüb
+2 GIVN Sophie
+1 SEX F
+1 BIRT
+2 DATE 20 May 1900
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 28 Mar 1982
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F5@
+1 FAMC @F13@
+1 CHAN
+2 DATE 30 Apr 2001
+3 TIME 23:28:09
+0 @I13@ INDI
+1 NAME Johannes /Hehl/
+2 SURN Hehl
+2 GIVN Johannes
+1 SEX M
+1 BIRT
+2 DATE 6 Apr 1867
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 15 Mar 1924
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F6@
+1 FAMC @F7@
+1 CHAN
+2 DATE 6 May 2001
+3 TIME 14:36:51
+0 @I14@ INDI
+1 NAME Anna Barbara /Rüber/
+2 SURN Rüber
+2 GIVN Anna Barbara
+1 SEX F
+1 BIRT
+2 DATE 17 Aug 1869
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 12 Sep 1917
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F6@
+1 FAMC @F61@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:47:41
+0 @I15@ INDI
+1 NAME Johann Gottlieb /Hehl/
+2 SURN Hehl
+2 GIVN Johann Gottlieb
+1 SEX M
+1 BIRT
+2 DATE 23 Jun 1828
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 1891
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F7@
+1 FAMC @F8@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:48:34
+0 @I16@ INDI
+1 NAME Johanna Christina /Kachel/
+2 SURN Kachel
+2 GIVN Johanna Christina
+1 SEX F
+1 BIRT
+2 DATE 18 Dec 1824
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F7@
+1 FAMC @F86@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:48:40
+0 @I17@ INDI
+1 NAME Johann Christian /Hehl/
+2 SURN Hehl
+2 GIVN Johann Christian
+1 SEX M
+1 BIRT
+2 DATE 20 Mar 1802
+2 PLAC Stetten
+1 FAMS @F8@
+1 FAMC @F9@
+1 CHAN
+2 DATE 30 Apr 2001
+3 TIME 22:41:17
+0 @I18@ INDI
+1 NAME Maria Catharina /Schilling/
+2 SURN Schilling
+2 GIVN Maria Catharina
+1 SEX F
+1 BIRT
+2 DATE 1 Dec 1785
+2 PLAC Stetten
+1 FAMS @F8@
+1 FAMC @F11@
+1 NOTE warum ist diese frau genau 17 jahre älter als ihr mann?
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:49:09
+0 @I19@ INDI
+1 NAME Georg Friedrich /Hehl/
+2 SURN Hehl
+2 GIVN Georg Friedrich
+1 SEX M
+1 BIRT
+2 DATE 1 Nov 1761
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 1833
+2 PLAC Holland
+1 FAMS @F9@
+1 FAMC @F10@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:35:40
+0 @I20@ INDI
+1 NAME Barbara /Kachel/
+2 SURN Kachel
+2 GIVN Barbara
+1 SEX F
+1 BIRT
+2 DATE 18 Nov 1772
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 24 Feb 1821
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F9@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:35:48
+0 @I21@ INDI
+1 NAME Georg Friedrich /Hehl/
+2 SURN Hehl
+2 GIVN Georg Friedrich
+1 SEX M
+1 BIRT
+2 DATE 1735
+1 FAMS @F10@
+1 CHAN
+2 DATE 30 Apr 2001
+3 TIME 22:45:52
+0 @I22@ INDI
+1 NAME Elisabeth /Schuster/
+2 SURN Schuster
+2 GIVN Elisabeth
+1 SEX F
+1 FAMS @F10@
+1 CHAN
+2 DATE 30 Apr 2001
+3 TIME 22:46:07
+0 @I23@ INDI
+1 NAME Christian /Schilling/
+2 SURN Schilling
+2 GIVN Christian
+1 SEX M
+1 BIRT
+2 DATE 1754
+2 PLAC Stetten
+1 DEAT
+2 DATE 1 Jan 1812
+2 PLAC Stetten
+1 FAMS @F11@
+1 FAMC @F12@
+1 CHAN
+2 DATE 30 Apr 2001
+3 TIME 22:47:56
+0 @I24@ INDI
+1 NAME Maria Johanna /Schilling/
+2 SURN Schilling
+2 GIVN Maria Johanna
+1 SEX F
+1 BIRT
+2 DATE 1 Feb 1757
+2 PLAC Stetten
+1 DEAT
+2 DATE 21 Jan 1829
+2 PLAC Stetten
+1 FAMS @F11@
+1 CHAN
+2 DATE 30 Apr 2001
+3 TIME 22:48:57
+0 @I25@ INDI
+1 NAME Georg Michel /Schilling/
+2 SURN Schilling
+2 GIVN Georg Michel
+1 SEX M
+1 FAMS @F12@
+1 CHAN
+2 DATE 30 Apr 2001
+3 TIME 22:49:33
+0 @I26@ INDI
+1 NAME Maria Catharina /Weissert/
+2 SURN Weissert
+2 GIVN Maria Catharina
+1 SEX F
+1 FAMS @F12@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:56:44
+0 @I27@ INDI
+1 NAME Anna Friederika /Rüb/
+2 SURN Rüb
+2 GIVN Anna Friederika
+1 SEX F
+1 BIRT
+2 DATE 31 May 1877
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 9 Apr 1911
+2 PLAC Stuttgart, Württemberg
+1 FAMS @F13@
+1 FAMC @F14@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 23:09:00
+0 @I28@ INDI
+1 NAME Johann Friedrich /Rüb/
+2 SURN Rüb
+2 GIVN Johann Friedrich
+1 SEX M
+1 BIRT
+2 DATE 6 Apr 1848
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 1924
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F14@
+1 FAMC @F15@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:59:25
+0 @I29@ INDI
+1 NAME Sophie /Lutz/
+2 SURN Lutz
+2 GIVN Sophie
+1 SEX F
+1 BIRT
+2 DATE 2 Dec 1852
+2 PLAC Gemmingen, Baden
+1 DEAT
+2 DATE 29 Mar 1895
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F14@
+1 FAMC @F89@
+1 CHAN
+2 DATE 30 Apr 2001
+3 TIME 22:54:40
+0 @I33@ INDI
+1 NAME Johann Georg /Rüb/
+2 SURN Rüb
+2 GIVN Johann Georg
+1 SEX M
+1 BIRT
+2 DATE 15 Mar 1820
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 28 Jan 1898
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F15@
+1 FAMC @F17@
+1 CHAN
+2 DATE 30 Apr 2001
+3 TIME 23:08:12
+0 @I34@ INDI
+1 NAME Juliana /Böcklin/
+2 SURN Böcklin
+2 GIVN Juliana
+1 SEX F
+1 BIRT
+2 DATE 21 Nov 1820
+2 PLAC Kleingartach, Württemberg
+1 DEAT
+2 DATE 21 May 1850
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F15@
+1 FAMC @F32@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:07:31
+0 @I41@ INDI
+1 NAME Johann Georg /Rüb/
+2 SURN Rüb
+2 GIVN Johann Georg
+1 SEX M
+1 BIRT
+2 DATE 8 May 1790
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 7 May 1876
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F17@
+1 FAMC @F18@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 15:56:55
+0 @I42@ INDI
+1 NAME Rosina Katharina /Schilling/
+2 SURN Schilling
+2 GIVN Rosina Katharina
+1 SEX F
+1 BIRT
+2 DATE 4 Feb 1781
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 10 Jan 1856
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F17@
+1 FAMC @F33@
+1 CHAN
+2 DATE 30 Apr 2001
+3 TIME 23:16:53
+0 @I43@ INDI
+1 NAME Marzell /Rüb/
+2 SURN Rüb
+2 GIVN Marzell
+1 SEX M
+1 BIRT
+2 DATE 24 Oct 1754
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 20 Dec 1827
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F18@
+1 FAMC @F19@
+1 CHAN
+2 DATE 30 Apr 2001
+3 TIME 23:17:29
+0 @I44@ INDI
+1 NAME Maria Barbara /Erzinger/
+2 SURN Erzinger
+2 GIVN Maria Barbara
+1 SEX F
+1 BIRT
+2 DATE 8 Feb 1746
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 21 Jan 1796
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F18@
+1 FAMC @F20@
+1 CHAN
+2 DATE 30 Apr 2001
+3 TIME 23:18:34
+0 @I45@ INDI
+1 NAME Christoph Adam /Rüb/
+2 SURN Rüb
+2 GIVN Christoph Adam
+1 SEX M
+1 BIRT
+2 DATE 7 May 1716
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 1801
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F19@
+1 FAMC @F27@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 23:05:49
+0 @I46@ INDI
+1 NAME Margaretha /Boger/
+2 SURN Boger
+2 GIVN Margaretha
+1 SEX F
+1 BIRT
+2 DATE 23 Jan 1722
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 1788
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F19@
+1 FAMC @F41@
+1 CHAN
+2 DATE 30 Apr 2001
+3 TIME 23:20:12
+0 @I47@ INDI
+1 NAME Johann Georg /Erzinger/
+2 SURN Erzinger
+2 GIVN Johann Georg
+1 SEX M
+1 BIRT
+2 DATE 3 Jan 1717
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 1790
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F20@
+1 FAMC @F53@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:27:51
+0 @I48@ INDI
+1 NAME Maria Magdalena /Schilling/
+2 SURN Schilling
+2 GIVN Maria Magdalena
+1 SEX F
+1 BIRT
+2 DATE 15 Nov 1716
+1 FAMS @F20@
+1 FAMC @F56@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:11:25
+0 @I68@ INDI
+1 NAME Martin /Rüb/
+2 SURN Rüb
+2 GIVN Martin
+1 SEX M
+1 BIRT
+2 DATE 2 Nov 1690
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F27@
+1 FAMC @F28@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 16:17:29
+0 @I69@ INDI
+1 NAME Maria Catharina /Rüb/
+2 SURN Rüb
+2 GIVN Maria Catharina
+1 SEX F
+1 FAMS @F27@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 16:19:55
+0 @I72@ INDI
+1 NAME Hans Michael /Rüb/
+2 SURN Rüb
+2 GIVN Hans Michael
+1 SEX M
+1 BIRT
+2 DATE 21 Apr 1662
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F28@
+1 FAMC @F29@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 23:13:14
+0 @I73@ INDI
+1 NAME Maria /Soehner/
+2 SURN Soehner
+2 GIVN Maria
+1 SEX F
+1 FAMS @F28@
+1 FAMC @F36@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 16:22:27
+0 @I74@ INDI
+1 NAME Hans Georg /Rüb/
+2 SURN Rüb
+2 GIVN Hans Georg
+1 SEX M
+1 BIRT
+2 DATE 12 Mar 1642
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F29@
+1 FAMC @F40@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 23:36:05
+0 @I75@ INDI
+1 NAME Maria /Adam/
+2 SURN Adam
+2 GIVN Maria
+1 SEX F
+1 BIRT
+2 DATE 1641
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F29@
+1 FAMC @F39@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:40:53
+0 @I76@ INDI
+1 NAME Theresia /Gross/
+2 SURN Gross
+2 GIVN Theresia
+1 SEX F
+1 BIRT
+2 DATE 15 Jun 1921
+2 PLAC Leanyvar, Ungarn
+1 DEAT
+2 DATE 5 Feb 1999
+2 PLAC Eppingen, Baden
+1 FAMS @F30@
+1 FAMC @F106@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:01:55
+0 @I77@ INDI
+1 NAME Jakob /Binder/
+2 SURN Binder
+2 GIVN Jakob
+1 SEX M
+1 BIRT
+2 DATE 25 Apr 1915
+2 PLAC Leanyvar, Ungarn
+1 DEAT
+2 DATE 1946
+2 PLAC Ivanowo, Russia
+1 FAMS @F30@
+1 FAMC @F109@
+1 CHAN
+2 DATE 6 May 2001
+3 TIME 14:34:02
+0 @I78@ INDI
+1 NAME Wilhelm Georg /Pleiss/
+2 SURN Pleiss
+2 GIVN Wilhelm Georg
+1 SEX M
+1 BIRT
+2 DATE 7 May 1864
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 18 Jul 1930
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F31@
+1 FAMC @F72@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:04:12
+0 @I79@ INDI
+1 NAME Katharina Sophie /Kern/
+2 SURN Kern
+2 GIVN Katharina Sophie
+1 SEX F
+1 BIRT
+2 DATE 17 Jan 1862
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 12 Dec 1921
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F31@
+1 FAMC @F80@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:05:05
+0 @I80@ INDI
+1 NAME Friedrich /Böcklin/
+2 SURN Böcklin
+2 GIVN Friedrich
+1 SEX M
+1 DEAT
+2 PLAC Kleingartach, Württemberg
+1 FAMS @F32@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:07:55
+0 @I81@ INDI
+1 NAME Christina Juliana /Stek/
+2 SURN Stek
+2 GIVN Christina Juliana
+1 SEX F
+1 FAMS @F32@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:08:18
+0 @I82@ INDI
+1 NAME Lorenz /Schilling/
+2 SURN Schilling
+2 GIVN Lorenz
+1 SEX M
+1 BIRT
+2 DATE 7 Oct 1734
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F33@
+1 FAMC @F34@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:10:32
+0 @I83@ INDI
+1 NAME Elisabeth /Keeser/
+2 SURN Keeser
+2 GIVN Elisabeth
+1 SEX F
+1 BIRT
+2 DATE 26 Mar 1746
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F33@
+1 FAMC @F35@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:11:03
+0 @I84@ INDI
+1 NAME Johann Georg /Schilling/
+2 SURN Schilling
+2 GIVN Johann Georg
+1 SEX M
+1 FAMS @F34@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 23:05:28
+0 @I85@ INDI
+1 NAME Maria Barbara /Schilling/
+2 SURN Schilling
+2 GIVN Maria Barbara
+1 SEX F
+1 FAMS @F34@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:11:57
+0 @I86@ INDI
+1 NAME Christian /Keeser/
+2 SURN Keeser
+2 GIVN Christian
+1 SEX M
+1 FAMS @F35@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 23:05:15
+0 @I87@ INDI
+1 NAME Susanna /Keeser/
+2 SURN Keeser
+2 GIVN Susanna
+1 SEX F
+1 FAMS @F35@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:12:19
+0 @I88@ INDI
+1 NAME Jerg Thomas /Soehner/
+2 SURN Soehner
+2 GIVN Jerg Thomas
+1 SEX M
+1 BIRT
+2 DATE 1638
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 7 Oct 1694
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F36@
+1 FAMC @F38@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:13:41
+0 @I89@ INDI
+1 NAME Anna Barbara /Weydelich/
+2 SURN Weydelich
+2 GIVN Anna Barbara
+1 SEX F
+1 FAMS @F36@
+1 FAMC @F37@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:14:03
+0 @I90@ INDI
+1 NAME Jacob /Weydelich/
+2 SURN Weydelich
+2 GIVN Jacob
+1 SEX M
+1 FAMS @F37@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:14:29
+0 @I91@ INDI
+1 NAME Margaretha /Weydelich/
+2 SURN Weydelich
+2 GIVN Margaretha
+1 SEX F
+1 FAMS @F37@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:14:45
+0 @I92@ INDI
+1 NAME Hans /Soehner/
+2 SURN Soehner
+2 GIVN Hans
+1 SEX M
+1 FAMS @F38@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:15:02
+0 @I93@ INDI
+1 NAME Appolonia /Soehner/
+2 SURN Soehner
+2 GIVN Appolonia
+1 SEX F
+1 FAMS @F38@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:15:13
+0 @I94@ INDI
+1 NAME Hans Jerg /Adam/
+2 SURN Adam
+2 GIVN Hans Jerg
+1 SEX M
+1 DEAT
+2 DATE 21 Mar 1659
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F39@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:15:42
+0 @I95@ INDI
+1 NAME Maria /Adam/
+2 SURN Adam
+2 GIVN Maria
+1 SEX F
+1 BIRT
+2 DATE 1612
+1 DEAT
+2 DATE 29 Oct 1667
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F39@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 23:18:17
+0 @I96@ INDI
+1 NAME Hans /Rüb/
+2 SURN Rüb
+2 GIVN Hans
+1 SEX M
+1 BIRT
+2 DATE 1604
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 1665
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F40@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:17:04
+0 @I97@ INDI
+1 NAME Margaretha /Rüb/
+2 SURN Rüb
+2 GIVN Margaretha
+1 SEX F
+1 BIRT
+2 DATE 1606
+1 DEAT
+2 DATE 1656
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F40@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:17:29
+0 @I98@ INDI
+1 NAME Samuel /Boger/
+2 SURN Boger
+2 GIVN Samuel
+1 SEX M
+1 FAMS @F41@
+1 FAMC @F42@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:24:24
+0 @I99@ INDI
+1 NAME Maria Barbara /Schüsser/
+2 SURN Schüsser
+2 GIVN Maria Barbara
+1 SEX F
+1 FAMS @F41@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 23:04:44
+0 @I100@ INDI
+1 NAME Hans Jerg /Boger/
+2 SURN Boger
+2 GIVN Hans Jerg
+1 SEX M
+1 BIRT
+2 DATE 1 Mar 1655
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F42@
+1 FAMC @F43@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:21:39
+0 @I101@ INDI
+1 NAME Margaretha /Weissenstein/
+2 SURN Weissenstein
+2 GIVN Margaretha
+1 SEX F
+1 BIRT
+2 DATE 1655
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F42@
+1 FAMC @F44@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:22:14
+0 @I102@ INDI
+1 NAME Martin /Boger/
+2 SURN Boger
+2 GIVN Martin
+1 SEX M
+1 BIRT
+2 PLAC Schwaigern, Württemberg
+1 FAMS @F43@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:29:39
+0 @I103@ INDI
+1 NAME Regina /Nagel/
+2 SURN Nagel
+2 GIVN Regina
+1 SEX F
+1 BIRT
+2 DATE 1621
+1 DEAT
+2 DATE 8 May 1694
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F43@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:23:54
+0 @I106@ INDI
+1 NAME Samuel /Weissenstein/
+2 SURN Weissenstein
+2 GIVN Samuel
+1 SEX M
+1 BIRT
+2 DATE 1621
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 1688
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F44@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:26:16
+0 @I107@ INDI
+1 NAME Christina /Hoffmann/
+2 SURN Hoffmann
+2 GIVN Christina
+1 SEX F
+1 BIRT
+2 DATE 1621
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F44@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:27:04
+0 @I126@ INDI
+1 NAME Friedrich /Erzinger/
+2 SURN Erzinger
+2 GIVN Friedrich
+1 SEX M
+1 BIRT
+2 DATE 1683
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F53@
+1 FAMC @F54@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:44:46
+0 @I127@ INDI
+1 NAME Margaretha /Harst/
+2 SURN Harst
+2 GIVN Margaretha
+1 SEX F
+1 FAMS @F53@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:46:44
+0 @I128@ INDI
+1 NAME Jacob /Erzinger/
+2 SURN Erzinger
+2 GIVN Jacob
+1 SEX M
+1 FAMS @F54@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:47:11
+0 @I129@ INDI
+1 NAME Clara Anna /Harst/
+2 SURN Harst
+2 GIVN Clara Anna
+1 SEX F
+1 FAMS @F54@
+1 FAMC @F55@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:47:50
+0 @I130@ INDI
+1 NAME LIVING
+1 SEX M
+1 FAMS @F55@
+0 @I131@ INDI
+1 NAME Friedrich /Schilling/
+2 SURN Schilling
+2 GIVN Friedrich
+1 SEX M
+1 BIRT
+2 DATE 23 Oct 1681
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F56@
+1 FAMC @F57@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:50:41
+0 @I132@ INDI
+1 NAME Anna Christina /Weissert/
+2 SURN Weissert
+2 GIVN Anna Christina
+1 SEX F
+1 BIRT
+2 DATE 26 Apr 1682
+1 FAMS @F56@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 23:05:07
+0 @I133@ INDI
+1 NAME Augustinus /Schilling/
+2 SURN Schilling
+2 GIVN Augustinus
+1 SEX M
+1 BIRT
+2 DATE 17 Mar 1650
+2 PLAC Heilbronn, Württemberg
+1 FAMS @F57@
+1 FAMC @F58@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:52:18
+0 @I134@ INDI
+1 NAME Anna Margaretha /Schilling/
+2 SURN Schilling
+2 GIVN Anna Margaretha
+1 SEX F
+1 FAMS @F57@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:52:33
+0 @I135@ INDI
+1 NAME Augustinus /Schilling/
+2 SURN Schilling
+2 GIVN Augustinus
+1 SEX M
+1 BIRT
+2 DATE 1617
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 22 Apr 1692
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F58@
+1 FAMC @F59@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:53:18
+0 @I136@ INDI
+1 NAME Maria /Schaffer/
+2 SURN Schaffer
+2 GIVN Maria
+1 SEX F
+1 BIRT
+2 DATE 16 Jul 1621
+1 DEAT
+2 DATE 5 Apr 1687
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F58@
+1 FAMC @F60@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:54:05
+0 @I137@ INDI
+1 NAME Jerg /Schilling/
+2 SURN Schilling
+2 GIVN Jerg
+1 SEX M
+1 BIRT
+2 DATE 1592
+1 FAMS @F59@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:54:28
+0 @I138@ INDI
+1 NAME Matthäus /Schaffer/
+2 SURN Schaffer
+2 GIVN Matthäus
+1 SEX M
+1 FAMS @F60@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:54:47
+0 @I139@ INDI
+1 NAME Jacob Heinrich /Rüber/
+2 SURN Rüber
+2 GIVN Jacob Heinrich
+1 SEX M
+1 BIRT
+2 DATE 13 Nov 1839
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 20 Jun 1889
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F61@
+1 FAMC @F62@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:58:10
+0 @I140@ INDI
+1 NAME Sophia Barbara /Kümmerle/
+2 SURN Kümmerle
+2 GIVN Sophia Barbara
+1 SEX F
+1 BIRT
+2 DATE 23 Nov 1838
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F61@
+1 FAMC @F87@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:51:37
+0 @I141@ INDI
+1 NAME Jakob Friedrich /Rüber/
+2 SURN Rüber
+2 GIVN Jakob Friedrich
+1 SEX M
+1 BIRT
+2 DATE 10 Oct 1809
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 8 Mar 1878
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F62@
+1 FAMC @F63@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 21:59:36
+0 @I142@ INDI
+1 NAME Maria Justina /Lochner/
+2 SURN Lochner
+2 GIVN Maria Justina
+1 SEX F
+1 BIRT
+2 DATE 22 Jun 1815
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 10 Feb 1851
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F62@
+1 FAMC @F69@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:00:23
+0 @I143@ INDI
+1 NAME Jacob Friedrich /Rüber/
+2 SURN Rüber
+2 GIVN Jacob Friedrich
+1 SEX M
+1 BIRT
+2 DATE 19 Aug 1782
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 15 Jul 1855
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F63@
+1 FAMC @F64@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:01:11
+0 @I144@ INDI
+1 NAME Maria Magdalena /Diez/
+2 SURN Diez
+2 GIVN Maria Magdalena
+1 SEX F
+1 BIRT
+2 DATE 21 Jul 1788
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 27 Jan 1855
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F63@
+1 FAMC @F66@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:02:00
+0 @I145@ INDI
+1 NAME Christian /Rüber/
+2 SURN Rüber
+2 GIVN Christian
+1 SEX M
+1 BIRT
+2 DATE 6 Jan 1745
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 24 Nov 1795
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F64@
+1 FAMC @F65@
+1 OCCU Maurer
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:06:20
+0 @I146@ INDI
+1 NAME Christina /Schilling/
+2 SURN Schilling
+2 GIVN Christina
+1 SEX F
+1 FAMS @F64@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:03:23
+0 @I147@ INDI
+1 NAME Johann Michael /Rüber/
+2 SURN Rüber
+2 GIVN Johann Michael
+1 SEX M
+1 FAMS @F65@
+1 OCCU Schuhmacher
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:07:00
+0 @I148@ INDI
+1 NAME Maria Barbara /Schuster/
+2 SURN Schuster
+2 GIVN Maria Barbara
+1 SEX F
+1 FAMS @F65@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:07:14
+0 @I149@ INDI
+1 NAME Georg Michael /Diez/
+2 SURN Diez
+2 GIVN Georg Michael
+1 SEX M
+1 BIRT
+2 DATE 28 May 1750
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 20 Apr 1822
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F66@
+1 FAMC @F67@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:08:03
+0 @I150@ INDI
+1 NAME Maria Johanna /Rüdinger/
+2 SURN Rüdinger
+2 GIVN Maria Johanna
+1 SEX F
+1 BIRT
+2 DATE 7 Aug 1754
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 3 Dec 1837
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F66@
+1 FAMC @F68@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:09:01
+0 @I151@ INDI
+1 NAME Johannes /Diez/
+2 SURN Diez
+2 GIVN Johannes
+1 SEX M
+1 FAMS @F67@
+1 OCCU Bauer
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:09:26
+0 @I152@ INDI
+1 NAME Catharina /Schilling/
+2 SURN Schilling
+2 GIVN Catharina
+1 SEX F
+1 FAMS @F67@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:09:38
+0 @I153@ INDI
+1 NAME Georg Michel /Rüdinger/
+2 SURN Rüdinger
+2 GIVN Georg Michel
+1 SEX M
+1 FAMS @F68@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:09:55
+0 @I154@ INDI
+1 NAME Maria Catharina //
+2 GIVN Maria Catharina
+1 SEX F
+1 FAMS @F68@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:10:20
+0 @I155@ INDI
+1 NAME Johannes /Lochner/
+2 SURN Lochner
+2 GIVN Johannes
+1 SEX M
+1 BIRT
+2 DATE 23 Dec 1765
+2 PLAC Neipperg, Württemberg
+1 DEAT
+2 DATE 5 Oct 1843
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F69@
+1 FAMC @F71@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:11:13
+0 @I156@ INDI
+1 NAME Eva /Remmele/
+2 SURN Remmele
+2 GIVN Eva
+1 SEX F
+1 BIRT
+2 DATE 1773
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 25 Dec 1845
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F69@
+1 FAMC @F70@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:11:52
+0 @I157@ INDI
+1 NAME Johannes /Remmele/
+2 SURN Remmele
+2 GIVN Johannes
+1 SEX M
+1 FAMS @F70@
+1 OCCU Schmied
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:12:13
+0 @I158@ INDI
+1 NAME Juliana /Rüber/
+2 SURN Rüber
+2 GIVN Juliana
+1 SEX F
+1 FAMS @F70@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:12:23
+0 @I159@ INDI
+1 NAME Johann Georg /Lochner/
+2 SURN Lochner
+2 GIVN Johann Georg
+1 SEX M
+1 DEAT
+2 PLAC Neipperg, Württemberg
+1 FAMS @F71@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:12:51
+0 @I160@ INDI
+1 NAME Maria Eva /Rohr/
+2 SURN Rohr
+2 GIVN Maria Eva
+1 SEX F
+1 FAMS @F71@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:13:00
+0 @I161@ INDI
+1 NAME Johann Andreas /Pleiss/
+2 SURN Pleiss
+2 GIVN Johann Andreas
+1 SEX M
+1 BIRT
+2 DATE 1 Dec 1821
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 7 Jan 1896
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F72@
+1 FAMC @F73@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:15:16
+0 @I162@ INDI
+1 NAME Barbara /Sigel/
+2 SURN Sigel
+2 GIVN Barbara
+1 SEX F
+1 BIRT
+2 DATE 11 Dec 1829
+2 PLAC Niederhofen, Württemberg
+1 DEAT
+2 DATE 25 Nov 1907
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F72@
+1 FAMC @F85@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:42:44
+0 @I163@ INDI
+1 NAME Johann Andreas /Pleiss/
+2 SURN Pleiss
+2 GIVN Johann Andreas
+1 SEX M
+1 BIRT
+2 DATE 13 Aug 1787
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 30 Mar 1854
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F73@
+1 FAMC @F74@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:16:39
+0 @I164@ INDI
+1 NAME Juliana /Schilling/
+2 SURN Schilling
+2 GIVN Juliana
+1 SEX F
+1 BIRT
+2 DATE 8 Jan 1787
+1 FAMS @F73@
+1 FAMC @F79@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:17:16
+0 @I165@ INDI
+1 NAME Andreas /Pleiss/
+2 SURN Pleiss
+2 GIVN Andreas
+1 SEX M
+1 BIRT
+2 DATE 27 Sep 1756
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 15 Dec 1814
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F74@
+1 FAMC @F75@
+1 OCCU Weber
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:18:56
+0 @I166@ INDI
+1 NAME Catharina /Burk/
+2 SURN Burk
+2 GIVN Catharina
+1 SEX F
+1 BIRT
+2 DATE 11 Oct 1758
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 15 Dec 1831
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F74@
+1 FAMC @F78@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:18:41
+0 @I167@ INDI
+1 NAME Andreas /Pleiss/
+2 SURN Pleiss
+2 GIVN Andreas
+1 SEX M
+1 FAMS @F75@
+1 FAMC @F76@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:19:10
+0 @I168@ INDI
+1 NAME Rosina Catharina /Weissert/
+2 SURN Weissert
+2 GIVN Rosina Catharina
+1 SEX F
+1 FAMS @F75@
+1 FAMC @F77@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:19:33
+0 @I169@ INDI
+1 NAME LIVING
+1 SEX M
+1 FAMS @F76@
+0 @I170@ INDI
+1 NAME LIVING
+1 SEX M
+1 FAMS @F77@
+0 @I171@ INDI
+1 NAME Johann Georg /Burk/
+2 SURN Burk
+2 GIVN Johann Georg
+1 SEX M
+1 FAMS @F78@
+1 OCCU Weber
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:20:25
+0 @I172@ INDI
+1 NAME Anna Maria /Gradol/
+2 SURN Gradol
+2 GIVN Anna Maria
+1 SEX F
+1 FAMS @F78@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:20:56
+0 @I173@ INDI
+1 NAME Johann Georg /Schilling/
+2 SURN Schilling
+2 GIVN Johann Georg
+1 SEX M
+1 FAMS @F79@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:21:36
+0 @I174@ INDI
+1 NAME Susanna /Rüber/
+2 SURN Rüber
+2 GIVN Susanna
+1 SEX F
+1 FAMS @F79@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:21:53
+0 @I175@ INDI
+1 NAME Christoph Adam /Kern/
+2 SURN Kern
+2 GIVN Christoph Adam
+1 SEX M
+1 BIRT
+2 DATE 1825
+2 PLAC Stetten a.H., Württemberg
+1 DEAT
+2 DATE 26 Mar 1883
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F80@
+1 FAMC @F81@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:23:15
+0 @I176@ INDI
+1 NAME Catharina /Schuster/
+2 SURN Schuster
+2 GIVN Catharina
+1 SEX F
+1 DEAT
+2 DATE 24 Jun 1912
+2 PLAC Stetten a.H., Württemberg
+1 FAMS @F80@
+1 FAMC @F88@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:45:00
+0 @I177@ INDI
+1 NAME Leonhard /Kern/
+2 SURN Kern
+2 GIVN Leonhard
+1 SEX M
+1 FAMS @F81@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:23:45
+0 @I178@ INDI
+1 NAME Justina /Kümmerle/
+2 SURN Kümmerle
+2 GIVN Justina
+1 SEX F
+1 FAMS @F81@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:55:28
+0 @I192@ INDI
+1 NAME Christoph Friedrich /Sigel/
+2 SURN Sigel
+2 GIVN Christoph Friedrich
+1 SEX M
+1 BIRT
+2 PLAC Niederhofen, Württemberg
+1 FAMS @F85@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:43:44
+0 @I193@ INDI
+1 NAME Barbara /Morgenthaler/
+2 SURN Morgenthaler
+2 GIVN Barbara
+1 SEX F
+1 FAMS @F85@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:44:00
+0 @I194@ INDI
+1 NAME Georg Friedrich /Kachel/
+2 SURN Kachel
+2 GIVN Georg Friedrich
+1 SEX M
+1 FAMS @F86@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:50:45
+0 @I195@ INDI
+1 NAME Juliana Catharina /Gorg/
+2 SURN Gorg
+2 GIVN Juliana Catharina
+1 SEX F
+1 FAMS @F86@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:51:03
+0 @I196@ INDI
+1 NAME Georg Michael /Kümmerle/
+2 SURN Kümmerle
+2 GIVN Georg Michael
+1 SEX M
+1 FAMS @F87@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:53:19
+0 @I197@ INDI
+1 NAME Catharina Justina /Remmele/
+2 SURN Remmele
+2 GIVN Catharina Justina
+1 SEX F
+1 FAMS @F87@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 22:53:57
+0 @I198@ INDI
+1 NAME LIVING
+1 SEX M
+1 FAMS @F88@
+0 @I199@ INDI
+1 NAME LIVING
+1 SEX F
+1 FAMS @F88@
+0 @I200@ INDI
+1 NAME Jacob /Lutz/
+2 SURN Lutz
+2 GIVN Jacob
+1 SEX M
+1 BIRT
+2 PLAC Gemmingen, Baden
+1 FAMS @F89@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 23:01:15
+0 @I201@ INDI
+1 NAME Sophia Catharina /Kleinhard/
+2 SURN Kleinhard
+2 GIVN Sophia Catharina
+1 SEX F
+1 BIRT
+2 PLAC Gemmingen, Baden
+1 FAMS @F89@
+1 CHAN
+2 DATE 1 May 2001
+3 TIME 23:01:10
+0 @I234@ INDI
+1 NAME Georg /Gross/
+2 SURN Gross
+2 GIVN Georg
+1 SEX M
+1 BIRT
+2 DATE 17 Jan 1899
+2 PLAC Leanyvar
+1 DEAT
+2 DATE 1974
+1 FAMS @F106@
+1 CHAN
+2 DATE 25 Aug 2001
+3 TIME 13:07:59
+0 @I239@ INDI
+1 NAME Lorenz /Binder/
+2 SURN Binder
+2 GIVN Lorenz
+1 SEX M
+1 BIRT
+2 DATE 11 Nov 1891
+2 PLAC Czolnok, Ungarn
+1 DEAT
+2 DATE 13 Oct 1968
+2 PLAC Czolnok, Ungarn
+1 FAMS @F109@
+1 FAMC @F110@
+1 RELI röm.-kath.
+1 CHAN
+2 DATE 23 Aug 2001
+3 TIME 21:18:40
+0 @I240@ INDI
+1 NAME Mihaly /Binder/
+2 SURN Binder
+2 GIVN Mihaly
+1 SEX M
+1 BIRT
+2 DATE 22 Oct 1867
+2 PLAC Czolnok, Ungarn
+1 DEAT
+2 DATE 15 Mar 1928
+2 PLAC Czolnok, Ungarn
+1 FAMS @F110@
+1 FAMC @F113@
+1 RELI röm.-kath.
+1 CHAN
+2 DATE 23 Aug 2001
+3 TIME 21:04:20
+0 @I241@ INDI
+1 NAME Franziska /Adolf/
+2 SURN Adolf
+2 GIVN Franziska
+1 SEX F
+1 BIRT
+2 DATE 8 Dec 1868
+2 PLAC Czolnok, Ungarn
+1 DEAT
+2 DATE 17 Nov 1954
+2 PLAC Czolnok, Ungarn
+1 FAMS @F110@
+1 FAMC @F111@
+1 CHAN
+2 DATE 23 Aug 2001
+3 TIME 21:03:51
+0 @I242@ INDI
+1 NAME Andreas /Adolf/
+2 SURN Adolf
+2 GIVN Andreas
+1 SEX M
+1 DEAT
+2 DATE 5 Oct 1888
+2 PLAC Taht, Ungarn
+1 FAMS @F111@
+1 RELI röm.-kath.
+1 CHAN
+2 DATE 23 Aug 2001
+3 TIME 21:05:25
+0 @I243@ INDI
+1 NAME Juliane /Samuel/
+2 SURN Samuel
+2 GIVN Juliane
+1 SEX F
+1 DEAT
+2 DATE 4 Sep 1916
+2 PLAC Taht, Ungarn
+1 FAMS @F111@
+1 CHAN
+2 DATE 23 Aug 2001
+3 TIME 21:05:52
+0 @I252@ INDI
+1 NAME Michael /Binder/
+2 SURN Binder
+2 GIVN Michael
+1 SEX M
+1 BIRT
+2 DATE 20 Sep 1821
+2 PLAC Czolnok, Ungarn
+1 DEAT
+2 DATE 22 Jun 1903
+2 PLAC Czolnok, Ungarn
+1 FAMS @F113@
+1 FAMC @F114@
+1 CHAN
+2 DATE 23 Aug 2001
+3 TIME 21:22:29
+0 @I253@ INDI
+1 NAME Maria /Ketter/
+2 SURN Ketter
+2 GIVN Maria
+1 SEX F
+1 DEAT
+2 DATE 19 Oct 1916
+2 PLAC Czolnok, Ungarn
+1 FAMS @F113@
+1 CHAN
+2 DATE 23 Aug 2001
+3 TIME 21:23:52
+0 @I254@ INDI
+1 NAME Franziscus /Binder/
+2 SURN Binder
+2 GIVN Franziscus
+1 SEX M
+1 BIRT
+2 DATE 1784
+1 FAMS @F114@
+1 FAMC @F115@
+1 NOTE Important remark:
+2 CONT Before 1811 the name was spelled "PINTER", since 1811 the Surname was changed from "Pinter" t
+2 CONC o BINDER, which remained until today.
+2 CONT Ab ca. 1811 änderte sich der Familienname "Pinter" in "BINDER", wie er bis heute blieb.
+1 CHAN
+2 DATE 25 Aug 2001
+3 TIME 22:34:06
+0 @I255@ INDI
+1 NAME Anna Maria /Thier/
+2 SURN Thier
+2 GIVN Anna Maria
+1 SEX F
+1 BIRT
+2 DATE 1787
+1 FAMS @F114@
+1 CHAN
+2 DATE 23 Aug 2001
+3 TIME 21:25:02
+0 @I256@ INDI
+1 NAME Anonymus /Pinter/
+2 SURN Pinter
+2 GIVN Anonymus
+2 FONE Anonymus /Pinter/
+2 ROMN Anonymus /Binder/
+1 SEX M
+1 FAMS @F115@
+1 NOTE Father of / Vater von 
+2 CONT Franziscus Pinter/BINDER (# 254)
+2 CONT Details unknown.
+2 CONT 
+2 CONT Since 1811 the Surname was changed from "Pinter" to BINDER, which remained until today.
+2 CONT Ab ca. 1811 änderte sich der Familienname "Pinter" in "BINDER", wie er bis heute blieb.
+1 CHAN
+2 DATE 23 Aug 2001
+3 TIME 22:07:57
+0 @I259@ INDI
+1 NAME LIVING
+1 SEX F
+1 FAMS @F106@
+0 @F1@ FAM
+1 HUSB @I2@
+1 WIFE @I3@
+1 CHIL @I1@
+0 @F3@ FAM
+1 HUSB @I6@
+1 WIFE @I7@
+1 CHIL @I3@
+1 MARR
+2 DATE 18 Nov 1944
+2 PLAC Stetten
+0 @F4@ FAM
+1 HUSB @I9@
+1 WIFE @I10@
+1 CHIL @I6@
+1 MARR
+2 DATE 5 Jun 1919
+2 PLAC Stetten
+0 @F5@ FAM
+1 HUSB @I11@
+1 WIFE @I12@
+1 CHIL @I7@
+1 MARR
+2 DATE 4 Mar 1923
+2 PLAC Stetten
+0 @F6@ FAM
+1 HUSB @I13@
+1 WIFE @I14@
+1 CHIL @I9@
+1 MARR
+2 DATE 27 Nov 1890
+2 PLAC Stetten
+0 @F7@ FAM
+1 HUSB @I15@
+1 WIFE @I16@
+1 CHIL @I13@
+1 MARR
+2 PLAC Stetten
+0 @F8@ FAM
+1 HUSB @I17@
+1 WIFE @I18@
+1 CHIL @I15@
+1 MARR
+2 DATE 1 Jan 1828
+2 PLAC Stetten
+0 @F9@ FAM
+1 HUSB @I19@
+1 WIFE @I20@
+1 CHIL @I17@
+1 MARR
+2 DATE 22 Oct 1793
+2 PLAC Stetten
+0 @F10@ FAM
+1 HUSB @I21@
+1 WIFE @I22@
+1 CHIL @I19@
+0 @F11@ FAM
+1 HUSB @I23@
+1 WIFE @I24@
+1 CHIL @I18@
+1 MARR
+2 DATE 23 Dec 1782
+2 PLAC Stetten
+0 @F12@ FAM
+1 HUSB @I25@
+1 WIFE @I26@
+1 CHIL @I23@
+0 @F13@ FAM
+1 WIFE @I27@
+1 CHIL @I12@
+0 @F14@ FAM
+1 HUSB @I28@
+1 WIFE @I29@
+1 CHIL @I27@
+1 MARR
+2 DATE 9 Sep 1875
+2 PLAC Gemmingen
+0 @F15@ FAM
+1 HUSB @I33@
+1 WIFE @I34@
+1 CHIL @I28@
+1 MARR
+2 DATE 3 May 1846
+2 PLAC Kleingartach, Württemberg
+0 @F17@ FAM
+1 HUSB @I41@
+1 WIFE @I42@
+1 CHIL @I33@
+1 MARR
+2 DATE 27 Apr 1819
+2 PLAC Stetten a.H., Württemberg
+0 @F18@ FAM
+1 HUSB @I43@
+1 WIFE @I44@
+1 CHIL @I41@
+1 MARR
+2 DATE 7 May 1782
+2 PLAC Stetten a.H., Württemberg
+0 @F19@ FAM
+1 HUSB @I45@
+1 WIFE @I46@
+1 CHIL @I43@
+1 MARR
+2 DATE 21 Oct 1741
+2 PLAC Stetten a.H., Württemberg
+0 @F20@ FAM
+1 HUSB @I47@
+1 WIFE @I48@
+1 CHIL @I44@
+1 MARR
+2 DATE 22 Nov 1741
+2 PLAC Stetten a.H., Württemberg
+0 @F27@ FAM
+1 HUSB @I68@
+1 WIFE @I69@
+1 CHIL @I45@
+1 MARR
+2 PLAC Stetten a.H., Württemberg
+0 @F28@ FAM
+1 HUSB @I72@
+1 WIFE @I73@
+1 CHIL @I68@
+1 MARR
+2 DATE 14 Nov 1682
+2 PLAC Stetten a.H., Württemberg
+0 @F29@ FAM
+1 HUSB @I74@
+1 WIFE @I75@
+1 CHIL @I72@
+1 MARR
+2 DATE 5 Nov 1660
+2 PLAC Stetten a.H., Württemberg
+0 @F30@ FAM
+1 HUSB @I77@
+1 WIFE @I76@
+1 CHIL @I2@
+0 @F31@ FAM
+1 HUSB @I78@
+1 WIFE @I79@
+1 CHIL @I10@
+1 MARR
+2 DATE 27 Feb 1889
+2 PLAC Stetten a.H., Württemberg
+0 @F32@ FAM
+1 HUSB @I80@
+1 WIFE @I81@
+1 CHIL @I34@
+0 @F33@ FAM
+1 HUSB @I82@
+1 WIFE @I83@
+1 CHIL @I42@
+1 MARR
+2 DATE 26 Nov 1765
+2 PLAC Stetten a.H., Württemberg
+0 @F34@ FAM
+1 HUSB @I84@
+1 WIFE @I85@
+1 CHIL @I82@
+0 @F35@ FAM
+1 HUSB @I86@
+1 WIFE @I87@
+1 CHIL @I83@
+0 @F36@ FAM
+1 HUSB @I88@
+1 WIFE @I89@
+1 CHIL @I73@
+0 @F37@ FAM
+1 HUSB @I90@
+1 WIFE @I91@
+1 CHIL @I89@
+0 @F38@ FAM
+1 HUSB @I92@
+1 WIFE @I93@
+1 CHIL @I88@
+0 @F39@ FAM
+1 HUSB @I94@
+1 WIFE @I95@
+1 CHIL @I75@
+0 @F40@ FAM
+1 HUSB @I96@
+1 WIFE @I97@
+1 CHIL @I74@
+0 @F41@ FAM
+1 HUSB @I98@
+1 WIFE @I99@
+1 CHIL @I46@
+1 MARR
+2 DATE 29 Aug 1713
+2 PLAC Stetten a.H., Württemberg
+0 @F42@ FAM
+1 HUSB @I100@
+1 WIFE @I101@
+1 CHIL @I98@
+1 MARR
+2 DATE 1678
+2 PLAC Stetten a.H., Württemberg
+0 @F43@ FAM
+1 HUSB @I102@
+1 WIFE @I103@
+1 CHIL @I100@
+1 MARR
+2 DATE 12 Mar 1644
+2 PLAC Schwaigern, Württemberg
+0 @F44@ FAM
+1 HUSB @I106@
+1 WIFE @I107@
+1 CHIL @I101@
+0 @F53@ FAM
+1 HUSB @I126@
+1 WIFE @I127@
+1 CHIL @I47@
+1 MARR
+2 DATE 1708
+2 PLAC Stetten a.H., Württemberg
+0 @F54@ FAM
+1 HUSB @I128@
+1 WIFE @I129@
+1 CHIL @I126@
+1 MARR
+2 DATE 29 Aug 1677
+2 PLAC Neckargartach, Württemberg
+0 @F55@ FAM
+1 HUSB @I130@
+1 CHIL @I129@
+0 @F56@ FAM
+1 HUSB @I131@
+1 WIFE @I132@
+1 CHIL @I48@
+1 MARR
+2 DATE 3 Feb 1705
+2 PLAC Stetten a.H., Württemberg
+0 @F57@ FAM
+1 HUSB @I133@
+1 WIFE @I134@
+1 CHIL @I131@
+0 @F58@ FAM
+1 HUSB @I135@
+1 WIFE @I136@
+1 CHIL @I133@
+1 MARR
+2 DATE 12 Jul 1640
+2 PLAC Stetten a.H., Württemberg
+0 @F59@ FAM
+1 HUSB @I137@
+1 CHIL @I135@
+0 @F60@ FAM
+1 HUSB @I138@
+1 CHIL @I136@
+0 @F61@ FAM
+1 HUSB @I139@
+1 WIFE @I140@
+1 CHIL @I14@
+1 MARR
+2 DATE 19 Apr 1869
+2 PLAC Stetten a.H., Württemberg
+0 @F62@ FAM
+1 HUSB @I141@
+1 WIFE @I142@
+1 CHIL @I139@
+1 MARR
+2 DATE 17 Nov 1835
+2 PLAC Stetten a.H., Württemberg
+0 @F63@ FAM
+1 HUSB @I143@
+1 WIFE @I144@
+1 CHIL @I141@
+1 MARR
+2 DATE 1 Oct 1808
+2 PLAC Stetten a.H., Württemberg
+0 @F64@ FAM
+1 HUSB @I145@
+1 WIFE @I146@
+1 CHIL @I143@
+1 MARR
+2 DATE 23 Jan 1778
+2 PLAC Stetten a.H., Württemberg
+0 @F65@ FAM
+1 HUSB @I147@
+1 WIFE @I148@
+1 CHIL @I145@
+0 @F66@ FAM
+1 HUSB @I149@
+1 WIFE @I150@
+1 CHIL @I144@
+1 MARR
+2 DATE 27 May 1777
+2 PLAC Stetten a.H., Württemberg
+0 @F67@ FAM
+1 HUSB @I151@
+1 WIFE @I152@
+1 CHIL @I149@
+0 @F68@ FAM
+1 HUSB @I153@
+1 WIFE @I154@
+1 CHIL @I150@
+0 @F69@ FAM
+1 HUSB @I155@
+1 WIFE @I156@
+1 CHIL @I142@
+1 MARR
+2 DATE 28 Jan 1794
+0 @F70@ FAM
+1 HUSB @I157@
+1 WIFE @I158@
+1 CHIL @I156@
+0 @F71@ FAM
+1 HUSB @I159@
+1 WIFE @I160@
+1 CHIL @I155@
+0 @F72@ FAM
+1 HUSB @I161@
+1 WIFE @I162@
+1 CHIL @I78@
+1 MARR
+2 DATE 14 Aug 1853
+2 PLAC Niederhofen, Württemberg
+0 @F73@ FAM
+1 HUSB @I163@
+1 WIFE @I164@
+1 CHIL @I161@
+1 MARR
+2 DATE 4 Jul 1814
+2 PLAC Stetten a.H., Württemberg
+0 @F74@ FAM
+1 HUSB @I165@
+1 WIFE @I166@
+1 CHIL @I163@
+1 MARR
+2 DATE 20 Nov 1781
+2 PLAC Stetten a.H., Württemberg
+0 @F75@ FAM
+1 HUSB @I167@
+1 WIFE @I168@
+1 CHIL @I165@
+1 MARR
+2 DATE 9 Aug 1746
+0 @F76@ FAM
+1 HUSB @I169@
+1 CHIL @I167@
+0 @F77@ FAM
+1 HUSB @I170@
+1 CHIL @I168@
+0 @F78@ FAM
+1 HUSB @I171@
+1 WIFE @I172@
+1 CHIL @I166@
+0 @F79@ FAM
+1 HUSB @I173@
+1 WIFE @I174@
+1 CHIL @I164@
+1 MARR
+2 DATE 3 Mar 1772
+0 @F80@ FAM
+1 HUSB @I175@
+1 WIFE @I176@
+1 CHIL @I79@
+1 MARR
+2 DATE 5 May 1850
+0 @F81@ FAM
+1 HUSB @I177@
+1 WIFE @I178@
+1 CHIL @I175@
+0 @F85@ FAM
+1 HUSB @I192@
+1 WIFE @I193@
+1 CHIL @I162@
+0 @F86@ FAM
+1 HUSB @I194@
+1 WIFE @I195@
+1 CHIL @I16@
+0 @F87@ FAM
+1 HUSB @I196@
+1 WIFE @I197@
+1 CHIL @I140@
+1 MARR
+2 DATE 1823
+0 @F88@ FAM
+1 HUSB @I198@
+1 WIFE @I199@
+1 CHIL @I176@
+0 @F89@ FAM
+1 HUSB @I200@
+1 WIFE @I201@
+1 CHIL @I29@
+0 @F106@ FAM
+1 HUSB @I234@
+1 WIFE @I259@
+1 CHIL @I76@
+0 @F109@ FAM
+1 HUSB @I239@
+1 CHIL @I77@
+0 @F110@ FAM
+1 HUSB @I240@
+1 WIFE @I241@
+1 CHIL @I239@
+0 @F111@ FAM
+1 HUSB @I242@
+1 WIFE @I243@
+1 CHIL @I241@
+0 @F113@ FAM
+1 HUSB @I252@
+1 WIFE @I253@
+1 CHIL @I240@
+0 @F114@ FAM
+1 HUSB @I254@
+1 WIFE @I255@
+1 CHIL @I252@
+1 MARR
+2 DATE 12 Feb 1806
+2 PLAC Czolnok, Ungarn
+0 @F115@ FAM
+1 HUSB @I256@
+1 CHIL @I254@
+0 TRLR

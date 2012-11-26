@@ -23,8 +23,7 @@ package com.mattharrah.gedcom4j.model;
 
 /**
  * <p>
- * The types of attributes that can be recorded for an individual. This enum
- * covers the valid tags for an individual attribute. Corresponds to
+ * The types of attributes that can be recorded for an individual. This enum covers the valid tags for an individual attribute. Corresponds to
  * ATTRIBUTE_TYPE in the GEDCOM spec.
  * </p>
  * 
@@ -83,15 +82,18 @@ public enum IndividualAttributeType {
     /**
      * Nobility type title
      */
-    NOBILITY_TYPE_TITLE("TITL", "Title");
+    NOBILITY_TYPE_TITLE("TITL", "Title"),
+    /**
+     * Generic fact. New for GEDCOM 5.5.1.
+     */
+    FACT("FACT", "Fact");
 
     /**
      * Get an enum constant from its tag value
      * 
      * @param tag
      *            the tag value for the enum constant you want
-     * @return the enum constant that matches the supplied tag, or null if no
-     *         match was found
+     * @return the enum constant that matches the supplied tag, or null if no match was found
      */
     public static IndividualAttributeType getFromTag(String tag) {
         for (IndividualAttributeType t : values()) {
@@ -107,8 +109,7 @@ public enum IndividualAttributeType {
      * 
      * @param tag
      *            the tag we are testing
-     * @return true if and only if the tag supplied is a valid tag for an
-     *         Individual Attribute
+     * @return true if and only if the tag supplied is a valid tag for an Individual Attribute
      */
     public static boolean isValidTag(String tag) {
         return (getFromTag(tag) != null);

@@ -19,35 +19,61 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.mattharrah.gedcom4j.io;
+package com.mattharrah.gedcom4j.model;
 
 /**
- * An encoding for a gedcom file.
+ * An exception for when an unsupported GEDCOM version is used
  * 
  * @author frizbog1
+ * 
  */
-public enum Encoding {
+public class UnsupportedVersionException extends Exception {
+
     /**
-     * ASCII. Only characters from 0x00 to 0x7F are expected, one byte per
-     * character.
+     * Serial Version UID
      */
-    ASCII,
+    private static final long serialVersionUID = -7778881391248235659L;
+
     /**
-     * ANSEL (American National Standard for Extended Latin), aka ANSI
-     * Z39.47-1985, aka MARC-8. This is the default for GEDCOM files. One byte
-     * per character.
+     * Default constructor
      */
-    ANSEL,
+    public UnsupportedVersionException() {
+        // Nothing special to do - super behavior works
+    }
+
     /**
-     * Unicode, big-endian. Two bytes per character.
+     * Constructor that takes only a message
+     * 
+     * @param message
+     *            the message
      */
-    UNICODE_BIG_ENDIAN,
+    public UnsupportedVersionException(String message) {
+        super(message);
+        // Nothing special to do - super behavior works
+    }
+
     /**
-     * Unicode, little-endian. Two bytes per character.
+     * Constructor that takes a message and cause
+     * 
+     * @param message
+     *            the message
+     * @param cause
+     *            the cause
      */
-    UNICODE_LITTLE_ENDIAN,
+    public UnsupportedVersionException(String message, Throwable cause) {
+        super(message, cause);
+        // Nothing special to do - super behavior works
+    }
+
     /**
-     * UTF-8 encoding.
+     * Constructor that takes only a cause
+     * 
+     * @param cause
+     *            the cause
      */
-    UTF_8;
+    public UnsupportedVersionException(Throwable cause) {
+        super(cause);
+        // Nothing special to do - super behavior works
+    }
+
 }

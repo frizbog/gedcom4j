@@ -35,14 +35,31 @@ public class Corporation {
      * The business name
      */
     public String businessName;
+
     /**
      * The address
      */
     public Address address;
+
     /**
      * The phone numbers
      */
     public List<String> phoneNumbers = new ArrayList<String>();
+
+    /**
+     * Web URL's. New for GEDCOM 5.5.1.
+     */
+    public List<String> wwwUrls = new ArrayList<String>();
+
+    /**
+     * Fax numbers. New for GEDCOM 5.5.1.
+     */
+    public List<String> faxNumbers = new ArrayList<String>();
+
+    /**
+     * The emails for this submitter. New for GEDCOM 5.5.1
+     */
+    public List<String> emails = new ArrayList<String>();
 
     @Override
     public boolean equals(Object obj) {
@@ -77,6 +94,28 @@ public class Corporation {
         } else if (!phoneNumbers.equals(other.phoneNumbers)) {
             return false;
         }
+        if (wwwUrls == null) {
+            if (other.wwwUrls != null) {
+                return false;
+            }
+        } else if (!wwwUrls.equals(other.wwwUrls)) {
+            return false;
+        }
+        if (faxNumbers == null) {
+            if (other.faxNumbers != null) {
+                return false;
+            }
+        } else if (!faxNumbers.equals(other.faxNumbers)) {
+            return false;
+        }
+        if (emails == null) {
+            if (other.emails != null) {
+                return false;
+            }
+        } else if (!emails.equals(other.emails)) {
+            return false;
+        }
+
         return true;
     }
 
@@ -84,11 +123,13 @@ public class Corporation {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((address == null) ? 0 : address.hashCode());
-        result = prime * result
-                + ((businessName == null) ? 0 : businessName.hashCode());
-        result = prime * result
-                + ((phoneNumbers == null) ? 0 : phoneNumbers.hashCode());
+        result = prime * result + (address == null ? 0 : address.hashCode());
+        result = prime * result + (businessName == null ? 0 : businessName.hashCode());
+        result = prime * result + (phoneNumbers == null ? 0 : phoneNumbers.hashCode());
+        result = prime * result + (faxNumbers == null ? 0 : faxNumbers.hashCode());
+        result = prime * result + (wwwUrls == null ? 0 : wwwUrls.hashCode());
+        result = prime * result + (emails == null ? 0 : emails.hashCode());
+
         return result;
     }
 

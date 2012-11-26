@@ -21,13 +21,11 @@
  */
 package com.mattharrah.gedcom4j.parser;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mattharrah.gedcom4j.io.GedcomFileReader;
 import com.mattharrah.gedcom4j.model.AbstractCitation;
 import com.mattharrah.gedcom4j.model.Address;
 import com.mattharrah.gedcom4j.model.AdoptedByWhichParent;
@@ -44,6 +42,7 @@ import com.mattharrah.gedcom4j.model.FamilyChild;
 import com.mattharrah.gedcom4j.model.FamilyEvent;
 import com.mattharrah.gedcom4j.model.FamilyEventType;
 import com.mattharrah.gedcom4j.model.FamilySpouse;
+import com.mattharrah.gedcom4j.model.FileReference;
 import com.mattharrah.gedcom4j.model.Gedcom;
 import com.mattharrah.gedcom4j.model.GedcomVersion;
 import com.mattharrah.gedcom4j.model.Header;
@@ -57,8 +56,10 @@ import com.mattharrah.gedcom4j.model.LdsIndividualOrdinance;
 import com.mattharrah.gedcom4j.model.LdsIndividualOrdinanceType;
 import com.mattharrah.gedcom4j.model.LdsSpouseSealing;
 import com.mattharrah.gedcom4j.model.Multimedia;
+import com.mattharrah.gedcom4j.model.NameVariation;
 import com.mattharrah.gedcom4j.model.Note;
 import com.mattharrah.gedcom4j.model.PersonalName;
+import com.mattharrah.gedcom4j.model.PersonalNameVariation;
 import com.mattharrah.gedcom4j.model.Place;
 import com.mattharrah.gedcom4j.model.Repository;
 import com.mattharrah.gedcom4j.model.RepositoryCitation;
@@ -68,23 +69,47 @@ import com.mattharrah.gedcom4j.model.SourceData;
 import com.mattharrah.gedcom4j.model.SourceSystem;
 import com.mattharrah.gedcom4j.model.Submission;
 import com.mattharrah.gedcom4j.model.Submitter;
+import com.mattharrah.gedcom4j.model.SupportedVersion;
 import com.mattharrah.gedcom4j.model.Trailer;
+import com.mattharrah.gedcom4j.model.UnsupportedVersionException;
 import com.mattharrah.gedcom4j.model.UserReference;
 
 /**
  * <p>
- * Class for parsing GEDCOM 5.5 files and creating a {@link Gedcom} structure
- * from them.
+ * Class for parsing GEDCOM 5.5 files and creating a {@link Gedcom} structure from them.
  * </p>
  * <p>
  * General usage is as follows:
  * <ol>
  * <li>Instantiate a <code>GedcomParser</code> object</li>
- * <li>Call the <code>GedcomParser.load()</code> method (in one of its various
- * forms) to parse a file/stream</li>
- * <li>Access the parser's <code>gedcom</code> property to access the parsed
- * data</li>
+ * <li>Call the <code>GedcomParser.load()</code> method (in one of its various forms) to parse a file/stream</li>
+ * <li>Access the parser's <code>gedcom</code> property to access the parsed data</li>
  * </ol>
+ * </p>
+ * <p>
+ * It is <b>highly recommended</b> that after calling the <code>GedcomParser.load()</code> method, the user check the {@link GedcomParser#errors} and
+ * {@link GedcomParser#warnings} collections to see if anything problematic was encountered in the data while parsing. Most commonly, the
+ * <code>warnings</code> collection will have information about tags from GEDCOM 5.5.1 that were specified in a file that was designated as a GEDCOM
+ * 5.5 file. When this occurs, the data is loaded, but will not be able to be written by {@link com.mattharrah.gedcom4j.writer.GedcomWriter} until the
+ * version number in the <code>gedcomVersion</code> field of {@link Gedcom#header} is updated to {@link SupportedVersion#V5_5_1}, or the
+ * 5.5.1-specific data is cleared from the data.
+ * </p>
+ * <p>
+ * The parser takes a "forgiving" approach where it tries to load as much data as possible, including 5.5.1 data in a file that says it's in 5.5
+ * format, and vice-versa. However, when it finds inconsistencies, it will add messages to the warnings and errors collections. Most of these messages
+ * indicate that the data was loaded, even though it was incorrect, and the data will need to be corrected before it can be written.
+ * </p>
+ * 
+ * <p>
+ * The parser makes the assumption that if the version of GEDCOM used is explicitly specified in the file header, that the rest of the data in the
+ * file should conform to that spec. For example, if the file header says the file is in 5.5 format (i.e., has a VERS 5.5 tag), then it will generate
+ * warnings if the new 5.5.1 tags (e.g., EMAIL) are encountered elsewhere, but will load the data anyway. If no version is specified, the 5.5.1 format
+ * is assumed as a default.
+ * </p>
+ * 
+ * <p>
+ * This approach was selected based on the presumption that most of the uses of GEDCOM4J will be to read GEDCOM files rather than to write them, so
+ * this provides that use case with the lowest friction.
  * </p>
  * 
  * @author frizbog1
@@ -96,18 +121,46 @@ public class GedcomParser {
      * The content of the gedcom file
      */
     public Gedcom gedcom = new Gedcom();
+
     /**
      * The things that went wrong while parsing the gedcom file
      */
     public List<String> errors = new ArrayList<String>();
+
     /**
-     * The warnings issued during the parsing of the gedcome file
+     * The warnings issued during the parsing of the gedcom file
      */
     public List<String> warnings = new ArrayList<String>();
 
     /**
-     * Load a gedcom file from an input stream and create an object heirarchy
-     * from the data therein.
+     * A flag that indicates whether feedback should be sent to System.out as parsing occurs
+     */
+    public boolean verbose = false;
+
+    /**
+     * A convenience method to write all the parsing errors and warnings to System.err.
+     */
+    public void dumpErrorsAndWarnings() {
+        if (errors.isEmpty()) {
+            System.out.println("No errors.");
+        } else {
+            System.out.println("Errors:");
+            for (String e : errors) {
+                System.out.println("  " + e);
+            }
+        }
+        if (warnings.isEmpty()) {
+            System.out.println("No warnings.");
+        } else {
+            System.out.println("Warnings:");
+            for (String w : warnings) {
+                System.out.println("  " + w);
+            }
+        }
+    }
+
+    /**
+     * Load a gedcom file from an input stream and create an object hierarchy from the data therein.
      * 
      * @param stream
      *            the stream to load from
@@ -116,15 +169,19 @@ public class GedcomParser {
      * @throws GedcomParserException
      *             if the file cannot be parsed
      */
-    public void load(InputStream stream) throws IOException,
-            GedcomParserException {
-        StringTree stringTree = readStream(stream);
+    public void load(InputStream stream) throws IOException, GedcomParserException {
+        if (verbose) {
+            System.out.println("Loading and parsing GEDCOM from input stream");
+        }
+        StringTree stringTree = GedcomParserHelper.readStream(stream);
         loadRootItems(stringTree);
+        if (verbose) {
+            dumpErrorsAndWarnings();
+        }
     }
 
     /**
-     * Load a gedcom file by filename and create an object heirarchy from the
-     * data therein.
+     * Load a gedcom file by filename and create an object heirarchy from the data therein.
      * 
      * @param filename
      *            the name of the file to load
@@ -134,33 +191,28 @@ public class GedcomParser {
      *             if the file cannot be parsed
      */
     public void load(String filename) throws IOException, GedcomParserException {
-        StringTree stringTree = readFile(filename);
+        if (verbose) {
+            System.out.println("Loading and parsing GEDCOM from file " + filename);
+        }
+        StringTree stringTree = GedcomParserHelper.readFile(filename);
         loadRootItems(stringTree);
+        if (verbose) {
+            dumpErrorsAndWarnings();
+        }
     }
 
     /**
-     * Find the last item at the supplied level in the supplied tree
+     * Returns true if and only if the Gedcom data says it is for the 5.5 standard.
      * 
-     * @param tree
-     *            the tree
-     * @param level
-     *            the level at which we are parsing
-     * @return the last item at the supplied level in the supplied tree
+     * @return true if and only if the Gedcom data says it is for the 5.5 standard.
      */
-    private StringTree findLast(StringTree tree, int level) {
-        if (tree.level == level) {
-            return tree;
-        }
-        StringTree lastChild = tree.children.get(tree.children.size() - 1);
-        if (lastChild.level == level) {
-            return lastChild;
-        }
-        return findLast(lastChild, level);
+    private boolean g55() {
+        return gedcom != null && gedcom.header != null && gedcom.header.gedcomVersion != null
+                && SupportedVersion.V5_5.equals(gedcom.header.gedcomVersion.versionNumber);
     }
 
     /**
-     * Get a family by their xref, adding them to the gedcom collection of
-     * families if needed.
+     * Get a family by their xref, adding them to the gedcom collection of families if needed.
      * 
      * @param xref
      *            the xref of the family
@@ -177,8 +229,7 @@ public class GedcomParser {
     }
 
     /**
-     * Get an individual by their xref, adding them to the gedcom collection of
-     * individuals if needed.
+     * Get an individual by their xref, adding them to the gedcom collection of individuals if needed.
      * 
      * @param xref
      *            the xref of the individual
@@ -196,8 +247,7 @@ public class GedcomParser {
     }
 
     /**
-     * Get a multimedia item by its xref, adding it to the gedcom collection of
-     * multimedia items if needed.
+     * Get a multimedia item by its xref, adding it to the gedcom collection of multimedia items if needed.
      * 
      * @param xref
      *            the xref of the multimedia item
@@ -215,8 +265,7 @@ public class GedcomParser {
     }
 
     /**
-     * Get a note by its xref, adding it to the gedcom collection of notes if
-     * needed.
+     * Get a note by its xref, adding it to the gedcom collection of notes if needed.
      * 
      * @param xref
      *            the xref of the note
@@ -234,8 +283,7 @@ public class GedcomParser {
     }
 
     /**
-     * Get a repository by its xref, adding it to the gedcom collection of
-     * repositories if needed.
+     * Get a repository by its xref, adding it to the gedcom collection of repositories if needed.
      * 
      * @param xref
      *            the xref of the repository
@@ -253,8 +301,7 @@ public class GedcomParser {
     }
 
     /**
-     * Get a source by its xref, adding it to the gedcom collection of sources
-     * if needed.
+     * Get a source by its xref, adding it to the gedcom collection of sources if needed.
      * 
      * @param xref
      *            the xref of the source
@@ -270,8 +317,7 @@ public class GedcomParser {
     }
 
     /**
-     * Get a submitter by their xref, adding them to the gedcom collection of
-     * submitters if needed.
+     * Get a submitter by their xref, adding them to the gedcom collection of submitters if needed.
      * 
      * @param xref
      *            the xref of the submitter
@@ -317,12 +363,10 @@ public class GedcomParser {
                 if (address.lines.size() == 0) {
                     address.lines.add(ch.value);
                 } else {
-                    address.lines.set(address.lines.size() - 1,
-                            address.lines.get(address.lines.size() - 1)
-                                    + ch.value);
+                    address.lines.set(address.lines.size() - 1, address.lines.get(address.lines.size() - 1) + ch.value);
                 }
             } else if ("CONT".equals(ch.tag)) {
-                address.lines.add((ch.value == null ? "" : ch.value));
+                address.lines.add(ch.value == null ? "" : ch.value);
             } else {
                 unknownTag(ch);
             }
@@ -391,7 +435,7 @@ public class GedcomParser {
      */
     private void loadCitation(StringTree st, List<AbstractCitation> list) {
         AbstractCitation citation;
-        if (referencesAnotherNode(st)) {
+        if (GedcomParserHelper.referencesAnotherNode(st)) {
             citation = new CitationWithSource();
             loadCitationWithSource(st, citation);
         } else {
@@ -432,21 +476,18 @@ public class GedcomParser {
      * @param citation
      *            the citation to load into
      */
-    private void loadCitationWithoutSource(StringTree st,
-            AbstractCitation citation) {
+    private void loadCitationWithoutSource(StringTree st, AbstractCitation citation) {
         CitationWithoutSource cws = (CitationWithoutSource) citation;
         cws.description.add(st.value);
         for (StringTree ch : st.children) {
             if ("CONT".equals(ch.tag)) {
-                cws.description.add((ch.value == null ? "" : ch.value));
+                cws.description.add(ch.value == null ? "" : ch.value);
             } else if ("CONC".equals(ch.tag)) {
                 if (cws.description.size() == 0) {
                     cws.description.add(ch.value);
                 } else {
                     // Append to last value in string list
-                    cws.description.set(cws.description.size() - 1,
-                            cws.description.get(cws.description.size() - 1)
-                                    + ch.value);
+                    cws.description.set(cws.description.size() - 1, cws.description.get(cws.description.size() - 1) + ch.value);
                 }
             } else if ("TEXT".equals(ch.tag)) {
                 List<String> ls = new ArrayList<String>();
@@ -471,7 +512,7 @@ public class GedcomParser {
     private void loadCitationWithSource(StringTree st, AbstractCitation citation) {
         CitationWithSource cws = (CitationWithSource) citation;
         Source src = null;
-        if (referencesAnotherNode(st)) {
+        if (GedcomParserHelper.referencesAnotherNode(st)) {
             src = getSource(st.value);
         }
         cws.source = src;
@@ -519,6 +560,24 @@ public class GedcomParser {
                 loadAddress(ch, corporation.address);
             } else if ("PHON".equals(ch.tag)) {
                 corporation.phoneNumbers.add(ch.value);
+            } else if ("WWW".equals(ch.tag)) {
+                corporation.wwwUrls.add(ch.value);
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified for the corporation in the source system on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
+            } else if ("FAX".equals(ch.tag)) {
+                corporation.faxNumbers.add(ch.value);
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but fax number was specified for the corporation in the source system on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
+            } else if ("EMAIL".equals(ch.tag)) {
+                corporation.emails.add(ch.value);
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but emails was specified for the corporation in the source system on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
             } else {
                 unknownTag(ch);
             }
@@ -526,8 +585,7 @@ public class GedcomParser {
     }
 
     /**
-     * Load a family structure from a stringtree node, and load it into the
-     * gedcom family collection
+     * Load a family structure from a stringtree node, and load it into the gedcom family collection
      * 
      * @param st
      *            the node
@@ -546,7 +604,7 @@ public class GedcomParser {
             } else if ("SOUR".equals(ch.tag)) {
                 loadCitation(ch, f.citations);
             } else if ("OBJE".equals(ch.tag)) {
-                loadMultimedia(ch, f.multimedia);
+                loadMultimediaLink(ch, f.multimedia);
             } else if ("RIN".equals(ch.tag)) {
                 f.automatedRecordId = ch.value;
             } else if ("CHAN".equals(ch.tag)) {
@@ -554,6 +612,12 @@ public class GedcomParser {
                 loadChangeDate(ch, f.changeDate);
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, f.notes);
+            } else if ("RESN".equals(ch.tag)) {
+                f.restrictionNotice = ch.value;
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but restriction notice was specified for family on line " + ch.lineNum
+                            + " , which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
             } else if ("RFN".equals(ch.tag)) {
                 f.recFileNumber = ch.value;
             } else if (FamilyEventType.isValidTag(ch.tag)) {
@@ -595,11 +659,23 @@ public class GedcomParser {
                 e.place = new Place();
                 loadPlace(ch, e.place);
             } else if ("OBJE".equals(ch.tag)) {
-                loadMultimedia(ch, e.multimedia);
+                loadMultimediaLink(ch, e.multimedia);
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, e.notes);
             } else if ("SOUR".equals(ch.tag)) {
                 loadCitation(ch, e.citations);
+            } else if ("RESN".equals(ch.tag)) {
+                e.restrictionNotice = ch.value;
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but restriction notice was specified for family event on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
+            } else if ("RELI".equals(ch.tag)) {
+                e.religiousAffiliation = ch.value;
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but religious affiliation was specified for family event on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
             } else if ("AGE".equals(ch.tag)) {
                 e.age = ch.value;
             } else if ("CAUS".equals(ch.tag)) {
@@ -611,6 +687,24 @@ public class GedcomParser {
                 e.respAgency = ch.value;
             } else if ("PHON".equals(ch.tag)) {
                 e.phoneNumbers.add(ch.value);
+            } else if ("WWW".equals(ch.tag)) {
+                e.wwwUrls.add(ch.value);
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified for " + e.type + " family event on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
+            } else if ("FAX".equals(ch.tag)) {
+                e.faxNumbers.add(ch.value);
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but fax number was specified for " + e.type + " family event on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
+            } else if ("EMAIL".equals(ch.tag)) {
+                e.emails.add(ch.value);
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but email was specified for " + e.type + " family event on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
             } else if ("HUSB".equals(ch.tag)) {
                 e.husbandAge = ch.children.get(0).value;
             } else if ("WIFE".equals(ch.tag)) {
@@ -623,16 +717,14 @@ public class GedcomParser {
     }
 
     /**
-     * Load a reference to a family where this individual was a child, from a
-     * string tree node
+     * Load a reference to a family where this individual was a child, from a string tree node
      * 
      * @param st
      *            the string tree node
      * @param familiesWhereChild
      *            the list of families where the individual was a child
      */
-    private void loadFamilyWhereChild(StringTree st,
-            List<FamilyChild> familiesWhereChild) {
+    private void loadFamilyWhereChild(StringTree st, List<FamilyChild> familiesWhereChild) {
         Family f = getFamily(st.value);
         FamilyChild fc = new FamilyChild();
         familiesWhereChild.add(fc);
@@ -644,6 +736,12 @@ public class GedcomParser {
                 fc.pedigree = ch.value;
             } else if ("ADOP".equals(ch.tag)) {
                 fc.adoptedBy = AdoptedByWhichParent.valueOf(ch.value);
+            } else if ("STAT".equals(ch.tag)) {
+                fc.status = ch.value;
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but status was specified for child-to-family link on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
             } else {
                 unknownTag(ch);
             }
@@ -652,16 +750,14 @@ public class GedcomParser {
     }
 
     /**
-     * Load a reference to a family where this individual was a spouse, from a
-     * string tree node
+     * Load a reference to a family where this individual was a spouse, from a string tree node
      * 
      * @param st
      *            the string tree node
      * @param familiesWhereSpouse
      *            the list of families where the individual was a child
      */
-    private void loadFamilyWhereSpouse(StringTree st,
-            List<FamilySpouse> familiesWhereSpouse) {
+    private void loadFamilyWhereSpouse(StringTree st, List<FamilySpouse> familiesWhereSpouse) {
         Family f = getFamily(st.value);
         FamilySpouse fs = new FamilySpouse();
         fs.family = f;
@@ -669,6 +765,136 @@ public class GedcomParser {
         for (StringTree ch : st.children) {
             if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, fs.notes);
+            } else {
+                unknownTag(ch);
+            }
+        }
+    }
+
+    /**
+     * Load a single 5.5-style file reference
+     * 
+     * @param m
+     *            The multimedia object to contain the new file reference
+     * @param children
+     *            the sub-tags of the OBJE tag
+     */
+    private void loadFileReference55(Multimedia m, List<StringTree> children) {
+        FileReference currentFileRef = new FileReference();
+        m.fileReferences.add(currentFileRef);
+        for (StringTree ch : children) {
+            if ("FORM".equals(ch.tag)) {
+                currentFileRef.format = ch.value;
+            } else if ("TITL".equals(ch.tag)) {
+                m.embeddedTitle = ch.value;
+            } else if ("FILE".equals(ch.tag)) {
+                currentFileRef.referenceToFile = ch.value;
+            } else if ("NOTE".equals(ch.tag)) {
+                loadNote(ch, m.notes);
+            } else {
+                unknownTag(ch);
+            }
+        }
+
+    }
+
+    /**
+     * Load all the file references in the current OBJE tag
+     * 
+     * @param m
+     *            the multimedia object being with the reference
+     * @param st
+     *            the OBJE node being parsed
+     */
+    private void loadFileReferences(Multimedia m, StringTree st) {
+        int fileTagCount = 0;
+        int formTagCount = 0;
+
+        for (StringTree ch : st.children) {
+            /*
+             * Count up the number of files referenced for this object - GEDCOM 5.5.1 allows multiple, 5.5 only allows 1
+             */
+            if ("FILE".equals(ch.tag)) {
+                fileTagCount++;
+            }
+            /*
+             * Count the number of formats referenced per file - GEDCOM 5.5.1 has them as children of FILEs (so should be zero), 5.5 pairs them with
+             * the single FILE tag (so should be one)
+             */
+            if ("FORM".equals(ch.tag)) {
+                formTagCount++;
+            }
+        }
+        if (fileTagCount > 1) {
+            if (g55()) {
+                warnings.add("GEDCOM version is 5.5, but multiple files referenced in multimedia reference on line " + st.lineNum
+                        + ", which is only allowed in 5.5.1. "
+                        + "Data will be loaded, but cannot be written back out unless the GEDCOM version is changed to 5.5.1");
+            }
+        }
+        if (formTagCount == 0) {
+            if (g55()) {
+                warnings.add("GEDCOM version is 5.5, but there is not a FORM tag in the multimedia link on line " + st.lineNum
+                        + ", a scenario which is only allowed in 5.5.1. "
+                        + "Data will be loaded, but cannot be written back out unless the GEDCOM version is changed to 5.5.1");
+            }
+        }
+        if (formTagCount > 1) {
+            errors.add("Multiple FORM tags were found for a multimedia file reference at line " + st.lineNum
+                    + " - this is not compliant with any GEDCOM standard - data not loaded");
+            return;
+        }
+
+        if (fileTagCount > 1 || formTagCount < fileTagCount) {
+            loadFileReferences551(m, st.children);
+        } else {
+            loadFileReference55(m, st.children);
+        }
+    }
+
+    /**
+     * Load one or more 5.5.1-style references
+     * 
+     * @param m
+     *            the multimedia object to which we are adding the file references
+     * 
+     * @param children
+     *            the sub-tags of the OBJE tag
+     */
+    private void loadFileReferences551(Multimedia m, List<StringTree> children) {
+        for (StringTree ch : children) {
+            if ("FILE".equals(ch.tag)) {
+                FileReference fr = new FileReference();
+                m.fileReferences.add(fr);
+                fr.referenceToFile = ch.value;
+                if (ch.children.size() != 1) {
+                    errors.add("Missing or multiple children nodes found under FILE node - GEDCOM 5.5.1 standard requires exactly 1 FORM node");
+                }
+                for (StringTree gch : ch.children) {
+                    if ("FORM".equals(gch.tag)) {
+                        fr.format = gch.value;
+                        for (StringTree ggch : ch.children) {
+                            if ("MEDI".equals(ggch.tag)) {
+                                fr.mediaType = ggch.value;
+                            } else {
+                                unknownTag(ggch);
+                            }
+                        }
+                    } else {
+                        unknownTag(gch);
+                    }
+                }
+            } else if ("TITL".equals(ch.tag)) {
+                for (FileReference fr : m.fileReferences) {
+                    fr.title = ch.tag;
+                }
+            } else if ("NOTE".equals(ch.tag)) {
+                loadNote(ch, m.notes);
+                if (!g55()) {
+                    warnings.add("Gedcom version was 5.5.1, but a NOTE was found on a multimedia link on line " + ch.lineNum
+                            + ", which is no longer supported. "
+                            + "Data will be loaded, but cannot be written back out unless the GEDCOM version is changed to 5.5");
+                }
             } else {
                 unknownTag(ch);
             }
@@ -686,7 +912,13 @@ public class GedcomParser {
     private void loadGedcomVersion(StringTree st, GedcomVersion gedcomVersion) {
         for (StringTree ch : st.children) {
             if ("VERS".equals(ch.tag)) {
-                gedcomVersion.versionNumber = ch.value;
+                SupportedVersion vn = null;
+                try {
+                    vn = SupportedVersion.forString(ch.value);
+                } catch (UnsupportedVersionException e) {
+                    errors.add(e.getMessage());
+                }
+                gedcomVersion.versionNumber = vn;
             } else if ("FORM".equals(ch.tag)) {
                 gedcomVersion.gedcomForm = ch.value;
             } else {
@@ -731,24 +963,24 @@ public class GedcomParser {
                 header.gedcomVersion = new GedcomVersion();
                 loadGedcomVersion(ch, header.gedcomVersion);
             } else if ("COPR".equals(ch.tag)) {
-                header.copyrightData = ch.value;
+                loadMultiLinesOfText(ch, header.copyrightData);
+                if (g55() && header.copyrightData.size() > 1) {
+                    warnings.add("GEDCOM version is 5.5, but multiple lines of copyright data were specified, which is only allowed in GEDCOM 5.5.1. "
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
             } else if ("SUBN".equals(ch.tag)) {
                 if (header.submission == null) {
                     /*
-                     * There can only be one SUBMISSION record per GEDCOM, and
-                     * it's found at the root level, but the HEAD structure has
-                     * a cross-reference to that root-level structure, so we're
-                     * setting it here (if it hasn't already been loaded, which
-                     * it probably isn't yet)
+                     * There can only be one SUBMISSION record per GEDCOM, and it's found at the root level, but the HEAD structure has a
+                     * cross-reference to that root-level structure, so we're setting it here (if it hasn't already been loaded, which it probably
+                     * isn't yet)
                      */
                     header.submission = gedcom.submission;
                 }
             } else if ("LANG".equals(ch.tag)) {
                 header.language = ch.value;
             } else if ("PLAC".equals(ch.tag)) {
-                // TODO - Need a more robust handler for PLAC structures on
-                // headers
-                header.placeStructure = ch.children.get(0).value;
+                header.placeHierarchy = ch.children.get(0).value;
             } else if ("NOTE".equals(ch.tag)) {
                 loadMultiLinesOfText(ch, header.notes);
             } else {
@@ -801,6 +1033,24 @@ public class GedcomParser {
                 loadAddress(ch, i.address);
             } else if ("PHON".equals(ch.tag)) {
                 i.phoneNumbers.add(ch.value);
+            } else if ("WWW".equals(ch.tag)) {
+                i.wwwUrls.add(ch.value);
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified for individual " + i.xref + " on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
+            } else if ("FAX".equals(ch.tag)) {
+                i.faxNumbers.add(ch.value);
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but fax was specified for individual " + i.xref + "on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
+            } else if ("EMAIL".equals(ch.tag)) {
+                i.emails.add(ch.value);
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but email was specified for individual " + i.xref + " on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
             } else if (IndividualEventType.isValidTag(ch.tag)) {
                 loadIndividualEvent(ch, i.events);
             } else if (IndividualAttributeType.isValidTag(ch.tag)) {
@@ -817,7 +1067,7 @@ public class GedcomParser {
             } else if ("RFN".equals(ch.tag)) {
                 i.permanentRecFileNumber = ch.value;
             } else if ("OBJE".equals(ch.tag)) {
-                loadMultimedia(ch, i.multimedia);
+                loadMultimediaLink(ch, i.multimedia);
             } else if ("RESN".equals(ch.tag)) {
                 i.restrictionNotice = ch.value;
             } else if ("SOUR".equals(ch.tag)) {
@@ -857,11 +1107,14 @@ public class GedcomParser {
      * @param attributes
      *            the list of individual attributes
      */
-    private void loadIndividualAttribute(StringTree st,
-            List<IndividualAttribute> attributes) {
+    private void loadIndividualAttribute(StringTree st, List<IndividualAttribute> attributes) {
         IndividualAttribute a = new IndividualAttribute();
         attributes.add(a);
         a.type = IndividualAttributeType.getFromTag(st.tag);
+        if (IndividualAttributeType.FACT.equals(a.type) && g55()) {
+            warnings.add("FACT tag specified on a GEDCOM 5.5 file at line " + st.lineNum + ", but FACT was not added until 5.5.1."
+                    + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+        }
         a.description = st.value;
         for (StringTree ch : st.children) {
             if ("TYPE".equals(ch.tag)) {
@@ -881,11 +1134,29 @@ public class GedcomParser {
                 a.respAgency = ch.value;
             } else if ("PHON".equals(ch.tag)) {
                 a.phoneNumbers.add(ch.value);
+            } else if ("WWW".equals(ch.tag)) {
+                a.wwwUrls.add(ch.value);
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified for " + a.type + " attribute on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
+            } else if ("FAX".equals(ch.tag)) {
+                a.faxNumbers.add(ch.value);
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but fax was specified for " + a.type + " attribute on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
+            } else if ("EMAIL".equals(ch.tag)) {
+                a.emails.add(ch.value);
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but email was specified for " + a.type + " attribute on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
             } else if ("ADDR".equals(ch.tag)) {
                 a.address = new Address();
                 loadAddress(ch, a.address);
             } else if ("OBJE".equals(ch.tag)) {
-                loadMultimedia(ch, a.multimedia);
+                loadMultimediaLink(ch, a.multimedia);
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, a.notes);
             } else if ("SOUR".equals(ch.tag)) {
@@ -924,7 +1195,7 @@ public class GedcomParser {
                 e.place = new Place();
                 loadPlace(ch, e.place);
             } else if ("OBJE".equals(ch.tag)) {
-                loadMultimedia(ch, e.multimedia);
+                loadMultimediaLink(ch, e.multimedia);
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, e.notes);
             } else if ("SOUR".equals(ch.tag)) {
@@ -938,8 +1209,38 @@ public class GedcomParser {
                 loadAddress(ch, e.address);
             } else if ("AGNC".equals(ch.tag)) {
                 e.respAgency = ch.value;
+            } else if ("RESN".equals(ch.tag)) {
+                e.restrictionNotice = ch.value;
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but restriction notice was specified for individual event on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
+            } else if ("RELI".equals(ch.tag)) {
+                e.religiousAffiliation = ch.value;
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but religious affiliation was specified for individual event on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
             } else if ("PHON".equals(ch.tag)) {
                 e.phoneNumbers.add(ch.value);
+            } else if ("WWW".equals(ch.tag)) {
+                e.wwwUrls.add(ch.value);
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified on " + e.type + " event on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
+            } else if ("FAX".equals(ch.tag)) {
+                e.faxNumbers.add(ch.value);
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but fax was specified on " + e.type + " event on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
+            } else if ("EMAIL".equals(ch.tag)) {
+                e.emails.add(ch.value);
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but email was specified on " + e.type + " event on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
             } else if ("CONC".equals(ch.tag)) {
                 if (e.description == null) {
                     e.description = ch.value;
@@ -948,7 +1249,7 @@ public class GedcomParser {
                 }
             } else if ("CONT".equals(ch.tag)) {
                 if (e.description == null) {
-                    e.description = (ch.value == null ? "" : ch.value);
+                    e.description = ch.value == null ? "" : ch.value;
                 } else {
                     e.description += "\n" + ch.value;
                 }
@@ -973,8 +1274,7 @@ public class GedcomParser {
      * @param ldsIndividualOrdinances
      *            the list of LDS ordinances
      */
-    private void loadLdsIndividualOrdinance(StringTree st,
-            List<LdsIndividualOrdinance> ldsIndividualOrdinances) {
+    private void loadLdsIndividualOrdinance(StringTree st, List<LdsIndividualOrdinance> ldsIndividualOrdinances) {
         LdsIndividualOrdinance o = new LdsIndividualOrdinance();
         ldsIndividualOrdinances.add(o);
         o.type = LdsIndividualOrdinanceType.getFromTag(st.tag);
@@ -1012,8 +1312,7 @@ public class GedcomParser {
      * @param ldsSpouseSealings
      *            the list of LDS spouse sealings on the family
      */
-    private void loadLdsSpouseSealing(StringTree st,
-            List<LdsSpouseSealing> ldsSpouseSealings) {
+    private void loadLdsSpouseSealing(StringTree st, List<LdsSpouseSealing> ldsSpouseSealings) {
         LdsSpouseSealing o = new LdsSpouseSealing();
         ldsSpouseSealings.add(o);
         for (StringTree ch : st.children) {
@@ -1062,9 +1361,7 @@ public class GedcomParser {
                     if (listOfString.size() == 0) {
                         listOfString.add(ch.value);
                     } else {
-                        listOfString.set(listOfString.size() - 1,
-                                listOfString.get(listOfString.size() - 1)
-                                        + ch.value);
+                        listOfString.set(listOfString.size() - 1, listOfString.get(listOfString.size() - 1) + ch.value);
                     }
                 }
             } else {
@@ -1074,62 +1371,85 @@ public class GedcomParser {
     }
 
     /**
-     * Load a multimedia reference from a string tree node
+     * Load a multimedia reference from a string tree node. This corresponds to the MULTIMEDIA_LINK structure in the GEDCOM specs.
      * 
      * @param st
      *            the string tree node
      * @param multimedia
      *            the list of multimedia on the current object
      */
-    private void loadMultimedia(StringTree st, List<Multimedia> multimedia) {
+    private void loadMultimediaLink(StringTree st, List<Multimedia> multimedia) {
         Multimedia m = null;
-        if (referencesAnotherNode(st)) {
+        if (GedcomParserHelper.referencesAnotherNode(st)) {
             m = getMultimedia(st.value);
         } else {
             m = new Multimedia();
+            loadFileReferences(m, st);
         }
         multimedia.add(m);
-
-        for (StringTree ch : st.children) {
-            if ("FORM".equals(ch.tag)) {
-                m.format = ch.value;
-            } else if ("TITL".equals(ch.tag)) {
-                m.title = ch.value;
-            } else if ("FILE".equals(ch.tag)) {
-                m.fileReference = ch.value;
-            } else if ("NOTE".equals(ch.tag)) {
-                loadNote(ch, m.notes);
-            } else {
-                unknownTag(ch);
-            }
-        }
-
     }
 
     /**
-     * Load a multimedia record (that could be referenced from another object)
-     * from a string tree node
+     * Determine which style is being used here - GEDCOM 5.5 or 5.5.1 - and load appropriately. Warn if the structure is inconsistent with the
+     * specified format.
      * 
      * @param st
-     *            the node
+     *            the OBJE node being loaded
      */
     private void loadMultimediaRecord(StringTree st) {
+        int fileTagCount = 0;
+        for (StringTree ch : st.children) {
+            if ("FILE".equals(ch.tag)) {
+                fileTagCount++;
+            }
+        }
+        if (fileTagCount > 0) {
+            if (g55()) {
+                warnings.add("GEDCOM version was 5.5, but a 5.5.1-style multimedia record was found at line " + st.lineNum + ". "
+                        + "Data will be loaded, but might have problems being written until the version is for the data is changed to 5.5.1");
+            }
+            loadMultimediaRecord551(st);
+        } else {
+            if (!g55()) {
+                warnings.add("GEDCOM version is 5.5.1, but a 5.5-style multimedia record was found at line " + st.lineNum + ". "
+                        + "Data will be loaded, but might have problems being written until the version is for the data is changed to 5.5.1");
+            }
+            loadMultimediaRecord55(st);
+        }
+    }
+
+    /**
+     * Load a GEDCOM 5.5-style multimedia record (that could be referenced from another object) from a string tree node. This corresponds to the
+     * MULTIMEDIA_RECORD structure in the GEDCOM 5.5 spec.
+     * 
+     * @param st
+     *            the OBJE node being loaded
+     */
+    private void loadMultimediaRecord55(StringTree st) {
         Multimedia m = getMultimedia(st.id);
         for (StringTree ch : st.children) {
             if ("FORM".equals(ch.tag)) {
-                m.format = ch.value;
+                m.embeddedMediaFormat = ch.value;
             } else if ("TITL".equals(ch.tag)) {
-                m.title = ch.value;
+                m.embeddedTitle = ch.value;
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, m.notes);
             } else if ("SOUR".equals(ch.tag)) {
                 loadCitation(ch, m.citations);
             } else if ("BLOB".equals(ch.tag)) {
                 loadMultiLinesOfText(ch, m.blob);
+                if (!g55()) {
+                    warnings.add("GEDCOM version is 5.5.1, but a BLOB tag was found at line " + ch.lineNum + ". "
+                            + "Data will be loaded but will not be writeable unless GEDCOM version is changed to 5.5.1");
+                }
             } else if ("OBJE".equals(ch.tag)) {
                 List<Multimedia> continuedObjects = new ArrayList<Multimedia>();
-                loadMultimedia(ch, continuedObjects);
+                loadMultimediaLink(ch, continuedObjects);
                 m.continuedObject = continuedObjects.get(0);
+                if (!g55()) {
+                    warnings.add("GEDCOM version is 5.5.1, but a chained OBJE tag was found at line " + ch.lineNum + ". "
+                            + "Data will be loaded but will not be writeable unless GEDCOM version is changed to 5.5.1");
+                }
             } else if ("REFN".equals(ch.tag)) {
                 UserReference u = new UserReference();
                 m.userReferences.add(u);
@@ -1147,6 +1467,61 @@ public class GedcomParser {
     }
 
     /**
+     * Load a GEDCOM 5.5.1-style multimedia record (that could be referenced from another object) from a string tree node. This corresponds to the
+     * MULTIMEDIA_RECORD structure in the GEDCOM 5.5.1 spec.
+     * 
+     * @param st
+     *            the OBJE node being loaded
+     */
+    private void loadMultimediaRecord551(StringTree st) {
+        Multimedia m = getMultimedia(st.id);
+        for (StringTree ch : st.children) {
+            if ("FILE".equals(ch.tag)) {
+                FileReference fr = new FileReference();
+                m.fileReferences.add(fr);
+                fr.referenceToFile = ch.value;
+                for (StringTree gch : ch.children) {
+                    if ("FORM".equals(gch.tag)) {
+                        fr.format = gch.value;
+                        if (gch.children.size() == 1) {
+                            StringTree ggch = gch.children.get(0);
+                            if ("TYPE".equals(ggch.tag)) {
+                                fr.mediaType = ggch.value;
+                            } else {
+                                unknownTag(ggch);
+                            }
+                        }
+                    } else if ("TITL".equals(gch.tag)) {
+                        fr.title = gch.value;
+                    } else {
+                        unknownTag(gch);
+                    }
+                }
+                if (fr.format == null) {
+                    errors.add("FORM tag not found under FILE reference on line " + st.lineNum);
+                }
+            } else if ("NOTE".equals(ch.tag)) {
+                loadNote(ch, m.notes);
+            } else if ("SOUR".equals(ch.tag)) {
+                loadCitation(ch, m.citations);
+            } else if ("REFN".equals(ch.tag)) {
+                UserReference u = new UserReference();
+                m.userReferences.add(u);
+                loadUserReference(ch, u);
+            } else if ("RIN".equals(ch.tag)) {
+                m.recIdNumber = ch.value;
+            } else if ("CHAN".equals(ch.tag)) {
+                m.changeDate = new ChangeDate();
+                loadChangeDate(ch, m.changeDate);
+            } else {
+                unknownTag(ch);
+            }
+
+        }
+
+    }
+
+    /**
      * Load a note from a string tree node into a list of notes
      * 
      * @param st
@@ -1156,7 +1531,7 @@ public class GedcomParser {
      */
     private void loadNote(StringTree st, List<Note> notes) {
         Note note = null;
-        if (referencesAnotherNode(st)) {
+        if (GedcomParserHelper.referencesAnotherNode(st)) {
             note = getNote(st.value);
             notes.add(note);
             return;
@@ -1176,12 +1551,11 @@ public class GedcomParser {
                     if (lastNote == null || lastNote.length() == 0) {
                         note.lines.set(note.lines.size() - 1, ch.value);
                     } else {
-                        note.lines.set(note.lines.size() - 1, lastNote
-                                + ch.value);
+                        note.lines.set(note.lines.size() - 1, lastNote + ch.value);
                     }
                 }
             } else if ("CONT".equals(ch.tag)) {
-                note.lines.add((ch.value == null ? "" : ch.value));
+                note.lines.add(ch.value == null ? "" : ch.value);
             } else if ("SOUR".equals(ch.tag)) {
                 loadCitation(ch, note.citations);
             } else if ("REFN".equals(ch.tag)) {
@@ -1226,11 +1600,54 @@ public class GedcomParser {
                 loadCitation(ch, pn.citations);
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, pn.notes);
+            } else if ("ROMN".equals(ch.tag)) {
+                PersonalNameVariation pnv = new PersonalNameVariation();
+                pn.romanized.add(pnv);
+                loadPersonalNameVariation(ch, pnv);
+            } else if ("FONE".equals(ch.tag)) {
+                PersonalNameVariation pnv = new PersonalNameVariation();
+                pn.phonetic.add(pnv);
+                loadPersonalNameVariation(ch, pnv);
             } else {
                 unknownTag(ch);
             }
         }
 
+    }
+
+    /**
+     * Load a personal name variation (romanization or phonetic version) from a string tree node
+     * 
+     * @param st
+     *            the string tree node to load from
+     * @param pnv
+     *            the personal name variation to fill in
+     */
+    private void loadPersonalNameVariation(StringTree st, PersonalNameVariation pnv) {
+        pnv.variation = st.value;
+        for (StringTree ch : st.children) {
+            if ("NPFX".equals(ch.tag)) {
+                pnv.prefix = ch.value;
+            } else if ("GIVN".equals(ch.tag)) {
+                pnv.givenName = ch.value;
+            } else if ("NICK".equals(ch.tag)) {
+                pnv.nickname = ch.value;
+            } else if ("SPFX".equals(ch.tag)) {
+                pnv.surnamePrefix = ch.value;
+            } else if ("SURN".equals(ch.tag)) {
+                pnv.surname = ch.value;
+            } else if ("NSFX".equals(ch.tag)) {
+                pnv.suffix = ch.value;
+            } else if ("SOUR".equals(ch.tag)) {
+                loadCitation(ch, pnv.citations);
+            } else if ("NOTE".equals(ch.tag)) {
+                loadNote(ch, pnv.notes);
+            } else if ("TYPE".equals(ch.tag)) {
+                pnv.variationType = ch.value;
+            } else {
+                unknownTag(ch);
+            }
+        }
     }
 
     /**
@@ -1251,9 +1668,53 @@ public class GedcomParser {
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, place.notes);
             } else if ("CONC".equals(ch.tag)) {
-                place.placeName += (ch.value == null ? "" : ch.value);
+                place.placeName += ch.value == null ? "" : ch.value;
             } else if ("CONT".equals(ch.tag)) {
                 place.placeName += "\n" + (ch.value == null ? "" : ch.value);
+            } else if ("ROMN".equals(ch.tag)) {
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but a romanized variation was specified on a place on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
+                NameVariation nv = new NameVariation();
+                place.romanized.add(nv);
+                nv.variation = ch.value;
+                for (StringTree gch : ch.children) {
+                    if ("TYPE".equals(gch.tag)) {
+                        nv.variationType = gch.value;
+                    } else {
+                        unknownTag(gch);
+                    }
+                }
+            } else if ("FONE".equals(ch.tag)) {
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but a phonetic variation was specified on a place on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
+                NameVariation nv = new NameVariation();
+                place.phonetic.add(nv);
+                nv.variation = ch.value;
+                for (StringTree gch : ch.children) {
+                    if ("TYPE".equals(gch.tag)) {
+                        nv.variationType = gch.value;
+                    } else {
+                        unknownTag(gch);
+                    }
+                }
+            } else if ("MAP".equals(ch.tag)) {
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but a map coordinate was specified on a place on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
+                for (StringTree gch : ch.children) {
+                    if ("LAT".equals(gch.tag)) {
+                        place.latitude = gch.value;
+                    } else if ("LONG".equals(gch.tag)) {
+                        place.longitude = gch.value;
+                    } else {
+                        unknownTag(gch);
+                    }
+                }
             } else {
                 unknownTag(ch);
             }
@@ -1262,8 +1723,7 @@ public class GedcomParser {
     }
 
     /**
-     * Load a repository for sources from a string tree node, and put it in the
-     * gedcom collection of repositories
+     * Load a repository for sources from a string tree node, and put it in the gedcom collection of repositories
      * 
      * @param st
      *            the node
@@ -1278,6 +1738,24 @@ public class GedcomParser {
                 loadAddress(ch, r.address);
             } else if ("PHON".equals(ch.tag)) {
                 r.phoneNumbers.add(ch.value);
+            } else if ("WWW".equals(ch.tag)) {
+                r.wwwUrls.add(ch.value);
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified on repository " + r.xref + " on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
+            } else if ("FAX".equals(ch.tag)) {
+                r.faxNumbers.add(ch.value);
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but fax was specified on repository " + r.xref + " on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
+            } else if ("EMAIL".equals(ch.tag)) {
+                r.emails.add(ch.value);
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but email was specified on repository " + r.xref + " on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, r.notes);
             } else if ("REFN".equals(ch.tag)) {
@@ -1292,8 +1770,6 @@ public class GedcomParser {
             } else if ("CHAN".equals(ch.tag)) {
                 r.changeDate = new ChangeDate();
                 loadChangeDate(ch, r.changeDate);
-            } else if ("EMAIL".equals(ch.tag)) {
-                r.emails.add(ch.value);
             } else {
                 unknownTag(ch);
             }
@@ -1336,8 +1812,7 @@ public class GedcomParser {
      * @param st
      *            the root of the string tree
      * @throws GedcomParserException
-     *             if the data cannot be parsed because it's not in the format
-     *             expected
+     *             if the data cannot be parsed because it's not in the format expected
      */
     private void loadRootItems(StringTree st) throws GedcomParserException {
         for (StringTree ch : st.children) {
@@ -1368,29 +1843,25 @@ public class GedcomParser {
     }
 
     /**
-     * Load a note at the root level of the GEDCOM. All these should have
-     * &#64;ID&#64;'s and thus should get added to the GEDCOM's collection of
-     * notes rather than the one passed to <code>loadNote()</code>
+     * Load a note at the root level of the GEDCOM. All these should have &#64;ID&#64;'s and thus should get added to the GEDCOM's collection of notes
+     * rather than the one passed to <code>loadNote()</code>
      * 
      * @param ch
      *            the child nodes to be loaded as a note
      * @throws GedcomParserException
-     *             if the data cannot be parsed because it's not in the format
-     *             expected
+     *             if the data cannot be parsed because it's not in the format expected
      */
     private void loadRootNote(StringTree ch) throws GedcomParserException {
         List<Note> dummyList = new ArrayList<Note>();
         loadNote(ch, dummyList);
         if (dummyList.size() > 0) {
-            throw new GedcomParserException(
-                    "At root level NOTE structures should have @ID@'s");
+            throw new GedcomParserException("At root level NOTE structures should have @ID@'s");
         }
 
     }
 
     /**
-     * Load a source (which may be referenced later) from a source tree node,
-     * and put it in the gedcom collection of sources.
+     * Load a source (which may be referenced later) from a source tree node, and put it in the gedcom collection of sources.
      * 
      * @param st
      *            the node
@@ -1416,7 +1887,7 @@ public class GedcomParser {
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, s.notes);
             } else if ("OBJE".equals(ch.tag)) {
-                loadMultimedia(ch, s.multimedia);
+                loadMultimediaLink(ch, s.multimedia);
             } else if ("REFN".equals(ch.tag)) {
                 UserReference u = new UserReference();
                 s.userReferences.add(u);
@@ -1433,8 +1904,7 @@ public class GedcomParser {
     }
 
     /**
-     * Load data for a source from a string tree node into a source data
-     * structure
+     * Load data for a source from a string tree node into a source data structure
      * 
      * @param st
      *            the node
@@ -1520,9 +1990,8 @@ public class GedcomParser {
         }
         if (gedcom.header.submission == null) {
             /*
-             * The GEDCOM spec puts a cross reference to the root-level SUBN
-             * element in the HEAD structure. Now that we have a submission
-             * object, represent that cross reference in the header object
+             * The GEDCOM spec puts a cross reference to the root-level SUBN element in the HEAD structure. Now that we have a submission object,
+             * represent that cross reference in the header object
              */
             gedcom.header.submission = s;
         }
@@ -1549,8 +2018,7 @@ public class GedcomParser {
     }
 
     /**
-     * Load a submitter from a string tree node into the gedcom global
-     * collection of submitters
+     * Load a submitter from a string tree node into the gedcom global collection of submitters
      * 
      * @param st
      *            the node
@@ -1565,19 +2033,35 @@ public class GedcomParser {
                 loadAddress(ch, submitter.address);
             } else if ("PHON".equals(ch.tag)) {
                 submitter.phoneNumbers.add(ch.value);
+            } else if ("WWW".equals(ch.tag)) {
+                submitter.wwwUrls.add(ch.value);
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but WWW URL number was specified on submitter on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
+            } else if ("FAX".equals(ch.tag)) {
+                submitter.faxNumbers.add(ch.value);
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but fax number was specified on submitter on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
+            } else if ("EMAIL".equals(ch.tag)) {
+                submitter.emails.add(ch.value);
+                if (g55()) {
+                    warnings.add("GEDCOM version is 5.5 but email was specified on submitter on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                }
             } else if ("LANG".equals(ch.tag)) {
                 submitter.languagePref.add(ch.value);
             } else if ("CHAN".equals(ch.tag)) {
                 submitter.changeDate = new ChangeDate();
                 loadChangeDate(ch, submitter.changeDate);
             } else if ("OBJE".equals(ch.tag)) {
-                loadMultimedia(ch, submitter.multimedia);
+                loadMultimediaLink(ch, submitter.multimedia);
             } else if ("RIN".equals(ch.tag)) {
                 submitter.recIdNumber = ch.value;
             } else if ("RFN".equals(ch.tag)) {
                 submitter.regFileNumber = ch.value;
-            } else if ("EMAIL".equals(ch.tag)) {
-                submitter.emails.add(ch.value);
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, submitter.notes);
             } else {
@@ -1603,100 +2087,14 @@ public class GedcomParser {
     }
 
     /**
-     * Read data from an {@link InputStream} and construct a {@link StringTree}
-     * object from its contents
-     * 
-     * @param bytes
-     *            the input stream over the bytes of the file
-     * @return the {@link StringTree} created from the contents of the input
-     *         stream
-     * @throws IOException
-     *             if there is a problem reading the data from the reader
-     */
-    private StringTree makeStringTreeFromStream(InputStream bytes)
-            throws IOException {
-        List<String> lines = new GedcomFileReader().getLines(bytes);
-        StringTree result = new StringTree();
-        result.level = -1;
-        try {
-            for (int lineNum = 1; lineNum <= lines.size(); lineNum++) {
-                String line = lines.get(lineNum - 1);
-                LinePieces lp = new LinePieces(line);
-                StringTree st = new StringTree();
-                st.lineNum = lineNum;
-                st.level = lp.level;
-                st.id = lp.id;
-                st.tag = lp.tag;
-                st.value = lp.remainder;
-                StringTree addTo = findLast(result, lp.level - 1);
-                addTo.children.add(st);
-                st.parent = addTo;
-            }
-        } finally {
-            if (bytes != null) {
-                bytes.close();
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Load the flat file into a tree structure that reflects the heirarchy of
-     * its contents, using the default encoding for yor JVM
-     * 
-     * @param filename
-     *            the file to load
-     * @return the string tree representation of the data from the file
-     * @throws IOException
-     *             if there is a problem reading the file
-     */
-    private StringTree readFile(String filename) throws IOException {
-        FileInputStream fis = new FileInputStream(filename);
-        try {
-            return makeStringTreeFromStream(fis);
-        } finally {
-            fis.close();
-        }
-    }
-
-    /**
-     * Read all the data from a stream and return the StringTree representation
-     * of that data
-     * 
-     * @param stream
-     *            the stream to read
-     * @return the data from the stream as a StringTree
-     * @throws IOException
-     *             if there's a problem reading the data off the stream
-     */
-    private StringTree readStream(InputStream stream) throws IOException {
-        return makeStringTreeFromStream(stream);
-    }
-
-    /**
-     * Returns true if the node passed in uses a cross-reference to another node
-     * 
-     * @param st
-     *            the node
-     * @return true if and only if the node passed in uses a cross-reference to
-     *         another node
-     */
-    private boolean referencesAnotherNode(StringTree st) {
-        return st.value != null && st.value.matches("\\@.*\\@");
-    }
-
-    /**
-     * Note unknown tags. If the tag begins with an underscore, it is a
-     * vendor/system-specific tag, which is unrecognized and just ignored and
-     * added as a warning. If it does not begin with an underscore, it is a real
-     * tag from the spec and should be processed, so that would indicate a bug.
+     * Note unknown tags. If the tag begins with an underscore, it is a vendor/system-specific tag, which is unrecognized and just ignored and added
+     * as a warning. If it does not begin with an underscore, it is a real tag from the spec and should be processed, so that would indicate a bug.
      * 
      * @param node
      *            the node containing the unknown tag.
      */
     private void unknownTag(StringTree node) {
-        StringBuilder sb = new StringBuilder("Line " + node.lineNum
-                + ": Cannot handle tag ");
+        StringBuilder sb = new StringBuilder("Line " + node.lineNum + ": Cannot handle tag ");
         sb.append(node.tag);
         StringTree st = node;
         while (st.parent != null) {

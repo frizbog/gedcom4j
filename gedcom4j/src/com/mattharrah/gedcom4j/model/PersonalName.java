@@ -25,8 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Name for an individual. Corresponds to PERSONAL_NAME_STRUCTURE in the GEDCOM
- * standard.
+ * Name for an individual. Corresponds to PERSONAL_NAME_STRUCTURE in the GEDCOM standard.
  * 
  * @author frizbog1
  * 
@@ -36,38 +35,56 @@ public class PersonalName {
      * The name in basic, unbroken-down format
      */
     public String basic;
+
     /**
      * The prefix for the name
      */
     public String prefix;
+
     /**
      * The given (aka "Christian" or "first") names
      */
     public String givenName;
+
     /**
      * Nickname
      */
     public String nickname;
+
     /**
      * Surname prefix
      */
     public String surnamePrefix;
+
     /**
      * The surname (aka "family" or "last" name)
      */
     public String surname;
+
     /**
      * The suffix
      */
     public String suffix;
+
     /**
      * Notes on this name
      */
     public List<Note> notes = new ArrayList<Note>();
+
     /**
      * Citations for this name
      */
     public List<AbstractCitation> citations = new ArrayList<AbstractCitation>();
+
+    /**
+     * Romanized variant. New for GEDCOM 5.5.1
+     */
+    public List<PersonalNameVariation> romanized = new ArrayList<PersonalNameVariation>();
+
+    /**
+     * Phonetic spelling. New for GEDCOM 5.5.1
+     */
+    public List<PersonalNameVariation> phonetic = new ArrayList<PersonalNameVariation>();
 
     @Override
     public boolean equals(Object obj) {
@@ -144,6 +161,20 @@ public class PersonalName {
         } else if (!surnamePrefix.equals(other.surnamePrefix)) {
             return false;
         }
+        if (romanized == null) {
+            if (other.romanized != null) {
+                return false;
+            }
+        } else if (!romanized.equals(other.romanized)) {
+            return false;
+        }
+        if (phonetic == null) {
+            if (other.phonetic != null) {
+                return false;
+            }
+        } else if (!phonetic.equals(other.phonetic)) {
+            return false;
+        }
         return true;
     }
 
@@ -151,28 +182,26 @@ public class PersonalName {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((basic == null) ? 0 : basic.hashCode());
-        result = prime * result
-                + ((citations == null) ? 0 : citations.hashCode());
-        result = prime * result
-                + ((givenName == null) ? 0 : givenName.hashCode());
-        result = prime * result
-                + ((nickname == null) ? 0 : nickname.hashCode());
-        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-        result = prime * result + ((prefix == null) ? 0 : prefix.hashCode());
-        result = prime * result + ((suffix == null) ? 0 : suffix.hashCode());
-        result = prime * result + ((surname == null) ? 0 : surname.hashCode());
-        result = prime * result
-                + ((surnamePrefix == null) ? 0 : surnamePrefix.hashCode());
+        result = prime * result + (basic == null ? 0 : basic.hashCode());
+        result = prime * result + (citations == null ? 0 : citations.hashCode());
+        result = prime * result + (givenName == null ? 0 : givenName.hashCode());
+        result = prime * result + (nickname == null ? 0 : nickname.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (prefix == null ? 0 : prefix.hashCode());
+        result = prime * result + (suffix == null ? 0 : suffix.hashCode());
+        result = prime * result + (surname == null ? 0 : surname.hashCode());
+        result = prime * result + (surnamePrefix == null ? 0 : surnamePrefix.hashCode());
+        result = prime * result + (romanized == null ? 0 : romanized.hashCode());
+        result = prime * result + (phonetic == null ? 0 : phonetic.hashCode());
         return result;
     }
 
     @Override
     public String toString() {
         if (surname != null || givenName != null) {
-            return "" + surname + ", " + givenName
-                    + (nickname == null ? "" : " \"" + nickname + "\"");
+            return "" + surname + ", " + givenName + (nickname == null ? "" : " \"" + nickname + "\"");
         }
         return basic;
     }
+
 }

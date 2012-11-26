@@ -105,6 +105,7 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
         // Load a file
         GedcomParser p = new GedcomParser();
         p.load(SAMPLE_STRESS_TEST_FILENAME);
+		assertTrue(p.errors.isEmpty());
         rootValidator = new GedcomValidator(p.gedcom);
         rootValidator.validate();
         dumpFindings();

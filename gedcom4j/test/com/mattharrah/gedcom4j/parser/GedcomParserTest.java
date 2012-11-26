@@ -21,6 +21,8 @@
  */
 package com.mattharrah.gedcom4j.parser;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,13 +52,14 @@ public class GedcomParserTest extends TestCase {
      */
     public void testLoad1() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
+        gp.verbose = true;
         gp.load("sample/TGC551.ged");
+        assertTrue(gp.errors.isEmpty());
         checkTGC551LF(gp);
     }
 
     /**
-     * Test loading a sample file ... another stress-test file. This one should
-     * have warnings.
+     * Test loading a sample file ... another stress-test file. This one should have warnings.
      * 
      * @throws IOException
      *             if the file can't be read
@@ -65,11 +68,10 @@ public class GedcomParserTest extends TestCase {
      */
     public void testLoad2() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
+        gp.verbose = true;
         gp.load("sample/allged.ged");
         assertTrue(gp.errors.isEmpty());
-        assertEquals(
-                "There are exactly 7 warning items in the file due to custom tags",
-                7, gp.warnings.size());
+        assertEquals("There are exactly 7 warning items in the file due to custom tags", 7, gp.warnings.size());
         for (String s : gp.warnings) {
             assertTrue(s.contains("_MYOWNTAG"));
         }
@@ -90,6 +92,7 @@ public class GedcomParserTest extends TestCase {
      */
     public void testLoad3() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
+        gp.verbose = true;
         gp.load("sample/a31486.ged");
         assertTrue(gp.errors.isEmpty());
         assertTrue(gp.warnings.isEmpty());
@@ -103,15 +106,13 @@ public class GedcomParserTest extends TestCase {
 
         // Check header
         assertEquals("6.00", g.header.sourceSystem.versionNum);
-        assertEquals("(510) 794-6850",
-                g.header.sourceSystem.corporation.phoneNumbers.get(0));
+        assertEquals("(510) 794-6850", g.header.sourceSystem.corporation.phoneNumbers.get(0));
 
         // There are two sources in this file, and their names should be as
         // shown
         assertEquals(2, g.sources.size());
         for (Source s : g.sources.values()) {
-            assertTrue(s.title.get(0).equals("William Barnett Family.FTW")
-                    || s.title.get(0).equals("Warrick County, IN WPA Indexes"));
+            assertTrue(s.title.get(0).equals("William Barnett Family.FTW") || s.title.get(0).equals("Warrick County, IN WPA Indexes"));
         }
 
         assertEquals(17, g.families.size());
@@ -121,8 +122,7 @@ public class GedcomParserTest extends TestCase {
         Family family = g.families.get("@F1428@");
         assertNotNull(family);
         assertEquals(3, family.children.size());
-        assertEquals("Lawrence Henry /Barnett/",
-                family.husband.names.get(0).basic);
+        assertEquals("Lawrence Henry /Barnett/", family.husband.names.get(0).basic);
         assertEquals("Velma //", family.wife.names.get(0).basic);
 
     }
@@ -137,6 +137,7 @@ public class GedcomParserTest extends TestCase {
      */
     public void testLoad4() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
+        gp.verbose = true;
         // Different line end char seq than the other file
         gp.load("sample/TGC551LF.ged");
         checkTGC551LF(gp);
@@ -152,14 +153,14 @@ public class GedcomParserTest extends TestCase {
      */
     public void testLoadStream() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
+        gp.verbose = true;
         InputStream stream = new FileInputStream("sample/TGC551LF.ged");
         gp.load(stream);
         checkTGC551LF(gp);
     }
 
     /**
-     * The same sample file is used several times, this helper method ensures
-     * consistent assertions for all tests using the same file
+     * The same sample file is used several times, this helper method ensures consistent assertions for all tests using the same file
      * 
      * @param gp
      *            the {@link GedcomParser}

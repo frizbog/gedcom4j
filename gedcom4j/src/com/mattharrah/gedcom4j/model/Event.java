@@ -35,55 +35,92 @@ public class Event {
      * The address where this event took place
      */
     public Address address;
+
     /**
      * The phone numbers involved with this event
      */
     public List<String> phoneNumbers = new ArrayList<String>();
+
     /**
-     * The age of the person to whom this event is attached at the time it
-     * occurred
+     * Web URL's. New for GEDCOM 5.5.1.
+     */
+    public List<String> wwwUrls = new ArrayList<String>();
+
+    /**
+     * Fax numbers. New for GEDCOM 5.5.1.
+     */
+    public List<String> faxNumbers = new ArrayList<String>();
+
+    /**
+     * The emails for this submitter. New for GEDCOM 5.5.1
+     */
+    public List<String> emails = new ArrayList<String>();
+
+    /**
+     * The age of the person to whom this event is attached at the time it occurred
      */
     public String age;
+
     /**
      * The cause of the event
      */
     public String cause;
+
     /**
      * List of source citations for this event
      */
     public List<AbstractCitation> citations = new ArrayList<AbstractCitation>();
+
     /**
      * The date of this event
      */
     public String date;
+
     /**
      * A description of this event
      */
     public String description;
+
     /**
      * Multimeda for this event
      */
     public List<Multimedia> multimedia = new ArrayList<Multimedia>();
+
     /**
      * Notes for this event
      */
     public List<Note> notes = new ArrayList<Note>();
+
     /**
      * The place where this event occurred
      */
     public Place place;
+
     /**
      * The responsible agency for this event
      */
     public String respAgency;
+
     /**
      * Either a Y or a null after the event type;
      */
     public String yNull;
+
     /**
      * A subtype that further qualifies the type
      */
     public String subType;
+
+    /**
+     * The religious affiliation of this event. New for GEDCOM 5.5.1.
+     */
+    public String religiousAffiliation;
+
+    /**
+     * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be "confidential", "locked", or
+     * "privacy" but this implementation allows any value.
+     */
+    public String restrictionNotice;
 
     @Override
     public boolean equals(Object obj) {
@@ -188,6 +225,42 @@ public class Event {
         } else if (!yNull.equals(other.yNull)) {
             return false;
         }
+        if (religiousAffiliation == null) {
+            if (other.religiousAffiliation != null) {
+                return false;
+            }
+        } else if (!religiousAffiliation.equals(other.religiousAffiliation)) {
+            return false;
+        }
+        if (restrictionNotice == null) {
+            if (other.restrictionNotice != null) {
+                return false;
+            }
+        } else if (!restrictionNotice.equals(other.restrictionNotice)) {
+            return false;
+        }
+        if (wwwUrls == null) {
+            if (other.wwwUrls != null) {
+                return false;
+            }
+        } else if (!wwwUrls.equals(other.wwwUrls)) {
+            return false;
+        }
+        if (faxNumbers == null) {
+            if (other.faxNumbers != null) {
+                return false;
+            }
+        } else if (!faxNumbers.equals(other.faxNumbers)) {
+            return false;
+        }
+        if (emails == null) {
+            if (other.emails != null) {
+                return false;
+            }
+        } else if (!emails.equals(other.emails)) {
+            return false;
+        }
+
         return true;
     }
 
@@ -195,24 +268,33 @@ public class Event {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((address == null) ? 0 : address.hashCode());
-        result = prime * result + ((age == null) ? 0 : age.hashCode());
-        result = prime * result + ((cause == null) ? 0 : cause.hashCode());
-        result = prime * result
-                + ((citations == null) ? 0 : citations.hashCode());
-        result = prime * result + ((date == null) ? 0 : date.hashCode());
-        result = prime * result
-                + ((description == null) ? 0 : description.hashCode());
-        result = prime * result
-                + ((multimedia == null) ? 0 : multimedia.hashCode());
-        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-        result = prime * result
-                + ((phoneNumbers == null) ? 0 : phoneNumbers.hashCode());
-        result = prime * result + ((place == null) ? 0 : place.hashCode());
-        result = prime * result
-                + ((respAgency == null) ? 0 : respAgency.hashCode());
-        result = prime * result + ((subType == null) ? 0 : subType.hashCode());
-        result = prime * result + ((yNull == null) ? 0 : yNull.hashCode());
+        result = prime * result + (address == null ? 0 : address.hashCode());
+        result = prime * result + (age == null ? 0 : age.hashCode());
+        result = prime * result + (cause == null ? 0 : cause.hashCode());
+        result = prime * result + (citations == null ? 0 : citations.hashCode());
+        result = prime * result + (date == null ? 0 : date.hashCode());
+        result = prime * result + (description == null ? 0 : description.hashCode());
+        result = prime * result + (multimedia == null ? 0 : multimedia.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (phoneNumbers == null ? 0 : phoneNumbers.hashCode());
+        result = prime * result + (place == null ? 0 : place.hashCode());
+        result = prime * result + (respAgency == null ? 0 : respAgency.hashCode());
+        result = prime * result + (subType == null ? 0 : subType.hashCode());
+        result = prime * result + (yNull == null ? 0 : yNull.hashCode());
+        result = prime * result + (religiousAffiliation == null ? 0 : religiousAffiliation.hashCode());
+        result = prime * result + (restrictionNotice == null ? 0 : restrictionNotice.hashCode());
+        result = prime * result + (faxNumbers == null ? 0 : faxNumbers.hashCode());
+        result = prime * result + (wwwUrls == null ? 0 : wwwUrls.hashCode());
+        result = prime * result + (emails == null ? 0 : emails.hashCode());
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Event [address=" + address + ", phoneNumbers=" + phoneNumbers + ", wwwUrls=" + wwwUrls + ", faxNumbers=" + faxNumbers + ", emails="
+                + emails + ", age=" + age + ", cause=" + cause + ", citations=" + citations + ", date=" + date + ", description=" + description
+                + ", multimedia=" + multimedia + ", notes=" + notes + ", place=" + place + ", respAgency=" + respAgency + ", yNull=" + yNull
+                + ", subType=" + subType + ", religiousAffiliation=" + religiousAffiliation + ", restrictionNotice=" + restrictionNotice + "]";
+    }
+
 }

@@ -19,35 +19,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.mattharrah.gedcom4j.io;
+
+package com.mattharrah.gedcom4j.model;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
+import org.junit.Test;
 
 /**
- * An encoding for a gedcom file.
+ * Test for the SupportedVersion class
  * 
- * @author frizbog1
+ * @author frizbog
+ * 
  */
-public enum Encoding {
+public class SupportedVersionTest {
+
     /**
-     * ASCII. Only characters from 0x00 to 0x7F are expected, one byte per
-     * character.
+     * Tests the SupportedVersion class and the UnsupportedVersionException
+     * 
+     * @throws UnsupportedVersionException
+     *             should never happen unless the {@link SupportedVersion#forString(String)} method is broken
      */
-    ASCII,
-    /**
-     * ANSEL (American National Standard for Extended Latin), aka ANSI
-     * Z39.47-1985, aka MARC-8. This is the default for GEDCOM files. One byte
-     * per character.
-     */
-    ANSEL,
-    /**
-     * Unicode, big-endian. Two bytes per character.
-     */
-    UNICODE_BIG_ENDIAN,
-    /**
-     * Unicode, little-endian. Two bytes per character.
-     */
-    UNICODE_LITTLE_ENDIAN,
-    /**
-     * UTF-8 encoding.
-     */
-    UTF_8;
+    @Test
+    public void test() throws UnsupportedVersionException {
+        assertNotNull(SupportedVersion.forString("5.5"));
+        assertNotNull(SupportedVersion.forString("5.5.1"));
+
+        try {
+            SupportedVersion.forString("frying pan");
+            fail("Should have gotten an exception");
+        } catch (UnsupportedVersionException expectedAndIgnored) {
+            ; // Good!
+        }
+    }
+
 }

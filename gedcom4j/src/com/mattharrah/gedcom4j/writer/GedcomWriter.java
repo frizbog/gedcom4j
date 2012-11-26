@@ -43,19 +43,24 @@ import com.mattharrah.gedcom4j.model.Family;
 import com.mattharrah.gedcom4j.model.FamilyChild;
 import com.mattharrah.gedcom4j.model.FamilyEvent;
 import com.mattharrah.gedcom4j.model.FamilySpouse;
+import com.mattharrah.gedcom4j.model.FileReference;
 import com.mattharrah.gedcom4j.model.Gedcom;
+import com.mattharrah.gedcom4j.model.GedcomVersion;
 import com.mattharrah.gedcom4j.model.Header;
 import com.mattharrah.gedcom4j.model.HeaderSourceData;
 import com.mattharrah.gedcom4j.model.Individual;
 import com.mattharrah.gedcom4j.model.IndividualAttribute;
+import com.mattharrah.gedcom4j.model.IndividualAttributeType;
 import com.mattharrah.gedcom4j.model.IndividualEvent;
 import com.mattharrah.gedcom4j.model.IndividualEventType;
 import com.mattharrah.gedcom4j.model.LdsIndividualOrdinance;
 import com.mattharrah.gedcom4j.model.LdsIndividualOrdinanceType;
 import com.mattharrah.gedcom4j.model.LdsSpouseSealing;
 import com.mattharrah.gedcom4j.model.Multimedia;
+import com.mattharrah.gedcom4j.model.NameVariation;
 import com.mattharrah.gedcom4j.model.Note;
 import com.mattharrah.gedcom4j.model.PersonalName;
+import com.mattharrah.gedcom4j.model.PersonalNameVariation;
 import com.mattharrah.gedcom4j.model.Place;
 import com.mattharrah.gedcom4j.model.Repository;
 import com.mattharrah.gedcom4j.model.RepositoryCitation;
@@ -65,11 +70,29 @@ import com.mattharrah.gedcom4j.model.SourceData;
 import com.mattharrah.gedcom4j.model.SourceSystem;
 import com.mattharrah.gedcom4j.model.Submission;
 import com.mattharrah.gedcom4j.model.Submitter;
+import com.mattharrah.gedcom4j.model.SupportedVersion;
 import com.mattharrah.gedcom4j.model.UserReference;
 import com.mattharrah.gedcom4j.validate.GedcomValidator;
 
 /**
+ * <p>
  * A class for writing the gedcom structure out as a GEDCOM 5.5 compliant file.
+ * </p>
+ * <p>
+ * General usage is as follows:
+ * <ul>
+ * Instantiate a <code>GedcomWriter</code>, passing the {@link Gedcom} to be written as a parameter to the constructor.
+ * </ul>
+ * <ul>
+ * Call one of the variants of the <code>write</code> method to write the data
+ * </ul>
+ * </p>
+ * <p>
+ * Note that if there are inconsistencies found in the data, or that the data in the <code>Gedcom</code> is not compliant with the GEDCOM version
+ * specified in the file's header, the writer will throw Exceptions (usually {@link GedcomWriterVersionDataMismatchException} or
+ * {@link GedcomWriterException}).
+ * </p>
+ * 
  * 
  * @author frizbog1
  */
@@ -86,15 +109,13 @@ public class GedcomWriter {
     private Gedcom gedcom;
 
     /**
-     * Are we suppressing the call to the validator? Deliberately
-     * package-private so unit tests can fiddle with it to make testing easy.
+     * Are we suppressing the call to the validator? Deliberately package-private so unit tests can fiddle with it to make testing easy.
      */
     boolean validationSuppressed = false;
 
     /**
-     * The lines of the GEDCOM transmission, which will be written using a
-     * {@link GedcomFileWriter}. Deliberately package-private so tests can
-     * access it but others can't alter it.
+     * The lines of the GEDCOM transmission, which will be written using a {@link GedcomFileWriter}. Deliberately package-private so tests can access
+     * it but others can't alter it.
      */
     List<String> lines = new ArrayList<String>();
 
@@ -109,8 +130,7 @@ public class GedcomWriter {
     }
 
     /**
-     * Write the {@link Gedcom} data as a GEDCOM 5.5 file. Automatically fills
-     * in the value for the FILE tag in the HEAD structure.
+     * Write the {@link Gedcom} data as a GEDCOM 5.5 file. Automatically fills in the value for the FILE tag in the HEAD structure.
      * 
      * @param file
      *            the {@link File} to write to
@@ -133,8 +153,8 @@ public class GedcomWriter {
     }
 
     /**
-     * Write the {@link Gedcom} data in GEDCOM 5.5 format to an output stream.
-     * If the data is unicode, the data will be written in little-endian format.
+     * Write the {@link Gedcom} data in GEDCOM 5.5 format to an output stream. If the data is unicode, the data will be written in little-endian
+     * format.
      * 
      * @param out
      *            the output stream we're writing to
@@ -155,12 +175,12 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    public void write(OutputStream out, boolean littleEndianForUnicode)
-            throws GedcomWriterException {
+    public void write(OutputStream out, boolean littleEndianForUnicode) throws GedcomWriterException {
         if (!validationSuppressed) {
             GedcomValidator gv = new GedcomValidator(gedcom);
             gv.validate();
         }
+        checkVersionCompatibility();
         emitHeader();
         emitSubmissionRecord();
         emitRecords();
@@ -175,8 +195,7 @@ public class GedcomWriter {
     }
 
     /**
-     * Write the {@link Gedcom} data as a GEDCOM 5.5 file, with the supplied
-     * file name
+     * Write the {@link Gedcom} data as a GEDCOM 5.5 file, with the supplied file name
      * 
      * @param filename
      *            the name of the file to write
@@ -185,10 +204,130 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    public void write(String filename) throws IOException,
-            GedcomWriterException {
+    public void write(String filename) throws IOException, GedcomWriterException {
         File f = new File(filename);
         write(f);
+    }
+
+    /**
+     * Checks that the gedcom version specified is compatible with the data in the model. Not a perfect exhaustive check.
+     * 
+     * @throws GedcomWriterException
+     *             if data is detected that is incompatible with the selected version
+     */
+    private void checkVersionCompatibility() throws GedcomWriterException {
+
+        if (gedcom.header.gedcomVersion == null) {
+            // If there's not one specified, set up a default one that specifies 5.5.1
+            gedcom.header.gedcomVersion = new GedcomVersion();
+        }
+        if (SupportedVersion.V5_5.equals(gedcom.header.gedcomVersion.versionNumber)) {
+            checkVersionCompatibility55();
+        } else {
+            checkVersionCompatibility551();
+        }
+
+    }
+
+    /**
+     * Check that the data is compatible with 5.5 style Gedcom files
+     * 
+     * @throws GedcomWriterVersionDataMismatchException
+     *             if a data point is detected that is incompatible with the 5.5 standard
+     */
+    private void checkVersionCompatibility55() throws GedcomWriterVersionDataMismatchException {
+        // Now that we know if we're working with a 5.5.1 file or not, let's check some data points
+        if (gedcom.header.copyrightData.size() > 1) {
+            throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but has multi-line copyright data in header");
+        }
+        if (gedcom.header.characterSet != null && "UTF-8".equals(gedcom.header.characterSet.characterSetName)) {
+            throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but data is encoded using UTF-8");
+        }
+        if (gedcom.header.sourceSystem != null && gedcom.header.sourceSystem.corporation != null) {
+            Corporation c = gedcom.header.sourceSystem.corporation;
+            if (!c.wwwUrls.isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but source system corporation has www urls");
+            }
+            if (!c.faxNumbers.isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but source system corporation has fax numbers");
+            }
+            if (!c.emails.isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but source system corporation has emails");
+            }
+        }
+        for (Individual i : gedcom.individuals.values()) {
+            if (!i.wwwUrls.isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.xref + " has www urls");
+            }
+            if (!i.faxNumbers.isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.xref + " has fax numbers");
+            }
+            if (!i.emails.isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.xref + " has emails");
+            }
+            for (Event e : i.events) {
+                if (!e.wwwUrls.isEmpty()) {
+                    throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.xref
+                            + " has www urls on an event");
+                }
+                if (!e.faxNumbers.isEmpty()) {
+                    throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.xref
+                            + " has fax numbers on an event");
+                }
+                if (!e.emails.isEmpty()) {
+                    throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.xref + " has emails on an event");
+                }
+            }
+            for (IndividualAttribute a : i.attributes) {
+                if (IndividualAttributeType.FACT.equals(a.type)) {
+                    throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.xref + " has a FACT attribute");
+                }
+            }
+            for (FamilyChild fc : i.familiesWhereChild) {
+                if (fc.status != null) {
+                    throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.xref
+                            + " is in a family with a status specified (a Gedcom 5.5.1 only feature)");
+                }
+            }
+        }
+        for (Submitter s : gedcom.submitters.values()) {
+            if (!s.wwwUrls.isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Submitter " + s.xref + " has www urls");
+            }
+            if (!s.faxNumbers.isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Submitter " + s.xref + " has fax numbers");
+            }
+            if (!s.emails.isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Submitter " + s.xref + " has emails");
+            }
+        }
+        for (Repository r : gedcom.repositories.values()) {
+            if (!r.wwwUrls.isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Repository " + r.xref + " has www urls");
+            }
+            if (!r.faxNumbers.isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Repository " + r.xref + " has fax numbers");
+            }
+            if (!r.emails.isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Repository " + r.xref + " has emails");
+            }
+        }
+    }
+
+    /**
+     * Check that the data is compatible with 5.5.1 style Gedcom files
+     * 
+     * @throws GedcomWriterVersionDataMismatchException
+     *             if a data point is detected that is incompatible with the 5.5.1 standard
+     * 
+     */
+    private void checkVersionCompatibility551() throws GedcomWriterVersionDataMismatchException {
+        for (Multimedia m : gedcom.multimedia.values()) {
+            if (!m.blob.isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5.1, but multimedia item " + m.xref
+                        + " contains BLOB data which is unsupported in 5.5.1");
+            }
+        }
     }
 
     /**
@@ -230,11 +369,10 @@ public class GedcomWriter {
             String remainder = line.substring(MAX_LINE_LENGTH);
             while (remainder.length() > 0) {
                 if (remainder.length() > MAX_LINE_LENGTH) {
-                    lines.add((level + 1) + " CONC "
-                            + remainder.substring(0, MAX_LINE_LENGTH));
+                    lines.add(level + 1 + " CONC " + remainder.substring(0, MAX_LINE_LENGTH));
                     remainder = remainder.substring(MAX_LINE_LENGTH);
                 } else {
-                    lines.add((level + 1) + " CONC " + remainder);
+                    lines.add(level + 1 + " CONC " + remainder);
                     remainder = "";
                 }
             }
@@ -242,8 +380,7 @@ public class GedcomWriter {
     }
 
     /**
-     * Emit the person-to-person associations an individual was in - see
-     * ASSOCIATION_STRUCTURE in the GEDCOM spec.
+     * Emit the person-to-person associations an individual was in - see ASSOCIATION_STRUCTURE in the GEDCOM spec.
      * 
      * @param level
      *            the level at which to start recording
@@ -252,8 +389,7 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    private void emitAssociationStructures(int level,
-            List<Association> associations) throws GedcomWriterException {
+    private void emitAssociationStructures(int level, List<Association> associations) throws GedcomWriterException {
         for (Association a : associations) {
             emitTagWithRequiredValue(level, "ASSO", a.associatedEntityXref);
             emitTagWithRequiredValue(level + 1, "TYPE", a.associatedEntityType);
@@ -273,8 +409,7 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    private void emitChangeDate(int level, ChangeDate cd)
-            throws GedcomWriterException {
+    private void emitChangeDate(int level, ChangeDate cd) throws GedcomWriterException {
         if (cd != null) {
             emitTag(level, "CHAN");
             emitTagWithRequiredValue(level + 1, "DATE", cd.date);
@@ -293,19 +428,17 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    private void emitChildToFamilyLinks(int level, Individual i)
-            throws GedcomWriterException {
+    private void emitChildToFamilyLinks(int level, Individual i) throws GedcomWriterException {
         for (FamilyChild familyChild : i.familiesWhereChild) {
             if (familyChild == null) {
-                throw new GedcomWriterException("Family to which " + i
-                        + " was a child was null");
+                throw new GedcomWriterException("Family to which " + i + " was a child was null");
             }
             if (familyChild.family == null) {
-                throw new GedcomWriterException("Family to which " + i
-                        + " was a child had a null family reference");
+                throw new GedcomWriterException("Family to which " + i + " was a child had a null family reference");
             }
             emitTagWithRequiredValue(level, "FAMC", familyChild.family.xref);
             emitTagIfValueNotNull(level + 1, "PEDI", familyChild.pedigree);
+            emitTagIfValueNotNull(level + 1, "STAT", familyChild.status);
             emitNotes(level + 1, familyChild.notes);
         }
     }
@@ -320,8 +453,7 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             when the data is malformed and cannot be written
      */
-    private void emitCitationWithoutSource(int level, AbstractCitation c)
-            throws GedcomWriterException {
+    private void emitCitationWithoutSource(int level, AbstractCitation c) throws GedcomWriterException {
         CitationWithoutSource cws = (CitationWithoutSource) c;
         emitLinesOfText(level, "SOUR", cws.description);
         for (List<String> linesOfText : cws.textFromSource) {
@@ -340,12 +472,10 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             when the data is malformed and cannot be written
      */
-    private void emitCitationWithSource(int level, CitationWithSource cws)
-            throws GedcomWriterException {
+    private void emitCitationWithSource(int level, CitationWithSource cws) throws GedcomWriterException {
         Source source = cws.source;
         if (source == null || source.xref == null || source.xref.length() == 0) {
-            throw new GedcomWriterException(
-                    "Citation with source must have a source record with an xref/id");
+            throw new GedcomWriterException("Citation with source must have a source record with an xref/id");
         }
         emitTagWithRequiredValue(level, "SOUR", source.xref);
         emitTagIfValueNotNull(level + 1, "PAGE", cws.whereInSource);
@@ -366,6 +496,22 @@ public class GedcomWriter {
     }
 
     /**
+     * Emit a list of email addresses. New for GEDCOM 5.5.1
+     * 
+     * @param l
+     *            the level we are writing at
+     * @param emails
+     *            the list of email addresses
+     * @throws GedcomWriterException
+     *             if the data cannot be written
+     */
+    private void emitEmails(int l, List<String> emails) throws GedcomWriterException {
+        for (String e : emails) {
+            emitTagWithRequiredValue(l, "EMAIL", e);
+        }
+    }
+
+    /**
      * Emit an event detail structure - see EVENT_DETAIL in the GEDCOM spec
      * 
      * @param level
@@ -375,21 +521,19 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    private void emitEventDetail(int level, Event e)
-            throws GedcomWriterException {
+    private void emitEventDetail(int level, Event e) throws GedcomWriterException {
         emitTagIfValueNotNull(level, "TYPE", e.subType);
         emitTagIfValueNotNull(level, "DATE", e.date);
         if (e.place != null) {
             Place p = e.place;
-            emitTagWithOptionalValue(level, "PLAC", p.placeName);
-            emitTagIfValueNotNull(level + 1, "FORM", p.placeFormat);
-            emitSourceCitations(level + 1, p.citations);
-            emitNotes(level + 1, p.notes);
+            emitPlace(level, p);
         }
         emitAddress(level, e.address);
         emitTagIfValueNotNull(level, "AGE", e.age);
         emitTagIfValueNotNull(level, "AGNC", e.respAgency);
         emitTagIfValueNotNull(level, "CAUS", e.cause);
+        emitTagIfValueNotNull(level, "RELI", e.religiousAffiliation);
+        emitTagIfValueNotNull(level, "RESN", e.restrictionNotice);
         emitSourceCitations(level, e.citations);
         emitMultimediaLinks(level, e.multimedia);
         emitNotes(level, e.notes);
@@ -423,6 +567,7 @@ public class GedcomWriter {
             for (LdsSpouseSealing s : f.ldsSpouseSealings) {
                 emitLdsFamilyOrdinance(1, s);
             }
+            emitTagIfValueNotNull(1, "RESN", f.restrictionNotice);
             emitSourceCitations(1, f.citations);
             emitMultimediaLinks(1, f.multimedia);
             emitNotes(1, f.notes);
@@ -436,8 +581,7 @@ public class GedcomWriter {
     }
 
     /**
-     * Emit a family event structure (see FAMILY_EVENT_STRUCTURE in the GEDCOM
-     * spec)
+     * Emit a family event structure (see FAMILY_EVENT_STRUCTURE in the GEDCOM spec)
      * 
      * @param level
      *            the level we're writing at
@@ -446,8 +590,7 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    private void emitFamilyEventStructure(int level, FamilyEvent e)
-            throws GedcomWriterException {
+    private void emitFamilyEventStructure(int level, FamilyEvent e) throws GedcomWriterException {
         emitTagWithOptionalValue(level, e.type.tag, e.yNull);
         emitEventDetail(level + 1, e);
         if (e.husbandAge != null) {
@@ -457,6 +600,22 @@ public class GedcomWriter {
         if (e.wifeAge != null) {
             emitTag(level + 1, "WIFE");
             emitTagWithRequiredValue(level + 2, "AGE", e.wifeAge);
+        }
+    }
+
+    /**
+     * Emit a list of Fax numbers. New for GEDCOM 5.5.1
+     * 
+     * @param l
+     *            the level to write at
+     * @param faxNumbers
+     *            the list of fax numbers to write
+     * @throws GedcomWriterException
+     *             if the data cannot be written
+     */
+    private void emitFaxNumbers(int l, List<String> faxNumbers) throws GedcomWriterException {
+        for (String f : faxNumbers) {
+            emitTagWithRequiredValue(l, "FAX", f);
         }
     }
 
@@ -485,18 +644,16 @@ public class GedcomWriter {
             emitTagWithRequiredValue(1, "SUBN", header.submission.xref);
         }
         emitTagIfValueNotNull(1, "FILE", header.fileName);
-        emitTagIfValueNotNull(1, "COPR", header.copyrightData);
+        emitLinesOfText(1, "COPR", header.copyrightData);
         emitTag(1, "GEDC");
-        emitTagWithRequiredValue(2, "VERS", header.gedcomVersion.versionNumber);
+        emitTagWithRequiredValue(2, "VERS", header.gedcomVersion.versionNumber.toString());
         emitTagWithRequiredValue(2, "FORM", header.gedcomVersion.gedcomForm);
-        emitTagWithRequiredValue(1, "CHAR",
-                header.characterSet.characterSetName);
+        emitTagWithRequiredValue(1, "CHAR", header.characterSet.characterSetName);
         emitTagIfValueNotNull(2, "VERS", header.characterSet.versionNum);
         emitTagIfValueNotNull(1, "LANG", header.language);
-        if (header.placeStructure != null && header.placeStructure.length() > 0) {
-            // TODO - need better handling for PLAC structures in the header
+        if (header.placeHierarchy != null && header.placeHierarchy.length() > 0) {
             emitTag(1, "PLAC");
-            emitTagWithRequiredValue(2, "FORM", header.placeStructure);
+            emitTagWithRequiredValue(2, "FORM", header.placeHierarchy);
         }
         emitNoteLines(1, null, header.notes);
     }
@@ -511,12 +668,15 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    private void emitIndividualAttributes(int level,
-            List<IndividualAttribute> attributes) throws GedcomWriterException {
+    private void emitIndividualAttributes(int level, List<IndividualAttribute> attributes) throws GedcomWriterException {
         for (IndividualAttribute a : attributes) {
             emitTagWithOptionalValue(level, a.type.tag, a.description);
             emitEventDetail(level + 1, a);
+            emitAddress(level + 1, a.address);
             emitPhoneNumbers(level + 1, a.phoneNumbers);
+            emitWwwUrls(level + 1, a.wwwUrls);
+            emitFaxNumbers(level + 1, a.faxNumbers);
+            emitEmails(level + 1, a.emails);
         }
     }
 
@@ -530,23 +690,17 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    private void emitIndividualEvents(int level, List<IndividualEvent> events)
-            throws GedcomWriterException {
+    private void emitIndividualEvents(int level, List<IndividualEvent> events) throws GedcomWriterException {
         for (IndividualEvent e : events) {
             emitTagWithOptionalValue(level, e.type.tag, e.yNull);
             emitEventDetail(level + 1, e);
-            if (e.type == IndividualEventType.BIRTH
-                    || e.type == IndividualEventType.CHRISTENING) {
-                if (e.family != null && e.family.family != null
-                        && e.family.family.xref != null) {
-                    emitTagWithRequiredValue(level + 1, "FAMC",
-                            e.family.family.xref);
+            if (e.type == IndividualEventType.BIRTH || e.type == IndividualEventType.CHRISTENING) {
+                if (e.family != null && e.family.family != null && e.family.family.xref != null) {
+                    emitTagWithRequiredValue(level + 1, "FAMC", e.family.family.xref);
                 }
             } else if (e.type == IndividualEventType.ADOPTION) {
-                if (e.family != null && e.family.family != null
-                        && e.family.family.xref != null) {
-                    emitTagWithRequiredValue(level + 1, "FAMC",
-                            e.family.family.xref);
+                if (e.family != null && e.family.family != null && e.family.family.xref != null) {
+                    emitTagWithRequiredValue(level + 1, "FAMC", e.family.family.xref);
                     emitTagIfValueNotNull(level + 2, "ADOP", e.family.adoptedBy);
                 }
             }
@@ -609,8 +763,7 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    private void emitLdsFamilyOrdinance(int level, LdsSpouseSealing sealings)
-            throws GedcomWriterException {
+    private void emitLdsFamilyOrdinance(int level, LdsSpouseSealing sealings) throws GedcomWriterException {
         emitTag(level, "SLGS");
         emitTagIfValueNotNull(level + 1, "STAT", sealings.status);
         emitTagIfValueNotNull(level + 1, "DATE", sealings.date);
@@ -631,9 +784,7 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    private void emitLdsIndividualOrdinances(int level,
-            List<LdsIndividualOrdinance> ldsIndividualOrdinances)
-            throws GedcomWriterException {
+    private void emitLdsIndividualOrdinances(int level, List<LdsIndividualOrdinance> ldsIndividualOrdinances) throws GedcomWriterException {
         for (LdsIndividualOrdinance o : ldsIndividualOrdinances) {
             emitTagWithOptionalValue(level, o.type.tag, o.yNull);
             emitTagIfValueNotNull(level + 1, "STAT", o.status);
@@ -642,15 +793,12 @@ public class GedcomWriter {
             emitTagIfValueNotNull(level + 1, "PLAC", o.place);
             if (o.type == LdsIndividualOrdinanceType.CHILD_SEALING) {
                 if (o.familyWhereChild == null) {
-                    throw new GedcomWriterException(
-                            "LDS Ordinance info for a child sealing had no reference to a family");
+                    throw new GedcomWriterException("LDS Ordinance info for a child sealing had no reference to a family");
                 }
                 if (o.familyWhereChild.family == null) {
-                    throw new GedcomWriterException(
-                            "LDS Ordinance info for a child sealing had familyChild object with a null reference to a family");
+                    throw new GedcomWriterException("LDS Ordinance info for a child sealing had familyChild object with a null reference to a family");
                 }
-                emitTagWithRequiredValue(level + 1, "FAMC",
-                        o.familyWhereChild.family.xref);
+                emitTagWithRequiredValue(level + 1, "FAMC", o.familyWhereChild.family.xref);
             }
             emitSourceCitations(level + 1, o.citations);
             emitNotes(level + 1, o.notes);
@@ -658,20 +806,16 @@ public class GedcomWriter {
     }
 
     /**
-     * Convenience method for emitting lines of text when there is no xref, so
-     * you don't have to pass null all the time
+     * Convenience method for emitting lines of text when there is no xref, so you don't have to pass null all the time
      * 
      * @param level
-     *            the level we are starting at. Continuation lines will be one
-     *            level deeper than this value
+     *            the level we are starting at. Continuation lines will be one level deeper than this value
      * @param startingTag
-     *            the tag to use for the first line of the text. All subsequent
-     *            lines will be "CONT" lines.
+     *            the tag to use for the first line of the text. All subsequent lines will be "CONT" lines.
      * @param linesOfText
      *            the lines of text
      */
-    private void emitLinesOfText(int level, String startingTag,
-            List<String> linesOfText) {
+    private void emitLinesOfText(int level, String startingTag, List<String> linesOfText) {
         emitLinesOfText(level, null, startingTag, linesOfText);
     }
 
@@ -679,18 +823,15 @@ public class GedcomWriter {
      * Emit a multi-line text value.
      * 
      * @param level
-     *            the level we are starting at. Continuation lines will be one
-     *            level deeper than this value
+     *            the level we are starting at. Continuation lines will be one level deeper than this value
      * @param startingTag
-     *            the tag to use for the first line of the text. All subsequent
-     *            lines will be "CONT" lines.
+     *            the tag to use for the first line of the text. All subsequent lines will be "CONT" lines.
      * @param xref
      *            the xref of the item with lines of text
      * @param linesOfText
      *            the lines of text
      */
-    private void emitLinesOfText(int level, String xref, String startingTag,
-            List<String> linesOfText) {
+    private void emitLinesOfText(int level, String xref, String startingTag, List<String> linesOfText) {
         int lineNum = 0;
         for (String l : linesOfText) {
             StringBuilder line = new StringBuilder();
@@ -713,16 +854,16 @@ public class GedcomWriter {
     }
 
     /**
-     * Write out all the embedded multimedia objects
+     * Write out all the embedded multimedia objects in GEDCOM 5.5 format
      * 
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    private void emitMultimedia() throws GedcomWriterException {
+    private void emitMultimedia55() throws GedcomWriterException {
         for (Multimedia m : gedcom.multimedia.values()) {
             emitTag(0, m.xref, "OBJE");
-            emitTagWithRequiredValue(1, "FORM", m.format);
-            emitTagIfValueNotNull(1, "TITL", m.title);
+            emitTagWithRequiredValue(1, "FORM", m.embeddedMediaFormat);
+            emitTagIfValueNotNull(1, "TITL", m.embeddedTitle);
             emitNotes(1, m.notes);
             emitTag(1, "BLOB");
             for (String b : m.blob) {
@@ -737,6 +878,51 @@ public class GedcomWriter {
             }
             emitTagIfValueNotNull(1, "RIN", m.recIdNumber);
             emitChangeDate(1, m.changeDate);
+            if (!m.fileReferences.isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but found file references in multimedia object " + m.xref
+                        + " which are not allowed until GEDCOM 5.5.1");
+            }
+        }
+    }
+
+    /**
+     * Write out all the embedded multimedia objects in GEDCOM 5.5.1 format
+     * 
+     * @throws GedcomWriterException
+     *             if the data is malformed and cannot be written
+     */
+    private void emitMultimedia551() throws GedcomWriterException {
+        for (Multimedia m : gedcom.multimedia.values()) {
+            emitTag(0, m.xref, "OBJE");
+            for (FileReference fr : m.fileReferences) {
+                emitTagWithRequiredValue(1, "FILE", fr.referenceToFile);
+                emitTagWithRequiredValue(2, "FORM", fr.format);
+                emitTagIfValueNotNull(3, "TYPE", fr.mediaType);
+                emitTagIfValueNotNull(2, "TITL", fr.title);
+            }
+            for (UserReference u : m.userReferences) {
+                emitTagWithRequiredValue(1, "REFN", u.referenceNum);
+                emitTagIfValueNotNull(2, "TYPE", u.type);
+            }
+            emitTagIfValueNotNull(1, "RIN", m.recIdNumber);
+            emitNotes(1, m.notes);
+            emitChangeDate(1, m.changeDate);
+            if (!m.blob.isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but BLOB data on multimedia item " + m.xref
+                        + " was found.  This is only allowed in GEDCOM 5.5");
+            }
+            if (m.continuedObject != null) {
+                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but BLOB continuation data on multimedia item " + m.xref
+                        + " was found.  This is only allowed in GEDCOM 5.5");
+            }
+            if (m.embeddedMediaFormat != null) {
+                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but format on multimedia item " + m.xref
+                        + " was found.  This is only allowed in GEDCOM 5.5");
+            }
+            if (m.embeddedTitle != null) {
+                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but title on multimedia item " + m.xref
+                        + " was found.  This is only allowed in GEDCOM 5.5");
+            }
         }
     }
 
@@ -750,8 +936,7 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    private void emitMultimediaLinks(int level, List<Multimedia> multimedia)
-            throws GedcomWriterException {
+    private void emitMultimediaLinks(int level, List<Multimedia> multimedia) throws GedcomWriterException {
         if (multimedia == null) {
             return;
         }
@@ -760,12 +945,41 @@ public class GedcomWriter {
                 // Link to the embedded form
                 emitTagWithRequiredValue(level, "OBJE", m.xref);
             } else {
-                // Link to external file
-                emitTag(level, "OBJE");
-                emitTagWithRequiredValue(level + 1, "FORM", m.format);
-                emitTagIfValueNotNull(level + 1, "TITL", m.title);
-                emitTagWithRequiredValue(level + 1, "FILE", m.fileReference);
-                emitNotes(level + 1, m.notes);
+                // Link to referenced form
+                if (g55()) {
+                    // GEDCOM 5.5 format
+                    emitTag(level, "OBJE");
+                    if (m.fileReferences.size() > 1) {
+                        throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but multimedia link references "
+                                + "multiple files, which is only allowed in GEDCOM 5.5.1");
+                    }
+                    if (m.fileReferences.size() == 1) {
+                        FileReference fr = m.fileReferences.get(0);
+                        if (fr.format != null) {
+                            emitTagWithRequiredValue(level + 1, "FORM", fr.format);
+                        } else {
+                            emitTagWithRequiredValue(level + 1, "FORM", m.embeddedMediaFormat);
+                        }
+                        emitTagIfValueNotNull(level + 1, "TITL", m.embeddedTitle);
+                        emitTagWithRequiredValue(level + 1, "FILE", fr.referenceToFile);
+                    } else {
+                        emitTagWithRequiredValue(level + 1, "FORM", m.embeddedMediaFormat);
+                        emitTagIfValueNotNull(level + 1, "TITL", m.embeddedTitle);
+                    }
+                    emitNotes(level + 1, m.notes);
+                } else {
+                    // GEDCOM 5.5.1 format
+                    for (FileReference fr : m.fileReferences) {
+                        emitTagWithRequiredValue(level + 1, "FILE", fr.referenceToFile);
+                        emitTagIfValueNotNull(level + 2, "FORM", fr.format);
+                        emitTagIfValueNotNull(level + 3, "MEDI", fr.mediaType);
+                        emitTagIfValueNotNull(level + 1, "TITL", fr.title);
+                    }
+                    if (!m.notes.isEmpty()) {
+                        throw new GedcomWriterVersionDataMismatchException(
+                                "GEDCOM version is 5.5.1, but multimedia link has notes which are no longer allowed in 5.5");
+                    }
+                }
             }
         }
     }
@@ -819,8 +1033,7 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    private void emitNotes(int level, List<Note> notes)
-            throws GedcomWriterException {
+    private void emitNotes(int level, List<Note> notes) throws GedcomWriterException {
         for (Note n : notes) {
             emitNote(level, n);
         }
@@ -836,8 +1049,7 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    private void emitPersonalNames(int level, List<PersonalName> names)
-            throws GedcomWriterException {
+    private void emitPersonalNames(int level, List<PersonalName> names) throws GedcomWriterException {
         for (PersonalName n : names) {
             emitTagWithOptionalValue(level, "NAME", n.basic);
             emitTagIfValueNotNull(level + 1, "NPFX", n.prefix);
@@ -846,9 +1058,40 @@ public class GedcomWriter {
             emitTagIfValueNotNull(level + 1, "SPFX", n.surnamePrefix);
             emitTagIfValueNotNull(level + 1, "SURN", n.surname);
             emitTagIfValueNotNull(level + 1, "NSFX", n.suffix);
+            for (PersonalNameVariation pnv : n.romanized) {
+                emitPersonalNameVariation(level + 1, "ROMN", pnv);
+            }
+            for (PersonalNameVariation pnv : n.phonetic) {
+                emitPersonalNameVariation(level + 1, "FONE", pnv);
+            }
             emitSourceCitations(level + 1, n.citations);
             emitNotes(level + 1, n.notes);
         }
+    }
+
+    /**
+     * Emit a personal name variation - either romanized or phonetic
+     * 
+     * @param level
+     *            - the level we are writing at
+     * @param variationTag
+     *            the tag for the type of variation - should be "ROMN" for romanized, or "FONE" for phonetic
+     * @param pnv
+     *            - the personal name variation we are writing
+     * @throws GedcomWriterException
+     *             if the data is malformed and cannot be written
+     */
+    private void emitPersonalNameVariation(int level, String variationTag, PersonalNameVariation pnv) throws GedcomWriterException {
+        emitTagWithRequiredValue(level, variationTag, pnv.variation);
+        emitTagIfValueNotNull(level + 1, "NPFX", pnv.prefix);
+        emitTagIfValueNotNull(level + 1, "GIVN", pnv.givenName);
+        emitTagIfValueNotNull(level + 1, "NICK", pnv.nickname);
+        emitTagIfValueNotNull(level + 1, "SPFX", pnv.surnamePrefix);
+        emitTagIfValueNotNull(level + 1, "SURN", pnv.surname);
+        emitTagIfValueNotNull(level + 1, "NSFX", pnv.suffix);
+        emitSourceCitations(level + 1, pnv.citations);
+        emitNotes(level + 1, pnv.notes);
+
     }
 
     /**
@@ -866,6 +1109,48 @@ public class GedcomWriter {
     }
 
     /**
+     * Emit a place.
+     * 
+     * @param level
+     *            the level at which we are emitting data
+     * @param p
+     *            the place being emitted
+     * @throws GedcomWriterException
+     *             if the data is malformed and cannot be written
+     */
+    private void emitPlace(int level, Place p) throws GedcomWriterException {
+        emitTagWithOptionalValue(level, "PLAC", p.placeName);
+        emitTagIfValueNotNull(level + 1, "FORM", p.placeFormat);
+        emitSourceCitations(level + 1, p.citations);
+        emitNotes(level + 1, p.notes);
+        for (NameVariation nv : p.romanized) {
+            if (g55()) {
+                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but romanized variation was specified on place "
+                        + p.placeName + ", which is only allowed in GEDCOM 5.5.1");
+            }
+            emitTagWithRequiredValue(level + 1, "ROMN", nv.variation);
+            emitTagIfValueNotNull(level + 2, "TYPE", nv.variationType);
+        }
+        for (NameVariation nv : p.phonetic) {
+            if (g55()) {
+                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but phonetic variation was specified on place "
+                        + p.placeName + ", which is only allowed in GEDCOM 5.5.1");
+            }
+            emitTagWithRequiredValue(level + 1, "FONE", nv.variation);
+            emitTagIfValueNotNull(level + 2, "TYPE", nv.variationType);
+        }
+        if (p.latitude != null || p.longitude != null) {
+            emitTag(level + 1, "MAP");
+            emitTagWithRequiredValue(level + 2, "LAT", p.latitude);
+            emitTagWithRequiredValue(level + 2, "LONG", p.longitude);
+            if (g55()) {
+                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but map coordinates were specified on place "
+                        + p.placeName + ", which is only allowed in GEDCOM 5.5.1");
+            }
+        }
+    }
+
+    /**
      * Write the records (see the RECORD structure in the GEDCOM standard)
      * 
      * @throws GedcomWriterException
@@ -874,7 +1159,11 @@ public class GedcomWriter {
     private void emitRecords() throws GedcomWriterException {
         emitIndividuals();
         emitFamilies();
-        emitMultimedia();
+        if (g55()) {
+            emitMultimedia55();
+        } else {
+            emitMultimedia551();
+        }
         emitNotes(0, new ArrayList<Note>(gedcom.notes.values()));
         emitRepositories();
         emitSources();
@@ -898,35 +1187,30 @@ public class GedcomWriter {
                 emitTagIfValueNotNull(2, "TYPE", u.type);
             }
             emitTagIfValueNotNull(1, "RIN", r.recIdNumber);
-            for (String s : r.emails) {
-                emitTagIfValueNotNull(1, "EMAIL", s);
-            }
             emitPhoneNumbers(1, r.phoneNumbers);
+            emitWwwUrls(1, r.wwwUrls);
+            emitFaxNumbers(1, r.faxNumbers);
+            emitEmails(1, r.emails);
             emitChangeDate(1, r.changeDate);
         }
     }
 
     /**
-     * Write out a repository citation (see SOURCE_REPOSITORY_CITATION in the
-     * gedcom spec)
+     * Write out a repository citation (see SOURCE_REPOSITORY_CITATION in the gedcom spec)
      * 
      * @param level
      *            the level we're writing at
      * @param repositoryCitation
      *            the repository citation to write out
      * @throws GedcomWriterException
-     *             if the repository citation passed in has a null repository
-     *             reference
+     *             if the repository citation passed in has a null repository reference
      */
-    private void emitRepositoryCitation(int level,
-            RepositoryCitation repositoryCitation) throws GedcomWriterException {
+    private void emitRepositoryCitation(int level, RepositoryCitation repositoryCitation) throws GedcomWriterException {
         if (repositoryCitation != null) {
             if (repositoryCitation.repositoryXref == null) {
-                throw new GedcomWriterException(
-                        "Repository Citation has null repository reference");
+                throw new GedcomWriterException("Repository Citation has null repository reference");
             }
-            emitTagWithRequiredValue(level, "REPO",
-                    repositoryCitation.repositoryXref);
+            emitTagWithRequiredValue(level, "REPO", repositoryCitation.repositoryXref);
             emitNotes(level + 1, repositoryCitation.notes);
             for (SourceCallNumber scn : repositoryCitation.callNumbers) {
                 emitTagWithRequiredValue(level + 1, "CALN", scn.callNumber);
@@ -946,8 +1230,7 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    private void emitSourceCitations(int level, List<AbstractCitation> citations)
-            throws GedcomWriterException {
+    private void emitSourceCitations(int level, List<AbstractCitation> citations) throws GedcomWriterException {
         if (citations == null) {
             return;
         }
@@ -999,16 +1282,14 @@ public class GedcomWriter {
     }
 
     /**
-     * Write a source system structure (see APPROVED_SYSTEM_ID in the GEDCOM
-     * spec)
+     * Write a source system structure (see APPROVED_SYSTEM_ID in the GEDCOM spec)
      * 
      * @param sourceSystem
      *            the source system
      * @throws GedcomWriterException
      *             if data is malformed and cannot be written
      */
-    private void emitSourceSystem(SourceSystem sourceSystem)
-            throws GedcomWriterException {
+    private void emitSourceSystem(SourceSystem sourceSystem) throws GedcomWriterException {
         if (sourceSystem == null) {
             return;
         }
@@ -1020,6 +1301,9 @@ public class GedcomWriter {
             emitTagWithOptionalValue(2, "CORP", corporation.businessName);
             emitAddress(3, corporation.address);
             emitPhoneNumbers(3, corporation.phoneNumbers);
+            emitFaxNumbers(3, corporation.faxNumbers);
+            emitWwwUrls(3, corporation.wwwUrls);
+            emitEmails(3, corporation.emails);
         }
         HeaderSourceData sourceData = sourceSystem.sourceData;
         if (sourceData != null) {
@@ -1030,8 +1314,7 @@ public class GedcomWriter {
     }
 
     /**
-     * Emit links to all the families to which the supplied individual was a
-     * spouse
+     * Emit links to all the families to which the supplied individual was a spouse
      * 
      * @param level
      *            the level in the hierarchy at which we are emitting
@@ -1040,16 +1323,13 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             if data is malformed and cannot be written
      */
-    private void emitSpouseInFamilyLinks(int level, Individual i)
-            throws GedcomWriterException {
+    private void emitSpouseInFamilyLinks(int level, Individual i) throws GedcomWriterException {
         for (FamilySpouse familySpouse : i.familiesWhereSpouse) {
             if (familySpouse == null) {
-                throw new GedcomWriterException("Family in which " + i
-                        + " was a spouse was null");
+                throw new GedcomWriterException("Family in which " + i + " was a spouse was null");
             }
             if (familySpouse.family == null) {
-                throw new GedcomWriterException("Family in which " + i
-                        + " was a spouse had a null family reference");
+                throw new GedcomWriterException("Family in which " + i + " was a spouse had a null family reference");
             }
             emitTagWithRequiredValue(level, "FAMS", familySpouse.family.xref);
             emitNotes(level + 1, familySpouse.notes);
@@ -1094,15 +1374,10 @@ public class GedcomWriter {
             for (String l : s.languagePref) {
                 emitTagWithRequiredValue(1, "LANG", l);
             }
-            /*
-             * Unclear if really part of the GEDCOM or not - a stress test file
-             * includes them, and the tool can parse them, so if we have them,
-             * write them. Won't hurt anything if the collection is empty.
-             */
-            for (String l : s.phoneNumbers) {
-                emitTagWithRequiredValue(1, "PHON", l);
-            }
-
+            emitPhoneNumbers(1, s.phoneNumbers);
+            emitWwwUrls(1, s.wwwUrls);
+            emitFaxNumbers(1, s.faxNumbers);
+            emitEmails(1, s.emails);
             emitTagIfValueNotNull(1, "RFN", s.regFileNumber);
             emitTagIfValueNotNull(1, "RIN", s.recIdNumber);
             emitChangeDate(1, s.changeDate);
@@ -1166,8 +1441,7 @@ public class GedcomWriter {
      * @param value
      *            the value to write to the right of the tag
      */
-    private void emitTagIfValueNotNull(int level, String xref, String tag,
-            Object value) {
+    private void emitTagIfValueNotNull(int level, String xref, String tag, Object value) {
         if (value != null) {
             StringBuilder line = new StringBuilder();
             line.append(level);
@@ -1189,11 +1463,9 @@ public class GedcomWriter {
      * @param value
      *            the value to write to the right of the tag
      * @throws GedcomWriterException
-     *             if the value is null or blank (which never happens, because
-     *             we check for it)
+     *             if the value is null or blank (which never happens, because we check for it)
      */
-    private void emitTagWithOptionalValue(int level, String tag, String value)
-            throws GedcomWriterException {
+    private void emitTagWithOptionalValue(int level, String tag, String value) throws GedcomWriterException {
         StringBuilder line = new StringBuilder(level + " " + tag);
         if (value != null) {
             line.append(" " + value);
@@ -1213,8 +1485,7 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             if the value is null or blank
      */
-    private void emitTagWithRequiredValue(int level, String tag, String value)
-            throws GedcomWriterException {
+    private void emitTagWithRequiredValue(int level, String tag, String value) throws GedcomWriterException {
         emitTagWithRequiredValue(level, null, tag, value);
     }
 
@@ -1232,11 +1503,9 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             if the value is null or blank
      */
-    private void emitTagWithRequiredValue(int level, String xref, String tag,
-            String value) throws GedcomWriterException {
+    private void emitTagWithRequiredValue(int level, String xref, String tag, String value) throws GedcomWriterException {
         if (value == null || "".equals(value)) {
-            throw new GedcomWriterException("Required value for tag " + tag
-                    + " at level " + level + " was null or blank");
+            throw new GedcomWriterException("Required value for tag " + tag + " at level " + level + " was null or blank");
         }
         StringBuilder line = new StringBuilder(Integer.toString(level));
         if (xref != null && xref.length() > 0) {
@@ -1251,5 +1520,31 @@ public class GedcomWriter {
      */
     private void emitTrailer() {
         lines.add("0 TRLR");
+    }
+
+    /**
+     * Emit a list of WWW URLs. New for GEDCOM 5.5.1
+     * 
+     * @param l
+     *            the level to write at
+     * @param wwwUrls
+     *            the list of URLs
+     * @throws GedcomWriterException
+     *             if the data cannot be written
+     */
+    private void emitWwwUrls(int l, List<String> wwwUrls) throws GedcomWriterException {
+        for (String w : wwwUrls) {
+            emitTagWithRequiredValue(l, "WWW", w);
+        }
+    }
+
+    /**
+     * Returns true if and only if the Gedcom data says it is for the 5.5 standard.
+     * 
+     * @return true if and only if the Gedcom data says it is for the 5.5 standard.
+     */
+    private boolean g55() {
+        return gedcom != null && gedcom.header != null && gedcom.header.gedcomVersion != null
+                && SupportedVersion.V5_5.equals(gedcom.header.gedcomVersion.versionNumber);
     }
 }
