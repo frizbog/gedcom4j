@@ -1,0 +1,1 @@
+gedcom4j is a Java library for parsing and writing GEDCOM 5.5 and 5.5.1 files.  It is not an application; it is a library intended for use by developers in their own applications.
