@@ -47,7 +47,7 @@
 		<javadoc sourcepath="src" destdir="reports/javadoc" access="private" />
 	</target>
 
-	<target name="dist" depends="compile" description="Build a distribution jar">
+	<target name="dist" depends="javadoc" description="Build distribution jars">
 		<delete dir="dist" />
 		<mkdir dir="dist" />
 		<copy todir="bin">
@@ -55,7 +55,21 @@
 		</copy>
 		<jar basedir="bin" destfile="dist/gedcom4j-${release.version}.jar">
 			<manifest>
-				<attribute name="Source" value="http://gedcom4j.googlecode.com" />
+				<attribute name="Source" value="http://gedcom4j.org" />
+				<attribute name="Release-Version" value="${release.version}" />
+			</manifest>
+		</jar>
+		<jar basedir="reports/javadoc" destfile="dist/gedcom4j-${release.version}-javadoc.jar">
+			<manifest>
+				<attribute name="Source" value="http://gedcom4j.org" />
+				<attribute name="Release-Version" value="${release.version}" />
+			</manifest>
+		</jar>
+		<jar basedir="." destfile="dist/gedcom4j-${release.version}-sources.jar">
+			<include name="src/**"/>
+			<include name="test/**"/>
+			<manifest>
+				<attribute name="Source" value="http://gedcom4j.org" />
 				<attribute name="Release-Version" value="${release.version}" />
 			</manifest>
 		</jar>
