@@ -31,7 +31,7 @@ import java.util.Set;
  * 
  * @author frizbog1
  */
-public class Individual {
+public class Individual extends AbstractElement {
     /**
      * Aliases for the current individual.
      */
@@ -178,7 +178,7 @@ public class Individual {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -381,7 +381,8 @@ public class Individual {
     // CHECKSTYLE:ON
 
     /**
-     * Get all the individual's names formatted as a single string. Names after the first one found are shown with "aka" in between each.
+     * Get all the individual's names formatted as a single string. Names after the first one found are shown with "aka"
+     * in between each.
      * 
      * @return a string with all the various names for the current individual
      */
@@ -397,9 +398,9 @@ public class Individual {
     }
 
     /**
-     * Get a set of ALL the direct ancestors of the current individual, in all generations. Includes parents, and all their parents, and all
-     * <i>their</i> parents, and so on. Siblings, cousins, aunts/uncles, etc. are not included in the results, nor are alternate spouses for parents
-     * (unless this individual was also a child of that family).
+     * Get a set of ALL the direct ancestors of the current individual, in all generations. Includes parents, and all
+     * their parents, and all <i>their</i> parents, and so on. Siblings, cousins, aunts/uncles, etc. are not included in
+     * the results, nor are alternate spouses for parents (unless this individual was also a child of that family).
      * 
      * @return a set of ancestors for the current individual.
      */
@@ -420,7 +421,8 @@ public class Individual {
 
     /**
      * Get a list of attributes of the supplied type for this individual. For example, calling this method passing
-     * <code>IndividualAttributeType.OCCUPATION</code> will return a list of all the occupations recorded for this individual.
+     * <code>IndividualAttributeType.OCCUPATION</code> will return a list of all the occupations recorded for this
+     * individual.
      * 
      * @param type
      *            the type of attribute to get
@@ -437,8 +439,8 @@ public class Individual {
     }
 
     /**
-     * Get all the direct blood-line descendants of the current individual, in all generations. Includes children, their children, <i>their</i>
-     * children, and so on. Spouses of descendants are not included in the results.
+     * Get all the direct blood-line descendants of the current individual, in all generations. Includes children, their
+     * children, <i>their</i> children, and so on. Spouses of descendants are not included in the results.
      * 
      * @return a set of descendants for the current individual
      */
@@ -473,7 +475,8 @@ public class Individual {
     }
 
     /**
-     * Get a set of spouses for the current individual. Always returns a set, although it may be empty. The returned set is in no particular order.
+     * Get a set of spouses for the current individual. Always returns a set, although it may be empty. The returned set
+     * is in no particular order.
      * 
      * @return a set of spouses for the current individual.
      */
@@ -493,7 +496,7 @@ public class Individual {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + (address == null ? 0 : address.hashCode());
         result = prime * result + (aliases == null ? 0 : aliases.hashCode());
         result = prime * result + (ancestorInterest == null ? 0 : ancestorInterest.hashCode());

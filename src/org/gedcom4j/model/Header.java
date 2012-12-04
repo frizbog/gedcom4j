@@ -30,7 +30,7 @@ import java.util.List;
  * @author frizbog1
  * 
  */
-public class Header {
+public class Header extends AbstractElement {
     /**
      * The character set in use in the GEDCOM file
      */
@@ -101,7 +101,7 @@ public class Header {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -199,14 +199,13 @@ public class Header {
         } else if (!time.equals(other.time)) {
             return false;
         }
-
         return true;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + (characterSet == null ? 0 : characterSet.hashCode());
         result = prime * result + (copyrightData == null ? 0 : copyrightData.hashCode());
         result = prime * result + (date == null ? 0 : date.hashCode());
@@ -222,6 +221,15 @@ public class Header {
         result = prime * result + (time == null ? 0 : time.hashCode());
 
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Header [characterSet=" + characterSet + ", copyrightData=" + copyrightData + ", date=" + date
+                + ", destinationSystem=" + destinationSystem + ", fileName=" + fileName + ", gedcomVersion="
+                + gedcomVersion + ", placeHierarchy=" + placeHierarchy + ", sourceSystem=" + sourceSystem
+                + ", submission=" + submission + ", submitter=" + submitter + ", time=" + time + ", language="
+                + language + ", notes=" + notes + ", customTags=" + customTags + "]";
     }
 
 }

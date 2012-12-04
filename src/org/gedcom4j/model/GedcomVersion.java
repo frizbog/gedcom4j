@@ -27,12 +27,13 @@ package org.gedcom4j.model;
  * @author frizbog1
  * 
  */
-public class GedcomVersion {
+public class GedcomVersion extends AbstractElement {
 
     /**
      * The version number for this GEDCOM
      */
     public SupportedVersion versionNumber = SupportedVersion.V5_5_1;
+
     /**
      * The form
      */
@@ -43,7 +44,7 @@ public class GedcomVersion {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -70,11 +71,9 @@ public class GedcomVersion {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((gedcomForm == null) ? 0 : gedcomForm.hashCode());
-        result = prime * result
-                + ((versionNumber == null) ? 0 : versionNumber.hashCode());
+        int result = super.hashCode();
+        result = prime * result + (gedcomForm == null ? 0 : gedcomForm.hashCode());
+        result = prime * result + (versionNumber == null ? 0 : versionNumber.hashCode());
         return result;
     }
 }

@@ -22,8 +22,7 @@
 package org.gedcom4j.model;
 
 /**
- * An event type that occurs for an individual. This enum lists the valid tags
- * for individual events,
+ * An event type that occurs for an individual. This enum lists the valid tags for individual events,
  * 
  * @author frizbog1
  * 
@@ -143,16 +142,14 @@ public enum IndividualEventType {
     }
 
     /**
-     * Is the string supplied a tag that corresponds to an enumerated Individual
-     * Event Type?
+     * Is the string supplied a tag that corresponds to an enumerated Individual Event Type?
      * 
      * @param tag
      *            the tag being tested
-     * @return true if and only if the tag corresponds to an enumerated
-     *         individual event type
+     * @return true if and only if the tag corresponds to an enumerated individual event type
      */
     public static boolean isValidTag(String tag) {
-        return (getFromTag(tag) != null);
+        return getFromTag(tag) != null;
     }
 
     /**

@@ -25,11 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A family record. Corrsponds to FAM_RECORD in the GEDCOM spec.
+ * A family record. Corresponds to FAM_RECORD in the GEDCOM spec.
  * 
  * @author frizbog1
  */
-public class Family {
+public class Family extends AbstractElement {
     /**
      * The permanent record file number
      */
@@ -106,8 +106,8 @@ public class Family {
     public List<UserReference> userReferences = new ArrayList<UserReference>();
 
     /**
-     * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be "confidential", "locked", or
-     * "privacy" but this implementation allows any value.
+     * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be
+     * "confidential", "locked", or "privacy" but this implementation allows any value.
      */
     public String restrictionNotice;
 
@@ -116,7 +116,7 @@ public class Family {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -241,7 +241,7 @@ public class Family {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + (automatedRecordId == null ? 0 : automatedRecordId.hashCode());
         result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
         result = prime * result + (children == null ? 0 : children.hashCode());
@@ -263,10 +263,12 @@ public class Family {
 
     @Override
     public String toString() {
-        return "Family [recFileNumber=" + recFileNumber + ", automatedRecordId=" + automatedRecordId + ", wife=" + wife + ", husband=" + husband
-                + ", children=" + children + ", numChildren=" + numChildren + ", submitters=" + submitters + ", ldsSpouseSealings="
-                + ldsSpouseSealings + ", citations=" + citations + ", multimedia=" + multimedia + ", changeDate=" + changeDate + ", events=" + events
-                + ", notes=" + notes + ", xref=" + xref + ", userReferences=" + userReferences + ", restrictionNotice=" + restrictionNotice + "]";
+        return "Family [recFileNumber=" + recFileNumber + ", automatedRecordId=" + automatedRecordId + ", wife=" + wife
+                + ", husband=" + husband + ", children=" + children + ", numChildren=" + numChildren + ", submitters="
+                + submitters + ", ldsSpouseSealings=" + ldsSpouseSealings + ", citations=" + citations
+                + ", multimedia=" + multimedia + ", changeDate=" + changeDate + ", events=" + events + ", notes="
+                + notes + ", xref=" + xref + ", userReferences=" + userReferences + ", restrictionNotice="
+                + restrictionNotice + "]";
     }
 
 }

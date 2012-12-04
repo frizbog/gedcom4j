@@ -22,25 +22,25 @@
 package org.gedcom4j.model;
 
 /**
- * A event that was recorded in a source. Corresponds to a single instance of
- * the Events Recorded multi-block in the Data Model Chart at the end of the
- * GEDCOM spec.
+ * A event that was recorded in a source. Corresponds to a single instance of the Events Recorded multi-block in the
+ * Data Model Chart at the end of the GEDCOM spec.
  * 
  * @author frizbog1
  * 
  */
-public class EventRecorded {
+public class EventRecorded extends AbstractElement {
     /**
      * The event type (tag)
      */
     public String eventType;
+
     /**
      * The date period covered in the source
      */
     public String datePeriod;
+
     /**
-     * The jurisdiction of the source. Corresponds to SOURCE_JURISDICTION_PLACE
-     * in the GEDCOM spec.
+     * The jurisdiction of the source. Corresponds to SOURCE_JURISDICTION_PLACE in the GEDCOM spec.
      */
     public String jurisdiction;
 
@@ -49,7 +49,7 @@ public class EventRecorded {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -83,13 +83,10 @@ public class EventRecorded {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((datePeriod == null) ? 0 : datePeriod.hashCode());
-        result = prime * result
-                + ((eventType == null) ? 0 : eventType.hashCode());
-        result = prime * result
-                + ((jurisdiction == null) ? 0 : jurisdiction.hashCode());
+        int result = super.hashCode();
+        result = prime * result + (datePeriod == null ? 0 : datePeriod.hashCode());
+        result = prime * result + (eventType == null ? 0 : eventType.hashCode());
+        result = prime * result + (jurisdiction == null ? 0 : jurisdiction.hashCode());
         return result;
     }
 }

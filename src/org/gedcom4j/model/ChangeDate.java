@@ -29,15 +29,17 @@ import java.util.List;
  * 
  * @author frizbog1
  */
-public class ChangeDate {
+public class ChangeDate extends AbstractElement {
     /**
      * The date (as a string)
      */
     public String date;
+
     /**
      * The time (as a string)
      */
     public String time;
+
     /**
      * Notes about the change
      */
@@ -48,7 +50,7 @@ public class ChangeDate {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -82,10 +84,10 @@ public class ChangeDate {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime * result + ((date == null) ? 0 : date.hashCode());
-        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-        result = prime * result + ((time == null) ? 0 : time.hashCode());
+        int result = super.hashCode();
+        result = prime * result + (date == null ? 0 : date.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (time == null ? 0 : time.hashCode());
         return result;
     }
 }

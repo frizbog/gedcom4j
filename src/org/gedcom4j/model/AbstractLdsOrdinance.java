@@ -30,28 +30,33 @@ import java.util.List;
  * @author frizbog1
  * 
  */
-public abstract class AbstractLdsOrdinance {
+public abstract class AbstractLdsOrdinance extends AbstractElement {
 
     /**
      * The status
      */
     public String status;
+
     /**
      * The date
      */
     public String date;
+
     /**
      * The temple code
      */
     public String temple;
+
     /**
      * The place
      */
     public String place;
+
     /**
      * The citations for this ordinance
      */
     public List<AbstractCitation> citations = new ArrayList<AbstractCitation>();
+
     /**
      * The notes for this ordinance
      */
@@ -62,7 +67,7 @@ public abstract class AbstractLdsOrdinance {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (!(obj instanceof AbstractLdsOrdinance)) {
@@ -117,14 +122,13 @@ public abstract class AbstractLdsOrdinance {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((citations == null) ? 0 : citations.hashCode());
-        result = prime * result + ((date == null) ? 0 : date.hashCode());
-        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-        result = prime * result + ((place == null) ? 0 : place.hashCode());
-        result = prime * result + ((status == null) ? 0 : status.hashCode());
-        result = prime * result + ((temple == null) ? 0 : temple.hashCode());
+        int result = super.hashCode();
+        result = prime * result + (citations == null ? 0 : citations.hashCode());
+        result = prime * result + (date == null ? 0 : date.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (place == null ? 0 : place.hashCode());
+        result = prime * result + (status == null ? 0 : status.hashCode());
+        result = prime * result + (temple == null ? 0 : temple.hashCode());
         return result;
     }
 

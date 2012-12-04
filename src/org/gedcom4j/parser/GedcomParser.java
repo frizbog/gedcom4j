@@ -1,4 +1,4 @@
-/*
+/* 
  * Copyright (c) 2009-2012 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -15,7 +15,7 @@
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
@@ -26,54 +26,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.gedcom4j.model.AbstractCitation;
-import org.gedcom4j.model.Address;
-import org.gedcom4j.model.AdoptedByWhichParent;
-import org.gedcom4j.model.Association;
-import org.gedcom4j.model.ChangeDate;
-import org.gedcom4j.model.CharacterSet;
-import org.gedcom4j.model.CitationData;
-import org.gedcom4j.model.CitationWithSource;
-import org.gedcom4j.model.CitationWithoutSource;
-import org.gedcom4j.model.Corporation;
-import org.gedcom4j.model.EventRecorded;
-import org.gedcom4j.model.Family;
-import org.gedcom4j.model.FamilyChild;
-import org.gedcom4j.model.FamilyEvent;
-import org.gedcom4j.model.FamilyEventType;
-import org.gedcom4j.model.FamilySpouse;
-import org.gedcom4j.model.FileReference;
-import org.gedcom4j.model.Gedcom;
-import org.gedcom4j.model.GedcomVersion;
-import org.gedcom4j.model.Header;
-import org.gedcom4j.model.HeaderSourceData;
-import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.IndividualAttribute;
-import org.gedcom4j.model.IndividualAttributeType;
-import org.gedcom4j.model.IndividualEvent;
-import org.gedcom4j.model.IndividualEventType;
-import org.gedcom4j.model.LdsIndividualOrdinance;
-import org.gedcom4j.model.LdsIndividualOrdinanceType;
-import org.gedcom4j.model.LdsSpouseSealing;
-import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.NameVariation;
-import org.gedcom4j.model.Note;
-import org.gedcom4j.model.PersonalName;
-import org.gedcom4j.model.PersonalNameVariation;
-import org.gedcom4j.model.Place;
-import org.gedcom4j.model.Repository;
-import org.gedcom4j.model.RepositoryCitation;
-import org.gedcom4j.model.Source;
-import org.gedcom4j.model.SourceCallNumber;
-import org.gedcom4j.model.SourceData;
-import org.gedcom4j.model.SourceSystem;
-import org.gedcom4j.model.Submission;
-import org.gedcom4j.model.Submitter;
-import org.gedcom4j.model.SupportedVersion;
-import org.gedcom4j.model.Trailer;
-import org.gedcom4j.model.UnsupportedVersionException;
-import org.gedcom4j.model.UserReference;
-
+import org.gedcom4j.model.*;
 
 /**
  * <p>
@@ -88,29 +41,31 @@ import org.gedcom4j.model.UserReference;
  * </ol>
  * </p>
  * <p>
- * It is <b>highly recommended</b> that after calling the <code>GedcomParser.load()</code> method, the user check the {@link GedcomParser#errors} and
- * {@link GedcomParser#warnings} collections to see if anything problematic was encountered in the data while parsing. Most commonly, the
- * <code>warnings</code> collection will have information about tags from GEDCOM 5.5.1 that were specified in a file that was designated as a GEDCOM
- * 5.5 file. When this occurs, the data is loaded, but will not be able to be written by {@link org.gedcom4j.writer.GedcomWriter} until the
- * version number in the <code>gedcomVersion</code> field of {@link Gedcom#header} is updated to {@link SupportedVersion#V5_5_1}, or the
- * 5.5.1-specific data is cleared from the data.
+ * It is <b>highly recommended</b> that after calling the <code>GedcomParser.load()</code> method, the user check the
+ * {@link GedcomParser#errors} and {@link GedcomParser#warnings} collections to see if anything problematic was
+ * encountered in the data while parsing. Most commonly, the <code>warnings</code> collection will have information
+ * about tags from GEDCOM 5.5.1 that were specified in a file that was designated as a GEDCOM 5.5 file. When this
+ * occurs, the data is loaded, but will not be able to be written by {@link org.gedcom4j.writer.GedcomWriter} until the
+ * version number in the <code>gedcomVersion</code> field of {@link Gedcom#header} is updated to
+ * {@link SupportedVersion#V5_5_1}, or the 5.5.1-specific data is cleared from the data.
  * </p>
  * <p>
- * The parser takes a "forgiving" approach where it tries to load as much data as possible, including 5.5.1 data in a file that says it's in 5.5
- * format, and vice-versa. However, when it finds inconsistencies, it will add messages to the warnings and errors collections. Most of these messages
- * indicate that the data was loaded, even though it was incorrect, and the data will need to be corrected before it can be written.
- * </p>
- * 
- * <p>
- * The parser makes the assumption that if the version of GEDCOM used is explicitly specified in the file header, that the rest of the data in the
- * file should conform to that spec. For example, if the file header says the file is in 5.5 format (i.e., has a VERS 5.5 tag), then it will generate
- * warnings if the new 5.5.1 tags (e.g., EMAIL) are encountered elsewhere, but will load the data anyway. If no version is specified, the 5.5.1 format
- * is assumed as a default.
+ * The parser takes a "forgiving" approach where it tries to load as much data as possible, including 5.5.1 data in a
+ * file that says it's in 5.5 format, and vice-versa. However, when it finds inconsistencies, it will add messages to
+ * the warnings and errors collections. Most of these messages indicate that the data was loaded, even though it was
+ * incorrect, and the data will need to be corrected before it can be written.
  * </p>
  * 
  * <p>
- * This approach was selected based on the presumption that most of the uses of GEDCOM4J will be to read GEDCOM files rather than to write them, so
- * this provides that use case with the lowest friction.
+ * The parser makes the assumption that if the version of GEDCOM used is explicitly specified in the file header, that
+ * the rest of the data in the file should conform to that spec. For example, if the file header says the file is in 5.5
+ * format (i.e., has a VERS 5.5 tag), then it will generate warnings if the new 5.5.1 tags (e.g., EMAIL) are encountered
+ * elsewhere, but will load the data anyway. If no version is specified, the 5.5.1 format is assumed as a default.
+ * </p>
+ * 
+ * <p>
+ * This approach was selected based on the presumption that most of the uses of GEDCOM4J will be to read GEDCOM files
+ * rather than to write them, so this provides that use case with the lowest friction.
  * </p>
  * 
  * @author frizbog1
@@ -137,70 +92,6 @@ public class GedcomParser {
      * A flag that indicates whether feedback should be sent to System.out as parsing occurs
      */
     public boolean verbose = false;
-
-    /**
-     * A convenience method to write all the parsing errors and warnings to System.err.
-     */
-    public void dumpErrorsAndWarnings() {
-        if (errors.isEmpty()) {
-            System.out.println("No errors.");
-        } else {
-            System.out.println("Errors:");
-            for (String e : errors) {
-                System.out.println("  " + e);
-            }
-        }
-        if (warnings.isEmpty()) {
-            System.out.println("No warnings.");
-        } else {
-            System.out.println("Warnings:");
-            for (String w : warnings) {
-                System.out.println("  " + w);
-            }
-        }
-    }
-
-    /**
-     * Load a gedcom file from an input stream and create an object hierarchy from the data therein.
-     * 
-     * @param stream
-     *            the stream to load from
-     * @throws IOException
-     *             if the file cannot be read
-     * @throws GedcomParserException
-     *             if the file cannot be parsed
-     */
-    public void load(InputStream stream) throws IOException, GedcomParserException {
-        if (verbose) {
-            System.out.println("Loading and parsing GEDCOM from input stream");
-        }
-        StringTree stringTree = GedcomParserHelper.readStream(stream);
-        loadRootItems(stringTree);
-        if (verbose) {
-            dumpErrorsAndWarnings();
-        }
-    }
-
-    /**
-     * Load a gedcom file by filename and create an object heirarchy from the data therein.
-     * 
-     * @param filename
-     *            the name of the file to load
-     * @throws IOException
-     *             if the file cannot be read
-     * @throws GedcomParserException
-     *             if the file cannot be parsed
-     */
-    public void load(String filename) throws IOException, GedcomParserException {
-        if (verbose) {
-            System.out.println("Loading and parsing GEDCOM from file " + filename);
-        }
-        StringTree stringTree = GedcomParserHelper.readFile(filename);
-        loadRootItems(stringTree);
-        if (verbose) {
-            dumpErrorsAndWarnings();
-        }
-    }
 
     /**
      * Returns true if and only if the Gedcom data says it is for the 5.5 standard.
@@ -369,7 +260,7 @@ public class GedcomParser {
             } else if ("CONT".equals(ch.tag)) {
                 address.lines.add(ch.value == null ? "" : ch.value);
             } else {
-                unknownTag(ch);
+                unknownTag(ch, address);
             }
         }
     }
@@ -396,7 +287,7 @@ public class GedcomParser {
             } else if ("TYPE".equals(ch.tag)) {
                 a.associatedEntityType = ch.value;
             } else {
-                unknownTag(ch);
+                unknownTag(ch, a);
             }
         }
 
@@ -420,7 +311,7 @@ public class GedcomParser {
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, changeDate.notes);
             } else {
-                unknownTag(ch);
+                unknownTag(ch, changeDate);
             }
         }
 
@@ -461,9 +352,9 @@ public class GedcomParser {
             } else if ("TEXT".equals(ch.tag)) {
                 List<String> ls = new ArrayList<String>();
                 d.sourceText.add(ls);
-                loadMultiLinesOfText(ch, ls);
+                loadMultiLinesOfText(ch, ls, d);
             } else {
-                unknownTag(ch);
+                unknownTag(ch, d);
             }
         }
 
@@ -488,16 +379,17 @@ public class GedcomParser {
                     cws.description.add(ch.value);
                 } else {
                     // Append to last value in string list
-                    cws.description.set(cws.description.size() - 1, cws.description.get(cws.description.size() - 1) + ch.value);
+                    cws.description.set(cws.description.size() - 1, cws.description.get(cws.description.size() - 1)
+                            + ch.value);
                 }
             } else if ("TEXT".equals(ch.tag)) {
                 List<String> ls = new ArrayList<String>();
                 cws.textFromSource.add(ls);
-                loadMultiLinesOfText(ch, ls);
+                loadMultiLinesOfText(ch, ls, cws);
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, cws.notes);
             } else {
-                unknownTag(ch);
+                unknownTag(ch, citation);
             }
         }
     }
@@ -527,7 +419,7 @@ public class GedcomParser {
                         if ("ROLE".equals(gc.tag)) {
                             cws.roleInEvent = gc.value;
                         } else {
-                            unknownTag(gc);
+                            unknownTag(gc, citation);
                         }
                     }
                 }
@@ -540,7 +432,7 @@ public class GedcomParser {
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, cws.notes);
             } else {
-                unknownTag(ch);
+                unknownTag(ch, citation);
             }
         }
     }
@@ -564,23 +456,29 @@ public class GedcomParser {
             } else if ("WWW".equals(ch.tag)) {
                 corporation.wwwUrls.add(ch.value);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified for the corporation in the source system on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified for the corporation in the source system on line "
+                            + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("FAX".equals(ch.tag)) {
                 corporation.faxNumbers.add(ch.value);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but fax number was specified for the corporation in the source system on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but fax number was specified for the corporation in the source system on line "
+                            + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("EMAIL".equals(ch.tag)) {
                 corporation.emails.add(ch.value);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but emails was specified for the corporation in the source system on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but emails was specified for the corporation in the source system on line "
+                            + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else {
-                unknownTag(ch);
+                unknownTag(ch, corporation);
             }
         }
     }
@@ -616,8 +514,9 @@ public class GedcomParser {
             } else if ("RESN".equals(ch.tag)) {
                 f.restrictionNotice = ch.value;
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but restriction notice was specified for family on line " + ch.lineNum
-                            + " , which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but restriction notice was specified for family on line "
+                            + ch.lineNum + " , which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("RFN".equals(ch.tag)) {
                 f.recFileNumber = ch.value;
@@ -632,7 +531,7 @@ public class GedcomParser {
                 f.userReferences.add(u);
                 loadUserReference(ch, u);
             } else {
-                unknownTag(ch);
+                unknownTag(ch, f);
             }
         }
 
@@ -668,14 +567,17 @@ public class GedcomParser {
             } else if ("RESN".equals(ch.tag)) {
                 e.restrictionNotice = ch.value;
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but restriction notice was specified for family event on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but restriction notice was specified for family event on line "
+                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("RELI".equals(ch.tag)) {
                 e.religiousAffiliation = ch.value;
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but religious affiliation was specified for family event on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but religious affiliation was specified for family event on line "
+                            + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("AGE".equals(ch.tag)) {
                 e.age = ch.value;
@@ -691,27 +593,30 @@ public class GedcomParser {
             } else if ("WWW".equals(ch.tag)) {
                 e.wwwUrls.add(ch.value);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified for " + e.type + " family event on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified for " + e.type
+                            + " family event on line " + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("FAX".equals(ch.tag)) {
                 e.faxNumbers.add(ch.value);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but fax number was specified for " + e.type + " family event on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but fax number was specified for " + e.type
+                            + " family event on line " + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("EMAIL".equals(ch.tag)) {
                 e.emails.add(ch.value);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but email was specified for " + e.type + " family event on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but email was specified for " + e.type
+                            + " family event on line " + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("HUSB".equals(ch.tag)) {
                 e.husbandAge = ch.children.get(0).value;
             } else if ("WIFE".equals(ch.tag)) {
                 e.wifeAge = ch.children.get(0).value;
             } else {
-                unknownTag(ch);
+                unknownTag(ch, e);
             }
         }
 
@@ -740,11 +645,12 @@ public class GedcomParser {
             } else if ("STAT".equals(ch.tag)) {
                 fc.status = ch.value;
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but status was specified for child-to-family link on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but status was specified for child-to-family link on line "
+                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else {
-                unknownTag(ch);
+                unknownTag(ch, fc);
             }
         }
 
@@ -767,7 +673,7 @@ public class GedcomParser {
             if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, fs.notes);
             } else {
-                unknownTag(ch);
+                unknownTag(ch, fs);
             }
         }
     }
@@ -793,7 +699,7 @@ public class GedcomParser {
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, m.notes);
             } else {
-                unknownTag(ch);
+                unknownTag(ch, m);
             }
         }
 
@@ -819,8 +725,8 @@ public class GedcomParser {
                 fileTagCount++;
             }
             /*
-             * Count the number of formats referenced per file - GEDCOM 5.5.1 has them as children of FILEs (so should be zero), 5.5 pairs them with
-             * the single FILE tag (so should be one)
+             * Count the number of formats referenced per file - GEDCOM 5.5.1 has them as children of FILEs (so should
+             * be zero), 5.5 pairs them with the single FILE tag (so should be one)
              */
             if ("FORM".equals(ch.tag)) {
                 formTagCount++;
@@ -828,14 +734,16 @@ public class GedcomParser {
         }
         if (fileTagCount > 1) {
             if (g55()) {
-                warnings.add("GEDCOM version is 5.5, but multiple files referenced in multimedia reference on line " + st.lineNum
+                warnings.add("GEDCOM version is 5.5, but multiple files referenced in multimedia reference on line "
+                        + st.lineNum
                         + ", which is only allowed in 5.5.1. "
                         + "Data will be loaded, but cannot be written back out unless the GEDCOM version is changed to 5.5.1");
             }
         }
         if (formTagCount == 0) {
             if (g55()) {
-                warnings.add("GEDCOM version is 5.5, but there is not a FORM tag in the multimedia link on line " + st.lineNum
+                warnings.add("GEDCOM version is 5.5, but there is not a FORM tag in the multimedia link on line "
+                        + st.lineNum
                         + ", a scenario which is only allowed in 5.5.1. "
                         + "Data will be loaded, but cannot be written back out unless the GEDCOM version is changed to 5.5.1");
             }
@@ -878,11 +786,11 @@ public class GedcomParser {
                             if ("MEDI".equals(ggch.tag)) {
                                 fr.mediaType = ggch.value;
                             } else {
-                                unknownTag(ggch);
+                                unknownTag(ggch, fr);
                             }
                         }
                     } else {
-                        unknownTag(gch);
+                        unknownTag(gch, fr);
                     }
                 }
             } else if ("TITL".equals(ch.tag)) {
@@ -892,12 +800,13 @@ public class GedcomParser {
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, m.notes);
                 if (!g55()) {
-                    warnings.add("Gedcom version was 5.5.1, but a NOTE was found on a multimedia link on line " + ch.lineNum
+                    warnings.add("Gedcom version was 5.5.1, but a NOTE was found on a multimedia link on line "
+                            + ch.lineNum
                             + ", which is no longer supported. "
                             + "Data will be loaded, but cannot be written back out unless the GEDCOM version is changed to 5.5");
                 }
             } else {
-                unknownTag(ch);
+                unknownTag(ch, m);
             }
         }
     }
@@ -923,7 +832,7 @@ public class GedcomParser {
             } else if ("FORM".equals(ch.tag)) {
                 gedcomVersion.gedcomForm = ch.value;
             } else {
-                unknownTag(ch);
+                unknownTag(ch, gedcomVersion);
             }
         }
     }
@@ -964,7 +873,7 @@ public class GedcomParser {
                 header.gedcomVersion = new GedcomVersion();
                 loadGedcomVersion(ch, header.gedcomVersion);
             } else if ("COPR".equals(ch.tag)) {
-                loadMultiLinesOfText(ch, header.copyrightData);
+                loadMultiLinesOfText(ch, header.copyrightData, header);
                 if (g55() && header.copyrightData.size() > 1) {
                     warnings.add("GEDCOM version is 5.5, but multiple lines of copyright data were specified, which is only allowed in GEDCOM 5.5.1. "
                             + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
@@ -972,9 +881,9 @@ public class GedcomParser {
             } else if ("SUBN".equals(ch.tag)) {
                 if (header.submission == null) {
                     /*
-                     * There can only be one SUBMISSION record per GEDCOM, and it's found at the root level, but the HEAD structure has a
-                     * cross-reference to that root-level structure, so we're setting it here (if it hasn't already been loaded, which it probably
-                     * isn't yet)
+                     * There can only be one SUBMISSION record per GEDCOM, and it's found at the root level, but the
+                     * HEAD structure has a cross-reference to that root-level structure, so we're setting it here (if
+                     * it hasn't already been loaded, which it probably isn't yet)
                      */
                     header.submission = gedcom.submission;
                 }
@@ -983,9 +892,9 @@ public class GedcomParser {
             } else if ("PLAC".equals(ch.tag)) {
                 header.placeHierarchy = ch.children.get(0).value;
             } else if ("NOTE".equals(ch.tag)) {
-                loadMultiLinesOfText(ch, header.notes);
+                loadMultiLinesOfText(ch, header.notes, header);
             } else {
-                unknownTag(ch);
+                unknownTag(ch, header);
             }
         }
     }
@@ -1006,7 +915,7 @@ public class GedcomParser {
             } else if ("COPR".equals(ch.tag)) {
                 sourceData.copyright = ch.value;
             } else {
-                unknownTag(ch);
+                unknownTag(ch, sourceData);
             }
         }
 
@@ -1037,20 +946,23 @@ public class GedcomParser {
             } else if ("WWW".equals(ch.tag)) {
                 i.wwwUrls.add(ch.value);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified for individual " + i.xref + " on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified for individual " + i.xref
+                            + " on line " + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("FAX".equals(ch.tag)) {
                 i.faxNumbers.add(ch.value);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but fax was specified for individual " + i.xref + "on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but fax was specified for individual " + i.xref + "on line "
+                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("EMAIL".equals(ch.tag)) {
                 i.emails.add(ch.value);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but email was specified for individual " + i.xref + " on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but email was specified for individual " + i.xref + " on line "
+                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if (IndividualEventType.isValidTag(ch.tag)) {
                 loadIndividualEvent(ch, i.events);
@@ -1094,7 +1006,7 @@ public class GedcomParser {
             } else if ("SUBM".equals(ch.tag)) {
                 i.submitters.add(getSubmitter(ch.value));
             } else {
-                unknownTag(ch);
+                unknownTag(ch, i);
             }
         }
 
@@ -1113,7 +1025,8 @@ public class GedcomParser {
         attributes.add(a);
         a.type = IndividualAttributeType.getFromTag(st.tag);
         if (IndividualAttributeType.FACT.equals(a.type) && g55()) {
-            warnings.add("FACT tag specified on a GEDCOM 5.5 file at line " + st.lineNum + ", but FACT was not added until 5.5.1."
+            warnings.add("FACT tag specified on a GEDCOM 5.5 file at line " + st.lineNum
+                    + ", but FACT was not added until 5.5.1."
                     + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
         }
         a.description = st.value;
@@ -1138,20 +1051,23 @@ public class GedcomParser {
             } else if ("WWW".equals(ch.tag)) {
                 a.wwwUrls.add(ch.value);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified for " + a.type + " attribute on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified for " + a.type
+                            + " attribute on line " + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("FAX".equals(ch.tag)) {
                 a.faxNumbers.add(ch.value);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but fax was specified for " + a.type + " attribute on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but fax was specified for " + a.type + " attribute on line "
+                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("EMAIL".equals(ch.tag)) {
                 a.emails.add(ch.value);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but email was specified for " + a.type + " attribute on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but email was specified for " + a.type + " attribute on line "
+                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("ADDR".equals(ch.tag)) {
                 a.address = new Address();
@@ -1169,7 +1085,7 @@ public class GedcomParser {
                     a.description += ch.value;
                 }
             } else {
-                unknownTag(ch);
+                unknownTag(ch, a);
             }
         }
     }
@@ -1213,34 +1129,41 @@ public class GedcomParser {
             } else if ("RESN".equals(ch.tag)) {
                 e.restrictionNotice = ch.value;
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but restriction notice was specified for individual event on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but restriction notice was specified for individual event on line "
+                            + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("RELI".equals(ch.tag)) {
                 e.religiousAffiliation = ch.value;
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but religious affiliation was specified for individual event on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but religious affiliation was specified for individual event on line "
+                            + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("PHON".equals(ch.tag)) {
                 e.phoneNumbers.add(ch.value);
             } else if ("WWW".equals(ch.tag)) {
                 e.wwwUrls.add(ch.value);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified on " + e.type + " event on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified on " + e.type + " event on line "
+                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("FAX".equals(ch.tag)) {
                 e.faxNumbers.add(ch.value);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but fax was specified on " + e.type + " event on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but fax was specified on " + e.type + " event on line "
+                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("EMAIL".equals(ch.tag)) {
                 e.emails.add(ch.value);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but email was specified on " + e.type + " event on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but email was specified on " + e.type + " event on line "
+                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("CONC".equals(ch.tag)) {
                 if (e.description == null) {
@@ -1261,7 +1184,7 @@ public class GedcomParser {
                     e.family = families.get(0);
                 }
             } else {
-                unknownTag(ch);
+                unknownTag(ch, e);
             }
         }
 
@@ -1300,7 +1223,7 @@ public class GedcomParser {
                     o.familyWhereChild = families.get(0);
                 }
             } else {
-                unknownTag(ch);
+                unknownTag(ch, o);
             }
         }
     }
@@ -1330,7 +1253,7 @@ public class GedcomParser {
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, o.notes);
             } else {
-                unknownTag(ch);
+                unknownTag(ch, o);
             }
 
         }
@@ -1344,8 +1267,10 @@ public class GedcomParser {
      *            the node
      * @param listOfString
      *            the list of string to load into
+     * @param element
+     *            the parent element to which the <code>listOfString</code> belongs
      */
-    private void loadMultiLinesOfText(StringTree st, List<String> listOfString) {
+    private void loadMultiLinesOfText(StringTree st, List<String> listOfString, AbstractElement element) {
         if (st.value != null) {
             listOfString.add(st.value);
         }
@@ -1366,13 +1291,14 @@ public class GedcomParser {
                     }
                 }
             } else {
-                unknownTag(ch);
+                unknownTag(ch, element);
             }
         }
     }
 
     /**
-     * Load a multimedia reference from a string tree node. This corresponds to the MULTIMEDIA_LINK structure in the GEDCOM specs.
+     * Load a multimedia reference from a string tree node. This corresponds to the MULTIMEDIA_LINK structure in the
+     * GEDCOM specs.
      * 
      * @param st
      *            the string tree node
@@ -1391,8 +1317,8 @@ public class GedcomParser {
     }
 
     /**
-     * Determine which style is being used here - GEDCOM 5.5 or 5.5.1 - and load appropriately. Warn if the structure is inconsistent with the
-     * specified format.
+     * Determine which style is being used here - GEDCOM 5.5 or 5.5.1 - and load appropriately. Warn if the structure is
+     * inconsistent with the specified format.
      * 
      * @param st
      *            the OBJE node being loaded
@@ -1406,13 +1332,17 @@ public class GedcomParser {
         }
         if (fileTagCount > 0) {
             if (g55()) {
-                warnings.add("GEDCOM version was 5.5, but a 5.5.1-style multimedia record was found at line " + st.lineNum + ". "
+                warnings.add("GEDCOM version was 5.5, but a 5.5.1-style multimedia record was found at line "
+                        + st.lineNum
+                        + ". "
                         + "Data will be loaded, but might have problems being written until the version is for the data is changed to 5.5.1");
             }
             loadMultimediaRecord551(st);
         } else {
             if (!g55()) {
-                warnings.add("GEDCOM version is 5.5.1, but a 5.5-style multimedia record was found at line " + st.lineNum + ". "
+                warnings.add("GEDCOM version is 5.5.1, but a 5.5-style multimedia record was found at line "
+                        + st.lineNum
+                        + ". "
                         + "Data will be loaded, but might have problems being written until the version is for the data is changed to 5.5.1");
             }
             loadMultimediaRecord55(st);
@@ -1420,8 +1350,8 @@ public class GedcomParser {
     }
 
     /**
-     * Load a GEDCOM 5.5-style multimedia record (that could be referenced from another object) from a string tree node. This corresponds to the
-     * MULTIMEDIA_RECORD structure in the GEDCOM 5.5 spec.
+     * Load a GEDCOM 5.5-style multimedia record (that could be referenced from another object) from a string tree node.
+     * This corresponds to the MULTIMEDIA_RECORD structure in the GEDCOM 5.5 spec.
      * 
      * @param st
      *            the OBJE node being loaded
@@ -1438,7 +1368,7 @@ public class GedcomParser {
             } else if ("SOUR".equals(ch.tag)) {
                 loadCitation(ch, m.citations);
             } else if ("BLOB".equals(ch.tag)) {
-                loadMultiLinesOfText(ch, m.blob);
+                loadMultiLinesOfText(ch, m.blob, m);
                 if (!g55()) {
                     warnings.add("GEDCOM version is 5.5.1, but a BLOB tag was found at line " + ch.lineNum + ". "
                             + "Data will be loaded but will not be writeable unless GEDCOM version is changed to 5.5.1");
@@ -1448,7 +1378,8 @@ public class GedcomParser {
                 loadMultimediaLink(ch, continuedObjects);
                 m.continuedObject = continuedObjects.get(0);
                 if (!g55()) {
-                    warnings.add("GEDCOM version is 5.5.1, but a chained OBJE tag was found at line " + ch.lineNum + ". "
+                    warnings.add("GEDCOM version is 5.5.1, but a chained OBJE tag was found at line " + ch.lineNum
+                            + ". "
                             + "Data will be loaded but will not be writeable unless GEDCOM version is changed to 5.5.1");
                 }
             } else if ("REFN".equals(ch.tag)) {
@@ -1461,15 +1392,15 @@ public class GedcomParser {
                 m.changeDate = new ChangeDate();
                 loadChangeDate(ch, m.changeDate);
             } else {
-                unknownTag(ch);
+                unknownTag(ch, m);
             }
         }
 
     }
 
     /**
-     * Load a GEDCOM 5.5.1-style multimedia record (that could be referenced from another object) from a string tree node. This corresponds to the
-     * MULTIMEDIA_RECORD structure in the GEDCOM 5.5.1 spec.
+     * Load a GEDCOM 5.5.1-style multimedia record (that could be referenced from another object) from a string tree
+     * node. This corresponds to the MULTIMEDIA_RECORD structure in the GEDCOM 5.5.1 spec.
      * 
      * @param st
      *            the OBJE node being loaded
@@ -1489,13 +1420,13 @@ public class GedcomParser {
                             if ("TYPE".equals(ggch.tag)) {
                                 fr.mediaType = ggch.value;
                             } else {
-                                unknownTag(ggch);
+                                unknownTag(ggch, fr);
                             }
                         }
                     } else if ("TITL".equals(gch.tag)) {
                         fr.title = gch.value;
                     } else {
-                        unknownTag(gch);
+                        unknownTag(gch, fr);
                     }
                 }
                 if (fr.format == null) {
@@ -1515,7 +1446,7 @@ public class GedcomParser {
                 m.changeDate = new ChangeDate();
                 loadChangeDate(ch, m.changeDate);
             } else {
-                unknownTag(ch);
+                unknownTag(ch, m);
             }
 
         }
@@ -1569,7 +1500,7 @@ public class GedcomParser {
                 note.changeDate = new ChangeDate();
                 loadChangeDate(ch, note.changeDate);
             } else {
-                unknownTag(ch);
+                unknownTag(ch, note);
             }
         }
     }
@@ -1610,7 +1541,7 @@ public class GedcomParser {
                 pn.phonetic.add(pnv);
                 loadPersonalNameVariation(ch, pnv);
             } else {
-                unknownTag(ch);
+                unknownTag(ch, pn);
             }
         }
 
@@ -1646,7 +1577,7 @@ public class GedcomParser {
             } else if ("TYPE".equals(ch.tag)) {
                 pnv.variationType = ch.value;
             } else {
-                unknownTag(ch);
+                unknownTag(ch, pnv);
             }
         }
     }
@@ -1674,8 +1605,9 @@ public class GedcomParser {
                 place.placeName += "\n" + (ch.value == null ? "" : ch.value);
             } else if ("ROMN".equals(ch.tag)) {
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but a romanized variation was specified on a place on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but a romanized variation was specified on a place on line "
+                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
                 NameVariation nv = new NameVariation();
                 place.romanized.add(nv);
@@ -1684,13 +1616,14 @@ public class GedcomParser {
                     if ("TYPE".equals(gch.tag)) {
                         nv.variationType = gch.value;
                     } else {
-                        unknownTag(gch);
+                        unknownTag(gch, nv);
                     }
                 }
             } else if ("FONE".equals(ch.tag)) {
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but a phonetic variation was specified on a place on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but a phonetic variation was specified on a place on line "
+                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
                 NameVariation nv = new NameVariation();
                 place.phonetic.add(nv);
@@ -1699,13 +1632,14 @@ public class GedcomParser {
                     if ("TYPE".equals(gch.tag)) {
                         nv.variationType = gch.value;
                     } else {
-                        unknownTag(gch);
+                        unknownTag(gch, nv);
                     }
                 }
             } else if ("MAP".equals(ch.tag)) {
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but a map coordinate was specified on a place on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but a map coordinate was specified on a place on line "
+                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
                 for (StringTree gch : ch.children) {
                     if ("LAT".equals(gch.tag)) {
@@ -1713,11 +1647,11 @@ public class GedcomParser {
                     } else if ("LONG".equals(gch.tag)) {
                         place.longitude = gch.value;
                     } else {
-                        unknownTag(gch);
+                        unknownTag(gch, place);
                     }
                 }
             } else {
-                unknownTag(ch);
+                unknownTag(ch, place);
             }
         }
 
@@ -1742,20 +1676,23 @@ public class GedcomParser {
             } else if ("WWW".equals(ch.tag)) {
                 r.wwwUrls.add(ch.value);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified on repository " + r.xref + " on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified on repository " + r.xref
+                            + " on line " + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("FAX".equals(ch.tag)) {
                 r.faxNumbers.add(ch.value);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but fax was specified on repository " + r.xref + " on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but fax was specified on repository " + r.xref + " on line "
+                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("EMAIL".equals(ch.tag)) {
                 r.emails.add(ch.value);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but email was specified on repository " + r.xref + " on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but email was specified on repository " + r.xref + " on line "
+                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, r.notes);
@@ -1772,7 +1709,7 @@ public class GedcomParser {
                 r.changeDate = new ChangeDate();
                 loadChangeDate(ch, r.changeDate);
             } else {
-                unknownTag(ch);
+                unknownTag(ch, r);
             }
         }
 
@@ -1801,7 +1738,7 @@ public class GedcomParser {
                     scn.mediaType = ch.children.get(0).value;
                 }
             } else {
-                unknownTag(ch);
+                unknownTag(ch, r);
             }
         }
         return r;
@@ -1838,14 +1775,14 @@ public class GedcomParser {
             } else if ("OBJE".equals(ch.tag)) {
                 loadMultimediaRecord(ch);
             } else {
-                unknownTag(ch);
+                unknownTag(ch, gedcom);
             }
         }
     }
 
     /**
-     * Load a note at the root level of the GEDCOM. All these should have &#64;ID&#64;'s and thus should get added to the GEDCOM's collection of notes
-     * rather than the one passed to <code>loadNote()</code>
+     * Load a note at the root level of the GEDCOM. All these should have &#64;ID&#64;'s and thus should get added to
+     * the GEDCOM's collection of notes rather than the one passed to <code>loadNote()</code>
      * 
      * @param ch
      *            the child nodes to be loaded as a note
@@ -1862,7 +1799,8 @@ public class GedcomParser {
     }
 
     /**
-     * Load a source (which may be referenced later) from a source tree node, and put it in the gedcom collection of sources.
+     * Load a source (which may be referenced later) from a source tree node, and put it in the gedcom collection of
+     * sources.
      * 
      * @param st
      *            the node
@@ -1874,15 +1812,15 @@ public class GedcomParser {
                 s.data = new SourceData();
                 loadSourceData(ch, s.data);
             } else if ("TITL".equals(ch.tag)) {
-                loadMultiLinesOfText(ch, s.title);
+                loadMultiLinesOfText(ch, s.title, s);
             } else if ("PUBL".equals(ch.tag)) {
-                loadMultiLinesOfText(ch, s.publicationFacts);
+                loadMultiLinesOfText(ch, s.publicationFacts, s);
             } else if ("TEXT".equals(ch.tag)) {
-                loadMultiLinesOfText(ch, s.sourceText);
+                loadMultiLinesOfText(ch, s.sourceText, s);
             } else if ("ABBR".equals(ch.tag)) {
                 s.sourceFiledBy = ch.value;
             } else if ("AUTH".equals(ch.tag)) {
-                loadMultiLinesOfText(ch, s.originatorsAuthors);
+                loadMultiLinesOfText(ch, s.originatorsAuthors, s);
             } else if ("REPO".equals(ch.tag)) {
                 s.repositoryCitation = loadRepositoryCitation(ch, s);
             } else if ("NOTE".equals(ch.tag)) {
@@ -1899,7 +1837,7 @@ public class GedcomParser {
                 s.changeDate = new ChangeDate();
                 loadChangeDate(ch, s.changeDate);
             } else {
-                unknownTag(ch);
+                unknownTag(ch, s);
             }
         }
     }
@@ -1921,7 +1859,7 @@ public class GedcomParser {
             } else if ("AGNC".equals(ch.tag)) {
                 data.respAgency = ch.value;
             } else {
-                unknownTag(ch);
+                unknownTag(ch, data);
             }
         }
     }
@@ -1944,7 +1882,7 @@ public class GedcomParser {
             } else if ("PLAC".equals(ch.tag)) {
                 e.jurisdiction = ch.value;
             } else {
-                unknownTag(ch);
+                unknownTag(ch, data);
             }
         }
 
@@ -1972,7 +1910,7 @@ public class GedcomParser {
                 sourceSystem.sourceData = new HeaderSourceData();
                 loadHeaderSourceData(ch, sourceSystem.sourceData);
             } else {
-                unknownTag(ch);
+                unknownTag(ch, sourceSystem);
             }
         }
     }
@@ -1991,8 +1929,8 @@ public class GedcomParser {
         }
         if (gedcom.header.submission == null) {
             /*
-             * The GEDCOM spec puts a cross reference to the root-level SUBN element in the HEAD structure. Now that we have a submission object,
-             * represent that cross reference in the header object
+             * The GEDCOM spec puts a cross reference to the root-level SUBN element in the HEAD structure. Now that we
+             * have a submission object, represent that cross reference in the header object
              */
             gedcom.header.submission = s;
         }
@@ -2012,7 +1950,7 @@ public class GedcomParser {
             } else if ("RIN".equals(ch.tag)) {
                 gedcom.submission.recIdNumber = ch.value;
             } else {
-                unknownTag(ch);
+                unknownTag(ch, gedcom.submission);
             }
         }
 
@@ -2037,20 +1975,23 @@ public class GedcomParser {
             } else if ("WWW".equals(ch.tag)) {
                 submitter.wwwUrls.add(ch.value);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but WWW URL number was specified on submitter on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but WWW URL number was specified on submitter on line "
+                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("FAX".equals(ch.tag)) {
                 submitter.faxNumbers.add(ch.value);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but fax number was specified on submitter on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but fax number was specified on submitter on line "
+                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("EMAIL".equals(ch.tag)) {
                 submitter.emails.add(ch.value);
                 if (g55()) {
                     warnings.add("GEDCOM version is 5.5 but email was specified on submitter on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                            + ", which is a GEDCOM 5.5.1 feature."
+                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("LANG".equals(ch.tag)) {
                 submitter.languagePref.add(ch.value);
@@ -2066,7 +2007,7 @@ public class GedcomParser {
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, submitter.notes);
             } else {
-                unknownTag(ch);
+                unknownTag(ch, submitter);
             }
         }
     }
@@ -2088,13 +2029,31 @@ public class GedcomParser {
     }
 
     /**
-     * Note unknown tags. If the tag begins with an underscore, it is a vendor/system-specific tag, which is unrecognized and just ignored and added
-     * as a warning. If it does not begin with an underscore, it is a real tag from the spec and should be processed, so that would indicate a bug.
+     * Default handler for a tag that the parser was not expecting to see. If the tag begins with an underscore, it is a
+     * user-defined tag, which is stored in the customTags collection of the passed in element, and returns. If it does
+     * not begin with an underscore, it is presumably a real tag from the spec and should be processed, so that would
+     * indicate a bug in the parser, or a bad tag that indicates a data error.
      * 
      * @param node
      *            the node containing the unknown tag.
      */
-    private void unknownTag(StringTree node) {
+    private void unknownTag(StringTree node, AbstractElement element) {
+        if (node.tag.startsWith("_")) {
+            element.customTags.add(node);
+            return;
+        }
+        unknownTagNoUserDefinedTagsAllowed(node);
+    }
+
+    /**
+     * This is the handler for when a node is read that is not a user-defined tag, but that the parser does not
+     * recognize as valid or does not have a handler for...either of which is bad, so it gets added to the errors
+     * collection.
+     * 
+     * @param node
+     *            the node with the unrecognized tag
+     */
+    private void unknownTagNoUserDefinedTagsAllowed(StringTree node) {
         StringBuilder sb = new StringBuilder("Line " + node.lineNum + ": Cannot handle tag ");
         sb.append(node.tag);
         StringTree st = node;
@@ -2106,10 +2065,70 @@ public class GedcomParser {
             }
             sb.append(" on line ").append(st.lineNum);
         }
-        if (node.tag.startsWith("_")) {
-            warnings.add(sb.toString());
+        errors.add(sb.toString());
+    }
+
+    /**
+     * A convenience method to write all the parsing errors and warnings to System.err.
+     */
+    public void dumpErrorsAndWarnings() {
+        if (errors.isEmpty()) {
+            System.out.println("No errors.");
         } else {
-            errors.add(sb.toString());
+            System.out.println("Errors:");
+            for (String e : errors) {
+                System.out.println("  " + e);
+            }
+        }
+        if (warnings.isEmpty()) {
+            System.out.println("No warnings.");
+        } else {
+            System.out.println("Warnings:");
+            for (String w : warnings) {
+                System.out.println("  " + w);
+            }
+        }
+    }
+
+    /**
+     * Load a gedcom file from an input stream and create an object hierarchy from the data therein.
+     * 
+     * @param stream
+     *            the stream to load from
+     * @throws IOException
+     *             if the file cannot be read
+     * @throws GedcomParserException
+     *             if the file cannot be parsed
+     */
+    public void load(InputStream stream) throws IOException, GedcomParserException {
+        if (verbose) {
+            System.out.println("Loading and parsing GEDCOM from input stream");
+        }
+        StringTree stringTree = GedcomParserHelper.readStream(stream);
+        loadRootItems(stringTree);
+        if (verbose) {
+            dumpErrorsAndWarnings();
+        }
+    }
+
+    /**
+     * Load a gedcom file by filename and create an object heirarchy from the data therein.
+     * 
+     * @param filename
+     *            the name of the file to load
+     * @throws IOException
+     *             if the file cannot be read
+     * @throws GedcomParserException
+     *             if the file cannot be parsed
+     */
+    public void load(String filename) throws IOException, GedcomParserException {
+        if (verbose) {
+            System.out.println("Loading and parsing GEDCOM from file " + filename);
+        }
+        StringTree stringTree = GedcomParserHelper.readFile(filename);
+        loadRootItems(stringTree);
+        if (verbose) {
+            dumpErrorsAndWarnings();
         }
     }
 

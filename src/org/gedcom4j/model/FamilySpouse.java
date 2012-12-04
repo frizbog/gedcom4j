@@ -30,11 +30,12 @@ import java.util.List;
  * @author frizbog1
  * 
  */
-public class FamilySpouse {
+public class FamilySpouse extends AbstractElement {
     /**
      * The family in which the person was one of the spouses
      */
     public Family family;
+
     /**
      * Notes on the membership
      */
@@ -45,7 +46,7 @@ public class FamilySpouse {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (!(obj instanceof FamilySpouse)) {
@@ -83,12 +84,9 @@ public class FamilySpouse {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime
-                * result
-                + ((family == null || family.xref == null) ? 0 : family.xref
-                        .hashCode());
-        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
+        int result = super.hashCode();
+        result = prime * result + (family == null || family.xref == null ? 0 : family.xref.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
         return result;
     }
 }

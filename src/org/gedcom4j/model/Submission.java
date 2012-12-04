@@ -22,41 +22,47 @@
 package org.gedcom4j.model;
 
 /**
- * A submission of a gedcom transmission. Corresponds to SUBMISSION_RECORD in
- * the GEDCOM standard.
+ * A submission of a gedcom transmission. Corresponds to SUBMISSION_RECORD in the GEDCOM standard.
  * 
  * @author frizbog1
  * 
  */
-public class Submission {
+public class Submission extends AbstractElement {
     /**
      * The xref for this submission - required field
      */
     public String xref;
+
     /**
      * The submitter of this submission
      */
     public Submitter submitter;
+
     /**
      * The name of the family file
      */
     public String nameOfFamilyFile;
+
     /**
      * The temple code for this submission
      */
     public String templeCode;
+
     /**
      * The number of ancestor generations
      */
     public String ancestorsCount;
+
     /**
      * The number of descendant generations
      */
     public String descendantsCount;
+
     /**
      * The ordinance process flag
      */
     public String ordinanceProcessFlag;
+
     /**
      * The automated record id
      */
@@ -77,7 +83,7 @@ public class Submission {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -146,26 +152,15 @@ public class Submission {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((ancestorsCount == null) ? 0 : ancestorsCount.hashCode());
-        result = prime
-                * result
-                + ((descendantsCount == null) ? 0 : descendantsCount.hashCode());
-        result = prime
-                * result
-                + ((nameOfFamilyFile == null) ? 0 : nameOfFamilyFile.hashCode());
-        result = prime
-                * result
-                + ((ordinanceProcessFlag == null) ? 0 : ordinanceProcessFlag
-                        .hashCode());
-        result = prime * result
-                + ((recIdNumber == null) ? 0 : recIdNumber.hashCode());
-        result = prime * result
-                + ((submitter == null) ? 0 : submitter.hashCode());
-        result = prime * result
-                + ((templeCode == null) ? 0 : templeCode.hashCode());
-        result = prime * result + ((xref == null) ? 0 : xref.hashCode());
+        int result = super.hashCode();
+        result = prime * result + (ancestorsCount == null ? 0 : ancestorsCount.hashCode());
+        result = prime * result + (descendantsCount == null ? 0 : descendantsCount.hashCode());
+        result = prime * result + (nameOfFamilyFile == null ? 0 : nameOfFamilyFile.hashCode());
+        result = prime * result + (ordinanceProcessFlag == null ? 0 : ordinanceProcessFlag.hashCode());
+        result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
+        result = prime * result + (submitter == null ? 0 : submitter.hashCode());
+        result = prime * result + (templeCode == null ? 0 : templeCode.hashCode());
+        result = prime * result + (xref == null ? 0 : xref.hashCode());
         return result;
     }
 }

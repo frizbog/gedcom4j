@@ -31,14 +31,15 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
      * The family in which the individual was a child - used for SLGC types
      */
     public FamilyChild familyWhereChild;
+
     /**
      * The type
      */
     public LdsIndividualOrdinanceType type;
 
     /**
-     * Allows for a Y or null to be processed after the type. Not strictly part
-     * of the GEDCOM, but allows for flexibility
+     * Allows for a Y or null to be processed after the type. Not strictly part of the GEDCOM, but allows for
+     * flexibility
      */
     public String yNull;
 
@@ -78,11 +79,16 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime
-                * result
-                + ((familyWhereChild == null) ? 0 : familyWhereChild.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
-        result = prime * result + ((yNull == null) ? 0 : yNull.hashCode());
+        result = prime * result + (familyWhereChild == null ? 0 : familyWhereChild.hashCode());
+        result = prime * result + (type == null ? 0 : type.hashCode());
+        result = prime * result + (yNull == null ? 0 : yNull.hashCode());
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "LdsIndividualOrdinance [familyWhereChild=" + familyWhereChild + ", type=" + type + ", yNull=" + yNull
+                + ", status=" + status + ", date=" + date + ", temple=" + temple + ", place=" + place + ", citations="
+                + citations + ", notes=" + notes + ", customTags=" + customTags + "]";
     }
 }
