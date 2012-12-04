@@ -19,52 +19,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.gedcom4j.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 /**
- * A name variation - phonetic, or romanized. Used for personal names and place names.
+ * An abstract class from which most other items in the data model extend. Exists to hold custom tag information, which
+ * by definition cannot be known in advance.
  * 
  * @author frizbog
- * 
  */
-public class NameVariation extends AbstractElement {
-
+public abstract class AbstractElement {
     /**
-     * The variation type. For romanized names, the method used in transforming the text to a romanized variation. For
-     * phonetic names, the method used in transforming the text to the phonetic variation.
+     * A list of custom tags on this item.
      */
-    public String variationType;
-
-    /**
-     * The variation text
-     */
-    public String variation;
+    public List<StringTree> customTags = new ArrayList<StringTree>();
 
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (!super.equals(obj)) {
+        if (obj == null) {
             return false;
         }
         if (getClass() != obj.getClass()) {
             return false;
         }
-        NameVariation other = (NameVariation) obj;
-        if (variation == null) {
-            if (other.variation != null) {
+        AbstractElement other = (AbstractElement) obj;
+        if (customTags == null) {
+            if (other.customTags != null) {
                 return false;
             }
-        } else if (!variation.equals(other.variation)) {
-            return false;
-        }
-        if (variationType == null) {
-            if (other.variationType != null) {
-                return false;
-            }
-        } else if (!variationType.equals(other.variationType)) {
+        } else if (!customTags.equals(other.customTags)) {
             return false;
         }
         return true;
@@ -73,15 +62,9 @@ public class NameVariation extends AbstractElement {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + (variation == null ? 0 : variation.hashCode());
-        result = prime * result + (variationType == null ? 0 : variationType.hashCode());
+        int result = 1;
+        result = prime * result + (customTags == null ? 0 : customTags.hashCode());
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "NameVariation [variationType=" + variationType + ", variation=" + variation + "]";
     }
 
 }

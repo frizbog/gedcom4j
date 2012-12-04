@@ -22,29 +22,32 @@
 package org.gedcom4j.model;
 
 /**
- * A source system. Corresponds to the SOUR structure in HEADER in the GEDCOM
- * file.
+ * A source system. Corresponds to the SOUR structure in HEADER in the GEDCOM file.
  * 
  * @author frizbog1
  * 
  */
-public class SourceSystem {
+public class SourceSystem extends AbstractElement {
     /**
      * The system ID for this source system
      */
     public String systemId;
+
     /**
      * The version number of this source system
      */
     public String versionNum;
+
     /**
      * The product name for this source system
      */
     public String productName;
+
     /**
      * The corporation that owns this source system
      */
     public Corporation corporation;
+
     /**
      * Header source data for this source system.
      */
@@ -55,7 +58,7 @@ public class SourceSystem {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -103,17 +106,12 @@ public class SourceSystem {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((corporation == null) ? 0 : corporation.hashCode());
-        result = prime * result
-                + ((productName == null) ? 0 : productName.hashCode());
-        result = prime * result
-                + ((sourceData == null) ? 0 : sourceData.hashCode());
-        result = prime * result
-                + ((systemId == null) ? 0 : systemId.hashCode());
-        result = prime * result
-                + ((versionNum == null) ? 0 : versionNum.hashCode());
+        int result = super.hashCode();
+        result = prime * result + (corporation == null ? 0 : corporation.hashCode());
+        result = prime * result + (productName == null ? 0 : productName.hashCode());
+        result = prime * result + (sourceData == null ? 0 : sourceData.hashCode());
+        result = prime * result + (systemId == null ? 0 : systemId.hashCode());
+        result = prime * result + (versionNum == null ? 0 : versionNum.hashCode());
         return result;
     }
 }

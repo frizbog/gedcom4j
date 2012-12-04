@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.gedcom4j.io.GedcomFileReader;
+import org.gedcom4j.model.StringTree;
 
 
 /**

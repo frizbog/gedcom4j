@@ -22,15 +22,16 @@
 package org.gedcom4j.model;
 
 /**
- * A character set. (Does anyone really use this??)
+ * A character set.
  * 
  * @author frizbog1
  */
-public class CharacterSet {
+public class CharacterSet extends AbstractElement {
     /**
      * The name of a character set
      */
     public String characterSetName = "ANSEL";
+
     /**
      * A version number of the character set
      */
@@ -41,7 +42,7 @@ public class CharacterSet {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -68,12 +69,9 @@ public class CharacterSet {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime
-                * result
-                + ((characterSetName == null) ? 0 : characterSetName.hashCode());
-        result = prime * result
-                + ((versionNum == null) ? 0 : versionNum.hashCode());
+        int result = super.hashCode();
+        result = prime * result + (characterSetName == null ? 0 : characterSetName.hashCode());
+        result = prime * result + (versionNum == null ? 0 : versionNum.hashCode());
         return result;
     }
 }

@@ -22,8 +22,7 @@
 package org.gedcom4j.model;
 
 /**
- * A class for an individual attribute. Corresponds to
- * INDIVIDUAL_ATTRIBUTE_STRUCTURE in the GEDCOM standard
+ * A class for an individual attribute. Corresponds to INDIVIDUAL_ATTRIBUTE_STRUCTURE in the GEDCOM standard
  * 
  * @author frizbog1
  * 
@@ -56,7 +55,7 @@ public class IndividualAttribute extends Event {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + (type == null ? 0 : type.hashCode());
         return result;
     }
 

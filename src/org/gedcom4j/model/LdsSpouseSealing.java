@@ -27,5 +27,11 @@ package org.gedcom4j.model;
  * @author frizbog1
  */
 public class LdsSpouseSealing extends AbstractLdsOrdinance {
-    // Nothing extra here
+
+    @Override
+    public String toString() {
+        return "LdsSpouseSealing [status=" + status + ", date=" + date + ", temple=" + temple + ", place=" + place
+                + ", citations=" + citations + ", notes=" + notes + ", customTags=" + customTags + "]";
+    }
+
 }

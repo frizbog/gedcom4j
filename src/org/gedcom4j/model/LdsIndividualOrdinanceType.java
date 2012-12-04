@@ -62,16 +62,14 @@ public enum LdsIndividualOrdinanceType {
     }
 
     /**
-     * Is the supplied tag value one of the known tags for an LDS individual
-     * ordinance?
+     * Is the supplied tag value one of the known tags for an LDS individual ordinance?
      * 
      * @param tag
      *            the tag
-     * @return true if and only if the supplied tag corresponds to a known LDS
-     *         individual ordinance type
+     * @return true if and only if the supplied tag corresponds to a known LDS individual ordinance type
      */
     public static boolean isValidTag(String tag) {
-        return (getFromTag(tag) != null);
+        return getFromTag(tag) != null;
     }
 
     /**

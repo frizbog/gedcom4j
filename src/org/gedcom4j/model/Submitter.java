@@ -29,7 +29,7 @@ import java.util.List;
  * 
  * @author frizbog1
  */
-public class Submitter {
+public class Submitter extends AbstractElement {
     /**
      * The xref for this submitter
      */
@@ -105,7 +105,7 @@ public class Submitter {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -216,7 +216,7 @@ public class Submitter {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + (address == null ? 0 : address.hashCode());
         result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
         result = prime * result + (languagePref == null ? 0 : languagePref.hashCode());
@@ -236,9 +236,10 @@ public class Submitter {
 
     @Override
     public String toString() {
-        return "Submitter [xref=" + xref + ", regFileNumber=" + regFileNumber + ", name=" + name + ", recIdNumber=" + recIdNumber + ", languagePref="
-                + languagePref + ", address=" + address + ", phoneNumbers=" + phoneNumbers + ", wwwUrls=" + wwwUrls + ", faxNumbers=" + faxNumbers
-                + ", emails=" + emails + ", multimedia=" + multimedia + ", changeDate=" + changeDate + ", userReferences=" + userReferences
+        return "Submitter [xref=" + xref + ", regFileNumber=" + regFileNumber + ", name=" + name + ", recIdNumber="
+                + recIdNumber + ", languagePref=" + languagePref + ", address=" + address + ", phoneNumbers="
+                + phoneNumbers + ", wwwUrls=" + wwwUrls + ", faxNumbers=" + faxNumbers + ", emails=" + emails
+                + ", multimedia=" + multimedia + ", changeDate=" + changeDate + ", userReferences=" + userReferences
                 + ", notes=" + notes + "]";
     }
 }

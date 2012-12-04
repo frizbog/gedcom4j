@@ -27,7 +27,7 @@ package org.gedcom4j.model;
  * @author frizbog1
  * 
  */
-public class HeaderSourceData {
+public class HeaderSourceData extends AbstractElement {
     /**
      * The name
      */
@@ -48,7 +48,7 @@ public class HeaderSourceData {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -82,12 +82,10 @@ public class HeaderSourceData {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((copyright == null) ? 0 : copyright.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result
-                + ((publishDate == null) ? 0 : publishDate.hashCode());
+        int result = super.hashCode();
+        result = prime * result + (copyright == null ? 0 : copyright.hashCode());
+        result = prime * result + (name == null ? 0 : name.hashCode());
+        result = prime * result + (publishDate == null ? 0 : publishDate.hashCode());
         return result;
     }
 }

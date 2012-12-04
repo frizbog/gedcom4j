@@ -30,7 +30,7 @@ import java.util.List;
  * @author frizbog1
  * 
  */
-public class PersonalName {
+public class PersonalName extends AbstractElement {
     /**
      * The name in basic, unbroken-down format
      */
@@ -91,7 +91,7 @@ public class PersonalName {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (!(obj instanceof PersonalName)) {
@@ -181,7 +181,7 @@ public class PersonalName {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + (basic == null ? 0 : basic.hashCode());
         result = prime * result + (citations == null ? 0 : citations.hashCode());
         result = prime * result + (givenName == null ? 0 : givenName.hashCode());

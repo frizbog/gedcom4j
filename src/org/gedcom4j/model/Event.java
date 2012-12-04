@@ -30,7 +30,7 @@ import java.util.List;
  * @author frizbog1
  * 
  */
-public class Event {
+public class Event extends AbstractElement {
     /**
      * The address where this event took place
      */
@@ -117,8 +117,8 @@ public class Event {
     public String religiousAffiliation;
 
     /**
-     * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be "confidential", "locked", or
-     * "privacy" but this implementation allows any value.
+     * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be
+     * "confidential", "locked", or "privacy" but this implementation allows any value.
      */
     public String restrictionNotice;
 
@@ -127,7 +127,7 @@ public class Event {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (!(obj instanceof Event)) {
@@ -267,7 +267,7 @@ public class Event {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + (address == null ? 0 : address.hashCode());
         result = prime * result + (age == null ? 0 : age.hashCode());
         result = prime * result + (cause == null ? 0 : cause.hashCode());
@@ -291,10 +291,12 @@ public class Event {
 
     @Override
     public String toString() {
-        return "Event [address=" + address + ", phoneNumbers=" + phoneNumbers + ", wwwUrls=" + wwwUrls + ", faxNumbers=" + faxNumbers + ", emails="
-                + emails + ", age=" + age + ", cause=" + cause + ", citations=" + citations + ", date=" + date + ", description=" + description
-                + ", multimedia=" + multimedia + ", notes=" + notes + ", place=" + place + ", respAgency=" + respAgency + ", yNull=" + yNull
-                + ", subType=" + subType + ", religiousAffiliation=" + religiousAffiliation + ", restrictionNotice=" + restrictionNotice + "]";
+        return "Event [address=" + address + ", phoneNumbers=" + phoneNumbers + ", wwwUrls=" + wwwUrls
+                + ", faxNumbers=" + faxNumbers + ", emails=" + emails + ", age=" + age + ", cause=" + cause
+                + ", citations=" + citations + ", date=" + date + ", description=" + description + ", multimedia="
+                + multimedia + ", notes=" + notes + ", place=" + place + ", respAgency=" + respAgency + ", yNull="
+                + yNull + ", subType=" + subType + ", religiousAffiliation=" + religiousAffiliation
+                + ", restrictionNotice=" + restrictionNotice + "]";
     }
 
 }
