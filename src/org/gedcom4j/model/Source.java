@@ -29,55 +29,67 @@ import java.util.List;
  * 
  * @author frizbog1
  */
-public class Source {
+public class Source extends AbstractElement {
     /**
      * The record id number
      */
     public String recIdNumber;
+
     /**
      * Who filed the source
      */
     public String sourceFiledBy;
+
     /**
      * The title text
      */
     public List<String> title = new ArrayList<String>();
+
     /**
      * Notes on this source
      */
     public List<Note> notes = new ArrayList<Note>();
+
     /**
      * Publication facts on this source
      */
     public List<String> publicationFacts = new ArrayList<String>();
+
     /**
      * The originators/authors
      */
     public List<String> originatorsAuthors = new ArrayList<String>();
+
     /**
      * Multimedia for this source
      */
     public List<Multimedia> multimedia = new ArrayList<Multimedia>();
+
     /**
      * The change date for this source
      */
     public ChangeDate changeDate;
+
     /**
      * User references for this source
      */
     public List<UserReference> userReferences = new ArrayList<UserReference>();
+
     /**
      * Source data
      */
     public SourceData data;
+
     /**
      * Text from the source
      */
     public List<String> sourceText = new ArrayList<String>();
+
     /**
      * A repository Citation
      */
     public RepositoryCitation repositoryCitation;
+
     /**
      * The xref of this source
      */
@@ -98,7 +110,7 @@ public class Source {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (!(obj instanceof Source)) {
@@ -202,46 +214,29 @@ public class Source {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((changeDate == null) ? 0 : changeDate.hashCode());
-        result = prime * result + ((data == null) ? 0 : data.hashCode());
-        result = prime * result
-                + ((multimedia == null) ? 0 : multimedia.hashCode());
-        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-        result = prime
-                * result
-                + ((originatorsAuthors == null) ? 0 : originatorsAuthors
-                        .hashCode());
-        result = prime
-                * result
-                + ((publicationFacts == null) ? 0 : publicationFacts.hashCode());
-        result = prime * result
-                + ((recIdNumber == null) ? 0 : recIdNumber.hashCode());
-        result = prime
-                * result
-                + ((repositoryCitation == null) ? 0 : repositoryCitation
-                        .hashCode());
-        result = prime * result
-                + ((sourceFiledBy == null) ? 0 : sourceFiledBy.hashCode());
-        result = prime * result
-                + ((sourceText == null) ? 0 : sourceText.hashCode());
-        result = prime * result + ((title == null) ? 0 : title.hashCode());
-        result = prime * result
-                + ((userReferences == null) ? 0 : userReferences.hashCode());
-        result = prime * result + ((xref == null) ? 0 : xref.hashCode());
+        int result = super.hashCode();
+        result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
+        result = prime * result + (data == null ? 0 : data.hashCode());
+        result = prime * result + (multimedia == null ? 0 : multimedia.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (originatorsAuthors == null ? 0 : originatorsAuthors.hashCode());
+        result = prime * result + (publicationFacts == null ? 0 : publicationFacts.hashCode());
+        result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
+        result = prime * result + (repositoryCitation == null ? 0 : repositoryCitation.hashCode());
+        result = prime * result + (sourceFiledBy == null ? 0 : sourceFiledBy.hashCode());
+        result = prime * result + (sourceText == null ? 0 : sourceText.hashCode());
+        result = prime * result + (title == null ? 0 : title.hashCode());
+        result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
+        result = prime * result + (xref == null ? 0 : xref.hashCode());
         return result;
     }
 
     @Override
     public String toString() {
-        return "Source [xref=" + xref + ", recIdNumber=" + recIdNumber
-                + ", sourceFiledBy=" + sourceFiledBy + ", title=" + title
-                + ", notes=" + notes + ", publicationFacts=" + publicationFacts
-                + ", originatorsAuthors=" + originatorsAuthors
-                + ", multimedia=" + multimedia + ", changeDate=" + changeDate
-                + ", userReferences=" + userReferences + ", data=" + data
-                + ", sourceText=" + sourceText + ", repositoryCitation="
-                + repositoryCitation + "]";
+        return "Source [xref=" + xref + ", recIdNumber=" + recIdNumber + ", sourceFiledBy=" + sourceFiledBy
+                + ", title=" + title + ", notes=" + notes + ", publicationFacts=" + publicationFacts
+                + ", originatorsAuthors=" + originatorsAuthors + ", multimedia=" + multimedia + ", changeDate="
+                + changeDate + ", userReferences=" + userReferences + ", data=" + data + ", sourceText=" + sourceText
+                + ", repositoryCitation=" + repositoryCitation + "]";
     }
 }

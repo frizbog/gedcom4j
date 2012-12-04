@@ -30,19 +30,19 @@ import java.util.List;
  * @author frizbog1
  * 
  */
-public class RepositoryCitation {
+public class RepositoryCitation extends AbstractElement {
 
     /**
-     * The xref of the repository. Kept as a string copy of the xref
-     * deliberately to avoid circular references in the object graph
-     * (particularly, Note -> Citation -> Source -> Repository -> Note ->
-     * Citation...)
+     * The xref of the repository. Kept as a string copy of the xref deliberately to avoid circular references in the
+     * object graph (particularly, Note -> Citation -> Source -> Repository -> Note -> Citation...)
      */
     public String repositoryXref;
+
     /**
      * Notes on this repository citation
      */
     public List<Note> notes = new ArrayList<Note>();
+
     /**
      * Call numbers
      */
@@ -53,7 +53,7 @@ public class RepositoryCitation {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (!(obj instanceof RepositoryCitation)) {
@@ -87,19 +87,17 @@ public class RepositoryCitation {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((callNumbers == null) ? 0 : callNumbers.hashCode());
-        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-        result = prime * result
-                + ((repositoryXref == null) ? 0 : repositoryXref.hashCode());
+        int result = super.hashCode();
+        result = prime * result + (callNumbers == null ? 0 : callNumbers.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (repositoryXref == null ? 0 : repositoryXref.hashCode());
         return result;
     }
 
     @Override
     public String toString() {
-        return "RepositoryCitation [repositoryXref=" + repositoryXref
-                + ", notes=" + notes + ", callNumbers=" + callNumbers + "]";
+        return "RepositoryCitation [repositoryXref=" + repositoryXref + ", notes=" + notes + ", callNumbers="
+                + callNumbers + "]";
     }
 
 }

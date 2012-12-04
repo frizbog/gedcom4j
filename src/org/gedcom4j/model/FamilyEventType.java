@@ -22,8 +22,7 @@
 package org.gedcom4j.model;
 
 /**
- * An event type that occurs for a family. This enum lists the valid tags for
- * family events.
+ * An event type that occurs for a family. This enum lists the valid tags for family events.
  * 
  * @author frizbog1
  * 
@@ -79,8 +78,7 @@ public enum FamilyEventType {
      * 
      * @param tag
      *            the tag as a string
-     * @return the enum type that corresponds to the tag, or null if it's not a
-     *         known tag
+     * @return the enum type that corresponds to the tag, or null if it's not a known tag
      */
     public static FamilyEventType getFromTag(String tag) {
         for (FamilyEventType t : values()) {
@@ -96,11 +94,10 @@ public enum FamilyEventType {
      * 
      * @param tag
      *            the tag as a string
-     * @return true if and only if the tag is one of the known tags for Family
-     *         Event types
+     * @return true if and only if the tag is one of the known tags for Family Event types
      */
     public static boolean isValidTag(String tag) {
-        return (getFromTag(tag) != null);
+        return getFromTag(tag) != null;
     }
 
     /**

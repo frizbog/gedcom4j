@@ -25,13 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An abstract base class for other source citations (both with and without
- * source)
+ * An abstract base class for other source citations (both with and without source)
  * 
  * @author frizbog1
  * 
  */
-public abstract class AbstractCitation {
+public abstract class AbstractCitation extends AbstractElement {
 
     /**
      * Notes on this source citation

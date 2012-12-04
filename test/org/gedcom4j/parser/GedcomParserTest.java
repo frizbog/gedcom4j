@@ -21,21 +21,16 @@
  */
 package org.gedcom4j.parser;
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import junit.framework.TestCase;
 
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.Submitter;
-import org.gedcom4j.parser.GedcomParser;
-import org.gedcom4j.parser.GedcomParserException;
-
-import junit.framework.TestCase;
-
 
 /**
  * Tests for the {@link GedcomParser} class
@@ -44,6 +39,29 @@ import junit.framework.TestCase;
  * 
  */
 public class GedcomParserTest extends TestCase {
+
+    /**
+     * The same sample file is used several times, this helper method ensures consistent assertions for all tests using
+     * the same file
+     * 
+     * @param gp
+     *            the {@link GedcomParser}
+     */
+    private void checkTGC551LF(GedcomParser gp) {
+        assertTrue(gp.errors.isEmpty());
+        assertTrue(gp.warnings.isEmpty());
+        Gedcom g = gp.gedcom;
+        assertNotNull(g.header);
+        assertEquals(3, g.submitters.size());
+        Submitter submitter = g.submitters.get("@SUBMITTER@");
+        assertNotNull(submitter);
+        assertEquals("John A. Nairn", submitter.name);
+
+        assertEquals(7, g.families.size());
+        assertEquals(2, g.sources.size());
+        assertEquals(1, g.multimedia.size());
+        assertEquals(15, g.individuals.size());
+    }
 
     /**
      * Test loading a file...it's a stress test file.
@@ -72,12 +90,12 @@ public class GedcomParserTest extends TestCase {
     public void testLoad2() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.verbose = true;
+        assertTrue(gp.errors.isEmpty());
         gp.load("sample/allged.ged");
         assertTrue(gp.errors.isEmpty());
-        assertEquals("There are exactly 7 warning items in the file due to custom tags", 7, gp.warnings.size());
-        for (String s : gp.warnings) {
-            assertTrue(s.contains("_MYOWNTAG"));
-        }
+        assertTrue(gp.warnings.isEmpty());
+        assertEquals("There is exactly 1 custom tag on the file as a whole", 1, gp.gedcom.customTags.size());
+        assertEquals("There is exactly 1 custom tag in the header", 1, gp.gedcom.header.customTags.size());
         Gedcom g = gp.gedcom;
         assertFalse(g.submitters.isEmpty());
         Submitter submitter = g.submitters.values().iterator().next();
@@ -115,7 +133,8 @@ public class GedcomParserTest extends TestCase {
         // shown
         assertEquals(2, g.sources.size());
         for (Source s : g.sources.values()) {
-            assertTrue(s.title.get(0).equals("William Barnett Family.FTW") || s.title.get(0).equals("Warrick County, IN WPA Indexes"));
+            assertTrue(s.title.get(0).equals("William Barnett Family.FTW")
+                    || s.title.get(0).equals("Warrick County, IN WPA Indexes"));
         }
 
         assertEquals(17, g.families.size());
@@ -160,27 +179,5 @@ public class GedcomParserTest extends TestCase {
         InputStream stream = new FileInputStream("sample/TGC551LF.ged");
         gp.load(stream);
         checkTGC551LF(gp);
-    }
-
-    /**
-     * The same sample file is used several times, this helper method ensures consistent assertions for all tests using the same file
-     * 
-     * @param gp
-     *            the {@link GedcomParser}
-     */
-    private void checkTGC551LF(GedcomParser gp) {
-        assertTrue(gp.errors.isEmpty());
-        assertFalse(gp.warnings.isEmpty());
-        Gedcom g = gp.gedcom;
-        assertNotNull(g.header);
-        assertEquals(3, g.submitters.size());
-        Submitter submitter = g.submitters.get("@SUBMITTER@");
-        assertNotNull(submitter);
-        assertEquals("John A. Nairn", submitter.name);
-
-        assertEquals(7, g.families.size());
-        assertEquals(2, g.sources.size());
-        assertEquals(1, g.multimedia.size());
-        assertEquals(15, g.individuals.size());
     }
 }

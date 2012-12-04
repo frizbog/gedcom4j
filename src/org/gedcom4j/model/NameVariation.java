@@ -28,11 +28,11 @@ package org.gedcom4j.model;
  * @author frizbog
  * 
  */
-public class NameVariation {
+public class NameVariation extends AbstractElement {
 
     /**
-     * The variation type. For romanized names, the method used in transforming the text to a romanized variation. For phonetic names, the method used
-     * in transforming the text to the phonetic variation.
+     * The variation type. For romanized names, the method used in transforming the text to a romanized variation. For
+     * phonetic names, the method used in transforming the text to the phonetic variation.
      */
     public String variationType;
 
@@ -46,7 +46,7 @@ public class NameVariation {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -73,7 +73,7 @@ public class NameVariation {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + (variation == null ? 0 : variation.hashCode());
         result = prime * result + (variationType == null ? 0 : variationType.hashCode());
         return result;

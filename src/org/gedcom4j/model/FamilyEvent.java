@@ -22,17 +22,15 @@
 package org.gedcom4j.model;
 
 /**
- * Represents a family event. Corresponds to the FAMILY_EVENT_STRUCTURE from the
- * GEDCOM standard along with the two child elements of the wife and husband
- * ages.
+ * Represents a family event. Corresponds to the FAMILY_EVENT_STRUCTURE from the GEDCOM standard along with the two
+ * child elements of the wife and husband ages.
  * 
  * @author frizbog1
  * 
  */
 public class FamilyEvent extends Event {
     /**
-     * The type of event. See FAMILY_EVENT_STRUCTURE in teh GEDCOM standard for
-     * more info.
+     * The type of event. See FAMILY_EVENT_STRUCTURE in teh GEDCOM standard for more info.
      */
     public FamilyEventType type;
 
@@ -40,6 +38,7 @@ public class FamilyEvent extends Event {
      * Age of husband at time of event
      */
     public String husbandAge;
+
     /**
      * Age of wife at time of event
      */
@@ -81,10 +80,9 @@ public class FamilyEvent extends Event {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result
-                + ((husbandAge == null) ? 0 : husbandAge.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
-        result = prime * result + ((wifeAge == null) ? 0 : wifeAge.hashCode());
+        result = prime * result + (husbandAge == null ? 0 : husbandAge.hashCode());
+        result = prime * result + (type == null ? 0 : type.hashCode());
+        result = prime * result + (wifeAge == null ? 0 : wifeAge.hashCode());
         return result;
     }
 
@@ -95,10 +93,8 @@ public class FamilyEvent extends Event {
      */
     @Override
     public String toString() {
-        return "FamilyEvent [type=" + type + ", husbandAge=" + husbandAge
-                + ", wifeAge=" + wifeAge
-                + (type == FamilyEventType.EVENT ? ", subtype=" + subType : "")
-                + "]";
+        return "FamilyEvent [type=" + type + ", husbandAge=" + husbandAge + ", wifeAge=" + wifeAge
+                + (type == FamilyEventType.EVENT ? ", subtype=" + subType : "") + "]";
     }
 
 }

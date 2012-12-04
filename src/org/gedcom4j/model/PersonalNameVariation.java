@@ -84,7 +84,7 @@ public class PersonalNameVariation extends NameVariation {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -173,7 +173,7 @@ public class PersonalNameVariation extends NameVariation {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + (citations == null ? 0 : citations.hashCode());
         result = prime * result + (givenName == null ? 0 : givenName.hashCode());
         result = prime * result + (nickname == null ? 0 : nickname.hashCode());
@@ -195,9 +195,9 @@ public class PersonalNameVariation extends NameVariation {
      */
     @Override
     public String toString() {
-        return "PersonalNameVariation [variationType=" + variationType + ", variation=" + variation + ", prefix=" + prefix + ", givenName="
-                + givenName + ", nickname=" + nickname + ", surnamePrefix=" + surnamePrefix + ", surname=" + surname + ", suffix=" + suffix
-                + ", notes=" + notes + ", citations=" + citations + "]";
+        return "PersonalNameVariation [variationType=" + variationType + ", variation=" + variation + ", prefix="
+                + prefix + ", givenName=" + givenName + ", nickname=" + nickname + ", surnamePrefix=" + surnamePrefix
+                + ", surname=" + surname + ", suffix=" + suffix + ", notes=" + notes + ", citations=" + citations + "]";
     }
 
 }

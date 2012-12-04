@@ -30,7 +30,7 @@ import java.util.List;
  * @author frizbog1
  * 
  */
-public class Repository {
+public class Repository extends AbstractElement {
     /**
      * The xref for this repository
      */
@@ -91,7 +91,7 @@ public class Repository {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (!(obj instanceof Repository)) {
@@ -181,7 +181,7 @@ public class Repository {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + (address == null ? 0 : address.hashCode());
         result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
         result = prime * result + (faxNumbers == null ? 0 : faxNumbers.hashCode());

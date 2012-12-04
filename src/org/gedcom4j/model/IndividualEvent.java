@@ -22,8 +22,7 @@
 package org.gedcom4j.model;
 
 /**
- * Represents an individual event. Corresponds to the INDIVIDUAL_EVENT_STRUCTURE
- * item in the GEDCOM specification.
+ * Represents an individual event. Corresponds to the INDIVIDUAL_EVENT_STRUCTURE item in the GEDCOM specification.
  * 
  * @author frizbog1
  */
@@ -67,9 +66,20 @@ public class IndividualEvent extends Event {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((family == null) ? 0 : family.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + (family == null ? 0 : family.hashCode());
+        result = prime * result + (type == null ? 0 : type.hashCode());
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "IndividualEvent [type=" + type + ", family=" + family + ", address=" + address + ", phoneNumbers="
+                + phoneNumbers + ", wwwUrls=" + wwwUrls + ", faxNumbers=" + faxNumbers + ", emails=" + emails
+                + ", age=" + age + ", cause=" + cause + ", citations=" + citations + ", date=" + date
+                + ", description=" + description + ", multimedia=" + multimedia + ", notes=" + notes + ", place="
+                + place + ", respAgency=" + respAgency + ", yNull=" + yNull + ", subType=" + subType
+                + ", religiousAffiliation=" + religiousAffiliation + ", restrictionNotice=" + restrictionNotice
+                + ", customTags=" + customTags + "]";
     }
 
 }

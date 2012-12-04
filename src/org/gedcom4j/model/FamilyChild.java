@@ -29,7 +29,7 @@ import java.util.List;
  * 
  * @author frizbog1
  */
-public class FamilyChild {
+public class FamilyChild extends AbstractElement {
     /**
      * The family to which the child belonged
      */
@@ -51,8 +51,8 @@ public class FamilyChild {
     public AdoptedByWhichParent adoptedBy;
 
     /**
-     * The status of this Family/Child relationship. New for GEDCOM 5.5.1. Supposed to be "challenged", "disproven", or "proven", but this
-     * implementation allows any value.
+     * The status of this Family/Child relationship. New for GEDCOM 5.5.1. Supposed to be "challenged", "disproven", or
+     * "proven", but this implementation allows any value.
      */
     public String status;
 
@@ -61,7 +61,7 @@ public class FamilyChild {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (!(obj instanceof FamilyChild)) {
@@ -120,7 +120,7 @@ public class FamilyChild {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + (adoptedBy == null ? 0 : adoptedBy.hashCode());
         result = prime * result + (family == null || family.xref == null ? 0 : family.xref.hashCode());
         result = prime * result + (notes == null ? 0 : notes.hashCode());
@@ -131,7 +131,7 @@ public class FamilyChild {
 
     @Override
     public String toString() {
-        return "FamilyChild [family=" + family + ", notes=" + notes + ", pedigree=" + pedigree + ", adoptedBy=" + adoptedBy + ", status=" + status
-                + "]";
+        return "FamilyChild [family=" + family + ", notes=" + notes + ", pedigree=" + pedigree + ", adoptedBy="
+                + adoptedBy + ", status=" + status + "]";
     }
 }

@@ -25,20 +25,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Data in a Source structure. Corresponds to the set of fields under the DATA
- * tag on a SOURCE_RECORD.
+ * Data in a Source structure. Corresponds to the set of fields under the DATA tag on a SOURCE_RECORD.
  * 
  * @author frizbog1
  */
-public class SourceData {
+public class SourceData extends AbstractElement {
     /**
      * The responsible agency.
      */
     public String respAgency;
+
     /**
      * The events recorded.
      */
     public List<EventRecorded> eventsRecorded = new ArrayList<EventRecorded>();
+
     /**
      * The notes.
      */
@@ -49,7 +50,7 @@ public class SourceData {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -83,12 +84,10 @@ public class SourceData {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((eventsRecorded == null) ? 0 : eventsRecorded.hashCode());
-        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-        result = prime * result
-                + ((respAgency == null) ? 0 : respAgency.hashCode());
+        int result = super.hashCode();
+        result = prime * result + (eventsRecorded == null ? 0 : eventsRecorded.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (respAgency == null ? 0 : respAgency.hashCode());
         return result;
     }
 }

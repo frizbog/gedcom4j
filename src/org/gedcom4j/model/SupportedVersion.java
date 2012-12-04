@@ -46,8 +46,7 @@ public enum SupportedVersion {
      * @throws UnsupportedVersionException
      *             if no match can be found
      */
-    public static SupportedVersion forString(String string)
-            throws UnsupportedVersionException {
+    public static SupportedVersion forString(String string) throws UnsupportedVersionException {
         if (V5_5.stringRepresentation.equals(string)) {
             return V5_5;
         }
@@ -69,7 +68,7 @@ public enum SupportedVersion {
      *            the string representation of the version
      */
     SupportedVersion(String stringRep) {
-        this.stringRepresentation = stringRep;
+        stringRepresentation = stringRep;
     }
 
     /**

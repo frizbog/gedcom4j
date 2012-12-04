@@ -28,7 +28,7 @@ package org.gedcom4j.model;
  * @author frizbog
  * 
  */
-public class FileReference {
+public class FileReference extends AbstractElement {
 
     /**
      * The actual reference to the file - a URL, a file name, something
@@ -55,7 +55,7 @@ public class FileReference {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -96,7 +96,7 @@ public class FileReference {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + (format == null ? 0 : format.hashCode());
         result = prime * result + (mediaType == null ? 0 : mediaType.hashCode());
         result = prime * result + (referenceToFile == null ? 0 : referenceToFile.hashCode());
@@ -106,7 +106,8 @@ public class FileReference {
 
     @Override
     public String toString() {
-        return "FileReference [referenceToFile=" + referenceToFile + ", format=" + format + ", mediaType=" + mediaType + ", title=" + title + "]";
+        return "FileReference [referenceToFile=" + referenceToFile + ", format=" + format + ", mediaType=" + mediaType
+                + ", title=" + title + "]";
     }
 
 }

@@ -25,9 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A citation without a source. Corresponds to the second form of the
- * SOURCE_CITATION structure (which you'd do in Pascal with a variant record,
- * but here we use subclasses of a parent abstract class).
+ * A citation without a source. Corresponds to the second form of the SOURCE_CITATION structure (which you'd do in
+ * Pascal with a variant record, but here we use subclasses of a parent abstract class).
  * 
  * 
  * @author frizbog1
@@ -38,6 +37,7 @@ public class CitationWithoutSource extends AbstractCitation {
      * Lines of text describing this citation
      */
     public List<String> description = new ArrayList<String>();
+
     /**
      * Lines of Lines of text from the source (yeah, really)
      */
@@ -48,7 +48,7 @@ public class CitationWithoutSource extends AbstractCitation {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -82,12 +82,10 @@ public class CitationWithoutSource extends AbstractCitation {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((description == null) ? 0 : description.hashCode());
-        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-        result = prime * result
-                + ((textFromSource == null) ? 0 : textFromSource.hashCode());
+        int result = super.hashCode();
+        result = prime * result + (description == null ? 0 : description.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (textFromSource == null ? 0 : textFromSource.hashCode());
         return result;
     }
 }
