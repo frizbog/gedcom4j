@@ -26,11 +26,12 @@ package org.gedcom4j.model;
  * 
  * @author frizbog1
  */
-public class UserReference {
+public class UserReference extends AbstractElement {
     /**
      * The reference number
      */
     public String referenceNum;
+
     /**
      * The type of reference
      */
@@ -41,7 +42,7 @@ public class UserReference {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -68,10 +69,9 @@ public class UserReference {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((referenceNum == null) ? 0 : referenceNum.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        int result = super.hashCode();
+        result = prime * result + (referenceNum == null ? 0 : referenceNum.hashCode());
+        result = prime * result + (type == null ? 0 : type.hashCode());
         return result;
     }
 }

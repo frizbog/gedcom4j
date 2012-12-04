@@ -30,7 +30,7 @@ import java.util.List;
  * @author frizbog1
  * 
  */
-public class Place {
+public class Place extends AbstractElement {
     /**
      * The place name (value)
      */
@@ -76,7 +76,7 @@ public class Place {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -145,7 +145,7 @@ public class Place {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + (citations == null ? 0 : citations.hashCode());
         result = prime * result + (latitude == null ? 0 : latitude.hashCode());
         result = prime * result + (longitude == null ? 0 : longitude.hashCode());
@@ -159,7 +159,8 @@ public class Place {
 
     @Override
     public String toString() {
-        return "Place [placeName=" + placeName + ", placeFormat=" + placeFormat + ", citations=" + citations + ", notes=" + notes + ", phonetic="
-                + phonetic + ", romanized=" + romanized + ", latitude=" + latitude + ", longitude=" + longitude + "]";
+        return "Place [placeName=" + placeName + ", placeFormat=" + placeFormat + ", citations=" + citations
+                + ", notes=" + notes + ", phonetic=" + phonetic + ", romanized=" + romanized + ", latitude=" + latitude
+                + ", longitude=" + longitude + "]";
     }
 }

@@ -23,8 +23,8 @@ package org.gedcom4j.model;
 
 /**
  * <p>
- * The types of attributes that can be recorded for an individual. This enum covers the valid tags for an individual attribute. Corresponds to
- * ATTRIBUTE_TYPE in the GEDCOM spec.
+ * The types of attributes that can be recorded for an individual. This enum covers the valid tags for an individual
+ * attribute. Corresponds to ATTRIBUTE_TYPE in the GEDCOM spec.
  * </p>
  * 
  * @author frizbog1
@@ -112,7 +112,7 @@ public enum IndividualAttributeType {
      * @return true if and only if the tag supplied is a valid tag for an Individual Attribute
      */
     public static boolean isValidTag(String tag) {
-        return (getFromTag(tag) != null);
+        return getFromTag(tag) != null;
     }
 
     /**

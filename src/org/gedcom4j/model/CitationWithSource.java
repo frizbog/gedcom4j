@@ -25,9 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A citation with a source. Corresponds to the first (preferred) form of the
- * SOURCE_CITATION structure (which you'd do in Pascal with a variant record,
- * but here we use subclasses of a parent abstract class).
+ * A citation with a source. Corresponds to the first (preferred) form of the SOURCE_CITATION structure (which you'd do
+ * in Pascal with a variant record, but here we use subclasses of a parent abstract class).
  * 
  * @author frizbog1
  * 
@@ -37,29 +36,34 @@ public class CitationWithSource extends AbstractCitation {
      * Where within the source is the information being cited
      */
     public String whereInSource;
+
     /**
-     * The quality of this citation. Supposed to be 0, 1, 2, or 3, but stored as
-     * a string since we're not doing math on it.
+     * The quality of this citation. Supposed to be 0, 1, 2, or 3, but stored as a string since we're not doing math on
+     * it.
      */
     public String certainty;
+
     /**
-     * The type of event or attribute cited from. Will be the tag from one of
-     * the the following three enum types: {@link FamilyEventType},
-     * {@link IndividualEventType}, {@link IndividualAttributeType}.
+     * The type of event or attribute cited from. Will be the tag from one of the the following three enum types:
+     * {@link FamilyEventType}, {@link IndividualEventType}, {@link IndividualAttributeType}.
      */
     public String eventCited;
+
     /**
      * A list of citation data entries
      */
     public List<CitationData> data = new ArrayList<CitationData>();
+
     /**
      * A reference to the cited source
      */
     public Source source;
+
     /**
      * Multimedia links for this source citation
      */
     public List<Multimedia> multimedia = new ArrayList<Multimedia>();
+
     /**
      * The role in the event cited
      */
@@ -70,7 +74,7 @@ public class CitationWithSource extends AbstractCitation {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -139,20 +143,15 @@ public class CitationWithSource extends AbstractCitation {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((certainty == null) ? 0 : certainty.hashCode());
-        result = prime * result + ((data == null) ? 0 : data.hashCode());
-        result = prime * result
-                + ((eventCited == null) ? 0 : eventCited.hashCode());
-        result = prime * result
-                + ((multimedia == null) ? 0 : multimedia.hashCode());
-        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-        result = prime * result
-                + ((roleInEvent == null) ? 0 : roleInEvent.hashCode());
-        result = prime * result + ((source == null) ? 0 : source.hashCode());
-        result = prime * result
-                + ((whereInSource == null) ? 0 : whereInSource.hashCode());
+        int result = super.hashCode();
+        result = prime * result + (certainty == null ? 0 : certainty.hashCode());
+        result = prime * result + (data == null ? 0 : data.hashCode());
+        result = prime * result + (eventCited == null ? 0 : eventCited.hashCode());
+        result = prime * result + (multimedia == null ? 0 : multimedia.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (roleInEvent == null ? 0 : roleInEvent.hashCode());
+        result = prime * result + (source == null ? 0 : source.hashCode());
+        result = prime * result + (whereInSource == null ? 0 : whereInSource.hashCode());
         return result;
     }
 }

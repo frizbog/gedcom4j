@@ -25,28 +25,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents an Association between two individuals. Corresponds to
- * ASSOCIATION_STRUCTURE in the GEDCOM spec.
+ * Represents an Association between two individuals. Corresponds to ASSOCIATION_STRUCTURE in the GEDCOM spec.
  * 
  * @author frizbog1
  */
-public class Association {
+public class Association extends AbstractElement {
     /**
      * Relationship description
      */
     public String relationship;
+
     /**
      * The XREF to the associated entity
      */
     public String associatedEntityXref;
+
     /**
      * The type of the associated entity
      */
     public String associatedEntityType;
+
     /**
      * The citations for this association
      */
     public List<AbstractCitation> citations = new ArrayList<AbstractCitation>();
+
     /**
      * Notes about this association
      */
@@ -57,7 +60,7 @@ public class Association {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (!(obj instanceof Association)) {
@@ -105,20 +108,12 @@ public class Association {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime
-                * result
-                + ((associatedEntityType == null) ? 0 : associatedEntityType
-                        .hashCode());
-        result = prime
-                * result
-                + ((associatedEntityXref == null) ? 0 : associatedEntityXref
-                        .hashCode());
-        result = prime * result
-                + ((citations == null) ? 0 : citations.hashCode());
-        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-        result = prime * result
-                + ((relationship == null) ? 0 : relationship.hashCode());
+        int result = super.hashCode();
+        result = prime * result + (associatedEntityType == null ? 0 : associatedEntityType.hashCode());
+        result = prime * result + (associatedEntityXref == null ? 0 : associatedEntityXref.hashCode());
+        result = prime * result + (citations == null ? 0 : citations.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (relationship == null ? 0 : relationship.hashCode());
         return result;
     }
 }

@@ -30,7 +30,7 @@ import java.util.List;
  * @author frizbog1
  * 
  */
-public class Corporation {
+public class Corporation extends AbstractElement {
     /**
      * The business name
      */
@@ -66,7 +66,7 @@ public class Corporation {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -122,7 +122,7 @@ public class Corporation {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + (address == null ? 0 : address.hashCode());
         result = prime * result + (businessName == null ? 0 : businessName.hashCode());
         result = prime * result + (phoneNumbers == null ? 0 : phoneNumbers.hashCode());

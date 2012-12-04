@@ -29,57 +29,59 @@ import java.util.Map;
  * 
  * @author frizbog1
  */
-public class Gedcom {
+public class Gedcom extends AbstractElement {
     /**
-     * A map of all the families in the GEDCOM file. The map is keyed on family
-     * cross-reference numbers, and the families themselves are in the value
-     * set.
+     * A map of all the families in the GEDCOM file. The map is keyed on family cross-reference numbers, and the
+     * families themselves are in the value set.
      */
     public Map<String, Family> families = new HashMap<String, Family>();
+
     /**
      * Header information about the GEDCOM
      */
     public Header header = new Header();
+
     /**
-     * A map of all the individuals in the GEDCOM file. The map is keyed on the
-     * individual cross-reference numbers and the individuals themselves are in
-     * the value set.
+     * A map of all the individuals in the GEDCOM file. The map is keyed on the individual cross-reference numbers and
+     * the individuals themselves are in the value set.
      */
     public Map<String, Individual> individuals = new HashMap<String, Individual>();
+
     /**
-     * A map of all the multimedia items in the GEDCOM file. The map is keyed by
-     * the multimedia cross-reference numbers, and the multimedia items
-     * themselves (well, the metadata about them) are in the value set.
-     * Remember, multimedia is not embedded in the GEDCOM, but the GEDCOM
-     * contains metadata about the multimedia.
+     * A map of all the multimedia items in the GEDCOM file. The map is keyed by the multimedia cross-reference numbers,
+     * and the multimedia items themselves (well, the metadata about them for 5.5.1) are in the value set. Remember,
+     * GEDCOM 5.5.1 multimedia is not embedded in the GEDCOM, but the GEDCOM contains metadata about the multimedia.
      */
     public Map<String, Multimedia> multimedia = new HashMap<String, Multimedia>();
+
     /**
-     * A map of notes
+     * A map of notes. The map is keyed with cross-reference numbers and the notes themselves are the values.
      */
     public Map<String, Note> notes = new HashMap<String, Note>();
+
     /**
-     * A map of all the source repositories in the GEDCOM file. The map is keyed
-     * on the repository cross-reference numbers, and the repositories
-     * themsevles are in the value set.
+     * A map of all the source repositories in the GEDCOM file. The map is keyed on the repository cross-reference
+     * numbers, and the repositories themsevles are in the value set.
      */
     public Map<String, Repository> repositories = new HashMap<String, Repository>();
+
     /**
-     * A map of all the sources in the GEDCOM file. The map is keyed on source
-     * cross-reference numbers, and the sources themsevles are in the value set.
+     * A map of all the sources in the GEDCOM file. The map is keyed on source cross-reference numbers, and the sources
+     * themsevles are in the value set.
      */
     public Map<String, Source> sources = new HashMap<String, Source>();
+
     /**
-     * Information about the GEDCOM submission. There is only one and it is
-     * required, so the xref ID has a default.
+     * Information about the GEDCOM submission. There is only one and it is required, so the xref ID has a default.
      */
     public Submission submission = new Submission("@SUBMISSION@");
+
     /**
-     * A map of the submitters in the GEDCOM file. The map is keyed on submitter
-     * cross-reference numbers, and the submitters themselves are in the value
-     * set
+     * A map of the submitters in the GEDCOM file. The map is keyed on submitter cross-reference numbers, and the
+     * submitters themselves are in the value set
      */
     public Map<String, Submitter> submitters = new HashMap<String, Submitter>();
+
     /**
      * The trailer of the file
      */
@@ -90,7 +92,7 @@ public class Gedcom {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -173,23 +175,17 @@ public class Gedcom {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((families == null) ? 0 : families.hashCode());
-        result = prime * result + ((header == null) ? 0 : header.hashCode());
-        result = prime * result
-                + ((individuals == null) ? 0 : individuals.hashCode());
-        result = prime * result
-                + ((multimedia == null) ? 0 : multimedia.hashCode());
-        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
-        result = prime * result
-                + ((repositories == null) ? 0 : repositories.hashCode());
-        result = prime * result + ((sources == null) ? 0 : sources.hashCode());
-        result = prime * result
-                + ((submission == null) ? 0 : submission.hashCode());
-        result = prime * result
-                + ((submitters == null) ? 0 : submitters.hashCode());
-        result = prime * result + ((trailer == null) ? 0 : trailer.hashCode());
+        int result = super.hashCode();
+        result = prime * result + (families == null ? 0 : families.hashCode());
+        result = prime * result + (header == null ? 0 : header.hashCode());
+        result = prime * result + (individuals == null ? 0 : individuals.hashCode());
+        result = prime * result + (multimedia == null ? 0 : multimedia.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (repositories == null ? 0 : repositories.hashCode());
+        result = prime * result + (sources == null ? 0 : sources.hashCode());
+        result = prime * result + (submission == null ? 0 : submission.hashCode());
+        result = prime * result + (submitters == null ? 0 : submitters.hashCode());
+        result = prime * result + (trailer == null ? 0 : trailer.hashCode());
         return result;
     }
 }

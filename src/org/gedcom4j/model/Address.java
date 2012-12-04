@@ -25,12 +25,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents an address. Corresponds to part of the ADDRESS_STRUCTURE element in the GEDCOM specification. The other parts of the structure
- * containing phone numbers, faxes, urls, and emails are kept in in the objects that have those attributes.
+ * Represents an address. Corresponds to part of the ADDRESS_STRUCTURE element in the GEDCOM specification. The other
+ * parts of the structure containing phone numbers, faxes, urls, and emails are kept in in the objects that have those
+ * attributes.
  * 
  * @author frizbog1
  */
-public class Address {
+public class Address extends AbstractElement {
     /**
      * The lines of the address
      */
@@ -71,7 +72,7 @@ public class Address {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -133,7 +134,7 @@ public class Address {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + (addr1 == null ? 0 : addr1.hashCode());
         result = prime * result + (addr2 == null ? 0 : addr2.hashCode());
         result = prime * result + (city == null ? 0 : city.hashCode());

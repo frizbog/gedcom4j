@@ -29,11 +29,12 @@ import java.util.List;
  * 
  * @author frizbog1
  */
-public class CitationData {
+public class CitationData extends AbstractElement {
     /**
      * The date of the entry
      */
     public String entryDate;
+
     /**
      * The source text - one or more lines of it
      */
@@ -44,7 +45,7 @@ public class CitationData {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -71,11 +72,9 @@ public class CitationData {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((entryDate == null) ? 0 : entryDate.hashCode());
-        result = prime * result
-                + ((sourceText == null) ? 0 : sourceText.hashCode());
+        int result = super.hashCode();
+        result = prime * result + (entryDate == null ? 0 : entryDate.hashCode());
+        result = prime * result + (sourceText == null ? 0 : sourceText.hashCode());
         return result;
     }
 }

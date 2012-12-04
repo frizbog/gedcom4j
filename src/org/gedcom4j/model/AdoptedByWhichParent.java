@@ -22,8 +22,8 @@
 package org.gedcom4j.model;
 
 /**
- * An enumeration of who adopted a child. Corresponds to the
- * ADOPTED_BY_WHICH_PARENT definition in the GEDCOM specification.
+ * An enumeration of who adopted a child. Corresponds to the ADOPTED_BY_WHICH_PARENT definition in the GEDCOM
+ * specification.
  * 
  * @author frizbog1
  */
