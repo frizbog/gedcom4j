@@ -58,7 +58,7 @@ public class IndividualValidator extends AbstractValidator {
     private void checkAliases() {
         if (individual.aliases == null) {
             if (rootValidator.autorepair) {
-                individual.aliases = new ArrayList<StringTag>();
+                individual.aliases = new ArrayList<StringWithCustomTags>();
                 addInfo("aliases collection for individual was null - rootValidator.autorepaired", individual);
             } else {
                 addError("aliases collection for individual is null", individual);

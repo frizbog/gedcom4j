@@ -31,12 +31,12 @@ public class SourceCallNumber extends AbstractElement {
     /**
      * The call number. Corresponds to SOURCE_CALL_NUMBER in the Gedcom spec.
      */
-    public StringTag callNumber;
+    public StringWithCustomTags callNumber;
 
     /**
      * The media type, corresponds to SOURCE_MEDIA_TYPE in the Gedcom spec
      */
-    public StringTag mediaType;
+    public StringWithCustomTags mediaType;
 
     @Override
     public boolean equals(Object obj) {

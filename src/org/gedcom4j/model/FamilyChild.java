@@ -43,7 +43,7 @@ public class FamilyChild extends AbstractElement {
     /**
      * Pedigree information
      */
-    public StringTag pedigree;
+    public StringWithCustomTags pedigree;
 
     /**
      * Who did the adopting.
@@ -54,7 +54,7 @@ public class FamilyChild extends AbstractElement {
      * The status of this Family/Child relationship. New for GEDCOM 5.5.1. Supposed to be "challenged", "disproven", or
      * "proven", but this implementation allows any value.
      */
-    public StringTag status;
+    public StringWithCustomTags status;
 
     @Override
     public boolean equals(Object obj) {

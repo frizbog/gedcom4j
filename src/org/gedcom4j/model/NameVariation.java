@@ -34,7 +34,7 @@ public class NameVariation extends AbstractElement {
      * The variation type. For romanized names, the method used in transforming the text to a romanized variation. For
      * phonetic names, the method used in transforming the text to the phonetic variation.
      */
-    public StringTag variationType;
+    public StringWithCustomTags variationType;
 
     /**
      * The variation text

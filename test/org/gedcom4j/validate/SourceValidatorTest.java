@@ -24,7 +24,7 @@ package org.gedcom4j.validate;
 import org.gedcom4j.model.EventRecorded;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.SourceData;
-import org.gedcom4j.model.StringTag;
+import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * @author frizbog1
@@ -37,7 +37,7 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
      */
     public void testBadSource1() {
         Source src = new Source("bad xref");
-        src.recIdNumber = new StringTag("");
+        src.recIdNumber = new StringWithCustomTags("");
         AbstractValidator av = new SourceValidator(rootValidator, src);
         av.validate();
         assertFindingsContain(Severity.ERROR, "record id", "source", "blank");
@@ -52,7 +52,7 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
         Source src = new Source("@Test@");
         src.data = new SourceData();
         EventRecorded e = new EventRecorded();
-        e.datePeriod = new StringTag("anytime");
+        e.datePeriod = new StringWithCustomTags("anytime");
         src.data.eventsRecorded.add(e);
         AbstractValidator av = new SourceValidator(rootValidator, src);
         av.validate();

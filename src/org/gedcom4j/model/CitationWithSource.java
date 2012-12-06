@@ -35,19 +35,19 @@ public class CitationWithSource extends AbstractCitation {
     /**
      * Where within the source is the information being cited
      */
-    public StringTag whereInSource;
+    public StringWithCustomTags whereInSource;
 
     /**
      * The quality of this citation. Supposed to be 0, 1, 2, or 3, but stored as a string since we're not doing math on
      * it.
      */
-    public StringTag certainty;
+    public StringWithCustomTags certainty;
 
     /**
      * The type of event or attribute cited from. Will be the tag from one of the the following three enum types:
      * {@link FamilyEventType}, {@link IndividualEventType}, {@link IndividualAttributeType}.
      */
-    public StringTag eventCited;
+    public StringWithCustomTags eventCited;
 
     /**
      * A list of citation data entries
@@ -67,7 +67,7 @@ public class CitationWithSource extends AbstractCitation {
     /**
      * The role in the event cited
      */
-    public StringTag roleInEvent;
+    public StringWithCustomTags roleInEvent;
 
     @Override
     public boolean equals(Object obj) {

@@ -52,7 +52,7 @@ public class IndividualTest {
     private void addAttributeOfType(Individual i, IndividualAttributeType t) {
         IndividualAttribute e = new IndividualAttribute();
         e.type = t;
-        e.description = new StringTag("Random text for uniqueness " + Math.random());
+        e.description = new StringWithCustomTags("Random text for uniqueness " + Math.random());
         i.attributes.add(e);
     }
 
@@ -82,7 +82,7 @@ public class IndividualTest {
     private void addEventOfType(Individual i, IndividualEventType t) {
         IndividualEvent e = new IndividualEvent();
         e.type = t;
-        e.description = new StringTag("Random text for uniqueness " + Math.random());
+        e.description = new StringWithCustomTags("Random text for uniqueness " + Math.random());
         i.events.add(e);
     }
 

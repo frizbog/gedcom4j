@@ -31,7 +31,7 @@ import java.util.List;
 import org.gedcom4j.model.FamilyChild;
 import org.gedcom4j.model.FamilySpouse;
 import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.StringTag;
+import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * <p>
@@ -307,7 +307,7 @@ public class RelationshipCalculator {
      *            the sex of original person
      * @return what the relationship would be back to the original person
      */
-    private RelationshipName getReverseRelationship(RelationshipName relationship, StringTag sex) {
+    private RelationshipName getReverseRelationship(RelationshipName relationship, StringWithCustomTags sex) {
         if ("M".equals(sex.value)) {
             return relationship.reverseForMale;
         }

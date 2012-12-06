@@ -61,18 +61,18 @@ public class RepositoryTest {
         r2.changeDate = null;
         assertEquals(r1, r2);
 
-        r1.emails.add(new StringTag("Frying Pan"));
+        r1.emails.add(new StringWithCustomTags("Frying Pan"));
         assertFalse(r1.equals(r2));
-        r2.emails.add(new StringTag("Frying Pan"));
+        r2.emails.add(new StringWithCustomTags("Frying Pan"));
         assertEquals(r1, r2);
         r1.emails = null;
         assertFalse(r1.equals(r2));
         r2.emails = null;
         assertEquals(r1, r2);
 
-        r1.name = new StringTag("Frying Pan");
+        r1.name = new StringWithCustomTags("Frying Pan");
         assertFalse(r1.equals(r2));
-        r2.name = new StringTag("Frying Pan");
+        r2.name = new StringWithCustomTags("Frying Pan");
         assertEquals(r1, r2);
         r1.name = null;
         assertFalse(r1.equals(r2));
@@ -88,18 +88,18 @@ public class RepositoryTest {
         r2.notes = null;
         assertEquals(r1, r2);
 
-        r1.phoneNumbers.add(new StringTag("Frying Pan"));
+        r1.phoneNumbers.add(new StringWithCustomTags("Frying Pan"));
         assertFalse(r1.equals(r2));
-        r2.phoneNumbers.add(new StringTag("Frying Pan"));
+        r2.phoneNumbers.add(new StringWithCustomTags("Frying Pan"));
         assertEquals(r1, r2);
         r1.phoneNumbers = null;
         assertFalse(r1.equals(r2));
         r2.phoneNumbers = null;
         assertEquals(r1, r2);
 
-        r1.recIdNumber = new StringTag("Frying Pan");
+        r1.recIdNumber = new StringWithCustomTags("Frying Pan");
         assertFalse(r1.equals(r2));
-        r2.recIdNumber = new StringTag("Frying Pan");
+        r2.recIdNumber = new StringWithCustomTags("Frying Pan");
         assertEquals(r1, r2);
         r1.recIdNumber = null;
         assertFalse(r1.equals(r2));
@@ -137,18 +137,18 @@ public class RepositoryTest {
         r2.changeDate = null;
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1.emails.add(new StringTag("Frying Pan"));
+        r1.emails.add(new StringWithCustomTags("Frying Pan"));
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.emails.add(new StringTag("Frying Pan"));
+        r2.emails.add(new StringWithCustomTags("Frying Pan"));
         assertEquals(r1.hashCode(), r2.hashCode());
         r1.emails = null;
         assertFalse(r1.hashCode() == r2.hashCode());
         r2.emails = null;
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1.name = new StringTag("Frying Pan");
+        r1.name = new StringWithCustomTags("Frying Pan");
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.name = new StringTag("Frying Pan");
+        r2.name = new StringWithCustomTags("Frying Pan");
         assertEquals(r1.hashCode(), r2.hashCode());
         r1.name = null;
         assertFalse(r1.hashCode() == r2.hashCode());
@@ -164,18 +164,18 @@ public class RepositoryTest {
         r2.notes = null;
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1.phoneNumbers.add(new StringTag("Frying Pan"));
+        r1.phoneNumbers.add(new StringWithCustomTags("Frying Pan"));
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.phoneNumbers.add(new StringTag("Frying Pan"));
+        r2.phoneNumbers.add(new StringWithCustomTags("Frying Pan"));
         assertEquals(r1.hashCode(), r2.hashCode());
         r1.phoneNumbers = null;
         assertFalse(r1.hashCode() == r2.hashCode());
         r2.phoneNumbers = null;
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1.recIdNumber = new StringTag("Frying Pan");
+        r1.recIdNumber = new StringWithCustomTags("Frying Pan");
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.recIdNumber = new StringTag("Frying Pan");
+        r2.recIdNumber = new StringWithCustomTags("Frying Pan");
         assertEquals(r1.hashCode(), r2.hashCode());
         r1.recIdNumber = null;
         assertFalse(r1.hashCode() == r2.hashCode());

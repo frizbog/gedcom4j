@@ -33,22 +33,22 @@ public class FileReference extends AbstractElement {
     /**
      * The actual reference to the file - a URL, a file name, something
      */
-    public StringTag referenceToFile;
+    public StringWithCustomTags referenceToFile;
 
     /**
      * The format of the referenced file
      */
-    public StringTag format;
+    public StringWithCustomTags format;
 
     /**
      * The media type of the referenced file
      */
-    public StringTag mediaType;
+    public StringWithCustomTags mediaType;
 
     /**
      * The descriptive title for this file reference
      */
-    public StringTag title;
+    public StringWithCustomTags title;
 
     @Override
     public boolean equals(Object obj) {

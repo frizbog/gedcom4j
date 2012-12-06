@@ -39,12 +39,12 @@ public class Repository extends AbstractElement {
     /**
      * The name of this repository
      */
-    public StringTag name;
+    public StringWithCustomTags name;
 
     /**
      * The record ID for this repository
      */
-    public StringTag recIdNumber;
+    public StringWithCustomTags recIdNumber;
 
     /**
      * The address for this repository
@@ -69,22 +69,22 @@ public class Repository extends AbstractElement {
     /**
      * The phone numbers for this repository
      */
-    public List<StringTag> phoneNumbers = new ArrayList<StringTag>();
+    public List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>();
 
     /**
      * Web URL's. New for GEDCOM 5.5.1.
      */
-    public List<StringTag> wwwUrls = new ArrayList<StringTag>();
+    public List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>();
 
     /**
      * Fax numbers. New for GEDCOM 5.5.1.
      */
-    public List<StringTag> faxNumbers = new ArrayList<StringTag>();
+    public List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>();
 
     /**
      * The emails for this submitter. New for GEDCOM 5.5.1
      */
-    public List<StringTag> emails = new ArrayList<StringTag>();
+    public List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>();
 
     @Override
     public boolean equals(Object obj) {

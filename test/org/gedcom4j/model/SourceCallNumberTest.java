@@ -51,10 +51,10 @@ public class SourceCallNumberTest {
     public void testCallNumber() {
         SourceCallNumber scn1 = new SourceCallNumber();
         SourceCallNumber scn2 = new SourceCallNumber();
-        scn1.callNumber = new StringTag("Foo");
+        scn1.callNumber = new StringWithCustomTags("Foo");
         assertFalse(scn1.equals(scn2));
         assertFalse(scn1.hashCode() == scn2.hashCode());
-        scn2.callNumber = new StringTag("Foo");
+        scn2.callNumber = new StringWithCustomTags("Foo");
         assertTrue(scn1.equals(scn2));
         assertTrue(scn1.hashCode() == scn2.hashCode());
     }
@@ -66,10 +66,10 @@ public class SourceCallNumberTest {
     public void testMediaType() {
         SourceCallNumber scn1 = new SourceCallNumber();
         SourceCallNumber scn2 = new SourceCallNumber();
-        scn1.mediaType = new StringTag("Foo");
+        scn1.mediaType = new StringWithCustomTags("Foo");
         assertFalse(scn1.equals(scn2));
         assertFalse(scn1.hashCode() == scn2.hashCode());
-        scn2.mediaType = new StringTag("Foo");
+        scn2.mediaType = new StringWithCustomTags("Foo");
         assertTrue(scn1.equals(scn2));
         assertTrue(scn1.hashCode() == scn2.hashCode());
     }

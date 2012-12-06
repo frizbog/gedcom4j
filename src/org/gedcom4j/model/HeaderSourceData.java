@@ -31,17 +31,17 @@ public class HeaderSourceData extends AbstractElement {
     /**
      * The name
      */
-    public StringTag name;
+    public String name;
 
     /**
      * The publish date
      */
-    public StringTag publishDate;
+    public StringWithCustomTags publishDate;
 
     /**
      * Copyright information
      */
-    public StringTag copyright;
+    public StringWithCustomTags copyright;
 
     @Override
     public boolean equals(Object obj) {

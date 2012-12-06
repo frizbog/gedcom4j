@@ -44,22 +44,22 @@ public class Corporation extends AbstractElement {
     /**
      * The phone numbers
      */
-    public List<StringTag> phoneNumbers = new ArrayList<StringTag>();
+    public List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>();
 
     /**
      * Web URL's. New for GEDCOM 5.5.1.
      */
-    public List<StringTag> wwwUrls = new ArrayList<StringTag>();
+    public List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>();
 
     /**
      * Fax numbers. New for GEDCOM 5.5.1.
      */
-    public List<StringTag> faxNumbers = new ArrayList<StringTag>();
+    public List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>();
 
     /**
      * The emails for this submitter. New for GEDCOM 5.5.1
      */
-    public List<StringTag> emails = new ArrayList<StringTag>();
+    public List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>();
 
     @Override
     public boolean equals(Object obj) {
