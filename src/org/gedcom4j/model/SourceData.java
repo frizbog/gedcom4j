@@ -33,7 +33,7 @@ public class SourceData extends AbstractElement {
     /**
      * The responsible agency.
      */
-    public StringTag respAgency;
+    public StringWithCustomTags respAgency;
 
     /**
      * The events recorded.

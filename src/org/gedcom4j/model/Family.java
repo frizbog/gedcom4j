@@ -33,12 +33,12 @@ public class Family extends AbstractElement {
     /**
      * The permanent record file number
      */
-    public StringTag recFileNumber;
+    public StringWithCustomTags recFileNumber;
 
     /**
      * The automated record ID number
      */
-    public StringTag automatedRecordId;
+    public StringWithCustomTags automatedRecordId;
 
     /**
      * The wife in the family
@@ -58,7 +58,7 @@ public class Family extends AbstractElement {
     /**
      * The number of children
      */
-    public StringTag numChildren;
+    public StringWithCustomTags numChildren;
 
     /**
      * A list of the submitters for this family
@@ -109,7 +109,7 @@ public class Family extends AbstractElement {
      * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be
      * "confidential", "locked", or "privacy" but this implementation allows any value.
      */
-    public StringTag restrictionNotice;
+    public StringWithCustomTags restrictionNotice;
 
     @Override
     public boolean equals(Object obj) {

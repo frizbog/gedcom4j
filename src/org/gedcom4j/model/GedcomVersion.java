@@ -37,7 +37,7 @@ public class GedcomVersion extends AbstractElement {
     /**
      * The form
      */
-    public StringTag gedcomForm = new StringTag("LINEAGE-LINKED");
+    public StringWithCustomTags gedcomForm = new StringWithCustomTags("LINEAGE-LINKED");
 
     @Override
     public boolean equals(Object obj) {

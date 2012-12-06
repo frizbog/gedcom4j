@@ -59,7 +59,7 @@ public class Note extends AbstractElement {
     /**
      * The record ID for this note
      */
-    public StringTag recIdNumber;
+    public StringWithCustomTags recIdNumber;
 
     @Override
     public boolean equals(Object obj) {

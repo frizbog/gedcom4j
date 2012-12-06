@@ -41,32 +41,32 @@ public class Submission extends AbstractElement {
     /**
      * The name of the family file
      */
-    public StringTag nameOfFamilyFile;
+    public StringWithCustomTags nameOfFamilyFile;
 
     /**
      * The temple code for this submission
      */
-    public StringTag templeCode;
+    public StringWithCustomTags templeCode;
 
     /**
      * The number of ancestor generations
      */
-    public StringTag ancestorsCount;
+    public StringWithCustomTags ancestorsCount;
 
     /**
      * The number of descendant generations
      */
-    public StringTag descendantsCount;
+    public StringWithCustomTags descendantsCount;
 
     /**
      * The ordinance process flag
      */
-    public StringTag ordinanceProcessFlag;
+    public StringWithCustomTags ordinanceProcessFlag;
 
     /**
      * The automated record id
      */
-    public StringTag recIdNumber;
+    public StringWithCustomTags recIdNumber;
 
     /**
      * Constructor, takes required xref value

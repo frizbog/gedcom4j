@@ -39,32 +39,32 @@ public class Event extends AbstractElement {
     /**
      * The phone numbers involved with this event
      */
-    public List<StringTag> phoneNumbers = new ArrayList<StringTag>();
+    public List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>();
 
     /**
      * Web URL's. New for GEDCOM 5.5.1.
      */
-    public List<StringTag> wwwUrls = new ArrayList<StringTag>();
+    public List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>();
 
     /**
      * Fax numbers. New for GEDCOM 5.5.1.
      */
-    public List<StringTag> faxNumbers = new ArrayList<StringTag>();
+    public List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>();
 
     /**
      * The emails for this submitter. New for GEDCOM 5.5.1
      */
-    public List<StringTag> emails = new ArrayList<StringTag>();
+    public List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>();
 
     /**
      * The age of the person to whom this event is attached at the time it occurred
      */
-    public StringTag age;
+    public StringWithCustomTags age;
 
     /**
      * The cause of the event
      */
-    public StringTag cause;
+    public StringWithCustomTags cause;
 
     /**
      * List of source citations for this event
@@ -74,12 +74,12 @@ public class Event extends AbstractElement {
     /**
      * The date of this event
      */
-    public StringTag date;
+    public StringWithCustomTags date;
 
     /**
      * A description of this event
      */
-    public StringTag description;
+    public StringWithCustomTags description;
 
     /**
      * Multimeda for this event
@@ -99,28 +99,28 @@ public class Event extends AbstractElement {
     /**
      * The responsible agency for this event
      */
-    public StringTag respAgency;
+    public StringWithCustomTags respAgency;
 
     /**
      * Either a Y or a null after the event type;
      */
-    public StringTag yNull;
+    public String yNull;
 
     /**
      * A subtype that further qualifies the type
      */
-    public StringTag subType;
+    public StringWithCustomTags subType;
 
     /**
      * The religious affiliation of this event. New for GEDCOM 5.5.1.
      */
-    public StringTag religiousAffiliation;
+    public StringWithCustomTags religiousAffiliation;
 
     /**
      * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be
      * "confidential", "locked", or "privacy" but this implementation allows any value.
      */
-    public StringTag restrictionNotice;
+    public StringWithCustomTags restrictionNotice;
 
     @Override
     public boolean equals(Object obj) {

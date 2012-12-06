@@ -56,7 +56,7 @@ public class GedcomWriterTest551 {
         assertTrue(gw.lines.isEmpty());
 
         Multimedia m = new Multimedia();
-        m.embeddedMediaFormat = new StringTag("bmp");
+        m.embeddedMediaFormat = new StringWithCustomTags("bmp");
         g.multimedia.put("@M1@", m);
         m.blob.add("Blob data only allowed with 5.5");
         try {
@@ -97,7 +97,7 @@ public class GedcomWriterTest551 {
         assertTrue(gw.lines.isEmpty());
 
         // Email addresses
-        c.emails.add(new StringTag("Not allowed under 5.5"));
+        c.emails.add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the corporation having an email");
@@ -134,7 +134,7 @@ public class GedcomWriterTest551 {
         gw.validationSuppressed = false;
         assertTrue(gw.lines.isEmpty());
         // Fax numbers
-        c.faxNumbers.add(new StringTag("Not allowed under 5.5"));
+        c.faxNumbers.add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the corporation having a fax number");
@@ -172,7 +172,7 @@ public class GedcomWriterTest551 {
         assertTrue(gw.lines.isEmpty());
 
         // WWW urls
-        c.wwwUrls.add(new StringTag("Not allowed under 5.5"));
+        c.wwwUrls.add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the corporation having a www url");
@@ -219,8 +219,8 @@ public class GedcomWriterTest551 {
         e.type = IndividualEventType.BIRTH;
         e.place = new Place();
         e.place.placeName = "Krakow, Poland";
-        e.place.latitude = new StringTag("+50\u00B0 3' 1.49\"");
-        e.place.longitude = new StringTag("+19\u00B0 56' 21.48\"");
+        e.place.latitude = new StringWithCustomTags("+50\u00B0 3' 1.49\"");
+        e.place.longitude = new StringWithCustomTags("+19\u00B0 56' 21.48\"");
 
         // Write the test data
         gw.write("tmp/writertest551.ged");
@@ -304,15 +304,15 @@ public class GedcomWriterTest551 {
         m1.xref = "@M0@";
         g1.multimedia.put(m1.xref, m1);
         FileReference fr = new FileReference();
-        fr.referenceToFile = new StringTag("C:/foo.gif");
-        fr.title = new StringTag("Foo");
-        fr.format = new StringTag("gif");
-        fr.mediaType = new StringTag("disk");
+        fr.referenceToFile = new StringWithCustomTags("C:/foo.gif");
+        fr.title = new StringWithCustomTags("Foo");
+        fr.format = new StringWithCustomTags("gif");
+        fr.mediaType = new StringWithCustomTags("disk");
         m1.fileReferences.add(fr);
         fr = new FileReference();
-        fr.referenceToFile = new StringTag("C:/bar.png");
-        fr.format = new StringTag("png");
-        fr.title = new StringTag("Bar");
+        fr.referenceToFile = new StringWithCustomTags("C:/bar.png");
+        fr.format = new StringWithCustomTags("png");
+        fr.title = new StringWithCustomTags("Bar");
         m1.fileReferences.add(fr);
 
         // Write it
@@ -366,7 +366,7 @@ public class GedcomWriterTest551 {
         assertTrue(gw.lines.isEmpty());
 
         // Email addresses
-        r.emails.add(new StringTag("Not allowed under 5.5"));
+        r.emails.add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the repository having an email");
@@ -401,7 +401,7 @@ public class GedcomWriterTest551 {
         assertTrue(gw.lines.isEmpty());
 
         // Fax numbers
-        r.faxNumbers.add(new StringTag("Not allowed under 5.5"));
+        r.faxNumbers.add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the repository having a fax number");
@@ -436,7 +436,7 @@ public class GedcomWriterTest551 {
         assertTrue(gw.lines.isEmpty());
 
         // WWW urls
-        r.wwwUrls.add(new StringTag("Not allowed under 5.5"));
+        r.wwwUrls.add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the repository having a www url");
@@ -471,7 +471,7 @@ public class GedcomWriterTest551 {
         assertTrue(gw.lines.isEmpty());
 
         // Email addresses
-        s.emails.add(new StringTag("Not allowed under 5.5"));
+        s.emails.add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the submitter having an email");
@@ -506,7 +506,7 @@ public class GedcomWriterTest551 {
         assertTrue(gw.lines.isEmpty());
 
         // Fax numbers
-        s.faxNumbers.add(new StringTag("Not allowed under 5.5"));
+        s.faxNumbers.add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the submitter having a fax number");
@@ -541,7 +541,7 @@ public class GedcomWriterTest551 {
         assertTrue(gw.lines.isEmpty());
 
         // WWW urls
-        s.wwwUrls.add(new StringTag("Not allowed under 5.5"));
+        s.wwwUrls.add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the submitter having a www url");
@@ -569,7 +569,7 @@ public class GedcomWriterTest551 {
     public void testUtf8With55() throws IOException, GedcomWriterException {
         Gedcom g = new Gedcom();
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
-        g.header.characterSet.characterSetName = new StringTag("UTF-8");
+        g.header.characterSet.characterSetName = new StringWithCustomTags("UTF-8");
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
         assertTrue(gw.lines.isEmpty());

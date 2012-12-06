@@ -33,7 +33,7 @@ public class CitationData extends AbstractElement {
     /**
      * The date of the entry
      */
-    public StringTag entryDate;
+    public StringWithCustomTags entryDate;
 
     /**
      * The source text - one or more lines of it

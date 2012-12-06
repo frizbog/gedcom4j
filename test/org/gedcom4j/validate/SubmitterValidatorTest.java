@@ -21,7 +21,7 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.model.StringTag;
+import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
 
 /**
@@ -46,7 +46,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
      */
     public void testValidateSubmitterHappyPath() {
         Submitter submitter = new Submitter();
-        submitter.name = new StringTag("somebody");
+        submitter.name = new StringWithCustomTags("somebody");
         submitter.xref = "@nobody@";
         AbstractValidator sv = new SubmitterValidator(rootValidator, submitter);
         sv.validate();
@@ -60,7 +60,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     public void testValidateSubmitterHasBlankName() {
         Submitter submitter = new Submitter();
         submitter.xref = "@SOMEVALUE@";
-        submitter.name = new StringTag("");
+        submitter.name = new StringWithCustomTags("");
         AbstractValidator sv = new SubmitterValidator(rootValidator, submitter);
         sv.validate();
         assertFindingsContain(Severity.ERROR, "name", "blank", "null");
@@ -71,7 +71,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
      */
     public void testValidateSubmitterHasBlankXref() {
         Submitter submitter = new Submitter();
-        submitter.name = new StringTag("somebody");
+        submitter.name = new StringWithCustomTags("somebody");
         submitter.xref = "";
         AbstractValidator sv = new SubmitterValidator(rootValidator, submitter);
         sv.validate();
@@ -96,7 +96,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
      */
     public void testValidateSubmitterHasNoXref() {
         Submitter submitter = new Submitter();
-        submitter.name = new StringTag("somebody");
+        submitter.name = new StringWithCustomTags("somebody");
         AbstractValidator sv = new SubmitterValidator(rootValidator, submitter);
         sv.validate();
         assertFindingsContain(Severity.ERROR, "xref", "blank", "null");

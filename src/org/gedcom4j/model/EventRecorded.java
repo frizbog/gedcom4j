@@ -37,12 +37,12 @@ public class EventRecorded extends AbstractElement {
     /**
      * The date period covered in the source
      */
-    public StringTag datePeriod;
+    public StringWithCustomTags datePeriod;
 
     /**
      * The jurisdiction of the source. Corresponds to SOURCE_JURISDICTION_PLACE in the GEDCOM spec.
      */
-    public StringTag jurisdiction;
+    public StringWithCustomTags jurisdiction;
 
     @Override
     public boolean equals(Object obj) {

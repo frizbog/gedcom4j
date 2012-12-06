@@ -36,12 +36,12 @@ public class SourceSystem extends AbstractElement {
     /**
      * The version number of this source system
      */
-    public StringTag versionNum;
+    public StringWithCustomTags versionNum;
 
     /**
      * The product name for this source system
      */
-    public StringTag productName;
+    public StringWithCustomTags productName;
 
     /**
      * The corporation that owns this source system

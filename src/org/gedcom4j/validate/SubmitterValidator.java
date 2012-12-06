@@ -23,7 +23,7 @@ package org.gedcom4j.validate;
 
 import java.util.ArrayList;
 
-import org.gedcom4j.model.StringTag;
+import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
 
 /**
@@ -58,7 +58,7 @@ public class SubmitterValidator extends AbstractValidator {
     private void checkLanguagePreferences() {
         if (submitter.languagePref == null) {
             if (rootValidator.autorepair) {
-                submitter.languagePref = new ArrayList<StringTag>();
+                submitter.languagePref = new ArrayList<StringWithCustomTags>();
                 addInfo("Submitter language preference collection was null - autorepaired", submitter);
             } else {
                 addInfo("Submitter language preference collection is null", submitter);
@@ -67,7 +67,7 @@ public class SubmitterValidator extends AbstractValidator {
             if (submitter.languagePref.size() > 3) {
                 addError("Submitter exceeds limit on language preferences (3)", submitter);
             }
-            for (StringTag s : submitter.languagePref) {
+            for (StringWithCustomTags s : submitter.languagePref) {
                 checkRequiredString(s, "language pref", submitter);
             }
         }

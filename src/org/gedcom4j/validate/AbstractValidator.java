@@ -27,7 +27,7 @@ import java.util.List;
 
 import org.gedcom4j.model.ChangeDate;
 import org.gedcom4j.model.Note;
-import org.gedcom4j.model.StringTag;
+import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.UserReference;
 
 /**
@@ -176,7 +176,7 @@ public abstract class AbstractValidator {
      * @param objectContainingField
      *            the object containing the field being checked
      */
-    protected void checkOptionalString(StringTag optionalString, String fieldDescription, Object objectContainingField) {
+    protected void checkOptionalString(StringWithCustomTags optionalString, String fieldDescription, Object objectContainingField) {
         if (optionalString != null && optionalString.value != null && optionalString.value.trim().length() == 0) {
             addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName()
                     + " is specified, but has a blank value", objectContainingField);
@@ -210,7 +210,7 @@ public abstract class AbstractValidator {
      * @param objectContainingField
      *            the object containing the field being checked
      */
-    protected void checkRequiredString(StringTag requiredString, String fieldDescription, Object objectContainingField) {
+    protected void checkRequiredString(StringWithCustomTags requiredString, String fieldDescription, Object objectContainingField) {
         if (requiredString == null || requiredString.value == null || requiredString.value.trim().length() == 0) {
             addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName()
                     + " is required, but is either null or blank", objectContainingField);
@@ -239,7 +239,7 @@ public abstract class AbstractValidator {
     }
 
     /**
-     * Check a tagged string list (List&lt;StringTag&gt;) on an object. All strings in the list must be non-null and
+     * Check a tagged string list (List&lt;StringWithCustomTags&gt;) on an object. All strings in the list must be non-null and
      * non-blank when trimmed.
      * 
      * @param stringList
@@ -249,8 +249,8 @@ public abstract class AbstractValidator {
      * @param blanksAllowed
      *            are blank strings allowed in the string list?
      */
-    protected void checkStringTagList(List<StringTag> stringList, String description, boolean blanksAllowed) {
-        for (StringTag a : stringList) {
+    protected void checkStringTagList(List<StringWithCustomTags> stringList, String description, boolean blanksAllowed) {
+        for (StringWithCustomTags a : stringList) {
             if (a == null || a.value == null) {
                 addError("String list (" + description + ") contains null entry", stringList);
             } else if (!blanksAllowed && a.value.trim().length() == 0) {
