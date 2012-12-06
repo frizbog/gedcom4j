@@ -61,7 +61,7 @@ public class RelationshipCalculatorTest {
      * Determines whether to write noise out to System.out. Useful to change to true temporarily for debugging this test
      * but should be always set to false when checked into repository.
      */
-    private static final boolean VERBOSE = true;
+    private static final boolean VERBOSE = false;
 
     /**
      * Helper method to get a person and assert they exist
