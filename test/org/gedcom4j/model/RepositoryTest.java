@@ -24,10 +24,6 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import org.gedcom4j.model.Address;
-import org.gedcom4j.model.ChangeDate;
-import org.gedcom4j.model.Note;
-import org.gedcom4j.model.Repository;
 import org.junit.Test;
 
 /**
@@ -37,9 +33,7 @@ import org.junit.Test;
 public class RepositoryTest {
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.model.Repository#equals(java.lang.Object)}
-     * .
+     * Test method for {@link org.gedcom4j.model.Repository#equals(java.lang.Object)} .
      */
     @Test
     public void testEqualsObject() {
@@ -67,18 +61,18 @@ public class RepositoryTest {
         r2.changeDate = null;
         assertEquals(r1, r2);
 
-        r1.emails.add("Frying Pan");
+        r1.emails.add(new StringTag("Frying Pan"));
         assertFalse(r1.equals(r2));
-        r2.emails.add("Frying Pan");
+        r2.emails.add(new StringTag("Frying Pan"));
         assertEquals(r1, r2);
         r1.emails = null;
         assertFalse(r1.equals(r2));
         r2.emails = null;
         assertEquals(r1, r2);
 
-        r1.name = "Frying Pan";
+        r1.name = new StringTag("Frying Pan");
         assertFalse(r1.equals(r2));
-        r2.name = "Frying Pan";
+        r2.name = new StringTag("Frying Pan");
         assertEquals(r1, r2);
         r1.name = null;
         assertFalse(r1.equals(r2));
@@ -94,18 +88,18 @@ public class RepositoryTest {
         r2.notes = null;
         assertEquals(r1, r2);
 
-        r1.phoneNumbers.add("Frying Pan");
+        r1.phoneNumbers.add(new StringTag("Frying Pan"));
         assertFalse(r1.equals(r2));
-        r2.phoneNumbers.add("Frying Pan");
+        r2.phoneNumbers.add(new StringTag("Frying Pan"));
         assertEquals(r1, r2);
         r1.phoneNumbers = null;
         assertFalse(r1.equals(r2));
         r2.phoneNumbers = null;
         assertEquals(r1, r2);
 
-        r1.recIdNumber = "Frying Pan";
+        r1.recIdNumber = new StringTag("Frying Pan");
         assertFalse(r1.equals(r2));
-        r2.recIdNumber = "Frying Pan";
+        r2.recIdNumber = new StringTag("Frying Pan");
         assertEquals(r1, r2);
         r1.recIdNumber = null;
         assertFalse(r1.equals(r2));
@@ -117,8 +111,7 @@ public class RepositoryTest {
     }
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.model.Repository#hashCode()}.
+     * Test method for {@link org.gedcom4j.model.Repository#hashCode()}.
      */
     @Test
     public void testHashCode() {
@@ -144,18 +137,18 @@ public class RepositoryTest {
         r2.changeDate = null;
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1.emails.add("Frying Pan");
+        r1.emails.add(new StringTag("Frying Pan"));
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.emails.add("Frying Pan");
+        r2.emails.add(new StringTag("Frying Pan"));
         assertEquals(r1.hashCode(), r2.hashCode());
         r1.emails = null;
         assertFalse(r1.hashCode() == r2.hashCode());
         r2.emails = null;
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1.name = "Frying Pan";
+        r1.name = new StringTag("Frying Pan");
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.name = "Frying Pan";
+        r2.name = new StringTag("Frying Pan");
         assertEquals(r1.hashCode(), r2.hashCode());
         r1.name = null;
         assertFalse(r1.hashCode() == r2.hashCode());
@@ -171,25 +164,25 @@ public class RepositoryTest {
         r2.notes = null;
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1.phoneNumbers.add("Frying Pan");
+        r1.phoneNumbers.add(new StringTag("Frying Pan"));
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.phoneNumbers.add("Frying Pan");
+        r2.phoneNumbers.add(new StringTag("Frying Pan"));
         assertEquals(r1.hashCode(), r2.hashCode());
         r1.phoneNumbers = null;
         assertFalse(r1.hashCode() == r2.hashCode());
         r2.phoneNumbers = null;
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1.recIdNumber = "Frying Pan";
+        r1.recIdNumber = new StringTag("Frying Pan");
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.recIdNumber = "Frying Pan";
+        r2.recIdNumber = new StringTag("Frying Pan");
         assertEquals(r1.hashCode(), r2.hashCode());
         r1.recIdNumber = null;
         assertFalse(r1.hashCode() == r2.hashCode());
         r2.recIdNumber = null;
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        assertFalse(r1.equals(Integer.valueOf(this.hashCode())));
+        assertFalse(r1.equals(Integer.valueOf(hashCode())));
     }
 
 }

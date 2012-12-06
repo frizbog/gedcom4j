@@ -39,7 +39,7 @@ public class Place extends AbstractElement {
     /**
      * The place format (hierarchy)
      */
-    public String placeFormat;
+    public StringTag placeFormat;
 
     /**
      * Source citations for this place
@@ -64,12 +64,12 @@ public class Place extends AbstractElement {
     /**
      * Latitude. New for GEDCOM 5.5.1.
      */
-    public String latitude;
+    public StringTag latitude;
 
     /**
      * Longitude. New for GEDCOM 5.5.1.
      */
-    public String longitude;
+    public StringTag longitude;
 
     @Override
     public boolean equals(Object obj) {

@@ -33,7 +33,7 @@ public class Association extends AbstractElement {
     /**
      * Relationship description
      */
-    public String relationship;
+    public StringTag relationship;
 
     /**
      * The XREF to the associated entity
@@ -43,7 +43,7 @@ public class Association extends AbstractElement {
     /**
      * The type of the associated entity
      */
-    public String associatedEntityType;
+    public StringTag associatedEntityType;
 
     /**
      * The citations for this association

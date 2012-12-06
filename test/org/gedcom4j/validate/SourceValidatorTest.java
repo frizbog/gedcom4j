@@ -24,9 +24,7 @@ package org.gedcom4j.validate;
 import org.gedcom4j.model.EventRecorded;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.SourceData;
-import org.gedcom4j.validate.AbstractValidator;
-import org.gedcom4j.validate.Severity;
-import org.gedcom4j.validate.SourceValidator;
+import org.gedcom4j.model.StringTag;
 
 /**
  * @author frizbog1
@@ -39,14 +37,12 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
      */
     public void testBadSource1() {
         Source src = new Source("bad xref");
-        src.recIdNumber = "";
+        src.recIdNumber = new StringTag("");
         AbstractValidator av = new SourceValidator(rootValidator, src);
         av.validate();
         assertFindingsContain(Severity.ERROR, "record id", "source", "blank");
-        assertFindingsContain(Severity.ERROR, "xref", "source", "start", "at",
-                "sign");
-        assertFindingsContain(Severity.ERROR, "xref", "source", "end", "at",
-                "sign");
+        assertFindingsContain(Severity.ERROR, "xref", "source", "start", "at", "sign");
+        assertFindingsContain(Severity.ERROR, "xref", "source", "end", "at", "sign");
     }
 
     /**
@@ -56,7 +52,7 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
         Source src = new Source("@Test@");
         src.data = new SourceData();
         EventRecorded e = new EventRecorded();
-        e.datePeriod = "anytime";
+        e.datePeriod = new StringTag("anytime");
         src.data.eventsRecorded.add(e);
         AbstractValidator av = new SourceValidator(rootValidator, src);
         av.validate();
@@ -70,8 +66,7 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
         Source src = new Source(null);
         AbstractValidator av = new SourceValidator(rootValidator, src);
         av.validate();
-        assertFindingsContain(Severity.ERROR, "xref", "required", "null",
-                "blank");
+        assertFindingsContain(Severity.ERROR, "xref", "required", "null", "blank");
     }
 
     /**

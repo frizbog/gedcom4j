@@ -28,7 +28,6 @@ import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.PersonalName;
 
-
 /**
  * A class for finding specific data in a GEDCOM object graph
  * 
@@ -38,11 +37,10 @@ public class Finder {
     /**
      * The gedcom object graph being searched
      */
-    private Gedcom g;
+    private final Gedcom g;
 
     /**
-     * Constructor. Requires a reference to the {@link Gedcom} object being
-     * searched.
+     * Constructor. Requires a reference to the {@link Gedcom} object being searched.
      * 
      * @param gedcom
      *            the {@link Gedcom} object being searched
@@ -55,13 +53,10 @@ public class Finder {
      * Find individuals whos surname and given names match the parameters.
      * 
      * @param surname
-     *            the surname of the individual(s) you wish to find. Required,
-     *            must match exactly (case insensitive).
+     *            the surname of the individual(s) you wish to find. Required, must match exactly (case insensitive).
      * @param given
-     *            the given name of the individual(s) you wish to find.
-     *            Required, must match exactly (case insensitive).
-     * @return a {@link List} of {@link Individual}s that have both the surname
-     *         and given name supplied.
+     *            the given name of the individual(s) you wish to find. Required, must match exactly (case insensitive).
+     * @return a {@link List} of {@link Individual}s that have both the surname and given name supplied.
      */
     public List<Individual> findByName(String surname, String given) {
         List<Individual> result = new ArrayList<Individual>();
@@ -69,17 +64,14 @@ public class Finder {
             for (PersonalName n : i.names) {
                 // Sometimes the name is broken up into separate fields in the
                 // GEDCOM
-                if ((surname == null || surname.equalsIgnoreCase(n.surname))
-                        && (given == null || given
-                                .equalsIgnoreCase(n.givenName))) {
+                if ((surname == null || (n.surname != null && surname.equalsIgnoreCase(n.surname.value)))
+                        && (given == null || (n.givenName != null && given.equalsIgnoreCase(n.givenName.value)))) {
                     result.add(i);
                     continue;
                 }
                 // Other times they are concatenated with slashes around the
                 // surname
-                if (n.basic != null
-                        && n.basic.equalsIgnoreCase("" + given + " /" + surname
-                                + "/")) {
+                if (n.basic != null && n.basic.equalsIgnoreCase("" + given + " /" + surname + "/")) {
                     result.add(i);
                     continue;
                 }

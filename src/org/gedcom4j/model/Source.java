@@ -33,12 +33,12 @@ public class Source extends AbstractElement {
     /**
      * The record id number
      */
-    public String recIdNumber;
+    public StringTag recIdNumber;
 
     /**
      * Who filed the source
      */
-    public String sourceFiledBy;
+    public StringTag sourceFiledBy;
 
     /**
      * The title text

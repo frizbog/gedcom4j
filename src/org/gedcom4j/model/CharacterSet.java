@@ -30,12 +30,12 @@ public class CharacterSet extends AbstractElement {
     /**
      * The name of a character set
      */
-    public String characterSetName = "ANSEL";
+    public StringTag characterSetName = new StringTag("ANSEL");
 
     /**
      * A version number of the character set
      */
-    public String versionNum;
+    public StringTag versionNum;
 
     @Override
     public boolean equals(Object obj) {

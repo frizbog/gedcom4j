@@ -38,22 +38,22 @@ public class Submitter extends AbstractElement {
     /**
      * The registration file number for this submitter
      */
-    public String regFileNumber;
+    public StringTag regFileNumber;
 
     /**
      * The name of this submitter
      */
-    public String name;
+    public StringTag name;
 
     /**
      * The record ID number
      */
-    public String recIdNumber;
+    public StringTag recIdNumber;
 
     /**
      * The language preferences
      */
-    public List<String> languagePref = new ArrayList<String>();
+    public List<StringTag> languagePref = new ArrayList<StringTag>();
 
     /**
      * The address of this submitter
@@ -63,22 +63,22 @@ public class Submitter extends AbstractElement {
     /**
      * The phone numbers for this submitter
      */
-    public List<String> phoneNumbers = new ArrayList<String>();
+    public List<StringTag> phoneNumbers = new ArrayList<StringTag>();
 
     /**
      * Web URL's. New for GEDCOM 5.5.1.
      */
-    public List<String> wwwUrls = new ArrayList<String>();
+    public List<StringTag> wwwUrls = new ArrayList<StringTag>();
 
     /**
      * Fax numbers. New for GEDCOM 5.5.1.
      */
-    public List<String> faxNumbers = new ArrayList<String>();
+    public List<StringTag> faxNumbers = new ArrayList<StringTag>();
 
     /**
      * The emails for this submitter. New for GEDCOM 5.5.1
      */
-    public List<String> emails = new ArrayList<String>();
+    public List<StringTag> emails = new ArrayList<StringTag>();
 
     /**
      * The multimedia for this submitter

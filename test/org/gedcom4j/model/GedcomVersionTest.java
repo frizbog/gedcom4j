@@ -24,7 +24,6 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import org.gedcom4j.model.GedcomVersion;
 import org.junit.Test;
 
 /**
@@ -34,43 +33,33 @@ import org.junit.Test;
 public class GedcomVersionTest {
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.model.GedcomVersion#equals(java.lang.Object)}
-     * .
+     * Test method for {@link org.gedcom4j.model.GedcomVersion#equals(java.lang.Object)} .
      */
     @Test
     public void testEqualsObject() {
         GedcomVersion gv1 = new GedcomVersion();
         assertEquals(gv1, gv1);
         GedcomVersion gv2 = new GedcomVersion();
-        assertEquals("objects are equal, so equals() should return true", gv1,
-                gv2);
-        gv1.gedcomForm = "Frying Pan";
-        assertFalse(
-                "objects are not equal, so equals() should not return true",
-                gv1.equals(gv2));
-        gv2.gedcomForm = "Frying Pan";
-        assertEquals("objects are equal again, so equals() should return true",
-                gv1, gv2);
+        assertEquals("objects are equal, so equals() should return true", gv1, gv2);
+        gv1.gedcomForm = new StringTag("Frying Pan");
+        assertFalse("objects are not equal, so equals() should not return true", gv1.equals(gv2));
+        gv2.gedcomForm = new StringTag("Frying Pan");
+        assertEquals("objects are equal again, so equals() should return true", gv1, gv2);
         assertFalse(gv1.equals(null));
         assertFalse(gv1.equals(this));
     }
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.model.GedcomVersion#hashCode()}.
+     * Test method for {@link org.gedcom4j.model.GedcomVersion#hashCode()}.
      */
     @Test
     public void testHashCode() {
         GedcomVersion gv1 = new GedcomVersion();
         GedcomVersion gv2 = new GedcomVersion();
-        assertEquals("objects are equal, so hashcodes should equal",
-                gv1.hashCode(), gv2.hashCode());
-        gv1.gedcomForm = "Frying Pan";
-        assertFalse("objects are not equal, so hashcodes should not equal",
-                gv1.hashCode() == gv2.hashCode());
-        gv2.gedcomForm = "Frying Pan";
-        assertEquals("objects are equal again, so hashcodes should equal",
-                gv1.hashCode(), gv2.hashCode());
+        assertEquals("objects are equal, so hashcodes should equal", gv1.hashCode(), gv2.hashCode());
+        gv1.gedcomForm = new StringTag("Frying Pan");
+        assertFalse("objects are not equal, so hashcodes should not equal", gv1.hashCode() == gv2.hashCode());
+        gv2.gedcomForm = new StringTag("Frying Pan");
+        assertEquals("objects are equal again, so hashcodes should equal", gv1.hashCode(), gv2.hashCode());
     }
 }

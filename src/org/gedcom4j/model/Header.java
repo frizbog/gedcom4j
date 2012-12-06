@@ -44,17 +44,17 @@ public class Header extends AbstractElement {
     /**
      * The date of the GEDCOM file
      */
-    public String date;
+    public StringTag date;
 
     /**
      * The destination system for the GEDCOM file.
      */
-    public String destinationSystem;
+    public StringTag destinationSystem;
 
     /**
      * The filename for the GEDCOM file
      */
-    public String fileName;
+    public StringTag fileName;
 
     /**
      * The version information for the GEDCOM file
@@ -64,7 +64,7 @@ public class Header extends AbstractElement {
     /**
      * The place structure for the file
      */
-    public String placeHierarchy;
+    public StringTag placeHierarchy;
 
     /**
      * The source system for the GEDCOM file
@@ -84,12 +84,12 @@ public class Header extends AbstractElement {
     /**
      * The time of the file
      */
-    public String time;
+    public StringTag time;
 
     /**
      * The language for the file
      */
-    public String language;
+    public StringTag language;
 
     /**
      * A bunch of textual notes

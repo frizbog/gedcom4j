@@ -24,7 +24,6 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import org.gedcom4j.model.HeaderSourceData;
 import org.junit.Test;
 
 /**
@@ -34,9 +33,7 @@ import org.junit.Test;
 public class HeaderSourceDataTest {
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.model.HeaderSourceData#equals(java.lang.Object)}
-     * .
+     * Test method for {@link org.gedcom4j.model.HeaderSourceData#equals(java.lang.Object)} .
      */
     @Test
     public void testEqualsObject() {
@@ -46,27 +43,27 @@ public class HeaderSourceDataTest {
         HeaderSourceData h2 = new HeaderSourceData();
         assertEquals(h1, h2);
 
-        h1.copyright = "Frying Pan";
+        h1.copyright = new StringTag("Frying Pan");
         assertFalse(h1.equals(h2));
-        h2.copyright = "Frying Pan";
+        h2.copyright = new StringTag("Frying Pan");
         assertEquals(h1, h2);
         h1.copyright = null;
         assertFalse(h1.equals(h2));
         h2.copyright = null;
         assertEquals(h1, h2);
 
-        h1.name = "Frying Pan";
+        h1.name = new StringTag("Frying Pan");
         assertFalse(h1.equals(h2));
-        h2.name = "Frying Pan";
+        h2.name = new StringTag("Frying Pan");
         assertEquals(h1, h2);
         h1.name = null;
         assertFalse(h1.equals(h2));
         h2.name = null;
         assertEquals(h1, h2);
 
-        h1.publishDate = "Frying Pan";
+        h1.publishDate = new StringTag("Frying Pan");
         assertFalse(h1.equals(h2));
-        h2.publishDate = "Frying Pan";
+        h2.publishDate = new StringTag("Frying Pan");
         assertEquals(h1, h2);
         h1.publishDate = null;
         assertFalse(h1.equals(h2));
@@ -78,8 +75,7 @@ public class HeaderSourceDataTest {
     }
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.model.HeaderSourceData#hashCode()}.
+     * Test method for {@link org.gedcom4j.model.HeaderSourceData#hashCode()}.
      */
     @Test
     public void testHashCode() {
@@ -87,27 +83,27 @@ public class HeaderSourceDataTest {
         HeaderSourceData h2 = new HeaderSourceData();
         assertEquals(h1.hashCode(), h2.hashCode());
 
-        h1.copyright = "Frying Pan";
+        h1.copyright = new StringTag("Frying Pan");
         assertFalse(h1.hashCode() == h2.hashCode());
-        h2.copyright = "Frying Pan";
+        h2.copyright = new StringTag("Frying Pan");
         assertEquals(h1.hashCode(), h2.hashCode());
         h1.copyright = null;
         assertFalse(h1.hashCode() == h2.hashCode());
         h2.copyright = null;
         assertEquals(h1.hashCode(), h2.hashCode());
 
-        h1.name = "Frying Pan";
+        h1.name = new StringTag("Frying Pan");
         assertFalse(h1.hashCode() == h2.hashCode());
-        h2.name = "Frying Pan";
+        h2.name = new StringTag("Frying Pan");
         assertEquals(h1.hashCode(), h2.hashCode());
         h1.name = null;
         assertFalse(h1.hashCode() == h2.hashCode());
         h2.name = null;
         assertEquals(h1.hashCode(), h2.hashCode());
 
-        h1.publishDate = "Frying Pan";
+        h1.publishDate = new StringTag("Frying Pan");
         assertFalse(h1.hashCode() == h2.hashCode());
-        h2.publishDate = "Frying Pan";
+        h2.publishDate = new StringTag("Frying Pan");
         assertEquals(h1.hashCode(), h2.hashCode());
         h1.publishDate = null;
         assertFalse(h1.hashCode() == h2.hashCode());

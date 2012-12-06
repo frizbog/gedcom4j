@@ -33,12 +33,12 @@ public class ChangeDate extends AbstractElement {
     /**
      * The date (as a string)
      */
-    public String date;
+    public StringTag date;
 
     /**
      * The time (as a string)
      */
-    public String time;
+    public StringTag time;
 
     /**
      * Notes about the change

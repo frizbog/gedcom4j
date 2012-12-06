@@ -121,7 +121,8 @@ public class GedcomWriter {
             throw new GedcomWriterVersionDataMismatchException(
                     "Gedcom version is 5.5, but has multi-line copyright data in header");
         }
-        if (gedcom.header.characterSet != null && "UTF-8".equals(gedcom.header.characterSet.characterSetName)) {
+        if (gedcom.header.characterSet != null && gedcom.header.characterSet.characterSetName != null
+                && "UTF-8".equals(gedcom.header.characterSet.characterSetName.value)) {
             throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but data is encoded using UTF-8");
         }
         if (gedcom.header.sourceSystem != null && gedcom.header.sourceSystem.corporation != null) {
@@ -427,8 +428,8 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             if the data cannot be written
      */
-    private void emitEmails(int l, List<String> emails) throws GedcomWriterException {
-        for (String e : emails) {
+    private void emitEmails(int l, List<StringTag> emails) throws GedcomWriterException {
+        for (StringTag e : emails) {
             emitTagWithRequiredValue(l, "EMAIL", e);
         }
     }
@@ -538,8 +539,8 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             if the data cannot be written
      */
-    private void emitFaxNumbers(int l, List<String> faxNumbers) throws GedcomWriterException {
-        for (String f : faxNumbers) {
+    private void emitFaxNumbers(int l, List<StringTag> faxNumbers) throws GedcomWriterException {
+        for (StringTag f : faxNumbers) {
             emitTagWithRequiredValue(l, "FAX", f);
         }
     }
@@ -576,7 +577,8 @@ public class GedcomWriter {
         emitTagWithRequiredValue(1, "CHAR", header.characterSet.characterSetName);
         emitTagIfValueNotNull(2, "VERS", header.characterSet.versionNum);
         emitTagIfValueNotNull(1, "LANG", header.language);
-        if (header.placeHierarchy != null && header.placeHierarchy.length() > 0) {
+        if (header.placeHierarchy != null && header.placeHierarchy.value != null
+                && header.placeHierarchy.value.length() > 0) {
             emitTag(1, "PLAC");
             emitTagWithRequiredValue(2, "FORM", header.placeHierarchy);
         }
@@ -656,7 +658,7 @@ public class GedcomWriter {
                 emitTagWithRequiredValue(1, "SUBM", s.xref);
             }
             emitAssociationStructures(1, i.associations);
-            for (String s : i.aliases) {
+            for (StringTag s : i.aliases) {
                 emitTagWithRequiredValue(1, "ALIA", s);
             }
             for (Submitter s : i.ancestorInterest) {
@@ -1046,8 +1048,8 @@ public class GedcomWriter {
      * @param phoneNumbers
      *            a list of phone numbers
      */
-    private void emitPhoneNumbers(int level, List<String> phoneNumbers) {
-        for (String ph : phoneNumbers) {
+    private void emitPhoneNumbers(int level, List<StringTag> phoneNumbers) {
+        for (StringTag ph : phoneNumbers) {
             emitTagIfValueNotNull(level, "PHON", ph);
         }
     }
@@ -1325,7 +1327,7 @@ public class GedcomWriter {
             emitTagWithOptionalValue(1, "NAME", s.name);
             emitAddress(1, s.address);
             emitMultimediaLinks(1, s.multimedia);
-            for (String l : s.languagePref) {
+            for (StringTag l : s.languagePref) {
                 emitTagWithRequiredValue(1, "LANG", l);
             }
             emitPhoneNumbers(1, s.phoneNumbers);
@@ -1438,10 +1440,14 @@ public class GedcomWriter {
      * @param value
      *            the value to write to the right of the tag
      * @throws GedcomWriterException
-     *             if the value is null or blank
+     *             if the value is null or blank (which never happens, because we check for it)
      */
-    private void emitTagWithRequiredValue(int level, String tag, String value) throws GedcomWriterException {
-        emitTagWithRequiredValue(level, null, tag, value);
+    private void emitTagWithOptionalValue(int level, String tag, StringTag value) throws GedcomWriterException {
+        StringBuilder line = new StringBuilder(level + " " + tag);
+        if (value != null) {
+            line.append(" " + value);
+        }
+        lines.add(line.toString());
     }
 
     /**
@@ -1453,14 +1459,29 @@ public class GedcomWriter {
      *            the tag for the line of the file
      * @param value
      *            the value to write to the right of the tag
+     * @throws GedcomWriterException
+     *             if the value is null or blank
+     */
+    private void emitTagWithRequiredValue(int level, String tag, String value) throws GedcomWriterException {
+        emitTagWithRequiredValue(level, null, tag, new StringTag(value));
+    }
+
+    /**
+     * Write a line and tag, with an optional value for the tag
+     * 
+     * @param level
+     *            the level within the file hierarchy
+     * @param tag
+     *            the tag for the line of the file
+     * @param e
+     *            the value to write to the right of the tag
      * @param xref
      *            the xref of the item being emitted
      * @throws GedcomWriterException
      *             if the value is null or blank
      */
-    private void emitTagWithRequiredValue(int level, String xref, String tag, String value)
-            throws GedcomWriterException {
-        if (value == null || "".equals(value)) {
+    private void emitTagWithRequiredValue(int level, String xref, String tag, StringTag e) throws GedcomWriterException {
+        if (e == null || "".equals(e)) {
             throw new GedcomWriterException("Required value for tag " + tag + " at level " + level
                     + " was null or blank");
         }
@@ -1468,8 +1489,24 @@ public class GedcomWriter {
         if (xref != null && xref.length() > 0) {
             line.append(" " + xref);
         }
-        line.append(" " + tag + " " + value);
+        line.append(" " + tag + " " + e);
         lines.add(line.toString());
+    }
+
+    /**
+     * Write a line and tag, with an optional value for the tag
+     * 
+     * @param level
+     *            the level within the file hierarchy
+     * @param tag
+     *            the tag for the line of the file
+     * @param value
+     *            the value to write to the right of the tag
+     * @throws GedcomWriterException
+     *             if the value is null or blank
+     */
+    private void emitTagWithRequiredValue(int level, String tag, StringTag value) throws GedcomWriterException {
+        emitTagWithRequiredValue(level, null, tag, value);
     }
 
     /**
@@ -1489,8 +1526,8 @@ public class GedcomWriter {
      * @throws GedcomWriterException
      *             if the data cannot be written
      */
-    private void emitWwwUrls(int l, List<String> wwwUrls) throws GedcomWriterException {
-        for (String w : wwwUrls) {
+    private void emitWwwUrls(int l, List<StringTag> wwwUrls) throws GedcomWriterException {
+        for (StringTag w : wwwUrls) {
             emitTagWithRequiredValue(l, "WWW", w);
         }
     }
@@ -1518,7 +1555,7 @@ public class GedcomWriter {
      */
     public void write(File file) throws IOException, GedcomWriterException {
         // Automatically replace the contents of the filename in the header
-        gedcom.header.fileName = file.getName();
+        gedcom.header.fileName = new StringTag(file.getName());
 
         OutputStream o = new FileOutputStream(file);
         try {

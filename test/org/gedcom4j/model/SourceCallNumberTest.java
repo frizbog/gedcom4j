@@ -24,7 +24,6 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.gedcom4j.model.SourceCallNumber;
 import org.junit.Test;
 
 /**
@@ -52,10 +51,10 @@ public class SourceCallNumberTest {
     public void testCallNumber() {
         SourceCallNumber scn1 = new SourceCallNumber();
         SourceCallNumber scn2 = new SourceCallNumber();
-        scn1.callNumber = "Foo";
+        scn1.callNumber = new StringTag("Foo");
         assertFalse(scn1.equals(scn2));
         assertFalse(scn1.hashCode() == scn2.hashCode());
-        scn2.callNumber = "Foo";
+        scn2.callNumber = new StringTag("Foo");
         assertTrue(scn1.equals(scn2));
         assertTrue(scn1.hashCode() == scn2.hashCode());
     }
@@ -67,10 +66,10 @@ public class SourceCallNumberTest {
     public void testMediaType() {
         SourceCallNumber scn1 = new SourceCallNumber();
         SourceCallNumber scn2 = new SourceCallNumber();
-        scn1.mediaType = "Foo";
+        scn1.mediaType = new StringTag("Foo");
         assertFalse(scn1.equals(scn2));
         assertFalse(scn1.hashCode() == scn2.hashCode());
-        scn2.mediaType = "Foo";
+        scn2.mediaType = new StringTag("Foo");
         assertTrue(scn1.equals(scn2));
         assertTrue(scn1.hashCode() == scn2.hashCode());
     }

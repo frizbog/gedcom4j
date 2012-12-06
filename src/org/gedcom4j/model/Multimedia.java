@@ -54,7 +54,7 @@ public class Multimedia extends AbstractElement {
      * The title of this multimedia item. This field should ONLY be used when the spec is 5.5 and should be null for
      * 5.5.1 files.
      */
-    public String embeddedTitle;
+    public StringTag embeddedTitle;
 
     /**
      * The file reference for this multimedia item
@@ -96,12 +96,12 @@ public class Multimedia extends AbstractElement {
     /**
      * The record id number for this multimedia item
      */
-    public String recIdNumber;
+    public StringTag recIdNumber;
 
     /**
      * The format of the multimedia object - only for 5.5 style multimedia files, and should be null for 5.5.1 files.
      */
-    public String embeddedMediaFormat;
+    public StringTag embeddedMediaFormat;
 
     @Override
     public boolean equals(Object obj) {
