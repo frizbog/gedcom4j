@@ -1,0 +1,141 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+
+    <groupId>org.gedcom4j</groupId>
+    <artifactId>gedcom4j</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+
+    <name>gedcom4j</name>
+    <description>gedcom4j is a Java library for parsing and writing GEDCOM 5.5 and 5.5.1 files</description>
+    <url>http://gedcom4j.org</url>
+
+    <licenses>
+        <license>
+            <name>The MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:https://github.com/frizbog/gedcom4j.git</connection>
+        <developerConnection>scm:git:https://github.com/frizbog/gedcom4j.git</developerConnection>
+        <url>https://github.com/frizbog/gedcom4j</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>frizbog</id>
+            <name>Matt Harrah</name>
+            <email></email>
+        </developer>
+    </developers>
+
+    <build>
+        <sourceDirectory>src</sourceDirectory>
+        <testSourceDirectory>test</testSourceDirectory>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.0</version>
+                    <configuration>
+                        <showDeprecation>true</showDeprecation>
+                        <debuglevel>lines,vars,source</debuglevel>
+                        <source>1.5</source>
+                        <target>1.5</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>2.4</version>
+                    <configuration>
+                        <archive>
+                            <manifestEntries>
+                                <Source>${project.url}</Source>
+                                <Release-Version>${project.version}</Release-Version>
+                            </manifestEntries>
+                        </archive>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.7</version>
+                    <configuration>
+                        <show>private</show>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>2.1.2</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                                <goal>test-jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>cobertura-maven-plugin</artifactId>
+                    <version>2.5.2</version>
+                    <configuration>
+                        <instrumentation>
+                            <excludes>
+                                <exclude>**/Abstract*.class</exclude>
+                                <exclude>**/Test*.class</exclude>
+                            </excludes>
+                        </instrumentation>
+                        <formats>
+                            <format>html</format>
+                            <format>xml</format>
+                        </formats>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>2.9.1</version>
+                    <configuration>
+                        <configLocation>${project.basedir}/checkstyle-config.xml</configLocation>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>findbugs-maven-plugin</artifactId>
+                    <version>2.5.2</version>
+                    <configuration>
+                        <configLocation>${project.basedir}/checkstyle-config.xml</configLocation>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+
+</project>
