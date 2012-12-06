@@ -4,3 +4,6 @@
 /tmp
 /bin
 /.DS_Store
+/.idea
+*.iml
+target/
