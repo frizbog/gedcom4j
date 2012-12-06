@@ -35,7 +35,7 @@ public class Individual extends AbstractElement {
     /**
      * Aliases for the current individual.
      */
-    public List<String> aliases = new ArrayList<String>();
+    public List<StringTag> aliases = new ArrayList<StringTag>();
 
     /**
      * A list of submitter(s) who are interested in the ancestry of this individual.
@@ -45,7 +45,7 @@ public class Individual extends AbstractElement {
     /**
      * The Ancestral File Number of this individual.
      */
-    public String ancestralFileNumber;
+    public StringTag ancestralFileNumber;
 
     /**
      * A list of associations to which this individual belongs/belonged.
@@ -110,22 +110,22 @@ public class Individual extends AbstractElement {
     /**
      * The permanent record file number for this individual
      */
-    public String permanentRecFileNumber;
+    public StringTag permanentRecFileNumber;
 
     /**
      * The record ID number for this individual
      */
-    public String recIdNumber;
+    public StringTag recIdNumber;
 
     /**
      * The restriction notice (if any) for this individual
      */
-    public String restrictionNotice;
+    public StringTag restrictionNotice;
 
     /**
      * The sex of this individual
      */
-    public String sex;
+    public StringTag sex;
 
     /**
      * A list of submitter(s) of this individual
@@ -150,22 +150,22 @@ public class Individual extends AbstractElement {
     /**
      * The phone numbers for the individual
      */
-    public List<String> phoneNumbers = new ArrayList<String>();
+    public List<StringTag> phoneNumbers = new ArrayList<StringTag>();
 
     /**
      * Web URL's. New for GEDCOM 5.5.1.
      */
-    public List<String> wwwUrls = new ArrayList<String>();
+    public List<StringTag> wwwUrls = new ArrayList<StringTag>();
 
     /**
      * Fax numbers. New for GEDCOM 5.5.1.
      */
-    public List<String> faxNumbers = new ArrayList<String>();
+    public List<StringTag> faxNumbers = new ArrayList<StringTag>();
 
     /**
      * The emails for this submitter. New for GEDCOM 5.5.1
      */
-    public List<String> emails = new ArrayList<String>();
+    public List<StringTag> emails = new ArrayList<StringTag>();
 
     // CHECKSTYLE:OFF for method length
     /*
@@ -531,7 +531,7 @@ public class Individual extends AbstractElement {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(formattedName());
-        for (String n : aliases) {
+        for (StringTag n : aliases) {
             if (sb.length() > 0) {
                 sb.append(" aka ");
             }

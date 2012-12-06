@@ -29,30 +29,13 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.List;
 
-import org.gedcom4j.model.Corporation;
-import org.gedcom4j.model.Family;
-import org.gedcom4j.model.FamilyChild;
-import org.gedcom4j.model.FamilyEvent;
-import org.gedcom4j.model.FamilyEventType;
-import org.gedcom4j.model.Gedcom;
-import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.IndividualAttribute;
-import org.gedcom4j.model.IndividualAttributeType;
-import org.gedcom4j.model.IndividualEvent;
-import org.gedcom4j.model.IndividualEventType;
-import org.gedcom4j.model.NameVariation;
-import org.gedcom4j.model.PersonalName;
-import org.gedcom4j.model.Place;
-import org.gedcom4j.model.Submitter;
-import org.gedcom4j.parser.GedcomParser;
-import org.gedcom4j.parser.GedcomParserException;
+import org.gedcom4j.model.*;
 import org.gedcom4j.query.Finder;
 import org.junit.Test;
 
-
 /**
- * These are tests for the Gedcom Parser that are specific to GEDCOM 5.5.1. This class may eventually be combined with {@link GedcomParserTest} once
- * the branch is merged into the trunk.
+ * These are tests for the Gedcom Parser that are specific to GEDCOM 5.5.1. This class may eventually be combined with
+ * {@link GedcomParserTest} once the branch is merged into the trunk.
  * 
  * @author frizbog
  * 
@@ -73,7 +56,8 @@ public class GedcomParser551Test {
         gp.verbose = true;
         gp.load("sample/john_of_sea_20101009.ged");
         assertTrue(gp.errors.isEmpty());
-        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.warnings.isEmpty());
+        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it",
+                !gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
         assertNotNull(g.header);
@@ -103,10 +87,10 @@ public class GedcomParser551Test {
         assertEquals(1, g.submitters.entrySet().size());
         Submitter s = g.submitters.get("@SUBM01@");
         assertNotNull(s);
-        assertEquals("Matt /Harrah/", s.name);
+        assertEquals("Matt /Harrah/", s.name.value);
         assertNotNull(s.emails);
         assertEquals(2, s.emails.size());
-        assertEquals("frizbog@charter.net", s.emails.get(1));
+        assertEquals("frizbog@charter.net", s.emails.get(1).value);
     }
 
     /**
@@ -123,7 +107,8 @@ public class GedcomParser551Test {
         gp.verbose = true;
         gp.load("sample/john_of_sea_20101009.ged");
         assertTrue(gp.errors.isEmpty());
-        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.warnings.isEmpty());
+        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it",
+                !gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         Finder f = new Finder(g);
         List<Individual> found = f.findByName("Moor", "Mary");
@@ -137,8 +122,8 @@ public class GedcomParser551Test {
         IndividualAttribute fact = facts.get(0);
         assertNotNull(fact);
         assertEquals(IndividualAttributeType.FACT, fact.type);
-        assertEquals("Place from", fact.subType);
-        assertEquals("Combe Florey", fact.description);
+        assertEquals("Place from", fact.subType.value);
+        assertEquals("Combe Florey", fact.description.value);
     }
 
     /**
@@ -165,7 +150,7 @@ public class GedcomParser551Test {
         assertEquals("The Church of Jesus Christ of Latter-day Saints", c.businessName);
         assertNotNull(c.faxNumbers);
         assertEquals(1, c.faxNumbers.size());
-        assertEquals("800-555-1212", c.faxNumbers.get(0));
+        assertEquals("800-555-1212", c.faxNumbers.get(0).toString());
         assertNotNull(c.emails);
         assertTrue(c.emails.isEmpty());
     }
@@ -184,7 +169,8 @@ public class GedcomParser551Test {
         gp.verbose = true;
         gp.load("sample/5.5.1 sample 2.ged");
         assertTrue(gp.errors.isEmpty());
-        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.warnings.isEmpty());
+        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it",
+                !gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         Finder f = new Finder(g);
         List<Individual> found = f.findByName("Pinter", "Anonymus" /* sic */);
@@ -216,7 +202,8 @@ public class GedcomParser551Test {
         gp.verbose = true;
         gp.load("sample/5.5.1 sample 4.ged");
         assertTrue(gp.errors.isEmpty());
-        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.warnings.isEmpty());
+        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it",
+                !gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
         assertEquals(1, g.individuals.size());
@@ -234,7 +221,7 @@ public class GedcomParser551Test {
         NameVariation nv = p.phonetic.get(0);
         assertNotNull(nv);
         assertEquals("Tarr-now, Krack-ow, Poh-land", nv.variation);
-        assertEquals("guessing", nv.variationType);
+        assertEquals("guessing", nv.variationType.toString());
     }
 
     /**
@@ -251,7 +238,8 @@ public class GedcomParser551Test {
         gp.verbose = true;
         gp.load("sample/5.5.1 sample 4.ged");
         assertTrue(gp.errors.isEmpty());
-        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.warnings.isEmpty());
+        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it",
+                !gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
         assertEquals(1, g.individuals.size());
@@ -265,8 +253,8 @@ public class GedcomParser551Test {
         assertNotNull(p.notes);
         assertEquals(1, p.notes.size());
 
-        assertEquals("+50\u00B0 3' 1.49\"", p.latitude);
-        assertEquals("+19\u00B0 56' 21.48\"", p.longitude);
+        assertEquals("+50\u00B0 3' 1.49\"", p.latitude.toString());
+        assertEquals("+19\u00B0 56' 21.48\"", p.longitude.toString());
     }
 
     /**
@@ -371,15 +359,15 @@ public class GedcomParser551Test {
         FamilyEvent divorce = f.events.get(0);
         assertNotNull(divorce);
         assertEquals(FamilyEventType.DIVORCE, divorce.type);
-        assertEquals("2 Sep 1880", divorce.date);
+        assertEquals("2 Sep 1880", divorce.date.value);
         assertNull(divorce.religiousAffiliation);
 
         // Positive test
         FamilyEvent marriage = f.events.get(1);
         assertNotNull(marriage);
         assertEquals(FamilyEventType.MARRIAGE, marriage.type);
-        assertEquals("25 Oct 1875", marriage.date);
-        assertEquals("Civil", marriage.religiousAffiliation);
+        assertEquals("25 Oct 1875", marriage.date.value);
+        assertEquals("Civil", marriage.religiousAffiliation.value);
     }
 
     /**
@@ -411,7 +399,7 @@ public class GedcomParser551Test {
         assertNotNull(c);
         assertNotNull(c.place);
         assertEquals("Peel Hospital, Selkirkshire ", c.place.placeName);
-        assertEquals("Episcopalian", c.religiousAffiliation);
+        assertEquals("Episcopalian", c.religiousAffiliation.value);
 
         // Negative test
         Individual annie = g.individuals.get("@I76@");
@@ -421,7 +409,7 @@ public class GedcomParser551Test {
         assertEquals(1, births.size());
         IndividualEvent b = births.get(0);
         assertNotNull(b);
-        assertEquals("1889", b.date);
+        assertEquals("1889", b.date.value);
         assertNull(b.religiousAffiliation);
     }
 
@@ -443,7 +431,8 @@ public class GedcomParser551Test {
             System.err.println(s);
         }
         assertTrue(gp.errors.isEmpty());
-        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.warnings.isEmpty());
+        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it",
+                !gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
         assertNotNull(g.families);
@@ -452,7 +441,7 @@ public class GedcomParser551Test {
         assertNotNull(f.events);
         assertEquals(1, f.events.size());
         FamilyEvent e = f.events.get(0);
-        assertEquals("locked", e.restrictionNotice);
+        assertEquals("locked", e.restrictionNotice.value);
         f = g.families.get("@F2@");
         assertNotNull(f);
         assertNull(f.restrictionNotice);
@@ -477,13 +466,14 @@ public class GedcomParser551Test {
         gp.verbose = true;
         gp.load("sample/5.5.1 sample 3.ged");
         assertTrue(gp.errors.isEmpty());
-        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.warnings.isEmpty());
+        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it",
+                !gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
         assertNotNull(g.families);
         Family f = g.families.get("@F1@");
         assertNotNull(f);
-        assertEquals("locked", f.restrictionNotice);
+        assertEquals("locked", f.restrictionNotice.value);
         f = g.families.get("@F2@");
         assertNotNull(f);
         assertNull(f.restrictionNotice);
@@ -504,7 +494,8 @@ public class GedcomParser551Test {
         gp.verbose = true;
         gp.load("sample/5.5.1 sample 3.ged");
         assertTrue(gp.errors.isEmpty());
-        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.warnings.isEmpty());
+        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it",
+                !gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         Individual ladislaus = g.individuals.get("@I2797@");
         assertNotNull(ladislaus);
@@ -532,7 +523,8 @@ public class GedcomParser551Test {
         gp.verbose = true;
         gp.load("sample/5.5.1 sample 4.ged");
         assertTrue(gp.errors.isEmpty());
-        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.warnings.isEmpty());
+        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it",
+                !gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
         assertEquals(1, g.individuals.size());
@@ -550,7 +542,7 @@ public class GedcomParser551Test {
         NameVariation nv = p.romanized.get(0);
         assertNotNull(nv);
         assertEquals("Tarnow, Cracow, Poland", nv.variation);
-        assertEquals("Google translate", nv.variationType);
+        assertEquals("Google translate", nv.variationType.value);
     }
 
     /**
@@ -579,7 +571,7 @@ public class GedcomParser551Test {
         assertNotNull(fc1);
         assertNotNull(fc1.family);
         assertEquals("@F3@", fc1.family.xref);
-        assertEquals("proven", fc1.status);
+        assertEquals("proven", fc1.status.value);
 
         // Negative test
         Individual anne = g.individuals.get("@I4@");
@@ -606,16 +598,17 @@ public class GedcomParser551Test {
         gp.verbose = true;
         gp.load("sample/5.5.1 sample 3.ged");
         assertTrue(gp.errors.isEmpty());
-        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.warnings.isEmpty());
+        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it",
+                !gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
         assertNotNull(g.submitters);
         assertEquals(1, g.submitters.entrySet().size());
         Submitter s = g.submitters.get("@SUBM01@");
         assertNotNull(s);
-        assertEquals("Matt /Harrah/", s.name);
+        assertEquals("Matt /Harrah/", s.name.value);
         assertNotNull(s.wwwUrls);
         assertEquals(2, s.wwwUrls.size());
-        assertEquals("https://www.facebook.com/Gedcom4j", s.wwwUrls.get(1));
+        assertEquals("https://www.facebook.com/Gedcom4j", s.wwwUrls.get(1).value);
     }
 }

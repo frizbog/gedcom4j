@@ -24,7 +24,6 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import org.gedcom4j.model.SourceSystem;
 import org.junit.Test;
 
 /**
@@ -34,70 +33,50 @@ import org.junit.Test;
 public class SourceSystemTest {
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.model.SourceSystem#equals(java.lang.Object)}
-     * .
+     * Test method for {@link org.gedcom4j.model.SourceSystem#equals(java.lang.Object)} .
      */
     @Test
     public void testEqualsObject() {
         SourceSystem ss1 = new SourceSystem();
         assertEquals(ss1, ss1);
         SourceSystem ss2 = new SourceSystem();
-        assertEquals("equals() should be the same for equivalent objects", ss1,
-                ss2);
+        assertEquals("equals() should be the same for equivalent objects", ss1, ss2);
 
-        ss1.productName = "Frying Pan";
-        assertFalse(
-                "They're not equivalent anymore, so equals should be false",
-                ss1.equals(ss2));
-        ss2.productName = "Frying Pan";
-        assertEquals("equals() should be the same for equivalent objects", ss1,
-                ss2);
+        ss1.productName = new StringTag("Frying Pan");
+        assertFalse("They're not equivalent anymore, so equals should be false", ss1.equals(ss2));
+        ss2.productName = new StringTag("Frying Pan");
+        assertEquals("equals() should be the same for equivalent objects", ss1, ss2);
         ss1.productName = null;
-        assertFalse(
-                "They're not equivalent anymore, so equals should be false",
-                ss1.equals(ss2));
+        assertFalse("They're not equivalent anymore, so equals should be false", ss1.equals(ss2));
         ss2.productName = null;
-        assertEquals("equals() should be the same for equivalent objects", ss1,
-                ss2);
+        assertEquals("equals() should be the same for equivalent objects", ss1, ss2);
 
         ss1.systemId = "Frying Pan";
-        assertFalse(
-                "They're not equivalent anymore, so equals should be false",
-                ss1.equals(ss2));
+        assertFalse("They're not equivalent anymore, so equals should be false", ss1.equals(ss2));
         ss2.systemId = "Frying Pan";
-        assertEquals("equals() should be the same for equivalent objects", ss1,
-                ss2);
+        assertEquals("equals() should be the same for equivalent objects", ss1, ss2);
         ss1.systemId = null;
-        assertFalse(
-                "They're not equivalent anymore, so equals should be false",
-                ss1.equals(ss2));
+        assertFalse("They're not equivalent anymore, so equals should be false", ss1.equals(ss2));
         ss2.systemId = null;
 
-        assertEquals("equals() should be the same for equivalent objects", ss1,
-                ss2);
+        assertEquals("equals() should be the same for equivalent objects", ss1, ss2);
         assertFalse(ss1.equals(null));
         assertFalse(ss1.equals(this));
     }
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.model.SourceSystem#hashCode()}.
+     * Test method for {@link org.gedcom4j.model.SourceSystem#hashCode()}.
      */
     @Test
     public void testHashCode() {
         SourceSystem ss1 = new SourceSystem();
         SourceSystem ss2 = new SourceSystem();
-        assertEquals("Hashcodes should be the same for equivalent objects",
-                ss1.hashCode(), ss2.hashCode());
-        ss1.productName = "Frying Pan";
-        assertFalse(
-                "They're not equivalent anymore, so the hashcodes should differ",
-                ss1.hashCode() == ss2.hashCode());
-        ss2.productName = "Frying Pan";
+        assertEquals("Hashcodes should be the same for equivalent objects", ss1.hashCode(), ss2.hashCode());
+        ss1.productName = new StringTag("Frying Pan");
+        assertFalse("They're not equivalent anymore, so the hashcodes should differ", ss1.hashCode() == ss2.hashCode());
+        ss2.productName = new StringTag("Frying Pan");
 
-        assertEquals("Hashcodes should be the same for equivalent objects",
-                ss1.hashCode(), ss2.hashCode());
+        assertEquals("Hashcodes should be the same for equivalent objects", ss1.hashCode(), ss2.hashCode());
     }
 
 }

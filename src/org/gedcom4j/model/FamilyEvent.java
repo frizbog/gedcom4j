@@ -37,12 +37,12 @@ public class FamilyEvent extends Event {
     /**
      * Age of husband at time of event
      */
-    public String husbandAge;
+    public StringTag husbandAge;
 
     /**
      * Age of wife at time of event
      */
-    public String wifeAge;
+    public StringTag wifeAge;
 
     @Override
     public boolean equals(Object obj) {

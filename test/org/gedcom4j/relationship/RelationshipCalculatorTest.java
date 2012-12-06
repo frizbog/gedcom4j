@@ -21,18 +21,7 @@
  */
 package org.gedcom4j.relationship;
 
-import static org.gedcom4j.relationship.RelationshipName.AUNT;
-import static org.gedcom4j.relationship.RelationshipName.FATHER;
-import static org.gedcom4j.relationship.RelationshipName.GRANDFATHER;
-import static org.gedcom4j.relationship.RelationshipName.GRANDSON;
-import static org.gedcom4j.relationship.RelationshipName.GREAT_GRANDDAUGHTER;
-import static org.gedcom4j.relationship.RelationshipName.GREAT_GRANDFATHER;
-import static org.gedcom4j.relationship.RelationshipName.GREAT_GREAT_GRANDFATHER;
-import static org.gedcom4j.relationship.RelationshipName.GREAT_GREAT_GRANDMOTHER;
-import static org.gedcom4j.relationship.RelationshipName.GREAT_GREAT_GRANDSON;
-import static org.gedcom4j.relationship.RelationshipName.GREAT_GREAT_GREAT_GRANDFATHER;
-import static org.gedcom4j.relationship.RelationshipName.GREAT_GREAT_GREAT_GRANDSON;
-import static org.gedcom4j.relationship.RelationshipName.SISTER;
+import static org.gedcom4j.relationship.RelationshipName.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -44,11 +33,8 @@ import org.gedcom4j.model.Individual;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.parser.GedcomParserException;
 import org.gedcom4j.query.Finder;
-import org.gedcom4j.relationship.Relationship;
-import org.gedcom4j.relationship.RelationshipCalculator;
 import org.junit.Before;
 import org.junit.Test;
-
 
 /**
  * @author frizbog1
@@ -69,13 +55,28 @@ public class RelationshipCalculatorTest {
     /**
      * {@link RelationshipCalculator} test fixture
      */
-    private RelationshipCalculator rc = new RelationshipCalculator();
+    private final RelationshipCalculator rc = new RelationshipCalculator();
 
     /**
-     * Determines whether to write noise out to System.out. Useful to change to true temporarily for debugging this test but should be always set to
-     * false when checked into repository.
+     * Determines whether to write noise out to System.out. Useful to change to true temporarily for debugging this test
+     * but should be always set to false when checked into repository.
      */
-    private static final boolean VERBOSE = false;
+    private static final boolean VERBOSE = true;
+
+    /**
+     * Helper method to get a person and assert they exist
+     * 
+     * @param surname
+     *            the surname of the person we want
+     * @param givenName
+     *            the given name of the person we want
+     * @return the person
+     */
+    private Individual getPerson(String surname, String givenName) {
+        Individual result = finder.findByName(surname, givenName).get(0);
+        assertNotNull("Couldn't find " + givenName + " " + surname + " by name in the gedcom", result);
+        return result;
+    }
 
     /**
      * Set up test fixtures
@@ -95,8 +96,10 @@ public class RelationshipCalculatorTest {
 
         g = gp.gedcom;
         assertNotNull(g);
-        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g.individuals.size());
-        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?", 18, g.families.size());
+        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?",
+                43, g.individuals.size());
+        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?",
+                18, g.families.size());
         finder = new Finder(g);
     }
 
@@ -143,7 +146,8 @@ public class RelationshipCalculatorTest {
                 System.out.println("   " + r1);
             }
         }
-        assertEquals("Steven is Robert's grandfather - there should be one relationship", 1, rc.relationshipsFound.size());
+        assertEquals("Steven is Robert's grandfather - there should be one relationship", 1,
+                rc.relationshipsFound.size());
         Relationship r = rc.relationshipsFound.get(0);
         assertEquals(robert, r.individual1);
         assertEquals(steven, r.individual2);
@@ -159,7 +163,8 @@ public class RelationshipCalculatorTest {
                 System.out.println("   " + r1);
             }
         }
-        assertEquals("Steven is Robert's grandfather - there should be one relationship", 1, rc.relationshipsFound.size());
+        assertEquals("Steven is Robert's grandfather - there should be one relationship", 1,
+                rc.relationshipsFound.size());
         r = rc.relationshipsFound.get(0);
         assertEquals(steven, r.individual1);
         assertEquals(robert, r.individual2);
@@ -187,13 +192,15 @@ public class RelationshipCalculatorTest {
                 System.out.println("   " + r);
             }
         }
-        assertEquals("Steven is Nancy's great-grandfather - there should be one relationship", 1, rc.relationshipsFound.size());
+        assertEquals("Steven is Nancy's great-grandfather - there should be one relationship", 1,
+                rc.relationshipsFound.size());
         Relationship r = rc.relationshipsFound.get(0);
         assertEquals(nancy, r.individual1);
         assertEquals(steven, r.individual2);
         assertNotNull(r.chain);
         assertEquals("The relationship length should be two hops long after collapsing", 1, r.chain.size());
-        assertEquals("The relationship should be a great-grandfather/great-granddaughter one", GREAT_GRANDFATHER, r.chain.get(0).name);
+        assertEquals("The relationship should be a great-grandfather/great-granddaughter one", GREAT_GRANDFATHER,
+                r.chain.get(0).name);
 
         rc.calculateRelationships(steven, nancy, true);
         assertNotNull(rc.relationshipsFound);
@@ -203,13 +210,15 @@ public class RelationshipCalculatorTest {
                 System.out.println("   " + r1);
             }
         }
-        assertEquals("Steven is Nancy's great-grandfather - there should be one relationship", 1, rc.relationshipsFound.size());
+        assertEquals("Steven is Nancy's great-grandfather - there should be one relationship", 1,
+                rc.relationshipsFound.size());
         r = rc.relationshipsFound.get(0);
         assertEquals(steven, r.individual1);
         assertEquals(nancy, r.individual2);
         assertNotNull(r.chain);
         assertEquals("The relationship length should be two hops long after collapsing", 1, r.chain.size());
-        assertEquals("The relationship should be a great-grandfather/great-granddaughter one", GREAT_GRANDDAUGHTER, r.chain.get(0).name);
+        assertEquals("The relationship should be a great-grandfather/great-granddaughter one", GREAT_GRANDDAUGHTER,
+                r.chain.get(0).name);
     }
 
     /**
@@ -230,13 +239,15 @@ public class RelationshipCalculatorTest {
                 System.out.println("   " + r);
             }
         }
-        assertEquals("Steven is Alex's great-great-grandfather - there should be one relationship", 1, rc.relationshipsFound.size());
+        assertEquals("Steven is Alex's great-great-grandfather - there should be one relationship", 1,
+                rc.relationshipsFound.size());
         Relationship r = rc.relationshipsFound.get(0);
         assertEquals(alex, r.individual1);
         assertEquals(steven, r.individual2);
         assertNotNull(r.chain);
         assertEquals("The relationship length should be two hops long after collapsing", 1, r.chain.size());
-        assertEquals("The relationship should be a great-great-grandfather/great-great-grandfather one", GREAT_GREAT_GRANDFATHER, r.chain.get(0).name);
+        assertEquals("The relationship should be a great-great-grandfather/great-great-grandfather one",
+                GREAT_GREAT_GRANDFATHER, r.chain.get(0).name);
 
         rc.calculateRelationships(steven, alex, true);
         assertNotNull(rc.relationshipsFound);
@@ -246,13 +257,15 @@ public class RelationshipCalculatorTest {
                 System.out.println("   " + r1);
             }
         }
-        assertEquals("Steven is Alex's great-great-grandfather - there should be one relationship", 1, rc.relationshipsFound.size());
+        assertEquals("Steven is Alex's great-great-grandfather - there should be one relationship", 1,
+                rc.relationshipsFound.size());
         r = rc.relationshipsFound.get(0);
         assertEquals(steven, r.individual1);
         assertEquals(alex, r.individual2);
         assertNotNull(r.chain);
         assertEquals("The relationship length should be two hops long after collapsing", 1, r.chain.size());
-        assertEquals("The relationship should be a great-great-grandfather/great-great-grandfather one", GREAT_GREAT_GRANDSON, r.chain.get(0).name);
+        assertEquals("The relationship should be a great-great-grandfather/great-great-grandfather one",
+                GREAT_GREAT_GRANDSON, r.chain.get(0).name);
     }
 
     /**
@@ -273,14 +286,15 @@ public class RelationshipCalculatorTest {
                 System.out.println("   " + r);
             }
         }
-        assertEquals("Kenneth is Alex's great-great-great-grandfather - there should be one relationship", 1, rc.relationshipsFound.size());
+        assertEquals("Kenneth is Alex's great-great-great-grandfather - there should be one relationship", 1,
+                rc.relationshipsFound.size());
         Relationship r = rc.relationshipsFound.get(0);
         assertEquals(alex, r.individual1);
         assertEquals(kenneth, r.individual2);
         assertNotNull(r.chain);
         assertEquals("The relationship length should be two hops long after collapsing", 1, r.chain.size());
-        assertEquals("The relationship should be a great-great-great-grandfather/great-great-great-grandfather one", GREAT_GREAT_GREAT_GRANDFATHER,
-                r.chain.get(0).name);
+        assertEquals("The relationship should be a great-great-great-grandfather/great-great-great-grandfather one",
+                GREAT_GREAT_GREAT_GRANDFATHER, r.chain.get(0).name);
 
         rc.calculateRelationships(kenneth, alex, true);
         assertNotNull(rc.relationshipsFound);
@@ -290,14 +304,15 @@ public class RelationshipCalculatorTest {
                 System.out.println("   " + r1);
             }
         }
-        assertEquals("Kenneth is Alex's great-great-great-grandfather - there should be one relationship", 1, rc.relationshipsFound.size());
+        assertEquals("Kenneth is Alex's great-great-great-grandfather - there should be one relationship", 1,
+                rc.relationshipsFound.size());
         r = rc.relationshipsFound.get(0);
         assertEquals(kenneth, r.individual1);
         assertEquals(alex, r.individual2);
         assertNotNull(r.chain);
         assertEquals("The relationship length should be two hops long after collapsing", 1, r.chain.size());
-        assertEquals("The relationship should be a great-great-great-grandfather/great-great-great-grandfather one", GREAT_GREAT_GREAT_GRANDSON,
-                r.chain.get(0).name);
+        assertEquals("The relationship should be a great-great-great-grandfather/great-great-great-grandfather one",
+                GREAT_GREAT_GREAT_GRANDSON, r.chain.get(0).name);
     }
 
     /**
@@ -318,14 +333,16 @@ public class RelationshipCalculatorTest {
                 System.out.println("   " + r);
             }
         }
-        assertEquals("Abigail is Alex's great-great-grandmother - there are several ways to get there but one relationship", 1,
-                rc.relationshipsFound.size());
+        assertEquals(
+                "Abigail is Alex's great-great-grandmother - there are several ways to get there but one relationship",
+                1, rc.relationshipsFound.size());
         Relationship r = rc.relationshipsFound.get(0);
         assertEquals(alex, r.individual1);
         assertEquals(abigail, r.individual2);
         assertNotNull(r.chain);
         assertEquals("The relationship length should be four hops long (after collapsing)", 1, r.chain.size());
-        assertEquals("The relationship should be an great-great-grandmother/great-great-grandson one", GREAT_GREAT_GRANDMOTHER, r.chain.get(0).name);
+        assertEquals("The relationship should be an great-great-grandmother/great-great-grandson one",
+                GREAT_GREAT_GRANDMOTHER, r.chain.get(0).name);
 
         rc.calculateRelationships(abigail, alex, true);
         assertNotNull(rc.relationshipsFound);
@@ -335,14 +352,16 @@ public class RelationshipCalculatorTest {
                 System.out.println("   " + r1);
             }
         }
-        assertEquals("Abigail is Alex's great-great-grandmother - there are several ways to get there but one relationship", 1,
-                rc.relationshipsFound.size());
+        assertEquals(
+                "Abigail is Alex's great-great-grandmother - there are several ways to get there but one relationship",
+                1, rc.relationshipsFound.size());
         r = rc.relationshipsFound.get(0);
         assertEquals(abigail, r.individual1);
         assertEquals(alex, r.individual2);
         assertNotNull(r.chain);
         assertEquals("The relationship length should be four hops long (after collapsing)", 1, r.chain.size());
-        assertEquals("The relationship should be an great-great-grandmother/great-great-grandson one", GREAT_GREAT_GRANDSON, r.chain.get(0).name);
+        assertEquals("The relationship should be an great-great-grandmother/great-great-grandson one",
+                GREAT_GREAT_GRANDSON, r.chain.get(0).name);
 
     }
 
@@ -420,20 +439,5 @@ public class RelationshipCalculatorTest {
         assertNotNull(r.chain);
         assertEquals("The relationship length should be one hop long", 1, r.chain.size());
         assertEquals("The relationship should be an father/son one", FATHER, r.chain.get(0).name);
-    }
-
-    /**
-     * Helper method to get a person and assert they exist
-     * 
-     * @param surname
-     *            the surname of the person we want
-     * @param givenName
-     *            the given name of the person we want
-     * @return the person
-     */
-    private Individual getPerson(String surname, String givenName) {
-        Individual result = finder.findByName(surname, givenName).get(0);
-        assertNotNull("Couldn't find " + givenName + " " + surname + " by name in the gedcom", result);
-        return result;
     }
 }

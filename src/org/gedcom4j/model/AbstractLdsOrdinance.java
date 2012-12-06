@@ -35,22 +35,22 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
     /**
      * The status
      */
-    public String status;
+    public StringTag status;
 
     /**
      * The date
      */
-    public String date;
+    public StringTag date;
 
     /**
      * The temple code
      */
-    public String temple;
+    public StringTag temple;
 
     /**
      * The place
      */
-    public String place;
+    public StringTag place;
 
     /**
      * The citations for this ordinance

@@ -24,9 +24,6 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import org.gedcom4j.model.Association;
-import org.gedcom4j.model.CitationWithSource;
-import org.gedcom4j.model.Note;
 import org.junit.Test;
 
 /**
@@ -36,9 +33,7 @@ import org.junit.Test;
 public class AssociationTest {
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.model.Association#equals(java.lang.Object)}
-     * .
+     * Test method for {@link org.gedcom4j.model.Association#equals(java.lang.Object)} .
      */
     @Test
     public void testEqualsObject() {
@@ -48,9 +43,9 @@ public class AssociationTest {
         Association a2 = new Association();
         assertEquals(a1, a2);
 
-        a1.associatedEntityType = "Frying Pan";
+        a1.associatedEntityType = new StringTag("Frying Pan");
         assertFalse(a1.equals(a2));
-        a2.associatedEntityType = "Frying Pan";
+        a2.associatedEntityType = new StringTag("Frying Pan");
         assertEquals(a1, a2);
         a1.associatedEntityType = null;
         assertFalse(a1.equals(a2));
@@ -66,9 +61,9 @@ public class AssociationTest {
         a2.associatedEntityXref = null;
         assertEquals(a1, a2);
 
-        a1.relationship = "Frying Pan";
+        a1.relationship = new StringTag("Frying Pan");
         assertFalse(a1.equals(a2));
-        a2.relationship = "Frying Pan";
+        a2.relationship = new StringTag("Frying Pan");
         assertEquals(a1, a2);
         a1.relationship = null;
         assertFalse(a1.equals(a2));
@@ -98,8 +93,7 @@ public class AssociationTest {
     }
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.model.Association#hashCode()}.
+     * Test method for {@link org.gedcom4j.model.Association#hashCode()}.
      */
     @Test
     public void testHashCode() {
@@ -108,9 +102,9 @@ public class AssociationTest {
         Association a2 = new Association();
         assertEquals(a1, a2);
 
-        a1.associatedEntityType = "Frying Pan";
+        a1.associatedEntityType = new StringTag("Frying Pan");
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.associatedEntityType = "Frying Pan";
+        a2.associatedEntityType = new StringTag("Frying Pan");
         assertEquals(a1.hashCode(), a2.hashCode());
         a1.associatedEntityType = null;
         assertFalse(a1.hashCode() == a2.hashCode());
@@ -126,9 +120,9 @@ public class AssociationTest {
         a2.associatedEntityXref = null;
         assertEquals(a1.hashCode(), a2.hashCode());
 
-        a1.relationship = "Frying Pan";
+        a1.relationship = new StringTag("Frying Pan");
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.relationship = "Frying Pan";
+        a2.relationship = new StringTag("Frying Pan");
         assertEquals(a1.hashCode(), a2.hashCode());
         a1.relationship = null;
         assertFalse(a1.hashCode() == a2.hashCode());
@@ -153,7 +147,7 @@ public class AssociationTest {
         a2.notes = null;
         assertEquals(a1.hashCode(), a2.hashCode());
 
-        assertFalse(a1.hashCode() == this.hashCode());
+        assertFalse(a1.hashCode() == hashCode());
     }
 
 }

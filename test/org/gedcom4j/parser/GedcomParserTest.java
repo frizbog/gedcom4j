@@ -55,7 +55,7 @@ public class GedcomParserTest extends TestCase {
         assertEquals(3, g.submitters.size());
         Submitter submitter = g.submitters.get("@SUBMITTER@");
         assertNotNull(submitter);
-        assertEquals("John A. Nairn", submitter.name);
+        assertEquals("John A. Nairn", submitter.name.value);
 
         assertEquals(7, g.families.size());
         assertEquals(2, g.sources.size());
@@ -100,7 +100,7 @@ public class GedcomParserTest extends TestCase {
         assertFalse(g.submitters.isEmpty());
         Submitter submitter = g.submitters.values().iterator().next();
         assertNotNull(submitter);
-        assertEquals("/Submitter-Name/", submitter.name);
+        assertEquals("/Submitter-Name/", submitter.name.value);
     }
 
     /**
@@ -126,8 +126,8 @@ public class GedcomParserTest extends TestCase {
         assertNull(submitter.name);
 
         // Check header
-        assertEquals("6.00", g.header.sourceSystem.versionNum);
-        assertEquals("(510) 794-6850", g.header.sourceSystem.corporation.phoneNumbers.get(0));
+        assertEquals("6.00", g.header.sourceSystem.versionNum.value);
+        assertEquals("(510) 794-6850", g.header.sourceSystem.corporation.phoneNumbers.get(0).value);
 
         // There are two sources in this file, and their names should be as
         // shown

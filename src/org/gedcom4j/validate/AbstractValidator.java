@@ -27,8 +27,8 @@ import java.util.List;
 
 import org.gedcom4j.model.ChangeDate;
 import org.gedcom4j.model.Note;
+import org.gedcom4j.model.StringTag;
 import org.gedcom4j.model.UserReference;
-
 
 /**
  * A base class for all validators
@@ -39,8 +39,7 @@ import org.gedcom4j.model.UserReference;
 public abstract class AbstractValidator {
 
     /**
-     * The root validator - the one that holds the collection of findings among
-     * other things
+     * The root validator - the one that holds the collection of findings among other things
      */
     protected GedcomValidator rootValidator;
 
@@ -51,8 +50,7 @@ public abstract class AbstractValidator {
      *            the description of the error
      */
     protected void addError(String description) {
-        rootValidator.findings.add(new GedcomValidationFinding(description,
-                Severity.ERROR, null));
+        rootValidator.findings.add(new GedcomValidationFinding(description, Severity.ERROR, null));
     }
 
     /**
@@ -64,8 +62,7 @@ public abstract class AbstractValidator {
      *            the object in error
      */
     protected void addError(String description, Object o) {
-        rootValidator.findings.add(new GedcomValidationFinding(description,
-                Severity.ERROR, o));
+        rootValidator.findings.add(new GedcomValidationFinding(description, Severity.ERROR, o));
     }
 
     /**
@@ -75,8 +72,7 @@ public abstract class AbstractValidator {
      *            the description of the finding
      */
     protected void addInfo(String description) {
-        rootValidator.findings.add(new GedcomValidationFinding(description,
-                Severity.INFO, null));
+        rootValidator.findings.add(new GedcomValidationFinding(description, Severity.INFO, null));
     }
 
     /**
@@ -88,8 +84,7 @@ public abstract class AbstractValidator {
      *            the object in error
      */
     protected void addInfo(String description, Object o) {
-        rootValidator.findings.add(new GedcomValidationFinding(description,
-                Severity.INFO, o));
+        rootValidator.findings.add(new GedcomValidationFinding(description, Severity.INFO, o));
     }
 
     /**
@@ -99,8 +94,7 @@ public abstract class AbstractValidator {
      *            the description of the warning
      */
     protected void addWarning(String description) {
-        rootValidator.findings.add(new GedcomValidationFinding(description,
-                Severity.WARNING, null));
+        rootValidator.findings.add(new GedcomValidationFinding(description, Severity.WARNING, null));
     }
 
     /**
@@ -112,8 +106,7 @@ public abstract class AbstractValidator {
      *            the object in error
      */
     protected void addWarning(String description, Object o) {
-        rootValidator.findings.add(new GedcomValidationFinding(description,
-                Severity.WARNING, o));
+        rootValidator.findings.add(new GedcomValidationFinding(description, Severity.WARNING, o));
     }
 
     /**
@@ -124,25 +117,19 @@ public abstract class AbstractValidator {
      * @param objectWithChangeDate
      *            the object with the change date
      */
-    protected void checkChangeDate(ChangeDate changeDate,
-            Object objectWithChangeDate) {
+    protected void checkChangeDate(ChangeDate changeDate, Object objectWithChangeDate) {
         if (changeDate == null) {
             // Change dates are always optional
             return;
         }
-        checkRequiredString(changeDate.date, "change date",
-                objectWithChangeDate);
-        checkOptionalString(changeDate.time, "change time",
-                objectWithChangeDate);
+        checkRequiredString(changeDate.date, "change date", objectWithChangeDate);
+        checkOptionalString(changeDate.time, "change time", objectWithChangeDate);
         if (changeDate.notes == null) {
             if (rootValidator.autorepair) {
                 changeDate.notes = new ArrayList<Note>();
-                addInfo("Notes collection was null on "
-                        + changeDate.getClass().getSimpleName()
-                        + " - autorepaired");
+                addInfo("Notes collection was null on " + changeDate.getClass().getSimpleName() + " - autorepaired");
             } else {
-                addError("Notes collection is null on "
-                        + changeDate.getClass().getSimpleName());
+                addError("Notes collection is null on " + changeDate.getClass().getSimpleName());
             }
         } else {
             checkNotes(changeDate.notes, changeDate);
@@ -163,8 +150,7 @@ public abstract class AbstractValidator {
     }
 
     /**
-     * Checks that an optional string field is either null, or greater than zero
-     * characters long after trimming
+     * Checks that an optional string field is either null, or greater than zero characters long after trimming
      * 
      * @param optionalString
      *            the field that is required
@@ -173,13 +159,27 @@ public abstract class AbstractValidator {
      * @param objectContainingField
      *            the object containing the field being checked
      */
-    protected void checkOptionalString(String optionalString,
-            String fieldDescription, Object objectContainingField) {
+    protected void checkOptionalString(String optionalString, String fieldDescription, Object objectContainingField) {
         if (optionalString != null && optionalString.trim().length() == 0) {
-            addError(fieldDescription + " on "
-                    + objectContainingField.getClass().getSimpleName()
-                    + " is specified, but has a blank value",
-                    objectContainingField);
+            addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName()
+                    + " is specified, but has a blank value", objectContainingField);
+        }
+    }
+
+    /**
+     * Checks that an optional string field is either null, or greater than zero characters long after trimming
+     * 
+     * @param optionalString
+     *            the field that is required
+     * @param fieldDescription
+     *            the human-readable name of the field
+     * @param objectContainingField
+     *            the object containing the field being checked
+     */
+    protected void checkOptionalString(StringTag optionalString, String fieldDescription, Object objectContainingField) {
+        if (optionalString != null && optionalString.value != null && optionalString.value.trim().length() == 0) {
+            addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName()
+                    + " is specified, but has a blank value", objectContainingField);
         }
     }
 
@@ -193,19 +193,33 @@ public abstract class AbstractValidator {
      * @param objectContainingField
      *            the object containing the field being checked
      */
-    protected void checkRequiredString(String requiredString,
-            String fieldDescription, Object objectContainingField) {
+    protected void checkRequiredString(String requiredString, String fieldDescription, Object objectContainingField) {
         if (requiredString == null || requiredString.trim().length() == 0) {
-            addError(fieldDescription + " on "
-                    + objectContainingField.getClass().getSimpleName()
-                    + " is required, but is either null or blank",
-                    objectContainingField);
+            addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName()
+                    + " is required, but is either null or blank", objectContainingField);
         }
     }
 
     /**
-     * Check a string list (List&lt;String&gt;) on an object. All strings in the
-     * list must be non-null and non-blank when trimmed.
+     * Checks that a required string field is specified
+     * 
+     * @param requiredString
+     *            the field that is required
+     * @param fieldDescription
+     *            the human-readable name of the field
+     * @param objectContainingField
+     *            the object containing the field being checked
+     */
+    protected void checkRequiredString(StringTag requiredString, String fieldDescription, Object objectContainingField) {
+        if (requiredString == null || requiredString.value == null || requiredString.value.trim().length() == 0) {
+            addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName()
+                    + " is required, but is either null or blank", objectContainingField);
+        }
+    }
+
+    /**
+     * Check a string list (List&lt;String&gt;) on an object. All strings in the list must be non-null and non-blank
+     * when trimmed.
      * 
      * @param stringList
      *            the stringlist being validated
@@ -214,16 +228,33 @@ public abstract class AbstractValidator {
      * @param blanksAllowed
      *            are blank strings allowed in the string list?
      */
-    protected void checkStringList(List<String> stringList, String description,
-            boolean blanksAllowed) {
+    protected void checkStringList(List<String> stringList, String description, boolean blanksAllowed) {
         for (String a : stringList) {
             if (a == null) {
-                addError("String list (" + description
-                        + ") contains null entry", stringList);
+                addError("String list (" + description + ") contains null entry", stringList);
             } else if (!blanksAllowed && a.trim().length() == 0) {
-                addError("String list (" + description
-                        + ") contains blank entry where none are allowed",
-                        stringList);
+                addError("String list (" + description + ") contains blank entry where none are allowed", stringList);
+            }
+        }
+    }
+
+    /**
+     * Check a tagged string list (List&lt;StringTag&gt;) on an object. All strings in the list must be non-null and
+     * non-blank when trimmed.
+     * 
+     * @param stringList
+     *            the stringlist being validated
+     * @param description
+     *            a description of the string list
+     * @param blanksAllowed
+     *            are blank strings allowed in the string list?
+     */
+    protected void checkStringTagList(List<StringTag> stringList, String description, boolean blanksAllowed) {
+        for (StringTag a : stringList) {
+            if (a == null || a.value == null) {
+                addError("String list (" + description + ") contains null entry", stringList);
+            } else if (!blanksAllowed && a.value.trim().length() == 0) {
+                addError("String list (" + description + ") contains blank entry where none are allowed", stringList);
             }
         }
     }
@@ -236,25 +267,20 @@ public abstract class AbstractValidator {
      * @param objectWithUserReferences
      *            the object that contains the collection of user references
      */
-    protected void checkUserReferences(List<UserReference> userReferences,
-            Object objectWithUserReferences) {
+    protected void checkUserReferences(List<UserReference> userReferences, Object objectWithUserReferences) {
         for (UserReference userReference : userReferences) {
             if (userReference == null) {
-                addError("Null user reference in collection on "
-                        + objectWithUserReferences.getClass().getSimpleName(),
+                addError("Null user reference in collection on " + objectWithUserReferences.getClass().getSimpleName(),
                         objectWithUserReferences);
             } else {
-                checkRequiredString(userReference.referenceNum,
-                        "reference number", userReference);
-                checkOptionalString(userReference.type, "reference type",
-                        userReference);
+                checkRequiredString(userReference.referenceNum, "reference number", userReference);
+                checkOptionalString(userReference.type, "reference type", userReference);
             }
         }
     }
 
     /**
-     * Check the xref on an object, using the default field name of
-     * <tt>xref</tt> for the xref field
+     * Check the xref on an object, using the default field name of <tt>xref</tt> for the xref field
      * 
      * @param objectContainingXref
      *            the object containing the xref field
@@ -264,8 +290,7 @@ public abstract class AbstractValidator {
     }
 
     /**
-     * Check the xref on an object, using a specific field name to find the xref
-     * in
+     * Check the xref on an object, using a specific field name to find the xref in
      * 
      * @param objectContainingXref
      *            the object containing the xref field
@@ -274,45 +299,38 @@ public abstract class AbstractValidator {
      */
     protected void checkXref(Object objectContainingXref, String xrefFieldName) {
         try {
-            Field xrefField = objectContainingXref.getClass().getField(
-                    xrefFieldName);
+            Field xrefField = objectContainingXref.getClass().getField(xrefFieldName);
             String xref = (String) xrefField.get(objectContainingXref);
             checkRequiredString(xref, xrefFieldName, objectContainingXref);
             if (xref != null) {
                 if (xref.length() < 3) {
-                    addError("xref on "
-                            + objectContainingXref.getClass().getSimpleName()
-                            + " is too short to be a valid xref",
-                            objectContainingXref);
+                    addError("xref on " + objectContainingXref.getClass().getSimpleName()
+                            + " is too short to be a valid xref", objectContainingXref);
                 }
                 if (!xref.startsWith("@")) {
-                    addError("xref on "
-                            + objectContainingXref.getClass().getSimpleName()
-                            + " is doesn't start with an at-sign (@)",
-                            objectContainingXref);
+                    addError("xref on " + objectContainingXref.getClass().getSimpleName()
+                            + " is doesn't start with an at-sign (@)", objectContainingXref);
                 }
                 if (!xref.endsWith("@")) {
-                    addError("xref on "
-                            + objectContainingXref.getClass().getSimpleName()
-                            + " is doesn't end with an at-sign (@)",
-                            objectContainingXref);
+                    addError("xref on " + objectContainingXref.getClass().getSimpleName()
+                            + " is doesn't end with an at-sign (@)", objectContainingXref);
                 }
             }
         } catch (SecurityException e) {
-            throw new GedcomValidationException(objectContainingXref.getClass()
-                    .getSimpleName() + " doesn't have an xref to validate", e);
+            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName()
+                    + " doesn't have an xref to validate", e);
         } catch (ClassCastException e) {
-            throw new GedcomValidationException(objectContainingXref.getClass()
-                    .getSimpleName() + " doesn't have an xref to validate", e);
+            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName()
+                    + " doesn't have an xref to validate", e);
         } catch (NoSuchFieldException e) {
-            throw new GedcomValidationException(objectContainingXref.getClass()
-                    .getSimpleName() + " doesn't have an xref to validate", e);
+            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName()
+                    + " doesn't have an xref to validate", e);
         } catch (IllegalArgumentException e) {
-            throw new GedcomValidationException(objectContainingXref.getClass()
-                    .getSimpleName() + " doesn't have an xref to validate", e);
+            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName()
+                    + " doesn't have an xref to validate", e);
         } catch (IllegalAccessException e) {
-            throw new GedcomValidationException(objectContainingXref.getClass()
-                    .getSimpleName() + " doesn't have an xref to validate", e);
+            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName()
+                    + " doesn't have an xref to validate", e);
         }
     }
 

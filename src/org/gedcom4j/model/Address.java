@@ -40,32 +40,32 @@ public class Address extends AbstractElement {
     /**
      * Line one of the address
      */
-    public String addr1;
+    public StringTag addr1;
 
     /**
      * Line two of the address
      */
-    public String addr2;
+    public StringTag addr2;
 
     /**
      * City
      */
-    public String city;
+    public StringTag city;
 
     /**
      * State/province
      */
-    public String stateProvince;
+    public StringTag stateProvince;
 
     /**
      * Postal code
      */
-    public String postalCode;
+    public StringTag postalCode;
 
     /**
      * Country
      */
-    public String country;
+    public StringTag country;
 
     @Override
     public boolean equals(Object obj) {

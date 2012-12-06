@@ -34,32 +34,32 @@ public class PersonalNameVariation extends NameVariation {
     /**
      * The prefix for the name
      */
-    public String prefix;
+    public StringTag prefix;
 
     /**
      * The given (aka "Christian" or "first") names
      */
-    public String givenName;
+    public StringTag givenName;
 
     /**
      * Nickname
      */
-    public String nickname;
+    public StringTag nickname;
 
     /**
      * Surname prefix
      */
-    public String surnamePrefix;
+    public StringTag surnamePrefix;
 
     /**
      * The surname (aka "family" or "last" name)
      */
-    public String surname;
+    public StringTag surname;
 
     /**
      * The suffix
      */
-    public String suffix;
+    public StringTag suffix;
 
     /**
      * Notes on this name
