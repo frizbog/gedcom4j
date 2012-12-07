@@ -77,4 +77,10 @@ public class CitationData extends AbstractElement {
         result = prime * result + (sourceText == null ? 0 : sourceText.hashCode());
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "CitationData [entryDate=" + entryDate + ", sourceText=" + sourceText + ", customTags=" + customTags
+                + "]";
+    }
 }

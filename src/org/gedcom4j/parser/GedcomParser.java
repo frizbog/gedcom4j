@@ -304,7 +304,7 @@ public class GedcomParser {
     private void loadChangeDate(StringTree st, ChangeDate changeDate) {
         for (StringTree ch : st.children) {
             if ("DATE".equals(ch.tag)) {
-                changeDate.date = new StringWithCustomTags(ch);
+                changeDate.date = new StringWithCustomTags(ch.value);
                 if (!ch.children.isEmpty()) {
                     changeDate.time = new StringWithCustomTags(ch.children.get(0));
                 }
@@ -413,13 +413,13 @@ public class GedcomParser {
             if ("PAGE".equals(ch.tag)) {
                 cws.whereInSource = new StringWithCustomTags(ch);
             } else if ("EVEN".equals(ch.tag)) {
-                cws.eventCited = new StringWithCustomTags(ch);
+                cws.eventCited = new StringWithCustomTags(ch.value);
                 if (ch.children != null) {
                     for (StringTree gc : ch.children) {
                         if ("ROLE".equals(gc.tag)) {
                             cws.roleInEvent = new StringWithCustomTags(gc);
                         } else {
-                            unknownTag(gc, citation);
+                            unknownTag(gc, cws.eventCited);
                         }
                     }
                 }
@@ -1733,9 +1733,13 @@ public class GedcomParser {
             } else if ("CALN".equals(ch.tag)) {
                 SourceCallNumber scn = new SourceCallNumber();
                 r.callNumbers.add(scn);
-                scn.callNumber = new StringWithCustomTags(ch);
-                if (!ch.children.isEmpty()) {
-                    scn.mediaType = new StringWithCustomTags(ch.children.get(0));
+                scn.callNumber = new StringWithCustomTags(ch.value);
+                for (StringTree gch : ch.children) {
+                    if ("MEDI".equals(gch.tag)) {
+                        scn.mediaType = new StringWithCustomTags(gch);
+                    } else {
+                        unknownTag(gch, scn.callNumber);
+                    }
                 }
             } else {
                 unknownTag(ch, r);

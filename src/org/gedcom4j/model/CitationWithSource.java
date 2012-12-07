@@ -154,4 +154,11 @@ public class CitationWithSource extends AbstractCitation {
         result = prime * result + (whereInSource == null ? 0 : whereInSource.hashCode());
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "CitationWithSource [whereInSource=" + whereInSource + ", certainty=" + certainty + ", eventCited="
+                + eventCited + ", data=" + data + ", source=" + source + ", multimedia=" + multimedia
+                + ", roleInEvent=" + roleInEvent + ", notes=" + notes + ", customTags=" + customTags + "]";
+    }
 }
