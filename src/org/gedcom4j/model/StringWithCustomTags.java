@@ -70,8 +70,44 @@ public class StringWithCustomTags extends AbstractElement {
         return result;
     }
 
+    /**
+     * Return the string value converted to lowercase
+     * 
+     * @return the string value converted to lowercase
+     */
+    public String toLowerCase() {
+        if (value == null) {
+            return null;
+        }
+        return value.toLowerCase();
+    }
+
     @Override
     public String toString() {
         return value;
+    }
+
+    /**
+     * Return the string value converted to uppercase
+     * 
+     * @return the string value converted to uppercase
+     */
+    public String toUpperCase() {
+        if (value == null) {
+            return null;
+        }
+        return value.toUpperCase();
+    }
+
+    /**
+     * Return the trimmed string value
+     * 
+     * @return the trimmed string value
+     */
+    public String trim() {
+        if (value == null) {
+            return null;
+        }
+        return value.trim();
     }
 }
