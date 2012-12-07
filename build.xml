@@ -23,11 +23,14 @@
 		<delete dir="bin" />
 		<delete dir="dist" />
 		<delete dir="testbin" />
-		<delete dir=".">
-			<include name="**/cobertura.ser" />
-		</delete>
+		<delete dir="target" />
 		<delete dir="reports" />
-
+		<delete>
+			<fileset dir="${basedir}">
+				<include name="**/cobertura.ser" />
+				<include name=".swp"/>
+			</fileset>
+		</delete>
 	</target>
 
 	<target name="init" description="Create necessary directories for build">
