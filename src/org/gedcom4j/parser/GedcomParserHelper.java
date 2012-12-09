@@ -22,6 +22,7 @@
 
 package org.gedcom4j.parser;
 
+import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,7 +30,6 @@ import java.util.List;
 
 import org.gedcom4j.io.GedcomFileReader;
 import org.gedcom4j.model.StringTree;
-
 
 /**
  * A helper class so GedcomParser won't be so huge
@@ -68,7 +68,7 @@ public final class GedcomParserHelper {
      * @throws IOException
      *             if there is a problem reading the data from the reader
      */
-    static StringTree makeStringTreeFromStream(InputStream bytes) throws IOException {
+    static StringTree makeStringTreeFromStream(BufferedInputStream bytes) throws IOException {
         List<String> lines = new GedcomFileReader().getLines(bytes);
         StringTree result = new StringTree();
         result.level = -1;
@@ -95,7 +95,8 @@ public final class GedcomParserHelper {
     }
 
     /**
-     * Load the flat file into a tree structure that reflects the heirarchy of its contents, using the default encoding for yor JVM
+     * Load the flat file into a tree structure that reflects the heirarchy of its contents, using the default encoding
+     * for yor JVM
      * 
      * @param filename
      *            the file to load
@@ -106,7 +107,7 @@ public final class GedcomParserHelper {
     static StringTree readFile(String filename) throws IOException {
         FileInputStream fis = new FileInputStream(filename);
         try {
-            return GedcomParserHelper.makeStringTreeFromStream(fis);
+            return GedcomParserHelper.makeStringTreeFromStream(new BufferedInputStream(fis));
         } finally {
             fis.close();
         }
@@ -121,7 +122,7 @@ public final class GedcomParserHelper {
      * @throws IOException
      *             if there's a problem reading the data off the stream
      */
-    static StringTree readStream(InputStream stream) throws IOException {
+    static StringTree readStream(BufferedInputStream stream) throws IOException {
         return GedcomParserHelper.makeStringTreeFromStream(stream);
     }
 
