@@ -21,8 +21,8 @@
  */
 package org.gedcom4j.parser;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -2104,7 +2104,7 @@ public class GedcomParser {
      * @throws GedcomParserException
      *             if the file cannot be parsed
      */
-    public void load(InputStream stream) throws IOException, GedcomParserException {
+    public void load(BufferedInputStream stream) throws IOException, GedcomParserException {
         if (verbose) {
             System.out.println("Loading and parsing GEDCOM from input stream");
         }

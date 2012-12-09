@@ -21,6 +21,7 @@
  */
 package org.gedcom4j.writer;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -99,7 +100,7 @@ public class GedcomWriterTest extends TestCase {
         FileInputStream byteStream = null;
         try {
             byteStream = new FileInputStream(tempFile);
-            readbackLines = gfr.getLines(byteStream);
+            readbackLines = gfr.getLines(new BufferedInputStream(byteStream));
         } finally {
             if (byteStream != null) {
                 byteStream.close();
@@ -186,7 +187,7 @@ public class GedcomWriterTest extends TestCase {
      */
     private List<String> readBack(File fileToRead) throws IOException {
         GedcomFileReader gfr = new GedcomFileReader();
-        return gfr.getLines(new FileInputStream(fileToRead));
+        return gfr.getLines(new BufferedInputStream(new FileInputStream(fileToRead)));
     }
 
     /**

@@ -21,6 +21,7 @@
  */
 package org.gedcom4j.parser;
 
+import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -177,7 +178,7 @@ public class GedcomParserTest extends TestCase {
         GedcomParser gp = new GedcomParser();
         gp.verbose = true;
         InputStream stream = new FileInputStream("sample/TGC551LF.ged");
-        gp.load(stream);
+        gp.load(new BufferedInputStream(stream));
         checkTGC551LF(gp);
     }
 }
