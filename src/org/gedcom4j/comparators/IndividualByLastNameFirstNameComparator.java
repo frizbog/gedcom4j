@@ -25,17 +25,15 @@ import java.io.Serializable;
 import java.util.Comparator;
 
 import org.gedcom4j.model.Individual;
-
+import org.gedcom4j.model.PersonalName;
 
 /**
- * Comparator for sorting individuals by last name (surname) first, then first
- * (given) name
+ * Comparator for sorting individuals by last name (surname) first, then first (given) name
  * 
  * @author frizbog1
  * 
  */
-public class IndividualByLastNameFirstNameComparator implements Serializable,
-        Comparator<Individual> {
+public class IndividualByLastNameFirstNameComparator implements Serializable, Comparator<Individual> {
 
     /**
      * Serial Version UID
@@ -52,18 +50,44 @@ public class IndividualByLastNameFirstNameComparator implements Serializable,
      * @return -1 if i1 < i2, 0 if i1 == i2, 1 if i1 > i2
      * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
      */
+    @Override
     public int compare(Individual i1, Individual i2) {
 
-        String n1 = "-unknown-";
-        if (i1.names.size() > 0 && i1.names.get(0) != null) {
-            n1 = i1.names.get(0).toString();
+        String s1 = "-unknown-";
+        String s2 = "-unknown-";
+        PersonalName n1 = null;
+        PersonalName n2 = null;
+        if (i1.names.size() > 0) {
+            n1 = i1.names.get(0);
         }
-        String n2 = "-unknown-";
-        if (i2.names.size() > 0 && i2.names.get(0) != null) {
-            n2 = i2.names.get(0).toString();
+        if (i2.names.size() > 0) {
+            n2 = i2.names.get(0);
         }
 
-        return n1.compareTo(n2);
+        if (n1 != null) {
+            if (n1.surname == null && n1.givenName == null) {
+                if (n1.basic.contains("/")) {
+                    String sn = n1.basic.substring(n1.basic.indexOf("/"));
+                    String gn = n1.basic.substring(0, n1.basic.indexOf("/"));
+                    s1 = sn + ", " + gn;
+                }
+            } else {
+                s1 = n1.surname + ", " + n1.givenName;
+            }
+        }
+
+        if (n2 != null) {
+            if (n2.surname == null && n2.givenName == null) {
+                if (n2.basic.contains("/")) {
+                    String sn = n2.basic.substring(n2.basic.indexOf("/"));
+                    String gn = n2.basic.substring(0, n2.basic.indexOf("/"));
+                    s2 = sn + ", " + gn;
+                }
+            } else {
+                s2 = n2.surname + ", " + n2.givenName;
+            }
+        }
+
+        return s1.compareTo(s2);
     }
-
 }
