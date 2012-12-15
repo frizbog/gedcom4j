@@ -22,6 +22,7 @@
 
 	<groupId>org.gedcom4j</groupId>
 	<artifactId>gedcom4j</artifactId>
+	<version>@VERSION@</version>
 
 	<name>gedcom4j</name>
 	<description>gedcom4j is a Java library for parsing and writing GEDCOM 5.5 and 5.5.1 files</description>
@@ -205,5 +206,4 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
-	<version>@VERSION@</version>
 </project>
