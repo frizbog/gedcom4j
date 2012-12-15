@@ -94,13 +94,19 @@
 	</target>
 
 	<target name="maven" description="Prepare release for push to maven repository">
+		<!--property environment="env" />
+		<echoproperties /-->
 		<!-- Make the pom.xml from the template -->
-		<copy filtering="true" overwrite="true" todir="tmp">
-			<fileset dir="etc" includesfile="etc/pom.template.xml" />
+		<copy filtering="true" overwrite="true" tofile="tmp/pom.xml">
+			<fileset dir="etc">
+				<include name="pom.template.xml" />
+			</fileset>
 			<filterset>
 				<filter token="VERSION" value="${release.version}" />
 			</filterset>
 		</copy>
+		
+		
 		<!-- sign and deploy the main artifact -->
 		<artifact:mvn>
 			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file" />
