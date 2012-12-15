@@ -94,8 +94,10 @@
 	</target>
 
 	<target name="maven" description="Prepare release for push to maven repository">
+		<property environment="env"/>
+		<echoproperties/>
 		<!-- Make the pom.xml from the template -->
-		<copy filtering="true" overwrite="true" todir="tmp">
+		<copy filtering="true" overwrite="true" tofile="tmp/pom.xml">
 			<fileset dir="etc" includesfile="etc/pom.template.xml" />
 			<filterset>
 				<filter token="VERSION" value="${release.version}" />
