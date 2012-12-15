@@ -1,4 +1,4 @@
-<project name="gedcom4j" default="release">
+<project name="gedcom4j" default="release" xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 	<property file="gedcom4j.properties" />
 
 	<!-- Stuff for Cobertura -->
@@ -12,11 +12,20 @@
 	<taskdef resource="checkstyletask.properties" classpath="lib/checkstyle-5.5-all.jar" />
 
 	<!-- Stuff for Findbugs -->
-	<property name="findbugs.home" value="lib/findbugs"/>
+	<property name="findbugs.home" value="lib/findbugs" />
 	<path id="findbugs.classpath">
 		<fileset dir="${findbugs.home}" includes="*.jar" />
 	</path>
 	<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpathref="findbugs.classpath" />
+
+	<!-- Stuff for Maven Ant Tasks -->
+	<path id="maven-ant-tasks.classpath" path="lib/maven-ant-tasks-2.1.3.jar" />
+	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="antlib:org.apache.maven.artifact.ant" classpathref="maven-ant-tasks.classpath" />
+	<property name="maven-staging-repository-id" value="sonatype-nexus-staging" />
+	<property name="maven-staging-repository-url" value="https://oss.sonatype.org/service/local/staging/deploy/maven2/" />
+	<!-- Not planning to sync snapshots, but if I ever do... -->
+	<property name="maven-snapshots-repository-id" value="sonatype-nexus-snapshots" />
+	<property name="maven-snapshots-repository-url" value="https://oss.sonatype.org/content/repositories/snapshots/" />
 
 	<target name="clean" description="Remove all build artifacts">
 		<delete dir="tmp" />
@@ -28,7 +37,7 @@
 		<delete>
 			<fileset dir="${basedir}">
 				<include name="**/cobertura.ser" />
-				<include name=".swp"/>
+				<include name=".swp" />
 			</fileset>
 		</delete>
 	</target>
@@ -69,8 +78,8 @@
 			</manifest>
 		</jar>
 		<jar basedir="." destfile="dist/gedcom4j-${release.version}-sources.jar">
-			<include name="src/**"/>
-			<include name="test/**"/>
+			<include name="src/**" />
+			<include name="test/**" />
 			<manifest>
 				<attribute name="Source" value="http://gedcom4j.org" />
 				<attribute name="Release-Version" value="${release.version}" />
@@ -82,6 +91,47 @@
 
 	<target name="explode-jar" depends="release" description="Convenience target for unjarring the distribution to the temp directory for inspection">
 		<unjar dest="tmp" src="dist/gedcom4j-${release.version}.jar" />
+	</target>
+
+	<target name="maven" description="Prepare release for push to maven repository">
+		<!-- Make the pom.xml from the template -->
+		<copy filtering="true" overwrite="true" todir="tmp">
+			<fileset dir="etc" includesfile="etc/pom.template.xml" />
+			<filterset>
+				<filter token="VERSION" value="${release.version}" />
+			</filterset>
+		</copy>
+		<!-- sign and deploy the main artifact -->
+		<artifact:mvn>
+			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file" />
+			<arg value="-Durl=${maven-staging-repository-url}" />
+			<arg value="-DrepositoryId=${maven-staging-repository-id}" />
+			<arg value="-DpomFile=tmp/pom.xml" />
+			<arg value="-Dfile=dist/gedcom4j-${release.version}.jar" />
+			<arg value="-Pgpg" />
+		</artifact:mvn>
+
+		<!-- sign and deploy the sources artifact -->
+		<artifact:mvn>
+			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file" />
+			<arg value="-Durl=${maven-staging-repository-url}" />
+			<arg value="-DrepositoryId=${maven-staging-repository-id}" />
+			<arg value="-DpomFile=tmp/pom.xml" />
+			<arg value="-Dfile=dist/gedcom4j-${release.version}-sources.jar" />
+			<arg value="-Dclassifier=sources" />
+			<arg value="-Pgpg" />
+		</artifact:mvn>
+
+		<!-- sign and deploy the javadoc artifact -->
+		<artifact:mvn>
+			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file" />
+			<arg value="-Durl=${maven-staging-repository-url}" />
+			<arg value="-DrepositoryId=${maven-staging-repository-id}" />
+			<arg value="-DpomFile=tmp/pom.xml" />
+			<arg value="-Dfile=dist/gedcom4j-${release.version}-javadoc.jar" />
+			<arg value="-Dclassifier=javadoc" />
+			<arg value="-Pgpg" />
+		</artifact:mvn>
 	</target>
 
 
@@ -155,7 +205,7 @@
 			<formatter type="xml" tofile="tmp/checkstyle/checkstyle_report.xml" />
 			<fileset dir="src" includes="**/*.java" />
 			<classpath>
-				<pathelement location="bin"/>
+				<pathelement location="bin" />
 			</classpath>
 		</checkstyle>
 
