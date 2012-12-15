@@ -87,15 +87,19 @@
 		</jar>
 	</target>
 
-	<target name="release" depends="clean, dist" />
+	<target name="release" depends="clean, dist" description="Create all the artifacts in the distribution directory"/>
 
 	<target name="explode-jar" depends="release" description="Convenience target for unjarring the distribution to the temp directory for inspection">
 		<unjar dest="tmp" src="dist/gedcom4j-${release.version}.jar" />
 	</target>
 
 	<target name="maven" description="Prepare release for push to maven repository">
-		<!--property environment="env" />
-		<echoproperties /-->
+		<!--
+		This target is intended for use by the project owner(s) to push releases to maven central repository
+		at SonaType.  It requires some specific information in your local maven repository which is not
+		kept in source control for security reasons.  As such, this target generally won't work for anyone
+		but the owner(s).
+		-->
 		<!-- Make the pom.xml from the template -->
 		<copy filtering="true" overwrite="true" tofile="tmp/pom.xml">
 			<fileset dir="etc">
@@ -105,8 +109,7 @@
 				<filter token="VERSION" value="${release.version}" />
 			</filterset>
 		</copy>
-		
-		
+
 		<!-- sign and deploy the main artifact -->
 		<artifact:mvn>
 			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file" />
