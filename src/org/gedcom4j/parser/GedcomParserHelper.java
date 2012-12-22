@@ -25,7 +25,6 @@ package org.gedcom4j.parser;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import org.gedcom4j.io.GedcomFileReader;
@@ -60,7 +59,7 @@ public final class GedcomParserHelper {
     }
 
     /**
-     * Read data from an {@link InputStream} and construct a {@link StringTree} object from its contents
+     * Read data from an {@link java.io.InputStream} and construct a {@link StringTree} object from its contents
      * 
      * @param bytes
      *            the input stream over the bytes of the file
