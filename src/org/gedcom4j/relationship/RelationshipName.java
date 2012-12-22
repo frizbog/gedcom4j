@@ -203,6 +203,12 @@ public enum RelationshipName {
 
     }
 
+    /**
+     * Private constructor for setting the simplicity level
+     * 
+     * @param simplicity
+     *            the simplicity level for the relationship being constructed
+     */
     private RelationshipName(int simplicity) {
         this.simplicity = simplicity;
     }

@@ -1486,7 +1486,7 @@ public class GedcomWriter {
      */
     private void emitTagWithRequiredValue(int level, String xref, String tag, StringWithCustomTags e)
             throws GedcomWriterException {
-        if (e == null || "".equals(e)) {
+        if (e == null || e.value == null || e.value.trim().length() == 0) {
             throw new GedcomWriterException("Required value for tag " + tag + " at level " + level
                     + " was null or blank");
         }
