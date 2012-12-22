@@ -57,7 +57,9 @@ public final class SimplificationRules {
         greatGreatGrandparentsAndGreatGreatGrandchildren();
         greatGreatGreatGrandparentsAndGreatGreatGreatGrandchildren();
         auntsUnclesNiecesNephews();
+        firstCousins();
         greatAuntsUnclesNiecesNephews();
+        greatGreatAuntsUnclesNiecesNephews();
     }
 
     /**
@@ -72,6 +74,15 @@ public final class SimplificationRules {
         newRule(BROTHER, DAUGHTER, NIECE);
         newRule(SISTER, SON, NEPHEW);
         newRule(SISTER, DAUGHTER, NIECE);
+    }
+
+    private static void firstCousins() {
+        newRule(AUNT, SON, FIRST_COUSIN);
+        newRule(UNCLE, SON, FIRST_COUSIN);
+        newRule(AUNT, DAUGHTER, FIRST_COUSIN);
+        newRule(UNCLE, DAUGHTER, FIRST_COUSIN);
+        newRule(AUNT, CHILD, FIRST_COUSIN);
+        newRule(UNCLE, CHILD, FIRST_COUSIN);
     }
 
     /**
@@ -146,6 +157,28 @@ public final class SimplificationRules {
         newRule(DAUGHTER, GRANDSON, GREAT_GRANDSON);
         newRule(DAUGHTER, GRANDDAUGHTER, GREAT_GRANDDAUGHTER);
         newRule(DAUGHTER, GRANDCHILD, GREAT_GRANDCHILD);
+    }
+
+    /**
+     * Load the rules for Great-Great-Aunts, Great-Great-uncles, Great-Great-nieces, and Great-Great-nephews
+     */
+    private static void greatGreatAuntsUnclesNiecesNephews() {
+        newRule(GRANDFATHER, UNCLE, GREAT_GREAT_UNCLE);
+        newRule(GRANDMOTHER, UNCLE, GREAT_GREAT_UNCLE);
+        newRule(GRANDFATHER, AUNT, GREAT_GREAT_AUNT);
+        newRule(GRANDMOTHER, AUNT, GREAT_GREAT_AUNT);
+        newRule(GREAT_GRANDFATHER, BROTHER, GREAT_GREAT_UNCLE);
+        newRule(GREAT_GRANDMOTHER, BROTHER, GREAT_GREAT_UNCLE);
+        newRule(GREAT_GRANDMOTHER, SIBLING, GREAT_GREAT_UNCLE);
+        newRule(GREAT_GRANDFATHER, SIBLING, GREAT_GREAT_AUNT);
+        newRule(GREAT_GRANDFATHER, SISTER, GREAT_GREAT_AUNT);
+        newRule(GREAT_GRANDMOTHER, SISTER, GREAT_GREAT_AUNT);
+        newRule(BROTHER, GREAT_GRANDSON, GREAT_GREAT_NEPHEW);
+        newRule(SISTER, GREAT_GRANDSON, GREAT_GREAT_NEPHEW);
+        newRule(SIBLING, GREAT_GRANDSON, GREAT_GREAT_NEPHEW);
+        newRule(BROTHER, GREAT_GRANDDAUGHTER, GREAT_GREAT_NIECE);
+        newRule(SISTER, GREAT_GRANDDAUGHTER, GREAT_GREAT_NIECE);
+        newRule(SIBLING, GREAT_GRANDDAUGHTER, GREAT_GREAT_NIECE);
     }
 
     /**
