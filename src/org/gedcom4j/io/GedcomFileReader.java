@@ -429,8 +429,8 @@ public class GedcomFileReader {
     private void saveFirstChunk(InputStream byteStream) throws IOException {
         byteStream.mark(FIRST_CHUNK_SIZE);
         int read = byteStream.read(firstChunk);
-        if (read < FIRST_CHUNK_SIZE) {
-            throw new IOException("Unable to read " + FIRST_CHUNK_SIZE + " bytes off stream");
+        if (read < 0) {
+            throw new IOException("Unable to read bytes off stream");
         }
         byteStream.reset();
     }
