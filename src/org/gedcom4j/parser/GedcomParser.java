@@ -2040,6 +2040,9 @@ public class GedcomParser {
      * 
      * @param node
      *            the node containing the unknown tag.
+     * @param element
+     *            the element that the node is part of, so if it's a custom tag, this unknown tag can be added to this
+     *            node's collection of custom tags
      */
     private void unknownTag(StringTree node, AbstractElement element) {
         if (node.tag.startsWith("_")) {
