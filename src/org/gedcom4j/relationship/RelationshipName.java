@@ -23,8 +23,8 @@ package org.gedcom4j.relationship;
 
 /**
  * <p>
- * Names of relationships between individuals, and the names of the inverse of
- * the relationship (which depends on the gender of the original person)
+ * Names of relationships between individuals, and the names of the inverse of the relationship (which depends on the
+ * gender of the original person)
  * </p>
  * 
  * @author frizbog1
@@ -32,26 +32,41 @@ package org.gedcom4j.relationship;
 public enum RelationshipName {
 
     /* CHECKSTYLE:OFF */
-    FATHER, MOTHER, HUSBAND, WIFE, SON, DAUGHTER, CHILD, BROTHER, SISTER,
-    SIBLING, GRANDFATHER, GRANDMOTHER, GRANDSON, GRANDDAUGHTER, GRANDCHILD,
-    GREAT_GRANDFATHER, GREAT_GRANDMOTHER, GREAT_GRANDSON, GREAT_GRANDDAUGHTER,
-    GREAT_GRANDCHILD, GREAT_GREAT_GRANDFATHER, GREAT_GREAT_GRANDMOTHER,
-    GREAT_GREAT_GRANDSON, GREAT_GREAT_GRANDDAUGHTER, GREAT_GREAT_GRANDCHILD,
-    GREAT_GREAT_GREAT_GRANDCHILD, GREAT_GREAT_GREAT_GRANDSON,
-    GREAT_GREAT_GREAT_GRANDDAUGHTER, GREAT_GREAT_GREAT_GRANDFATHER,
-    GREAT_GREAT_GREAT_GRANDMOTHER,
+    FATHER(1), MOTHER(1), HUSBAND(1), WIFE(1), SON(1), DAUGHTER(1), CHILD(1), BROTHER(1), SISTER(1), SIBLING(1),
 
-    UNCLE, AUNT, NEPHEW, NIECE;
+    GRANDFATHER(2), GRANDMOTHER(2), GRANDSON(2), GRANDDAUGHTER(2), GRANDCHILD(2),
+
+    GREAT_GRANDFATHER(3), GREAT_GRANDMOTHER(3), GREAT_GRANDSON(3), GREAT_GRANDDAUGHTER(3), GREAT_GRANDCHILD(3),
+
+    GREAT_GREAT_GRANDFATHER(4), GREAT_GREAT_GRANDMOTHER(4), GREAT_GREAT_GRANDSON(4), GREAT_GREAT_GRANDDAUGHTER(4), GREAT_GREAT_GRANDCHILD(
+            4),
+
+    GREAT_GREAT_GREAT_GRANDCHILD(5), GREAT_GREAT_GREAT_GRANDSON(5), GREAT_GREAT_GREAT_GRANDDAUGHTER(5), GREAT_GREAT_GREAT_GRANDFATHER(
+            5), GREAT_GREAT_GREAT_GRANDMOTHER(5),
+
+    UNCLE(6), AUNT(6), NEPHEW(6), NIECE(6),
+
+    GREAT_UNCLE(7), GREAT_AUNT(7), GREAT_NEPHEW(7), GREAT_NIECE(7);
+
     /* CHECKSTYLE:ON */
+
+    /**
+     * The simplicity or directness of the relationship. This value is used for evaluating the more preferred/simpler
+     * way of expressing relationship chains of equal lengths...all other things being equal, smaller numbers are
+     * preferred.
+     */
+    public final int simplicity;
 
     /**
      * The reverse of this relationship for males
      */
     RelationshipName reverseForMale;
+
     /**
      * The reverse of this relationship for females
      */
     RelationshipName reverseForFemale;
+
     /**
      * The reverse of this relationship for unknown gender
      */
@@ -174,5 +189,21 @@ public enum RelationshipName {
         NIECE.reverseForMale = UNCLE;
         NIECE.reverseForFemale = AUNT;
 
+        GREAT_AUNT.reverseForFemale = GREAT_NIECE;
+        GREAT_AUNT.reverseForMale = GREAT_NEPHEW;
+
+        GREAT_UNCLE.reverseForFemale = GREAT_NIECE;
+        GREAT_UNCLE.reverseForMale = GREAT_NEPHEW;
+
+        GREAT_NEPHEW.reverseForFemale = GREAT_AUNT;
+        GREAT_NEPHEW.reverseForMale = GREAT_UNCLE;
+
+        GREAT_NIECE.reverseForFemale = GREAT_AUNT;
+        GREAT_NIECE.reverseForMale = GREAT_AUNT;
+
+    }
+
+    private RelationshipName(int simplicity) {
+        this.simplicity = simplicity;
     }
 }

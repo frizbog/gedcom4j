@@ -23,10 +23,7 @@ package org.gedcom4j.relationship;
 
 import static org.gedcom4j.relationship.RelationshipName.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import org.gedcom4j.model.FamilyChild;
 import org.gedcom4j.model.FamilySpouse;
@@ -80,6 +77,11 @@ public class RelationshipCalculator {
      * differently, how did we get from individual 1 to the person we're currently working with as we recurse?
      */
     private List<SimpleRelationship> currentChain;
+
+    /**
+     * People we have looked at already
+     */
+    private Set<Individual> lookedAt = new HashSet<Individual>();
 
     /**
      * <p>
@@ -140,8 +142,8 @@ public class RelationshipCalculator {
         if (personBeingExamined == null) {
             return;
         }
-        if (inChain(personBeingExamined)) {
-            // Prevent circular relationships
+        if (lookedAt.contains(personBeingExamined)) {
+            // prevent wasting time checking the same people over and over
             return;
         }
         /*
@@ -159,15 +161,25 @@ public class RelationshipCalculator {
             Relationship r = new Relationship(startingIndividual, targetIndividual, currentChain);
             relationshipsFound.add(r);
         } else {
+            lookedAt.add(personBeingExamined);
             /* Not our target, so check relatives, starting with spouses */
             for (FamilySpouse fs : personBeingExamined.familiesWhereSpouse) {
                 if (fs.family.husband == personBeingExamined) {
+                    if (lookedAt.contains(fs.family.wife)) {
+                        continue;
+                    }
                     examineWife(personBeingExamined, fs);
                 } else if (fs.family.wife == personBeingExamined) {
+                    if (lookedAt.contains(fs.family.husband)) {
+                        continue;
+                    }
                     examineHusband(personBeingExamined, fs);
                 }
                 /* and check the children */
                 for (Individual c : fs.family.children) {
+                    if (lookedAt.contains(c)) {
+                        continue;
+                    }
                     if (fs.family.husband == personBeingExamined) {
                         examineChild(personBeingExamined, c, FATHER);
                     } else if (fs.family.wife == personBeingExamined) {
@@ -177,8 +189,12 @@ public class RelationshipCalculator {
             }
             /* Next check parents */
             for (FamilyChild fc : personBeingExamined.familiesWhereChild) {
-                examineFather(personBeingExamined, fc.family.husband);
-                examineMother(personBeingExamined, fc.family.wife);
+                if (!lookedAt.contains(fc.family.husband)) {
+                    examineFather(personBeingExamined, fc.family.husband);
+                }
+                if (!lookedAt.contains(fc.family.wife)) {
+                    examineMother(personBeingExamined, fc.family.wife);
+                }
             }
         }
     }
@@ -318,22 +334,6 @@ public class RelationshipCalculator {
     }
 
     /**
-     * Is the person already in the current chain
-     * 
-     * @param personBeingExamined
-     *            the person we're checking for
-     * @return true if and only if the person being examined is one of the people already in the chain of steps
-     */
-    private boolean inChain(Individual personBeingExamined) {
-        for (SimpleRelationship sr : currentChain) {
-            if (sr.individual1 == personBeingExamined) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Go through pairs of steps in the chain, seeing if they can be collapsed. Only basic, immediate family
      * relationships are collapsed (like, "my father's son" is "my brother").
      * 
@@ -395,27 +395,46 @@ public class RelationshipCalculator {
         // We currently have taken no steps away from individual 1
         currentChain = new ArrayList<SimpleRelationship>();
 
+        lookedAt = new HashSet<Individual>();
+
         // Start with individual 1 and recurse
         if (individual1 != individual2) {
             examine(individual1);
         }
 
-        if (relationshipsFound.size() > 1) {
-            if (simplified) {
-                for (Relationship r : relationshipsFound) {
-                    simplifyRelationship(r);
-                }
+        if (simplified) {
+            for (Relationship r : relationshipsFound) {
+                simplifyRelationship(r);
             }
+        }
+        if (relationshipsFound.size() > 1) {
             // Remove duplicates
             relationshipsFound = new ArrayList<Relationship>(new HashSet<Relationship>(relationshipsFound));
             Collections.sort(relationshipsFound);
 
+            // Of the unique chains, the shortest ones are preferred
             int shortestLength = relationshipsFound.get(0).chain.size();
             for (int i = relationshipsFound.size() - 1; i >= 0; i--) {
                 if (relationshipsFound.get(i).chain.size() > shortestLength) {
                     relationshipsFound.remove(i);
                 }
             }
+
+            // Of chains of equal lengths, the simplest ones are preferred
+            int simplestSimplicity = Integer.MAX_VALUE;
+            List<Relationship> keepers = new ArrayList<Relationship>();
+            for (int i = relationshipsFound.size() - 1; i >= 0; i--) {
+                Relationship r = relationshipsFound.get(i);
+                int totalSimplicity = r.getTotalSimplicity();
+                if (totalSimplicity == simplestSimplicity) {
+                    keepers.add(r);
+                } else if (totalSimplicity < simplestSimplicity) {
+                    keepers.clear();
+                    simplestSimplicity = totalSimplicity;
+                    keepers.add(r);
+                }
+            }
+            relationshipsFound = keepers;
         }
 
     }

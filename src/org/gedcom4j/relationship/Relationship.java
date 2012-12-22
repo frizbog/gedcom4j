@@ -26,7 +26,6 @@ import java.util.List;
 
 import org.gedcom4j.model.Individual;
 
-
 /**
  * A class which represents the complex relationship between two individuals
  * 
@@ -64,13 +63,11 @@ public class Relationship implements Comparable<Relationship> {
      * @param targetIndividual
      *            the ending individual
      * @param chain
-     *            the chain of {@link SimpleRelationship}s that get you from
-     *            person 1 to person 2
+     *            the chain of {@link SimpleRelationship}s that get you from person 1 to person 2
      */
-    public Relationship(Individual startingIndividual,
-            Individual targetIndividual, List<SimpleRelationship> chain) {
-        this.individual1 = startingIndividual;
-        this.individual2 = targetIndividual;
+    public Relationship(Individual startingIndividual, Individual targetIndividual, List<SimpleRelationship> chain) {
+        individual1 = startingIndividual;
+        individual2 = targetIndividual;
         this.chain.clear();
         for (SimpleRelationship sr : chain) {
             this.chain.add(new SimpleRelationship(sr));
@@ -78,20 +75,19 @@ public class Relationship implements Comparable<Relationship> {
     }
 
     /**
-     * Simple sorting algorithm - sort by length of the chain (simpler
-     * relationship)
+     * Simple sorting algorithm - sort by length of the chain (simpler relationship)
      * 
      * @param other
      *            the Relationship we are comparing this one to
-     * @return -1 if this relationship is simpler than the other, 0 if equally
-     *         complex, and 1 if the other one is longer (or null)
+     * @return -1 if this relationship is simpler than the other, 0 if equally complex, and 1 if the other one is longer
+     *         (or null)
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(Relationship other) {
         if (other == null) {
             return 1;
         }
-        return Math.round(Math.signum(this.chain.size() - other.chain.size()));
+        return Math.round(Math.signum(chain.size() - other.chain.size()));
     }
 
     @Override
@@ -130,15 +126,26 @@ public class Relationship implements Comparable<Relationship> {
         return true;
     }
 
+    /**
+     * Total up all the simplicity ratings of the relationships in the chain
+     * 
+     * @return the sum of all the simplicity ratings of the relationships that make up the chain
+     */
+    public int getTotalSimplicity() {
+        int result = 0;
+        for (SimpleRelationship sr : chain) {
+            result += sr.name.simplicity;
+        }
+        return result;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((chain == null) ? 0 : chain.hashCode());
-        result = prime * result
-                + ((individual1 == null) ? 0 : individual1.hashCode());
-        result = prime * result
-                + ((individual2 == null) ? 0 : individual2.hashCode());
+        result = prime * result + ((individual1 == null) ? 0 : individual1.hashCode());
+        result = prime * result + ((individual2 == null) ? 0 : individual2.hashCode());
         return result;
     }
 
