@@ -32,22 +32,24 @@ public class LinePieces {
      * The level of the line
      */
     public int level;
+
     /**
      * The ID number of the item (optional)
      */
     public String id;
+
     /**
      * The tag for the line
      */
     public String tag;
+
     /**
      * The remainder of the line after the tag
      */
     public String remainder;
 
     /**
-     * Constructor that makes a {@link LinePieces} object from a line of text
-     * input from a GEDCOM file
+     * Constructor that makes a {@link LinePieces} object from a line of text input from a GEDCOM file
      * 
      * @param line
      *            a single line of text from the GEDCOM file
@@ -83,29 +85,5 @@ public class LinePieces {
         if (c < line.length()) {
             remainder = line.substring(c + 1);
         }
-    }
-
-    /**
-     * Takes an array of strings (representing a bunch of words and terms) and
-     * joins them all together with spaces between each, starting at a specific
-     * element in the array and continuing to the end of the array.
-     * 
-     * @param parts
-     *            the array of strings to be joined
-     * @param startFrom
-     *            the first element of the array to be joined
-     * @return a string containing all the words in the array, starting at the
-     *         <tt>startFrom</tt>th element and continuing to the end of the
-     *         array, delimited with a single space between each element
-     */
-    private String joinParts(String[] parts, int startFrom) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = startFrom; i < parts.length; i++) {
-            sb.append(parts[i]);
-            if (i < parts.length - 1) {
-                sb.append(" ");
-            }
-        }
-        return sb.toString();
     }
 }
