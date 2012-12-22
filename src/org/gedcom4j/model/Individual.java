@@ -497,6 +497,10 @@ public class Individual extends AbstractElement {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
+        if (xref != null) {
+            return prime * result + xref.hashCode();
+        }
+        result = prime * result;
         result = prime * result + (address == null ? 0 : address.hashCode());
         result = prime * result + (aliases == null ? 0 : aliases.hashCode());
         result = prime * result + (ancestorInterest == null ? 0 : ancestorInterest.hashCode());
@@ -523,7 +527,6 @@ public class Individual extends AbstractElement {
         result = prime * result + (sex == null ? 0 : sex.hashCode());
         result = prime * result + (submitters == null ? 0 : submitters.hashCode());
         result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
-        result = prime * result + (xref == null ? 0 : xref.hashCode());
         return result;
     }
 
