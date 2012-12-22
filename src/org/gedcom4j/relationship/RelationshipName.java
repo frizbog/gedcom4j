@@ -46,7 +46,11 @@ public enum RelationshipName {
 
     UNCLE(6), AUNT(6), NEPHEW(6), NIECE(6),
 
-    GREAT_UNCLE(7), GREAT_AUNT(7), GREAT_NEPHEW(7), GREAT_NIECE(7);
+    FIRST_COUSIN(7),
+
+    GREAT_UNCLE(8), GREAT_AUNT(8), GREAT_NEPHEW(8), GREAT_NIECE(8),
+
+    GREAT_GREAT_UNCLE(9), GREAT_GREAT_AUNT(9), GREAT_GREAT_NEPHEW(9), GREAT_GREAT_NIECE(9);
 
     /* CHECKSTYLE:ON */
 
@@ -200,6 +204,22 @@ public enum RelationshipName {
 
         GREAT_NIECE.reverseForFemale = GREAT_AUNT;
         GREAT_NIECE.reverseForMale = GREAT_AUNT;
+
+        GREAT_GREAT_AUNT.reverseForFemale = GREAT_GREAT_NIECE;
+        GREAT_GREAT_AUNT.reverseForMale = GREAT_GREAT_NEPHEW;
+
+        GREAT_GREAT_UNCLE.reverseForFemale = GREAT_GREAT_NIECE;
+        GREAT_GREAT_UNCLE.reverseForMale = GREAT_GREAT_NEPHEW;
+
+        GREAT_GREAT_NEPHEW.reverseForFemale = GREAT_GREAT_AUNT;
+        GREAT_GREAT_NEPHEW.reverseForMale = GREAT_GREAT_UNCLE;
+
+        GREAT_GREAT_NIECE.reverseForFemale = GREAT_GREAT_AUNT;
+        GREAT_GREAT_NIECE.reverseForMale = GREAT_GREAT_AUNT;
+
+        FIRST_COUSIN.reverseForFemale = FIRST_COUSIN;
+        FIRST_COUSIN.reverseForMale = FIRST_COUSIN;
+        FIRST_COUSIN.reverseForUnknown = FIRST_COUSIN;
 
     }
 
