@@ -76,6 +76,9 @@ public final class SimplificationRules {
         newRule(SISTER, DAUGHTER, NIECE);
     }
 
+    /**
+     * Load rules for first cousins
+     */
     private static void firstCousins() {
         newRule(AUNT, SON, FIRST_COUSIN);
         newRule(UNCLE, SON, FIRST_COUSIN);
