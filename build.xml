@@ -87,7 +87,7 @@
 		</jar>
 	</target>
 
-	<target name="release" depends="clean, dist" description="Create all the artifacts in the distribution directory"/>
+	<target name="release" depends="clean, dist" description="Create all the artifacts in the distribution directory" />
 
 	<target name="explode-jar" depends="release" description="Convenience target for unjarring the distribution to the temp directory for inspection">
 		<unjar dest="tmp" src="dist/gedcom4j-${release.version}.jar" />
@@ -110,18 +110,23 @@
 			</filterset>
 		</copy>
 
-		<!-- sign and deploy the main artifact -->
+		<!-- Get the latest build artifacts for the desired version from the CI server -->
+		<get dest="dist" src="https://gedcom4j.ci.cloudbees.com/job/gedcom4j.org/lastSuccessfulBuild/artifact/dist/gedcom4j-${release.version}.jar" />
+		<get dest="dist" src="https://gedcom4j.ci.cloudbees.com/job/gedcom4j.org/lastSuccessfulBuild/artifact/dist/gedcom4j-${release.version}-javadoc.jar" />
+		<get dest="dist" src="https://gedcom4j.ci.cloudbees.com/job/gedcom4j.org/lastSuccessfulBuild/artifact/dist/gedcom4j-${release.version}-sources.jar" />
+
+		<!-- sign and stage the main jar file -->
 		<artifact:mvn failonerror="true">
 			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file" />
 			<arg value="-Durl=${maven-staging-repository-url}" />
 			<arg value="-DrepositoryId=${maven-staging-repository-id}" />
 			<arg value="-DpomFile=tmp/pom.xml" />
 			<arg value="-Dfile=dist/gedcom4j-${release.version}.jar" />
-			<arg value="-Dgpg.executable=/usr/local/bin/gpg"/>
+			<arg value="-Dgpg.executable=/usr/local/bin/gpg" />
 			<arg value="-Pgpg" />
 		</artifact:mvn>
 
-		<!-- sign and deploy the sources artifact -->
+		<!-- sign and stage the sources jar file -->
 		<artifact:mvn failonerror="true">
 			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file" />
 			<arg value="-Durl=${maven-staging-repository-url}" />
@@ -129,11 +134,11 @@
 			<arg value="-DpomFile=tmp/pom.xml" />
 			<arg value="-Dfile=dist/gedcom4j-${release.version}-sources.jar" />
 			<arg value="-Dclassifier=sources" />
-			<arg value="-Dgpg.executable=/usr/local/bin/gpg"/>
+			<arg value="-Dgpg.executable=/usr/local/bin/gpg" />
 			<arg value="-Pgpg" />
 		</artifact:mvn>
 
-		<!-- sign and deploy the javadoc artifact -->
+		<!-- sign and stage the javadoc jar file -->
 		<artifact:mvn failonerror="true">
 			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file" />
 			<arg value="-Durl=${maven-staging-repository-url}" />
@@ -141,7 +146,7 @@
 			<arg value="-DpomFile=tmp/pom.xml" />
 			<arg value="-Dfile=dist/gedcom4j-${release.version}-javadoc.jar" />
 			<arg value="-Dclassifier=javadoc" />
-			<arg value="-Dgpg.executable=/usr/local/bin/gpg"/>
+			<arg value="-Dgpg.executable=/usr/local/bin/gpg" />
 			<arg value="-Pgpg" />
 		</artifact:mvn>
 	</target>
