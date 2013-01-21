@@ -103,4 +103,13 @@ public enum Encoding {
     private Encoding(String characterSetName) {
         this.characterSetName = characterSetName;
     }
+
+    /**
+     * Get the character set name
+     * 
+     * @return the character set name
+     */
+    public String getCharacterSetName() {
+        return characterSetName;
+    }
 }

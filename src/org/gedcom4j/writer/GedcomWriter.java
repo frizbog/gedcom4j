@@ -74,7 +74,9 @@ import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.SupportedVersion;
 import org.gedcom4j.model.UserReference;
+import org.gedcom4j.validate.GedcomValidationFinding;
 import org.gedcom4j.validate.GedcomValidator;
+import org.gedcom4j.validate.Severity;
 
 /**
  * <p>
@@ -125,6 +127,14 @@ public class GedcomWriter {
      * access it but others can't alter it.
      */
     List<String> lines = new ArrayList<String>();
+
+    /**
+     * A list of things found during validation of the gedcom data prior to
+     * writing it. If the data cannot be written due to an exception caused by
+     * failure to validate, this collection will describe the issues
+     * encountered.
+     */
+    public List<GedcomValidationFinding> validationFindings;
 
     /**
      * Constructor
@@ -1663,12 +1673,26 @@ public class GedcomWriter {
      * @param littleEndianForUnicode
      *            if writing unicode, should the byte-order be little-endian?
      * @throws GedcomWriterException
-     *             if the data is malformed and cannot be written
+     *             if the data is malformed and cannot be written; or if the
+     *             data fails validation with one or more finding of severity
+     *             ERROR (and validation is not suppressed - see
+     *             {@link GedcomWriter#validationSuppressed})
      */
     public void write(OutputStream out, boolean littleEndianForUnicode) throws GedcomWriterException {
         if (!validationSuppressed) {
             GedcomValidator gv = new GedcomValidator(gedcom);
             gv.validate();
+            validationFindings = gv.findings;
+            int numErrorFindings = 0;
+            for (GedcomValidationFinding f : validationFindings) {
+                if (f.severity == Severity.ERROR) {
+                    numErrorFindings++;
+                }
+            }
+            if (numErrorFindings > 0) {
+                throw new GedcomWriterException("Cannot write file - " + numErrorFindings
+                        + " error(s) found during validation.  Review the validation findings to determine root cause.");
+            }
         }
         checkVersionCompatibility();
         emitHeader();

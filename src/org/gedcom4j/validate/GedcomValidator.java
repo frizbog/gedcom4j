@@ -32,11 +32,19 @@ import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.Note;
 import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.Source;
+import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submission;
+import org.gedcom4j.model.Submitter;
+import org.gedcom4j.writer.GedcomWriter;
 
 /**
  * <p>
- * A class to validate the contents of a {@link Gedcom} structure.
+ * A class to validate the contents of a {@link Gedcom} structure. It is used
+ * primarily for those users who wish to create and write GEDCOM files, and is
+ * of little importance or use to those who wish only to read/parse GEDCOM files
+ * and use their data. Validation is performed automatically prior to writing a
+ * GEDCOM file by default (although this can be disabled), and there is support
+ * for automatically repairing ("autorepair") issues found.
  * </p>
  * <p>
  * <b>Note that the validation framework is a work in progress and as such, is
@@ -52,8 +60,34 @@ import org.gedcom4j.model.Submission;
  * <li>Call the {@link GedcomValidator#validate()} method.</li>
  * <li>Inspect the {@link GedcomValidator#findings} list, which contains
  * {@link GedcomValidationFinding} objects describing the problems that were
- * found.</li>
+ * found. These will include errors that were fixed by autorepair (with severity
+ * of INFO), and those that could not be autorepaired (with severity of ERROR or
+ * WARNING).</li>
  * </ol>
+ * </p>
+ * <p>
+ * Note again that by default, validation is performed automatically by the
+ * {@link GedcomWriter} class when writing a GEDCOM file out.
+ * </p>
+ * 
+ * <h2>Autorepair</h2>
+ * <p>
+ * The validation framework, by default and unless disabled, will attempt to
+ * automatically repair ("autorepair") problems it finds in the object graph, so
+ * that if written as a GEDCOM file, the file written will conform to the GEDCOM
+ * spec, as well as to help the developer avoid NullPointerExceptions due to
+ * certain items not being instantiated.
+ * </p>
+ * <p>
+ * This section lists a number of the actions taken automatically when
+ * autorepair is enabled.
+ * <ul>
+ * <li>Collection fields (e.g., the language preferences collection on a
+ * submitter, or custom tags on those fields/object that support them) are
+ * initialized to empty collections if they are null.</li>
+ * <li>Certain mandatory fields are given default values. N.B. The values chosen
+ * as defaults may not be suitable, so the user is urged to</li>
+ * </ul>
  * </p>
  * 
  * @author frizbog1
@@ -93,17 +127,18 @@ public class GedcomValidator extends AbstractValidator {
      */
     @Override
     public void validate() {
+        findings.clear();
         if (gedcom == null) {
             addError("gedcom structure is null");
             return;
         }
+        validateSubmitters();
         validateHeader();
         validateIndividuals();
         // TODO - validate families
         validateRepositories();
         // TODO - validate media
         validateSources();
-        // TODO - validate submitters
         // TODO - validate trailer
         validateSubmission();
         checkNotes(new ArrayList<Note>(gedcom.notes.values()), gedcom);
@@ -234,6 +269,36 @@ public class GedcomValidator extends AbstractValidator {
         checkOptionalString(s.ordinanceProcessFlag, "Ordinance process flag", s);
         checkOptionalString(s.recIdNumber, "Automated record id", s);
         checkOptionalString(s.templeCode, "Temple code", s);
+    }
+
+    /**
+     * Validate the submitters collection
+     */
+    private void validateSubmitters() {
+        if (gedcom.submitters == null) {
+            if (autorepair) {
+                gedcom.submitters = new HashMap<String, Submitter>();
+                addInfo("Submitters collection was missing on gedcom - repaired", gedcom);
+            } else {
+                addInfo("Submitters collection is missing on gedcom", gedcom);
+                return;
+            }
+        }
+        if (gedcom.submitters.isEmpty()) {
+            if (autorepair) {
+                Submitter s = new Submitter();
+                s.xref = "@SUBM0000@";
+                s.name = new StringWithCustomTags("UNSPECIFIED");
+                gedcom.submitters.put(s.xref, s);
+                addInfo("Submitters collection was empty - repaired", gedcom);
+            } else {
+                addError("Submitters collection is empty", gedcom);
+            }
+            return;
+        }
+        for (Submitter s : gedcom.submitters.values()) {
+            new SubmitterValidator(rootValidator, s).validate();
+        }
     }
 
 }
