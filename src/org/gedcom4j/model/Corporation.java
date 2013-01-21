@@ -34,7 +34,7 @@ public class Corporation extends AbstractElement {
     /**
      * The business name
      */
-    public String businessName;
+    public String businessName = "UNSPECIFIED";
 
     /**
      * The address

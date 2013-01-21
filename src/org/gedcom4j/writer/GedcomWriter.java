@@ -29,7 +29,51 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.gedcom4j.io.GedcomFileWriter;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.AbstractCitation;
+import org.gedcom4j.model.Address;
+import org.gedcom4j.model.Association;
+import org.gedcom4j.model.ChangeDate;
+import org.gedcom4j.model.CitationData;
+import org.gedcom4j.model.CitationWithSource;
+import org.gedcom4j.model.CitationWithoutSource;
+import org.gedcom4j.model.Corporation;
+import org.gedcom4j.model.Event;
+import org.gedcom4j.model.EventRecorded;
+import org.gedcom4j.model.Family;
+import org.gedcom4j.model.FamilyChild;
+import org.gedcom4j.model.FamilyEvent;
+import org.gedcom4j.model.FamilySpouse;
+import org.gedcom4j.model.FileReference;
+import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.GedcomVersion;
+import org.gedcom4j.model.Header;
+import org.gedcom4j.model.HeaderSourceData;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualAttribute;
+import org.gedcom4j.model.IndividualAttributeType;
+import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.IndividualEventType;
+import org.gedcom4j.model.LdsIndividualOrdinance;
+import org.gedcom4j.model.LdsIndividualOrdinanceType;
+import org.gedcom4j.model.LdsSpouseSealing;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.NameVariation;
+import org.gedcom4j.model.Note;
+import org.gedcom4j.model.PersonalName;
+import org.gedcom4j.model.PersonalNameVariation;
+import org.gedcom4j.model.Place;
+import org.gedcom4j.model.Repository;
+import org.gedcom4j.model.RepositoryCitation;
+import org.gedcom4j.model.Source;
+import org.gedcom4j.model.SourceCallNumber;
+import org.gedcom4j.model.SourceData;
+import org.gedcom4j.model.SourceSystem;
+import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.Submission;
+import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.SupportedVersion;
+import org.gedcom4j.model.UserReference;
 import org.gedcom4j.validate.GedcomValidator;
 
 /**
@@ -39,16 +83,19 @@ import org.gedcom4j.validate.GedcomValidator;
  * <p>
  * General usage is as follows:
  * <ul>
- * Instantiate a <code>GedcomWriter</code>, passing the {@link Gedcom} to be written as a parameter to the constructor.
+ * Instantiate a <code>GedcomWriter</code>, passing the {@link Gedcom} to be
+ * written as a parameter to the constructor.
  * </ul>
  * <ul>
  * Call one of the variants of the <code>write</code> method to write the data
  * </ul>
  * </p>
  * <p>
- * Note that if there are inconsistencies found in the data, or that the data in the <code>Gedcom</code> is not
- * compliant with the GEDCOM version specified in the file's header, the writer will throw Exceptions (usually
- * {@link GedcomWriterVersionDataMismatchException} or {@link GedcomWriterException}).
+ * Note that if there are inconsistencies found in the data, or that the data in
+ * the <code>Gedcom</code> is not compliant with the GEDCOM version specified in
+ * the file's header, the writer will throw Exceptions (usually
+ * {@link GedcomWriterVersionDataMismatchException} or
+ * {@link GedcomWriterException}).
  * </p>
  * 
  * 
@@ -67,14 +114,15 @@ public class GedcomWriter {
     private final Gedcom gedcom;
 
     /**
-     * Are we suppressing the call to the validator? Deliberately package-private so unit tests can fiddle with it to
-     * make testing easy.
+     * Are we suppressing the call to the validator? Deliberately
+     * package-private so unit tests can fiddle with it to make testing easy.
      */
     boolean validationSuppressed = false;
 
     /**
-     * The lines of the GEDCOM transmission, which will be written using a {@link GedcomFileWriter}. Deliberately
-     * package-private so tests can access it but others can't alter it.
+     * The lines of the GEDCOM transmission, which will be written using a
+     * {@link GedcomFileWriter}. Deliberately package-private so tests can
+     * access it but others can't alter it.
      */
     List<String> lines = new ArrayList<String>();
 
@@ -89,16 +137,18 @@ public class GedcomWriter {
     }
 
     /**
-     * Checks that the gedcom version specified is compatible with the data in the model. Not a perfect exhaustive
-     * check.
+     * Checks that the gedcom version specified is compatible with the data in
+     * the model. Not a perfect exhaustive check.
      * 
      * @throws GedcomWriterException
-     *             if data is detected that is incompatible with the selected version
+     *             if data is detected that is incompatible with the selected
+     *             version
      */
     private void checkVersionCompatibility() throws GedcomWriterException {
 
         if (gedcom.header.gedcomVersion == null) {
-            // If there's not one specified, set up a default one that specifies 5.5.1
+            // If there's not one specified, set up a default one that specifies
+            // 5.5.1
             gedcom.header.gedcomVersion = new GedcomVersion();
         }
         if (SupportedVersion.V5_5.equals(gedcom.header.gedcomVersion.versionNumber)) {
@@ -113,10 +163,12 @@ public class GedcomWriter {
      * Check that the data is compatible with 5.5 style Gedcom files
      * 
      * @throws GedcomWriterVersionDataMismatchException
-     *             if a data point is detected that is incompatible with the 5.5 standard
+     *             if a data point is detected that is incompatible with the 5.5
+     *             standard
      */
     private void checkVersionCompatibility55() throws GedcomWriterVersionDataMismatchException {
-        // Now that we know if we're working with a 5.5.1 file or not, let's check some data points
+        // Now that we know if we're working with a 5.5.1 file or not, let's
+        // check some data points
         if (gedcom.header.copyrightData.size() > 1) {
             throw new GedcomWriterVersionDataMismatchException(
                     "Gedcom version is 5.5, but has multi-line copyright data in header");
@@ -214,7 +266,8 @@ public class GedcomWriter {
      * Check that the data is compatible with 5.5.1 style Gedcom files
      * 
      * @throws GedcomWriterVersionDataMismatchException
-     *             if a data point is detected that is incompatible with the 5.5.1 standard
+     *             if a data point is detected that is incompatible with the
+     *             5.5.1 standard
      * 
      */
     private void checkVersionCompatibility551() throws GedcomWriterVersionDataMismatchException {
@@ -277,7 +330,8 @@ public class GedcomWriter {
     }
 
     /**
-     * Emit the person-to-person associations an individual was in - see ASSOCIATION_STRUCTURE in the GEDCOM spec.
+     * Emit the person-to-person associations an individual was in - see
+     * ASSOCIATION_STRUCTURE in the GEDCOM spec.
      * 
      * @param level
      *            the level at which to start recording
@@ -506,7 +560,8 @@ public class GedcomWriter {
     }
 
     /**
-     * Emit a family event structure (see FAMILY_EVENT_STRUCTURE in the GEDCOM spec)
+     * Emit a family event structure (see FAMILY_EVENT_STRUCTURE in the GEDCOM
+     * spec)
      * 
      * @param level
      *            the level we're writing at
@@ -739,12 +794,15 @@ public class GedcomWriter {
     }
 
     /**
-     * Convenience method for emitting lines of text when there is no xref, so you don't have to pass null all the time
+     * Convenience method for emitting lines of text when there is no xref, so
+     * you don't have to pass null all the time
      * 
      * @param level
-     *            the level we are starting at. Continuation lines will be one level deeper than this value
+     *            the level we are starting at. Continuation lines will be one
+     *            level deeper than this value
      * @param startingTag
-     *            the tag to use for the first line of the text. All subsequent lines will be "CONT" lines.
+     *            the tag to use for the first line of the text. All subsequent
+     *            lines will be "CONT" lines.
      * @param linesOfText
      *            the lines of text
      */
@@ -756,9 +814,11 @@ public class GedcomWriter {
      * Emit a multi-line text value.
      * 
      * @param level
-     *            the level we are starting at. Continuation lines will be one level deeper than this value
+     *            the level we are starting at. Continuation lines will be one
+     *            level deeper than this value
      * @param startingTag
-     *            the tag to use for the first line of the text. All subsequent lines will be "CONT" lines.
+     *            the tag to use for the first line of the text. All subsequent
+     *            lines will be "CONT" lines.
      * @param xref
      *            the xref of the item with lines of text
      * @param linesOfText
@@ -1020,7 +1080,8 @@ public class GedcomWriter {
      * @param level
      *            - the level we are writing at
      * @param variationTag
-     *            the tag for the type of variation - should be "ROMN" for romanized, or "FONE" for phonetic
+     *            the tag for the type of variation - should be "ROMN" for
+     *            romanized, or "FONE" for phonetic
      * @param pnv
      *            - the personal name variation we are writing
      * @throws GedcomWriterException
@@ -1147,14 +1208,16 @@ public class GedcomWriter {
     }
 
     /**
-     * Write out a repository citation (see SOURCE_REPOSITORY_CITATION in the gedcom spec)
+     * Write out a repository citation (see SOURCE_REPOSITORY_CITATION in the
+     * gedcom spec)
      * 
      * @param level
      *            the level we're writing at
      * @param repositoryCitation
      *            the repository citation to write out
      * @throws GedcomWriterException
-     *             if the repository citation passed in has a null repository reference
+     *             if the repository citation passed in has a null repository
+     *             reference
      */
     private void emitRepositoryCitation(int level, RepositoryCitation repositoryCitation) throws GedcomWriterException {
         if (repositoryCitation != null) {
@@ -1235,7 +1298,8 @@ public class GedcomWriter {
     }
 
     /**
-     * Write a source system structure (see APPROVED_SYSTEM_ID in the GEDCOM spec)
+     * Write a source system structure (see APPROVED_SYSTEM_ID in the GEDCOM
+     * spec)
      * 
      * @param sourceSystem
      *            the source system
@@ -1246,9 +1310,9 @@ public class GedcomWriter {
         if (sourceSystem == null) {
             return;
         }
-        emitTagIfValueNotNull(1, "SOUR", sourceSystem.systemId);
-        emitTagWithOptionalValueAndCustomSubtags(2, "VERS", sourceSystem.versionNum);
-        emitTagWithOptionalValueAndCustomSubtags(2, "NAME", sourceSystem.productName);
+        emitTagWithRequiredValue(1, "SOUR", sourceSystem.systemId);
+        emitTagIfValueNotNull(2, "VERS", sourceSystem.versionNum);
+        emitTagIfValueNotNull(2, "NAME", sourceSystem.productName);
         Corporation corporation = sourceSystem.corporation;
         if (corporation != null) {
             emitTagWithOptionalValue(2, "CORP", corporation.businessName);
@@ -1268,7 +1332,8 @@ public class GedcomWriter {
     }
 
     /**
-     * Emit links to all the families to which the supplied individual was a spouse
+     * Emit links to all the families to which the supplied individual was a
+     * spouse
      * 
      * @param level
      *            the level in the hierarchy at which we are emitting
@@ -1420,7 +1485,8 @@ public class GedcomWriter {
      * @param value
      *            the value to write to the right of the tag
      * @throws GedcomWriterException
-     *             if the value is null or blank (which never happens, because we check for it)
+     *             if the value is null or blank (which never happens, because
+     *             we check for it)
      */
     private void emitTagWithOptionalValue(int level, String tag, String value) throws GedcomWriterException {
         StringBuilder line = new StringBuilder(level + " " + tag);
@@ -1437,20 +1503,21 @@ public class GedcomWriter {
      *            the level within the file hierarchy
      * @param tag
      *            the tag for the line of the file
-     * @param value
+     * @param valueToRightOfTag
      *            the value to write to the right of the tag
      * @throws GedcomWriterException
-     *             if the value is null or blank (which never happens, because we check for it)
+     *             if the value is null or blank (which never happens, because
+     *             we check for it)
      */
-    private void emitTagWithOptionalValueAndCustomSubtags(int level, String tag, StringWithCustomTags value)
+    private void emitTagWithOptionalValueAndCustomSubtags(int level, String tag, StringWithCustomTags valueToRightOfTag)
             throws GedcomWriterException {
         StringBuilder line = new StringBuilder(level + " " + tag);
-        if (value != null && value.value != null) {
-            line.append(" " + value);
+        if (valueToRightOfTag != null && valueToRightOfTag.value != null) {
+            line.append(" " + valueToRightOfTag);
         }
         lines.add(line.toString());
-        if (value != null) {
-            emitCustomTags(value.customTags);
+        if (valueToRightOfTag != null) {
+            emitCustomTags(valueToRightOfTag.customTags);
         }
     }
 
@@ -1540,9 +1607,11 @@ public class GedcomWriter {
     }
 
     /**
-     * Returns true if and only if the Gedcom data says it is for the 5.5 standard.
+     * Returns true if and only if the Gedcom data says it is for the 5.5
+     * standard.
      * 
-     * @return true if and only if the Gedcom data says it is for the 5.5 standard.
+     * @return true if and only if the Gedcom data says it is for the 5.5
+     *         standard.
      */
     private boolean g55() {
         return gedcom != null && gedcom.header != null && gedcom.header.gedcomVersion != null
@@ -1550,8 +1619,8 @@ public class GedcomWriter {
     }
 
     /**
-     * Write the {@link Gedcom} data as a GEDCOM 5.5 file. Automatically fills in the value for the FILE tag in the HEAD
-     * structure.
+     * Write the {@link Gedcom} data as a GEDCOM 5.5 file. Automatically fills
+     * in the value for the FILE tag in the HEAD structure.
      * 
      * @param file
      *            the {@link File} to write to
@@ -1574,8 +1643,8 @@ public class GedcomWriter {
     }
 
     /**
-     * Write the {@link Gedcom} data in GEDCOM 5.5 format to an output stream. If the data is unicode, the data will be
-     * written in little-endian format.
+     * Write the {@link Gedcom} data in GEDCOM 5.5 format to an output stream.
+     * If the data is unicode, the data will be written in little-endian format.
      * 
      * @param out
      *            the output stream we're writing to
@@ -1617,7 +1686,8 @@ public class GedcomWriter {
     }
 
     /**
-     * Write the {@link Gedcom} data as a GEDCOM 5.5 file, with the supplied file name
+     * Write the {@link Gedcom} data as a GEDCOM 5.5 file, with the supplied
+     * file name
      * 
      * @param filename
      *            the name of the file to write

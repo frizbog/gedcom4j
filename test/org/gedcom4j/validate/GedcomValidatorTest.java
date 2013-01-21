@@ -73,7 +73,6 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
         dumpFindings();
         assertSame(v.findings, v.rootValidator.findings);
         for (GedcomValidationFinding f : v.rootValidator.findings) {
-            System.out.println(f);
             assertEquals("With autorepair on, findings should be at INFO", Severity.INFO, f.severity);
         }
     }

@@ -140,16 +140,64 @@ public abstract class AbstractValidator {
 
     }
 
-    protected void checkCustomTags(StringWithCustomTags swct) {
-        if (swct == null) {
+    /**
+     * Check custom tags on an object. Uses reflection to look for a property
+     * named "customTags" and checks if it's null--it's supposed to be at least
+     * an instantiated and empty collection. If autorepair is on, it will
+     * reflectively fix this.
+     * 
+     * @param o
+     * @throws SecurityException
+     * @throws NoSuchFieldException
+     * @throws IllegalAccessException
+     * @throws IllegalArgumentException
+     */
+    protected void checkCustomTags(Object o) {
+
+        Field customTagsField = null;
+        try {
+            customTagsField = o.getClass().getField("customTags");
+        } catch (NoSuchFieldException e) {
+            addError("There is no field named 'customTags' on object of type " + o.getClass().getSimpleName() + ".", o);
+            return;
+        } catch (SecurityException e) {
+            addError("There is no field named 'customTags' on object of type " + o.getClass().getSimpleName() + ".", o);
             return;
         }
-        if (swct.customTags == null) {
+
+        Object fldVal = null;
+        try {
+            fldVal = customTagsField.get(o);
+        } catch (IllegalArgumentException e) {
+            addError("Cannot get value of customTags attribute on object of type " + o.getClass().getSimpleName()
+                    + " - " + e.getMessage(), o);
+            return;
+        } catch (IllegalAccessException e) {
+            addError("Cannot get value of customTags attribute on object of type " + o.getClass().getSimpleName()
+                    + " - " + e.getMessage(), o);
+            return;
+        }
+        if (fldVal == null) {
             if (rootValidator.autorepair) {
-                swct.customTags = new ArrayList<StringTree>();
-                addInfo("Custom tags collection was null when string value was not - repaired", swct);
+                List<StringTree> customTags = new ArrayList<StringTree>();
+                try {
+                    customTagsField.set(o, customTags);
+                } catch (IllegalArgumentException e) {
+                    addError("Cannot autorepair value of customTags attribute on object of type "
+                            + o.getClass().getSimpleName() + " - " + e.getMessage(), o);
+                    return;
+                } catch (IllegalAccessException e) {
+                    addError("Cannot autorepair value of customTags attribute on object of type "
+                            + o.getClass().getSimpleName() + " - " + e.getMessage(), o);
+                    return;
+                }
+                rootValidator.addInfo("Custom tag collection was null - repaired", o);
             } else {
-                addError("Custom tags collection is null, but string value is not", swct);
+                rootValidator.addError("Custom tag collection is null - must be at least an empty collection", o);
+            }
+        } else {
+            if (!(fldVal instanceof List<?>)) {
+                rootValidator.addError("Custom tag collection is not a List", o);
             }
         }
     }
@@ -279,6 +327,20 @@ public abstract class AbstractValidator {
                 addError("String list (" + description + ") contains blank entry where none are allowed", stringList);
             }
         }
+    }
+
+    /**
+     * Check a string with custom tags to make sure the custom tags collection
+     * is defined whenever there is a value in the string part.
+     * 
+     * @param swct
+     *            the string with custom tags
+     */
+    protected void checkStringWithCustomTags(StringWithCustomTags swct) {
+        if (swct == null) {
+            return;
+        }
+        checkCustomTags(swct);
     }
 
     /**

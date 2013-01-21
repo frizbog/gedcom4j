@@ -69,7 +69,7 @@ public class Header extends AbstractElement {
     /**
      * The source system for the GEDCOM file
      */
-    public SourceSystem sourceSystem;
+    public SourceSystem sourceSystem = new SourceSystem();
 
     /**
      * Information about the file submission
