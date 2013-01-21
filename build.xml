@@ -36,8 +36,9 @@
 		<delete dir="reports" />
 		<delete>
 			<fileset dir="${basedir}">
-				<include name="**/cobertura.ser" />
+				<include name="cobertura.ser" />
 				<include name=".swp" />
+				<include name="junit*.properties"/>
 			</fileset>
 		</delete>
 	</target>
@@ -172,7 +173,7 @@
 		<mkdir dir="${instr.bin}" />
 		<delete file="${data.file}" />
 		<cobertura-instrument todir="${instr.bin}">
-			<includeClasses regex="com\.mattharrah\.gedcom4j\..*" />
+			<includeClasses regex="org\.gedcom4j\..*" />
 			<excludeClasses regex=".*\.Test.*" />
 			<excludeClasses regex=".*\.Abstract.*" />
 			<instrumentationClasspath>
