@@ -22,7 +22,8 @@
 package org.gedcom4j.model;
 
 /**
- * A source system. Corresponds to the SOUR structure in HEADER in the GEDCOM file.
+ * A source system. Corresponds to the SOUR structure in HEADER in the GEDCOM
+ * file.
  * 
  * @author frizbog1
  * 
@@ -31,7 +32,7 @@ public class SourceSystem extends AbstractElement {
     /**
      * The system ID for this source system
      */
-    public String systemId;
+    public String systemId = "UNSPECIFIED";
 
     /**
      * The version number of this source system
