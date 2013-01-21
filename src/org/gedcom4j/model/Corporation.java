@@ -25,14 +25,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * <p>
  * Represents a Corporation.
+ * </p>
+ * 
+ * <p>
+ * If instantiating one of these programmatically rather than through parsing an
+ * existing GEDCOM file, you will probably want to change the value of the
+ * {@link Corporation#businessName} field.
+ * </p>
  * 
  * @author frizbog1
  * 
  */
 public class Corporation extends AbstractElement {
     /**
-     * The business name
+     * The business name. This field must be valued to pass validation, so the
+     * default value is "UNSPECIFIED".
      */
     public String businessName = "UNSPECIFIED";
 

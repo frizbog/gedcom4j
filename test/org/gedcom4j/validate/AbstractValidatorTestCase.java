@@ -79,7 +79,7 @@ public abstract class AbstractValidatorTestCase extends TestCase {
             if (f.severity == severity) {
                 boolean matchAllSoFar = true;
                 for (String substring : substringOfDescription) {
-                    if (!f.problemDescription.toLowerCase().contains(substring)) {
+                    if (!f.problemDescription.toLowerCase().contains(substring.toLowerCase())) {
                         matchAllSoFar = false;
                     }
                 }
@@ -110,7 +110,10 @@ public abstract class AbstractValidatorTestCase extends TestCase {
      */
     protected void assertNoIssues() {
         if (rootValidator.hasErrors() || rootValidator.hasWarnings()) {
+            boolean saveVerbose = verbose;
+            verbose = true;
             dumpFindings();
+            verbose = saveVerbose;
             fail("There should not be any warnings or errors");
         }
     }
@@ -123,7 +126,7 @@ public abstract class AbstractValidatorTestCase extends TestCase {
      * 
      */
     protected void dumpFindings() {
-        if (!verbose) {
+        if (rootValidator.findings.isEmpty()) {
             return;
         }
         if (rootValidator.findings.size() > 0) {

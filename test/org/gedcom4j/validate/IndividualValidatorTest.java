@@ -25,12 +25,6 @@ import java.util.Map;
 
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
-import org.gedcom4j.validate.AbstractValidator;
-import org.gedcom4j.validate.GedcomValidationFinding;
-import org.gedcom4j.validate.GedcomValidator;
-import org.gedcom4j.validate.IndividualValidator;
-import org.gedcom4j.validate.Severity;
-
 
 /**
  * Tests for {@link IndividualValidator}
@@ -39,6 +33,11 @@ import org.gedcom4j.validate.Severity;
  * 
  */
 public class IndividualValidatorTest extends AbstractValidatorTestCase {
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+    }
 
     /**
      * Test for a default individual (no xref)
@@ -64,24 +63,22 @@ public class IndividualValidatorTest extends AbstractValidatorTestCase {
         g.individuals.put("WrongKey", i);
 
         // Go validate
-        GedcomValidator v = new GedcomValidator(g);
-        v.validate();
+        rootValidator = new GedcomValidator(g);
+        verbose = true;
+        rootValidator.validate();
 
         // Assert stuff
-        assertEquals("There should be one finding", 1, v.findings.size());
-        GedcomValidationFinding f = v.findings.get(0);
-        assertNotNull(f);
-        assertNotNull("The finding should have an object attached",
-                f.itemWithProblem);
-        assertTrue("The object attached should be a Map entry",
-                f.itemWithProblem instanceof Map.Entry);
-        assertEquals("The finding should be at severity ERROR", Severity.ERROR,
-                f.severity);
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+        dumpFindings();
+        int errorsCount = 0;
+        for (GedcomValidationFinding f : rootValidator.findings) {
+            assertNotNull(f);
+            assertNotNull("The finding should have an object attached", f.itemWithProblem);
+            if (f.severity == Severity.ERROR) {
+                errorsCount++;
+                assertTrue("The object attached should be a Map entry", f.itemWithProblem instanceof Map.Entry);
+            }
+        }
+        assertEquals("There should be one finding of severity ERROR", 1, errorsCount);
     }
 
 }
