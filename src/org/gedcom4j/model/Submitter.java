@@ -25,7 +25,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A submitter. Corresponds to the SUBMITTER_RECORD structure in the GEDCOM standard.
+ * <p>
+ * A submitter. Corresponds to the SUBMITTER_RECORD structure in the GEDCOM
+ * standard.
+ * </p>
+ * <p>
+ * Note that a valid GEDCOM requires at least one Submitter record to be valid.
+ * </p>
  * 
  * @author frizbog1
  */
