@@ -27,7 +27,8 @@ import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
 
 /**
- * Validate a {@link Submitter} object. See {@link GedcomValidator} for usage information.
+ * Validate a {@link Submitter} object. See {@link GedcomValidator} for usage
+ * information.
  * 
  * @author frizbog1
  * 
@@ -43,7 +44,8 @@ class SubmitterValidator extends AbstractValidator {
      * Constructor
      * 
      * @param rootValidator
-     *            the root validator containing among other things the findings collection
+     *            the root validator containing among other things the findings
+     *            collection
      * @param submitter
      *            the submitter being validated
      */
@@ -84,5 +86,8 @@ class SubmitterValidator extends AbstractValidator {
         checkLanguagePreferences();
         checkOptionalString(submitter.recIdNumber, "record id number", submitter);
         checkOptionalString(submitter.regFileNumber, "submitter registered rfn", submitter);
+        if (submitter.address != null) {
+            new AddressValidator(rootValidator, submitter.address).validate();
+        }
     }
 }

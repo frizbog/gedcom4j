@@ -28,8 +28,10 @@ import org.gedcom4j.model.CharacterSet;
 import org.gedcom4j.model.Corporation;
 import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Header;
+import org.gedcom4j.model.HeaderSourceData;
 import org.gedcom4j.model.SourceSystem;
 import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.Submitter;
 
 /**
  * Validator for a {@link Header}. See {@link GedcomValidator} for usage
@@ -87,6 +89,7 @@ class HeaderValidator extends AbstractValidator {
         }
         checkStringWithCustomTags(header.characterSet.characterSetName);
         checkStringWithCustomTags(header.characterSet.versionNum);
+        checkCustomTags(header.characterSet);
     }
 
     /**
@@ -122,7 +125,21 @@ class HeaderValidator extends AbstractValidator {
         }
         checkStringWithCustomTags(ss.productName);
         if (ss.sourceData != null) {
+            HeaderSourceData sd = ss.sourceData;
+            if (sd.name == null || sd.name.trim().length() == 0) {
+                if (rootValidator.autorepair) {
+                    sd.name = "UNSPECIFIED";
+                    rootValidator.addInfo("Source data was specified for source system, "
+                            + "but name of source data was not specified - repaired", sd);
+                } else {
+                    rootValidator.addError("Source data is specified for source system, "
+                            + "but name of source data is not specified", sd);
+                }
 
+            }
+            checkStringWithCustomTags(sd.copyright);
+            checkStringWithCustomTags(sd.publishDate);
+            checkCustomTags(sd);
         }
         if (ss.systemId == null) {
             if (rootValidator.autorepair) {
@@ -178,10 +195,29 @@ class HeaderValidator extends AbstractValidator {
         }
         checkStringWithCustomTags(header.placeHierarchy);
         checkSourceSystem();
+        if (header.submitter == null) {
+            if (rootValidator.autorepair) {
+                if (rootValidator.gedcom.submitters != null && rootValidator.gedcom.submitters.size() > 0) {
+                    // Take the first submitter from the collection and set that
+                    // as the primary submitter in the header
+                    for (Submitter s : rootValidator.gedcom.submitters.values()) {
+                        header.submitter = s;
+                        break;
+                    }
+                } else {
+                    rootValidator.addError("Submitter not specified in header, and autorepair could not "
+                            + "find a submitter to select as default", header);
+                }
+            } else {
+                rootValidator.addError("Submitter not specified in header", header);
+            }
+            return;
+        }
+        new SubmitterValidator(rootValidator, header.submitter).validate();
 
         /*
-         * header.placeHierarchy; header.sourceSystem; header.submission;
-         * header.submitter; header.time;
+         * header.submission;
          */
+        checkStringWithCustomTags(header.time);
     }
 }

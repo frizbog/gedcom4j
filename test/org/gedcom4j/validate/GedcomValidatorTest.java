@@ -88,7 +88,14 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
         verbose = true;
         rootValidator.validate();
         dumpFindings();
-        assertTrue("There should be no findings on an empty Gedcom", rootValidator.findings.isEmpty());
+        assertTrue(
+                "A new gedcom structure run through the validator with autorepair on should always have at least one finding",
+                rootValidator.findings.size() > 0);
+        for (GedcomValidationFinding f : rootValidator.findings) {
+            assertEquals(
+                    "All findings on a new gedcom structure run through the validator with autorepair on should be at level of INFO",
+                    Severity.INFO, f.severity);
+        }
     }
 
     /**
