@@ -111,7 +111,7 @@ class HeaderValidator extends AbstractValidator {
             if (c.address != null) {
                 new AddressValidator(rootValidator, c.address).validate();
             }
-            if (c.businessName == null || c.businessName.trim().isEmpty()) {
+            if (c.businessName == null || c.businessName.trim().length() == 0) {
                 if (rootValidator.autorepair) {
                     c.businessName = "UNSPECIFIED";
                     rootValidator.addInfo("Corporation for source system exists but had no name - repaired", c);
