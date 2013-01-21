@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2012 Matthew R. Harrah
+ * Copyright (c) 2009-2013 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.gedcom4j.model.ChangeDate;
 import org.gedcom4j.model.Note;
+import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.UserReference;
 
@@ -39,7 +40,9 @@ import org.gedcom4j.model.UserReference;
 public abstract class AbstractValidator {
 
     /**
-     * The root validator - the one that holds the collection of findings among other things
+     * The root validator - the one that holds the collection of findings among
+     * other things. Must be declared specifically a {@link GedcomValidator} and
+     * not an {@link AbstractValidator}
      */
     protected GedcomValidator rootValidator;
 
@@ -137,6 +140,20 @@ public abstract class AbstractValidator {
 
     }
 
+    protected void checkCustomTags(StringWithCustomTags swct) {
+        if (swct == null) {
+            return;
+        }
+        if (swct.customTags == null) {
+            if (rootValidator.autorepair) {
+                swct.customTags = new ArrayList<StringTree>();
+                addInfo("Custom tags collection was null when string value was not - repaired", swct);
+            } else {
+                addError("Custom tags collection is null, but string value is not", swct);
+            }
+        }
+    }
+
     /**
      * Check a notes collection
      * 
@@ -150,7 +167,8 @@ public abstract class AbstractValidator {
     }
 
     /**
-     * Checks that an optional string field is either null, or greater than zero characters long after trimming
+     * Checks that an optional string field is either null, or greater than zero
+     * characters long after trimming
      * 
      * @param optionalString
      *            the field that is required
@@ -167,7 +185,8 @@ public abstract class AbstractValidator {
     }
 
     /**
-     * Checks that an optional string field is either null, or greater than zero characters long after trimming
+     * Checks that an optional string field is either null, or greater than zero
+     * characters long after trimming
      * 
      * @param optionalString
      *            the field that is required
@@ -176,7 +195,8 @@ public abstract class AbstractValidator {
      * @param objectContainingField
      *            the object containing the field being checked
      */
-    protected void checkOptionalString(StringWithCustomTags optionalString, String fieldDescription, Object objectContainingField) {
+    protected void checkOptionalString(StringWithCustomTags optionalString, String fieldDescription,
+            Object objectContainingField) {
         if (optionalString != null && optionalString.value != null && optionalString.value.trim().length() == 0) {
             addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName()
                     + " is specified, but has a blank value", objectContainingField);
@@ -210,7 +230,8 @@ public abstract class AbstractValidator {
      * @param objectContainingField
      *            the object containing the field being checked
      */
-    protected void checkRequiredString(StringWithCustomTags requiredString, String fieldDescription, Object objectContainingField) {
+    protected void checkRequiredString(StringWithCustomTags requiredString, String fieldDescription,
+            Object objectContainingField) {
         if (requiredString == null || requiredString.value == null || requiredString.value.trim().length() == 0) {
             addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName()
                     + " is required, but is either null or blank", objectContainingField);
@@ -218,8 +239,8 @@ public abstract class AbstractValidator {
     }
 
     /**
-     * Check a string list (List&lt;String&gt;) on an object. All strings in the list must be non-null and non-blank
-     * when trimmed.
+     * Check a string list (List&lt;String&gt;) on an object. All strings in the
+     * list must be non-null and non-blank when trimmed.
      * 
      * @param stringList
      *            the stringlist being validated
@@ -239,8 +260,9 @@ public abstract class AbstractValidator {
     }
 
     /**
-     * Check a tagged string list (List&lt;StringWithCustomTags&gt;) on an object. All strings in the list must be non-null and
-     * non-blank when trimmed.
+     * Check a tagged string list (List&lt;StringWithCustomTags&gt;) on an
+     * object. All strings in the list must be non-null and non-blank when
+     * trimmed.
      * 
      * @param stringList
      *            the stringlist being validated
@@ -280,7 +302,8 @@ public abstract class AbstractValidator {
     }
 
     /**
-     * Check the xref on an object, using the default field name of <tt>xref</tt> for the xref field
+     * Check the xref on an object, using the default field name of
+     * <tt>xref</tt> for the xref field
      * 
      * @param objectContainingXref
      *            the object containing the xref field
@@ -290,7 +313,8 @@ public abstract class AbstractValidator {
     }
 
     /**
-     * Check the xref on an object, using a specific field name to find the xref in
+     * Check the xref on an object, using a specific field name to find the xref
+     * in
      * 
      * @param objectContainingXref
      *            the object containing the xref field

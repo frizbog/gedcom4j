@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2012 Matthew R. Harrah
+ * Copyright (c) 2009-2013 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,10 +26,6 @@ import java.io.IOException;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.parser.GedcomParserException;
-import org.gedcom4j.validate.GedcomValidationFinding;
-import org.gedcom4j.validate.GedcomValidator;
-import org.gedcom4j.validate.Severity;
-
 
 /**
  * Test for {@link GedcomValidator}
@@ -42,6 +38,11 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
      * The name of the file used for stress-testing the parser
      */
     private static final String SAMPLE_STRESS_TEST_FILENAME = "sample/TGC551.ged";
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+    }
 
     /**
      * Test autorepairing
@@ -56,29 +57,24 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
         GedcomValidator v = new GedcomValidator(g);
         v.autorepair = false;
         v.validate();
-        assertNull(
-                "Individuals collection should still be null since it was not repaired",
-                g.individuals);
-        assertFalse(
-                "Whether or not autorepair is on, there should be findings",
-                v.findings.isEmpty());
+        assertNull("Individuals collection should still be null since it was not repaired", g.individuals);
+        assertFalse("Whether or not autorepair is on, there should be findings", v.findings.isEmpty());
         for (GedcomValidationFinding f : v.findings) {
-            assertEquals("With autorepair off, findings should be at error",
-                    Severity.ERROR, f.severity);
+            assertEquals("With autorepair off, findings should be at error", Severity.ERROR, f.severity);
         }
 
         // Do it again, only this time with autorepair on
         v = new GedcomValidator(g);
         v.autorepair = true;
+        verbose = true;
         v.validate();
-        assertNotNull("Individuals collection should have been repaired",
-                g.individuals);
-        assertFalse(
-                "Whether or not autorepair is on, there should be findings",
-                v.findings.isEmpty());
-        for (GedcomValidationFinding f : v.findings) {
-            assertEquals("With autorepair off, findings should be at INFO",
-                    Severity.INFO, f.severity);
+        assertNotNull("Individuals collection should have been repaired", g.individuals);
+        assertFalse("Whether or not autorepair is on, there should be findings", v.findings.isEmpty());
+        dumpFindings();
+        assertSame(v.findings, v.rootValidator.findings);
+        for (GedcomValidationFinding f : v.rootValidator.findings) {
+            System.out.println(f);
+            assertEquals("With autorepair on, findings should be at INFO", Severity.INFO, f.severity);
         }
     }
 
@@ -89,11 +85,11 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
      */
     public void testValidateEmptyGedcom() {
         Gedcom g = new Gedcom();
-        GedcomValidator v = new GedcomValidator(g);
-        v.validate();
+        rootValidator = new GedcomValidator(g);
+        verbose = true;
+        rootValidator.validate();
         dumpFindings();
-        assertTrue("There should be no findings on an empty Gedcom",
-                v.findings.isEmpty());
+        assertTrue("There should be no findings on an empty Gedcom", rootValidator.findings.isEmpty());
     }
 
     /**
@@ -104,21 +100,15 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
      * @throws GedcomParserException
      *             if the file can't be parsed
      */
-    public void testValidateStressTestFile() throws IOException,
-            GedcomParserException {
+    public void testValidateStressTestFile() throws IOException, GedcomParserException {
         // Load a file
         GedcomParser p = new GedcomParser();
         p.load(SAMPLE_STRESS_TEST_FILENAME);
-		assertTrue(p.errors.isEmpty());
+        assertTrue(p.errors.isEmpty());
         rootValidator = new GedcomValidator(p.gedcom);
         rootValidator.validate();
         dumpFindings();
         assertTrue(rootValidator.findings.isEmpty());
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
     }
 
 }
