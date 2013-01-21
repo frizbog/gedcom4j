@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2012 Matthew R. Harrah
+ * Copyright (c) 2009-2013 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,12 +27,12 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.Header;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.Note;
 import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.Submission;
-
 
 /**
  * <p>
@@ -97,7 +97,7 @@ public class GedcomValidator extends AbstractValidator {
             addError("gedcom structure is null");
             return;
         }
-        // TODO - validate header
+        validateHeader();
         validateIndividuals();
         // TODO - validate families
         validateRepositories();
@@ -110,14 +110,31 @@ public class GedcomValidator extends AbstractValidator {
     }
 
     /**
+     * Validate the {@link Gedcom#header} object
+     */
+    private void validateHeader() {
+        if (gedcom.header == null) {
+            if (autorepair) {
+                gedcom.header = new Header();
+                addInfo("Header was null - autorepaired");
+            } else {
+                addError("GEDCOM Header is null");
+                return;
+            }
+        }
+
+        new HeaderValidator(rootValidator, gedcom.header).validate();
+
+    }
+
+    /**
      * Validate the {@link Gedcom#individuals} collection
      */
     void validateIndividuals() {
         if (gedcom.individuals == null) {
             if (autorepair) {
                 gedcom.individuals = new HashMap<String, Individual>();
-                addInfo("Individuals collection was null - autorepaired",
-                        gedcom);
+                addInfo("Individuals collection was null - autorepaired", gedcom);
             } else {
                 addError("Individuals collection is null", gedcom);
                 return;
@@ -133,12 +150,10 @@ public class GedcomValidator extends AbstractValidator {
                 return;
             }
             if (!e.getKey().equals(e.getValue().xref)) {
-                addError(
-                        "Entry in individuals collection is not keyed by the individual's xref",
-                        e);
+                addError("Entry in individuals collection is not keyed by the individual's xref", e);
                 return;
             }
-            new IndividualValidator(this, e.getValue()).validate();
+            new IndividualValidator(rootValidator, e.getValue()).validate();
         }
     }
 
@@ -149,8 +164,7 @@ public class GedcomValidator extends AbstractValidator {
         if (gedcom.repositories == null) {
             if (autorepair) {
                 gedcom.repositories = new HashMap<String, Repository>();
-                addInfo("Repositories collection on root gedcom was null - autorepaired",
-                        gedcom);
+                addInfo("Repositories collection on root gedcom was null - autorepaired", gedcom);
                 return;
             }
             addError("Repositories collection on root gedcom is null", gedcom);
@@ -166,12 +180,10 @@ public class GedcomValidator extends AbstractValidator {
                 return;
             }
             if (!e.getKey().equals(e.getValue().xref)) {
-                addError(
-                        "Entry in repositories collection is not keyed by the Repository's xref",
-                        e);
+                addError("Entry in repositories collection is not keyed by the Repository's xref", e);
                 return;
             }
-            new RepositoryValidator(this, e.getValue()).validate();
+            new RepositoryValidator(rootValidator, e.getValue()).validate();
         }
 
     }
@@ -199,12 +211,10 @@ public class GedcomValidator extends AbstractValidator {
                 return;
             }
             if (!e.getKey().equals(e.getValue().xref)) {
-                addError(
-                        "Entry in sources collection is not keyed by the individual's xref",
-                        e);
+                addError("Entry in sources collection is not keyed by the individual's xref", e);
                 return;
             }
-            new SourceValidator(this, e.getValue()).validate();
+            new SourceValidator(rootValidator, e.getValue()).validate();
         }
     }
 
