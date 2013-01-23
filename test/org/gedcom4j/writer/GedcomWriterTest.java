@@ -101,6 +101,7 @@ public class GedcomWriterTest extends TestCase {
         gedcomOrig = p.gedcom;
 
         GedcomWriter gw = new GedcomWriter(gedcomOrig);
+        gw.validationSuppressed = true;
         File tmpDir = new File("tmp");
         tmpDir.mkdirs();
         File tempFile = new File("tmp/gedcom4j.writertest.ged");
@@ -130,91 +131,6 @@ public class GedcomWriterTest extends TestCase {
             System.err.println(e);
         }
         assertTrue(p.errors.isEmpty());
-    }
-
-    /**
-     * <p>
-     * Assert that a sequence of strings appears, in order, in the supplied
-     * {@link List} of strings.
-     * </p>
-     * 
-     * @param failureMessage
-     *            The message to use if there is a failure
-     * 
-     * @param lookIn
-     *            the {@link List} of Strings to be searched
-     * @param lookFor
-     *            the strings to find in <code>lookIn</code>
-     */
-    private void assertLineSequence(String failureMessage, List<String> lookIn, String... lookFor) {
-        int indexOf = lookIn.indexOf(lookFor[0]);
-        if (verbose) {
-            if (indexOf < 0) {
-                System.out.println("\n====");
-                System.out.println("Looking for: ");
-                System.out.println(lookFor[0]);
-                System.out.println("Looking in:");
-                for (String l : lookIn) {
-                    System.out.println(l);
-                }
-            }
-        }
-        assertTrue(failureMessage + ": first string being looked for (\"" + lookFor[0]
-                + "\") was not found in in the list being searched", indexOf >= 0);
-
-        boolean matches = true; // optimistic
-        for (int i = 0; i < lookFor.length; i++) {
-            if (!lookFor[i].equals(lookIn.get(i + indexOf))) {
-                matches = false;
-                break;
-            }
-        }
-
-        if (verbose && !matches) {
-            System.out.println("\n----------------------------------");
-            System.out.println(failureMessage);
-            System.out.println("Line sequence mismatch");
-            System.out.println("Starting at line " + indexOf);
-            for (int i = 0; i < lookFor.length; i++) {
-                if (!lookIn.get(indexOf + i).equals(lookFor[i])) {
-                    System.out.println("+" + i);
-                    System.out.println("lookIn : |" + lookIn.get(indexOf + i) + "|");
-                    System.out.println("lookFor: |" + lookFor[i] + "|");
-                    System.out.println();
-                }
-            }
-        }
-        assertTrue(failureMessage, matches);
-    }
-
-    /**
-     * Read back the lines of a file
-     * 
-     * @param fileToRead
-     *            the file to read
-     * @return the lines of the file
-     * @throws IOException
-     *             if the file can't be read
-     */
-    private List<String> readBack(File fileToRead) throws IOException {
-        GedcomFileReader gfr = new GedcomFileReader();
-        return gfr.getLines(new BufferedInputStream(new FileInputStream(fileToRead)));
-    }
-
-    /**
-     * Set up the test fixtures. Load a file, rewrite it, reload the written
-     * file, so comparisons can be made.
-     * 
-     * @see junit.framework.TestCase#setUp()
-     * @throws Exception
-     *             if anything goes wrong
-     */
-    @Override
-    protected void setUp() throws Exception {
-        // Make sure we actually have test fixtures to work with
-        assertNotNull(gedcomOrig);
-        assertNotNull(gedcomReadback);
-        verbose = false;
     }
 
     /**
@@ -388,5 +304,90 @@ public class GedcomWriterTest extends TestCase {
                 "1 FILE gedcom4j.emptywritertest.ged", "1 GEDC", "2 VERS 5.5.1", "2 FORM LINEAGE-LINKED",
                 "1 CHAR ANSEL", "0 @SUBMISSION@ SUBN", "0 TRLR");
 
+    }
+
+    /**
+     * Set up the test fixtures. Load a file, rewrite it, reload the written
+     * file, so comparisons can be made.
+     * 
+     * @see junit.framework.TestCase#setUp()
+     * @throws Exception
+     *             if anything goes wrong
+     */
+    @Override
+    protected void setUp() throws Exception {
+        // Make sure we actually have test fixtures to work with
+        assertNotNull(gedcomOrig);
+        assertNotNull(gedcomReadback);
+        verbose = false;
+    }
+
+    /**
+     * <p>
+     * Assert that a sequence of strings appears, in order, in the supplied
+     * {@link List} of strings.
+     * </p>
+     * 
+     * @param failureMessage
+     *            The message to use if there is a failure
+     * 
+     * @param lookIn
+     *            the {@link List} of Strings to be searched
+     * @param lookFor
+     *            the strings to find in <code>lookIn</code>
+     */
+    private void assertLineSequence(String failureMessage, List<String> lookIn, String... lookFor) {
+        int indexOf = lookIn.indexOf(lookFor[0]);
+        if (verbose) {
+            if (indexOf < 0) {
+                System.out.println("\n====");
+                System.out.println("Looking for: ");
+                System.out.println(lookFor[0]);
+                System.out.println("Looking in:");
+                for (String l : lookIn) {
+                    System.out.println(l);
+                }
+            }
+        }
+        assertTrue(failureMessage + ": first string being looked for (\"" + lookFor[0]
+                + "\") was not found in in the list being searched", indexOf >= 0);
+
+        boolean matches = true; // optimistic
+        for (int i = 0; i < lookFor.length; i++) {
+            if (!lookFor[i].equals(lookIn.get(i + indexOf))) {
+                matches = false;
+                break;
+            }
+        }
+
+        if (verbose && !matches) {
+            System.out.println("\n----------------------------------");
+            System.out.println(failureMessage);
+            System.out.println("Line sequence mismatch");
+            System.out.println("Starting at line " + indexOf);
+            for (int i = 0; i < lookFor.length; i++) {
+                if (!lookIn.get(indexOf + i).equals(lookFor[i])) {
+                    System.out.println("+" + i);
+                    System.out.println("lookIn : |" + lookIn.get(indexOf + i) + "|");
+                    System.out.println("lookFor: |" + lookFor[i] + "|");
+                    System.out.println();
+                }
+            }
+        }
+        assertTrue(failureMessage, matches);
+    }
+
+    /**
+     * Read back the lines of a file
+     * 
+     * @param fileToRead
+     *            the file to read
+     * @return the lines of the file
+     * @throws IOException
+     *             if the file can't be read
+     */
+    private List<String> readBack(File fileToRead) throws IOException {
+        GedcomFileReader gfr = new GedcomFileReader();
+        return gfr.getLines(new BufferedInputStream(new FileInputStream(fileToRead)));
     }
 }

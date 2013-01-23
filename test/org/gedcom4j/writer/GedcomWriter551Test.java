@@ -42,11 +42,13 @@ import org.gedcom4j.model.Place;
 import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.SourceSystem;
 import org.gedcom4j.model.StringWithCustomTags;
-import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.SupportedVersion;
+import org.gedcom4j.model.TestHelper;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.parser.GedcomParserException;
+import org.gedcom4j.validate.GedcomValidationFinding;
+import org.gedcom4j.validate.Severity;
 import org.junit.Test;
 
 /**
@@ -68,32 +70,42 @@ public class GedcomWriter551Test {
      */
     @Test
     public void testBlobWith551() throws IOException, GedcomWriterException {
-        Gedcom g = new Gedcom();
-        g.submission = new Submission("@SUBN0001@");
-        g.header.submission = g.submission;
-        g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5_1;
+        Gedcom g = TestHelper.getMinimalGedcom();
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
+        gw.autorepair = false;
         assertTrue(gw.lines.isEmpty());
 
         Multimedia m = new Multimedia();
         m.embeddedMediaFormat = new StringWithCustomTags("bmp");
-        g.multimedia.put("@M1@", m);
+        m.xref = "@M1@";
+        g.multimedia.put(m.xref, m);
         m.blob.add("Blob data only allowed with 5.5");
         try {
             gw.write("tmp/delete-me.ged");
+            for (GedcomValidationFinding f : gw.validationFindings) {
+                System.out.println(f);
+            }
             fail("Should have gotten a GedcomException about the blob data");
         } catch (GedcomWriterException expectedAndIgnored) {
-            ; // Good!
+            boolean foundBlobError = false;
+            for (GedcomValidationFinding f : gw.validationFindings) {
+                if (f.severity == Severity.ERROR && f.problemDescription.toLowerCase().contains("blob")) {
+                    foundBlobError = true;
+                }
+            }
+            assertTrue("Should have had a validation finding about the blob error", foundBlobError);
         }
 
         // Set to 5.5 and all should be fine
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         gw.write("tmp/delete-me.ged");
 
-        // Set back to 5.5.1, clear the blob, and all should be fine
-        g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
+        // Set back to 5.5.1, clear the blob and embedded format, and all should
+        // be fine
+        g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5_1;
         m.blob.clear();
+        m.embeddedMediaFormat = null;
         gw.write("tmp/delete-me.ged");
 
     }
@@ -109,9 +121,8 @@ public class GedcomWriter551Test {
      */
     @Test
     public void testCorpInSourceSystemWith55Email() throws IOException, GedcomWriterException {
-        Gedcom g = new Gedcom();
-        g.submission = new Submission("@SUBN0001@");
-        g.header.submission = g.submission;
+        Gedcom g = TestHelper.getMinimalGedcom();
+
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         g.header.sourceSystem = new SourceSystem();
         Corporation c = new Corporation();
@@ -150,9 +161,7 @@ public class GedcomWriter551Test {
      */
     @Test
     public void testCorpInSourceSystemWith55Fax() throws IOException, GedcomWriterException {
-        Gedcom g = new Gedcom();
-        g.submission = new Submission("@SUBN0001@");
-        g.header.submission = g.submission;
+        Gedcom g = TestHelper.getMinimalGedcom();
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         g.header.sourceSystem = new SourceSystem();
         Corporation c = new Corporation();
@@ -190,9 +199,7 @@ public class GedcomWriter551Test {
      */
     @Test
     public void testCorpInSourceSystemWith55Www() throws IOException, GedcomWriterException {
-        Gedcom g = new Gedcom();
-        g.submission = new Submission("@SUBN0001@");
-        g.header.submission = g.submission;
+        Gedcom g = TestHelper.getMinimalGedcom();
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         g.header.sourceSystem = new SourceSystem();
         Corporation c = new Corporation();
@@ -233,7 +240,7 @@ public class GedcomWriter551Test {
     @Test
     public void testMapCoords() throws IOException, GedcomWriterException, GedcomParserException {
         // Build up the test data
-        Gedcom g = new Gedcom();
+        Gedcom g = TestHelper.getMinimalGedcom();
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5_1;
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
@@ -292,9 +299,7 @@ public class GedcomWriter551Test {
      */
     @Test
     public void testMultilineCopyrightWith55() throws IOException, GedcomWriterException {
-        Gedcom g = new Gedcom();
-        g.submission = new Submission("@SUBN0001@");
-        g.header.submission = g.submission;
+        Gedcom g = TestHelper.getMinimalGedcom();
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         g.header.copyrightData.add("One line is ok");
         g.header.copyrightData.add("Two lines is bad");
@@ -332,7 +337,7 @@ public class GedcomWriter551Test {
     @Test
     public void testMultimedia551() throws IOException, GedcomWriterException, GedcomParserException {
         // Create some data
-        Gedcom g1 = new Gedcom();
+        Gedcom g1 = TestHelper.getMinimalGedcom();
         Multimedia m1 = new Multimedia();
         m1.xref = "@M0@";
         g1.multimedia.put(m1.xref, m1);
@@ -391,9 +396,7 @@ public class GedcomWriter551Test {
      */
     @Test
     public void testRepositoryWith55Email() throws IOException, GedcomWriterException {
-        Gedcom g = new Gedcom();
-        g.submission = new Submission("@SUBN0001@");
-        g.header.submission = g.submission;
+        Gedcom g = TestHelper.getMinimalGedcom();
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         Repository r = new Repository();
         r.xref = "@R1@";
@@ -430,9 +433,7 @@ public class GedcomWriter551Test {
      */
     @Test
     public void testRepositoryWith55Fax() throws IOException, GedcomWriterException {
-        Gedcom g = new Gedcom();
-        g.submission = new Submission("@SUBN0001@");
-        g.header.submission = g.submission;
+        Gedcom g = TestHelper.getMinimalGedcom();
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         Repository r = new Repository();
         r.xref = "@R1@";
@@ -469,9 +470,7 @@ public class GedcomWriter551Test {
      */
     @Test
     public void testRepositoryWith55Www() throws IOException, GedcomWriterException {
-        Gedcom g = new Gedcom();
-        g.submission = new Submission("@SUBN0001@");
-        g.header.submission = g.submission;
+        Gedcom g = TestHelper.getMinimalGedcom();
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         Repository r = new Repository();
         r.xref = "@R1@";
@@ -508,9 +507,7 @@ public class GedcomWriter551Test {
      */
     @Test
     public void testSubmitterWith55Email() throws IOException, GedcomWriterException {
-        Gedcom g = new Gedcom();
-        g.submission = new Submission("@SUBN0001@");
-        g.header.submission = g.submission;
+        Gedcom g = TestHelper.getMinimalGedcom();
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         Submitter s = new Submitter();
         s.name = new StringWithCustomTags("test");
@@ -548,9 +545,7 @@ public class GedcomWriter551Test {
      */
     @Test
     public void testSubmitterWith55Fax() throws IOException, GedcomWriterException {
-        Gedcom g = new Gedcom();
-        g.submission = new Submission("@SUBN0001@");
-        g.header.submission = g.submission;
+        Gedcom g = TestHelper.getMinimalGedcom();
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         Submitter s = new Submitter();
         s.name = new StringWithCustomTags("test");
@@ -588,9 +583,7 @@ public class GedcomWriter551Test {
      */
     @Test
     public void testSubmitterWith55Www() throws IOException, GedcomWriterException {
-        Gedcom g = new Gedcom();
-        g.submission = new Submission("@SUBN0001@");
-        g.header.submission = g.submission;
+        Gedcom g = TestHelper.getMinimalGedcom();
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         Submitter s = new Submitter();
         s.name = new StringWithCustomTags("test");
@@ -628,13 +621,11 @@ public class GedcomWriter551Test {
      */
     @Test
     public void testUtf8With55() throws IOException, GedcomWriterException {
-        Gedcom g = new Gedcom();
-        g.submission = new Submission("@SUBN0001@");
-        g.header.submission = g.submission;
-        g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
-        g.header.characterSet.characterSetName = new StringWithCustomTags("UTF-8");
+        Gedcom g = TestHelper.getMinimalGedcom();
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
+        g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
+        g.header.characterSet.characterSetName = new StringWithCustomTags("UTF-8");
         assertTrue(gw.lines.isEmpty());
         try {
             gw.write("tmp/delete-me.ged");

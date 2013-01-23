@@ -56,7 +56,6 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         s.name = new StringWithCustomTags("test");
         g.submitters.put(s.xref, s);
         g.submission = new Submission("@SUBN0001@");
-
         Header h = g.header;
         h.submitter = s;
         h.submission = g.submission;
