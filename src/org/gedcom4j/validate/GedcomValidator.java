@@ -35,7 +35,6 @@ import org.gedcom4j.model.Source;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.Submitter;
-import org.gedcom4j.writer.GedcomWriter;
 
 /**
  * <p>
@@ -67,7 +66,8 @@ import org.gedcom4j.writer.GedcomWriter;
  * </p>
  * <p>
  * Note again that by default, validation is performed automatically by the
- * {@link GedcomWriter} class when writing a GEDCOM file out.
+ * {@link org.gedcom4j.writer.GedcomWriter} class when writing a GEDCOM file
+ * out.
  * </p>
  * 
  * <h2>Autorepair</h2>
