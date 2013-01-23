@@ -256,6 +256,9 @@ public class GedcomValidator extends AbstractValidator {
 
     /**
      * Validate the submission substructure under the root gedcom
+     * 
+     * @param s
+     *            the submission substructure to be validated
      */
     void validateSubmission(Submission s) {
 
