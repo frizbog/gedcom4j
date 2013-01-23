@@ -29,6 +29,7 @@ import java.util.Map.Entry;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Note;
 import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.Source;
@@ -138,29 +139,12 @@ public class GedcomValidator extends AbstractValidator {
         validateIndividuals();
         // TODO - validate families
         validateRepositories();
-        // TODO - validate media
+        validateMultimedia();
+        // TODO - validate notes
         validateSources();
         validateSubmission(gedcom.submission);
         validateTrailer();
         checkNotes(new ArrayList<Note>(gedcom.notes.values()), gedcom);
-    }
-
-    /**
-     * Validate the {@link Gedcom#header} object
-     */
-    private void validateHeader() {
-        if (gedcom.header == null) {
-            if (autorepair) {
-                gedcom.header = new Header();
-                addInfo("Header was null - autorepaired");
-            } else {
-                addError("GEDCOM Header is null");
-                return;
-            }
-        }
-
-        new HeaderValidator(rootValidator, gedcom.header).validate();
-
     }
 
     /**
@@ -190,6 +174,53 @@ public class GedcomValidator extends AbstractValidator {
                 return;
             }
             new IndividualValidator(rootValidator, e.getValue()).validate();
+        }
+    }
+
+    /**
+     * Validate the submission substructure under the root gedcom
+     * 
+     * @param s
+     *            the submission substructure to be validated
+     */
+    void validateSubmission(Submission s) {
+
+        if (s == null) {
+            addError("Submission record on root gedcom is null", gedcom);
+            return;
+        }
+        checkXref(s);
+        checkOptionalString(s.ancestorsCount, "Ancestor count", s);
+        checkOptionalString(s.descendantsCount, "Descendant count", s);
+        checkOptionalString(s.nameOfFamilyFile, "Name of family file", s);
+        checkOptionalString(s.ordinanceProcessFlag, "Ordinance process flag", s);
+        checkOptionalString(s.recIdNumber, "Automated record id", s);
+        checkOptionalString(s.templeCode, "Temple code", s);
+    }
+
+    /**
+     * Validate the {@link Gedcom#header} object
+     */
+    private void validateHeader() {
+        if (gedcom.header == null) {
+            if (autorepair) {
+                gedcom.header = new Header();
+                addInfo("Header was null - autorepaired");
+            } else {
+                addError("GEDCOM Header is null");
+                return;
+            }
+        }
+        new HeaderValidator(rootValidator, gedcom.header).validate();
+    }
+
+    /**
+     * Validate the collection of {@link Multimedia} objects
+     */
+    private void validateMultimedia() {
+        for (Multimedia m : gedcom.multimedia.values()) {
+            MultimediaValidator mv = new MultimediaValidator(this, m);
+            mv.validate();
         }
     }
 
@@ -252,27 +283,6 @@ public class GedcomValidator extends AbstractValidator {
             }
             new SourceValidator(rootValidator, e.getValue()).validate();
         }
-    }
-
-    /**
-     * Validate the submission substructure under the root gedcom
-     * 
-     * @param s
-     *            the submission substructure to be validated
-     */
-    void validateSubmission(Submission s) {
-
-        if (s == null) {
-            addError("Submission record on root gedcom is null", gedcom);
-            return;
-        }
-        checkXref(s);
-        checkOptionalString(s.ancestorsCount, "Ancestor count", s);
-        checkOptionalString(s.descendantsCount, "Descendant count", s);
-        checkOptionalString(s.nameOfFamilyFile, "Name of family file", s);
-        checkOptionalString(s.ordinanceProcessFlag, "Ordinance process flag", s);
-        checkOptionalString(s.recIdNumber, "Automated record id", s);
-        checkOptionalString(s.templeCode, "Temple code", s);
     }
 
     /**

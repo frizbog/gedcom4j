@@ -91,15 +91,33 @@ import org.gedcom4j.validate.Severity;
  * <ul>
  * Call one of the variants of the <code>write</code> method to write the data
  * </ul>
- * </p>
- * <p>
- * Note that if there are inconsistencies found in the data, or that the data in
- * the <code>Gedcom</code> is not compliant with the GEDCOM version specified in
- * the file's header, the writer will throw Exceptions (usually
- * {@link GedcomWriterVersionDataMismatchException} or
- * {@link GedcomWriterException}).
+ * <ul>
+ * Optionally check the contents of the {@link #validationFindings} collection
+ * to see if there was anything problematic found in your data.
+ * </ul>
  * </p>
  * 
+ * <h3>Validation</h3>
+ * <p>
+ * By default, this class automatically validates your data prior to writing it
+ * by using a {@link org.gedcom4j.validate.GedcomValidator}. This is to prevent
+ * writing data that does not conform to the spec.
+ * </p>
+ * 
+ * <p>
+ * If validation finds any errors that are of severity ERROR, the writer will
+ * throw an Exception (usually {@link GedcomWriterVersionDataMismatchException}
+ * or {@link GedcomWriterException}). If this occurs, check the
+ * {@link #validationFindings} collection to determine what the problem was.
+ * </p>
+ * 
+ * <p>
+ * Although validation is automatically performed, autorepair is turned off by
+ * default (see {@link org.gedcom4j.validate.GedcomValidator#autorepair})...this
+ * way your data is not altered. Validation can be suppressed if you want by
+ * setting {@link #validationSuppressed} to true, but this is not recommended.
+ * You can also force autorepair on if you want.
+ * </p>
  * 
  * @author frizbog1
  */
@@ -137,6 +155,11 @@ public class GedcomWriter {
     public List<GedcomValidationFinding> validationFindings;
 
     /**
+     * Whether or not to use autorepair in the validation step
+     */
+    public boolean autorepair = false;
+
+    /**
      * Constructor
      * 
      * @param gedcom
@@ -144,6 +167,104 @@ public class GedcomWriter {
      */
     public GedcomWriter(Gedcom gedcom) {
         this.gedcom = gedcom;
+    }
+
+    /**
+     * Write the {@link Gedcom} data as a GEDCOM 5.5 file. Automatically fills
+     * in the value for the FILE tag in the HEAD structure.
+     * 
+     * @param file
+     *            the {@link File} to write to
+     * @throws IOException
+     *             if there's a problem writing the data
+     * @throws GedcomWriterException
+     *             if the data is malformed and cannot be written
+     */
+    public void write(File file) throws IOException, GedcomWriterException {
+        // Automatically replace the contents of the filename in the header
+        gedcom.header.fileName = new StringWithCustomTags(file.getName());
+
+        OutputStream o = new FileOutputStream(file);
+        try {
+            write(o);
+            o.flush();
+        } finally {
+            o.close();
+        }
+    }
+
+    /**
+     * Write the {@link Gedcom} data in GEDCOM 5.5 format to an output stream.
+     * If the data is unicode, the data will be written in little-endian format.
+     * 
+     * @param out
+     *            the output stream we're writing to
+     * @throws GedcomWriterException
+     *             if the data is malformed and cannot be written
+     */
+    public void write(OutputStream out) throws GedcomWriterException {
+        write(out, true);
+    }
+
+    /**
+     * Write the {@link Gedcom} data in GEDCOM 5.5 format to an output stream
+     * 
+     * @param out
+     *            the output stream we're writing to
+     * @param littleEndianForUnicode
+     *            if writing unicode, should the byte-order be little-endian?
+     * @throws GedcomWriterException
+     *             if the data is malformed and cannot be written; or if the
+     *             data fails validation with one or more finding of severity
+     *             ERROR (and validation is not suppressed - see
+     *             {@link GedcomWriter#validationSuppressed})
+     */
+    public void write(OutputStream out, boolean littleEndianForUnicode) throws GedcomWriterException {
+        if (!validationSuppressed) {
+            GedcomValidator gv = new GedcomValidator(gedcom);
+            gv.autorepair = autorepair;
+            gv.validate();
+            validationFindings = gv.findings;
+            int numErrorFindings = 0;
+            for (GedcomValidationFinding f : validationFindings) {
+                if (f.severity == Severity.ERROR) {
+                    numErrorFindings++;
+                }
+            }
+            if (numErrorFindings > 0) {
+                throw new GedcomWriterException("Cannot write file - " + numErrorFindings
+                        + " error(s) found during validation.  Review the validation findings to determine root cause.");
+            }
+        }
+        checkVersionCompatibility();
+        emitHeader();
+        emitSubmissionRecord();
+        emitRecords();
+        emitTrailer();
+        emitCustomTags(gedcom.customTags);
+        try {
+            GedcomFileWriter gfw = new GedcomFileWriter(lines);
+            gfw.setLittleEndianForUnicode(littleEndianForUnicode);
+            gfw.write(out);
+        } catch (IOException e) {
+            throw new GedcomWriterException("Unable to write file", e);
+        }
+    }
+
+    /**
+     * Write the {@link Gedcom} data as a GEDCOM 5.5 file, with the supplied
+     * file name
+     * 
+     * @param filename
+     *            the name of the file to write
+     * @throws IOException
+     *             if there's a problem writing the data
+     * @throws GedcomWriterException
+     *             if the data is malformed and cannot be written
+     */
+    public void write(String filename) throws IOException, GedcomWriterException {
+        File f = new File(filename);
+        write(f);
     }
 
     /**
@@ -1626,102 +1747,5 @@ public class GedcomWriter {
     private boolean g55() {
         return gedcom != null && gedcom.header != null && gedcom.header.gedcomVersion != null
                 && SupportedVersion.V5_5.equals(gedcom.header.gedcomVersion.versionNumber);
-    }
-
-    /**
-     * Write the {@link Gedcom} data as a GEDCOM 5.5 file. Automatically fills
-     * in the value for the FILE tag in the HEAD structure.
-     * 
-     * @param file
-     *            the {@link File} to write to
-     * @throws IOException
-     *             if there's a problem writing the data
-     * @throws GedcomWriterException
-     *             if the data is malformed and cannot be written
-     */
-    public void write(File file) throws IOException, GedcomWriterException {
-        // Automatically replace the contents of the filename in the header
-        gedcom.header.fileName = new StringWithCustomTags(file.getName());
-
-        OutputStream o = new FileOutputStream(file);
-        try {
-            write(o);
-            o.flush();
-        } finally {
-            o.close();
-        }
-    }
-
-    /**
-     * Write the {@link Gedcom} data in GEDCOM 5.5 format to an output stream.
-     * If the data is unicode, the data will be written in little-endian format.
-     * 
-     * @param out
-     *            the output stream we're writing to
-     * @throws GedcomWriterException
-     *             if the data is malformed and cannot be written
-     */
-    public void write(OutputStream out) throws GedcomWriterException {
-        write(out, true);
-    }
-
-    /**
-     * Write the {@link Gedcom} data in GEDCOM 5.5 format to an output stream
-     * 
-     * @param out
-     *            the output stream we're writing to
-     * @param littleEndianForUnicode
-     *            if writing unicode, should the byte-order be little-endian?
-     * @throws GedcomWriterException
-     *             if the data is malformed and cannot be written; or if the
-     *             data fails validation with one or more finding of severity
-     *             ERROR (and validation is not suppressed - see
-     *             {@link GedcomWriter#validationSuppressed})
-     */
-    public void write(OutputStream out, boolean littleEndianForUnicode) throws GedcomWriterException {
-        if (!validationSuppressed) {
-            GedcomValidator gv = new GedcomValidator(gedcom);
-            gv.validate();
-            validationFindings = gv.findings;
-            int numErrorFindings = 0;
-            for (GedcomValidationFinding f : validationFindings) {
-                if (f.severity == Severity.ERROR) {
-                    numErrorFindings++;
-                }
-            }
-            if (numErrorFindings > 0) {
-                throw new GedcomWriterException("Cannot write file - " + numErrorFindings
-                        + " error(s) found during validation.  Review the validation findings to determine root cause.");
-            }
-        }
-        checkVersionCompatibility();
-        emitHeader();
-        emitSubmissionRecord();
-        emitRecords();
-        emitTrailer();
-        emitCustomTags(gedcom.customTags);
-        try {
-            GedcomFileWriter gfw = new GedcomFileWriter(lines);
-            gfw.setLittleEndianForUnicode(littleEndianForUnicode);
-            gfw.write(out);
-        } catch (IOException e) {
-            throw new GedcomWriterException("Unable to write file", e);
-        }
-    }
-
-    /**
-     * Write the {@link Gedcom} data as a GEDCOM 5.5 file, with the supplied
-     * file name
-     * 
-     * @param filename
-     *            the name of the file to write
-     * @throws IOException
-     *             if there's a problem writing the data
-     * @throws GedcomWriterException
-     *             if the data is malformed and cannot be written
-     */
-    public void write(String filename) throws IOException, GedcomWriterException {
-        File f = new File(filename);
-        write(f);
     }
 }

@@ -44,11 +44,6 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
      */
     private static final String SAMPLE_STRESS_TEST_FILENAME = "sample/TGC551.ged";
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
     /**
      * Test autorepairing
      */
@@ -143,7 +138,17 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
         rootValidator = new GedcomValidator(p.gedcom);
         rootValidator.validate();
         dumpFindings();
-        assertTrue(rootValidator.findings.isEmpty());
+        /*
+         * The stress test file has an error in it - it says it's a 5.5 file,
+         * but uses a file-reference type multimedia object, rather than an
+         * embedded media file
+         */
+        assertFindingsContain(Severity.ERROR, "format", "embedded", "media");
+    }
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
     }
 
 }

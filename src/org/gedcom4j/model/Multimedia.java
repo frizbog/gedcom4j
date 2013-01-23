@@ -26,19 +26,24 @@ import java.util.List;
 
 /**
  * <p>
- * A class for representing multimedia items. Corresponds to MULTIMEDIA_RECORD in the GEDCOM standard.
+ * A class for representing multimedia items. Corresponds to MULTIMEDIA_RECORD
+ * in the GEDCOM standard.
  * </p>
  * <p>
- * Please note that when gedcom4j v1.1.0 was released to include GEDCOM 5.5.1 support, the data model got a bit more
- * complicated. The changes to the multimedia specs were among the most drastic and most difficult to deal with. Not
- * only did version 5.5 do away with embedded multimedia support (i.e., the `BLOB` tag), it also changed cardinalities
- * (multiple file references per MULTIMEDIA_RECORD in 5.5.1, where 5.5 only allowed one), and moved tags to become
- * children of other tags (i.e., the `FORM` tag is now a child of the new `FILE` tag in 5.5.1).
+ * Please note that when gedcom4j v1.1.0 was released to include GEDCOM 5.5.1
+ * support, the data model got a bit more complicated. The changes to the
+ * multimedia specs were among the most drastic and most difficult to deal with.
+ * Not only did version 5.5 do away with embedded multimedia support (i.e., the
+ * `BLOB` tag), it also changed cardinalities (multiple file references per
+ * MULTIMEDIA_RECORD in 5.5.1, where 5.5 only allowed one), and moved tags to
+ * become children of other tags (i.e., the `FORM` tag is now a child of the new
+ * `FILE` tag in 5.5.1).
  * </p>
  * <p>
- * Users who plan to read files produced by other systems and rewrite them with gedcom4j should pay special attention to
- * the multimedia section and ensure that the data in the model is compliant with the version of GEDCOM being used, and
- * making adjustments as needed.
+ * Users who plan to read files produced by other systems and rewrite them with
+ * gedcom4j should pay special attention to the multimedia section and ensure
+ * that the data in the model is compliant with the version of GEDCOM being
+ * used, and making adjustments as needed.
  * </p>
  * 
  * @author frizbog1
@@ -51,8 +56,8 @@ public class Multimedia extends AbstractElement {
     public String xref;
 
     /**
-     * The title of this multimedia item. This field should ONLY be used when the spec is 5.5 and should be null for
-     * 5.5.1 files.
+     * The title of this multimedia item. This field should ONLY be used when
+     * the spec is 5.5 and should be null for 5.5.1 files.
      */
     public StringWithCustomTags embeddedTitle;
 
@@ -72,14 +77,14 @@ public class Multimedia extends AbstractElement {
     public List<AbstractCitation> citations = new ArrayList<AbstractCitation>();
 
     /**
-     * The binary (blob) for this multimedia item. Encoded as string data. This field should always be an empty list for
-     * 5.5.1 files.
+     * The binary (blob) for this multimedia item. Encoded as string data. This
+     * field should always be an empty list for 5.5.1 files.
      */
     public List<String> blob = new ArrayList<String>();
 
     /**
-     * The next object in the chain holding binary data if it needs to be continued due to size. This field should
-     * always be null for 5.5.1 files.
+     * The next object in the chain holding binary data if it needs to be
+     * continued due to size. This field should always be null for 5.5.1 files.
      */
     public Multimedia continuedObject;
 
@@ -99,7 +104,8 @@ public class Multimedia extends AbstractElement {
     public StringWithCustomTags recIdNumber;
 
     /**
-     * The format of the multimedia object - only for 5.5 style multimedia files, and should be null for 5.5.1 files.
+     * The format of the multimedia object - only for 5.5 style multimedia
+     * files, and should be null for 5.5.1 files.
      */
     public StringWithCustomTags embeddedMediaFormat;
 
@@ -211,6 +217,14 @@ public class Multimedia extends AbstractElement {
         result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
         result = prime * result + (xref == null ? 0 : xref.hashCode());
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Multimedia [xref=" + xref + ", embeddedTitle=" + embeddedTitle + ", fileReferences=" + fileReferences
+                + ", notes=" + notes + ", citations=" + citations + ", blob=" + blob + ", continuedObject="
+                + continuedObject + ", userReferences=" + userReferences + ", changeDate=" + changeDate
+                + ", recIdNumber=" + recIdNumber + ", embeddedMediaFormat=" + embeddedMediaFormat + "]";
     }
 
 }
