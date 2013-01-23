@@ -24,18 +24,10 @@ package org.gedcom4j.validate;
 import java.util.ArrayList;
 
 import org.gedcom4j.io.Encoding;
-import org.gedcom4j.model.CharacterSet;
-import org.gedcom4j.model.Corporation;
-import org.gedcom4j.model.GedcomVersion;
-import org.gedcom4j.model.Header;
-import org.gedcom4j.model.HeaderSourceData;
-import org.gedcom4j.model.SourceSystem;
-import org.gedcom4j.model.StringWithCustomTags;
-import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.*;
 
 /**
- * Validator for a {@link Header}. See {@link GedcomValidator} for usage
- * information.
+ * Validator for a {@link Header}. See {@link GedcomValidator} for usage information.
  * 
  * @author frizbog1
  * 
@@ -45,7 +37,7 @@ class HeaderValidator extends AbstractValidator {
     /**
      * The {@link Header} being validated
      */
-    private Header header;
+    private final Header header;
 
     /**
      * Constructor.
@@ -178,7 +170,16 @@ class HeaderValidator extends AbstractValidator {
                 header.gedcomVersion = new GedcomVersion();
                 rootValidator.addInfo("GEDCOM version in header was null - repaired", header);
             } else {
-                rootValidator.addError("GEDCOM version in heaeder must be specified", header);
+                rootValidator.addError("GEDCOM version in header must be specified", header);
+                return;
+            }
+        }
+        if (header.gedcomVersion.versionNumber == null) {
+            if (rootValidator.autorepair) {
+                header.gedcomVersion.versionNumber = SupportedVersion.V5_5_1;
+                rootValidator.addInfo("GEDCOM version number in header was null - repaired", header);
+            } else {
+                rootValidator.addError("GEDCOM version number in header must be specified", header);
                 return;
             }
         }
@@ -216,7 +217,7 @@ class HeaderValidator extends AbstractValidator {
         new SubmitterValidator(rootValidator, header.submitter).validate();
 
         /*
-         * header.submission;
+         * TODO header.submission;
          */
         checkStringWithCustomTags(header.time);
     }

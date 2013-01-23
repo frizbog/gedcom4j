@@ -43,8 +43,8 @@ public abstract class AbstractValidatorTestCase extends TestCase {
     protected Gedcom gedcom;
 
     /**
-     * Determines whether to write noise out to System.out. Should ALWAYS
-     * default to false, and be turned to true for specific tests, if needed.
+     * Determines whether to write noise out to System.out. Should ALWAYS default to false, and be turned to true for
+     * specific tests, if needed.
      */
     protected boolean verbose = false;
 
@@ -66,8 +66,8 @@ public abstract class AbstractValidatorTestCase extends TestCase {
     }
 
     /**
-     * Assert that the findings collection on the root validator contains at
-     * least one finding of the specified severity with a given substring
+     * Assert that the findings collection on the root validator contains at least one finding of the specified severity
+     * with a given substring
      * 
      * @param severity
      *            the expected severity
@@ -120,10 +120,6 @@ public abstract class AbstractValidatorTestCase extends TestCase {
 
     /**
      * Write all the findings out to stdout
-     * 
-     * @param findings
-     *            TODO
-     * 
      */
     protected void dumpFindings() {
         if (rootValidator.findings.isEmpty()) {
