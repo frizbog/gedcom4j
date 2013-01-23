@@ -204,13 +204,19 @@
 			</fileset>
 			<report format="frames" todir="reports/junit" />
 		</junitreport>
-		<cobertura-report datafile="${data.file}" format="html" destdir="reports/coverage">
+		<!-- These properties can be overridden on the command line to ANT (such as from Jenkins) -->
+		<property name="cobertura.format" value="html"/>
+		<property name="cobertura.destdir" value="reports/coverage"/>
+		<cobertura-report datafile="${data.file}" format="${cobertura.format}" destdir="${cobertura.destdir}">
 			<fileset dir="src" />
-		</cobertura-report>
-		<cobertura-report datafile="${data.file}" format="xml" destdir="tmp/cobertura">
-			<fileset dir="src" />
-		</cobertura-report>
+		</cobertura-report>		
 		<delete file="${data.file}" />
+		<delete>
+			<fileset dir="${basedir}">
+				<include name="junit*.properties"/>
+			</fileset>
+		</delete>
+
 	</target>
 
 
@@ -230,12 +236,11 @@
 		<xslt in="tmp/checkstyle/checkstyle_report.xml" out="reports/checkstyle/index.html" style="checkstyle-noframes-severity-sorted.xsl" />
 	</target>
 
-	<target name="findbugs" depends="compile">
-		<findbugs home="${findbugs.home}" output="xml" outputFile="tmp/findbugs.xml" jvmargs="-Xmx128m">
-			<sourcePath path="src" />
-			<class location="bin" />
-		</findbugs>
-		<findbugs home="${findbugs.home}" output="html" outputFile="reports/findbugs.html" jvmargs="-Xmx128m">
+	<target name="findbugs" depends="compile" description="Run FindBugs over the source to find bug patterns and potential issues">
+		<property name="findbugs.format" value="html"/>
+		<property name="findbugs.destfile" value="reports/findbugs.html"/>
+		<findbugs home="${findbugs.home}" output="${findbugs.format}" outputFile="${findbugs.destfile}" jvmargs="-Xmx128m">
+			<auxClasspath path="lib/junit-4.10.jar"/>
 			<sourcePath path="src" />
 			<class location="bin" />
 		</findbugs>
