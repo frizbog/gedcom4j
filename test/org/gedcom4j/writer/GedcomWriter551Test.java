@@ -42,6 +42,7 @@ import org.gedcom4j.model.Place;
 import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.SourceSystem;
 import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.SupportedVersion;
 import org.gedcom4j.parser.GedcomParser;
@@ -68,6 +69,8 @@ public class GedcomWriter551Test {
     @Test
     public void testBlobWith551() throws IOException, GedcomWriterException {
         Gedcom g = new Gedcom();
+        g.submission = new Submission("@SUBN0001@");
+        g.header.submission = g.submission;
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5_1;
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
@@ -107,6 +110,8 @@ public class GedcomWriter551Test {
     @Test
     public void testCorpInSourceSystemWith55Email() throws IOException, GedcomWriterException {
         Gedcom g = new Gedcom();
+        g.submission = new Submission("@SUBN0001@");
+        g.header.submission = g.submission;
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         g.header.sourceSystem = new SourceSystem();
         Corporation c = new Corporation();
@@ -146,6 +151,8 @@ public class GedcomWriter551Test {
     @Test
     public void testCorpInSourceSystemWith55Fax() throws IOException, GedcomWriterException {
         Gedcom g = new Gedcom();
+        g.submission = new Submission("@SUBN0001@");
+        g.header.submission = g.submission;
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         g.header.sourceSystem = new SourceSystem();
         Corporation c = new Corporation();
@@ -184,6 +191,8 @@ public class GedcomWriter551Test {
     @Test
     public void testCorpInSourceSystemWith55Www() throws IOException, GedcomWriterException {
         Gedcom g = new Gedcom();
+        g.submission = new Submission("@SUBN0001@");
+        g.header.submission = g.submission;
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         g.header.sourceSystem = new SourceSystem();
         Corporation c = new Corporation();
@@ -284,6 +293,8 @@ public class GedcomWriter551Test {
     @Test
     public void testMultilineCopyrightWith55() throws IOException, GedcomWriterException {
         Gedcom g = new Gedcom();
+        g.submission = new Submission("@SUBN0001@");
+        g.header.submission = g.submission;
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         g.header.copyrightData.add("One line is ok");
         g.header.copyrightData.add("Two lines is bad");
@@ -381,6 +392,8 @@ public class GedcomWriter551Test {
     @Test
     public void testRepositoryWith55Email() throws IOException, GedcomWriterException {
         Gedcom g = new Gedcom();
+        g.submission = new Submission("@SUBN0001@");
+        g.header.submission = g.submission;
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         Repository r = new Repository();
         r.xref = "@R1@";
@@ -418,6 +431,8 @@ public class GedcomWriter551Test {
     @Test
     public void testRepositoryWith55Fax() throws IOException, GedcomWriterException {
         Gedcom g = new Gedcom();
+        g.submission = new Submission("@SUBN0001@");
+        g.header.submission = g.submission;
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         Repository r = new Repository();
         r.xref = "@R1@";
@@ -455,6 +470,8 @@ public class GedcomWriter551Test {
     @Test
     public void testRepositoryWith55Www() throws IOException, GedcomWriterException {
         Gedcom g = new Gedcom();
+        g.submission = new Submission("@SUBN0001@");
+        g.header.submission = g.submission;
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         Repository r = new Repository();
         r.xref = "@R1@";
@@ -492,6 +509,8 @@ public class GedcomWriter551Test {
     @Test
     public void testSubmitterWith55Email() throws IOException, GedcomWriterException {
         Gedcom g = new Gedcom();
+        g.submission = new Submission("@SUBN0001@");
+        g.header.submission = g.submission;
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         Submitter s = new Submitter();
         s.name = new StringWithCustomTags("test");
@@ -530,6 +549,8 @@ public class GedcomWriter551Test {
     @Test
     public void testSubmitterWith55Fax() throws IOException, GedcomWriterException {
         Gedcom g = new Gedcom();
+        g.submission = new Submission("@SUBN0001@");
+        g.header.submission = g.submission;
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         Submitter s = new Submitter();
         s.name = new StringWithCustomTags("test");
@@ -568,6 +589,8 @@ public class GedcomWriter551Test {
     @Test
     public void testSubmitterWith55Www() throws IOException, GedcomWriterException {
         Gedcom g = new Gedcom();
+        g.submission = new Submission("@SUBN0001@");
+        g.header.submission = g.submission;
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         Submitter s = new Submitter();
         s.name = new StringWithCustomTags("test");
@@ -606,6 +629,8 @@ public class GedcomWriter551Test {
     @Test
     public void testUtf8With55() throws IOException, GedcomWriterException {
         Gedcom g = new Gedcom();
+        g.submission = new Submission("@SUBN0001@");
+        g.header.submission = g.submission;
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         g.header.characterSet.characterSetName = new StringWithCustomTags("UTF-8");
         GedcomWriter gw = new GedcomWriter(g);
