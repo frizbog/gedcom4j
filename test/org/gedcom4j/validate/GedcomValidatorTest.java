@@ -24,8 +24,13 @@ package org.gedcom4j.validate;
 import java.io.IOException;
 
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.Submission;
+import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.Trailer;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.parser.GedcomParserException;
+import org.junit.Test;
 
 /**
  * Test for {@link GedcomValidator}
@@ -75,6 +80,30 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
         for (GedcomValidationFinding f : v.rootValidator.findings) {
             assertEquals("With autorepair on, findings should be at INFO", Severity.INFO, f.severity);
         }
+    }
+
+    /**
+     * Test for character set in header
+     */
+    @Test
+    public void testTrailer() {
+        Gedcom g = new Gedcom();
+        rootValidator.gedcom = g;
+        rootValidator.autorepair = false;
+        Submitter s = new Submitter();
+        s.xref = "@SUBM0001@";
+        s.name = new StringWithCustomTags("test");
+        g.submitters.put(s.xref, s);
+        g.submission = new Submission("@SUBN0001@");
+        g.header.submitter = s;
+
+        g.trailer = null;
+        rootValidator.validate();
+        assertFindingsContain(Severity.ERROR, "trailer");
+
+        g.trailer = new Trailer();
+        rootValidator.validate();
+        assertNoIssues();
     }
 
     /**

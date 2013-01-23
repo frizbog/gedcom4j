@@ -35,6 +35,7 @@ import org.gedcom4j.model.Source;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.Trailer;
 
 /**
  * <p>
@@ -139,8 +140,8 @@ public class GedcomValidator extends AbstractValidator {
         validateRepositories();
         // TODO - validate media
         validateSources();
-        // TODO - validate trailer
         validateSubmission(gedcom.submission);
+        validateTrailer();
         checkNotes(new ArrayList<Note>(gedcom.notes.values()), gedcom);
     }
 
@@ -298,6 +299,20 @@ public class GedcomValidator extends AbstractValidator {
         }
         for (Submitter s : gedcom.submitters.values()) {
             new SubmitterValidator(rootValidator, s).validate();
+        }
+    }
+
+    /**
+     * Validate the trailer
+     */
+    private void validateTrailer() {
+        if (gedcom.trailer == null) {
+            if (rootValidator.autorepair) {
+                gedcom.trailer = new Trailer();
+                rootValidator.addInfo("Gedcom had no trailer - repaired", gedcom);
+            } else {
+                rootValidator.addError("Gedcom has no trailer", gedcom);
+            }
         }
     }
 
