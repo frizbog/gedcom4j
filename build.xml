@@ -174,8 +174,8 @@
 		<delete file="${data.file}" />
 		<cobertura-instrument todir="${instr.bin}">
 			<includeClasses regex="org\.gedcom4j\..*" />
-			<excludeClasses regex=".*\.Test.*" />
-			<excludeClasses regex=".*\.Abstract.*" />
+			<excludeClasses regex=".*TestHelper.*" />
+			<excludeClasses regex=".*Abstract.*" />
 			<instrumentationClasspath>
 				<path location="bin" />
 			</instrumentationClasspath>
