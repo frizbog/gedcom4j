@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2012 Matthew R. Harrah
+ * Copyright (c) 2009-2013 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,16 +22,24 @@
 package org.gedcom4j.model;
 
 /**
- * Information about the header source data
+ * <p>
+ * Information about the header source data.
+ * </p>
+ * <p>
+ * If instantiating one of these programmatically rather than through parsing an
+ * existing GEDCOM file, you will probably want to change the value of the
+ * {@link HeaderSourceData#name} field.
+ * </p>
  * 
  * @author frizbog1
  * 
  */
 public class HeaderSourceData extends AbstractElement {
     /**
-     * The name
+     * The name of the source data. This field must be valued to pass
+     * validation, so the default value is "UNSPECIFIED".
      */
-    public String name;
+    public String name = "UNSPECIFIED";
 
     /**
      * The publish date

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2012 Matthew R. Harrah
+ * Copyright (c) 2009-2013 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,11 +22,28 @@
 
 package org.gedcom4j.writer;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Corporation;
+import org.gedcom4j.model.FileReference;
+import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.IndividualEventType;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.PersonalName;
+import org.gedcom4j.model.Place;
+import org.gedcom4j.model.Repository;
+import org.gedcom4j.model.SourceSystem;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.SupportedVersion;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.parser.GedcomParserException;
 import org.junit.Test;
@@ -37,7 +54,7 @@ import org.junit.Test;
  * @author frizbog
  * 
  */
-public class GedcomWriterTest551 {
+public class GedcomWriter551Test {
 
     /**
      * Test that Blob data is disallowed with 5.5.1
@@ -45,7 +62,8 @@ public class GedcomWriterTest551 {
      * @throws IOException
      *             if the data can't be written to the tmp dir
      * @throws GedcomWriterException
-     *             if the data is malformed - should never happen, because the code under test is checking for this
+     *             if the data is malformed - should never happen, because the
+     *             code under test is checking for this
      */
     @Test
     public void testBlobWith551() throws IOException, GedcomWriterException {
@@ -83,7 +101,8 @@ public class GedcomWriterTest551 {
      * @throws IOException
      *             if the data can't be written to the tmp dir
      * @throws GedcomWriterException
-     *             if the data is malformed - should never happen, because the code under test is checking for this
+     *             if the data is malformed - should never happen, because the
+     *             code under test is checking for this
      */
     @Test
     public void testCorpInSourceSystemWith55Email() throws IOException, GedcomWriterException {
@@ -121,7 +140,8 @@ public class GedcomWriterTest551 {
      * @throws IOException
      *             if the data can't be written to the tmp dir
      * @throws GedcomWriterException
-     *             if the data is malformed - should never happen, because the code under test is checking for this
+     *             if the data is malformed - should never happen, because the
+     *             code under test is checking for this
      */
     @Test
     public void testCorpInSourceSystemWith55Fax() throws IOException, GedcomWriterException {
@@ -158,7 +178,8 @@ public class GedcomWriterTest551 {
      * @throws IOException
      *             if the data can't be written to the tmp dir
      * @throws GedcomWriterException
-     *             if the data is malformed - should never happen, because the code under test is checking for this
+     *             if the data is malformed - should never happen, because the
+     *             code under test is checking for this
      */
     @Test
     public void testCorpInSourceSystemWith55Www() throws IOException, GedcomWriterException {
@@ -257,7 +278,8 @@ public class GedcomWriterTest551 {
      * @throws IOException
      *             if the data can't be written to the tmp dir
      * @throws GedcomWriterException
-     *             if the data is malformed - should never happen, because the code under test is checking for this
+     *             if the data is malformed - should never happen, because the
+     *             code under test is checking for this
      */
     @Test
     public void testMultilineCopyrightWith55() throws IOException, GedcomWriterException {
@@ -353,14 +375,16 @@ public class GedcomWriterTest551 {
      * @throws IOException
      *             if the data can't be written to the tmp dir
      * @throws GedcomWriterException
-     *             if the data is malformed - should never happen, because the code under test is checking for this
+     *             if the data is malformed - should never happen, because the
+     *             code under test is checking for this
      */
     @Test
     public void testRepositoryWith55Email() throws IOException, GedcomWriterException {
         Gedcom g = new Gedcom();
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         Repository r = new Repository();
-        g.repositories.put("@R1@", r);
+        r.xref = "@R1@";
+        g.repositories.put(r.xref, r);
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
         assertTrue(gw.lines.isEmpty());
@@ -388,14 +412,16 @@ public class GedcomWriterTest551 {
      * @throws IOException
      *             if the data can't be written to the tmp dir
      * @throws GedcomWriterException
-     *             if the data is malformed - should never happen, because the code under test is checking for this
+     *             if the data is malformed - should never happen, because the
+     *             code under test is checking for this
      */
     @Test
     public void testRepositoryWith55Fax() throws IOException, GedcomWriterException {
         Gedcom g = new Gedcom();
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         Repository r = new Repository();
-        g.repositories.put("@R1@", r);
+        r.xref = "@R1@";
+        g.repositories.put(r.xref, r);
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
         assertTrue(gw.lines.isEmpty());
@@ -423,14 +449,16 @@ public class GedcomWriterTest551 {
      * @throws IOException
      *             if the data can't be written to the tmp dir
      * @throws GedcomWriterException
-     *             if the data is malformed - should never happen, because the code under test is checking for this
+     *             if the data is malformed - should never happen, because the
+     *             code under test is checking for this
      */
     @Test
     public void testRepositoryWith55Www() throws IOException, GedcomWriterException {
         Gedcom g = new Gedcom();
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         Repository r = new Repository();
-        g.repositories.put("@R1@", r);
+        r.xref = "@R1@";
+        g.repositories.put(r.xref, r);
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
         assertTrue(gw.lines.isEmpty());
@@ -458,14 +486,17 @@ public class GedcomWriterTest551 {
      * @throws IOException
      *             if the data can't be written to the tmp dir
      * @throws GedcomWriterException
-     *             if the data is malformed - should never happen, because the code under test is checking for this
+     *             if the data is malformed - should never happen, because the
+     *             code under test is checking for this
      */
     @Test
     public void testSubmitterWith55Email() throws IOException, GedcomWriterException {
         Gedcom g = new Gedcom();
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         Submitter s = new Submitter();
-        g.submitters.put("@S1@", s);
+        s.name = new StringWithCustomTags("test");
+        s.xref = "@S1@";
+        g.submitters.put(s.xref, s);
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
         assertTrue(gw.lines.isEmpty());
@@ -493,14 +524,17 @@ public class GedcomWriterTest551 {
      * @throws IOException
      *             if the data can't be written to the tmp dir
      * @throws GedcomWriterException
-     *             if the data is malformed - should never happen, because the code under test is checking for this
+     *             if the data is malformed - should never happen, because the
+     *             code under test is checking for this
      */
     @Test
     public void testSubmitterWith55Fax() throws IOException, GedcomWriterException {
         Gedcom g = new Gedcom();
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         Submitter s = new Submitter();
-        g.submitters.put("@S1@", s);
+        s.name = new StringWithCustomTags("test");
+        s.xref = "@S1@";
+        g.submitters.put(s.xref, s);
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
         assertTrue(gw.lines.isEmpty());
@@ -528,14 +562,17 @@ public class GedcomWriterTest551 {
      * @throws IOException
      *             if the data can't be written to the tmp dir
      * @throws GedcomWriterException
-     *             if the data is malformed - should never happen, because the code under test is checking for this
+     *             if the data is malformed - should never happen, because the
+     *             code under test is checking for this
      */
     @Test
     public void testSubmitterWith55Www() throws IOException, GedcomWriterException {
         Gedcom g = new Gedcom();
         g.header.gedcomVersion.versionNumber = SupportedVersion.V5_5;
         Submitter s = new Submitter();
-        g.submitters.put("@S1@", s);
+        s.name = new StringWithCustomTags("test");
+        s.xref = "@S1@";
+        g.submitters.put(s.xref, s);
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
         assertTrue(gw.lines.isEmpty());
@@ -563,7 +600,8 @@ public class GedcomWriterTest551 {
      * @throws IOException
      *             if the data can't be written to the tmp dir
      * @throws GedcomWriterException
-     *             if the data is malformed - should never happen, because the code under test is checking for this
+     *             if the data is malformed - should never happen, because the
+     *             code under test is checking for this
      */
     @Test
     public void testUtf8With55() throws IOException, GedcomWriterException {

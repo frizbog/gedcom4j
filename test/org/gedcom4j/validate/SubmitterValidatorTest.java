@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2012 Matthew R. Harrah
+ * Copyright (c) 2009-2013 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,8 @@ import org.gedcom4j.model.Submitter;
 public class SubmitterValidatorTest extends AbstractValidatorTestCase {
 
     /**
-     * Test method for {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
+     * Test method for
+     * {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
      */
     public void testValidateNullSubmitter() {
         AbstractValidator sv = new SubmitterValidator(rootValidator, null);
@@ -42,7 +43,8 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     }
 
     /**
-     * Test method for {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
+     * Test method for
+     * {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
      */
     public void testValidateSubmitterHappyPath() {
         Submitter submitter = new Submitter();
@@ -55,7 +57,8 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     }
 
     /**
-     * Test method for {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
+     * Test method for
+     * {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
      */
     public void testValidateSubmitterHasBlankName() {
         Submitter submitter = new Submitter();
@@ -67,7 +70,8 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     }
 
     /**
-     * Test method for {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
+     * Test method for
+     * {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
      */
     public void testValidateSubmitterHasBlankXref() {
         Submitter submitter = new Submitter();
@@ -81,7 +85,8 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     }
 
     /**
-     * Test method for {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
+     * Test method for
+     * {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
      */
     public void testValidateSubmitterHasNoName() {
         Submitter submitter = new Submitter();
@@ -92,7 +97,8 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     }
 
     /**
-     * Test method for {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
+     * Test method for
+     * {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
      */
     public void testValidateSubmitterHasNoXref() {
         Submitter submitter = new Submitter();
