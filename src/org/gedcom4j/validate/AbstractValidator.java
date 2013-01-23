@@ -25,11 +25,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.gedcom4j.model.ChangeDate;
-import org.gedcom4j.model.Note;
-import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
-import org.gedcom4j.model.UserReference;
+import org.gedcom4j.model.*;
 
 /**
  * A base class for all validators
@@ -40,9 +36,8 @@ import org.gedcom4j.model.UserReference;
 public abstract class AbstractValidator {
 
     /**
-     * The root validator - the one that holds the collection of findings among
-     * other things. Must be declared specifically a {@link GedcomValidator} and
-     * not an {@link AbstractValidator}
+     * The root validator - the one that holds the collection of findings among other things. Must be declared
+     * specifically a {@link GedcomValidator} and not an {@link AbstractValidator}
      */
     protected GedcomValidator rootValidator;
 
@@ -141,16 +136,12 @@ public abstract class AbstractValidator {
     }
 
     /**
-     * Check custom tags on an object. Uses reflection to look for a property
-     * named "customTags" and checks if it's null--it's supposed to be at least
-     * an instantiated and empty collection. If autorepair is on, it will
+     * Check custom tags on an object. Uses reflection to look for a property named "customTags" and checks if it's
+     * null--it's supposed to be at least an instantiated and empty collection. If autorepair is on, it will
      * reflectively fix this.
      * 
      * @param o
-     * @throws SecurityException
-     * @throws NoSuchFieldException
-     * @throws IllegalAccessException
-     * @throws IllegalArgumentException
+     *            the object being validated
      */
     protected void checkCustomTags(Object o) {
 
@@ -215,8 +206,7 @@ public abstract class AbstractValidator {
     }
 
     /**
-     * Checks that an optional string field is either null, or greater than zero
-     * characters long after trimming
+     * Checks that an optional string field is either null, or greater than zero characters long after trimming
      * 
      * @param optionalString
      *            the field that is required
@@ -233,8 +223,7 @@ public abstract class AbstractValidator {
     }
 
     /**
-     * Checks that an optional string field is either null, or greater than zero
-     * characters long after trimming
+     * Checks that an optional string field is either null, or greater than zero characters long after trimming
      * 
      * @param optionalString
      *            the field that is required
@@ -287,8 +276,8 @@ public abstract class AbstractValidator {
     }
 
     /**
-     * Check a string list (List&lt;String&gt;) on an object. All strings in the
-     * list must be non-null and non-blank when trimmed.
+     * Check a string list (List&lt;String&gt;) on an object. All strings in the list must be non-null and non-blank
+     * when trimmed.
      * 
      * @param stringList
      *            the stringlist being validated
@@ -308,9 +297,8 @@ public abstract class AbstractValidator {
     }
 
     /**
-     * Check a tagged string list (List&lt;StringWithCustomTags&gt;) on an
-     * object. All strings in the list must be non-null and non-blank when
-     * trimmed.
+     * Check a tagged string list (List&lt;StringWithCustomTags&gt;) on an object. All strings in the list must be
+     * non-null and non-blank when trimmed.
      * 
      * @param stringList
      *            the stringlist being validated
@@ -330,8 +318,8 @@ public abstract class AbstractValidator {
     }
 
     /**
-     * Check a string with custom tags to make sure the custom tags collection
-     * is defined whenever there is a value in the string part.
+     * Check a string with custom tags to make sure the custom tags collection is defined whenever there is a value in
+     * the string part.
      * 
      * @param swct
      *            the string with custom tags
@@ -364,8 +352,7 @@ public abstract class AbstractValidator {
     }
 
     /**
-     * Check the xref on an object, using the default field name of
-     * <tt>xref</tt> for the xref field
+     * Check the xref on an object, using the default field name of <tt>xref</tt> for the xref field
      * 
      * @param objectContainingXref
      *            the object containing the xref field
@@ -375,8 +362,7 @@ public abstract class AbstractValidator {
     }
 
     /**
-     * Check the xref on an object, using a specific field name to find the xref
-     * in
+     * Check the xref on an object, using a specific field name to find the xref in
      * 
      * @param objectContainingXref
      *            the object containing the xref field
