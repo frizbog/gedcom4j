@@ -140,7 +140,7 @@ public class GedcomValidator extends AbstractValidator {
         // TODO - validate media
         validateSources();
         // TODO - validate trailer
-        validateSubmission();
+        validateSubmission(gedcom.submission);
         checkNotes(new ArrayList<Note>(gedcom.notes.values()), gedcom);
     }
 
@@ -256,8 +256,8 @@ public class GedcomValidator extends AbstractValidator {
     /**
      * Validate the submission substructure under the root gedcom
      */
-    private void validateSubmission() {
-        Submission s = gedcom.submission;
+    void validateSubmission(Submission s) {
+
         if (s == null) {
             addError("Submission record on root gedcom is null", gedcom);
             return;

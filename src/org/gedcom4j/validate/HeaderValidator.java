@@ -24,10 +24,19 @@ package org.gedcom4j.validate;
 import java.util.ArrayList;
 
 import org.gedcom4j.io.Encoding;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.CharacterSet;
+import org.gedcom4j.model.Corporation;
+import org.gedcom4j.model.GedcomVersion;
+import org.gedcom4j.model.Header;
+import org.gedcom4j.model.HeaderSourceData;
+import org.gedcom4j.model.SourceSystem;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.SupportedVersion;
 
 /**
- * Validator for a {@link Header}. See {@link GedcomValidator} for usage information.
+ * Validator for a {@link Header}. See {@link GedcomValidator} for usage
+ * information.
  * 
  * @author frizbog1
  * 
@@ -215,10 +224,9 @@ class HeaderValidator extends AbstractValidator {
             return;
         }
         new SubmitterValidator(rootValidator, header.submitter).validate();
-
-        /*
-         * TODO header.submission;
-         */
+        if (header.submission != null) {
+            rootValidator.validateSubmission(header.submission);
+        }
         checkStringWithCustomTags(header.time);
     }
 }

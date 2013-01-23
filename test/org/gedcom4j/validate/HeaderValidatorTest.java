@@ -24,7 +24,15 @@ package org.gedcom4j.validate;
 import java.util.ArrayList;
 
 import org.gedcom4j.io.Encoding;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.CharacterSet;
+import org.gedcom4j.model.Corporation;
+import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.GedcomVersion;
+import org.gedcom4j.model.Header;
+import org.gedcom4j.model.SourceSystem;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.Submission;
+import org.gedcom4j.model.Submitter;
 import org.junit.Test;
 
 /**
@@ -47,8 +55,11 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         s.xref = "@SUBM0001@";
         s.name = new StringWithCustomTags("test");
         g.submitters.put(s.xref, s);
+        g.submission = new Submission("@SUBN0001@");
+
         Header h = g.header;
         h.submitter = s;
+        h.submission = g.submission;
 
         h.characterSet = null;
 
@@ -91,8 +102,10 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         g.submitters.put(s.xref, s);
         Header h = g.header;
         h.submitter = s;
+        g.submission = new Submission("@SUBN0001@");
 
         h.copyrightData = null;
+        h.submission = g.submission;
 
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "copyright");
@@ -118,6 +131,8 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         g.submitters.put(s.xref, s);
         Header h = g.header;
         h.submitter = s;
+        g.submission = new Submission("@SUBN0001@");
+        h.submission = g.submission;
 
         h.gedcomVersion = null;
         rootValidator.validate();
@@ -139,6 +154,8 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
     public void testNoSubmitters() {
         Gedcom g = new Gedcom();
         rootValidator.gedcom = g;
+        g.submission = new Submission("@SUBN0001@");
+        g.header.submission = g.submission;
 
         rootValidator.autorepair = false;
         rootValidator.validate();
@@ -170,6 +187,8 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         g.submitters.put(s.xref, s);
         Header h = g.header;
         h.submitter = s;
+        g.submission = new Submission("@SUBN0001@");
+        h.submission = g.submission;
 
         h.sourceSystem = null;
 
