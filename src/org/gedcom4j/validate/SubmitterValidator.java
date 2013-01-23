@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2012 Matthew R. Harrah
+ * Copyright (c) 2009-2013 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,12 +27,13 @@ import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
 
 /**
- * Validate a {@link Submitter} object. See {@link GedcomValidator} for usage information.
+ * Validate a {@link Submitter} object. See {@link GedcomValidator} for usage
+ * information.
  * 
  * @author frizbog1
  * 
  */
-public class SubmitterValidator extends AbstractValidator {
+class SubmitterValidator extends AbstractValidator {
 
     /**
      * The submitter being validated
@@ -43,7 +44,8 @@ public class SubmitterValidator extends AbstractValidator {
      * Constructor
      * 
      * @param rootValidator
-     *            the root validator containing among other things the findings collection
+     *            the root validator containing among other things the findings
+     *            collection
      * @param submitter
      *            the submitter being validated
      */
@@ -84,5 +86,8 @@ public class SubmitterValidator extends AbstractValidator {
         checkLanguagePreferences();
         checkOptionalString(submitter.recIdNumber, "record id number", submitter);
         checkOptionalString(submitter.regFileNumber, "submitter registered rfn", submitter);
+        if (submitter.address != null) {
+            new AddressValidator(rootValidator, submitter.address).validate();
+        }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2012 Matthew R. Harrah
+ * Copyright (c) 2009-2013 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,13 +21,9 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.model.Gedcom;
-import org.gedcom4j.validate.GedcomValidationFinding;
-import org.gedcom4j.validate.GedcomValidator;
-import org.gedcom4j.validate.Severity;
-
 import junit.framework.TestCase;
 
+import org.gedcom4j.model.Gedcom;
 
 /**
  * A base class for validator tests with handy helper methods
@@ -47,10 +43,10 @@ public abstract class AbstractValidatorTestCase extends TestCase {
     protected Gedcom gedcom;
 
     /**
-     * Determines whether to write noise out to System.out. Useful to change to true temporarily for debugging this test but should be always set to
-     * false when checked into repository.
+     * Determines whether to write noise out to System.out. Should ALWAYS
+     * default to false, and be turned to true for specific tests, if needed.
      */
-    private static final boolean VERBOSE = false;
+    protected boolean verbose = false;
 
     /**
      * Default constructor
@@ -70,7 +66,8 @@ public abstract class AbstractValidatorTestCase extends TestCase {
     }
 
     /**
-     * Assert that the findings collection on the root validator contains at least one finding of the specified severity with a given substring
+     * Assert that the findings collection on the root validator contains at
+     * least one finding of the specified severity with a given substring
      * 
      * @param severity
      *            the expected severity
@@ -82,7 +79,7 @@ public abstract class AbstractValidatorTestCase extends TestCase {
             if (f.severity == severity) {
                 boolean matchAllSoFar = true;
                 for (String substring : substringOfDescription) {
-                    if (!f.problemDescription.toLowerCase().contains(substring)) {
+                    if (!f.problemDescription.toLowerCase().contains(substring.toLowerCase())) {
                         matchAllSoFar = false;
                     }
                 }
@@ -113,7 +110,10 @@ public abstract class AbstractValidatorTestCase extends TestCase {
      */
     protected void assertNoIssues() {
         if (rootValidator.hasErrors() || rootValidator.hasWarnings()) {
+            boolean saveVerbose = verbose;
+            verbose = true;
             dumpFindings();
+            verbose = saveVerbose;
             fail("There should not be any warnings or errors");
         }
     }
@@ -121,16 +121,19 @@ public abstract class AbstractValidatorTestCase extends TestCase {
     /**
      * Write all the findings out to stdout
      * 
+     * @param findings
+     *            TODO
+     * 
      */
     protected void dumpFindings() {
-        if (!VERBOSE) {
+        if (rootValidator.findings.isEmpty()) {
             return;
         }
         if (rootValidator.findings.size() > 0) {
             System.out.println(rootValidator.findings.size() + " finding(s) from validation");
         }
         for (GedcomValidationFinding f : rootValidator.findings) {
-            System.out.println(f);
+            System.out.println("  " + f);
         }
     }
 

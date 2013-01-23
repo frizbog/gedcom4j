@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2012 Matthew R. Harrah
+ * Copyright (c) 2009-2013 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,15 +32,21 @@ import java.util.Map.Entry;
 import junit.framework.TestCase;
 
 import org.gedcom4j.io.GedcomFileReader;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Family;
+import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.Header;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.Note;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.parser.GedcomParserException;
 
 /**
- * A test for the {@link GedcomWriter} class. The majority of the testing done by this class is done by reading the
- * torture test file, writing it out to a temp file, reading the temp file back in, and comparing that the readback data
- * is equivalent to what we wrote from. Additionally, there are string-based tests on the contents of the written file,
- * just in case the parser is part of the problem.
+ * A test for the {@link GedcomWriter} class. The majority of the testing done
+ * by this class is done by reading the torture test file, writing it out to a
+ * temp file, reading the temp file back in, and comparing that the readback
+ * data is equivalent to what we wrote from. Additionally, there are
+ * string-based tests on the contents of the written file, just in case the
+ * parser is part of the problem.
  * 
  * @author frizbog1
  * 
@@ -58,7 +64,8 @@ public class GedcomWriterTest extends TestCase {
     private final Gedcom gedcomOrig;
 
     /**
-     * The read-back gedcom structure read in from the file we write as part of the test.
+     * The read-back gedcom structure read in from the file we write as part of
+     * the test.
      */
     private final Gedcom gedcomReadback;
 
@@ -68,20 +75,23 @@ public class GedcomWriterTest extends TestCase {
     private List<String> readbackLines;
 
     /**
-     * Determines whether to write noise out to System.out. Useful to change to true temporarily for debugging this test
-     * but should be always set to false when checked into repository.
+     * Determines whether to write noise out to System.out. Useful to change to
+     * true temporarily for debugging this test but should be always set to
+     * false when checked into repository.
      */
     private static boolean verbose = false;
 
     /**
-     * Constructor. Does some test fixture initialization once for the whole class rather than in setUp().
+     * Constructor. Does some test fixture initialization once for the whole
+     * class rather than in setUp().
      * 
      * @throws IOException
      *             if there's a file i/o error
      * @throws GedcomParserException
      *             if a gedcom file won't parse
      * @throws GedcomWriterException
-     *             if a gedcom data structure can't be written (usually due to invalid data, shouldn't happen)
+     *             if a gedcom data structure can't be written (usually due to
+     *             invalid data, shouldn't happen)
      */
     public GedcomWriterTest() throws IOException, GedcomParserException, GedcomWriterException {
         // Load a file
@@ -124,7 +134,8 @@ public class GedcomWriterTest extends TestCase {
 
     /**
      * <p>
-     * Assert that a sequence of strings appears, in order, in the supplied {@link List} of strings.
+     * Assert that a sequence of strings appears, in order, in the supplied
+     * {@link List} of strings.
      * </p>
      * 
      * @param failureMessage
@@ -191,7 +202,8 @@ public class GedcomWriterTest extends TestCase {
     }
 
     /**
-     * Set up the test fixtures. Load a file, rewrite it, reload the written file, so comparisons can be made.
+     * Set up the test fixtures. Load a file, rewrite it, reload the written
+     * file, so comparisons can be made.
      * 
      * @see junit.framework.TestCase#setUp()
      * @throws Exception
@@ -262,7 +274,8 @@ public class GedcomWriterTest extends TestCase {
     }
 
     /**
-     * Test for embedded multimedia objects at the top level of the gedcom structure
+     * Test for embedded multimedia objects at the top level of the gedcom
+     * structure
      */
     public void testMultimedia() {
         assertNotSame(gedcomOrig.multimedia, gedcomReadback.multimedia);
@@ -353,8 +366,9 @@ public class GedcomWriterTest extends TestCase {
     }
 
     /**
-     * Test writing a gedcom structure for the degenerate case when the data is empty. Writes the data, reads it back,
-     * and compares it to a fixed string containing the expected contents.
+     * Test writing a gedcom structure for the degenerate case when the data is
+     * empty. Writes the data, reads it back, and compares it to a fixed string
+     * containing the expected contents.
      * 
      * @throws IOException
      *             if some file somewhere can't be read or written
@@ -370,10 +384,9 @@ public class GedcomWriterTest extends TestCase {
         gw.write(tempFile);
 
         // Read back the empty file and check its contents
-        assertLineSequence("Empty file contents not as expected", readBack(tempFile), "0 HEAD",
+        assertLineSequence("Empty file contents not as expected", readBack(tempFile), "0 HEAD", "1 SOUR UNSPECIFIED",
                 "1 FILE gedcom4j.emptywritertest.ged", "1 GEDC", "2 VERS 5.5.1", "2 FORM LINEAGE-LINKED",
                 "1 CHAR ANSEL", "0 @SUBMISSION@ SUBN", "0 TRLR");
 
     }
-
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2012 Matthew R. Harrah
+ * Copyright (c) 2009-2013 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,10 +31,10 @@ import org.gedcom4j.model.*;
  * @author frizbog1
  * 
  */
-public class IndividualValidator extends AbstractValidator {
+class IndividualValidator extends AbstractValidator {
 
     /**
-     * The individul being validated
+     * The individual being validated
      */
     private final Individual individual;
 

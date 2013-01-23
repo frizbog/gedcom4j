@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2012 Matthew R. Harrah
+ * Copyright (c) 2009-2013 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,8 @@
  */
 package org.gedcom4j.model;
 
+import org.gedcom4j.io.Encoding;
+
 /**
  * A character set.
  * 
@@ -30,7 +32,7 @@ public class CharacterSet extends AbstractElement {
     /**
      * The name of a character set
      */
-    public StringWithCustomTags characterSetName = new StringWithCustomTags("ANSEL");
+    public StringWithCustomTags characterSetName = new StringWithCustomTags(Encoding.ANSEL.toString());
 
     /**
      * A version number of the character set

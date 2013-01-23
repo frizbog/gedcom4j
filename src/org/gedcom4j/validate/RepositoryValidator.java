@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2012 Matthew R. Harrah
+ * Copyright (c) 2009-2013 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,11 +25,12 @@ import org.gedcom4j.model.Address;
 import org.gedcom4j.model.Repository;
 
 /**
- * A validator for a {@link Repository} structure. See {@link GedcomValidator} for usage information.
+ * A validator for a {@link Repository} structure. See {@link GedcomValidator}
+ * for usage information.
  * 
  * @author frizbog1
  */
-public class RepositoryValidator extends AbstractValidator {
+class RepositoryValidator extends AbstractValidator {
     /**
      * The individul being validated
      */
@@ -64,7 +65,9 @@ public class RepositoryValidator extends AbstractValidator {
         checkNotes(repository.notes, repository);
 
         Address a = repository.address;
-        new AddressValidator(rootValidator, a).validate();
+        if (a != null) {
+            new AddressValidator(rootValidator, a).validate();
+        }
 
     }
 }

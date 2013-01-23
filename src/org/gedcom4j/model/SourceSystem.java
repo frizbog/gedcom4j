@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2012 Matthew R. Harrah
+ * Copyright (c) 2009-2013 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,16 +22,25 @@
 package org.gedcom4j.model;
 
 /**
- * A source system. Corresponds to the SOUR structure in HEADER in the GEDCOM file.
+ * <p>
+ * A source system. Corresponds to the SOUR structure in HEADER in the GEDCOM
+ * file.
+ * </p>
+ * <p>
+ * If instantiating one of these programmatically rather than through parsing an
+ * existing GEDCOM file, you will probably want to change the value of the
+ * {@link SourceSystem#systemId} field.
+ * </p>
  * 
  * @author frizbog1
  * 
  */
 public class SourceSystem extends AbstractElement {
     /**
-     * The system ID for this source system
+     * The system ID for this source system. This field must be valued to pass
+     * validation, so the default value is "UNSPECIFIED".
      */
-    public String systemId;
+    public String systemId = "UNSPECIFIED";
 
     /**
      * The version number of this source system

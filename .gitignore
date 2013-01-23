@@ -8,3 +8,5 @@
 *.iml
 target/
 /.swp
+/cobertura.ser
+/junit*.properties

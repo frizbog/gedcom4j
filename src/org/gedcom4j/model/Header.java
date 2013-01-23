@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2012 Matthew R. Harrah
+ * Copyright (c) 2009-2013 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -69,7 +69,7 @@ public class Header extends AbstractElement {
     /**
      * The source system for the GEDCOM file
      */
-    public SourceSystem sourceSystem;
+    public SourceSystem sourceSystem = new SourceSystem();
 
     /**
      * Information about the file submission
