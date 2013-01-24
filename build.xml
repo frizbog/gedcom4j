@@ -193,6 +193,7 @@
 				<fileset dir="test">
 					<include name="**/*" />
 					<exclude name="**/Abstract*" />
+					<exclude name="**/TestHelper*"/>
 				</fileset>
 				<formatter type="plain" usefile="false" />
 			</batchtest>
