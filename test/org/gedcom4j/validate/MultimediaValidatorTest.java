@@ -23,13 +23,7 @@ package org.gedcom4j.validate;
 
 import java.util.ArrayList;
 
-import org.gedcom4j.model.Gedcom;
-import org.gedcom4j.model.Header;
-import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.StringWithCustomTags;
-import org.gedcom4j.model.Submission;
-import org.gedcom4j.model.Submitter;
-import org.gedcom4j.model.SupportedVersion;
+import org.gedcom4j.model.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -61,6 +55,9 @@ public class MultimediaValidatorTest extends AbstractValidatorTestCase {
         mm = new Multimedia();
     }
 
+    /**
+     * Test the stuff for embedded media
+     */
     @Test
     public void testEmbeddedMedia() {
         mm.xref = "@MM001@";
