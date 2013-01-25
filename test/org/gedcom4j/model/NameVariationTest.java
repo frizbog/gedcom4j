@@ -94,16 +94,11 @@ public class NameVariationTest {
     @Test
     public void testToString() {
         NameVariation nv = new NameVariation();
-        assertEquals("NameVariation [variationType=null, variation=null, prefix=null, "
-                + "givenName=null, nickname=null, surnamePrefix=null, surname=null, suffix=null, "
-                + "notes=[], citations=[]]", nv.toString());
+        assertEquals("NameVariation [variationType=null, variation=null]", nv.toString());
         nv.variation = "Frying Pan";
         nv.customTags.add(new StringTree());
         nv.variationType = new StringWithCustomTags("All");
-        assertEquals("NameVariation [variationType=All, variation=Frying Pan, "
-                + "prefix=null, givenName=Now, nickname=Is, surnamePrefix=For, "
-                + "surname=Time, suffix=The, notes=[Note [xref=null, citations=[], "
-                + "userReferences=[], changeDate=null, recIdNumber=null, lines=[]]], " + "citations=[]]", nv.toString());
+        assertEquals("NameVariation [variationType=All, variation=Frying Pan]", nv.toString());
 
     }
 }
