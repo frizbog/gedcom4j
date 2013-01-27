@@ -144,4 +144,14 @@ public class Address extends AbstractElement {
         result = prime * result + (stateProvince == null ? 0 : stateProvince.hashCode());
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Address [" + (lines != null ? "lines=" + lines + ", " : "")
+                + (addr1 != null ? "addr1=" + addr1 + ", " : "") + (addr2 != null ? "addr2=" + addr2 + ", " : "")
+                + (city != null ? "city=" + city + ", " : "")
+                + (stateProvince != null ? "stateProvince=" + stateProvince + ", " : "")
+                + (postalCode != null ? "postalCode=" + postalCode + ", " : "")
+                + (country != null ? "country=" + country : "") + "]";
+    }
 }
