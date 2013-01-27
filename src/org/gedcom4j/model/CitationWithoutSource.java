@@ -88,4 +88,10 @@ public class CitationWithoutSource extends AbstractCitation {
         result = prime * result + (textFromSource == null ? 0 : textFromSource.hashCode());
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "CitationWithoutSource [description=" + description + ", textFromSource=" + textFromSource + ", notes="
+                + notes + ", customTags=" + customTags + "]";
+    }
 }
