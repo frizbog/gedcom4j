@@ -1,0 +1,118 @@
+/*
+ * Copyright (c) 2009-2013 Matthew R. Harrah
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+package org.gedcom4j.validate;
+
+import java.util.ArrayList;
+
+import org.gedcom4j.model.AbstractCitation;
+import org.gedcom4j.model.Event;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.StringWithCustomTags;
+
+/**
+ * @author frizbog1
+ * 
+ */
+public class EventValidator extends AbstractValidator {
+
+    /**
+     * The event being validated
+     */
+    private Event e;
+
+    /**
+     * Constructor
+     */
+    public EventValidator(GedcomValidator rootValidator, Event e) {
+        this.rootValidator = rootValidator;
+        this.e = e;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.gedcom4j.validate.AbstractValidator#validate()
+     */
+    @Override
+    protected void validate() {
+        if (e == null) {
+            addError("Event is null and cannot be validated or autorepaired");
+            return;
+        }
+        new AddressValidator(rootValidator, e.address).validate();
+        checkOptionalString(e.age, "age", e);
+        checkOptionalString(e.cause, "cause", e);
+        if (e.citations == null) {
+            if (rootValidator.autorepair) {
+                e.citations = new ArrayList<AbstractCitation>();
+                rootValidator.addInfo("Event had null list of citations - repaired", e);
+            } else {
+                rootValidator.addError("Event has null list of citations", e);
+            }
+
+        }
+        for (AbstractCitation c : e.citations) {
+            new CitationValidator(rootValidator, c).validate();
+        }
+        checkCustomTags(e.customTags);
+        checkOptionalString(e.date, "date", e);
+        checkOptionalString(e.description, "description", e);
+        if (e.emails == null) {
+            if (rootValidator.autorepair) {
+                e.emails = new ArrayList<StringWithCustomTags>();
+                rootValidator.addInfo("Event had null list of emails - repaired", e);
+            } else {
+                rootValidator.addError("Event has null list of emails", e);
+            }
+        }
+        if (e.faxNumbers == null) {
+            if (rootValidator.autorepair) {
+                e.faxNumbers = new ArrayList<StringWithCustomTags>();
+                rootValidator.addInfo("Event had null list of fax numbers - repaired", e);
+            } else {
+                rootValidator.addError("Event has null list of fax numbers", e);
+            }
+        }
+        if (e.multimedia == null) {
+            if (rootValidator.autorepair) {
+                e.multimedia = new ArrayList<Multimedia>();
+                rootValidator.addInfo("Event had null list of multimedia - repaired", e);
+            } else {
+                rootValidator.addError("Event has null list of multimedia", e);
+            }
+        }
+        checkNotes(e.notes, e);
+        if (e.phoneNumbers == null) {
+            if (rootValidator.autorepair) {
+                e.faxNumbers = new ArrayList<StringWithCustomTags>();
+                rootValidator.addInfo("Event had null list of phone numbers - repaired", e);
+            } else {
+                rootValidator.addError("Event has null list of phone numbers", e);
+            }
+        }
+        new PlaceValidator(rootValidator, e.place).validate();
+        checkOptionalString(e.religiousAffiliation, "religious affiliation", e);
+        checkOptionalString(e.respAgency, "responsible agency", e);
+        checkOptionalString(e.restrictionNotice, "restriction notice", e);
+        checkOptionalString(e.subType, "subtype", e);
+    }
+}

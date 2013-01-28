@@ -62,6 +62,88 @@ class HeaderValidator extends AbstractValidator {
     }
 
     /**
+     * Validate the {@link Header}
+     * 
+     * @see org.gedcom4j.validate.AbstractValidator#validate()
+     */
+    @Override
+    protected void validate() {
+        checkCharacterSet();
+        if (header.copyrightData == null) {
+            if (rootValidator.autorepair) {
+                header.copyrightData = new ArrayList<String>();
+                rootValidator.addInfo("Copyright data collection was null - repaired", header);
+            } else {
+                rootValidator.addError("Copyright data collection is null - must be at least an empty collection",
+                        header);
+            }
+        }
+        checkCustomTags(header);
+        checkOptionalString(header.date, "date", header);
+        checkOptionalString(header.destinationSystem, "destination system", header);
+        /*
+         * Filename is actually a required field -- but since the writer
+         * automatically fills in the filename if it's blank, treating it as
+         * optional here
+         */
+        checkOptionalString(header.fileName, "filename", header);
+        if (header.gedcomVersion == null) {
+            if (rootValidator.autorepair) {
+                header.gedcomVersion = new GedcomVersion();
+                rootValidator.addInfo("GEDCOM version in header was null - repaired", header);
+            } else {
+                rootValidator.addError("GEDCOM version in header must be specified", header);
+                return;
+            }
+        }
+        if (header.gedcomVersion.versionNumber == null) {
+            if (rootValidator.autorepair) {
+                header.gedcomVersion.versionNumber = SupportedVersion.V5_5_1;
+                rootValidator.addInfo("GEDCOM version number in header was null - repaired", header);
+            } else {
+                rootValidator.addError("GEDCOM version number in header must be specified", header);
+                return;
+            }
+        }
+        checkCustomTags(header.gedcomVersion);
+        checkOptionalString(header.language, "language", header);
+        if (header.notes == null) {
+            if (rootValidator.autorepair) {
+                header.notes = new ArrayList<String>();
+                rootValidator.addInfo("Notes collection in header was null - repaired", header);
+            } else {
+                rootValidator.addError("Notes collection in header is null - must be at least an empty collection",
+                        header);
+            }
+        }
+        checkOptionalString(header.placeHierarchy, "place hierarchy", header);
+        checkSourceSystem();
+        if (header.submitter == null) {
+            if (rootValidator.autorepair) {
+                if (rootValidator.gedcom.submitters != null && rootValidator.gedcom.submitters.size() > 0) {
+                    // Take the first submitter from the collection and set that
+                    // as the primary submitter in the header
+                    for (Submitter s : rootValidator.gedcom.submitters.values()) {
+                        header.submitter = s;
+                        break;
+                    }
+                } else {
+                    rootValidator.addError("Submitter not specified in header, and autorepair could not "
+                            + "find a submitter to select as default", header);
+                }
+            } else {
+                rootValidator.addError("Submitter not specified in header", header);
+            }
+            return;
+        }
+        new SubmitterValidator(rootValidator, header.submitter).validate();
+        if (header.submission != null) {
+            rootValidator.validateSubmission(header.submission);
+        }
+        checkOptionalString(header.time, "time", header);
+    }
+
+    /**
      * Check the character set
      */
     private void checkCharacterSet() {
@@ -88,8 +170,8 @@ class HeaderValidator extends AbstractValidator {
                     "Character set name is not one of the supported encodings ("
                             + Encoding.getSupportedCharacterSetNames() + ")", header.characterSet.characterSetName);
         }
-        checkStringWithCustomTags(header.characterSet.characterSetName);
-        checkStringWithCustomTags(header.characterSet.versionNum);
+        checkOptionalString(header.characterSet.characterSetName, "character set name", header.characterSet);
+        checkOptionalString(header.characterSet.versionNum, "character set version number", header.characterSet);
         checkCustomTags(header.characterSet);
     }
 
@@ -124,7 +206,7 @@ class HeaderValidator extends AbstractValidator {
                 }
             }
         }
-        checkStringWithCustomTags(ss.productName);
+        checkOptionalString(ss.productName, "product name", ss);
         if (ss.sourceData != null) {
             HeaderSourceData sd = ss.sourceData;
             if (sd.name == null || sd.name.trim().length() == 0) {
@@ -138,8 +220,8 @@ class HeaderValidator extends AbstractValidator {
                 }
 
             }
-            checkStringWithCustomTags(sd.copyright);
-            checkStringWithCustomTags(sd.publishDate);
+            checkOptionalString(sd.copyright, "copyright", sd);
+            checkOptionalString(sd.publishDate, "publish date", sd);
             checkCustomTags(sd);
         }
         if (ss.systemId == null) {
@@ -150,83 +232,6 @@ class HeaderValidator extends AbstractValidator {
                 rootValidator.addError("System ID must be specified in source system in header", ss);
             }
         }
-        checkStringWithCustomTags(ss.versionNum);
-    }
-
-    /**
-     * Validate the {@link Header}
-     * 
-     * @see org.gedcom4j.validate.AbstractValidator#validate()
-     */
-    @Override
-    protected void validate() {
-        checkCharacterSet();
-        if (header.copyrightData == null) {
-            if (rootValidator.autorepair) {
-                header.copyrightData = new ArrayList<String>();
-                rootValidator.addInfo("Copyright data collection was null - repaired", header);
-            } else {
-                rootValidator.addError("Copyright data collection is null - must be at least an empty collection",
-                        header);
-            }
-        }
-        checkCustomTags(header);
-        checkStringWithCustomTags(header.date);
-        checkStringWithCustomTags(header.destinationSystem);
-        checkStringWithCustomTags(header.fileName);
-        if (header.gedcomVersion == null) {
-            if (rootValidator.autorepair) {
-                header.gedcomVersion = new GedcomVersion();
-                rootValidator.addInfo("GEDCOM version in header was null - repaired", header);
-            } else {
-                rootValidator.addError("GEDCOM version in header must be specified", header);
-                return;
-            }
-        }
-        if (header.gedcomVersion.versionNumber == null) {
-            if (rootValidator.autorepair) {
-                header.gedcomVersion.versionNumber = SupportedVersion.V5_5_1;
-                rootValidator.addInfo("GEDCOM version number in header was null - repaired", header);
-            } else {
-                rootValidator.addError("GEDCOM version number in header must be specified", header);
-                return;
-            }
-        }
-        checkCustomTags(header.gedcomVersion);
-        checkStringWithCustomTags(header.language);
-        if (header.notes == null) {
-            if (rootValidator.autorepair) {
-                header.notes = new ArrayList<String>();
-                rootValidator.addInfo("Notes collection in header was null - repaired", header);
-            } else {
-                rootValidator.addError("Notes collection in header is null - must be at least an empty collection",
-                        header);
-            }
-        }
-        checkStringWithCustomTags(header.placeHierarchy);
-        checkSourceSystem();
-        if (header.submitter == null) {
-            if (rootValidator.autorepair) {
-                if (rootValidator.gedcom.submitters != null && rootValidator.gedcom.submitters.size() > 0) {
-                    // Take the first submitter from the collection and set that
-                    // as the primary submitter in the header
-                    for (Submitter s : rootValidator.gedcom.submitters.values()) {
-                        header.submitter = s;
-                        break;
-                    }
-                } else {
-                    rootValidator.addError("Submitter not specified in header, and autorepair could not "
-                            + "find a submitter to select as default", header);
-                }
-            } else {
-                rootValidator.addError("Submitter not specified in header", header);
-            }
-            return;
-        }
-        new SubmitterValidator(rootValidator, header.submitter).validate();
-        if (header.submission != null) {
-            rootValidator.validateSubmission(header.submission);
-        }
-        checkStringWithCustomTags(header.time);
+        checkOptionalString(ss.versionNum, "source system version number", ss);
     }
 }

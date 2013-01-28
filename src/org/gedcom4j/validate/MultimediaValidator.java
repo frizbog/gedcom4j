@@ -23,10 +23,15 @@ package org.gedcom4j.validate;
 
 import java.util.ArrayList;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.AbstractCitation;
+import org.gedcom4j.model.FileReference;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.SupportedVersion;
+import org.gedcom4j.model.UserReference;
 
 /**
- * A validator for {@link Multimedia} objects. See {@link GedcomValidator} for usage instructions.
+ * A validator for {@link Multimedia} objects. See {@link GedcomValidator} for
+ * usage instructions.
  * 
  * @author frizbog1
  * 
@@ -39,8 +44,8 @@ class MultimediaValidator extends AbstractValidator {
     private final Multimedia mm;
 
     /**
-     * The gedcom version to validate against. There are numerous differences in multimedia records between 5.5 and
-     * 5.5.1.
+     * The gedcom version to validate against. There are numerous differences in
+     * multimedia records between 5.5 and 5.5.1.
      */
     private SupportedVersion gedcomVersion;
 
@@ -74,6 +79,21 @@ class MultimediaValidator extends AbstractValidator {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.gedcom4j.validate.AbstractValidator#validate()
+     */
+    @Override
+    protected void validate() {
+        validateCommon();
+        if (v551()) {
+            validate551();
+        } else {
+            validate55();
+        }
+    }
+
     /**
      * Check a file reference
      * 
@@ -89,10 +109,10 @@ class MultimediaValidator extends AbstractValidator {
             }
             return;
         }
-        checkStringWithCustomTags(fr.format);
-        checkStringWithCustomTags(fr.mediaType);
-        checkStringWithCustomTags(fr.title);
-        checkStringWithCustomTags(fr.referenceToFile);
+        checkRequiredString(fr.format, "format", fr);
+        checkOptionalString(fr.mediaType, "media type", fr);
+        checkOptionalString(fr.title, "title", fr);
+        checkRequiredString(fr.referenceToFile, "reference to file", fr);
     }
 
     /**
@@ -167,15 +187,7 @@ class MultimediaValidator extends AbstractValidator {
                 addError("Embedded media object has an empty blob object", mm);
             }
         }
-        if (mm.embeddedMediaFormat == null) {
-            if (rootValidator.autorepair) {
-                addError("Format not specified on embedded media object - cannot repair", mm);
-            } else {
-                addError("Format not specified on embedded media object", mm);
-            }
-            return;
-        }
-        checkStringWithCustomTags(mm.embeddedMediaFormat);
+        checkRequiredString(mm.embeddedMediaFormat, "embedded media format", mm);
 
         // Validate the citations - only allowed in 5.5.1
         if (!mm.citations.isEmpty()) {
@@ -244,7 +256,7 @@ class MultimediaValidator extends AbstractValidator {
      */
     private void validateCommon() {
         checkXref();
-        checkStringWithCustomTags(mm.recIdNumber);
+        checkOptionalString(mm.recIdNumber, "record id number", mm);
         checkChangeDate(mm.changeDate, mm);
         checkUserReferences();
         if (mm.citations == null) {
@@ -270,21 +282,6 @@ class MultimediaValidator extends AbstractValidator {
         }
 
         new NotesValidator(rootValidator, mm, mm.notes).validate();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.gedcom4j.validate.AbstractValidator#validate()
-     */
-    @Override
-    protected void validate() {
-        validateCommon();
-        if (v551()) {
-            validate551();
-        } else {
-            validate55();
-        }
     }
 
 }
