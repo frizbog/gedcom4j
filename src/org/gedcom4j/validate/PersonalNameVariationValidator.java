@@ -36,6 +36,8 @@ public class PersonalNameVariationValidator extends NameVariationValidator {
      * Constructor
      * 
      * @param rootValidator
+     *            the root {@link GedcomValidator} that contains the findings
+     *            and the settings
      * @param pnv
      *            the personal name variation to be validated
      */

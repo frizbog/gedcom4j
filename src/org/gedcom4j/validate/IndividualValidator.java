@@ -180,6 +180,7 @@ class IndividualValidator extends AbstractValidator {
                 if (a.type == null) {
                     addError("Individual event requires a type", a);
                 }
+                new EventValidator(rootValidator, a).validate();
             }
         }
     }
