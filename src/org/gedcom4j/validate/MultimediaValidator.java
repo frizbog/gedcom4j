@@ -52,15 +52,15 @@ class MultimediaValidator extends AbstractValidator {
      * @param multimedia
      *            the multimedia object being validated
      */
-    @SuppressWarnings("NP_NULL_ON_SOME_PATH")
     public MultimediaValidator(GedcomValidator rootValidator, Multimedia multimedia) {
         this.rootValidator = rootValidator;
+        if (rootValidator == null) {
+            throw new GedcomValidationException("Root validator passed in to MultimediaValidator constructor was null");
+        }
         mm = multimedia;
-        if (rootValidator != null && rootValidator.gedcom != null && rootValidator.gedcom.header != null
-                && rootValidator.gedcom.header.gedcomVersion != null
-                && rootValidator.gedcom.header.gedcomVersion.versionNumber != null) {
-            gedcomVersion = rootValidator.gedcom.header.gedcomVersion.versionNumber;
-        } else {
+        if (rootValidator.gedcom == null || rootValidator.gedcom.header == null
+                || rootValidator.gedcom.header.gedcomVersion == null
+                || rootValidator.gedcom.header.gedcomVersion.versionNumber == null) {
             if (rootValidator.autorepair) {
                 gedcomVersion = SupportedVersion.V5_5_1;
                 rootValidator
@@ -69,6 +69,8 @@ class MultimediaValidator extends AbstractValidator {
                 rootValidator.addError("Was not able to determine GEDCOM version - cannot validate multimedia objects",
                         rootValidator.gedcom);
             }
+        } else {
+            gedcomVersion = rootValidator.gedcom.header.gedcomVersion.versionNumber;
         }
     }
 

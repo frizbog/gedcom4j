@@ -122,12 +122,53 @@ public class GedcomValidator extends AbstractValidator {
     }
 
     /**
+     * Validate the {@link Gedcom#individuals} collection
+     */
+    private void validateIndividuals() {
+        if (gedcom.individuals == null) {
+            if (autorepair) {
+                gedcom.individuals = new HashMap<String, Individual>();
+                addInfo("Individuals collection was null - autorepaired", gedcom);
+            } else {
+                addError("Individuals collection is null", gedcom);
+                return;
+            }
+        }
+        for (Entry<String, Individual> e : gedcom.individuals.entrySet()) {
+            if (e.getKey() == null) {
+                addError("Entry in individuals collection has null key", e);
+                return;
+            }
+            if (e.getValue() == null) {
+                addError("Entry in individuals collection has null value", e);
+                return;
+            }
+            if (!e.getKey().equals(e.getValue().xref)) {
+                addError("Entry in individuals collection is not keyed by the individual's xref", e);
+                return;
+            }
+            new IndividualValidator(rootValidator, e.getValue()).validate();
+        }
+    }
+
+    /**
      * Validate the collection of {@link Multimedia} objects
      */
     private void validateMultimedia() {
         for (Multimedia m : gedcom.multimedia.values()) {
             MultimediaValidator mv = new MultimediaValidator(this, m);
             mv.validate();
+        }
+    }
+
+    /**
+     * Validates the notes
+     */
+    private void validateNotes() {
+        int i = 0;
+        for (Note n : gedcom.notes.values()) {
+            i++;
+            new NoteValidator(rootValidator, i, n).validate();
         }
     }
 
@@ -237,36 +278,6 @@ public class GedcomValidator extends AbstractValidator {
     }
 
     /**
-     * Validate the {@link Gedcom#individuals} collection
-     */
-    void validateIndividuals() {
-        if (gedcom.individuals == null) {
-            if (autorepair) {
-                gedcom.individuals = new HashMap<String, Individual>();
-                addInfo("Individuals collection was null - autorepaired", gedcom);
-            } else {
-                addError("Individuals collection is null", gedcom);
-                return;
-            }
-        }
-        for (Entry<String, Individual> e : gedcom.individuals.entrySet()) {
-            if (e.getKey() == null) {
-                addError("Entry in individuals collection has null key", e);
-                return;
-            }
-            if (e.getValue() == null) {
-                addError("Entry in individuals collection has null value", e);
-                return;
-            }
-            if (!e.getKey().equals(e.getValue().xref)) {
-                addError("Entry in individuals collection is not keyed by the individual's xref", e);
-                return;
-            }
-            new IndividualValidator(rootValidator, e.getValue()).validate();
-        }
-    }
-
-    /**
      * Validate the submission substructure under the root gedcom
      * 
      * @param s
@@ -308,14 +319,6 @@ public class GedcomValidator extends AbstractValidator {
         validateSubmission(gedcom.submission);
         validateTrailer();
         checkNotes(new ArrayList<Note>(gedcom.notes.values()), gedcom);
-    }
-
-    private void validateNotes() {
-        int i = 0;
-        for (Note n : gedcom.notes.values()) {
-            i++;
-            new NoteValidator(rootValidator, i, n).validate();
-        }
     }
 
 }
