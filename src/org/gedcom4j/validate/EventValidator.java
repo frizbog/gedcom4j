@@ -41,6 +41,12 @@ public class EventValidator extends AbstractValidator {
 
     /**
      * Constructor
+     * 
+     * @param rootValidator
+     *            the root {@link GedcomValidator} that contains the findings
+     *            and the settings
+     * @param e
+     *            the event beign validated
      */
     public EventValidator(GedcomValidator rootValidator, Event e) {
         this.rootValidator = rootValidator;
@@ -58,7 +64,9 @@ public class EventValidator extends AbstractValidator {
             addError("Event is null and cannot be validated or autorepaired");
             return;
         }
-        new AddressValidator(rootValidator, e.address).validate();
+        if (e.address != null) {
+            new AddressValidator(rootValidator, e.address).validate();
+        }
         checkOptionalString(e.age, "age", e);
         checkOptionalString(e.cause, "cause", e);
         if (e.citations == null) {
@@ -67,13 +75,15 @@ public class EventValidator extends AbstractValidator {
                 rootValidator.addInfo("Event had null list of citations - repaired", e);
             } else {
                 rootValidator.addError("Event has null list of citations", e);
+                return;
             }
-
         }
-        for (AbstractCitation c : e.citations) {
-            new CitationValidator(rootValidator, c).validate();
+        if (e.citations != null) {
+            for (AbstractCitation c : e.citations) {
+                new CitationValidator(rootValidator, c).validate();
+            }
         }
-        checkCustomTags(e.customTags);
+        checkCustomTags(e);
         checkOptionalString(e.date, "date", e);
         checkOptionalString(e.description, "description", e);
         if (e.emails == null) {
@@ -84,6 +94,11 @@ public class EventValidator extends AbstractValidator {
                 rootValidator.addError("Event has null list of emails", e);
             }
         }
+        if (e.emails != null) {
+            for (StringWithCustomTags swct : e.emails) {
+                checkRequiredString(swct, "email", e);
+            }
+        }
         if (e.faxNumbers == null) {
             if (rootValidator.autorepair) {
                 e.faxNumbers = new ArrayList<StringWithCustomTags>();
@@ -92,12 +107,22 @@ public class EventValidator extends AbstractValidator {
                 rootValidator.addError("Event has null list of fax numbers", e);
             }
         }
+        if (e.faxNumbers != null) {
+            for (StringWithCustomTags swct : e.faxNumbers) {
+                checkRequiredString(swct, "fax number", e);
+            }
+        }
         if (e.multimedia == null) {
             if (rootValidator.autorepair) {
                 e.multimedia = new ArrayList<Multimedia>();
                 rootValidator.addInfo("Event had null list of multimedia - repaired", e);
             } else {
                 rootValidator.addError("Event has null list of multimedia", e);
+            }
+        }
+        if (e.multimedia != null) {
+            for (Multimedia m : e.multimedia) {
+                new MultimediaValidator(rootValidator, m).validate();
             }
         }
         checkNotes(e.notes, e);
@@ -109,10 +134,31 @@ public class EventValidator extends AbstractValidator {
                 rootValidator.addError("Event has null list of phone numbers", e);
             }
         }
-        new PlaceValidator(rootValidator, e.place).validate();
+        if (e.phoneNumbers != null) {
+            for (StringWithCustomTags swct : e.phoneNumbers) {
+                checkRequiredString(swct, "phone numbe", e);
+            }
+        }
+        if (e.place != null) {
+            new PlaceValidator(rootValidator, e.place).validate();
+        }
         checkOptionalString(e.religiousAffiliation, "religious affiliation", e);
         checkOptionalString(e.respAgency, "responsible agency", e);
         checkOptionalString(e.restrictionNotice, "restriction notice", e);
         checkOptionalString(e.subType, "subtype", e);
+        if (e.wwwUrls == null) {
+            if (rootValidator.autorepair) {
+                e.wwwUrls = new ArrayList<StringWithCustomTags>();
+                rootValidator.addInfo("Event had null list of www urls - repaired", e);
+            } else {
+                rootValidator.addError("Event has null list of www url", e);
+            }
+        }
+        if (e.wwwUrls != null) {
+            for (StringWithCustomTags swct : e.wwwUrls) {
+                checkRequiredString(swct, "www url", e);
+            }
+        }
+
     }
 }

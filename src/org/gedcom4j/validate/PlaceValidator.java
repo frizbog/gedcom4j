@@ -6,6 +6,12 @@ import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.NameVariation;
 import org.gedcom4j.model.Place;
 
+/**
+ * Validator for {@link Place} objects
+ * 
+ * @author frizbog1
+ * 
+ */
 public class PlaceValidator extends AbstractValidator {
 
     /**
