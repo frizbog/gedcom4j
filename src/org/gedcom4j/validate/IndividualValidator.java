@@ -73,9 +73,10 @@ class IndividualValidator extends AbstractValidator {
             } else {
                 rootValidator.addError("Individual " + individual.xref + " has no list of names", individual);
             }
-        }
-        for (PersonalName pn : individual.names) {
-            new PersonalNameValidator(rootValidator, pn).validate();
+        } else {
+            for (PersonalName pn : individual.names) {
+                new PersonalNameValidator(rootValidator, pn).validate();
+            }
         }
         checkAliases();
         checkAssociations();

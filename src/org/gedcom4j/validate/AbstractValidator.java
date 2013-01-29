@@ -246,7 +246,7 @@ public abstract class AbstractValidator {
             addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName()
                     + " is specified, but has a blank value", objectContainingField);
         }
-        checkStringWithCustomTags(optionalString);
+        checkStringWithCustomTags(optionalString, fieldDescription);
     }
 
     /**
@@ -282,7 +282,7 @@ public abstract class AbstractValidator {
             addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName()
                     + " is required, but is either null or blank", objectContainingField);
         }
-        checkStringWithCustomTags(requiredString);
+        checkStringWithCustomTags(requiredString, fieldDescription);
     }
 
     /**
@@ -445,12 +445,12 @@ public abstract class AbstractValidator {
      * @param swct
      *            the string with custom tags
      */
-    private void checkStringWithCustomTags(StringWithCustomTags swct) {
+    private void checkStringWithCustomTags(StringWithCustomTags swct, String fieldDescription) {
         if (swct == null) {
             return;
         }
         if (swct.value == null || swct.value.trim().length() == 0) {
-            addError("A string with custom tags object was defined with no value", swct);
+            addError("A string with custom tags object (" + fieldDescription + ") was defined with no value", swct);
         }
         checkCustomTags(swct);
     }
