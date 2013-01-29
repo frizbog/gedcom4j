@@ -26,8 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.gedcom4j.model.AbstractCitation;
-import org.gedcom4j.model.Event;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Header;
@@ -202,32 +200,7 @@ public class GedcomValidator extends AbstractValidator {
                 }
                 continue;
             }
-            checkOptionalString(f.automatedRecordId, "Automated record id", f);
-            checkChangeDate(f.changeDate, f);
-            if (f.children == null) {
-                if (rootValidator.autorepair) {
-                    f.children = new ArrayList<Individual>();
-                    rootValidator.addInfo("Family's collection of children was null - repaired", f);
-                } else {
-                    rootValidator.addError("Family's collection of children is null", f);
-                }
-            }
-            if (f.citations == null) {
-                if (rootValidator.autorepair) {
-                    f.citations = new ArrayList<AbstractCitation>();
-                    addInfo("citations collection for family was null - rootValidator.autorepaired", f);
-                } else {
-                    addError("citations collection for family is null", f);
-                }
-            } else {
-                for (AbstractCitation c : f.citations) {
-                    new CitationValidator(rootValidator, c).validate();
-                }
-            }
-            checkCustomTags(f.customTags);
-            for (Event ev : f.events) {
-                new EventValidator(rootValidator, ev).validate();
-            }
+            new FamilyValidator(this, f).validate();
         }
     }
 
