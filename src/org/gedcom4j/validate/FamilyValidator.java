@@ -10,6 +10,11 @@ import org.gedcom4j.model.LdsSpouseSealing;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Submitter;
 
+/**
+ * Validator for {@link Family} objects
+ * 
+ * @author frizbog1
+ */
 public class FamilyValidator extends AbstractValidator {
 
     /**
@@ -62,7 +67,7 @@ public class FamilyValidator extends AbstractValidator {
                 new CitationValidator(rootValidator, c).validate();
             }
         }
-        checkCustomTags(f.customTags);
+        checkCustomTags(f);
         for (Event ev : f.events) {
             new EventValidator(rootValidator, ev).validate();
         }
@@ -79,11 +84,7 @@ public class FamilyValidator extends AbstractValidator {
             } else {
                 addError("LDS spouse sealings collection for family is null", f);
             }
-        } else {
-            for (LdsSpouseSealing s : f.ldsSpouseSealings) {
-                // TODO - validate the LDS Spouse Sealing
-            }
-        }
+        } // TODO - validate the LDS Spouse Sealing if there are any
         if (f.multimedia == null) {
             if (rootValidator.autorepair) {
                 f.multimedia = new ArrayList<Multimedia>();

@@ -192,7 +192,7 @@ public class GedcomValidator extends AbstractValidator {
                 continue;
             }
             Family f = e.getValue();
-            if (e.getKey().equals(f.xref)) {
+            if (!e.getKey().equals(f.xref)) {
                 if (rootValidator.autorepair) {
                     rootValidator.addError("Family in map not keyed by its xref - cannot repair", f.xref);
                 } else {
