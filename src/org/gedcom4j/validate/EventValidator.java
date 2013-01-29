@@ -77,8 +77,7 @@ public class EventValidator extends AbstractValidator {
                 rootValidator.addError("Event has null list of citations", e);
                 return;
             }
-        }
-        if (e.citations != null) {
+        } else {
             for (AbstractCitation c : e.citations) {
                 new CitationValidator(rootValidator, c).validate();
             }
@@ -93,8 +92,7 @@ public class EventValidator extends AbstractValidator {
             } else {
                 rootValidator.addError("Event has null list of emails", e);
             }
-        }
-        if (e.emails != null) {
+        } else {
             for (StringWithCustomTags swct : e.emails) {
                 checkRequiredString(swct, "email", e);
             }
@@ -106,8 +104,7 @@ public class EventValidator extends AbstractValidator {
             } else {
                 rootValidator.addError("Event has null list of fax numbers", e);
             }
-        }
-        if (e.faxNumbers != null) {
+        } else {
             for (StringWithCustomTags swct : e.faxNumbers) {
                 checkRequiredString(swct, "fax number", e);
             }
@@ -119,8 +116,7 @@ public class EventValidator extends AbstractValidator {
             } else {
                 rootValidator.addError("Event has null list of multimedia", e);
             }
-        }
-        if (e.multimedia != null) {
+        } else {
             for (Multimedia m : e.multimedia) {
                 new MultimediaValidator(rootValidator, m).validate();
             }
@@ -133,8 +129,7 @@ public class EventValidator extends AbstractValidator {
             } else {
                 rootValidator.addError("Event has null list of phone numbers", e);
             }
-        }
-        if (e.phoneNumbers != null) {
+        } else {
             for (StringWithCustomTags swct : e.phoneNumbers) {
                 checkRequiredString(swct, "phone numbe", e);
             }
@@ -153,8 +148,7 @@ public class EventValidator extends AbstractValidator {
             } else {
                 rootValidator.addError("Event has null list of www url", e);
             }
-        }
-        if (e.wwwUrls != null) {
+        } else {
             for (StringWithCustomTags swct : e.wwwUrls) {
                 checkRequiredString(swct, "www url", e);
             }

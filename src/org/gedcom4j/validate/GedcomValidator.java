@@ -212,8 +212,17 @@ public class GedcomValidator extends AbstractValidator {
                     rootValidator.addError("Family's collection of children is null", f);
                 }
             }
-            for (AbstractCitation c : f.citations) {
-                new CitationValidator(rootValidator, c).validate();
+            if (f.citations == null) {
+                if (rootValidator.autorepair) {
+                    f.citations = new ArrayList<AbstractCitation>();
+                    addInfo("citations collection for family was null - rootValidator.autorepaired", f);
+                } else {
+                    addError("citations collection for family is null", f);
+                }
+            } else {
+                for (AbstractCitation c : f.citations) {
+                    new CitationValidator(rootValidator, c).validate();
+                }
             }
             checkCustomTags(f.customTags);
             for (Event ev : f.events) {

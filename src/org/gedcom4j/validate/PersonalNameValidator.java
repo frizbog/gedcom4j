@@ -64,8 +64,7 @@ public class PersonalNameValidator extends AbstractValidator {
             addError("Personal name was null - cannot validate");
             return;
         }
-
-        checkOptionalString(pn.basic, "basic name", pn);
+        checkRequiredString(pn.basic, "basic name", pn);
         if (pn.citations == null) {
             if (rootValidator.autorepair) {
                 pn.citations = new ArrayList<AbstractCitation>();
@@ -73,7 +72,8 @@ public class PersonalNameValidator extends AbstractValidator {
             } else {
                 addError("citations collection for personal name is null", pn);
             }
-        } else {
+        }
+        if (pn.citations != null) {
             for (AbstractCitation c : pn.citations) {
                 new CitationValidator(rootValidator, c).validate();
             }
@@ -95,9 +95,11 @@ public class PersonalNameValidator extends AbstractValidator {
                 rootValidator.addError("Event has null list of phonetic name variations", pn);
             }
         }
-        for (NameVariation nv : pn.phonetic) {
-            PersonalNameVariation pnv = (PersonalNameVariation) nv;
-            new PersonalNameVariationValidator(rootValidator, pnv).validate();
+        if (pn.phonetic != null) {
+            for (NameVariation nv : pn.phonetic) {
+                PersonalNameVariation pnv = (PersonalNameVariation) nv;
+                new PersonalNameVariationValidator(rootValidator, pnv).validate();
+            }
         }
 
         if (pn.romanized == null) {
@@ -108,9 +110,11 @@ public class PersonalNameValidator extends AbstractValidator {
                 rootValidator.addError("Event has null list of romanized name variations", pn);
             }
         }
-        for (NameVariation nv : pn.romanized) {
-            PersonalNameVariation pnv = (PersonalNameVariation) nv;
-            new PersonalNameVariationValidator(rootValidator, pnv).validate();
+        if (pn.romanized != null) {
+            for (NameVariation nv : pn.romanized) {
+                PersonalNameVariation pnv = (PersonalNameVariation) nv;
+                new PersonalNameVariationValidator(rootValidator, pnv).validate();
+            }
         }
     }
 
