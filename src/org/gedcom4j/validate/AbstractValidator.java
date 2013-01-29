@@ -444,6 +444,8 @@ public abstract class AbstractValidator {
      * 
      * @param swct
      *            the string with custom tags
+     * @param fieldDescription
+     *            a description of the field's contents
      */
     private void checkStringWithCustomTags(StringWithCustomTags swct, String fieldDescription) {
         if (swct == null) {
