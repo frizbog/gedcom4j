@@ -55,6 +55,9 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
      */
     private Individual jr;
 
+    /**
+     * The family being validated
+     */
     private Family f;
 
     /*
