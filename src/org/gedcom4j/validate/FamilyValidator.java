@@ -84,7 +84,11 @@ public class FamilyValidator extends AbstractValidator {
             } else {
                 addError("LDS spouse sealings collection for family is null", f);
             }
-        } // TODO - validate the LDS Spouse Sealing if there are any
+        } else {
+            for (LdsSpouseSealing s : f.ldsSpouseSealings) {
+                new LdsSpouseSealingValidator(rootValidator, s).validate();
+            }
+        }
         if (f.multimedia == null) {
             if (rootValidator.autorepair) {
                 f.multimedia = new ArrayList<Multimedia>();
