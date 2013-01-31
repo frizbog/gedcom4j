@@ -26,9 +26,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.gedcom4j.model.Individual;
-import org.gedcom4j.relationship.Relationship;
 import org.junit.Test;
-
 
 /**
  * Test for {@link Relationship}
@@ -37,6 +35,7 @@ import org.junit.Test;
  * 
  */
 public class RelationshipTest {
+
     /**
      * Test equals and hashcode after perturbing the chain property
      */
@@ -91,6 +90,26 @@ public class RelationshipTest {
         Relationship r2 = new Relationship();
         assertEquals(r1, r2);
         assertEquals(r1.hashCode(), r2.hashCode());
+    }
+
+    /**
+     * Test for {@link Relationship#toString()}
+     */
+    @Test
+    public void testToString() {
+        Relationship r = new Relationship();
+        assertEquals("<>, 0 step(s)", r.toString());
+
+        r.individual1 = new Individual();
+        r.individual2 = new Individual();
+        SimpleRelationship sr = new SimpleRelationship();
+        sr.name = RelationshipName.FATHER;
+        sr.reverseName = RelationshipName.SON;
+        sr.individual1 = r.individual1;
+        sr.individual2 = r.individual2;
+        r.chain.add(sr);
+
+        assertEquals("<Unknown's FATHER Unknown>, 1 step(s)", r.toString());
     }
 
 }
