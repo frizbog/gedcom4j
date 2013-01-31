@@ -94,8 +94,7 @@ public class PersonalNameValidator extends AbstractValidator {
             } else {
                 rootValidator.addError("Event has null list of phonetic name variations", pn);
             }
-        }
-        if (pn.phonetic != null) {
+        } else {
             for (NameVariation nv : pn.phonetic) {
                 PersonalNameVariation pnv = (PersonalNameVariation) nv;
                 new PersonalNameVariationValidator(rootValidator, pnv).validate();
@@ -109,8 +108,7 @@ public class PersonalNameValidator extends AbstractValidator {
             } else {
                 rootValidator.addError("Event has null list of romanized name variations", pn);
             }
-        }
-        if (pn.romanized != null) {
+        } else {
             for (NameVariation nv : pn.romanized) {
                 PersonalNameVariation pnv = (PersonalNameVariation) nv;
                 new PersonalNameVariationValidator(rootValidator, pnv).validate();
