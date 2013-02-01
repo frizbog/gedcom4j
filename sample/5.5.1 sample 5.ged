@@ -18,6 +18,12 @@
 1 SUBM @SUB1@
 0 @SUB1@ SUBM
 1 NAME Frizbog Gordnik
+2 FONE Frizbog /Gordnik/
+3 TYPE Manual
+3 GIVN Frizbog
+3 NICK Friz
+3 NPFX Mr.
+3 SURN Gordnik
 1 PHON n/a
 1 EMAIL frizbog1<rem0ve_this>@gmail.com
 0 @I1@ INDI
