@@ -32,6 +32,7 @@ import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.Submitter;
+import org.junit.Test;
 
 /**
  * Tests for the {@link GedcomParser} class
@@ -42,26 +43,24 @@ import org.gedcom4j.model.Submitter;
 public class GedcomParserTest extends TestCase {
 
     /**
-     * The same sample file is used several times, this helper method ensures consistent assertions for all tests using
-     * the same file
+     * Test for a bad custom tag
      * 
-     * @param gp
-     *            the {@link GedcomParser}
+     * 
+     * @throws IOException
+     *             if there is a problem reading/writing the file
+     * @throws GedcomParserException
+     *             if there is a problem parsing the GEDCOM
+     * 
      */
-    private void checkTGC551LF(GedcomParser gp) {
-        assertTrue(gp.errors.isEmpty());
-        assertTrue(gp.warnings.isEmpty());
-        Gedcom g = gp.gedcom;
-        assertNotNull(g.header);
-        assertEquals(3, g.submitters.size());
-        Submitter submitter = g.submitters.get("@SUBMITTER@");
-        assertNotNull(submitter);
-        assertEquals("John A. Nairn", submitter.name.value);
-
-        assertEquals(7, g.families.size());
-        assertEquals(2, g.sources.size());
-        assertEquals(1, g.multimedia.size());
-        assertEquals(15, g.individuals.size());
+    @Test
+    public void testBadCustomTag() throws IOException, GedcomParserException {
+        GedcomParser gp = new GedcomParser();
+        gp.verbose = true;
+        gp.load("sample/Bad_custom_tag.ged");
+        assertNotNull(gp.errors);
+        assertEquals(1, gp.errors.size());
+        assertNotNull(gp.errors.get(0));
+        assertTrue(gp.errors.get(0).contains("Line 28: Cannot handle tag BUST"));
     }
 
     /**
@@ -81,7 +80,8 @@ public class GedcomParserTest extends TestCase {
     }
 
     /**
-     * Test loading a sample file ... another stress-test file. This one should have warnings.
+     * Test loading a sample file ... another stress-test file. This one should
+     * have warnings.
      * 
      * @throws IOException
      *             if the file can't be read
@@ -180,5 +180,28 @@ public class GedcomParserTest extends TestCase {
         InputStream stream = new FileInputStream("sample/TGC551LF.ged");
         gp.load(new BufferedInputStream(stream));
         checkTGC551LF(gp);
+    }
+
+    /**
+     * The same sample file is used several times, this helper method ensures
+     * consistent assertions for all tests using the same file
+     * 
+     * @param gp
+     *            the {@link GedcomParser}
+     */
+    private void checkTGC551LF(GedcomParser gp) {
+        assertTrue(gp.errors.isEmpty());
+        assertTrue(gp.warnings.isEmpty());
+        Gedcom g = gp.gedcom;
+        assertNotNull(g.header);
+        assertEquals(3, g.submitters.size());
+        Submitter submitter = g.submitters.get("@SUBMITTER@");
+        assertNotNull(submitter);
+        assertEquals("John A. Nairn", submitter.name.value);
+
+        assertEquals(7, g.families.size());
+        assertEquals(2, g.sources.size());
+        assertEquals(1, g.multimedia.size());
+        assertEquals(15, g.individuals.size());
     }
 }
