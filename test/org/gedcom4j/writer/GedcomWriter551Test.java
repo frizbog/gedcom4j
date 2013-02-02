@@ -38,6 +38,7 @@ import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.IndividualEventType;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.PersonalName;
+import org.gedcom4j.model.PersonalNameVariation;
 import org.gedcom4j.model.Place;
 import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.SourceSystem;
@@ -382,6 +383,65 @@ public class GedcomWriter551Test {
         assertEquals("png", fr.format.value);
         assertNull(fr.mediaType);
         assertEquals("Bar", fr.title.value);
+
+    }
+
+    /**
+     * Test personal name variations
+     * 
+     * @throws IOException
+     *             if data cannot be written
+     * @throws GedcomWriterException
+     *             if the data cannot be written as a gedcom
+     */
+    @Test
+    public void testPersonalNameVariations() throws IOException, GedcomWriterException {
+        Gedcom g = TestHelper.getMinimalGedcom();
+        Individual i = new Individual();
+        i.xref = "@I0001@";
+        g.individuals.put(i.xref, i);
+        PersonalName pn = new PersonalName();
+        pn.basic = "Bj\u00F8rn /J\u00F8rgen/";
+        i.names.add(pn);
+
+        GedcomWriter gw = new GedcomWriter(g);
+        gw.validationSuppressed = true;
+        assertTrue(gw.lines.isEmpty());
+
+        // Try basic scenario first before perturbing name with variations
+        gw.write("tmp/delete-me.ged");
+
+        // Add a malformed phonetic variation
+        PersonalNameVariation pnv = new PersonalNameVariation();
+        pn.phonetic.add(pnv);
+        try {
+            gw.write("tmp/delete-me.ged");
+            fail("Expected to get a GedcomWriterException due to missing field on personal name variation");
+        } catch (GedcomWriterException expected) {
+            assertTrue(expected.getMessage().toLowerCase().contains("required value for tag fone"));
+        }
+        // Now fix it
+        pnv.variation = "Byorn /Yorgen/";
+        gw.write("tmp/delete-me.ged");
+        // Now fiddle with it further
+        pnv.variationType = new StringWithCustomTags("Typed it like it sounds, duh");
+        gw.write("tmp/delete-me.ged");
+
+        // Add a bad romanized variation
+        pnv = new PersonalNameVariation();
+        pn.romanized.add(pnv);
+        try {
+            gw.write("tmp/delete-me.ged");
+            fail("Expected to get a GedcomWriterException due to missing field on personal name variation");
+        } catch (GedcomWriterException expected) {
+            assertTrue(expected.getMessage().toLowerCase().contains("required value for tag romn"));
+        }
+        // Now Fix it
+        pnv.variation = "Bjorn /Jorgen/";
+        gw.write("tmp/delete-me.ged");
+        // Now fiddle with it further
+        pnv.variationType = new StringWithCustomTags("Removed the slashes from the O's");
+        gw.write("tmp/delete-me.ged");
 
     }
 

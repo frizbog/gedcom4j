@@ -23,10 +23,18 @@ package org.gedcom4j.validate;
 
 import java.util.ArrayList;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.AbstractCitation;
+import org.gedcom4j.model.Association;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualAttribute;
+import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.PersonalName;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.Submitter;
 
 /**
- * A validator for an {@link Individual}. See {@link GedcomValidator} for usage information.
+ * A validator for an {@link Individual}. See {@link GedcomValidator} for usage
+ * information.
  * 
  * @author frizbog1
  * 
@@ -49,6 +57,33 @@ class IndividualValidator extends AbstractValidator {
     public IndividualValidator(GedcomValidator gedcomValidator, Individual individual) {
         rootValidator = gedcomValidator;
         this.individual = individual;
+    }
+
+    @Override
+    protected void validate() {
+        if (individual == null) {
+            addError("Individual is null");
+            return;
+        }
+        checkXref(individual);
+        if (individual.names == null) {
+            if (rootValidator.autorepair) {
+                individual.names = new ArrayList<PersonalName>();
+                rootValidator.addInfo("Individual " + individual.xref + " had no list of names - repaired", individual);
+            } else {
+                rootValidator.addError("Individual " + individual.xref + " has no list of names", individual);
+            }
+        } else {
+            for (PersonalName pn : individual.names) {
+                new PersonalNameValidator(rootValidator, pn).validate();
+            }
+        }
+        checkAliases();
+        checkAssociations();
+        checkCitations();
+        checkIndividualAttributes();
+        checkSubmitters();
+        checkIndividualEvents();
     }
 
     /**
@@ -146,12 +181,14 @@ class IndividualValidator extends AbstractValidator {
                 if (a.type == null) {
                     addError("Individual event requires a type", a);
                 }
+                new EventValidator(rootValidator, a).validate();
             }
         }
     }
 
     /**
-     * Validate the two submitters collections: {@link Individual#ancestorInterest} and
+     * Validate the two submitters collections:
+     * {@link Individual#ancestorInterest} and
      * {@link Individual#descendantInterest}
      */
     private void checkSubmitters() {
@@ -181,21 +218,6 @@ class IndividualValidator extends AbstractValidator {
             }
         }
 
-    }
-
-    @Override
-    protected void validate() {
-        if (individual == null) {
-            addError("Individual is null");
-            return;
-        }
-        checkXref(individual);
-        checkAliases();
-        checkAssociations();
-        checkCitations();
-        checkIndividualAttributes();
-        checkSubmitters();
-        checkIndividualEvents();
     }
 
 }
