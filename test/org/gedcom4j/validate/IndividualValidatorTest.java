@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.TestHelper;
 
 /**
  * Tests for {@link IndividualValidator}
@@ -33,11 +34,6 @@ import org.gedcom4j.model.Individual;
  * 
  */
 public class IndividualValidatorTest extends AbstractValidatorTestCase {
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
 
     /**
      * Test for a default individual (no xref)
@@ -55,7 +51,7 @@ public class IndividualValidatorTest extends AbstractValidatorTestCase {
      * map
      */
     public void testValidateIndividuals2() {
-        Gedcom g = new Gedcom();
+        Gedcom g = TestHelper.getMinimalGedcom();
 
         // Deliberately introduce a problem
         Individual i = new Individual();
@@ -79,6 +75,11 @@ public class IndividualValidatorTest extends AbstractValidatorTestCase {
             }
         }
         assertEquals("There should be one finding of severity ERROR", 1, errorsCount);
+    }
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
     }
 
 }

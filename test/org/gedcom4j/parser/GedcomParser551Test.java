@@ -29,13 +29,28 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.List;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Corporation;
+import org.gedcom4j.model.Family;
+import org.gedcom4j.model.FamilyChild;
+import org.gedcom4j.model.FamilyEvent;
+import org.gedcom4j.model.FamilyEventType;
+import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualAttribute;
+import org.gedcom4j.model.IndividualAttributeType;
+import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.IndividualEventType;
+import org.gedcom4j.model.NameVariation;
+import org.gedcom4j.model.PersonalName;
+import org.gedcom4j.model.Place;
+import org.gedcom4j.model.Submitter;
 import org.gedcom4j.query.Finder;
 import org.junit.Test;
 
 /**
- * These are tests for the Gedcom Parser that are specific to GEDCOM 5.5.1. This class may eventually be combined with
- * {@link GedcomParserTest} once the branch is merged into the trunk.
+ * These are tests for the Gedcom Parser that are specific to GEDCOM 5.5.1. This
+ * class may eventually be combined with {@link GedcomParserTest} once the
+ * branch is merged into the trunk.
  * 
  * @author frizbog
  * 
@@ -334,7 +349,26 @@ public class GedcomParser551Test {
     }
 
     /**
-     * Test the new religious affiliation tag added to family events in GEDCOM 5.5.1
+     * Test the file references sections for a multimedia object
+     * 
+     * 
+     * @throws IOException
+     *             if there is a problem reading/writing the file
+     * @throws GedcomParserException
+     *             if there is a problem parsing the GEDCOM
+     * 
+     */
+    @Test
+    public void testMultimediaFileRef() throws IOException, GedcomParserException {
+        GedcomParser gp = new GedcomParser();
+        gp.verbose = true;
+        gp.load("sample/5.5.1 sample 5.ged");
+        assertTrue(gp.errors.isEmpty());
+    }
+
+    /**
+     * Test the new religious affiliation tag added to family events in GEDCOM
+     * 5.5.1
      * 
      * @throws IOException
      *             if there is a problem reading/writing the file
@@ -371,7 +405,8 @@ public class GedcomParser551Test {
     }
 
     /**
-     * Test the new religious affiliation tag added to family events in GEDCOM 5.5.1
+     * Test the new religious affiliation tag added to family events in GEDCOM
+     * 5.5.1
      * 
      * @throws IOException
      *             if there is a problem reading/writing the file

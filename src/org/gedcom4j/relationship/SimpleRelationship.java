@@ -62,10 +62,10 @@ public class SimpleRelationship {
      *            the other {@link SimpleRelationship} to copy
      */
     public SimpleRelationship(SimpleRelationship sr) {
-        this.individual1 = sr.individual1;
-        this.individual2 = sr.individual2;
-        this.name = sr.name;
-        this.reverseName = sr.reverseName;
+        individual1 = sr.individual1;
+        individual2 = sr.individual2;
+        name = sr.name;
+        reverseName = sr.reverseName;
     }
 
     @Override
@@ -84,14 +84,14 @@ public class SimpleRelationship {
             if (other.individual1 != null) {
                 return false;
             }
-        } else if (individual1 != other.individual1) {
+        } else if (!individual1.equals(other.individual1)) {
             return false;
         }
         if (individual2 == null) {
             if (other.individual2 != null) {
                 return false;
             }
-        } else if (individual2 != other.individual2) {
+        } else if (!individual2.equals(other.individual2)) {
             return false;
         }
         if (name != other.name) {
@@ -107,13 +107,10 @@ public class SimpleRelationship {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result
-                + ((individual1 == null) ? 0 : individual1.hashCode());
-        result = prime * result
-                + ((individual2 == null) ? 0 : individual2.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result
-                + ((reverseName == null) ? 0 : reverseName.hashCode());
+        result = prime * result + (individual1 == null ? 0 : individual1.hashCode());
+        result = prime * result + (individual2 == null ? 0 : individual2.hashCode());
+        result = prime * result + (name == null ? 0 : name.hashCode());
+        result = prime * result + (reverseName == null ? 0 : reverseName.hashCode());
         return result;
     }
 
@@ -125,8 +122,7 @@ public class SimpleRelationship {
      */
     @Override
     public String toString() {
-        return (individual1 == null ? "null" : individual1.names.get(0))
-                + "'s " + name + " "
+        return (individual1 == null ? "null" : individual1.names.get(0)) + "'s " + name + " "
                 + (individual2 == null ? "null" : individual2.names.get(0));
     }
 }
