@@ -24,10 +24,10 @@ package org.gedcom4j.relationship;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyChild;
 import org.gedcom4j.model.FamilySpouse;
 import org.gedcom4j.model.Individual;
-
 
 /**
  * A class for doing more advanced ancestry calculations than the basic
@@ -44,6 +44,7 @@ public class AncestryCalculator {
      * recursing around
      */
     private boolean addedAnyCommonAncestors;
+
     /**
      * The set of people who have been checked already to see if they are an
      * ancestor of the first individual. This is to keep things efficient and to
@@ -58,6 +59,11 @@ public class AncestryCalculator {
      * individual 1 is our lowest common ancestor.
      */
     private Set<Individual> targetList;
+
+    /**
+     * A count of generations
+     */
+    private int genCount;
 
     /**
      * Get the "extended ancestry" of an individual. This is defined (for this
@@ -109,6 +115,31 @@ public class AncestryCalculator {
     }
 
     /**
+     * Counts the number of generations between the ancestor and descendant.
+     * 
+     * @param descendant
+     *            the descendant individual
+     * @param ancestor
+     *            the ancestor of the descendant
+     * @return the number of generations separating descendant from ancestor. A
+     *         parent-child relationship would be 1; a grandparent-child
+     *         relationship would be 2. This method should always return a
+     *         positive integer, or throw an exception.
+     * @throws IllegalArgumentException
+     *             if the descendant is not a descendant of the ancestor
+     */
+    public int getGenerationCount(Individual descendant, Individual ancestor) throws IllegalArgumentException {
+        genCount = 0;
+
+        if (lookForAncestor(descendant, ancestor) && genCount > 0) {
+            return genCount;
+        } else {
+            throw new IllegalArgumentException("Ancestor/descendant relationship not found for " + ancestor + " and  "
+                    + descendant);
+        }
+    }
+
+    /**
      * Get a Set of the lowest common ancestors between two individuals
      * 
      * @param individual1
@@ -117,8 +148,7 @@ public class AncestryCalculator {
      *            individual 2
      * @return the set of lowest common ancestors
      */
-    public Set<Individual> getLowestCommonAncestors(Individual individual1,
-            Individual individual2) {
+    public Set<Individual> getLowestCommonAncestors(Individual individual1, Individual individual2) {
         Set<Individual> result = new HashSet<Individual>();
 
         // Initialize the first iteration of using the lowest-common-ancestor
@@ -157,8 +187,7 @@ public class AncestryCalculator {
      * @param level
      *            the level of recursion we're at
      */
-    void addLowestCommonAncestorsToSet(Individual individual,
-            Set<Individual> set, int level) {
+    void addLowestCommonAncestorsToSet(Individual individual, Set<Individual> set, int level) {
 
         if (individual == null) {
             return;
@@ -214,8 +243,7 @@ public class AncestryCalculator {
      *            true if the parent is the father
      * 
      */
-    void checkParent(int level, Set<Individual> set, Individual parent,
-            Individual child, boolean parentIsDad) {
+    void checkParent(int level, Set<Individual> set, Individual parent, Individual child, boolean parentIsDad) {
 
         if (parent == null) {
             return;
@@ -237,8 +265,7 @@ public class AncestryCalculator {
                 // Dad's wife is in common, add to result set
                 set.add(spouse);
                 addedAnyCommonAncestors = true;
-            } else if (!checkedAlready.contains(spouse)
-                    && !spouse.familiesWhereChild.isEmpty()) {
+            } else if (!checkedAlready.contains(spouse) && !spouse.familiesWhereChild.isEmpty()) {
                 Set<Individual> s = new HashSet<Individual>();
                 addLowestCommonAncestorsToSet(spouse, s, level + 1);
                 if (!s.isEmpty()) {
@@ -284,4 +311,38 @@ public class AncestryCalculator {
         addedAnyCommonAncestors = false;
     }
 
+    /**
+     * A recursive method for counting generations between a specific person and
+     * an ancestor. Used as the workhorse for
+     * {@link #getGenerationCount(Individual, Individual)}. Upon return,
+     * {@link #genCount} will equal the number of generations between
+     * <code>person</code> and <code>ancestor</code>
+     * 
+     * @param person
+     *            the person currently being examined
+     * @param ancestor
+     *            the ancestor we are looking for and which stops the recursion
+     * @return true if and only if the ancestor has been found for person
+     */
+    private boolean lookForAncestor(Individual person, Individual ancestor) {
+        if (person != null && person.familiesWhereChild != null) {
+            for (FamilyChild fc : person.familiesWhereChild) {
+                Family f = fc.family;
+                if (ancestor.equals(f.husband) || ancestor.equals(f.wife)) {
+                    genCount = 1;
+                    return true;
+                } else if (lookForAncestor(f.husband, ancestor)) {
+                    genCount++;
+                    return true;
+                } else if (lookForAncestor(f.wife, ancestor)) {
+                    genCount++;
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        return false;
+    }
 }
