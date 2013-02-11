@@ -162,11 +162,23 @@ public class SimpleRelationshipTest {
         assertEquals("Bill's FATHER Sam", sr1.toString());
 
         // Perturb the data
-        sr1.name = RelationshipName.CHILD;
-        sr1.reverseName = RelationshipName.BROTHER;
+        sr1.name = RelationshipName.FIRST_COUSIN;
+        sr1.reverseName = RelationshipName.FIRST_COUSIN;
         sr1.individual1.changeDate = new ChangeDate();
 
-        assertEquals("Bill's CHILD Sam", sr1.toString());
+        assertEquals("Bill's FIRST_COUSIN Sam", sr1.toString());
+
+        sr1.generationsRemoved = 1;
+        assertEquals("Bill's FIRST_COUSIN_ONCE_REMOVED Sam", sr1.toString());
+
+        sr1.generationsRemoved = 2;
+        assertEquals("Bill's FIRST_COUSIN_TWICE_REMOVED Sam", sr1.toString());
+
+        sr1.generationsRemoved = 3;
+        assertEquals("Bill's FIRST_COUSIN_3X_REMOVED Sam", sr1.toString());
+
+        sr1.generationsRemoved = 4;
+        assertEquals("Bill's FIRST_COUSIN_4X_REMOVED Sam", sr1.toString());
     }
 
 }

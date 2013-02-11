@@ -49,6 +49,11 @@ public class SimpleRelationship {
     public RelationshipName reverseName;
 
     /**
+     * Number of generations removed -- applies ONLY to cousin relationships
+     */
+    public int generationsRemoved = 0;
+
+    /**
      * Default constructor
      */
     public SimpleRelationship() {
@@ -66,6 +71,7 @@ public class SimpleRelationship {
         individual2 = sr.individual2;
         name = sr.name;
         reverseName = sr.reverseName;
+        generationsRemoved = sr.generationsRemoved;
     }
 
     @Override
@@ -94,6 +100,9 @@ public class SimpleRelationship {
         } else if (!individual2.equals(other.individual2)) {
             return false;
         }
+        if (generationsRemoved != other.generationsRemoved) {
+            return false;
+        }
         if (name != other.name) {
             return false;
         }
@@ -111,6 +120,7 @@ public class SimpleRelationship {
         result = prime * result + (individual2 == null ? 0 : individual2.hashCode());
         result = prime * result + (name == null ? 0 : name.hashCode());
         result = prime * result + (reverseName == null ? 0 : reverseName.hashCode());
+        result = prime * result + generationsRemoved;
         return result;
     }
 
@@ -122,7 +132,22 @@ public class SimpleRelationship {
      */
     @Override
     public String toString() {
-        return (individual1 == null ? "null" : individual1.names.get(0)) + "'s " + name + " "
-                + (individual2 == null ? "null" : individual2.names.get(0));
+        StringBuilder sb = new StringBuilder();
+        sb.append((individual1 == null ? "null" : individual1.names.get(0)) + "'s " + name);
+        switch (generationsRemoved) {
+        case 0:
+            break;
+        case 1:
+            sb.append("_ONCE_REMOVED");
+            break;
+        case 2:
+            sb.append("_TWICE_REMOVED");
+            break;
+        default:
+            sb.append("_" + generationsRemoved + "X_REMOVED");
+            break;
+        }
+        sb.append(" ").append(individual2 == null ? "null" : individual2.names.get(0));
+        return sb.toString();
     }
 }
