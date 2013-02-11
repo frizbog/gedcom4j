@@ -125,8 +125,6 @@ public class AncestryCalculator {
      *         parent-child relationship would be 1; a grandparent-child
      *         relationship would be 2. This method should always return a
      *         positive integer, or throw an exception.
-     * @throws IllegalArgumentException
-     *             if the descendant is not a descendant of the ancestor
      */
     public int getGenerationCount(Individual descendant, Individual ancestor) {
         genCount = 0;
