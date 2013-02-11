@@ -128,7 +128,7 @@ public class AncestryCalculator {
      * @throws IllegalArgumentException
      *             if the descendant is not a descendant of the ancestor
      */
-    public int getGenerationCount(Individual descendant, Individual ancestor) throws IllegalArgumentException {
+    public int getGenerationCount(Individual descendant, Individual ancestor) {
         genCount = 0;
 
         if (lookForAncestor(descendant, ancestor) && genCount > 0) {
