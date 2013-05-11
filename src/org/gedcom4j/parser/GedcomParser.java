@@ -431,6 +431,8 @@ public class GedcomParser {
                 cws.certainty = new StringWithCustomTags(ch);
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, cws.notes);
+            } else if ("OBJE".equals(ch.tag)) {
+                loadMultimediaLink(ch, cws.multimedia);
             } else {
                 unknownTag(ch, citation);
             }
