@@ -407,11 +407,11 @@ public class Individual extends AbstractElement {
     public Set<Individual> getAncestors() {
         Set<Individual> result = new HashSet<Individual>();
         for (FamilyChild f : familiesWhereChild) {
-            if (f.family.husband != null) {
+            if (f.family.husband != null && !result.contains(f.family.husband)) {
                 result.add(f.family.husband);
                 result.addAll(f.family.husband.getAncestors());
             }
-            if (f.family.wife != null) {
+            if (f.family.wife != null && !result.contains(f.family.wife)) {
                 result.add(f.family.wife);
                 result.addAll(f.family.wife.getAncestors());
             }
