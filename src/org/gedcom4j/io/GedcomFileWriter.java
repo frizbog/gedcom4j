@@ -23,6 +23,8 @@ package org.gedcom4j.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.util.List;
 
 /**
@@ -145,8 +147,33 @@ public class GedcomFileWriter {
     		}
     		break;
     	case UTF_8:
-    		for (String line : gedcomLines) {
-    			writeUtf8Line(out, line);
+    		String lineTerminator = null;
+    		switch (terminator) {
+    		case CR_ONLY:
+    			lineTerminator = "\r";
+    			break;
+    		case LF_ONLY:
+    			lineTerminator = "\n";
+    			break;
+    		case LFCR:
+    			lineTerminator = "\n\r";
+    			break;
+    		case CRLF:
+    			lineTerminator = "\r\n";
+    			break;
+    		default:
+    			throw new IllegalStateException("Terminator selection of " + terminator + " is an unrecognized value");
+    		}
+
+    		OutputStreamWriter writer = new OutputStreamWriter(out, Charset.forName("UTF-8"));
+    		try {
+	    		for (String line : gedcomLines) {
+	    			writer.write(line);
+	    			writer.write(lineTerminator);
+	    		}
+    		} finally {
+    			writer.flush();
+    			writer.close();
     		}
     		break;
     	default:
@@ -365,24 +392,6 @@ public class GedcomFileWriter {
             char c = line.charAt(i);
             out.write(c & 0x00FF);
             out.write(c >> 8);
-        }
-        writeLineTerminator(out);
-    }
-
-    /**
-     * Write data out as UTF-8 lines.
-     * 
-     * @param out
-     *            the output stream we're writing to
-     * @param line
-     *            the line of text we're writing
-     * @throws IOException
-     *             if the data can't be written to the stream
-     */
-    private void writeUtf8Line(OutputStream out, String line) throws IOException {
-        for (int i = 0; i < line.length(); i++) {
-            char c = line.charAt(i);
-            out.write(c);
         }
         writeLineTerminator(out);
     }
