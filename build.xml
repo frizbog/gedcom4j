@@ -94,6 +94,29 @@
 		<unjar dest="tmp" src="dist/gedcom4j-${release.version}.jar" />
 	</target>
 
+	<target name="maven-local" depends="release" description="Prepare release for push to LOCAL maven repository">
+		<!--
+		This target is inteded to be used by any developer to install the artifact to the local
+		maven repository.
+		-->
+		<!-- Make the pom.xml from the template -->
+		<copy filtering="true" overwrite="true" tofile="tmp/pom.xml">
+			<fileset dir="etc">
+				<include name="pom.template.xml" />
+			</fileset>
+			<filterset>
+				<filter token="VERSION" value="${release.version}" />
+			</filterset>
+		</copy>
+
+		<artifact:pom id="mypom" file="tmp/pom.xml" />
+		<artifact:install file="dist/gedcom4j-${release.version}.jar">
+			<pom refid="mypom"/>
+		    <attach file="${basedir}/dist/gedcom4j-${release.version}-javadoc.jar" type="jar" classifier="javadoc"/>
+		    <attach file="${basedir}/dist/gedcom4j-${release.version}-sources.jar" type="jar" classifier="sources"/>
+		</artifact:install>
+	</target>
+
 	<target name="maven" description="Prepare release for push to maven repository">
 		<!--
 		This target is intended for use by the project owner(s) to push releases to maven central repository
@@ -210,7 +233,7 @@
 		<property name="cobertura.destdir" value="reports/coverage"/>
 		<cobertura-report datafile="${data.file}" format="${cobertura.format}" destdir="${cobertura.destdir}">
 			<fileset dir="src" />
-		</cobertura-report>		
+		</cobertura-report>
 		<delete file="${data.file}" />
 		<delete>
 			<fileset dir="${basedir}">
