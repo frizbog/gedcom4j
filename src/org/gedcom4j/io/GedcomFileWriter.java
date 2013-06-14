@@ -83,7 +83,7 @@ public class GedcomFileWriter {
     /**
      * The lines of the gedcom file (in internal java string format - that is, UTF-16)
      */
-    private List<String> gedcomLines;
+    private final List<String> gedcomLines;
 
     /**
      * Constructor
@@ -123,27 +123,35 @@ public class GedcomFileWriter {
      *             if the data can't be written to the stream
      */
     public void write(OutputStream out) throws IOException {
-        for (String line : gedcomLines) {
-            switch (encoding) {
-            case ASCII:
-                writeAsciiLine(out, line);
-                break;
-            case ANSEL:
-                writeAnselLine(out, line);
-                break;
-            case UNICODE_BIG_ENDIAN:
-                writeUnicodeBigEndianLine(out, line);
-                break;
-            case UNICODE_LITTLE_ENDIAN:
-                writeUnicodeLittleEndianLine(out, line);
-                break;
-            case UTF_8:
-                writeUtf8Line(out, line);
-                break;
-            default:
-                throw new IllegalStateException("Encoding " + encoding + " is an unrecognized value");
-            }
-        }
+    	switch (encoding) {
+    	case ASCII:
+    		for (String line : gedcomLines) {
+    			writeAsciiLine(out, line);
+    		}
+    		break;
+    	case ANSEL:
+    		for (String line : gedcomLines) {
+    			writeAnselLine(out, line);
+    		}
+    		break;
+    	case UNICODE_BIG_ENDIAN:
+    		for (String line : gedcomLines) {
+    			writeUnicodeBigEndianLine(out, line);
+    		}
+    		break;
+    	case UNICODE_LITTLE_ENDIAN:
+    		for (String line : gedcomLines) {
+    			writeUnicodeLittleEndianLine(out, line);
+    		}
+    		break;
+    	case UTF_8:
+    		for (String line : gedcomLines) {
+    			writeUtf8Line(out, line);
+    		}
+    		break;
+    	default:
+    		throw new IllegalStateException("Encoding " + encoding + " is an unrecognized value");
+    	}
     }
 
     /**
