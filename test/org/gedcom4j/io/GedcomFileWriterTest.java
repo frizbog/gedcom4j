@@ -41,8 +41,11 @@ import org.gedcom4j.writer.GedcomWriterException;
 import org.junit.Test;
 
 /**
- * @author frizbog1
+ * Test for {@link GedcomFileWriter}. Doesn't actually test writing GEDCOM data per se, but tests reading and writing
+ * various encodings (including ANSEL which has no direct Java support) and ensuring that non ASCII characters are
+ * handled appropriately (which for most cases means preserving the characters).
  * 
+ * @author frizbog1
  */
 public class GedcomFileWriterTest {
 
@@ -128,21 +131,15 @@ public class GedcomFileWriterTest {
     }
 
     /**
-     * Test writing out ANSEL bytes with CRLF line terminators. Includes an
-     * unmappable character in line 3, and a mappable extended character in line
-     * 4
+     * Test writing out ANSEL bytes with CRLF line terminators. Includes an unmappable character in line 3, and a
+     * mappable extended character in line 4
      * 
      * @throws IOException
      *             if the data can't be written
      */
     @Test
     public void testOutputAnselCrLf() throws IOException {
-        List<String> lines = new ArrayList<String>();
-        lines.add("0 HEAD");
-        lines.add("1 CHAR ANSEL");
-        lines.add("\u0140 unmappable in ansel");
-        lines.add("\u0141 mappable in ansel");
-        lines.add("0 TRLR");
+        List<String> lines = getAnselGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
         gfw.terminator = LineTerminator.CRLF;
 
@@ -150,30 +147,34 @@ public class GedcomFileWriterTest {
         gfw.write(out);
         out.close();
 
-        byte[] expected = new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0D, 0x0A, 0x31, 0x20, 0x43, 0x48, 0x41,
-                0x52, 0x20, 0x41, 0x4E, 0x53, 0x45, 0x4C, 0x0D, 0x0A, 0x40, 0x20, 0x75, 0x6E, 0x6D, 0x61, 0x70, 0x70,
-                0x61, 0x62, 0x6C, 0x65, 0x20, 0x69, 0x6E, 0x20, 0x61, 0x6E, 0x73, 0x65, 0x6C, 0x0D, 0x0A, (byte) 0xA1,
-                0x20, 0x6D, 0x61, 0x70, 0x70, 0x61, 0x62, 0x6C, 0x65, 0x20, 0x69, 0x6E, 0x20, 0x61, 0x6E, 0x73, 0x65,
-                0x6C, 0x0D, 0x0A, 0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0D, 0x0A, };
+        byte[] expected = new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0D,
+                0x0A,
+                // End of line 1
+                0x31, 0x20, 0x43, 0x48, 0x41, 0x52, 0x20, 0x41, 0x4E, 0x53, 0x45, 0x4C, 0x0D,
+                0x0A,
+                // End of line 2
+                0x40, 0x20, 0x75, 0x6E, 0x6D, 0x61, 0x70, 0x70, 0x61, 0x62, 0x6C, 0x65, 0x20, 0x69, 0x6E, 0x20, 0x61,
+                0x6E, 0x73, 0x65, 0x6C, 0x0D, 0x0A,
+                // End of line 3
+                (byte) 0xA1, 0x20, 0x6D, 0x61, 0x70, 0x70, 0x61, 0x62, 0x6C, 0x65, 0x20, 0x69, 0x6E, 0x20, 0x61, 0x6E,
+                0x73, 0x65, 0x6C, 0x0D, 0x0A,
+                // End of line 4
+                0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0D, 0x0A,
+        // End of line 5
+        };
         assertTrue("Output bytes are not the expected value", Arrays.equals(expected, out.toByteArray()));
     }
 
     /**
-     * Test writing out ANSEL bytes with only CR line terminators. Includes an
-     * unmappable character in line 3, and a mappable extended character in line
-     * 4
+     * Test writing out ANSEL bytes with only CR line terminators. Includes an unmappable character in line 3, and a
+     * mappable extended character in line 4
      * 
      * @throws IOException
      *             if the data can't be written
      */
     @Test
     public void testOutputAnselCrOnly() throws IOException {
-        List<String> lines = new ArrayList<String>();
-        lines.add("0 HEAD");
-        lines.add("1 CHAR ANSEL");
-        lines.add("\u0140 unmappable in ansel");
-        lines.add("\u0141 mappable in ansel");
-        lines.add("0 TRLR");
+        List<String> lines = getAnselGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
         gfw.terminator = LineTerminator.CR_ONLY;
 
@@ -183,30 +184,33 @@ public class GedcomFileWriterTest {
 
         assertTrue(
                 "Output bytes are not the expected value",
-                Arrays.equals(new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0D, 0x31, 0x20, 0x43, 0x48, 0x41,
-                        0x52, 0x20, 0x41, 0x4E, 0x53, 0x45, 0x4C, 0x0D, 0x40, 0x20, 0x75, 0x6E, 0x6D, 0x61, 0x70, 0x70,
-                        0x61, 0x62, 0x6C, 0x65, 0x20, 0x69, 0x6E, 0x20, 0x61, 0x6E, 0x73, 0x65, 0x6C, 0x0D,
+                Arrays.equals(new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44,
+                        0x0D,
+                        // End of line 1
+                        0x31, 0x20, 0x43, 0x48, 0x41, 0x52, 0x20, 0x41, 0x4E, 0x53, 0x45, 0x4C,
+                        0x0D,
+                        // End of line 2
+                        0x40, 0x20, 0x75, 0x6E, 0x6D, 0x61, 0x70, 0x70, 0x61, 0x62, 0x6C, 0x65, 0x20, 0x69, 0x6E, 0x20,
+                        0x61, 0x6E, 0x73, 0x65, 0x6C, 0x0D,
+                        // End of line 3
                         (byte) 0xA1, 0x20, 0x6D, 0x61, 0x70, 0x70, 0x61, 0x62, 0x6C, 0x65, 0x20, 0x69, 0x6E, 0x20,
-                        0x61, 0x6E, 0x73, 0x65, 0x6C, 0x0D, 0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0D, },
-                        out.toByteArray()));
+                        0x61, 0x6E, 0x73, 0x65, 0x6C, 0x0D,
+                        // End of line 4
+                        0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0D,
+                // End of line 5
+                        }, out.toByteArray()));
     }
 
     /**
-     * Test writing out ANSEL bytes with LFCR line terminators. Includes an
-     * unmappable character in line 3, and a mappable extended character in line
-     * 4
+     * Test writing out ANSEL bytes with LFCR line terminators. Includes an unmappable character in line 3, and a
+     * mappable extended character in line 4
      * 
      * @throws IOException
      *             if the data can't be written
      */
     @Test
     public void testOutputAnselLfCr() throws IOException {
-        List<String> lines = new ArrayList<String>();
-        lines.add("0 HEAD");
-        lines.add("1 CHAR ANSEL");
-        lines.add("\u0140 unmappable in ansel");
-        lines.add("\u0141 mappable in ansel");
-        lines.add("0 TRLR");
+        List<String> lines = getAnselGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
         gfw.terminator = LineTerminator.LFCR;
 
@@ -214,30 +218,34 @@ public class GedcomFileWriterTest {
         gfw.write(out);
         out.close();
 
-        byte[] expected = new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0A, 0x0D, 0x31, 0x20, 0x43, 0x48, 0x41,
-                0x52, 0x20, 0x41, 0x4E, 0x53, 0x45, 0x4C, 0x0A, 0x0D, 0x40, 0x20, 0x75, 0x6E, 0x6D, 0x61, 0x70, 0x70,
-                0x61, 0x62, 0x6C, 0x65, 0x20, 0x69, 0x6E, 0x20, 0x61, 0x6E, 0x73, 0x65, 0x6C, 0x0A, 0x0D, (byte) 0xA1,
-                0x20, 0x6D, 0x61, 0x70, 0x70, 0x61, 0x62, 0x6C, 0x65, 0x20, 0x69, 0x6E, 0x20, 0x61, 0x6E, 0x73, 0x65,
-                0x6C, 0x0A, 0x0D, 0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0A, 0x0D, };
+        byte[] expected = new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0A,
+                0x0D,
+                // End of line 1
+                0x31, 0x20, 0x43, 0x48, 0x41, 0x52, 0x20, 0x41, 0x4E, 0x53, 0x45, 0x4C, 0x0A,
+                0x0D,
+                // End of line 2
+                0x40, 0x20, 0x75, 0x6E, 0x6D, 0x61, 0x70, 0x70, 0x61, 0x62, 0x6C, 0x65, 0x20, 0x69, 0x6E, 0x20, 0x61,
+                0x6E, 0x73, 0x65, 0x6C, 0x0A, 0x0D,
+                // End of line 3
+                (byte) 0xA1, 0x20, 0x6D, 0x61, 0x70, 0x70, 0x61, 0x62, 0x6C, 0x65, 0x20, 0x69, 0x6E, 0x20, 0x61, 0x6E,
+                0x73, 0x65, 0x6C, 0x0A, 0x0D,
+                // End of line 4
+                0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0A, 0x0D,
+        // End of line 5
+        };
         assertTrue("Output bytes are not the expected value", Arrays.equals(expected, out.toByteArray()));
     }
 
     /**
-     * Test writing out ANSEL bytes with LF line terminators. Includes an
-     * unmappable character in line 3, and a mappable extended character in line
-     * 4
+     * Test writing out ANSEL bytes with LF line terminators. Includes an unmappable character in line 3, and a mappable
+     * extended character in line 4
      * 
      * @throws IOException
      *             if the data can't be written
      */
     @Test
     public void testOutputAnselLfOnly() throws IOException {
-        List<String> lines = new ArrayList<String>();
-        lines.add("0 HEAD");
-        lines.add("1 CHAR ANSEL");
-        lines.add("\u0140 unmappable in ansel");
-        lines.add("\u0141 mappable in ansel");
-        lines.add("0 TRLR");
+        List<String> lines = getAnselGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
         gfw.terminator = LineTerminator.LF_ONLY;
 
@@ -247,28 +255,32 @@ public class GedcomFileWriterTest {
 
         assertTrue(
                 "Output bytes are not the expected value",
-                Arrays.equals(new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0A, 0x31, 0x20, 0x43, 0x48, 0x41,
-                        0x52, 0x20, 0x41, 0x4E, 0x53, 0x45, 0x4C, 0x0A, 0x40, 0x20, 0x75, 0x6E, 0x6D, 0x61, 0x70, 0x70,
-                        0x61, 0x62, 0x6C, 0x65, 0x20, 0x69, 0x6E, 0x20, 0x61, 0x6E, 0x73, 0x65, 0x6C, 0x0A,
+                Arrays.equals(new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44,
+                        0x0A,
+                        // End of line 1
+                        0x31, 0x20, 0x43, 0x48, 0x41, 0x52, 0x20, 0x41, 0x4E, 0x53, 0x45, 0x4C,
+                        0x0A,
+                        // End of line 2
+                        0x40, 0x20, 0x75, 0x6E, 0x6D, 0x61, 0x70, 0x70, 0x61, 0x62, 0x6C, 0x65, 0x20, 0x69, 0x6E, 0x20,
+                        0x61, 0x6E, 0x73, 0x65, 0x6C, 0x0A,
+                        // End of line 3
                         (byte) 0xA1, 0x20, 0x6D, 0x61, 0x70, 0x70, 0x61, 0x62, 0x6C, 0x65, 0x20, 0x69, 0x6E, 0x20,
-                        0x61, 0x6E, 0x73, 0x65, 0x6C, 0x0A, 0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0A, },
-                        out.toByteArray()));
+                        0x61, 0x6E, 0x73, 0x65, 0x6C, 0x0A,
+                        // End of line 4
+                        0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0A,
+                // End of line 5
+                        }, out.toByteArray()));
     }
 
     /**
-     * Test writing out ASCII bytes with CRLF line terminators. Includes an
-     * unmappable character in line 3.
+     * Test writing out ASCII bytes with CRLF line terminators. Includes an unmappable character in line 3.
      * 
      * @throws IOException
      *             if the data can't be written
      */
     @Test
     public void testOutputAsciiCrLf() throws IOException {
-        List<String> lines = new ArrayList<String>();
-        lines.add("0 HEAD");
-        lines.add("1 CHAR ASCII");
-        lines.add("\u0141 is unmappable in ascii");
-        lines.add("0 TRLR");
+        List<String> lines = getAsciiGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
         gfw.terminator = LineTerminator.CRLF;
 
@@ -276,31 +288,32 @@ public class GedcomFileWriterTest {
         gfw.write(out);
         out.close();
 
-        byte[] expected = new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0D, 0x0A, 0x31, 0x20, 0x43, 0x48, 0x41,
-                0x52, 0x20, 0x41, 0x53, 0x43, 0x49, 0x49, 0x0D, 0x0A,
+        byte[] expected = new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0D, 0x0A,
+                // End of line 1
+                0x31, 0x20, 0x43, 0x48, 0x41, 0x52, 0x20, 0x41, 0x53, 0x43, 0x49, 0x49, 0x0D, 0x0A,
+                // End of line 2
                 /*
                  * The unmappable character , shown here as a question mark
-                 */0x3F, 0x20, 0x69, 0x73, 0x20, 0x75, 0x6E, 0x6D, 0x61, 0x70, 0x70, 0x61, 0x62, 0x6C, 0x65, 0x20,
-                0x69, 0x6E, 0x20, 0x61, 0x73, 0x63, 0x69, 0x69, 0x0D, 0x0A, 0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0D,
-                0x0A, };
+                 */
+                0x3F, 0x20, 0x69, 0x73, 0x20, 0x75, 0x6E, 0x6D, 0x61, 0x70, 0x70, 0x61, 0x62, 0x6C, 0x65, 0x20, 0x69,
+                0x6E, 0x20, 0x61, 0x73, 0x63, 0x69, 0x69, 0x0D, 0x0A,
+                // End of line 3
+                0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0D, 0x0A,
+        // End of line 4
+        };
 
         assertTrue("Output bytes are not the expected value", Arrays.equals(expected, out.toByteArray()));
     }
 
     /**
-     * Test writing out ASCII bytes with CR-only line terminators. Includes an
-     * unmappable character in line 3.
+     * Test writing out ASCII bytes with CR-only line terminators. Includes an unmappable character in line 3.
      * 
      * @throws IOException
      *             if the data can't be written
      */
     @Test
     public void testOutputAsciiCrOnly() throws IOException {
-        List<String> lines = new ArrayList<String>();
-        lines.add("0 HEAD");
-        lines.add("1 CHAR ASCII");
-        lines.add("\u0141 is unmappable in ascii");
-        lines.add("0 TRLR");
+        List<String> lines = getAsciiGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
         gfw.terminator = LineTerminator.CR_ONLY;
 
@@ -310,36 +323,30 @@ public class GedcomFileWriterTest {
 
         assertTrue(
                 "Output bytes are not the expected value",
-                Arrays.equals(new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0D, 0x31, 0x20, 0x43, 0x48, 0x41,
-                        0x52, 0x20, 0x41, 0x53, 0x43, 0x49, 0x49, 0x0D, /*
-                                                                         * The
-                                                                         * unmappable
-                                                                         * character
-                                                                         * ,
-                                                                         * shown
-                                                                         * here
-                                                                         * as a
-                                                                         * question
-                                                                         * mark
-                                                                         */0x3F, 0x20, 0x69, 0x73, 0x20, 0x75, 0x6E,
-                        0x6D, 0x61, 0x70, 0x70, 0x61, 0x62, 0x6C, 0x65, 0x20, 0x69, 0x6E, 0x20, 0x61, 0x73, 0x63, 0x69,
-                        0x69, 0x0D, 0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0D, }, out.toByteArray()));
+                Arrays.equals(new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0D,
+                        // End of line 1
+                        0x31, 0x20, 0x43, 0x48, 0x41, 0x52, 0x20, 0x41, 0x53, 0x43, 0x49, 0x49, 0x0D,
+                        // End of line 2
+                        /*
+                         * The unmappable character , shown here as a question mark
+                         */
+                        0x3F, 0x20, 0x69, 0x73, 0x20, 0x75, 0x6E, 0x6D, 0x61, 0x70, 0x70, 0x61, 0x62, 0x6C, 0x65, 0x20,
+                        0x69, 0x6E, 0x20, 0x61, 0x73, 0x63, 0x69, 0x69, 0x0D,
+                        // End of line
+                        0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0D,
+                // End of line
+                        }, out.toByteArray()));
     }
 
     /**
-     * Test writing out ASCII bytes with LFCR line terminators. Includes an
-     * unmappable character in line 3.
+     * Test writing out ASCII bytes with LFCR line terminators. Includes an unmappable character in line 3.
      * 
      * @throws IOException
      *             if the data can't be written
      */
     @Test
     public void testOutputAsciiLfCr() throws IOException {
-        List<String> lines = new ArrayList<String>();
-        lines.add("0 HEAD");
-        lines.add("1 CHAR ASCII");
-        lines.add("\u0141 is unmappable in ascii");
-        lines.add("0 TRLR");
+        List<String> lines = getAsciiGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
         gfw.terminator = LineTerminator.LFCR;
 
@@ -347,31 +354,32 @@ public class GedcomFileWriterTest {
         gfw.write(out);
         out.close();
 
-        byte[] expected = new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0A, 0x0D, 0x31, 0x20, 0x43, 0x48, 0x41,
-                0x52, 0x20, 0x41, 0x53, 0x43, 0x49, 0x49, 0x0A, 0x0D,
+        byte[] expected = new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0A, 0x0D,
+                // End of line 1
+                0x31, 0x20, 0x43, 0x48, 0x41, 0x52, 0x20, 0x41, 0x53, 0x43, 0x49, 0x49, 0x0A, 0x0D,
+                // End of line 2
                 /*
                  * The unmappable character , shown here as a question mark
-                 */0x3F, 0x20, 0x69, 0x73, 0x20, 0x75, 0x6E, 0x6D, 0x61, 0x70, 0x70, 0x61, 0x62, 0x6C, 0x65, 0x20,
-                0x69, 0x6E, 0x20, 0x61, 0x73, 0x63, 0x69, 0x69, 0x0A, 0x0D, 0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0A,
-                0x0D, };
+                 */
+                0x3F, 0x20, 0x69, 0x73, 0x20, 0x75, 0x6E, 0x6D, 0x61, 0x70, 0x70, 0x61, 0x62, 0x6C, 0x65, 0x20, 0x69,
+                0x6E, 0x20, 0x61, 0x73, 0x63, 0x69, 0x69, 0x0A, 0x0D,
+                // End of line 3
+                0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0A, 0x0D,
+        // End of line 4
+        };
 
         assertTrue("Output bytes are not the expected value", Arrays.equals(expected, out.toByteArray()));
     }
 
     /**
-     * Test writing out ASCII bytes with LF-only line terminators. Includes an
-     * unmappable character in line 3.
+     * Test writing out ASCII bytes with LF-only line terminators. Includes an unmappable character in line 3.
      * 
      * @throws IOException
      *             if the data can't be written
      */
     @Test
     public void testOutputAsciiLfOnly() throws IOException {
-        List<String> lines = new ArrayList<String>();
-        lines.add("0 HEAD");
-        lines.add("1 CHAR ASCII");
-        lines.add("\u0141 is unmappable in ascii");
-        lines.add("0 TRLR");
+        List<String> lines = getAsciiGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
         gfw.terminator = LineTerminator.LF_ONLY;
 
@@ -381,20 +389,19 @@ public class GedcomFileWriterTest {
 
         assertTrue(
                 "Output bytes are not the expected value",
-                Arrays.equals(new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0A, 0x31, 0x20, 0x43, 0x48, 0x41,
-                        0x52, 0x20, 0x41, 0x53, 0x43, 0x49, 0x49, 0x0A, /*
-                                                                         * The
-                                                                         * unmappable
-                                                                         * character
-                                                                         * ,
-                                                                         * shown
-                                                                         * here
-                                                                         * as a
-                                                                         * question
-                                                                         * mark
-                                                                         */0x3F, 0x20, 0x69, 0x73, 0x20, 0x75, 0x6E,
-                        0x6D, 0x61, 0x70, 0x70, 0x61, 0x62, 0x6C, 0x65, 0x20, 0x69, 0x6E, 0x20, 0x61, 0x73, 0x63, 0x69,
-                        0x69, 0x0A, 0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0A, }, out.toByteArray()));
+                Arrays.equals(new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0A,
+                        // End of line 1
+                        0x31, 0x20, 0x43, 0x48, 0x41, 0x52, 0x20, 0x41, 0x53, 0x43, 0x49, 0x49, 0x0A,
+                        // End of line 2
+                        /*
+                         * The unmappable character , shown here as a question mark
+                         */
+                        0x3F, 0x20, 0x69, 0x73, 0x20, 0x75, 0x6E, 0x6D, 0x61, 0x70, 0x70, 0x61, 0x62, 0x6C, 0x65, 0x20,
+                        0x69, 0x6E, 0x20, 0x61, 0x73, 0x63, 0x69, 0x69, 0x0A,
+                        // End of line 3
+                        0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0A,
+                // End of line 4
+                        }, out.toByteArray()));
     }
 
     /**
@@ -405,10 +412,7 @@ public class GedcomFileWriterTest {
      */
     @Test
     public void testOutputUnicodeBigEndianCrLF() throws IOException {
-        List<String> lines = new ArrayList<String>();
-        lines.add("0 HEAD");
-        lines.add("1 CHAR UNICODE");
-        lines.add("0 TRLR");
+        List<String> lines = getUnicodeGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
         gfw.setLittleEndianForUnicode(false);
         gfw.terminator = LineTerminator.CRLF;
@@ -420,10 +424,18 @@ public class GedcomFileWriterTest {
         assertTrue(
                 "Output bytes are not the expected value",
                 Arrays.equals(new byte[] { 0x00, 0x30, 0x00, 0x20, 0x00, 0x48, 0x00, 0x45, 0x00, 0x41, 0x00, 0x44,
-                        0x00, 0x0D, 0x00, 0x0A, 0x00, 0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52,
-                        0x00, 0x20, 0x00, 0x55, 0x00, 0x4E, 0x00, 0x49, 0x00, 0x43, 0x00, 0x4F, 0x00, 0x44, 0x00, 0x45,
-                        0x00, 0x0D, 0x00, 0x0A, 0x00, 0x30, 0x00, 0x20, 0x00, 0x54, 0x00, 0x52, 0x00, 0x4C, 0x00, 0x52,
-                        0x00, 0x0D, 0x00, 0x0A, }, out.toByteArray()));
+                        0x00, 0x0D, 0x00,
+                        0x0A, // End of line 1
+                        0x00, 0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52, 0x00, 0x20, 0x00, 0x55,
+                        0x00, 0x4E, 0x00, 0x49, 0x00, 0x43, 0x00, 0x4F, 0x00, 0x44, 0x00, 0x45, 0x00, 0x0D, 0x00, 0x0A,
+                        // End of line 2
+                        0x00, 0x41, 0x00, (byte) 0xC4, // Capital A, Capital A-umlaut
+                        0x00, 0x61, 0x00, (byte) 0xE4, // lowercase a, lowercase a-umlaut
+                        0x00, 0x0D, 0x00, 0x0A,
+                        // End of line 3
+                        0x00, 0x30, 0x00, 0x20, 0x00, 0x54, 0x00, 0x52, 0x00, 0x4C, 0x00, 0x52, 0x00, 0x0D, 0x00, 0x0A,
+                // End of line 4
+                        }, out.toByteArray()));
     }
 
     /**
@@ -434,10 +446,7 @@ public class GedcomFileWriterTest {
      */
     @Test
     public void testOutputUnicodeBigEndianCrOnly() throws IOException {
-        List<String> lines = new ArrayList<String>();
-        lines.add("0 HEAD");
-        lines.add("1 CHAR UNICODE");
-        lines.add("0 TRLR");
+        List<String> lines = getUnicodeGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
         gfw.setLittleEndianForUnicode(false);
         gfw.terminator = LineTerminator.CR_ONLY;
@@ -449,10 +458,18 @@ public class GedcomFileWriterTest {
         assertTrue(
                 "Output bytes are not the expected value",
                 Arrays.equals(new byte[] { 0x00, 0x30, 0x00, 0x20, 0x00, 0x48, 0x00, 0x45, 0x00, 0x41, 0x00, 0x44,
-                        0x00, 0x0D, 0x00, 0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52, 0x00, 0x20,
-                        0x00, 0x55, 0x00, 0x4E, 0x00, 0x49, 0x00, 0x43, 0x00, 0x4F, 0x00, 0x44, 0x00, 0x45, 0x00, 0x0D,
-                        0x00, 0x30, 0x00, 0x20, 0x00, 0x54, 0x00, 0x52, 0x00, 0x4C, 0x00, 0x52, 0x00, 0x0D, },
-                        out.toByteArray()));
+                        0x00, 0x0D,
+                        // End of line 1
+                        0x00, 0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52, 0x00, 0x20, 0x00, 0x55,
+                        0x00, 0x4E, 0x00, 0x49, 0x00, 0x43, 0x00, 0x4F, 0x00, 0x44, 0x00, 0x45, 0x00, 0x0D,
+                        // End of line 2
+                        0x00, 0x41, 0x00, (byte) 0xC4, // Capital A, Capital A-umlaut
+                        0x00, 0x61, 0x00, (byte) 0xE4, // lowercase a, lowercase a-umlaut
+                        0x00, 0x0D,
+                        // End of line 3
+                        0x00, 0x30, 0x00, 0x20, 0x00, 0x54, 0x00, 0x52, 0x00, 0x4C, 0x00, 0x52, 0x00, 0x0D,
+                // End of line 4
+                        }, out.toByteArray()));
     }
 
     /**
@@ -463,10 +480,7 @@ public class GedcomFileWriterTest {
      */
     @Test
     public void testOutputUnicodeBigEndianLfCr() throws IOException {
-        List<String> lines = new ArrayList<String>();
-        lines.add("0 HEAD");
-        lines.add("1 CHAR UNICODE");
-        lines.add("0 TRLR");
+        List<String> lines = getUnicodeGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
         gfw.setLittleEndianForUnicode(false);
         gfw.terminator = LineTerminator.LFCR;
@@ -476,9 +490,18 @@ public class GedcomFileWriterTest {
         out.close();
 
         byte[] expected = new byte[] { 0x00, 0x30, 0x00, 0x20, 0x00, 0x48, 0x00, 0x45, 0x00, 0x41, 0x00, 0x44, 0x00,
-                0x0A, 0x00, 0x0D, 0x00, 0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52, 0x00, 0x20,
-                0x00, 0x55, 0x00, 0x4E, 0x00, 0x49, 0x00, 0x43, 0x00, 0x4F, 0x00, 0x44, 0x00, 0x45, 0x00, 0x0A, 0x00,
-                0x0D, 0x00, 0x30, 0x00, 0x20, 0x00, 0x54, 0x00, 0x52, 0x00, 0x4C, 0x00, 0x52, 0x00, 0x0A, 0x00, 0x0D, };
+                0x0A, 0x00, 0x0D,
+                // End of line 1
+                0x00, 0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52, 0x00, 0x20, 0x00, 0x55, 0x00,
+                0x4E, 0x00, 0x49, 0x00, 0x43, 0x00, 0x4F, 0x00, 0x44, 0x00, 0x45, 0x00, 0x0A, 0x00, 0x0D,
+                // End of line 2
+                0x00, 0x41, 0x00, (byte) 0xC4, // Capital A, Capital A-umlaut
+                0x00, 0x61, 0x00, (byte) 0xE4, // lowercase a, lowercase a-umlaut
+                0x00, 0x0A, 0x00, 0x0D, // LFCR
+                // End of line 3
+                0x00, 0x30, 0x00, 0x20, 0x00, 0x54, 0x00, 0x52, 0x00, 0x4C, 0x00, 0x52, 0x00, 0x0A, 0x00, 0x0D,
+        // End of line 4
+        };
         assertTrue("Output bytes are not the expected value", Arrays.equals(expected, out.toByteArray()));
     }
 
@@ -490,10 +513,7 @@ public class GedcomFileWriterTest {
      */
     @Test
     public void testOutputUnicodeBigEndianLfOnly() throws IOException {
-        List<String> lines = new ArrayList<String>();
-        lines.add("0 HEAD");
-        lines.add("1 CHAR UNICODE");
-        lines.add("0 TRLR");
+        List<String> lines = getUnicodeGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
         gfw.setLittleEndianForUnicode(false);
         gfw.terminator = LineTerminator.LF_ONLY;
@@ -505,10 +525,18 @@ public class GedcomFileWriterTest {
         assertTrue(
                 "Output bytes are not the expected value",
                 Arrays.equals(new byte[] { 0x00, 0x30, 0x00, 0x20, 0x00, 0x48, 0x00, 0x45, 0x00, 0x41, 0x00, 0x44,
-                        0x00, 0x0A, 0x00, 0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52, 0x00, 0x20,
-                        0x00, 0x55, 0x00, 0x4E, 0x00, 0x49, 0x00, 0x43, 0x00, 0x4F, 0x00, 0x44, 0x00, 0x45, 0x00, 0x0A,
-                        0x00, 0x30, 0x00, 0x20, 0x00, 0x54, 0x00, 0x52, 0x00, 0x4C, 0x00, 0x52, 0x00, 0x0A, },
-                        out.toByteArray()));
+                        0x00, 0x0A,
+                        // End of line 1
+                        0x00, 0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52, 0x00, 0x20, 0x00, 0x55,
+                        0x00, 0x4E, 0x00, 0x49, 0x00, 0x43, 0x00, 0x4F, 0x00, 0x44, 0x00, 0x45, 0x00, 0x0A,
+                        // End of line 2
+                        0x00, 0x41, 0x00, (byte) 0xC4, // Capital A, Capital A-umlaut
+                        0x00, 0x61, 0x00, (byte) 0xE4, // lowercase a, lowercase a-umlaut
+                        0x00, 0x0A, // LF
+                        // End of line 3
+                        0x00, 0x30, 0x00, 0x20, 0x00, 0x54, 0x00, 0x52, 0x00, 0x4C, 0x00, 0x52, 0x00, 0x0A,
+                // End of line 4
+                        }, out.toByteArray()));
     }
 
     /**
@@ -519,10 +547,7 @@ public class GedcomFileWriterTest {
      */
     @Test
     public void testOutputUnicodeLittleEndianCrLf() throws IOException {
-        List<String> lines = new ArrayList<String>();
-        lines.add("0 HEAD");
-        lines.add("1 CHAR UNICODE");
-        lines.add("0 TRLR");
+        List<String> lines = getUnicodeGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
 
         // Not necessary, little endian is default, but good for explicitness
@@ -535,25 +560,30 @@ public class GedcomFileWriterTest {
         out.close();
 
         byte[] expected = new byte[] { 0x30, 0x00, 0x20, 0x00, 0x48, 0x00, 0x45, 0x00, 0x41, 0x00, 0x44, 0x00, 0x0D,
-                0x00, 0x0A, 0x00, 0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52, 0x00, 0x20, 0x00,
-                0x55, 0x00, 0x4E, 0x00, 0x49, 0x00, 0x43, 0x00, 0x4F, 0x00, 0x44, 0x00, 0x45, 0x00, 0x0D, 0x00, 0x0A,
-                0x00, 0x30, 0x00, 0x20, 0x00, 0x54, 0x00, 0x52, 0x00, 0x4C, 0x00, 0x52, 0x00, 0x0D, 0x00, 0x0A, 0x00 };
+                0x00, 0x0A, 0x00,
+                // End of line 1
+                0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52, 0x00, 0x20, 0x00, 0x55, 0x00, 0x4E,
+                0x00, 0x49, 0x00, 0x43, 0x00, 0x4F, 0x00, 0x44, 0x00, 0x45, 0x00, 0x0D, 0x00, 0x0A, 0x00,
+                // End of line 2
+                0x41, 0x00, (byte) 0xC4, 0x00, // Capital A, Capital A-umlaut
+                0x61, 0x00, (byte) 0xE4, 0x00, // lowercase a, lowercase a-umlaut
+                0x0D, 0x00, 0x0A, 0x00, // CRLF
+                // End of line 3
+                0x30, 0x00, 0x20, 0x00, 0x54, 0x00, 0x52, 0x00, 0x4C, 0x00, 0x52, 0x00, 0x0D, 0x00, 0x0A, 0x00
+        // End of line 4
+        };
         assertTrue("Output bytes are not the expected value", Arrays.equals(expected, out.toByteArray()));
     }
 
     /**
-     * Test writing out little-endian unicode bytes, using CR only line
-     * terminators
+     * Test writing out little-endian unicode bytes, using CR only line terminators
      * 
      * @throws IOException
      *             if the data can't be written
      */
     @Test
     public void testOutputUnicodeLittleEndianCrOnly() throws IOException {
-        List<String> lines = new ArrayList<String>();
-        lines.add("0 HEAD");
-        lines.add("1 CHAR UNICODE");
-        lines.add("0 TRLR");
+        List<String> lines = getUnicodeGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
 
         // Not necessary, little endian is default, but good for explicitness
@@ -566,9 +596,18 @@ public class GedcomFileWriterTest {
         out.close();
 
         byte[] expected = new byte[] { 0x30, 0x00, 0x20, 0x00, 0x48, 0x00, 0x45, 0x00, 0x41, 0x00, 0x44, 0x00, 0x0D,
-                0x00, 0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52, 0x00, 0x20, 0x00, 0x55, 0x00,
-                0x4E, 0x00, 0x49, 0x00, 0x43, 0x00, 0x4F, 0x00, 0x44, 0x00, 0x45, 0x00, 0x0D, 0x00, 0x30, 0x00, 0x20,
-                0x00, 0x54, 0x00, 0x52, 0x00, 0x4C, 0x00, 0x52, 0x00, 0x0D, 0x00 };
+                0x00,
+                // End of line 1
+                0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52, 0x00, 0x20, 0x00, 0x55, 0x00, 0x4E,
+                0x00, 0x49, 0x00, 0x43, 0x00, 0x4F, 0x00, 0x44, 0x00, 0x45, 0x00, 0x0D, 0x00,
+                // End of line 2
+                0x41, 0x00, (byte) 0xC4, 0x00, // Capital A, Capital A-umlaut
+                0x61, 0x00, (byte) 0xE4, 0x00, // lowercase a, lowercase a-umlaut
+                0x0D, 0x00, // CR
+                // End of line 3
+                0x30, 0x00, 0x20, 0x00, 0x54, 0x00, 0x52, 0x00, 0x4C, 0x00, 0x52, 0x00, 0x0D, 0x00
+        // End of line 4
+        };
         assertTrue("Output bytes are not the expected value", Arrays.equals(expected, out.toByteArray()));
     }
 
@@ -580,10 +619,7 @@ public class GedcomFileWriterTest {
      */
     @Test
     public void testOutputUnicodeLittleEndianLfCr() throws IOException {
-        List<String> lines = new ArrayList<String>();
-        lines.add("0 HEAD");
-        lines.add("1 CHAR UNICODE");
-        lines.add("0 TRLR");
+        List<String> lines = getUnicodeGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
 
         // Not necessary, little endian is default, but good for explicitness
@@ -596,25 +632,30 @@ public class GedcomFileWriterTest {
         out.close();
 
         byte[] expected = new byte[] { 0x30, 0x00, 0x20, 0x00, 0x48, 0x00, 0x45, 0x00, 0x41, 0x00, 0x44, 0x00, 0x0A,
-                0x00, 0x0D, 0x00, 0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52, 0x00, 0x20, 0x00,
-                0x55, 0x00, 0x4E, 0x00, 0x49, 0x00, 0x43, 0x00, 0x4F, 0x00, 0x44, 0x00, 0x45, 0x00, 0x0A, 0x00, 0x0D,
-                0x00, 0x30, 0x00, 0x20, 0x00, 0x54, 0x00, 0x52, 0x00, 0x4C, 0x00, 0x52, 0x00, 0x0A, 0x00, 0x0D, 0x00 };
+                0x00, 0x0D, 0x00,
+                // End of line 1
+                0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52, 0x00, 0x20, 0x00, 0x55, 0x00, 0x4E,
+                0x00, 0x49, 0x00, 0x43, 0x00, 0x4F, 0x00, 0x44, 0x00, 0x45, 0x00, 0x0A, 0x00, 0x0D, 0x00,
+                // End of line 2
+                0x41, 0x00, (byte) 0xC4, 0x00, // Capital A, Capital A-umlaut
+                0x61, 0x00, (byte) 0xE4, 0x00, // lowercase a, lowercase a-umlaut
+                0x0A, 0x00, 0x0D, 0x00, // LFCR
+                // End of line 3
+                0x30, 0x00, 0x20, 0x00, 0x54, 0x00, 0x52, 0x00, 0x4C, 0x00, 0x52, 0x00, 0x0A, 0x00, 0x0D, 0x00
+        // End of line 4
+        };
         assertTrue("Output bytes are not the expected value", Arrays.equals(expected, out.toByteArray()));
     }
 
     /**
-     * Test writing out little-endian unicode bytes, using LF only line
-     * terminators
+     * Test writing out little-endian unicode bytes, using LF only line terminators
      * 
      * @throws IOException
      *             if the data can't be written
      */
     @Test
     public void testOutputUnicodeLittleEndianLfOnly() throws IOException {
-        List<String> lines = new ArrayList<String>();
-        lines.add("0 HEAD");
-        lines.add("1 CHAR UNICODE");
-        lines.add("0 TRLR");
+        List<String> lines = getUnicodeGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
 
         // Not necessary, little endian is default, but good for explicitness
@@ -627,9 +668,18 @@ public class GedcomFileWriterTest {
         out.close();
 
         byte[] expected = new byte[] { 0x30, 0x00, 0x20, 0x00, 0x48, 0x00, 0x45, 0x00, 0x41, 0x00, 0x44, 0x00, 0x0A,
-                0x00, 0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52, 0x00, 0x20, 0x00, 0x55, 0x00,
-                0x4E, 0x00, 0x49, 0x00, 0x43, 0x00, 0x4F, 0x00, 0x44, 0x00, 0x45, 0x00, 0x0A, 0x00, 0x30, 0x00, 0x20,
-                0x00, 0x54, 0x00, 0x52, 0x00, 0x4C, 0x00, 0x52, 0x00, 0x0A, 0x00 };
+                0x00,
+                // End of line 1
+                0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52, 0x00, 0x20, 0x00, 0x55, 0x00, 0x4E,
+                0x00, 0x49, 0x00, 0x43, 0x00, 0x4F, 0x00, 0x44, 0x00, 0x45, 0x00, 0x0A, 0x00,
+                // End of line 2
+                0x41, 0x00, (byte) 0xC4, 0x00, // Capital A, Capital A-umlaut
+                0x61, 0x00, (byte) 0xE4, 0x00, // lowercase a, lowercase a-umlaut
+                0x0A, 0x00,
+                // End of line 3
+                0x30, 0x00, 0x20, 0x00, 0x54, 0x00, 0x52, 0x00, 0x4C, 0x00, 0x52, 0x00, 0x0A, 0x00
+        // End of line 4
+        };
         assertTrue("Output bytes are not the expected value", Arrays.equals(expected, out.toByteArray()));
     }
 
@@ -641,10 +691,7 @@ public class GedcomFileWriterTest {
      */
     @Test
     public void testOutputUtf8CrLf() throws IOException {
-        List<String> lines = new ArrayList<String>();
-        lines.add("0 HEAD");
-        lines.add("1 CHAR UTF-8");
-        lines.add("0 TRLR");
+        List<String> lines = getUtf8GedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
         gfw.terminator = LineTerminator.CRLF;
 
@@ -652,11 +699,18 @@ public class GedcomFileWriterTest {
         gfw.write(out);
         out.close();
 
-        assertTrue(
-                "Output bytes are not the expected value",
-                Arrays.equals(new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0D, 0x0A, 0x31, 0x20, 0x43, 0x48,
-                        0x41, 0x52, 0x20, 0x55, 0x54, 0x46, 0x2D, 0x38, 0x0D, 0x0A, 0x30, 0x20, 0x54, 0x52, 0x4C, 0x52,
-                        0x0D, 0x0A }, out.toByteArray()));
+        assertTrue("Output bytes are not the expected value",
+                Arrays.equals(new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0D, 0x0A,
+                        // End of line 1
+                        0x31, 0x20, 0x43, 0x48, 0x41, 0x52, 0x20, 0x55, 0x54, 0x46, 0x2D, 0x38, 0x0D, 0x0A,
+                        // End of line 2
+                        0x41, (byte) 0xC3, (byte) 0x84, // Capital A, Capital A-umlaut
+                        0x61, (byte) 0xC3, (byte) 0xA4, // lowercase a, lowercase a-umlaut
+                        0x0D, 0x0A,
+                        // End of line 3
+                        0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0D, 0x0A
+                // End of line 4
+                        }, out.toByteArray()));
     }
 
     /**
@@ -667,10 +721,7 @@ public class GedcomFileWriterTest {
      */
     @Test
     public void testOutputUtf8CrOnly() throws IOException {
-        List<String> lines = new ArrayList<String>();
-        lines.add("0 HEAD");
-        lines.add("1 CHAR UTF-8");
-        lines.add("0 TRLR");
+        List<String> lines = getUtf8GedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
         gfw.terminator = LineTerminator.CR_ONLY;
 
@@ -678,11 +729,18 @@ public class GedcomFileWriterTest {
         gfw.write(out);
         out.close();
 
-        assertTrue(
-                "Output bytes are not the expected value",
-                Arrays.equals(new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0D, 0x31, 0x20, 0x43, 0x48, 0x41,
-                        0x52, 0x20, 0x55, 0x54, 0x46, 0x2D, 0x38, 0x0D, 0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0D },
-                        out.toByteArray()));
+        assertTrue("Output bytes are not the expected value",
+                Arrays.equals(new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0D,
+                        // End of line 1
+                        0x31, 0x20, 0x43, 0x48, 0x41, 0x52, 0x20, 0x55, 0x54, 0x46, 0x2D, 0x38, 0x0D,
+                        // End of line 2
+                        0x41, (byte) 0xC3, (byte) 0x84, // Capital A, Capital A-umlaut
+                        0x61, (byte) 0xC3, (byte) 0xA4, // lowercase a, lowercase a-umlaut
+                        0x0D,
+                        // End of line 3
+                        0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0D
+                // End of line 4
+                        }, out.toByteArray()));
     }
 
     /**
@@ -693,10 +751,7 @@ public class GedcomFileWriterTest {
      */
     @Test
     public void testOutputUtf8LfCr() throws IOException {
-        List<String> lines = new ArrayList<String>();
-        lines.add("0 HEAD");
-        lines.add("1 CHAR UTF-8");
-        lines.add("0 TRLR");
+        List<String> lines = getUtf8GedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
         gfw.terminator = LineTerminator.LFCR;
 
@@ -704,11 +759,18 @@ public class GedcomFileWriterTest {
         gfw.write(out);
         out.close();
 
-        assertTrue(
-                "Output bytes are not the expected value",
-                Arrays.equals(new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0A, 0x0D, 0x31, 0x20, 0x43, 0x48,
-                        0x41, 0x52, 0x20, 0x55, 0x54, 0x46, 0x2D, 0x38, 0x0A, 0x0D, 0x30, 0x20, 0x54, 0x52, 0x4C, 0x52,
-                        0x0A, 0x0D }, out.toByteArray()));
+        assertTrue("Output bytes are not the expected value",
+                Arrays.equals(new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0A, 0x0D,
+                        // End of line 1
+                        0x31, 0x20, 0x43, 0x48, 0x41, 0x52, 0x20, 0x55, 0x54, 0x46, 0x2D, 0x38, 0x0A, 0x0D,
+                        // End of line 2
+                        0x41, (byte) 0xC3, (byte) 0x84, // Capital A, Capital A-umlaut
+                        0x61, (byte) 0xC3, (byte) 0xA4, // lowercase a, lowercase a-umlaut
+                        0x0A, 0x0D,
+                        // End of line 3
+                        0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0A, 0x0D
+                // End of line 4
+                        }, out.toByteArray()));
     }
 
     /**
@@ -719,10 +781,7 @@ public class GedcomFileWriterTest {
      */
     @Test
     public void testOutputUtf8LfOnly() throws IOException {
-        List<String> lines = new ArrayList<String>();
-        lines.add("0 HEAD");
-        lines.add("1 CHAR UTF-8");
-        lines.add("0 TRLR");
+        List<String> lines = getUtf8GedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
         gfw.terminator = LineTerminator.LF_ONLY;
 
@@ -730,11 +789,18 @@ public class GedcomFileWriterTest {
         gfw.write(out);
         out.close();
 
-        assertTrue(
-                "Output bytes are not the expected value",
-                Arrays.equals(new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0A, 0x31, 0x20, 0x43, 0x48, 0x41,
-                        0x52, 0x20, 0x55, 0x54, 0x46, 0x2D, 0x38, 0x0A, 0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0A },
-                        out.toByteArray()));
+        assertTrue("Output bytes are not the expected value",
+                Arrays.equals(new byte[] { 0x30, 0x20, 0x48, 0x45, 0x41, 0x44, 0x0A,
+                        // End of line 1
+                        0x31, 0x20, 0x43, 0x48, 0x41, 0x52, 0x20, 0x55, 0x54, 0x46, 0x2D, 0x38, 0x0A,
+                        // End of line 2
+                        0x41, (byte) 0xC3, (byte) 0x84, // Capital A, Capital A-umlaut
+                        0x61, (byte) 0xC3, (byte) 0xA4, // lowercase a, lowercase a-umlaut
+                        0x0A,
+                        // End of line 3
+                        0x30, 0x20, 0x54, 0x52, 0x4C, 0x52, 0x0A
+                // End of line 4
+                        }, out.toByteArray()));
     }
 
     /**
@@ -759,6 +825,67 @@ public class GedcomFileWriterTest {
         g.header.submitter = s;
         GedcomWriter gw = new GedcomWriter(g);
         gw.write(fn);
+    }
+
+    /**
+     * Get a List of strings representing GEDCOM text for an ANSEL-encoded file. Note that the lines do NOT represent a
+     * well-formed GEDCOM, but we're only testing the encoding.
+     * 
+     * @return a list of strings representing GEDCOM text for a ANSEL-encoded file
+     */
+    private List<String> getAnselGedcomLines() {
+        List<String> lines = new ArrayList<String>();
+        lines.add("0 HEAD");
+        lines.add("1 CHAR ANSEL");
+        lines.add("\u0140 unmappable in ansel");
+        lines.add("\u0141 mappable in ansel");
+        lines.add("0 TRLR");
+        return lines;
+    }
+
+    /**
+     * Get a List of strings representing GEDCOM text for an ASCII-encoded file. Note that the lines do NOT represent a
+     * well-formed GEDCOM, but we're only testing the encoding.
+     * 
+     * @return a list of strings representing GEDCOM text for an ASCII-encoded file
+     */
+    private List<String> getAsciiGedcomLines() {
+        List<String> lines = new ArrayList<String>();
+        lines.add("0 HEAD");
+        lines.add("1 CHAR ASCII");
+        lines.add("\u0141 is unmappable in ascii");
+        lines.add("0 TRLR");
+        return lines;
+    }
+
+    /**
+     * Get a List of strings representing GEDCOM text for a Unicode-encoded file. Note that the lines do NOT represent a
+     * well-formed GEDCOM, but we're only testing the encoding.
+     * 
+     * @return a list of strings representing GEDCOM text for a Unicode-encoded file
+     */
+    private List<String> getUnicodeGedcomLines() {
+        List<String> lines = new ArrayList<String>();
+        lines.add("0 HEAD");
+        lines.add("1 CHAR UNICODE");
+        lines.add("A\u00C4a\u00E4"); // Capital A, capital A-umlaut, lowercase a, lowercase a-umlaut
+        lines.add("0 TRLR");
+        return lines;
+    }
+
+    /**
+     * Get a List of strings representing GEDCOM text for a UTF-8-encoded file. Note that the lines do NOT represent a
+     * well-formed GEDCOM, but we're only testing the encoding.
+     * 
+     * @return a list of strings representing GEDCOM text for a UTF-8-encoded file
+     */
+    private List<String> getUtf8GedcomLines() {
+        List<String> lines = new ArrayList<String>();
+        lines.add("0 HEAD");
+        lines.add("1 CHAR UTF-8");
+        lines.add("A\u00C4a\u00E4"); // Capital A, capital A-umlaut, lowercase a, lowercase a-umlaut
+        lines.add("0 TRLR");
+        return lines;
     }
 
 }
