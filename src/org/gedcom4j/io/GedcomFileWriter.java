@@ -23,17 +23,20 @@ package org.gedcom4j.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.util.List;
 
 /**
  * <p>
- * A class for writing staged gedcom file lines out to a file. The {@link org.gedcom4j.writer.GedcomWriter} class prepares a buffer of
- * gedcom lines (a {@link List} of String) that this class writes out to a file, a stream, etc., after encoding the data into ANSEL, ASCII, or
- * UNICODE, as needed. A separate class is needed because GEDCOM requires ANSEL support which Java doesn't have, and also limits the encodings to the
- * three choices mentioned.
+ * A class for writing staged gedcom file lines out to a file. The {@link org.gedcom4j.writer.GedcomWriter} class
+ * prepares a buffer of gedcom lines (a {@link List} of String) that this class writes out to a file, a stream, etc.,
+ * after encoding the data into ANSEL, ASCII, or UNICODE, as needed. A separate class is needed because GEDCOM requires
+ * ANSEL support which Java doesn't have, and also limits the encodings to the three choices mentioned.
  * </p>
  * <p>
- * Note that GEDCOM standard does not allow for BOM's or other preambles for encodings, so none is created by this class.
+ * Note that GEDCOM standard does not allow for BOM's or other preambles for encodings, so none is created by this
+ * class.
  * </p>
  * 
  * @author frizbog1
@@ -65,8 +68,9 @@ public class GedcomFileWriter {
     }
 
     /**
-     * The encoding to use when writing the data. Defaults to ANSEL, per GEDCOM spec, unless the gedcom content overrides in the header. Deliberately
-     * package private so unit tests can examine it, but so client code can't manipulate it.
+     * The encoding to use when writing the data. Defaults to ANSEL, per GEDCOM spec, unless the gedcom content
+     * overrides in the header. Deliberately package private so unit tests can examine it, but so client code can't
+     * manipulate it.
      */
     Encoding encoding;
 
@@ -83,7 +87,7 @@ public class GedcomFileWriter {
     /**
      * The lines of the gedcom file (in internal java string format - that is, UTF-16)
      */
-    private List<String> gedcomLines;
+    private final List<String> gedcomLines;
 
     /**
      * Constructor
@@ -123,26 +127,60 @@ public class GedcomFileWriter {
      *             if the data can't be written to the stream
      */
     public void write(OutputStream out) throws IOException {
-        for (String line : gedcomLines) {
-            switch (encoding) {
+        switch (encoding) {
             case ASCII:
-                writeAsciiLine(out, line);
+                for (String line : gedcomLines) {
+                    writeAsciiLine(out, line);
+                }
                 break;
             case ANSEL:
-                writeAnselLine(out, line);
+                for (String line : gedcomLines) {
+                    writeAnselLine(out, line);
+                }
                 break;
             case UNICODE_BIG_ENDIAN:
-                writeUnicodeBigEndianLine(out, line);
+                for (String line : gedcomLines) {
+                    writeUnicodeBigEndianLine(out, line);
+                }
                 break;
             case UNICODE_LITTLE_ENDIAN:
-                writeUnicodeLittleEndianLine(out, line);
+                for (String line : gedcomLines) {
+                    writeUnicodeLittleEndianLine(out, line);
+                }
                 break;
             case UTF_8:
-                writeUtf8Line(out, line);
+                String lineTerminator = null;
+                switch (terminator) {
+                    case CR_ONLY:
+                        lineTerminator = "\r";
+                        break;
+                    case LF_ONLY:
+                        lineTerminator = "\n";
+                        break;
+                    case LFCR:
+                        lineTerminator = "\n\r";
+                        break;
+                    case CRLF:
+                        lineTerminator = "\r\n";
+                        break;
+                    default:
+                        throw new IllegalStateException("Terminator selection of " + terminator
+                                + " is an unrecognized value");
+                }
+                // Go ahead and use Java's built in UTF-8 encoder here
+                OutputStreamWriter writer = new OutputStreamWriter(out, Charset.forName("UTF-8"));
+                try {
+                    for (String line : gedcomLines) {
+                        writer.write(line);
+                        writer.write(lineTerminator);
+                    }
+                } finally {
+                    writer.flush();
+                    writer.close();
+                }
                 break;
             default:
                 throw new IllegalStateException("Encoding " + encoding + " is an unrecognized value");
-            }
         }
     }
 
@@ -167,8 +205,8 @@ public class GedcomFileWriter {
     }
 
     /**
-     * Set the encoding for the writer from the content. Defaults to ANSEL (per GEDCOM spec), but if it sees that ASCII, UTF-8, or UNICODE are to be
-     * used (according to the header) it will use that instead.
+     * Set the encoding for the writer from the content. Defaults to ANSEL (per GEDCOM spec), but if it sees that ASCII,
+     * UTF-8, or UNICODE are to be used (according to the header) it will use that instead.
      */
     private void setEncodingFromContent() {
         encoding = Encoding.ANSEL;
@@ -212,8 +250,8 @@ public class GedcomFileWriter {
     }
 
     /**
-     * Write data out as ASCII lines. ANy characters in the line that are outside the 0x00-0x7F range allowed by ASCII are written out as question
-     * marks.
+     * Write data out as ASCII lines. ANy characters in the line that are outside the 0x00-0x7F range allowed by ASCII
+     * are written out as question marks.
      * 
      * @param out
      *            the output stream we're writing to
@@ -243,82 +281,85 @@ public class GedcomFileWriter {
      */
     private void writeLineTerminator(OutputStream out) throws IOException {
         switch (encoding) {
-        case ASCII: // Use ANSEL's, it's the same
-        case UTF_8: // Use ANSEL's, it's the same
-        case ANSEL:
-            switch (terminator) {
-            case CR_ONLY:
-                out.write((byte) 0x0D);
+            case ASCII: // Use ANSEL's, it's the same
+            case UTF_8: // Use ANSEL's, it's the same
+            case ANSEL:
+                switch (terminator) {
+                    case CR_ONLY:
+                        out.write((byte) 0x0D);
+                        break;
+                    case LF_ONLY:
+                        out.write((byte) 0x0A);
+                        break;
+                    case LFCR:
+                        out.write((byte) 0x0A);
+                        out.write((byte) 0x0D);
+                        break;
+                    case CRLF:
+                        out.write((byte) 0x0D);
+                        out.write((byte) 0x0A);
+                        break;
+                    default:
+                        throw new IllegalStateException("Terminator selection of " + terminator
+                                + " is an unrecognized value");
+                }
                 break;
-            case LF_ONLY:
-                out.write((byte) 0x0A);
+            case UNICODE_BIG_ENDIAN:
+                switch (terminator) {
+                    case CR_ONLY:
+                        out.write((byte) 0x00);
+                        out.write((byte) 0x0D);
+                        break;
+                    case LF_ONLY:
+                        out.write((byte) 0x00);
+                        out.write((byte) 0x0A);
+                        break;
+                    case LFCR:
+                        out.write((byte) 0x00);
+                        out.write((byte) 0x0A);
+                        out.write((byte) 0x00);
+                        out.write((byte) 0x0D);
+                        break;
+                    case CRLF:
+                        out.write((byte) 0x00);
+                        out.write((byte) 0x0D);
+                        out.write((byte) 0x00);
+                        out.write((byte) 0x0A);
+                        break;
+                    default:
+                        throw new IllegalStateException("Terminator selection of " + terminator
+                                + " is an unrecognized value");
+                }
                 break;
-            case LFCR:
-                out.write((byte) 0x0A);
-                out.write((byte) 0x0D);
-                break;
-            case CRLF:
-                out.write((byte) 0x0D);
-                out.write((byte) 0x0A);
+            case UNICODE_LITTLE_ENDIAN:
+                switch (terminator) {
+                    case CR_ONLY:
+                        out.write((byte) 0x0D);
+                        out.write((byte) 0x00);
+                        break;
+                    case LF_ONLY:
+                        out.write((byte) 0x0A);
+                        out.write((byte) 0x00);
+                        break;
+                    case LFCR:
+                        out.write((byte) 0x0A);
+                        out.write((byte) 0x00);
+                        out.write((byte) 0x0D);
+                        out.write((byte) 0x00);
+                        break;
+                    case CRLF:
+                        out.write((byte) 0x0D);
+                        out.write((byte) 0x00);
+                        out.write((byte) 0x0A);
+                        out.write((byte) 0x00);
+                        break;
+                    default:
+                        throw new IllegalStateException("Terminator selection of " + terminator
+                                + " is an unrecognized value");
+                }
                 break;
             default:
-                throw new IllegalStateException("Terminator selection of " + terminator + " is an unrecognized value");
-            }
-            break;
-        case UNICODE_BIG_ENDIAN:
-            switch (terminator) {
-            case CR_ONLY:
-                out.write((byte) 0x00);
-                out.write((byte) 0x0D);
-                break;
-            case LF_ONLY:
-                out.write((byte) 0x00);
-                out.write((byte) 0x0A);
-                break;
-            case LFCR:
-                out.write((byte) 0x00);
-                out.write((byte) 0x0A);
-                out.write((byte) 0x00);
-                out.write((byte) 0x0D);
-                break;
-            case CRLF:
-                out.write((byte) 0x00);
-                out.write((byte) 0x0D);
-                out.write((byte) 0x00);
-                out.write((byte) 0x0A);
-                break;
-            default:
-                throw new IllegalStateException("Terminator selection of " + terminator + " is an unrecognized value");
-            }
-            break;
-        case UNICODE_LITTLE_ENDIAN:
-            switch (terminator) {
-            case CR_ONLY:
-                out.write((byte) 0x0D);
-                out.write((byte) 0x00);
-                break;
-            case LF_ONLY:
-                out.write((byte) 0x0A);
-                out.write((byte) 0x00);
-                break;
-            case LFCR:
-                out.write((byte) 0x0A);
-                out.write((byte) 0x00);
-                out.write((byte) 0x0D);
-                out.write((byte) 0x00);
-                break;
-            case CRLF:
-                out.write((byte) 0x0D);
-                out.write((byte) 0x00);
-                out.write((byte) 0x0A);
-                out.write((byte) 0x00);
-                break;
-            default:
-                throw new IllegalStateException("Terminator selection of " + terminator + " is an unrecognized value");
-            }
-            break;
-        default:
-            throw new IllegalStateException("Encoding " + encoding + " is an unrecognized value");
+                throw new IllegalStateException("Encoding " + encoding + " is an unrecognized value");
         }
     }
 

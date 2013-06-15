@@ -38,7 +38,7 @@
 			<fileset dir="${basedir}">
 				<include name="cobertura.ser" />
 				<include name=".swp" />
-				<include name="junit*.properties"/>
+				<include name="junit*.properties" />
 			</fileset>
 		</delete>
 	</target>
@@ -94,7 +94,7 @@
 		<unjar dest="tmp" src="dist/gedcom4j-${release.version}.jar" />
 	</target>
 
-	<target name="maven" description="Prepare release for push to maven repository">
+	<target name="maven-push-to-central" description="Prepare release for push to maven repository">
 		<!--
 		This target is intended for use by the project owner(s) to push releases to maven central repository
 		at SonaType.  It requires some specific information in your local maven repository which is not
@@ -151,6 +151,30 @@
 			<arg value="-Pgpg" />
 		</artifact:mvn>
 	</target>
+	
+	
+	<target name="maven-local" depends="release" description="Prepare release for push to LOCAL maven repository">
+		<!--
+	    This target is inteded to be used by any developer to install the artifact to the local
+	    maven repository.
+	    -->
+		<!-- Make the pom.xml from the template -->
+		<copy filtering="true" overwrite="true" tofile="tmp/pom.xml">
+			<fileset dir="etc">
+				<include name="pom.template.xml" />
+			</fileset>
+			<filterset>
+				<filter token="VERSION" value="${release.version}" />
+			</filterset>
+		</copy>
+
+		<artifact:pom id="mypom" file="tmp/pom.xml" />
+		<artifact:install file="dist/gedcom4j-${release.version}.jar">
+			<pom refid="mypom" />
+			<attach file="${basedir}/dist/gedcom4j-${release.version}-javadoc.jar" type="jar" classifier="javadoc" />
+			<attach file="${basedir}/dist/gedcom4j-${release.version}-sources.jar" type="jar" classifier="sources" />
+		</artifact:install>
+	</target>
 
 
 	<target name="run-tests" depends="compile" description="Run the unit tests">
@@ -193,7 +217,7 @@
 				<fileset dir="test">
 					<include name="**/*" />
 					<exclude name="**/Abstract*" />
-					<exclude name="**/TestHelper*"/>
+					<exclude name="**/TestHelper*" />
 				</fileset>
 				<formatter type="plain" usefile="false" />
 			</batchtest>
@@ -206,15 +230,15 @@
 			<report format="frames" todir="reports/junit" />
 		</junitreport>
 		<!-- These properties can be overridden on the command line to ANT (such as from Jenkins) -->
-		<property name="cobertura.format" value="html"/>
-		<property name="cobertura.destdir" value="reports/coverage"/>
+		<property name="cobertura.format" value="html" />
+		<property name="cobertura.destdir" value="reports/coverage" />
 		<cobertura-report datafile="${data.file}" format="${cobertura.format}" destdir="${cobertura.destdir}">
 			<fileset dir="src" />
-		</cobertura-report>		
+		</cobertura-report>
 		<delete file="${data.file}" />
 		<delete>
 			<fileset dir="${basedir}">
-				<include name="junit*.properties"/>
+				<include name="junit*.properties" />
 			</fileset>
 		</delete>
 
@@ -238,10 +262,10 @@
 	</target>
 
 	<target name="findbugs" depends="compile" description="Run FindBugs over the source to find bug patterns and potential issues">
-		<property name="findbugs.format" value="html"/>
-		<property name="findbugs.destfile" value="reports/findbugs.html"/>
+		<property name="findbugs.format" value="html" />
+		<property name="findbugs.destfile" value="reports/findbugs.html" />
 		<findbugs home="${findbugs.home}" output="${findbugs.format}" outputFile="${findbugs.destfile}" jvmargs="-Xmx128m">
-			<auxClasspath path="lib/junit-4.10.jar"/>
+			<auxClasspath path="lib/junit-4.10.jar" />
 			<sourcePath path="src" />
 			<class location="bin" />
 		</findbugs>
