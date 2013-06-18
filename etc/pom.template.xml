@@ -1,23 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<!-- 
-
-	NOTE:
-	
-	This pom.xml file is provided to make it possible for gedcom4j to reside comfortably in Sonatype's
-	OSS Maven repository, but gedcom4j IS NOT A MAVEN PROJECT, and it probably never will be.
-	
-	Having said that, there are some "extra" items in this pom.xml above and beyond the minimum 
-	requirements so that Maven fans out there might find it at least someone useful, might be able
-	to build some of the stuff using this POM, and perhaps might contribute improvements.
-	
-	Another thing to note is that this pom is genearted from a template (hence the name).  It is copied 
-	as part of the Ant script using a filterset to punch in the version number while other things get 
-	done to make it possible to submit gedcom4j as to Sonatype's central Maven repository.
-	
-	See https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
-	
-	-->
+	<!-- NOTE: This pom.xml file is provided to make it possible for gedcom4j 
+		to reside comfortably in Sonatype's OSS Maven repository, but gedcom4j IS 
+		NOT A MAVEN PROJECT, and it probably never will be. Having said that, there 
+		are some "extra" items in this pom.xml above and beyond the minimum requirements 
+		so that Maven fans out there might find it at least someone useful, might 
+		be able to build some of the stuff using this POM, and perhaps might contribute 
+		improvements. Another thing to note is that this pom is genearted from a 
+		template (hence the name). It is copied as part of the Ant script using a 
+		filterset to punch in the version number while other things get done to make 
+		it possible to submit gedcom4j as to Sonatype's central Maven repository. 
+		See https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide -->
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.gedcom4j</groupId>
@@ -188,6 +181,15 @@
 				<version>2.5.2</version>
 				<configuration>
 					<configLocation>${project.basedir}/checkstyle-config.xml</configLocation>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<configuration>
+					<rulesets>
+						<ruleset>${project.basedir}/pmd-config.xml</ruleset>
+					</rulesets>
 				</configuration>
 			</plugin>
 		</plugins>

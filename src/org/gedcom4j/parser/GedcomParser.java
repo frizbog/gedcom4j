@@ -94,6 +94,70 @@ public class GedcomParser {
     public boolean verbose = false;
 
     /**
+     * A convenience method to write all the parsing errors and warnings to System.err.
+     */
+    public void dumpErrorsAndWarnings() {
+        if (errors.isEmpty()) {
+            System.out.println("No errors.");
+        } else {
+            System.out.println("Errors:");
+            for (String e : errors) {
+                System.out.println("  " + e);
+            }
+        }
+        if (warnings.isEmpty()) {
+            System.out.println("No warnings.");
+        } else {
+            System.out.println("Warnings:");
+            for (String w : warnings) {
+                System.out.println("  " + w);
+            }
+        }
+    }
+
+    /**
+     * Load a gedcom file from an input stream and create an object hierarchy from the data therein.
+     * 
+     * @param stream
+     *            the stream to load from
+     * @throws IOException
+     *             if the file cannot be read
+     * @throws GedcomParserException
+     *             if the file cannot be parsed
+     */
+    public void load(BufferedInputStream stream) throws IOException, GedcomParserException {
+        if (verbose) {
+            System.out.println("Loading and parsing GEDCOM from input stream");
+        }
+        StringTree stringTree = GedcomParserHelper.readStream(stream);
+        loadRootItems(stringTree);
+        if (verbose) {
+            dumpErrorsAndWarnings();
+        }
+    }
+
+    /**
+     * Load a gedcom file by filename and create an object heirarchy from the data therein.
+     * 
+     * @param filename
+     *            the name of the file to load
+     * @throws IOException
+     *             if the file cannot be read
+     * @throws GedcomParserException
+     *             if the file cannot be parsed
+     */
+    public void load(String filename) throws IOException, GedcomParserException {
+        if (verbose) {
+            System.out.println("Loading and parsing GEDCOM from file " + filename);
+        }
+        StringTree stringTree = GedcomParserHelper.readFile(filename);
+        loadRootItems(stringTree);
+        if (verbose) {
+            dumpErrorsAndWarnings();
+        }
+    }
+
+    /**
      * Returns true if and only if the Gedcom data says it is for the 5.5 standard.
      * 
      * @return true if and only if the Gedcom data says it is for the 5.5 standard.
@@ -252,7 +316,7 @@ public class GedcomParser {
             } else if ("CTRY".equals(ch.tag)) {
                 address.country = new StringWithCustomTags(ch);
             } else if ("CONC".equals(ch.tag)) {
-                if (address.lines.size() == 0) {
+                if (address.lines.isEmpty()) {
                     address.lines.add(ch.value);
                 } else {
                     address.lines.set(address.lines.size() - 1, address.lines.get(address.lines.size() - 1) + ch.value);
@@ -375,7 +439,7 @@ public class GedcomParser {
             if ("CONT".equals(ch.tag)) {
                 cws.description.add(ch.value == null ? "" : ch.value);
             } else if ("CONC".equals(ch.tag)) {
-                if (cws.description.size() == 0) {
+                if (cws.description.isEmpty()) {
                     cws.description.add(ch.value);
                 } else {
                     // Append to last value in string list
@@ -1286,7 +1350,7 @@ public class GedcomParser {
             } else if ("CONC".equals(ch.tag)) {
                 // If there's no value to concatenate, ignore it
                 if (ch.value != null) {
-                    if (listOfString.size() == 0) {
+                    if (listOfString.isEmpty()) {
                         listOfString.add(ch.value);
                     } else {
                         listOfString.set(listOfString.size() - 1, listOfString.get(listOfString.size() - 1) + ch.value);
@@ -1478,7 +1542,7 @@ public class GedcomParser {
         note.lines.add(st.value);
         for (StringTree ch : st.children) {
             if ("CONC".equals(ch.tag)) {
-                if (note.lines.size() == 0) {
+                if (note.lines.isEmpty()) {
                     note.lines.add(ch.value);
                 } else {
                     String lastNote = note.lines.get(note.lines.size() - 1);
@@ -2075,70 +2139,6 @@ public class GedcomParser {
             sb.append(" on line ").append(st.lineNum);
         }
         errors.add(sb.toString());
-    }
-
-    /**
-     * A convenience method to write all the parsing errors and warnings to System.err.
-     */
-    public void dumpErrorsAndWarnings() {
-        if (errors.isEmpty()) {
-            System.out.println("No errors.");
-        } else {
-            System.out.println("Errors:");
-            for (String e : errors) {
-                System.out.println("  " + e);
-            }
-        }
-        if (warnings.isEmpty()) {
-            System.out.println("No warnings.");
-        } else {
-            System.out.println("Warnings:");
-            for (String w : warnings) {
-                System.out.println("  " + w);
-            }
-        }
-    }
-
-    /**
-     * Load a gedcom file from an input stream and create an object hierarchy from the data therein.
-     * 
-     * @param stream
-     *            the stream to load from
-     * @throws IOException
-     *             if the file cannot be read
-     * @throws GedcomParserException
-     *             if the file cannot be parsed
-     */
-    public void load(BufferedInputStream stream) throws IOException, GedcomParserException {
-        if (verbose) {
-            System.out.println("Loading and parsing GEDCOM from input stream");
-        }
-        StringTree stringTree = GedcomParserHelper.readStream(stream);
-        loadRootItems(stringTree);
-        if (verbose) {
-            dumpErrorsAndWarnings();
-        }
-    }
-
-    /**
-     * Load a gedcom file by filename and create an object heirarchy from the data therein.
-     * 
-     * @param filename
-     *            the name of the file to load
-     * @throws IOException
-     *             if the file cannot be read
-     * @throws GedcomParserException
-     *             if the file cannot be parsed
-     */
-    public void load(String filename) throws IOException, GedcomParserException {
-        if (verbose) {
-            System.out.println("Loading and parsing GEDCOM from file " + filename);
-        }
-        StringTree stringTree = GedcomParserHelper.readFile(filename);
-        loadRootItems(stringTree);
-        if (verbose) {
-            dumpErrorsAndWarnings();
-        }
     }
 
 }

@@ -18,6 +18,15 @@
 	</path>
 	<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpathref="findbugs.classpath" />
 
+	<!-- Stuff for PMD -->
+	<path id="pmd.classpath">
+		<fileset dir="lib/pmd">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.classpath" />
+
+
 	<!-- Stuff for Maven Ant Tasks -->
 	<path id="maven-ant-tasks.classpath" path="lib/maven-ant-tasks-2.1.3.jar" />
 	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="antlib:org.apache.maven.artifact.ant" classpathref="maven-ant-tasks.classpath" />
@@ -151,8 +160,8 @@
 			<arg value="-Pgpg" />
 		</artifact:mvn>
 	</target>
-	
-	
+
+
 	<target name="maven-local" depends="release" description="Prepare release for push to LOCAL maven repository">
 		<!--
 	    This target is inteded to be used by any developer to install the artifact to the local
@@ -248,8 +257,6 @@
 	<target name="checkstyle" description="Run Checkstyle over the source, and produce a report of violations">
 		<delete dir="tmp/checkstyle" />
 		<mkdir dir="tmp/checkstyle" />
-		<delete dir="reports/checkstyle" />
-		<mkdir dir="reports/checkstyle" />
 		<checkstyle config="checkstyle-config.xml" failureProperty="checkstyle.failure" failOnViolation="false">
 			<formatter type="xml" tofile="tmp/checkstyle/checkstyle_report.xml" />
 			<fileset dir="src" includes="**/*.java" />
@@ -269,5 +276,19 @@
 			<sourcePath path="src" />
 			<class location="bin" />
 		</findbugs>
+	</target>
+
+	<target name="pmd" depends="compile" description="Run PMD over the source to find bug patterns and potential issues">
+		<delete dir="tmp/pmd" />
+		<mkdir dir="tmp/pmd" />
+		<pmd shortFilenames="true">
+			<sourceLanguage name="java" version="1.5" />
+			<ruleset>pmd-config.xml</ruleset>
+			<formatter type="xml" toFile="tmp/pmd/pmd_report.xml" />
+			<formatter type="html" toFile="reports/pmd_report.html" />
+			<fileset dir="src">
+				<include name="**/*.java" />
+			</fileset>
+		</pmd>
 	</target>
 </project>
