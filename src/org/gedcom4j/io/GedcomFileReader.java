@@ -41,17 +41,6 @@ public class GedcomFileReader {
     private static final int FIRST_CHUNK_SIZE = 16384;
 
     /**
-     * The encoding that this reader is using
-     */
-    private Encoding encoding;
-
-    /**
-     * Was a byte order marker used to indicate UTF-8? This is important because the three bytes that make up the byte
-     * order marker need to be discarded
-     */
-    private boolean byteOrderMarker = false;
-
-    /**
      * The first chunk of the file
      */
     private final byte[] firstChunk = new byte[FIRST_CHUNK_SIZE];
@@ -83,33 +72,12 @@ public class GedcomFileReader {
 
         saveFirstChunk(byteStream);
 
-        try {
-            getEncodingSpecificReader();
-        } catch (UnsupportedGedcomCharsetException e) {
-            throw new IOException("Unable to parse GEDCOM data - " + e.getMessage(), e);
-        }
-
         List<String> result = new ArrayList<String>();
-        switch (encoding) {
-            case ANSEL:
-                result.addAll(new AnselReader(byteStream).load());
-                break;
-            case ASCII:
-                result.addAll(new AsciiReader(byteStream).load());
-                break;
-            case UNICODE_BIG_ENDIAN:
-                result.addAll(new UnicodeBigEndianReader(byteStream).load());
-                break;
-            case UNICODE_LITTLE_ENDIAN:
-                result.addAll(new UnicodeLittleEndianReader(byteStream).load());
-                break;
-            case UTF_8:
-                Utf8Reader utf8Reader = new Utf8Reader(byteStream);
-                utf8Reader.setByteOrderMarkerFlag(byteOrderMarker);
-                result.addAll(utf8Reader.load());
-                break;
-            default:
-                throw new IllegalStateException("Unknown encoding " + encoding);
+        try {
+            AbstractEncodingSpecificReader encodingSpecificReader = getEncodingSpecificReader();
+            result.addAll(encodingSpecificReader.load());
+        } catch (UnsupportedGedcomCharsetException e) {
+            throw new IOException("Unable to parse GEDCOM data - " + e.getMessage());
         }
 
         return result;
@@ -130,10 +98,7 @@ public class GedcomFileReader {
      *             <li>No CHAR tag was found within the first 2k or so of the file</li>
      *             </ul>
      */
-    private Encoding anselAsciiOrUtf8() throws IOException, UnsupportedGedcomCharsetException {
-        // Default
-        Encoding result = Encoding.ANSEL;
-
+    private AbstractEncodingSpecificReader anselAsciiOrUtf8() throws IOException, UnsupportedGedcomCharsetException {
         /*
          * Try reading as UTF-8. Most likely to successfully read and be useful for figuring out what the encoding
          * really is
@@ -148,17 +113,17 @@ public class GedcomFileReader {
                 if (s.startsWith("1 CHAR ")) {
                     String e = s.substring("1 CHAR ".length());
                     if ("ANSEL".equalsIgnoreCase(e)) {
-                        result = Encoding.ANSEL;
+                        return new AnselReader(byteStream);
                     } else if ("UTF-8".equalsIgnoreCase(e)) {
-                        result = Encoding.UTF_8;
+                        return new Utf8Reader(byteStream);
                     } else if ("ASCII".equalsIgnoreCase(e)) {
-                        result = Encoding.ASCII;
+                        return new AsciiReader(byteStream);
                     } else if ("ANSI".equalsIgnoreCase(e)) {
                         /*
                          * Technically, this is illegal, but UTF_8 is the most-likely-to-work scenario, so let's try it
                          * and be a bit forgiving
                          */
-                        result = Encoding.UTF_8;
+                        return new Utf8Reader(byteStream);
                     } else {
                         throw new UnsupportedGedcomCharsetException("Specified charset " + e
                                 + " is not a supported charset encoding for GEDCOMs");
@@ -172,45 +137,49 @@ public class GedcomFileReader {
                 r.close();
             }
         }
-        return result;
+        // All other avenues exhausted, go with an ANSEL reader since that's the default encoding in GEDCOM 5.5
+        return new AnselReader(byteStream);
     }
 
     /**
      * <p>
-     * Determine the encoding of the byte stream by examining its first two characters, in order to determine how many
-     * bytes are to be read for each character.
+     * Inspect the first few bytes of the file to determine which encoding is in play, and return an encoding-specific
+     * reader to read that data.
      * </p>
+     * 
+     * @return an {@link AbstractEncodingSpecificReader} that should work with the data in the byte stream
      * 
      * @throws IOException
      *             if there is a problem reading the byte stream
      * @throws UnsupportedGedcomCharsetException
      *             if a suitable charset encoding is not found.
      */
-    private void getEncodingSpecificReader() throws IOException, UnsupportedGedcomCharsetException {
+    private AbstractEncodingSpecificReader getEncodingSpecificReader() throws IOException,
+            UnsupportedGedcomCharsetException {
 
         if (firstChunk[0] == (byte) 0xEF && firstChunk[1] == (byte) 0xBB && firstChunk[2] == (byte) 0xBF) {
             /*
              * Special byte order markers to indicate UTF-8 encoding. Not every program does this, but if it does, we
              * KNOW it's UTF-8 and should discard the BOM
              */
-            encoding = Encoding.UTF_8;
-            byteOrderMarker = true;
-            return;
+            AbstractEncodingSpecificReader result = new Utf8Reader(byteStream);
+            ((Utf8Reader) result).setByteOrderMarkerFlag(true);
+            return result;
         }
 
         if (firstChunk[0] == 0x30 && firstChunk[1] == 0x00) {
             // If the first two firstChunk make up a single zero character, it's
             // unicode
-            encoding = Encoding.UNICODE_LITTLE_ENDIAN;
+            return new UnicodeLittleEndianReader(byteStream);
         } else if (firstChunk[0] == 0x00 && firstChunk[1] == 0x30) {
             // If the first two firstChunk make up a single zero character, it's
             // unicode
-            encoding = Encoding.UNICODE_BIG_ENDIAN;
+            return new UnicodeBigEndianReader(byteStream);
         } else if (firstChunk[0] == 0x30 && firstChunk[1] == 0x20) {
             /*
              * Could be ANSEL, ASCII, or UTF-8.
              */
-            encoding = anselAsciiOrUtf8();
+            return anselAsciiOrUtf8();
         } else {
             throw new IOException("Does not appear to be a valid gedcom file - "
                     + "doesn't begin with a zero in any supported encoding, "
