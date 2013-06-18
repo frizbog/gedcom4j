@@ -34,6 +34,7 @@ import java.util.List;
  * @author frizbog1
  */
 public class GedcomFileReader {
+
     /**
      * The size of the first chunk of the GEDCOM to just load into memory for easy review. 16K.
      */
@@ -56,21 +57,34 @@ public class GedcomFileReader {
     private final byte[] firstChunk = new byte[FIRST_CHUNK_SIZE];
 
     /**
+     * The buffered input stream of bytes to read
+     */
+    private final BufferedInputStream byteStream;
+
+    /**
+     * Constructor
+     * 
+     * @param bufferedInputStream
+     *            the buffered input stream of bytes
+     */
+    public GedcomFileReader(BufferedInputStream bufferedInputStream) {
+        byteStream = bufferedInputStream;
+    }
+
+    /**
      * Get the gedcom file as a list of string
      * 
-     * @param byteStream
-     *            an <code>BufferedInputStream</code> from which this class gets the bytes of the file
      * @return a <code>List</code> of <code>String</code> objects, each of which represents a line of the input file
      *         represented by the byte stream
      * @throws IOException
      *             if there is a problem reading the data
      */
-    public List<String> getLines(BufferedInputStream byteStream) throws IOException {
+    public List<String> getLines() throws IOException {
 
         saveFirstChunk(byteStream);
 
         try {
-            detectEncoding();
+            getEncodingSpecificReader();
         } catch (UnsupportedGedcomCharsetException e) {
             throw new IOException("Unable to parse GEDCOM data - " + e.getMessage(), e);
         }
@@ -172,7 +186,7 @@ public class GedcomFileReader {
      * @throws UnsupportedGedcomCharsetException
      *             if a suitable charset encoding is not found.
      */
-    private void detectEncoding() throws IOException, UnsupportedGedcomCharsetException {
+    private void getEncodingSpecificReader() throws IOException, UnsupportedGedcomCharsetException {
 
         if (firstChunk[0] == (byte) 0xEF && firstChunk[1] == (byte) 0xBB && firstChunk[2] == (byte) 0xBF) {
             /*
