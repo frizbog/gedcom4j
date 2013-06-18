@@ -401,22 +401,4 @@ public class GedcomFileWriter {
         }
         writeLineTerminator(out);
     }
-
-    /**
-     * Write data out as UTF-8 lines.
-     * 
-     * @param out
-     *            the output stream we're writing to
-     * @param line
-     *            the line of text we're writing
-     * @throws IOException
-     *             if the data can't be written to the stream
-     */
-    private void writeUtf8Line(OutputStream out, String line) throws IOException {
-        for (int i = 0; i < line.length(); i++) {
-            char c = line.charAt(i);
-            out.write(c);
-        }
-        writeLineTerminator(out);
-    }
 }

@@ -37,47 +37,6 @@ import org.junit.Test;
 public class GedcomFileReaderTest {
 
     /**
-     * Test that a UTF file was read and character decoded correctly
-     * 
-     * @param fileName
-     *            the name of the file to load and check
-     * @throws IOException
-     *             if the file can't be loaded
-     * @throws FileNotFoundException
-     *             if the file can't be found
-     */
-    void testUtf8File(String fileName) throws IOException, FileNotFoundException {
-        GedcomFileReader gr = new GedcomFileReader();
-        FileInputStream fileInputStream = null;
-        try {
-            fileInputStream = new FileInputStream(fileName);
-            List<String> lines = gr.getLines(new BufferedInputStream(fileInputStream));
-            assertNotNull(lines);
-            assertEquals(77, lines.size());
-            assertEquals("2 VERS 5.5.1", lines.get(6));
-            assertEquals("1 CHAR UTF-8", lines.get(8));
-
-            // Check all the non-ascii characters in the names - just a sample but
-            // should give pretty good confidence
-            assertEquals("1 NAME John /Gr\u00FCber/", lines.get(10));
-            assertEquals("1 NAME Mary /H\u00E6germann/", lines.get(16));
-            assertEquals("1 NAME Abraham /Sm\u00EEth/", lines.get(22));
-            assertEquals("1 NAME Betsy /Gro\u00DFmann/", lines.get(29));
-            assertEquals("1 NAME Cleo /N\u00F4rden/", lines.get(36));
-            assertEquals("1 NAME Elizabeth /J\u00e5ckson/", lines.get(39));
-            assertEquals("1 NAME Daniel /\u0106uar\u00f3n/", lines.get(42));
-            assertEquals("1 NAME Michael /Gar\u00E7on/", lines.get(46));
-            assertEquals("1 NAME Ellen /\u0141owenst\u0117in/", lines.get(49));
-            assertEquals("1 NAME Fred /\u00DBlrich/", lines.get(53));
-        } finally {
-            if (fileInputStream != null) {
-                fileInputStream.close();
-            }
-        }
-
-    }
-
-    /**
      * A test for whether the GedcomReader properly handles multi line files with CRLF line terminators
      * 
      * @throws IOException
@@ -91,14 +50,21 @@ public class GedcomFileReaderTest {
          */
         byte[] anselData = { 0x30, 0x20, 0x48, 0x0D, 0x0A, 0x6F };
 
-        BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(anselData));
-        GedcomFileReader gr = new GedcomFileReader();
-        List<String> lines = gr.getLines(s);
-        assertNotNull(lines);
-        assertFalse(lines.isEmpty());
-        assertEquals(2, lines.size());
-        assertEquals("0 H", lines.get(0));
-        assertEquals("o", lines.get(1));
+        BufferedInputStream s = null;
+        try {
+            s = new BufferedInputStream(new ByteArrayInputStream(anselData));
+            GedcomFileReader gr = new GedcomFileReader();
+            List<String> lines = gr.getLines(s);
+            assertNotNull(lines);
+            assertFalse(lines.isEmpty());
+            assertEquals(2, lines.size());
+            assertEquals("0 H", lines.get(0));
+            assertEquals("o", lines.get(1));
+        } finally {
+            if (s != null) {
+                s.close();
+            }
+        }
     }
 
     /**
@@ -115,14 +81,21 @@ public class GedcomFileReaderTest {
          */
         byte[] anselData = { 0x30, 0x20, 0x48, 0x0D, 0x6F };
 
-        BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(anselData));
-        GedcomFileReader gr = new GedcomFileReader();
-        List<String> lines = gr.getLines(s);
-        assertNotNull(lines);
-        assertFalse(lines.isEmpty());
-        assertEquals(2, lines.size());
-        assertEquals("0 H", lines.get(0));
-        assertEquals("o", lines.get(1));
+        BufferedInputStream s = null;
+        try {
+            s = new BufferedInputStream(new ByteArrayInputStream(anselData));
+            GedcomFileReader gr = new GedcomFileReader();
+            List<String> lines = gr.getLines(s);
+            assertNotNull(lines);
+            assertFalse(lines.isEmpty());
+            assertEquals(2, lines.size());
+            assertEquals("0 H", lines.get(0));
+            assertEquals("o", lines.get(1));
+        } finally {
+            if (s != null) {
+                s.close();
+            }
+        }
     }
 
     /**
@@ -139,13 +112,20 @@ public class GedcomFileReaderTest {
          */
         byte[] anselData = { 0x30, 0x20, 0x48, 0x65, (byte) 0xA1, (byte) 0xA1, 0x6F };
 
-        BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(anselData));
+        BufferedInputStream s = null;
+        try {
+            s = new BufferedInputStream(new ByteArrayInputStream(anselData));
 
-        GedcomFileReader gr = new GedcomFileReader();
-        List<String> lines = gr.getLines(s);
-        assertNotNull(lines);
-        assertFalse(lines.isEmpty());
-        assertEquals("0 He\u0141\u0141o", lines.get(0));
+            GedcomFileReader gr = new GedcomFileReader();
+            List<String> lines = gr.getLines(s);
+            assertNotNull(lines);
+            assertFalse(lines.isEmpty());
+            assertEquals("0 He\u0141\u0141o", lines.get(0));
+        } finally {
+            if (s != null) {
+                s.close();
+            }
+        }
     }
 
     /**
@@ -162,14 +142,21 @@ public class GedcomFileReaderTest {
          */
         byte[] anselData = { 0x30, 0x20, 0x48, 0x0A, 0x6F };
 
-        BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(anselData));
-        GedcomFileReader gr = new GedcomFileReader();
-        List<String> lines = gr.getLines(s);
-        assertNotNull(lines);
-        assertFalse(lines.isEmpty());
-        assertEquals(2, lines.size());
-        assertEquals("0 H", lines.get(0));
-        assertEquals("o", lines.get(1));
+        BufferedInputStream s = null;
+        try {
+            s = new BufferedInputStream(new ByteArrayInputStream(anselData));
+            GedcomFileReader gr = new GedcomFileReader();
+            List<String> lines = gr.getLines(s);
+            assertNotNull(lines);
+            assertFalse(lines.isEmpty());
+            assertEquals(2, lines.size());
+            assertEquals("0 H", lines.get(0));
+            assertEquals("o", lines.get(1));
+        } finally {
+            if (s != null) {
+                s.close();
+            }
+        }
     }
 
     /**
@@ -185,14 +172,21 @@ public class GedcomFileReaderTest {
          */
         byte[] unicodeData = { 0x00, 0x30, 0x00, 0x20, 0x00, 0x48, 0x00, 0x45, 0x00, 0x41, 0x00, 0x44, 0x00, 0x0d,
                 0x00, 0x0a, 0x00, 0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52 };
-        BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
-        GedcomFileReader gr = new GedcomFileReader();
-        List<String> lines = gr.getLines(s);
-        assertNotNull(lines);
-        assertFalse(lines.isEmpty());
-        assertEquals(2, lines.size());
-        assertEquals("0 HEAD", lines.get(0));
-        assertEquals("1 CHAR", lines.get(1));
+        BufferedInputStream s = null;
+        try {
+            s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
+            GedcomFileReader gr = new GedcomFileReader();
+            List<String> lines = gr.getLines(s);
+            assertNotNull(lines);
+            assertFalse(lines.isEmpty());
+            assertEquals(2, lines.size());
+            assertEquals("0 HEAD", lines.get(0));
+            assertEquals("1 CHAR", lines.get(1));
+        } finally {
+            if (s != null) {
+                s.close();
+            }
+        }
     }
 
     /**
@@ -208,14 +202,21 @@ public class GedcomFileReaderTest {
          */
         byte[] unicodeData = { 0x00, 0x30, 0x00, 0x20, 0x00, 0x48, 0x00, 0x45, 0x00, 0x41, 0x00, 0x44, 0x00, 0x0d,
                 0x00, 0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52 };
-        BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
-        GedcomFileReader gr = new GedcomFileReader();
-        List<String> lines = gr.getLines(s);
-        assertNotNull(lines);
-        assertFalse(lines.isEmpty());
-        assertEquals(2, lines.size());
-        assertEquals("0 HEAD", lines.get(0));
-        assertEquals("1 CHAR", lines.get(1));
+        BufferedInputStream s = null;
+        try {
+            s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
+            GedcomFileReader gr = new GedcomFileReader();
+            List<String> lines = gr.getLines(s);
+            assertNotNull(lines);
+            assertFalse(lines.isEmpty());
+            assertEquals(2, lines.size());
+            assertEquals("0 HEAD", lines.get(0));
+            assertEquals("1 CHAR", lines.get(1));
+        } finally {
+            if (s != null) {
+                s.close();
+            }
+        }
     }
 
     /**
@@ -231,14 +232,21 @@ public class GedcomFileReaderTest {
          */
         byte[] unicodeData = { 0x00, 0x30, 0x00, 0x20, 0x00, 0x48, 0x00, 0x45, 0x00, 0x41, 0x00, 0x44, 0x00, 0x0a,
                 0x00, 0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52 };
-        BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
-        GedcomFileReader gr = new GedcomFileReader();
-        List<String> lines = gr.getLines(s);
-        assertNotNull(lines);
-        assertFalse(lines.isEmpty());
-        assertEquals(2, lines.size());
-        assertEquals("0 HEAD", lines.get(0));
-        assertEquals("1 CHAR", lines.get(1));
+        BufferedInputStream s = null;
+        try {
+            s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
+            GedcomFileReader gr = new GedcomFileReader();
+            List<String> lines = gr.getLines(s);
+            assertNotNull(lines);
+            assertFalse(lines.isEmpty());
+            assertEquals(2, lines.size());
+            assertEquals("0 HEAD", lines.get(0));
+            assertEquals("1 CHAR", lines.get(1));
+        } finally {
+            if (s != null) {
+                s.close();
+            }
+        }
     }
 
     /**
@@ -254,14 +262,21 @@ public class GedcomFileReaderTest {
          */
         byte[] unicodeData = { 0x30, 0x00, 0x20, 0x00, 0x48, 0x00, 0x45, 0x00, 0x41, 0x00, 0x44, 0x00, 0x0d, 0x00,
                 0x0a, 0x00, 0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52, 0x00 };
-        BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
-        GedcomFileReader gr = new GedcomFileReader();
-        List<String> lines = gr.getLines(s);
-        assertNotNull(lines);
-        assertFalse(lines.isEmpty());
-        assertEquals(2, lines.size());
-        assertEquals("0 HEAD", lines.get(0));
-        assertEquals("1 CHAR", lines.get(1));
+        BufferedInputStream s = null;
+        try {
+            s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
+            GedcomFileReader gr = new GedcomFileReader();
+            List<String> lines = gr.getLines(s);
+            assertNotNull(lines);
+            assertFalse(lines.isEmpty());
+            assertEquals(2, lines.size());
+            assertEquals("0 HEAD", lines.get(0));
+            assertEquals("1 CHAR", lines.get(1));
+        } finally {
+            if (s != null) {
+                s.close();
+            }
+        }
     }
 
     /**
@@ -277,14 +292,21 @@ public class GedcomFileReaderTest {
          */
         byte[] unicodeData = { 0x30, 0x00, 0x20, 0x00, 0x48, 0x00, 0x45, 0x00, 0x41, 0x00, 0x44, 0x00, 0x0d, 0x00,
                 0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52, 0x00 };
-        BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
-        GedcomFileReader gr = new GedcomFileReader();
-        List<String> lines = gr.getLines(s);
-        assertNotNull(lines);
-        assertFalse(lines.isEmpty());
-        assertEquals(2, lines.size());
-        assertEquals("0 HEAD", lines.get(0));
-        assertEquals("1 CHAR", lines.get(1));
+        BufferedInputStream s = null;
+        try {
+            s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
+            GedcomFileReader gr = new GedcomFileReader();
+            List<String> lines = gr.getLines(s);
+            assertNotNull(lines);
+            assertFalse(lines.isEmpty());
+            assertEquals(2, lines.size());
+            assertEquals("0 HEAD", lines.get(0));
+            assertEquals("1 CHAR", lines.get(1));
+        } finally {
+            if (s != null) {
+                s.close();
+            }
+        }
     }
 
     /**
@@ -300,14 +322,21 @@ public class GedcomFileReaderTest {
          */
         byte[] unicodeData = { 0x30, 0x00, 0x20, 0x00, 0x48, 0x00, 0x45, 0x00, 0x41, 0x00, 0x44, 0x00, 0x0a, 0x00,
                 0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52, 0x00 };
-        BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
-        GedcomFileReader gr = new GedcomFileReader();
-        List<String> lines = gr.getLines(s);
-        assertNotNull(lines);
-        assertFalse(lines.isEmpty());
-        assertEquals(2, lines.size());
-        assertEquals("0 HEAD", lines.get(0));
-        assertEquals("1 CHAR", lines.get(1));
+        BufferedInputStream s = null;
+        try {
+            s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
+            GedcomFileReader gr = new GedcomFileReader();
+            List<String> lines = gr.getLines(s);
+            assertNotNull(lines);
+            assertFalse(lines.isEmpty());
+            assertEquals(2, lines.size());
+            assertEquals("0 HEAD", lines.get(0));
+            assertEquals("1 CHAR", lines.get(1));
+        } finally {
+            if (s != null) {
+                s.close();
+            }
+        }
     }
 
     /**
@@ -352,5 +381,46 @@ public class GedcomFileReaderTest {
     @Test
     public void testUtf8LfNoBOM() throws IOException {
         testUtf8File("sample/utf8_lf_nobom.ged");
+    }
+
+    /**
+     * Test that a UTF file was read and character decoded correctly
+     * 
+     * @param fileName
+     *            the name of the file to load and check
+     * @throws IOException
+     *             if the file can't be loaded
+     * @throws FileNotFoundException
+     *             if the file can't be found
+     */
+    void testUtf8File(String fileName) throws IOException, FileNotFoundException {
+        GedcomFileReader gr = new GedcomFileReader();
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream(fileName);
+            List<String> lines = gr.getLines(new BufferedInputStream(fileInputStream));
+            assertNotNull(lines);
+            assertEquals(77, lines.size());
+            assertEquals("2 VERS 5.5.1", lines.get(6));
+            assertEquals("1 CHAR UTF-8", lines.get(8));
+
+            // Check all the non-ascii characters in the names - just a sample but
+            // should give pretty good confidence
+            assertEquals("1 NAME John /Gr\u00FCber/", lines.get(10));
+            assertEquals("1 NAME Mary /H\u00E6germann/", lines.get(16));
+            assertEquals("1 NAME Abraham /Sm\u00EEth/", lines.get(22));
+            assertEquals("1 NAME Betsy /Gro\u00DFmann/", lines.get(29));
+            assertEquals("1 NAME Cleo /N\u00F4rden/", lines.get(36));
+            assertEquals("1 NAME Elizabeth /J\u00e5ckson/", lines.get(39));
+            assertEquals("1 NAME Daniel /\u0106uar\u00f3n/", lines.get(42));
+            assertEquals("1 NAME Michael /Gar\u00E7on/", lines.get(46));
+            assertEquals("1 NAME Ellen /\u0141owenst\u0117in/", lines.get(49));
+            assertEquals("1 NAME Fred /\u00DBlrich/", lines.get(53));
+        } finally {
+            if (fileInputStream != null) {
+                fileInputStream.close();
+            }
+        }
+
     }
 }
