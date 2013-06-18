@@ -68,7 +68,7 @@ public final class GedcomParserHelper {
      *             if there is a problem reading the data from the reader
      */
     static StringTree makeStringTreeFromStream(BufferedInputStream bytes) throws IOException {
-        List<String> lines = new GedcomFileReader().getLines(bytes);
+        List<String> lines = new GedcomFileReader(bytes).getLines();
         StringTree result = new StringTree();
         result.level = -1;
         try {
