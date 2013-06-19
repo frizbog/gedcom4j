@@ -18,6 +18,7 @@ public class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
      * Constructor
      * 
      * @param byteStream
+     *            the stream of data to be read
      */
     public UnicodeLittleEndianReader(InputStream byteStream) {
         super(byteStream);
