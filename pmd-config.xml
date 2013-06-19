@@ -176,7 +176,6 @@
 	<rule ref="rulesets/java/naming.xml/PackageCase" />
 	<rule ref="rulesets/java/naming.xml/MisleadingVariableName" />
 	<rule ref="rulesets/java/naming.xml/BooleanGetMethodName" />
-	<rule ref="rulesets/java/naming.xml/ShortClassName" />
 	<rule ref="rulesets/java/naming.xml/GenericsNaming" />
 	<rule ref="rulesets/java/optimizations.xml/UseArrayListInsteadOfVector" />
 	<rule ref="rulesets/java/optimizations.xml/SimplifyStartsWith" />
@@ -225,7 +224,6 @@
 	<rule ref="rulesets/java/unnecessary.xml/UselessOverridingMethod" />
 	<rule ref="rulesets/java/unnecessary.xml/UselessOperationOnImmutable" />
 	<rule ref="rulesets/java/unnecessary.xml/UnusedNullCheckInEquals" />
-	<rule ref="rulesets/java/unnecessary.xml/UselessParentheses" />
 	<rule ref="rulesets/java/unusedcode.xml/UnusedPrivateField" />
 	<rule ref="rulesets/java/unusedcode.xml/UnusedLocalVariable" />
 	<rule ref="rulesets/java/unusedcode.xml/UnusedPrivateMethod" />

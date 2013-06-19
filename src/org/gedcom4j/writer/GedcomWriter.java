@@ -1494,9 +1494,9 @@ public class GedcomWriter {
     private void emitTag(int level, String xref, String tag) {
         StringBuilder line = new StringBuilder(Integer.toString(level));
         if (xref != null && xref.length() > 0) {
-            line.append(" " + xref);
+            line.append(" ").append(xref);
         }
-        line.append(" " + tag);
+        line.append(" ").append(tag);
         lines.add(line.toString());
     }
 
@@ -1531,9 +1531,9 @@ public class GedcomWriter {
             StringBuilder line = new StringBuilder();
             line.append(level);
             if (xref != null && xref.length() > 0) {
-                line.append(" " + xref);
+                line.append(" ").append(xref);
             }
-            line.append(" " + tag + " " + value);
+            line.append(" ").append(tag).append(" ").append(value);
             emitAndSplit(level, line.toString());
         }
     }
@@ -1553,7 +1553,7 @@ public class GedcomWriter {
     private void emitTagWithOptionalValue(int level, String tag, String value) throws GedcomWriterException {
         StringBuilder line = new StringBuilder(level + " " + tag);
         if (value != null) {
-            line.append(" " + value);
+            line.append(" ").append(value);
         }
         lines.add(line.toString());
     }
@@ -1574,7 +1574,7 @@ public class GedcomWriter {
             throws GedcomWriterException {
         StringBuilder line = new StringBuilder(level + " " + tag);
         if (valueToRightOfTag != null && valueToRightOfTag.value != null) {
-            line.append(" " + valueToRightOfTag);
+            line.append(" ").append(valueToRightOfTag);
         }
         lines.add(line.toString());
         if (valueToRightOfTag != null) {
@@ -1620,9 +1620,9 @@ public class GedcomWriter {
         }
         StringBuilder line = new StringBuilder(Integer.toString(level));
         if (xref != null && xref.length() > 0) {
-            line.append(" " + xref);
+            line.append(" ").append(xref);
         }
-        line.append(" " + tag + " " + e);
+        line.append(" ").append(tag).append(" ").append(e);
         lines.add(line.toString());
         emitCustomTags(e.customTags);
     }

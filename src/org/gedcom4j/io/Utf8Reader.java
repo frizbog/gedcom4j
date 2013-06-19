@@ -35,11 +35,11 @@ public class Utf8Reader extends AbstractEncodingSpecificReader {
     /**
      * Set whether or not a byte order marker was read when inspecting the file to detect its encoding
      * 
-     * @param byteOrderMarkerRead
+     * @param wasByteOrderMarkerRead
      *            true if a byte order marker was read
      */
-    public void setByteOrderMarkerRead(boolean byteOrderMarkerRead) {
-        this.byteOrderMarkerRead = byteOrderMarkerRead;
+    public void setByteOrderMarkerRead(boolean wasByteOrderMarkerRead) {
+        byteOrderMarkerRead = wasByteOrderMarkerRead;
     }
 
     @Override
