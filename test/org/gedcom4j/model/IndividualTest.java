@@ -42,68 +42,6 @@ import org.junit.Test;
 public class IndividualTest {
 
     /**
-     * Helper method to add attributes of a specific type to an individual
-     * 
-     * @param i
-     *            the individual to add to
-     * @param t
-     *            the type of attribute
-     */
-    private void addAttributeOfType(Individual i, IndividualAttributeType t) {
-        IndividualAttribute e = new IndividualAttribute();
-        e.type = t;
-        e.description = new StringWithCustomTags("Random text for uniqueness " + Math.random());
-        i.attributes.add(e);
-    }
-
-    /**
-     * Helper method to add a basic name to an individual
-     * 
-     * @param i
-     *            the individual
-     * @param string
-     *            the name
-     */
-    private void addBasicName(Individual i, String string) {
-        PersonalName pn = new PersonalName();
-        pn.basic = string;
-        i.names.add(pn);
-
-    }
-
-    /**
-     * Helper method to add events of a specific type to an individual
-     * 
-     * @param i
-     *            the individual to add to
-     * @param t
-     *            the type of event
-     */
-    private void addEventOfType(Individual i, IndividualEventType t) {
-        IndividualEvent e = new IndividualEvent();
-        e.type = t;
-        e.description = new StringWithCustomTags("Random text for uniqueness " + Math.random());
-        i.events.add(e);
-    }
-
-    /**
-     * Helper method to get a person and assert they exist
-     * 
-     * @param gedcom
-     *            the gedcom we're searching over
-     * @param surname
-     *            the surname of the person we want
-     * @param givenName
-     *            the given name of the person we want
-     * @return the person
-     */
-    private Individual getPerson(Gedcom gedcom, String surname, String givenName) {
-        Individual result = new Finder(gedcom).findByName(surname, givenName).get(0);
-        assertNotNull("Couldn't find " + givenName + " " + surname + " by name in the gedcom", result);
-        return result;
-    }
-
-    /**
      * Test method for {@link org.gedcom4j.model.Individual#equals(java.lang.Object)} .
      */
     @Test
@@ -140,7 +78,6 @@ public class IndividualTest {
     @Test
     public void testGetAncestors() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/RelationshipTest.ged");
         assertTrue(gp.errors.isEmpty());
         assertTrue(gp.warnings.isEmpty());
@@ -195,7 +132,6 @@ public class IndividualTest {
     @Test
     public void testGetDescendants() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/RelationshipTest.ged");
         assertTrue(gp.errors.isEmpty());
         assertTrue(gp.warnings.isEmpty());
@@ -331,6 +267,68 @@ public class IndividualTest {
         f.family.wife = new Individual();
         addBasicName(f.family.wife, "Elizabeth /Hofstadt/");
         assertEquals("Donald /Draper/, spouse of Anna //, spouse of Elizabeth /Hofstadt/", i.toString());
+    }
+
+    /**
+     * Helper method to add attributes of a specific type to an individual
+     * 
+     * @param i
+     *            the individual to add to
+     * @param t
+     *            the type of attribute
+     */
+    private void addAttributeOfType(Individual i, IndividualAttributeType t) {
+        IndividualAttribute e = new IndividualAttribute();
+        e.type = t;
+        e.description = new StringWithCustomTags("Random text for uniqueness " + Math.random());
+        i.attributes.add(e);
+    }
+
+    /**
+     * Helper method to add a basic name to an individual
+     * 
+     * @param i
+     *            the individual
+     * @param string
+     *            the name
+     */
+    private void addBasicName(Individual i, String string) {
+        PersonalName pn = new PersonalName();
+        pn.basic = string;
+        i.names.add(pn);
+
+    }
+
+    /**
+     * Helper method to add events of a specific type to an individual
+     * 
+     * @param i
+     *            the individual to add to
+     * @param t
+     *            the type of event
+     */
+    private void addEventOfType(Individual i, IndividualEventType t) {
+        IndividualEvent e = new IndividualEvent();
+        e.type = t;
+        e.description = new StringWithCustomTags("Random text for uniqueness " + Math.random());
+        i.events.add(e);
+    }
+
+    /**
+     * Helper method to get a person and assert they exist
+     * 
+     * @param gedcom
+     *            the gedcom we're searching over
+     * @param surname
+     *            the surname of the person we want
+     * @param givenName
+     *            the given name of the person we want
+     * @return the person
+     */
+    private Individual getPerson(Gedcom gedcom, String surname, String givenName) {
+        Individual result = new Finder(gedcom).findByName(surname, givenName).get(0);
+        assertNotNull("Couldn't find " + givenName + " " + surname + " by name in the gedcom", result);
+        return result;
     }
 
 }

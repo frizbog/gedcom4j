@@ -29,28 +29,13 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.List;
 
-import org.gedcom4j.model.Corporation;
-import org.gedcom4j.model.Family;
-import org.gedcom4j.model.FamilyChild;
-import org.gedcom4j.model.FamilyEvent;
-import org.gedcom4j.model.FamilyEventType;
-import org.gedcom4j.model.Gedcom;
-import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.IndividualAttribute;
-import org.gedcom4j.model.IndividualAttributeType;
-import org.gedcom4j.model.IndividualEvent;
-import org.gedcom4j.model.IndividualEventType;
-import org.gedcom4j.model.NameVariation;
-import org.gedcom4j.model.PersonalName;
-import org.gedcom4j.model.Place;
-import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.*;
 import org.gedcom4j.query.Finder;
 import org.junit.Test;
 
 /**
- * These are tests for the Gedcom Parser that are specific to GEDCOM 5.5.1. This
- * class may eventually be combined with {@link GedcomParserTest} once the
- * branch is merged into the trunk.
+ * These are tests for the Gedcom Parser that are specific to GEDCOM 5.5.1. This class may eventually be combined with
+ * {@link GedcomParserTest} once the branch is merged into the trunk.
  * 
  * @author frizbog
  * 
@@ -68,7 +53,6 @@ public class GedcomParser551Test {
     @Test
     public void testContinuationForCopyright() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/john_of_sea_20101009.ged");
         assertTrue(gp.errors.isEmpty());
         assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it",
@@ -92,7 +76,6 @@ public class GedcomParser551Test {
     @Test
     public void testEmail() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/5.5.1 sample 3.ged");
         // assertTrue(gp.errors.isEmpty());
         // assertTrue(gp.warnings.isEmpty());
@@ -119,7 +102,6 @@ public class GedcomParser551Test {
     @Test
     public void testFact() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/john_of_sea_20101009.ged");
         assertTrue(gp.errors.isEmpty());
         assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it",
@@ -152,7 +134,6 @@ public class GedcomParser551Test {
     @Test
     public void testFax() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/5.5.1 sample 3.ged");
         // assertTrue(gp.errors.isEmpty());
         // assertTrue(gp.warnings.isEmpty());
@@ -181,7 +162,6 @@ public class GedcomParser551Test {
     @Test
     public void testFoneName() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/5.5.1 sample 2.ged");
         assertTrue(gp.errors.isEmpty());
         assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it",
@@ -214,7 +194,6 @@ public class GedcomParser551Test {
     @Test
     public void testFonePlace() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/5.5.1 sample 4.ged");
         assertTrue(gp.errors.isEmpty());
         assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it",
@@ -250,7 +229,6 @@ public class GedcomParser551Test {
     @Test
     public void testMapLatLong() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/5.5.1 sample 4.ged");
         assertTrue(gp.errors.isEmpty());
         assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it",
@@ -284,7 +262,6 @@ public class GedcomParser551Test {
     @Test
     public void testMultimediaChanges1() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
 
         // 5.5 data, has a blob - OK
         gp.load("sample/TGC551.ged");
@@ -308,7 +285,6 @@ public class GedcomParser551Test {
     @Test
     public void testMultimediaChanges2() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
 
         // 5.5.1 data with a BLOB - illegal
         gp.load("sample/5.5.1 sample 4.ged");
@@ -336,7 +312,6 @@ public class GedcomParser551Test {
     @Test
     public void testMultimediaChanges3() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
 
         // 5.5 data, has a blob - OK
         gp.load("sample/5.5.1 sample 1.ged");
@@ -361,14 +336,12 @@ public class GedcomParser551Test {
     @Test
     public void testMultimediaFileRef() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/5.5.1 sample 5.ged");
         assertTrue(gp.errors.isEmpty());
     }
 
     /**
-     * Test the new religious affiliation tag added to family events in GEDCOM
-     * 5.5.1
+     * Test the new religious affiliation tag added to family events in GEDCOM 5.5.1
      * 
      * @throws IOException
      *             if there is a problem reading/writing the file
@@ -379,7 +352,6 @@ public class GedcomParser551Test {
     @Test
     public void testReligionOnFamilyEventDetail() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/5.5.1 sample 1.ged");
         assertTrue(gp.errors.isEmpty());
         assertTrue(gp.warnings.isEmpty());
@@ -405,8 +377,7 @@ public class GedcomParser551Test {
     }
 
     /**
-     * Test the new religious affiliation tag added to family events in GEDCOM
-     * 5.5.1
+     * Test the new religious affiliation tag added to family events in GEDCOM 5.5.1
      * 
      * @throws IOException
      *             if there is a problem reading/writing the file
@@ -417,7 +388,6 @@ public class GedcomParser551Test {
     @Test
     public void testReligionOnIndividualEventDetail() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/5.5.1 sample 1.ged");
         assertTrue(gp.errors.isEmpty());
         assertTrue(gp.warnings.isEmpty());
@@ -460,7 +430,6 @@ public class GedcomParser551Test {
     @Test
     public void testRestrictionOnEvent() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/5.5.1 sample 3.ged");
         for (String s : gp.errors) {
             System.err.println(s);
@@ -498,7 +467,6 @@ public class GedcomParser551Test {
     @Test
     public void testRestrictionOnFamily() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/5.5.1 sample 3.ged");
         assertTrue(gp.errors.isEmpty());
         assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it",
@@ -526,7 +494,6 @@ public class GedcomParser551Test {
     public void testRomnName() throws IOException, GedcomParserException {
 
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/5.5.1 sample 3.ged");
         assertTrue(gp.errors.isEmpty());
         assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it",
@@ -555,7 +522,6 @@ public class GedcomParser551Test {
     @Test
     public void testRomnPlace() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/5.5.1 sample 4.ged");
         assertTrue(gp.errors.isEmpty());
         assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it",
@@ -591,7 +557,6 @@ public class GedcomParser551Test {
     @Test
     public void testStatusOnFamilyChild() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/5.5.1 sample 1.ged");
         assertTrue(gp.errors.isEmpty());
         assertTrue(gp.warnings.isEmpty());
@@ -630,7 +595,6 @@ public class GedcomParser551Test {
     @Test
     public void testWWW() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/5.5.1 sample 3.ged");
         assertTrue(gp.errors.isEmpty());
         assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it",

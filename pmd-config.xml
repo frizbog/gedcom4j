@@ -83,7 +83,6 @@
 	<rule ref="rulesets/java/design.xml/MissingBreakInSwitch" />
 	<rule ref="rulesets/java/design.xml/UseNotifyAllInsteadOfNotify" />
 	<rule ref="rulesets/java/design.xml/AvoidInstanceofChecksInCatchClause" />
-	<rule ref="rulesets/java/design.xml/AbstractClassWithoutAbstractMethod" />
 	<rule ref="rulesets/java/design.xml/SimplifyConditional" />
 	<rule ref="rulesets/java/design.xml/CompareObjectsWithEquals" />
 	<rule ref="rulesets/java/design.xml/PositionLiteralsFirstInComparisons" />
@@ -101,7 +100,6 @@
 		ref="rulesets/java/design.xml/EmptyMethodInAbstractClassShouldBeAbstract" />
 	<rule ref="rulesets/java/design.xml/SingularField" />
 	<rule ref="rulesets/java/design.xml/ReturnEmptyArrayRatherThanNull" />
-	<rule ref="rulesets/java/design.xml/AbstractClassWithoutAnyMethod" />
 	<rule ref="rulesets/java/design.xml/TooFewBranchesForASwitchStatement" />
 	<rule ref="rulesets/java/design.xml/LogicInversion" />
 	<rule ref="rulesets/java/design.xml/UseVarargs" />

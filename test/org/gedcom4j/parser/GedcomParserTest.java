@@ -28,17 +28,7 @@ import java.io.InputStream;
 
 import junit.framework.TestCase;
 
-import org.gedcom4j.model.CitationWithSource;
-import org.gedcom4j.model.CitationWithoutSource;
-import org.gedcom4j.model.Family;
-import org.gedcom4j.model.FileReference;
-import org.gedcom4j.model.Gedcom;
-import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.Note;
-import org.gedcom4j.model.PersonalName;
-import org.gedcom4j.model.Source;
-import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.*;
 import org.junit.Test;
 
 /**
@@ -62,7 +52,6 @@ public class GedcomParserTest extends TestCase {
     @Test
     public void testBadCustomTag() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/Bad_custom_tag.ged");
         assertNotNull(gp.errors);
         assertEquals(1, gp.errors.size());
@@ -80,15 +69,13 @@ public class GedcomParserTest extends TestCase {
      */
     public void testLoad1() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/TGC551.ged");
         assertTrue(gp.errors.isEmpty());
         checkTGC551LF(gp);
     }
 
     /**
-     * Test loading a sample file ... another stress-test file. This one should
-     * have warnings.
+     * Test loading a sample file ... another stress-test file. This one should have warnings.
      * 
      * @throws IOException
      *             if the file can't be read
@@ -97,7 +84,6 @@ public class GedcomParserTest extends TestCase {
      */
     public void testLoad2() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         assertTrue(gp.errors.isEmpty());
         gp.load("sample/allged.ged");
         assertTrue(gp.errors.isEmpty());
@@ -121,7 +107,6 @@ public class GedcomParserTest extends TestCase {
      */
     public void testLoad3() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/a31486.ged");
         assertTrue(gp.errors.isEmpty());
         assertTrue(gp.warnings.isEmpty());
@@ -167,9 +152,23 @@ public class GedcomParserTest extends TestCase {
      */
     public void testLoad4() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         // Different line end char seq than the other file
         gp.load("sample/TGC551LF.ged");
+        checkTGC551LF(gp);
+    }
+
+    /**
+     * Test for loading file from stream.
+     * 
+     * @throws IOException
+     *             if the file can't be read from the stream
+     * @throws GedcomParserException
+     *             if the parsing goes wrong
+     */
+    public void testLoadStream() throws IOException, GedcomParserException {
+        GedcomParser gp = new GedcomParser();
+        InputStream stream = new FileInputStream("sample/TGC551LF.ged");
+        gp.load(new BufferedInputStream(stream));
         checkTGC551LF(gp);
     }
 
@@ -183,7 +182,6 @@ public class GedcomParserTest extends TestCase {
      */
     public void testLoadTGC55C() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/TGC55C.ged");
         checkTGC55C(gp);
     }
@@ -198,30 +196,13 @@ public class GedcomParserTest extends TestCase {
      */
     public void testLoadTGC55CLF() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/TGC55CLF.ged");
         checkTGC55C(gp);
     }
 
     /**
-     * Test for loading file from stream.
-     * 
-     * @throws IOException
-     *             if the file can't be read from the stream
-     * @throws GedcomParserException
-     *             if the parsing goes wrong
-     */
-    public void testLoadStream() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
-        InputStream stream = new FileInputStream("sample/TGC551LF.ged");
-        gp.load(new BufferedInputStream(stream));
-        checkTGC551LF(gp);
-    }
-
-    /**
-     * The same sample file is used several times, this helper method ensures
-     * consistent assertions for all tests using the same file
+     * The same sample file is used several times, this helper method ensures consistent assertions for all tests using
+     * the same file
      * 
      * @param gp
      *            the {@link GedcomParser}
@@ -243,8 +224,8 @@ public class GedcomParserTest extends TestCase {
     }
 
     /**
-     * The same sample file is used several times, this helper method ensures
-     * consistent assertions for all tests using the same file
+     * The same sample file is used several times, this helper method ensures consistent assertions for all tests using
+     * the same file
      * 
      * @param gp
      *            the {@link GedcomParser}
@@ -294,7 +275,7 @@ public class GedcomParserTest extends TestCase {
 
         // Name 0 - Citation 0
         assertTrue(name.citations.get(0) instanceof CitationWithSource);
-        citWithSource = (CitationWithSource)name.citations.get(0);
+        citWithSource = (CitationWithSource) name.citations.get(0);
         source = citWithSource.source;
 
         assertEquals("@SOURCE1@", source.xref);
@@ -306,7 +287,9 @@ public class GedcomParserTest extends TestCase {
         // Name 0 - Note 0
         note = name.notes.get(0);
         assertEquals(5, note.lines.size());
-        assertEquals("These are notes about the first NAME structure in this record. These notes are embedded in the INDIVIDUAL record itself.", note.lines.get(0));
+        assertEquals(
+                "These are notes about the first NAME structure in this record. These notes are embedded in the INDIVIDUAL record itself.",
+                note.lines.get(0));
 
         // Name 1
         name = indi.names.get(1);
@@ -318,7 +301,7 @@ public class GedcomParserTest extends TestCase {
 
         // Name 1 - Citation 0
         assertTrue(name.citations.get(0) instanceof CitationWithSource);
-        citWithSource = (CitationWithSource)name.citations.get(0);
+        citWithSource = (CitationWithSource) name.citations.get(0);
         source = citWithSource.source;
 
         assertEquals("@SOURCE1@", source.xref);
@@ -348,12 +331,16 @@ public class GedcomParserTest extends TestCase {
         // Name 1 - Citation 0 - Note 0
         note = citWithSource.notes.get(0);
         assertEquals(3, note.lines.size());
-        assertEquals("This source citation has all fields possible in a source citation to a separate SOURCE record. Besides the link to the SOURCE record there are possible fields about this citation (e.g., PAGE, TEXT, etc.)", note.lines.get(0));
+        assertEquals(
+                "This source citation has all fields possible in a source citation to a separate SOURCE record. Besides the link to the SOURCE record there are possible fields about this citation (e.g., PAGE, TEXT, etc.)",
+                note.lines.get(0));
 
         // Name 1 - Note 0
         note = name.notes.get(0);
         assertEquals(3, note.lines.size());
-        assertEquals("This is a second personal NAME structure in a single INDIVIDUAL record which is allowed in GEDCOM. This second NAME structure has all possible fields for a NAME structure.", note.lines.get(0));
+        assertEquals(
+                "This is a second personal NAME structure in a single INDIVIDUAL record which is allowed in GEDCOM. This second NAME structure has all possible fields for a NAME structure.",
+                note.lines.get(0));
 
         // Note 0
         note = indi.notes.get(0);
@@ -363,11 +350,13 @@ public class GedcomParserTest extends TestCase {
         // Note 1
         note = indi.notes.get(1);
         assertEquals(3, note.lines.size());
-        assertEquals("This is a second set of notes for this single individual record. It is embedded in the INDIVIDUAL record instead of being in a separate NOTE record.", note.lines.get(0));
+        assertEquals(
+                "This is a second set of notes for this single individual record. It is embedded in the INDIVIDUAL record instead of being in a separate NOTE record.",
+                note.lines.get(0));
 
         // Citation 0
         assertTrue(indi.citations.get(0) instanceof CitationWithSource);
-        citWithSource = (CitationWithSource)indi.citations.get(0);
+        citWithSource = (CitationWithSource) indi.citations.get(0);
         source = citWithSource.source;
 
         assertEquals("@SOURCE1@", source.xref);
@@ -383,7 +372,7 @@ public class GedcomParserTest extends TestCase {
 
         // Citation 1
         assertTrue(indi.citations.get(1) instanceof CitationWithSource);
-        citWithSource = (CitationWithSource)indi.citations.get(1);
+        citWithSource = (CitationWithSource) indi.citations.get(1);
         source = citWithSource.source;
 
         assertEquals("@SR2@", source.xref);
@@ -399,13 +388,15 @@ public class GedcomParserTest extends TestCase {
 
         // Citation 2
         assertTrue(indi.citations.get(2) instanceof CitationWithoutSource);
-        citWithoutSource = (CitationWithoutSource)indi.citations.get(2);
+        citWithoutSource = (CitationWithoutSource) indi.citations.get(2);
 
         assertEquals(1, citWithoutSource.notes.size());
 
         // Citation 2 - Note 0
         note = citWithoutSource.notes.get(0);
         assertEquals(1, note.lines.size());
-        assertEquals("How does software handle embedded SOURCE records on import? Such source citations are common in old GEDCOM files. More modern GEDCOM files should use source citations to SOURCE records.", note.lines.get(0));
+        assertEquals(
+                "How does software handle embedded SOURCE records on import? Such source citations are common in old GEDCOM files. More modern GEDCOM files should use source citations to SOURCE records.",
+                note.lines.get(0));
     }
 }

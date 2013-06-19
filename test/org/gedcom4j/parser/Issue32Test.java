@@ -31,10 +31,7 @@ import java.util.Map.Entry;
 
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.Note;
-import org.gedcom4j.parser.GedcomParser;
-import org.gedcom4j.parser.GedcomParserException;
 import org.junit.Test;
-
 
 /**
  * Test for Issue 32, related to CONC/CONT lines
@@ -54,7 +51,6 @@ public class Issue32Test {
     @Test
     public void test() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/issue32.ged");
         assertTrue(gp.errors.isEmpty());
         assertNotNull(gp.gedcom);
@@ -98,8 +94,8 @@ public class Issue32Test {
                 + "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris "
                 + "nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in "
                 + "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla "
-                + "pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa " + "qui officia deserunt mollit anim id est laborum.",
-                note.lines.get(0));
+                + "pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa "
+                + "qui officia deserunt mollit anim id est laborum.", note.lines.get(0));
     }
 
     /**
@@ -118,9 +114,10 @@ public class Issue32Test {
                 + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", note.lines.get(0));
         assertEquals("Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris "
                 + "nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in "
-                + "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla " + "pariatur. ", note.lines.get(1));
-        assertEquals("Excepteur sint occaecat cupidatat non proident, sunt in culpa " + "qui officia deserunt mollit anim id est laborum.",
-                note.lines.get(2));
+                + "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla " + "pariatur. ",
+                note.lines.get(1));
+        assertEquals("Excepteur sint occaecat cupidatat non proident, sunt in culpa "
+                + "qui officia deserunt mollit anim id est laborum.", note.lines.get(2));
 
     }
 }

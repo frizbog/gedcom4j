@@ -64,21 +64,6 @@ public class RelationshipCalculatorTest {
     private static final boolean VERBOSE = false;
 
     /**
-     * Helper method to get a person and assert they exist
-     * 
-     * @param surname
-     *            the surname of the person we want
-     * @param givenName
-     *            the given name of the person we want
-     * @return the person
-     */
-    private Individual getPerson(String surname, String givenName) {
-        Individual result = finder.findByName(surname, givenName).get(0);
-        assertNotNull("Couldn't find " + givenName + " " + surname + " by name in the gedcom", result);
-        return result;
-    }
-
-    /**
      * Set up test fixtures
      * 
      * @throws IOException
@@ -89,7 +74,6 @@ public class RelationshipCalculatorTest {
     @Before
     public void setUp() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
         gp.load("sample/RelationshipTest.ged");
         assertTrue(gp.errors.isEmpty());
         assertTrue(gp.warnings.isEmpty());
@@ -439,5 +423,20 @@ public class RelationshipCalculatorTest {
         assertNotNull(r.chain);
         assertEquals("The relationship length should be one hop long", 1, r.chain.size());
         assertEquals("The relationship should be an father/son one", FATHER, r.chain.get(0).name);
+    }
+
+    /**
+     * Helper method to get a person and assert they exist
+     * 
+     * @param surname
+     *            the surname of the person we want
+     * @param givenName
+     *            the given name of the person we want
+     * @return the person
+     */
+    private Individual getPerson(String surname, String givenName) {
+        Individual result = finder.findByName(surname, givenName).get(0);
+        assertNotNull("Couldn't find " + givenName + " " + surname + " by name in the gedcom", result);
+        return result;
     }
 }

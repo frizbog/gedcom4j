@@ -21,11 +21,7 @@
  */
 package org.gedcom4j.relationship;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.Set;
@@ -58,12 +54,11 @@ public class AncestryCalculatorTest {
     /**
      * Ancestry calculator test fixture
      */
-    private AncestryCalculator anc = new AncestryCalculator();
+    private final AncestryCalculator anc = new AncestryCalculator();
 
     /**
-     * Determines whether to write noise out to System.out. Useful to change to
-     * true temporarily for debugging this test but should be always set to
-     * false when checked into repository.
+     * Determines whether to write noise out to System.out. Useful to change to true temporarily for debugging this test
+     * but should be always set to false when checked into repository.
      */
     private static final boolean VERBOSE = false;
 
@@ -78,7 +73,7 @@ public class AncestryCalculatorTest {
     @Before
     public void setup() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.verbose = false;
+
         gp.load("sample/RelationshipTest.ged");
         assertTrue(gp.errors.isEmpty());
         assertTrue(gp.warnings.isEmpty());
@@ -92,8 +87,7 @@ public class AncestryCalculatorTest {
     }
 
     /**
-     * Test the {@link AncestryCalculator#getExtendedAncestry(Individual)}
-     * method
+     * Test the {@link AncestryCalculator#getExtendedAncestry(Individual)} method
      */
     @Test
     public void testExtendedAncestors1() {
@@ -104,8 +98,7 @@ public class AncestryCalculatorTest {
     }
 
     /**
-     * Test the {@link AncestryCalculator#getExtendedAncestry(Individual)}
-     * method
+     * Test the {@link AncestryCalculator#getExtendedAncestry(Individual)} method
      */
     @Test
     public void testExtendedAncestors2() {
@@ -116,8 +109,7 @@ public class AncestryCalculatorTest {
     }
 
     /**
-     * Test the {@link AncestryCalculator#getExtendedAncestry(Individual)}
-     * method
+     * Test the {@link AncestryCalculator#getExtendedAncestry(Individual)} method
      */
     @Test
     public void testExtendedAncestors3() {
@@ -128,9 +120,8 @@ public class AncestryCalculatorTest {
     }
 
     /**
-     * Test extended ancestors for a parent-child relationship - the parent's
-     * ancestors are the child's, but not all the child's ancestors are the
-     * parent's
+     * Test extended ancestors for a parent-child relationship - the parent's ancestors are the child's, but not all the
+     * child's ancestors are the parent's
      */
     @Test
     public void testExtendedAncestors4() {
@@ -178,8 +169,7 @@ public class AncestryCalculatorTest {
     }
 
     /**
-     * Test when people are 1 generation apart. Includes negative test where the
-     * ancestor/descendant are swapped.
+     * Test when people are 1 generation apart. Includes negative test where the ancestor/descendant are swapped.
      */
     @Test
     public void testGenerationCount1() {
@@ -197,8 +187,7 @@ public class AncestryCalculatorTest {
     }
 
     /**
-     * Test when people are 2 generations apart. Includes negative test where
-     * the ancestor/descendant are swapped.
+     * Test when people are 2 generations apart. Includes negative test where the ancestor/descendant are swapped.
      */
     @Test
     public void testGenerationCount2() {
@@ -217,8 +206,7 @@ public class AncestryCalculatorTest {
     }
 
     /**
-     * Test when people are several generations apart. Includes negative test
-     * where the ancestor/descendant are swapped.
+     * Test when people are several generations apart. Includes negative test where the ancestor/descendant are swapped.
      */
     @Test
     public void testGenerationCount3() {
@@ -249,8 +237,7 @@ public class AncestryCalculatorTest {
     }
 
     /**
-     * Test simple case for a brother and sister of the same two parents and no
-     * known grandparents
+     * Test simple case for a brother and sister of the same two parents and no known grandparents
      */
     @Test
     public void testLowestCommonAncestor2() {
@@ -267,8 +254,8 @@ public class AncestryCalculatorTest {
     }
 
     /**
-     * Test simple case for a person and his parent(s) - the grandparent(s)
-     * should be in common - the grandparents have no parents in the gedcom
+     * Test simple case for a person and his parent(s) - the grandparent(s) should be in common - the grandparents have
+     * no parents in the gedcom
      */
     @Test
     public void testLowestCommonAncestor3() {
@@ -288,10 +275,9 @@ public class AncestryCalculatorTest {
     }
 
     /**
-     * Test simple case for a daughter and her father - the her paternal
-     * grandparents should be in common - the grandparents DO have parents in
-     * the gedcom - so the paternal GREAT grandparents should NOT be in the
-     * list, as they are not the lowest common ancestors.
+     * Test simple case for a daughter and her father - the her paternal grandparents should be in common - the
+     * grandparents DO have parents in the gedcom - so the paternal GREAT grandparents should NOT be in the list, as
+     * they are not the lowest common ancestors.
      */
     @Test
     public void testLowestCommonAncestor4() {
