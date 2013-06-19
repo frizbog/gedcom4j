@@ -199,7 +199,7 @@ public class PersonalName extends AbstractElement {
     @Override
     public String toString() {
         if (surname != null || givenName != null) {
-            return "" + surname + ", " + givenName + (nickname == null ? "" : " \"" + nickname + "\"");
+            return surname + ", " + givenName + (nickname == null ? "" : " \"" + nickname + "\"");
         }
         return basic;
     }

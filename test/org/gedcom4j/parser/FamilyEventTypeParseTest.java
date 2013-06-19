@@ -42,24 +42,6 @@ public class FamilyEventTypeParseTest extends TestCase {
     private Gedcom g;
 
     /**
-     * Set up test fixture by loading stress test file into a {@link Gedcom}
-     * struture
-     * 
-     * @throws GedcomParserException
-     *             if the file cannot be parsed
-     * @throws IOException
-     *             if there is an error reading the data
-     */
-    @Override
-    protected void setUp() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser();
-        gp.verbose = true;
-        gp.load("sample/TGC551.ged");
-        assertTrue(gp.errors.isEmpty());
-        g = gp.gedcom;
-    }
-
-    /**
      * Positive test case for google code issue 2
      * 
      * @throws GedcomParserException
@@ -77,5 +59,21 @@ public class FamilyEventTypeParseTest extends TestCase {
             }
         }
         assertEquals("There are 7 families in the stress test file", 7, familyCount);
+    }
+
+    /**
+     * Set up test fixture by loading stress test file into a {@link Gedcom} struture
+     * 
+     * @throws GedcomParserException
+     *             if the file cannot be parsed
+     * @throws IOException
+     *             if there is an error reading the data
+     */
+    @Override
+    protected void setUp() throws IOException, GedcomParserException {
+        GedcomParser gp = new GedcomParser();
+        gp.load("sample/TGC551.ged");
+        assertTrue(gp.errors.isEmpty());
+        g = gp.gedcom;
     }
 }

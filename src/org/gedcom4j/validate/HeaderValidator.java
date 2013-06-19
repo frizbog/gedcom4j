@@ -24,19 +24,10 @@ package org.gedcom4j.validate;
 import java.util.ArrayList;
 
 import org.gedcom4j.io.Encoding;
-import org.gedcom4j.model.CharacterSet;
-import org.gedcom4j.model.Corporation;
-import org.gedcom4j.model.GedcomVersion;
-import org.gedcom4j.model.Header;
-import org.gedcom4j.model.HeaderSourceData;
-import org.gedcom4j.model.SourceSystem;
-import org.gedcom4j.model.StringWithCustomTags;
-import org.gedcom4j.model.Submitter;
-import org.gedcom4j.model.SupportedVersion;
+import org.gedcom4j.model.*;
 
 /**
- * Validator for a {@link Header}. See {@link GedcomValidator} for usage
- * information.
+ * Validator for a {@link Header}. See {@link GedcomValidator} for usage information.
  * 
  * @author frizbog1
  * 
@@ -82,9 +73,8 @@ class HeaderValidator extends AbstractValidator {
         checkOptionalString(header.date, "date", header);
         checkOptionalString(header.destinationSystem, "destination system", header);
         /*
-         * Filename is actually a required field -- but since the writer
-         * automatically fills in the filename if it's blank, treating it as
-         * optional here
+         * Filename is actually a required field -- but since the writer automatically fills in the filename if it's
+         * blank, treating it as optional here
          */
         checkOptionalString(header.fileName, "filename", header);
         if (header.gedcomVersion == null) {
@@ -120,13 +110,10 @@ class HeaderValidator extends AbstractValidator {
         checkSourceSystem();
         if (header.submitter == null) {
             if (rootValidator.autorepair) {
-                if (rootValidator.gedcom.submitters != null && rootValidator.gedcom.submitters.size() > 0) {
+                if (rootValidator.gedcom.submitters != null && !rootValidator.gedcom.submitters.isEmpty()) {
                     // Take the first submitter from the collection and set that
                     // as the primary submitter in the header
-                    for (Submitter s : rootValidator.gedcom.submitters.values()) {
-                        header.submitter = s;
-                        break;
-                    }
+                    header.submitter = rootValidator.gedcom.submitters.values().iterator().next();
                 } else {
                     rootValidator.addError("Submitter not specified in header, and autorepair could not "
                             + "find a submitter to select as default", header);

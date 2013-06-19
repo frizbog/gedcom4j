@@ -89,33 +89,6 @@ public class GedcomParser {
     public List<String> warnings = new ArrayList<String>();
 
     /**
-     * A flag that indicates whether feedback should be sent to System.out as parsing occurs
-     */
-    public boolean verbose = false;
-
-    /**
-     * A convenience method to write all the parsing errors and warnings to System.err.
-     */
-    public void dumpErrorsAndWarnings() {
-        if (errors.isEmpty()) {
-            System.out.println("No errors.");
-        } else {
-            System.out.println("Errors:");
-            for (String e : errors) {
-                System.out.println("  " + e);
-            }
-        }
-        if (warnings.isEmpty()) {
-            System.out.println("No warnings.");
-        } else {
-            System.out.println("Warnings:");
-            for (String w : warnings) {
-                System.out.println("  " + w);
-            }
-        }
-    }
-
-    /**
      * Load a gedcom file from an input stream and create an object hierarchy from the data therein.
      * 
      * @param stream
@@ -126,14 +99,8 @@ public class GedcomParser {
      *             if the file cannot be parsed
      */
     public void load(BufferedInputStream stream) throws IOException, GedcomParserException {
-        if (verbose) {
-            System.out.println("Loading and parsing GEDCOM from input stream");
-        }
         StringTree stringTree = GedcomParserHelper.readStream(stream);
         loadRootItems(stringTree);
-        if (verbose) {
-            dumpErrorsAndWarnings();
-        }
     }
 
     /**
@@ -147,14 +114,8 @@ public class GedcomParser {
      *             if the file cannot be parsed
      */
     public void load(String filename) throws IOException, GedcomParserException {
-        if (verbose) {
-            System.out.println("Loading and parsing GEDCOM from file " + filename);
-        }
         StringTree stringTree = GedcomParserHelper.readFile(filename);
         loadRootItems(stringTree);
-        if (verbose) {
-            dumpErrorsAndWarnings();
-        }
     }
 
     /**

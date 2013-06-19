@@ -65,7 +65,7 @@ public class LinePieces {
         if ('@' == (line.charAt(c))) {
             while (c < line.length() && line.charAt(c) != ' ') {
                 if (id == null) {
-                    id = "" + line.charAt(c++);
+                    id = String.valueOf(line.charAt(c++));
                 } else {
                     id += line.charAt(c++);
                 }
@@ -76,7 +76,7 @@ public class LinePieces {
         // Parse the tag
         while (c < line.length() && line.charAt(c) != ' ') {
             if (tag == null) {
-                tag = "" + line.charAt(c++);
+                tag = String.valueOf(line.charAt(c++));
             } else {
                 tag += line.charAt(c++);
             }
