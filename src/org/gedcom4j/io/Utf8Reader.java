@@ -38,7 +38,7 @@ public class Utf8Reader extends AbstractEncodingSpecificReader {
      * @param byteOrderMarkerRead
      *            true if a byte order marker was read
      */
-    public void setByteOrderMarkerFlag(boolean byteOrderMarkerRead) {
+    public void setByteOrderMarkerRead(boolean byteOrderMarkerRead) {
         this.byteOrderMarkerRead = byteOrderMarkerRead;
     }
 

@@ -18,6 +18,7 @@ class AnselReader extends AbstractEncodingSpecificReader {
      * Constructor
      * 
      * @param byteStream
+     *            the stream of data being read
      */
     protected AnselReader(InputStream byteStream) {
         super(byteStream);

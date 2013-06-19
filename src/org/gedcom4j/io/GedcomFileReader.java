@@ -70,7 +70,7 @@ public class GedcomFileReader {
      */
     public List<String> getLines() throws IOException {
 
-        saveFirstChunk(byteStream);
+        saveFirstChunk();
 
         List<String> result = new ArrayList<String>();
         try {
@@ -163,7 +163,7 @@ public class GedcomFileReader {
              * KNOW it's UTF-8 and should discard the BOM
              */
             AbstractEncodingSpecificReader result = new Utf8Reader(byteStream);
-            ((Utf8Reader) result).setByteOrderMarkerFlag(true);
+            ((Utf8Reader) result).setByteOrderMarkerRead(true);
             return result;
         }
 
@@ -192,12 +192,10 @@ public class GedcomFileReader {
      * Save off a chunk of the beginning of the input stream to memory for easy inspection. The data is loaded into the
      * field
      * 
-     * @param byteStream
-     *            the stream of bytes
      * @throws IOException
      *             if the stream of bytes cannot be read.
      */
-    private void saveFirstChunk(InputStream byteStream) throws IOException {
+    private void saveFirstChunk() throws IOException {
         byteStream.mark(FIRST_CHUNK_SIZE);
         int read = byteStream.read(firstChunk);
         if (read < 0) {
