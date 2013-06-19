@@ -759,16 +759,14 @@ public class GedcomParser {
                 formTagCount++;
             }
         }
-        if (fileTagCount > 1) {
-            if (g55()) {
+        if (g55()) {
+            if (fileTagCount > 1) {
                 warnings.add("GEDCOM version is 5.5, but multiple files referenced in multimedia reference on line "
                         + st.lineNum
                         + ", which is only allowed in 5.5.1. "
                         + "Data will be loaded, but cannot be written back out unless the GEDCOM version is changed to 5.5.1");
             }
-        }
-        if (formTagCount == 0) {
-            if (g55()) {
+            if (formTagCount == 0) {
                 warnings.add("GEDCOM version is 5.5, but there is not a FORM tag in the multimedia link on line "
                         + st.lineNum
                         + ", a scenario which is only allowed in 5.5.1. "

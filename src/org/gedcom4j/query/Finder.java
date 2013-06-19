@@ -50,7 +50,7 @@ public class Finder {
     }
 
     /**
-     * Find individuals whos surname and given names match the parameters.
+     * Find individuals whose surname and given names match the parameters.
      * 
      * @param surname
      *            the surname of the individual(s) you wish to find. Required, must match exactly (case insensitive).
@@ -71,7 +71,7 @@ public class Finder {
                 }
                 // Other times they are concatenated with slashes around the
                 // surname
-                if (n.basic != null && n.basic.equalsIgnoreCase("" + given + " /" + surname + "/")) {
+                if (n.basic != null && n.basic.equalsIgnoreCase(given + " /" + surname + "/")) {
                     result.add(i);
                     continue;
                 }
