@@ -208,6 +208,7 @@
 		<cobertura-instrument todir="${instr.bin}">
 			<includeClasses regex="org\.gedcom4j\..*" />
 			<excludeClasses regex=".*TestHelper.*" />
+			<excludeClasses regex=".*NullOutputStream.*" />
 			<excludeClasses regex=".*Abstract.*" />
 			<instrumentationClasspath>
 				<path location="bin" />
@@ -227,6 +228,7 @@
 					<include name="**/*" />
 					<exclude name="**/Abstract*" />
 					<exclude name="**/TestHelper*" />
+					<exclude name="**/NullOutputStream*" />
 				</fileset>
 				<formatter type="plain" usefile="false" />
 			</batchtest>

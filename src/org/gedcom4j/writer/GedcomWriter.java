@@ -1551,7 +1551,7 @@ public class GedcomWriter {
      *             if the value is null or blank (which never happens, because we check for it)
      */
     private void emitTagWithOptionalValue(int level, String tag, String value) throws GedcomWriterException {
-        StringBuilder line = new StringBuilder(level);
+        StringBuilder line = new StringBuilder(Integer.toString(level));
         line.append(" ").append(tag);
         if (value != null) {
             line.append(" ").append(value);
@@ -1573,7 +1573,7 @@ public class GedcomWriter {
      */
     private void emitTagWithOptionalValueAndCustomSubtags(int level, String tag, StringWithCustomTags valueToRightOfTag)
             throws GedcomWriterException {
-        StringBuilder line = new StringBuilder(level);
+        StringBuilder line = new StringBuilder(Integer.toString(level));
         line.append(" ").append(tag);
         if (valueToRightOfTag != null && valueToRightOfTag.value != null) {
             line.append(" ").append(valueToRightOfTag);
