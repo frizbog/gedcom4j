@@ -205,7 +205,6 @@
 	<rule ref="rulesets/java/strictexception.xml/AvoidCatchingGenericException" />
 	<rule
 		ref="rulesets/java/strictexception.xml/AvoidLosingExceptionInformation" />
-	<rule ref="rulesets/java/strings.xml/AvoidDuplicateLiterals" />
 	<rule ref="rulesets/java/strings.xml/StringInstantiation" />
 	<rule ref="rulesets/java/strings.xml/StringToString" />
 	<rule ref="rulesets/java/strings.xml/InefficientStringBuffering" />

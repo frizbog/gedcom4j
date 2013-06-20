@@ -161,7 +161,8 @@ public class GedcomWriter {
      * @param out
      *            the output stream we're writing to
      * @param littleEndianForUnicode
-     *            if writing unicode, should the byte-order be little-endian?
+     *            if writing unicode, should the byte-order be little-endian? Ignored if output data encoding is not
+     *            unicode.
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written; or if the data fails validation with one or more
      *             finding of severity ERROR (and validation is not suppressed - see
@@ -192,7 +193,7 @@ public class GedcomWriter {
         emitCustomTags(gedcom.customTags);
         try {
             GedcomFileWriter gfw = new GedcomFileWriter(lines);
-            gfw.setLittleEndianForUnicode(littleEndianForUnicode);
+            gfw.useLittleEndianForUnicode = littleEndianForUnicode;
             gfw.write(out);
         } catch (IOException e) {
             throw new GedcomWriterException("Unable to write file", e);
