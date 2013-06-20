@@ -103,6 +103,9 @@ public class PersonalNameVariationTest {
 
     }
 
+    /**
+     * Test for .hashCode()
+     */
     @Test
     public void testHashCode() {
         PersonalNameVariation pnv1 = new PersonalNameVariation();
