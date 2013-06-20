@@ -756,11 +756,10 @@ public class GedcomWriter {
                 if (e.family != null && e.family.family != null && e.family.family.xref != null) {
                     emitTagWithRequiredValue(level + 1, "FAMC", e.family.family.xref);
                 }
-            } else if (e.type == IndividualEventType.ADOPTION) {
-                if (e.family != null && e.family.family != null && e.family.family.xref != null) {
-                    emitTagWithRequiredValue(level + 1, "FAMC", e.family.family.xref);
-                    emitTagIfValueNotNull(level + 2, "ADOP", e.family.adoptedBy);
-                }
+            } else if (e.type == IndividualEventType.ADOPTION && e.family != null && e.family.family != null
+                    && e.family.family.xref != null) {
+                emitTagWithRequiredValue(level + 1, "FAMC", e.family.family.xref);
+                emitTagIfValueNotNull(level + 2, "ADOP", e.family.adoptedBy);
             }
             emitCustomTags(e.customTags);
         }
@@ -1022,10 +1021,10 @@ public class GedcomWriter {
                     }
                     if (m.fileReferences.size() == 1) {
                         FileReference fr = m.fileReferences.get(0);
-                        if (fr.format != null) {
-                            emitTagWithRequiredValue(level + 1, "FORM", fr.format);
-                        } else {
+                        if (fr.format == null) {
                             emitTagWithRequiredValue(level + 1, "FORM", m.embeddedMediaFormat);
+                        } else {
+                            emitTagWithRequiredValue(level + 1, "FORM", fr.format);
                         }
                         emitTagIfValueNotNull(level + 1, "TITL", m.embeddedTitle);
                         emitTagWithRequiredValue(level + 1, "FILE", fr.referenceToFile);
@@ -1552,7 +1551,8 @@ public class GedcomWriter {
      *             if the value is null or blank (which never happens, because we check for it)
      */
     private void emitTagWithOptionalValue(int level, String tag, String value) throws GedcomWriterException {
-        StringBuilder line = new StringBuilder(level + " " + tag);
+        StringBuilder line = new StringBuilder(level);
+        line.append(" ").append(tag);
         if (value != null) {
             line.append(" ").append(value);
         }
@@ -1573,7 +1573,8 @@ public class GedcomWriter {
      */
     private void emitTagWithOptionalValueAndCustomSubtags(int level, String tag, StringWithCustomTags valueToRightOfTag)
             throws GedcomWriterException {
-        StringBuilder line = new StringBuilder(level + " " + tag);
+        StringBuilder line = new StringBuilder(level);
+        line.append(" ").append(tag);
         if (valueToRightOfTag != null && valueToRightOfTag.value != null) {
             line.append(" ").append(valueToRightOfTag);
         }
