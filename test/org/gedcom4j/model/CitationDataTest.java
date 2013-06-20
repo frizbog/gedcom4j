@@ -70,6 +70,9 @@ public class CitationDataTest {
 
     }
 
+    /**
+     * Test for .toString()
+     */
     @Test
     public void testToString() {
         CitationData c1 = new CitationData();

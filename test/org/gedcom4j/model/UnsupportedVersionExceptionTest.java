@@ -6,8 +6,16 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
+/**
+ * Test for {@link UnsupportedOperationException}
+ * 
+ * @author frizbog
+ */
 public class UnsupportedVersionExceptionTest {
 
+    /**
+     * Test for constructor that takes no args
+     */
     @Test
     public void testUnsupportedVersionException() {
         try {
@@ -19,6 +27,9 @@ public class UnsupportedVersionExceptionTest {
         }
     }
 
+    /**
+     * Test for constructor that takes just a message
+     */
     @Test
     public void testUnsupportedVersionExceptionString() {
         try {
@@ -30,6 +41,9 @@ public class UnsupportedVersionExceptionTest {
         }
     }
 
+    /**
+     * Test for constructor that takes a message and a cause
+     */
     @Test
     public void testUnsupportedVersionExceptionStringThrowable() {
         try {
@@ -41,6 +55,9 @@ public class UnsupportedVersionExceptionTest {
         }
     }
 
+    /**
+     * Test for constructor that takes just a cause
+     */
     @Test
     public void testUnsupportedVersionExceptionThrowable() {
         try {

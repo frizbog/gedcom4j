@@ -63,6 +63,9 @@ public class NameVariationTest {
 
     }
 
+    /**
+     * Test for hashCode()
+     */
     @Test
     public void testHashCode() {
         NameVariation nv1 = new NameVariation();
