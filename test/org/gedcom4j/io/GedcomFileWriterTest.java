@@ -21,7 +21,6 @@
  */
 package org.gedcom4j.io;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -31,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.gedcom4j.io.GedcomFileWriter.LineTerminator;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submission;
@@ -56,78 +54,99 @@ public class GedcomFileWriterTest {
     public void testEmptyLines() {
         List<String> lines = new ArrayList<String>();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
-        assertNotNull(gfw.encoding);
         assertNotNull(gfw.terminator);
     }
 
     /**
      * Test encoding detection when ANSEL is explicitly asked for
+     * 
+     * @throws IOException
+     *             if anything goes wrong with the writing of the data
      */
     @Test
-    public void testEncodingDetectionAnselExplicit() {
+    public void testEncodingDetectionAnselExplicit() throws IOException {
         List<String> lines = new ArrayList<String>();
         lines.add("0 HEAD");
         lines.add("1 CHAR ANSEL");
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
-        assertEquals(Encoding.ANSEL, gfw.encoding);
+        gfw.write(new NullOutputStream());
+        assertTrue(gfw.encodingSpecificWriter instanceof AnselWriter);
     }
 
     /**
      * Test encoding detection for ASCII
+     * 
+     * @throws IOException
+     *             if anything goes wrong with the writing of the data
      */
     @Test
-    public void testEncodingDetectionAscii() {
+    public void testEncodingDetectionAscii() throws IOException {
         List<String> lines = new ArrayList<String>();
         lines.add("0 HEAD");
         lines.add("1 CHAR ASCII");
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
-        assertEquals(Encoding.ASCII, gfw.encoding);
-        gfw.setLittleEndianForUnicode(false);
-        assertEquals("Changing little-endian flag should have no effect since it's not unicode", Encoding.ASCII,
-                gfw.encoding);
+        gfw.useLittleEndianForUnicode = true;
+        gfw.write(new NullOutputStream());
+        assertTrue(gfw.encodingSpecificWriter instanceof AsciiWriter);
+        // Changing little-endian flag should have no effect since it's not unicode
+        gfw.useLittleEndianForUnicode = false;
+        gfw.write(new NullOutputStream());
+        assertTrue(gfw.encodingSpecificWriter instanceof AsciiWriter);
     }
 
     /**
      * Test encoding detection when no format is explicitly asked for
+     * 
+     * @throws IOException
      */
     @Test
-    public void testEncodingDetectionDefault() {
+    public void testEncodingDetectionDefault() throws IOException {
         List<String> lines = new ArrayList<String>();
         lines.add("0 HEAD");
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
-        assertEquals(Encoding.ANSEL, gfw.encoding);
-        gfw.setLittleEndianForUnicode(false);
-        assertEquals("Changing little-endian flag should have no effect since it's not unicode", Encoding.ANSEL,
-                gfw.encoding);
+        gfw.write(new NullOutputStream());
+        assertTrue(gfw.encodingSpecificWriter instanceof AnselWriter);
+        // Changing little-endian flag should have no effect since it's not unicode
+        gfw.useLittleEndianForUnicode = false;
+        gfw.write(new NullOutputStream());
+        assertTrue(gfw.encodingSpecificWriter instanceof AnselWriter);
     }
 
     /**
      * Test encoding detection for UNICODE
+     * 
+     * @throws IOException
      */
     @Test
-    public void testEncodingDetectionUnicode() {
+    public void testEncodingDetectionUnicode() throws IOException {
         List<String> lines = new ArrayList<String>();
         lines.add("0 HEAD");
         lines.add("1 CHAR UNICODE");
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
-        assertEquals("Always defaults to little endian", Encoding.UNICODE_LITTLE_ENDIAN, gfw.encoding);
-        gfw.setLittleEndianForUnicode(false);
-        assertEquals("Changing flag should change encoding", Encoding.UNICODE_BIG_ENDIAN, gfw.encoding);
+        gfw.write(new NullOutputStream());
+        assertTrue(gfw.encodingSpecificWriter instanceof UnicodeLittleEndianWriter);
+        gfw.useLittleEndianForUnicode = false;
+        gfw.write(new NullOutputStream());
+        assertTrue(gfw.encodingSpecificWriter instanceof UnicodeBigEndianWriter);
     }
 
     /**
      * Test encoding detection for UTF-8
+     * 
+     * @throws IOException
      */
     @Test
-    public void testEncodingDetectionUtf8() {
+    public void testEncodingDetectionUtf8() throws IOException {
         List<String> lines = new ArrayList<String>();
         lines.add("0 HEAD");
         lines.add("1 CHAR UTF-8");
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
-        assertEquals(Encoding.UTF_8, gfw.encoding);
-        gfw.setLittleEndianForUnicode(false);
-        assertEquals("Changing little-endian flag should have no effect since it's not unicode", Encoding.UTF_8,
-                gfw.encoding);
+        gfw.write(new NullOutputStream());
+        assertTrue(gfw.encodingSpecificWriter instanceof Utf8Writer);
+        // Changing little-endian flag should have no effect since it's not unicode
+        gfw.useLittleEndianForUnicode = false;
+        gfw.write(new NullOutputStream());
+        assertTrue(gfw.encodingSpecificWriter instanceof Utf8Writer);
     }
 
     /**
@@ -414,7 +433,7 @@ public class GedcomFileWriterTest {
     public void testOutputUnicodeBigEndianCrLF() throws IOException {
         List<String> lines = getUnicodeGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
-        gfw.setLittleEndianForUnicode(false);
+        gfw.useLittleEndianForUnicode = false;
         gfw.terminator = LineTerminator.CRLF;
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -448,7 +467,7 @@ public class GedcomFileWriterTest {
     public void testOutputUnicodeBigEndianCrOnly() throws IOException {
         List<String> lines = getUnicodeGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
-        gfw.setLittleEndianForUnicode(false);
+        gfw.useLittleEndianForUnicode = false;
         gfw.terminator = LineTerminator.CR_ONLY;
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -482,7 +501,7 @@ public class GedcomFileWriterTest {
     public void testOutputUnicodeBigEndianLfCr() throws IOException {
         List<String> lines = getUnicodeGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
-        gfw.setLittleEndianForUnicode(false);
+        gfw.useLittleEndianForUnicode = false;
         gfw.terminator = LineTerminator.LFCR;
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -515,7 +534,7 @@ public class GedcomFileWriterTest {
     public void testOutputUnicodeBigEndianLfOnly() throws IOException {
         List<String> lines = getUnicodeGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
-        gfw.setLittleEndianForUnicode(false);
+        gfw.useLittleEndianForUnicode = false;
         gfw.terminator = LineTerminator.LF_ONLY;
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -551,8 +570,7 @@ public class GedcomFileWriterTest {
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
 
         // Not necessary, little endian is default, but good for explicitness
-        gfw.setLittleEndianForUnicode(true);
-
+        gfw.useLittleEndianForUnicode = true;
         gfw.terminator = LineTerminator.CRLF;
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -587,8 +605,7 @@ public class GedcomFileWriterTest {
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
 
         // Not necessary, little endian is default, but good for explicitness
-        gfw.setLittleEndianForUnicode(true);
-
+        gfw.useLittleEndianForUnicode = true;
         gfw.terminator = LineTerminator.CR_ONLY;
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -623,8 +640,7 @@ public class GedcomFileWriterTest {
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
 
         // Not necessary, little endian is default, but good for explicitness
-        gfw.setLittleEndianForUnicode(true);
-
+        gfw.useLittleEndianForUnicode = true;
         gfw.terminator = LineTerminator.LFCR;
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -659,8 +675,7 @@ public class GedcomFileWriterTest {
         GedcomFileWriter gfw = new GedcomFileWriter(lines);
 
         // Not necessary, little endian is default, but good for explicitness
-        gfw.setLittleEndianForUnicode(true);
-
+        gfw.useLittleEndianForUnicode = true;
         gfw.terminator = LineTerminator.LF_ONLY;
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();

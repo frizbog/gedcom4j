@@ -77,7 +77,7 @@ public class GedcomFileReader {
             AbstractEncodingSpecificReader encodingSpecificReader = getEncodingSpecificReader();
             result.addAll(encodingSpecificReader.load());
         } catch (UnsupportedGedcomCharsetException e) {
-            throw new IOException("Unable to parse GEDCOM data - " + e.getMessage());
+            throw new IOException("Unable to parse GEDCOM data - " + e.getMessage()); // NOPMD - Java 5 compatibility
         }
 
         return result;
