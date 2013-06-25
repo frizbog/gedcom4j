@@ -69,12 +69,12 @@ class CitationValidator extends AbstractValidator {
             }
             checkOptionalString(c.whereInSource, "where within source", c);
             checkOptionalString(c.eventCited, "event type cited from", c);
-            if (c.eventCited != null) {
-                checkOptionalString(c.roleInEvent, "role in event", c);
-            } else {
+            if (c.eventCited == null) {
                 if (c.roleInEvent != null) {
                     addError("CitationWithSource has role in event but a null event");
                 }
+            } else {
+                checkOptionalString(c.roleInEvent, "role in event", c);
             }
             checkOptionalString(c.certainty, "certainty/quality", c);
         } else if (citation instanceof CitationWithoutSource) {

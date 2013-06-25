@@ -190,11 +190,11 @@ public class AncestryCalculator {
         for (FamilyChild fc : individual.familiesWhereChild) {
             // First check dad
             if (!checkedAlready.contains(fc.family.husband)) {
-                checkParent(level, set, fc.family.husband, individual, true);
+                checkParent(level, set, fc.family.husband);
             }
             // Now check mom
             if (!checkedAlready.contains(fc.family.wife)) {
-                checkParent(level, set, fc.family.wife, individual, false);
+                checkParent(level, set, fc.family.wife);
             }
         }
 
@@ -223,13 +223,9 @@ public class AncestryCalculator {
      *            the set of common ancestors we're adding to
      * @param parent
      *            the parent being checked
-     * @param child
-     *            the child of the parent being checked
-     * @param parentIsDad
-     *            true if the parent is the father
      * 
      */
-    private void checkParent(int level, Set<Individual> set, Individual parent, Individual child, boolean parentIsDad) {
+    private void checkParent(int level, Set<Individual> set, Individual parent) {
 
         if (parent == null) {
             return;

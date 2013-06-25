@@ -78,12 +78,10 @@ class NoteValidator extends AbstractValidator {
             }
         }
 
-        if (n.xref == null) {
-            // Kind without an xref must have lines
-            if (n.lines.isEmpty()) {
-                addError("Note " + i + " without xref has no lines", n);
-            }
+        if (n.xref == null && n.lines.isEmpty()) {
+            addError("Note " + i + " without xref has no lines", n);
         }
+
         checkOptionalString(n.recIdNumber, "automated record id", n);
         if (n.citations == null) {
             if (rootValidator.autorepair) {
