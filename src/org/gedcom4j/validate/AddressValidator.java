@@ -24,8 +24,7 @@ package org.gedcom4j.validate;
 import org.gedcom4j.model.Address;
 
 /**
- * Validator for an {@link Address}. See {@link GedcomValidator} for usage
- * information.
+ * Validator for an {@link Address}. See {@link GedcomValidator} for usage information.
  * 
  * @author frizbog1
  * 
@@ -35,7 +34,7 @@ class AddressValidator extends AbstractValidator {
     /**
      * The address being validated
      */
-    private Address address;
+    private final Address address;
 
     /**
      * Constructor
@@ -51,10 +50,8 @@ class AddressValidator extends AbstractValidator {
         this.address = address;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.gedcom4j.validate.AbstractValidator#validate()
+    /**
+     * {@inheritDoc}
      */
     @Override
     protected void validate() {

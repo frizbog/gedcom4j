@@ -44,6 +44,9 @@ public class FamilyEvent extends Event {
      */
     public StringWithCustomTags wifeAge;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -76,6 +79,9 @@ public class FamilyEvent extends Event {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -86,10 +92,8 @@ public class FamilyEvent extends Event {
         return result;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
+    /**
+     * {@inheritDoc}
      */
     @Override
     public String toString() {

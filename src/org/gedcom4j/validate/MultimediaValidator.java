@@ -23,15 +23,10 @@ package org.gedcom4j.validate;
 
 import java.util.ArrayList;
 
-import org.gedcom4j.model.AbstractCitation;
-import org.gedcom4j.model.FileReference;
-import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.SupportedVersion;
-import org.gedcom4j.model.UserReference;
+import org.gedcom4j.model.*;
 
 /**
- * A validator for {@link Multimedia} objects. See {@link GedcomValidator} for
- * usage instructions.
+ * A validator for {@link Multimedia} objects. See {@link GedcomValidator} for usage instructions.
  * 
  * @author frizbog1
  * 
@@ -44,8 +39,8 @@ class MultimediaValidator extends AbstractValidator {
     private final Multimedia mm;
 
     /**
-     * The gedcom version to validate against. There are numerous differences in
-     * multimedia records between 5.5 and 5.5.1.
+     * The gedcom version to validate against. There are numerous differences in multimedia records between 5.5 and
+     * 5.5.1.
      */
     private SupportedVersion gedcomVersion;
 
@@ -79,10 +74,8 @@ class MultimediaValidator extends AbstractValidator {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.gedcom4j.validate.AbstractValidator#validate()
+    /**
+     * {@inheritDoc}
      */
     @Override
     protected void validate() {

@@ -26,8 +26,7 @@ import java.util.List;
 
 /**
  * <p>
- * A submitter. Corresponds to the SUBMITTER_RECORD structure in the GEDCOM
- * standard.
+ * A submitter. Corresponds to the SUBMITTER_RECORD structure in the GEDCOM standard.
  * </p>
  * <p>
  * Note that a valid GEDCOM requires at least one Submitter record to be valid.
@@ -106,6 +105,10 @@ public class Submitter extends AbstractElement {
      */
     public List<Note> notes = new ArrayList<Note>();
 
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("PMD.ExcessiveMethodLength")
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -219,6 +222,9 @@ public class Submitter extends AbstractElement {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -240,6 +246,9 @@ public class Submitter extends AbstractElement {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return "Submitter [xref=" + xref + ", regFileNumber=" + regFileNumber + ", name=" + name + ", recIdNumber="

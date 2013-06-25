@@ -96,6 +96,10 @@ public class Header extends AbstractElement {
      */
     public List<String> notes = new ArrayList<String>();
 
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("PMD.ExcessiveMethodLength")
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

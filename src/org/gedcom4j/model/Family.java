@@ -111,6 +111,10 @@ public class Family extends AbstractElement {
      */
     public StringWithCustomTags restrictionNotice;
 
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings({ "PMD.ExcessiveMethodLength", "PMD.NcssMethodCount" })
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -238,6 +242,9 @@ public class Family extends AbstractElement {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -261,6 +268,9 @@ public class Family extends AbstractElement {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return "Family [recFileNumber=" + recFileNumber + ", automatedRecordId=" + automatedRecordId + ", wife=" + wife

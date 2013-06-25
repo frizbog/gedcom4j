@@ -2,29 +2,29 @@ package org.gedcom4j.validate;
 
 import java.util.ArrayList;
 
-import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.Note;
-import org.gedcom4j.model.PersonalName;
-import org.gedcom4j.model.StringWithCustomTags;
-import org.gedcom4j.model.TestHelper;
+import org.gedcom4j.model.*;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Validator for {@link PersonalName} objects
+ * 
+ * @author frizbog
+ */
 public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
 
     /**
      * Test fixture - the personal name being tested
      */
     private PersonalName pn;
+
     /**
      * The individual whose name(s) we are working with
      */
     private Individual ind;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.gedcom4j.validate.AbstractValidatorTestCase#setUp()
+    /**
+     * {@inheritDoc}
      */
     @Override
     @Before
