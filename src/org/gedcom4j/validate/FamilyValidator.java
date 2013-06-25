@@ -2,32 +2,25 @@ package org.gedcom4j.validate;
 
 import java.util.ArrayList;
 
-import org.gedcom4j.model.AbstractCitation;
-import org.gedcom4j.model.Event;
-import org.gedcom4j.model.Family;
-import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.LdsSpouseSealing;
-import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.*;
 
 /**
  * Validator for {@link Family} objects
  * 
  * @author frizbog1
  */
-public class FamilyValidator extends AbstractValidator {
+class FamilyValidator extends AbstractValidator {
 
     /**
      * The family being validated
      */
-    private Family f;
+    private final Family f;
 
     /**
      * Validator for {@link Family}
      * 
      * @param gedcomValidator
-     *            the {@link GedcomValidator} that holds all the findings and
-     *            settings
+     *            the {@link GedcomValidator} that holds all the findings and settings
      * @param f
      *            the family being validated
      */

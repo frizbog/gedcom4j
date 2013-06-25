@@ -12,12 +12,12 @@ import org.gedcom4j.model.Place;
  * @author frizbog1
  * 
  */
-public class PlaceValidator extends AbstractValidator {
+class PlaceValidator extends AbstractValidator {
 
     /**
      * The place being validated
      */
-    private Place place;
+    private final Place place;
 
     /**
      * Constructor

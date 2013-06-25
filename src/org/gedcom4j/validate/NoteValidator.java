@@ -34,7 +34,7 @@ import org.gedcom4j.model.UserReference;
  * @author frizbog
  * 
  */
-public class NoteValidator extends AbstractValidator {
+class NoteValidator extends AbstractValidator {
 
     /**
      * The note being validated

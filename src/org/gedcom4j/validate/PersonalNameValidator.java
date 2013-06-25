@@ -29,10 +29,11 @@ import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.PersonalNameVariation;
 
 /**
- * @author frizbog1
+ * Validator for {@link PersonalName} objects
  * 
+ * @author frizbog1
  */
-public class PersonalNameValidator extends AbstractValidator {
+class PersonalNameValidator extends AbstractValidator {
 
     /**
      * The personal name being validated

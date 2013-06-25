@@ -14,8 +14,7 @@ import java.util.List;
  * 
  * @author frizbog
  */
-
-public class Utf8Reader extends AbstractEncodingSpecificReader {
+class Utf8Reader extends AbstractEncodingSpecificReader {
 
     /**
      * Was a byte order marker read when inspecting the file to detect encoding?

@@ -27,10 +27,11 @@ import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.PersonalNameVariation;
 
 /**
- * @author frizbog1
+ * Validator for {@link PersonalNameVariation} objects
  * 
+ * @author frizbog1
  */
-public class PersonalNameVariationValidator extends NameVariationValidator {
+class PersonalNameVariationValidator extends NameVariationValidator {
 
     /**
      * Constructor

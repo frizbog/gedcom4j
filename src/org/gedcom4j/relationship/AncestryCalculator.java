@@ -30,8 +30,7 @@ import org.gedcom4j.model.FamilySpouse;
 import org.gedcom4j.model.Individual;
 
 /**
- * A class for doing more advanced ancestry calculations than the basic
- * {@link Individual#getAncestors()} method
+ * A class for doing more advanced ancestry calculations than the basic {@link Individual#getAncestors()} method
  * 
  * @author frizbog1
  * 
@@ -39,24 +38,21 @@ import org.gedcom4j.model.Individual;
 public class AncestryCalculator {
 
     /**
-     * A flag for internal use to track whether the lowest common ancestor
-     * routine added any common ancestors to the result set while it was
-     * recursing around
+     * A flag for internal use to track whether the lowest common ancestor routine added any common ancestors to the
+     * result set while it was recursing around
      */
     private boolean addedAnyCommonAncestors;
 
     /**
-     * The set of people who have been checked already to see if they are an
-     * ancestor of the first individual. This is to keep things efficient and to
-     * prevent infinite recursion and looping.
+     * The set of people who have been checked already to see if they are an ancestor of the first individual. This is
+     * to keep things efficient and to prevent infinite recursion and looping.
      */
     private Set<Individual> checkedAlready;
+
     /**
-     * The "target list", or set of ancestors for the first individual. As we
-     * traverse the tree up through the second individual's ancestors, we will
-     * check each one against this set (hence, "target set") for a match. The
-     * first ancestor we find of individual 2 that is also some ancestor of
-     * individual 1 is our lowest common ancestor.
+     * The "target list", or set of ancestors for the first individual. As we traverse the tree up through the second
+     * individual's ancestors, we will check each one against this set (hence, "target set") for a match. The first
+     * ancestor we find of individual 2 that is also some ancestor of individual 1 is our lowest common ancestor.
      */
     private Set<Individual> targetList;
 
@@ -66,14 +62,12 @@ public class AncestryCalculator {
     private int genCount;
 
     /**
-     * Get the "extended ancestry" of an individual. This is defined (for this
-     * method's purposes) as the individual's parents (and step-parents),
-     * recursively.
+     * Get the "extended ancestry" of an individual. This is defined (for this method's purposes) as the individual's
+     * parents (and step-parents), recursively.
      * 
      * @param individual
      *            the individual whose extended ancestry is desired
-     * @return the set of all ancestors for the individual, and all their
-     *         spouses
+     * @return the set of all ancestors for the individual, and all their spouses
      */
     public Set<Individual> getExtendedAncestry(Individual individual) {
         Set<Individual> result = new HashSet<Individual>();
@@ -121,10 +115,9 @@ public class AncestryCalculator {
      *            the descendant individual
      * @param ancestor
      *            the ancestor of the descendant
-     * @return the number of generations separating descendant from ancestor. A
-     *         parent-child relationship would be 1; a grandparent-child
-     *         relationship would be 2. This method should always return a
-     *         positive integer, or throw an exception.
+     * @return the number of generations separating descendant from ancestor. A parent-child relationship would be 1; a
+     *         grandparent-child relationship would be 2. This method should always return a positive integer, or throw
+     *         an exception.
      */
     public int getGenerationCount(Individual descendant, Individual ancestor) {
         genCount = 0;
@@ -160,32 +153,27 @@ public class AncestryCalculator {
 
     /**
      * <p>
-     * Get a set of common ancestors between a specific individual and a person
-     * who we checked earlier.
+     * Get a set of common ancestors between a specific individual and a person who we checked earlier.
      * </p>
      * <p>
-     * The other person's ancestry is assumed to be in the field
-     * <code>ancestorsOfIndividual1</code>, which should be populated prior to
-     * the first call to this recursive method.
+     * The other person's ancestry is assumed to be in the field <code>ancestorsOfIndividual1</code>, which should be
+     * populated prior to the first call to this recursive method.
      * </p>
      * <p>
-     * As this method executes and recurses, it tracks who has already been
-     * checked in the field <code>checkedAlready</code>. As people are checked,
-     * they are added to this set to prevent them from being checked multiple
-     * times and causing infinite recursion and looping. This Set should be
-     * cleared and/or pre-populated prior to the first call to this recursive
-     * method.
+     * As this method executes and recurses, it tracks who has already been checked in the field
+     * <code>checkedAlready</code>. As people are checked, they are added to this set to prevent them from being checked
+     * multiple times and causing infinite recursion and looping. This Set should be cleared and/or pre-populated prior
+     * to the first call to this recursive method.
      * </p>
      * 
      * @param individual
-     *            the person who might have common ancestors with the original
-     *            person
+     *            the person who might have common ancestors with the original person
      * @param set
      *            the set of people we are adding to
      * @param level
      *            the level of recursion we're at
      */
-    void addLowestCommonAncestorsToSet(Individual individual, Set<Individual> set, int level) {
+    private void addLowestCommonAncestorsToSet(Individual individual, Set<Individual> set, int level) {
 
         if (individual == null) {
             return;
@@ -241,7 +229,7 @@ public class AncestryCalculator {
      *            true if the parent is the father
      * 
      */
-    void checkParent(int level, Set<Individual> set, Individual parent, Individual child, boolean parentIsDad) {
+    private void checkParent(int level, Set<Individual> set, Individual parent, Individual child, boolean parentIsDad) {
 
         if (parent == null) {
             return;
@@ -268,8 +256,7 @@ public class AncestryCalculator {
                 addLowestCommonAncestorsToSet(spouse, s, level + 1);
                 if (!s.isEmpty()) {
                     /*
-                     * Parent's spouse or the spouse's ancestors in the target
-                     * list, so add them to the result set
+                     * Parent's spouse or the spouse's ancestors in the target list, so add them to the result set
                      */
                     set.addAll(s);
                     addedAnyCommonAncestors = true;
@@ -287,7 +274,7 @@ public class AncestryCalculator {
      *            the individual to get the spouse for
      * @return the spouse of the individual passed in
      */
-    Individual getSpouse(FamilySpouse fs, Individual i) {
+    private Individual getSpouse(FamilySpouse fs, Individual i) {
         if (fs.family.husband == i) {
             return fs.family.wife;
         }
@@ -303,18 +290,16 @@ public class AncestryCalculator {
      * @param individual1
      *            the first individual in the search
      */
-    void initializeLcaSearch(Individual individual1) {
+    private void initializeLcaSearch(Individual individual1) {
         targetList = getExtendedAncestry(individual1);
         checkedAlready = new HashSet<Individual>();
         addedAnyCommonAncestors = false;
     }
 
     /**
-     * A recursive method for counting generations between a specific person and
-     * an ancestor. Used as the workhorse for
-     * {@link #getGenerationCount(Individual, Individual)}. Upon return,
-     * {@link #genCount} will equal the number of generations between
-     * <code>person</code> and <code>ancestor</code>
+     * A recursive method for counting generations between a specific person and an ancestor. Used as the workhorse for
+     * {@link #getGenerationCount(Individual, Individual)}. Upon return, {@link #genCount} will equal the number of
+     * generations between <code>person</code> and <code>ancestor</code>
      * 
      * @param person
      *            the person currently being examined

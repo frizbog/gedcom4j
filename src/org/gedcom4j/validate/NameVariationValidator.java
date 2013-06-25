@@ -29,7 +29,7 @@ import org.gedcom4j.model.NameVariation;
  * @author frizbog1
  * 
  */
-public class NameVariationValidator extends AbstractValidator {
+class NameVariationValidator extends AbstractValidator {
 
     /**
      * The name variation being validated

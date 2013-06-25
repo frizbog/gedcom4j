@@ -22,8 +22,7 @@
 package org.gedcom4j.io;
 
 /**
- * Represents an unsupported/illegal value for a charset encoding in a GEDCOM
- * file
+ * Represents an unsupported/illegal value for a charset encoding in a GEDCOM file
  * 
  * @author frizbog1
  */
