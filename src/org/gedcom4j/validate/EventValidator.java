@@ -33,7 +33,7 @@ import org.gedcom4j.model.StringWithCustomTags;
  * 
  * @author frizbog1
  */
-public class EventValidator extends AbstractValidator {
+class EventValidator extends AbstractValidator {
 
     /**
      * The event being validated

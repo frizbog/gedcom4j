@@ -29,11 +29,9 @@ import org.gedcom4j.model.CitationWithSource;
 import org.gedcom4j.model.CitationWithoutSource;
 import org.gedcom4j.model.Note;
 
-
 /**
- * A validator for source citations - both {@link CitationWithoutSource} and
- * {@link CitationWithSource}. See {@link GedcomValidator} for usage
- * information.
+ * A validator for source citations - both {@link CitationWithoutSource} and {@link CitationWithSource}. See
+ * {@link GedcomValidator} for usage information.
  * 
  * @author frizbog1
  * 
@@ -43,7 +41,7 @@ class CitationValidator extends AbstractValidator {
     /**
      * The citation being validated
      */
-    AbstractCitation citation;
+    private final AbstractCitation citation;
 
     /**
      * Constructor
@@ -53,8 +51,7 @@ class CitationValidator extends AbstractValidator {
      * @param citation
      *            the citation being validated
      */
-    public CitationValidator(GedcomValidator rootValidator,
-            AbstractCitation citation) {
+    public CitationValidator(GedcomValidator rootValidator, AbstractCitation citation) {
         this.rootValidator = rootValidator;
         this.citation = citation;
     }
@@ -68,9 +65,7 @@ class CitationValidator extends AbstractValidator {
         if (citation instanceof CitationWithSource) {
             CitationWithSource c = (CitationWithSource) citation;
             if (c.source == null) {
-                addError(
-                        "CitationWithSource requires a non-null source reference",
-                        c);
+                addError("CitationWithSource requires a non-null source reference", c);
             }
             checkOptionalString(c.whereInSource, "where within source", c);
             checkOptionalString(c.eventCited, "event type cited from", c);
@@ -84,16 +79,14 @@ class CitationValidator extends AbstractValidator {
             checkOptionalString(c.certainty, "certainty/quality", c);
         } else if (citation instanceof CitationWithoutSource) {
             CitationWithoutSource c = (CitationWithoutSource) citation;
-            checkStringList(c.description,
-                    "description on a citation without a source", true);
+            checkStringList(c.description, "description on a citation without a source", true);
             if (c.textFromSource == null) {
                 if (rootValidator.autorepair) {
                     c.textFromSource = new ArrayList<List<String>>();
                     addInfo("Text from source collection (the list of lists) was null in CitationWithoutSource - autorepaired",
                             citation);
                 } else {
-                    addError(
-                            "Text from source collection (the list of lists) is null in CitationWithoutSource",
+                    addError("Text from source collection (the list of lists) is null in CitationWithoutSource",
                             citation);
                 }
             } else {
@@ -103,27 +96,21 @@ class CitationValidator extends AbstractValidator {
                                 "Text from source collection (the list of lists) in CitationWithoutSource contains a null",
                                 citation);
                     } else {
-                        checkStringList(
-                                sl,
-                                "one of the sublists in the textFromSource collection on a source citation",
-                                true);
+                        checkStringList(sl,
+                                "one of the sublists in the textFromSource collection on a source citation", true);
                     }
                 }
             }
         } else {
-            throw new IllegalStateException(
-                    "AbstractCitation references must be either CitationWithSource"
-                            + " instances or CitationWithoutSource instances");
+            throw new IllegalStateException("AbstractCitation references must be either CitationWithSource"
+                    + " instances or CitationWithoutSource instances");
         }
         if (citation.notes == null) {
             if (rootValidator.autorepair) {
                 citation.notes = new ArrayList<Note>();
-                addInfo("Notes collection was null on "
-                        + citation.getClass().getSimpleName()
-                        + " - autorepaired");
+                addInfo("Notes collection was null on " + citation.getClass().getSimpleName() + " - autorepaired");
             } else {
-                addError("Notes collection is null on "
-                        + citation.getClass().getSimpleName());
+                addError("Notes collection is null on " + citation.getClass().getSimpleName());
             }
         } else {
             checkNotes(citation.notes, citation);

@@ -36,62 +36,7 @@ import org.gedcom4j.model.StringTree;
  * @author frizbog
  * 
  */
-public final class GedcomParserHelper {
-
-    /**
-     * Find the last item at the supplied level in the supplied tree
-     * 
-     * @param tree
-     *            the tree
-     * @param level
-     *            the level at which we are parsing
-     * @return the last item at the supplied level in the supplied tree
-     */
-    static StringTree findLast(StringTree tree, int level) {
-        if (tree.level == level) {
-            return tree;
-        }
-        StringTree lastChild = tree.children.get(tree.children.size() - 1);
-        if (lastChild.level == level) {
-            return lastChild;
-        }
-        return findLast(lastChild, level);
-    }
-
-    /**
-     * Read data from an {@link java.io.InputStream} and construct a {@link StringTree} object from its contents
-     * 
-     * @param bytes
-     *            the input stream over the bytes of the file
-     * @return the {@link StringTree} created from the contents of the input stream
-     * @throws IOException
-     *             if there is a problem reading the data from the reader
-     */
-    static StringTree makeStringTreeFromStream(BufferedInputStream bytes) throws IOException {
-        List<String> lines = new GedcomFileReader(bytes).getLines();
-        StringTree result = new StringTree();
-        result.level = -1;
-        try {
-            for (int lineNum = 1; lineNum <= lines.size(); lineNum++) {
-                String line = lines.get(lineNum - 1);
-                LinePieces lp = new LinePieces(line);
-                StringTree st = new StringTree();
-                st.lineNum = lineNum;
-                st.level = lp.level;
-                st.id = lp.id;
-                st.tag = lp.tag;
-                st.value = lp.remainder;
-                StringTree addTo = findLast(result, lp.level - 1);
-                addTo.children.add(st);
-                st.parent = addTo;
-            }
-        } finally {
-            if (bytes != null) {
-                bytes.close();
-            }
-        }
-        return result;
-    }
+final class GedcomParserHelper {
 
     /**
      * Load the flat file into a tree structure that reflects the heirarchy of its contents, using the default encoding
@@ -134,6 +79,61 @@ public final class GedcomParserHelper {
      */
     static boolean referencesAnotherNode(StringTree st) {
         return st.value != null && st.value.matches("\\@.*\\@");
+    }
+
+    /**
+     * Find the last item at the supplied level in the supplied tree
+     * 
+     * @param tree
+     *            the tree
+     * @param level
+     *            the level at which we are parsing
+     * @return the last item at the supplied level in the supplied tree
+     */
+    private static StringTree findLast(StringTree tree, int level) {
+        if (tree.level == level) {
+            return tree;
+        }
+        StringTree lastChild = tree.children.get(tree.children.size() - 1);
+        if (lastChild.level == level) {
+            return lastChild;
+        }
+        return findLast(lastChild, level);
+    }
+
+    /**
+     * Read data from an {@link java.io.InputStream} and construct a {@link StringTree} object from its contents
+     * 
+     * @param bytes
+     *            the input stream over the bytes of the file
+     * @return the {@link StringTree} created from the contents of the input stream
+     * @throws IOException
+     *             if there is a problem reading the data from the reader
+     */
+    private static StringTree makeStringTreeFromStream(BufferedInputStream bytes) throws IOException {
+        List<String> lines = new GedcomFileReader(bytes).getLines();
+        StringTree result = new StringTree();
+        result.level = -1;
+        try {
+            for (int lineNum = 1; lineNum <= lines.size(); lineNum++) {
+                String line = lines.get(lineNum - 1);
+                LinePieces lp = new LinePieces(line);
+                StringTree st = new StringTree();
+                st.lineNum = lineNum;
+                st.level = lp.level;
+                st.id = lp.id;
+                st.tag = lp.tag;
+                st.value = lp.remainder;
+                StringTree addTo = findLast(result, lp.level - 1);
+                addTo.children.add(st);
+                st.parent = addTo;
+            }
+        } finally {
+            if (bytes != null) {
+                bytes.close();
+            }
+        }
+        return result;
     }
 
     /**

@@ -12,7 +12,7 @@ import java.util.List;
  * 
  * @author frizbog
  */
-public class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
+class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
 
     /**
      * Constructor

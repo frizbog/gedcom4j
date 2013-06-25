@@ -11,7 +11,7 @@ import org.gedcom4j.model.LdsSpouseSealing;
  * @author frizbog1
  * 
  */
-public class LdsSpouseSealingValidator extends AbstractValidator {
+class LdsSpouseSealingValidator extends AbstractValidator {
 
     /**
      * The sealing being validated

@@ -22,8 +22,7 @@
 package org.gedcom4j.validate;
 
 /**
- * A class that holds information about something wrong with the gedcom data
- * validated by {@link GedcomValidator}.
+ * A class that holds information about something wrong with the gedcom data validated by {@link GedcomValidator}.
  * 
  * @author frizbog1
  * 
@@ -54,8 +53,7 @@ public class GedcomValidationFinding {
      * @param obj
      *            the item that has the problem (if applicable)
      */
-    public GedcomValidationFinding(String description, Severity severity,
-            Object obj) {
+    GedcomValidationFinding(String description, Severity severity, Object obj) {
         problemDescription = description;
         this.severity = severity;
         itemWithProblem = obj;

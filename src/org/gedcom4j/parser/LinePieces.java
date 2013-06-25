@@ -1,5 +1,5 @@
 /*
- * h * Copyright (c) 2009-2013 Matthew R. Harrah
+ * Copyright (c) 2009-2013 Matthew R. Harrah
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,28 +25,27 @@ package org.gedcom4j.parser;
  * A class that breaks up a line in a GEDCOM file into its component parts.
  * 
  * @author frizbog1
- * 
  */
-public class LinePieces {
+class LinePieces {
     /**
      * The level of the line
      */
-    public int level;
+    int level;
 
     /**
      * The ID number of the item (optional)
      */
-    public String id;
+    String id;
 
     /**
      * The tag for the line
      */
-    public String tag;
+    String tag;
 
     /**
      * The remainder of the line after the tag
      */
-    public String remainder;
+    String remainder;
 
     /**
      * Constructor that makes a {@link LinePieces} object from a line of text input from a GEDCOM file
@@ -54,7 +53,7 @@ public class LinePieces {
      * @param line
      *            a single line of text from the GEDCOM file
      */
-    public LinePieces(String line) {
+    LinePieces(String line) {
 
         // Level is always 1st character
         level = Integer.parseInt(line.substring(0, 1));
