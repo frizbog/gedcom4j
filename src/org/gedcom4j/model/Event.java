@@ -122,6 +122,10 @@ public class Event extends AbstractElement {
      */
     public StringWithCustomTags restrictionNotice;
 
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings({ "PMD.ExcessiveMethodLength", "PMD.NcssMethodCount" })
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -264,6 +268,9 @@ public class Event extends AbstractElement {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -289,6 +296,9 @@ public class Event extends AbstractElement {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return "Event [address=" + address + ", phoneNumbers=" + phoneNumbers + ", wwwUrls=" + wwwUrls

@@ -133,10 +133,8 @@ public abstract class AbstractValidatorTestCase extends TestCase {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see junit.framework.TestCase#setUp()
+    /**
+     * {@inheritDoc}
      */
     @Override
     protected void setUp() throws Exception {

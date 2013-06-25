@@ -105,6 +105,10 @@ public class Source extends AbstractElement {
         this.xref = xref;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("PMD.ExcessiveMethodLength")
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -211,6 +215,9 @@ public class Source extends AbstractElement {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -231,6 +238,9 @@ public class Source extends AbstractElement {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return "Source [xref=" + xref + ", recIdNumber=" + recIdNumber + ", sourceFiledBy=" + sourceFiledBy

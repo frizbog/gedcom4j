@@ -37,14 +37,13 @@ public class PersonalNameValidator extends AbstractValidator {
     /**
      * The personal name being validated
      */
-    private PersonalName pn;
+    private final PersonalName pn;
 
     /**
      * Constructor
      * 
      * @param rootValidator
-     *            the root {@link GedcomValidator} that contains all the
-     *            findings and options
+     *            the root {@link GedcomValidator} that contains all the findings and options
      * @param pn
      *            the personal name being validated
      */
@@ -53,10 +52,8 @@ public class PersonalNameValidator extends AbstractValidator {
         this.pn = pn;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.gedcom4j.validate.AbstractValidator#validate()
+    /**
+     * {@inheritDoc}
      */
     @Override
     protected void validate() {

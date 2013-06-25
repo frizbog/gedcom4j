@@ -36,8 +36,7 @@ public class PersonalNameVariationValidator extends NameVariationValidator {
      * Constructor
      * 
      * @param rootValidator
-     *            the root {@link GedcomValidator} that contains the findings
-     *            and the settings
+     *            the root {@link GedcomValidator} that contains the findings and the settings
      * @param pnv
      *            the personal name variation to be validated
      */
@@ -45,10 +44,8 @@ public class PersonalNameVariationValidator extends NameVariationValidator {
         super(rootValidator, pnv);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.gedcom4j.validate.NameVariationValidator#validate()
+    /**
+     * {@inheritDoc}
      */
     @Override
     protected void validate() {

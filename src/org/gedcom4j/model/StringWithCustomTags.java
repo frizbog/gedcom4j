@@ -40,6 +40,9 @@ public class StringWithCustomTags extends AbstractElement {
         customTags = s.children;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -62,6 +65,9 @@ public class StringWithCustomTags extends AbstractElement {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -71,32 +77,11 @@ public class StringWithCustomTags extends AbstractElement {
     }
 
     /**
-     * Return the string value converted to lowercase
-     * 
-     * @return the string value converted to lowercase
+     * {@inheritDoc}
      */
-    public String toLowerCase() {
-        if (value == null) {
-            return null;
-        }
-        return value.toLowerCase();
-    }
-
     @Override
     public String toString() {
         return value;
-    }
-
-    /**
-     * Return the string value converted to uppercase
-     * 
-     * @return the string value converted to uppercase
-     */
-    public String toUpperCase() {
-        if (value == null) {
-            return null;
-        }
-        return value.toUpperCase();
     }
 
     /**
@@ -110,4 +95,5 @@ public class StringWithCustomTags extends AbstractElement {
         }
         return value.trim();
     }
+
 }

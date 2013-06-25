@@ -62,10 +62,8 @@ public class NoteValidator extends AbstractValidator {
         this.n = n;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.gedcom4j.validate.AbstractValidator#validate()
+    /**
+     * {@inheritDoc}
      */
     @Override
     protected void validate() {

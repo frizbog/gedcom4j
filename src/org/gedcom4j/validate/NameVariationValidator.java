@@ -40,8 +40,7 @@ public class NameVariationValidator extends AbstractValidator {
      * Constructor
      * 
      * @param rootValidator
-     *            the root {@link GedcomValidator} that contains all the
-     *            findings and settings
+     *            the root {@link GedcomValidator} that contains all the findings and settings
      * @param nv
      *            the name variation being validated
      */
@@ -50,10 +49,8 @@ public class NameVariationValidator extends AbstractValidator {
         this.nv = nv;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.gedcom4j.validate.AbstractValidator#validate()
+    /**
+     * {@inheritDoc}
      */
     @Override
     protected void validate() {

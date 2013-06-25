@@ -29,22 +29,22 @@ import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.StringWithCustomTags;
 
 /**
- * @author frizbog1
+ * Validator for events
  * 
+ * @author frizbog1
  */
 public class EventValidator extends AbstractValidator {
 
     /**
      * The event being validated
      */
-    private Event e;
+    private final Event e;
 
     /**
      * Constructor
      * 
      * @param rootValidator
-     *            the root {@link GedcomValidator} that contains the findings
-     *            and the settings
+     *            the root {@link GedcomValidator} that contains the findings and the settings
      * @param e
      *            the event beign validated
      */
@@ -53,10 +53,8 @@ public class EventValidator extends AbstractValidator {
         this.e = e;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.gedcom4j.validate.AbstractValidator#validate()
+    /**
+     * {@inheritDoc}
      */
     @Override
     protected void validate() {

@@ -28,21 +28,17 @@ package org.gedcom4j.model;
  * 
  */
 public class Trailer {
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
+    /**
+     * {@inheritDoc}
      */
     @Override
     public boolean equals(Object obj) {
         // All trailer records are equivalent - they have no fields!!!
-        return obj != null && obj instanceof Trailer;
+        return obj instanceof Trailer;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#hashCode()
+    /**
+     * {@inheritDoc}
      */
     @Override
     public int hashCode() {

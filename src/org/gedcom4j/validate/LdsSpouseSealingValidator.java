@@ -16,14 +16,13 @@ public class LdsSpouseSealingValidator extends AbstractValidator {
     /**
      * The sealing being validated
      */
-    private LdsSpouseSealing s;
+    private final LdsSpouseSealing s;
 
     /**
      * Constructor
      * 
      * @param rootValidator
-     *            root {@link GedcomValidator} that contains findings and
-     *            settings
+     *            root {@link GedcomValidator} that contains findings and settings
      * @param s
      *            the sealing being validated
      */
@@ -32,10 +31,8 @@ public class LdsSpouseSealingValidator extends AbstractValidator {
         this.s = s;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.gedcom4j.validate.AbstractValidator#validate()
+    /**
+     * {@inheritDoc}
      */
     @Override
     protected void validate() {

@@ -76,6 +76,9 @@ public class StringTree {
      */
     public int lineNum;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -132,6 +135,9 @@ public class StringTree {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -146,9 +152,12 @@ public class StringTree {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Line " + lineNum + ": " + level + (id != null ? " " + id : "") + " "
+        StringBuilder sb = new StringBuilder("Line " + lineNum + ": " + level + (id == null ? "" : " " + id) + " "
                 + tag + " " + value);
         for (StringTree ch : children) {
             sb.append("\n").append(ch);

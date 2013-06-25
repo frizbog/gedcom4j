@@ -168,11 +168,10 @@ public class Individual extends AbstractElement {
     public List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>();
 
     // CHECKSTYLE:OFF for method length
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
+    /**
+     * {@inheritDoc}
      */
+    @SuppressWarnings({ "PMD.ExcessiveMethodLength", "PMD.NcssMethodCount" })
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -493,6 +492,9 @@ public class Individual extends AbstractElement {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -530,9 +532,13 @@ public class Individual extends AbstractElement {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(64); // Initial size - we know we're going to be appending more than 16
+                                                  // chars in most cases
         sb.append(formattedName());
         for (StringWithCustomTags n : aliases) {
             if (sb.length() > 0) {
@@ -573,19 +579,19 @@ public class Individual extends AbstractElement {
         }
         boolean found = false;
         for (IndividualEvent b : getEventsOfType(IndividualEventType.BIRTH)) {
-            if (!found) {
-                sb.append(", b.");
-            } else {
+            if (found) {
                 sb.append(" / ");
+            } else {
+                sb.append(", b.");
             }
             sb.append(b.date);
             found = true;
         }
         for (IndividualEvent d : getEventsOfType(IndividualEventType.DEATH)) {
-            if (!found) {
-                sb.append(", d.");
-            } else {
+            if (found) {
                 sb.append(" / ");
+            } else {
+                sb.append(", d.");
             }
             sb.append(d.date);
             found = true;
