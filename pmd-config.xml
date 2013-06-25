@@ -127,7 +127,6 @@
 	<rule ref="rulesets/java/imports.xml/DontImportJavaLang" />
 	<rule ref="rulesets/java/imports.xml/UnusedImports" />
 	<rule ref="rulesets/java/imports.xml/ImportFromSamePackage" />
-	<rule ref="rulesets/java/imports.xml/TooManyStaticImports" />
 	<rule ref="rulesets/java/imports.xml/UnnecessaryFullyQualifiedName" />
 	<rule ref="rulesets/java/logging-java.xml/MoreThanOneLogger" />
 	<rule ref="rulesets/java/logging-java.xml/LoggerIsNotStaticFinal" />
@@ -199,7 +198,6 @@
 	<rule ref="rulesets/java/strings.xml/UnnecessaryCaseChange" />
 	<rule ref="rulesets/java/strings.xml/UseStringBufferLength" />
 	<rule ref="rulesets/java/strings.xml/ConsecutiveLiteralAppends" />
-	<rule ref="rulesets/java/strings.xml/InefficientEmptyStringCheck" />
 	<rule ref="rulesets/java/strings.xml/InsufficientStringBufferDeclaration" />
 	<rule ref="rulesets/java/strings.xml/UselessStringValueOf" />
 	<rule ref="rulesets/java/strings.xml/StringBufferInstantiationWithChar" />

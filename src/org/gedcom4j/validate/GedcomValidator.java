@@ -106,25 +106,31 @@ public class GedcomValidator extends AbstractValidator {
     }
 
     /**
-     * Expose some of the helper methods as public here at the top level (since they are protected or default visibility
-     * in the helper classes).
+     * Are there any errors in the findings (so far)?
      * 
-     * @see AbstractValidator#hasErrors()
+     * @return true if there exists at least one finding with severity ERROR
      */
-    @Override
     public boolean hasErrors() {
-        return super.hasErrors();
+        for (GedcomValidationFinding finding : rootValidator.findings) {
+            if (finding.severity == Severity.ERROR) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
-     * Expose some of the helper methods as public here at the top level (since they are protected or default visibility
-     * in the helper classes).
+     * Are there any warnings in the findings (so far)?
      * 
-     * @see AbstractValidator#hasWarnings()
+     * @return true if there exists at least one finding with severity WARNING
      */
-    @Override
     public boolean hasWarnings() {
-        return super.hasWarnings();
+        for (GedcomValidationFinding finding : rootValidator.findings) {
+            if (finding.severity == Severity.WARNING) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

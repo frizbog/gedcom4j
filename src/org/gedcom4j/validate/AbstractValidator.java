@@ -395,34 +395,6 @@ abstract class AbstractValidator {
     }
 
     /**
-     * Are there any errors in the findings (so far)?
-     * 
-     * @return true if there exists at least one finding with severity ERROR
-     */
-    protected boolean hasErrors() {
-        for (GedcomValidationFinding finding : rootValidator.findings) {
-            if (finding.severity == Severity.ERROR) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Are there any warnings in the findings (so far)?
-     * 
-     * @return true if there exists at least one finding with severity WARNING
-     */
-    protected boolean hasWarnings() {
-        for (GedcomValidationFinding finding : rootValidator.findings) {
-            if (finding.severity == Severity.WARNING) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Validate the gedcom file
      */
     protected abstract void validate();

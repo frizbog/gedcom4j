@@ -1492,11 +1492,11 @@ public class GedcomParser {
             note = getNote(st.value);
             notes.add(note);
             return;
-        } else if (st.id != null) {
-            note = getNote(st.id);
-        } else {
+        } else if (st.id == null) {
             note = new Note();
             notes.add(note);
+        } else {
+            note = getNote(st.id);
         }
         note.lines.add(st.value);
         for (StringTree ch : st.children) {
@@ -1625,7 +1625,7 @@ public class GedcomParser {
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, place.notes);
             } else if ("CONC".equals(ch.tag)) {
-                place.placeName += new StringWithCustomTags(ch) == null ? "" : ch.value;
+                place.placeName += (new StringWithCustomTags(ch) == null ? "" : ch.value);
             } else if ("CONT".equals(ch.tag)) {
                 place.placeName += "\n" + (ch.value == null ? "" : ch.value);
             } else if ("ROMN".equals(ch.tag)) {
@@ -1745,11 +1745,9 @@ public class GedcomParser {
      * 
      * @param st
      *            the node
-     * @param s
-     *            the source which is referencing a repository
      * @return the RepositoryCitation loaded
      */
-    private RepositoryCitation loadRepositoryCitation(StringTree st, Source s) {
+    private RepositoryCitation loadRepositoryCitation(StringTree st) {
         RepositoryCitation r = new RepositoryCitation();
         r.repositoryXref = st.value;
         for (StringTree ch : st.children) {
@@ -1821,10 +1819,9 @@ public class GedcomParser {
     private void loadRootNote(StringTree ch) throws GedcomParserException {
         List<Note> dummyList = new ArrayList<Note>();
         loadNote(ch, dummyList);
-        if (dummyList.size() > 0) {
+        if (!dummyList.isEmpty()) {
             throw new GedcomParserException("At root level NOTE structures should have @ID@'s");
         }
-
     }
 
     /**
@@ -1851,7 +1848,7 @@ public class GedcomParser {
             } else if ("AUTH".equals(ch.tag)) {
                 loadMultiLinesOfText(ch, s.originatorsAuthors, s);
             } else if ("REPO".equals(ch.tag)) {
-                s.repositoryCitation = loadRepositoryCitation(ch, s);
+                s.repositoryCitation = loadRepositoryCitation(ch);
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, s.notes);
             } else if ("OBJE".equals(ch.tag)) {
@@ -2070,7 +2067,7 @@ public class GedcomParser {
      *            node's collection of custom tags
      */
     private void unknownTag(StringTree node, AbstractElement element) {
-        if (node.tag.startsWith("_")) {
+        if (node.tag.length() > 0 && node.tag.charAt(0) == '_') {
             element.customTags.add(node);
             return;
         }
@@ -2086,7 +2083,8 @@ public class GedcomParser {
      *            the node with the unrecognized tag
      */
     private void unknownTagNoUserDefinedTagsAllowed(StringTree node) {
-        StringBuilder sb = new StringBuilder("Line " + node.lineNum + ": Cannot handle tag ");
+        StringBuilder sb = new StringBuilder(32);
+        sb.append("Line ").append(node.lineNum).append(": Cannot handle tag ");
         sb.append(node.tag);
         StringTree st = node;
         while (st.parent != null) {

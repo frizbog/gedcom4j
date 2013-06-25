@@ -126,10 +126,13 @@ class SourceValidator extends AbstractValidator {
         } else {
             for (SourceCallNumber scn : citation.callNumbers) {
                 checkOptionalString(scn.callNumber, "call number", scn);
-                if (scn.callNumber != null) {
+                if (scn.callNumber == null) {
+                    if (scn.mediaType != null) {
+                        addError("You cannot specify media type without a call number in a SourceCallNumber structure",
+                                scn);
+                    }
+                } else {
                     checkOptionalString(scn.mediaType, "media type", scn);
-                } else if (scn.mediaType != null) {
-                    addError("You cannot specify media type without a call number in a SourceCallNumber structure", scn);
                 }
             }
         }

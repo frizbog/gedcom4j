@@ -110,13 +110,13 @@ class HeaderValidator extends AbstractValidator {
         checkSourceSystem();
         if (header.submitter == null) {
             if (rootValidator.autorepair) {
-                if (rootValidator.gedcom.submitters != null && !rootValidator.gedcom.submitters.isEmpty()) {
+                if (rootValidator.gedcom.submitters == null || rootValidator.gedcom.submitters.isEmpty()) {
+                    rootValidator.addError("Submitter not specified in header, and autorepair could not "
+                            + "find a submitter to select as default", header);
+                } else {
                     // Take the first submitter from the collection and set that
                     // as the primary submitter in the header
                     header.submitter = rootValidator.gedcom.submitters.values().iterator().next();
-                } else {
-                    rootValidator.addError("Submitter not specified in header, and autorepair could not "
-                            + "find a submitter to select as default", header);
                 }
             } else {
                 rootValidator.addError("Submitter not specified in header", header);

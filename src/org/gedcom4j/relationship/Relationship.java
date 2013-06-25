@@ -63,8 +63,7 @@ public class Relationship implements Comparable<Relationship> {
      * @param targetIndividual
      *            the ending individual
      * @param chain
-     *            the chain of {@link SimpleRelationship}s that get you from
-     *            person 1 to person 2
+     *            the chain of {@link SimpleRelationship}s that get you from person 1 to person 2
      */
     public Relationship(Individual startingIndividual, Individual targetIndividual, List<SimpleRelationship> chain) {
         individual1 = startingIndividual;
@@ -76,13 +75,12 @@ public class Relationship implements Comparable<Relationship> {
     }
 
     /**
-     * Simple sorting algorithm - sort by length of the chain (simpler
-     * relationship)
+     * Simple sorting algorithm - sort by length of the chain (simpler relationship)
      * 
      * @param other
      *            the Relationship we are comparing this one to
-     * @return -1 if this relationship is simpler than the other, 0 if equally
-     *         complex, and 1 if the other one is longer (or null)
+     * @return -1 if this relationship is simpler than the other, 0 if equally complex, and 1 if the other one is longer
+     *         (or null)
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(Relationship other) {
@@ -131,8 +129,7 @@ public class Relationship implements Comparable<Relationship> {
     /**
      * Total up all the simplicity ratings of the relationships in the chain
      * 
-     * @return the sum of all the simplicity ratings of the relationships that
-     *         make up the chain
+     * @return the sum of all the simplicity ratings of the relationships that make up the chain
      */
     public int getTotalSimplicity() {
         int result = 0;
@@ -142,6 +139,9 @@ public class Relationship implements Comparable<Relationship> {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -160,7 +160,8 @@ public class Relationship implements Comparable<Relationship> {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("<");
+        StringBuilder sb = new StringBuilder(64);
+        sb.append("<");
         boolean first = true;
         for (SimpleRelationship sr : chain) {
             if (!first) {
