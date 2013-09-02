@@ -366,8 +366,7 @@ abstract class AbstractValidator {
                 if (xref.length() < 3) {
                     addError("xref on " + objectContainingXref.getClass().getSimpleName()
                             + " is too short to be a valid xref", objectContainingXref);
-                }
-                if (xref.charAt(0) != '@') {
+                } else if (xref.charAt(0) != '@') {
                     addError("xref on " + objectContainingXref.getClass().getSimpleName()
                             + " is doesn't start with an at-sign (@)", objectContainingXref);
                 }
