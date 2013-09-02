@@ -233,7 +233,7 @@ public class RelationshipCalculator {
          * we're trying to do. We aren't looking for someone who evaluates the same as the person - we are looking FOR
          * that exact person. == is a better fit.
          */
-        if (personBeingExamined == targetIndividual) {
+        if (personBeingExamined == targetIndividual) { // NOPMD - deliberate use of ==
             /*
              * We've found our target, so make a Relationship object out of the current chain and add it to our result
              * set.

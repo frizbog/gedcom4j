@@ -2083,7 +2083,7 @@ public class GedcomParser {
      *            the node with the unrecognized tag
      */
     private void unknownTagNoUserDefinedTagsAllowed(StringTree node) {
-        StringBuilder sb = new StringBuilder(32);
+        StringBuilder sb = new StringBuilder(64); // Min size = 64
         sb.append("Line ").append(node.lineNum).append(": Cannot handle tag ");
         sb.append(node.tag);
         StringTree st = node;
