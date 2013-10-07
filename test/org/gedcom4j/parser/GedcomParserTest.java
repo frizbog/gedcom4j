@@ -158,6 +158,56 @@ public class GedcomParserTest extends TestCase {
     }
 
     /**
+     * Test loading a minimal GEDCOM 5.5 file that only has a submitter. This test uses a file which indents lines by
+     * their tag level, even though the spec says not to. However, the spec also says to ignore leading spaces on lines,
+     * so we're doing that. See issue 57.
+     * 
+     * @throws IOException
+     * @throws GedcomParserException
+     */
+    public void testLoadIndentedMinimal55File() throws IOException, GedcomParserException {
+        GedcomParser gp = new GedcomParser();
+        gp.load("sample/minimal55indented.ged");
+        // No problems detected, right?
+        assertTrue(gp.errors.isEmpty());
+        assertTrue(gp.warnings.isEmpty());
+
+        // And the data is as we expected, right?
+        Gedcom g = gp.gedcom;
+        assertNotNull(g);
+        assertTrue(g.individuals.isEmpty());
+        assertTrue(g.families.isEmpty());
+        assertTrue(g.multimedia.isEmpty());
+        assertTrue(g.sources.isEmpty());
+        assertNotNull(g.submitters);
+        assertEquals(1, g.submitters.size());
+    }
+
+    /**
+     * Test loading a minimal GEDCOM 5.5 file that only has a submitter.
+     * 
+     * @throws IOException
+     * @throws GedcomParserException
+     */
+    public void testLoadMinimal55File() throws IOException, GedcomParserException {
+        GedcomParser gp = new GedcomParser();
+        gp.load("sample/minimal55.ged");
+        // No problems detected, right?
+        assertTrue(gp.errors.isEmpty());
+        assertTrue(gp.warnings.isEmpty());
+
+        // And the data is as we expected, right?
+        Gedcom g = gp.gedcom;
+        assertNotNull(g);
+        assertTrue(g.individuals.isEmpty());
+        assertTrue(g.families.isEmpty());
+        assertTrue(g.multimedia.isEmpty());
+        assertTrue(g.sources.isEmpty());
+        assertNotNull(g.submitters);
+        assertEquals(1, g.submitters.size());
+    }
+
+    /**
      * Test for loading file from stream.
      * 
      * @throws IOException

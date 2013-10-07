@@ -133,7 +133,7 @@ final class GedcomParserHelper {
         try {
             for (int lineNum = 1; lineNum <= lines.size(); lineNum++) {
                 String line = lines.get(lineNum - 1);
-                line = leftTrim(line);
+                line = leftTrim(line); // See issue 57
                 LinePieces lp = new LinePieces(line);
                 StringTree st = new StringTree();
                 st.lineNum = lineNum;
