@@ -39,6 +39,22 @@ import org.gedcom4j.model.StringTree;
 final class GedcomParserHelper {
 
     /**
+     * Trim all whitespace off the left side (only) of the supplied string.
+     * 
+     * @param line
+     *            the string to trim left leading whitespace from
+     * @return the line passed in with the leading whitespace removed. If the original string passed in was null, null
+     *         is returned here.
+     */
+    static String leftTrim(String line) {
+        if (line == null) {
+            return null;
+        }
+
+        return line.replaceAll("\\A\\s*", "");
+    }
+
+    /**
      * Load the flat file into a tree structure that reflects the heirarchy of its contents, using the default encoding
      * for yor JVM
      * 
@@ -117,6 +133,7 @@ final class GedcomParserHelper {
         try {
             for (int lineNum = 1; lineNum <= lines.size(); lineNum++) {
                 String line = lines.get(lineNum - 1);
+                line = leftTrim(line);
                 LinePieces lp = new LinePieces(line);
                 StringTree st = new StringTree();
                 st.lineNum = lineNum;
