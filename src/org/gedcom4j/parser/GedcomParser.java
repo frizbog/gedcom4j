@@ -79,6 +79,14 @@ public class GedcomParser {
     public Gedcom gedcom = new Gedcom();
 
     /**
+     * Indicates whether handling of custom tags should be strict - that is, must an unrecognized tag begin with an
+     * underscore to be loaded into the custom tags collection? If false, unrecognized tags will be treated as custom
+     * tags even if they don't begin with underscores, and no errors will be issued. If true, unrecognized tags that do
+     * not begin with underscores will be discarded, with errors added to the errors collection.
+     */
+    public boolean strictCustomTags = true;
+
+    /**
      * The things that went wrong while parsing the gedcom file
      */
     public List<String> errors = new ArrayList<String>();
@@ -404,8 +412,7 @@ public class GedcomParser {
                     cws.description.add(ch.value);
                 } else {
                     // Append to last value in string list
-                    cws.description.set(cws.description.size() - 1, cws.description.get(cws.description.size() - 1)
-                            + ch.value);
+                    cws.description.set(cws.description.size() - 1, cws.description.get(cws.description.size() - 1) + ch.value);
                 }
             } else if ("TEXT".equals(ch.tag)) {
                 List<String> ls = new ArrayList<String>();
@@ -483,26 +490,20 @@ public class GedcomParser {
             } else if ("WWW".equals(ch.tag)) {
                 corporation.wwwUrls.add(new StringWithCustomTags(ch));
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified for the corporation in the source system on line "
-                            + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified for the corporation in the source system on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("FAX".equals(ch.tag)) {
                 corporation.faxNumbers.add(new StringWithCustomTags(ch));
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but fax number was specified for the corporation in the source system on line "
-                            + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but fax number was specified for the corporation in the source system on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("EMAIL".equals(ch.tag)) {
                 corporation.emails.add(new StringWithCustomTags(ch));
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but emails was specified for the corporation in the source system on line "
-                            + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but emails was specified for the corporation in the source system on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else {
                 unknownTag(ch, corporation);
@@ -541,9 +542,8 @@ public class GedcomParser {
             } else if ("RESN".equals(ch.tag)) {
                 f.restrictionNotice = new StringWithCustomTags(ch);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but restriction notice was specified for family on line "
-                            + ch.lineNum + " , which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but restriction notice was specified for family on line " + ch.lineNum
+                            + " , which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("RFN".equals(ch.tag)) {
                 f.recFileNumber = new StringWithCustomTags(ch);
@@ -594,17 +594,14 @@ public class GedcomParser {
             } else if ("RESN".equals(ch.tag)) {
                 e.restrictionNotice = new StringWithCustomTags(ch);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but restriction notice was specified for family event on line "
-                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but restriction notice was specified for family event on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("RELI".equals(ch.tag)) {
                 e.religiousAffiliation = new StringWithCustomTags(ch);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but religious affiliation was specified for family event on line "
-                            + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but religious affiliation was specified for family event on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("AGE".equals(ch.tag)) {
                 e.age = new StringWithCustomTags(ch);
@@ -620,23 +617,20 @@ public class GedcomParser {
             } else if ("WWW".equals(ch.tag)) {
                 e.wwwUrls.add(new StringWithCustomTags(ch));
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified for " + e.type
-                            + " family event on line " + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified for " + e.type + " family event on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("FAX".equals(ch.tag)) {
                 e.faxNumbers.add(new StringWithCustomTags(ch));
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but fax number was specified for " + e.type
-                            + " family event on line " + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but fax number was specified for " + e.type + " family event on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("EMAIL".equals(ch.tag)) {
                 e.emails.add(new StringWithCustomTags(ch));
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but email was specified for " + e.type
-                            + " family event on line " + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but email was specified for " + e.type + " family event on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("HUSB".equals(ch.tag)) {
                 e.husbandAge = new StringWithCustomTags(ch.children.get(0));
@@ -672,9 +666,8 @@ public class GedcomParser {
             } else if ("STAT".equals(ch.tag)) {
                 fc.status = new StringWithCustomTags(ch);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but status was specified for child-to-family link on line "
-                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but status was specified for child-to-family link on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else {
                 unknownTag(ch, fc);
@@ -761,14 +754,12 @@ public class GedcomParser {
         }
         if (g55()) {
             if (fileTagCount > 1) {
-                warnings.add("GEDCOM version is 5.5, but multiple files referenced in multimedia reference on line "
-                        + st.lineNum
+                warnings.add("GEDCOM version is 5.5, but multiple files referenced in multimedia reference on line " + st.lineNum
                         + ", which is only allowed in 5.5.1. "
                         + "Data will be loaded, but cannot be written back out unless the GEDCOM version is changed to 5.5.1");
             }
             if (formTagCount == 0) {
-                warnings.add("GEDCOM version is 5.5, but there is not a FORM tag in the multimedia link on line "
-                        + st.lineNum
+                warnings.add("GEDCOM version is 5.5, but there is not a FORM tag in the multimedia link on line " + st.lineNum
                         + ", a scenario which is only allowed in 5.5.1. "
                         + "Data will be loaded, but cannot be written back out unless the GEDCOM version is changed to 5.5.1");
             }
@@ -825,8 +816,7 @@ public class GedcomParser {
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, m.notes);
                 if (!g55()) {
-                    warnings.add("Gedcom version was 5.5.1, but a NOTE was found on a multimedia link on line "
-                            + ch.lineNum
+                    warnings.add("Gedcom version was 5.5.1, but a NOTE was found on a multimedia link on line " + ch.lineNum
                             + ", which is no longer supported. "
                             + "Data will be loaded, but cannot be written back out unless the GEDCOM version is changed to 5.5");
                 }
@@ -971,23 +961,20 @@ public class GedcomParser {
             } else if ("WWW".equals(ch.tag)) {
                 i.wwwUrls.add(new StringWithCustomTags(ch));
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified for individual " + i.xref
-                            + " on line " + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified for individual " + i.xref + " on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("FAX".equals(ch.tag)) {
                 i.faxNumbers.add(new StringWithCustomTags(ch));
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but fax was specified for individual " + i.xref + "on line "
-                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but fax was specified for individual " + i.xref + "on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("EMAIL".equals(ch.tag)) {
                 i.emails.add(new StringWithCustomTags(ch));
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but email was specified for individual " + i.xref + " on line "
-                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but email was specified for individual " + i.xref + " on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if (IndividualEventType.isValidTag(ch.tag)) {
                 loadIndividualEvent(ch, i.events);
@@ -1050,8 +1037,7 @@ public class GedcomParser {
         attributes.add(a);
         a.type = IndividualAttributeType.getFromTag(st.tag);
         if (IndividualAttributeType.FACT.equals(a.type) && g55()) {
-            warnings.add("FACT tag specified on a GEDCOM 5.5 file at line " + st.lineNum
-                    + ", but FACT was not added until 5.5.1."
+            warnings.add("FACT tag specified on a GEDCOM 5.5 file at line " + st.lineNum + ", but FACT was not added until 5.5.1."
                     + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
         }
         a.description = new StringWithCustomTags(st.value);
@@ -1076,23 +1062,20 @@ public class GedcomParser {
             } else if ("WWW".equals(ch.tag)) {
                 a.wwwUrls.add(new StringWithCustomTags(ch));
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified for " + a.type
-                            + " attribute on line " + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified for " + a.type + " attribute on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("FAX".equals(ch.tag)) {
                 a.faxNumbers.add(new StringWithCustomTags(ch));
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but fax was specified for " + a.type + " attribute on line "
-                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but fax was specified for " + a.type + " attribute on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("EMAIL".equals(ch.tag)) {
                 a.emails.add(new StringWithCustomTags(ch));
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but email was specified for " + a.type + " attribute on line "
-                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but email was specified for " + a.type + " attribute on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("ADDR".equals(ch.tag)) {
                 a.address = new Address();
@@ -1154,41 +1137,34 @@ public class GedcomParser {
             } else if ("RESN".equals(ch.tag)) {
                 e.restrictionNotice = new StringWithCustomTags(ch);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but restriction notice was specified for individual event on line "
-                            + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but restriction notice was specified for individual event on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("RELI".equals(ch.tag)) {
                 e.religiousAffiliation = new StringWithCustomTags(ch);
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but religious affiliation was specified for individual event on line "
-                            + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but religious affiliation was specified for individual event on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("PHON".equals(ch.tag)) {
                 e.phoneNumbers.add(new StringWithCustomTags(ch));
             } else if ("WWW".equals(ch.tag)) {
                 e.wwwUrls.add(new StringWithCustomTags(ch));
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified on " + e.type + " event on line "
-                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified on " + e.type + " event on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("FAX".equals(ch.tag)) {
                 e.faxNumbers.add(new StringWithCustomTags(ch));
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but fax was specified on " + e.type + " event on line "
-                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but fax was specified on " + e.type + " event on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("EMAIL".equals(ch.tag)) {
                 e.emails.add(new StringWithCustomTags(ch));
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but email was specified on " + e.type + " event on line "
-                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but email was specified on " + e.type + " event on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("CONC".equals(ch.tag)) {
                 if (e.description == null) {
@@ -1357,17 +1333,13 @@ public class GedcomParser {
         }
         if (fileTagCount > 0) {
             if (g55()) {
-                warnings.add("GEDCOM version was 5.5, but a 5.5.1-style multimedia record was found at line "
-                        + st.lineNum
-                        + ". "
+                warnings.add("GEDCOM version was 5.5, but a 5.5.1-style multimedia record was found at line " + st.lineNum + ". "
                         + "Data will be loaded, but might have problems being written until the version is for the data is changed to 5.5.1");
             }
             loadMultimediaRecord551(st);
         } else {
             if (!g55()) {
-                warnings.add("GEDCOM version is 5.5.1, but a 5.5-style multimedia record was found at line "
-                        + st.lineNum
-                        + ". "
+                warnings.add("GEDCOM version is 5.5.1, but a 5.5-style multimedia record was found at line " + st.lineNum + ". "
                         + "Data will be loaded, but might have problems being written until the version is for the data is changed to 5.5.1");
             }
             loadMultimediaRecord55(st);
@@ -1403,8 +1375,7 @@ public class GedcomParser {
                 loadMultimediaLink(ch, continuedObjects);
                 m.continuedObject = continuedObjects.get(0);
                 if (!g55()) {
-                    warnings.add("GEDCOM version is 5.5.1, but a chained OBJE tag was found at line " + ch.lineNum
-                            + ". "
+                    warnings.add("GEDCOM version is 5.5.1, but a chained OBJE tag was found at line " + ch.lineNum + ". "
                             + "Data will be loaded but will not be writeable unless GEDCOM version is changed to 5.5.1");
                 }
             } else if ("REFN".equals(ch.tag)) {
@@ -1630,9 +1601,8 @@ public class GedcomParser {
                 place.placeName += "\n" + (ch.value == null ? "" : ch.value);
             } else if ("ROMN".equals(ch.tag)) {
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but a romanized variation was specified on a place on line "
-                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but a romanized variation was specified on a place on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
                 NameVariation nv = new NameVariation();
                 place.romanized.add(nv);
@@ -1646,9 +1616,8 @@ public class GedcomParser {
                 }
             } else if ("FONE".equals(ch.tag)) {
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but a phonetic variation was specified on a place on line "
-                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but a phonetic variation was specified on a place on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
                 NameVariation nv = new NameVariation();
                 place.phonetic.add(nv);
@@ -1662,9 +1631,8 @@ public class GedcomParser {
                 }
             } else if ("MAP".equals(ch.tag)) {
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but a map coordinate was specified on a place on line "
-                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but a map coordinate was specified on a place on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
                 for (StringTree gch : ch.children) {
                     if ("LAT".equals(gch.tag)) {
@@ -1701,23 +1669,20 @@ public class GedcomParser {
             } else if ("WWW".equals(ch.tag)) {
                 r.wwwUrls.add(new StringWithCustomTags(ch));
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified on repository " + r.xref
-                            + " on line " + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but WWW URL was specified on repository " + r.xref + " on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("FAX".equals(ch.tag)) {
                 r.faxNumbers.add(new StringWithCustomTags(ch));
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but fax was specified on repository " + r.xref + " on line "
-                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but fax was specified on repository " + r.xref + " on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("EMAIL".equals(ch.tag)) {
                 r.emails.add(new StringWithCustomTags(ch));
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but email was specified on repository " + r.xref + " on line "
-                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but email was specified on repository " + r.xref + " on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, r.notes);
@@ -2001,22 +1966,19 @@ public class GedcomParser {
             } else if ("WWW".equals(ch.tag)) {
                 submitter.wwwUrls.add(new StringWithCustomTags(ch));
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but WWW URL number was specified on submitter on line "
-                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
-                            + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                    warnings.add("GEDCOM version is 5.5 but WWW URL number was specified on submitter on line " + ch.lineNum
+                            + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("FAX".equals(ch.tag)) {
                 submitter.faxNumbers.add(new StringWithCustomTags(ch));
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but fax number was specified on submitter on line "
-                            + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
+                    warnings.add("GEDCOM version is 5.5 but fax number was specified on submitter on line " + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
                             + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("EMAIL".equals(ch.tag)) {
                 submitter.emails.add(new StringWithCustomTags(ch));
                 if (g55()) {
-                    warnings.add("GEDCOM version is 5.5 but email was specified on submitter on line " + ch.lineNum
-                            + ", which is a GEDCOM 5.5.1 feature."
+                    warnings.add("GEDCOM version is 5.5 but email was specified on submitter on line " + ch.lineNum + ", which is a GEDCOM 5.5.1 feature."
                             + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if ("LANG".equals(ch.tag)) {
@@ -2055,10 +2017,17 @@ public class GedcomParser {
     }
 
     /**
-     * Default handler for a tag that the parser was not expecting to see. If the tag begins with an underscore, it is a
-     * user-defined tag, which is stored in the customTags collection of the passed in element, and returns. If it does
-     * not begin with an underscore, it is presumably a real tag from the spec and should be processed, so that would
-     * indicate a bug in the parser, or a bad tag that indicates a data error.
+     * <p>
+     * Default handler for a tag that the parser was not expecting to see.
+     * </p>
+     * <ul>
+     * <li>If the tag begins with an underscore, it is a user-defined tag, which is stored in the customTags collection
+     * of the passed in element, and returns.</li>
+     * <li>If {@link #strictCustomTags} parsing is turned off (i.e., == false), it is treated as a user-defined tag
+     * (despite the lack of beginning underscore) and treated like any other user-defined tag.</li>
+     * <li>If {@link #strictCustomTags} parsing is turned on (i.e., == true), it is treated as bad tag and an error is
+     * logged in the {@link #errors} collection.</li>
+     * </ul>
      * 
      * @param node
      *            the node containing the unknown tag.
@@ -2067,22 +2036,11 @@ public class GedcomParser {
      *            node's collection of custom tags
      */
     private void unknownTag(StringTree node, AbstractElement element) {
-        if (node.tag.length() > 0 && node.tag.charAt(0) == '_') {
+        if (node.tag.length() > 0 && (node.tag.charAt(0) == '_') || !strictCustomTags) {
             element.customTags.add(node);
             return;
         }
-        unknownTagNoUserDefinedTagsAllowed(node);
-    }
 
-    /**
-     * This is the handler for when a node is read that is not a user-defined tag, but that the parser does not
-     * recognize as valid or does not have a handler for...either of which is bad, so it gets added to the errors
-     * collection.
-     * 
-     * @param node
-     *            the node with the unrecognized tag
-     */
-    private void unknownTagNoUserDefinedTagsAllowed(StringTree node) {
         StringBuilder sb = new StringBuilder(64); // Min size = 64
         sb.append("Line ").append(node.lineNum).append(": Cannot handle tag ");
         sb.append(node.tag);
