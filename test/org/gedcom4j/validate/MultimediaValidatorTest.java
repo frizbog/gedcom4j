@@ -34,6 +34,9 @@ import org.junit.Test;
  */
 public class MultimediaValidatorTest extends AbstractValidatorTestCase {
 
+    /**
+     * Test fixture
+     */
     private Multimedia mm;
 
     @Override
