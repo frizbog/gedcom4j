@@ -157,8 +157,10 @@ public class CitationWithSource extends AbstractCitation {
 
     @Override
     public String toString() {
-        return "CitationWithSource [whereInSource=" + whereInSource + ", certainty=" + certainty + ", eventCited="
-                + eventCited + ", data=" + data + ", source=" + source + ", multimedia=" + multimedia
-                + ", roleInEvent=" + roleInEvent + ", notes=" + notes + ", customTags=" + customTags + "]";
+        return "CitationWithSource [" + (whereInSource != null ? "whereInSource=" + whereInSource + ", " : "")
+                + (certainty != null ? "certainty=" + certainty + ", " : "") + (eventCited != null ? "eventCited=" + eventCited + ", " : "")
+                + (data != null ? "data=" + data + ", " : "") + (source != null ? "source=" + source + ", " : "")
+                + (multimedia != null ? "multimedia=" + multimedia + ", " : "") + (roleInEvent != null ? "roleInEvent=" + roleInEvent + ", " : "")
+                + (notes != null ? "notes=" + notes + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
     }
 }

@@ -196,4 +196,15 @@ public class Repository extends AbstractElement {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "Repository [" + (xref != null ? "xref=" + xref + ", " : "") + (name != null ? "name=" + name + ", " : "")
+                + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "") + (address != null ? "address=" + address + ", " : "")
+                + (notes != null ? "notes=" + notes + ", " : "") + (changeDate != null ? "changeDate=" + changeDate + ", " : "")
+                + (userReferences != null ? "userReferences=" + userReferences + ", " : "")
+                + (phoneNumbers != null ? "phoneNumbers=" + phoneNumbers + ", " : "") + (wwwUrls != null ? "wwwUrls=" + wwwUrls + ", " : "")
+                + (faxNumbers != null ? "faxNumbers=" + faxNumbers + ", " : "") + (emails != null ? "emails=" + emails + ", " : "")
+                + (customTags != null ? "customTags=" + customTags : "") + "]";
+    }
+
 }

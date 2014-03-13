@@ -26,9 +26,8 @@ package org.gedcom4j.model;
  * Information about the header source data.
  * </p>
  * <p>
- * If instantiating one of these programmatically rather than through parsing an
- * existing GEDCOM file, you will probably want to change the value of the
- * {@link HeaderSourceData#name} field.
+ * If instantiating one of these programmatically rather than through parsing an existing GEDCOM file, you will probably
+ * want to change the value of the {@link HeaderSourceData#name} field.
  * </p>
  * 
  * @author frizbog1
@@ -36,8 +35,7 @@ package org.gedcom4j.model;
  */
 public class HeaderSourceData extends AbstractElement {
     /**
-     * The name of the source data. This field must be valued to pass
-     * validation, so the default value is "UNSPECIFIED".
+     * The name of the source data. This field must be valued to pass validation, so the default value is "UNSPECIFIED".
      */
     public String name = "UNSPECIFIED";
 
@@ -95,5 +93,11 @@ public class HeaderSourceData extends AbstractElement {
         result = prime * result + (name == null ? 0 : name.hashCode());
         result = prime * result + (publishDate == null ? 0 : publishDate.hashCode());
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "HeaderSourceData [" + (name != null ? "name=" + name + ", " : "") + (publishDate != null ? "publishDate=" + publishDate + ", " : "")
+                + (copyright != null ? "copyright=" + copyright + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
     }
 }

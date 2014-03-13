@@ -131,7 +131,8 @@ public class FamilyChild extends AbstractElement {
 
     @Override
     public String toString() {
-        return "FamilyChild [family=" + family + ", notes=" + notes + ", pedigree=" + pedigree + ", adoptedBy="
-                + adoptedBy + ", status=" + status + "]";
+        return "FamilyChild [" + (family != null ? "family=" + family + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
+                + (pedigree != null ? "pedigree=" + pedigree + ", " : "") + (adoptedBy != null ? "adoptedBy=" + adoptedBy + ", " : "")
+                + (status != null ? "status=" + status + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
     }
 }

@@ -91,7 +91,8 @@ public class CitationWithoutSource extends AbstractCitation {
 
     @Override
     public String toString() {
-        return "CitationWithoutSource [description=" + description + ", textFromSource=" + textFromSource + ", notes="
-                + notes + ", customTags=" + customTags + "]";
+        return "CitationWithoutSource [" + (description != null ? "description=" + description + ", " : "")
+                + (textFromSource != null ? "textFromSource=" + textFromSource + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
+                + (customTags != null ? "customTags=" + customTags : "") + "]";
     }
 }

@@ -76,4 +76,10 @@ public class GedcomVersion extends AbstractElement {
         result = prime * result + (versionNumber == null ? 0 : versionNumber.hashCode());
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "GedcomVersion [" + (versionNumber != null ? "versionNumber=" + versionNumber + ", " : "")
+                + (gedcomForm != null ? "gedcomForm=" + gedcomForm + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
+    }
 }

@@ -96,8 +96,9 @@ public class RepositoryCitation extends AbstractElement {
 
     @Override
     public String toString() {
-        return "RepositoryCitation [repositoryXref=" + repositoryXref + ", notes=" + notes + ", callNumbers="
-                + callNumbers + "]";
+        return "RepositoryCitation [" + (repositoryXref != null ? "repositoryXref=" + repositoryXref + ", " : "")
+                + (notes != null ? "notes=" + notes + ", " : "") + (callNumbers != null ? "callNumbers=" + callNumbers + ", " : "")
+                + (customTags != null ? "customTags=" + customTags : "") + "]";
     }
 
 }

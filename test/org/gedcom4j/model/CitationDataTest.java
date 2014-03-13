@@ -76,13 +76,13 @@ public class CitationDataTest {
     @Test
     public void testToString() {
         CitationData c1 = new CitationData();
-        assertEquals("CitationData [entryDate=null, sourceText=[], customTags=[]]", c1.toString());
+        assertEquals("CitationData [sourceText=[], customTags=[]]", c1.toString());
 
         c1.customTags = null;
         c1.entryDate = new StringWithCustomTags("Frying Pan");
         c1.sourceText.add(new ArrayList<String>());
 
-        assertEquals("CitationData [entryDate=Frying Pan, sourceText=[[]], customTags=null]", c1.toString());
+        assertEquals("CitationData [entryDate=Frying Pan, sourceText=[[]], ]", c1.toString());
     }
 
 }

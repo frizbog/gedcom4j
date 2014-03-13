@@ -76,12 +76,15 @@ public class StringWithCustomTags extends AbstractElement {
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
-        return value;
+        StringBuilder sb = new StringBuilder(value == null ? "null" : value);
+        for (StringTree ct : customTags) {
+            sb.append("\n");
+            sb.append(ct.level + (ct.id == null ? "" : " " + ct.id) + " " + ct.tag + " " + ct.value);
+        }
+
+        return sb.toString();
     }
 
     /**

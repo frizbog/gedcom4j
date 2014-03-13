@@ -77,6 +77,7 @@ public class GedcomFileReader {
             AbstractEncodingSpecificReader encodingSpecificReader = getEncodingSpecificReader();
             result.addAll(encodingSpecificReader.load());
         } catch (UnsupportedGedcomCharsetException e) {
+            e.printStackTrace();
             throw new IOException("Unable to parse GEDCOM data - " + e.getMessage()); // NOPMD - Java 5 compatibility
         }
 
@@ -125,8 +126,7 @@ public class GedcomFileReader {
                          */
                         return new Utf8Reader(byteStream);
                     } else {
-                        throw new UnsupportedGedcomCharsetException("Specified charset " + e
-                                + " is not a supported charset encoding for GEDCOMs");
+                        throw new UnsupportedGedcomCharsetException("Specified charset " + e + " is not a supported charset encoding for GEDCOMs");
                     }
                 }
                 s = r.readLine();
@@ -154,8 +154,7 @@ public class GedcomFileReader {
      * @throws UnsupportedGedcomCharsetException
      *             if a suitable charset encoding is not found.
      */
-    private AbstractEncodingSpecificReader getEncodingSpecificReader() throws IOException,
-            UnsupportedGedcomCharsetException {
+    private AbstractEncodingSpecificReader getEncodingSpecificReader() throws IOException, UnsupportedGedcomCharsetException {
 
         if (firstChunk[0] == (byte) 0xEF && firstChunk[1] == (byte) 0xBB && firstChunk[2] == (byte) 0xBF) {
             /*
@@ -181,8 +180,7 @@ public class GedcomFileReader {
              */
             return anselAsciiOrUtf8();
         } else {
-            throw new IOException("Does not appear to be a valid gedcom file - "
-                    + "doesn't begin with a zero in any supported encoding, "
+            throw new IOException("Does not appear to be a valid gedcom file - " + "doesn't begin with a zero in any supported encoding, "
                     + "and does not begin with a BOM marker for UTF-8 encoding");
         }
 

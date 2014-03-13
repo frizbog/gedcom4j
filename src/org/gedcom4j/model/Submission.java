@@ -163,4 +163,14 @@ public class Submission extends AbstractElement {
         result = prime * result + (xref == null ? 0 : xref.hashCode());
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Submission [" + (xref != null ? "xref=" + xref + ", " : "") + (submitter != null ? "submitter=" + submitter + ", " : "")
+                + (nameOfFamilyFile != null ? "nameOfFamilyFile=" + nameOfFamilyFile + ", " : "")
+                + (templeCode != null ? "templeCode=" + templeCode + ", " : "") + (ancestorsCount != null ? "ancestorsCount=" + ancestorsCount + ", " : "")
+                + (descendantsCount != null ? "descendantsCount=" + descendantsCount + ", " : "")
+                + (ordinanceProcessFlag != null ? "ordinanceProcessFlag=" + ordinanceProcessFlag + ", " : "")
+                + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
+    }
 }

@@ -268,17 +268,19 @@ public class Family extends AbstractElement {
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
-        return "Family [recFileNumber=" + recFileNumber + ", automatedRecordId=" + automatedRecordId + ", wife=" + wife
-                + ", husband=" + husband + ", children=" + children + ", numChildren=" + numChildren + ", submitters="
-                + submitters + ", ldsSpouseSealings=" + ldsSpouseSealings + ", citations=" + citations
-                + ", multimedia=" + multimedia + ", changeDate=" + changeDate + ", events=" + events + ", notes="
-                + notes + ", xref=" + xref + ", userReferences=" + userReferences + ", restrictionNotice="
-                + restrictionNotice + "]";
+        return "Family [" + (recFileNumber != null ? "recFileNumber=" + recFileNumber + ", " : "")
+                + (automatedRecordId != null ? "automatedRecordId=" + automatedRecordId + ", " : "") + (wife != null ? "wife=" + wife + ", " : "")
+                + (husband != null ? "husband=" + husband + ", " : "") + (children != null ? "children=" + children + ", " : "")
+                + (numChildren != null ? "numChildren=" + numChildren + ", " : "") + (submitters != null ? "submitters=" + submitters + ", " : "")
+                + (ldsSpouseSealings != null ? "ldsSpouseSealings=" + ldsSpouseSealings + ", " : "")
+                + (citations != null ? "citations=" + citations + ", " : "") + (multimedia != null ? "multimedia=" + multimedia + ", " : "")
+                + (changeDate != null ? "changeDate=" + changeDate + ", " : "") + (events != null ? "events=" + events + ", " : "")
+                + (notes != null ? "notes=" + notes + ", " : "") + (xref != null ? "xref=" + xref + ", " : "")
+                + (userReferences != null ? "userReferences=" + userReferences + ", " : "")
+                + (restrictionNotice != null ? "restrictionNotice=" + restrictionNotice + ", " : "") + (customTags != null ? "customTags=" + customTags : "")
+                + "]";
     }
 
 }

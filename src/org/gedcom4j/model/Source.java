@@ -238,15 +238,16 @@ public class Source extends AbstractElement {
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
-        return "Source [xref=" + xref + ", recIdNumber=" + recIdNumber + ", sourceFiledBy=" + sourceFiledBy
-                + ", title=" + title + ", notes=" + notes + ", publicationFacts=" + publicationFacts
-                + ", originatorsAuthors=" + originatorsAuthors + ", multimedia=" + multimedia + ", changeDate="
-                + changeDate + ", userReferences=" + userReferences + ", data=" + data + ", sourceText=" + sourceText
-                + ", repositoryCitation=" + repositoryCitation + "]";
+        return "Source [" + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "")
+                + (sourceFiledBy != null ? "sourceFiledBy=" + sourceFiledBy + ", " : "") + (title != null ? "title=" + title + ", " : "")
+                + (notes != null ? "notes=" + notes + ", " : "") + (publicationFacts != null ? "publicationFacts=" + publicationFacts + ", " : "")
+                + (originatorsAuthors != null ? "originatorsAuthors=" + originatorsAuthors + ", " : "")
+                + (multimedia != null ? "multimedia=" + multimedia + ", " : "") + (changeDate != null ? "changeDate=" + changeDate + ", " : "")
+                + (userReferences != null ? "userReferences=" + userReferences + ", " : "") + (data != null ? "data=" + data + ", " : "")
+                + (sourceText != null ? "sourceText=" + sourceText + ", " : "")
+                + (repositoryCitation != null ? "repositoryCitation=" + repositoryCitation + ", " : "") + (xref != null ? "xref=" + xref + ", " : "")
+                + (customTags != null ? "customTags=" + customTags : "") + "]";
     }
 }

@@ -90,4 +90,10 @@ public class ChangeDate extends AbstractElement {
         result = prime * result + (time == null ? 0 : time.hashCode());
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "ChangeDate [" + (date != null ? "date=" + date + ", " : "") + (time != null ? "time=" + time + ", " : "")
+                + (notes != null ? "notes=" + notes + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
+    }
 }

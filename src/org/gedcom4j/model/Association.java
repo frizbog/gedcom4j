@@ -116,4 +116,13 @@ public class Association extends AbstractElement {
         result = prime * result + (relationship == null ? 0 : relationship.hashCode());
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Association [" + (relationship != null ? "relationship=" + relationship + ", " : "")
+                + (associatedEntityXref != null ? "associatedEntityXref=" + associatedEntityXref + ", " : "")
+                + (associatedEntityType != null ? "associatedEntityType=" + associatedEntityType + ", " : "")
+                + (citations != null ? "citations=" + citations + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
+                + (customTags != null ? "customTags=" + customTags : "") + "]";
+    }
 }
