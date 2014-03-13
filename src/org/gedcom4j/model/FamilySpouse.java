@@ -89,4 +89,10 @@ public class FamilySpouse extends AbstractElement {
         result = prime * result + (notes == null ? 0 : notes.hashCode());
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "FamilySpouse [" + (family != null ? "family=" + family + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
+                + (customTags != null ? "customTags=" + customTags : "") + "]";
+    }
 }

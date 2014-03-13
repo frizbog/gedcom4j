@@ -30,9 +30,8 @@ import java.util.List;
  * </p>
  * 
  * <p>
- * If instantiating one of these programmatically rather than through parsing an
- * existing GEDCOM file, you will probably want to change the value of the
- * {@link Corporation#businessName} field.
+ * If instantiating one of these programmatically rather than through parsing an existing GEDCOM file, you will probably
+ * want to change the value of the {@link Corporation#businessName} field.
  * </p>
  * 
  * @author frizbog1
@@ -40,8 +39,7 @@ import java.util.List;
  */
 public class Corporation extends AbstractElement {
     /**
-     * The business name. This field must be valued to pass validation, so the
-     * default value is "UNSPECIFIED".
+     * The business name. This field must be valued to pass validation, so the default value is "UNSPECIFIED".
      */
     public String businessName = "UNSPECIFIED";
 
@@ -140,6 +138,14 @@ public class Corporation extends AbstractElement {
         result = prime * result + (emails == null ? 0 : emails.hashCode());
 
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Corporation [" + (businessName != null ? "businessName=" + businessName + ", " : "") + (address != null ? "address=" + address + ", " : "")
+                + (phoneNumbers != null ? "phoneNumbers=" + phoneNumbers + ", " : "") + (wwwUrls != null ? "wwwUrls=" + wwwUrls + ", " : "")
+                + (faxNumbers != null ? "faxNumbers=" + faxNumbers + ", " : "") + (emails != null ? "emails=" + emails + ", " : "")
+                + (customTags != null ? "customTags=" + customTags : "") + "]";
     }
 
 }

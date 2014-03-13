@@ -159,10 +159,9 @@ public class FamilyTest {
      */
     @Test
     public void testToString() {
-        assertEquals("Family [recFileNumber=null, automatedRecordId=null, wife=Ginger /Rogers/, spouse of Fred /Astaire/, "
-                + "husband=Fred /Astaire/, spouse of Ginger /Rogers/, children=[], numChildren=null, submitters=[], "
-                + "ldsSpouseSealings=[], citations=[], multimedia=[], changeDate=null, events=[], notes=[], xref=null, "
-                + "userReferences=[], restrictionNotice=null]", family1.toString());
+        assertEquals("Family [wife=Ginger /Rogers/, spouse of Fred /Astaire/, husband=Fred /Astaire/, spouse of Ginger /Rogers/, children=[], "
+                + "submitters=[], ldsSpouseSealings=[], citations=[], multimedia=[], events=[], notes=[], userReferences=[], customTags=[]]",
+                family1.toString());
     }
 
     /**
@@ -170,8 +169,7 @@ public class FamilyTest {
      */
     @Test
     public void testToStringNew() {
-        assertEquals("Family [recFileNumber=null, automatedRecordId=null, wife=null, husband=null, children=[], numChildren=null, "
-                + "submitters=[], ldsSpouseSealings=[], citations=[], multimedia=[], changeDate=null, events=[], notes=[], xref=null, "
-                + "userReferences=[], restrictionNotice=null]", new Family().toString());
+        assertEquals("Family [children=[], submitters=[], ldsSpouseSealings=[], citations=[], multimedia=[], events=[], notes=[], "
+                + "userReferences=[], customTags=[]]", new Family().toString());
     }
 }

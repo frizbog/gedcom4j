@@ -229,11 +229,15 @@ public class Header extends AbstractElement {
 
     @Override
     public String toString() {
-        return "Header [characterSet=" + characterSet + ", copyrightData=" + copyrightData + ", date=" + date
-                + ", destinationSystem=" + destinationSystem + ", fileName=" + fileName + ", gedcomVersion="
-                + gedcomVersion + ", placeHierarchy=" + placeHierarchy + ", sourceSystem=" + sourceSystem
-                + ", submission=" + submission + ", submitter=" + submitter + ", time=" + time + ", language="
-                + language + ", notes=" + notes + ", customTags=" + customTags + "]";
+        return "Header [" + (characterSet != null ? "characterSet=" + characterSet + ", " : "")
+                + (copyrightData != null ? "copyrightData=" + copyrightData + ", " : "") + (date != null ? "date=" + date + ", " : "")
+                + (destinationSystem != null ? "destinationSystem=" + destinationSystem + ", " : "") + (fileName != null ? "fileName=" + fileName + ", " : "")
+                + (gedcomVersion != null ? "gedcomVersion=" + gedcomVersion + ", " : "")
+                + (placeHierarchy != null ? "placeHierarchy=" + placeHierarchy + ", " : "")
+                + (sourceSystem != null ? "sourceSystem=" + sourceSystem + ", " : "") + (submission != null ? "submission=" + submission + ", " : "")
+                + (submitter != null ? "submitter=" + submitter + ", " : "") + (time != null ? "time=" + time + ", " : "")
+                + (language != null ? "language=" + language + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
+                + (customTags != null ? "customTags=" + customTags : "") + "]";
     }
 
 }

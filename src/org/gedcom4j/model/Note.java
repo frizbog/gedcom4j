@@ -133,7 +133,9 @@ public class Note extends AbstractElement {
 
     @Override
     public String toString() {
-        return "Note [xref=" + xref + ", citations=" + citations + ", userReferences=" + userReferences
-                + ", changeDate=" + changeDate + ", recIdNumber=" + recIdNumber + ", lines=" + lines + "]";
+        return "Note [" + (xref != null ? "xref=" + xref + ", " : "") + (lines != null ? "lines=" + lines + ", " : "")
+                + (citations != null ? "citations=" + citations + ", " : "") + (userReferences != null ? "userReferences=" + userReferences + ", " : "")
+                + (changeDate != null ? "changeDate=" + changeDate + ", " : "") + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "")
+                + (customTags != null ? "customTags=" + customTags : "") + "]";
     }
 }

@@ -159,8 +159,10 @@ public class Place extends AbstractElement {
 
     @Override
     public String toString() {
-        return "Place [placeName=" + placeName + ", placeFormat=" + placeFormat + ", citations=" + citations
-                + ", notes=" + notes + ", phonetic=" + phonetic + ", romanized=" + romanized + ", latitude=" + latitude
-                + ", longitude=" + longitude + "]";
+        return "Place [" + (placeName != null ? "placeName=" + placeName + ", " : "") + (placeFormat != null ? "placeFormat=" + placeFormat + ", " : "")
+                + (citations != null ? "citations=" + citations + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
+                + (phonetic != null ? "phonetic=" + phonetic + ", " : "") + (romanized != null ? "romanized=" + romanized + ", " : "")
+                + (latitude != null ? "latitude=" + latitude + ", " : "") + (longitude != null ? "longitude=" + longitude + ", " : "")
+                + (customTags != null ? "customTags=" + customTags : "") + "]";
     }
 }

@@ -76,4 +76,10 @@ public class CharacterSet extends AbstractElement {
         result = prime * result + (versionNum == null ? 0 : versionNum.hashCode());
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "CharacterSet [" + (characterSetName != null ? "characterSetName=" + characterSetName + ", " : "")
+                + (versionNum != null ? "versionNum=" + versionNum + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
+    }
 }

@@ -296,17 +296,19 @@ public class Event extends AbstractElement {
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
-        return "Event [address=" + address + ", phoneNumbers=" + phoneNumbers + ", wwwUrls=" + wwwUrls
-                + ", faxNumbers=" + faxNumbers + ", emails=" + emails + ", age=" + age + ", cause=" + cause
-                + ", citations=" + citations + ", date=" + date + ", description=" + description + ", multimedia="
-                + multimedia + ", notes=" + notes + ", place=" + place + ", respAgency=" + respAgency + ", yNull="
-                + yNull + ", subType=" + subType + ", religiousAffiliation=" + religiousAffiliation
-                + ", restrictionNotice=" + restrictionNotice + "]";
+        return "Event [" + (address != null ? "address=" + address + ", " : "") + (phoneNumbers != null ? "phoneNumbers=" + phoneNumbers + ", " : "")
+                + (wwwUrls != null ? "wwwUrls=" + wwwUrls + ", " : "") + (faxNumbers != null ? "faxNumbers=" + faxNumbers + ", " : "")
+                + (emails != null ? "emails=" + emails + ", " : "") + (age != null ? "age=" + age + ", " : "") + (cause != null ? "cause=" + cause + ", " : "")
+                + (citations != null ? "citations=" + citations + ", " : "") + (date != null ? "date=" + date + ", " : "")
+                + (description != null ? "description=" + description + ", " : "") + (multimedia != null ? "multimedia=" + multimedia + ", " : "")
+                + (notes != null ? "notes=" + notes + ", " : "") + (place != null ? "place=" + place + ", " : "")
+                + (respAgency != null ? "respAgency=" + respAgency + ", " : "") + (yNull != null ? "yNull=" + yNull + ", " : "")
+                + (subType != null ? "subType=" + subType + ", " : "")
+                + (religiousAffiliation != null ? "religiousAffiliation=" + religiousAffiliation + ", " : "")
+                + (restrictionNotice != null ? "restrictionNotice=" + restrictionNotice + ", " : "") + (customTags != null ? "customTags=" + customTags : "")
+                + "]";
     }
 
 }

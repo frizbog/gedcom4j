@@ -271,10 +271,8 @@ public class IndividualAttributeTest {
         i.wwwUrls.add(new StringWithCustomTags("Twelve"));
         i.yNull = "Thirteen";
 
-        assertEquals(
-                "IndividualAttribute [type=FACT, address=Address [lines=[], ], age=One, cause=Two, date=Three, "
-                        + "description=Four, place=Place [placeName=null, placeFormat=null, citations=[], notes=[], phonetic=[], "
-                        + "romanized=[], latitude=null, longitude=null], subType=Eleven]", i.toString());
+        assertEquals("IndividualAttribute [type=FACT, address=Address [lines=[], customTags=[]], age=One, cause=Two, date=Three, description=Four, "
+                + "place=Place [citations=[], notes=[], phonetic=[], romanized=[], customTags=[]], subType=Eleven]", i.toString());
     }
 
 }

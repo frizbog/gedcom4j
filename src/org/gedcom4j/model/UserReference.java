@@ -74,4 +74,10 @@ public class UserReference extends AbstractElement {
         result = prime * result + (type == null ? 0 : type.hashCode());
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "UserReference [" + (referenceNum != null ? "referenceNum=" + referenceNum + ", " : "") + (type != null ? "type=" + type + ", " : "")
+                + (customTags != null ? "customTags=" + customTags : "") + "]";
+    }
 }

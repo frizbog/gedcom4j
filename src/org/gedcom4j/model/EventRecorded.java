@@ -89,4 +89,10 @@ public class EventRecorded extends AbstractElement {
         result = prime * result + (jurisdiction == null ? 0 : jurisdiction.hashCode());
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "EventRecorded [" + (eventType != null ? "eventType=" + eventType + ", " : "") + (datePeriod != null ? "datePeriod=" + datePeriod + ", " : "")
+                + (jurisdiction != null ? "jurisdiction=" + jurisdiction + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
+    }
 }

@@ -23,13 +23,11 @@ package org.gedcom4j.model;
 
 /**
  * <p>
- * A source system. Corresponds to the SOUR structure in HEADER in the GEDCOM
- * file.
+ * A source system. Corresponds to the SOUR structure in HEADER in the GEDCOM file.
  * </p>
  * <p>
- * If instantiating one of these programmatically rather than through parsing an
- * existing GEDCOM file, you will probably want to change the value of the
- * {@link SourceSystem#systemId} field.
+ * If instantiating one of these programmatically rather than through parsing an existing GEDCOM file, you will probably
+ * want to change the value of the {@link SourceSystem#systemId} field.
  * </p>
  * 
  * @author frizbog1
@@ -37,8 +35,8 @@ package org.gedcom4j.model;
  */
 public class SourceSystem extends AbstractElement {
     /**
-     * The system ID for this source system. This field must be valued to pass
-     * validation, so the default value is "UNSPECIFIED".
+     * The system ID for this source system. This field must be valued to pass validation, so the default value is
+     * "UNSPECIFIED".
      */
     public String systemId = "UNSPECIFIED";
 
@@ -122,5 +120,12 @@ public class SourceSystem extends AbstractElement {
         result = prime * result + (systemId == null ? 0 : systemId.hashCode());
         result = prime * result + (versionNum == null ? 0 : versionNum.hashCode());
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "SourceSystem [" + (systemId != null ? "systemId=" + systemId + ", " : "") + (versionNum != null ? "versionNum=" + versionNum + ", " : "")
+                + (productName != null ? "productName=" + productName + ", " : "") + (corporation != null ? "corporation=" + corporation + ", " : "")
+                + (sourceData != null ? "sourceData=" + sourceData + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
     }
 }

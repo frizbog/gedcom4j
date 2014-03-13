@@ -24,7 +24,6 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * An abstract class from which most other items in the data model extend. Exists to hold custom tag information, which
  * by definition cannot be known in advance.

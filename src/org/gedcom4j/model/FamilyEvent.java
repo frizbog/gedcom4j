@@ -92,13 +92,21 @@ public class FamilyEvent extends Event {
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
-        return "FamilyEvent [type=" + type + ", husbandAge=" + husbandAge + ", wifeAge=" + wifeAge
-                + (type == FamilyEventType.EVENT ? ", subtype=" + subType : "") + "]";
+        return "FamilyEvent [" + (type != null ? "type=" + type + ", " : "") + (husbandAge != null ? "husbandAge=" + husbandAge + ", " : "")
+                + (wifeAge != null ? "wifeAge=" + wifeAge + ", " : "") + (address != null ? "address=" + address + ", " : "")
+                + (phoneNumbers != null ? "phoneNumbers=" + phoneNumbers + ", " : "") + (wwwUrls != null ? "wwwUrls=" + wwwUrls + ", " : "")
+                + (faxNumbers != null ? "faxNumbers=" + faxNumbers + ", " : "") + (emails != null ? "emails=" + emails + ", " : "")
+                + (age != null ? "age=" + age + ", " : "") + (cause != null ? "cause=" + cause + ", " : "")
+                + (citations != null ? "citations=" + citations + ", " : "") + (date != null ? "date=" + date + ", " : "")
+                + (description != null ? "description=" + description + ", " : "") + (multimedia != null ? "multimedia=" + multimedia + ", " : "")
+                + (notes != null ? "notes=" + notes + ", " : "") + (place != null ? "place=" + place + ", " : "")
+                + (respAgency != null ? "respAgency=" + respAgency + ", " : "") + (yNull != null ? "yNull=" + yNull + ", " : "")
+                + (subType != null ? "subType=" + subType + ", " : "")
+                + (religiousAffiliation != null ? "religiousAffiliation=" + religiousAffiliation + ", " : "")
+                + (restrictionNotice != null ? "restrictionNotice=" + restrictionNotice + ", " : "") + (customTags != null ? "customTags=" + customTags : "")
+                + "]";
     }
 
 }

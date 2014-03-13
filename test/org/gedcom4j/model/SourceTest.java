@@ -174,10 +174,8 @@ public class SourceTest {
     @Test
     public void testToString() {
         Source s1 = new Source("Foo");
-        assertEquals("Source [xref=Foo, recIdNumber=null, sourceFiledBy=null, "
-                + "title=[], notes=[], publicationFacts=[], originatorsAuthors=[], "
-                + "multimedia=[], changeDate=null, userReferences=[], data=null, "
-                + "sourceText=[], repositoryCitation=null]", s1.toString());
+        assertEquals("Source [title=[], notes=[], publicationFacts=[], originatorsAuthors=[], multimedia=[], userReferences=[], "
+                + "sourceText=[], xref=Foo, customTags=[]]", s1.toString());
 
         s1.changeDate = new ChangeDate();
         s1.customTags = null;
@@ -192,12 +190,9 @@ public class SourceTest {
         s1.sourceText = null;
         s1.title = null;
         s1.userReferences = null;
-        assertEquals("Source [xref=Foo, recIdNumber=Foo, sourceFiledBy=Bar, "
-                + "title=null, notes=null, publicationFacts=null, originatorsAuthors=null, "
-                + "multimedia=null, changeDate=org.gedcom4j.model.ChangeDate@e8bff, "
-                + "userReferences=null, data=org.gedcom4j.model.SourceData@e8fc0, "
-                + "sourceText=null, repositoryCitation=RepositoryCitation "
-                + "[repositoryXref=null, notes=[], callNumbers=[]]]", s1.toString());
+        assertEquals("Source [recIdNumber=Foo, sourceFiledBy=Bar, changeDate=ChangeDate [notes=[], customTags=[]], "
+                + "data=SourceData [eventsRecorded=[], notes=[], customTags=[]], "
+                + "repositoryCitation=RepositoryCitation [notes=[], callNumbers=[], customTags=[]], xref=Foo, ]", s1.toString());
 
     }
 

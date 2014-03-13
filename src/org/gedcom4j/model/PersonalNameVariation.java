@@ -187,17 +187,14 @@ public class PersonalNameVariation extends NameVariation {
         return result;
     }
 
-    /**
-     * Return a string representation of this object
-     * 
-     * @see java.lang.Object#toString()
-     * @return a string representation of this object
-     */
     @Override
     public String toString() {
-        return "PersonalNameVariation [variationType=" + variationType + ", variation=" + variation + ", prefix="
-                + prefix + ", givenName=" + givenName + ", nickname=" + nickname + ", surnamePrefix=" + surnamePrefix
-                + ", surname=" + surname + ", suffix=" + suffix + ", notes=" + notes + ", citations=" + citations + "]";
+        return "PersonalNameVariation [" + (prefix != null ? "prefix=" + prefix + ", " : "") + (givenName != null ? "givenName=" + givenName + ", " : "")
+                + (nickname != null ? "nickname=" + nickname + ", " : "") + (surnamePrefix != null ? "surnamePrefix=" + surnamePrefix + ", " : "")
+                + (surname != null ? "surname=" + surname + ", " : "") + (suffix != null ? "suffix=" + suffix + ", " : "")
+                + (notes != null ? "notes=" + notes + ", " : "") + (citations != null ? "citations=" + citations + ", " : "")
+                + (variationType != null ? "variationType=" + variationType + ", " : "") + (variation != null ? "variation=" + variation + ", " : "")
+                + (customTags != null ? "customTags=" + customTags : "") + "]";
     }
 
 }

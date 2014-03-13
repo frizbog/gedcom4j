@@ -246,15 +246,15 @@ public class Submitter extends AbstractElement {
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
-        return "Submitter [xref=" + xref + ", regFileNumber=" + regFileNumber + ", name=" + name + ", recIdNumber="
-                + recIdNumber + ", languagePref=" + languagePref + ", address=" + address + ", phoneNumbers="
-                + phoneNumbers + ", wwwUrls=" + wwwUrls + ", faxNumbers=" + faxNumbers + ", emails=" + emails
-                + ", multimedia=" + multimedia + ", changeDate=" + changeDate + ", userReferences=" + userReferences
-                + ", notes=" + notes + "]";
+        return "Submitter [" + (xref != null ? "xref=" + xref + ", " : "") + (regFileNumber != null ? "regFileNumber=" + regFileNumber + ", " : "")
+                + (name != null ? "name=" + name + ", " : "") + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "")
+                + (languagePref != null ? "languagePref=" + languagePref + ", " : "") + (address != null ? "address=" + address + ", " : "")
+                + (phoneNumbers != null ? "phoneNumbers=" + phoneNumbers + ", " : "") + (wwwUrls != null ? "wwwUrls=" + wwwUrls + ", " : "")
+                + (faxNumbers != null ? "faxNumbers=" + faxNumbers + ", " : "") + (emails != null ? "emails=" + emails + ", " : "")
+                + (multimedia != null ? "multimedia=" + multimedia + ", " : "") + (changeDate != null ? "changeDate=" + changeDate + ", " : "")
+                + (userReferences != null ? "userReferences=" + userReferences + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
+                + (customTags != null ? "customTags=" + customTags : "") + "]";
     }
 }

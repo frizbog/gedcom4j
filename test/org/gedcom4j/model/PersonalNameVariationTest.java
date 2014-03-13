@@ -177,9 +177,7 @@ public class PersonalNameVariationTest {
     @Test
     public void testToString() {
         PersonalNameVariation pnv = new PersonalNameVariation();
-        assertEquals("PersonalNameVariation [variationType=null, variation=null, prefix=null, "
-                + "givenName=null, nickname=null, surnamePrefix=null, surname=null, suffix=null, "
-                + "notes=[], citations=[]]", pnv.toString());
+        assertEquals("PersonalNameVariation [notes=[], citations=[], customTags=[]]", pnv.toString());
 
         pnv.variation = "Frying Pan";
         pnv.customTags.add(new StringTree());
@@ -190,11 +188,9 @@ public class PersonalNameVariationTest {
         pnv.surname = new StringWithCustomTags("Time");
         pnv.surnamePrefix = new StringWithCustomTags("For");
         pnv.variationType = new StringWithCustomTags("All");
-        assertEquals("PersonalNameVariation [variationType=All, variation=Frying Pan, "
-                + "prefix=null, givenName=Now, nickname=Is, surnamePrefix=For, "
-                + "surname=Time, suffix=The, notes=[Note [xref=null, citations=[], "
-                + "userReferences=[], changeDate=null, recIdNumber=null, lines=[]]], " + "citations=[]]",
-                pnv.toString());
+        assertEquals("PersonalNameVariation [givenName=Now, nickname=Is, surnamePrefix=For, surname=Time, suffix=The, "
+                + "notes=[Note [lines=[], citations=[], userReferences=[], customTags=[]]], citations=[], variationType=All, "
+                + "variation=Frying Pan, customTags=[Line 0: 0 null null]]", pnv.toString());
 
     }
 }
