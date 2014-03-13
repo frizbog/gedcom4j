@@ -44,7 +44,7 @@ public class Issue61Test {
                 assertTrue("Custom tag should be WAND or MUGL, but is " + ct.value, "WAND".equals(ct.tag) || "MUGL".equals(ct.tag));
                 if ("WAND".equals(ct.tag)) {
                     assertNotNull(ct.value);
-                    assertFalse(ct.value.trim().isEmpty());
+                    assertFalse(ct.value.trim().length() == 0);
                 }
                 if ("MUGL".equals(ct.tag)) {
                     assertNull(ct.value);
