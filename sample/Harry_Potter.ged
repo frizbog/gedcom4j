@@ -1,0 +1,259 @@
+0 HEAD
+1 SOUR FTM
+2 VERS Family Tree Maker (22.2.0)
+2 NAME Family Tree Maker for Mac OS X
+2 CORP Ancestry.com
+3 ADDR 360 W 4800 N
+4 CONT Provo, UT 84604
+3 PHON (801) 705-7000
+1 DEST GED55
+1 DATE 13 MAR 2014
+1 CHAR UTF-8
+1 FILE /Users/frizbog/Documents/workspace/gedcom4j/sample/Harry_Potter.ged
+1 NOTE This file deliberately introduces two unknown tags (WAND and MUGL) to test issue #61
+1 SUBM @SUBM@
+1 GEDC
+2 VERS 5.5
+2 FORM LINEAGE-LINKED
+0 @SUBM@ SUBM
+0 @I1@ INDI
+1 NAME Albus Severus /Potter/
+1 WAND UNKNOWN
+1 SEX M
+1 BIRT
+2 DATE 2006
+2 PLAC England
+1 FAMC @F1@
+0 @I3@ INDI
+1 NAME Ginerva Molly /Weasley/
+1 WAND UNKNOWN
+1 SEX F
+1 ALIA Ginny
+1 BIRT
+2 DATE 11 AUG 1981
+2 PLAC England
+1 FAMS @F1@
+1 FAMC @F6@
+0 @I13@ INDI
+1 NAME /Potter/
+1 WAND UNKNOWN
+1 SEX M
+1 FAMS @F5@
+0 @I16@ INDI
+1 NAME Molly /Prewett/
+1 WAND UNKNOWN
+1 SEX F
+1 BIRT
+2 DATE 30 OCT 1950
+1 FAMS @F6@
+0 @I6@ INDI
+1 NAME James /Potter/
+1 WAND Mahogany, 11 inches, pliable (excellent for transfiguration)
+1 SEX M
+1 BIRT
+2 DATE 27 MAR 1960
+2 PLAC Godric's Hollow, England
+1 DEAT Avada Kedavra
+2 DATE 31 OCT 1981
+2 PLAC Godric's Hollow
+1 FAMS @F2@
+1 FAMC @F5@
+0 @I19@ INDI
+1 NAME Percy Ignatius /Weasley/
+1 WAND UNKNOWN
+1 SEX M
+1 BIRT
+2 DATE 22 AUG 1976
+1 FAMC @F6@
+0 @I9@ INDI
+1 NAME /Unknown/
+1 MUGL
+1 SEX F
+1 FAMS @F3@
+0 @I22@ INDI
+1 NAME Ronald Bilius /Weasley/
+1 WAND Ash and unicorn hair, 12 inches, spello-tape
+1 SEX M
+1 BIRT
+2 DATE 01 MAR 1980
+1 ALIA Ron
+1 FAMS @F7@
+1 FAMC @F6@
+0 @I12@ INDI
+1 NAME Dudley /Dursley/
+1 MUGL
+1 SEX M
+1 FAMC @F4@
+0 @I2@ INDI
+1 NAME Harry James /Potter/
+1 WAND Holly and phoenix feather, eleven inches, nice and supple
+1 SEX M
+1 BIRT
+2 DATE 31 JUL 1980
+2 PLAC Godric's Hollow, England
+1 FAMS @F1@
+1 FAMC @F2@
+0 @I15@ INDI
+1 NAME Arthur /Weasley/
+1 WAND UNKNOWN
+1 SEX M
+1 BIRT
+2 DATE 06 FEB 1950
+1 FAMS @F6@
+0 @I8@ INDI
+1 NAME /Evans/
+1 MUGL
+1 SEX M
+1 FAMS @F3@
+0 @I18@ INDI
+1 NAME Charles /Weasley/
+1 WAND UNKNOWN
+1 SEX M
+1 BIRT
+2 DATE 12 DEC 1972
+1 FAMC @F6@
+0 @I5@ INDI
+1 NAME Lily Luna /Potter/
+1 WAND UNKNOWN
+1 SEX F
+1 BIRT
+2 DATE 2008
+2 PLAC England
+1 FAMC @F1@
+0 @I21@ INDI
+1 NAME George /Weasley/
+1 WAND UNKNOWN
+1 SEX M
+1 BIRT
+2 DATE 01 APR 1978
+1 FAMC @F6@
+0 @I11@ INDI
+1 NAME Vernon /Dursley/
+1 MUGL
+1 SEX U
+1 FAMS @F4@
+0 @I14@ INDI
+1 NAME /Unknown/
+1 MUGL
+1 SEX F
+1 FAMS @F5@
+0 @I4@ INDI
+1 NAME James Sirius /Potter/
+1 WAND UNKNOWN
+1 SEX M
+1 BIRT
+2 DATE ABT 2005
+2 PLAC England
+1 FAMC @F1@
+0 @I17@ INDI
+1 NAME William Arthur /Weasley/
+1 WAND UNKNOWN
+1 SEX M
+1 BIRT
+2 DATE 29 NOV 1970
+1 ALIA Bill
+1 FAMC @F6@
+0 @I7@ INDI
+1 NAME Lily /Evans/
+1 WAND Willow, 10 1/4", swishy (nice wand for charm work)
+1 SEX F
+1 BIRT
+2 DATE 30 JAN 1960
+2 PLAC Godric's Hollow, England
+1 DEAT Avada Kedavra
+2 DATE 31 OCT 1981
+2 PLAC Godric's Hollow
+1 FAMS @F2@
+1 FAMC @F3@
+0 @I20@ INDI
+1 NAME Fred /Weasley/
+1 WAND UNKNOWN
+1 SEX M
+1 BIRT
+2 DATE 01 APR 1978
+1 DEAT
+2 DATE 02 MAY 1998
+2 PLAC Hogwarts
+1 FAMC @F6@
+0 @I10@ INDI
+1 NAME Petunia /Evans/
+1 MUGL
+1 SEX U
+1 FAMS @F4@
+1 FAMC @F3@
+0 @I23@ INDI
+1 NAME Hermione Jean /Granger/
+1 WAND Vine, 10 3/4", with dragon heartstring
+1 SEX F
+1 BIRT
+2 DATE 19 SEP 1979
+1 FAMS @F7@
+0 @F3@ FAM
+1 HUSB @I8@
+1 WIFE @I9@
+1 CHIL @I7@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I10@
+2 _FREL Natural
+2 _MREL Natural
+0 @F5@ FAM
+1 HUSB @I13@
+1 WIFE @I14@
+1 CHIL @I6@
+2 _FREL Natural
+2 _MREL Natural
+0 @F1@ FAM
+1 HUSB @I2@
+1 WIFE @I3@
+1 CHIL @I1@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I4@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I5@
+2 _FREL Natural
+2 _MREL Natural
+0 @F6@ FAM
+1 HUSB @I15@
+1 WIFE @I16@
+1 CHIL @I3@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I17@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I18@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I19@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I20@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I21@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I22@
+2 _FREL Natural
+2 _MREL Natural
+0 @F4@ FAM
+1 HUSB @I10@
+1 WIFE @I11@
+1 CHIL @I12@
+2 _FREL Natural
+2 _MREL Natural
+0 @F2@ FAM
+1 HUSB @I6@
+1 WIFE @I7@
+1 CHIL @I2@
+2 _FREL Natural
+2 _MREL Natural
+1 MARR
+2 DATE BET 1978 AND 1979
+0 @F7@ FAM
+1 HUSB @I22@
+1 WIFE @I23@
+0 TRLR

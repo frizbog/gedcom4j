@@ -147,4 +147,5 @@ public class StringTreeTest {
             assertFalse(0 == n.hashCode());
         }
     }
+
 }
