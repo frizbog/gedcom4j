@@ -67,7 +67,13 @@ public class StringTree {
     public List<StringTree> children = new ArrayList<StringTree>();
 
     /**
-     * The element to which this element is a child
+     * <p>
+     * The element to which this element is a child.
+     * </p>
+     * <p>
+     * <em>Note:</em> Should not be incuded in {@link #equals(Object)} or {@link #hashCode()} implementations because
+     * that leads to infinite recursion. See Issue #60.
+     * </p>
      */
     public StringTree parent = null;
 
@@ -111,13 +117,6 @@ public class StringTree {
         if (lineNum != other.lineNum) {
             return false;
         }
-        if (parent == null) {
-            if (other.parent != null) {
-                return false;
-            }
-        } else if (!parent.equals(other.parent)) {
-            return false;
-        }
         if (tag == null) {
             if (other.tag != null) {
                 return false;
@@ -146,7 +145,6 @@ public class StringTree {
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + level;
         result = prime * result + lineNum;
-        result = prime * result + ((parent == null) ? 0 : parent.hashCode());
         result = prime * result + ((tag == null) ? 0 : tag.hashCode());
         result = prime * result + ((value == null) ? 0 : value.hashCode());
         return result;
@@ -157,8 +155,7 @@ public class StringTree {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Line " + lineNum + ": " + level + (id == null ? "" : " " + id) + " "
-                + tag + " " + value);
+        StringBuilder sb = new StringBuilder("Line " + lineNum + ": " + level + (id == null ? "" : " " + id) + " " + tag + " " + value);
         for (StringTree ch : children) {
             sb.append("\n").append(ch);
         }
