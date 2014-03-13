@@ -69,7 +69,7 @@
 	<rule ref="rulesets/java/design.xml/OptimizableToArrayCall" />
 	<rule ref="rulesets/java/design.xml/BadComparison" />
 	<rule ref="rulesets/java/design.xml/EqualsNull" />
-	<rule ref="rulesets/java/design.xml/ConfusingTernary" />
+	<!-- rule ref="rulesets/java/design.xml/ConfusingTernary" /-->
 	<rule ref="rulesets/java/design.xml/InstantiationToGetClass" />
 	<rule ref="rulesets/java/design.xml/IdempotentOperations" />
 	<rule ref="rulesets/java/design.xml/SimpleDateFormatNeedsLocale" />
