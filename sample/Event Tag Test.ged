@@ -1,0 +1,27 @@
+0 HEAD
+1 SOUR FTM
+2 VERS Family Tree Maker (22.2.1)
+2 NAME Family Tree Maker for Mac OS X
+2 CORP Ancestry.com
+3 ADDR 360 W 4800 N
+4 CONT Provo, UT 84604
+3 PHON (801) 705-7000
+1 DEST GED55
+1 DATE 27 MAY 2014
+1 CHAR UTF-8
+1 FILE /Users/frizbog/Documents/workspace/gedcom4j/sample/Event Tag Test.ged
+1 SUBM @SUBM@
+1 GEDC
+2 VERS 5.5
+2 FORM LINEAGE-LINKED
+0 @SUBM@ SUBM
+0 @I1@ INDI
+1 NAME Robert /Roberts/
+1 SEX M
+1 CREM Silver urn
+1 BURI Unmarked grave
+2 DATE 04 MAY 2014
+2 PLAC Walla Walla, Walla Walla, Washington, USA
+1 DEAT Poor guy
+2 DATE 01 MAY 2014
+0 TRLR
