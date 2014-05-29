@@ -7,7 +7,7 @@
 4 CONT Provo, UT 84604
 3 PHON (801) 705-7000
 1 DEST GED55
-1 DATE 27 MAY 2014
+1 DATE 28 MAY 2014
 1 CHAR UTF-8
 1 FILE /Users/frizbog/Documents/workspace/gedcom4j/sample/Event Tag Test.ged
 1 SUBM @SUBM@
@@ -18,6 +18,16 @@
 0 @I1@ INDI
 1 NAME Robert /Roberts/
 1 SEX M
+1 BIRT This was entered into the Birth description field in Family Tree Maker 
+2 CONC 3 for Mac. Lots more text follows: Lorem ipsum dolor sit amet, 
+2 CONC consectetur adipisicing elit, sed do eiusmod tempor incididunt ut 
+2 CONC labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+2 CONC exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+2 CONC Duis aute irure dolor in reprehenderit in voluptate velit esse cillum 
+2 CONC dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non 
+2 CONC proident, sunt in culpa qui officia deserunt mollit anim id est 
+2 CONC laborum.
+2 DATE 01 JAN 1960
 1 CREM Silver urn
 1 BURI Unmarked grave
 2 DATE 04 MAY 2014
