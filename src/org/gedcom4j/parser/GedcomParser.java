@@ -576,7 +576,17 @@ public class GedcomParser {
         FamilyEvent e = new FamilyEvent();
         events.add(e);
         e.type = FamilyEventType.getFromTag(st.tag);
-        e.yNull = st.value;
+        if ("Y".equals(st.value)) {
+            e.yNull = st.value;
+            e.description = null;
+        } else if (st.value == null || st.value.trim().length() == 0) {
+            e.yNull = null;
+            e.description = null;
+        } else {
+            e.yNull = null;
+            e.description = new StringWithCustomTags(st.value);
+            warnings.add(st.tag + " tag had description rather than [Y|<NULL>] - violates standard");
+        }
         for (StringTree ch : st.children) {
             if ("TYPE".equals(ch.tag)) {
                 e.subType = new StringWithCustomTags(ch);
@@ -636,6 +646,18 @@ public class GedcomParser {
                 e.husbandAge = new StringWithCustomTags(ch.children.get(0));
             } else if ("WIFE".equals(ch.tag)) {
                 e.wifeAge = new StringWithCustomTags(ch.children.get(0));
+            } else if ("CONC".equals(ch.tag)) {
+                if (e.description == null) {
+                    e.description = new StringWithCustomTags(ch);
+                } else {
+                    e.description.value += ch.value;
+                }
+            } else if ("CONT".equals(ch.tag)) {
+                if (e.description == null) {
+                    e.description = new StringWithCustomTags(ch.value == null ? "" : ch.value);
+                } else {
+                    e.description.value += "\n" + ch.value;
+                }
             } else {
                 unknownTag(ch, e);
             }
@@ -1110,7 +1132,17 @@ public class GedcomParser {
         IndividualEvent e = new IndividualEvent();
         events.add(e);
         e.type = IndividualEventType.getFromTag(st.tag);
-        e.yNull = st.value;
+        if ("Y".equals(st.value)) {
+            e.yNull = st.value;
+            e.description = null;
+        } else if (st.value == null || st.value.trim().length() == 0) {
+            e.yNull = null;
+            e.description = null;
+        } else {
+            e.yNull = null;
+            e.description = new StringWithCustomTags(st.value);
+            warnings.add(st.tag + " tag had description rather than [Y|<NULL>] - violates standard");
+        }
         for (StringTree ch : st.children) {
             if ("TYPE".equals(ch.tag)) {
                 e.subType = new StringWithCustomTags(ch);
