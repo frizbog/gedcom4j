@@ -82,7 +82,9 @@ class EventValidator extends AbstractValidator {
         }
         checkCustomTags(e);
         checkOptionalString(e.date, "date", e);
-        checkOptionalString(e.description, "description", e);
+        if (e.description != null && e.description.trim().length() != 0) {
+            rootValidator.addError("Event has description, which is non-standard. Remove this value, or move it (perhaps to a Note).", e);
+        }
         if (e.emails == null) {
             if (rootValidator.autorepair) {
                 e.emails = new ArrayList<StringWithCustomTags>();
