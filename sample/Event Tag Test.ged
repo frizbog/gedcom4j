@@ -12,9 +12,10 @@
 1 FILE /Users/frizbog/Documents/workspace/gedcom4j/sample/Event Tag Test.ged
 1 SUBM @SUBM@
 1 GEDC
-2 VERS 5.5
+2 VERS 5.5.1
 2 FORM LINEAGE-LINKED
 0 @SUBM@ SUBM
+1 NAME Matthew /Harrah/
 0 @I1@ INDI
 1 NAME Robert /Roberts/
 1 SEX M
