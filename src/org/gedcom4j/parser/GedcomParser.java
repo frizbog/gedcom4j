@@ -965,9 +965,7 @@ public class GedcomParser {
      *            the node
      */
     private void loadIndividual(StringTree st) {
-        Individual i = new Individual();
-        gedcom.individuals.put(st.id, i);
-        i.xref = st.id;
+        Individual i = getIndividual(st.id);
         for (StringTree ch : st.children) {
             if ("NAME".equals(ch.tag)) {
                 PersonalName pn = new PersonalName();
