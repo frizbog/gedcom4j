@@ -49,18 +49,14 @@ class UnicodeBigEndianReader extends AbstractEncodingSpecificReader {
             // Check for EOF
             if (b1 < 0 || b2 < 0) {
                 // hit EOF - add final line buffer (last line) and get out
-                if (lineBuffer.length() > 0) {
-                    result.add(lineBuffer.toString());
-                }
+                addNonBlankLine(result, lineBuffer);
                 eof = true;
                 break;
             }
 
             // Check for carriage returns - signify EOL
             if (b1 == 0x00 && b2 == 0x0D) {
-                if (lineBuffer.length() > 0) {
-                    result.add(lineBuffer.toString());
-                }
+                addNonBlankLine(result, lineBuffer);
                 lineBuffer.setLength(0);
                 continue;
             }
@@ -69,9 +65,7 @@ class UnicodeBigEndianReader extends AbstractEncodingSpecificReader {
             // CR)
             if (b1 == 0x00 && b2 == 0x0A) {
                 if (lastB1 != 0x00 || lastB2 != 0x0D) {
-                    if (lineBuffer.length() > 0) {
-                        result.add(lineBuffer.toString());
-                    }
+                    addNonBlankLine(result, lineBuffer);
                     lineBuffer.setLength(0);
                 }
                 continue;
@@ -81,6 +75,20 @@ class UnicodeBigEndianReader extends AbstractEncodingSpecificReader {
             lineBuffer.append(Character.valueOf((char) unicodeChar));
         }
         return result;
+    }
+
+    /**
+     * Add line to result if it is not blank
+     * 
+     * @param result
+     *            the resulting list of lines
+     * @param lineBuffer
+     *            the line buffer
+     */
+    private void addNonBlankLine(List<String> result, StringBuilder lineBuffer) {
+        if (lineBuffer.length() > 0) {
+            result.add(lineBuffer.toString());
+        }
     }
 
 }

@@ -84,4 +84,18 @@ class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
         return result;
     }
 
+    /**
+     * Add line to result if it is not blank
+     * 
+     * @param result
+     *            the resulting list of lines
+     * @param lineBuffer
+     *            the line buffer
+     */
+    private void addNonBlankLine(List<String> result, StringBuilder lineBuffer) {
+        if (lineBuffer.length() > 0) {
+            result.add(lineBuffer.toString());
+        }
+    }
+
 }
