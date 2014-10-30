@@ -52,7 +52,9 @@ class AnselReader extends AbstractEncodingSpecificReader {
 
             // Check for carriage returns - signify EOL
             if (b == 0x0D) {
-                result.add(lineBuffer.toString());
+                if (lineBuffer.length() > 0) {
+                    result.add(lineBuffer.toString());
+                }
                 lineBuffer.setLength(0);
                 continue;
             }
@@ -61,7 +63,9 @@ class AnselReader extends AbstractEncodingSpecificReader {
             // CR)
             if (b == 0x0A) {
                 if (lastChar != 0x0D) {
-                    result.add(lineBuffer.toString());
+                    if (lineBuffer.length() > 0) {
+                        result.add(lineBuffer.toString());
+                    }
                     lineBuffer.setLength(0);
                 }
                 continue;

@@ -58,7 +58,9 @@ class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
 
             // Check for carriage returns - signify EOL
             if (b1 == 0x0D && b2 == 0x00) {
-                result.add(lineBuffer.toString());
+                if (lineBuffer.length() > 0) {
+                    result.add(lineBuffer.toString());
+                }
                 lineBuffer.setLength(0);
                 continue;
             }
@@ -67,7 +69,9 @@ class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
             // CR)
             if (b1 == 0x0A && b2 == 0x00) {
                 if (lastB1 != 0x0D || lastB2 != 0x00) {
-                    result.add(lineBuffer.toString());
+                    if (lineBuffer.length() > 0) {
+                        result.add(lineBuffer.toString());
+                    }
                     lineBuffer.setLength(0);
                 }
                 continue;

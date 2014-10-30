@@ -58,7 +58,9 @@ class UnicodeBigEndianReader extends AbstractEncodingSpecificReader {
 
             // Check for carriage returns - signify EOL
             if (b1 == 0x00 && b2 == 0x0D) {
-                result.add(lineBuffer.toString());
+                if (lineBuffer.length() > 0) {
+                    result.add(lineBuffer.toString());
+                }
                 lineBuffer.setLength(0);
                 continue;
             }
@@ -67,7 +69,9 @@ class UnicodeBigEndianReader extends AbstractEncodingSpecificReader {
             // CR)
             if (b1 == 0x00 && b2 == 0x0A) {
                 if (lastB1 != 0x00 || lastB2 != 0x0D) {
-                    result.add(lineBuffer.toString());
+                    if (lineBuffer.length() > 0) {
+                        result.add(lineBuffer.toString());
+                    }
                     lineBuffer.setLength(0);
                 }
                 continue;
