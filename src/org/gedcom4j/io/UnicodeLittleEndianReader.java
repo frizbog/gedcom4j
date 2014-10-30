@@ -49,18 +49,14 @@ class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
             // Check for EOF
             if (b1 < 0 || b2 < 0) {
                 // hit EOF - add final line buffer (last line) and get out
-                if (lineBuffer.length() > 0) {
-                    result.add(lineBuffer.toString());
-                }
+                addNonBlankLine(result, lineBuffer);
                 eof = true;
                 break;
             }
 
             // Check for carriage returns - signify EOL
             if (b1 == 0x0D && b2 == 0x00) {
-                if (lineBuffer.length() > 0) {
-                    result.add(lineBuffer.toString());
-                }
+                addNonBlankLine(result, lineBuffer);
                 lineBuffer.setLength(0);
                 continue;
             }
@@ -69,9 +65,7 @@ class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
             // CR)
             if (b1 == 0x0A && b2 == 0x00) {
                 if (lastB1 != 0x0D || lastB2 != 0x00) {
-                    if (lineBuffer.length() > 0) {
-                        result.add(lineBuffer.toString());
-                    }
+                    addNonBlankLine(result, lineBuffer);
                     lineBuffer.setLength(0);
                 }
                 continue;

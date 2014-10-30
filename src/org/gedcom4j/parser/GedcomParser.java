@@ -1626,7 +1626,7 @@ public class GedcomParser {
             } else if ("NOTE".equals(ch.tag)) {
                 loadNote(ch, place.notes);
             } else if ("CONC".equals(ch.tag)) {
-                place.placeName += (new StringWithCustomTags(ch) == null ? "" : ch.value);
+                place.placeName += (ch.value == null ? "" : ch.value);
             } else if ("CONT".equals(ch.tag)) {
                 place.placeName += "\n" + (ch.value == null ? "" : ch.value);
             } else if ("ROMN".equals(ch.tag)) {
