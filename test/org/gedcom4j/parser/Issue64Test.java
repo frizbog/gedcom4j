@@ -2,7 +2,6 @@ package org.gedcom4j.parser;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -39,8 +38,9 @@ public class Issue64Test {
         gw.autorepair = true;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         gw.write(baos);
-        assertTrue("Output should be the same as the input file, but without the blank lines",
-                new String(baos.toByteArray()).startsWith("0 HEAD\n1 SOUR 0\n1 SUBM @SUBM0000@\n1 GEDC\n"
-                        + "2 VERS 5.5\n2 FORM LINEAGE-LINKED\n1 CHAR ANSEL\n0 @SUBMISSION@ SUBN\n0 @I002@ INDI"));
+        assertEquals("Output should be the same as the input file, but without the blank lines", "0 HEAD\n1 SOUR 0\n1 SUBM @SUBM0000@\n1 GEDC\n"
+                + "2 VERS 5.5\n2 FORM LINEAGE-LINKED\n1 CHAR ANSEL\n0 @SUBMISSION@ SUBN\n0 @I002@ INDI\n1 NAME Wife /Gedcom/\n"
+                + "1 FAMS @F001@\n0 @I001@ INDI\n1 NAME Husband /Gedcom/\n1 FAMS @F001@\n0 @F001@ FAM\n1 HUSB @I001@\n"
+                + "1 WIFE @I002@\n0 @SUBM0000@ SUBM\n1 NAME UNSPECIFIED\n0 TRLR\n", new String(baos.toByteArray()));
     }
 }
