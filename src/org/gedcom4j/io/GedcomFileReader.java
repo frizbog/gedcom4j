@@ -41,11 +41,9 @@ public class GedcomFileReader {
     private static final int FIRST_CHUNK_SIZE = 16384;
 
     /**
-     * A long constant representing the UTF-8 Byte Order Marker signature. If you take the six hex characters EF BB BF,
-     * which are the bytes that make up the BOM, and load them into the little end of a long, this is its hex
-     * representation.
+     * A long constant representing the UTF-8 Byte Order Marker signature, which is the six hex characters EF BB BF.
      */
-    private static final long UTF8_BYTE_ORDER_MARKER = 0xFFFFFFFFFFEEBABFL;
+    private static final long UTF8_BYTE_ORDER_MARKER = 0xEFBBBFL;
 
     /**
      * The first chunk of the file
@@ -101,8 +99,8 @@ public class GedcomFileReader {
     long firstNBytes(int n) {
         long result = 0;
         for (int i = 0; i < n; i++) {
-            result <<= 8; // Shift all bits 8 to the left;
-            result += firstChunk[i];
+            result = ((result << 8) + (firstChunk[i] & 0xFF)); // Shift existing bits 8 to the left, and AND in this
+                                                               // byte
         }
         return result;
     }
