@@ -188,8 +188,7 @@ public class RelationshipCalculator {
      * @param newRel
      *            the new relationship to use instead, collapsing out the 'middleman'
      */
-    private void collapse(List<SimpleRelationship> chain, RelationshipName rel1, RelationshipName rel2,
-            RelationshipName newRel) {
+    private void collapse(List<SimpleRelationship> chain, RelationshipName rel1, RelationshipName rel2, RelationshipName newRel) {
 
         for (int i = 0; i < chain.size() - 1; i++) {
             SimpleRelationship s1 = chain.get(i);
@@ -395,24 +394,6 @@ public class RelationshipCalculator {
     }
 
     /**
-     * <p>
-     * Look for cousin relationships in the relationship chain.
-     * </p>
-     * <p>
-     * The algorithm is as follows:
-     * <ol>
-     * <li>Look through the chain for sibling relationships</li>
-     * </ol>
-     * </p>
-     * 
-     * @param relationship
-     *            the relationship to examine for cousin relationships
-     */
-    private void findCousinRelationships(Relationship relationship) {
-        // TODO - implement this
-    }
-
-    /**
      * Get the reverse of a given relationship, based on the gender of the original person. For example, if person A has
      * a brother, the brother's relationship back to person A is either brother (if A is male), sister (if A is female),
      * or sibling (if A's gender is unknown).
@@ -441,8 +422,6 @@ public class RelationshipCalculator {
      *            the relationship being simplified
      */
     private void simplifyRelationship(Relationship relationship) {
-
-        findCousinRelationships(relationship);
 
         int previousLength = Integer.MAX_VALUE;
         // You can only simplify a chain that's two or more steps!
