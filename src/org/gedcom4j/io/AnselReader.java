@@ -42,19 +42,14 @@ class AnselReader extends AbstractEncodingSpecificReader {
 
             // Check for EOF
             if (b < 0) {
-                // hit EOF - add final line buffer (last line) and get out
-                if (lineBuffer.length() > 0) {
-                    result.add(lineBuffer.toString());
-                }
+                addNonBlankLine(result, lineBuffer);
                 eof = true;
                 break;
             }
 
             // Check for carriage returns - signify EOL
             if (b == 0x0D) {
-                if (lineBuffer.length() > 0) {
-                    result.add(lineBuffer.toString());
-                }
+                addNonBlankLine(result, lineBuffer);
                 lineBuffer.setLength(0);
                 continue;
             }
@@ -63,9 +58,7 @@ class AnselReader extends AbstractEncodingSpecificReader {
             // CR)
             if (b == 0x0A) {
                 if (lastChar != 0x0D) {
-                    if (lineBuffer.length() > 0) {
-                        result.add(lineBuffer.toString());
-                    }
+                    addNonBlankLine(result, lineBuffer);
                     lineBuffer.setLength(0);
                 }
                 continue;
@@ -82,6 +75,20 @@ class AnselReader extends AbstractEncodingSpecificReader {
             lineBuffer.append(AnselMapping.decode(b));
         }
         return result;
+    }
+
+    /**
+     * Add line to result if it is not blank
+     * 
+     * @param result
+     *            the resulting list of lines
+     * @param lineBuffer
+     *            the line buffer
+     */
+    private void addNonBlankLine(List<String> result, StringBuilder lineBuffer) {
+        if (lineBuffer.length() > 0) {
+            result.add(lineBuffer.toString());
+        }
     }
 
 }
