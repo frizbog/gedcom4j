@@ -41,9 +41,16 @@ public class GedcomFileReader {
     private static final int FIRST_CHUNK_SIZE = 16384;
 
     /**
+     * A long constant representing the UTF-8 Byte Order Marker signature. If you take the six hex characters EF BB BF,
+     * which are the bytes that make up the BOM, and load them into the little end of a long, this is its hex
+     * representation.
+     */
+    private static final long UTF8_BYTE_ORDER_MARKER = 0xFFFFFFFFFFEEBABFL;
+
+    /**
      * The first chunk of the file
      */
-    private final byte[] firstChunk = new byte[FIRST_CHUNK_SIZE];
+    final byte[] firstChunk = new byte[FIRST_CHUNK_SIZE];
 
     /**
      * The buffered input stream of bytes to read
@@ -82,6 +89,39 @@ public class GedcomFileReader {
         }
 
         return result;
+    }
+
+    /**
+     * Return the first n bytes of the array as a single long value, for checking against hex literals
+     * 
+     * @param n
+     *            the number of bytes to grab off the front of the file
+     * @return the first n bytes, as an long
+     */
+    long firstNBytes(int n) {
+        long result = 0;
+        for (int i = 0; i < n; i++) {
+            result <<= 8; // Shift all bits 8 to the left;
+            result += firstChunk[i];
+        }
+        return result;
+    }
+
+    /**
+     * Save off a chunk of the beginning of the input stream to memory for easy inspection. The data is loaded into the
+     * field
+     * 
+     * @throws IOException
+     *             if the stream of bytes cannot be read.
+     */
+    void saveFirstChunk() throws IOException {
+        byteStream.mark(FIRST_CHUNK_SIZE);
+        int read = byteStream.read(firstChunk);
+        if (read < 0) {
+            throw new IOException("Unable to read bytes off stream");
+        }
+        byteStream.reset();
+
     }
 
     /**
@@ -156,9 +196,9 @@ public class GedcomFileReader {
      */
     private AbstractEncodingSpecificReader getEncodingSpecificReader() throws IOException, UnsupportedGedcomCharsetException {
 
-        if (firstChunk[0] == (byte) 0xEF && firstChunk[1] == (byte) 0xBB && firstChunk[2] == (byte) 0xBF) {
+        if (firstNBytes(3) == UTF8_BYTE_ORDER_MARKER) {
             /*
-             * Special byte order markers to indicate UTF-8 encoding. Not every program does this, but if it does, we
+             * Special byte order marker to indicate UTF-8 encoding. Not every program does this, but if it does, we
              * KNOW it's UTF-8 and should discard the BOM
              */
             AbstractEncodingSpecificReader result = new Utf8Reader(byteStream);
@@ -166,40 +206,31 @@ public class GedcomFileReader {
             return result;
         }
 
-        if (firstChunk[0] == 0x30 && firstChunk[1] == 0x00) {
-            // If the first two firstChunk make up a single zero character, it's
-            // unicode
+        if (firstNBytes(2) == 0x3000 || firstNBytes(2) == 0x0D00 || firstNBytes(2) == 0x0A00) {
+            // If the first two firstChunk make up a single zero character, a single line feed character, or a single
+            // carriage return character, using the bytes shown, it's unicode little-endian
             return new UnicodeLittleEndianReader(byteStream);
-        } else if (firstChunk[0] == 0x00 && firstChunk[1] == 0x30) {
-            // If the first two firstChunk make up a single zero character, it's
-            // unicode
+        } else if (firstNBytes(2) == 0x0030 || firstNBytes(2) == 0x000D || firstNBytes(2) == 0x000A) {
+            // If the first two firstChunk make up a single zero character, a single line feed character, or a single
+            // carriage return character, using the bytes shown, it's unicode big-endian
             return new UnicodeBigEndianReader(byteStream);
-        } else if (firstChunk[0] == 0x30 && firstChunk[1] == 0x20) {
-            /*
-             * Could be ANSEL, ASCII, or UTF-8.
-             */
-            return anselAsciiOrUtf8();
         } else {
-            throw new IOException("Does not appear to be a valid gedcom file - " + "doesn't begin with a zero in any supported encoding, "
-                    + "and does not begin with a BOM marker for UTF-8 encoding");
+            boolean zeroFollowedBySpace = firstNBytes(2) == 0x3020;
+            boolean blankLineFollowedByZero = firstNBytes(2) == 0x0A30 || firstNBytes(2) == 0x0D30;
+            boolean twoBlankLines = firstNBytes(2) == 0x0D0D || firstNBytes(2) == 0x0A0A;
+            boolean crlf = firstNBytes(2) == 0x0D0A;
+            boolean lfcr = firstNBytes(2) == 0x0A0D;
+            if (zeroFollowedBySpace || blankLineFollowedByZero || twoBlankLines || crlf || lfcr) {
+                /*
+                 * Could be ANSEL, ASCII, or UTF-8. Figure out which
+                 */
+                return anselAsciiOrUtf8();
+            } else {
+
+                throw new IOException("Does not appear to be a valid gedcom file - " + "doesn't begin with a zero or newline in any supported encoding, "
+                        + "and does not begin with a BOM marker for UTF-8 encoding. ");
+            }
         }
 
     }
-
-    /**
-     * Save off a chunk of the beginning of the input stream to memory for easy inspection. The data is loaded into the
-     * field
-     * 
-     * @throws IOException
-     *             if the stream of bytes cannot be read.
-     */
-    private void saveFirstChunk() throws IOException {
-        byteStream.mark(FIRST_CHUNK_SIZE);
-        int read = byteStream.read(firstChunk);
-        if (read < 0) {
-            throw new IOException("Unable to read bytes off stream");
-        }
-        byteStream.reset();
-    }
-
 }

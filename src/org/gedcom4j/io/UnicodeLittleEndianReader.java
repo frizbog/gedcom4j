@@ -1,3 +1,25 @@
+/*
+ * Copyright (c) 2009-2014 Matthew R. Harrah
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package org.gedcom4j.io;
 
 import java.io.IOException;
@@ -58,7 +80,9 @@ class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
 
             // Check for carriage returns - signify EOL
             if (b1 == 0x0D && b2 == 0x00) {
-                result.add(lineBuffer.toString());
+                if (lineBuffer.length() > 0) {
+                    result.add(lineBuffer.toString());
+                }
                 lineBuffer.setLength(0);
                 continue;
             }
@@ -67,7 +91,9 @@ class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
             // CR)
             if (b1 == 0x0A && b2 == 0x00) {
                 if (lastB1 != 0x0D || lastB2 != 0x00) {
-                    result.add(lineBuffer.toString());
+                    if (lineBuffer.length() > 0) {
+                        result.add(lineBuffer.toString());
+                    }
                     lineBuffer.setLength(0);
                 }
                 continue;
