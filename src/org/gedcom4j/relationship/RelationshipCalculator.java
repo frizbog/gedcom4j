@@ -241,7 +241,16 @@ public class RelationshipCalculator {
             relationshipsFound.add(r);
         } else {
             lookedAt.add(personBeingExamined);
-            /* Not our target, so check relatives, starting with spouses */
+            /* Not our target, so check relatives, starting with parents */
+            for (FamilyChild fc : personBeingExamined.familiesWhereChild) {
+                if (!lookedAt.contains(fc.family.husband)) {
+                    examineFather(personBeingExamined, fc.family.husband);
+                }
+                if (!lookedAt.contains(fc.family.wife)) {
+                    examineMother(personBeingExamined, fc.family.wife);
+                }
+            }
+            /* Next check spouses */
             for (FamilySpouse fs : personBeingExamined.familiesWhereSpouse) {
                 if (fs.family.husband == personBeingExamined) {
                     if (lookedAt.contains(fs.family.wife)) {
@@ -260,21 +269,12 @@ public class RelationshipCalculator {
                         continue;
                     }
                     if (fs.family.husband == personBeingExamined) { // NOPMD - deliberately using ==, want to check if
-                                                                    // same instance
+                        // same instance
                         examineChild(personBeingExamined, c, FATHER);
                     } else if (fs.family.wife == personBeingExamined) { // NOPMD - deliberately using ==, want to check
-                                                                        // if same instance
+                        // if same instance
                         examineChild(personBeingExamined, c, MOTHER);
                     }
-                }
-            }
-            /* Next check parents */
-            for (FamilyChild fc : personBeingExamined.familiesWhereChild) {
-                if (!lookedAt.contains(fc.family.husband)) {
-                    examineFather(personBeingExamined, fc.family.husband);
-                }
-                if (!lookedAt.contains(fc.family.wife)) {
-                    examineMother(personBeingExamined, fc.family.wife);
                 }
             }
         }
