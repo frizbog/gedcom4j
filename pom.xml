@@ -130,6 +130,24 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- Execute the Checkstyle plugin during the test phase -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>checkstyle</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>checkstyle</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <configLocation>${project.basedir}/checkstyle-config.xml</configLocation>
+                </configuration>
+            </plugin>
             <!-- Sign artifacts with GnuPG: see https://maven.apache.org/plugins/maven-gpg-plugin/usage.html -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
