@@ -60,6 +60,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.10.3</version>
+                <configuration>
+                    <javadocVersion>1.5</javadocVersion>
+                </configuration>
                 <executions>
                     <execution>
                         <id>source</id>
@@ -70,16 +73,20 @@
                     </execution>
                 </executions>
             </plugin>
-        </plugins>
-    </build>
-
-    <!-- Project reports like FindBugs, PMD, and Cobertura -->
-    <reporting>
-        <plugins>
+            <!-- Execute the PMD plugin during the test phase -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.4</version>
+                <version>3.0</version>
+                <executions>
+                    <execution>
+                        <id>pmd</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>pmd</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
                     <!-- PMD defaults to 1.8, need to specify that we're using 1.5 -->
                     <targetJdk>1.5</targetJdk>
@@ -89,22 +96,54 @@
                     </rulesets>
                 </configuration>
             </plugin>
+            <!-- Execute the FindBugs plugin during the test phase -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>2.5.2</version>
+                <executions>
+                    <execution>
+                        <id>findbugs</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>findbugs</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
                     <!-- Make sure that Findbugs writes an XML file -->
                     <xmlOutput>true</xmlOutput>
                 </configuration>
             </plugin>
+            <!-- Execute the Cobertura plugin during the test phase -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.7</version>
+                <version>2.5.2</version>
+                <executions>
+                    <execution>
+                        <id>cobertura</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>cobertura</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Configure default tests to not run since Cobertura automatically does it -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <executions>
+                    <execution>
+                        <id>default-test</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
-    </reporting>
+    </build>
 
     <!-- Set the encoding to UTF-8 in order to preserve platform independence -->
     <properties>
