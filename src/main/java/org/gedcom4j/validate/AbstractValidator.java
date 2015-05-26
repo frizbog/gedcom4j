@@ -21,11 +21,11 @@
  */
 package org.gedcom4j.validate;
 
+import org.gedcom4j.model.*;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.gedcom4j.model.*;
 
 /**
  * A base class for all validators

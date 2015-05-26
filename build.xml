@@ -61,14 +61,14 @@
 	</target>
 
 	<target name="compile" depends="init" description="Compile all source code">
-		<javac srcdir="src" destdir="bin" deprecation="true" debug="true" debuglevel="lines,vars,source" source="1.5" target="1.5" includeantruntime="false">
+		<javac srcdir="src/main/java" destdir="bin" deprecation="true" debug="true" debuglevel="lines,vars,source" source="1.5" target="1.5" includeantruntime="false">
 			<compilerarg value="-Xlint" />
 		</javac>
 	</target>
 
 	<target name="javadoc" depends="compile" description="Generate javadoc">
 		<delete dir="reports/javadoc" />
-		<javadoc sourcepath="src" destdir="reports/javadoc" access="private" />
+		<javadoc sourcepath="src/main/java" destdir="reports/javadoc" access="private" />
 	</target>
 
 	<target name="dist" depends="javadoc" description="Build distribution jars">
@@ -197,10 +197,10 @@
 		<mkdir dir="reports/junit" />
 		<delete dir="reports/coverage" />
 		<mkdir dir="reports/coverage" />
-		<javac source="1.5" target="1.5" srcdir="test" destdir="testbin" deprecation="true" debug="true" debuglevel="lines,vars,source" includeantruntime="false">
+		<javac source="1.5" target="1.5" srcdir="src/test/java" destdir="testbin" deprecation="true" debug="true" debuglevel="lines,vars,source" includeantruntime="false">
 			<compilerarg value="-Xlint" />
 			<classpath>
-				<fileset dir="lib" includes="junit-4.10.jar" />
+				<pathelement location="lib/junit-4.10.jar" />
 				<pathelement location="bin" />
 			</classpath>
 		</javac>
