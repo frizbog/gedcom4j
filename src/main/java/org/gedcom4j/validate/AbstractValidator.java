@@ -21,11 +21,11 @@
  */
 package org.gedcom4j.validate;
 
+import org.gedcom4j.model.*;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.gedcom4j.model.*;
 
 /**
  * A base class for all validators
@@ -149,10 +149,10 @@ abstract class AbstractValidator {
         try {
             customTagsField = o.getClass().getField("customTags");
         } catch (NoSuchFieldException e) {
-            addError("There is no field named 'customTags' on object of type " + o.getClass().getSimpleName() + "", o);
+            addError("There is no field named 'customTags' on object of type " + o.getClass().getSimpleName() + ".", o);
             return;
         } catch (SecurityException e) {
-            addError("There is no field named 'customTags' on object of type " + o.getClass().getSimpleName() + "", o);
+            addError("There is no field named 'customTags' on object of type " + o.getClass().getSimpleName() + ".", o);
             return;
         }
 
