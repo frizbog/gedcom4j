@@ -149,10 +149,10 @@ abstract class AbstractValidator {
         try {
             customTagsField = o.getClass().getField("customTags");
         } catch (NoSuchFieldException e) {
-            addError("There is no field named 'customTags' on object of type " + o.getClass().getSimpleName() + ".", o);
+            addError("There is no field named 'customTags' on object of type " + o.getClass().getSimpleName() + "", o);
             return;
         } catch (SecurityException e) {
-            addError("There is no field named 'customTags' on object of type " + o.getClass().getSimpleName() + ".", o);
+            addError("There is no field named 'customTags' on object of type " + o.getClass().getSimpleName() + "", o);
             return;
         }
 
