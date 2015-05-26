@@ -21,11 +21,11 @@
  */
 package org.gedcom4j.comparators;
 
-import java.io.Serializable;
-import java.util.Comparator;
-
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.PersonalName;
+
+import java.io.Serializable;
+import java.util.Comparator;
 
 /**
  * Comparator for sorting individuals by last name (surname) first, then first (given) name
