@@ -29,8 +29,8 @@
         <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
         <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
 
-        <!-- Add compiler plugin in order to specify Java version -->
         <plugins>
+            <!-- Add compiler plugin in order to specify Java version -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
