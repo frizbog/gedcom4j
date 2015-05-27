@@ -36,8 +36,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.3</version>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                 </configuration>
             </plugin>
             <!-- Add the source plugin to make gedcom4j-sources.jar -->
@@ -61,7 +61,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.10.3</version>
                 <configuration>
-                    <javadocVersion>1.5</javadocVersion>
+                    <javadocVersion>1.6</javadocVersion>
                 </configuration>
                 <executions>
                     <execution>
@@ -88,8 +88,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <!-- PMD defaults to 1.8, need to specify that we're using 1.5 -->
-                    <targetJdk>1.5</targetJdk>
+                    <!-- PMD defaults to 1.8, need to specify that we're using 1.6 -->
+                    <targetJdk>1.6</targetJdk>
                     <!-- Adding the PMD configuration file in root directory -->
                     <rulesets>
                         <ruleset>${project.basedir}/pmd-config.xml</ruleset>
