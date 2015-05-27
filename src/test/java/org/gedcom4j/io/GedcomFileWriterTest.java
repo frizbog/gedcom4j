@@ -21,15 +21,6 @@
  */
 package org.gedcom4j.io;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submission;
@@ -37,6 +28,15 @@ import org.gedcom4j.model.Submitter;
 import org.gedcom4j.writer.GedcomWriter;
 import org.gedcom4j.writer.GedcomWriterException;
 import org.junit.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test for {@link GedcomFileWriter}. Doesn't actually test writing GEDCOM data per se, but tests reading and writing
@@ -828,8 +828,7 @@ public class GedcomFileWriterTest {
      */
     @Test
     public void testWriteFileWithName() throws IOException, GedcomWriterException {
-        String fn = System.getProperty("java.io.tmpdir") + System.getProperty("file.separator")
-                + "gedcomfilewritertest.ged";
+        String fn = "tmp/gedcomfilewritertest.ged";
         Gedcom g = new Gedcom();
         g.submission = new Submission("@SUBN0001@");
         g.header.submission = g.submission;
