@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
   <name>gedcom4j</name>
-  <comment>gedcom4j is a Java library for parsing and writing GEDCOM 5.5 and 5.5.1 files. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
+  <comment>gedcom4j is a Java library for parsing and writing GEDCOM 5.5 and 5.5.1 files.</comment>
   <projects/>
   <buildSpec>
     <buildCommand>
