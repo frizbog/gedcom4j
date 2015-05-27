@@ -113,6 +113,9 @@
                 <configuration>
                     <!-- Make sure that Findbugs writes an XML file -->
                     <xmlOutput>true</xmlOutput>
+                    <!-- FindBugs defaults to 768M of heap space, but the Maven plugin
+                        defaults to only 512M -->
+                    <maxHeap>768</maxHeap>
                 </configuration>
             </plugin>
             <!-- Execute the Cobertura plugin during the test phase -->
