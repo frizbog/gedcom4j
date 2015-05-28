@@ -21,18 +21,18 @@
  */
 package org.gedcom4j.writer;
 
+import org.gedcom4j.io.GedcomFileWriter;
+import org.gedcom4j.model.*;
+import org.gedcom4j.validate.GedcomValidationFinding;
+import org.gedcom4j.validate.GedcomValidator;
+import org.gedcom4j.validate.Severity;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.gedcom4j.io.GedcomFileWriter;
-import org.gedcom4j.model.*;
-import org.gedcom4j.validate.GedcomValidationFinding;
-import org.gedcom4j.validate.GedcomValidator;
-import org.gedcom4j.validate.Severity;
 
 /**
  * <p>
@@ -133,6 +133,11 @@ public class GedcomWriter {
         // Automatically replace the contents of the filename in the header
         gedcom.header.fileName = new StringWithCustomTags(file.getName());
 
+        // If the file doesn't exist yet, we have to create it, otherwise a FileNotFoundException will be thrown
+        if (!file.exists() && !file.getParentFile().exists() && !file.getParentFile().mkdirs() &&
+                !file.createNewFile()) {
+            throw new IOException("Unable to create file " + file.getName());
+        }
         OutputStream o = new FileOutputStream(file);
         try {
             write(o);
