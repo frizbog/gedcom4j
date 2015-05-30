@@ -119,3 +119,5 @@ crashlytics-build.properties
 
 /reports/
 /dist/
+/.DS_Store
+/.pmd
