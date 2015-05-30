@@ -107,9 +107,7 @@
 				<artifactId>cobertura-maven-plugin</artifactId>
 				<version>2.5.2</version>
 				<configuration>
-					<formats>
-						<format>xml</format>
-					</formats>
+					<format>xml</format>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -117,7 +115,7 @@
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.9.1</version>
 				<configuration>
-					<configLocation>${project.basedir}/checkstyle-config.xml</configLocation>
+					<configLocation>checkstyle-config.xml</configLocation>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -139,7 +137,7 @@
 					<targetJdk>1.6</targetJdk>
 					<!-- Adding the PMD configuration file in root directory -->
 					<rulesets>
-						<ruleset>${project.basedir}/pmd-config.xml</ruleset>
+						<ruleset>pmd-config.xml</ruleset>
 					</rulesets>
 				</configuration>
 			</plugin>
