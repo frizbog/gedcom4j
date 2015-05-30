@@ -108,6 +108,7 @@
 				<version>2.5.2</version>
 				<configuration>
 					<formats>
+						<format>html</format>
 						<format>xml</format>
 					</formats>
 				</configuration>
