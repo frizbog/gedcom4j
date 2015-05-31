@@ -21,11 +21,11 @@
  */
 package org.gedcom4j.comparators;
 
-import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.PersonalName;
-
 import java.io.Serializable;
 import java.util.Comparator;
+
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.PersonalName;
 
 /**
  * Comparator for sorting individuals by last name (surname) first, then first (given) name
@@ -47,7 +47,7 @@ public class IndividualByLastNameFirstNameComparator implements Serializable, Co
      *            individual 1
      * @param i2
      *            individual 2
-     * @return -1 if i1 < i2, 0 if i1 == i2, 1 if i1 > i2
+     * @return -1 if i1 &lt; i2, 0 if i1 == i2, 1 if i1 &gt; i2
      * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
      */
     public int compare(Individual i1, Individual i2) {

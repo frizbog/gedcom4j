@@ -41,6 +41,7 @@ import org.gedcom4j.model.StringWithCustomTags;
  * </p>
  * <p>
  * The relationships returned from this class do not have String names like "Father" or "Mother" for several reasons:
+ * </p>
  * <ol>
  * <li>The String descriptions would need to be in a language, and I only know English and a <i>very</i> little German,
  * and I don't have the resources or knowledge to do a full internationalization into many languages.</li>
@@ -49,6 +50,7 @@ import org.gedcom4j.model.StringWithCustomTags;
  * <li>Some users may care about step- relationships or adoptive relationships for their purposes, and others may not. A
  * string description could not serve both purposes simultaneously.</li>
  * </ol>
+ * <p>
  * Ultimately, how the relationship is described is a presentation-layer concern, and as gedcom4j is a library with no
  * presentation layer, the descriptions are left to the consumer of the library.
  * </p>

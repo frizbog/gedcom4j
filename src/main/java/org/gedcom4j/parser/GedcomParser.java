@@ -34,12 +34,12 @@ import org.gedcom4j.model.*;
  * </p>
  * <p>
  * General usage is as follows:
+ * </p>
  * <ol>
  * <li>Instantiate a <code>GedcomParser</code> object</li>
  * <li>Call the <code>GedcomParser.load()</code> method (in one of its various forms) to parse a file/stream</li>
  * <li>Access the parser's <code>gedcom</code> property to access the parsed data</li>
  * </ol>
- * </p>
  * <p>
  * It is <b>highly recommended</b> that after calling the <code>GedcomParser.load()</code> method, the user check the
  * {@link GedcomParser#errors} and {@link GedcomParser#warnings} collections to see if anything problematic was
