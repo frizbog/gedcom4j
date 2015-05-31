@@ -41,6 +41,7 @@ import org.gedcom4j.model.*;
  * </p>
  * <p>
  * General usage is as follows:
+ * </p>
  * <ol>
  * <li>Instantiate a {@link GedcomValidator}, passing the {@link Gedcom} structure to be validated as the argument to
  * the constructor</li>
@@ -51,7 +52,6 @@ import org.gedcom4j.model.*;
  * describing the problems that were found. These will include errors that were fixed by autorepair (with severity of
  * INFO), and those that could not be autorepaired (with severity of ERROR or WARNING).</li>
  * </ol>
- * </p>
  * <p>
  * Note again that by default, validation is performed automatically by the {@link org.gedcom4j.writer.GedcomWriter}
  * class when writing a GEDCOM file out.
@@ -66,13 +66,13 @@ import org.gedcom4j.model.*;
  * </p>
  * <p>
  * This section lists a number of the actions taken automatically when autorepair is enabled.
+ * </p>
  * <ul>
  * <li>Collection fields (e.g., the language preferences collection on a submitter, or custom tags on those
  * fields/object that support them) are initialized to empty collections if they are null.</li>
  * <li>Certain mandatory fields are given default values. N.B. The values chosen as defaults may not be suitable, so the
  * user is urged to</li>
  * </ul>
- * </p>
  * 
  * @author frizbog1
  */
