@@ -3,14 +3,51 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<!-- Derived from the src files and gedcom4j.properties -->
 	<groupId>org.gedcom4j</groupId>
 	<artifactId>gedcom4j</artifactId>
 	<version>2.2.0</version>
 
 	<!-- Derived from project name and README -->
 	<name>gedcom4j</name>
-	<description>gedcom4j is a Java library for parsing and writing GEDCOM 5.5 and 5.5.1 files.</description>
+	<description>gedcom4j is a Java library for parsing and writing GEDCOM 5.5 and 5.5.1 files</description>
+	<url>http://gedcom4j.org</url>
+	<inceptionYear>2009</inceptionYear>
+
+	<licenses>
+		<license>
+			<name>The MIT License</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>https://github.com/frizbog/gedcom4j</url>
+		<connection>scm:git:git://github.com/frizbog/gedcom4j.git</connection>
+		<developerConnection>scm:git:git@github.com:frizbog/gedcom4j.git</developerConnection>
+	</scm>
+
+	<ciManagement>
+		<system>jenkins</system>
+		<url>https://ci.gedcom4j.org/</url>
+	</ciManagement>
+
+	<issueManagement>
+		<system>github</system>
+		<url>https://github.com/frizbog/gedcom4j/issues</url>
+	</issueManagement>
+
+	<developers>
+		<developer>
+			<id>frizbog</id>
+			<name>Matt Harrah</name>
+			<email>matt@gedcom4j.org</email>
+			<roles>
+				<role>Project Owner</role>
+			</roles>
+			<timezone>-5</timezone>
+		</developer>
+	</developers>
 
 	<dependencies>
 		<!-- Dependency on junit-4.10 for unit testing purposes -->
@@ -154,5 +191,6 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
 
 </project>
