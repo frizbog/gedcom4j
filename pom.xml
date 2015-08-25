@@ -66,6 +66,18 @@
 		<testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
 
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<useReleaseProfile>false</useReleaseProfile>
+					<releaseProfiles>release</releaseProfiles>
+					<goals>deploy</goals>
+				</configuration>
+			</plugin>
+
 			<!-- Add compiler plugin in order to specify Java version -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -74,6 +86,8 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
+					<debug>true</debug>
+					<debuglevel>lines,vars,source</debuglevel>
 				</configuration>
 			</plugin>
 			<!-- Add the source plugin to make gedcom4j-sources.jar -->

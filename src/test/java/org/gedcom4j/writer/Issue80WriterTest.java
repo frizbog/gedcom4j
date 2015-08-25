@@ -36,6 +36,12 @@ import org.junit.Test;
  */
 public class Issue80WriterTest {
 
+    /**
+     * Test fix for issue 80
+     * 
+     * @throws GedcomWriterException
+     *             if the GEDCOM cannot be written to stdout
+     */
     @Test
     public void testIssue80() throws GedcomWriterException {
 
