@@ -1189,7 +1189,7 @@ public class GedcomWriter {
         }
         if (p.latitude != null || p.longitude != null) {
             emitTag(level + 1, "MAP");
-            emitTagWithRequiredValue(level + 2, "LAT", p.latitude);
+            emitTagWithRequiredValue(level + 2, "LATI", p.latitude);
             emitTagWithRequiredValue(level + 2, "LONG", p.longitude);
             if (g55()) {
                 throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but map coordinates were specified on place " + p.placeName

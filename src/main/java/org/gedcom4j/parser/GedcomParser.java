@@ -1665,7 +1665,7 @@ public class GedcomParser {
                             + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
                 for (StringTree gch : ch.children) {
-                    if ("LAT".equals(gch.tag)) {
+                    if ("LATI".equals(gch.tag)) {
                         place.latitude = new StringWithCustomTags(gch);
                     } else if ("LONG".equals(gch.tag)) {
                         place.longitude = new StringWithCustomTags(gch);
