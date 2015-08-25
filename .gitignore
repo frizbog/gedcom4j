@@ -121,3 +121,4 @@ crashlytics-build.properties
 /dist/
 /.DS_Store
 /.pmd
+/testbin/
