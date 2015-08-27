@@ -110,6 +110,8 @@
 				<version>2.10.3</version>
 				<configuration>
 					<javadocVersion>1.6</javadocVersion>
+					<show>private</show>
+					<source>1.6</source>
 				</configuration>
 				<executions>
 					<execution>
