@@ -1,0 +1,49 @@
+0 HEAD
+1 SOUR HEREDIS 12 PC
+2 VERS 12
+2 NAME HEREDIS PC
+2 CORP BSD Concept Ã
+3 ADDR www.heredis.com
+1 DATE 13 SEP 2015
+2 TIME 10:52:02
+1 GEDC
+2 VERS 5.5
+2 FORM LINEAGE-LINKED
+1 CHAR ANSEL
+1 PLAC
+2 FORM Town , Area code , County , Region , Country, Subdivision
+1 SUBM @S0@
+0 @S0@ SUBM
+1 ADDR 
+0 @I001@ INDI
+1 NAME Doloráes/./
+2 GIVN Doloráes
+2 SURN .
+1 SEX F
+0 @I002@ INDI
+1 NAME Therese/VACQUâE/
+2 GIVN Therese
+2 SURN VACQUâE
+1 SEX F
+1 EVEN
+2 TYPE libâerâee
+2 DATE 15 SEP 1944
+2 PLAC Noâe,31410,Haute-Garonne,Midi-Pyrâenâees,FRANCE,
+1 EVEN
+2 TYPE histoire de mâemâe
+2 DATE ABT 1969
+2 PLAC Boucau,64340,Pyrâenâees-Atlantiques,Aquitaine,FRANCE,
+2 NOTE Sa grand-máere l'a nourrie car sa máere âetait placâee nourrice dans une famille de riches. Son oncle ( une tante en râealitâe Agueda), allaitâe avec elle, est dâecâedâe ( voir acte). Elle croyait qu'il âetait mort áa cause d'elle, en lui pre
+3 CONC nant son lait. Pendant la Râevolution espagnole du 18/7/1936 au 1/4/1939, elle a fuit le village, par le seul pont, surveillâe par les Franquistes, elle a traversâe l'Espagne, avec "Juliette tenue par la main et Victoire dans les bras ou au s
+3 CONC ein" je crois ( en Espagne les enfants âetaient allaitâes 3 ans d'apráes la fille d'Ascension) jusqu'áa la frontiáere franðcaise. Elle a âetâe " bien accueillie " par les Franðcais áa la descente du train et placâee dans les camps des râefugi
+3 CONC âes espagnols, áa Verdelais le 3/2/1939 pendant 10 mois, Oloron, 2 mois,Gurs 1 mois, Agde, 4 mois, puis áa Noâe práes de Toulouse du 17/2/1941 áa septembre 1944 ( lettre âecrite par mâemâe pour Victoire), elle y retrouve son mari qui est arrã
+3 CONC etâe et dâeportâe. Les femmes juives âetaient dâeportâees aussi. Alexandre naãit, son prâenom vient du bar placâe práes du camp, elle va travailler dans les fermes voisines, Alexandre et ses s¶urs sont gardâes au camp, par les infirmiáeres fr
+3 CONC anðcaises. De láa, ils iront áa Boucau rejoindre d'autres Espagnols áa "la Petite Espagne" práes du Pont Sâemard. Sa cousine, venue du village, restera áa Fonsorbes avec son mari, copain de guerre de Tâeofilo. A Boucau, elle retrouvera Ascenc
+3 CONC ion. Vincent naãitra apráes le retour de son páere prisonnier áa Dachau. Daniel sera conðcu au retour  du sanatorium, dans lequel son páere avait âetâe soignâe. 
+3 CONT Mâemâe m'a racontâe son histoire, le soir en faisant la vaisselle. Il ne faut pas oublier. C'est l'histoire de la famille Martin, mais aussi celle de toutes les râevolutions, car des gens ont voulu, que leurs enfants vivent mieux, qu'ils âech
+3 CONC appent áa la misáere. On doit les respecter et les aimer pour cela, malgrâe leurs dâefauts et leurs diffâerences. Nicole
+3 CONT 
+3 CONT J'ai photographiâe la calle de soportales car c'est la rue oáu est nâee et a vâecue mâemâe. Quand elle est nâee, ses parents n'âetaient pas mariâes et elle vivait chez les parents de sa máere. Corinne
+3 CONT 
+3 CONT  
+0 TRLR
