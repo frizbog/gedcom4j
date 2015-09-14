@@ -15,6 +15,11 @@ import java.util.List;
 class AnselReader extends AbstractEncodingSpecificReader {
 
     /**
+     * Helper class
+     */
+    AnselDiacriticalHandler anselDiacriticalHandler = new AnselDiacriticalHandler();
+
+    /**
      * Constructor
      * 
      * @param byteStream

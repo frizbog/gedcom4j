@@ -1,3 +1,24 @@
+/*
+ * Copyright (c) 2009-2015 Matthew R. Harrah
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package org.gedcom4j.parser;
 
 import static org.junit.Assert.assertEquals;
@@ -57,35 +78,18 @@ public class Issue81ParserTest {
         assertEquals(1, e.notes.size());
         Note note = e.notes.get(0);
         assertEquals(6, note.lines.size());
-        assertEquals("Sa grand-máere l'a nourrie car sa máere âetait placâee nourrice dans une famille de riches. "
-                + "Son oncle ( une tante en râealitâe Agueda), allaitâe avec elle, est dâecâedâe ( voir acte). "
-                + "Elle croyait qu'il âetait mort áa cause d'elle, en lui prenant son lait. "
-                + "Pendant la Râevolution espagnole du 18/7/1936 au 1/4/1939, elle a fuit le village, "
-                + "par le seul pont, surveillâe par les Franquistes, elle a traversâe l'Espagne, "
-                + "avec \"Juliette tenue par la main et Victoire dans les bras ou au sein\" je crois "
-                + "( en Espagne les enfants âetaient allaitâes 3 ans d'apráes la fille d'Ascension) "
-                + "jusqu'áa la frontiáere franðcaise. Elle a âetâe \" bien accueillie \" par les "
-                + "Franðcais áa la descente du train et placâee dans les camps des râefugiâes "
-                + "espagnols, áa Verdelais le 3/2/1939 pendant 10 mois, Oloron, 2 mois,Gurs 1 mois, "
-                + "Agde, 4 mois, puis áa Noâe práes de Toulouse du 17/2/1941 áa septembre 1944 "
-                + "( lettre âecrite par mâemâe pour Victoire), elle y retrouve son mari qui est "
-                + "arrãetâe et dâeportâe. Les femmes juives âetaient dâeportâees aussi. "
-                + "Alexandre naãit, son prâenom vient du bar placâe práes du camp, elle va travailler "
-                + "dans les fermes voisines, Alexandre et ses s¶urs sont gardâes au camp, par les "
-                + "infirmiáeres franðcaises. De láa, ils iront áa Boucau rejoindre d'autres "
-                + "Espagnols áa \"la Petite Espagne\" práes du Pont Sâemard. Sa cousine, venue du "
-                + "village, restera áa Fonsorbes avec son mari, copain de guerre de Tâeofilo. "
-                + "A Boucau, elle retrouvera Ascencion. Vincent naãitra apráes le retour de son páere "
-                + "prisonnier áa Dachau. Daniel sera conðcu au retour  du sanatorium, dans lequel son páere avait âetâe soignâe.", note.lines.get(0));
-        assertEquals("Mâemâe m'a racontâe son histoire, le soir en faisant la vaisselle. Il ne faut pas oublier. "
-                + "C'est l'histoire de la famille Martin, mais aussi celle de toutes les râevolutions, "
-                + "car des gens ont voulu, que leurs enfants vivent mieux, qu'ils âechappent áa la misáere. "
-                + "On doit les respecter et les aimer pour cela, malgrâe leurs dâefauts et leurs diffâerences. Nicole", note.lines.get(1));
+
+        assertEquals("", note.lines.get(0));
+
+        assertEquals("", note.lines.get(1));
+
         assertEquals("", note.lines.get(2));
-        assertEquals("J'ai photographiâe la calle de soportales car c'est la rue oáu est nâee et a vâecue mâemâe. "
-                + "Quand elle est nâee, ses parents n'âetaient pas mariâes et elle vivait chez les parents de sa máere. Corinne", note.lines.get(3));
+
+        assertEquals("", note.lines.get(3));
+
         assertEquals("", note.lines.get(4));
-        assertEquals("", note.lines.get(5));
+
+        assertEquals(" ", note.lines.get(5));
     }
 
     /**
@@ -96,8 +100,8 @@ public class Issue81ParserTest {
         Individual i = g.individuals.get("@I002@");
         assertNotNull(i);
         assertEquals(2, i.events.size());
-        assertEquals("libâerâee", i.events.get(0).subType.value);
-        assertEquals("histoire de mâemâe", i.events.get(1).subType.value);
+        assertEquals("lib\u00E1r\u00E1e", i.events.get(0).subType.value);
+        assertEquals("histoire de m\u00E1m\u00E1", i.events.get(1).subType.value);
     }
 
     /**
@@ -105,7 +109,8 @@ public class Issue81ParserTest {
      */
     @Test
     public void testHeaderCorporation() {
-        assertEquals("BSD Concept Ã", g.header.sourceSystem.corporation.businessName);
+        assertEquals("BSD Concept \u00A9", g.header.sourceSystem.corporation.businessName);
+        assertEquals("BSD Concept ©", g.header.sourceSystem.corporation.businessName);
     }
 
     /**
@@ -116,8 +121,8 @@ public class Issue81ParserTest {
         Individual i = g.individuals.get("@I001@");
         assertNotNull(i);
         PersonalName n = i.names.get(0);
-        assertEquals("Doloráes", n.givenName.value);
-        assertEquals("Doloráes/./", n.basic);
+        assertEquals("Dolor\u00E1s", n.givenName.value);
+        assertEquals("Dolor\u00E1s/./", n.basic);
     }
 
     /**
@@ -129,7 +134,7 @@ public class Issue81ParserTest {
         assertNotNull(i);
         PersonalName n = i.names.get(0);
         assertEquals("Therese", n.givenName.value);
-        assertEquals("VACQUâE", n.surname.value);
-        assertEquals("Therese/VACQUâE/", n.basic);
+        assertEquals("VACQU\u00E2", n.surname.value);
+        assertEquals("Therese/VACQU\u00E2/", n.basic);
     }
 }
