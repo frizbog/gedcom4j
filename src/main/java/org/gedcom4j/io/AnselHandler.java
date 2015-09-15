@@ -68,18 +68,23 @@ class AnselHandler {
     private static final char ANSEL_DIACRITICS_BEGIN_AT = 0x00E0;
 
     /**
-     * Convert an array of ANSEL bytes to UTF-16 bytes
+     * Converts a file (list) of UTF-16 lines into ANSEL lines. Note that some Unicode characters with diacritical marks
+     * can be split into multiple ANSEL characters.
      * 
-     * @param utf16
-     *            the bytes that make up a UTF-16 java string, possibly with glyphs containing diacritical marks
-     * @return the array of bytes that would represent this string in ANSEL encoding
+     * @param utf16Lines
+     *            a list of java UTF-16 strings, each character of which will be expanded/converted to ANSEL.
+     * @return a list of UTF16 strings
      */
-    public byte[] toAnsel(byte[] utf16) {
-        return utf16;
+    public List<String> toAnsel(List<String> utf16Lines) {
+        List<String> result = new ArrayList<String>();
+        for (String utf16 : utf16Lines) {
+            result.add(toAnsel(utf16));
+        }
+        return result;
     }
 
     /**
-     * Converts a file of ansel lines into utf16 lines
+     * Converts a file (list) of ansel lines into utf16 lines
      * 
      * @param anselLines
      *            a list of strings, each character of which represents an unconverted ANSEL byte
@@ -124,6 +129,33 @@ class AnselHandler {
             prevAnsel = ansel;
         }
         return result;
+    }
+
+    /**
+     * Convert a single UTF-16 string into a string of characters, each of which represents an ANSEL character
+     * 
+     * @param utf16
+     *            a run-of-the mill java string in UTF-16 encoding, containing special characters if desired
+     * @return a string, each character of which corresponds to a single byte that should be written to ANSEL stream
+     */
+    String toAnsel(String utf16) {
+        StringBuilder ansel = new StringBuilder();
+        for (int i = 0; i < ansel.length(); i++) {
+            char c = utf16.charAt(i);
+
+            if (c < ANSEL_DIACRITICS_BEGIN_AT) {
+                ansel.append(AnselMapping.encode(c));
+            }
+
+            char[] breakdown = getBrokenDownGlyph(c);
+            if (breakdown == null) {
+                ansel.append(breakdown);
+            } else {
+                ansel.append(AnselMapping.encode(c));
+            }
+
+        }
+        return utf16;
     }
 
     /**
@@ -187,6 +219,2065 @@ class AnselHandler {
      */
     private boolean endsWithDiacritical(String s) {
         return (s.charAt(s.length() - 1) >= ANSEL_DIACRITICS_BEGIN_AT);
+    }
+
+    /**
+     * Some unicode characters are represented in ANSEL as a combination of characters. This method returns an array of
+     * those characters if such a breakdown exists, or null otherwise.
+     * 
+     * @param c
+     *            the unicode character to be represented
+     * @return the array of characters that represent that character, or null if there is no special breakdown
+     */
+    private char[] getBrokenDownGlyph(Character c) {
+        switch (c) {
+            case '\u01E3':
+                return new char[] { (char) 0x00E6, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter Ae With Macron
+                                                                                   // = Latin Small Letter Ae +
+                                                                                   // Combining Macron
+            case '\u01FD':
+                return new char[] { (char) 0x00E6, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter Ae With Acute =
+                                                                                   // Latin Small Letter Ae + Combining
+                                                                                   // Acute Accent
+            case '\u00C0':
+                return new char[] { (char) 0x0041, (char) 0x00E1, (char) 0x0000 }; // Latin Capital Letter A With Grave
+                                                                                   // = Latin Capital Letter A +
+                                                                                   // Combining Grave Accent
+            case '\u00C1':
+                return new char[] { (char) 0x0041, (char) 0x00E2, (char) 0x0000 }; // Latin Capital Letter A With Acute
+                                                                                   // = Latin Capital Letter A +
+                                                                                   // Combining Acute Accent
+            case '\u00C2':
+                return new char[] { (char) 0x0041, (char) 0x00E3, (char) 0x0000 }; // Latin Capital Letter A With
+                                                                                   // Circumflex = Latin Capital Letter
+                                                                                   // A + Combining Circumflex Accent
+            case '\u00C3':
+                return new char[] { (char) 0x0041, (char) 0x00E4, (char) 0x0000 }; // Latin Capital Letter A With Tilde
+                                                                                   // = Latin Capital Letter A +
+                                                                                   // Combining Tilde
+            case '\u00C4':
+                return new char[] { (char) 0x0041, (char) 0x00E8, (char) 0x0000 }; // Latin Capital Letter A With
+                                                                                   // Diaeresis = Latin Capital Letter A
+                                                                                   // + Combining Diaeresis
+            case '\u00C5':
+                return new char[] { (char) 0x0041, (char) 0x00EA, (char) 0x0000 }; // Latin Capital Letter A With Ring
+                                                                                   // Above = Latin Capital Letter A +
+                                                                                   // Combining Ring Above
+            case '\u0100':
+                return new char[] { (char) 0x0041, (char) 0x00E5, (char) 0x0000 }; // Latin Capital Letter A With Macron
+                                                                                   // = Latin Capital Letter A +
+                                                                                   // Combining Macron
+            case '\u0102':
+                return new char[] { (char) 0x0041, (char) 0x00E6, (char) 0x0000 }; // Latin Capital Letter A With Breve
+                                                                                   // = Latin Capital Letter A +
+                                                                                   // Combining Breve
+            case '\u0104':
+                return new char[] { (char) 0x0041, (char) 0x00F1, (char) 0x0000 }; // Latin Capital Letter A With Ogonek
+                                                                                   // = Latin Capital Letter A +
+                                                                                   // Combining Ogonek
+            case '\u01CD':
+                return new char[] { (char) 0x0041, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter A With Caron
+                                                                                   // = Latin Capital Letter A +
+                                                                                   // Combining Caron
+            case '\u1EA6':
+                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00E1 }; // Latin Capital Letter A With
+                                                                                   // Circumflex And Grave = Latin
+                                                                                   // Capital Letter A + Combining
+                                                                                   // Circumflex Accent + Combining
+                                                                                   // Grave Accent
+            case '\u1EB0':
+                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00E1 }; // Latin Capital Letter A With Breve
+                                                                                   // And Grave = Latin Capital Letter A
+                                                                                   // + Combining Breve + Combining
+                                                                                   // Grave Accent
+            case '\u0200':
+                return new char[] { (char) 0x0041, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter A With Double
+                                                                                   // Grave = Latin Capital Letter A +
+                                                                                   // Combining Double Grave Accent
+            case '\u0202':
+                return new char[] { (char) 0x0041, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter A With
+                                                                                   // Inverted Breve = Latin Capital
+                                                                                   // Letter A + Combining Inverted
+                                                                                   // Breve
+            case '\u1E00':
+                return new char[] { (char) 0x0041, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter A With Ring
+                                                                                   // Below = Latin Capital Letter A +
+                                                                                   // Combining Ring Below
+            case '\u01FA':
+                return new char[] { (char) 0x0041, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter A With Ring
+                                                                                   // Above And Acute = Latin Capital
+                                                                                   // Letter A + Combining Ring Above +
+                                                                                   // Combining Acute Accent
+            case '\u1EA4':
+                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00E2 }; // Latin Capital Letter A With
+                                                                                   // Circumflex And Acute = Latin
+                                                                                   // Capital Letter A + Combining
+                                                                                   // Circumflex Accent + Combining
+                                                                                   // Acute Accent
+            case '\u1EAE':
+                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00E2 }; // Latin Capital Letter A With Breve
+                                                                                   // And Acute = Latin Capital Letter A
+                                                                                   // + Combining Breve + Combining
+                                                                                   // Acute Accent
+            case '\u1EAA':
+                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00E4 }; // Latin Capital Letter A With
+                                                                                   // Circumflex And Tilde = Latin
+                                                                                   // Capital Letter A + Combining
+                                                                                   // Circumflex Accent + Combining
+                                                                                   // Tilde
+            case '\u1EA0':
+                return new char[] { (char) 0x0041, (char) 0x00F2, (char) 0x00E4 }; // Latin Capital Letter A With Dot
+                                                                                   // Below = Latin Capital Letter A +
+                                                                                   // Combining Dot Below
+            case '\u1EA2':
+                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00E4 }; // Latin Capital Letter A With Hook
+                                                                                   // Above = Latin Capital Letter A +
+                                                                                   // Combining Hook Above
+            case '\u1EB4':
+                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00E4 }; // Latin Capital Letter A With Breve
+                                                                                   // And Tilde = Latin Capital Letter A
+                                                                                   // + Combining Breve + Combining
+                                                                                   // Tilde
+            case '\u01DE':
+                return new char[] { (char) 0x0041, (char) 0x00E7, (char) 0x00E5 }; // Latin Capital Letter A With
+                                                                                   // Diaeresis And Macron = Latin
+                                                                                   // Capital Letter A + Combining
+                                                                                   // Diaeresis + Combining Macron
+            case '\u01E0':
+                return new char[] { (char) 0x0041, (char) 0x00E7, (char) 0x00E5 }; // Latin Capital Letter A With Dot
+                                                                                   // Above And Macron = Latin Capital
+                                                                                   // Letter A + Combining Dot Above +
+                                                                                   // Combining Macron
+            case '\u1EA8':
+                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00E0 }; // Latin Capital Letter A With
+                                                                                   // Circumflex And Hook Above = Latin
+                                                                                   // Capital Letter A + Combining
+                                                                                   // Circumflex Accent + Combining Hook
+                                                                                   // Above
+            case '\u1EB2':
+                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00E0 }; // Latin Capital Letter A With Breve
+                                                                                   // And Hook Above = Latin Capital
+                                                                                   // Letter A + Combining Breve +
+                                                                                   // Combining Hook Above
+            case '\u1EAC':
+                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00F2 }; // Latin Capital Letter A With
+                                                                                   // Circumflex And Dot Below = Latin
+                                                                                   // Capital Letter A + Combining
+                                                                                   // Circumflex Accent + Combining Dot
+                                                                                   // Below
+            case '\u1EB6':
+                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00F2 }; // Latin Capital Letter A With Breve
+                                                                                   // And Dot Below = Latin Capital
+                                                                                   // Letter A + Combining Breve +
+                                                                                   // Combining Dot Below
+            case '\u1E02':
+                return new char[] { (char) 0x0042, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter B With Dot
+                                                                                   // Above = Latin Capital Letter B +
+                                                                                   // Combining Dot Above
+            case '\u1E04':
+                return new char[] { (char) 0x0042, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter B With Dot
+                                                                                   // Below = Latin Capital Letter B +
+                                                                                   // Combining Dot Below
+            case '\u1E06':
+                return new char[] { (char) 0x0042, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter B With Line
+                                                                                   // Below = Latin Capital Letter B +
+                                                                                   // Combining Low Line
+            case '\u00C7':
+                return new char[] { (char) 0x0043, (char) 0x00F0, (char) 0x0000 }; // Latin Capital Letter C With
+                                                                                   // Cedilla = Latin Capital Letter C +
+                                                                                   // Combining Cedilla
+            case '\u0106':
+                return new char[] { (char) 0x0043, (char) 0x00E2, (char) 0x0000 }; // Latin Capital Letter C With Acute
+                                                                                   // = Latin Capital Letter C +
+                                                                                   // Combining Acute Accent
+            case '\u0108':
+                return new char[] { (char) 0x0043, (char) 0x00E3, (char) 0x0000 }; // Latin Capital Letter C With
+                                                                                   // Circumflex = Latin Capital Letter
+                                                                                   // C + Combining Circumflex Accent
+            case '\u010A':
+                return new char[] { (char) 0x0043, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter C With Dot
+                                                                                   // Above = Latin Capital Letter C +
+                                                                                   // Combining Dot Above
+            case '\u010C':
+                return new char[] { (char) 0x0043, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter C With Caron
+                                                                                   // = Latin Capital Letter C +
+                                                                                   // Combining Caron
+            case '\u1E08':
+                return new char[] { (char) 0x0043, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter C With
+                                                                                   // Cedilla And Acute = Latin Capital
+                                                                                   // Letter C + Combining Cedilla +
+                                                                                   // Combining Acute Accent
+            case '\u010E':
+                return new char[] { (char) 0x0044, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter D With Caron
+                                                                                   // = Latin Capital Letter D +
+                                                                                   // Combining Caron
+            case '\u1E0A':
+                return new char[] { (char) 0x0044, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter D With Dot
+                                                                                   // Above = Latin Capital Letter D +
+                                                                                   // Combining Dot Above
+            case '\u1E0C':
+                return new char[] { (char) 0x0044, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter D With Dot
+                                                                                   // Below = Latin Capital Letter D +
+                                                                                   // Combining Dot Below
+            case '\u1E0E':
+                return new char[] { (char) 0x0044, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter D With Line
+                                                                                   // Below = Latin Capital Letter D +
+                                                                                   // Combining Low Line
+            case '\u1E10':
+                return new char[] { (char) 0x0044, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter D With
+                                                                                   // Cedilla = Latin Capital Letter D +
+                                                                                   // Combining Cedilla
+            case '\u1E12':
+                return new char[] { (char) 0x0044, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter D With
+                                                                                   // Circumflex Below = Latin Capital
+                                                                                   // Letter D + Combining Circumflex
+                                                                                   // Accent Below
+            case '\u00C8':
+                return new char[] { (char) 0x0045, (char) 0x00E1, (char) 0x0000 }; // Latin Capital Letter E With Grave
+                                                                                   // = Latin Capital Letter E +
+                                                                                   // Combining Grave Accent
+            case '\u00C9':
+                return new char[] { (char) 0x0045, (char) 0x00E2, (char) 0x0000 }; // Latin Capital Letter E With Acute
+                                                                                   // = Latin Capital Letter E +
+                                                                                   // Combining Acute Accent
+            case '\u00CA':
+                return new char[] { (char) 0x0045, (char) 0x00E3, (char) 0x0000 }; // Latin Capital Letter E With
+                                                                                   // Circumflex = Latin Capital Letter
+                                                                                   // E + Combining Circumflex Accent
+            case '\u00CB':
+                return new char[] { (char) 0x0045, (char) 0x00E8, (char) 0x0000 }; // Latin Capital Letter E With
+                                                                                   // Diaeresis = Latin Capital Letter E
+                                                                                   // + Combining Diaeresis
+            case '\u0112':
+                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter E With Macron
+                                                                                   // = Latin Capital Letter E +
+                                                                                   // Combining Macron
+            case '\u0114':
+                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter E With Breve
+                                                                                   // = Latin Capital Letter E +
+                                                                                   // Combining Breve
+            case '\u0116':
+                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter E With Dot
+                                                                                   // Above = Latin Capital Letter E +
+                                                                                   // Combining Dot Above
+            case '\u0118':
+                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter E With Ogonek
+                                                                                   // = Latin Capital Letter E +
+                                                                                   // Combining Ogonek
+            case '\u011A':
+                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter E With Caron
+                                                                                   // = Latin Capital Letter E +
+                                                                                   // Combining Caron
+            case '\u1E14':
+                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x00E1 }; // Latin Capital Letter E With Macron
+                                                                                   // And Grave = Latin Capital Letter E
+                                                                                   // + Combining Macron + Combining
+                                                                                   // Grave Accent
+            case '\u1EC0':
+                return new char[] { (char) 0x0045, (char) 0x00E0, (char) 0x00E1 }; // Latin Capital Letter E With
+                                                                                   // Circumflex And Grave = Latin
+                                                                                   // Capital Letter E + Combining
+                                                                                   // Circumflex Accent + Combining
+                                                                                   // Grave Accent
+            case '\u0204':
+                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter E With Double
+                                                                                   // Grave = Latin Capital Letter E +
+                                                                                   // Combining Double Grave Accent
+            case '\u0206':
+                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter E With
+                                                                                   // Inverted Breve = Latin Capital
+                                                                                   // Letter E + Combining Inverted
+                                                                                   // Breve
+            case '\u1E18':
+                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter E With
+                                                                                   // Circumflex Below = Latin Capital
+                                                                                   // Letter E + Combining Circumflex
+                                                                                   // Accent Below
+            case '\u1E1A':
+                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter E With Tilde
+                                                                                   // Below = Latin Capital Letter E +
+                                                                                   // Combining Tilde Below
+            case '\u1E16':
+                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter E With Macron
+                                                                                   // And Acute = Latin Capital Letter E
+                                                                                   // + Combining Macron + Combining
+                                                                                   // Acute Accent
+            case '\u1EBE':
+                return new char[] { (char) 0x0045, (char) 0x00E0, (char) 0x00E2 }; // Latin Capital Letter E With
+                                                                                   // Circumflex And Acute = Latin
+                                                                                   // Capital Letter E + Combining
+                                                                                   // Circumflex Accent + Combining
+                                                                                   // Acute Accent
+            case '\u1EC4':
+                return new char[] { (char) 0x0045, (char) 0x00E0, (char) 0x00E4 }; // Latin Capital Letter E With
+                                                                                   // Circumflex And Tilde = Latin
+                                                                                   // Capital Letter E + Combining
+                                                                                   // Circumflex Accent + Combining
+                                                                                   // Tilde
+            case '\u1EB8':
+                return new char[] { (char) 0x0045, (char) 0x00E0, (char) 0x00E5 }; // Latin Capital Letter E With Dot
+                                                                                   // Below = Latin Capital Letter E +
+                                                                                   // Combining Dot Below
+            case '\u1EBA':
+                return new char[] { (char) 0x0045, (char) 0x00E0, (char) 0x00E5 }; // Latin Capital Letter E With Hook
+                                                                                   // Above = Latin Capital Letter E +
+                                                                                   // Combining Hook Above
+            case '\u1EBC':
+                return new char[] { (char) 0x0045, (char) 0x00E0, (char) 0x00E5 }; // Latin Capital Letter E With Tilde
+                                                                                   // = Latin Capital Letter E +
+                                                                                   // Combining Tilde
+            case '\u1E1C':
+                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x00E6 }; // Latin Capital Letter E With
+                                                                                   // Cedilla And Breve = Latin Capital
+                                                                                   // Letter E + Combining Cedilla +
+                                                                                   // Combining Breve
+            case '\u1EC2':
+                return new char[] { (char) 0x0045, (char) 0x00E0, (char) 0x00E0 }; // Latin Capital Letter E With
+                                                                                   // Circumflex And Hook Above = Latin
+                                                                                   // Capital Letter E + Combining
+                                                                                   // Circumflex Accent + Combining Hook
+                                                                                   // Above
+            case '\u1EC6':
+                return new char[] { (char) 0x0045, (char) 0x00E0, (char) 0x00F2 }; // Latin Capital Letter E With
+                                                                                   // Circumflex And Dot Below = Latin
+                                                                                   // Capital Letter E + Combining
+                                                                                   // Circumflex Accent + Combining Dot
+                                                                                   // Below
+            case '\u1E1E':
+                return new char[] { (char) 0x0046, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter F With Dot
+                                                                                   // Above = Latin Capital Letter F +
+                                                                                   // Combining Dot Above
+            case '\u011C':
+                return new char[] { (char) 0x0047, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter G With
+                                                                                   // Circumflex = Latin Capital Letter
+                                                                                   // G + Combining Circumflex Accent
+            case '\u011E':
+                return new char[] { (char) 0x0047, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter G With Breve
+                                                                                   // = Latin Capital Letter G +
+                                                                                   // Combining Breve
+            case '\u0120':
+                return new char[] { (char) 0x0047, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter G With Dot
+                                                                                   // Above = Latin Capital Letter G +
+                                                                                   // Combining Dot Above
+            case '\u0122':
+                return new char[] { (char) 0x0047, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter G With
+                                                                                   // Cedilla = Latin Capital Letter G +
+                                                                                   // Combining Cedilla
+            case '\u01E6':
+                return new char[] { (char) 0x0047, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter G With Caron
+                                                                                   // = Latin Capital Letter G +
+                                                                                   // Combining Caron
+            case '\u01F4':
+                return new char[] { (char) 0x0047, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter G With Acute
+                                                                                   // = Latin Capital Letter G +
+                                                                                   // Combining Acute Accent
+            case '\u1E20':
+                return new char[] { (char) 0x0047, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter G With Macron
+                                                                                   // = Latin Capital Letter G +
+                                                                                   // Combining Macron
+            case '\u0124':
+                return new char[] { (char) 0x0048, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter H With
+                                                                                   // Circumflex = Latin Capital Letter
+                                                                                   // H + Combining Circumflex Accent
+            case '\u1E22':
+                return new char[] { (char) 0x0048, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter H With Dot
+                                                                                   // Above = Latin Capital Letter H +
+                                                                                   // Combining Dot Above
+            case '\u1E24':
+                return new char[] { (char) 0x0048, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter H With Dot
+                                                                                   // Below = Latin Capital Letter H +
+                                                                                   // Combining Dot Below
+            case '\u1E26':
+                return new char[] { (char) 0x0048, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter H With
+                                                                                   // Diaeresis = Latin Capital Letter H
+                                                                                   // + Combining Diaeresis
+            case '\u1E28':
+                return new char[] { (char) 0x0048, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter H With
+                                                                                   // Cedilla = Latin Capital Letter H +
+                                                                                   // Combining Cedilla
+            case '\u1E2A':
+                return new char[] { (char) 0x0048, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter H With Breve
+                                                                                   // Below = Latin Capital Letter H +
+                                                                                   // Combining Breve Below
+            case '\u00CC':
+                return new char[] { (char) 0x0049, (char) 0x00E1, (char) 0x0000 }; // Latin Capital Letter I With Grave
+                                                                                   // = Latin Capital Letter I +
+                                                                                   // Combining Grave Accent
+            case '\u00CD':
+                return new char[] { (char) 0x0049, (char) 0x00E2, (char) 0x0000 }; // Latin Capital Letter I With Acute
+                                                                                   // = Latin Capital Letter I +
+                                                                                   // Combining Acute Accent
+            case '\u00CE':
+                return new char[] { (char) 0x0049, (char) 0x00E3, (char) 0x0000 }; // Latin Capital Letter I With
+                                                                                   // Circumflex = Latin Capital Letter
+                                                                                   // I + Combining Circumflex Accent
+            case '\u00CF':
+                return new char[] { (char) 0x0049, (char) 0x00E8, (char) 0x0000 }; // Latin Capital Letter I With
+                                                                                   // Diaeresis = Latin Capital Letter I
+                                                                                   // + Combining Diaeresis
+            case '\u0128':
+                return new char[] { (char) 0x0049, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter I With Tilde
+                                                                                   // = Latin Capital Letter I +
+                                                                                   // Combining Tilde
+            case '\u012A':
+                return new char[] { (char) 0x0049, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter I With Macron
+                                                                                   // = Latin Capital Letter I +
+                                                                                   // Combining Macron
+            case '\u012C':
+                return new char[] { (char) 0x0049, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter I With Breve
+                                                                                   // = Latin Capital Letter I +
+                                                                                   // Combining Breve
+            case '\u012E':
+                return new char[] { (char) 0x0049, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter I With Ogonek
+                                                                                   // = Latin Capital Letter I +
+                                                                                   // Combining Ogonek
+            case '\u0130':
+                return new char[] { (char) 0x0049, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter I With Dot
+                                                                                   // Above = Latin Capital Letter I +
+                                                                                   // Combining Dot Above
+            case '\u01CF':
+                return new char[] { (char) 0x0049, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter I With Caron
+                                                                                   // = Latin Capital Letter I +
+                                                                                   // Combining Caron
+            case '\u0208':
+                return new char[] { (char) 0x0049, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter I With Double
+                                                                                   // Grave = Latin Capital Letter I +
+                                                                                   // Combining Double Grave Accent
+            case '\u020A':
+                return new char[] { (char) 0x0049, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter I With
+                                                                                   // Inverted Breve = Latin Capital
+                                                                                   // Letter I + Combining Inverted
+                                                                                   // Breve
+            case '\u1E2C':
+                return new char[] { (char) 0x0049, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter I With Tilde
+                                                                                   // Below = Latin Capital Letter I +
+                                                                                   // Combining Tilde Below
+            case '\u1E2E':
+                return new char[] { (char) 0x0049, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter I With
+                                                                                   // Diaeresis And Acute = Latin
+                                                                                   // Capital Letter I + Combining
+                                                                                   // Diaeresis + Combining Acute Accent
+            case '\u1EC8':
+                return new char[] { (char) 0x0049, (char) 0x00E0, (char) 0x0000 }; // Latin Capital Letter I With Hook
+                                                                                   // Above = Latin Capital Letter I +
+                                                                                   // Combining Hook Above
+            case '\u1ECA':
+                return new char[] { (char) 0x0049, (char) 0x00E0, (char) 0x0000 }; // Latin Capital Letter I With Dot
+                                                                                   // Below = Latin Capital Letter I +
+                                                                                   // Combining Dot Below
+            case '\u1E54':
+                return new char[] { (char) 0x0050, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter P With Acute
+                                                                                   // = Latin Capital Letter P +
+                                                                                   // Combining Acute Accent
+            case '\u1E56':
+                return new char[] { (char) 0x0050, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter P With Dot
+                                                                                   // Above = Latin Capital Letter P +
+                                                                                   // Combining Dot Above
+            case '\u0154':
+                return new char[] { (char) 0x0052, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter R With Acute
+                                                                                   // = Latin Capital Letter R +
+                                                                                   // Combining Acute Accent
+            case '\u0156':
+                return new char[] { (char) 0x0052, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter R With
+                                                                                   // Cedilla = Latin Capital Letter R +
+                                                                                   // Combining Cedilla
+            case '\u0158':
+                return new char[] { (char) 0x0052, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter R With Caron
+                                                                                   // = Latin Capital Letter R +
+                                                                                   // Combining Caron
+            case '\u0210':
+                return new char[] { (char) 0x0052, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter R With Double
+                                                                                   // Grave = Latin Capital Letter R +
+                                                                                   // Combining Double Grave Accent
+            case '\u0212':
+                return new char[] { (char) 0x0052, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter R With
+                                                                                   // Inverted Breve = Latin Capital
+                                                                                   // Letter R + Combining Inverted
+                                                                                   // Breve
+            case '\u1E58':
+                return new char[] { (char) 0x0052, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter R With Dot
+                                                                                   // Above = Latin Capital Letter R +
+                                                                                   // Combining Dot Above
+            case '\u1E5A':
+                return new char[] { (char) 0x0052, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter R With Dot
+                                                                                   // Below = Latin Capital Letter R +
+                                                                                   // Combining Dot Below
+            case '\u1E5E':
+                return new char[] { (char) 0x0052, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter R With Line
+                                                                                   // Below = Latin Capital Letter R +
+                                                                                   // Combining Low Line
+            case '\u1E5C':
+                return new char[] { (char) 0x0052, (char) 0x00E7, (char) 0x00E5 }; // Latin Capital Letter R With Dot
+                                                                                   // Below And Macron = Latin Capital
+                                                                                   // Letter R + Combining Dot Below +
+                                                                                   // Combining Macron
+            case '\u015A':
+                return new char[] { (char) 0x0053, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter S With Acute
+                                                                                   // = Latin Capital Letter S +
+                                                                                   // Combining Acute Accent
+            case '\u015C':
+                return new char[] { (char) 0x0053, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter S With
+                                                                                   // Circumflex = Latin Capital Letter
+                                                                                   // S + Combining Circumflex Accent
+            case '\u015E':
+                return new char[] { (char) 0x0053, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter S With
+                                                                                   // Cedilla = Latin Capital Letter S +
+                                                                                   // Combining Cedilla
+            case '\u0160':
+                return new char[] { (char) 0x0053, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter S With Caron
+                                                                                   // = Latin Capital Letter S +
+                                                                                   // Combining Caron
+            case '\u1E60':
+                return new char[] { (char) 0x0053, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter S With Dot
+                                                                                   // Above = Latin Capital Letter S +
+                                                                                   // Combining Dot Above
+            case '\u1E62':
+                return new char[] { (char) 0x0053, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter S With Dot
+                                                                                   // Below = Latin Capital Letter S +
+                                                                                   // Combining Dot Below
+            case '\u1E64':
+                return new char[] { (char) 0x0053, (char) 0x00E7, (char) 0x00E7 }; // Latin Capital Letter S With Acute
+                                                                                   // And Dot Above = Latin Capital
+                                                                                   // Letter S + Combining Acute Accent
+                                                                                   // + Combining Dot Above
+            case '\u1E66':
+                return new char[] { (char) 0x0053, (char) 0x00E7, (char) 0x00E7 }; // Latin Capital Letter S With Caron
+                                                                                   // And Dot Above = Latin Capital
+                                                                                   // Letter S + Combining Caron +
+                                                                                   // Combining Dot Above
+            case '\u1E68':
+                return new char[] { (char) 0x0053, (char) 0x00E7, (char) 0x00E7 }; // Latin Capital Letter S With Dot
+                                                                                   // Below And Dot Above = Latin
+                                                                                   // Capital Letter S + Combining Dot
+                                                                                   // Below + Combining Dot Above
+            case '\u0162':
+                return new char[] { (char) 0x0054, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter T With
+                                                                                   // Cedilla = Latin Capital Letter T +
+                                                                                   // Combining Cedilla
+            case '\u0164':
+                return new char[] { (char) 0x0054, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter T With Caron
+                                                                                   // = Latin Capital Letter T +
+                                                                                   // Combining Caron
+            case '\u1E6A':
+                return new char[] { (char) 0x0054, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter T With Dot
+                                                                                   // Above = Latin Capital Letter T +
+                                                                                   // Combining Dot Above
+            case '\u1E6C':
+                return new char[] { (char) 0x0054, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter T With Dot
+                                                                                   // Below = Latin Capital Letter T +
+                                                                                   // Combining Dot Below
+            case '\u1E6E':
+                return new char[] { (char) 0x0054, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter T With Line
+                                                                                   // Below = Latin Capital Letter T +
+                                                                                   // Combining Low Line
+            case '\u1E70':
+                return new char[] { (char) 0x0054, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter T With
+                                                                                   // Circumflex Below = Latin Capital
+                                                                                   // Letter T + Combining Circumflex
+                                                                                   // Accent Below
+            case '\u00D9':
+                return new char[] { (char) 0x0055, (char) 0x00E1, (char) 0x0000 }; // Latin Capital Letter U With Grave
+                                                                                   // = Latin Capital Letter U +
+                                                                                   // Combining Grave Accent
+            case '\u00DA':
+                return new char[] { (char) 0x0055, (char) 0x00E2, (char) 0x0000 }; // Latin Capital Letter U With Acute
+                                                                                   // = Latin Capital Letter U +
+                                                                                   // Combining Acute Accent
+            case '\u00DB':
+                return new char[] { (char) 0x0055, (char) 0x00E3, (char) 0x0000 }; // Latin Capital Letter U With
+                                                                                   // Circumflex = Latin Capital Letter
+                                                                                   // U + Combining Circumflex Accent
+            case '\u00DC':
+                return new char[] { (char) 0x0055, (char) 0x00E8, (char) 0x0000 }; // Latin Capital Letter U With
+                                                                                   // Diaeresis = Latin Capital Letter U
+                                                                                   // + Combining Diaeresis
+            case '\u0168':
+                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter U With Tilde
+                                                                                   // = Latin Capital Letter U +
+                                                                                   // Combining Tilde
+            case '\u016A':
+                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter U With Macron
+                                                                                   // = Latin Capital Letter U +
+                                                                                   // Combining Macron
+            case '\u016C':
+                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter U With Breve
+                                                                                   // = Latin Capital Letter U +
+                                                                                   // Combining Breve
+            case '\u016E':
+                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter U With Ring
+                                                                                   // Above = Latin Capital Letter U +
+                                                                                   // Combining Ring Above
+            case '\u0170':
+                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter U With Double
+                                                                                   // Acute = Latin Capital Letter U +
+                                                                                   // Combining Double Acute Accent
+            case '\u0172':
+                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter U With Ogonek
+                                                                                   // = Latin Capital Letter U +
+                                                                                   // Combining Ogonek
+            case '\u01AF':
+                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter U With Horn =
+                                                                                   // Latin Capital Letter U + Combining
+                                                                                   // Horn
+            case '\u01D3':
+                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter U With Caron
+                                                                                   // = Latin Capital Letter U +
+                                                                                   // Combining Caron
+            case '\u01DB':
+                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x00E1 }; // Latin Capital Letter U With
+                                                                                   // Diaeresis And Grave = Latin
+                                                                                   // Capital Letter U + Combining
+                                                                                   // Diaeresis + Combining Grave Accent
+            case '\u0214':
+                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter U With Double
+                                                                                   // Grave = Latin Capital Letter U +
+                                                                                   // Combining Double Grave Accent
+            case '\u0216':
+                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter U With
+                                                                                   // Inverted Breve = Latin Capital
+                                                                                   // Letter U + Combining Inverted
+                                                                                   // Breve
+            case '\u1EEA':
+                return new char[] { (char) 0x0055, (char) 0x00E0, (char) 0x00E1 }; // Latin Capital Letter U With Horn
+                                                                                   // And Grave = Latin Capital Letter U
+                                                                                   // + Combining Horn + Combining Grave
+                                                                                   // Accent
+            case '\u01D7':
+                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter U With
+                                                                                   // Diaeresis And Acute = Latin
+                                                                                   // Capital Letter U + Combining
+                                                                                   // Diaeresis + Combining Acute Accent
+            case '\u1E78':
+                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter U With Tilde
+                                                                                   // And Acute = Latin Capital Letter U
+                                                                                   // + Combining Tilde + Combining
+                                                                                   // Acute Accent
+            case '\u1E72':
+                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter U With
+                                                                                   // Diaeresis Below = Latin Capital
+                                                                                   // Letter U + Combining Diaeresis
+                                                                                   // Below
+            case '\u1E74':
+                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter U With Tilde
+                                                                                   // Below = Latin Capital Letter U +
+                                                                                   // Combining Tilde Below
+            case '\u1E76':
+                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter U With
+                                                                                   // Circumflex Below = Latin Capital
+                                                                                   // Letter U + Combining Circumflex
+                                                                                   // Accent Below
+            case '\u1EE8':
+                return new char[] { (char) 0x0055, (char) 0x00E0, (char) 0x00E2 }; // Latin Capital Letter U With Horn
+                                                                                   // And Acute = Latin Capital Letter U
+                                                                                   // + Combining Horn + Combining Acute
+                                                                                   // Accent
+            case '\u1EEE':
+                return new char[] { (char) 0x0055, (char) 0x00E0, (char) 0x00E4 }; // Latin Capital Letter U With Horn
+                                                                                   // And Tilde = Latin Capital Letter U
+                                                                                   // + Combining Horn + Combining Tilde
+            case '\u01D5':
+                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x00E5 }; // Latin Capital Letter U With
+                                                                                   // Diaeresis And Macron = Latin
+                                                                                   // Capital Letter U + Combining
+                                                                                   // Diaeresis + Combining Macron
+            case '\u1E7A':
+                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x00E8 }; // Latin Capital Letter U With Macron
+                                                                                   // And Diaeresis = Latin Capital
+                                                                                   // Letter U + Combining Macron +
+                                                                                   // Combining Diaeresis
+            case '\u1EEC':
+                return new char[] { (char) 0x0055, (char) 0x00E0, (char) 0x00E0 }; // Latin Capital Letter U With Horn
+                                                                                   // And Hook Above = Latin Capital
+                                                                                   // Letter U + Combining Horn +
+                                                                                   // Combining Hook Above
+            case '\u1EE4':
+                return new char[] { (char) 0x0055, (char) 0x00E0, (char) 0x00F2 }; // Latin Capital Letter U With Dot
+                                                                                   // Below = Latin Capital Letter U +
+                                                                                   // Combining Dot Below
+            case '\u1EE6':
+                return new char[] { (char) 0x0055, (char) 0x00E0, (char) 0x00F2 }; // Latin Capital Letter U With Hook
+                                                                                   // Above = Latin Capital Letter U +
+                                                                                   // Combining Hook Above
+            case '\u1EF0':
+                return new char[] { (char) 0x0055, (char) 0x00E0, (char) 0x00F2 }; // Latin Capital Letter U With Horn
+                                                                                   // And Dot Below = Latin Capital
+                                                                                   // Letter U + Combining Horn +
+                                                                                   // Combining Dot Below
+            case '\u01D9':
+                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x00E9 }; // Latin Capital Letter U With
+                                                                                   // Diaeresis And Caron = Latin
+                                                                                   // Capital Letter U + Combining
+                                                                                   // Diaeresis + Combining Caron
+            case '\u1E7C':
+                return new char[] { (char) 0x0056, (char) 0x00E7, (char) 0x00E4 }; // Latin Capital Letter V With Tilde
+                                                                                   // = Latin Capital Letter V +
+                                                                                   // Combining Tilde
+            case '\u1E7E':
+                return new char[] { (char) 0x0056, (char) 0x00E7, (char) 0x00E4 }; // Latin Capital Letter V With Dot
+                                                                                   // Below = Latin Capital Letter V +
+                                                                                   // Combining Dot Below
+            case '\u0174':
+                return new char[] { (char) 0x0057, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter W With
+                                                                                   // Circumflex = Latin Capital Letter
+                                                                                   // W + Combining Circumflex Accent
+            case '\u1E80':
+                return new char[] { (char) 0x0057, (char) 0x00E7, (char) 0x00E4 }; // Latin Capital Letter W With Grave
+                                                                                   // = Latin Capital Letter W +
+                                                                                   // Combining Grave Accent
+            case '\u1E82':
+                return new char[] { (char) 0x0057, (char) 0x00E7, (char) 0x00E4 }; // Latin Capital Letter W With Acute
+                                                                                   // = Latin Capital Letter W +
+                                                                                   // Combining Acute Accent
+            case '\u1E84':
+                return new char[] { (char) 0x0057, (char) 0x00E7, (char) 0x00E4 }; // Latin Capital Letter W With
+                                                                                   // Diaeresis = Latin Capital Letter W
+                                                                                   // + Combining Diaeresis
+            case '\u1E86':
+                return new char[] { (char) 0x0057, (char) 0x00E7, (char) 0x00E4 }; // Latin Capital Letter W With Dot
+                                                                                   // Above = Latin Capital Letter W +
+                                                                                   // Combining Dot Above
+            case '\u1E88':
+                return new char[] { (char) 0x0057, (char) 0x00E7, (char) 0x00E4 }; // Latin Capital Letter W With Dot
+                                                                                   // Below = Latin Capital Letter W +
+                                                                                   // Combining Dot Below
+            case '\u1E8A':
+                return new char[] { (char) 0x0058, (char) 0x00E7, (char) 0x00E4 }; // Latin Capital Letter X With Dot
+                                                                                   // Above = Latin Capital Letter X +
+                                                                                   // Combining Dot Above
+            case '\u1E8C':
+                return new char[] { (char) 0x0058, (char) 0x00E7, (char) 0x00E4 }; // Latin Capital Letter X With
+                                                                                   // Diaeresis = Latin Capital Letter X
+                                                                                   // + Combining Diaeresis
+            case '\u00DD':
+                return new char[] { (char) 0x0059, (char) 0x00E2, (char) 0x0000 }; // Latin Capital Letter Y With Acute
+                                                                                   // = Latin Capital Letter Y +
+                                                                                   // Combining Acute Accent
+            case '\u0176':
+                return new char[] { (char) 0x0059, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter Y With
+                                                                                   // Circumflex = Latin Capital Letter
+                                                                                   // Y + Combining Circumflex Accent
+            case '\u0178':
+                return new char[] { (char) 0x0059, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter Y With
+                                                                                   // Diaeresis = Latin Capital Letter Y
+                                                                                   // + Combining Diaeresis
+            case '\u1E8E':
+                return new char[] { (char) 0x0059, (char) 0x00E7, (char) 0x00E4 }; // Latin Capital Letter Y With Dot
+                                                                                   // Above = Latin Capital Letter Y +
+                                                                                   // Combining Dot Above
+            case '\u1EF2':
+                return new char[] { (char) 0x0059, (char) 0x00E0, (char) 0x0000 }; // Latin Capital Letter Y With Grave
+                                                                                   // = Latin Capital Letter Y +
+                                                                                   // Combining Grave Accent
+            case '\u1EF4':
+                return new char[] { (char) 0x0059, (char) 0x00E0, (char) 0x0000 }; // Latin Capital Letter Y With Dot
+                                                                                   // Below = Latin Capital Letter Y +
+                                                                                   // Combining Dot Below
+            case '\u1EF6':
+                return new char[] { (char) 0x0059, (char) 0x00E0, (char) 0x0000 }; // Latin Capital Letter Y With Hook
+                                                                                   // Above = Latin Capital Letter Y +
+                                                                                   // Combining Hook Above
+            case '\u1EF8':
+                return new char[] { (char) 0x0059, (char) 0x00E4, (char) 0x0000 }; // Latin Capital Letter Y With Tilde
+                                                                                   // = Latin Capital Letter Y +
+                                                                                   // Combining Tilde
+            case '\u00E0':
+                return new char[] { (char) 0x0061, (char) 0x00E1, (char) 0x0000 }; // Latin Small Letter A With Grave =
+                                                                                   // Latin Small Letter A + Combining
+                                                                                   // Grave Accent
+            case '\u00E1':
+                return new char[] { (char) 0x0061, (char) 0x00E2, (char) 0x0000 }; // Latin Small Letter A With Acute =
+                                                                                   // Latin Small Letter A + Combining
+                                                                                   // Acute Accent
+            case '\u00E2':
+                return new char[] { (char) 0x0061, (char) 0x00E3, (char) 0x0000 }; // Latin Small Letter A With
+                                                                                   // Circumflex = Latin Small Letter A
+                                                                                   // + Combining Circumflex Accent
+            case '\u00E3':
+                return new char[] { (char) 0x0061, (char) 0x00E4, (char) 0x0000 }; // Latin Small Letter A With Tilde =
+                                                                                   // Latin Small Letter A + Combining
+                                                                                   // Tilde
+            case '\u00E4':
+                return new char[] { (char) 0x0061, (char) 0x00E8, (char) 0x0000 }; // Latin Small Letter A With
+                                                                                   // Diaeresis = Latin Small Letter A +
+                                                                                   // Combining Diaeresis
+            case '\u00E5':
+                return new char[] { (char) 0x0061, (char) 0x00EA, (char) 0x0000 }; // Latin Small Letter A With Ring
+                                                                                   // Above = Latin Small Letter A +
+                                                                                   // Combining Ring Above
+            case '\u0101':
+                return new char[] { (char) 0x0061, (char) 0x00E5, (char) 0x0000 }; // Latin Small Letter A With Macron =
+                                                                                   // Latin Small Letter A + Combining
+                                                                                   // Macron
+            case '\u0103':
+                return new char[] { (char) 0x0061, (char) 0x00E6, (char) 0x0000 }; // Latin Small Letter A With Breve =
+                                                                                   // Latin Small Letter A + Combining
+                                                                                   // Breve
+            case '\u0105':
+                return new char[] { (char) 0x0061, (char) 0x00F1, (char) 0x0000 }; // Latin Small Letter A With Ogonek =
+                                                                                   // Latin Small Letter A + Combining
+                                                                                   // Ogonek
+            case '\u01CE':
+                return new char[] { (char) 0x0061, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter A With Caron =
+                                                                                   // Latin Small Letter A + Combining
+                                                                                   // Caron
+            case '\u1EA7':
+                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00E1 }; // Latin Small Letter A With
+                                                                                   // Circumflex And Grave = Latin Small
+                                                                                   // Letter A + Combining Circumflex
+                                                                                   // Accent + Combining Grave Accent
+            case '\u1EB1':
+                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00E1 }; // Latin Small Letter A With Breve
+                                                                                   // And Grave = Latin Small Letter A +
+                                                                                   // Combining Breve + Combining Grave
+                                                                                   // Accent
+            case '\u0201':
+                return new char[] { (char) 0x0061, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter A With Double
+                                                                                   // Grave = Latin Small Letter A +
+                                                                                   // Combining Double Grave Accent
+            case '\u0203':
+                return new char[] { (char) 0x0061, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter A With Inverted
+                                                                                   // Breve = Latin Small Letter A +
+                                                                                   // Combining Inverted Breve
+            case '\u1E01':
+                return new char[] { (char) 0x0061, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter A With Ring
+                                                                                   // Below = Latin Small Letter A +
+                                                                                   // Combining Ring Below
+            case '\u01FB':
+                return new char[] { (char) 0x0061, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter A With Ring
+                                                                                   // Above And Acute = Latin Small
+                                                                                   // Letter A + Combining Ring Above +
+                                                                                   // Combining Acute Accent
+            case '\u1EA5':
+                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00E2 }; // Latin Small Letter A With
+                                                                                   // Circumflex And Acute = Latin Small
+                                                                                   // Letter A + Combining Circumflex
+                                                                                   // Accent + Combining Acute Accent
+            case '\u1EAF':
+                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00E2 }; // Latin Small Letter A With Breve
+                                                                                   // And Acute = Latin Small Letter A +
+                                                                                   // Combining Breve + Combining Acute
+                                                                                   // Accent
+            case '\u1EAB':
+                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00E4 }; // Latin Small Letter A With
+                                                                                   // Circumflex And Tilde = Latin Small
+                                                                                   // Letter A + Combining Circumflex
+                                                                                   // Accent + Combining Tilde
+            case '\u1EA1':
+                return new char[] { (char) 0x0061, (char) 0x00F2, (char) 0x00E4 }; // Latin Small Letter A With Dot
+                                                                                   // Below = Latin Small Letter A +
+                                                                                   // Combining Dot Below
+            case '\u1EA3':
+                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00E4 }; // Latin Small Letter A With Hook
+                                                                                   // Above = Latin Small Letter A +
+                                                                                   // Combining Hook Above
+            case '\u1EB5':
+                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00E4 }; // Latin Small Letter A With Breve
+                                                                                   // And Tilde = Latin Small Letter A +
+                                                                                   // Combining Breve + Combining Tilde
+            case '\u01DF':
+                return new char[] { (char) 0x0061, (char) 0x00E7, (char) 0x00E5 }; // Latin Small Letter A With
+                                                                                   // Diaeresis And Macron = Latin Small
+                                                                                   // Letter A + Combining Diaeresis +
+                                                                                   // Combining Macron
+            case '\u01E1':
+                return new char[] { (char) 0x0061, (char) 0x00E7, (char) 0x00E5 }; // Latin Small Letter A With Dot
+                                                                                   // Above And Macron = Latin Small
+                                                                                   // Letter A + Combining Dot Above +
+                                                                                   // Combining Macron
+            case '\u1EA9':
+                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00E0 }; // Latin Small Letter A With
+                                                                                   // Circumflex And Hook Above = Latin
+                                                                                   // Small Letter A + Combining
+                                                                                   // Circumflex Accent + Combining Hook
+                                                                                   // Above
+            case '\u1EB3':
+                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00E0 }; // Latin Small Letter A With Breve
+                                                                                   // And Hook Above = Latin Small
+                                                                                   // Letter A + Combining Breve +
+                                                                                   // Combining Hook Above
+            case '\u1EAD':
+                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00F2 }; // Latin Small Letter A With
+                                                                                   // Circumflex And Dot Below = Latin
+                                                                                   // Small Letter A + Combining
+                                                                                   // Circumflex Accent + Combining Dot
+                                                                                   // Below
+            case '\u1EB7':
+                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00F2 }; // Latin Small Letter A With Breve
+                                                                                   // And Dot Below = Latin Small Letter
+                                                                                   // A + Combining Breve + Combining
+                                                                                   // Dot Below
+            case '\u1E03':
+                return new char[] { (char) 0x0062, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter B With Dot
+                                                                                   // Above = Latin Small Letter B +
+                                                                                   // Combining Dot Above
+            case '\u1E05':
+                return new char[] { (char) 0x0062, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter B With Dot
+                                                                                   // Below = Latin Small Letter B +
+                                                                                   // Combining Dot Below
+            case '\u1E07':
+                return new char[] { (char) 0x0062, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter B With Line
+                                                                                   // Below = Latin Small Letter B +
+                                                                                   // Combining Low Line
+            case '\u00E7':
+                return new char[] { (char) 0x0063, (char) 0x00F0, (char) 0x0000 }; // Latin Small Letter C With Cedilla
+                                                                                   // = Latin Small Letter C + Combining
+                                                                                   // Cedilla
+            case '\u0107':
+                return new char[] { (char) 0x0063, (char) 0x00E2, (char) 0x0000 }; // Latin Small Letter C With Acute =
+                                                                                   // Latin Small Letter C + Combining
+                                                                                   // Acute Accent
+            case '\u0109':
+                return new char[] { (char) 0x0063, (char) 0x00E3, (char) 0x0000 }; // Latin Small Letter C With
+                                                                                   // Circumflex = Latin Small Letter C
+                                                                                   // + Combining Circumflex Accent
+            case '\u010B':
+                return new char[] { (char) 0x0063, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter C With Dot
+                                                                                   // Above = Latin Small Letter C +
+                                                                                   // Combining Dot Above
+            case '\u010D':
+                return new char[] { (char) 0x0063, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter C With Caron =
+                                                                                   // Latin Small Letter C + Combining
+                                                                                   // Caron
+            case '\u1E09':
+                return new char[] { (char) 0x0063, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter C With Cedilla
+                                                                                   // And Acute = Latin Small Letter C +
+                                                                                   // Combining Cedilla + Combining
+                                                                                   // Acute Accent
+            case '\u010F':
+                return new char[] { (char) 0x0064, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter D With Caron =
+                                                                                   // Latin Small Letter D + Combining
+                                                                                   // Caron
+            case '\u1E0B':
+                return new char[] { (char) 0x0064, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter D With Dot
+                                                                                   // Above = Latin Small Letter D +
+                                                                                   // Combining Dot Above
+            case '\u1E0D':
+                return new char[] { (char) 0x0064, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter D With Dot
+                                                                                   // Below = Latin Small Letter D +
+                                                                                   // Combining Dot Below
+            case '\u1E0F':
+                return new char[] { (char) 0x0064, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter D With Line
+                                                                                   // Below = Latin Small Letter D +
+                                                                                   // Combining Low Line
+            case '\u1E11':
+                return new char[] { (char) 0x0064, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter D With Cedilla
+                                                                                   // = Latin Small Letter D + Combining
+                                                                                   // Cedilla
+            case '\u1E13':
+                return new char[] { (char) 0x0064, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter D With
+                                                                                   // Circumflex Below = Latin Small
+                                                                                   // Letter D + Combining Circumflex
+                                                                                   // Accent Below
+            case '\u00E8':
+                return new char[] { (char) 0x0065, (char) 0x00E1, (char) 0x0000 }; // Latin Small Letter E With Grave =
+                                                                                   // Latin Small Letter E + Combining
+                                                                                   // Grave Accent
+            case '\u00E9':
+                return new char[] { (char) 0x0065, (char) 0x00E2, (char) 0x0000 }; // Latin Small Letter E With Acute =
+                                                                                   // Latin Small Letter E + Combining
+                                                                                   // Acute Accent
+            case '\u00EA':
+                return new char[] { (char) 0x0065, (char) 0x00E3, (char) 0x0000 }; // Latin Small Letter E With
+                                                                                   // Circumflex = Latin Small Letter E
+                                                                                   // + Combining Circumflex Accent
+            case '\u00EB':
+                return new char[] { (char) 0x0065, (char) 0x00E8, (char) 0x0000 }; // Latin Small Letter E With
+                                                                                   // Diaeresis = Latin Small Letter E +
+                                                                                   // Combining Diaeresis
+            case '\u0113':
+                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter E With Macron =
+                                                                                   // Latin Small Letter E + Combining
+                                                                                   // Macron
+            case '\u0115':
+                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter E With Breve =
+                                                                                   // Latin Small Letter E + Combining
+                                                                                   // Breve
+            case '\u0117':
+                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter E With Dot
+                                                                                   // Above = Latin Small Letter E +
+                                                                                   // Combining Dot Above
+            case '\u0119':
+                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter E With Ogonek =
+                                                                                   // Latin Small Letter E + Combining
+                                                                                   // Ogonek
+            case '\u011B':
+                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter E With Caron =
+                                                                                   // Latin Small Letter E + Combining
+                                                                                   // Caron
+            case '\u1E15':
+                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x00E1 }; // Latin Small Letter E With Macron
+                                                                                   // And Grave = Latin Small Letter E +
+                                                                                   // Combining Macron + Combining Grave
+                                                                                   // Accent
+            case '\u1EC1':
+                return new char[] { (char) 0x0065, (char) 0x00E0, (char) 0x00E1 }; // Latin Small Letter E With
+                                                                                   // Circumflex And Grave = Latin Small
+                                                                                   // Letter E + Combining Circumflex
+                                                                                   // Accent + Combining Grave Accent
+            case '\u0205':
+                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter E With Double
+                                                                                   // Grave = Latin Small Letter E +
+                                                                                   // Combining Double Grave Accent
+            case '\u0207':
+                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter E With Inverted
+                                                                                   // Breve = Latin Small Letter E +
+                                                                                   // Combining Inverted Breve
+            case '\u1E19':
+                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter E With
+                                                                                   // Circumflex Below = Latin Small
+                                                                                   // Letter E + Combining Circumflex
+                                                                                   // Accent Below
+            case '\u1E1B':
+                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter E With Tilde
+                                                                                   // Below = Latin Small Letter E +
+                                                                                   // Combining Tilde Below
+            case '\u1E17':
+                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter E With Macron
+                                                                                   // And Acute = Latin Small Letter E +
+                                                                                   // Combining Macron + Combining Acute
+                                                                                   // Accent
+            case '\u1EBF':
+                return new char[] { (char) 0x0065, (char) 0x00E0, (char) 0x00E2 }; // Latin Small Letter E With
+                                                                                   // Circumflex And Acute = Latin Small
+                                                                                   // Letter E + Combining Circumflex
+                                                                                   // Accent + Combining Acute Accent
+            case '\u1EC5':
+                return new char[] { (char) 0x0065, (char) 0x00E0, (char) 0x00E4 }; // Latin Small Letter E With
+                                                                                   // Circumflex And Tilde = Latin Small
+                                                                                   // Letter E + Combining Circumflex
+                                                                                   // Accent + Combining Tilde
+            case '\u1EB9':
+                return new char[] { (char) 0x0065, (char) 0x00E0, (char) 0x00E5 }; // Latin Small Letter E With Dot
+                                                                                   // Below = Latin Small Letter E +
+                                                                                   // Combining Dot Below
+            case '\u1EBB':
+                return new char[] { (char) 0x0065, (char) 0x00E0, (char) 0x00E5 }; // Latin Small Letter E With Hook
+                                                                                   // Above = Latin Small Letter E +
+                                                                                   // Combining Hook Above
+            case '\u1EBD':
+                return new char[] { (char) 0x0065, (char) 0x00E0, (char) 0x00E5 }; // Latin Small Letter E With Tilde =
+                                                                                   // Latin Small Letter E + Combining
+                                                                                   // Tilde
+            case '\u1E1D':
+                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x00E6 }; // Latin Small Letter E With Cedilla
+                                                                                   // And Breve = Latin Small Letter E +
+                                                                                   // Combining Cedilla + Combining
+                                                                                   // Breve
+            case '\u1EC3':
+                return new char[] { (char) 0x0065, (char) 0x00E0, (char) 0x00E0 }; // Latin Small Letter E With
+                                                                                   // Circumflex And Hook Above = Latin
+                                                                                   // Small Letter E + Combining
+                                                                                   // Circumflex Accent + Combining Hook
+                                                                                   // Above
+            case '\u1EC7':
+                return new char[] { (char) 0x0065, (char) 0x00E0, (char) 0x00F2 }; // Latin Small Letter E With
+                                                                                   // Circumflex And Dot Below = Latin
+                                                                                   // Small Letter E + Combining
+                                                                                   // Circumflex Accent + Combining Dot
+                                                                                   // Below
+            case '\u1E1F':
+                return new char[] { (char) 0x0066, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter F With Dot
+                                                                                   // Above = Latin Small Letter F +
+                                                                                   // Combining Dot Above
+            case '\u011D':
+                return new char[] { (char) 0x0067, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter G With
+                                                                                   // Circumflex = Latin Small Letter G
+                                                                                   // + Combining Circumflex Accent
+            case '\u011F':
+                return new char[] { (char) 0x0067, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter G With Breve =
+                                                                                   // Latin Small Letter G + Combining
+                                                                                   // Breve
+            case '\u0121':
+                return new char[] { (char) 0x0067, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter G With Dot
+                                                                                   // Above = Latin Small Letter G +
+                                                                                   // Combining Dot Above
+            case '\u0123':
+                return new char[] { (char) 0x0067, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter G With Cedilla
+                                                                                   // = Latin Small Letter G + Combining
+                                                                                   // Cedilla
+            case '\u01E7':
+                return new char[] { (char) 0x0067, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter G With Caron =
+                                                                                   // Latin Small Letter G + Combining
+                                                                                   // Caron
+            case '\u01F5':
+                return new char[] { (char) 0x0067, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter G With Acute =
+                                                                                   // Latin Small Letter G + Combining
+                                                                                   // Acute Accent
+            case '\u1E21':
+                return new char[] { (char) 0x0067, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter G With Macron =
+                                                                                   // Latin Small Letter G + Combining
+                                                                                   // Macron
+            case '\u0125':
+                return new char[] { (char) 0x0068, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter H With
+                                                                                   // Circumflex = Latin Small Letter H
+                                                                                   // + Combining Circumflex Accent
+            case '\u1E23':
+                return new char[] { (char) 0x0068, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter H With Dot
+                                                                                   // Above = Latin Small Letter H +
+                                                                                   // Combining Dot Above
+            case '\u1E25':
+                return new char[] { (char) 0x0068, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter H With Dot
+                                                                                   // Below = Latin Small Letter H +
+                                                                                   // Combining Dot Below
+            case '\u1E27':
+                return new char[] { (char) 0x0068, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter H With
+                                                                                   // Diaeresis = Latin Small Letter H +
+                                                                                   // Combining Diaeresis
+            case '\u1E29':
+                return new char[] { (char) 0x0068, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter H With Cedilla
+                                                                                   // = Latin Small Letter H + Combining
+                                                                                   // Cedilla
+            case '\u1E2B':
+                return new char[] { (char) 0x0068, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter H With Breve
+                                                                                   // Below = Latin Small Letter H +
+                                                                                   // Combining Breve Below
+            case '\u1E96':
+                return new char[] { (char) 0x0068, (char) 0x00E7, (char) 0x00E4 }; // Latin Small Letter H With Line
+                                                                                   // Below = Latin Small Letter H +
+                                                                                   // Combining Low Line
+            case '\u00EC':
+                return new char[] { (char) 0x0069, (char) 0x00E1, (char) 0x0000 }; // Latin Small Letter I With Grave =
+                                                                                   // Latin Small Letter I + Combining
+                                                                                   // Grave Accent
+            case '\u00ED':
+                return new char[] { (char) 0x0069, (char) 0x00E2, (char) 0x0000 }; // Latin Small Letter I With Acute =
+                                                                                   // Latin Small Letter I + Combining
+                                                                                   // Acute Accent
+            case '\u00EE':
+                return new char[] { (char) 0x0069, (char) 0x00E3, (char) 0x0000 }; // Latin Small Letter I With
+                                                                                   // Circumflex = Latin Small Letter I
+                                                                                   // + Combining Circumflex Accent
+            case '\u00EF':
+                return new char[] { (char) 0x0069, (char) 0x00E8, (char) 0x0000 }; // Latin Small Letter I With
+                                                                                   // Diaeresis = Latin Small Letter I +
+                                                                                   // Combining Diaeresis
+            case '\u0129':
+                return new char[] { (char) 0x0069, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter I With Tilde =
+                                                                                   // Latin Small Letter I + Combining
+                                                                                   // Tilde
+            case '\u012B':
+                return new char[] { (char) 0x0069, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter I With Macron =
+                                                                                   // Latin Small Letter I + Combining
+                                                                                   // Macron
+            case '\u012D':
+                return new char[] { (char) 0x0069, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter I With Breve =
+                                                                                   // Latin Small Letter I + Combining
+                                                                                   // Breve
+            case '\u012F':
+                return new char[] { (char) 0x0069, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter I With Ogonek =
+                                                                                   // Latin Small Letter I + Combining
+                                                                                   // Ogonek
+            case '\u01D0':
+                return new char[] { (char) 0x0069, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter I With Caron =
+                                                                                   // Latin Small Letter I + Combining
+                                                                                   // Caron
+            case '\u0209':
+                return new char[] { (char) 0x0069, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter I With Double
+                                                                                   // Grave = Latin Small Letter I +
+                                                                                   // Combining Double Grave Accent
+            case '\u020B':
+                return new char[] { (char) 0x0069, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter I With Inverted
+                                                                                   // Breve = Latin Small Letter I +
+                                                                                   // Combining Inverted Breve
+            case '\u1E2D':
+                return new char[] { (char) 0x0069, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter I With Tilde
+                                                                                   // Below = Latin Small Letter I +
+                                                                                   // Combining Tilde Below
+            case '\u1E2F':
+                return new char[] { (char) 0x0069, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter I With
+                                                                                   // Diaeresis And Acute = Latin Small
+                                                                                   // Letter I + Combining Diaeresis +
+                                                                                   // Combining Acute Accent
+            case '\u1EC9':
+                return new char[] { (char) 0x0069, (char) 0x00E0, (char) 0x0000 }; // Latin Small Letter I With Hook
+                                                                                   // Above = Latin Small Letter I +
+                                                                                   // Combining Hook Above
+            case '\u1ECB':
+                return new char[] { (char) 0x0069, (char) 0x00E0, (char) 0x0000 }; // Latin Small Letter I With Dot
+                                                                                   // Below = Latin Small Letter I +
+                                                                                   // Combining Dot Below
+            case '\u1E55':
+                return new char[] { (char) 0x0070, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter P With Acute =
+                                                                                   // Latin Small Letter P + Combining
+                                                                                   // Acute Accent
+            case '\u1E57':
+                return new char[] { (char) 0x0070, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter P With Dot
+                                                                                   // Above = Latin Small Letter P +
+                                                                                   // Combining Dot Above
+            case '\u0155':
+                return new char[] { (char) 0x0072, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter R With Acute =
+                                                                                   // Latin Small Letter R + Combining
+                                                                                   // Acute Accent
+            case '\u0157':
+                return new char[] { (char) 0x0072, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter R With Cedilla
+                                                                                   // = Latin Small Letter R + Combining
+                                                                                   // Cedilla
+            case '\u0159':
+                return new char[] { (char) 0x0072, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter R With Caron =
+                                                                                   // Latin Small Letter R + Combining
+                                                                                   // Caron
+            case '\u0211':
+                return new char[] { (char) 0x0072, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter R With Double
+                                                                                   // Grave = Latin Small Letter R +
+                                                                                   // Combining Double Grave Accent
+            case '\u0213':
+                return new char[] { (char) 0x0072, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter R With Inverted
+                                                                                   // Breve = Latin Small Letter R +
+                                                                                   // Combining Inverted Breve
+            case '\u1E59':
+                return new char[] { (char) 0x0072, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter R With Dot
+                                                                                   // Above = Latin Small Letter R +
+                                                                                   // Combining Dot Above
+            case '\u1E5B':
+                return new char[] { (char) 0x0072, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter R With Dot
+                                                                                   // Below = Latin Small Letter R +
+                                                                                   // Combining Dot Below
+            case '\u1E5F':
+                return new char[] { (char) 0x0072, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter R With Line
+                                                                                   // Below = Latin Small Letter R +
+                                                                                   // Combining Low Line
+            case '\u1E5D':
+                return new char[] { (char) 0x0072, (char) 0x00E7, (char) 0x00E5 }; // Latin Small Letter R With Dot
+                                                                                   // Below And Macron = Latin Small
+                                                                                   // Letter R + Combining Dot Below +
+                                                                                   // Combining Macron
+            case '\u015B':
+                return new char[] { (char) 0x0073, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter S With Acute =
+                                                                                   // Latin Small Letter S + Combining
+                                                                                   // Acute Accent
+            case '\u015D':
+                return new char[] { (char) 0x0073, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter S With
+                                                                                   // Circumflex = Latin Small Letter S
+                                                                                   // + Combining Circumflex Accent
+            case '\u015F':
+                return new char[] { (char) 0x0073, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter S With Cedilla
+                                                                                   // = Latin Small Letter S + Combining
+                                                                                   // Cedilla
+            case '\u0161':
+                return new char[] { (char) 0x0073, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter S With Caron =
+                                                                                   // Latin Small Letter S + Combining
+                                                                                   // Caron
+            case '\u1E61':
+                return new char[] { (char) 0x0073, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter S With Dot
+                                                                                   // Above = Latin Small Letter S +
+                                                                                   // Combining Dot Above
+            case '\u1E63':
+                return new char[] { (char) 0x0073, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter S With Dot
+                                                                                   // Below = Latin Small Letter S +
+                                                                                   // Combining Dot Below
+            case '\u1E65':
+                return new char[] { (char) 0x0073, (char) 0x00E7, (char) 0x00E7 }; // Latin Small Letter S With Acute
+                                                                                   // And Dot Above = Latin Small Letter
+                                                                                   // S + Combining Acute Accent +
+                                                                                   // Combining Dot Above
+            case '\u1E67':
+                return new char[] { (char) 0x0073, (char) 0x00E7, (char) 0x00E7 }; // Latin Small Letter S With Caron
+                                                                                   // And Dot Above = Latin Small Letter
+                                                                                   // S + Combining Caron + Combining
+                                                                                   // Dot Above
+            case '\u1E69':
+                return new char[] { (char) 0x0073, (char) 0x00E7, (char) 0x00E7 }; // Latin Small Letter S With Dot
+                                                                                   // Below And Dot Above = Latin Small
+                                                                                   // Letter S + Combining Dot Below +
+                                                                                   // Combining Dot Above
+            case '\u0163':
+                return new char[] { (char) 0x0074, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter T With Cedilla
+                                                                                   // = Latin Small Letter T + Combining
+                                                                                   // Cedilla
+            case '\u0165':
+                return new char[] { (char) 0x0074, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter T With Caron =
+                                                                                   // Latin Small Letter T + Combining
+                                                                                   // Caron
+            case '\u1E6B':
+                return new char[] { (char) 0x0074, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter T With Dot
+                                                                                   // Above = Latin Small Letter T +
+                                                                                   // Combining Dot Above
+            case '\u1E6D':
+                return new char[] { (char) 0x0074, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter T With Dot
+                                                                                   // Below = Latin Small Letter T +
+                                                                                   // Combining Dot Below
+            case '\u1E6F':
+                return new char[] { (char) 0x0074, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter T With Line
+                                                                                   // Below = Latin Small Letter T +
+                                                                                   // Combining Low Line
+            case '\u1E71':
+                return new char[] { (char) 0x0074, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter T With
+                                                                                   // Circumflex Below = Latin Small
+                                                                                   // Letter T + Combining Circumflex
+                                                                                   // Accent Below
+            case '\u1E97':
+                return new char[] { (char) 0x0074, (char) 0x00E7, (char) 0x00E4 }; // Latin Small Letter T With
+                                                                                   // Diaeresis = Latin Small Letter T +
+                                                                                   // Combining Diaeresis
+            case '\u00F9':
+                return new char[] { (char) 0x0075, (char) 0x00E1, (char) 0x0000 }; // Latin Small Letter U With Grave =
+                                                                                   // Latin Small Letter U + Combining
+                                                                                   // Grave Accent
+            case '\u00FA':
+                return new char[] { (char) 0x0075, (char) 0x00E2, (char) 0x0000 }; // Latin Small Letter U With Acute =
+                                                                                   // Latin Small Letter U + Combining
+                                                                                   // Acute Accent
+            case '\u00FB':
+                return new char[] { (char) 0x0075, (char) 0x00E3, (char) 0x0000 }; // Latin Small Letter U With
+                                                                                   // Circumflex = Latin Small Letter U
+                                                                                   // + Combining Circumflex Accent
+            case '\u00FC':
+                return new char[] { (char) 0x0075, (char) 0x00E8, (char) 0x0000 }; // Latin Small Letter U With
+                                                                                   // Diaeresis = Latin Small Letter U +
+                                                                                   // Combining Diaeresis
+            case '\u0169':
+                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter U With Tilde =
+                                                                                   // Latin Small Letter U + Combining
+                                                                                   // Tilde
+            case '\u016B':
+                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter U With Macron =
+                                                                                   // Latin Small Letter U + Combining
+                                                                                   // Macron
+            case '\u016D':
+                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter U With Breve =
+                                                                                   // Latin Small Letter U + Combining
+                                                                                   // Breve
+            case '\u016F':
+                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter U With Ring
+                                                                                   // Above = Latin Small Letter U +
+                                                                                   // Combining Ring Above
+            case '\u0171':
+                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter U With Double
+                                                                                   // Acute = Latin Small Letter U +
+                                                                                   // Combining Double Acute Accent
+            case '\u0173':
+                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter U With Ogonek =
+                                                                                   // Latin Small Letter U + Combining
+                                                                                   // Ogonek
+            case '\u01B0':
+                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter U With Horn =
+                                                                                   // Latin Small Letter U + Combining
+                                                                                   // Horn
+            case '\u01D4':
+                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter U With Caron =
+                                                                                   // Latin Small Letter U + Combining
+                                                                                   // Caron
+            case '\u01DC':
+                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x00E1 }; // Latin Small Letter U With
+                                                                                   // Diaeresis And Grave = Latin Small
+                                                                                   // Letter U + Combining Diaeresis +
+                                                                                   // Combining Grave Accent
+            case '\u0215':
+                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter U With Double
+                                                                                   // Grave = Latin Small Letter U +
+                                                                                   // Combining Double Grave Accent
+            case '\u0217':
+                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter U With Inverted
+                                                                                   // Breve = Latin Small Letter U +
+                                                                                   // Combining Inverted Breve
+            case '\u1EEB':
+                return new char[] { (char) 0x0075, (char) 0x00E0, (char) 0x00E1 }; // Latin Small Letter U With Horn And
+                                                                                   // Grave = Latin Small Letter U +
+                                                                                   // Combining Horn + Combining Grave
+                                                                                   // Accent
+            case '\u01D8':
+                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter U With
+                                                                                   // Diaeresis And Acute = Latin Small
+                                                                                   // Letter U + Combining Diaeresis +
+                                                                                   // Combining Acute Accent
+            case '\u1E79':
+                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter U With Tilde
+                                                                                   // And Acute = Latin Small Letter U +
+                                                                                   // Combining Tilde + Combining Acute
+                                                                                   // Accent
+            case '\u1E73':
+                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter U With
+                                                                                   // Diaeresis Below = Latin Small
+                                                                                   // Letter U + Combining Diaeresis
+                                                                                   // Below
+            case '\u1E75':
+                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter U With Tilde
+                                                                                   // Below = Latin Small Letter U +
+                                                                                   // Combining Tilde Below
+            case '\u1E77':
+                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter U With
+                                                                                   // Circumflex Below = Latin Small
+                                                                                   // Letter U + Combining Circumflex
+                                                                                   // Accent Below
+            case '\u1EE9':
+                return new char[] { (char) 0x0075, (char) 0x00E0, (char) 0x00E2 }; // Latin Small Letter U With Horn And
+                                                                                   // Acute = Latin Small Letter U +
+                                                                                   // Combining Horn + Combining Acute
+                                                                                   // Accent
+            case '\u1EEF':
+                return new char[] { (char) 0x0075, (char) 0x00E0, (char) 0x00E4 }; // Latin Small Letter U With Horn And
+                                                                                   // Tilde = Latin Small Letter U +
+                                                                                   // Combining Horn + Combining Tilde
+            case '\u01D6':
+                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x00E5 }; // Latin Small Letter U With
+                                                                                   // Diaeresis And Macron = Latin Small
+                                                                                   // Letter U + Combining Diaeresis +
+                                                                                   // Combining Macron
+            case '\u1E7B':
+                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x00E8 }; // Latin Small Letter U With Macron
+                                                                                   // And Diaeresis = Latin Small Letter
+                                                                                   // U + Combining Macron + Combining
+                                                                                   // Diaeresis
+            case '\u1EED':
+                return new char[] { (char) 0x0075, (char) 0x00E0, (char) 0x00E0 }; // Latin Small Letter U With Horn And
+                                                                                   // Hook Above = Latin Small Letter U
+                                                                                   // + Combining Horn + Combining Hook
+                                                                                   // Above
+            case '\u1EE5':
+                return new char[] { (char) 0x0075, (char) 0x00E0, (char) 0x00F2 }; // Latin Small Letter U With Dot
+                                                                                   // Below = Latin Small Letter U +
+                                                                                   // Combining Dot Below
+            case '\u1EE7':
+                return new char[] { (char) 0x0075, (char) 0x00E0, (char) 0x00F2 }; // Latin Small Letter U With Hook
+                                                                                   // Above = Latin Small Letter U +
+                                                                                   // Combining Hook Above
+            case '\u1EF1':
+                return new char[] { (char) 0x0075, (char) 0x00E0, (char) 0x00F2 }; // Latin Small Letter U With Horn And
+                                                                                   // Dot Below = Latin Small Letter U +
+                                                                                   // Combining Horn + Combining Dot
+                                                                                   // Below
+            case '\u01DA':
+                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x00E9 }; // Latin Small Letter U With
+                                                                                   // Diaeresis And Caron = Latin Small
+                                                                                   // Letter U + Combining Diaeresis +
+                                                                                   // Combining Caron
+            case '\u1E7D':
+                return new char[] { (char) 0x0076, (char) 0x00E7, (char) 0x00E4 }; // Latin Small Letter V With Tilde =
+                                                                                   // Latin Small Letter V + Combining
+                                                                                   // Tilde
+            case '\u1E7F':
+                return new char[] { (char) 0x0076, (char) 0x00E7, (char) 0x00E4 }; // Latin Small Letter V With Dot
+                                                                                   // Below = Latin Small Letter V +
+                                                                                   // Combining Dot Below
+            case '\u0175':
+                return new char[] { (char) 0x0077, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter W With
+                                                                                   // Circumflex = Latin Small Letter W
+                                                                                   // + Combining Circumflex Accent
+            case '\u1E81':
+                return new char[] { (char) 0x0077, (char) 0x00E7, (char) 0x00E4 }; // Latin Small Letter W With Grave =
+                                                                                   // Latin Small Letter W + Combining
+                                                                                   // Grave Accent
+            case '\u1E83':
+                return new char[] { (char) 0x0077, (char) 0x00E7, (char) 0x00E4 }; // Latin Small Letter W With Acute =
+                                                                                   // Latin Small Letter W + Combining
+                                                                                   // Acute Accent
+            case '\u1E85':
+                return new char[] { (char) 0x0077, (char) 0x00E7, (char) 0x00E4 }; // Latin Small Letter W With
+                                                                                   // Diaeresis = Latin Small Letter W +
+                                                                                   // Combining Diaeresis
+            case '\u1E87':
+                return new char[] { (char) 0x0077, (char) 0x00E7, (char) 0x00E4 }; // Latin Small Letter W With Dot
+                                                                                   // Above = Latin Small Letter W +
+                                                                                   // Combining Dot Above
+            case '\u1E89':
+                return new char[] { (char) 0x0077, (char) 0x00E7, (char) 0x00E4 }; // Latin Small Letter W With Dot
+                                                                                   // Below = Latin Small Letter W +
+                                                                                   // Combining Dot Below
+            case '\u1E98':
+                return new char[] { (char) 0x0077, (char) 0x00E7, (char) 0x00E4 }; // Latin Small Letter W With Ring
+                                                                                   // Above = Latin Small Letter W +
+                                                                                   // Combining Ring Above
+            case '\u1E8B':
+                return new char[] { (char) 0x0078, (char) 0x00E7, (char) 0x00E4 }; // Latin Small Letter X With Dot
+                                                                                   // Above = Latin Small Letter X +
+                                                                                   // Combining Dot Above
+            case '\u1E8D':
+                return new char[] { (char) 0x0078, (char) 0x00E7, (char) 0x00E4 }; // Latin Small Letter X With
+                                                                                   // Diaeresis = Latin Small Letter X +
+                                                                                   // Combining Diaeresis
+            case '\u00FD':
+                return new char[] { (char) 0x0079, (char) 0x00E2, (char) 0x0000 }; // Latin Small Letter Y With Acute =
+                                                                                   // Latin Small Letter Y + Combining
+                                                                                   // Acute Accent
+            case '\u00FF':
+                return new char[] { (char) 0x0079, (char) 0x00E8, (char) 0x0000 }; // Latin Small Letter Y With
+                                                                                   // Diaeresis = Latin Small Letter Y +
+                                                                                   // Combining Diaeresis
+            case '\u0177':
+                return new char[] { (char) 0x0079, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter Y With
+                                                                                   // Circumflex = Latin Small Letter Y
+                                                                                   // + Combining Circumflex Accent
+            case '\u1E8F':
+                return new char[] { (char) 0x0079, (char) 0x00E7, (char) 0x00E4 }; // Latin Small Letter Y With Dot
+                                                                                   // Above = Latin Small Letter Y +
+                                                                                   // Combining Dot Above
+            case '\u1E99':
+                return new char[] { (char) 0x0079, (char) 0x00E7, (char) 0x00E4 }; // Latin Small Letter Y With Ring
+                                                                                   // Above = Latin Small Letter Y +
+                                                                                   // Combining Ring Above
+            case '\u1EF3':
+                return new char[] { (char) 0x0079, (char) 0x00E0, (char) 0x0000 }; // Latin Small Letter Y With Grave =
+                                                                                   // Latin Small Letter Y + Combining
+                                                                                   // Grave Accent
+            case '\u1EF5':
+                return new char[] { (char) 0x0079, (char) 0x00E0, (char) 0x0000 }; // Latin Small Letter Y With Dot
+                                                                                   // Below = Latin Small Letter Y +
+                                                                                   // Combining Dot Below
+            case '\u1EF7':
+                return new char[] { (char) 0x0079, (char) 0x00E0, (char) 0x0000 }; // Latin Small Letter Y With Hook
+                                                                                   // Above = Latin Small Letter Y +
+                                                                                   // Combining Hook Above
+            case '\u1EF9':
+                return new char[] { (char) 0x0079, (char) 0x00E4, (char) 0x0000 }; // Latin Small Letter Y With Tilde =
+                                                                                   // Latin Small Letter Y + Combining
+                                                                                   // Tilde
+            case '\u01EF':
+                return new char[] { (char) 0x0292, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter Ezh With Caron
+                                                                                   // = Latin Small Letter Ezh +
+                                                                                   // Combining Caron
+            case '\u0134':
+                return new char[] { (char) 0x004A, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter J With
+                                                                                   // Circumflex = Latin Capital Letter
+                                                                                   // J + Combining Circumflex Accent
+            case '\u0136':
+                return new char[] { (char) 0x004B, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter K With
+                                                                                   // Cedilla = Latin Capital Letter K +
+                                                                                   // Combining Cedilla
+            case '\u01E8':
+                return new char[] { (char) 0x004B, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter K With Caron
+                                                                                   // = Latin Capital Letter K +
+                                                                                   // Combining Caron
+            case '\u1E30':
+                return new char[] { (char) 0x004B, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter K With Acute
+                                                                                   // = Latin Capital Letter K +
+                                                                                   // Combining Acute Accent
+            case '\u1E32':
+                return new char[] { (char) 0x004B, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter K With Dot
+                                                                                   // Below = Latin Capital Letter K +
+                                                                                   // Combining Dot Below
+            case '\u1E34':
+                return new char[] { (char) 0x004B, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter K With Line
+                                                                                   // Below = Latin Capital Letter K +
+                                                                                   // Combining Low Line
+            case '\u0139':
+                return new char[] { (char) 0x004C, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter L With Acute
+                                                                                   // = Latin Capital Letter L +
+                                                                                   // Combining Acute Accent
+            case '\u013B':
+                return new char[] { (char) 0x004C, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter L With
+                                                                                   // Cedilla = Latin Capital Letter L +
+                                                                                   // Combining Cedilla
+            case '\u013D':
+                return new char[] { (char) 0x004C, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter L With Caron
+                                                                                   // = Latin Capital Letter L +
+                                                                                   // Combining Caron
+            case '\u1E36':
+                return new char[] { (char) 0x004C, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter L With Dot
+                                                                                   // Below = Latin Capital Letter L +
+                                                                                   // Combining Dot Below
+            case '\u1E3A':
+                return new char[] { (char) 0x004C, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter L With Line
+                                                                                   // Below = Latin Capital Letter L +
+                                                                                   // Combining Low Line
+            case '\u1E3C':
+                return new char[] { (char) 0x004C, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter L With
+                                                                                   // Circumflex Below = Latin Capital
+                                                                                   // Letter L + Combining Circumflex
+                                                                                   // Accent Below
+            case '\u1E38':
+                return new char[] { (char) 0x004C, (char) 0x00E7, (char) 0x00E5 }; // Latin Capital Letter L With Dot
+                                                                                   // Below And Macron = Latin Capital
+                                                                                   // Letter L + Combining Dot Below +
+                                                                                   // Combining Macron
+            case '\u1E3E':
+                return new char[] { (char) 0x004D, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter M With Acute
+                                                                                   // = Latin Capital Letter M +
+                                                                                   // Combining Acute Accent
+            case '\u1E40':
+                return new char[] { (char) 0x004D, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter M With Dot
+                                                                                   // Above = Latin Capital Letter M +
+                                                                                   // Combining Dot Above
+            case '\u1E42':
+                return new char[] { (char) 0x004D, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter M With Dot
+                                                                                   // Below = Latin Capital Letter M +
+                                                                                   // Combining Dot Below
+            case '\u00D1':
+                return new char[] { (char) 0x004E, (char) 0x00E4, (char) 0x0000 }; // Latin Capital Letter N With Tilde
+                                                                                   // = Latin Capital Letter N +
+                                                                                   // Combining Tilde
+            case '\u0143':
+                return new char[] { (char) 0x004E, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter N With Acute
+                                                                                   // = Latin Capital Letter N +
+                                                                                   // Combining Acute Accent
+            case '\u0145':
+                return new char[] { (char) 0x004E, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter N With
+                                                                                   // Cedilla = Latin Capital Letter N +
+                                                                                   // Combining Cedilla
+            case '\u0147':
+                return new char[] { (char) 0x004E, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter N With Caron
+                                                                                   // = Latin Capital Letter N +
+                                                                                   // Combining Caron
+            case '\u1E44':
+                return new char[] { (char) 0x004E, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter N With Dot
+                                                                                   // Above = Latin Capital Letter N +
+                                                                                   // Combining Dot Above
+            case '\u1E46':
+                return new char[] { (char) 0x004E, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter N With Dot
+                                                                                   // Below = Latin Capital Letter N +
+                                                                                   // Combining Dot Below
+            case '\u1E48':
+                return new char[] { (char) 0x004E, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter N With Line
+                                                                                   // Below = Latin Capital Letter N +
+                                                                                   // Combining Low Line
+            case '\u1E4A':
+                return new char[] { (char) 0x004E, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter N With
+                                                                                   // Circumflex Below = Latin Capital
+                                                                                   // Letter N + Combining Circumflex
+                                                                                   // Accent Below
+            case '\u00D2':
+                return new char[] { (char) 0x004F, (char) 0x00E1, (char) 0x0000 }; // Latin Capital Letter O With Grave
+                                                                                   // = Latin Capital Letter O +
+                                                                                   // Combining Grave Accent
+            case '\u00D3':
+                return new char[] { (char) 0x004F, (char) 0x00E2, (char) 0x0000 }; // Latin Capital Letter O With Acute
+                                                                                   // = Latin Capital Letter O +
+                                                                                   // Combining Acute Accent
+            case '\u00D4':
+                return new char[] { (char) 0x004F, (char) 0x00E3, (char) 0x0000 }; // Latin Capital Letter O With
+                                                                                   // Circumflex = Latin Capital Letter
+                                                                                   // O + Combining Circumflex Accent
+            case '\u00D5':
+                return new char[] { (char) 0x004F, (char) 0x00E4, (char) 0x0000 }; // Latin Capital Letter O With Tilde
+                                                                                   // = Latin Capital Letter O +
+                                                                                   // Combining Tilde
+            case '\u00D6':
+                return new char[] { (char) 0x004F, (char) 0x00E8, (char) 0x0000 }; // Latin Capital Letter O With
+                                                                                   // Diaeresis = Latin Capital Letter O
+                                                                                   // + Combining Diaeresis
+            case '\u014C':
+                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter O With Macron
+                                                                                   // = Latin Capital Letter O +
+                                                                                   // Combining Macron
+            case '\u014E':
+                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter O With Breve
+                                                                                   // = Latin Capital Letter O +
+                                                                                   // Combining Breve
+            case '\u0150':
+                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter O With Double
+                                                                                   // Acute = Latin Capital Letter O +
+                                                                                   // Combining Double Acute Accent
+            case '\u01A0':
+                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter O With Horn =
+                                                                                   // Latin Capital Letter O + Combining
+                                                                                   // Horn
+            case '\u01D1':
+                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter O With Caron
+                                                                                   // = Latin Capital Letter O +
+                                                                                   // Combining Caron
+            case '\u1E50':
+                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x00E1 }; // Latin Capital Letter O With Macron
+                                                                                   // And Grave = Latin Capital Letter O
+                                                                                   // + Combining Macron + Combining
+                                                                                   // Grave Accent
+            case '\u01EA':
+                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter O With Ogonek
+                                                                                   // = Latin Capital Letter O +
+                                                                                   // Combining Ogonek
+            case '\u1ED2':
+                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x00E1 }; // Latin Capital Letter O With
+                                                                                   // Circumflex And Grave = Latin
+                                                                                   // Capital Letter O + Combining
+                                                                                   // Circumflex Accent + Combining
+                                                                                   // Grave Accent
+            case '\u1EDC':
+                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x00E1 }; // Latin Capital Letter O With Horn
+                                                                                   // And Grave = Latin Capital Letter O
+                                                                                   // + Combining Horn + Combining Grave
+                                                                                   // Accent
+            case '\u020C':
+                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter O With Double
+                                                                                   // Grave = Latin Capital Letter O +
+                                                                                   // Combining Double Grave Accent
+            case '\u020E':
+                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter O With
+                                                                                   // Inverted Breve = Latin Capital
+                                                                                   // Letter O + Combining Inverted
+                                                                                   // Breve
+            case '\u1E4C':
+                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter O With Tilde
+                                                                                   // And Acute = Latin Capital Letter O
+                                                                                   // + Combining Tilde + Combining
+                                                                                   // Acute Accent
+            case '\u1E52':
+                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x00E2 }; // Latin Capital Letter O With Macron
+                                                                                   // And Acute = Latin Capital Letter O
+                                                                                   // + Combining Macron + Combining
+                                                                                   // Acute Accent
+            case '\u1ED0':
+                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x00E2 }; // Latin Capital Letter O With
+                                                                                   // Circumflex And Acute = Latin
+                                                                                   // Capital Letter O + Combining
+                                                                                   // Circumflex Accent + Combining
+                                                                                   // Acute Accent
+            case '\u1EDA':
+                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x00E2 }; // Latin Capital Letter O With Horn
+                                                                                   // And Acute = Latin Capital Letter O
+                                                                                   // + Combining Horn + Combining Acute
+                                                                                   // Accent
+            case '\u1ED6':
+                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x00E4 }; // Latin Capital Letter O With
+                                                                                   // Circumflex And Tilde = Latin
+                                                                                   // Capital Letter O + Combining
+                                                                                   // Circumflex Accent + Combining
+                                                                                   // Tilde
+            case '\u1EE0':
+                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x00E4 }; // Latin Capital Letter O With Horn
+                                                                                   // And Tilde = Latin Capital Letter O
+                                                                                   // + Combining Horn + Combining Tilde
+            case '\u01EC':
+                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x00E5 }; // Latin Capital Letter O With Ogonek
+                                                                                   // And Macron = Latin Capital Letter
+                                                                                   // O + Combining Ogonek + Combining
+                                                                                   // Macron
+            case '\u1ECC':
+                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x0000 }; // Latin Capital Letter O With Dot
+                                                                                   // Below = Latin Capital Letter O +
+                                                                                   // Combining Dot Below
+            case '\u1ECE':
+                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x0000 }; // Latin Capital Letter O With Hook
+                                                                                   // Above = Latin Capital Letter O +
+                                                                                   // Combining Hook Above
+            case '\u1E4E':
+                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x00E8 }; // Latin Capital Letter O With Tilde
+                                                                                   // And Diaeresis = Latin Capital
+                                                                                   // Letter O + Combining Tilde +
+                                                                                   // Combining Diaeresis
+            case '\u1ED4':
+                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x00E0 }; // Latin Capital Letter O With
+                                                                                   // Circumflex And Hook Above = Latin
+                                                                                   // Capital Letter O + Combining
+                                                                                   // Circumflex Accent + Combining Hook
+                                                                                   // Above
+            case '\u1EDE':
+                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x00E0 }; // Latin Capital Letter O With Horn
+                                                                                   // And Hook Above = Latin Capital
+                                                                                   // Letter O + Combining Horn +
+                                                                                   // Combining Hook Above
+            case '\u1ED8':
+                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x00F2 }; // Latin Capital Letter O With
+                                                                                   // Circumflex And Dot Below = Latin
+                                                                                   // Capital Letter O + Combining
+                                                                                   // Circumflex Accent + Combining Dot
+                                                                                   // Below
+            case '\u1EE2':
+                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x00F2 }; // Latin Capital Letter O With Horn
+                                                                                   // And Dot Below = Latin Capital
+                                                                                   // Letter O + Combining Horn +
+                                                                                   // Combining Dot Below
+            case '\u0179':
+                return new char[] { (char) 0x005A, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter Z With Acute
+                                                                                   // = Latin Capital Letter Z +
+                                                                                   // Combining Acute Accent
+            case '\u017B':
+                return new char[] { (char) 0x005A, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter Z With Dot
+                                                                                   // Above = Latin Capital Letter Z +
+                                                                                   // Combining Dot Above
+            case '\u017D':
+                return new char[] { (char) 0x005A, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter Z With Caron
+                                                                                   // = Latin Capital Letter Z +
+                                                                                   // Combining Caron
+            case '\u1E90':
+                return new char[] { (char) 0x005A, (char) 0x00E7, (char) 0x00E4 }; // Latin Capital Letter Z With
+                                                                                   // Circumflex = Latin Capital Letter
+                                                                                   // Z + Combining Circumflex Accent
+            case '\u1E92':
+                return new char[] { (char) 0x005A, (char) 0x00E7, (char) 0x00E4 }; // Latin Capital Letter Z With Dot
+                                                                                   // Below = Latin Capital Letter Z +
+                                                                                   // Combining Dot Below
+            case '\u1E94':
+                return new char[] { (char) 0x005A, (char) 0x00E7, (char) 0x00E4 }; // Latin Capital Letter Z With Line
+                                                                                   // Below = Latin Capital Letter Z +
+                                                                                   // Combining Low Line
+            case '\u0135':
+                return new char[] { (char) 0x006A, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter J With
+                                                                                   // Circumflex = Latin Small Letter J
+                                                                                   // + Combining Circumflex Accent
+            case '\u01F0':
+                return new char[] { (char) 0x006A, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter J With Caron =
+                                                                                   // Latin Small Letter J + Combining
+                                                                                   // Caron
+            case '\u0137':
+                return new char[] { (char) 0x006B, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter K With Cedilla
+                                                                                   // = Latin Small Letter K + Combining
+                                                                                   // Cedilla
+            case '\u01E9':
+                return new char[] { (char) 0x006B, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter K With Caron =
+                                                                                   // Latin Small Letter K + Combining
+                                                                                   // Caron
+            case '\u1E31':
+                return new char[] { (char) 0x006B, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter K With Acute =
+                                                                                   // Latin Small Letter K + Combining
+                                                                                   // Acute Accent
+            case '\u1E33':
+                return new char[] { (char) 0x006B, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter K With Dot
+                                                                                   // Below = Latin Small Letter K +
+                                                                                   // Combining Dot Below
+            case '\u1E35':
+                return new char[] { (char) 0x006B, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter K With Line
+                                                                                   // Below = Latin Small Letter K +
+                                                                                   // Combining Low Line
+            case '\u013A':
+                return new char[] { (char) 0x006C, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter L With Acute =
+                                                                                   // Latin Small Letter L + Combining
+                                                                                   // Acute Accent
+            case '\u013C':
+                return new char[] { (char) 0x006C, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter L With Cedilla
+                                                                                   // = Latin Small Letter L + Combining
+                                                                                   // Cedilla
+            case '\u013E':
+                return new char[] { (char) 0x006C, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter L With Caron =
+                                                                                   // Latin Small Letter L + Combining
+                                                                                   // Caron
+            case '\u1E37':
+                return new char[] { (char) 0x006C, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter L With Dot
+                                                                                   // Below = Latin Small Letter L +
+                                                                                   // Combining Dot Below
+            case '\u1E3B':
+                return new char[] { (char) 0x006C, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter L With Line
+                                                                                   // Below = Latin Small Letter L +
+                                                                                   // Combining Low Line
+            case '\u1E3D':
+                return new char[] { (char) 0x006C, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter L With
+                                                                                   // Circumflex Below = Latin Small
+                                                                                   // Letter L + Combining Circumflex
+                                                                                   // Accent Below
+            case '\u1E39':
+                return new char[] { (char) 0x006C, (char) 0x00E7, (char) 0x00E5 }; // Latin Small Letter L With Dot
+                                                                                   // Below And Macron = Latin Small
+                                                                                   // Letter L + Combining Dot Below +
+                                                                                   // Combining Macron
+            case '\u1E3F':
+                return new char[] { (char) 0x006D, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter M With Acute =
+                                                                                   // Latin Small Letter M + Combining
+                                                                                   // Acute Accent
+            case '\u1E41':
+                return new char[] { (char) 0x006D, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter M With Dot
+                                                                                   // Above = Latin Small Letter M +
+                                                                                   // Combining Dot Above
+            case '\u1E43':
+                return new char[] { (char) 0x006D, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter M With Dot
+                                                                                   // Below = Latin Small Letter M +
+                                                                                   // Combining Dot Below
+            case '\u00F1':
+                return new char[] { (char) 0x006E, (char) 0x00E4, (char) 0x0000 }; // Latin Small Letter N With Tilde =
+                                                                                   // Latin Small Letter N + Combining
+                                                                                   // Tilde
+            case '\u0144':
+                return new char[] { (char) 0x006E, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter N With Acute =
+                                                                                   // Latin Small Letter N + Combining
+                                                                                   // Acute Accent
+            case '\u0146':
+                return new char[] { (char) 0x006E, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter N With Cedilla
+                                                                                   // = Latin Small Letter N + Combining
+                                                                                   // Cedilla
+            case '\u0148':
+                return new char[] { (char) 0x006E, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter N With Caron =
+                                                                                   // Latin Small Letter N + Combining
+                                                                                   // Caron
+            case '\u1E45':
+                return new char[] { (char) 0x006E, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter N With Dot
+                                                                                   // Above = Latin Small Letter N +
+                                                                                   // Combining Dot Above
+            case '\u1E47':
+                return new char[] { (char) 0x006E, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter N With Dot
+                                                                                   // Below = Latin Small Letter N +
+                                                                                   // Combining Dot Below
+            case '\u1E49':
+                return new char[] { (char) 0x006E, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter N With Line
+                                                                                   // Below = Latin Small Letter N +
+                                                                                   // Combining Low Line
+            case '\u1E4B':
+                return new char[] { (char) 0x006E, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter N With
+                                                                                   // Circumflex Below = Latin Small
+                                                                                   // Letter N + Combining Circumflex
+                                                                                   // Accent Below
+            case '\u00F2':
+                return new char[] { (char) 0x006F, (char) 0x00E1, (char) 0x0000 }; // Latin Small Letter O With Grave =
+                                                                                   // Latin Small Letter O + Combining
+                                                                                   // Grave Accent
+            case '\u00F3':
+                return new char[] { (char) 0x006F, (char) 0x00E2, (char) 0x0000 }; // Latin Small Letter O With Acute =
+                                                                                   // Latin Small Letter O + Combining
+                                                                                   // Acute Accent
+            case '\u00F4':
+                return new char[] { (char) 0x006F, (char) 0x00E3, (char) 0x0000 }; // Latin Small Letter O With
+                                                                                   // Circumflex = Latin Small Letter O
+                                                                                   // + Combining Circumflex Accent
+            case '\u00F5':
+                return new char[] { (char) 0x006F, (char) 0x00E4, (char) 0x0000 }; // Latin Small Letter O With Tilde =
+                                                                                   // Latin Small Letter O + Combining
+                                                                                   // Tilde
+            case '\u00F6':
+                return new char[] { (char) 0x006F, (char) 0x00E8, (char) 0x0000 }; // Latin Small Letter O With
+                                                                                   // Diaeresis = Latin Small Letter O +
+                                                                                   // Combining Diaeresis
+            case '\u014D':
+                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter O With Macron =
+                                                                                   // Latin Small Letter O + Combining
+                                                                                   // Macron
+            case '\u014F':
+                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter O With Breve =
+                                                                                   // Latin Small Letter O + Combining
+                                                                                   // Breve
+            case '\u0151':
+                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter O With Double
+                                                                                   // Acute = Latin Small Letter O +
+                                                                                   // Combining Double Acute Accent
+            case '\u01A1':
+                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter O With Horn =
+                                                                                   // Latin Small Letter O + Combining
+                                                                                   // Horn
+            case '\u01D2':
+                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter O With Caron =
+                                                                                   // Latin Small Letter O + Combining
+                                                                                   // Caron
+            case '\u1E51':
+                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x00E1 }; // Latin Small Letter O With Macron
+                                                                                   // And Grave = Latin Small Letter O +
+                                                                                   // Combining Macron + Combining Grave
+                                                                                   // Accent
+            case '\u01EB':
+                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter O With Ogonek =
+                                                                                   // Latin Small Letter O + Combining
+                                                                                   // Ogonek
+            case '\u1ED3':
+                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x00E1 }; // Latin Small Letter O With
+                                                                                   // Circumflex And Grave = Latin Small
+                                                                                   // Letter O + Combining Circumflex
+                                                                                   // Accent + Combining Grave Accent
+            case '\u1EDD':
+                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x00E1 }; // Latin Small Letter O With Horn And
+                                                                                   // Grave = Latin Small Letter O +
+                                                                                   // Combining Horn + Combining Grave
+                                                                                   // Accent
+            case '\u020D':
+                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter O With Double
+                                                                                   // Grave = Latin Small Letter O +
+                                                                                   // Combining Double Grave Accent
+            case '\u020F':
+                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter O With Inverted
+                                                                                   // Breve = Latin Small Letter O +
+                                                                                   // Combining Inverted Breve
+            case '\u1E4D':
+                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter O With Tilde
+                                                                                   // And Acute = Latin Small Letter O +
+                                                                                   // Combining Tilde + Combining Acute
+                                                                                   // Accent
+            case '\u1E53':
+                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x00E2 }; // Latin Small Letter O With Macron
+                                                                                   // And Acute = Latin Small Letter O +
+                                                                                   // Combining Macron + Combining Acute
+                                                                                   // Accent
+            case '\u1ED1':
+                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x00E2 }; // Latin Small Letter O With
+                                                                                   // Circumflex And Acute = Latin Small
+                                                                                   // Letter O + Combining Circumflex
+                                                                                   // Accent + Combining Acute Accent
+            case '\u1EDB':
+                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x00E2 }; // Latin Small Letter O With Horn And
+                                                                                   // Acute = Latin Small Letter O +
+                                                                                   // Combining Horn + Combining Acute
+                                                                                   // Accent
+            case '\u1ED7':
+                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x00E4 }; // Latin Small Letter O With
+                                                                                   // Circumflex And Tilde = Latin Small
+                                                                                   // Letter O + Combining Circumflex
+                                                                                   // Accent + Combining Tilde
+            case '\u1EE1':
+                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x00E4 }; // Latin Small Letter O With Horn And
+                                                                                   // Tilde = Latin Small Letter O +
+                                                                                   // Combining Horn + Combining Tilde
+            case '\u01ED':
+                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x00E5 }; // Latin Small Letter O With Ogonek
+                                                                                   // And Macron = Latin Small Letter O
+                                                                                   // + Combining Ogonek + Combining
+                                                                                   // Macron
+            case '\u1ECD':
+                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x0000 }; // Latin Small Letter O With Dot
+                                                                                   // Below = Latin Small Letter O +
+                                                                                   // Combining Dot Below
+            case '\u1ECF':
+                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x0000 }; // Latin Small Letter O With Hook
+                                                                                   // Above = Latin Small Letter O +
+                                                                                   // Combining Hook Above
+            case '\u1E4F':
+                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x00E8 }; // Latin Small Letter O With Tilde
+                                                                                   // And Diaeresis = Latin Small Letter
+                                                                                   // O + Combining Tilde + Combining
+                                                                                   // Diaeresis
+            case '\u1ED5':
+                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x00E0 }; // Latin Small Letter O With
+                                                                                   // Circumflex And Hook Above = Latin
+                                                                                   // Small Letter O + Combining
+                                                                                   // Circumflex Accent + Combining Hook
+                                                                                   // Above
+            case '\u1EDF':
+                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x00E0 }; // Latin Small Letter O With Horn And
+                                                                                   // Hook Above = Latin Small Letter O
+                                                                                   // + Combining Horn + Combining Hook
+                                                                                   // Above
+            case '\u1ED9':
+                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x00F2 }; // Latin Small Letter O With
+                                                                                   // Circumflex And Dot Below = Latin
+                                                                                   // Small Letter O + Combining
+                                                                                   // Circumflex Accent + Combining Dot
+                                                                                   // Below
+            case '\u1EE3':
+                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x00F2 }; // Latin Small Letter O With Horn And
+                                                                                   // Dot Below = Latin Small Letter O +
+                                                                                   // Combining Horn + Combining Dot
+                                                                                   // Below
+            case '\u017A':
+                return new char[] { (char) 0x007A, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter Z With Acute =
+                                                                                   // Latin Small Letter Z + Combining
+                                                                                   // Acute Accent
+            case '\u017C':
+                return new char[] { (char) 0x007A, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter Z With Dot
+                                                                                   // Above = Latin Small Letter Z +
+                                                                                   // Combining Dot Above
+            case '\u017E':
+                return new char[] { (char) 0x007A, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter Z With Caron =
+                                                                                   // Latin Small Letter Z + Combining
+                                                                                   // Caron
+            case '\u1E91':
+                return new char[] { (char) 0x007A, (char) 0x00E7, (char) 0x00E4 }; // Latin Small Letter Z With
+                                                                                   // Circumflex = Latin Small Letter Z
+                                                                                   // + Combining Circumflex Accent
+            case '\u1E93':
+                return new char[] { (char) 0x007A, (char) 0x00E7, (char) 0x00E4 }; // Latin Small Letter Z With Dot
+                                                                                   // Below = Latin Small Letter Z +
+                                                                                   // Combining Dot Below
+            case '\u1E95':
+                return new char[] { (char) 0x007A, (char) 0x00E7, (char) 0x00E4 }; // Latin Small Letter Z With Line
+                                                                                   // Below = Latin Small Letter Z +
+                                                                                   // Combining Low Line
+            case '\u01E2':
+                return new char[] { (char) 0x00C6, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter Ae With
+                                                                                   // Macron = Latin Capital Letter Ae +
+                                                                                   // Combining Macron
+            case '\u01FC':
+                return new char[] { (char) 0x00C6, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter Ae With Acute
+                                                                                   // = Latin Capital Letter Ae +
+                                                                                   // Combining Acute Accent
+            case '\u1E9B':
+                return new char[] { (char) 0x017F, (char) 0x00E7, (char) 0x00E4 }; // Latin Small Letter Long S With Dot
+                                                                                   // Above = Latin Small Letter Long S
+                                                                                   // + Combining Dot Above
+            case '\u01EE':
+                return new char[] { (char) 0x01B7, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter Ezh With
+                                                                                   // Caron = Latin Capital Letter Ezh +
+                                                                                   // Combining Caron
+            case '\u01C4':
+                return new char[] { (char) 0x01F1, (char) 0x00E7, (char) 0x0000 }; // Latin Capital Letter Dz With Caron
+                                                                                   // = Latin Capital Letter Dz +
+                                                                                   // Combining Caron
+            case '\u01C6':
+                return new char[] { (char) 0x01F3, (char) 0x00E7, (char) 0x0000 }; // Latin Small Letter Dz With Caron =
+                                                                                   // Latin Small Letter Dz + Combining
+                                                                                   // Caron
+            default:
+                return null;
+        }
     }
 
     /**
