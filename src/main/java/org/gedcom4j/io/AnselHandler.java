@@ -93,20 +93,33 @@ class AnselHandler {
              * If concatenating from the previous line, need to see if the last character on previous line is a
              * diacritical mark modifying the beginning of this line
              */
-            if (prevAnsel != null && ansel.length() >= 6 && ansel.substring(2, 6).equals("CONC")
-                    && (prevAnsel.charAt(prevAnsel.length() - 1) >= ANSEL_DIACRITICS_BEGIN_AT)) {
-                // TODO - Deal with concatenating diacritical mark from previous line - ugh
-                result.add(ansel);
+            if (prevAnsel != null && ansel.length() >= 6 && ansel.substring(2, 6).equals("CONC") && endsWithDiacritical(prevAnsel)) {
+                // Remove the last line we just added - need to adjust it and re-add it - not terribly efficient, but
+                // simpler to code
+                result.remove(result.size() - 1);
+
+                // Strip the leading combining diacritical off previous line
+                char d1 = prevAnsel.charAt(prevAnsel.length() - 1);
+                prevAnsel = prevAnsel.substring(0, prevAnsel.length() - 1);
+                char d2 = 0;
+                if (endsWithDiacritical(prevAnsel)) {
+                    // There was a second diacritical at the end of the line
+                    d2 = prevAnsel.charAt(prevAnsel.length() - 1);
+                    prevAnsel = prevAnsel.substring(0, prevAnsel.length() - 1);
+                }
+                // Re-add the line with the diacriticals removed
+                result.add(toUtf16(prevAnsel));
+                // Insert the diacriticals on the current line so they stay with the character being modified
+                if (d2 == 0) {
+                    ansel = ansel.substring(0, 7) + d1 + ansel.substring(7);
+                } else {
+                    ansel = ansel.substring(0, 7) + d2 + d1 + ansel.substring(7);
+                }
+                // And translate/add it
+                result.add(toUtf16(ansel));
             } else {
                 // Simpler case - just translate current line
-                String utf16 = toUtf16(ansel);
-                if (!ansel.equals(utf16)) {
-                    System.out.println("Ansel mapping changed content:");
-                    System.out.println(ansel);
-                    System.out.println(utf16);
-                    System.out.println();
-                }
-                result.add(utf16);
+                result.add(toUtf16(ansel));
             }
             prevAnsel = ansel;
         }
@@ -163,6 +176,17 @@ class AnselHandler {
             }
         }
         return utf16.toString();
+    }
+
+    /**
+     * Return true if ANSEL string ends in a combining diacritical
+     * 
+     * @param s
+     *            the ANSEL string
+     * @return true if ANSEL string ends in a combining diacritical
+     */
+    private boolean endsWithDiacritical(String s) {
+        return (s.charAt(s.length() - 1) >= ANSEL_DIACRITICS_BEGIN_AT);
     }
 
     /**
