@@ -148,6 +148,9 @@ class AnselHandler {
         for (int i = 0; i < utf16.length(); i++) {
             char c = utf16.charAt(i);
 
+            // TODO - lookahead to see if the following character or two are combining diacritics, in case they weren't
+            // precomposed for some reason
+
             if (c < ANSEL_EXTENDED_BEGIN_AT) {
                 ansel.append(c);
                 continue;
@@ -246,7 +249,9 @@ class AnselHandler {
      * 
      * @param c
      *            the unicode character to be represented
-     * @return the array of characters that represent that character, or null if there is no special breakdown
+     * @return the array of characters that represent that character, or null if there is no special breakdown. The
+     *         first array element is the base character. The remaining two elements are combining diacritics. An
+     *         element of 0x0000 means that that character is not part of the mapping.
      */
     private char[] getBrokenDownGlyph(Character c) {
         switch (c) {

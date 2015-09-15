@@ -203,25 +203,27 @@ public class GedcomWriterTest extends TestCase {
         for (String xref : gedcomOrig.notes.keySet()) {
             Note n1 = gedcomOrig.notes.get(xref);
             Note n2 = gedcomReadback.notes.get(xref);
-            if (xref.equals("@N25@")) {
-                assertEquals(n1.lines.size(), n2.lines.size());
-                for (int i = 0; i < n1.lines.size(); i++) {
-                    String l1 = n1.lines.get(i);
-                    String l2 = n2.lines.get(i);
-                    if (!l1.equals(l2)) {
-                        for (int j = 0; j < l1.length(); j++) {
-                            System.out.print(String.format("%s %04x == %s %04x", l1.charAt(j), (int) l1.charAt(j), l2.charAt(j), (int) l2.charAt(j)));
-                            if (l1.charAt(j) != l2.charAt(j)) {
-                                System.out.print("  <<======");
-                            }
-                            System.out.println();
-
+            assertEquals(n1.lines.size(), n2.lines.size());
+            String prevLine = null;
+            for (int i = 0; i < n1.lines.size(); i++) {
+                String l1 = n1.lines.get(i);
+                String l2 = n2.lines.get(i);
+                if (!l1.equals(l2)) {
+                    System.out.println("On line following \"" + prevLine + "\":");
+                    System.out.println("Should be " + l1);
+                    System.out.println("Actual is " + l2);
+                    for (int j = 0; j < l1.length(); j++) {
+                        System.out.print(String.format("%s %04x == %s %04x", l1.charAt(j), (int) l1.charAt(j), l2.charAt(j), (int) l2.charAt(j)));
+                        if (l1.charAt(j) != l2.charAt(j)) {
+                            System.out.print("  <<======");
                         }
+                        System.out.println();
                     }
-                    assertEquals(l1, l2);
                 }
-                assertEquals("Note " + xref + " should be equal, but isn't", n1, n2);
+                prevLine = l1;
+                assertEquals("Note " + xref + " line " + i + " should equal but don't - preceding line in note was " + prevLine, l1, l2);
             }
+            assertEquals("Note " + xref + " should be equal, but isn't", n1, n2);
         }
     }
 
