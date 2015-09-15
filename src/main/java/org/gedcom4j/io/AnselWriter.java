@@ -39,7 +39,7 @@ class AnselWriter extends AbstractEncodingSpecificWriter {
     protected void writeLine(OutputStream out, String line) throws IOException {
         for (int i = 0; i < line.length(); i++) {
             char c = line.charAt(i);
-            out.write(AnselMapping.encode(c));
+            out.write(c);
         }
         writeLineTerminator(out);
     }
