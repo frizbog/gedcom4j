@@ -56,7 +56,12 @@ class LinePieces {
     LinePieces(String line) {
 
         // Level is always 1st character
-        level = Integer.parseInt(line.substring(0, 1));
+        try {
+            level = Integer.parseInt(line.substring(0, 1));
+        } catch (NumberFormatException nfe) {
+            System.err.println("Can't parse first character of line as a digit - " + line);
+            throw nfe;
+        }
 
         int c = 2; // 3rd character in line
 

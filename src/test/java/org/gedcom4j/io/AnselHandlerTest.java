@@ -37,11 +37,14 @@ public class AnselHandlerTest {
      */
     AnselHandler classUnderTest = new AnselHandler();
 
+    /**
+     * This is a longer test with diacriticals
+     */
     @Test
     public void testReadBasicDiacriticalsLong() {
-        assertEquals("Sa grand-mère l'a nourrie car sa mère était placée nourrice dans une famille de riches. "
-                + "Son oncle ( une tante en réalité Agueda), allaité avec elle, est décédé ( voir acte). "
-                + "Elle croyait qu'il était mort à cause d'elle, en lui pre",
+        assertEquals("Sa grand-mère l'a nourrie car sa mère était placée nourrice dans une famille de riches. "
+                + "Son oncle ( une tante en réalité Agueda), allaité avec elle, est décédé ( voir acte). "
+                + "Elle croyait qu'il était mort à cause d'elle, en lui pre",
                 classUnderTest.toUtf16("Sa grand-máere l'a nourrie car sa máere âetait placâee nourrice dans une famille de riches. "
                         + "Son oncle ( une tante en râealitâe Agueda), allaitâe avec elle, est dâecâedâe ( voir acte). "
                         + "Elle croyait qu'il âetait mort áa cause d'elle, en lui pre"));
