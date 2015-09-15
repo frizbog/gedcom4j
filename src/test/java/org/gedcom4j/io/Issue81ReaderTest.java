@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.gedcom4j.parser;
+package org.gedcom4j.io;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -27,6 +27,8 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 
 import org.gedcom4j.model.*;
+import org.gedcom4j.parser.GedcomParser;
+import org.gedcom4j.parser.GedcomParserException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,7 +37,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class Issue81ParserTest {
+public class Issue81ReaderTest {
 
     /**
      * The gedcom loaded from the sample file
@@ -100,8 +102,8 @@ public class Issue81ParserTest {
         Individual i = g.individuals.get("@I002@");
         assertNotNull(i);
         assertEquals(2, i.events.size());
-        assertEquals("lib\u00E1r\u00E1e", i.events.get(0).subType.value);
-        assertEquals("histoire de m\u00E1m\u00E1", i.events.get(1).subType.value);
+        assertEquals("lib\u00E9r\u00E9e", i.events.get(0).subType.value);
+        assertEquals("histoire de m\u00E9m\u00E9", i.events.get(1).subType.value);
     }
 
     /**

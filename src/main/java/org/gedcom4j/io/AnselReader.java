@@ -1,3 +1,24 @@
+/*
+ * Copyright (c) 2009-2014 Matthew R. Harrah
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package org.gedcom4j.io;
 
 import java.io.IOException;
@@ -17,7 +38,7 @@ class AnselReader extends AbstractEncodingSpecificReader {
     /**
      * Helper class
      */
-    AnselDiacriticalHandler anselDiacriticalHandler = new AnselDiacriticalHandler();
+    AnselHandler anselHandler = new AnselHandler();
 
     /**
      * Constructor
@@ -69,16 +90,12 @@ class AnselReader extends AbstractEncodingSpecificReader {
                 continue;
             }
 
-            // All other characters in 0x00 to 0x7F range are treated the
-            // same,
+            // All other characters are treated the same at this point,
             // regardless of encoding, and added as is
-            if (b < 0x80) {
-                lineBuffer.append(Character.valueOf((char) b));
-                continue;
-            }
-
-            lineBuffer.append(AnselMapping.decode(b));
+            lineBuffer.append(Character.valueOf((char) b));
+            continue;
         }
+        result = anselHandler.toUtf16(result);
         return result;
     }
 
@@ -88,7 +105,7 @@ class AnselReader extends AbstractEncodingSpecificReader {
      * @param result
      *            the resulting list of lines
      * @param lineBuffer
-     *            the line buffer
+     *            the line buffer - this is all the ANSEL bytes in the line, converted to characters
      */
     private void addNonBlankLine(List<String> result, StringBuilder lineBuffer) {
         if (lineBuffer.length() > 0) {
