@@ -33,12 +33,18 @@ import java.io.OutputStream;
 class AnselWriter extends AbstractEncodingSpecificWriter {
 
     /**
+     * The helper class that converts UTF-16 strings to ANSEL encoded data
+     */
+    private final AnselHandler anselHandler = new AnselHandler();
+
+    /**
      * {@inheritDoc}
      */
     @Override
     protected void writeLine(OutputStream out, String line) throws IOException {
-        for (int i = 0; i < line.length(); i++) {
-            char c = line.charAt(i);
+        String anselLine = anselHandler.toAnsel(line);
+        for (int i = 0; i < anselLine.length(); i++) {
+            char c = anselLine.charAt(i);
             out.write(c);
         }
         writeLineTerminator(out);
