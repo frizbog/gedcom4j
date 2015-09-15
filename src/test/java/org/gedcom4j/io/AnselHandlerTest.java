@@ -38,10 +38,10 @@ public class AnselHandlerTest {
     AnselHandler classUnderTest = new AnselHandler();
 
     /**
-     * This is a longer test with diacriticals
+     * This is a longer read test with diacriticals
      */
     @Test
-    public void testReadBasicDiacriticalsLong() {
+    public void testReadDiacriticalsLong() {
         assertEquals("Sa grand-mère l'a nourrie car sa mère était placée nourrice dans une famille de riches. "
                 + "Son oncle ( une tante en réalité Agueda), allaité avec elle, est décédé ( voir acte). "
                 + "Elle croyait qu'il était mort à cause d'elle, en lui pre",
@@ -50,8 +50,32 @@ public class AnselHandlerTest {
                         + "Elle croyait qu'il âetait mort áa cause d'elle, en lui pre"));
     }
 
+    /**
+     * This is a simple read test with diacriticals
+     */
     @Test
-    public void testReadBasicDiacriticalsShort() {
+    public void testReadDiacriticalsShort() {
         assertEquals("2 GIVN Dolor\u00E8s", classUnderTest.toUtf16("2 GIVN Doloráes"));
+    }
+
+    /**
+     * This is a longer read test with diacriticals
+     */
+    @Test
+    public void testWriteDiacriticalsLong() {
+        assertEquals("Sa grand-máere l'a nourrie car sa máere âetait placâee nourrice dans une famille de riches. "
+                + "Son oncle ( une tante en râealitâe Agueda), allaitâe avec elle, est dâecâedâe ( voir acte). "
+                + "Elle croyait qu'il âetait mort áa cause d'elle, en lui pre",
+                classUnderTest.toAnsel("Sa grand-mère l'a nourrie car sa mère était placée nourrice dans une famille de riches. "
+                        + "Son oncle ( une tante en réalité Agueda), allaité avec elle, est décédé ( voir acte). "
+                        + "Elle croyait qu'il était mort à cause d'elle, en lui pre"));
+    }
+
+    /**
+     * This is a short test for extended characters - degree sign
+     */
+    @Test
+    public void testWriteExtendedShort() {
+        assertEquals("4 LATI +50\u00C0 3' 1.49\"", classUnderTest.toAnsel("4 LATI +50° 3' 1.49\""));
     }
 }
