@@ -155,12 +155,12 @@ class AnselHandler {
             char oneCharAhead = 0;
             char twoCharAhead = 0;
             if (i + 1 < utf16.length()) {
-                oneCharAhead = AnselMapping.encode(utf16.charAt(i + 1));
+                oneCharAhead = utf16.charAt(i + 1);
                 if (AnselMapping.isUnicodeCombiningDiacritic(oneCharAhead)) {
                     // It's a diacritic - check one more character ahead, combining diacritics can come in pairs
                     if (i + 2 < utf16.length()) {
-                        twoCharAhead = AnselMapping.encode(utf16.charAt(i + 2));
-                        if (twoCharAhead >= ANSEL_DIACRITICS_BEGIN_AT && twoCharAhead <= 0x00FF) {
+                        twoCharAhead = utf16.charAt(i + 2);
+                        if (AnselMapping.isUnicodeCombiningDiacritic(twoCharAhead)) {
                             // It's another diacritic
                         } else {
                             twoCharAhead = 0; // Wipe out to zero - indicates only one combining diacritic
@@ -171,14 +171,14 @@ class AnselHandler {
                 }
             }
             if (twoCharAhead != 0) /* there were two combining diacritics following the base character */{
-                ansel.append(oneCharAhead);
-                ansel.append(twoCharAhead);
+                ansel.append(AnselMapping.encode(oneCharAhead));
+                ansel.append(AnselMapping.encode(twoCharAhead));
                 i += 2;
                 ansel.append(c);
                 continue;
             }
             if (oneCharAhead != 0) /* there was one combining diacritic following the base character */{
-                ansel.append(oneCharAhead);
+                ansel.append(AnselMapping.encode(oneCharAhead));
                 i++;
                 ansel.append(c);
                 continue;
@@ -194,7 +194,7 @@ class AnselHandler {
             // Map the character and see if it's a simple extended character and make sure it's not a combining
             // diacritic
             char ec = AnselMapping.encode(c);
-            if (ec < ANSEL_DIACRITICS_BEGIN_AT) {
+            if (ec < ANSEL_DIACRITICS_BEGIN_AT && ec != c) {
                 ansel.append(AnselMapping.encode(c));
                 continue;
             }
