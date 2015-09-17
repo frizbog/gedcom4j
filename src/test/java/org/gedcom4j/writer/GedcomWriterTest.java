@@ -212,7 +212,7 @@ public class GedcomWriterTest extends TestCase {
                     System.out.println("On line following \"" + prevLine + "\":");
                     System.out.println("Should be " + l1);
                     System.out.println("Actual is " + l2);
-                    for (int j = 0; j < l1.length(); j++) {
+                    for (int j = 0; j < l2.length(); j++) {
                         System.out.print(String.format("%s %04x == %s %04x", l1.charAt(j), (int) l1.charAt(j), l2.charAt(j), (int) l2.charAt(j)));
                         if (l1.charAt(j) != l2.charAt(j)) {
                             System.out.print("  <<======");
