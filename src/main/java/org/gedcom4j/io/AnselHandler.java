@@ -255,2239 +255,1625 @@ class AnselHandler {
      */
     private char[] getBrokenDownGlyph(Character c) {
         switch (c) {
-
-            case '\u01E3': {
-                /* Latin Small Letter Ae With Macron = Latin Small Letter Ae + Combining Macron */
-                return new char[] { (char) 0x00E6, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u01FD': {
-                /* Latin Small Letter Ae With Acute = Latin Small Letter Ae + Combining Acute Accent */
-                return new char[] { (char) 0x00E6, (char) 0x00E7, (char) 0x0000 };
+            case '\u1EA2': {
+                /* LATIN CAPITAL LETTER A WITH HOOK ABOVE */
+                return new char[] { (char) 0x41, (char) 0xE0, (char) 0x00 };
             }
             case '\u00C0': {
-                /* Latin Capital Letter A With Grave = Latin Capital Letter A + Combining Grave Accent */
-                return new char[] { (char) 0x0041, (char) 0x00E1, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER A WITH GRAVE */
+                return new char[] { (char) 0x41, (char) 0xE1, (char) 0x00 };
             }
             case '\u00C1': {
-                /* Latin Capital Letter A With Acute = Latin Capital Letter A + Combining Acute Accent */
-                return new char[] { (char) 0x0041, (char) 0x00E2, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER A WITH ACUTE */
+                return new char[] { (char) 0x41, (char) 0xE2, (char) 0x00 };
             }
             case '\u00C2': {
-                /* Latin Capital Letter A With Circumflex = Latin Capital Letter A + Combining Circumflex Accent */
-                return new char[] { (char) 0x0041, (char) 0x00E3, (char) 0x0000 };
-            }
-            case '\u00C3': {
-                /* Latin Capital Letter A With Tilde = Latin Capital Letter A + Combining Tilde */
-                return new char[] { (char) 0x0041, (char) 0x00E4, (char) 0x0000 };
-            }
-            case '\u00C4': {
-                /* Latin Capital Letter A With Diaeresis = Latin Capital Letter A + Combining Diaeresis */
-                return new char[] { (char) 0x0041, (char) 0x00E8, (char) 0x0000 };
-            }
-            case '\u00C5': {
-                /* Latin Capital Letter A With Ring Above = Latin Capital Letter A + Combining Ring Above */
-                return new char[] { (char) 0x0041, (char) 0x00EA, (char) 0x0000 };
-            }
-            case '\u0100': {
-                /* Latin Capital Letter A With Macron = Latin Capital Letter A + Combining Macron */
-                return new char[] { (char) 0x0041, (char) 0x00E5, (char) 0x0000 };
-            }
-            case '\u0102': {
-                /* Latin Capital Letter A With Breve = Latin Capital Letter A + Combining Breve */
-                return new char[] { (char) 0x0041, (char) 0x00E6, (char) 0x0000 };
-            }
-            case '\u0104': {
-                /* Latin Capital Letter A With Ogonek = Latin Capital Letter A + Combining Ogonek */
-                return new char[] { (char) 0x0041, (char) 0x00F1, (char) 0x0000 };
-            }
-            case '\u01CD': {
-                /* Latin Capital Letter A With Caron = Latin Capital Letter A + Combining Caron */
-                return new char[] { (char) 0x0041, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1EA6': {
-                /*
-                 * Latin Capital Letter A With Circumflex And Grave = Latin Capital Letter A + Combining Circumflex
-                 * Accent + Combining Grave Accent
-                 */
-                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00E1 };
-            }
-            case '\u1EB0': {
-                /*
-                 * Latin Capital Letter A With Breve And Grave = Latin Capital Letter A + Combining Breve + Combining
-                 * Grave Accent
-                 */
-                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00E1 };
-            }
-            case '\u0200': {
-                /* Latin Capital Letter A With Double Grave = Latin Capital Letter A + Combining Double Grave Accent */
-                return new char[] { (char) 0x0041, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0202': {
-                /* Latin Capital Letter A With Inverted Breve = Latin Capital Letter A + Combining Inverted Breve */
-                return new char[] { (char) 0x0041, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E00': {
-                /* Latin Capital Letter A With Ring Below = Latin Capital Letter A + Combining Ring Below */
-                return new char[] { (char) 0x0041, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u01FA': {
-                /*
-                 * Latin Capital Letter A With Ring Above And Acute = Latin Capital Letter A + Combining Ring Above +
-                 * Combining Acute Accent
-                 */
-                return new char[] { (char) 0x0041, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1EA4': {
-                /*
-                 * Latin Capital Letter A With Circumflex And Acute = Latin Capital Letter A + Combining Circumflex
-                 * Accent + Combining Acute Accent
-                 */
-                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00E2 };
-            }
-            case '\u1EAE': {
-                /*
-                 * Latin Capital Letter A With Breve And Acute = Latin Capital Letter A + Combining Breve + Combining
-                 * Acute Accent
-                 */
-                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00E2 };
-            }
-            case '\u1EAA': {
-                /*
-                 * Latin Capital Letter A With Circumflex And Tilde = Latin Capital Letter A + Combining Circumflex
-                 * Accent + Combining Tilde
-                 */
-                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00E4 };
-            }
-            case '\u1EA0': {
-                /* Latin Capital Letter A With Dot Below = Latin Capital Letter A + Combining Dot Below */
-                return new char[] { (char) 0x0041, (char) 0x00F2, (char) 0x00E4 };
-            }
-            case '\u1EA2': {
-                /* Latin Capital Letter A With Hook Above = Latin Capital Letter A + Combining Hook Above */
-                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00E4 };
-            }
-            case '\u1EB4': {
-                /*
-                 * Latin Capital Letter A With Breve And Tilde = Latin Capital Letter A + Combining Breve + Combining
-                 * Tilde
-                 */
-                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00E4 };
-            }
-            case '\u01DE': {
-                /*
-                 * Latin Capital Letter A With Diaeresis And Macron = Latin Capital Letter A + Combining Diaeresis +
-                 * Combining Macron
-                 */
-                return new char[] { (char) 0x0041, (char) 0x00E7, (char) 0x00E5 };
-            }
-            case '\u01E0': {
-                /*
-                 * Latin Capital Letter A With Dot Above And Macron = Latin Capital Letter A + Combining Dot Above +
-                 * Combining Macron
-                 */
-                return new char[] { (char) 0x0041, (char) 0x00E7, (char) 0x00E5 };
+                /* LATIN CAPITAL LETTER A WITH CIRCUMFLEX */
+                return new char[] { (char) 0x41, (char) 0xE3, (char) 0x00 };
             }
             case '\u1EA8': {
-                /*
-                 * Latin Capital Letter A With Circumflex And Hook Above = Latin Capital Letter A + Combining Circumflex
-                 * Accent + Combining Hook Above
-                 */
-                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00E0 };
+                /* LATIN CAPITAL LETTER A WITH CIRCUMFLEX AND HOOK ABOVE */
+                return new char[] { (char) 0x41, (char) 0xE3, (char) 0xE0 };
             }
-            case '\u1EB2': {
-                /*
-                 * Latin Capital Letter A With Breve And Hook Above = Latin Capital Letter A + Combining Breve +
-                 * Combining Hook Above
-                 */
-                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00E0 };
+            case '\u1EA6': {
+                /* LATIN CAPITAL LETTER A WITH CIRCUMFLEX AND GRAVE */
+                return new char[] { (char) 0x41, (char) 0xE3, (char) 0xE1 };
+            }
+            case '\u1EA4': {
+                /* LATIN CAPITAL LETTER A WITH CIRCUMFLEX AND ACUTE */
+                return new char[] { (char) 0x41, (char) 0xE3, (char) 0xE2 };
+            }
+            case '\u1EAA': {
+                /* LATIN CAPITAL LETTER A WITH CIRCUMFLEX AND TILDE */
+                return new char[] { (char) 0x41, (char) 0xE3, (char) 0xE4 };
             }
             case '\u1EAC': {
-                /*
-                 * Latin Capital Letter A With Circumflex And Dot Below = Latin Capital Letter A + Combining Circumflex
-                 * Accent + Combining Dot Below
-                 */
-                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00F2 };
+                /* LATIN CAPITAL LETTER A WITH CIRCUMFLEX AND DOT BELOW */
+                return new char[] { (char) 0x41, (char) 0xE3, (char) 0xF2 };
+            }
+            case '\u00C3': {
+                /* LATIN CAPITAL LETTER A WITH TILDE */
+                return new char[] { (char) 0x41, (char) 0xE4, (char) 0x00 };
+            }
+            case '\u0100': {
+                /* LATIN CAPITAL LETTER A WITH MACRON */
+                return new char[] { (char) 0x41, (char) 0xE5, (char) 0x00 };
+            }
+            case '\u0102': {
+                /* LATIN CAPITAL LETTER A WITH BREVE */
+                return new char[] { (char) 0x41, (char) 0xE6, (char) 0x00 };
+            }
+            case '\u1EB2': {
+                /* LATIN CAPITAL LETTER A WITH BREVE AND HOOK ABOVE */
+                return new char[] { (char) 0x41, (char) 0xE6, (char) 0xE0 };
+            }
+            case '\u1EB0': {
+                /* LATIN CAPITAL LETTER A WITH BREVE AND GRAVE */
+                return new char[] { (char) 0x41, (char) 0xE6, (char) 0xE1 };
+            }
+            case '\u1EAE': {
+                /* LATIN CAPITAL LETTER A WITH BREVE AND ACUTE */
+                return new char[] { (char) 0x41, (char) 0xE6, (char) 0xE2 };
+            }
+            case '\u1EB4': {
+                /* LATIN CAPITAL LETTER A WITH BREVE AND TILDE */
+                return new char[] { (char) 0x41, (char) 0xE6, (char) 0xE4 };
             }
             case '\u1EB6': {
-                /*
-                 * Latin Capital Letter A With Breve And Dot Below = Latin Capital Letter A + Combining Breve +
-                 * Combining Dot Below
-                 */
-                return new char[] { (char) 0x0041, (char) 0x00E0, (char) 0x00F2 };
+                /* LATIN CAPITAL LETTER A WITH BREVE AND DOT BELOW */
+                return new char[] { (char) 0x41, (char) 0xE6, (char) 0xF2 };
+            }
+            case '\u0226': {
+                /* LATIN CAPITAL LETTER A WITH DOT ABOVE */
+                return new char[] { (char) 0x41, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u01E0': {
+                /* LATIN CAPITAL LETTER A WITH DOT ABOVE AND MACRON */
+                return new char[] { (char) 0x41, (char) 0xE7, (char) 0xE5 };
+            }
+            case '\u00C4': {
+                /* LATIN CAPITAL LETTER A WITH DIAERESIS */
+                return new char[] { (char) 0x41, (char) 0xE8, (char) 0x00 };
+            }
+            case '\u01DE': {
+                /* LATIN CAPITAL LETTER A WITH DIAERESIS AND MACRON */
+                return new char[] { (char) 0x41, (char) 0xE8, (char) 0xE5 };
+            }
+            case '\u01CD': {
+                /* LATIN CAPITAL LETTER A WITH CARON */
+                return new char[] { (char) 0x41, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u00C5': {
+                /* LATIN CAPITAL LETTER A WITH RING ABOVE */
+                return new char[] { (char) 0x41, (char) 0xEA, (char) 0x00 };
+            }
+            case '\u01FA': {
+                /* LATIN CAPITAL LETTER A WITH RING ABOVE AND ACUTE */
+                return new char[] { (char) 0x41, (char) 0xEA, (char) 0xE2 };
+            }
+            case '\u0104': {
+                /* LATIN CAPITAL LETTER A WITH OGONEK */
+                return new char[] { (char) 0x41, (char) 0xF1, (char) 0x00 };
+            }
+            case '\u1EA0': {
+                /* LATIN CAPITAL LETTER A WITH DOT BELOW */
+                return new char[] { (char) 0x41, (char) 0xF2, (char) 0x00 };
+            }
+            case '\u1E00': {
+                /* LATIN CAPITAL LETTER A WITH RING BELOW */
+                return new char[] { (char) 0x41, (char) 0xF4, (char) 0x00 };
             }
             case '\u1E02': {
-                /* Latin Capital Letter B With Dot Above = Latin Capital Letter B + Combining Dot Above */
-                return new char[] { (char) 0x0042, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER B WITH DOT ABOVE */
+                return new char[] { (char) 0x42, (char) 0xE7, (char) 0x00 };
             }
             case '\u1E04': {
-                /* Latin Capital Letter B With Dot Below = Latin Capital Letter B + Combining Dot Below */
-                return new char[] { (char) 0x0042, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E06': {
-                /* Latin Capital Letter B With Line Below = Latin Capital Letter B + Combining Low Line */
-                return new char[] { (char) 0x0042, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u00C7': {
-                /* Latin Capital Letter C With Cedilla = Latin Capital Letter C + Combining Cedilla */
-                return new char[] { (char) 0x0043, (char) 0x00F0, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER B WITH DOT BELOW */
+                return new char[] { (char) 0x42, (char) 0xF2, (char) 0x00 };
             }
             case '\u0106': {
-                /* Latin Capital Letter C With Acute = Latin Capital Letter C + Combining Acute Accent */
-                return new char[] { (char) 0x0043, (char) 0x00E2, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER C WITH ACUTE */
+                return new char[] { (char) 0x43, (char) 0xE2, (char) 0x00 };
             }
             case '\u0108': {
-                /* Latin Capital Letter C With Circumflex = Latin Capital Letter C + Combining Circumflex Accent */
-                return new char[] { (char) 0x0043, (char) 0x00E3, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER C WITH CIRCUMFLEX */
+                return new char[] { (char) 0x43, (char) 0xE3, (char) 0x00 };
             }
             case '\u010A': {
-                /* Latin Capital Letter C With Dot Above = Latin Capital Letter C + Combining Dot Above */
-                return new char[] { (char) 0x0043, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER C WITH DOT ABOVE */
+                return new char[] { (char) 0x43, (char) 0xE7, (char) 0x00 };
             }
             case '\u010C': {
-                /* Latin Capital Letter C With Caron = Latin Capital Letter C + Combining Caron */
-                return new char[] { (char) 0x0043, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER C WITH CARON */
+                return new char[] { (char) 0x43, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u00C7': {
+                /* LATIN CAPITAL LETTER C WITH CEDILLA */
+                return new char[] { (char) 0x43, (char) 0xF0, (char) 0x00 };
             }
             case '\u1E08': {
-                /*
-                 * Latin Capital Letter C With Cedilla And Acute = Latin Capital Letter C + Combining Cedilla +
-                 * Combining Acute Accent
-                 */
-                return new char[] { (char) 0x0043, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u010E': {
-                /* Latin Capital Letter D With Caron = Latin Capital Letter D + Combining Caron */
-                return new char[] { (char) 0x0044, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER C WITH CEDILLA AND ACUTE */
+                return new char[] { (char) 0x43, (char) 0xF0, (char) 0xE2 };
             }
             case '\u1E0A': {
-                /* Latin Capital Letter D With Dot Above = Latin Capital Letter D + Combining Dot Above */
-                return new char[] { (char) 0x0044, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER D WITH DOT ABOVE */
+                return new char[] { (char) 0x44, (char) 0xE7, (char) 0x00 };
             }
-            case '\u1E0C': {
-                /* Latin Capital Letter D With Dot Below = Latin Capital Letter D + Combining Dot Below */
-                return new char[] { (char) 0x0044, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E0E': {
-                /* Latin Capital Letter D With Line Below = Latin Capital Letter D + Combining Low Line */
-                return new char[] { (char) 0x0044, (char) 0x00E7, (char) 0x0000 };
+            case '\u010E': {
+                /* LATIN CAPITAL LETTER D WITH CARON */
+                return new char[] { (char) 0x44, (char) 0xE9, (char) 0x00 };
             }
             case '\u1E10': {
-                /* Latin Capital Letter D With Cedilla = Latin Capital Letter D + Combining Cedilla */
-                return new char[] { (char) 0x0044, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER D WITH CEDILLA */
+                return new char[] { (char) 0x44, (char) 0xF0, (char) 0x00 };
             }
-            case '\u1E12': {
-                /*
-                 * Latin Capital Letter D With Circumflex Below = Latin Capital Letter D + Combining Circumflex Accent
-                 * Below
-                 */
-                return new char[] { (char) 0x0044, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u00C8': {
-                /* Latin Capital Letter E With Grave = Latin Capital Letter E + Combining Grave Accent */
-                return new char[] { (char) 0x0045, (char) 0x00E1, (char) 0x0000 };
-            }
-            case '\u00C9': {
-                /* Latin Capital Letter E With Acute = Latin Capital Letter E + Combining Acute Accent */
-                return new char[] { (char) 0x0045, (char) 0x00E2, (char) 0x0000 };
-            }
-            case '\u00CA': {
-                /* Latin Capital Letter E With Circumflex = Latin Capital Letter E + Combining Circumflex Accent */
-                return new char[] { (char) 0x0045, (char) 0x00E3, (char) 0x0000 };
-            }
-            case '\u00CB': {
-                /* Latin Capital Letter E With Diaeresis = Latin Capital Letter E + Combining Diaeresis */
-                return new char[] { (char) 0x0045, (char) 0x00E8, (char) 0x0000 };
-            }
-            case '\u0112': {
-                /* Latin Capital Letter E With Macron = Latin Capital Letter E + Combining Macron */
-                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0114': {
-                /* Latin Capital Letter E With Breve = Latin Capital Letter E + Combining Breve */
-                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0116': {
-                /* Latin Capital Letter E With Dot Above = Latin Capital Letter E + Combining Dot Above */
-                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0118': {
-                /* Latin Capital Letter E With Ogonek = Latin Capital Letter E + Combining Ogonek */
-                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u011A': {
-                /* Latin Capital Letter E With Caron = Latin Capital Letter E + Combining Caron */
-                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E14': {
-                /*
-                 * Latin Capital Letter E With Macron And Grave = Latin Capital Letter E + Combining Macron + Combining
-                 * Grave Accent
-                 */
-                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x00E1 };
-            }
-            case '\u1EC0': {
-                /*
-                 * Latin Capital Letter E With Circumflex And Grave = Latin Capital Letter E + Combining Circumflex
-                 * Accent + Combining Grave Accent
-                 */
-                return new char[] { (char) 0x0045, (char) 0x00E0, (char) 0x00E1 };
-            }
-            case '\u0204': {
-                /* Latin Capital Letter E With Double Grave = Latin Capital Letter E + Combining Double Grave Accent */
-                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0206': {
-                /* Latin Capital Letter E With Inverted Breve = Latin Capital Letter E + Combining Inverted Breve */
-                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E18': {
-                /*
-                 * Latin Capital Letter E With Circumflex Below = Latin Capital Letter E + Combining Circumflex Accent
-                 * Below
-                 */
-                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E1A': {
-                /* Latin Capital Letter E With Tilde Below = Latin Capital Letter E + Combining Tilde Below */
-                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E16': {
-                /*
-                 * Latin Capital Letter E With Macron And Acute = Latin Capital Letter E + Combining Macron + Combining
-                 * Acute Accent
-                 */
-                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1EBE': {
-                /*
-                 * Latin Capital Letter E With Circumflex And Acute = Latin Capital Letter E + Combining Circumflex
-                 * Accent + Combining Acute Accent
-                 */
-                return new char[] { (char) 0x0045, (char) 0x00E0, (char) 0x00E2 };
-            }
-            case '\u1EC4': {
-                /*
-                 * Latin Capital Letter E With Circumflex And Tilde = Latin Capital Letter E + Combining Circumflex
-                 * Accent + Combining Tilde
-                 */
-                return new char[] { (char) 0x0045, (char) 0x00E0, (char) 0x00E4 };
-            }
-            case '\u1EB8': {
-                /* Latin Capital Letter E With Dot Below = Latin Capital Letter E + Combining Dot Below */
-                return new char[] { (char) 0x0045, (char) 0x00E0, (char) 0x00E5 };
+            case '\u1E0C': {
+                /* LATIN CAPITAL LETTER D WITH DOT BELOW */
+                return new char[] { (char) 0x44, (char) 0xF2, (char) 0x00 };
             }
             case '\u1EBA': {
-                /* Latin Capital Letter E With Hook Above = Latin Capital Letter E + Combining Hook Above */
-                return new char[] { (char) 0x0045, (char) 0x00E0, (char) 0x00E5 };
+                /* LATIN CAPITAL LETTER E WITH HOOK ABOVE */
+                return new char[] { (char) 0x45, (char) 0xE0, (char) 0x00 };
             }
-            case '\u1EBC': {
-                /* Latin Capital Letter E With Tilde = Latin Capital Letter E + Combining Tilde */
-                return new char[] { (char) 0x0045, (char) 0x00E0, (char) 0x00E5 };
+            case '\u00C8': {
+                /* LATIN CAPITAL LETTER E WITH GRAVE */
+                return new char[] { (char) 0x45, (char) 0xE1, (char) 0x00 };
             }
-            case '\u1E1C': {
-                /*
-                 * Latin Capital Letter E With Cedilla And Breve = Latin Capital Letter E + Combining Cedilla +
-                 * Combining Breve
-                 */
-                return new char[] { (char) 0x0045, (char) 0x00E7, (char) 0x00E6 };
+            case '\u00C9': {
+                /* LATIN CAPITAL LETTER E WITH ACUTE */
+                return new char[] { (char) 0x45, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u00CA': {
+                /* LATIN CAPITAL LETTER E WITH CIRCUMFLEX */
+                return new char[] { (char) 0x45, (char) 0xE3, (char) 0x00 };
             }
             case '\u1EC2': {
-                /*
-                 * Latin Capital Letter E With Circumflex And Hook Above = Latin Capital Letter E + Combining Circumflex
-                 * Accent + Combining Hook Above
-                 */
-                return new char[] { (char) 0x0045, (char) 0x00E0, (char) 0x00E0 };
+                /* LATIN CAPITAL LETTER E WITH CIRCUMFLEX AND HOOK ABOVE */
+                return new char[] { (char) 0x45, (char) 0xE3, (char) 0xE0 };
+            }
+            case '\u1EC0': {
+                /* LATIN CAPITAL LETTER E WITH CIRCUMFLEX AND GRAVE */
+                return new char[] { (char) 0x45, (char) 0xE3, (char) 0xE1 };
+            }
+            case '\u1EBE': {
+                /* LATIN CAPITAL LETTER E WITH CIRCUMFLEX AND ACUTE */
+                return new char[] { (char) 0x45, (char) 0xE3, (char) 0xE2 };
+            }
+            case '\u1EC4': {
+                /* LATIN CAPITAL LETTER E WITH CIRCUMFLEX AND TILDE */
+                return new char[] { (char) 0x45, (char) 0xE3, (char) 0xE4 };
             }
             case '\u1EC6': {
-                /*
-                 * Latin Capital Letter E With Circumflex And Dot Below = Latin Capital Letter E + Combining Circumflex
-                 * Accent + Combining Dot Below
-                 */
-                return new char[] { (char) 0x0045, (char) 0x00E0, (char) 0x00F2 };
+                /* LATIN CAPITAL LETTER E WITH CIRCUMFLEX AND DOT BELOW */
+                return new char[] { (char) 0x45, (char) 0xE3, (char) 0xF2 };
+            }
+            case '\u1EBC': {
+                /* LATIN CAPITAL LETTER E WITH TILDE */
+                return new char[] { (char) 0x45, (char) 0xE4, (char) 0x00 };
+            }
+            case '\u0112': {
+                /* LATIN CAPITAL LETTER E WITH MACRON */
+                return new char[] { (char) 0x45, (char) 0xE5, (char) 0x00 };
+            }
+            case '\u1E14': {
+                /* LATIN CAPITAL LETTER E WITH MACRON AND GRAVE */
+                return new char[] { (char) 0x45, (char) 0xE5, (char) 0xE1 };
+            }
+            case '\u1E16': {
+                /* LATIN CAPITAL LETTER E WITH MACRON AND ACUTE */
+                return new char[] { (char) 0x45, (char) 0xE5, (char) 0xE2 };
+            }
+            case '\u0114': {
+                /* LATIN CAPITAL LETTER E WITH BREVE */
+                return new char[] { (char) 0x45, (char) 0xE6, (char) 0x00 };
+            }
+            case '\u0116': {
+                /* LATIN CAPITAL LETTER E WITH DOT ABOVE */
+                return new char[] { (char) 0x45, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u00CB': {
+                /* LATIN CAPITAL LETTER E WITH DIAERESIS */
+                return new char[] { (char) 0x45, (char) 0xE8, (char) 0x00 };
+            }
+            case '\u011A': {
+                /* LATIN CAPITAL LETTER E WITH CARON */
+                return new char[] { (char) 0x45, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u0228': {
+                /* LATIN CAPITAL LETTER E WITH CEDILLA */
+                return new char[] { (char) 0x45, (char) 0xF0, (char) 0x00 };
+            }
+            case '\u1E1C': {
+                /* LATIN CAPITAL LETTER E WITH CEDILLA AND BREVE */
+                return new char[] { (char) 0x45, (char) 0xF0, (char) 0xE6 };
+            }
+            case '\u0118': {
+                /* LATIN CAPITAL LETTER E WITH OGONEK */
+                return new char[] { (char) 0x45, (char) 0xF1, (char) 0x00 };
+            }
+            case '\u1EB8': {
+                /* LATIN CAPITAL LETTER E WITH DOT BELOW */
+                return new char[] { (char) 0x45, (char) 0xF2, (char) 0x00 };
             }
             case '\u1E1E': {
-                /* Latin Capital Letter F With Dot Above = Latin Capital Letter F + Combining Dot Above */
-                return new char[] { (char) 0x0046, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u011C': {
-                /* Latin Capital Letter G With Circumflex = Latin Capital Letter G + Combining Circumflex Accent */
-                return new char[] { (char) 0x0047, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u011E': {
-                /* Latin Capital Letter G With Breve = Latin Capital Letter G + Combining Breve */
-                return new char[] { (char) 0x0047, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0120': {
-                /* Latin Capital Letter G With Dot Above = Latin Capital Letter G + Combining Dot Above */
-                return new char[] { (char) 0x0047, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0122': {
-                /* Latin Capital Letter G With Cedilla = Latin Capital Letter G + Combining Cedilla */
-                return new char[] { (char) 0x0047, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u01E6': {
-                /* Latin Capital Letter G With Caron = Latin Capital Letter G + Combining Caron */
-                return new char[] { (char) 0x0047, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER F WITH DOT ABOVE */
+                return new char[] { (char) 0x46, (char) 0xE7, (char) 0x00 };
             }
             case '\u01F4': {
-                /* Latin Capital Letter G With Acute = Latin Capital Letter G + Combining Acute Accent */
-                return new char[] { (char) 0x0047, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER G WITH ACUTE */
+                return new char[] { (char) 0x47, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u011C': {
+                /* LATIN CAPITAL LETTER G WITH CIRCUMFLEX */
+                return new char[] { (char) 0x47, (char) 0xE3, (char) 0x00 };
             }
             case '\u1E20': {
-                /* Latin Capital Letter G With Macron = Latin Capital Letter G + Combining Macron */
-                return new char[] { (char) 0x0047, (char) 0x00E7, (char) 0x00E2 };
+                /* LATIN CAPITAL LETTER G WITH MACRON */
+                return new char[] { (char) 0x47, (char) 0xE5, (char) 0x00 };
+            }
+            case '\u011E': {
+                /* LATIN CAPITAL LETTER G WITH BREVE */
+                return new char[] { (char) 0x47, (char) 0xE6, (char) 0x00 };
+            }
+            case '\u0120': {
+                /* LATIN CAPITAL LETTER G WITH DOT ABOVE */
+                return new char[] { (char) 0x47, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u01E6': {
+                /* LATIN CAPITAL LETTER G WITH CARON */
+                return new char[] { (char) 0x47, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u0122': {
+                /* LATIN CAPITAL LETTER G WITH CEDILLA */
+                return new char[] { (char) 0x47, (char) 0xF0, (char) 0x00 };
             }
             case '\u0124': {
-                /* Latin Capital Letter H With Circumflex = Latin Capital Letter H + Combining Circumflex Accent */
-                return new char[] { (char) 0x0048, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER H WITH CIRCUMFLEX */
+                return new char[] { (char) 0x48, (char) 0xE3, (char) 0x00 };
             }
             case '\u1E22': {
-                /* Latin Capital Letter H With Dot Above = Latin Capital Letter H + Combining Dot Above */
-                return new char[] { (char) 0x0048, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E24': {
-                /* Latin Capital Letter H With Dot Below = Latin Capital Letter H + Combining Dot Below */
-                return new char[] { (char) 0x0048, (char) 0x00E7, (char) 0x00E2 };
+                /* LATIN CAPITAL LETTER H WITH DOT ABOVE */
+                return new char[] { (char) 0x48, (char) 0xE7, (char) 0x00 };
             }
             case '\u1E26': {
-                /* Latin Capital Letter H With Diaeresis = Latin Capital Letter H + Combining Diaeresis */
-                return new char[] { (char) 0x0048, (char) 0x00E7, (char) 0x00E2 };
+                /* LATIN CAPITAL LETTER H WITH DIAERESIS */
+                return new char[] { (char) 0x48, (char) 0xE8, (char) 0x00 };
+            }
+            case '\u021E': {
+                /* LATIN CAPITAL LETTER H WITH CARON */
+                return new char[] { (char) 0x48, (char) 0xE9, (char) 0x00 };
             }
             case '\u1E28': {
-                /* Latin Capital Letter H With Cedilla = Latin Capital Letter H + Combining Cedilla */
-                return new char[] { (char) 0x0048, (char) 0x00E7, (char) 0x00E2 };
+                /* LATIN CAPITAL LETTER H WITH CEDILLA */
+                return new char[] { (char) 0x48, (char) 0xF0, (char) 0x00 };
+            }
+            case '\u1E24': {
+                /* LATIN CAPITAL LETTER H WITH DOT BELOW */
+                return new char[] { (char) 0x48, (char) 0xF2, (char) 0x00 };
             }
             case '\u1E2A': {
-                /* Latin Capital Letter H With Breve Below = Latin Capital Letter H + Combining Breve Below */
-                return new char[] { (char) 0x0048, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u00CC': {
-                /* Latin Capital Letter I With Grave = Latin Capital Letter I + Combining Grave Accent */
-                return new char[] { (char) 0x0049, (char) 0x00E1, (char) 0x0000 };
-            }
-            case '\u00CD': {
-                /* Latin Capital Letter I With Acute = Latin Capital Letter I + Combining Acute Accent */
-                return new char[] { (char) 0x0049, (char) 0x00E2, (char) 0x0000 };
-            }
-            case '\u00CE': {
-                /* Latin Capital Letter I With Circumflex = Latin Capital Letter I + Combining Circumflex Accent */
-                return new char[] { (char) 0x0049, (char) 0x00E3, (char) 0x0000 };
-            }
-            case '\u00CF': {
-                /* Latin Capital Letter I With Diaeresis = Latin Capital Letter I + Combining Diaeresis */
-                return new char[] { (char) 0x0049, (char) 0x00E8, (char) 0x0000 };
-            }
-            case '\u0128': {
-                /* Latin Capital Letter I With Tilde = Latin Capital Letter I + Combining Tilde */
-                return new char[] { (char) 0x0049, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u012A': {
-                /* Latin Capital Letter I With Macron = Latin Capital Letter I + Combining Macron */
-                return new char[] { (char) 0x0049, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u012C': {
-                /* Latin Capital Letter I With Breve = Latin Capital Letter I + Combining Breve */
-                return new char[] { (char) 0x0049, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u012E': {
-                /* Latin Capital Letter I With Ogonek = Latin Capital Letter I + Combining Ogonek */
-                return new char[] { (char) 0x0049, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0130': {
-                /* Latin Capital Letter I With Dot Above = Latin Capital Letter I + Combining Dot Above */
-                return new char[] { (char) 0x0049, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u01CF': {
-                /* Latin Capital Letter I With Caron = Latin Capital Letter I + Combining Caron */
-                return new char[] { (char) 0x0049, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0208': {
-                /* Latin Capital Letter I With Double Grave = Latin Capital Letter I + Combining Double Grave Accent */
-                return new char[] { (char) 0x0049, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u020A': {
-                /* Latin Capital Letter I With Inverted Breve = Latin Capital Letter I + Combining Inverted Breve */
-                return new char[] { (char) 0x0049, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E2C': {
-                /* Latin Capital Letter I With Tilde Below = Latin Capital Letter I + Combining Tilde Below */
-                return new char[] { (char) 0x0049, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E2E': {
-                /*
-                 * Latin Capital Letter I With Diaeresis And Acute = Latin Capital Letter I + Combining Diaeresis +
-                 * Combining Acute Accent
-                 */
-                return new char[] { (char) 0x0049, (char) 0x00E7, (char) 0x00E2 };
+                /* LATIN CAPITAL LETTER H WITH BREVE BELOW */
+                return new char[] { (char) 0x48, (char) 0xF9, (char) 0x00 };
             }
             case '\u1EC8': {
-                /* Latin Capital Letter I With Hook Above = Latin Capital Letter I + Combining Hook Above */
-                return new char[] { (char) 0x0049, (char) 0x00E0, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER I WITH HOOK ABOVE */
+                return new char[] { (char) 0x49, (char) 0xE0, (char) 0x00 };
+            }
+            case '\u00CC': {
+                /* LATIN CAPITAL LETTER I WITH GRAVE */
+                return new char[] { (char) 0x49, (char) 0xE1, (char) 0x00 };
+            }
+            case '\u00CD': {
+                /* LATIN CAPITAL LETTER I WITH ACUTE */
+                return new char[] { (char) 0x49, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u00CE': {
+                /* LATIN CAPITAL LETTER I WITH CIRCUMFLEX */
+                return new char[] { (char) 0x49, (char) 0xE3, (char) 0x00 };
+            }
+            case '\u0128': {
+                /* LATIN CAPITAL LETTER I WITH TILDE */
+                return new char[] { (char) 0x49, (char) 0xE4, (char) 0x00 };
+            }
+            case '\u012A': {
+                /* LATIN CAPITAL LETTER I WITH MACRON */
+                return new char[] { (char) 0x49, (char) 0xE5, (char) 0x00 };
+            }
+            case '\u012C': {
+                /* LATIN CAPITAL LETTER I WITH BREVE */
+                return new char[] { (char) 0x49, (char) 0xE6, (char) 0x00 };
+            }
+            case '\u0130': {
+                /* LATIN CAPITAL LETTER I WITH DOT ABOVE */
+                return new char[] { (char) 0x49, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u00CF': {
+                /* LATIN CAPITAL LETTER I WITH DIAERESIS */
+                return new char[] { (char) 0x49, (char) 0xE8, (char) 0x00 };
+            }
+            case '\u1E2E': {
+                /* LATIN CAPITAL LETTER I WITH DIAERESIS AND ACUTE */
+                return new char[] { (char) 0x49, (char) 0xE8, (char) 0xE2 };
+            }
+            case '\u01CF': {
+                /* LATIN CAPITAL LETTER I WITH CARON */
+                return new char[] { (char) 0x49, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u012E': {
+                /* LATIN CAPITAL LETTER I WITH OGONEK */
+                return new char[] { (char) 0x49, (char) 0xF1, (char) 0x00 };
             }
             case '\u1ECA': {
-                /* Latin Capital Letter I With Dot Below = Latin Capital Letter I + Combining Dot Below */
-                return new char[] { (char) 0x0049, (char) 0x00E0, (char) 0x0000 };
-            }
-            case '\u1E54': {
-                /* Latin Capital Letter P With Acute = Latin Capital Letter P + Combining Acute Accent */
-                return new char[] { (char) 0x0050, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E56': {
-                /* Latin Capital Letter P With Dot Above = Latin Capital Letter P + Combining Dot Above */
-                return new char[] { (char) 0x0050, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u0154': {
-                /* Latin Capital Letter R With Acute = Latin Capital Letter R + Combining Acute Accent */
-                return new char[] { (char) 0x0052, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0156': {
-                /* Latin Capital Letter R With Cedilla = Latin Capital Letter R + Combining Cedilla */
-                return new char[] { (char) 0x0052, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0158': {
-                /* Latin Capital Letter R With Caron = Latin Capital Letter R + Combining Caron */
-                return new char[] { (char) 0x0052, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0210': {
-                /* Latin Capital Letter R With Double Grave = Latin Capital Letter R + Combining Double Grave Accent */
-                return new char[] { (char) 0x0052, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0212': {
-                /* Latin Capital Letter R With Inverted Breve = Latin Capital Letter R + Combining Inverted Breve */
-                return new char[] { (char) 0x0052, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E58': {
-                /* Latin Capital Letter R With Dot Above = Latin Capital Letter R + Combining Dot Above */
-                return new char[] { (char) 0x0052, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E5A': {
-                /* Latin Capital Letter R With Dot Below = Latin Capital Letter R + Combining Dot Below */
-                return new char[] { (char) 0x0052, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E5E': {
-                /* Latin Capital Letter R With Line Below = Latin Capital Letter R + Combining Low Line */
-                return new char[] { (char) 0x0052, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E5C': {
-                /*
-                 * Latin Capital Letter R With Dot Below And Macron = Latin Capital Letter R + Combining Dot Below +
-                 * Combining Macron
-                 */
-                return new char[] { (char) 0x0052, (char) 0x00E7, (char) 0x00E5 };
-            }
-            case '\u015A': {
-                /* Latin Capital Letter S With Acute = Latin Capital Letter S + Combining Acute Accent */
-                return new char[] { (char) 0x0053, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u015C': {
-                /* Latin Capital Letter S With Circumflex = Latin Capital Letter S + Combining Circumflex Accent */
-                return new char[] { (char) 0x0053, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u015E': {
-                /* Latin Capital Letter S With Cedilla = Latin Capital Letter S + Combining Cedilla */
-                return new char[] { (char) 0x0053, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0160': {
-                /* Latin Capital Letter S With Caron = Latin Capital Letter S + Combining Caron */
-                return new char[] { (char) 0x0053, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E60': {
-                /* Latin Capital Letter S With Dot Above = Latin Capital Letter S + Combining Dot Above */
-                return new char[] { (char) 0x0053, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E62': {
-                /* Latin Capital Letter S With Dot Below = Latin Capital Letter S + Combining Dot Below */
-                return new char[] { (char) 0x0053, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E64': {
-                /*
-                 * Latin Capital Letter S With Acute And Dot Above = Latin Capital Letter S + Combining Acute Accent +
-                 * Combining Dot Above
-                 */
-                return new char[] { (char) 0x0053, (char) 0x00E7, (char) 0x00E7 };
-            }
-            case '\u1E66': {
-                /*
-                 * Latin Capital Letter S With Caron And Dot Above = Latin Capital Letter S + Combining Caron +
-                 * Combining Dot Above
-                 */
-                return new char[] { (char) 0x0053, (char) 0x00E7, (char) 0x00E7 };
-            }
-            case '\u1E68': {
-                /*
-                 * Latin Capital Letter S With Dot Below And Dot Above = Latin Capital Letter S + Combining Dot Below +
-                 * Combining Dot Above
-                 */
-                return new char[] { (char) 0x0053, (char) 0x00E7, (char) 0x00E7 };
-            }
-            case '\u0162': {
-                /* Latin Capital Letter T With Cedilla = Latin Capital Letter T + Combining Cedilla */
-                return new char[] { (char) 0x0054, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0164': {
-                /* Latin Capital Letter T With Caron = Latin Capital Letter T + Combining Caron */
-                return new char[] { (char) 0x0054, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E6A': {
-                /* Latin Capital Letter T With Dot Above = Latin Capital Letter T + Combining Dot Above */
-                return new char[] { (char) 0x0054, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E6C': {
-                /* Latin Capital Letter T With Dot Below = Latin Capital Letter T + Combining Dot Below */
-                return new char[] { (char) 0x0054, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E6E': {
-                /* Latin Capital Letter T With Line Below = Latin Capital Letter T + Combining Low Line */
-                return new char[] { (char) 0x0054, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E70': {
-                /*
-                 * Latin Capital Letter T With Circumflex Below = Latin Capital Letter T + Combining Circumflex Accent
-                 * Below
-                 */
-                return new char[] { (char) 0x0054, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u00D9': {
-                /* Latin Capital Letter U With Grave = Latin Capital Letter U + Combining Grave Accent */
-                return new char[] { (char) 0x0055, (char) 0x00E1, (char) 0x0000 };
-            }
-            case '\u00DA': {
-                /* Latin Capital Letter U With Acute = Latin Capital Letter U + Combining Acute Accent */
-                return new char[] { (char) 0x0055, (char) 0x00E2, (char) 0x0000 };
-            }
-            case '\u00DB': {
-                /* Latin Capital Letter U With Circumflex = Latin Capital Letter U + Combining Circumflex Accent */
-                return new char[] { (char) 0x0055, (char) 0x00E3, (char) 0x0000 };
-            }
-            case '\u00DC': {
-                /* Latin Capital Letter U With Diaeresis = Latin Capital Letter U + Combining Diaeresis */
-                return new char[] { (char) 0x0055, (char) 0x00E8, (char) 0x0000 };
-            }
-            case '\u0168': {
-                /* Latin Capital Letter U With Tilde = Latin Capital Letter U + Combining Tilde */
-                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u016A': {
-                /* Latin Capital Letter U With Macron = Latin Capital Letter U + Combining Macron */
-                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u016C': {
-                /* Latin Capital Letter U With Breve = Latin Capital Letter U + Combining Breve */
-                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u016E': {
-                /* Latin Capital Letter U With Ring Above = Latin Capital Letter U + Combining Ring Above */
-                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0170': {
-                /* Latin Capital Letter U With Double Acute = Latin Capital Letter U + Combining Double Acute Accent */
-                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0172': {
-                /* Latin Capital Letter U With Ogonek = Latin Capital Letter U + Combining Ogonek */
-                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u01AF': {
-                /* Latin Capital Letter U With Horn = Latin Capital Letter U + Combining Horn */
-                return new char[] { (char) 0x00AD, (char) 0x0000, (char) 0x0000 };
-            }
-            case '\u01D3': {
-                /* Latin Capital Letter U With Caron = Latin Capital Letter U + Combining Caron */
-                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u01DB': {
-                /*
-                 * Latin Capital Letter U With Diaeresis And Grave = Latin Capital Letter U + Combining Diaeresis +
-                 * Combining Grave Accent
-                 */
-                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x00E1 };
-            }
-            case '\u0214': {
-                /* Latin Capital Letter U With Double Grave = Latin Capital Letter U + Combining Double Grave Accent */
-                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0216': {
-                /* Latin Capital Letter U With Inverted Breve = Latin Capital Letter U + Combining Inverted Breve */
-                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1EEA': {
-                /*
-                 * Latin Capital Letter U With Horn And Grave = Latin Capital Letter U + Combining Horn + Combining
-                 * Grave Accent
-                 */
-                return new char[] { (char) 0x0055, (char) 0x00E0, (char) 0x00E1 };
-            }
-            case '\u01D7': {
-                /*
-                 * Latin Capital Letter U With Diaeresis And Acute = Latin Capital Letter U + Combining Diaeresis +
-                 * Combining Acute Accent
-                 */
-                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E78': {
-                /*
-                 * Latin Capital Letter U With Tilde And Acute = Latin Capital Letter U + Combining Tilde + Combining
-                 * Acute Accent
-                 */
-                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E72': {
-                /* Latin Capital Letter U With Diaeresis Below = Latin Capital Letter U + Combining Diaeresis Below */
-                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E74': {
-                /* Latin Capital Letter U With Tilde Below = Latin Capital Letter U + Combining Tilde Below */
-                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E76': {
-                /*
-                 * Latin Capital Letter U With Circumflex Below = Latin Capital Letter U + Combining Circumflex Accent
-                 * Below
-                 */
-                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1EE8': {
-                /*
-                 * Latin Capital Letter U With Horn And Acute = Latin Capital Letter U + Combining Horn + Combining
-                 * Acute Accent
-                 */
-                return new char[] { (char) 0x0055, (char) 0x00E0, (char) 0x00E2 };
-            }
-            case '\u1EEE': {
-                /*
-                 * Latin Capital Letter U With Horn And Tilde = Latin Capital Letter U + Combining Horn + Combining
-                 * Tilde
-                 */
-                return new char[] { (char) 0x0055, (char) 0x00E0, (char) 0x00E4 };
-            }
-            case '\u01D5': {
-                /*
-                 * Latin Capital Letter U With Diaeresis And Macron = Latin Capital Letter U + Combining Diaeresis +
-                 * Combining Macron
-                 */
-                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x00E5 };
-            }
-            case '\u1E7A': {
-                /*
-                 * Latin Capital Letter U With Macron And Diaeresis = Latin Capital Letter U + Combining Macron +
-                 * Combining Diaeresis
-                 */
-                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x00E8 };
-            }
-            case '\u1EEC': {
-                /*
-                 * Latin Capital Letter U With Horn And Hook Above = Latin Capital Letter U + Combining Horn + Combining
-                 * Hook Above
-                 */
-                return new char[] { (char) 0x0055, (char) 0x00E0, (char) 0x00E0 };
-            }
-            case '\u1EE4': {
-                /* Latin Capital Letter U With Dot Below = Latin Capital Letter U + Combining Dot Below */
-                return new char[] { (char) 0x0055, (char) 0x00E0, (char) 0x00F2 };
-            }
-            case '\u1EE6': {
-                /* Latin Capital Letter U With Hook Above = Latin Capital Letter U + Combining Hook Above */
-                return new char[] { (char) 0x0055, (char) 0x00E0, (char) 0x00F2 };
-            }
-            case '\u1EF0': {
-                /*
-                 * Latin Capital Letter U With Horn And Dot Below = Latin Capital Letter U + Combining Horn + Combining
-                 * Dot Below
-                 */
-                return new char[] { (char) 0x0055, (char) 0x00E0, (char) 0x00F2 };
-            }
-            case '\u01D9': {
-                /*
-                 * Latin Capital Letter U With Diaeresis And Caron = Latin Capital Letter U + Combining Diaeresis +
-                 * Combining Caron
-                 */
-                return new char[] { (char) 0x0055, (char) 0x00E7, (char) 0x00E9 };
-            }
-            case '\u1E7C': {
-                /* Latin Capital Letter V With Tilde = Latin Capital Letter V + Combining Tilde */
-                return new char[] { (char) 0x0056, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u1E7E': {
-                /* Latin Capital Letter V With Dot Below = Latin Capital Letter V + Combining Dot Below */
-                return new char[] { (char) 0x0056, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u0174': {
-                /* Latin Capital Letter W With Circumflex = Latin Capital Letter W + Combining Circumflex Accent */
-                return new char[] { (char) 0x0057, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E80': {
-                /* Latin Capital Letter W With Grave = Latin Capital Letter W + Combining Grave Accent */
-                return new char[] { (char) 0x0057, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u1E82': {
-                /* Latin Capital Letter W With Acute = Latin Capital Letter W + Combining Acute Accent */
-                return new char[] { (char) 0x0057, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u1E84': {
-                /* Latin Capital Letter W With Diaeresis = Latin Capital Letter W + Combining Diaeresis */
-                return new char[] { (char) 0x0057, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u1E86': {
-                /* Latin Capital Letter W With Dot Above = Latin Capital Letter W + Combining Dot Above */
-                return new char[] { (char) 0x0057, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u1E88': {
-                /* Latin Capital Letter W With Dot Below = Latin Capital Letter W + Combining Dot Below */
-                return new char[] { (char) 0x0057, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u1E8A': {
-                /* Latin Capital Letter X With Dot Above = Latin Capital Letter X + Combining Dot Above */
-                return new char[] { (char) 0x0058, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u1E8C': {
-                /* Latin Capital Letter X With Diaeresis = Latin Capital Letter X + Combining Diaeresis */
-                return new char[] { (char) 0x0058, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u00DD': {
-                /* Latin Capital Letter Y With Acute = Latin Capital Letter Y + Combining Acute Accent */
-                return new char[] { (char) 0x0059, (char) 0x00E2, (char) 0x0000 };
-            }
-            case '\u0176': {
-                /* Latin Capital Letter Y With Circumflex = Latin Capital Letter Y + Combining Circumflex Accent */
-                return new char[] { (char) 0x0059, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0178': {
-                /* Latin Capital Letter Y With Diaeresis = Latin Capital Letter Y + Combining Diaeresis */
-                return new char[] { (char) 0x0059, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E8E': {
-                /* Latin Capital Letter Y With Dot Above = Latin Capital Letter Y + Combining Dot Above */
-                return new char[] { (char) 0x0059, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u1EF2': {
-                /* Latin Capital Letter Y With Grave = Latin Capital Letter Y + Combining Grave Accent */
-                return new char[] { (char) 0x0059, (char) 0x00E0, (char) 0x0000 };
-            }
-            case '\u1EF4': {
-                /* Latin Capital Letter Y With Dot Below = Latin Capital Letter Y + Combining Dot Below */
-                return new char[] { (char) 0x0059, (char) 0x00E0, (char) 0x0000 };
-            }
-            case '\u1EF6': {
-                /* Latin Capital Letter Y With Hook Above = Latin Capital Letter Y + Combining Hook Above */
-                return new char[] { (char) 0x0059, (char) 0x00E0, (char) 0x0000 };
-            }
-            case '\u1EF8': {
-                /* Latin Capital Letter Y With Tilde = Latin Capital Letter Y + Combining Tilde */
-                return new char[] { (char) 0x0059, (char) 0x00E4, (char) 0x0000 };
-            }
-            case '\u00E0': {
-                /* Latin Small Letter A With Grave = Latin Small Letter A + Combining Grave Accent */
-                return new char[] { (char) 0x0061, (char) 0x00E1, (char) 0x0000 };
-            }
-            case '\u00E1': {
-                /* Latin Small Letter A With Acute = Latin Small Letter A + Combining Acute Accent */
-                return new char[] { (char) 0x0061, (char) 0x00E2, (char) 0x0000 };
-            }
-            case '\u00E2': {
-                /* Latin Small Letter A With Circumflex = Latin Small Letter A + Combining Circumflex Accent */
-                return new char[] { (char) 0x0061, (char) 0x00E3, (char) 0x0000 };
-            }
-            case '\u00E3': {
-                /* Latin Small Letter A With Tilde = Latin Small Letter A + Combining Tilde */
-                return new char[] { (char) 0x0061, (char) 0x00E4, (char) 0x0000 };
-            }
-            case '\u00E4': {
-                /* Latin Small Letter A With Diaeresis = Latin Small Letter A + Combining Diaeresis */
-                return new char[] { (char) 0x0061, (char) 0x00E8, (char) 0x0000 };
-            }
-            case '\u00E5': {
-                /* Latin Small Letter A With Ring Above = Latin Small Letter A + Combining Ring Above */
-                return new char[] { (char) 0x0061, (char) 0x00EA, (char) 0x0000 };
-            }
-            case '\u0101': {
-                /* Latin Small Letter A With Macron = Latin Small Letter A + Combining Macron */
-                return new char[] { (char) 0x0061, (char) 0x00E5, (char) 0x0000 };
-            }
-            case '\u0103': {
-                /* Latin Small Letter A With Breve = Latin Small Letter A + Combining Breve */
-                return new char[] { (char) 0x0061, (char) 0x00E6, (char) 0x0000 };
-            }
-            case '\u0105': {
-                /* Latin Small Letter A With Ogonek = Latin Small Letter A + Combining Ogonek */
-                return new char[] { (char) 0x0061, (char) 0x00F1, (char) 0x0000 };
-            }
-            case '\u01CE': {
-                /* Latin Small Letter A With Caron = Latin Small Letter A + Combining Caron */
-                return new char[] { (char) 0x0061, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1EA7': {
-                /*
-                 * Latin Small Letter A With Circumflex And Grave = Latin Small Letter A + Combining Circumflex Accent +
-                 * Combining Grave Accent
-                 */
-                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00E1 };
-            }
-            case '\u1EB1': {
-                /*
-                 * Latin Small Letter A With Breve And Grave = Latin Small Letter A + Combining Breve + Combining Grave
-                 * Accent
-                 */
-                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00E1 };
-            }
-            case '\u0201': {
-                /* Latin Small Letter A With Double Grave = Latin Small Letter A + Combining Double Grave Accent */
-                return new char[] { (char) 0x0061, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0203': {
-                /* Latin Small Letter A With Inverted Breve = Latin Small Letter A + Combining Inverted Breve */
-                return new char[] { (char) 0x0061, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E01': {
-                /* Latin Small Letter A With Ring Below = Latin Small Letter A + Combining Ring Below */
-                return new char[] { (char) 0x0061, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u01FB': {
-                /*
-                 * Latin Small Letter A With Ring Above And Acute = Latin Small Letter A + Combining Ring Above +
-                 * Combining Acute Accent
-                 */
-                return new char[] { (char) 0x0061, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1EA5': {
-                /*
-                 * Latin Small Letter A With Circumflex And Acute = Latin Small Letter A + Combining Circumflex Accent +
-                 * Combining Acute Accent
-                 */
-                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00E2 };
-            }
-            case '\u1EAF': {
-                /*
-                 * Latin Small Letter A With Breve And Acute = Latin Small Letter A + Combining Breve + Combining Acute
-                 * Accent
-                 */
-                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00E2 };
-            }
-            case '\u1EAB': {
-                /*
-                 * Latin Small Letter A With Circumflex And Tilde = Latin Small Letter A + Combining Circumflex Accent +
-                 * Combining Tilde
-                 */
-                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00E4 };
-            }
-            case '\u1EA1': {
-                /* Latin Small Letter A With Dot Below = Latin Small Letter A + Combining Dot Below */
-                return new char[] { (char) 0x0061, (char) 0x00F2, (char) 0x00E4 };
-            }
-            case '\u1EA3': {
-                /* Latin Small Letter A With Hook Above = Latin Small Letter A + Combining Hook Above */
-                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00E4 };
-            }
-            case '\u1EB5': {
-                /* Latin Small Letter A With Breve And Tilde = Latin Small Letter A + Combining Breve + Combining Tilde */
-                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00E4 };
-            }
-            case '\u01DF': {
-                /*
-                 * Latin Small Letter A With Diaeresis And Macron = Latin Small Letter A + Combining Diaeresis +
-                 * Combining Macron
-                 */
-                return new char[] { (char) 0x0061, (char) 0x00E7, (char) 0x00E5 };
-            }
-            case '\u01E1': {
-                /*
-                 * Latin Small Letter A With Dot Above And Macron = Latin Small Letter A + Combining Dot Above +
-                 * Combining Macron
-                 */
-                return new char[] { (char) 0x0061, (char) 0x00E7, (char) 0x00E5 };
-            }
-            case '\u1EA9': {
-                /*
-                 * Latin Small Letter A With Circumflex And Hook Above = Latin Small Letter A + Combining Circumflex
-                 * Accent + Combining Hook Above
-                 */
-                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00E0 };
-            }
-            case '\u1EB3': {
-                /*
-                 * Latin Small Letter A With Breve And Hook Above = Latin Small Letter A + Combining Breve + Combining
-                 * Hook Above
-                 */
-                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00E0 };
-            }
-            case '\u1EAD': {
-                /*
-                 * Latin Small Letter A With Circumflex And Dot Below = Latin Small Letter A + Combining Circumflex
-                 * Accent + Combining Dot Below
-                 */
-                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00F2 };
-            }
-            case '\u1EB7': {
-                /*
-                 * Latin Small Letter A With Breve And Dot Below = Latin Small Letter A + Combining Breve + Combining
-                 * Dot Below
-                 */
-                return new char[] { (char) 0x0061, (char) 0x00E0, (char) 0x00F2 };
-            }
-            case '\u1E03': {
-                /* Latin Small Letter B With Dot Above = Latin Small Letter B + Combining Dot Above */
-                return new char[] { (char) 0x0062, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E05': {
-                /* Latin Small Letter B With Dot Below = Latin Small Letter B + Combining Dot Below */
-                return new char[] { (char) 0x0062, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E07': {
-                /* Latin Small Letter B With Line Below = Latin Small Letter B + Combining Low Line */
-                return new char[] { (char) 0x0062, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u00E7': {
-                /* Latin Small Letter C With Cedilla = Latin Small Letter C + Combining Cedilla */
-                return new char[] { (char) 0x0063, (char) 0x00F0, (char) 0x0000 };
-            }
-            case '\u0107': {
-                /* Latin Small Letter C With Acute = Latin Small Letter C + Combining Acute Accent */
-                return new char[] { (char) 0x0063, (char) 0x00E2, (char) 0x0000 };
-            }
-            case '\u0109': {
-                /* Latin Small Letter C With Circumflex = Latin Small Letter C + Combining Circumflex Accent */
-                return new char[] { (char) 0x0063, (char) 0x00E3, (char) 0x0000 };
-            }
-            case '\u010B': {
-                /* Latin Small Letter C With Dot Above = Latin Small Letter C + Combining Dot Above */
-                return new char[] { (char) 0x0063, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u010D': {
-                /* Latin Small Letter C With Caron = Latin Small Letter C + Combining Caron */
-                return new char[] { (char) 0x0063, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E09': {
-                /*
-                 * Latin Small Letter C With Cedilla And Acute = Latin Small Letter C + Combining Cedilla + Combining
-                 * Acute Accent
-                 */
-                return new char[] { (char) 0x0063, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u010F': {
-                /* Latin Small Letter D With Caron = Latin Small Letter D + Combining Caron */
-                return new char[] { (char) 0x0064, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E0B': {
-                /* Latin Small Letter D With Dot Above = Latin Small Letter D + Combining Dot Above */
-                return new char[] { (char) 0x0064, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E0D': {
-                /* Latin Small Letter D With Dot Below = Latin Small Letter D + Combining Dot Below */
-                return new char[] { (char) 0x0064, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E0F': {
-                /* Latin Small Letter D With Line Below = Latin Small Letter D + Combining Low Line */
-                return new char[] { (char) 0x0064, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E11': {
-                /* Latin Small Letter D With Cedilla = Latin Small Letter D + Combining Cedilla */
-                return new char[] { (char) 0x0064, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E13': {
-                /* Latin Small Letter D With Circumflex Below = Latin Small Letter D + Combining Circumflex Accent Below */
-                return new char[] { (char) 0x0064, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u00E8': {
-                /* Latin Small Letter E With Grave = Latin Small Letter E + Combining Grave Accent */
-                return new char[] { (char) 0x0065, (char) 0x00E1, (char) 0x0000 };
-            }
-            case '\u00E9': {
-                /* Latin Small Letter E With Acute = Latin Small Letter E + Combining Acute Accent */
-                return new char[] { (char) 0x0065, (char) 0x00E2, (char) 0x0000 };
-            }
-            case '\u00EA': {
-                /* Latin Small Letter E With Circumflex = Latin Small Letter E + Combining Circumflex Accent */
-                return new char[] { (char) 0x0065, (char) 0x00E3, (char) 0x0000 };
-            }
-            case '\u00EB': {
-                /* Latin Small Letter E With Diaeresis = Latin Small Letter E + Combining Diaeresis */
-                return new char[] { (char) 0x0065, (char) 0x00E8, (char) 0x0000 };
-            }
-            case '\u0113': {
-                /* Latin Small Letter E With Macron = Latin Small Letter E + Combining Macron */
-                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0115': {
-                /* Latin Small Letter E With Breve = Latin Small Letter E + Combining Breve */
-                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0117': {
-                /* Latin Small Letter E With Dot Above = Latin Small Letter E + Combining Dot Above */
-                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0119': {
-                /* Latin Small Letter E With Ogonek = Latin Small Letter E + Combining Ogonek */
-                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u011B': {
-                /* Latin Small Letter E With Caron = Latin Small Letter E + Combining Caron */
-                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E15': {
-                /*
-                 * Latin Small Letter E With Macron And Grave = Latin Small Letter E + Combining Macron + Combining
-                 * Grave Accent
-                 */
-                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x00E1 };
-            }
-            case '\u1EC1': {
-                /*
-                 * Latin Small Letter E With Circumflex And Grave = Latin Small Letter E + Combining Circumflex Accent +
-                 * Combining Grave Accent
-                 */
-                return new char[] { (char) 0x0065, (char) 0x00E0, (char) 0x00E1 };
-            }
-            case '\u0205': {
-                /* Latin Small Letter E With Double Grave = Latin Small Letter E + Combining Double Grave Accent */
-                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0207': {
-                /* Latin Small Letter E With Inverted Breve = Latin Small Letter E + Combining Inverted Breve */
-                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E19': {
-                /* Latin Small Letter E With Circumflex Below = Latin Small Letter E + Combining Circumflex Accent Below */
-                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E1B': {
-                /* Latin Small Letter E With Tilde Below = Latin Small Letter E + Combining Tilde Below */
-                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E17': {
-                /*
-                 * Latin Small Letter E With Macron And Acute = Latin Small Letter E + Combining Macron + Combining
-                 * Acute Accent
-                 */
-                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1EBF': {
-                /*
-                 * Latin Small Letter E With Circumflex And Acute = Latin Small Letter E + Combining Circumflex Accent +
-                 * Combining Acute Accent
-                 */
-                return new char[] { (char) 0x0065, (char) 0x00E0, (char) 0x00E2 };
-            }
-            case '\u1EC5': {
-                /*
-                 * Latin Small Letter E With Circumflex And Tilde = Latin Small Letter E + Combining Circumflex Accent +
-                 * Combining Tilde
-                 */
-                return new char[] { (char) 0x0065, (char) 0x00E0, (char) 0x00E4 };
-            }
-            case '\u1EB9': {
-                /* Latin Small Letter E With Dot Below = Latin Small Letter E + Combining Dot Below */
-                return new char[] { (char) 0x0065, (char) 0x00E0, (char) 0x00E5 };
-            }
-            case '\u1EBB': {
-                /* Latin Small Letter E With Hook Above = Latin Small Letter E + Combining Hook Above */
-                return new char[] { (char) 0x0065, (char) 0x00E0, (char) 0x00E5 };
-            }
-            case '\u1EBD': {
-                /* Latin Small Letter E With Tilde = Latin Small Letter E + Combining Tilde */
-                return new char[] { (char) 0x0065, (char) 0x00E0, (char) 0x00E5 };
-            }
-            case '\u1E1D': {
-                /*
-                 * Latin Small Letter E With Cedilla And Breve = Latin Small Letter E + Combining Cedilla + Combining
-                 * Breve
-                 */
-                return new char[] { (char) 0x0065, (char) 0x00E7, (char) 0x00E6 };
-            }
-            case '\u1EC3': {
-                /*
-                 * Latin Small Letter E With Circumflex And Hook Above = Latin Small Letter E + Combining Circumflex
-                 * Accent + Combining Hook Above
-                 */
-                return new char[] { (char) 0x0065, (char) 0x00E0, (char) 0x00E0 };
-            }
-            case '\u1EC7': {
-                /*
-                 * Latin Small Letter E With Circumflex And Dot Below = Latin Small Letter E + Combining Circumflex
-                 * Accent + Combining Dot Below
-                 */
-                return new char[] { (char) 0x0065, (char) 0x00E0, (char) 0x00F2 };
-            }
-            case '\u1E1F': {
-                /* Latin Small Letter F With Dot Above = Latin Small Letter F + Combining Dot Above */
-                return new char[] { (char) 0x0066, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u011D': {
-                /* Latin Small Letter G With Circumflex = Latin Small Letter G + Combining Circumflex Accent */
-                return new char[] { (char) 0x0067, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u011F': {
-                /* Latin Small Letter G With Breve = Latin Small Letter G + Combining Breve */
-                return new char[] { (char) 0x0067, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0121': {
-                /* Latin Small Letter G With Dot Above = Latin Small Letter G + Combining Dot Above */
-                return new char[] { (char) 0x0067, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0123': {
-                /* Latin Small Letter G With Cedilla = Latin Small Letter G + Combining Cedilla */
-                return new char[] { (char) 0x0067, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u01E7': {
-                /* Latin Small Letter G With Caron = Latin Small Letter G + Combining Caron */
-                return new char[] { (char) 0x0067, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u01F5': {
-                /* Latin Small Letter G With Acute = Latin Small Letter G + Combining Acute Accent */
-                return new char[] { (char) 0x0067, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E21': {
-                /* Latin Small Letter G With Macron = Latin Small Letter G + Combining Macron */
-                return new char[] { (char) 0x0067, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u0125': {
-                /* Latin Small Letter H With Circumflex = Latin Small Letter H + Combining Circumflex Accent */
-                return new char[] { (char) 0x0068, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E23': {
-                /* Latin Small Letter H With Dot Above = Latin Small Letter H + Combining Dot Above */
-                return new char[] { (char) 0x0068, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E25': {
-                /* Latin Small Letter H With Dot Below = Latin Small Letter H + Combining Dot Below */
-                return new char[] { (char) 0x0068, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E27': {
-                /* Latin Small Letter H With Diaeresis = Latin Small Letter H + Combining Diaeresis */
-                return new char[] { (char) 0x0068, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E29': {
-                /* Latin Small Letter H With Cedilla = Latin Small Letter H + Combining Cedilla */
-                return new char[] { (char) 0x0068, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E2B': {
-                /* Latin Small Letter H With Breve Below = Latin Small Letter H + Combining Breve Below */
-                return new char[] { (char) 0x0068, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E96': {
-                /* Latin Small Letter H With Line Below = Latin Small Letter H + Combining Low Line */
-                return new char[] { (char) 0x0068, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u00EC': {
-                /* Latin Small Letter I With Grave = Latin Small Letter I + Combining Grave Accent */
-                return new char[] { (char) 0x0069, (char) 0x00E1, (char) 0x0000 };
-            }
-            case '\u00ED': {
-                /* Latin Small Letter I With Acute = Latin Small Letter I + Combining Acute Accent */
-                return new char[] { (char) 0x0069, (char) 0x00E2, (char) 0x0000 };
-            }
-            case '\u00EE': {
-                /* Latin Small Letter I With Circumflex = Latin Small Letter I + Combining Circumflex Accent */
-                return new char[] { (char) 0x0069, (char) 0x00E3, (char) 0x0000 };
-            }
-            case '\u00EF': {
-                /* Latin Small Letter I With Diaeresis = Latin Small Letter I + Combining Diaeresis */
-                return new char[] { (char) 0x0069, (char) 0x00E8, (char) 0x0000 };
-            }
-            case '\u0129': {
-                /* Latin Small Letter I With Tilde = Latin Small Letter I + Combining Tilde */
-                return new char[] { (char) 0x0069, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u012B': {
-                /* Latin Small Letter I With Macron = Latin Small Letter I + Combining Macron */
-                return new char[] { (char) 0x0069, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u012D': {
-                /* Latin Small Letter I With Breve = Latin Small Letter I + Combining Breve */
-                return new char[] { (char) 0x0069, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u012F': {
-                /* Latin Small Letter I With Ogonek = Latin Small Letter I + Combining Ogonek */
-                return new char[] { (char) 0x0069, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u01D0': {
-                /* Latin Small Letter I With Caron = Latin Small Letter I + Combining Caron */
-                return new char[] { (char) 0x0069, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0209': {
-                /* Latin Small Letter I With Double Grave = Latin Small Letter I + Combining Double Grave Accent */
-                return new char[] { (char) 0x0069, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u020B': {
-                /* Latin Small Letter I With Inverted Breve = Latin Small Letter I + Combining Inverted Breve */
-                return new char[] { (char) 0x0069, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E2D': {
-                /* Latin Small Letter I With Tilde Below = Latin Small Letter I + Combining Tilde Below */
-                return new char[] { (char) 0x0069, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E2F': {
-                /*
-                 * Latin Small Letter I With Diaeresis And Acute = Latin Small Letter I + Combining Diaeresis +
-                 * Combining Acute Accent
-                 */
-                return new char[] { (char) 0x0069, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1EC9': {
-                /* Latin Small Letter I With Hook Above = Latin Small Letter I + Combining Hook Above */
-                return new char[] { (char) 0x0069, (char) 0x00E0, (char) 0x0000 };
-            }
-            case '\u1ECB': {
-                /* Latin Small Letter I With Dot Below = Latin Small Letter I + Combining Dot Below */
-                return new char[] { (char) 0x0069, (char) 0x00E0, (char) 0x0000 };
-            }
-            case '\u1E55': {
-                /* Latin Small Letter P With Acute = Latin Small Letter P + Combining Acute Accent */
-                return new char[] { (char) 0x0070, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E57': {
-                /* Latin Small Letter P With Dot Above = Latin Small Letter P + Combining Dot Above */
-                return new char[] { (char) 0x0070, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u0155': {
-                /* Latin Small Letter R With Acute = Latin Small Letter R + Combining Acute Accent */
-                return new char[] { (char) 0x0072, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0157': {
-                /* Latin Small Letter R With Cedilla = Latin Small Letter R + Combining Cedilla */
-                return new char[] { (char) 0x0072, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0159': {
-                /* Latin Small Letter R With Caron = Latin Small Letter R + Combining Caron */
-                return new char[] { (char) 0x0072, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0211': {
-                /* Latin Small Letter R With Double Grave = Latin Small Letter R + Combining Double Grave Accent */
-                return new char[] { (char) 0x0072, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0213': {
-                /* Latin Small Letter R With Inverted Breve = Latin Small Letter R + Combining Inverted Breve */
-                return new char[] { (char) 0x0072, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E59': {
-                /* Latin Small Letter R With Dot Above = Latin Small Letter R + Combining Dot Above */
-                return new char[] { (char) 0x0072, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E5B': {
-                /* Latin Small Letter R With Dot Below = Latin Small Letter R + Combining Dot Below */
-                return new char[] { (char) 0x0072, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E5F': {
-                /* Latin Small Letter R With Line Below = Latin Small Letter R + Combining Low Line */
-                return new char[] { (char) 0x0072, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E5D': {
-                /*
-                 * Latin Small Letter R With Dot Below And Macron = Latin Small Letter R + Combining Dot Below +
-                 * Combining Macron
-                 */
-                return new char[] { (char) 0x0072, (char) 0x00E7, (char) 0x00E5 };
-            }
-            case '\u015B': {
-                /* Latin Small Letter S With Acute = Latin Small Letter S + Combining Acute Accent */
-                return new char[] { (char) 0x0073, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u015D': {
-                /* Latin Small Letter S With Circumflex = Latin Small Letter S + Combining Circumflex Accent */
-                return new char[] { (char) 0x0073, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u015F': {
-                /* Latin Small Letter S With Cedilla = Latin Small Letter S + Combining Cedilla */
-                return new char[] { (char) 0x0073, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0161': {
-                /* Latin Small Letter S With Caron = Latin Small Letter S + Combining Caron */
-                return new char[] { (char) 0x0073, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E61': {
-                /* Latin Small Letter S With Dot Above = Latin Small Letter S + Combining Dot Above */
-                return new char[] { (char) 0x0073, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E63': {
-                /* Latin Small Letter S With Dot Below = Latin Small Letter S + Combining Dot Below */
-                return new char[] { (char) 0x0073, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E65': {
-                /*
-                 * Latin Small Letter S With Acute And Dot Above = Latin Small Letter S + Combining Acute Accent +
-                 * Combining Dot Above
-                 */
-                return new char[] { (char) 0x0073, (char) 0x00E7, (char) 0x00E7 };
-            }
-            case '\u1E67': {
-                /*
-                 * Latin Small Letter S With Caron And Dot Above = Latin Small Letter S + Combining Caron + Combining
-                 * Dot Above
-                 */
-                return new char[] { (char) 0x0073, (char) 0x00E7, (char) 0x00E7 };
-            }
-            case '\u1E69': {
-                /*
-                 * Latin Small Letter S With Dot Below And Dot Above = Latin Small Letter S + Combining Dot Below +
-                 * Combining Dot Above
-                 */
-                return new char[] { (char) 0x0073, (char) 0x00E7, (char) 0x00E7 };
-            }
-            case '\u0163': {
-                /* Latin Small Letter T With Cedilla = Latin Small Letter T + Combining Cedilla */
-                return new char[] { (char) 0x0074, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0165': {
-                /* Latin Small Letter T With Caron = Latin Small Letter T + Combining Caron */
-                return new char[] { (char) 0x0074, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E6B': {
-                /* Latin Small Letter T With Dot Above = Latin Small Letter T + Combining Dot Above */
-                return new char[] { (char) 0x0074, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E6D': {
-                /* Latin Small Letter T With Dot Below = Latin Small Letter T + Combining Dot Below */
-                return new char[] { (char) 0x0074, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E6F': {
-                /* Latin Small Letter T With Line Below = Latin Small Letter T + Combining Low Line */
-                return new char[] { (char) 0x0074, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E71': {
-                /* Latin Small Letter T With Circumflex Below = Latin Small Letter T + Combining Circumflex Accent Below */
-                return new char[] { (char) 0x0074, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E97': {
-                /* Latin Small Letter T With Diaeresis = Latin Small Letter T + Combining Diaeresis */
-                return new char[] { (char) 0x0074, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u00F9': {
-                /* Latin Small Letter U With Grave = Latin Small Letter U + Combining Grave Accent */
-                return new char[] { (char) 0x0075, (char) 0x00E1, (char) 0x0000 };
-            }
-            case '\u00FA': {
-                /* Latin Small Letter U With Acute = Latin Small Letter U + Combining Acute Accent */
-                return new char[] { (char) 0x0075, (char) 0x00E2, (char) 0x0000 };
-            }
-            case '\u00FB': {
-                /* Latin Small Letter U With Circumflex = Latin Small Letter U + Combining Circumflex Accent */
-                return new char[] { (char) 0x0075, (char) 0x00E3, (char) 0x0000 };
-            }
-            case '\u00FC': {
-                /* Latin Small Letter U With Diaeresis = Latin Small Letter U + Combining Diaeresis */
-                return new char[] { (char) 0x0075, (char) 0x00E8, (char) 0x0000 };
-            }
-            case '\u0169': {
-                /* Latin Small Letter U With Tilde = Latin Small Letter U + Combining Tilde */
-                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u016B': {
-                /* Latin Small Letter U With Macron = Latin Small Letter U + Combining Macron */
-                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u016D': {
-                /* Latin Small Letter U With Breve = Latin Small Letter U + Combining Breve */
-                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u016F': {
-                /* Latin Small Letter U With Ring Above = Latin Small Letter U + Combining Ring Above */
-                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0171': {
-                /* Latin Small Letter U With Double Acute = Latin Small Letter U + Combining Double Acute Accent */
-                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0173': {
-                /* Latin Small Letter U With Ogonek = Latin Small Letter U + Combining Ogonek */
-                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u01B0': {
-                /* Latin Small Letter U With Horn = Latin Small Letter U + Combining Horn */
-                return new char[] { (char) 0x00BD, (char) 0x0000, (char) 0x0000 };
-            }
-            case '\u01D4': {
-                /* Latin Small Letter U With Caron = Latin Small Letter U + Combining Caron */
-                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u01DC': {
-                /*
-                 * Latin Small Letter U With Diaeresis And Grave = Latin Small Letter U + Combining Diaeresis +
-                 * Combining Grave Accent
-                 */
-                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x00E1 };
-            }
-            case '\u0215': {
-                /* Latin Small Letter U With Double Grave = Latin Small Letter U + Combining Double Grave Accent */
-                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0217': {
-                /* Latin Small Letter U With Inverted Breve = Latin Small Letter U + Combining Inverted Breve */
-                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1EEB': {
-                /*
-                 * Latin Small Letter U With Horn And Grave = Latin Small Letter U + Combining Horn + Combining Grave
-                 * Accent
-                 */
-                return new char[] { (char) 0x0075, (char) 0x00E0, (char) 0x00E1 };
-            }
-            case '\u01D8': {
-                /*
-                 * Latin Small Letter U With Diaeresis And Acute = Latin Small Letter U + Combining Diaeresis +
-                 * Combining Acute Accent
-                 */
-                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E79': {
-                /*
-                 * Latin Small Letter U With Tilde And Acute = Latin Small Letter U + Combining Tilde + Combining Acute
-                 * Accent
-                 */
-                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E73': {
-                /* Latin Small Letter U With Diaeresis Below = Latin Small Letter U + Combining Diaeresis Below */
-                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E75': {
-                /* Latin Small Letter U With Tilde Below = Latin Small Letter U + Combining Tilde Below */
-                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E77': {
-                /* Latin Small Letter U With Circumflex Below = Latin Small Letter U + Combining Circumflex Accent Below */
-                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1EE9': {
-                /*
-                 * Latin Small Letter U With Horn And Acute = Latin Small Letter U + Combining Horn + Combining Acute
-                 * Accent
-                 */
-                return new char[] { (char) 0x0075, (char) 0x00E0, (char) 0x00E2 };
-            }
-            case '\u1EEF': {
-                /* Latin Small Letter U With Horn And Tilde = Latin Small Letter U + Combining Horn + Combining Tilde */
-                return new char[] { (char) 0x0075, (char) 0x00E0, (char) 0x00E4 };
-            }
-            case '\u01D6': {
-                /*
-                 * Latin Small Letter U With Diaeresis And Macron = Latin Small Letter U + Combining Diaeresis +
-                 * Combining Macron
-                 */
-                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x00E5 };
-            }
-            case '\u1E7B': {
-                /*
-                 * Latin Small Letter U With Macron And Diaeresis = Latin Small Letter U + Combining Macron + Combining
-                 * Diaeresis
-                 */
-                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x00E8 };
-            }
-            case '\u1EED': {
-                /*
-                 * Latin Small Letter U With Horn And Hook Above = Latin Small Letter U + Combining Horn + Combining
-                 * Hook Above
-                 */
-                return new char[] { (char) 0x0075, (char) 0x00E0, (char) 0x00E0 };
-            }
-            case '\u1EE5': {
-                /* Latin Small Letter U With Dot Below = Latin Small Letter U + Combining Dot Below */
-                return new char[] { (char) 0x0075, (char) 0x00E0, (char) 0x00F2 };
-            }
-            case '\u1EE7': {
-                /* Latin Small Letter U With Hook Above = Latin Small Letter U + Combining Hook Above */
-                return new char[] { (char) 0x0075, (char) 0x00E0, (char) 0x00F2 };
-            }
-            case '\u1EF1': {
-                /*
-                 * Latin Small Letter U With Horn And Dot Below = Latin Small Letter U + Combining Horn + Combining Dot
-                 * Below
-                 */
-                return new char[] { (char) 0x0075, (char) 0x00E0, (char) 0x00F2 };
-            }
-            case '\u01DA': {
-                /*
-                 * Latin Small Letter U With Diaeresis And Caron = Latin Small Letter U + Combining Diaeresis +
-                 * Combining Caron
-                 */
-                return new char[] { (char) 0x0075, (char) 0x00E7, (char) 0x00E9 };
-            }
-            case '\u1E7D': {
-                /* Latin Small Letter V With Tilde = Latin Small Letter V + Combining Tilde */
-                return new char[] { (char) 0x0076, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u1E7F': {
-                /* Latin Small Letter V With Dot Below = Latin Small Letter V + Combining Dot Below */
-                return new char[] { (char) 0x0076, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u0175': {
-                /* Latin Small Letter W With Circumflex = Latin Small Letter W + Combining Circumflex Accent */
-                return new char[] { (char) 0x0077, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E81': {
-                /* Latin Small Letter W With Grave = Latin Small Letter W + Combining Grave Accent */
-                return new char[] { (char) 0x0077, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u1E83': {
-                /* Latin Small Letter W With Acute = Latin Small Letter W + Combining Acute Accent */
-                return new char[] { (char) 0x0077, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u1E85': {
-                /* Latin Small Letter W With Diaeresis = Latin Small Letter W + Combining Diaeresis */
-                return new char[] { (char) 0x0077, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u1E87': {
-                /* Latin Small Letter W With Dot Above = Latin Small Letter W + Combining Dot Above */
-                return new char[] { (char) 0x0077, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u1E89': {
-                /* Latin Small Letter W With Dot Below = Latin Small Letter W + Combining Dot Below */
-                return new char[] { (char) 0x0077, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u1E98': {
-                /* Latin Small Letter W With Ring Above = Latin Small Letter W + Combining Ring Above */
-                return new char[] { (char) 0x0077, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u1E8B': {
-                /* Latin Small Letter X With Dot Above = Latin Small Letter X + Combining Dot Above */
-                return new char[] { (char) 0x0078, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u1E8D': {
-                /* Latin Small Letter X With Diaeresis = Latin Small Letter X + Combining Diaeresis */
-                return new char[] { (char) 0x0078, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u00FD': {
-                /* Latin Small Letter Y With Acute = Latin Small Letter Y + Combining Acute Accent */
-                return new char[] { (char) 0x0079, (char) 0x00E2, (char) 0x0000 };
-            }
-            case '\u00FF': {
-                /* Latin Small Letter Y With Diaeresis = Latin Small Letter Y + Combining Diaeresis */
-                return new char[] { (char) 0x0079, (char) 0x00E8, (char) 0x0000 };
-            }
-            case '\u0177': {
-                /* Latin Small Letter Y With Circumflex = Latin Small Letter Y + Combining Circumflex Accent */
-                return new char[] { (char) 0x0079, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E8F': {
-                /* Latin Small Letter Y With Dot Above = Latin Small Letter Y + Combining Dot Above */
-                return new char[] { (char) 0x0079, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u1E99': {
-                /* Latin Small Letter Y With Ring Above = Latin Small Letter Y + Combining Ring Above */
-                return new char[] { (char) 0x0079, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u1EF3': {
-                /* Latin Small Letter Y With Grave = Latin Small Letter Y + Combining Grave Accent */
-                return new char[] { (char) 0x0079, (char) 0x00E0, (char) 0x0000 };
-            }
-            case '\u1EF5': {
-                /* Latin Small Letter Y With Dot Below = Latin Small Letter Y + Combining Dot Below */
-                return new char[] { (char) 0x0079, (char) 0x00E0, (char) 0x0000 };
-            }
-            case '\u1EF7': {
-                /* Latin Small Letter Y With Hook Above = Latin Small Letter Y + Combining Hook Above */
-                return new char[] { (char) 0x0079, (char) 0x00E0, (char) 0x0000 };
-            }
-            case '\u1EF9': {
-                /* Latin Small Letter Y With Tilde = Latin Small Letter Y + Combining Tilde */
-                return new char[] { (char) 0x0079, (char) 0x00E4, (char) 0x0000 };
-            }
-            case '\u01EF': {
-                /* Latin Small Letter Ezh With Caron = Latin Small Letter Ezh + Combining Caron */
-                return new char[] { (char) 0x0292, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER I WITH DOT BELOW */
+                return new char[] { (char) 0x49, (char) 0xF2, (char) 0x00 };
             }
             case '\u0134': {
-                /* Latin Capital Letter J With Circumflex = Latin Capital Letter J + Combining Circumflex Accent */
-                return new char[] { (char) 0x004A, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0136': {
-                /* Latin Capital Letter K With Cedilla = Latin Capital Letter K + Combining Cedilla */
-                return new char[] { (char) 0x004B, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u01E8': {
-                /* Latin Capital Letter K With Caron = Latin Capital Letter K + Combining Caron */
-                return new char[] { (char) 0x004B, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER J WITH CIRCUMFLEX */
+                return new char[] { (char) 0x4A, (char) 0xE3, (char) 0x00 };
             }
             case '\u1E30': {
-                /* Latin Capital Letter K With Acute = Latin Capital Letter K + Combining Acute Accent */
-                return new char[] { (char) 0x004B, (char) 0x00E7, (char) 0x00E2 };
+                /* LATIN CAPITAL LETTER K WITH ACUTE */
+                return new char[] { (char) 0x4B, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u01E8': {
+                /* LATIN CAPITAL LETTER K WITH CARON */
+                return new char[] { (char) 0x4B, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u0136': {
+                /* LATIN CAPITAL LETTER K WITH CEDILLA */
+                return new char[] { (char) 0x4B, (char) 0xF0, (char) 0x00 };
             }
             case '\u1E32': {
-                /* Latin Capital Letter K With Dot Below = Latin Capital Letter K + Combining Dot Below */
-                return new char[] { (char) 0x004B, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E34': {
-                /* Latin Capital Letter K With Line Below = Latin Capital Letter K + Combining Low Line */
-                return new char[] { (char) 0x004B, (char) 0x00E7, (char) 0x00E2 };
+                /* LATIN CAPITAL LETTER K WITH DOT BELOW */
+                return new char[] { (char) 0x4B, (char) 0xF2, (char) 0x00 };
             }
             case '\u0139': {
-                /* Latin Capital Letter L With Acute = Latin Capital Letter L + Combining Acute Accent */
-                return new char[] { (char) 0x004C, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u013B': {
-                /* Latin Capital Letter L With Cedilla = Latin Capital Letter L + Combining Cedilla */
-                return new char[] { (char) 0x004C, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER L WITH ACUTE */
+                return new char[] { (char) 0x4C, (char) 0xE2, (char) 0x00 };
             }
             case '\u013D': {
-                /* Latin Capital Letter L With Caron = Latin Capital Letter L + Combining Caron */
-                return new char[] { (char) 0x004C, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER L WITH CARON */
+                return new char[] { (char) 0x4C, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u013B': {
+                /* LATIN CAPITAL LETTER L WITH CEDILLA */
+                return new char[] { (char) 0x4C, (char) 0xF0, (char) 0x00 };
             }
             case '\u1E36': {
-                /* Latin Capital Letter L With Dot Below = Latin Capital Letter L + Combining Dot Below */
-                return new char[] { (char) 0x004C, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E3A': {
-                /* Latin Capital Letter L With Line Below = Latin Capital Letter L + Combining Low Line */
-                return new char[] { (char) 0x004C, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E3C': {
-                /*
-                 * Latin Capital Letter L With Circumflex Below = Latin Capital Letter L + Combining Circumflex Accent
-                 * Below
-                 */
-                return new char[] { (char) 0x004C, (char) 0x00E7, (char) 0x00E2 };
+                /* LATIN CAPITAL LETTER L WITH DOT BELOW */
+                return new char[] { (char) 0x4C, (char) 0xF2, (char) 0x00 };
             }
             case '\u1E38': {
-                /*
-                 * Latin Capital Letter L With Dot Below And Macron = Latin Capital Letter L + Combining Dot Below +
-                 * Combining Macron
-                 */
-                return new char[] { (char) 0x004C, (char) 0x00E7, (char) 0x00E5 };
+                /* LATIN CAPITAL LETTER L WITH DOT BELOW AND MACRON */
+                return new char[] { (char) 0x4C, (char) 0xF2, (char) 0xE5 };
             }
             case '\u1E3E': {
-                /* Latin Capital Letter M With Acute = Latin Capital Letter M + Combining Acute Accent */
-                return new char[] { (char) 0x004D, (char) 0x00E7, (char) 0x00E2 };
+                /* LATIN CAPITAL LETTER M WITH ACUTE */
+                return new char[] { (char) 0x4D, (char) 0xE2, (char) 0x00 };
             }
             case '\u1E40': {
-                /* Latin Capital Letter M With Dot Above = Latin Capital Letter M + Combining Dot Above */
-                return new char[] { (char) 0x004D, (char) 0x00E7, (char) 0x00E2 };
+                /* LATIN CAPITAL LETTER M WITH DOT ABOVE */
+                return new char[] { (char) 0x4D, (char) 0xE7, (char) 0x00 };
             }
             case '\u1E42': {
-                /* Latin Capital Letter M With Dot Below = Latin Capital Letter M + Combining Dot Below */
-                return new char[] { (char) 0x004D, (char) 0x00E7, (char) 0x00E2 };
+                /* LATIN CAPITAL LETTER M WITH DOT BELOW */
+                return new char[] { (char) 0x4D, (char) 0xF2, (char) 0x00 };
             }
-            case '\u00D1': {
-                /* Latin Capital Letter N With Tilde = Latin Capital Letter N + Combining Tilde */
-                return new char[] { (char) 0x004E, (char) 0x00E4, (char) 0x0000 };
+            case '\u01F8': {
+                /* LATIN CAPITAL LETTER N WITH GRAVE */
+                return new char[] { (char) 0x4E, (char) 0xE1, (char) 0x00 };
             }
             case '\u0143': {
-                /* Latin Capital Letter N With Acute = Latin Capital Letter N + Combining Acute Accent */
-                return new char[] { (char) 0x004E, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER N WITH ACUTE */
+                return new char[] { (char) 0x4E, (char) 0xE2, (char) 0x00 };
             }
-            case '\u0145': {
-                /* Latin Capital Letter N With Cedilla = Latin Capital Letter N + Combining Cedilla */
-                return new char[] { (char) 0x004E, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0147': {
-                /* Latin Capital Letter N With Caron = Latin Capital Letter N + Combining Caron */
-                return new char[] { (char) 0x004E, (char) 0x00E7, (char) 0x0000 };
+            case '\u00D1': {
+                /* LATIN CAPITAL LETTER N WITH TILDE */
+                return new char[] { (char) 0x4E, (char) 0xE4, (char) 0x00 };
             }
             case '\u1E44': {
-                /* Latin Capital Letter N With Dot Above = Latin Capital Letter N + Combining Dot Above */
-                return new char[] { (char) 0x004E, (char) 0x00E7, (char) 0x00E2 };
+                /* LATIN CAPITAL LETTER N WITH DOT ABOVE */
+                return new char[] { (char) 0x4E, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u0147': {
+                /* LATIN CAPITAL LETTER N WITH CARON */
+                return new char[] { (char) 0x4E, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u0145': {
+                /* LATIN CAPITAL LETTER N WITH CEDILLA */
+                return new char[] { (char) 0x4E, (char) 0xF0, (char) 0x00 };
             }
             case '\u1E46': {
-                /* Latin Capital Letter N With Dot Below = Latin Capital Letter N + Combining Dot Below */
-                return new char[] { (char) 0x004E, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E48': {
-                /* Latin Capital Letter N With Line Below = Latin Capital Letter N + Combining Low Line */
-                return new char[] { (char) 0x004E, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E4A': {
-                /*
-                 * Latin Capital Letter N With Circumflex Below = Latin Capital Letter N + Combining Circumflex Accent
-                 * Below
-                 */
-                return new char[] { (char) 0x004E, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u00D2': {
-                /* Latin Capital Letter O With Grave = Latin Capital Letter O + Combining Grave Accent */
-                return new char[] { (char) 0x004F, (char) 0x00E1, (char) 0x0000 };
-            }
-            case '\u00D3': {
-                /* Latin Capital Letter O With Acute = Latin Capital Letter O + Combining Acute Accent */
-                return new char[] { (char) 0x004F, (char) 0x00E2, (char) 0x0000 };
-            }
-            case '\u00D4': {
-                /* Latin Capital Letter O With Circumflex = Latin Capital Letter O + Combining Circumflex Accent */
-                return new char[] { (char) 0x004F, (char) 0x00E3, (char) 0x0000 };
-            }
-            case '\u00D5': {
-                /* Latin Capital Letter O With Tilde = Latin Capital Letter O + Combining Tilde */
-                return new char[] { (char) 0x004F, (char) 0x00E4, (char) 0x0000 };
-            }
-            case '\u00D6': {
-                /* Latin Capital Letter O With Diaeresis = Latin Capital Letter O + Combining Diaeresis */
-                return new char[] { (char) 0x004F, (char) 0x00E8, (char) 0x0000 };
-            }
-            case '\u014C': {
-                /* Latin Capital Letter O With Macron = Latin Capital Letter O + Combining Macron */
-                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u014E': {
-                /* Latin Capital Letter O With Breve = Latin Capital Letter O + Combining Breve */
-                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0150': {
-                /* Latin Capital Letter O With Double Acute = Latin Capital Letter O + Combining Double Acute Accent */
-                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u01A0': {
-                /* Latin Capital Letter O With Horn = Latin Capital Letter O + Combining Horn */
-                return new char[] { (char) 0x00AC, (char) 0x0000, (char) 0x0000 };
-            }
-            case '\u01D1': {
-                /* Latin Capital Letter O With Caron = Latin Capital Letter O + Combining Caron */
-                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E50': {
-                /*
-                 * Latin Capital Letter O With Macron And Grave = Latin Capital Letter O + Combining Macron + Combining
-                 * Grave Accent
-                 */
-                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x00E1 };
-            }
-            case '\u01EA': {
-                /* Latin Capital Letter O With Ogonek = Latin Capital Letter O + Combining Ogonek */
-                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1ED2': {
-                /*
-                 * Latin Capital Letter O With Circumflex And Grave = Latin Capital Letter O + Combining Circumflex
-                 * Accent + Combining Grave Accent
-                 */
-                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x00E1 };
-            }
-            case '\u1EDC': {
-                /*
-                 * Latin Capital Letter O With Horn And Grave = Latin Capital Letter O + Combining Horn + Combining
-                 * Grave Accent
-                 */
-                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x00E1 };
-            }
-            case '\u020C': {
-                /* Latin Capital Letter O With Double Grave = Latin Capital Letter O + Combining Double Grave Accent */
-                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u020E': {
-                /* Latin Capital Letter O With Inverted Breve = Latin Capital Letter O + Combining Inverted Breve */
-                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E4C': {
-                /*
-                 * Latin Capital Letter O With Tilde And Acute = Latin Capital Letter O + Combining Tilde + Combining
-                 * Acute Accent
-                 */
-                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E52': {
-                /*
-                 * Latin Capital Letter O With Macron And Acute = Latin Capital Letter O + Combining Macron + Combining
-                 * Acute Accent
-                 */
-                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1ED0': {
-                /*
-                 * Latin Capital Letter O With Circumflex And Acute = Latin Capital Letter O + Combining Circumflex
-                 * Accent + Combining Acute Accent
-                 */
-                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x00E2 };
-            }
-            case '\u1EDA': {
-                /*
-                 * Latin Capital Letter O With Horn And Acute = Latin Capital Letter O + Combining Horn + Combining
-                 * Acute Accent
-                 */
-                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x00E2 };
-            }
-            case '\u1ED6': {
-                /*
-                 * Latin Capital Letter O With Circumflex And Tilde = Latin Capital Letter O + Combining Circumflex
-                 * Accent + Combining Tilde
-                 */
-                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x00E4 };
-            }
-            case '\u1EE0': {
-                /*
-                 * Latin Capital Letter O With Horn And Tilde = Latin Capital Letter O + Combining Horn + Combining
-                 * Tilde
-                 */
-                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x00E4 };
-            }
-            case '\u01EC': {
-                /*
-                 * Latin Capital Letter O With Ogonek And Macron = Latin Capital Letter O + Combining Ogonek + Combining
-                 * Macron
-                 */
-                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x00E5 };
-            }
-            case '\u1ECC': {
-                /* Latin Capital Letter O With Dot Below = Latin Capital Letter O + Combining Dot Below */
-                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER N WITH DOT BELOW */
+                return new char[] { (char) 0x4E, (char) 0xF2, (char) 0x00 };
             }
             case '\u1ECE': {
-                /* Latin Capital Letter O With Hook Above = Latin Capital Letter O + Combining Hook Above */
-                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER O WITH HOOK ABOVE */
+                return new char[] { (char) 0x4F, (char) 0xE0, (char) 0x00 };
             }
-            case '\u1E4E': {
-                /*
-                 * Latin Capital Letter O With Tilde And Diaeresis = Latin Capital Letter O + Combining Tilde +
-                 * Combining Diaeresis
-                 */
-                return new char[] { (char) 0x004F, (char) 0x00E7, (char) 0x00E8 };
+            case '\u00D2': {
+                /* LATIN CAPITAL LETTER O WITH GRAVE */
+                return new char[] { (char) 0x4F, (char) 0xE1, (char) 0x00 };
+            }
+            case '\u00D3': {
+                /* LATIN CAPITAL LETTER O WITH ACUTE */
+                return new char[] { (char) 0x4F, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u00D4': {
+                /* LATIN CAPITAL LETTER O WITH CIRCUMFLEX */
+                return new char[] { (char) 0x4F, (char) 0xE3, (char) 0x00 };
             }
             case '\u1ED4': {
-                /*
-                 * Latin Capital Letter O With Circumflex And Hook Above = Latin Capital Letter O + Combining Circumflex
-                 * Accent + Combining Hook Above
-                 */
-                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x00E0 };
+                /* LATIN CAPITAL LETTER O WITH CIRCUMFLEX AND HOOK ABOVE */
+                return new char[] { (char) 0x4F, (char) 0xE3, (char) 0xE0 };
             }
-            case '\u1EDE': {
-                /*
-                 * Latin Capital Letter O With Horn And Hook Above = Latin Capital Letter O + Combining Horn + Combining
-                 * Hook Above
-                 */
-                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x00E0 };
+            case '\u1ED2': {
+                /* LATIN CAPITAL LETTER O WITH CIRCUMFLEX AND GRAVE */
+                return new char[] { (char) 0x4F, (char) 0xE3, (char) 0xE1 };
+            }
+            case '\u1ED0': {
+                /* LATIN CAPITAL LETTER O WITH CIRCUMFLEX AND ACUTE */
+                return new char[] { (char) 0x4F, (char) 0xE3, (char) 0xE2 };
+            }
+            case '\u1ED6': {
+                /* LATIN CAPITAL LETTER O WITH CIRCUMFLEX AND TILDE */
+                return new char[] { (char) 0x4F, (char) 0xE3, (char) 0xE4 };
             }
             case '\u1ED8': {
-                /*
-                 * Latin Capital Letter O With Circumflex And Dot Below = Latin Capital Letter O + Combining Circumflex
-                 * Accent + Combining Dot Below
-                 */
-                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x00F2 };
+                /* LATIN CAPITAL LETTER O WITH CIRCUMFLEX AND DOT BELOW */
+                return new char[] { (char) 0x4F, (char) 0xE3, (char) 0xF2 };
             }
-            case '\u1EE2': {
-                /*
-                 * Latin Capital Letter O With Horn And Dot Below = Latin Capital Letter O + Combining Horn + Combining
-                 * Dot Below
-                 */
-                return new char[] { (char) 0x004F, (char) 0x00E0, (char) 0x00F2 };
+            case '\u00D5': {
+                /* LATIN CAPITAL LETTER O WITH TILDE */
+                return new char[] { (char) 0x4F, (char) 0xE4, (char) 0x00 };
+            }
+            case '\u1E4C': {
+                /* LATIN CAPITAL LETTER O WITH TILDE AND ACUTE */
+                return new char[] { (char) 0x4F, (char) 0xE4, (char) 0xE2 };
+            }
+            case '\u022C': {
+                /* LATIN CAPITAL LETTER O WITH TILDE AND MACRON */
+                return new char[] { (char) 0x4F, (char) 0xE4, (char) 0xE5 };
+            }
+            case '\u1E4E': {
+                /* LATIN CAPITAL LETTER O WITH TILDE AND DIAERESIS */
+                return new char[] { (char) 0x4F, (char) 0xE4, (char) 0xE8 };
+            }
+            case '\u014C': {
+                /* LATIN CAPITAL LETTER O WITH MACRON */
+                return new char[] { (char) 0x4F, (char) 0xE5, (char) 0x00 };
+            }
+            case '\u1E50': {
+                /* LATIN CAPITAL LETTER O WITH MACRON AND GRAVE */
+                return new char[] { (char) 0x4F, (char) 0xE5, (char) 0xE1 };
+            }
+            case '\u1E52': {
+                /* LATIN CAPITAL LETTER O WITH MACRON AND ACUTE */
+                return new char[] { (char) 0x4F, (char) 0xE5, (char) 0xE2 };
+            }
+            case '\u014E': {
+                /* LATIN CAPITAL LETTER O WITH BREVE */
+                return new char[] { (char) 0x4F, (char) 0xE6, (char) 0x00 };
+            }
+            case '\u022E': {
+                /* LATIN CAPITAL LETTER O WITH DOT ABOVE */
+                return new char[] { (char) 0x4F, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u0230': {
+                /* LATIN CAPITAL LETTER O WITH DOT ABOVE AND MACRON */
+                return new char[] { (char) 0x4F, (char) 0xE7, (char) 0xE5 };
+            }
+            case '\u00D6': {
+                /* LATIN CAPITAL LETTER O WITH DIAERESIS */
+                return new char[] { (char) 0x4F, (char) 0xE8, (char) 0x00 };
+            }
+            case '\u022A': {
+                /* LATIN CAPITAL LETTER O WITH DIAERESIS AND MACRON */
+                return new char[] { (char) 0x4F, (char) 0xE8, (char) 0xE5 };
+            }
+            case '\u01D1': {
+                /* LATIN CAPITAL LETTER O WITH CARON */
+                return new char[] { (char) 0x4F, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u0150': {
+                /* LATIN CAPITAL LETTER O WITH DOUBLE ACUTE */
+                return new char[] { (char) 0x4F, (char) 0xEE, (char) 0x00 };
+            }
+            case '\u01EA': {
+                /* LATIN CAPITAL LETTER O WITH OGONEK */
+                return new char[] { (char) 0x4F, (char) 0xF1, (char) 0x00 };
+            }
+            case '\u01EC': {
+                /* LATIN CAPITAL LETTER O WITH OGONEK AND MACRON */
+                return new char[] { (char) 0x4F, (char) 0xF1, (char) 0xE5 };
+            }
+            case '\u1ECC': {
+                /* LATIN CAPITAL LETTER O WITH DOT BELOW */
+                return new char[] { (char) 0x4F, (char) 0xF2, (char) 0x00 };
+            }
+            case '\u1E54': {
+                /* LATIN CAPITAL LETTER P WITH ACUTE */
+                return new char[] { (char) 0x50, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u1E56': {
+                /* LATIN CAPITAL LETTER P WITH DOT ABOVE */
+                return new char[] { (char) 0x50, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u0154': {
+                /* LATIN CAPITAL LETTER R WITH ACUTE */
+                return new char[] { (char) 0x52, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u1E58': {
+                /* LATIN CAPITAL LETTER R WITH DOT ABOVE */
+                return new char[] { (char) 0x52, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u0158': {
+                /* LATIN CAPITAL LETTER R WITH CARON */
+                return new char[] { (char) 0x52, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u0156': {
+                /* LATIN CAPITAL LETTER R WITH CEDILLA */
+                return new char[] { (char) 0x52, (char) 0xF0, (char) 0x00 };
+            }
+            case '\u1E5A': {
+                /* LATIN CAPITAL LETTER R WITH DOT BELOW */
+                return new char[] { (char) 0x52, (char) 0xF2, (char) 0x00 };
+            }
+            case '\u1E5C': {
+                /* LATIN CAPITAL LETTER R WITH DOT BELOW AND MACRON */
+                return new char[] { (char) 0x52, (char) 0xF2, (char) 0xE5 };
+            }
+            case '\u015A': {
+                /* LATIN CAPITAL LETTER S WITH ACUTE */
+                return new char[] { (char) 0x53, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u1E64': {
+                /* LATIN CAPITAL LETTER S WITH ACUTE AND DOT ABOVE */
+                return new char[] { (char) 0x53, (char) 0xE2, (char) 0xE7 };
+            }
+            case '\u015C': {
+                /* LATIN CAPITAL LETTER S WITH CIRCUMFLEX */
+                return new char[] { (char) 0x53, (char) 0xE3, (char) 0x00 };
+            }
+            case '\u1E60': {
+                /* LATIN CAPITAL LETTER S WITH DOT ABOVE */
+                return new char[] { (char) 0x53, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u0160': {
+                /* LATIN CAPITAL LETTER S WITH CARON */
+                return new char[] { (char) 0x53, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u1E66': {
+                /* LATIN CAPITAL LETTER S WITH CARON AND DOT ABOVE */
+                return new char[] { (char) 0x53, (char) 0xE9, (char) 0xE7 };
+            }
+            case '\u015E': {
+                /* LATIN CAPITAL LETTER S WITH CEDILLA */
+                return new char[] { (char) 0x53, (char) 0xF0, (char) 0x00 };
+            }
+            case '\u1E62': {
+                /* LATIN CAPITAL LETTER S WITH DOT BELOW */
+                return new char[] { (char) 0x53, (char) 0xF2, (char) 0x00 };
+            }
+            case '\u1E68': {
+                /* LATIN CAPITAL LETTER S WITH DOT BELOW AND DOT ABOVE */
+                return new char[] { (char) 0x53, (char) 0xF2, (char) 0xE7 };
+            }
+            case '\u0218': {
+                /* LATIN CAPITAL LETTER S WITH COMMA BELOW */
+                return new char[] { (char) 0x53, (char) 0xF7, (char) 0x00 };
+            }
+            case '\u1E6A': {
+                /* LATIN CAPITAL LETTER T WITH DOT ABOVE */
+                return new char[] { (char) 0x54, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u0164': {
+                /* LATIN CAPITAL LETTER T WITH CARON */
+                return new char[] { (char) 0x54, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u0162': {
+                /* LATIN CAPITAL LETTER T WITH CEDILLA */
+                return new char[] { (char) 0x54, (char) 0xF0, (char) 0x00 };
+            }
+            case '\u1E6C': {
+                /* LATIN CAPITAL LETTER T WITH DOT BELOW */
+                return new char[] { (char) 0x54, (char) 0xF2, (char) 0x00 };
+            }
+            case '\u021A': {
+                /* LATIN CAPITAL LETTER T WITH COMMA BELOW */
+                return new char[] { (char) 0x54, (char) 0xF7, (char) 0x00 };
+            }
+            case '\u1EE6': {
+                /* LATIN CAPITAL LETTER U WITH HOOK ABOVE */
+                return new char[] { (char) 0x55, (char) 0xE0, (char) 0x00 };
+            }
+            case '\u00D9': {
+                /* LATIN CAPITAL LETTER U WITH GRAVE */
+                return new char[] { (char) 0x55, (char) 0xE1, (char) 0x00 };
+            }
+            case '\u00DA': {
+                /* LATIN CAPITAL LETTER U WITH ACUTE */
+                return new char[] { (char) 0x55, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u00DB': {
+                /* LATIN CAPITAL LETTER U WITH CIRCUMFLEX */
+                return new char[] { (char) 0x55, (char) 0xE3, (char) 0x00 };
+            }
+            case '\u0168': {
+                /* LATIN CAPITAL LETTER U WITH TILDE */
+                return new char[] { (char) 0x55, (char) 0xE4, (char) 0x00 };
+            }
+            case '\u1E78': {
+                /* LATIN CAPITAL LETTER U WITH TILDE AND ACUTE */
+                return new char[] { (char) 0x55, (char) 0xE4, (char) 0xE2 };
+            }
+            case '\u016A': {
+                /* LATIN CAPITAL LETTER U WITH MACRON */
+                return new char[] { (char) 0x55, (char) 0xE5, (char) 0x00 };
+            }
+            case '\u1E7A': {
+                /* LATIN CAPITAL LETTER U WITH MACRON AND DIAERESIS */
+                return new char[] { (char) 0x55, (char) 0xE5, (char) 0xE8 };
+            }
+            case '\u016C': {
+                /* LATIN CAPITAL LETTER U WITH BREVE */
+                return new char[] { (char) 0x55, (char) 0xE6, (char) 0x00 };
+            }
+            case '\u00DC': {
+                /* LATIN CAPITAL LETTER U WITH DIAERESIS */
+                return new char[] { (char) 0x55, (char) 0xE8, (char) 0x00 };
+            }
+            case '\u01DB': {
+                /* LATIN CAPITAL LETTER U WITH DIAERESIS AND GRAVE */
+                return new char[] { (char) 0x55, (char) 0xE8, (char) 0xE1 };
+            }
+            case '\u01D7': {
+                /* LATIN CAPITAL LETTER U WITH DIAERESIS AND ACUTE */
+                return new char[] { (char) 0x55, (char) 0xE8, (char) 0xE2 };
+            }
+            case '\u01D5': {
+                /* LATIN CAPITAL LETTER U WITH DIAERESIS AND MACRON */
+                return new char[] { (char) 0x55, (char) 0xE8, (char) 0xE5 };
+            }
+            case '\u01D9': {
+                /* LATIN CAPITAL LETTER U WITH DIAERESIS AND CARON */
+                return new char[] { (char) 0x55, (char) 0xE8, (char) 0xE9 };
+            }
+            case '\u01D3': {
+                /* LATIN CAPITAL LETTER U WITH CARON */
+                return new char[] { (char) 0x55, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u016E': {
+                /* LATIN CAPITAL LETTER U WITH RING ABOVE */
+                return new char[] { (char) 0x55, (char) 0xEA, (char) 0x00 };
+            }
+            case '\u0170': {
+                /* LATIN CAPITAL LETTER U WITH DOUBLE ACUTE */
+                return new char[] { (char) 0x55, (char) 0xEE, (char) 0x00 };
+            }
+            case '\u0172': {
+                /* LATIN CAPITAL LETTER U WITH OGONEK */
+                return new char[] { (char) 0x55, (char) 0xF1, (char) 0x00 };
+            }
+            case '\u1EE4': {
+                /* LATIN CAPITAL LETTER U WITH DOT BELOW */
+                return new char[] { (char) 0x55, (char) 0xF2, (char) 0x00 };
+            }
+            case '\u1E72': {
+                /* LATIN CAPITAL LETTER U WITH DIAERESIS BELOW */
+                return new char[] { (char) 0x55, (char) 0xF3, (char) 0x00 };
+            }
+            case '\u1E7C': {
+                /* LATIN CAPITAL LETTER V WITH TILDE */
+                return new char[] { (char) 0x56, (char) 0xE4, (char) 0x00 };
+            }
+            case '\u1E7E': {
+                /* LATIN CAPITAL LETTER V WITH DOT BELOW */
+                return new char[] { (char) 0x56, (char) 0xF2, (char) 0x00 };
+            }
+            case '\u1E80': {
+                /* LATIN CAPITAL LETTER W WITH GRAVE */
+                return new char[] { (char) 0x57, (char) 0xE1, (char) 0x00 };
+            }
+            case '\u1E82': {
+                /* LATIN CAPITAL LETTER W WITH ACUTE */
+                return new char[] { (char) 0x57, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u0174': {
+                /* LATIN CAPITAL LETTER W WITH CIRCUMFLEX */
+                return new char[] { (char) 0x57, (char) 0xE3, (char) 0x00 };
+            }
+            case '\u1E86': {
+                /* LATIN CAPITAL LETTER W WITH DOT ABOVE */
+                return new char[] { (char) 0x57, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u1E84': {
+                /* LATIN CAPITAL LETTER W WITH DIAERESIS */
+                return new char[] { (char) 0x57, (char) 0xE8, (char) 0x00 };
+            }
+            case '\u1E88': {
+                /* LATIN CAPITAL LETTER W WITH DOT BELOW */
+                return new char[] { (char) 0x57, (char) 0xF2, (char) 0x00 };
+            }
+            case '\u1E8A': {
+                /* LATIN CAPITAL LETTER X WITH DOT ABOVE */
+                return new char[] { (char) 0x58, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u1E8C': {
+                /* LATIN CAPITAL LETTER X WITH DIAERESIS */
+                return new char[] { (char) 0x58, (char) 0xE8, (char) 0x00 };
+            }
+            case '\u1EF6': {
+                /* LATIN CAPITAL LETTER Y WITH HOOK ABOVE */
+                return new char[] { (char) 0x59, (char) 0xE0, (char) 0x00 };
+            }
+            case '\u1EF2': {
+                /* LATIN CAPITAL LETTER Y WITH GRAVE */
+                return new char[] { (char) 0x59, (char) 0xE1, (char) 0x00 };
+            }
+            case '\u00DD': {
+                /* LATIN CAPITAL LETTER Y WITH ACUTE */
+                return new char[] { (char) 0x59, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u0176': {
+                /* LATIN CAPITAL LETTER Y WITH CIRCUMFLEX */
+                return new char[] { (char) 0x59, (char) 0xE3, (char) 0x00 };
+            }
+            case '\u1EF8': {
+                /* LATIN CAPITAL LETTER Y WITH TILDE */
+                return new char[] { (char) 0x59, (char) 0xE4, (char) 0x00 };
+            }
+            case '\u0232': {
+                /* LATIN CAPITAL LETTER Y WITH MACRON */
+                return new char[] { (char) 0x59, (char) 0xE5, (char) 0x00 };
+            }
+            case '\u1E8E': {
+                /* LATIN CAPITAL LETTER Y WITH DOT ABOVE */
+                return new char[] { (char) 0x59, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u0178': {
+                /* LATIN CAPITAL LETTER Y WITH DIAERESIS */
+                return new char[] { (char) 0x59, (char) 0xE8, (char) 0x00 };
+            }
+            case '\u1EF4': {
+                /* LATIN CAPITAL LETTER Y WITH DOT BELOW */
+                return new char[] { (char) 0x59, (char) 0xF2, (char) 0x00 };
             }
             case '\u0179': {
-                /* Latin Capital Letter Z With Acute = Latin Capital Letter Z + Combining Acute Accent */
-                return new char[] { (char) 0x005A, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u017B': {
-                /* Latin Capital Letter Z With Dot Above = Latin Capital Letter Z + Combining Dot Above */
-                return new char[] { (char) 0x005A, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u017D': {
-                /* Latin Capital Letter Z With Caron = Latin Capital Letter Z + Combining Caron */
-                return new char[] { (char) 0x005A, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN CAPITAL LETTER Z WITH ACUTE */
+                return new char[] { (char) 0x5A, (char) 0xE2, (char) 0x00 };
             }
             case '\u1E90': {
-                /* Latin Capital Letter Z With Circumflex = Latin Capital Letter Z + Combining Circumflex Accent */
-                return new char[] { (char) 0x005A, (char) 0x00E7, (char) 0x00E4 };
+                /* LATIN CAPITAL LETTER Z WITH CIRCUMFLEX */
+                return new char[] { (char) 0x5A, (char) 0xE3, (char) 0x00 };
+            }
+            case '\u017B': {
+                /* LATIN CAPITAL LETTER Z WITH DOT ABOVE */
+                return new char[] { (char) 0x5A, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u017D': {
+                /* LATIN CAPITAL LETTER Z WITH CARON */
+                return new char[] { (char) 0x5A, (char) 0xE9, (char) 0x00 };
             }
             case '\u1E92': {
-                /* Latin Capital Letter Z With Dot Below = Latin Capital Letter Z + Combining Dot Below */
-                return new char[] { (char) 0x005A, (char) 0x00E7, (char) 0x00E4 };
+                /* LATIN CAPITAL LETTER Z WITH DOT BELOW */
+                return new char[] { (char) 0x5A, (char) 0xF2, (char) 0x00 };
             }
-            case '\u1E94': {
-                /* Latin Capital Letter Z With Line Below = Latin Capital Letter Z + Combining Low Line */
-                return new char[] { (char) 0x005A, (char) 0x00E7, (char) 0x00E4 };
+            case '\u1EA3': {
+                /* LATIN SMALL LETTER A WITH HOOK ABOVE */
+                return new char[] { (char) 0x61, (char) 0xE0, (char) 0x00 };
+            }
+            case '\u00E0': {
+                /* LATIN SMALL LETTER A WITH GRAVE */
+                return new char[] { (char) 0x61, (char) 0xE1, (char) 0x00 };
+            }
+            case '\u00E1': {
+                /* LATIN SMALL LETTER A WITH ACUTE */
+                return new char[] { (char) 0x61, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u00E2': {
+                /* LATIN SMALL LETTER A WITH CIRCUMFLEX */
+                return new char[] { (char) 0x61, (char) 0xE3, (char) 0x00 };
+            }
+            case '\u1EA9': {
+                /* LATIN SMALL LETTER A WITH CIRCUMFLEX AND HOOK ABOVE */
+                return new char[] { (char) 0x61, (char) 0xE3, (char) 0xE0 };
+            }
+            case '\u1EA7': {
+                /* LATIN SMALL LETTER A WITH CIRCUMFLEX AND GRAVE */
+                return new char[] { (char) 0x61, (char) 0xE3, (char) 0xE1 };
+            }
+            case '\u1EA5': {
+                /* LATIN SMALL LETTER A WITH CIRCUMFLEX AND ACUTE */
+                return new char[] { (char) 0x61, (char) 0xE3, (char) 0xE2 };
+            }
+            case '\u1EAB': {
+                /* LATIN SMALL LETTER A WITH CIRCUMFLEX AND TILDE */
+                return new char[] { (char) 0x61, (char) 0xE3, (char) 0xE4 };
+            }
+            case '\u1EAD': {
+                /* LATIN SMALL LETTER A WITH CIRCUMFLEX AND DOT BELOW */
+                return new char[] { (char) 0x61, (char) 0xE3, (char) 0xF2 };
+            }
+            case '\u00E3': {
+                /* LATIN SMALL LETTER A WITH TILDE */
+                return new char[] { (char) 0x61, (char) 0xE4, (char) 0x00 };
+            }
+            case '\u0101': {
+                /* LATIN SMALL LETTER A WITH MACRON */
+                return new char[] { (char) 0x61, (char) 0xE5, (char) 0x00 };
+            }
+            case '\u0103': {
+                /* LATIN SMALL LETTER A WITH BREVE */
+                return new char[] { (char) 0x61, (char) 0xE6, (char) 0x00 };
+            }
+            case '\u1EB3': {
+                /* LATIN SMALL LETTER A WITH BREVE AND HOOK ABOVE */
+                return new char[] { (char) 0x61, (char) 0xE6, (char) 0xE0 };
+            }
+            case '\u1EB1': {
+                /* LATIN SMALL LETTER A WITH BREVE AND GRAVE */
+                return new char[] { (char) 0x61, (char) 0xE6, (char) 0xE1 };
+            }
+            case '\u1EAF': {
+                /* LATIN SMALL LETTER A WITH BREVE AND ACUTE */
+                return new char[] { (char) 0x61, (char) 0xE6, (char) 0xE2 };
+            }
+            case '\u1EB5': {
+                /* LATIN SMALL LETTER A WITH BREVE AND TILDE */
+                return new char[] { (char) 0x61, (char) 0xE6, (char) 0xE4 };
+            }
+            case '\u1EB7': {
+                /* LATIN SMALL LETTER A WITH BREVE AND DOT BELOW */
+                return new char[] { (char) 0x61, (char) 0xE6, (char) 0xF2 };
+            }
+            case '\u0227': {
+                /* LATIN SMALL LETTER A WITH DOT ABOVE */
+                return new char[] { (char) 0x61, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u01E1': {
+                /* LATIN SMALL LETTER A WITH DOT ABOVE AND MACRON */
+                return new char[] { (char) 0x61, (char) 0xE7, (char) 0xE5 };
+            }
+            case '\u00E4': {
+                /* LATIN SMALL LETTER A WITH DIAERESIS */
+                return new char[] { (char) 0x61, (char) 0xE8, (char) 0x00 };
+            }
+            case '\u01DF': {
+                /* LATIN SMALL LETTER A WITH DIAERESIS AND MACRON */
+                return new char[] { (char) 0x61, (char) 0xE8, (char) 0xE5 };
+            }
+            case '\u01CE': {
+                /* LATIN SMALL LETTER A WITH CARON */
+                return new char[] { (char) 0x61, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u00E5': {
+                /* LATIN SMALL LETTER A WITH RING ABOVE */
+                return new char[] { (char) 0x61, (char) 0xEA, (char) 0x00 };
+            }
+            case '\u01FB': {
+                /* LATIN SMALL LETTER A WITH RING ABOVE AND ACUTE */
+                return new char[] { (char) 0x61, (char) 0xEA, (char) 0xE2 };
+            }
+            case '\u0105': {
+                /* LATIN SMALL LETTER A WITH OGONEK */
+                return new char[] { (char) 0x61, (char) 0xF1, (char) 0x00 };
+            }
+            case '\u1EA1': {
+                /* LATIN SMALL LETTER A WITH DOT BELOW */
+                return new char[] { (char) 0x61, (char) 0xF2, (char) 0x00 };
+            }
+            case '\u1E01': {
+                /* LATIN SMALL LETTER A WITH RING BELOW */
+                return new char[] { (char) 0x61, (char) 0xF4, (char) 0x00 };
+            }
+            case '\u1E03': {
+                /* LATIN SMALL LETTER B WITH DOT ABOVE */
+                return new char[] { (char) 0x62, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u1E05': {
+                /* LATIN SMALL LETTER B WITH DOT BELOW */
+                return new char[] { (char) 0x62, (char) 0xF2, (char) 0x00 };
+            }
+            case '\u0107': {
+                /* LATIN SMALL LETTER C WITH ACUTE */
+                return new char[] { (char) 0x63, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u0109': {
+                /* LATIN SMALL LETTER C WITH CIRCUMFLEX */
+                return new char[] { (char) 0x63, (char) 0xE3, (char) 0x00 };
+            }
+            case '\u010B': {
+                /* LATIN SMALL LETTER C WITH DOT ABOVE */
+                return new char[] { (char) 0x63, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u010D': {
+                /* LATIN SMALL LETTER C WITH CARON */
+                return new char[] { (char) 0x63, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u00E7': {
+                /* LATIN SMALL LETTER C WITH CEDILLA */
+                return new char[] { (char) 0x63, (char) 0xF0, (char) 0x00 };
+            }
+            case '\u1E09': {
+                /* LATIN SMALL LETTER C WITH CEDILLA AND ACUTE */
+                return new char[] { (char) 0x63, (char) 0xF0, (char) 0xE2 };
+            }
+            case '\u1E0B': {
+                /* LATIN SMALL LETTER D WITH DOT ABOVE */
+                return new char[] { (char) 0x64, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u010F': {
+                /* LATIN SMALL LETTER D WITH CARON */
+                return new char[] { (char) 0x64, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u1E11': {
+                /* LATIN SMALL LETTER D WITH CEDILLA */
+                return new char[] { (char) 0x64, (char) 0xF0, (char) 0x00 };
+            }
+            case '\u1E0D': {
+                /* LATIN SMALL LETTER D WITH DOT BELOW */
+                return new char[] { (char) 0x64, (char) 0xF2, (char) 0x00 };
+            }
+            case '\u1EBB': {
+                /* LATIN SMALL LETTER E WITH HOOK ABOVE */
+                return new char[] { (char) 0x65, (char) 0xE0, (char) 0x00 };
+            }
+            case '\u00E8': {
+                /* LATIN SMALL LETTER E WITH GRAVE */
+                return new char[] { (char) 0x65, (char) 0xE1, (char) 0x00 };
+            }
+            case '\u00E9': {
+                /* LATIN SMALL LETTER E WITH ACUTE */
+                return new char[] { (char) 0x65, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u00EA': {
+                /* LATIN SMALL LETTER E WITH CIRCUMFLEX */
+                return new char[] { (char) 0x65, (char) 0xE3, (char) 0x00 };
+            }
+            case '\u1EC3': {
+                /* LATIN SMALL LETTER E WITH CIRCUMFLEX AND HOOK ABOVE */
+                return new char[] { (char) 0x65, (char) 0xE3, (char) 0xE0 };
+            }
+            case '\u1EC1': {
+                /* LATIN SMALL LETTER E WITH CIRCUMFLEX AND GRAVE */
+                return new char[] { (char) 0x65, (char) 0xE3, (char) 0xE1 };
+            }
+            case '\u1EBF': {
+                /* LATIN SMALL LETTER E WITH CIRCUMFLEX AND ACUTE */
+                return new char[] { (char) 0x65, (char) 0xE3, (char) 0xE2 };
+            }
+            case '\u1EC5': {
+                /* LATIN SMALL LETTER E WITH CIRCUMFLEX AND TILDE */
+                return new char[] { (char) 0x65, (char) 0xE3, (char) 0xE4 };
+            }
+            case '\u1EC7': {
+                /* LATIN SMALL LETTER E WITH CIRCUMFLEX AND DOT BELOW */
+                return new char[] { (char) 0x65, (char) 0xE3, (char) 0xF2 };
+            }
+            case '\u1EBD': {
+                /* LATIN SMALL LETTER E WITH TILDE */
+                return new char[] { (char) 0x65, (char) 0xE4, (char) 0x00 };
+            }
+            case '\u0113': {
+                /* LATIN SMALL LETTER E WITH MACRON */
+                return new char[] { (char) 0x65, (char) 0xE5, (char) 0x00 };
+            }
+            case '\u1E15': {
+                /* LATIN SMALL LETTER E WITH MACRON AND GRAVE */
+                return new char[] { (char) 0x65, (char) 0xE5, (char) 0xE1 };
+            }
+            case '\u1E17': {
+                /* LATIN SMALL LETTER E WITH MACRON AND ACUTE */
+                return new char[] { (char) 0x65, (char) 0xE5, (char) 0xE2 };
+            }
+            case '\u0115': {
+                /* LATIN SMALL LETTER E WITH BREVE */
+                return new char[] { (char) 0x65, (char) 0xE6, (char) 0x00 };
+            }
+            case '\u0117': {
+                /* LATIN SMALL LETTER E WITH DOT ABOVE */
+                return new char[] { (char) 0x65, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u00EB': {
+                /* LATIN SMALL LETTER E WITH DIAERESIS */
+                return new char[] { (char) 0x65, (char) 0xE8, (char) 0x00 };
+            }
+            case '\u011B': {
+                /* LATIN SMALL LETTER E WITH CARON */
+                return new char[] { (char) 0x65, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u0229': {
+                /* LATIN SMALL LETTER E WITH CEDILLA */
+                return new char[] { (char) 0x65, (char) 0xF0, (char) 0x00 };
+            }
+            case '\u1E1D': {
+                /* LATIN SMALL LETTER E WITH CEDILLA AND BREVE */
+                return new char[] { (char) 0x65, (char) 0xF0, (char) 0xE6 };
+            }
+            case '\u0119': {
+                /* LATIN SMALL LETTER E WITH OGONEK */
+                return new char[] { (char) 0x65, (char) 0xF1, (char) 0x00 };
+            }
+            case '\u1EB9': {
+                /* LATIN SMALL LETTER E WITH DOT BELOW */
+                return new char[] { (char) 0x65, (char) 0xF2, (char) 0x00 };
+            }
+            case '\u1E1F': {
+                /* LATIN SMALL LETTER F WITH DOT ABOVE */
+                return new char[] { (char) 0x66, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u01F5': {
+                /* LATIN SMALL LETTER G WITH ACUTE */
+                return new char[] { (char) 0x67, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u011D': {
+                /* LATIN SMALL LETTER G WITH CIRCUMFLEX */
+                return new char[] { (char) 0x67, (char) 0xE3, (char) 0x00 };
+            }
+            case '\u1E21': {
+                /* LATIN SMALL LETTER G WITH MACRON */
+                return new char[] { (char) 0x67, (char) 0xE5, (char) 0x00 };
+            }
+            case '\u011F': {
+                /* LATIN SMALL LETTER G WITH BREVE */
+                return new char[] { (char) 0x67, (char) 0xE6, (char) 0x00 };
+            }
+            case '\u0121': {
+                /* LATIN SMALL LETTER G WITH DOT ABOVE */
+                return new char[] { (char) 0x67, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u01E7': {
+                /* LATIN SMALL LETTER G WITH CARON */
+                return new char[] { (char) 0x67, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u0123': {
+                /* LATIN SMALL LETTER G WITH CEDILLA */
+                return new char[] { (char) 0x67, (char) 0xF0, (char) 0x00 };
+            }
+            case '\u0125': {
+                /* LATIN SMALL LETTER H WITH CIRCUMFLEX */
+                return new char[] { (char) 0x68, (char) 0xE3, (char) 0x00 };
+            }
+            case '\u1E23': {
+                /* LATIN SMALL LETTER H WITH DOT ABOVE */
+                return new char[] { (char) 0x68, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u1E27': {
+                /* LATIN SMALL LETTER H WITH DIAERESIS */
+                return new char[] { (char) 0x68, (char) 0xE8, (char) 0x00 };
+            }
+            case '\u021F': {
+                /* LATIN SMALL LETTER H WITH CARON */
+                return new char[] { (char) 0x68, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u1E29': {
+                /* LATIN SMALL LETTER H WITH CEDILLA */
+                return new char[] { (char) 0x68, (char) 0xF0, (char) 0x00 };
+            }
+            case '\u1E25': {
+                /* LATIN SMALL LETTER H WITH DOT BELOW */
+                return new char[] { (char) 0x68, (char) 0xF2, (char) 0x00 };
+            }
+            case '\u1E2B': {
+                /* LATIN SMALL LETTER H WITH BREVE BELOW */
+                return new char[] { (char) 0x68, (char) 0xF9, (char) 0x00 };
+            }
+            case '\u1EC9': {
+                /* LATIN SMALL LETTER I WITH HOOK ABOVE */
+                return new char[] { (char) 0x69, (char) 0xE0, (char) 0x00 };
+            }
+            case '\u00EC': {
+                /* LATIN SMALL LETTER I WITH GRAVE */
+                return new char[] { (char) 0x69, (char) 0xE1, (char) 0x00 };
+            }
+            case '\u00ED': {
+                /* LATIN SMALL LETTER I WITH ACUTE */
+                return new char[] { (char) 0x69, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u00EE': {
+                /* LATIN SMALL LETTER I WITH CIRCUMFLEX */
+                return new char[] { (char) 0x69, (char) 0xE3, (char) 0x00 };
+            }
+            case '\u0129': {
+                /* LATIN SMALL LETTER I WITH TILDE */
+                return new char[] { (char) 0x69, (char) 0xE4, (char) 0x00 };
+            }
+            case '\u012B': {
+                /* LATIN SMALL LETTER I WITH MACRON */
+                return new char[] { (char) 0x69, (char) 0xE5, (char) 0x00 };
+            }
+            case '\u012D': {
+                /* LATIN SMALL LETTER I WITH BREVE */
+                return new char[] { (char) 0x69, (char) 0xE6, (char) 0x00 };
+            }
+            case '\u00EF': {
+                /* LATIN SMALL LETTER I WITH DIAERESIS */
+                return new char[] { (char) 0x69, (char) 0xE8, (char) 0x00 };
+            }
+            case '\u1E2F': {
+                /* LATIN SMALL LETTER I WITH DIAERESIS AND ACUTE */
+                return new char[] { (char) 0x69, (char) 0xE8, (char) 0xE2 };
+            }
+            case '\u01D0': {
+                /* LATIN SMALL LETTER I WITH CARON */
+                return new char[] { (char) 0x69, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u012F': {
+                /* LATIN SMALL LETTER I WITH OGONEK */
+                return new char[] { (char) 0x69, (char) 0xF1, (char) 0x00 };
+            }
+            case '\u1ECB': {
+                /* LATIN SMALL LETTER I WITH DOT BELOW */
+                return new char[] { (char) 0x69, (char) 0xF2, (char) 0x00 };
             }
             case '\u0135': {
-                /* Latin Small Letter J With Circumflex = Latin Small Letter J + Combining Circumflex Accent */
-                return new char[] { (char) 0x006A, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN SMALL LETTER J WITH CIRCUMFLEX */
+                return new char[] { (char) 0x6A, (char) 0xE3, (char) 0x00 };
             }
             case '\u01F0': {
-                /* Latin Small Letter J With Caron = Latin Small Letter J + Combining Caron */
-                return new char[] { (char) 0x006A, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0137': {
-                /* Latin Small Letter K With Cedilla = Latin Small Letter K + Combining Cedilla */
-                return new char[] { (char) 0x006B, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u01E9': {
-                /* Latin Small Letter K With Caron = Latin Small Letter K + Combining Caron */
-                return new char[] { (char) 0x006B, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN SMALL LETTER J WITH CARON */
+                return new char[] { (char) 0x6A, (char) 0xE9, (char) 0x00 };
             }
             case '\u1E31': {
-                /* Latin Small Letter K With Acute = Latin Small Letter K + Combining Acute Accent */
-                return new char[] { (char) 0x006B, (char) 0x00E7, (char) 0x00E2 };
+                /* LATIN SMALL LETTER K WITH ACUTE */
+                return new char[] { (char) 0x6B, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u01E9': {
+                /* LATIN SMALL LETTER K WITH CARON */
+                return new char[] { (char) 0x6B, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u0137': {
+                /* LATIN SMALL LETTER K WITH CEDILLA */
+                return new char[] { (char) 0x6B, (char) 0xF0, (char) 0x00 };
             }
             case '\u1E33': {
-                /* Latin Small Letter K With Dot Below = Latin Small Letter K + Combining Dot Below */
-                return new char[] { (char) 0x006B, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E35': {
-                /* Latin Small Letter K With Line Below = Latin Small Letter K + Combining Low Line */
-                return new char[] { (char) 0x006B, (char) 0x00E7, (char) 0x00E2 };
+                /* LATIN SMALL LETTER K WITH DOT BELOW */
+                return new char[] { (char) 0x6B, (char) 0xF2, (char) 0x00 };
             }
             case '\u013A': {
-                /* Latin Small Letter L With Acute = Latin Small Letter L + Combining Acute Accent */
-                return new char[] { (char) 0x006C, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u013C': {
-                /* Latin Small Letter L With Cedilla = Latin Small Letter L + Combining Cedilla */
-                return new char[] { (char) 0x006C, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN SMALL LETTER L WITH ACUTE */
+                return new char[] { (char) 0x6C, (char) 0xE2, (char) 0x00 };
             }
             case '\u013E': {
-                /* Latin Small Letter L With Caron = Latin Small Letter L + Combining Caron */
-                return new char[] { (char) 0x006C, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN SMALL LETTER L WITH CARON */
+                return new char[] { (char) 0x6C, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u013C': {
+                /* LATIN SMALL LETTER L WITH CEDILLA */
+                return new char[] { (char) 0x6C, (char) 0xF0, (char) 0x00 };
             }
             case '\u1E37': {
-                /* Latin Small Letter L With Dot Below = Latin Small Letter L + Combining Dot Below */
-                return new char[] { (char) 0x006C, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E3B': {
-                /* Latin Small Letter L With Line Below = Latin Small Letter L + Combining Low Line */
-                return new char[] { (char) 0x006C, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E3D': {
-                /* Latin Small Letter L With Circumflex Below = Latin Small Letter L + Combining Circumflex Accent Below */
-                return new char[] { (char) 0x006C, (char) 0x00E7, (char) 0x00E2 };
+                /* LATIN SMALL LETTER L WITH DOT BELOW */
+                return new char[] { (char) 0x6C, (char) 0xF2, (char) 0x00 };
             }
             case '\u1E39': {
-                /*
-                 * Latin Small Letter L With Dot Below And Macron = Latin Small Letter L + Combining Dot Below +
-                 * Combining Macron
-                 */
-                return new char[] { (char) 0x006C, (char) 0x00E7, (char) 0x00E5 };
+                /* LATIN SMALL LETTER L WITH DOT BELOW AND MACRON */
+                return new char[] { (char) 0x6C, (char) 0xF2, (char) 0xE5 };
             }
             case '\u1E3F': {
-                /* Latin Small Letter M With Acute = Latin Small Letter M + Combining Acute Accent */
-                return new char[] { (char) 0x006D, (char) 0x00E7, (char) 0x00E2 };
+                /* LATIN SMALL LETTER M WITH ACUTE */
+                return new char[] { (char) 0x6D, (char) 0xE2, (char) 0x00 };
             }
             case '\u1E41': {
-                /* Latin Small Letter M With Dot Above = Latin Small Letter M + Combining Dot Above */
-                return new char[] { (char) 0x006D, (char) 0x00E7, (char) 0x00E2 };
+                /* LATIN SMALL LETTER M WITH DOT ABOVE */
+                return new char[] { (char) 0x6D, (char) 0xE7, (char) 0x00 };
             }
             case '\u1E43': {
-                /* Latin Small Letter M With Dot Below = Latin Small Letter M + Combining Dot Below */
-                return new char[] { (char) 0x006D, (char) 0x00E7, (char) 0x00E2 };
+                /* LATIN SMALL LETTER M WITH DOT BELOW */
+                return new char[] { (char) 0x6D, (char) 0xF2, (char) 0x00 };
             }
-            case '\u00F1': {
-                /* Latin Small Letter N With Tilde = Latin Small Letter N + Combining Tilde */
-                return new char[] { (char) 0x006E, (char) 0x00E4, (char) 0x0000 };
+            case '\u01F9': {
+                /* LATIN SMALL LETTER N WITH GRAVE */
+                return new char[] { (char) 0x6E, (char) 0xE1, (char) 0x00 };
             }
             case '\u0144': {
-                /* Latin Small Letter N With Acute = Latin Small Letter N + Combining Acute Accent */
-                return new char[] { (char) 0x006E, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN SMALL LETTER N WITH ACUTE */
+                return new char[] { (char) 0x6E, (char) 0xE2, (char) 0x00 };
             }
-            case '\u0146': {
-                /* Latin Small Letter N With Cedilla = Latin Small Letter N + Combining Cedilla */
-                return new char[] { (char) 0x006E, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0148': {
-                /* Latin Small Letter N With Caron = Latin Small Letter N + Combining Caron */
-                return new char[] { (char) 0x006E, (char) 0x00E7, (char) 0x0000 };
+            case '\u00F1': {
+                /* LATIN SMALL LETTER N WITH TILDE */
+                return new char[] { (char) 0x6E, (char) 0xE4, (char) 0x00 };
             }
             case '\u1E45': {
-                /* Latin Small Letter N With Dot Above = Latin Small Letter N + Combining Dot Above */
-                return new char[] { (char) 0x006E, (char) 0x00E7, (char) 0x00E2 };
+                /* LATIN SMALL LETTER N WITH DOT ABOVE */
+                return new char[] { (char) 0x6E, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u0148': {
+                /* LATIN SMALL LETTER N WITH CARON */
+                return new char[] { (char) 0x6E, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u0146': {
+                /* LATIN SMALL LETTER N WITH CEDILLA */
+                return new char[] { (char) 0x6E, (char) 0xF0, (char) 0x00 };
             }
             case '\u1E47': {
-                /* Latin Small Letter N With Dot Below = Latin Small Letter N + Combining Dot Below */
-                return new char[] { (char) 0x006E, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E49': {
-                /* Latin Small Letter N With Line Below = Latin Small Letter N + Combining Low Line */
-                return new char[] { (char) 0x006E, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E4B': {
-                /* Latin Small Letter N With Circumflex Below = Latin Small Letter N + Combining Circumflex Accent Below */
-                return new char[] { (char) 0x006E, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u00F2': {
-                /* Latin Small Letter O With Grave = Latin Small Letter O + Combining Grave Accent */
-                return new char[] { (char) 0x006F, (char) 0x00E1, (char) 0x0000 };
-            }
-            case '\u00F3': {
-                /* Latin Small Letter O With Acute = Latin Small Letter O + Combining Acute Accent */
-                return new char[] { (char) 0x006F, (char) 0x00E2, (char) 0x0000 };
-            }
-            case '\u00F4': {
-                /* Latin Small Letter O With Circumflex = Latin Small Letter O + Combining Circumflex Accent */
-                return new char[] { (char) 0x006F, (char) 0x00E3, (char) 0x0000 };
-            }
-            case '\u00F5': {
-                /* Latin Small Letter O With Tilde = Latin Small Letter O + Combining Tilde */
-                return new char[] { (char) 0x006F, (char) 0x00E4, (char) 0x0000 };
-            }
-            case '\u00F6': {
-                /* Latin Small Letter O With Diaeresis = Latin Small Letter O + Combining Diaeresis */
-                return new char[] { (char) 0x006F, (char) 0x00E8, (char) 0x0000 };
-            }
-            case '\u014D': {
-                /* Latin Small Letter O With Macron = Latin Small Letter O + Combining Macron */
-                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u014F': {
-                /* Latin Small Letter O With Breve = Latin Small Letter O + Combining Breve */
-                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u0151': {
-                /* Latin Small Letter O With Double Acute = Latin Small Letter O + Combining Double Acute Accent */
-                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u01A1': {
-                /* Latin Small Letter O With Horn = Latin Small Letter O + Combining Horn */
-                return new char[] { (char) 0x00BC, (char) 0x0000, (char) 0x0000 };
-            }
-            case '\u01D2': {
-                /* Latin Small Letter O With Caron = Latin Small Letter O + Combining Caron */
-                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E51': {
-                /*
-                 * Latin Small Letter O With Macron And Grave = Latin Small Letter O + Combining Macron + Combining
-                 * Grave Accent
-                 */
-                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x00E1 };
-            }
-            case '\u01EB': {
-                /* Latin Small Letter O With Ogonek = Latin Small Letter O + Combining Ogonek */
-                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1ED3': {
-                /*
-                 * Latin Small Letter O With Circumflex And Grave = Latin Small Letter O + Combining Circumflex Accent +
-                 * Combining Grave Accent
-                 */
-                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x00E1 };
-            }
-            case '\u1EDD': {
-                /*
-                 * Latin Small Letter O With Horn And Grave = Latin Small Letter O + Combining Horn + Combining Grave
-                 * Accent
-                 */
-                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x00E1 };
-            }
-            case '\u020D': {
-                /* Latin Small Letter O With Double Grave = Latin Small Letter O + Combining Double Grave Accent */
-                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u020F': {
-                /* Latin Small Letter O With Inverted Breve = Latin Small Letter O + Combining Inverted Breve */
-                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E4D': {
-                /*
-                 * Latin Small Letter O With Tilde And Acute = Latin Small Letter O + Combining Tilde + Combining Acute
-                 * Accent
-                 */
-                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1E53': {
-                /*
-                 * Latin Small Letter O With Macron And Acute = Latin Small Letter O + Combining Macron + Combining
-                 * Acute Accent
-                 */
-                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x00E2 };
-            }
-            case '\u1ED1': {
-                /*
-                 * Latin Small Letter O With Circumflex And Acute = Latin Small Letter O + Combining Circumflex Accent +
-                 * Combining Acute Accent
-                 */
-                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x00E2 };
-            }
-            case '\u1EDB': {
-                /*
-                 * Latin Small Letter O With Horn And Acute = Latin Small Letter O + Combining Horn + Combining Acute
-                 * Accent
-                 */
-                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x00E2 };
-            }
-            case '\u1ED7': {
-                /*
-                 * Latin Small Letter O With Circumflex And Tilde = Latin Small Letter O + Combining Circumflex Accent +
-                 * Combining Tilde
-                 */
-                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x00E4 };
-            }
-            case '\u1EE1': {
-                /* Latin Small Letter O With Horn And Tilde = Latin Small Letter O + Combining Horn + Combining Tilde */
-                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x00E4 };
-            }
-            case '\u01ED': {
-                /*
-                 * Latin Small Letter O With Ogonek And Macron = Latin Small Letter O + Combining Ogonek + Combining
-                 * Macron
-                 */
-                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x00E5 };
-            }
-            case '\u1ECD': {
-                /* Latin Small Letter O With Dot Below = Latin Small Letter O + Combining Dot Below */
-                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x0000 };
+                /* LATIN SMALL LETTER N WITH DOT BELOW */
+                return new char[] { (char) 0x6E, (char) 0xF2, (char) 0x00 };
             }
             case '\u1ECF': {
-                /* Latin Small Letter O With Hook Above = Latin Small Letter O + Combining Hook Above */
-                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x0000 };
+                /* LATIN SMALL LETTER O WITH HOOK ABOVE */
+                return new char[] { (char) 0x6F, (char) 0xE0, (char) 0x00 };
             }
-            case '\u1E4F': {
-                /*
-                 * Latin Small Letter O With Tilde And Diaeresis = Latin Small Letter O + Combining Tilde + Combining
-                 * Diaeresis
-                 */
-                return new char[] { (char) 0x006F, (char) 0x00E7, (char) 0x00E8 };
+            case '\u00F2': {
+                /* LATIN SMALL LETTER O WITH GRAVE */
+                return new char[] { (char) 0x6F, (char) 0xE1, (char) 0x00 };
+            }
+            case '\u00F3': {
+                /* LATIN SMALL LETTER O WITH ACUTE */
+                return new char[] { (char) 0x6F, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u00F4': {
+                /* LATIN SMALL LETTER O WITH CIRCUMFLEX */
+                return new char[] { (char) 0x6F, (char) 0xE3, (char) 0x00 };
             }
             case '\u1ED5': {
-                /*
-                 * Latin Small Letter O With Circumflex And Hook Above = Latin Small Letter O + Combining Circumflex
-                 * Accent + Combining Hook Above
-                 */
-                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x00E0 };
+                /* LATIN SMALL LETTER O WITH CIRCUMFLEX AND HOOK ABOVE */
+                return new char[] { (char) 0x6F, (char) 0xE3, (char) 0xE0 };
             }
-            case '\u1EDF': {
-                /*
-                 * Latin Small Letter O With Horn And Hook Above = Latin Small Letter O + Combining Horn + Combining
-                 * Hook Above
-                 */
-                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x00E0 };
+            case '\u1ED3': {
+                /* LATIN SMALL LETTER O WITH CIRCUMFLEX AND GRAVE */
+                return new char[] { (char) 0x6F, (char) 0xE3, (char) 0xE1 };
+            }
+            case '\u1ED1': {
+                /* LATIN SMALL LETTER O WITH CIRCUMFLEX AND ACUTE */
+                return new char[] { (char) 0x6F, (char) 0xE3, (char) 0xE2 };
+            }
+            case '\u1ED7': {
+                /* LATIN SMALL LETTER O WITH CIRCUMFLEX AND TILDE */
+                return new char[] { (char) 0x6F, (char) 0xE3, (char) 0xE4 };
             }
             case '\u1ED9': {
-                /*
-                 * Latin Small Letter O With Circumflex And Dot Below = Latin Small Letter O + Combining Circumflex
-                 * Accent + Combining Dot Below
-                 */
-                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x00F2 };
+                /* LATIN SMALL LETTER O WITH CIRCUMFLEX AND DOT BELOW */
+                return new char[] { (char) 0x6F, (char) 0xE3, (char) 0xF2 };
             }
-            case '\u1EE3': {
-                /*
-                 * Latin Small Letter O With Horn And Dot Below = Latin Small Letter O + Combining Horn + Combining Dot
-                 * Below
-                 */
-                return new char[] { (char) 0x006F, (char) 0x00E0, (char) 0x00F2 };
+            case '\u00F5': {
+                /* LATIN SMALL LETTER O WITH TILDE */
+                return new char[] { (char) 0x6F, (char) 0xE4, (char) 0x00 };
+            }
+            case '\u1E4D': {
+                /* LATIN SMALL LETTER O WITH TILDE AND ACUTE */
+                return new char[] { (char) 0x6F, (char) 0xE4, (char) 0xE2 };
+            }
+            case '\u022D': {
+                /* LATIN SMALL LETTER O WITH TILDE AND MACRON */
+                return new char[] { (char) 0x6F, (char) 0xE4, (char) 0xE5 };
+            }
+            case '\u1E4F': {
+                /* LATIN SMALL LETTER O WITH TILDE AND DIAERESIS */
+                return new char[] { (char) 0x6F, (char) 0xE4, (char) 0xE8 };
+            }
+            case '\u014D': {
+                /* LATIN SMALL LETTER O WITH MACRON */
+                return new char[] { (char) 0x6F, (char) 0xE5, (char) 0x00 };
+            }
+            case '\u1E51': {
+                /* LATIN SMALL LETTER O WITH MACRON AND GRAVE */
+                return new char[] { (char) 0x6F, (char) 0xE5, (char) 0xE1 };
+            }
+            case '\u1E53': {
+                /* LATIN SMALL LETTER O WITH MACRON AND ACUTE */
+                return new char[] { (char) 0x6F, (char) 0xE5, (char) 0xE2 };
+            }
+            case '\u014F': {
+                /* LATIN SMALL LETTER O WITH BREVE */
+                return new char[] { (char) 0x6F, (char) 0xE6, (char) 0x00 };
+            }
+            case '\u022F': {
+                /* LATIN SMALL LETTER O WITH DOT ABOVE */
+                return new char[] { (char) 0x6F, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u0231': {
+                /* LATIN SMALL LETTER O WITH DOT ABOVE AND MACRON */
+                return new char[] { (char) 0x6F, (char) 0xE7, (char) 0xE5 };
+            }
+            case '\u00F6': {
+                /* LATIN SMALL LETTER O WITH DIAERESIS */
+                return new char[] { (char) 0x6F, (char) 0xE8, (char) 0x00 };
+            }
+            case '\u022B': {
+                /* LATIN SMALL LETTER O WITH DIAERESIS AND MACRON */
+                return new char[] { (char) 0x6F, (char) 0xE8, (char) 0xE5 };
+            }
+            case '\u01D2': {
+                /* LATIN SMALL LETTER O WITH CARON */
+                return new char[] { (char) 0x6F, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u0151': {
+                /* LATIN SMALL LETTER O WITH DOUBLE ACUTE */
+                return new char[] { (char) 0x6F, (char) 0xEE, (char) 0x00 };
+            }
+            case '\u01EB': {
+                /* LATIN SMALL LETTER O WITH OGONEK */
+                return new char[] { (char) 0x6F, (char) 0xF1, (char) 0x00 };
+            }
+            case '\u01ED': {
+                /* LATIN SMALL LETTER O WITH OGONEK AND MACRON */
+                return new char[] { (char) 0x6F, (char) 0xF1, (char) 0xE5 };
+            }
+            case '\u1ECD': {
+                /* LATIN SMALL LETTER O WITH DOT BELOW */
+                return new char[] { (char) 0x6F, (char) 0xF2, (char) 0x00 };
+            }
+            case '\u1E55': {
+                /* LATIN SMALL LETTER P WITH ACUTE */
+                return new char[] { (char) 0x70, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u1E57': {
+                /* LATIN SMALL LETTER P WITH DOT ABOVE */
+                return new char[] { (char) 0x70, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u0155': {
+                /* LATIN SMALL LETTER R WITH ACUTE */
+                return new char[] { (char) 0x72, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u1E59': {
+                /* LATIN SMALL LETTER R WITH DOT ABOVE */
+                return new char[] { (char) 0x72, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u0159': {
+                /* LATIN SMALL LETTER R WITH CARON */
+                return new char[] { (char) 0x72, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u0157': {
+                /* LATIN SMALL LETTER R WITH CEDILLA */
+                return new char[] { (char) 0x72, (char) 0xF0, (char) 0x00 };
+            }
+            case '\u1E5B': {
+                /* LATIN SMALL LETTER R WITH DOT BELOW */
+                return new char[] { (char) 0x72, (char) 0xF2, (char) 0x00 };
+            }
+            case '\u1E5D': {
+                /* LATIN SMALL LETTER R WITH DOT BELOW AND MACRON */
+                return new char[] { (char) 0x72, (char) 0xF2, (char) 0xE5 };
+            }
+            case '\u015B': {
+                /* LATIN SMALL LETTER S WITH ACUTE */
+                return new char[] { (char) 0x73, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u1E65': {
+                /* LATIN SMALL LETTER S WITH ACUTE AND DOT ABOVE */
+                return new char[] { (char) 0x73, (char) 0xE2, (char) 0xE7 };
+            }
+            case '\u015D': {
+                /* LATIN SMALL LETTER S WITH CIRCUMFLEX */
+                return new char[] { (char) 0x73, (char) 0xE3, (char) 0x00 };
+            }
+            case '\u1E61': {
+                /* LATIN SMALL LETTER S WITH DOT ABOVE */
+                return new char[] { (char) 0x73, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u0161': {
+                /* LATIN SMALL LETTER S WITH CARON */
+                return new char[] { (char) 0x73, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u1E67': {
+                /* LATIN SMALL LETTER S WITH CARON AND DOT ABOVE */
+                return new char[] { (char) 0x73, (char) 0xE9, (char) 0xE7 };
+            }
+            case '\u015F': {
+                /* LATIN SMALL LETTER S WITH CEDILLA */
+                return new char[] { (char) 0x73, (char) 0xF0, (char) 0x00 };
+            }
+            case '\u1E63': {
+                /* LATIN SMALL LETTER S WITH DOT BELOW */
+                return new char[] { (char) 0x73, (char) 0xF2, (char) 0x00 };
+            }
+            case '\u1E69': {
+                /* LATIN SMALL LETTER S WITH DOT BELOW AND DOT ABOVE */
+                return new char[] { (char) 0x73, (char) 0xF2, (char) 0xE7 };
+            }
+            case '\u0219': {
+                /* LATIN SMALL LETTER S WITH COMMA BELOW */
+                return new char[] { (char) 0x73, (char) 0xF7, (char) 0x00 };
+            }
+            case '\u1E6B': {
+                /* LATIN SMALL LETTER T WITH DOT ABOVE */
+                return new char[] { (char) 0x74, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u1E97': {
+                /* LATIN SMALL LETTER T WITH DIAERESIS */
+                return new char[] { (char) 0x74, (char) 0xE8, (char) 0x00 };
+            }
+            case '\u0165': {
+                /* LATIN SMALL LETTER T WITH CARON */
+                return new char[] { (char) 0x74, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u0163': {
+                /* LATIN SMALL LETTER T WITH CEDILLA */
+                return new char[] { (char) 0x74, (char) 0xF0, (char) 0x00 };
+            }
+            case '\u1E6D': {
+                /* LATIN SMALL LETTER T WITH DOT BELOW */
+                return new char[] { (char) 0x74, (char) 0xF2, (char) 0x00 };
+            }
+            case '\u021B': {
+                /* LATIN SMALL LETTER T WITH COMMA BELOW */
+                return new char[] { (char) 0x74, (char) 0xF7, (char) 0x00 };
+            }
+            case '\u1EE7': {
+                /* LATIN SMALL LETTER U WITH HOOK ABOVE */
+                return new char[] { (char) 0x75, (char) 0xE0, (char) 0x00 };
+            }
+            case '\u00F9': {
+                /* LATIN SMALL LETTER U WITH GRAVE */
+                return new char[] { (char) 0x75, (char) 0xE1, (char) 0x00 };
+            }
+            case '\u00FA': {
+                /* LATIN SMALL LETTER U WITH ACUTE */
+                return new char[] { (char) 0x75, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u00FB': {
+                /* LATIN SMALL LETTER U WITH CIRCUMFLEX */
+                return new char[] { (char) 0x75, (char) 0xE3, (char) 0x00 };
+            }
+            case '\u0169': {
+                /* LATIN SMALL LETTER U WITH TILDE */
+                return new char[] { (char) 0x75, (char) 0xE4, (char) 0x00 };
+            }
+            case '\u1E79': {
+                /* LATIN SMALL LETTER U WITH TILDE AND ACUTE */
+                return new char[] { (char) 0x75, (char) 0xE4, (char) 0xE2 };
+            }
+            case '\u016B': {
+                /* LATIN SMALL LETTER U WITH MACRON */
+                return new char[] { (char) 0x75, (char) 0xE5, (char) 0x00 };
+            }
+            case '\u1E7B': {
+                /* LATIN SMALL LETTER U WITH MACRON AND DIAERESIS */
+                return new char[] { (char) 0x75, (char) 0xE5, (char) 0xE8 };
+            }
+            case '\u016D': {
+                /* LATIN SMALL LETTER U WITH BREVE */
+                return new char[] { (char) 0x75, (char) 0xE6, (char) 0x00 };
+            }
+            case '\u00FC': {
+                /* LATIN SMALL LETTER U WITH DIAERESIS */
+                return new char[] { (char) 0x75, (char) 0xE8, (char) 0x00 };
+            }
+            case '\u01DC': {
+                /* LATIN SMALL LETTER U WITH DIAERESIS AND GRAVE */
+                return new char[] { (char) 0x75, (char) 0xE8, (char) 0xE1 };
+            }
+            case '\u01D8': {
+                /* LATIN SMALL LETTER U WITH DIAERESIS AND ACUTE */
+                return new char[] { (char) 0x75, (char) 0xE8, (char) 0xE2 };
+            }
+            case '\u01D6': {
+                /* LATIN SMALL LETTER U WITH DIAERESIS AND MACRON */
+                return new char[] { (char) 0x75, (char) 0xE8, (char) 0xE5 };
+            }
+            case '\u01DA': {
+                /* LATIN SMALL LETTER U WITH DIAERESIS AND CARON */
+                return new char[] { (char) 0x75, (char) 0xE8, (char) 0xE9 };
+            }
+            case '\u01D4': {
+                /* LATIN SMALL LETTER U WITH CARON */
+                return new char[] { (char) 0x75, (char) 0xE9, (char) 0x00 };
+            }
+            case '\u016F': {
+                /* LATIN SMALL LETTER U WITH RING ABOVE */
+                return new char[] { (char) 0x75, (char) 0xEA, (char) 0x00 };
+            }
+            case '\u0171': {
+                /* LATIN SMALL LETTER U WITH DOUBLE ACUTE */
+                return new char[] { (char) 0x75, (char) 0xEE, (char) 0x00 };
+            }
+            case '\u0173': {
+                /* LATIN SMALL LETTER U WITH OGONEK */
+                return new char[] { (char) 0x75, (char) 0xF1, (char) 0x00 };
+            }
+            case '\u1EE5': {
+                /* LATIN SMALL LETTER U WITH DOT BELOW */
+                return new char[] { (char) 0x75, (char) 0xF2, (char) 0x00 };
+            }
+            case '\u1E73': {
+                /* LATIN SMALL LETTER U WITH DIAERESIS BELOW */
+                return new char[] { (char) 0x75, (char) 0xF3, (char) 0x00 };
+            }
+            case '\u1E7D': {
+                /* LATIN SMALL LETTER V WITH TILDE */
+                return new char[] { (char) 0x76, (char) 0xE4, (char) 0x00 };
+            }
+            case '\u1E7F': {
+                /* LATIN SMALL LETTER V WITH DOT BELOW */
+                return new char[] { (char) 0x76, (char) 0xF2, (char) 0x00 };
+            }
+            case '\u1E81': {
+                /* LATIN SMALL LETTER W WITH GRAVE */
+                return new char[] { (char) 0x77, (char) 0xE1, (char) 0x00 };
+            }
+            case '\u1E83': {
+                /* LATIN SMALL LETTER W WITH ACUTE */
+                return new char[] { (char) 0x77, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u0175': {
+                /* LATIN SMALL LETTER W WITH CIRCUMFLEX */
+                return new char[] { (char) 0x77, (char) 0xE3, (char) 0x00 };
+            }
+            case '\u1E87': {
+                /* LATIN SMALL LETTER W WITH DOT ABOVE */
+                return new char[] { (char) 0x77, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u1E85': {
+                /* LATIN SMALL LETTER W WITH DIAERESIS */
+                return new char[] { (char) 0x77, (char) 0xE8, (char) 0x00 };
+            }
+            case '\u1E98': {
+                /* LATIN SMALL LETTER W WITH RING ABOVE */
+                return new char[] { (char) 0x77, (char) 0xEA, (char) 0x00 };
+            }
+            case '\u1E89': {
+                /* LATIN SMALL LETTER W WITH DOT BELOW */
+                return new char[] { (char) 0x77, (char) 0xF2, (char) 0x00 };
+            }
+            case '\u1E8B': {
+                /* LATIN SMALL LETTER X WITH DOT ABOVE */
+                return new char[] { (char) 0x78, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u1E8D': {
+                /* LATIN SMALL LETTER X WITH DIAERESIS */
+                return new char[] { (char) 0x78, (char) 0xE8, (char) 0x00 };
+            }
+            case '\u1EF7': {
+                /* LATIN SMALL LETTER Y WITH HOOK ABOVE */
+                return new char[] { (char) 0x79, (char) 0xE0, (char) 0x00 };
+            }
+            case '\u1EF3': {
+                /* LATIN SMALL LETTER Y WITH GRAVE */
+                return new char[] { (char) 0x79, (char) 0xE1, (char) 0x00 };
+            }
+            case '\u00FD': {
+                /* LATIN SMALL LETTER Y WITH ACUTE */
+                return new char[] { (char) 0x79, (char) 0xE2, (char) 0x00 };
+            }
+            case '\u0177': {
+                /* LATIN SMALL LETTER Y WITH CIRCUMFLEX */
+                return new char[] { (char) 0x79, (char) 0xE3, (char) 0x00 };
+            }
+            case '\u1EF9': {
+                /* LATIN SMALL LETTER Y WITH TILDE */
+                return new char[] { (char) 0x79, (char) 0xE4, (char) 0x00 };
+            }
+            case '\u0233': {
+                /* LATIN SMALL LETTER Y WITH MACRON */
+                return new char[] { (char) 0x79, (char) 0xE5, (char) 0x00 };
+            }
+            case '\u1E8F': {
+                /* LATIN SMALL LETTER Y WITH DOT ABOVE */
+                return new char[] { (char) 0x79, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u00FF': {
+                /* LATIN SMALL LETTER Y WITH DIAERESIS */
+                return new char[] { (char) 0x79, (char) 0xE8, (char) 0x00 };
+            }
+            case '\u1E99': {
+                /* LATIN SMALL LETTER Y WITH RING ABOVE */
+                return new char[] { (char) 0x79, (char) 0xEA, (char) 0x00 };
+            }
+            case '\u1EF5': {
+                /* LATIN SMALL LETTER Y WITH DOT BELOW */
+                return new char[] { (char) 0x79, (char) 0xF2, (char) 0x00 };
             }
             case '\u017A': {
-                /* Latin Small Letter Z With Acute = Latin Small Letter Z + Combining Acute Accent */
-                return new char[] { (char) 0x007A, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u017C': {
-                /* Latin Small Letter Z With Dot Above = Latin Small Letter Z + Combining Dot Above */
-                return new char[] { (char) 0x007A, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u017E': {
-                /* Latin Small Letter Z With Caron = Latin Small Letter Z + Combining Caron */
-                return new char[] { (char) 0x007A, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN SMALL LETTER Z WITH ACUTE */
+                return new char[] { (char) 0x7A, (char) 0xE2, (char) 0x00 };
             }
             case '\u1E91': {
-                /* Latin Small Letter Z With Circumflex = Latin Small Letter Z + Combining Circumflex Accent */
-                return new char[] { (char) 0x007A, (char) 0x00E7, (char) 0x00E4 };
+                /* LATIN SMALL LETTER Z WITH CIRCUMFLEX */
+                return new char[] { (char) 0x7A, (char) 0xE3, (char) 0x00 };
+            }
+            case '\u017C': {
+                /* LATIN SMALL LETTER Z WITH DOT ABOVE */
+                return new char[] { (char) 0x7A, (char) 0xE7, (char) 0x00 };
+            }
+            case '\u017E': {
+                /* LATIN SMALL LETTER Z WITH CARON */
+                return new char[] { (char) 0x7A, (char) 0xE9, (char) 0x00 };
             }
             case '\u1E93': {
-                /* Latin Small Letter Z With Dot Below = Latin Small Letter Z + Combining Dot Below */
-                return new char[] { (char) 0x007A, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u1E95': {
-                /* Latin Small Letter Z With Line Below = Latin Small Letter Z + Combining Low Line */
-                return new char[] { (char) 0x007A, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u01E2': {
-                /* Latin Capital Letter Ae With Macron = Latin Capital Letter Ae + Combining Macron */
-                return new char[] { (char) 0x00C6, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u01FC': {
-                /* Latin Capital Letter Ae With Acute = Latin Capital Letter Ae + Combining Acute Accent */
-                return new char[] { (char) 0x00C6, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u1E9B': {
-                /* Latin Small Letter Long S With Dot Above = Latin Small Letter Long S + Combining Dot Above */
-                return new char[] { (char) 0x017F, (char) 0x00E7, (char) 0x00E4 };
-            }
-            case '\u01EE': {
-                /* Latin Capital Letter Ezh With Caron = Latin Capital Letter Ezh + Combining Caron */
-                return new char[] { (char) 0x01B7, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u01C4': {
-                /* Latin Capital Letter Dz With Caron = Latin Capital Letter Dz + Combining Caron */
-                return new char[] { (char) 0x01F1, (char) 0x00E7, (char) 0x0000 };
-            }
-            case '\u01C6': {
-                /* Latin Small Letter Dz With Caron = Latin Small Letter Dz + Combining Caron */
-                return new char[] { (char) 0x01F3, (char) 0x00E7, (char) 0x0000 };
+                /* LATIN SMALL LETTER Z WITH DOT BELOW */
+                return new char[] { (char) 0x7A, (char) 0xF2, (char) 0x00 };
             }
 
             default:
@@ -2496,1620 +1882,2054 @@ class AnselHandler {
     }
 
     /**
-     * Get a character that represents the precombined base character plus up to two diacritics. Results are already
-     * decoded from ANSEL and should not be decoded again.
+     * Get a unicode character that represents the precombined base character plus up to two diacritic modifiers.
+     * Results are already decoded from ANSEL and should not be decoded again.
      * 
-     * @param base
+     * @param baseChar
      *            the base character
-     * @param diacritic1
+     * @param modifier1
      *            diacritic 1
-     * @param diacritic2
+     * @param modifier2
      *            diacritic 2 - pass zero if there is no second diacritic
      * @return a single character that combines the base and the diacritic(s), or a zero if no such character exists
      */
-    private char getCombinedGlyph(char base, char diacritic1, char diacritic2) {
-        if (base == 0x00E6 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01E3'; // Latin Small Letter Ae With Macron = Latin Small Letter Ae + Combining Macron
-        }
-        if (base == 0x00E6 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01FD'; // Latin Small Letter Ae With Acute = Latin Small Letter Ae + Combining Acute Accent
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E1 && diacritic2 == 0x0000)) {
-            return '\u00C0'; // Latin Capital Letter A With Grave = Latin Capital Letter A + Combining Grave Accent
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E2 && diacritic2 == 0x0000)) {
-            return '\u00C1'; // Latin Capital Letter A With Acute = Latin Capital Letter A + Combining Acute Accent
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E3 && diacritic2 == 0x0000)) {
-            return '\u00C2'; // Latin Capital Letter A With Circumflex = Latin Capital Letter A + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E4 && diacritic2 == 0x0000)) {
-            return '\u00C3'; // Latin Capital Letter A With Tilde = Latin Capital Letter A + Combining Tilde
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E8 && diacritic2 == 0x0000)) {
-            return '\u00C4'; // Latin Capital Letter A With Diaeresis = Latin Capital Letter A + Combining Diaeresis
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00EA && diacritic2 == 0x0000)) {
-            return '\u00C5'; // Latin Capital Letter A With Ring Above = Latin Capital Letter A + Combining Ring Above
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E5 && diacritic2 == 0x0000)) {
-            return '\u0100'; // Latin Capital Letter A With Macron = Latin Capital Letter A + Combining Macron
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E6 && diacritic2 == 0x0000)) {
-            return '\u0102'; // Latin Capital Letter A With Breve = Latin Capital Letter A + Combining Breve
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00F1 && diacritic2 == 0x0000)) {
-            return '\u0104'; // Latin Capital Letter A With Ogonek = Latin Capital Letter A + Combining Ogonek
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01CD'; // Latin Capital Letter A With Caron = Latin Capital Letter A + Combining Caron
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E1)) {
-            return '\u1EA6'; // Latin Capital Letter A With Circumflex And Grave = Latin Capital Letter A + Combining
-            // Circumflex Accent + Combining Grave Accent
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E1)) {
-            return '\u1EB0'; // Latin Capital Letter A With Breve And Grave = Latin Capital Letter A + Combining Breve +
-            // Combining Grave Accent
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0200'; // Latin Capital Letter A With Double Grave = Latin Capital Letter A + Combining Double
-            // Grave Accent
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0202'; // Latin Capital Letter A With Inverted Breve = Latin Capital Letter A + Combining Inverted
-            // Breve
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u1E00'; // Latin Capital Letter A With Ring Below = Latin Capital Letter A + Combining Ring Below
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u01FA'; // Latin Capital Letter A With Ring Above And Acute = Latin Capital Letter A + Combining
-            // Ring Above + Combining Acute Accent
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E2)) {
-            return '\u1EA4'; // Latin Capital Letter A With Circumflex And Acute = Latin Capital Letter A + Combining
-            // Circumflex Accent + Combining Acute Accent
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E2)) {
-            return '\u1EAE'; // Latin Capital Letter A With Breve And Acute = Latin Capital Letter A + Combining Breve +
-            // Combining Acute Accent
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E4)) {
-            return '\u1EAA'; // Latin Capital Letter A With Circumflex And Tilde = Latin Capital Letter A + Combining
-            // Circumflex Accent + Combining Tilde
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00F2 && diacritic2 == 0x00E4)) {
-            return '\u1EA0'; // Latin Capital Letter A With Dot Below = Latin Capital Letter A + Combining Dot Below
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E4)) {
-            return '\u1EA2'; // Latin Capital Letter A With Hook Above = Latin Capital Letter A + Combining Hook Above
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E4)) {
-            return '\u1EB4'; // Latin Capital Letter A With Breve And Tilde = Latin Capital Letter A + Combining Breve +
-            // Combining Tilde
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E5)) {
-            return '\u01DE'; // Latin Capital Letter A With Diaeresis And Macron = Latin Capital Letter A + Combining
-            // Diaeresis + Combining Macron
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E5)) {
-            return '\u01E0'; // Latin Capital Letter A With Dot Above And Macron = Latin Capital Letter A + Combining
-            // Dot Above + Combining Macron
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E0)) {
-            return '\u1EA8'; // Latin Capital Letter A With Circumflex And Hook Above = Latin Capital Letter A +
-            // Combining Circumflex Accent + Combining Hook Above
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E0)) {
-            return '\u1EB2'; // Latin Capital Letter A With Breve And Hook Above = Latin Capital Letter A + Combining
-            // Breve + Combining Hook Above
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E0 && diacritic2 == 0x00F2)) {
-            return '\u1EAC'; // Latin Capital Letter A With Circumflex And Dot Below = Latin Capital Letter A +
-            // Combining Circumflex Accent + Combining Dot Below
-        }
-        if (base == 0x0041 && (diacritic1 == 0x00E0 && diacritic2 == 0x00F2)) {
-            return '\u1EB6'; // Latin Capital Letter A With Breve And Dot Below = Latin Capital Letter A + Combining
-            // Breve + Combining Dot Below
-        }
-        if (base == 0x0042 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u1E02'; // Latin Capital Letter B With Dot Above = Latin Capital Letter B + Combining Dot Above
-        }
-        if (base == 0x0042 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u1E04'; // Latin Capital Letter B With Dot Below = Latin Capital Letter B + Combining Dot Below
-        }
-        if (base == 0x0042 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u1E06'; // Latin Capital Letter B With Line Below = Latin Capital Letter B + Combining Low Line
-        }
-        if (base == 0x0043 && (diacritic1 == 0x00F0 && diacritic2 == 0x0000)) {
-            return '\u00C7'; // Latin Capital Letter C With Cedilla = Latin Capital Letter C + Combining Cedilla
-        }
-        if (base == 0x0043 && (diacritic1 == 0x00E2 && diacritic2 == 0x0000)) {
-            return '\u0106'; // Latin Capital Letter C With Acute = Latin Capital Letter C + Combining Acute Accent
-        }
-        if (base == 0x0043 && (diacritic1 == 0x00E3 && diacritic2 == 0x0000)) {
-            return '\u0108'; // Latin Capital Letter C With Circumflex = Latin Capital Letter C + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x0043 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u010A'; // Latin Capital Letter C With Dot Above = Latin Capital Letter C + Combining Dot Above
-        }
-        if (base == 0x0043 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u010C'; // Latin Capital Letter C With Caron = Latin Capital Letter C + Combining Caron
-        }
-        if (base == 0x0043 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E08'; // Latin Capital Letter C With Cedilla And Acute = Latin Capital Letter C + Combining
-            // Cedilla + Combining Acute Accent
-        }
-        if (base == 0x0044 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u010E'; // Latin Capital Letter D With Caron = Latin Capital Letter D + Combining Caron
-        }
-        if (base == 0x0044 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u1E0A'; // Latin Capital Letter D With Dot Above = Latin Capital Letter D + Combining Dot Above
-        }
-        if (base == 0x0044 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u1E0C'; // Latin Capital Letter D With Dot Below = Latin Capital Letter D + Combining Dot Below
-        }
-        if (base == 0x0044 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u1E0E'; // Latin Capital Letter D With Line Below = Latin Capital Letter D + Combining Low Line
-        }
-        if (base == 0x0044 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u1E10'; // Latin Capital Letter D With Cedilla = Latin Capital Letter D + Combining Cedilla
-        }
-        if (base == 0x0044 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u1E12'; // Latin Capital Letter D With Circumflex Below = Latin Capital Letter D + Combining
-            // Circumflex Accent Below
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E1 && diacritic2 == 0x0000)) {
-            return '\u00C8'; // Latin Capital Letter E With Grave = Latin Capital Letter E + Combining Grave Accent
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E2 && diacritic2 == 0x0000)) {
-            return '\u00C9'; // Latin Capital Letter E With Acute = Latin Capital Letter E + Combining Acute Accent
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E3 && diacritic2 == 0x0000)) {
-            return '\u00CA'; // Latin Capital Letter E With Circumflex = Latin Capital Letter E + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E8 && diacritic2 == 0x0000)) {
-            return '\u00CB'; // Latin Capital Letter E With Diaeresis = Latin Capital Letter E + Combining Diaeresis
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0112'; // Latin Capital Letter E With Macron = Latin Capital Letter E + Combining Macron
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0114'; // Latin Capital Letter E With Breve = Latin Capital Letter E + Combining Breve
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0116'; // Latin Capital Letter E With Dot Above = Latin Capital Letter E + Combining Dot Above
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0118'; // Latin Capital Letter E With Ogonek = Latin Capital Letter E + Combining Ogonek
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u011A'; // Latin Capital Letter E With Caron = Latin Capital Letter E + Combining Caron
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E1)) {
-            return '\u1E14'; // Latin Capital Letter E With Macron And Grave = Latin Capital Letter E + Combining Macron
-            // + Combining Grave Accent
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E1)) {
-            return '\u1EC0'; // Latin Capital Letter E With Circumflex And Grave = Latin Capital Letter E + Combining
-            // Circumflex Accent + Combining Grave Accent
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0204'; // Latin Capital Letter E With Double Grave = Latin Capital Letter E + Combining Double
-            // Grave Accent
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0206'; // Latin Capital Letter E With Inverted Breve = Latin Capital Letter E + Combining Inverted
-            // Breve
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E18'; // Latin Capital Letter E With Circumflex Below = Latin Capital Letter E + Combining
-            // Circumflex Accent Below
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E1A'; // Latin Capital Letter E With Tilde Below = Latin Capital Letter E + Combining Tilde Below
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E16'; // Latin Capital Letter E With Macron And Acute = Latin Capital Letter E + Combining Macron
-            // + Combining Acute Accent
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E2)) {
-            return '\u1EBE'; // Latin Capital Letter E With Circumflex And Acute = Latin Capital Letter E + Combining
-            // Circumflex Accent + Combining Acute Accent
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E4)) {
-            return '\u1EC4'; // Latin Capital Letter E With Circumflex And Tilde = Latin Capital Letter E + Combining
-            // Circumflex Accent + Combining Tilde
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E5)) {
-            return '\u1EB8'; // Latin Capital Letter E With Dot Below = Latin Capital Letter E + Combining Dot Below
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E5)) {
-            return '\u1EBA'; // Latin Capital Letter E With Hook Above = Latin Capital Letter E + Combining Hook Above
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E5)) {
-            return '\u1EBC'; // Latin Capital Letter E With Tilde = Latin Capital Letter E + Combining Tilde
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E6)) {
-            return '\u1E1C'; // Latin Capital Letter E With Cedilla And Breve = Latin Capital Letter E + Combining
-            // Cedilla + Combining Breve
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E0)) {
-            return '\u1EC2'; // Latin Capital Letter E With Circumflex And Hook Above = Latin Capital Letter E +
-            // Combining Circumflex Accent + Combining Hook Above
-        }
-        if (base == 0x0045 && (diacritic1 == 0x00E0 && diacritic2 == 0x00F2)) {
-            return '\u1EC6'; // Latin Capital Letter E With Circumflex And Dot Below = Latin Capital Letter E +
-            // Combining Circumflex Accent + Combining Dot Below
-        }
-        if (base == 0x0046 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E1E'; // Latin Capital Letter F With Dot Above = Latin Capital Letter F + Combining Dot Above
-        }
-        if (base == 0x0047 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u011C'; // Latin Capital Letter G With Circumflex = Latin Capital Letter G + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x0047 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u011E'; // Latin Capital Letter G With Breve = Latin Capital Letter G + Combining Breve
-        }
-        if (base == 0x0047 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0120'; // Latin Capital Letter G With Dot Above = Latin Capital Letter G + Combining Dot Above
-        }
-        if (base == 0x0047 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0122'; // Latin Capital Letter G With Cedilla = Latin Capital Letter G + Combining Cedilla
-        }
-        if (base == 0x0047 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01E6'; // Latin Capital Letter G With Caron = Latin Capital Letter G + Combining Caron
-        }
-        if (base == 0x0047 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01F4'; // Latin Capital Letter G With Acute = Latin Capital Letter G + Combining Acute Accent
-        }
-        if (base == 0x0047 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E20'; // Latin Capital Letter G With Macron = Latin Capital Letter G + Combining Macron
-        }
-        if (base == 0x0048 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0124'; // Latin Capital Letter H With Circumflex = Latin Capital Letter H + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x0048 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E22'; // Latin Capital Letter H With Dot Above = Latin Capital Letter H + Combining Dot Above
-        }
-        if (base == 0x0048 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E24'; // Latin Capital Letter H With Dot Below = Latin Capital Letter H + Combining Dot Below
-        }
-        if (base == 0x0048 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E26'; // Latin Capital Letter H With Diaeresis = Latin Capital Letter H + Combining Diaeresis
-        }
-        if (base == 0x0048 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E28'; // Latin Capital Letter H With Cedilla = Latin Capital Letter H + Combining Cedilla
-        }
-        if (base == 0x0048 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E2A'; // Latin Capital Letter H With Breve Below = Latin Capital Letter H + Combining Breve Below
-        }
-        if (base == 0x0049 && (diacritic1 == 0x00E1 && diacritic2 == 0x0000)) {
-            return '\u00CC'; // Latin Capital Letter I With Grave = Latin Capital Letter I + Combining Grave Accent
-        }
-        if (base == 0x0049 && (diacritic1 == 0x00E2 && diacritic2 == 0x0000)) {
-            return '\u00CD'; // Latin Capital Letter I With Acute = Latin Capital Letter I + Combining Acute Accent
-        }
-        if (base == 0x0049 && (diacritic1 == 0x00E3 && diacritic2 == 0x0000)) {
-            return '\u00CE'; // Latin Capital Letter I With Circumflex = Latin Capital Letter I + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x0049 && (diacritic1 == 0x00E8 && diacritic2 == 0x0000)) {
-            return '\u00CF'; // Latin Capital Letter I With Diaeresis = Latin Capital Letter I + Combining Diaeresis
-        }
-        if (base == 0x0049 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0128'; // Latin Capital Letter I With Tilde = Latin Capital Letter I + Combining Tilde
-        }
-        if (base == 0x0049 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u012A'; // Latin Capital Letter I With Macron = Latin Capital Letter I + Combining Macron
-        }
-        if (base == 0x0049 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u012C'; // Latin Capital Letter I With Breve = Latin Capital Letter I + Combining Breve
-        }
-        if (base == 0x0049 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u012E'; // Latin Capital Letter I With Ogonek = Latin Capital Letter I + Combining Ogonek
-        }
-        if (base == 0x0049 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0130'; // Latin Capital Letter I With Dot Above = Latin Capital Letter I + Combining Dot Above
-        }
-        if (base == 0x0049 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01CF'; // Latin Capital Letter I With Caron = Latin Capital Letter I + Combining Caron
-        }
-        if (base == 0x0049 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0208'; // Latin Capital Letter I With Double Grave = Latin Capital Letter I + Combining Double
-            // Grave Accent
-        }
-        if (base == 0x0049 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u020A'; // Latin Capital Letter I With Inverted Breve = Latin Capital Letter I + Combining Inverted
-            // Breve
-        }
-        if (base == 0x0049 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E2C'; // Latin Capital Letter I With Tilde Below = Latin Capital Letter I + Combining Tilde Below
-        }
-        if (base == 0x0049 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E2E'; // Latin Capital Letter I With Diaeresis And Acute = Latin Capital Letter I + Combining
-            // Diaeresis + Combining Acute Accent
-        }
-        if (base == 0x0049 && (diacritic1 == 0x00E0 && diacritic2 == 0x0000)) {
-            return '\u1EC8'; // Latin Capital Letter I With Hook Above = Latin Capital Letter I + Combining Hook Above
-        }
-        if (base == 0x0049 && (diacritic1 == 0x00E0 && diacritic2 == 0x0000)) {
-            return '\u1ECA'; // Latin Capital Letter I With Dot Below = Latin Capital Letter I + Combining Dot Below
-        }
-        if (base == 0x0050 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E54'; // Latin Capital Letter P With Acute = Latin Capital Letter P + Combining Acute Accent
-        }
-        if (base == 0x0050 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E56'; // Latin Capital Letter P With Dot Above = Latin Capital Letter P + Combining Dot Above
-        }
-        if (base == 0x0052 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0154'; // Latin Capital Letter R With Acute = Latin Capital Letter R + Combining Acute Accent
-        }
-        if (base == 0x0052 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0156'; // Latin Capital Letter R With Cedilla = Latin Capital Letter R + Combining Cedilla
-        }
-        if (base == 0x0052 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0158'; // Latin Capital Letter R With Caron = Latin Capital Letter R + Combining Caron
-        }
-        if (base == 0x0052 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0210'; // Latin Capital Letter R With Double Grave = Latin Capital Letter R + Combining Double
-            // Grave Accent
-        }
-        if (base == 0x0052 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0212'; // Latin Capital Letter R With Inverted Breve = Latin Capital Letter R + Combining Inverted
-            // Breve
-        }
-        if (base == 0x0052 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E58'; // Latin Capital Letter R With Dot Above = Latin Capital Letter R + Combining Dot Above
-        }
-        if (base == 0x0052 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E5A'; // Latin Capital Letter R With Dot Below = Latin Capital Letter R + Combining Dot Below
-        }
-        if (base == 0x0052 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E5E'; // Latin Capital Letter R With Line Below = Latin Capital Letter R + Combining Low Line
-        }
-        if (base == 0x0052 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E5)) {
-            return '\u1E5C'; // Latin Capital Letter R With Dot Below And Macron = Latin Capital Letter R + Combining
-            // Dot Below + Combining Macron
-        }
-        if (base == 0x0053 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u015A'; // Latin Capital Letter S With Acute = Latin Capital Letter S + Combining Acute Accent
-        }
-        if (base == 0x0053 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u015C'; // Latin Capital Letter S With Circumflex = Latin Capital Letter S + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x0053 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u015E'; // Latin Capital Letter S With Cedilla = Latin Capital Letter S + Combining Cedilla
-        }
-        if (base == 0x0053 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0160'; // Latin Capital Letter S With Caron = Latin Capital Letter S + Combining Caron
-        }
-        if (base == 0x0053 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E60'; // Latin Capital Letter S With Dot Above = Latin Capital Letter S + Combining Dot Above
-        }
-        if (base == 0x0053 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E62'; // Latin Capital Letter S With Dot Below = Latin Capital Letter S + Combining Dot Below
-        }
-        if (base == 0x0053 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E7)) {
-            return '\u1E64'; // Latin Capital Letter S With Acute And Dot Above = Latin Capital Letter S + Combining
-            // Acute Accent + Combining Dot Above
-        }
-        if (base == 0x0053 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E7)) {
-            return '\u1E66'; // Latin Capital Letter S With Caron And Dot Above = Latin Capital Letter S + Combining
-            // Caron + Combining Dot Above
-        }
-        if (base == 0x0053 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E7)) {
-            return '\u1E68'; // Latin Capital Letter S With Dot Below And Dot Above = Latin Capital Letter S + Combining
-            // Dot Below + Combining Dot Above
-        }
-        if (base == 0x0054 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0162'; // Latin Capital Letter T With Cedilla = Latin Capital Letter T + Combining Cedilla
-        }
-        if (base == 0x0054 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0164'; // Latin Capital Letter T With Caron = Latin Capital Letter T + Combining Caron
-        }
-        if (base == 0x0054 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E6A'; // Latin Capital Letter T With Dot Above = Latin Capital Letter T + Combining Dot Above
-        }
-        if (base == 0x0054 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E6C'; // Latin Capital Letter T With Dot Below = Latin Capital Letter T + Combining Dot Below
-        }
-        if (base == 0x0054 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E6E'; // Latin Capital Letter T With Line Below = Latin Capital Letter T + Combining Low Line
-        }
-        if (base == 0x0054 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E70'; // Latin Capital Letter T With Circumflex Below = Latin Capital Letter T + Combining
-            // Circumflex Accent Below
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E1 && diacritic2 == 0x0000)) {
-            return '\u00D9'; // Latin Capital Letter U With Grave = Latin Capital Letter U + Combining Grave Accent
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E2 && diacritic2 == 0x0000)) {
-            return '\u00DA'; // Latin Capital Letter U With Acute = Latin Capital Letter U + Combining Acute Accent
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E3 && diacritic2 == 0x0000)) {
-            return '\u00DB'; // Latin Capital Letter U With Circumflex = Latin Capital Letter U + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E8 && diacritic2 == 0x0000)) {
-            return '\u00DC'; // Latin Capital Letter U With Diaeresis = Latin Capital Letter U + Combining Diaeresis
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0168'; // Latin Capital Letter U With Tilde = Latin Capital Letter U + Combining Tilde
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u016A'; // Latin Capital Letter U With Macron = Latin Capital Letter U + Combining Macron
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u016C'; // Latin Capital Letter U With Breve = Latin Capital Letter U + Combining Breve
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u016E'; // Latin Capital Letter U With Ring Above = Latin Capital Letter U + Combining Ring Above
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0170'; // Latin Capital Letter U With Double Acute = Latin Capital Letter U + Combining Double
-            // Acute Accent
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0172'; // Latin Capital Letter U With Ogonek = Latin Capital Letter U + Combining Ogonek
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01AF'; // Latin Capital Letter U With Horn = Latin Capital Letter U + Combining Horn
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01D3'; // Latin Capital Letter U With Caron = Latin Capital Letter U + Combining Caron
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E1)) {
-            return '\u01DB'; // Latin Capital Letter U With Diaeresis And Grave = Latin Capital Letter U + Combining
-            // Diaeresis + Combining Grave Accent
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0214'; // Latin Capital Letter U With Double Grave = Latin Capital Letter U + Combining Double
-            // Grave Accent
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0216'; // Latin Capital Letter U With Inverted Breve = Latin Capital Letter U + Combining Inverted
-            // Breve
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E1)) {
-            return '\u1EEA'; // Latin Capital Letter U With Horn And Grave = Latin Capital Letter U + Combining Horn +
-            // Combining Grave Accent
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u01D7'; // Latin Capital Letter U With Diaeresis And Acute = Latin Capital Letter U + Combining
-            // Diaeresis + Combining Acute Accent
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E78'; // Latin Capital Letter U With Tilde And Acute = Latin Capital Letter U + Combining Tilde +
-            // Combining Acute Accent
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E72'; // Latin Capital Letter U With Diaeresis Below = Latin Capital Letter U + Combining
-            // Diaeresis Below
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E74'; // Latin Capital Letter U With Tilde Below = Latin Capital Letter U + Combining Tilde Below
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E76'; // Latin Capital Letter U With Circumflex Below = Latin Capital Letter U + Combining
-            // Circumflex Accent Below
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E2)) {
-            return '\u1EE8'; // Latin Capital Letter U With Horn And Acute = Latin Capital Letter U + Combining Horn +
-            // Combining Acute Accent
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E4)) {
-            return '\u1EEE'; // Latin Capital Letter U With Horn And Tilde = Latin Capital Letter U + Combining Horn +
-            // Combining Tilde
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E5)) {
-            return '\u01D5'; // Latin Capital Letter U With Diaeresis And Macron = Latin Capital Letter U + Combining
-            // Diaeresis + Combining Macron
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E8)) {
-            return '\u1E7A'; // Latin Capital Letter U With Macron And Diaeresis = Latin Capital Letter U + Combining
-            // Macron + Combining Diaeresis
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E0)) {
-            return '\u1EEC'; // Latin Capital Letter U With Horn And Hook Above = Latin Capital Letter U + Combining
-            // Horn + Combining Hook Above
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E0 && diacritic2 == 0x00F2)) {
-            return '\u1EE4'; // Latin Capital Letter U With Dot Below = Latin Capital Letter U + Combining Dot Below
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E0 && diacritic2 == 0x00F2)) {
-            return '\u1EE6'; // Latin Capital Letter U With Hook Above = Latin Capital Letter U + Combining Hook Above
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E0 && diacritic2 == 0x00F2)) {
-            return '\u1EF0'; // Latin Capital Letter U With Horn And Dot Below = Latin Capital Letter U + Combining Horn
-            // + Combining Dot Below
-        }
-        if (base == 0x0055 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E9)) {
-            return '\u01D9'; // Latin Capital Letter U With Diaeresis And Caron = Latin Capital Letter U + Combining
-            // Diaeresis + Combining Caron
-        }
-        if (base == 0x0056 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E7C'; // Latin Capital Letter V With Tilde = Latin Capital Letter V + Combining Tilde
-        }
-        if (base == 0x0056 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E7E'; // Latin Capital Letter V With Dot Below = Latin Capital Letter V + Combining Dot Below
-        }
-        if (base == 0x0057 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0174'; // Latin Capital Letter W With Circumflex = Latin Capital Letter W + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x0057 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E80'; // Latin Capital Letter W With Grave = Latin Capital Letter W + Combining Grave Accent
-        }
-        if (base == 0x0057 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E82'; // Latin Capital Letter W With Acute = Latin Capital Letter W + Combining Acute Accent
-        }
-        if (base == 0x0057 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E84'; // Latin Capital Letter W With Diaeresis = Latin Capital Letter W + Combining Diaeresis
-        }
-        if (base == 0x0057 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E86'; // Latin Capital Letter W With Dot Above = Latin Capital Letter W + Combining Dot Above
-        }
-        if (base == 0x0057 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E88'; // Latin Capital Letter W With Dot Below = Latin Capital Letter W + Combining Dot Below
-        }
-        if (base == 0x0058 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E8A'; // Latin Capital Letter X With Dot Above = Latin Capital Letter X + Combining Dot Above
-        }
-        if (base == 0x0058 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E8C'; // Latin Capital Letter X With Diaeresis = Latin Capital Letter X + Combining Diaeresis
-        }
-        if (base == 0x0059 && (diacritic1 == 0x00E2 && diacritic2 == 0x0000)) {
-            return '\u00DD'; // Latin Capital Letter Y With Acute = Latin Capital Letter Y + Combining Acute Accent
-        }
-        if (base == 0x0059 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0176'; // Latin Capital Letter Y With Circumflex = Latin Capital Letter Y + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x0059 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0178'; // Latin Capital Letter Y With Diaeresis = Latin Capital Letter Y + Combining Diaeresis
-        }
-        if (base == 0x0059 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E8E'; // Latin Capital Letter Y With Dot Above = Latin Capital Letter Y + Combining Dot Above
-        }
-        if (base == 0x0059 && (diacritic1 == 0x00E0 && diacritic2 == 0x0000)) {
-            return '\u1EF2'; // Latin Capital Letter Y With Grave = Latin Capital Letter Y + Combining Grave Accent
-        }
-        if (base == 0x0059 && (diacritic1 == 0x00E0 && diacritic2 == 0x0000)) {
-            return '\u1EF4'; // Latin Capital Letter Y With Dot Below = Latin Capital Letter Y + Combining Dot Below
-        }
-        if (base == 0x0059 && (diacritic1 == 0x00E0 && diacritic2 == 0x0000)) {
-            return '\u1EF6'; // Latin Capital Letter Y With Hook Above = Latin Capital Letter Y + Combining Hook Above
-        }
-        if (base == 0x0059 && (diacritic1 == 0x00E4 && diacritic2 == 0x0000)) {
-            return '\u1EF8'; // Latin Capital Letter Y With Tilde = Latin Capital Letter Y + Combining Tilde
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E1 && diacritic2 == 0x0000)) {
-            return '\u00E0'; // Latin Small Letter A With Grave = Latin Small Letter A + Combining Grave Accent
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E2 && diacritic2 == 0x0000)) {
-            return '\u00E1'; // Latin Small Letter A With Acute = Latin Small Letter A + Combining Acute Accent
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E3 && diacritic2 == 0x0000)) {
-            return '\u00E2'; // Latin Small Letter A With Circumflex = Latin Small Letter A + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E4 && diacritic2 == 0x0000)) {
-            return '\u00E3'; // Latin Small Letter A With Tilde = Latin Small Letter A + Combining Tilde
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E8 && diacritic2 == 0x0000)) {
-            return '\u00E4'; // Latin Small Letter A With Diaeresis = Latin Small Letter A + Combining Diaeresis
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00EA && diacritic2 == 0x0000)) {
-            return '\u00E5'; // Latin Small Letter A With Ring Above = Latin Small Letter A + Combining Ring Above
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E5 && diacritic2 == 0x0000)) {
-            return '\u0101'; // Latin Small Letter A With Macron = Latin Small Letter A + Combining Macron
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E6 && diacritic2 == 0x0000)) {
-            return '\u0103'; // Latin Small Letter A With Breve = Latin Small Letter A + Combining Breve
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00F1 && diacritic2 == 0x0000)) {
-            return '\u0105'; // Latin Small Letter A With Ogonek = Latin Small Letter A + Combining Ogonek
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01CE'; // Latin Small Letter A With Caron = Latin Small Letter A + Combining Caron
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E1)) {
-            return '\u1EA7'; // Latin Small Letter A With Circumflex And Grave = Latin Small Letter A + Combining
-            // Circumflex Accent + Combining Grave Accent
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E1)) {
-            return '\u1EB1'; // Latin Small Letter A With Breve And Grave = Latin Small Letter A + Combining Breve +
-            // Combining Grave Accent
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0201'; // Latin Small Letter A With Double Grave = Latin Small Letter A + Combining Double Grave
-            // Accent
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0203'; // Latin Small Letter A With Inverted Breve = Latin Small Letter A + Combining Inverted
-            // Breve
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u1E01'; // Latin Small Letter A With Ring Below = Latin Small Letter A + Combining Ring Below
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u01FB'; // Latin Small Letter A With Ring Above And Acute = Latin Small Letter A + Combining Ring
-            // Above + Combining Acute Accent
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E2)) {
-            return '\u1EA5'; // Latin Small Letter A With Circumflex And Acute = Latin Small Letter A + Combining
-            // Circumflex Accent + Combining Acute Accent
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E2)) {
-            return '\u1EAF'; // Latin Small Letter A With Breve And Acute = Latin Small Letter A + Combining Breve +
-            // Combining Acute Accent
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E4)) {
-            return '\u1EAB'; // Latin Small Letter A With Circumflex And Tilde = Latin Small Letter A + Combining
-            // Circumflex Accent + Combining Tilde
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00F2 && diacritic2 == 0x00E4)) {
-            return '\u1EA1'; // Latin Small Letter A With Dot Below = Latin Small Letter A + Combining Dot Below
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E4)) {
-            return '\u1EA3'; // Latin Small Letter A With Hook Above = Latin Small Letter A + Combining Hook Above
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E4)) {
-            return '\u1EB5'; // Latin Small Letter A With Breve And Tilde = Latin Small Letter A + Combining Breve +
-            // Combining Tilde
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E5)) {
-            return '\u01DF'; // Latin Small Letter A With Diaeresis And Macron = Latin Small Letter A + Combining
-            // Diaeresis + Combining Macron
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E5)) {
-            return '\u01E1'; // Latin Small Letter A With Dot Above And Macron = Latin Small Letter A + Combining Dot
-            // Above + Combining Macron
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E0)) {
-            return '\u1EA9'; // Latin Small Letter A With Circumflex And Hook Above = Latin Small Letter A + Combining
-            // Circumflex Accent + Combining Hook Above
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E0)) {
-            return '\u1EB3'; // Latin Small Letter A With Breve And Hook Above = Latin Small Letter A + Combining Breve
-            // + Combining Hook Above
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E0 && diacritic2 == 0x00F2)) {
-            return '\u1EAD'; // Latin Small Letter A With Circumflex And Dot Below = Latin Small Letter A + Combining
-            // Circumflex Accent + Combining Dot Below
-        }
-        if (base == 0x0061 && (diacritic1 == 0x00E0 && diacritic2 == 0x00F2)) {
-            return '\u1EB7'; // Latin Small Letter A With Breve And Dot Below = Latin Small Letter A + Combining Breve +
-            // Combining Dot Below
-        }
-        if (base == 0x0062 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u1E03'; // Latin Small Letter B With Dot Above = Latin Small Letter B + Combining Dot Above
-        }
-        if (base == 0x0062 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u1E05'; // Latin Small Letter B With Dot Below = Latin Small Letter B + Combining Dot Below
-        }
-        if (base == 0x0062 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u1E07'; // Latin Small Letter B With Line Below = Latin Small Letter B + Combining Low Line
-        }
-        if (base == 0x0063 && (diacritic1 == 0x00F0 && diacritic2 == 0x0000)) {
-            return '\u00E7'; // Latin Small Letter C With Cedilla = Latin Small Letter C + Combining Cedilla
-        }
-        if (base == 0x0063 && (diacritic1 == 0x00E2 && diacritic2 == 0x0000)) {
-            return '\u0107'; // Latin Small Letter C With Acute = Latin Small Letter C + Combining Acute Accent
-        }
-        if (base == 0x0063 && (diacritic1 == 0x00E3 && diacritic2 == 0x0000)) {
-            return '\u0109'; // Latin Small Letter C With Circumflex = Latin Small Letter C + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x0063 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u010B'; // Latin Small Letter C With Dot Above = Latin Small Letter C + Combining Dot Above
-        }
-        if (base == 0x0063 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u010D'; // Latin Small Letter C With Caron = Latin Small Letter C + Combining Caron
-        }
-        if (base == 0x0063 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E09'; // Latin Small Letter C With Cedilla And Acute = Latin Small Letter C + Combining Cedilla +
-            // Combining Acute Accent
-        }
-        if (base == 0x0064 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u010F'; // Latin Small Letter D With Caron = Latin Small Letter D + Combining Caron
-        }
-        if (base == 0x0064 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u1E0B'; // Latin Small Letter D With Dot Above = Latin Small Letter D + Combining Dot Above
-        }
-        if (base == 0x0064 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u1E0D'; // Latin Small Letter D With Dot Below = Latin Small Letter D + Combining Dot Below
-        }
-        if (base == 0x0064 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u1E0F'; // Latin Small Letter D With Line Below = Latin Small Letter D + Combining Low Line
-        }
-        if (base == 0x0064 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u1E11'; // Latin Small Letter D With Cedilla = Latin Small Letter D + Combining Cedilla
-        }
-        if (base == 0x0064 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u1E13'; // Latin Small Letter D With Circumflex Below = Latin Small Letter D + Combining Circumflex
-            // Accent Below
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E1 && diacritic2 == 0x0000)) {
-            return '\u00E8'; // Latin Small Letter E With Grave = Latin Small Letter E + Combining Grave Accent
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E2 && diacritic2 == 0x0000)) {
-            return '\u00E9'; // Latin Small Letter E With Acute = Latin Small Letter E + Combining Acute Accent
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E3 && diacritic2 == 0x0000)) {
-            return '\u00EA'; // Latin Small Letter E With Circumflex = Latin Small Letter E + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E8 && diacritic2 == 0x0000)) {
-            return '\u00EB'; // Latin Small Letter E With Diaeresis = Latin Small Letter E + Combining Diaeresis
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0113'; // Latin Small Letter E With Macron = Latin Small Letter E + Combining Macron
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0115'; // Latin Small Letter E With Breve = Latin Small Letter E + Combining Breve
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0117'; // Latin Small Letter E With Dot Above = Latin Small Letter E + Combining Dot Above
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0119'; // Latin Small Letter E With Ogonek = Latin Small Letter E + Combining Ogonek
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u011B'; // Latin Small Letter E With Caron = Latin Small Letter E + Combining Caron
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E1)) {
-            return '\u1E15'; // Latin Small Letter E With Macron And Grave = Latin Small Letter E + Combining Macron +
-            // Combining Grave Accent
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E1)) {
-            return '\u1EC1'; // Latin Small Letter E With Circumflex And Grave = Latin Small Letter E + Combining
-            // Circumflex Accent + Combining Grave Accent
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0205'; // Latin Small Letter E With Double Grave = Latin Small Letter E + Combining Double Grave
-            // Accent
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0207'; // Latin Small Letter E With Inverted Breve = Latin Small Letter E + Combining Inverted
-            // Breve
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E19'; // Latin Small Letter E With Circumflex Below = Latin Small Letter E + Combining Circumflex
-            // Accent Below
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E1B'; // Latin Small Letter E With Tilde Below = Latin Small Letter E + Combining Tilde Below
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E17'; // Latin Small Letter E With Macron And Acute = Latin Small Letter E + Combining Macron +
-            // Combining Acute Accent
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E2)) {
-            return '\u1EBF'; // Latin Small Letter E With Circumflex And Acute = Latin Small Letter E + Combining
-            // Circumflex Accent + Combining Acute Accent
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E4)) {
-            return '\u1EC5'; // Latin Small Letter E With Circumflex And Tilde = Latin Small Letter E + Combining
-            // Circumflex Accent + Combining Tilde
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E5)) {
-            return '\u1EB9'; // Latin Small Letter E With Dot Below = Latin Small Letter E + Combining Dot Below
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E5)) {
-            return '\u1EBB'; // Latin Small Letter E With Hook Above = Latin Small Letter E + Combining Hook Above
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E5)) {
-            return '\u1EBD'; // Latin Small Letter E With Tilde = Latin Small Letter E + Combining Tilde
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E6)) {
-            return '\u1E1D'; // Latin Small Letter E With Cedilla And Breve = Latin Small Letter E + Combining Cedilla +
-            // Combining Breve
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E0)) {
-            return '\u1EC3'; // Latin Small Letter E With Circumflex And Hook Above = Latin Small Letter E + Combining
-            // Circumflex Accent + Combining Hook Above
-        }
-        if (base == 0x0065 && (diacritic1 == 0x00E0 && diacritic2 == 0x00F2)) {
-            return '\u1EC7'; // Latin Small Letter E With Circumflex And Dot Below = Latin Small Letter E + Combining
-            // Circumflex Accent + Combining Dot Below
-        }
-        if (base == 0x0066 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E1F'; // Latin Small Letter F With Dot Above = Latin Small Letter F + Combining Dot Above
-        }
-        if (base == 0x0067 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u011D'; // Latin Small Letter G With Circumflex = Latin Small Letter G + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x0067 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u011F'; // Latin Small Letter G With Breve = Latin Small Letter G + Combining Breve
-        }
-        if (base == 0x0067 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0121'; // Latin Small Letter G With Dot Above = Latin Small Letter G + Combining Dot Above
-        }
-        if (base == 0x0067 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0123'; // Latin Small Letter G With Cedilla = Latin Small Letter G + Combining Cedilla
-        }
-        if (base == 0x0067 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01E7'; // Latin Small Letter G With Caron = Latin Small Letter G + Combining Caron
-        }
-        if (base == 0x0067 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01F5'; // Latin Small Letter G With Acute = Latin Small Letter G + Combining Acute Accent
-        }
-        if (base == 0x0067 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E21'; // Latin Small Letter G With Macron = Latin Small Letter G + Combining Macron
-        }
-        if (base == 0x0068 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0125'; // Latin Small Letter H With Circumflex = Latin Small Letter H + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x0068 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E23'; // Latin Small Letter H With Dot Above = Latin Small Letter H + Combining Dot Above
-        }
-        if (base == 0x0068 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E25'; // Latin Small Letter H With Dot Below = Latin Small Letter H + Combining Dot Below
-        }
-        if (base == 0x0068 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E27'; // Latin Small Letter H With Diaeresis = Latin Small Letter H + Combining Diaeresis
-        }
-        if (base == 0x0068 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E29'; // Latin Small Letter H With Cedilla = Latin Small Letter H + Combining Cedilla
-        }
-        if (base == 0x0068 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E2B'; // Latin Small Letter H With Breve Below = Latin Small Letter H + Combining Breve Below
-        }
-        if (base == 0x0068 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E96'; // Latin Small Letter H With Line Below = Latin Small Letter H + Combining Low Line
-        }
-        if (base == 0x0069 && (diacritic1 == 0x00E1 && diacritic2 == 0x0000)) {
-            return '\u00EC'; // Latin Small Letter I With Grave = Latin Small Letter I + Combining Grave Accent
-        }
-        if (base == 0x0069 && (diacritic1 == 0x00E2 && diacritic2 == 0x0000)) {
-            return '\u00ED'; // Latin Small Letter I With Acute = Latin Small Letter I + Combining Acute Accent
-        }
-        if (base == 0x0069 && (diacritic1 == 0x00E3 && diacritic2 == 0x0000)) {
-            return '\u00EE'; // Latin Small Letter I With Circumflex = Latin Small Letter I + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x0069 && (diacritic1 == 0x00E8 && diacritic2 == 0x0000)) {
-            return '\u00EF'; // Latin Small Letter I With Diaeresis = Latin Small Letter I + Combining Diaeresis
-        }
-        if (base == 0x0069 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0129'; // Latin Small Letter I With Tilde = Latin Small Letter I + Combining Tilde
-        }
-        if (base == 0x0069 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u012B'; // Latin Small Letter I With Macron = Latin Small Letter I + Combining Macron
-        }
-        if (base == 0x0069 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u012D'; // Latin Small Letter I With Breve = Latin Small Letter I + Combining Breve
-        }
-        if (base == 0x0069 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u012F'; // Latin Small Letter I With Ogonek = Latin Small Letter I + Combining Ogonek
-        }
-        if (base == 0x0069 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01D0'; // Latin Small Letter I With Caron = Latin Small Letter I + Combining Caron
-        }
-        if (base == 0x0069 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0209'; // Latin Small Letter I With Double Grave = Latin Small Letter I + Combining Double Grave
-            // Accent
-        }
-        if (base == 0x0069 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u020B'; // Latin Small Letter I With Inverted Breve = Latin Small Letter I + Combining Inverted
-            // Breve
-        }
-        if (base == 0x0069 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E2D'; // Latin Small Letter I With Tilde Below = Latin Small Letter I + Combining Tilde Below
-        }
-        if (base == 0x0069 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E2F'; // Latin Small Letter I With Diaeresis And Acute = Latin Small Letter I + Combining
-            // Diaeresis + Combining Acute Accent
-        }
-        if (base == 0x0069 && (diacritic1 == 0x00E0 && diacritic2 == 0x0000)) {
-            return '\u1EC9'; // Latin Small Letter I With Hook Above = Latin Small Letter I + Combining Hook Above
-        }
-        if (base == 0x0069 && (diacritic1 == 0x00E0 && diacritic2 == 0x0000)) {
-            return '\u1ECB'; // Latin Small Letter I With Dot Below = Latin Small Letter I + Combining Dot Below
-        }
-        if (base == 0x0070 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E55'; // Latin Small Letter P With Acute = Latin Small Letter P + Combining Acute Accent
-        }
-        if (base == 0x0070 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E57'; // Latin Small Letter P With Dot Above = Latin Small Letter P + Combining Dot Above
-        }
-        if (base == 0x0072 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0155'; // Latin Small Letter R With Acute = Latin Small Letter R + Combining Acute Accent
-        }
-        if (base == 0x0072 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0157'; // Latin Small Letter R With Cedilla = Latin Small Letter R + Combining Cedilla
-        }
-        if (base == 0x0072 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0159'; // Latin Small Letter R With Caron = Latin Small Letter R + Combining Caron
-        }
-        if (base == 0x0072 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0211'; // Latin Small Letter R With Double Grave = Latin Small Letter R + Combining Double Grave
-            // Accent
-        }
-        if (base == 0x0072 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0213'; // Latin Small Letter R With Inverted Breve = Latin Small Letter R + Combining Inverted
-            // Breve
-        }
-        if (base == 0x0072 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E59'; // Latin Small Letter R With Dot Above = Latin Small Letter R + Combining Dot Above
-        }
-        if (base == 0x0072 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E5B'; // Latin Small Letter R With Dot Below = Latin Small Letter R + Combining Dot Below
-        }
-        if (base == 0x0072 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E5F'; // Latin Small Letter R With Line Below = Latin Small Letter R + Combining Low Line
-        }
-        if (base == 0x0072 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E5)) {
-            return '\u1E5D'; // Latin Small Letter R With Dot Below And Macron = Latin Small Letter R + Combining Dot
-            // Below + Combining Macron
-        }
-        if (base == 0x0073 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u015B'; // Latin Small Letter S With Acute = Latin Small Letter S + Combining Acute Accent
-        }
-        if (base == 0x0073 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u015D'; // Latin Small Letter S With Circumflex = Latin Small Letter S + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x0073 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u015F'; // Latin Small Letter S With Cedilla = Latin Small Letter S + Combining Cedilla
-        }
-        if (base == 0x0073 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0161'; // Latin Small Letter S With Caron = Latin Small Letter S + Combining Caron
-        }
-        if (base == 0x0073 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E61'; // Latin Small Letter S With Dot Above = Latin Small Letter S + Combining Dot Above
-        }
-        if (base == 0x0073 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E63'; // Latin Small Letter S With Dot Below = Latin Small Letter S + Combining Dot Below
-        }
-        if (base == 0x0073 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E7)) {
-            return '\u1E65'; // Latin Small Letter S With Acute And Dot Above = Latin Small Letter S + Combining Acute
-            // Accent + Combining Dot Above
-        }
-        if (base == 0x0073 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E7)) {
-            return '\u1E67'; // Latin Small Letter S With Caron And Dot Above = Latin Small Letter S + Combining Caron +
-            // Combining Dot Above
-        }
-        if (base == 0x0073 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E7)) {
-            return '\u1E69'; // Latin Small Letter S With Dot Below And Dot Above = Latin Small Letter S + Combining Dot
-            // Below + Combining Dot Above
-        }
-        if (base == 0x0074 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0163'; // Latin Small Letter T With Cedilla = Latin Small Letter T + Combining Cedilla
-        }
-        if (base == 0x0074 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0165'; // Latin Small Letter T With Caron = Latin Small Letter T + Combining Caron
-        }
-        if (base == 0x0074 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E6B'; // Latin Small Letter T With Dot Above = Latin Small Letter T + Combining Dot Above
-        }
-        if (base == 0x0074 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E6D'; // Latin Small Letter T With Dot Below = Latin Small Letter T + Combining Dot Below
-        }
-        if (base == 0x0074 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E6F'; // Latin Small Letter T With Line Below = Latin Small Letter T + Combining Low Line
-        }
-        if (base == 0x0074 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E71'; // Latin Small Letter T With Circumflex Below = Latin Small Letter T + Combining Circumflex
-            // Accent Below
-        }
-        if (base == 0x0074 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E97'; // Latin Small Letter T With Diaeresis = Latin Small Letter T + Combining Diaeresis
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E1 && diacritic2 == 0x0000)) {
-            return '\u00F9'; // Latin Small Letter U With Grave = Latin Small Letter U + Combining Grave Accent
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E2 && diacritic2 == 0x0000)) {
-            return '\u00FA'; // Latin Small Letter U With Acute = Latin Small Letter U + Combining Acute Accent
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E3 && diacritic2 == 0x0000)) {
-            return '\u00FB'; // Latin Small Letter U With Circumflex = Latin Small Letter U + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E8 && diacritic2 == 0x0000)) {
-            return '\u00FC'; // Latin Small Letter U With Diaeresis = Latin Small Letter U + Combining Diaeresis
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0169'; // Latin Small Letter U With Tilde = Latin Small Letter U + Combining Tilde
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u016B'; // Latin Small Letter U With Macron = Latin Small Letter U + Combining Macron
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u016D'; // Latin Small Letter U With Breve = Latin Small Letter U + Combining Breve
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u016F'; // Latin Small Letter U With Ring Above = Latin Small Letter U + Combining Ring Above
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0171'; // Latin Small Letter U With Double Acute = Latin Small Letter U + Combining Double Acute
-            // Accent
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0173'; // Latin Small Letter U With Ogonek = Latin Small Letter U + Combining Ogonek
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01B0'; // Latin Small Letter U With Horn = Latin Small Letter U + Combining Horn
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01D4'; // Latin Small Letter U With Caron = Latin Small Letter U + Combining Caron
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E1)) {
-            return '\u01DC'; // Latin Small Letter U With Diaeresis And Grave = Latin Small Letter U + Combining
-            // Diaeresis + Combining Grave Accent
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0215'; // Latin Small Letter U With Double Grave = Latin Small Letter U + Combining Double Grave
-            // Accent
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0217'; // Latin Small Letter U With Inverted Breve = Latin Small Letter U + Combining Inverted
-            // Breve
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E1)) {
-            return '\u1EEB'; // Latin Small Letter U With Horn And Grave = Latin Small Letter U + Combining Horn +
-            // Combining Grave Accent
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u01D8'; // Latin Small Letter U With Diaeresis And Acute = Latin Small Letter U + Combining
-            // Diaeresis + Combining Acute Accent
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E79'; // Latin Small Letter U With Tilde And Acute = Latin Small Letter U + Combining Tilde +
-            // Combining Acute Accent
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E73'; // Latin Small Letter U With Diaeresis Below = Latin Small Letter U + Combining Diaeresis
-            // Below
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E75'; // Latin Small Letter U With Tilde Below = Latin Small Letter U + Combining Tilde Below
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E77'; // Latin Small Letter U With Circumflex Below = Latin Small Letter U + Combining Circumflex
-            // Accent Below
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E2)) {
-            return '\u1EE9'; // Latin Small Letter U With Horn And Acute = Latin Small Letter U + Combining Horn +
-            // Combining Acute Accent
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E4)) {
-            return '\u1EEF'; // Latin Small Letter U With Horn And Tilde = Latin Small Letter U + Combining Horn +
-            // Combining Tilde
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E5)) {
-            return '\u01D6'; // Latin Small Letter U With Diaeresis And Macron = Latin Small Letter U + Combining
-            // Diaeresis + Combining Macron
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E8)) {
-            return '\u1E7B'; // Latin Small Letter U With Macron And Diaeresis = Latin Small Letter U + Combining Macron
-            // + Combining Diaeresis
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E0 && diacritic2 == 0x00E0)) {
-            return '\u1EED'; // Latin Small Letter U With Horn And Hook Above = Latin Small Letter U + Combining Horn +
-            // Combining Hook Above
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E0 && diacritic2 == 0x00F2)) {
-            return '\u1EE5'; // Latin Small Letter U With Dot Below = Latin Small Letter U + Combining Dot Below
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E0 && diacritic2 == 0x00F2)) {
-            return '\u1EE7'; // Latin Small Letter U With Hook Above = Latin Small Letter U + Combining Hook Above
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E0 && diacritic2 == 0x00F2)) {
-            return '\u1EF1'; // Latin Small Letter U With Horn And Dot Below = Latin Small Letter U + Combining Horn +
-            // Combining Dot Below
-        }
-        if (base == 0x0075 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E9)) {
-            return '\u01DA'; // Latin Small Letter U With Diaeresis And Caron = Latin Small Letter U + Combining
-            // Diaeresis + Combining Caron
-        }
-        if (base == 0x0076 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E7D'; // Latin Small Letter V With Tilde = Latin Small Letter V + Combining Tilde
-        }
-        if (base == 0x0076 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E7F'; // Latin Small Letter V With Dot Below = Latin Small Letter V + Combining Dot Below
-        }
-        if (base == 0x0077 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0175'; // Latin Small Letter W With Circumflex = Latin Small Letter W + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x0077 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E81'; // Latin Small Letter W With Grave = Latin Small Letter W + Combining Grave Accent
-        }
-        if (base == 0x0077 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E83'; // Latin Small Letter W With Acute = Latin Small Letter W + Combining Acute Accent
-        }
-        if (base == 0x0077 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E85'; // Latin Small Letter W With Diaeresis = Latin Small Letter W + Combining Diaeresis
-        }
-        if (base == 0x0077 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E87'; // Latin Small Letter W With Dot Above = Latin Small Letter W + Combining Dot Above
-        }
-        if (base == 0x0077 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E89'; // Latin Small Letter W With Dot Below = Latin Small Letter W + Combining Dot Below
-        }
-        if (base == 0x0077 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E98'; // Latin Small Letter W With Ring Above = Latin Small Letter W + Combining Ring Above
-        }
-        if (base == 0x0078 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E8B'; // Latin Small Letter X With Dot Above = Latin Small Letter X + Combining Dot Above
-        }
-        if (base == 0x0078 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E8D'; // Latin Small Letter X With Diaeresis = Latin Small Letter X + Combining Diaeresis
-        }
-        if (base == 0x0079 && (diacritic1 == 0x00E2 && diacritic2 == 0x0000)) {
-            return '\u00FD'; // Latin Small Letter Y With Acute = Latin Small Letter Y + Combining Acute Accent
-        }
-        if (base == 0x0079 && (diacritic1 == 0x00E8 && diacritic2 == 0x0000)) {
-            return '\u00FF'; // Latin Small Letter Y With Diaeresis = Latin Small Letter Y + Combining Diaeresis
-        }
-        if (base == 0x0079 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0177'; // Latin Small Letter Y With Circumflex = Latin Small Letter Y + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x0079 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E8F'; // Latin Small Letter Y With Dot Above = Latin Small Letter Y + Combining Dot Above
-        }
-        if (base == 0x0079 && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E99'; // Latin Small Letter Y With Ring Above = Latin Small Letter Y + Combining Ring Above
-        }
-        if (base == 0x0079 && (diacritic1 == 0x00E0 && diacritic2 == 0x0000)) {
-            return '\u1EF3'; // Latin Small Letter Y With Grave = Latin Small Letter Y + Combining Grave Accent
-        }
-        if (base == 0x0079 && (diacritic1 == 0x00E0 && diacritic2 == 0x0000)) {
-            return '\u1EF5'; // Latin Small Letter Y With Dot Below = Latin Small Letter Y + Combining Dot Below
-        }
-        if (base == 0x0079 && (diacritic1 == 0x00E0 && diacritic2 == 0x0000)) {
-            return '\u1EF7'; // Latin Small Letter Y With Hook Above = Latin Small Letter Y + Combining Hook Above
-        }
-        if (base == 0x0079 && (diacritic1 == 0x00E4 && diacritic2 == 0x0000)) {
-            return '\u1EF9'; // Latin Small Letter Y With Tilde = Latin Small Letter Y + Combining Tilde
-        }
-        if (base == 0x0292 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01EF'; // Latin Small Letter Ezh With Caron = Latin Small Letter Ezh + Combining Caron
-        }
-        if (base == 0x004A && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0134'; // Latin Capital Letter J With Circumflex = Latin Capital Letter J + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x004B && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0136'; // Latin Capital Letter K With Cedilla = Latin Capital Letter K + Combining Cedilla
-        }
-        if (base == 0x004B && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01E8'; // Latin Capital Letter K With Caron = Latin Capital Letter K + Combining Caron
-        }
-        if (base == 0x004B && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E30'; // Latin Capital Letter K With Acute = Latin Capital Letter K + Combining Acute Accent
-        }
-        if (base == 0x004B && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E32'; // Latin Capital Letter K With Dot Below = Latin Capital Letter K + Combining Dot Below
-        }
-        if (base == 0x004B && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E34'; // Latin Capital Letter K With Line Below = Latin Capital Letter K + Combining Low Line
-        }
-        if (base == 0x004C && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0139'; // Latin Capital Letter L With Acute = Latin Capital Letter L + Combining Acute Accent
-        }
-        if (base == 0x004C && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u013B'; // Latin Capital Letter L With Cedilla = Latin Capital Letter L + Combining Cedilla
-        }
-        if (base == 0x004C && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u013D'; // Latin Capital Letter L With Caron = Latin Capital Letter L + Combining Caron
-        }
-        if (base == 0x004C && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E36'; // Latin Capital Letter L With Dot Below = Latin Capital Letter L + Combining Dot Below
-        }
-        if (base == 0x004C && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E3A'; // Latin Capital Letter L With Line Below = Latin Capital Letter L + Combining Low Line
-        }
-        if (base == 0x004C && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E3C'; // Latin Capital Letter L With Circumflex Below = Latin Capital Letter L + Combining
-            // Circumflex Accent Below
-        }
-        if (base == 0x004C && (diacritic1 == 0x00E7 && diacritic2 == 0x00E5)) {
-            return '\u1E38'; // Latin Capital Letter L With Dot Below And Macron = Latin Capital Letter L + Combining
-            // Dot Below + Combining Macron
-        }
-        if (base == 0x004D && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E3E'; // Latin Capital Letter M With Acute = Latin Capital Letter M + Combining Acute Accent
-        }
-        if (base == 0x004D && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E40'; // Latin Capital Letter M With Dot Above = Latin Capital Letter M + Combining Dot Above
-        }
-        if (base == 0x004D && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E42'; // Latin Capital Letter M With Dot Below = Latin Capital Letter M + Combining Dot Below
-        }
-        if (base == 0x004E && (diacritic1 == 0x00E4 && diacritic2 == 0x0000)) {
-            return '\u00D1'; // Latin Capital Letter N With Tilde = Latin Capital Letter N + Combining Tilde
-        }
-        if (base == 0x004E && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0143'; // Latin Capital Letter N With Acute = Latin Capital Letter N + Combining Acute Accent
-        }
-        if (base == 0x004E && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0145'; // Latin Capital Letter N With Cedilla = Latin Capital Letter N + Combining Cedilla
-        }
-        if (base == 0x004E && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0147'; // Latin Capital Letter N With Caron = Latin Capital Letter N + Combining Caron
-        }
-        if (base == 0x004E && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E44'; // Latin Capital Letter N With Dot Above = Latin Capital Letter N + Combining Dot Above
-        }
-        if (base == 0x004E && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E46'; // Latin Capital Letter N With Dot Below = Latin Capital Letter N + Combining Dot Below
-        }
-        if (base == 0x004E && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E48'; // Latin Capital Letter N With Line Below = Latin Capital Letter N + Combining Low Line
-        }
-        if (base == 0x004E && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E4A'; // Latin Capital Letter N With Circumflex Below = Latin Capital Letter N + Combining
-            // Circumflex Accent Below
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E1 && diacritic2 == 0x0000)) {
-            return '\u00D2'; // Latin Capital Letter O With Grave = Latin Capital Letter O + Combining Grave Accent
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E2 && diacritic2 == 0x0000)) {
-            return '\u00D3'; // Latin Capital Letter O With Acute = Latin Capital Letter O + Combining Acute Accent
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E3 && diacritic2 == 0x0000)) {
-            return '\u00D4'; // Latin Capital Letter O With Circumflex = Latin Capital Letter O + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E4 && diacritic2 == 0x0000)) {
-            return '\u00D5'; // Latin Capital Letter O With Tilde = Latin Capital Letter O + Combining Tilde
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E8 && diacritic2 == 0x0000)) {
-            return '\u00D6'; // Latin Capital Letter O With Diaeresis = Latin Capital Letter O + Combining Diaeresis
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u014C'; // Latin Capital Letter O With Macron = Latin Capital Letter O + Combining Macron
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u014E'; // Latin Capital Letter O With Breve = Latin Capital Letter O + Combining Breve
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0150'; // Latin Capital Letter O With Double Acute = Latin Capital Letter O + Combining Double
-            // Acute Accent
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01A0'; // Latin Capital Letter O With Horn = Latin Capital Letter O + Combining Horn
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01D1'; // Latin Capital Letter O With Caron = Latin Capital Letter O + Combining Caron
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E7 && diacritic2 == 0x00E1)) {
-            return '\u1E50'; // Latin Capital Letter O With Macron And Grave = Latin Capital Letter O + Combining Macron
-            // + Combining Grave Accent
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01EA'; // Latin Capital Letter O With Ogonek = Latin Capital Letter O + Combining Ogonek
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E0 && diacritic2 == 0x00E1)) {
-            return '\u1ED2'; // Latin Capital Letter O With Circumflex And Grave = Latin Capital Letter O + Combining
-            // Circumflex Accent + Combining Grave Accent
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E0 && diacritic2 == 0x00E1)) {
-            return '\u1EDC'; // Latin Capital Letter O With Horn And Grave = Latin Capital Letter O + Combining Horn +
-            // Combining Grave Accent
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u020C'; // Latin Capital Letter O With Double Grave = Latin Capital Letter O + Combining Double
-            // Grave Accent
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u020E'; // Latin Capital Letter O With Inverted Breve = Latin Capital Letter O + Combining Inverted
-            // Breve
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E4C'; // Latin Capital Letter O With Tilde And Acute = Latin Capital Letter O + Combining Tilde +
-            // Combining Acute Accent
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E52'; // Latin Capital Letter O With Macron And Acute = Latin Capital Letter O + Combining Macron
-            // + Combining Acute Accent
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E0 && diacritic2 == 0x00E2)) {
-            return '\u1ED0'; // Latin Capital Letter O With Circumflex And Acute = Latin Capital Letter O + Combining
-            // Circumflex Accent + Combining Acute Accent
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E0 && diacritic2 == 0x00E2)) {
-            return '\u1EDA'; // Latin Capital Letter O With Horn And Acute = Latin Capital Letter O + Combining Horn +
-            // Combining Acute Accent
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E0 && diacritic2 == 0x00E4)) {
-            return '\u1ED6'; // Latin Capital Letter O With Circumflex And Tilde = Latin Capital Letter O + Combining
-            // Circumflex Accent + Combining Tilde
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E0 && diacritic2 == 0x00E4)) {
-            return '\u1EE0'; // Latin Capital Letter O With Horn And Tilde = Latin Capital Letter O + Combining Horn +
-            // Combining Tilde
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E7 && diacritic2 == 0x00E5)) {
-            return '\u01EC'; // Latin Capital Letter O With Ogonek And Macron = Latin Capital Letter O + Combining
-            // Ogonek + Combining Macron
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E0 && diacritic2 == 0x0000)) {
-            return '\u1ECC'; // Latin Capital Letter O With Dot Below = Latin Capital Letter O + Combining Dot Below
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E0 && diacritic2 == 0x0000)) {
-            return '\u1ECE'; // Latin Capital Letter O With Hook Above = Latin Capital Letter O + Combining Hook Above
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E7 && diacritic2 == 0x00E8)) {
-            return '\u1E4E'; // Latin Capital Letter O With Tilde And Diaeresis = Latin Capital Letter O + Combining
-            // Tilde + Combining Diaeresis
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E0 && diacritic2 == 0x00E0)) {
-            return '\u1ED4'; // Latin Capital Letter O With Circumflex And Hook Above = Latin Capital Letter O +
-            // Combining Circumflex Accent + Combining Hook Above
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E0 && diacritic2 == 0x00E0)) {
-            return '\u1EDE'; // Latin Capital Letter O With Horn And Hook Above = Latin Capital Letter O + Combining
-            // Horn + Combining Hook Above
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E0 && diacritic2 == 0x00F2)) {
-            return '\u1ED8'; // Latin Capital Letter O With Circumflex And Dot Below = Latin Capital Letter O +
-            // Combining Circumflex Accent + Combining Dot Below
-        }
-        if (base == 0x004F && (diacritic1 == 0x00E0 && diacritic2 == 0x00F2)) {
-            return '\u1EE2'; // Latin Capital Letter O With Horn And Dot Below = Latin Capital Letter O + Combining Horn
-            // + Combining Dot Below
-        }
-        if (base == 0x005A && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0179'; // Latin Capital Letter Z With Acute = Latin Capital Letter Z + Combining Acute Accent
-        }
-        if (base == 0x005A && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u017B'; // Latin Capital Letter Z With Dot Above = Latin Capital Letter Z + Combining Dot Above
-        }
-        if (base == 0x005A && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u017D'; // Latin Capital Letter Z With Caron = Latin Capital Letter Z + Combining Caron
-        }
-        if (base == 0x005A && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E90'; // Latin Capital Letter Z With Circumflex = Latin Capital Letter Z + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x005A && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E92'; // Latin Capital Letter Z With Dot Below = Latin Capital Letter Z + Combining Dot Below
-        }
-        if (base == 0x005A && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E94'; // Latin Capital Letter Z With Line Below = Latin Capital Letter Z + Combining Low Line
-        }
-        if (base == 0x006A && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0135'; // Latin Small Letter J With Circumflex = Latin Small Letter J + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x006A && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01F0'; // Latin Small Letter J With Caron = Latin Small Letter J + Combining Caron
-        }
-        if (base == 0x006B && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0137'; // Latin Small Letter K With Cedilla = Latin Small Letter K + Combining Cedilla
-        }
-        if (base == 0x006B && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01E9'; // Latin Small Letter K With Caron = Latin Small Letter K + Combining Caron
-        }
-        if (base == 0x006B && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E31'; // Latin Small Letter K With Acute = Latin Small Letter K + Combining Acute Accent
-        }
-        if (base == 0x006B && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E33'; // Latin Small Letter K With Dot Below = Latin Small Letter K + Combining Dot Below
-        }
-        if (base == 0x006B && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E35'; // Latin Small Letter K With Line Below = Latin Small Letter K + Combining Low Line
-        }
-        if (base == 0x006C && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u013A'; // Latin Small Letter L With Acute = Latin Small Letter L + Combining Acute Accent
-        }
-        if (base == 0x006C && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u013C'; // Latin Small Letter L With Cedilla = Latin Small Letter L + Combining Cedilla
-        }
-        if (base == 0x006C && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u013E'; // Latin Small Letter L With Caron = Latin Small Letter L + Combining Caron
-        }
-        if (base == 0x006C && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E37'; // Latin Small Letter L With Dot Below = Latin Small Letter L + Combining Dot Below
-        }
-        if (base == 0x006C && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E3B'; // Latin Small Letter L With Line Below = Latin Small Letter L + Combining Low Line
-        }
-        if (base == 0x006C && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E3D'; // Latin Small Letter L With Circumflex Below = Latin Small Letter L + Combining Circumflex
-            // Accent Below
-        }
-        if (base == 0x006C && (diacritic1 == 0x00E7 && diacritic2 == 0x00E5)) {
-            return '\u1E39'; // Latin Small Letter L With Dot Below And Macron = Latin Small Letter L + Combining Dot
-            // Below + Combining Macron
-        }
-        if (base == 0x006D && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E3F'; // Latin Small Letter M With Acute = Latin Small Letter M + Combining Acute Accent
-        }
-        if (base == 0x006D && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E41'; // Latin Small Letter M With Dot Above = Latin Small Letter M + Combining Dot Above
-        }
-        if (base == 0x006D && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E43'; // Latin Small Letter M With Dot Below = Latin Small Letter M + Combining Dot Below
-        }
-        if (base == 0x006E && (diacritic1 == 0x00E4 && diacritic2 == 0x0000)) {
-            return '\u00F1'; // Latin Small Letter N With Tilde = Latin Small Letter N + Combining Tilde
-        }
-        if (base == 0x006E && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0144'; // Latin Small Letter N With Acute = Latin Small Letter N + Combining Acute Accent
-        }
-        if (base == 0x006E && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0146'; // Latin Small Letter N With Cedilla = Latin Small Letter N + Combining Cedilla
-        }
-        if (base == 0x006E && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0148'; // Latin Small Letter N With Caron = Latin Small Letter N + Combining Caron
-        }
-        if (base == 0x006E && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E45'; // Latin Small Letter N With Dot Above = Latin Small Letter N + Combining Dot Above
-        }
-        if (base == 0x006E && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E47'; // Latin Small Letter N With Dot Below = Latin Small Letter N + Combining Dot Below
-        }
-        if (base == 0x006E && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E49'; // Latin Small Letter N With Line Below = Latin Small Letter N + Combining Low Line
-        }
-        if (base == 0x006E && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E4B'; // Latin Small Letter N With Circumflex Below = Latin Small Letter N + Combining Circumflex
-            // Accent Below
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E1 && diacritic2 == 0x0000)) {
-            return '\u00F2'; // Latin Small Letter O With Grave = Latin Small Letter O + Combining Grave Accent
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E2 && diacritic2 == 0x0000)) {
-            return '\u00F3'; // Latin Small Letter O With Acute = Latin Small Letter O + Combining Acute Accent
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E3 && diacritic2 == 0x0000)) {
-            return '\u00F4'; // Latin Small Letter O With Circumflex = Latin Small Letter O + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E4 && diacritic2 == 0x0000)) {
-            return '\u00F5'; // Latin Small Letter O With Tilde = Latin Small Letter O + Combining Tilde
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E8 && diacritic2 == 0x0000)) {
-            return '\u00F6'; // Latin Small Letter O With Diaeresis = Latin Small Letter O + Combining Diaeresis
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u014D'; // Latin Small Letter O With Macron = Latin Small Letter O + Combining Macron
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u014F'; // Latin Small Letter O With Breve = Latin Small Letter O + Combining Breve
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u0151'; // Latin Small Letter O With Double Acute = Latin Small Letter O + Combining Double Acute
-            // Accent
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01A1'; // Latin Small Letter O With Horn = Latin Small Letter O + Combining Horn
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01D2'; // Latin Small Letter O With Caron = Latin Small Letter O + Combining Caron
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E7 && diacritic2 == 0x00E1)) {
-            return '\u1E51'; // Latin Small Letter O With Macron And Grave = Latin Small Letter O + Combining Macron +
-            // Combining Grave Accent
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01EB'; // Latin Small Letter O With Ogonek = Latin Small Letter O + Combining Ogonek
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E0 && diacritic2 == 0x00E1)) {
-            return '\u1ED3'; // Latin Small Letter O With Circumflex And Grave = Latin Small Letter O + Combining
-            // Circumflex Accent + Combining Grave Accent
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E0 && diacritic2 == 0x00E1)) {
-            return '\u1EDD'; // Latin Small Letter O With Horn And Grave = Latin Small Letter O + Combining Horn +
-            // Combining Grave Accent
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u020D'; // Latin Small Letter O With Double Grave = Latin Small Letter O + Combining Double Grave
-            // Accent
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u020F'; // Latin Small Letter O With Inverted Breve = Latin Small Letter O + Combining Inverted
-            // Breve
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E4D'; // Latin Small Letter O With Tilde And Acute = Latin Small Letter O + Combining Tilde +
-            // Combining Acute Accent
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E7 && diacritic2 == 0x00E2)) {
-            return '\u1E53'; // Latin Small Letter O With Macron And Acute = Latin Small Letter O + Combining Macron +
-            // Combining Acute Accent
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E0 && diacritic2 == 0x00E2)) {
-            return '\u1ED1'; // Latin Small Letter O With Circumflex And Acute = Latin Small Letter O + Combining
-            // Circumflex Accent + Combining Acute Accent
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E0 && diacritic2 == 0x00E2)) {
-            return '\u1EDB'; // Latin Small Letter O With Horn And Acute = Latin Small Letter O + Combining Horn +
-            // Combining Acute Accent
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E0 && diacritic2 == 0x00E4)) {
-            return '\u1ED7'; // Latin Small Letter O With Circumflex And Tilde = Latin Small Letter O + Combining
-            // Circumflex Accent + Combining Tilde
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E0 && diacritic2 == 0x00E4)) {
-            return '\u1EE1'; // Latin Small Letter O With Horn And Tilde = Latin Small Letter O + Combining Horn +
-            // Combining Tilde
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E7 && diacritic2 == 0x00E5)) {
-            return '\u01ED'; // Latin Small Letter O With Ogonek And Macron = Latin Small Letter O + Combining Ogonek +
-            // Combining Macron
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E0 && diacritic2 == 0x0000)) {
-            return '\u1ECD'; // Latin Small Letter O With Dot Below = Latin Small Letter O + Combining Dot Below
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E0 && diacritic2 == 0x0000)) {
-            return '\u1ECF'; // Latin Small Letter O With Hook Above = Latin Small Letter O + Combining Hook Above
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E7 && diacritic2 == 0x00E8)) {
-            return '\u1E4F'; // Latin Small Letter O With Tilde And Diaeresis = Latin Small Letter O + Combining Tilde +
-            // Combining Diaeresis
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E0 && diacritic2 == 0x00E0)) {
-            return '\u1ED5'; // Latin Small Letter O With Circumflex And Hook Above = Latin Small Letter O + Combining
-            // Circumflex Accent + Combining Hook Above
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E0 && diacritic2 == 0x00E0)) {
-            return '\u1EDF'; // Latin Small Letter O With Horn And Hook Above = Latin Small Letter O + Combining Horn +
-            // Combining Hook Above
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E0 && diacritic2 == 0x00F2)) {
-            return '\u1ED9'; // Latin Small Letter O With Circumflex And Dot Below = Latin Small Letter O + Combining
-            // Circumflex Accent + Combining Dot Below
-        }
-        if (base == 0x006F && (diacritic1 == 0x00E0 && diacritic2 == 0x00F2)) {
-            return '\u1EE3'; // Latin Small Letter O With Horn And Dot Below = Latin Small Letter O + Combining Horn +
-            // Combining Dot Below
-        }
-        if (base == 0x007A && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u017A'; // Latin Small Letter Z With Acute = Latin Small Letter Z + Combining Acute Accent
-        }
-        if (base == 0x007A && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u017C'; // Latin Small Letter Z With Dot Above = Latin Small Letter Z + Combining Dot Above
-        }
-        if (base == 0x007A && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u017E'; // Latin Small Letter Z With Caron = Latin Small Letter Z + Combining Caron
-        }
-        if (base == 0x007A && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E91'; // Latin Small Letter Z With Circumflex = Latin Small Letter Z + Combining Circumflex
-            // Accent
-        }
-        if (base == 0x007A && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E93'; // Latin Small Letter Z With Dot Below = Latin Small Letter Z + Combining Dot Below
-        }
-        if (base == 0x007A && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E95'; // Latin Small Letter Z With Line Below = Latin Small Letter Z + Combining Low Line
-        }
-        if (base == 0x00C6 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01E2'; // Latin Capital Letter Ae With Macron = Latin Capital Letter Ae + Combining Macron
-        }
-        if (base == 0x00C6 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01FC'; // Latin Capital Letter Ae With Acute = Latin Capital Letter Ae + Combining Acute Accent
-        }
-        if (base == 0x017F && (diacritic1 == 0x00E7 && diacritic2 == 0x00E4)) {
-            return '\u1E9B'; // Latin Small Letter Long S With Dot Above = Latin Small Letter Long S + Combining Dot
-            // Above
-        }
-        if (base == 0x01B7 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01EE'; // Latin Capital Letter Ezh With Caron = Latin Capital Letter Ezh + Combining Caron
-        }
-        if (base == 0x01F1 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01C4'; // Latin Capital Letter Dz With Caron = Latin Capital Letter Dz + Combining Caron
-        }
-        if (base == 0x01F3 && (diacritic1 == 0x00E7 && diacritic2 == 0x0000)) {
-            return '\u01C6'; // Latin Small Letter Dz With Caron = Latin Small Letter Dz + Combining Caron
-        }
+    private char getCombinedGlyph(char baseChar, char modifier1, char modifier2) {
+        if (baseChar == 'A') {
+            if (modifier1 == '\u00E0' /* HOOK ABOVE */) {
+                /* LATIN CAPITAL LETTER A WITH HOOK ABOVE */
+                return '\u1EA2';
+            }
+
+            if (modifier1 == '\u00E1' /* GRAVE */) {
+                /* LATIN CAPITAL LETTER A WITH GRAVE */
+                return '\u00C0';
+            }
+
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN CAPITAL LETTER A WITH ACUTE */
+                return '\u00C1';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                if (modifier2 == '\u00E0' /* HOOK ABOVE */) {
+                    /* LATIN CAPITAL LETTER A WITH CIRCUMFLEX AND HOOK ABOVE */
+                    return '\u1EA8';
+                }
+                if (modifier2 == '\u00E1' /* GRAVE */) {
+                    /* LATIN CAPITAL LETTER A WITH CIRCUMFLEX AND GRAVE */
+                    return '\u1EA6';
+                }
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN CAPITAL LETTER A WITH CIRCUMFLEX AND ACUTE */
+                    return '\u1EA4';
+                }
+                if (modifier2 == '\u00E4' /* TILDE */) {
+                    /* LATIN CAPITAL LETTER A WITH CIRCUMFLEX AND TILDE */
+                    return '\u1EAA';
+                }
+                if (modifier2 == '\u00F2' /* DOT BELOW */) {
+                    /* LATIN CAPITAL LETTER A WITH CIRCUMFLEX AND DOT BELOW */
+                    return '\u1EAC';
+                }
+                /* LATIN CAPITAL LETTER A WITH CIRCUMFLEX */
+                return '\u00C2';
+            }
+
+            if (modifier1 == '\u00E4' /* TILDE */) {
+                /* LATIN CAPITAL LETTER A WITH TILDE */
+                return '\u00C3';
+            }
+
+            if (modifier1 == '\u00E5' /* MACRON */) {
+                /* LATIN CAPITAL LETTER A WITH MACRON */
+                return '\u0100';
+            }
+
+            if (modifier1 == '\u00E6' /* BREVE */) {
+                if (modifier2 == '\u00E0' /* HOOK ABOVE */) {
+                    /* LATIN CAPITAL LETTER A WITH BREVE AND HOOK ABOVE */
+                    return '\u1EB2';
+                }
+                if (modifier2 == '\u00E1' /* GRAVE */) {
+                    /* LATIN CAPITAL LETTER A WITH BREVE AND GRAVE */
+                    return '\u1EB0';
+                }
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN CAPITAL LETTER A WITH BREVE AND ACUTE */
+                    return '\u1EAE';
+                }
+                if (modifier2 == '\u00E4' /* TILDE */) {
+                    /* LATIN CAPITAL LETTER A WITH BREVE AND TILDE */
+                    return '\u1EB4';
+                }
+                if (modifier2 == '\u00F2' /* DOT BELOW */) {
+                    /* LATIN CAPITAL LETTER A WITH BREVE AND DOT BELOW */
+                    return '\u1EB6';
+                }
+                /* LATIN CAPITAL LETTER A WITH BREVE */
+                return '\u0102';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                if (modifier2 == '\u00E5' /* MACRON */) {
+                    /* LATIN CAPITAL LETTER A WITH DOT ABOVE AND MACRON */
+                    return '\u01E0';
+                }
+                /* LATIN CAPITAL LETTER A WITH DOT ABOVE */
+                return '\u0226';
+            }
+
+            if (modifier1 == '\u00E8' /* DIAERESIS */) {
+                if (modifier2 == '\u00E5' /* MACRON */) {
+                    /* LATIN CAPITAL LETTER A WITH DIAERESIS AND MACRON */
+                    return '\u01DE';
+                }
+                /* LATIN CAPITAL LETTER A WITH DIAERESIS */
+                return '\u00C4';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN CAPITAL LETTER A WITH CARON */
+                return '\u01CD';
+            }
+
+            if (modifier1 == '\u00EA' /* RING ABOVE */) {
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN CAPITAL LETTER A WITH RING ABOVE AND ACUTE */
+                    return '\u01FA';
+                }
+                /* LATIN CAPITAL LETTER A WITH RING ABOVE */
+                return '\u00C5';
+            }
+
+            if (modifier1 == '\u00F1' /* OGONEK */) {
+                /* LATIN CAPITAL LETTER A WITH OGONEK */
+                return '\u0104';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN CAPITAL LETTER A WITH DOT BELOW */
+                return '\u1EA0';
+            }
+
+            if (modifier1 == '\u00F4' /* RING BELOW */) {
+                /* LATIN CAPITAL LETTER A WITH RING BELOW */
+                return '\u1E00';
+            }
+
+        }
+        if (baseChar == 'B') {
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN CAPITAL LETTER B WITH DOT ABOVE */
+                return '\u1E02';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN CAPITAL LETTER B WITH DOT BELOW */
+                return '\u1E04';
+            }
+
+        }
+        if (baseChar == 'C') {
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN CAPITAL LETTER C WITH ACUTE */
+                return '\u0106';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                /* LATIN CAPITAL LETTER C WITH CIRCUMFLEX */
+                return '\u0108';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN CAPITAL LETTER C WITH DOT ABOVE */
+                return '\u010A';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN CAPITAL LETTER C WITH CARON */
+                return '\u010C';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN CAPITAL LETTER C WITH CEDILLA AND ACUTE */
+                    return '\u1E08';
+                }
+                /* LATIN CAPITAL LETTER C WITH CEDILLA */
+                return '\u00C7';
+            }
+
+        }
+        if (baseChar == 'D') {
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN CAPITAL LETTER D WITH DOT ABOVE */
+                return '\u1E0A';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN CAPITAL LETTER D WITH CARON */
+                return '\u010E';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                /* LATIN CAPITAL LETTER D WITH CEDILLA */
+                return '\u1E10';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN CAPITAL LETTER D WITH DOT BELOW */
+                return '\u1E0C';
+            }
+
+        }
+        if (baseChar == 'E') {
+            if (modifier1 == '\u00E0' /* HOOK ABOVE */) {
+                /* LATIN CAPITAL LETTER E WITH HOOK ABOVE */
+                return '\u1EBA';
+            }
+
+            if (modifier1 == '\u00E1' /* GRAVE */) {
+                /* LATIN CAPITAL LETTER E WITH GRAVE */
+                return '\u00C8';
+            }
+
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN CAPITAL LETTER E WITH ACUTE */
+                return '\u00C9';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                if (modifier2 == '\u00E0' /* HOOK ABOVE */) {
+                    /* LATIN CAPITAL LETTER E WITH CIRCUMFLEX AND HOOK ABOVE */
+                    return '\u1EC2';
+                }
+                if (modifier2 == '\u00E1' /* GRAVE */) {
+                    /* LATIN CAPITAL LETTER E WITH CIRCUMFLEX AND GRAVE */
+                    return '\u1EC0';
+                }
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN CAPITAL LETTER E WITH CIRCUMFLEX AND ACUTE */
+                    return '\u1EBE';
+                }
+                if (modifier2 == '\u00E4' /* TILDE */) {
+                    /* LATIN CAPITAL LETTER E WITH CIRCUMFLEX AND TILDE */
+                    return '\u1EC4';
+                }
+                if (modifier2 == '\u00F2' /* DOT BELOW */) {
+                    /* LATIN CAPITAL LETTER E WITH CIRCUMFLEX AND DOT BELOW */
+                    return '\u1EC6';
+                }
+                /* LATIN CAPITAL LETTER E WITH CIRCUMFLEX */
+                return '\u00CA';
+            }
+
+            if (modifier1 == '\u00E4' /* TILDE */) {
+                /* LATIN CAPITAL LETTER E WITH TILDE */
+                return '\u1EBC';
+            }
+
+            if (modifier1 == '\u00E5' /* MACRON */) {
+                if (modifier2 == '\u00E1' /* GRAVE */) {
+                    /* LATIN CAPITAL LETTER E WITH MACRON AND GRAVE */
+                    return '\u1E14';
+                }
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN CAPITAL LETTER E WITH MACRON AND ACUTE */
+                    return '\u1E16';
+                }
+                /* LATIN CAPITAL LETTER E WITH MACRON */
+                return '\u0112';
+            }
+
+            if (modifier1 == '\u00E6' /* BREVE */) {
+                /* LATIN CAPITAL LETTER E WITH BREVE */
+                return '\u0114';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN CAPITAL LETTER E WITH DOT ABOVE */
+                return '\u0116';
+            }
+
+            if (modifier1 == '\u00E8' /* DIAERESIS */) {
+                /* LATIN CAPITAL LETTER E WITH DIAERESIS */
+                return '\u00CB';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN CAPITAL LETTER E WITH CARON */
+                return '\u011A';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                if (modifier2 == '\u00E6' /* BREVE */) {
+                    /* LATIN CAPITAL LETTER E WITH CEDILLA AND BREVE */
+                    return '\u1E1C';
+                }
+                /* LATIN CAPITAL LETTER E WITH CEDILLA */
+                return '\u0228';
+            }
+
+            if (modifier1 == '\u00F1' /* OGONEK */) {
+                /* LATIN CAPITAL LETTER E WITH OGONEK */
+                return '\u0118';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN CAPITAL LETTER E WITH DOT BELOW */
+                return '\u1EB8';
+            }
+
+        }
+        if (baseChar == 'F') {
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN CAPITAL LETTER F WITH DOT ABOVE */
+                return '\u1E1E';
+            }
+
+        }
+        if (baseChar == 'G') {
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN CAPITAL LETTER G WITH ACUTE */
+                return '\u01F4';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                /* LATIN CAPITAL LETTER G WITH CIRCUMFLEX */
+                return '\u011C';
+            }
+
+            if (modifier1 == '\u00E5' /* MACRON */) {
+                /* LATIN CAPITAL LETTER G WITH MACRON */
+                return '\u1E20';
+            }
+
+            if (modifier1 == '\u00E6' /* BREVE */) {
+                /* LATIN CAPITAL LETTER G WITH BREVE */
+                return '\u011E';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN CAPITAL LETTER G WITH DOT ABOVE */
+                return '\u0120';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN CAPITAL LETTER G WITH CARON */
+                return '\u01E6';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                /* LATIN CAPITAL LETTER G WITH CEDILLA */
+                return '\u0122';
+            }
+
+        }
+        if (baseChar == 'H') {
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                /* LATIN CAPITAL LETTER H WITH CIRCUMFLEX */
+                return '\u0124';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN CAPITAL LETTER H WITH DOT ABOVE */
+                return '\u1E22';
+            }
+
+            if (modifier1 == '\u00E8' /* DIAERESIS */) {
+                /* LATIN CAPITAL LETTER H WITH DIAERESIS */
+                return '\u1E26';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN CAPITAL LETTER H WITH CARON */
+                return '\u021E';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                /* LATIN CAPITAL LETTER H WITH CEDILLA */
+                return '\u1E28';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN CAPITAL LETTER H WITH DOT BELOW */
+                return '\u1E24';
+            }
+
+            if (modifier1 == '\u00F9' /* BREVE BELOW */) {
+                /* LATIN CAPITAL LETTER H WITH BREVE BELOW */
+                return '\u1E2A';
+            }
+
+        }
+        if (baseChar == 'I') {
+            if (modifier1 == '\u00E0' /* HOOK ABOVE */) {
+                /* LATIN CAPITAL LETTER I WITH HOOK ABOVE */
+                return '\u1EC8';
+            }
+
+            if (modifier1 == '\u00E1' /* GRAVE */) {
+                /* LATIN CAPITAL LETTER I WITH GRAVE */
+                return '\u00CC';
+            }
+
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN CAPITAL LETTER I WITH ACUTE */
+                return '\u00CD';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                /* LATIN CAPITAL LETTER I WITH CIRCUMFLEX */
+                return '\u00CE';
+            }
+
+            if (modifier1 == '\u00E4' /* TILDE */) {
+                /* LATIN CAPITAL LETTER I WITH TILDE */
+                return '\u0128';
+            }
+
+            if (modifier1 == '\u00E5' /* MACRON */) {
+                /* LATIN CAPITAL LETTER I WITH MACRON */
+                return '\u012A';
+            }
+
+            if (modifier1 == '\u00E6' /* BREVE */) {
+                /* LATIN CAPITAL LETTER I WITH BREVE */
+                return '\u012C';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN CAPITAL LETTER I WITH DOT ABOVE */
+                return '\u0130';
+            }
+
+            if (modifier1 == '\u00E8' /* DIAERESIS */) {
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN CAPITAL LETTER I WITH DIAERESIS AND ACUTE */
+                    return '\u1E2E';
+                }
+                /* LATIN CAPITAL LETTER I WITH DIAERESIS */
+                return '\u00CF';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN CAPITAL LETTER I WITH CARON */
+                return '\u01CF';
+            }
+
+            if (modifier1 == '\u00F1' /* OGONEK */) {
+                /* LATIN CAPITAL LETTER I WITH OGONEK */
+                return '\u012E';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN CAPITAL LETTER I WITH DOT BELOW */
+                return '\u1ECA';
+            }
+
+        }
+        if (baseChar == 'J') {
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                /* LATIN CAPITAL LETTER J WITH CIRCUMFLEX */
+                return '\u0134';
+            }
+
+        }
+        if (baseChar == 'K') {
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN CAPITAL LETTER K WITH ACUTE */
+                return '\u1E30';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN CAPITAL LETTER K WITH CARON */
+                return '\u01E8';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                /* LATIN CAPITAL LETTER K WITH CEDILLA */
+                return '\u0136';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN CAPITAL LETTER K WITH DOT BELOW */
+                return '\u1E32';
+            }
+
+        }
+        if (baseChar == 'L') {
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN CAPITAL LETTER L WITH ACUTE */
+                return '\u0139';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN CAPITAL LETTER L WITH CARON */
+                return '\u013D';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                /* LATIN CAPITAL LETTER L WITH CEDILLA */
+                return '\u013B';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                if (modifier2 == '\u00E5' /* MACRON */) {
+                    /* LATIN CAPITAL LETTER L WITH DOT BELOW AND MACRON */
+                    return '\u1E38';
+                }
+                /* LATIN CAPITAL LETTER L WITH DOT BELOW */
+                return '\u1E36';
+            }
+
+        }
+        if (baseChar == 'M') {
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN CAPITAL LETTER M WITH ACUTE */
+                return '\u1E3E';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN CAPITAL LETTER M WITH DOT ABOVE */
+                return '\u1E40';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN CAPITAL LETTER M WITH DOT BELOW */
+                return '\u1E42';
+            }
+
+        }
+        if (baseChar == 'N') {
+            if (modifier1 == '\u00E1' /* GRAVE */) {
+                /* LATIN CAPITAL LETTER N WITH GRAVE */
+                return '\u01F8';
+            }
+
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN CAPITAL LETTER N WITH ACUTE */
+                return '\u0143';
+            }
+
+            if (modifier1 == '\u00E4' /* TILDE */) {
+                /* LATIN CAPITAL LETTER N WITH TILDE */
+                return '\u00D1';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN CAPITAL LETTER N WITH DOT ABOVE */
+                return '\u1E44';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN CAPITAL LETTER N WITH CARON */
+                return '\u0147';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                /* LATIN CAPITAL LETTER N WITH CEDILLA */
+                return '\u0145';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN CAPITAL LETTER N WITH DOT BELOW */
+                return '\u1E46';
+            }
+
+        }
+        if (baseChar == 'O') {
+            if (modifier1 == '\u00E0' /* HOOK ABOVE */) {
+                /* LATIN CAPITAL LETTER O WITH HOOK ABOVE */
+                return '\u1ECE';
+            }
+
+            if (modifier1 == '\u00E1' /* GRAVE */) {
+                /* LATIN CAPITAL LETTER O WITH GRAVE */
+                return '\u00D2';
+            }
+
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN CAPITAL LETTER O WITH ACUTE */
+                return '\u00D3';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                if (modifier2 == '\u00E0' /* HOOK ABOVE */) {
+                    /* LATIN CAPITAL LETTER O WITH CIRCUMFLEX AND HOOK ABOVE */
+                    return '\u1ED4';
+                }
+                if (modifier2 == '\u00E1' /* GRAVE */) {
+                    /* LATIN CAPITAL LETTER O WITH CIRCUMFLEX AND GRAVE */
+                    return '\u1ED2';
+                }
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN CAPITAL LETTER O WITH CIRCUMFLEX AND ACUTE */
+                    return '\u1ED0';
+                }
+                if (modifier2 == '\u00E4' /* TILDE */) {
+                    /* LATIN CAPITAL LETTER O WITH CIRCUMFLEX AND TILDE */
+                    return '\u1ED6';
+                }
+                if (modifier2 == '\u00F2' /* DOT BELOW */) {
+                    /* LATIN CAPITAL LETTER O WITH CIRCUMFLEX AND DOT BELOW */
+                    return '\u1ED8';
+                }
+                /* LATIN CAPITAL LETTER O WITH CIRCUMFLEX */
+                return '\u00D4';
+            }
+
+            if (modifier1 == '\u00E4' /* TILDE */) {
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN CAPITAL LETTER O WITH TILDE AND ACUTE */
+                    return '\u1E4C';
+                }
+                if (modifier2 == '\u00E5' /* MACRON */) {
+                    /* LATIN CAPITAL LETTER O WITH TILDE AND MACRON */
+                    return '\u022C';
+                }
+                if (modifier2 == '\u00E8' /* DIAERESIS */) {
+                    /* LATIN CAPITAL LETTER O WITH TILDE AND DIAERESIS */
+                    return '\u1E4E';
+                }
+                /* LATIN CAPITAL LETTER O WITH TILDE */
+                return '\u00D5';
+            }
+
+            if (modifier1 == '\u00E5' /* MACRON */) {
+                if (modifier2 == '\u00E1' /* GRAVE */) {
+                    /* LATIN CAPITAL LETTER O WITH MACRON AND GRAVE */
+                    return '\u1E50';
+                }
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN CAPITAL LETTER O WITH MACRON AND ACUTE */
+                    return '\u1E52';
+                }
+                /* LATIN CAPITAL LETTER O WITH MACRON */
+                return '\u014C';
+            }
+
+            if (modifier1 == '\u00E6' /* BREVE */) {
+                /* LATIN CAPITAL LETTER O WITH BREVE */
+                return '\u014E';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                if (modifier2 == '\u00E5' /* MACRON */) {
+                    /* LATIN CAPITAL LETTER O WITH DOT ABOVE AND MACRON */
+                    return '\u0230';
+                }
+                /* LATIN CAPITAL LETTER O WITH DOT ABOVE */
+                return '\u022E';
+            }
+
+            if (modifier1 == '\u00E8' /* DIAERESIS */) {
+                if (modifier2 == '\u00E5' /* MACRON */) {
+                    /* LATIN CAPITAL LETTER O WITH DIAERESIS AND MACRON */
+                    return '\u022A';
+                }
+                /* LATIN CAPITAL LETTER O WITH DIAERESIS */
+                return '\u00D6';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN CAPITAL LETTER O WITH CARON */
+                return '\u01D1';
+            }
+
+            if (modifier1 == '\u00EE' /* DOUBLE ACUTE */) {
+                /* LATIN CAPITAL LETTER O WITH DOUBLE ACUTE */
+                return '\u0150';
+            }
+
+            if (modifier1 == '\u00F1' /* OGONEK */) {
+                if (modifier2 == '\u00E5' /* MACRON */) {
+                    /* LATIN CAPITAL LETTER O WITH OGONEK AND MACRON */
+                    return '\u01EC';
+                }
+                /* LATIN CAPITAL LETTER O WITH OGONEK */
+                return '\u01EA';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN CAPITAL LETTER O WITH DOT BELOW */
+                return '\u1ECC';
+            }
+
+        }
+        if (baseChar == 'P') {
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN CAPITAL LETTER P WITH ACUTE */
+                return '\u1E54';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN CAPITAL LETTER P WITH DOT ABOVE */
+                return '\u1E56';
+            }
+
+        }
+        if (baseChar == 'Q') {
+        }
+        if (baseChar == 'R') {
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN CAPITAL LETTER R WITH ACUTE */
+                return '\u0154';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN CAPITAL LETTER R WITH DOT ABOVE */
+                return '\u1E58';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN CAPITAL LETTER R WITH CARON */
+                return '\u0158';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                /* LATIN CAPITAL LETTER R WITH CEDILLA */
+                return '\u0156';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                if (modifier2 == '\u00E5' /* MACRON */) {
+                    /* LATIN CAPITAL LETTER R WITH DOT BELOW AND MACRON */
+                    return '\u1E5C';
+                }
+                /* LATIN CAPITAL LETTER R WITH DOT BELOW */
+                return '\u1E5A';
+            }
+
+        }
+        if (baseChar == 'S') {
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                if (modifier2 == '\u00E7' /* DOT ABOVE */) {
+                    /* LATIN CAPITAL LETTER S WITH ACUTE AND DOT ABOVE */
+                    return '\u1E64';
+                }
+                /* LATIN CAPITAL LETTER S WITH ACUTE */
+                return '\u015A';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                /* LATIN CAPITAL LETTER S WITH CIRCUMFLEX */
+                return '\u015C';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN CAPITAL LETTER S WITH DOT ABOVE */
+                return '\u1E60';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                if (modifier2 == '\u00E7' /* DOT ABOVE */) {
+                    /* LATIN CAPITAL LETTER S WITH CARON AND DOT ABOVE */
+                    return '\u1E66';
+                }
+                /* LATIN CAPITAL LETTER S WITH CARON */
+                return '\u0160';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                /* LATIN CAPITAL LETTER S WITH CEDILLA */
+                return '\u015E';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                if (modifier2 == '\u00E7' /* DOT ABOVE */) {
+                    /* LATIN CAPITAL LETTER S WITH DOT BELOW AND DOT ABOVE */
+                    return '\u1E68';
+                }
+                /* LATIN CAPITAL LETTER S WITH DOT BELOW */
+                return '\u1E62';
+            }
+
+            if (modifier1 == '\u00F7' /* COMMA BELOW */) {
+                /* LATIN CAPITAL LETTER S WITH COMMA BELOW */
+                return '\u0218';
+            }
+
+        }
+        if (baseChar == 'T') {
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN CAPITAL LETTER T WITH DOT ABOVE */
+                return '\u1E6A';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN CAPITAL LETTER T WITH CARON */
+                return '\u0164';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                /* LATIN CAPITAL LETTER T WITH CEDILLA */
+                return '\u0162';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN CAPITAL LETTER T WITH DOT BELOW */
+                return '\u1E6C';
+            }
+
+            if (modifier1 == '\u00F7' /* COMMA BELOW */) {
+                /* LATIN CAPITAL LETTER T WITH COMMA BELOW */
+                return '\u021A';
+            }
+
+        }
+        if (baseChar == 'U') {
+            if (modifier1 == '\u00E0' /* HOOK ABOVE */) {
+                /* LATIN CAPITAL LETTER U WITH HOOK ABOVE */
+                return '\u1EE6';
+            }
+
+            if (modifier1 == '\u00E1' /* GRAVE */) {
+                /* LATIN CAPITAL LETTER U WITH GRAVE */
+                return '\u00D9';
+            }
+
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN CAPITAL LETTER U WITH ACUTE */
+                return '\u00DA';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                /* LATIN CAPITAL LETTER U WITH CIRCUMFLEX */
+                return '\u00DB';
+            }
+
+            if (modifier1 == '\u00E4' /* TILDE */) {
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN CAPITAL LETTER U WITH TILDE AND ACUTE */
+                    return '\u1E78';
+                }
+                /* LATIN CAPITAL LETTER U WITH TILDE */
+                return '\u0168';
+            }
+
+            if (modifier1 == '\u00E5' /* MACRON */) {
+                if (modifier2 == '\u00E8' /* DIAERESIS */) {
+                    /* LATIN CAPITAL LETTER U WITH MACRON AND DIAERESIS */
+                    return '\u1E7A';
+                }
+                /* LATIN CAPITAL LETTER U WITH MACRON */
+                return '\u016A';
+            }
+
+            if (modifier1 == '\u00E6' /* BREVE */) {
+                /* LATIN CAPITAL LETTER U WITH BREVE */
+                return '\u016C';
+            }
+
+            if (modifier1 == '\u00E8' /* DIAERESIS */) {
+                if (modifier2 == '\u00E1' /* GRAVE */) {
+                    /* LATIN CAPITAL LETTER U WITH DIAERESIS AND GRAVE */
+                    return '\u01DB';
+                }
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN CAPITAL LETTER U WITH DIAERESIS AND ACUTE */
+                    return '\u01D7';
+                }
+                if (modifier2 == '\u00E5' /* MACRON */) {
+                    /* LATIN CAPITAL LETTER U WITH DIAERESIS AND MACRON */
+                    return '\u01D5';
+                }
+                if (modifier2 == '\u00E9' /* CARON */) {
+                    /* LATIN CAPITAL LETTER U WITH DIAERESIS AND CARON */
+                    return '\u01D9';
+                }
+                /* LATIN CAPITAL LETTER U WITH DIAERESIS */
+                return '\u00DC';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN CAPITAL LETTER U WITH CARON */
+                return '\u01D3';
+            }
+
+            if (modifier1 == '\u00EA' /* RING ABOVE */) {
+                /* LATIN CAPITAL LETTER U WITH RING ABOVE */
+                return '\u016E';
+            }
+
+            if (modifier1 == '\u00EE' /* DOUBLE ACUTE */) {
+                /* LATIN CAPITAL LETTER U WITH DOUBLE ACUTE */
+                return '\u0170';
+            }
+
+            if (modifier1 == '\u00F1' /* OGONEK */) {
+                /* LATIN CAPITAL LETTER U WITH OGONEK */
+                return '\u0172';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN CAPITAL LETTER U WITH DOT BELOW */
+                return '\u1EE4';
+            }
+
+            if (modifier1 == '\u00F3' /* DIAERESIS BELOW */) {
+                /* LATIN CAPITAL LETTER U WITH DIAERESIS BELOW */
+                return '\u1E72';
+            }
+
+        }
+        if (baseChar == 'V') {
+            if (modifier1 == '\u00E4' /* TILDE */) {
+                /* LATIN CAPITAL LETTER V WITH TILDE */
+                return '\u1E7C';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN CAPITAL LETTER V WITH DOT BELOW */
+                return '\u1E7E';
+            }
+
+        }
+        if (baseChar == 'W') {
+            if (modifier1 == '\u00E1' /* GRAVE */) {
+                /* LATIN CAPITAL LETTER W WITH GRAVE */
+                return '\u1E80';
+            }
+
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN CAPITAL LETTER W WITH ACUTE */
+                return '\u1E82';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                /* LATIN CAPITAL LETTER W WITH CIRCUMFLEX */
+                return '\u0174';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN CAPITAL LETTER W WITH DOT ABOVE */
+                return '\u1E86';
+            }
+
+            if (modifier1 == '\u00E8' /* DIAERESIS */) {
+                /* LATIN CAPITAL LETTER W WITH DIAERESIS */
+                return '\u1E84';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN CAPITAL LETTER W WITH DOT BELOW */
+                return '\u1E88';
+            }
+
+        }
+        if (baseChar == 'X') {
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN CAPITAL LETTER X WITH DOT ABOVE */
+                return '\u1E8A';
+            }
+
+            if (modifier1 == '\u00E8' /* DIAERESIS */) {
+                /* LATIN CAPITAL LETTER X WITH DIAERESIS */
+                return '\u1E8C';
+            }
+
+        }
+        if (baseChar == 'Y') {
+            if (modifier1 == '\u00E0' /* HOOK ABOVE */) {
+                /* LATIN CAPITAL LETTER Y WITH HOOK ABOVE */
+                return '\u1EF6';
+            }
+
+            if (modifier1 == '\u00E1' /* GRAVE */) {
+                /* LATIN CAPITAL LETTER Y WITH GRAVE */
+                return '\u1EF2';
+            }
+
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN CAPITAL LETTER Y WITH ACUTE */
+                return '\u00DD';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                /* LATIN CAPITAL LETTER Y WITH CIRCUMFLEX */
+                return '\u0176';
+            }
+
+            if (modifier1 == '\u00E4' /* TILDE */) {
+                /* LATIN CAPITAL LETTER Y WITH TILDE */
+                return '\u1EF8';
+            }
+
+            if (modifier1 == '\u00E5' /* MACRON */) {
+                /* LATIN CAPITAL LETTER Y WITH MACRON */
+                return '\u0232';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN CAPITAL LETTER Y WITH DOT ABOVE */
+                return '\u1E8E';
+            }
+
+            if (modifier1 == '\u00E8' /* DIAERESIS */) {
+                /* LATIN CAPITAL LETTER Y WITH DIAERESIS */
+                return '\u0178';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN CAPITAL LETTER Y WITH DOT BELOW */
+                return '\u1EF4';
+            }
+
+        }
+        if (baseChar == 'Z') {
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN CAPITAL LETTER Z WITH ACUTE */
+                return '\u0179';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                /* LATIN CAPITAL LETTER Z WITH CIRCUMFLEX */
+                return '\u1E90';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN CAPITAL LETTER Z WITH DOT ABOVE */
+                return '\u017B';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN CAPITAL LETTER Z WITH CARON */
+                return '\u017D';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN CAPITAL LETTER Z WITH DOT BELOW */
+                return '\u1E92';
+            }
+
+        }
+        if (baseChar == 'a') {
+            if (modifier1 == '\u00E0' /* HOOK ABOVE */) {
+                /* LATIN SMALL LETTER A WITH HOOK ABOVE */
+                return '\u1EA3';
+            }
+
+            if (modifier1 == '\u00E1' /* GRAVE */) {
+                /* LATIN SMALL LETTER A WITH GRAVE */
+                return '\u00E0';
+            }
+
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN SMALL LETTER A WITH ACUTE */
+                return '\u00E1';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                if (modifier2 == '\u00E0' /* HOOK ABOVE */) {
+                    /* LATIN SMALL LETTER A WITH CIRCUMFLEX AND HOOK ABOVE */
+                    return '\u1EA9';
+                }
+                if (modifier2 == '\u00E1' /* GRAVE */) {
+                    /* LATIN SMALL LETTER A WITH CIRCUMFLEX AND GRAVE */
+                    return '\u1EA7';
+                }
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN SMALL LETTER A WITH CIRCUMFLEX AND ACUTE */
+                    return '\u1EA5';
+                }
+                if (modifier2 == '\u00E4' /* TILDE */) {
+                    /* LATIN SMALL LETTER A WITH CIRCUMFLEX AND TILDE */
+                    return '\u1EAB';
+                }
+                if (modifier2 == '\u00F2' /* DOT BELOW */) {
+                    /* LATIN SMALL LETTER A WITH CIRCUMFLEX AND DOT BELOW */
+                    return '\u1EAD';
+                }
+                /* LATIN SMALL LETTER A WITH CIRCUMFLEX */
+                return '\u00E2';
+            }
+
+            if (modifier1 == '\u00E4' /* TILDE */) {
+                /* LATIN SMALL LETTER A WITH TILDE */
+                return '\u00E3';
+            }
+
+            if (modifier1 == '\u00E5' /* MACRON */) {
+                /* LATIN SMALL LETTER A WITH MACRON */
+                return '\u0101';
+            }
+
+            if (modifier1 == '\u00E6' /* BREVE */) {
+                if (modifier2 == '\u00E0' /* HOOK ABOVE */) {
+                    /* LATIN SMALL LETTER A WITH BREVE AND HOOK ABOVE */
+                    return '\u1EB3';
+                }
+                if (modifier2 == '\u00E1' /* GRAVE */) {
+                    /* LATIN SMALL LETTER A WITH BREVE AND GRAVE */
+                    return '\u1EB1';
+                }
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN SMALL LETTER A WITH BREVE AND ACUTE */
+                    return '\u1EAF';
+                }
+                if (modifier2 == '\u00E4' /* TILDE */) {
+                    /* LATIN SMALL LETTER A WITH BREVE AND TILDE */
+                    return '\u1EB5';
+                }
+                if (modifier2 == '\u00F2' /* DOT BELOW */) {
+                    /* LATIN SMALL LETTER A WITH BREVE AND DOT BELOW */
+                    return '\u1EB7';
+                }
+                /* LATIN SMALL LETTER A WITH BREVE */
+                return '\u0103';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                if (modifier2 == '\u00E5' /* MACRON */) {
+                    /* LATIN SMALL LETTER A WITH DOT ABOVE AND MACRON */
+                    return '\u01E1';
+                }
+                /* LATIN SMALL LETTER A WITH DOT ABOVE */
+                return '\u0227';
+            }
+
+            if (modifier1 == '\u00E8' /* DIAERESIS */) {
+                if (modifier2 == '\u00E5' /* MACRON */) {
+                    /* LATIN SMALL LETTER A WITH DIAERESIS AND MACRON */
+                    return '\u01DF';
+                }
+                /* LATIN SMALL LETTER A WITH DIAERESIS */
+                return '\u00E4';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN SMALL LETTER A WITH CARON */
+                return '\u01CE';
+            }
+
+            if (modifier1 == '\u00EA' /* RING ABOVE */) {
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN SMALL LETTER A WITH RING ABOVE AND ACUTE */
+                    return '\u01FB';
+                }
+                /* LATIN SMALL LETTER A WITH RING ABOVE */
+                return '\u00E5';
+            }
+
+            if (modifier1 == '\u00F1' /* OGONEK */) {
+                /* LATIN SMALL LETTER A WITH OGONEK */
+                return '\u0105';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN SMALL LETTER A WITH DOT BELOW */
+                return '\u1EA1';
+            }
+
+            if (modifier1 == '\u00F4' /* RING BELOW */) {
+                /* LATIN SMALL LETTER A WITH RING BELOW */
+                return '\u1E01';
+            }
+
+        }
+        if (baseChar == 'b') {
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN SMALL LETTER B WITH DOT ABOVE */
+                return '\u1E03';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN SMALL LETTER B WITH DOT BELOW */
+                return '\u1E05';
+            }
+
+        }
+        if (baseChar == 'c') {
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN SMALL LETTER C WITH ACUTE */
+                return '\u0107';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                /* LATIN SMALL LETTER C WITH CIRCUMFLEX */
+                return '\u0109';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN SMALL LETTER C WITH DOT ABOVE */
+                return '\u010B';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN SMALL LETTER C WITH CARON */
+                return '\u010D';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN SMALL LETTER C WITH CEDILLA AND ACUTE */
+                    return '\u1E09';
+                }
+                /* LATIN SMALL LETTER C WITH CEDILLA */
+                return '\u00E7';
+            }
+
+        }
+        if (baseChar == 'd') {
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN SMALL LETTER D WITH DOT ABOVE */
+                return '\u1E0B';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN SMALL LETTER D WITH CARON */
+                return '\u010F';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                /* LATIN SMALL LETTER D WITH CEDILLA */
+                return '\u1E11';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN SMALL LETTER D WITH DOT BELOW */
+                return '\u1E0D';
+            }
+
+        }
+        if (baseChar == 'e') {
+            if (modifier1 == '\u00E0' /* HOOK ABOVE */) {
+                /* LATIN SMALL LETTER E WITH HOOK ABOVE */
+                return '\u1EBB';
+            }
+
+            if (modifier1 == '\u00E1' /* GRAVE */) {
+                /* LATIN SMALL LETTER E WITH GRAVE */
+                return '\u00E8';
+            }
+
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN SMALL LETTER E WITH ACUTE */
+                return '\u00E9';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                if (modifier2 == '\u00E0' /* HOOK ABOVE */) {
+                    /* LATIN SMALL LETTER E WITH CIRCUMFLEX AND HOOK ABOVE */
+                    return '\u1EC3';
+                }
+                if (modifier2 == '\u00E1' /* GRAVE */) {
+                    /* LATIN SMALL LETTER E WITH CIRCUMFLEX AND GRAVE */
+                    return '\u1EC1';
+                }
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN SMALL LETTER E WITH CIRCUMFLEX AND ACUTE */
+                    return '\u1EBF';
+                }
+                if (modifier2 == '\u00E4' /* TILDE */) {
+                    /* LATIN SMALL LETTER E WITH CIRCUMFLEX AND TILDE */
+                    return '\u1EC5';
+                }
+                if (modifier2 == '\u00F2' /* DOT BELOW */) {
+                    /* LATIN SMALL LETTER E WITH CIRCUMFLEX AND DOT BELOW */
+                    return '\u1EC7';
+                }
+                /* LATIN SMALL LETTER E WITH CIRCUMFLEX */
+                return '\u00EA';
+            }
+
+            if (modifier1 == '\u00E4' /* TILDE */) {
+                /* LATIN SMALL LETTER E WITH TILDE */
+                return '\u1EBD';
+            }
+
+            if (modifier1 == '\u00E5' /* MACRON */) {
+                if (modifier2 == '\u00E1' /* GRAVE */) {
+                    /* LATIN SMALL LETTER E WITH MACRON AND GRAVE */
+                    return '\u1E15';
+                }
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN SMALL LETTER E WITH MACRON AND ACUTE */
+                    return '\u1E17';
+                }
+                /* LATIN SMALL LETTER E WITH MACRON */
+                return '\u0113';
+            }
+
+            if (modifier1 == '\u00E6' /* BREVE */) {
+                /* LATIN SMALL LETTER E WITH BREVE */
+                return '\u0115';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN SMALL LETTER E WITH DOT ABOVE */
+                return '\u0117';
+            }
+
+            if (modifier1 == '\u00E8' /* DIAERESIS */) {
+                /* LATIN SMALL LETTER E WITH DIAERESIS */
+                return '\u00EB';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN SMALL LETTER E WITH CARON */
+                return '\u011B';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                if (modifier2 == '\u00E6' /* BREVE */) {
+                    /* LATIN SMALL LETTER E WITH CEDILLA AND BREVE */
+                    return '\u1E1D';
+                }
+                /* LATIN SMALL LETTER E WITH CEDILLA */
+                return '\u0229';
+            }
+
+            if (modifier1 == '\u00F1' /* OGONEK */) {
+                /* LATIN SMALL LETTER E WITH OGONEK */
+                return '\u0119';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN SMALL LETTER E WITH DOT BELOW */
+                return '\u1EB9';
+            }
+
+        }
+        if (baseChar == 'f') {
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN SMALL LETTER F WITH DOT ABOVE */
+                return '\u1E1F';
+            }
+
+        }
+        if (baseChar == 'g') {
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN SMALL LETTER G WITH ACUTE */
+                return '\u01F5';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                /* LATIN SMALL LETTER G WITH CIRCUMFLEX */
+                return '\u011D';
+            }
+
+            if (modifier1 == '\u00E5' /* MACRON */) {
+                /* LATIN SMALL LETTER G WITH MACRON */
+                return '\u1E21';
+            }
+
+            if (modifier1 == '\u00E6' /* BREVE */) {
+                /* LATIN SMALL LETTER G WITH BREVE */
+                return '\u011F';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN SMALL LETTER G WITH DOT ABOVE */
+                return '\u0121';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN SMALL LETTER G WITH CARON */
+                return '\u01E7';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                /* LATIN SMALL LETTER G WITH CEDILLA */
+                return '\u0123';
+            }
+
+        }
+        if (baseChar == 'h') {
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                /* LATIN SMALL LETTER H WITH CIRCUMFLEX */
+                return '\u0125';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN SMALL LETTER H WITH DOT ABOVE */
+                return '\u1E23';
+            }
+
+            if (modifier1 == '\u00E8' /* DIAERESIS */) {
+                /* LATIN SMALL LETTER H WITH DIAERESIS */
+                return '\u1E27';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN SMALL LETTER H WITH CARON */
+                return '\u021F';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                /* LATIN SMALL LETTER H WITH CEDILLA */
+                return '\u1E29';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN SMALL LETTER H WITH DOT BELOW */
+                return '\u1E25';
+            }
+
+            if (modifier1 == '\u00F9' /* BREVE BELOW */) {
+                /* LATIN SMALL LETTER H WITH BREVE BELOW */
+                return '\u1E2B';
+            }
+
+        }
+        if (baseChar == 'i') {
+            if (modifier1 == '\u00E0' /* HOOK ABOVE */) {
+                /* LATIN SMALL LETTER I WITH HOOK ABOVE */
+                return '\u1EC9';
+            }
+
+            if (modifier1 == '\u00E1' /* GRAVE */) {
+                /* LATIN SMALL LETTER I WITH GRAVE */
+                return '\u00EC';
+            }
+
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN SMALL LETTER I WITH ACUTE */
+                return '\u00ED';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                /* LATIN SMALL LETTER I WITH CIRCUMFLEX */
+                return '\u00EE';
+            }
+
+            if (modifier1 == '\u00E4' /* TILDE */) {
+                /* LATIN SMALL LETTER I WITH TILDE */
+                return '\u0129';
+            }
+
+            if (modifier1 == '\u00E5' /* MACRON */) {
+                /* LATIN SMALL LETTER I WITH MACRON */
+                return '\u012B';
+            }
+
+            if (modifier1 == '\u00E6' /* BREVE */) {
+                /* LATIN SMALL LETTER I WITH BREVE */
+                return '\u012D';
+            }
+
+            if (modifier1 == '\u00E8' /* DIAERESIS */) {
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN SMALL LETTER I WITH DIAERESIS AND ACUTE */
+                    return '\u1E2F';
+                }
+                /* LATIN SMALL LETTER I WITH DIAERESIS */
+                return '\u00EF';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN SMALL LETTER I WITH CARON */
+                return '\u01D0';
+            }
+
+            if (modifier1 == '\u00F1' /* OGONEK */) {
+                /* LATIN SMALL LETTER I WITH OGONEK */
+                return '\u012F';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN SMALL LETTER I WITH DOT BELOW */
+                return '\u1ECB';
+            }
+
+        }
+        if (baseChar == 'j') {
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                /* LATIN SMALL LETTER J WITH CIRCUMFLEX */
+                return '\u0135';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN SMALL LETTER J WITH CARON */
+                return '\u01F0';
+            }
+
+        }
+        if (baseChar == 'k') {
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN SMALL LETTER K WITH ACUTE */
+                return '\u1E31';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN SMALL LETTER K WITH CARON */
+                return '\u01E9';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                /* LATIN SMALL LETTER K WITH CEDILLA */
+                return '\u0137';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN SMALL LETTER K WITH DOT BELOW */
+                return '\u1E33';
+            }
+
+        }
+        if (baseChar == 'l') {
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN SMALL LETTER L WITH ACUTE */
+                return '\u013A';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN SMALL LETTER L WITH CARON */
+                return '\u013E';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                /* LATIN SMALL LETTER L WITH CEDILLA */
+                return '\u013C';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                if (modifier2 == '\u00E5' /* MACRON */) {
+                    /* LATIN SMALL LETTER L WITH DOT BELOW AND MACRON */
+                    return '\u1E39';
+                }
+                /* LATIN SMALL LETTER L WITH DOT BELOW */
+                return '\u1E37';
+            }
+
+        }
+        if (baseChar == 'm') {
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN SMALL LETTER M WITH ACUTE */
+                return '\u1E3F';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN SMALL LETTER M WITH DOT ABOVE */
+                return '\u1E41';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN SMALL LETTER M WITH DOT BELOW */
+                return '\u1E43';
+            }
+
+        }
+        if (baseChar == 'n') {
+            if (modifier1 == '\u00E1' /* GRAVE */) {
+                /* LATIN SMALL LETTER N WITH GRAVE */
+                return '\u01F9';
+            }
+
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN SMALL LETTER N WITH ACUTE */
+                return '\u0144';
+            }
+
+            if (modifier1 == '\u00E4' /* TILDE */) {
+                /* LATIN SMALL LETTER N WITH TILDE */
+                return '\u00F1';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN SMALL LETTER N WITH DOT ABOVE */
+                return '\u1E45';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN SMALL LETTER N WITH CARON */
+                return '\u0148';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                /* LATIN SMALL LETTER N WITH CEDILLA */
+                return '\u0146';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN SMALL LETTER N WITH DOT BELOW */
+                return '\u1E47';
+            }
+
+        }
+        if (baseChar == 'o') {
+            if (modifier1 == '\u00E0' /* HOOK ABOVE */) {
+                /* LATIN SMALL LETTER O WITH HOOK ABOVE */
+                return '\u1ECF';
+            }
+
+            if (modifier1 == '\u00E1' /* GRAVE */) {
+                /* LATIN SMALL LETTER O WITH GRAVE */
+                return '\u00F2';
+            }
+
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN SMALL LETTER O WITH ACUTE */
+                return '\u00F3';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                if (modifier2 == '\u00E0' /* HOOK ABOVE */) {
+                    /* LATIN SMALL LETTER O WITH CIRCUMFLEX AND HOOK ABOVE */
+                    return '\u1ED5';
+                }
+                if (modifier2 == '\u00E1' /* GRAVE */) {
+                    /* LATIN SMALL LETTER O WITH CIRCUMFLEX AND GRAVE */
+                    return '\u1ED3';
+                }
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN SMALL LETTER O WITH CIRCUMFLEX AND ACUTE */
+                    return '\u1ED1';
+                }
+                if (modifier2 == '\u00E4' /* TILDE */) {
+                    /* LATIN SMALL LETTER O WITH CIRCUMFLEX AND TILDE */
+                    return '\u1ED7';
+                }
+                if (modifier2 == '\u00F2' /* DOT BELOW */) {
+                    /* LATIN SMALL LETTER O WITH CIRCUMFLEX AND DOT BELOW */
+                    return '\u1ED9';
+                }
+                /* LATIN SMALL LETTER O WITH CIRCUMFLEX */
+                return '\u00F4';
+            }
+
+            if (modifier1 == '\u00E4' /* TILDE */) {
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN SMALL LETTER O WITH TILDE AND ACUTE */
+                    return '\u1E4D';
+                }
+                if (modifier2 == '\u00E5' /* MACRON */) {
+                    /* LATIN SMALL LETTER O WITH TILDE AND MACRON */
+                    return '\u022D';
+                }
+                if (modifier2 == '\u00E8' /* DIAERESIS */) {
+                    /* LATIN SMALL LETTER O WITH TILDE AND DIAERESIS */
+                    return '\u1E4F';
+                }
+                /* LATIN SMALL LETTER O WITH TILDE */
+                return '\u00F5';
+            }
+
+            if (modifier1 == '\u00E5' /* MACRON */) {
+                if (modifier2 == '\u00E1' /* GRAVE */) {
+                    /* LATIN SMALL LETTER O WITH MACRON AND GRAVE */
+                    return '\u1E51';
+                }
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN SMALL LETTER O WITH MACRON AND ACUTE */
+                    return '\u1E53';
+                }
+                /* LATIN SMALL LETTER O WITH MACRON */
+                return '\u014D';
+            }
+
+            if (modifier1 == '\u00E6' /* BREVE */) {
+                /* LATIN SMALL LETTER O WITH BREVE */
+                return '\u014F';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                if (modifier2 == '\u00E5' /* MACRON */) {
+                    /* LATIN SMALL LETTER O WITH DOT ABOVE AND MACRON */
+                    return '\u0231';
+                }
+                /* LATIN SMALL LETTER O WITH DOT ABOVE */
+                return '\u022F';
+            }
+
+            if (modifier1 == '\u00E8' /* DIAERESIS */) {
+                if (modifier2 == '\u00E5' /* MACRON */) {
+                    /* LATIN SMALL LETTER O WITH DIAERESIS AND MACRON */
+                    return '\u022B';
+                }
+                /* LATIN SMALL LETTER O WITH DIAERESIS */
+                return '\u00F6';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN SMALL LETTER O WITH CARON */
+                return '\u01D2';
+            }
+
+            if (modifier1 == '\u00EE' /* DOUBLE ACUTE */) {
+                /* LATIN SMALL LETTER O WITH DOUBLE ACUTE */
+                return '\u0151';
+            }
+
+            if (modifier1 == '\u00F1' /* OGONEK */) {
+                if (modifier2 == '\u00E5' /* MACRON */) {
+                    /* LATIN SMALL LETTER O WITH OGONEK AND MACRON */
+                    return '\u01ED';
+                }
+                /* LATIN SMALL LETTER O WITH OGONEK */
+                return '\u01EB';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN SMALL LETTER O WITH DOT BELOW */
+                return '\u1ECD';
+            }
+
+        }
+        if (baseChar == 'p') {
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN SMALL LETTER P WITH ACUTE */
+                return '\u1E55';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN SMALL LETTER P WITH DOT ABOVE */
+                return '\u1E57';
+            }
+
+        }
+        if (baseChar == 'q') {
+        }
+        if (baseChar == 'r') {
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN SMALL LETTER R WITH ACUTE */
+                return '\u0155';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN SMALL LETTER R WITH DOT ABOVE */
+                return '\u1E59';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN SMALL LETTER R WITH CARON */
+                return '\u0159';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                /* LATIN SMALL LETTER R WITH CEDILLA */
+                return '\u0157';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                if (modifier2 == '\u00E5' /* MACRON */) {
+                    /* LATIN SMALL LETTER R WITH DOT BELOW AND MACRON */
+                    return '\u1E5D';
+                }
+                /* LATIN SMALL LETTER R WITH DOT BELOW */
+                return '\u1E5B';
+            }
+
+        }
+        if (baseChar == 's') {
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                if (modifier2 == '\u00E7' /* DOT ABOVE */) {
+                    /* LATIN SMALL LETTER S WITH ACUTE AND DOT ABOVE */
+                    return '\u1E65';
+                }
+                /* LATIN SMALL LETTER S WITH ACUTE */
+                return '\u015B';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                /* LATIN SMALL LETTER S WITH CIRCUMFLEX */
+                return '\u015D';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN SMALL LETTER S WITH DOT ABOVE */
+                return '\u1E61';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                if (modifier2 == '\u00E7' /* DOT ABOVE */) {
+                    /* LATIN SMALL LETTER S WITH CARON AND DOT ABOVE */
+                    return '\u1E67';
+                }
+                /* LATIN SMALL LETTER S WITH CARON */
+                return '\u0161';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                /* LATIN SMALL LETTER S WITH CEDILLA */
+                return '\u015F';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                if (modifier2 == '\u00E7' /* DOT ABOVE */) {
+                    /* LATIN SMALL LETTER S WITH DOT BELOW AND DOT ABOVE */
+                    return '\u1E69';
+                }
+                /* LATIN SMALL LETTER S WITH DOT BELOW */
+                return '\u1E63';
+            }
+
+            if (modifier1 == '\u00F7' /* COMMA BELOW */) {
+                /* LATIN SMALL LETTER S WITH COMMA BELOW */
+                return '\u0219';
+            }
+
+        }
+        if (baseChar == 't') {
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN SMALL LETTER T WITH DOT ABOVE */
+                return '\u1E6B';
+            }
+
+            if (modifier1 == '\u00E8' /* DIAERESIS */) {
+                /* LATIN SMALL LETTER T WITH DIAERESIS */
+                return '\u1E97';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN SMALL LETTER T WITH CARON */
+                return '\u0165';
+            }
+
+            if (modifier1 == '\u00F0' /* CEDILLA */) {
+                /* LATIN SMALL LETTER T WITH CEDILLA */
+                return '\u0163';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN SMALL LETTER T WITH DOT BELOW */
+                return '\u1E6D';
+            }
+
+            if (modifier1 == '\u00F7' /* COMMA BELOW */) {
+                /* LATIN SMALL LETTER T WITH COMMA BELOW */
+                return '\u021B';
+            }
+
+        }
+        if (baseChar == 'u') {
+            if (modifier1 == '\u00E0' /* HOOK ABOVE */) {
+                /* LATIN SMALL LETTER U WITH HOOK ABOVE */
+                return '\u1EE7';
+            }
+
+            if (modifier1 == '\u00E1' /* GRAVE */) {
+                /* LATIN SMALL LETTER U WITH GRAVE */
+                return '\u00F9';
+            }
+
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN SMALL LETTER U WITH ACUTE */
+                return '\u00FA';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                /* LATIN SMALL LETTER U WITH CIRCUMFLEX */
+                return '\u00FB';
+            }
+
+            if (modifier1 == '\u00E4' /* TILDE */) {
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN SMALL LETTER U WITH TILDE AND ACUTE */
+                    return '\u1E79';
+                }
+                /* LATIN SMALL LETTER U WITH TILDE */
+                return '\u0169';
+            }
+
+            if (modifier1 == '\u00E5' /* MACRON */) {
+                if (modifier2 == '\u00E8' /* DIAERESIS */) {
+                    /* LATIN SMALL LETTER U WITH MACRON AND DIAERESIS */
+                    return '\u1E7B';
+                }
+                /* LATIN SMALL LETTER U WITH MACRON */
+                return '\u016B';
+            }
+
+            if (modifier1 == '\u00E6' /* BREVE */) {
+                /* LATIN SMALL LETTER U WITH BREVE */
+                return '\u016D';
+            }
+
+            if (modifier1 == '\u00E8' /* DIAERESIS */) {
+                if (modifier2 == '\u00E1' /* GRAVE */) {
+                    /* LATIN SMALL LETTER U WITH DIAERESIS AND GRAVE */
+                    return '\u01DC';
+                }
+                if (modifier2 == '\u00E2' /* ACUTE */) {
+                    /* LATIN SMALL LETTER U WITH DIAERESIS AND ACUTE */
+                    return '\u01D8';
+                }
+                if (modifier2 == '\u00E5' /* MACRON */) {
+                    /* LATIN SMALL LETTER U WITH DIAERESIS AND MACRON */
+                    return '\u01D6';
+                }
+                if (modifier2 == '\u00E9' /* CARON */) {
+                    /* LATIN SMALL LETTER U WITH DIAERESIS AND CARON */
+                    return '\u01DA';
+                }
+                /* LATIN SMALL LETTER U WITH DIAERESIS */
+                return '\u00FC';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN SMALL LETTER U WITH CARON */
+                return '\u01D4';
+            }
+
+            if (modifier1 == '\u00EA' /* RING ABOVE */) {
+                /* LATIN SMALL LETTER U WITH RING ABOVE */
+                return '\u016F';
+            }
+
+            if (modifier1 == '\u00EE' /* DOUBLE ACUTE */) {
+                /* LATIN SMALL LETTER U WITH DOUBLE ACUTE */
+                return '\u0171';
+            }
+
+            if (modifier1 == '\u00F1' /* OGONEK */) {
+                /* LATIN SMALL LETTER U WITH OGONEK */
+                return '\u0173';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN SMALL LETTER U WITH DOT BELOW */
+                return '\u1EE5';
+            }
+
+            if (modifier1 == '\u00F3' /* DIAERESIS BELOW */) {
+                /* LATIN SMALL LETTER U WITH DIAERESIS BELOW */
+                return '\u1E73';
+            }
+
+        }
+        if (baseChar == 'v') {
+            if (modifier1 == '\u00E4' /* TILDE */) {
+                /* LATIN SMALL LETTER V WITH TILDE */
+                return '\u1E7D';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN SMALL LETTER V WITH DOT BELOW */
+                return '\u1E7F';
+            }
+
+        }
+        if (baseChar == 'w') {
+            if (modifier1 == '\u00E1' /* GRAVE */) {
+                /* LATIN SMALL LETTER W WITH GRAVE */
+                return '\u1E81';
+            }
+
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN SMALL LETTER W WITH ACUTE */
+                return '\u1E83';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                /* LATIN SMALL LETTER W WITH CIRCUMFLEX */
+                return '\u0175';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN SMALL LETTER W WITH DOT ABOVE */
+                return '\u1E87';
+            }
+
+            if (modifier1 == '\u00E8' /* DIAERESIS */) {
+                /* LATIN SMALL LETTER W WITH DIAERESIS */
+                return '\u1E85';
+            }
+
+            if (modifier1 == '\u00EA' /* RING ABOVE */) {
+                /* LATIN SMALL LETTER W WITH RING ABOVE */
+                return '\u1E98';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN SMALL LETTER W WITH DOT BELOW */
+                return '\u1E89';
+            }
+
+        }
+        if (baseChar == 'x') {
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN SMALL LETTER X WITH DOT ABOVE */
+                return '\u1E8B';
+            }
+
+            if (modifier1 == '\u00E8' /* DIAERESIS */) {
+                /* LATIN SMALL LETTER X WITH DIAERESIS */
+                return '\u1E8D';
+            }
+
+        }
+        if (baseChar == 'y') {
+            if (modifier1 == '\u00E0' /* HOOK ABOVE */) {
+                /* LATIN SMALL LETTER Y WITH HOOK ABOVE */
+                return '\u1EF7';
+            }
+
+            if (modifier1 == '\u00E1' /* GRAVE */) {
+                /* LATIN SMALL LETTER Y WITH GRAVE */
+                return '\u1EF3';
+            }
+
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN SMALL LETTER Y WITH ACUTE */
+                return '\u00FD';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                /* LATIN SMALL LETTER Y WITH CIRCUMFLEX */
+                return '\u0177';
+            }
+
+            if (modifier1 == '\u00E4' /* TILDE */) {
+                /* LATIN SMALL LETTER Y WITH TILDE */
+                return '\u1EF9';
+            }
+
+            if (modifier1 == '\u00E5' /* MACRON */) {
+                /* LATIN SMALL LETTER Y WITH MACRON */
+                return '\u0233';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN SMALL LETTER Y WITH DOT ABOVE */
+                return '\u1E8F';
+            }
+
+            if (modifier1 == '\u00E8' /* DIAERESIS */) {
+                /* LATIN SMALL LETTER Y WITH DIAERESIS */
+                return '\u00FF';
+            }
+
+            if (modifier1 == '\u00EA' /* RING ABOVE */) {
+                /* LATIN SMALL LETTER Y WITH RING ABOVE */
+                return '\u1E99';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN SMALL LETTER Y WITH DOT BELOW */
+                return '\u1EF5';
+            }
+
+        }
+        if (baseChar == 'z') {
+            if (modifier1 == '\u00E2' /* ACUTE */) {
+                /* LATIN SMALL LETTER Z WITH ACUTE */
+                return '\u017A';
+            }
+
+            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+                /* LATIN SMALL LETTER Z WITH CIRCUMFLEX */
+                return '\u1E91';
+            }
+
+            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
+                /* LATIN SMALL LETTER Z WITH DOT ABOVE */
+                return '\u017C';
+            }
+
+            if (modifier1 == '\u00E9' /* CARON */) {
+                /* LATIN SMALL LETTER Z WITH CARON */
+                return '\u017E';
+            }
+
+            if (modifier1 == '\u00F2' /* DOT BELOW */) {
+                /* LATIN SMALL LETTER Z WITH DOT BELOW */
+                return '\u1E93';
+            }
+
+        }
+
         return 0;
     }
 
