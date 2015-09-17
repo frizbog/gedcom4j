@@ -146,22 +146,66 @@ class AnselHandler {
     String toAnsel(String utf16) {
         StringBuilder ansel = new StringBuilder();
         for (int i = 0; i < utf16.length(); i++) {
+
             char c = utf16.charAt(i);
+            /*
+             * Look ahead for combining diacritics after this character - if we find some, they need to be appended
+             * prior to the base character
+             */
+            char oneCharAhead = 0;
+            char twoCharAhead = 0;
+            if (i + 1 < utf16.length()) {
+                oneCharAhead = AnselMapping.encode(utf16.charAt(i + 1));
+                if (AnselMapping.isUnicodeCombiningDiacritic(oneCharAhead)) {
+                    // It's a diacritic - check one more character ahead, combining diacritics can come in pairs
+                    if (i + 2 < utf16.length()) {
+                        twoCharAhead = AnselMapping.encode(utf16.charAt(i + 2));
+                        if (twoCharAhead >= ANSEL_DIACRITICS_BEGIN_AT && twoCharAhead <= 0x00FF) {
+                            // It's another diacritic
+                        } else {
+                            twoCharAhead = 0; // Wipe out to zero - indicates only one combining diacritic
+                        }
+                    }
+                } else {
+                    oneCharAhead = 0; // Wipe out to zero - indicates no combining diacritics at all
+                }
+            }
+            if (twoCharAhead != 0) /* there were two combining diacritics following the base character */{
+                ansel.append(oneCharAhead);
+                ansel.append(twoCharAhead);
+                i += 2;
+                ansel.append(c);
+                continue;
+            }
+            if (oneCharAhead != 0) /* there was one combining diacritic following the base character */{
+                ansel.append(oneCharAhead);
+                i++;
+                ansel.append(c);
+                continue;
+            }
 
-            // TODO - lookahead to see if the following character or two are combining diacritics, in case they weren't
-            // precomposed for some reason
-
+            // No combining diacritics following the base character
+            // Characters below a certain point don't need mapping
             if (c < ANSEL_EXTENDED_BEGIN_AT) {
                 ansel.append(c);
                 continue;
             }
-            if (c < ANSEL_DIACRITICS_BEGIN_AT) {
+
+            // Map the character and see if it's a simple extended character and make sure it's not a combining
+            // diacritic
+            char ec = AnselMapping.encode(c);
+            if (ec < ANSEL_DIACRITICS_BEGIN_AT) {
                 ansel.append(AnselMapping.encode(c));
                 continue;
             }
 
+            /*
+             * Not a simple basic character, not a simple extended character, could be a pre-combined diacritic or a
+             * combining diacritic
+             */
             char[] breakdown = getBrokenDownGlyph(c);
             if (breakdown != null) {
+                // Precomposed diacritic - write down decomposed character - base character last for ANSEL
                 if (breakdown.length > 1 && breakdown[1] > (char) 0x0000) {
                     ansel.append(breakdown[1]); // Already encoded to ANSEL
                 }
@@ -169,9 +213,8 @@ class AnselHandler {
                     ansel.append(breakdown[2]); // Already encoded to ANSEL
                 }
                 ansel.append(breakdown[0]);
-            } else if (c < ANSEL_EXTENDED_BEGIN_AT) {
-                ansel.append(c);
             } else {
+                // Some leftover combining diacritic?
                 ansel.append(AnselMapping.encode(c));
             }
 
@@ -1894,6 +1937,7 @@ class AnselHandler {
      * @return a single character that combines the base and the diacritic(s), or a zero if no such character exists
      */
     private char getCombinedGlyph(char baseChar, char modifier1, char modifier2) {
+
         if (baseChar == 'A') {
             if (modifier1 == '\u00E0' /* HOOK ABOVE */) {
                 /* LATIN CAPITAL LETTER A WITH HOOK ABOVE */

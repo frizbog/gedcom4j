@@ -44,11 +44,12 @@ public class AnselWriterTest {
         AnselWriter anselWriter = new AnselWriter();
         anselWriter.terminator = LineTerminator.CRLF;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        String utf16 = "     ẢB̉C̉D̉ẺF̉G̉H̉ỈJ̉K̉L̉M̉"; // Note that only the I is a non-composite character
+        // Mix of precomposed and combined diacritics
+        String utf16 = "ẢB\u0309C\u0309D\u0309ẺF\u0309G\u0309H\u0309ỈJ\u0309K\u0309L\u0309M\u0309";
         anselWriter.writeLine(baos, utf16);
         String ansel = baos.toString();
         for (int i = 0; i < ansel.length(); i++) {
-            System.out.println(String.format("%s (%04X)", ansel.charAt(i), (byte) ansel.charAt(i)));
+            System.out.println(String.format("%s (%02X)", ansel.charAt(i), (byte) ansel.charAt(i)));
         }
         System.out.println(ansel);
     }

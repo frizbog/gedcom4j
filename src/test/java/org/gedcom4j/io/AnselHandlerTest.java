@@ -44,7 +44,7 @@ public class AnselHandlerTest {
     public void testReadDiacriticalsLong() {
         assertEquals("Sa grand-mère l'a nourrie car sa mère était placée nourrice dans une famille de riches. "
                 + "Son oncle ( une tante en réalité Agueda), allaité avec elle, est décédé ( voir acte). "
-                + "Elle croyait qu'il était mort à cause d'elle, en lui pre",
+                + "Elle croyait qu'il était mort \u00E0 cause d'elle, en lui pre",
                 classUnderTest.toUtf16("Sa grand-máere l'a nourrie car sa máere âetait placâee nourrice dans une famille de riches. "
                         + "Son oncle ( une tante en râealitâe Agueda), allaitâe avec elle, est dâecâedâe ( voir acte). "
                         + "Elle croyait qu'il âetait mort áa cause d'elle, en lui pre"));
@@ -59,7 +59,12 @@ public class AnselHandlerTest {
     }
 
     /**
-     * This is a longer read test with diacriticals
+     * This is a longer read test with diacriticals. Note that:
+     * <ul>
+     * <li>pre-composed diacritics are broken down into combining diacritics</li>
+     * <li>combining diacritics are converted from UNICODE to ANSEL characters</li>
+     * <li>combining diacritics precede the character modified, as required by ANSEL</li>
+     * </ul>
      */
     @Test
     public void testWriteDiacriticalsLong() {
@@ -68,7 +73,21 @@ public class AnselHandlerTest {
                 + "Elle croyait qu'il âetait mort áa cause d'elle, en lui pre",
                 classUnderTest.toAnsel("Sa grand-mère l'a nourrie car sa mère était placée nourrice dans une famille de riches. "
                         + "Son oncle ( une tante en réalité Agueda), allaité avec elle, est décédé ( voir acte). "
-                        + "Elle croyait qu'il était mort à cause d'elle, en lui pre"));
+                        + "Elle croyait qu'il était mort \u00E0 cause d'elle, en lui pre"));
+    }
+
+    /**
+     * This is a short test for diacritics. Note that:
+     * <ul>
+     * <li>pre-composed diacritics are broken down into combining diacritics</li>
+     * <li>combining diacritics are converted from UNICODE to ANSEL characters</li>
+     * <li>combining diacritics precede the character modified, as required by ANSEL</li>
+     * </ul>
+     */
+    @Test
+    public void testWriteDiacriticsShort() {
+        assertEquals("\u00E0A\u00E0B\u00E0C\u00E0D\u00E0E\u00E0F\u00E0G\u00E0H\u00E0I\u00E0J\u00E0K\u00E0L\u00E0M",
+                classUnderTest.toAnsel("ẢB\u0309C\u0309D\u0309ẺF\u0309G\u0309H\u0309ỈJ\u0309K\u0309L\u0309M\u0309"));
     }
 
     /**
