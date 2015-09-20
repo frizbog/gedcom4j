@@ -1,97 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<XML_DIZ_INFO>
-  <MASTER_PAD_VERSION_INFO>
-    <MASTER_PAD_VERSION>3.01</MASTER_PAD_VERSION>
-    <MASTER_PAD_EDITOR>EdPAD by HexCat, http://www.hexcat.com</MASTER_PAD_EDITOR>
-    <MASTER_PAD_INFO>This is Portable Application Description, http://www.asp-shareware.org/pad</MASTER_PAD_INFO>
-  </MASTER_PAD_VERSION_INFO>
-  <Company_Info>
-    <Company_Name>gedcom4j</Company_Name>
-    <Address_1/>
-    <Address_2/>
-    <City_Town>Suffolk</City_Town>
-    <State_Province>VA</State_Province>
-    <Zip_Postal_Code/>
-    <Country>USA</Country>
-    <Company_WebSite_URL>http://gedcom4j.org</Company_WebSite_URL>
-    <Contact_Info>
-      <Author_First_Name>Matthew</Author_First_Name>
-      <Author_Last_Name>Harrah</Author_Last_Name>
-      <Author_Email>matt@gedcom4j.org</Author_Email>
-      <Contact_First_Name>Matthew</Contact_First_Name>
-      <Contact_Last_Name>Harrah</Contact_Last_Name>
-      <Contact_Email>matt@gedcom4j.org</Contact_Email>
-    </Contact_Info>
-    <Support_Info>
-      <Sales_Email>matt@gedcom4j.org</Sales_Email>
-      <Support_Email>matt@gedcom4j.org</Support_Email>
-      <General_Email>matt@gedcom4j.org</General_Email>
-      <Sales_Phone/>
-      <Support_Phone/>
-      <General_Phone/>
-      <Fax_Phone/>
-    </Support_Info>
-  </Company_Info>
-  <Program_Info>
-    <Program_Name>gedcom4j</Program_Name>
-    <Program_Version>2.1.6</Program_Version>
-    <Program_Release_Month>03</Program_Release_Month>
-    <Program_Release_Day>10</Program_Release_Day>
-    <Program_Release_Year>2013</Program_Release_Year>
-    <Program_Cost_Dollars>0</Program_Cost_Dollars>
-    <Program_Cost_Other_Code/>
-    <Program_Cost_Other/>
-    <Program_Type>Freeware</Program_Type>
-    <Program_Release_Status>Minor Update</Program_Release_Status>
-    <Program_Install_Support>No Install Support</Program_Install_Support>
-    <Program_OS_Support>Java</Program_OS_Support>
-    <Program_Language>English</Program_Language>
-    <File_Info>
-      <File_Size_Bytes>188964</File_Size_Bytes>
-      <File_Size_K>184.5</File_Size_K>
-      <File_Size_MB>0.180</File_Size_MB>
-    </File_Info>
-    <Expire_Info>
-      <Has_Expire_Info>n</Has_Expire_Info>
-      <Expire_Count/>
-      <Expire_Based_On/>
-      <Expire_Other_Info/>
-      <Expire_Month/>
-      <Expire_Day/>
-      <Expire_Year/>
-    </Expire_Info>
-    <Program_Change_Info/>
-    <Program_Category_Class>Home &amp; Hobby::Genealogy</Program_Category_Class>
-    <Program_Specific_Category/>
-    <Program_System_Requirements/>
-  </Program_Info>
-  <Program_Descriptions>
-    <English>
-      <Keywords>Java, library, genealogy, gedcom, parse, jar</Keywords>
-      <Char_Desc_45>Java library for parsing and writing GEDCOMs</Char_Desc_45>
-      <Char_Desc_80>Java library for loading (parsing) and saving GEDCOM 5.5 or 5.5.1 data</Char_Desc_80>
-      <Char_Desc_250>gedcom4j is a Java library for loading (parsing) and saving GEDCOM 5.5 or 5.5.1 files to/from a Java object hierarchy, which can be manipulated by your code as you see fit.</Char_Desc_250>
-      <Char_Desc_450>gedcom4j is a Java library for loading (parsing) and saving GEDCOM 5.5 or 5.5.1 files to/from a Java object hierarchy, which can be manipulated by your code as you see fit. Please note that gedcom4j is not an application. It is a library (jar file) that can parse, manipulate, and write data in the GEDCOM format in your own Java programs.</Char_Desc_450>
-      <Char_Desc_2000>gedcom4j is a Java library for loading (parsing) and saving GEDCOM 5.5 or 5.5.1 files to/from a Java object hierarchy, which can be manipulated by your code as you see fit. Please note that gedcom4j is not an application. It is a library (jar file) that can parse, manipulate, and write data in the GEDCOM format in your own Java programs.</Char_Desc_2000>
-    </English>
-  </Program_Descriptions>
-  <Web_Info>
-    <Application_URLs>
-      <Application_Info_URL>http://gedcom4j.org</Application_Info_URL>
-      <Application_Order_URL/>
-      <Application_Screenshot_URL>http://gedcom4j.org/main/sites/default/files/small%20logo.png</Application_Screenshot_URL>
-      <Application_Icon_URL>http://gedcom4j.org/main/sites/default/files/small%20logo.png</Application_Icon_URL>
-      <Application_XML_File_URL>http://gedcom4j.org/gedcom4j.pad.xml</Application_XML_File_URL>
-    </Application_URLs>
-    <Download_URLs>
-      <Primary_Download_URL>http://gedcom4j.org/main/sites/default/files/gedcom4j-2.1.5.jar</Primary_Download_URL>
-      <Secondary_Download_URL/>
-      <Additional_Download_URL_1/>
-      <Additional_Download_URL_2/>
-    </Download_URLs>
-  </Web_Info>
-  <Permissions>
-    <Distribution_Permissions>MIT License</Distribution_Permissions>
-    <EULA/>
-  </Permissions>
+<XML_DIZ_INFO xmlns="http://www.xmlblueprint.com/PAD"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.xmlblueprint.com/PAD
+http://www.xmlblueprint.com/documents/PAD-Portable-Application-Description.xsd">
+	<MASTER_PAD_VERSION_INFO>
+		<MASTER_PAD_VERSION>3.11</MASTER_PAD_VERSION>
+		<MASTER_PAD_EDITOR>PAD Editor by NiteOwl Software, http://homepage.mac.com/niteowl69/</MASTER_PAD_EDITOR>
+		<MASTER_PAD_INFO>This is Portable Application Description, http://www.asp-shareware.org/pad</MASTER_PAD_INFO>
+	</MASTER_PAD_VERSION_INFO>
+	<Company_Info>
+		<Company_Name>gedcom4j</Company_Name>
+		<Address_1></Address_1>
+		<Address_2></Address_2>
+		<City_Town>Suffolk</City_Town>
+		<State_Province>VA</State_Province>
+		<Zip_Postal_Code></Zip_Postal_Code>
+		<Country>USA</Country>
+		<Company_WebSite_URL>http://gedcom4j.org</Company_WebSite_URL>
+		<Contact_Info>
+			<Author_First_Name>Matthew</Author_First_Name>
+			<Author_Last_Name>Harrah</Author_Last_Name>
+			<Author_Email>matt@gedcom4j.org</Author_Email>
+			<Contact_First_Name>Matthew</Contact_First_Name>
+			<Contact_Last_Name>Harrah</Contact_Last_Name>
+			<Contact_Email>matt@gedcom4j.org</Contact_Email>
+		</Contact_Info>
+		<Support_Info>
+			<Sales_Email>matt@gedcom4j.org</Sales_Email>
+			<Support_Email>support@gedcom4j.org</Support_Email>
+			<General_Email>matt@gedcom4j.org</General_Email>
+			<Sales_Phone></Sales_Phone>
+			<Support_Phone></Support_Phone>
+			<General_Phone></General_Phone>
+			<Fax_Phone></Fax_Phone>
+		</Support_Info>
+	</Company_Info>
+	<Program_Info>
+		<Program_Name>gedcom4j</Program_Name>
+		<Program_Version>2.2.2</Program_Version>
+		<Program_Release_Month>09</Program_Release_Month>
+		<Program_Release_Day>18</Program_Release_Day>
+		<Program_Release_Year>2015</Program_Release_Year>
+		<Program_Cost_Dollars>0</Program_Cost_Dollars>
+		<Program_Cost_Other_Code>USD</Program_Cost_Other_Code>
+		<Program_Cost_Other></Program_Cost_Other>
+		<Program_Type>Freeware</Program_Type>
+		<Program_Release_Status>Minor Update</Program_Release_Status>
+		<Program_Install_Support>No Install Support</Program_Install_Support>
+		<Program_OS_Support>Multiple</Program_OS_Support>
+		<Program_Language>Multiple</Program_Language>
+		<File_Info>
+			<File_Size_Bytes>188964</File_Size_Bytes>
+			<File_Size_K>184.5</File_Size_K>
+			<File_Size_MB>0.18</File_Size_MB>
+		</File_Info>
+		<Expire_Info>
+			<Has_Expire_Info></Has_Expire_Info>
+			<Expire_Count></Expire_Count>
+			<Expire_Based_On>Either/Or</Expire_Based_On>
+			<Expire_Other_Info></Expire_Other_Info>
+			<Expire_Month></Expire_Month>
+			<Expire_Day></Expire_Day>
+			<Expire_Year></Expire_Year>
+		</Expire_Info>
+		<Program_Change_Info></Program_Change_Info>
+		<Program_Category_Class>Home &amp; Hobby::Genealogy</Program_Category_Class>
+		<Program_System_Requirements>Java 6 or higher</Program_System_Requirements>
+	</Program_Info>
+	<Program_Descriptions>
+		<English>
+			<Keywords>java, library, gedcom, parser</Keywords>
+			<Char_Desc_45>Java library for parsing and writing GEDCOMs</Char_Desc_45>
+			<Char_Desc_80>gedcom4j is an open-source Java library for loading and writing GEDCOM files.</Char_Desc_80>
+			<Char_Desc_250>gedcom4j is an open-source, free-to-use Java library for loading (parsing) and saving genealogy data. Please note that gedcom4j is not an application. It is a library (jar file) that you can use in your own programs.</Char_Desc_250>
+			<Char_Desc_450>gedcom4j is an open-source, free-to-use Java library for loading (parsing) and saving genealogy data. Please note that gedcom4j is not an application. It is a library (jar file) that can parse, manipulate, and write genealogy data using the GEDCOM format in your own Java programs.</Char_Desc_450>
+			<Char_Desc_2000>gedcom4j is an open-source, free-to-use Java library for loading (parsing) and saving genealogy data. Using gedcom4j, you can write a Java program to load data from a GEDCOM 5.5 or 5.5.1 file into a Java data structure for your examination and manipulation, and you can also write GEDCOM files out from the same data model, with our without having already loaded a file.
+
+Please note that gedcom4j is not an application. It is a library (jar file) that can parse, manipulate, and write genealogy data using the GEDCOM format in your own Java programs.</Char_Desc_2000>
+		</English>
+	</Program_Descriptions>
+	<Web_Info>
+		<Application_URLs>
+			<Application_Info_URL>http://gedcom4j.org</Application_Info_URL>
+			<Application_Order_URL></Application_Order_URL>
+			<Application_Screenshot_URL>http://gedcom4j.org/main/sites/default/files/small%20logo.png</Application_Screenshot_URL>
+			<Application_Icon_URL>http://gedcom4j.org/main/sites/default/files/small%20logo.png</Application_Icon_URL>
+			<Application_XML_File_URL>http://gedcom4j.org/gedcom4j.pad.xml</Application_XML_File_URL>
+		</Application_URLs>
+		<Download_URLs>
+			<Primary_Download_URL>http://gedcom4j.org/main/sites/default/files/gedcom4j-2.1.5.jar</Primary_Download_URL>
+			<Secondary_Download_URL></Secondary_Download_URL>
+			<Additional_Download_URL_1></Additional_Download_URL_1>
+			<Additional_Download_URL_2></Additional_Download_URL_2>
+		</Download_URLs>
+	</Web_Info>
+	<Permissions>
+		<Distribution_Permissions>May be freely distributed and published.</Distribution_Permissions>
+		<EULA>
+</EULA>
+	</Permissions>
 </XML_DIZ_INFO>
