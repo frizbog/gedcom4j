@@ -4,7 +4,7 @@
 
 	<groupId>org.gedcom4j</groupId>
 	<artifactId>gedcom4j</artifactId>
-	<version>2.2.3-SNAPSHOT</version>
+	<version>2.2.3</version>
 
 	<!-- Derived from project name and README -->
 	<name>gedcom4j</name>
@@ -24,7 +24,7 @@
 		<url>https://github.com/frizbog/gedcom4j</url>
 		<connection>scm:git:git://github.com/frizbog/gedcom4j.git</connection>
 		<developerConnection>scm:git:git@github.com:frizbog/gedcom4j.git</developerConnection>
-	  <tag>HEAD</tag>
+	  <tag>gedcom4j-2.2.3</tag>
   </scm>
 
 	<ciManagement>
