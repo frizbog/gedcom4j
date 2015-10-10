@@ -1,0 +1,47 @@
+0 HEAD
+1 GEDC
+2 VERS 5.5
+1 SOUR GensDataPro_b
+2 VERS 2.9.9.1
+1 DATE 9-10-2015
+1 CHAR ANSI
+1 FILE bug2.ged
+0 @S1@ SUBM
+1 NAME First Last
+0 @I643@ INDI
+1 NAME First/Last/
+2 GIVN First
+2 SURN Last
+1 CHAN
+2 DATE 01 JAN 2014
+3 TIME 15:13:09
+1 SEX M
+1 BIRT
+2 DATE 3 JUL 1945
+2 PLAC City,AN,BEL
+1 BURI
+2 DATE 10 JUN 1803
+2 PLAC City,NB,NLD
+1 FAMS @F1031@
+0 @I2627@ INDI
+1 NAME First/Last/
+2 GIVN First
+2 SURN Last
+1 CHAN
+2 DATE 12 FEB 2004
+3 TIME 20:06:58
+1 SEX F
+1 BIRT
+2 DATE 
+3 NOTE One note
+1 BURI
+2 DATE 8 SEP 1869
+3 NOTE This note is ok because the prior line was at level 2
+2 PLAC A place,AN,BEL
+1 FAMS @F1031@
+0 @F1031@ FAM
+1 HUSB @I643@
+1 WIFE @I2627@
+1 MARR
+3 NOTE This line is a problem because the prior line was level 1 with no intervening level 2
+0 TRLR

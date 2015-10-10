@@ -60,14 +60,20 @@ final class GedcomParserHelper {
      * 
      * @param filename
      *            the file to load
+     * @param errors
+     *            a list of error strings we can add to (if we can keep processing)
+     * @param warnings
+     *            a list of warning strings we can add to (if we can keep processing)
      * @return the string tree representation of the data from the file
      * @throws IOException
      *             if there is a problem reading the file
+     * @throws GedcomParserException
+     *             if there is a problem parsing the data in the file
      */
-    static StringTree readFile(String filename) throws IOException {
+    static StringTree readFile(String filename, List<String> errors, List<String> warnings) throws IOException, GedcomParserException {
         FileInputStream fis = new FileInputStream(filename);
         try {
-            return GedcomParserHelper.makeStringTreeFromStream(new BufferedInputStream(fis));
+            return makeStringTreeFromStream(new BufferedInputStream(fis), errors, warnings);
         } finally {
             fis.close();
         }
@@ -78,12 +84,18 @@ final class GedcomParserHelper {
      * 
      * @param stream
      *            the stream to read
+     * @param errors
+     *            a list of error strings
+     * @param warnings
+     *            a list of warnings
      * @return the data from the stream as a StringTree
      * @throws IOException
      *             if there's a problem reading the data off the stream
+     * @throws GedcomParserException
+     *             if there is an error parsing the gedcom data
      */
-    static StringTree readStream(BufferedInputStream stream) throws IOException {
-        return GedcomParserHelper.makeStringTreeFromStream(stream);
+    static StringTree readStream(BufferedInputStream stream, List<String> errors, List<String> warnings) throws IOException, GedcomParserException {
+        return makeStringTreeFromStream(stream, errors, warnings);
     }
 
     /**
@@ -98,23 +110,35 @@ final class GedcomParserHelper {
     }
 
     /**
-     * Find the last item at the supplied level in the supplied tree
+     * Find the last item at the supplied level in the supplied tree. Uses recursion to look for the latest child item
+     * of the latest child item (etc) of the root of the tree.
      * 
      * @param tree
-     *            the tree
-     * @param level
-     *            the level at which we are parsing
+     *            the tree (or portion thereof) we want to look through
+     * @param lookingForLevel
+     *            the level in the tree that we want to find
+     * @param errors
+     *            a list of error strings we can add to if we can keep processing
+     * @param currentNode
+     *            the current node we are trying to process and find a parent to hang this node on
      * @return the last item at the supplied level in the supplied tree
+     * @throws GedcomParserException
+     *             if there is an issue with level numbers not being consistent
      */
-    private static StringTree findLast(StringTree tree, int level) {
-        if (tree.level == level) {
+    private static StringTree findLast(StringTree tree, int lookingForLevel, List<String> errors, StringTree currentNode) throws GedcomParserException {
+        if (tree.level == lookingForLevel) {
             return tree;
         }
+        if (tree.children.isEmpty()) {
+            errors.add(currentNode.tag + " tag at line " + currentNode.lineNum + ": Unable to find suitable parent node at level " + lookingForLevel
+                    + " under " + tree);
+            return null;
+        }
         StringTree lastChild = tree.children.get(tree.children.size() - 1);
-        if (lastChild.level == level) {
+        if (lastChild.level == lookingForLevel) {
             return lastChild;
         }
-        return findLast(lastChild, level);
+        return findLast(lastChild, lookingForLevel, errors, currentNode);
     }
 
     /**
@@ -122,11 +146,18 @@ final class GedcomParserHelper {
      * 
      * @param bytes
      *            the input stream over the bytes of the file
+     * @param errors
+     *            a list of error strings we can add to (if we can keep processing)
+     * @param warnings
+     *            a list of warning strings we can add to (if we can keep processing)
      * @return the {@link StringTree} created from the contents of the input stream
      * @throws IOException
      *             if there is a problem reading the data from the reader
+     * @throws GedcomParserException
+     *             if there is an error with parsing the data from the stream
      */
-    private static StringTree makeStringTreeFromStream(BufferedInputStream bytes) throws IOException {
+    private static StringTree makeStringTreeFromStream(BufferedInputStream bytes, List<String> errors, List<String> warnings) throws IOException,
+    GedcomParserException {
         List<String> lines = new GedcomFileReader(bytes).getLines();
         StringTree result = new StringTree();
         result.level = -1;
@@ -141,9 +172,12 @@ final class GedcomParserHelper {
                 st.id = lp.id;
                 st.tag = lp.tag;
                 st.value = lp.remainder;
-                StringTree addTo = findLast(result, lp.level - 1);
-                addTo.children.add(st);
-                st.parent = addTo;
+                StringTree addTo;
+                addTo = findLast(result, lp.level - 1, errors, st);
+                if (addTo != null) {
+                    addTo.children.add(st);
+                    st.parent = addTo;
+                }
             }
         } finally {
             if (bytes != null) {

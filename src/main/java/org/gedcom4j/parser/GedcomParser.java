@@ -107,7 +107,7 @@ public class GedcomParser {
      *             if the file cannot be parsed
      */
     public void load(BufferedInputStream stream) throws IOException, GedcomParserException {
-        StringTree stringTree = GedcomParserHelper.readStream(stream);
+        StringTree stringTree = GedcomParserHelper.readStream(stream, errors, warnings);
         loadRootItems(stringTree);
     }
 
@@ -122,7 +122,7 @@ public class GedcomParser {
      *             if the file cannot be parsed
      */
     public void load(String filename) throws IOException, GedcomParserException {
-        StringTree stringTree = GedcomParserHelper.readFile(filename);
+        StringTree stringTree = GedcomParserHelper.readFile(filename, errors, warnings);
         loadRootItems(stringTree);
     }
 
