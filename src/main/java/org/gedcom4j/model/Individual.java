@@ -538,7 +538,7 @@ public class Individual extends AbstractElement {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(64); // Initial size - we know we're going to be appending more than 16
-                                                  // chars in most cases
+        // chars in most cases
         sb.append(formattedName());
         for (StringWithCustomTags n : aliases) {
             if (sb.length() > 0) {
@@ -587,6 +587,7 @@ public class Individual extends AbstractElement {
             sb.append(b.date);
             found = true;
         }
+        found = false;
         for (IndividualEvent d : getEventsOfType(IndividualEventType.DEATH)) {
             if (found) {
                 sb.append(" / ");
