@@ -193,7 +193,7 @@ public class GedcomWriter {
         emitSubmissionRecord();
         emitRecords();
         emitTrailer();
-        emitCustomTags(gedcom.customTags);
+        emitCustomTags(1, gedcom.customTags);
         try {
             GedcomFileWriter gfw = new GedcomFileWriter(lines);
             gfw.useLittleEndianForUnicode = littleEndianForUnicode;
@@ -360,7 +360,7 @@ public class GedcomWriter {
         emitTagIfValueNotNull(level + 1, "STAE", address.stateProvince);
         emitTagIfValueNotNull(level + 1, "POST", address.postalCode);
         emitTagIfValueNotNull(level + 1, "CTRY", address.country);
-        emitCustomTags(address.customTags);
+        emitCustomTags(level + 1, address.customTags);
     }
 
     /**
@@ -408,7 +408,7 @@ public class GedcomWriter {
             emitTagWithRequiredValue(level + 1, "RELA", a.relationship);
             emitNotes(level + 1, a.notes);
             emitSourceCitations(level + 1, a.citations);
-            emitCustomTags(a.customTags);
+            emitCustomTags(level + 1, a.customTags);
         }
     }
 
@@ -428,7 +428,7 @@ public class GedcomWriter {
             emitTagWithRequiredValue(level + 1, "DATE", cd.date);
             emitTagIfValueNotNull(level + 2, "TIME", cd.time);
             emitNotes(level + 1, cd.notes);
-            emitCustomTags(cd.customTags);
+            emitCustomTags(level + 1, cd.customTags);
         }
     }
 
@@ -454,7 +454,7 @@ public class GedcomWriter {
             emitTagIfValueNotNull(level + 1, "PEDI", familyChild.pedigree);
             emitTagIfValueNotNull(level + 1, "STAT", familyChild.status);
             emitNotes(level + 1, familyChild.notes);
-            emitCustomTags(i.customTags);
+            emitCustomTags(level + 1, i.customTags);
         }
     }
 
@@ -475,7 +475,7 @@ public class GedcomWriter {
             emitLinesOfText(level + 1, "TEXT", linesOfText);
         }
         emitNotes(level + 1, cws.notes);
-        emitCustomTags(cws.customTags);
+        emitCustomTags(level + 1, cws.customTags);
     }
 
     /**
@@ -509,7 +509,7 @@ public class GedcomWriter {
         emitTagIfValueNotNull(level + 1, "QUAY", cws.certainty);
         emitMultimediaLinks(level + 1, cws.multimedia);
         emitNotes(level + 1, cws.notes);
-        emitCustomTags(cws.customTags);
+        emitCustomTags(level + 1, cws.customTags);
     }
 
     /**
@@ -517,10 +517,11 @@ public class GedcomWriter {
      * 
      * @param customTags
      *            the custom tags
+     * @param level
      */
-    private void emitCustomTags(List<StringTree> customTags) {
+    private void emitCustomTags(int level, List<StringTree> customTags) {
         for (StringTree st : customTags) {
-            StringBuilder line = new StringBuilder(Integer.toString(st.level));
+            StringBuilder line = new StringBuilder(Integer.toString(level));
             line.append(" ");
             if (st.id != null && st.id.trim().length() > 0) {
                 line.append(st.id).append(" ");
@@ -529,7 +530,8 @@ public class GedcomWriter {
             if (st.value != null && st.value.trim().length() > 0) {
                 line.append(" ").append(st.value);
             }
-            emitCustomTags(st.children);
+            lines.add(line.toString());
+            emitCustomTags(level + 1, st.children);
         }
     }
 
@@ -575,7 +577,7 @@ public class GedcomWriter {
         emitSourceCitations(level, e.citations);
         emitMultimediaLinks(level, e.multimedia);
         emitNotes(level, e.notes);
-        emitCustomTags(e.customTags);
+        emitCustomTags(level, e.customTags);
     }
 
     /**
@@ -616,7 +618,7 @@ public class GedcomWriter {
             }
             emitTagIfValueNotNull(1, "RIN", f.automatedRecordId);
             emitChangeDate(1, f.changeDate);
-            emitCustomTags(f.customTags);
+            emitCustomTags(1, f.customTags);
         }
     }
 
@@ -641,7 +643,7 @@ public class GedcomWriter {
             emitTag(level + 1, "WIFE");
             emitTagWithRequiredValue(level + 2, "AGE", e.wifeAge);
         }
-        emitCustomTags(e.customTags);
+        emitCustomTags(level + 1, e.customTags);
     }
 
     /**
@@ -697,7 +699,7 @@ public class GedcomWriter {
             emitTagWithRequiredValue(2, "FORM", header.placeHierarchy);
         }
         emitNoteLines(1, null, header.notes);
-        emitCustomTags(header.customTags);
+        emitCustomTags(1, header.customTags);
     }
 
     /**
@@ -719,7 +721,7 @@ public class GedcomWriter {
             emitWwwUrls(level + 1, a.wwwUrls);
             emitFaxNumbers(level + 1, a.faxNumbers);
             emitEmails(level + 1, a.emails);
-            emitCustomTags(a.customTags);
+            emitCustomTags(level + 1, a.customTags);
         }
     }
 
@@ -745,7 +747,7 @@ public class GedcomWriter {
                 emitTagWithRequiredValue(level + 1, "FAMC", e.family.family.xref);
                 emitTagIfValueNotNull(level + 2, "ADOP", e.family.adoptedBy);
             }
-            emitCustomTags(e.customTags);
+            emitCustomTags(level + 1, e.customTags);
         }
     }
 
@@ -790,7 +792,7 @@ public class GedcomWriter {
             }
             emitTagIfValueNotNull(1, "RIN", i.recIdNumber);
             emitChangeDate(1, i.changeDate);
-            emitCustomTags(i.customTags);
+            emitCustomTags(1, i.customTags);
         }
     }
 
@@ -812,7 +814,7 @@ public class GedcomWriter {
         emitTagIfValueNotNull(level + 1, "PLAC", sealings.place);
         emitSourceCitations(level + 1, sealings.citations);
         emitNotes(level + 1, sealings.notes);
-        emitCustomTags(sealings.customTags);
+        emitCustomTags(level + 1, sealings.customTags);
     }
 
     /**
@@ -843,7 +845,7 @@ public class GedcomWriter {
             }
             emitSourceCitations(level + 1, o.citations);
             emitNotes(level + 1, o.notes);
-            emitCustomTags(o.customTags);
+            emitCustomTags(level + 1, o.customTags);
         }
     }
 
@@ -924,7 +926,7 @@ public class GedcomWriter {
                 throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but found file references in multimedia object " + m.xref
                         + " which are not allowed until GEDCOM 5.5.1");
             }
-            emitCustomTags(m.customTags);
+            emitCustomTags(1, m.customTags);
         }
     }
 
@@ -950,7 +952,7 @@ public class GedcomWriter {
             emitTagIfValueNotNull(1, "RIN", m.recIdNumber);
             emitNotes(1, m.notes);
             emitChangeDate(1, m.changeDate);
-            emitCustomTags(m.customTags);
+            emitCustomTags(1, m.customTags);
             if (!m.blob.isEmpty()) {
                 throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but BLOB data on multimedia item " + m.xref
                         + " was found.  This is only allowed in GEDCOM 5.5");
@@ -1025,7 +1027,7 @@ public class GedcomWriter {
                 // Link to the embedded form
                 emitTagWithRequiredValue(level, "OBJE", m.xref);
             }
-            emitCustomTags(m.customTags);
+            emitCustomTags(level + 1, m.customTags);
         }
     }
 
@@ -1052,7 +1054,7 @@ public class GedcomWriter {
         }
         emitTagIfValueNotNull(level + 1, "RIN", note.recIdNumber);
         emitChangeDate(level + 1, note.changeDate);
-        emitCustomTags(note.customTags);
+        emitCustomTags(level + 1, note.customTags);
     }
 
     /**
@@ -1082,7 +1084,7 @@ public class GedcomWriter {
     private void emitNotes(int level, List<Note> notes) throws GedcomWriterException {
         for (Note n : notes) {
             emitNote(level, n);
-            emitCustomTags(n.customTags);
+            emitCustomTags(level + 1, n.customTags);
         }
     }
 
@@ -1113,7 +1115,7 @@ public class GedcomWriter {
             }
             emitSourceCitations(level + 1, n.citations);
             emitNotes(level + 1, n.notes);
-            emitCustomTags(n.customTags);
+            emitCustomTags(level + 1, n.customTags);
         }
     }
 
@@ -1139,7 +1141,7 @@ public class GedcomWriter {
         emitTagIfValueNotNull(level + 1, "NSFX", pnv.suffix);
         emitSourceCitations(level + 1, pnv.citations);
         emitNotes(level + 1, pnv.notes);
-        emitCustomTags(pnv.customTags);
+        emitCustomTags(level + 1, pnv.customTags);
     }
 
     /**
@@ -1196,7 +1198,7 @@ public class GedcomWriter {
                         + ", which is only allowed in GEDCOM 5.5.1");
             }
         }
-        emitCustomTags(p.customTags);
+        emitCustomTags(level + 1, p.customTags);
     }
 
     /**
@@ -1241,7 +1243,7 @@ public class GedcomWriter {
             emitFaxNumbers(1, r.faxNumbers);
             emitEmails(1, r.emails);
             emitChangeDate(1, r.changeDate);
-            emitCustomTags(r.customTags);
+            emitCustomTags(1, r.customTags);
         }
     }
 
@@ -1266,7 +1268,7 @@ public class GedcomWriter {
                 emitTagWithRequiredValue(level + 1, "CALN", scn.callNumber);
                 emitTagIfValueNotNull(level + 2, "MEDI", scn.mediaType);
             }
-            emitCustomTags(repositoryCitation.customTags);
+            emitCustomTags(level + 1, repositoryCitation.customTags);
         }
 
     }
@@ -1329,7 +1331,7 @@ public class GedcomWriter {
             }
             emitTagIfValueNotNull(1, "RIN", s.recIdNumber);
             emitChangeDate(1, s.changeDate);
-            emitCustomTags(s.customTags);
+            emitCustomTags(1, s.customTags);
         }
     }
 
@@ -1363,7 +1365,7 @@ public class GedcomWriter {
             emitTagIfValueNotNull(3, "DATE", sourceData.publishDate);
             emitTagIfValueNotNull(3, "COPR", sourceData.copyright);
         }
-        emitCustomTags(sourceSystem.customTags);
+        emitCustomTags(1, sourceSystem.customTags);
     }
 
     /**
@@ -1386,7 +1388,7 @@ public class GedcomWriter {
             }
             emitTagWithRequiredValue(level, "FAMS", familySpouse.family.xref);
             emitNotes(level + 1, familySpouse.notes);
-            emitCustomTags(familySpouse.customTags);
+            emitCustomTags(level + 1, familySpouse.customTags);
         }
     }
 
@@ -1411,7 +1413,7 @@ public class GedcomWriter {
         emitTagIfValueNotNull(1, "DESC", s.descendantsCount);
         emitTagIfValueNotNull(1, "ORDI", s.ordinanceProcessFlag);
         emitTagIfValueNotNull(1, "RIN", s.recIdNumber);
-        emitCustomTags(s.customTags);
+        emitCustomTags(1, s.customTags);
     }
 
     /**
@@ -1436,7 +1438,7 @@ public class GedcomWriter {
             emitTagIfValueNotNull(1, "RFN", s.regFileNumber);
             emitTagIfValueNotNull(1, "RIN", s.recIdNumber);
             emitChangeDate(1, s.changeDate);
-            emitCustomTags(s.customTags);
+            emitCustomTags(1, s.customTags);
         }
     }
 
@@ -1546,11 +1548,11 @@ public class GedcomWriter {
         StringBuilder line = new StringBuilder(Integer.toString(level));
         line.append(" ").append(tag);
         if (valueToRightOfTag != null && valueToRightOfTag.value != null) {
-            line.append(" ").append(valueToRightOfTag);
+            line.append(" ").append(valueToRightOfTag.value);
         }
         lines.add(line.toString());
         if (valueToRightOfTag != null) {
-            emitCustomTags(valueToRightOfTag.customTags);
+            emitCustomTags(level + 1, valueToRightOfTag.customTags);
         }
     }
 
@@ -1594,7 +1596,7 @@ public class GedcomWriter {
         }
         line.append(" ").append(tag).append(" ").append(e);
         lines.add(line.toString());
-        emitCustomTags(e.customTags);
+        emitCustomTags(level + 1, e.customTags);
     }
 
     /**
