@@ -48,10 +48,10 @@ public class AnselWriterTest {
         String utf16 = "ẢB\u0309C\u0309D\u0309ẺF\u0309G\u0309H\u0309ỈJ\u0309K\u0309L\u0309M\u0309";
         anselWriter.writeLine(baos, utf16);
         String ansel = baos.toString();
-        for (int i = 0; i < ansel.length(); i++) {
-            System.out.println(String.format("%s (%02X)", ansel.charAt(i), (byte) ansel.charAt(i)));
-        }
-        System.out.println(ansel);
+        // for (int i = 0; i < ansel.length(); i++) {
+        // System.out.println(String.format("%s (%02X)", ansel.charAt(i), (byte) ansel.charAt(i)));
+        // }
+        // System.out.println(ansel);
     }
 
 }
