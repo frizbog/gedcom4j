@@ -282,7 +282,7 @@ class AnselHandler {
      * @return true if ANSEL string ends in a combining diacritical
      */
     private boolean endsWithDiacritical(String s) {
-        return (s.charAt(s.length() - 1) >= ANSEL_DIACRITICS_BEGIN_AT);
+        return s.charAt(s.length() - 1) >= ANSEL_DIACRITICS_BEGIN_AT;
     }
 
     /**
@@ -2226,11 +2226,9 @@ class AnselHandler {
             }
 
         }
-        if (baseChar == 'F') {
-            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
-                /* LATIN CAPITAL LETTER F WITH DOT ABOVE */
-                return '\u1E1E';
-            }
+        if (baseChar == 'F' && modifier1 == '\u00E7' /* DOT ABOVE */) {
+            /* LATIN CAPITAL LETTER F WITH DOT ABOVE */
+            return '\u1E1E';
 
         }
         if (baseChar == 'G') {
@@ -2373,11 +2371,9 @@ class AnselHandler {
             }
 
         }
-        if (baseChar == 'J') {
-            if (modifier1 == '\u00E3' /* CIRCUMFLEX */) {
-                /* LATIN CAPITAL LETTER J WITH CIRCUMFLEX */
-                return '\u0134';
-            }
+        if (baseChar == 'J' && modifier1 == '\u00E3' /* CIRCUMFLEX */) {
+            /* LATIN CAPITAL LETTER J WITH CIRCUMFLEX */
+            return '\u0134';
 
         }
         if (baseChar == 'K') {
@@ -3236,11 +3232,9 @@ class AnselHandler {
             }
 
         }
-        if (baseChar == 'f') {
-            if (modifier1 == '\u00E7' /* DOT ABOVE */) {
-                /* LATIN SMALL LETTER F WITH DOT ABOVE */
-                return '\u1E1F';
-            }
+        if (baseChar == 'f' && modifier1 == '\u00E7' /* DOT ABOVE */) {
+            /* LATIN SMALL LETTER F WITH DOT ABOVE */
+            return '\u1E1F';
 
         }
         if (baseChar == 'g') {
