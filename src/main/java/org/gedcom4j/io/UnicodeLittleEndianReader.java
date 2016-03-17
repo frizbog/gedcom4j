@@ -71,7 +71,6 @@ class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
             if (b1 < 0 || b2 < 0) {
                 // hit EOF - add final line buffer (last line) and get out
                 addNonBlankLine(result, lineBuffer);
-                eof = true;
                 break;
             }
 
