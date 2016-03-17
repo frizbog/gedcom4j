@@ -34,6 +34,23 @@ import java.util.Map.Entry;
 final class AnselMapping {
 
     /**
+     * The encoding mapping from characters to arrays of byte
+     */
+    static Map<Character, Character> charToByte = new HashMap<Character, Character>();
+
+    /**
+     * The encoding mapping from characters to arrays of byte
+     */
+    static Map<Character, Character> byteToChar = new HashMap<Character, Character>();
+
+    /**
+     * Private constructor prevents instantiation and subclassing
+     */
+    private AnselMapping() {
+        super();
+    }
+
+    /**
      * Decode an ANSEL byte into a UTF-16 Character
      * 
      * @param b
@@ -77,16 +94,6 @@ final class AnselMapping {
     public static boolean isUnicodeCombiningDiacritic(char c) {
         return (c >= 0x0300 && c <= 0x0333) || (c >= 0xFE20 && c <= 0xFE23);
     }
-
-    /**
-     * The encoding mapping from characters to arrays of byte
-     */
-    static Map<Character, Character> charToByte = new HashMap<Character, Character>();
-
-    /**
-     * The encoding mapping from characters to arrays of byte
-     */
-    static Map<Character, Character> byteToChar = new HashMap<Character, Character>();
 
     static {
         // latin capital letter L with stroke
@@ -303,13 +310,6 @@ final class AnselMapping {
         for (Entry<Character, Character> e : charToByte.entrySet()) {
             byteToChar.put(e.getValue(), e.getKey());
         }
-    }
-
-    /**
-     * Private constructor prevents instantiation and subclassing
-     */
-    private AnselMapping() {
-        super();
     }
 
 }

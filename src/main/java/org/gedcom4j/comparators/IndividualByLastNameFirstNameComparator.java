@@ -56,10 +56,10 @@ public class IndividualByLastNameFirstNameComparator implements Serializable, Co
         String s2 = "-unknown-";
         PersonalName n1 = null;
         PersonalName n2 = null;
-        if (i1.names.size() > 0) {
+        if (!i1.names.isEmpty()) {
             n1 = i1.names.get(0);
         }
-        if (i2.names.size() > 0) {
+        if (!i2.names.isEmpty()) {
             n2 = i2.names.get(0);
         }
 
