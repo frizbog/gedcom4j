@@ -58,7 +58,7 @@ class AnselReader extends AbstractEncodingSpecificReader {
         List<String> result = new ArrayList<String>();
         StringBuilder lineBuffer = new StringBuilder();
 
-        int lastChar = -1;
+        int lastChar;
         int b = -1;
         boolean eof = false;
 
@@ -69,7 +69,6 @@ class AnselReader extends AbstractEncodingSpecificReader {
             // Check for EOF
             if (b < 0) {
                 addNonBlankLine(result, lineBuffer);
-                eof = true;
                 break;
             }
 
