@@ -98,7 +98,7 @@ public class GedcomFileReader {
     long firstNBytes(int n) {
         long result = 0;
         for (int i = 0; i < n; i++) {
-            result = ((result << 8) + (firstChunk[i] & 0xFF)); // Shift existing bits 8 to the left, and AND in this
+            result = (result << 8) + (firstChunk[i] & 0xFF); // Shift existing bits 8 to the left, and AND in this
                                                                // byte
         }
         return result;

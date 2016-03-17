@@ -55,6 +55,26 @@ public enum Encoding {
      */
     UTF_8("UTF-8");
 
+
+    /**
+     * The character set name found in the GEDCOM that represents a character
+     * set encoding. Note that multiple instances of this enum can share the
+     * same value for this field.
+     */
+    private String characterSetName;
+
+    /**
+     * Constructor
+     *
+     * @param characterSetName
+     *            the character set name in the GEDCOM that corresponds to this
+     *            Encoding object. Note that this value will not be unique among
+     *            instances in the enum.
+     */
+    private Encoding(String characterSetName) {
+        this.characterSetName = characterSetName;
+    }
+
     /**
      * Get an alphabetically sorted set of supported character set names
      * 
@@ -83,25 +103,6 @@ public enum Encoding {
             }
         }
         return false;
-    }
-
-    /**
-     * The character set name found in the GEDCOM that represents a character
-     * set encoding. Note that multiple instances of this enum can share the
-     * same value for this field.
-     */
-    private String characterSetName;
-
-    /**
-     * Constructor
-     * 
-     * @param characterSetName
-     *            the character set name in the GEDCOM that corresponds to this
-     *            Encoding object. Note that this value will not be unique among
-     *            instances in the enum.
-     */
-    private Encoding(String characterSetName) {
-        this.characterSetName = characterSetName;
     }
 
     /**
