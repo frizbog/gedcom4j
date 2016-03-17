@@ -53,7 +53,7 @@ class AsciiReader extends AbstractEncodingSpecificReader {
         List<String> result = new ArrayList<String>();
         StringBuilder lineBuffer = new StringBuilder();
 
-        int lastChar = -1;
+        int lastChar;
         int b = -1;
         boolean eof = false;
 
@@ -65,7 +65,6 @@ class AsciiReader extends AbstractEncodingSpecificReader {
             if (b < 0) {
                 // hit EOF - add final line buffer (last line) and get out
                 addNonBlankLine(result, lineBuffer);
-                eof = true;
                 break;
             }
 

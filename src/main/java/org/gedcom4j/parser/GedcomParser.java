@@ -1337,7 +1337,7 @@ public class GedcomParser {
      *            the list of multimedia on the current object
      */
     private void loadMultimediaLink(StringTree st, List<Multimedia> multimedia) {
-        Multimedia m = null;
+        Multimedia m;
         if (GedcomParserHelper.referencesAnotherNode(st)) {
             m = getMultimedia(st.value);
         } else {
@@ -1488,7 +1488,7 @@ public class GedcomParser {
      *            the list of notes to add the note to as it is parsed.
      */
     private void loadNote(StringTree st, List<Note> notes) {
-        Note note = null;
+        Note note;
         if (GedcomParserHelper.referencesAnotherNode(st)) {
             note = getNote(st.value);
             notes.add(note);
