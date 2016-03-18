@@ -137,7 +137,7 @@ public abstract class AbstractValidatorTestCase extends TestCase {
      * {@inheritDoc}
      */
     @Override
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
         gedcom = new Gedcom();
         rootValidator = new GedcomValidator(gedcom);

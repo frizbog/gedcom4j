@@ -37,4 +37,15 @@ public abstract class AbstractCitation extends AbstractElement {
      */
     public List<Note> notes = new ArrayList<Note>();
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!super.equals(obj)) {
+            return false;
+        }
+        AbstractCitation abstractCitation = (AbstractCitation) obj;
+        if(notes.equals(abstractCitation.notes)) {
+            return true;
+        }
+        return false;
+    }
 }
