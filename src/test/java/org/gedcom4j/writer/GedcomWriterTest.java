@@ -301,7 +301,7 @@ public class GedcomWriterTest extends TestCase {
      *             if anything goes wrong
      */
     @Override
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         // Make sure we actually have test fixtures to work with
         assertNotNull(gedcomOrig);
         assertNotNull(gedcomReadback);
