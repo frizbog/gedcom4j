@@ -126,6 +126,29 @@ public enum IndividualEventType {
     EVENT("EVEN", "Event");
 
     /**
+     * The tag
+     */
+    public final String tag;
+
+    /**
+     * The display value
+     */
+    public final String display;
+
+    /**
+     * Private constructor
+     *
+     * @param tag
+     *            the tag
+     * @param display
+     *            the display value
+     */
+    private IndividualEventType(String tag, String display) {
+        this.tag = tag;
+        this.display = display;
+    }
+
+    /**
      * Get an individual event type enum constant from its tag
      * 
      * @param tag
@@ -152,26 +175,4 @@ public enum IndividualEventType {
         return getFromTag(tag) != null;
     }
 
-    /**
-     * The tag
-     */
-    public final String tag;
-
-    /**
-     * The display value
-     */
-    public final String display;
-
-    /**
-     * Private constructor
-     * 
-     * @param tag
-     *            the tag
-     * @param display
-     *            the display value
-     */
-    private IndividualEventType(String tag, String display) {
-        this.tag = tag;
-        this.display = display;
-    }
 }
