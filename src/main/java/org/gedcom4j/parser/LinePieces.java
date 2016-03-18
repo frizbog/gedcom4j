@@ -66,7 +66,7 @@ class LinePieces {
                 if (id == null) {
                     id = String.valueOf(line.charAt(c++));
                 } else {
-                    id += line.charAt(c++);
+                    id += String.valueOf(line.charAt(c++));
                 }
             }
             c++;
@@ -77,7 +77,7 @@ class LinePieces {
             if (tag == null) {
                 tag = String.valueOf(line.charAt(c++));
             } else {
-                tag += line.charAt(c++);
+                tag += String.valueOf(line.charAt(c++));
             }
         }
 
