@@ -1104,8 +1104,6 @@ public class GedcomParser {
                 loadMultimediaLink(ch, a.multimedia);
             } else if (Tag.NOTE.equals(ch.tag)) {
                 loadNote(ch, a.notes);
-            } else if (Tag.SOURCE.equals(ch.tag)) {
-                loadCitation(ch, a.citations);
             } else if (Tag.CONCATENATION.equals(ch.tag)) {
                 if (a.description == null) {
                     a.description = new StringWithCustomTags(ch);
@@ -1722,9 +1720,6 @@ public class GedcomParser {
                 loadUserReference(ch, u);
             } else if (Tag.RECORD_ID_NUMBER.equals(ch.tag)) {
                 r.recIdNumber = new StringWithCustomTags(ch);
-            } else if (Tag.CHANGED_DATETIME.equals(ch.tag)) {
-                r.changeDate = new ChangeDate();
-                loadChangeDate(ch, r.changeDate);
             } else if (Tag.CHANGED_DATETIME.equals(ch.tag)) {
                 r.changeDate = new ChangeDate();
                 loadChangeDate(ch, r.changeDate);

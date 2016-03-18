@@ -31,6 +31,15 @@ import java.util.List;
  */
 final class SimplificationRules {
 
+    static List<RelationshipName[]> rules = new ArrayList<RelationshipName[]>();
+
+    /**
+     * Private constructor prevents instantiation or subclassing
+     */
+    private SimplificationRules() {
+        super();
+    }
+
     /**
      * Load the rules for aunts, uncles, nieces, and nephews
      */
@@ -331,7 +340,6 @@ final class SimplificationRules {
      * previous relationship simplifications should appear later in the list.
      * </p>
      */
-    static List<RelationshipName[]> rules = new ArrayList<RelationshipName[]>();
 
     /* static initializer to load the list */
     static {
@@ -345,13 +353,6 @@ final class SimplificationRules {
         firstCousins();
         greatAuntsUnclesNiecesNephews();
         greatGreatAuntsUnclesNiecesNephews();
-    }
-
-    /**
-     * Private constructor prevents instantiation or subclassing
-     */
-    private SimplificationRules() {
-        super();
     }
 
 }
