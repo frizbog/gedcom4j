@@ -89,6 +89,29 @@ public enum IndividualAttributeType {
     FACT("FACT", "Fact");
 
     /**
+     * The tag
+     */
+    public final String tag;
+
+    /**
+     * The display value for the type
+     */
+    public final String display;
+
+    /**
+     * Constructor
+     *
+     * @param tag
+     *            the tag
+     * @param display
+     *            the display value
+     */
+    private IndividualAttributeType(String tag, String display) {
+        this.tag = tag;
+        this.display = display;
+    }
+
+    /**
      * Get an enum constant from its tag value
      * 
      * @param tag
@@ -113,28 +136,5 @@ public enum IndividualAttributeType {
      */
     public static boolean isValidTag(String tag) {
         return getFromTag(tag) != null;
-    }
-
-    /**
-     * The tag
-     */
-    public final String tag;
-
-    /**
-     * The display value for the type
-     */
-    public final String display;
-
-    /**
-     * Constructor
-     * 
-     * @param tag
-     *            the tag
-     * @param display
-     *            the display value
-     */
-    private IndividualAttributeType(String tag, String display) {
-        this.tag = tag;
-        this.display = display;
     }
 }

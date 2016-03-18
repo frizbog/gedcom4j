@@ -38,6 +38,21 @@ public enum SupportedVersion {
     V5_5_1("5.5.1");
 
     /**
+     * The string representation of the version
+     */
+    private String stringRepresentation;
+
+    /**
+     * Constructor that takes the string representation as a parameter
+     *
+     * @param stringRep
+     *            the string representation of the version
+     */
+    SupportedVersion(String stringRep) {
+        stringRepresentation = stringRep;
+    }
+
+    /**
      * Get the SupportedVersion instance that matches the supplied string
      * 
      * @param string
@@ -54,21 +69,6 @@ public enum SupportedVersion {
             return V5_5_1;
         }
         throw new UnsupportedVersionException("Unsupported version: " + string);
-    }
-
-    /**
-     * The string representation of the version
-     */
-    private String stringRepresentation;
-
-    /**
-     * Constructor that takes the string representation as a parameter
-     * 
-     * @param stringRep
-     *            the string representation of the version
-     */
-    SupportedVersion(String stringRep) {
-        stringRepresentation = stringRep;
     }
 
     /**

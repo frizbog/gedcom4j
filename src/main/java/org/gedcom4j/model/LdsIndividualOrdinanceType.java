@@ -46,6 +46,29 @@ public enum LdsIndividualOrdinanceType {
     CHILD_SEALING("SLGC", "LDS Child Sealing");
 
     /**
+     * The tag
+     */
+    public final String tag;
+
+    /**
+     * The display value
+     */
+    public final String display;
+
+    /**
+     * Contructor
+     *
+     * @param tag
+     *            the tag
+     * @param display
+     *            the display value
+     */
+    private LdsIndividualOrdinanceType(String tag, String display) {
+        this.tag = tag;
+        this.display = display;
+    }
+
+    /**
      * Get an enum constant from the tag it corresponds to
      * 
      * @param tag
@@ -70,28 +93,5 @@ public enum LdsIndividualOrdinanceType {
      */
     public static boolean isValidTag(String tag) {
         return getFromTag(tag) != null;
-    }
-
-    /**
-     * The tag
-     */
-    public final String tag;
-
-    /**
-     * The display value
-     */
-    public final String display;
-
-    /**
-     * Contructor
-     * 
-     * @param tag
-     *            the tag
-     * @param display
-     *            the display value
-     */
-    private LdsIndividualOrdinanceType(String tag, String display) {
-        this.tag = tag;
-        this.display = display;
     }
 }
