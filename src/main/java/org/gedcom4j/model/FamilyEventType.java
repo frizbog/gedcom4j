@@ -74,6 +74,29 @@ public enum FamilyEventType {
     EVENT("EVEN", "Event");
 
     /**
+     * The tag
+     */
+    public final String tag;
+
+    /**
+     * The display value for the tag
+     */
+    public final String display;
+
+    /**
+     * Constructor
+     *
+     * @param tag
+     *            the tag for the enum constant
+     * @param display
+     *            the display value for the enum constant
+     */
+    private FamilyEventType(String tag, String display) {
+        this.tag = tag;
+        this.display = display;
+    }
+
+    /**
      * Get an enum type from its tag string
      * 
      * @param tag
@@ -98,29 +121,6 @@ public enum FamilyEventType {
      */
     public static boolean isValidTag(String tag) {
         return getFromTag(tag) != null;
-    }
-
-    /**
-     * The tag
-     */
-    public final String tag;
-
-    /**
-     * The display value for the tag
-     */
-    public final String display;
-
-    /**
-     * Constructor
-     * 
-     * @param tag
-     *            the tag for the enum constant
-     * @param display
-     *            the display value for the enum constant
-     */
-    private FamilyEventType(String tag, String display) {
-        this.tag = tag;
-        this.display = display;
     }
 
 }
