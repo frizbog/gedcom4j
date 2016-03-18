@@ -70,7 +70,7 @@ public class FamilyEventTypeParseTest extends TestCase {
      *             if there is an error reading the data
      */
     @Override
-    protected void setUp() throws IOException, GedcomParserException {
+    public void setUp() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/TGC551.ged");
         assertTrue(gp.errors.isEmpty());

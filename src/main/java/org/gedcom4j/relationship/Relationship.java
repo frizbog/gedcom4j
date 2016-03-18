@@ -87,7 +87,7 @@ public class Relationship implements Comparable<Relationship> {
         if (other == null) {
             return 1;
         }
-        return Math.round(Math.signum(chain.size() - other.chain.size()));
+        return Math.round(Math.signum((float)chain.size() - other.chain.size()));
     }
 
     @Override
