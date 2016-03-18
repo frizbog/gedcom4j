@@ -39,6 +39,13 @@ import org.gedcom4j.model.StringTree;
 final class GedcomParserHelper {
 
     /**
+     * Utility class, so prevent instantiation (and thus subclassing)
+     */
+    private GedcomParserHelper() {
+        // Do nothing
+    }
+
+    /**
      * Trim all whitespace off the left side (only) of the supplied string.
      * 
      * @param line
@@ -185,13 +192,6 @@ final class GedcomParserHelper {
             }
         }
         return result;
-    }
-
-    /**
-     * Utility class, so prevent instantiation (and thus subclassing)
-     */
-    private GedcomParserHelper() {
-        // Do nothing
     }
 
 }
