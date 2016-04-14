@@ -643,7 +643,6 @@ public class GedcomWriter {
             emitTag(level + 1, "WIFE");
             emitTagWithRequiredValue(level + 2, "AGE", e.wifeAge);
         }
-        emitCustomTags(level + 1, e.customTags);
     }
 
     /**
@@ -721,7 +720,6 @@ public class GedcomWriter {
             emitWwwUrls(level + 1, a.wwwUrls);
             emitFaxNumbers(level + 1, a.faxNumbers);
             emitEmails(level + 1, a.emails);
-            emitCustomTags(level + 1, a.customTags);
         }
     }
 
@@ -747,7 +745,6 @@ public class GedcomWriter {
                 emitTagWithRequiredValue(level + 1, "FAMC", e.family.family.xref);
                 emitTagIfValueNotNull(level + 2, "ADOP", e.family.adoptedBy);
             }
-            emitCustomTags(level + 1, e.customTags);
         }
     }
 
