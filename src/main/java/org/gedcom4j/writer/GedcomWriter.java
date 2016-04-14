@@ -518,6 +518,7 @@ public class GedcomWriter {
      * @param customTags
      *            the custom tags
      * @param level
+     *            the level at which the custom tags are to be written
      */
     private void emitCustomTags(int level, List<StringTree> customTags) {
         for (StringTree st : customTags) {
