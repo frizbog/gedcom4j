@@ -1487,7 +1487,7 @@ public class GedcomParser {
      */
     private void loadNote(StringTree st, List<Note> notes) {
         Note note;
-        if (GedcomParserHelper.referencesAnotherNode(st)) {
+        if (st.id == null && GedcomParserHelper.referencesAnotherNode(st)) {
             note = getNote(st.value);
             notes.add(note);
             return;
@@ -1495,6 +1495,10 @@ public class GedcomParser {
             note = new Note();
             notes.add(note);
         } else {
+            if (GedcomParserHelper.referencesAnotherNode(st)) {
+                warnings.add("NOTE line has both an XREF_ID (" + st.id + ") and SUBMITTER_TEXT (" + st.value
+                        + ") value between @ signs - treating SUBMITTER_TEXT as string, not a cross-reference");
+            }
             note = getNote(st.id);
         }
         note.lines.add(st.value);
