@@ -219,6 +219,26 @@ public class GedcomWriter {
     }
 
     /**
+     * Split up an array of text lines to when line break characters appear. If any of the original line contains line
+     * split characters (newlines, line feeds, carriage returns), split the line up into multiple lines.
+     * 
+     * @param linesOfText
+     *            a single string that may or may not contain line breaks
+     * @return a list of Strings that reflect the line breaks in the original string
+     */
+    List<String> splitLinesOnBreakingCharacters(List<String> linesOfText) {
+        List<String> result = new ArrayList<String>();
+
+        for (String s : linesOfText) {
+            String[] pieces = s.split("(\r\n|\n\r|\r|\n)");
+            for (String piece : pieces) {
+                result.add(piece);
+            }
+        }
+        return result;
+    }
+
+    /**
      * Checks that the gedcom version specified is compatible with the data in the model. Not a perfect exhaustive
      * check.
      * 
@@ -364,12 +384,12 @@ public class GedcomWriter {
     }
 
     /**
-     * Write a line out to the print writer, splitting if needed with CONC lines
+     * Write a line out to the print writer, splitting due to length if needed with CONC lines
      * 
      * @param level
      *            the level at which we are recording
      * @param line
-     *            the line to be written
+     *            the line to be written, which may have line breaking characters (which will result in CONT lines)
      */
     private void emitAndSplit(int level, String line) {
         if (line.length() <= MAX_LINE_LENGTH) {
@@ -862,7 +882,8 @@ public class GedcomWriter {
     }
 
     /**
-     * Emit a multi-line text value.
+     * Emit a multi-line text value. If a line of text contains line breaks (newlines, line feeds, carriage returns),
+     * the parts on either side of the line break will be treated as separate lines.
      * 
      * @param level
      *            the level we are starting at. Continuation lines will be one level deeper than this value
@@ -871,11 +892,12 @@ public class GedcomWriter {
      * @param xref
      *            the xref of the item with lines of text
      * @param linesOfText
-     *            the lines of text
+     *            the lines of text to write
      */
     private void emitLinesOfText(int level, String xref, String startingTag, List<String> linesOfText) {
+        List<String> splitLinesOfText = splitLinesOnBreakingCharacters(linesOfText);
         int lineNum = 0;
-        for (String l : linesOfText) {
+        for (String l : splitLinesOfText) {
             StringBuilder line = new StringBuilder();
             if (lineNum == 0) {
                 line.append(level).append(" ");
@@ -1499,13 +1521,30 @@ public class GedcomWriter {
      */
     private void emitTagIfValueNotNull(int level, String xref, String tag, Object value) {
         if (value != null) {
-            StringBuilder line = new StringBuilder();
-            line.append(level);
-            if (xref != null && xref.length() > 0) {
-                line.append(" ").append(xref);
+
+            List<String> temp = new ArrayList<String>();
+            temp.add(value.toString());
+            List<String> valueLines = splitLinesOnBreakingCharacters(temp);
+
+            boolean first = true;
+            for (String v : valueLines) {
+
+                StringBuilder line = new StringBuilder();
+                if (first) {
+                    line.append(level);
+                    if (xref != null && xref.length() > 0) {
+                        line.append(" ").append(xref);
+                    }
+                    line.append(" ").append(tag).append(" ").append(v);
+                    emitAndSplit(level, line.toString());
+                } else {
+                    line.append(level + 1);
+                    line.append(" CONT ").append(v);
+                    emitAndSplit(level + 1, line.toString());
+                }
+
+                first = false;
             }
-            line.append(" ").append(tag).append(" ").append(value);
-            emitAndSplit(level, line.toString());
         }
     }
 
@@ -1522,12 +1561,32 @@ public class GedcomWriter {
      *             if the value is null or blank (which never happens, because we check for it)
      */
     private void emitTagWithOptionalValue(int level, String tag, String value) throws GedcomWriterException {
-        StringBuilder line = new StringBuilder(Integer.toString(level));
-        line.append(" ").append(tag);
         if (value != null) {
-            line.append(" ").append(value);
+            List<String> temp = new ArrayList<String>();
+            temp.add(value.toString());
+            List<String> valueLines = splitLinesOnBreakingCharacters(temp);
+
+            boolean first = true;
+            for (String v : valueLines) {
+
+                StringBuilder line = new StringBuilder();
+                if (first) {
+                    line.append(level);
+                    line.append(" ").append(tag).append(" ").append(v);
+                    emitAndSplit(level, line.toString());
+                } else {
+                    line.append(level + 1);
+                    line.append(" CONT ").append(v);
+                    emitAndSplit(level + 1, line.toString());
+                }
+
+                first = false;
+            }
+        } else {
+            StringBuilder line = new StringBuilder(Integer.toString(level));
+            line.append(" ").append(tag);
+            lines.add(line.toString());
         }
-        lines.add(line.toString());
     }
 
     /**
@@ -1543,15 +1602,36 @@ public class GedcomWriter {
      *             if the value is null or blank (which never happens, because we check for it)
      */
     private void emitTagWithOptionalValueAndCustomSubtags(int level, String tag, StringWithCustomTags valueToRightOfTag) throws GedcomWriterException {
-        StringBuilder line = new StringBuilder(Integer.toString(level));
-        line.append(" ").append(tag);
-        if (valueToRightOfTag != null && valueToRightOfTag.value != null) {
-            line.append(" ").append(valueToRightOfTag.value);
+        if (valueToRightOfTag == null || valueToRightOfTag.value == null) {
+            StringBuilder line = new StringBuilder(Integer.toString(level));
+            line.append(" ").append(tag);
+            lines.add(line.toString());
+            if (valueToRightOfTag != null) {
+                emitCustomTags(level + 1, valueToRightOfTag.customTags);
+            }
+            return;
         }
-        lines.add(line.toString());
-        if (valueToRightOfTag != null) {
-            emitCustomTags(level + 1, valueToRightOfTag.customTags);
+
+        List<String> temp = new ArrayList<String>();
+        temp.add(valueToRightOfTag.value);
+        List<String> valueLines = splitLinesOnBreakingCharacters(temp);
+
+        boolean first = true;
+        for (String v : valueLines) {
+            StringBuilder line = new StringBuilder();
+            if (first) {
+                line.append(level);
+                line.append(" ").append(tag).append(" ").append(v);
+                emitAndSplit(level, line.toString());
+            } else {
+                line.append(level + 1);
+                line.append(" CONT ").append(v);
+                emitAndSplit(level + 1, line.toString());
+            }
+
+            first = false;
         }
+        emitCustomTags(level + 1, valueToRightOfTag.customTags);
     }
 
     /**
@@ -1588,12 +1668,29 @@ public class GedcomWriter {
         if (e == null || e.value == null || e.value.trim().length() == 0) {
             throw new GedcomWriterException("Required value for tag " + tag + " at level " + level + " was null or blank");
         }
-        StringBuilder line = new StringBuilder(Integer.toString(level));
-        if (xref != null && xref.length() > 0) {
-            line.append(" ").append(xref);
+        List<String> temp = new ArrayList<String>();
+        temp.add(e.value);
+        List<String> valueLines = splitLinesOnBreakingCharacters(temp);
+
+        boolean first = true;
+        for (String v : valueLines) {
+            StringBuilder line = new StringBuilder();
+            if (first) {
+                line.append(level);
+                if (xref != null && xref.length() > 0) {
+                    line.append(" ").append(xref);
+                }
+                line.append(" ").append(tag).append(" ").append(v);
+                emitAndSplit(level, line.toString());
+            } else {
+                line.append(level + 1);
+                line.append(" CONT ").append(v);
+                emitAndSplit(level + 1, line.toString());
+            }
+
+            first = false;
         }
-        line.append(" ").append(tag).append(" ").append(e);
-        lines.add(line.toString());
+
         emitCustomTags(level + 1, e.customTags);
     }
 
