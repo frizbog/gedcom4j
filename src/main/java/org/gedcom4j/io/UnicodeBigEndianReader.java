@@ -61,6 +61,8 @@ class UnicodeBigEndianReader extends AbstractEncodingSpecificReader {
         int lastB1;
         int lastB2;
 
+        boolean beginningOfFile = true;
+
         while (!eof) {
             lastB1 = b1;
             lastB2 = b2;
@@ -73,6 +75,15 @@ class UnicodeBigEndianReader extends AbstractEncodingSpecificReader {
                 addNonBlankLine(result, lineBuffer);
                 break;
             }
+
+            // If it's a byte order marker at the beginning of the file, discard it
+            if (beginningOfFile && (b1 == 0xFE && b2 == 0xFF)) {
+                beginningOfFile = false;
+                lineBuffer.setLength(0);
+                continue;
+            }
+
+            beginningOfFile = false;
 
             // Check for carriage returns - signify EOL
             if (b1 == 0x00 && b2 == 0x0D) {

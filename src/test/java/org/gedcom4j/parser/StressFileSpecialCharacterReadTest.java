@@ -311,6 +311,14 @@ public class StressFileSpecialCharacterReadTest {
 
     }
 
+    /**
+     * Helper method to assert string equality, character by character, and points out the differences
+     * 
+     * @param expected
+     *            expected value
+     * @param actual
+     *            actual value
+     */
     private void assertEqualsCharByChar(String expected, String actual) {
         assertNotNull(expected);
         assertNotNull(actual);
