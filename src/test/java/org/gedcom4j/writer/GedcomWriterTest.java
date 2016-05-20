@@ -21,20 +21,26 @@
  */
 package org.gedcom4j.writer;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import junit.framework.TestCase;
 
 import org.gedcom4j.io.GedcomFileReader;
 import org.gedcom4j.model.*;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.parser.GedcomParserException;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * A test for the {@link GedcomWriter} class. The majority of the testing done by this class is done by reading the
@@ -45,7 +51,7 @@ import org.gedcom4j.parser.GedcomParserException;
  * @author frizbog1
  * 
  */
-public class GedcomWriterTest extends TestCase {
+public class GedcomWriterTest {
 
     /**
      * The name of the file used for stress-testing the parser
@@ -124,8 +130,24 @@ public class GedcomWriterTest extends TestCase {
     }
 
     /**
+     * Set up the test fixtures. Load a file, rewrite it, reload the written file, so comparisons can be made.
+     * 
+     * @see junit.framework.TestCase#setUp()
+     * @throws Exception
+     *             if anything goes wrong
+     */
+    @Before
+    public void setUp() throws Exception {
+        // Make sure we actually have test fixtures to work with
+        assertNotNull(gedcomOrig);
+        assertNotNull(gedcomReadback);
+        verbose = false;
+    }
+
+    /**
      * Test that the families are written out and read back the same
      */
+    @Test
     public void testFamilies() {
         Map<String, Family> fm1 = gedcomOrig.families;
         Map<String, Family> fm2 = gedcomReadback.families;
@@ -141,6 +163,7 @@ public class GedcomWriterTest extends TestCase {
     /**
      * Check if headers are written out and read back the same
      */
+    @Test
     public void testHeader() {
         Header h1 = gedcomOrig.header;
         Header h2 = gedcomReadback.header;
@@ -166,6 +189,7 @@ public class GedcomWriterTest extends TestCase {
     /**
      * Test that the individuals written and read back match the originals
      */
+    @Test
     public void testIndividuals() {
         Map<String, Individual> f1 = gedcomOrig.individuals;
         Map<String, Individual> f2 = gedcomReadback.individuals;
@@ -176,6 +200,7 @@ public class GedcomWriterTest extends TestCase {
     /**
      * Test for embedded multimedia objects at the top level of the gedcom structure
      */
+    @Test
     public void testMultimedia() {
         assertNotSame(gedcomOrig.multimedia, gedcomReadback.multimedia);
         assertLineSequence("Multimedia via reference not found as expected", readbackLines, "2 FORM PICT", "2 TITL Macintosh PICT file", "2 FILE ImgFile.PIC",
@@ -195,6 +220,7 @@ public class GedcomWriterTest extends TestCase {
     /**
      * Check that the notes are written out and readback equivalently.
      */
+    @Test
     public void testNotes() {
         assertNotSame(gedcomOrig.notes, gedcomReadback.notes);
         assertLineSequence("Note with xref and text on same line not found as expected", readbackLines,
@@ -230,6 +256,7 @@ public class GedcomWriterTest extends TestCase {
     /**
      * Test the writing of repositories.
      */
+    @Test
     public void testRepositories() {
         assertLineSequence("Repository @R1@ not read back as expected", readbackLines, "0 @R1@ REPO", "1 NAME Family History Library",
                 "1 ADDR 35 North West Temple", "2 CONT Salt Lake City, UT 84111", "2 CONT USA", "2 ADR1 35 North West Temple",
@@ -242,6 +269,7 @@ public class GedcomWriterTest extends TestCase {
     /**
      * Check that the sources are written out and readback identically.
      */
+    @Test
     public void testSources() {
         assertNotSame(gedcomOrig.sources, gedcomReadback.sources);
         assertLineSequence("Source @SR2@ not read back as expected", readbackLines, "0 @SR2@ SOUR", "1 AUTH Second Source Author",
@@ -251,8 +279,45 @@ public class GedcomWriterTest extends TestCase {
     }
 
     /**
+     * Test for {@link GedcomWriter#splitLinesOnBreakingCharacters(List)}
+     */
+    @Test
+    public void testSplitLines() {
+        GedcomWriter gw = new GedcomWriter(null);
+        List<String> original = new ArrayList<String>();
+        original.add("This is a test");
+        List<String> result = gw.splitLinesOnBreakingCharacters(original);
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals("This is a test", result.get(0));
+
+        original.add("This has a line break\nright in the middle");
+        result = gw.splitLinesOnBreakingCharacters(original);
+        assertNotNull(result);
+        assertEquals(3, result.size());
+        assertEquals("This is a test", result.get(0));
+        assertEquals("This has a line break", result.get(1));
+        assertEquals("right in the middle", result.get(2));
+
+        original.add("\nThis has\r\nlots of\rbreaking characters\n\rall over\nthe place\n");
+        result = gw.splitLinesOnBreakingCharacters(original);
+        assertNotNull(result);
+        assertEquals(9, result.size());
+        assertEquals("This is a test", result.get(0));
+        assertEquals("This has a line break", result.get(1));
+        assertEquals("right in the middle", result.get(2));
+        assertEquals("", result.get(3));
+        assertEquals("This has", result.get(4));
+        assertEquals("lots of", result.get(5));
+        assertEquals("breaking characters", result.get(6));
+        assertEquals("all over", result.get(7));
+        assertEquals("the place", result.get(8));
+    }
+
+    /**
      * Test if the gedcom files have the right submitter/submission records.
      */
+    @Test
     public void testSubmitterSubmissions() {
         assertEquals(gedcomOrig.submission, gedcomReadback.submission);
         assertEquals(gedcomOrig.submitters, gedcomReadback.submitters);
@@ -279,6 +344,7 @@ public class GedcomWriterTest extends TestCase {
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
+    @Test
     public void testWriteEmptyGedcom() throws IOException, GedcomWriterException {
         // Write an empty file
         Gedcom g = new Gedcom();
@@ -291,21 +357,6 @@ public class GedcomWriterTest extends TestCase {
         assertLineSequence("Empty file contents not as expected", readBack(tempFile), "0 HEAD", "1 SOUR UNSPECIFIED", "1 FILE gedcom4j.emptywritertest.ged",
                 "1 GEDC", "2 VERS 5.5.1", "2 FORM LINEAGE-LINKED", "1 CHAR ANSEL", "0 @SUBMISSION@ SUBN", "0 TRLR");
 
-    }
-
-    /**
-     * Set up the test fixtures. Load a file, rewrite it, reload the written file, so comparisons can be made.
-     * 
-     * @see junit.framework.TestCase#setUp()
-     * @throws Exception
-     *             if anything goes wrong
-     */
-    @Override
-    public void setUp() throws Exception {
-        // Make sure we actually have test fixtures to work with
-        assertNotNull(gedcomOrig);
-        assertNotNull(gedcomReadback);
-        verbose = false;
     }
 
     /**
@@ -374,4 +425,5 @@ public class GedcomWriterTest extends TestCase {
         GedcomFileReader gfr = new GedcomFileReader(new BufferedInputStream(new FileInputStream(fileToRead)));
         return gfr.getLines();
     }
+
 }
