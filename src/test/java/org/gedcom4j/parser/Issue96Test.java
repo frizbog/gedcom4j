@@ -39,8 +39,16 @@ import org.junit.Test;
  */
 public class Issue96Test {
 
+    /**
+     * Test issue 96
+     * 
+     * @throws IOException
+     *             if the data cannot be read
+     * @throws GedcomParserException
+     *             if the data cannot be parsed
+     */
     @Test
-    public void test() throws IOException, GedcomParserException {
+    public void testIssue96() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/issue96.ged");
         assertTrue(gp.errors.isEmpty());

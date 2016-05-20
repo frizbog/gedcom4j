@@ -99,7 +99,7 @@ public class GedcomFileReader {
         long result = 0;
         for (int i = 0; i < n; i++) {
             result = (result << 8) + (firstChunk[i] & 0xFF); // Shift existing bits 8 to the left, and AND in this
-                                                               // byte
+            // byte
         }
         return result;
     }
@@ -203,11 +203,11 @@ public class GedcomFileReader {
             return result;
         }
 
-        if (firstNBytes(2) == 0x3000 || firstNBytes(2) == 0x0D00 || firstNBytes(2) == 0x0A00) {
+        if (firstNBytes(2) == 0xFFFE || firstNBytes(2) == 0x3000 || firstNBytes(2) == 0x0D00 || firstNBytes(2) == 0x0A00) {
             // If the first two firstChunk make up a single zero character, a single line feed character, or a single
             // carriage return character, using the bytes shown, it's unicode little-endian
             return new UnicodeLittleEndianReader(byteStream);
-        } else if (firstNBytes(2) == 0x0030 || firstNBytes(2) == 0x000D || firstNBytes(2) == 0x000A) {
+        } else if (firstNBytes(2) == 0xFEFF || firstNBytes(2) == 0x0030 || firstNBytes(2) == 0x000D || firstNBytes(2) == 0x000A) {
             // If the first two firstChunk make up a single zero character, a single line feed character, or a single
             // carriage return character, using the bytes shown, it's unicode big-endian
             return new UnicodeBigEndianReader(byteStream);

@@ -61,6 +61,8 @@ class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
         int lastB1;
         int lastB2;
 
+        boolean beginningOfFile = true;
+
         while (!eof) {
             lastB1 = b1;
             lastB2 = b2;
@@ -73,6 +75,15 @@ class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
                 addNonBlankLine(result, lineBuffer);
                 break;
             }
+
+            // If it's a byte order marker at the beginning of the file, discard it
+            if (beginningOfFile && (b1 == 0xFF && b2 == 0xFE)) {
+                beginningOfFile = false;
+                lineBuffer.setLength(0);
+                continue;
+            }
+
+            beginningOfFile = false;
 
             // Check for carriage returns - signify EOL
             if (b1 == 0x0D && b2 == 0x00) {
