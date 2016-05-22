@@ -87,6 +87,12 @@ public class GedcomParser {
     public boolean strictCustomTags = true;
 
     /**
+     * Indicates whether non-compliant GEDCOM files with actual line breaks in text values (rather than CONT tags)
+     * should be parsed (with some loss of data) rather than fail with an exception.
+     */
+    public boolean strictLineBreaks = true;
+
+    /**
      * The things that went wrong while parsing the gedcom file
      */
     public List<String> errors = new ArrayList<String>();
@@ -107,7 +113,7 @@ public class GedcomParser {
      *             if the file cannot be parsed
      */
     public void load(BufferedInputStream stream) throws IOException, GedcomParserException {
-        StringTree stringTree = GedcomParserHelper.readStream(stream, errors, warnings);
+        StringTree stringTree = GedcomParserHelper.readStream(stream, errors, warnings, strictLineBreaks);
         loadRootItems(stringTree);
     }
 
@@ -122,7 +128,7 @@ public class GedcomParser {
      *             if the file cannot be parsed
      */
     public void load(String filename) throws IOException, GedcomParserException {
-        StringTree stringTree = GedcomParserHelper.readFile(filename, errors, warnings);
+        StringTree stringTree = GedcomParserHelper.readFile(filename, errors, warnings, strictLineBreaks);
         loadRootItems(stringTree);
     }
 

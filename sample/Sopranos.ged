@@ -1,0 +1,80 @@
+0 HEAD
+1 SOUR FTM
+2 VERS Family Tree Maker (22.2.5)
+2 NAME Family Tree Maker for Mac OS X
+2 CORP Ancestry.com
+3 ADDR 360 W 4800 N
+4 CONT Provo, UT 84604
+3 PHON (801) 705-7000
+1 DEST GED55
+1 DATE 22 MAY 2016
+1 CHAR UTF-8
+1 FILE /Users/frizbog/Documents/workspace/gedcom4j/sample/Sopranos.ged
+1 SUBM @SUBM@
+1 GEDC
+2 VERS 5.5
+2 FORM LINEAGE-LINKED
+0 @SUBM@ SUBM
+0 @I1@ INDI
+1 NAME Anthony John /Soprano/ Sr.
+1 SEX M
+1 ALIA Tony
+1 BIRT
+2 DATE 24 AUG 1959
+2 PLAC Newark, Essex, New Jersey, USA
+1 NOTE This note was deliberately hand-edited to put a line break in the text without a CONT line.
+This is the next line of the text that should have been tagged as a CONTinuation.
+This is another line of continuation text that should have been tagged.
+1 FAMS @F1@
+1 FAMC @F2@
+0 @I5@ INDI
+1 NAME John /Soprano/
+1 SEX M
+1 FAMS @F2@
+0 @I6@ INDI
+1 NAME /Livia/
+1 SEX F
+1 FAMS @F2@
+0 @I2@ INDI
+1 NAME Carmela /DeAngelis/
+1 SEX F
+1 FAMS @F1@
+0 @I7@ INDI
+1 NAME Janice /Soprano/
+1 SEX F
+1 FAMC @F2@
+0 @I3@ INDI
+1 NAME Meadow /Soprano/
+1 SEX F
+1 FAMC @F1@
+0 @I8@ INDI
+1 NAME Barbara /Soprano/
+1 SEX F
+1 FAMC @F2@
+0 @I4@ INDI
+1 NAME Anthony John /Soprano/ Jr.
+1 SEX M
+1 ALIA AJ
+1 FAMC @F1@
+0 @F1@ FAM
+1 HUSB @I1@
+1 WIFE @I2@
+1 CHIL @I3@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I4@
+2 _FREL Natural
+2 _MREL Natural
+0 @F2@ FAM
+1 HUSB @I5@
+1 WIFE @I6@
+1 CHIL @I1@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I7@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I8@
+2 _FREL Natural
+2 _MREL Natural
+0 TRLR
