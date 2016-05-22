@@ -83,10 +83,8 @@ public class IndividualTest {
         assertTrue(gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
-        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?",
-                43, g.individuals.size());
-        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?",
-                18, g.families.size());
+        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g.individuals.size());
+        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?", 18, g.families.size());
 
         Individual robert = getPerson(g, "Andrews", "Robert");
         Set<Individual> ancestors = robert.getAncestors();
@@ -137,10 +135,8 @@ public class IndividualTest {
         assertTrue(gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
-        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?",
-                43, g.individuals.size());
-        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?",
-                18, g.families.size());
+        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g.individuals.size());
+        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?", 18, g.families.size());
 
         Individual alex = getPerson(g, "Zucco", "Alex");
         Set<Individual> descendants = alex.getDescendants();
@@ -149,7 +145,7 @@ public class IndividualTest {
         Individual steven = getPerson(g, "Struthers", "Steven");
         descendants = steven.getDescendants();
         assertNotNull(descendants);
-        assertEquals(2, descendants.size());
+        assertEquals(8, descendants.size());
     }
 
     /**
@@ -186,8 +182,7 @@ public class IndividualTest {
         f.family.husband = i;
         i.familiesWhereSpouse.add(f);
         assertNotNull(i.getSpouses());
-        assertTrue("Should still be empty because there is no wife in the family that this guy's a spouse in", i
-                .getSpouses().isEmpty());
+        assertTrue("Should still be empty because there is no wife in the family that this guy's a spouse in", i.getSpouses().isEmpty());
         f.family.wife = new Individual();
         addBasicName(f.family.wife, "Anna //");
         assertNotNull(i.getSpouses());
@@ -199,15 +194,12 @@ public class IndividualTest {
         f.family.husband = i;
         i.familiesWhereSpouse.add(f);
         assertNotNull(i.getSpouses());
-        assertEquals(
-                "Should still be just one spouse because there is no wife in the 2nd family that this guy's a spouse in",
-                1, i.getSpouses().size());
+        assertEquals("Should still be just one spouse because there is no wife in the 2nd family that this guy's a spouse in", 1, i.getSpouses().size());
 
         f.family.wife = new Individual();
         addBasicName(f.family.wife, "Elizabeth /Hofstadt/");
         assertNotNull(i.getSpouses());
-        assertEquals("Ok, now there's a wife in the 2nd family, should be exactly two spouses", 2, i.getSpouses()
-                .size());
+        assertEquals("Ok, now there's a wife in the 2nd family, should be exactly two spouses", 2, i.getSpouses().size());
     }
 
     /**
