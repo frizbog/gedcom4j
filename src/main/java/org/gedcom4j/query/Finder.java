@@ -65,10 +65,15 @@ public class Finder {
     /**
      * Find individuals whose surname and given names match the parameters.
      * 
+     * @param prefix
+     *            the prefix for the name (or null if no prefix)
+     * 
      * @param surname
      *            the surname of the individual(s) you wish to find. Required, must match exactly (case insensitive).
      * @param given
      *            the given name of the individual(s) you wish to find. Required, must match exactly (case insensitive).
+     * @param suffix
+     *            the suffix for the name (or null if no suffix)
      * @return a {@link List} of {@link Individual}s that have both the surname and given name supplied.
      */
     public List<Individual> findByName(String prefix, String surname, String given, String suffix) {

@@ -7,8 +7,18 @@ import junit.framework.TestCase;
 import org.gedcom4j.model.*;
 import org.junit.Test;
 
+/**
+ * Test for issue 89 where custom tags are not being emitted by the GedcomWriter
+ * 
+ * @author frizbog
+ */
 public class Issue89Test extends TestCase {
 
+    /**
+     * Test for issue 89 where custom tags are not being emitted by the GedcomWriter
+     * 
+     * @throws GedcomWriterException
+     */
     @Test
     public void testIssue89() throws GedcomWriterException {
         Gedcom g = new Gedcom();

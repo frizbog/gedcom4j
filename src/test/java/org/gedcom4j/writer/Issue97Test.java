@@ -10,8 +10,19 @@ import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.Submitter;
 import org.junit.Test;
 
+/**
+ * Test for issue 97, where line breaks in SUBMITTER_TEXT values do not trigger CONT tags when writing GEDCOMs
+ * 
+ * @author frizbog
+ *
+ */
 public class Issue97Test {
 
+    /**
+     * Test the fix for Issue 97
+     * 
+     * @throws GedcomWriterException
+     */
     @Test
     public void testIssue97() throws GedcomWriterException {
         Gedcom g = new Gedcom();
