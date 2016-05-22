@@ -446,11 +446,13 @@ public class Individual extends AbstractElement {
     public Set<Individual> getDescendants() {
         Set<Individual> result = new HashSet<Individual>();
         for (FamilySpouse f : familiesWhereSpouse) {
-            result.addAll(f.family.children);
             for (Individual i : f.family.children) {
-                if (i != this && !result.contains(i)) {
-                    result.addAll(i.getDescendants());
+                // Recurse if we have not seen this person before in the results already
+                if (i != this && !result.contains(i) && !i.familiesWhereSpouse.isEmpty()) {
+                    Set<Individual> d = i.getDescendants();
+                    result.addAll(d);
                 }
+                result.add(i);
             }
         }
         return result;
