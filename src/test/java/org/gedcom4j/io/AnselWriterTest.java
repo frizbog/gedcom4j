@@ -21,6 +21,8 @@
  */
 package org.gedcom4j.io;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
@@ -48,10 +50,12 @@ public class AnselWriterTest {
         String utf16 = "ẢB\u0309C\u0309D\u0309ẺF\u0309G\u0309H\u0309ỈJ\u0309K\u0309L\u0309M\u0309";
         anselWriter.writeLine(baos, utf16);
         String ansel = baos.toString();
-        // for (int i = 0; i < ansel.length(); i++) {
-        // System.out.println(String.format("%s (%02X)", ansel.charAt(i), (byte) ansel.charAt(i)));
-        // }
-        // System.out.println(ansel);
+        String expected = "\uFFFD\u0041\uFFFD\u0042\uFFFD\u0043\uFFFD\u0044\uFFFD\u0045\uFFFD\u0046"
+                + "\uFFFD\u0047\uFFFD\u0048\uFFFD\u0049\uFFFD\u004A\uFFFD\u004B\uFFFD\u004C\uFFFD\u004D\r\n";
+        for (int i = 0; i < ansel.length(); i++) {
+            char a = ansel.charAt(i);
+            char e = expected.charAt(i);
+            assertEquals("Character " + i + " is not equal", e, a);
+        }
     }
-
 }
