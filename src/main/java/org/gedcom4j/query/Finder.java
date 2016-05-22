@@ -59,6 +59,19 @@ public class Finder {
      * @return a {@link List} of {@link Individual}s that have both the surname and given name supplied.
      */
     public List<Individual> findByName(String surname, String given) {
+        return findByName(null, surname, given, null);
+    }
+
+    /**
+     * Find individuals whose surname and given names match the parameters.
+     * 
+     * @param surname
+     *            the surname of the individual(s) you wish to find. Required, must match exactly (case insensitive).
+     * @param given
+     *            the given name of the individual(s) you wish to find. Required, must match exactly (case insensitive).
+     * @return a {@link List} of {@link Individual}s that have both the surname and given name supplied.
+     */
+    public List<Individual> findByName(String prefix, String surname, String given, String suffix) {
         List<Individual> result = new ArrayList<Individual>();
         for (Individual i : g.individuals.values()) {
             for (PersonalName n : i.names) {
@@ -71,7 +84,15 @@ public class Finder {
                 }
                 // Other times they are concatenated with slashes around the
                 // surname
-                if (n.basic != null && n.basic.equalsIgnoreCase(given + " /" + surname + "/")) {
+                String lookingFor = given + " /" + surname + "/";
+                if (prefix != null) {
+                    lookingFor = prefix + " " + lookingFor;
+                }
+                if (suffix != null) {
+                    lookingFor = lookingFor + " " + suffix;
+                }
+
+                if (n.basic != null && n.basic.equalsIgnoreCase(lookingFor)) {
                     result.add(i);
                     continue;
                 }
@@ -79,5 +100,4 @@ public class Finder {
         }
         return result;
     }
-
 }
