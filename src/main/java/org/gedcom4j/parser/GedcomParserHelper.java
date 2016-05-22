@@ -64,7 +64,7 @@ final class GedcomParserHelper {
      *            a list of error strings we can add to (if we can keep processing)
      * @param warnings
      *            a list of warning strings we can add to (if we can keep processing)
-     * @param stringLineBreaks
+     * @param strictLineBreaks
      *            whether line breaks in the text values that are not escaped with CONT tags should be processed
      *            strictly according to the spec. If false, these lines are ignored.
      * @return the string tree representation of the data from the file
@@ -171,7 +171,6 @@ final class GedcomParserHelper {
         List<String> lines = new GedcomFileReader(bytes).getLines();
         StringTree result = new StringTree();
         result.level = -1;
-        int lastLevel = -1;
         StringTree lastAdded = null;
         try {
             for (int lineNum = 1; lineNum <= lines.size(); lineNum++) {
