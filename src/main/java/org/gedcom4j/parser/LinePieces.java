@@ -60,25 +60,34 @@ class LinePieces {
 
         int c = 2; // 3rd character in line
 
+        StringBuilder i = null;
+        StringBuilder t = new StringBuilder();
+
         // Take care of the id, if any
         if ('@' == (line.charAt(c))) {
             while (c < line.length() && line.charAt(c) != ' ') {
-                if (id == null) {
-                    id = String.valueOf(line.charAt(c++));
+                if (i == null) {
+                    i = new StringBuilder(String.valueOf(line.charAt(c++)));
                 } else {
-                    id += String.valueOf(line.charAt(c++));
+                    i.append(String.valueOf(line.charAt(c++)));
                 }
             }
             c++;
         }
+        if (i != null) {
+            id = i.toString();
+        }
 
         // Parse the tag
         while (c < line.length() && line.charAt(c) != ' ') {
-            if (tag == null) {
-                tag = String.valueOf(line.charAt(c++));
+            if (t == null) {
+                t = new StringBuilder(String.valueOf(line.charAt(c++)));
             } else {
-                tag += String.valueOf(line.charAt(c++));
+                t.append(String.valueOf(line.charAt(c++)));
             }
+        }
+        if (t != null) {
+            tag = t.toString();
         }
 
         if (c < line.length()) {
