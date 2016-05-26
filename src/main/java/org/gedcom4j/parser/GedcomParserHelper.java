@@ -50,8 +50,15 @@ final class GedcomParserHelper {
         if (line == null) {
             return null;
         }
-
-        return line.replaceAll("\\A\\s*", "");
+        if (line == "") {
+            return "";
+        }
+        for (int i = 0; i < line.length(); i++) {
+            if (!Character.isWhitespace(line.charAt(i))) {
+                return line.substring(i);
+            }
+        }
+        return "";
     }
 
     /**
@@ -113,7 +120,18 @@ final class GedcomParserHelper {
      * @return true if and only if the node passed in uses a cross-reference to another node
      */
     static boolean referencesAnotherNode(StringTree st) {
-        return st.value != null && st.value.matches("\\@.*\\@");
+        if (st.value == null) {
+            return false;
+        }
+        int r1 = st.value.indexOf('@');
+        if (r1 == -1) {
+            return false;
+        }
+        int r2 = st.value.indexOf('@', r1);
+        if (r2 == -1) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -178,8 +196,10 @@ final class GedcomParserHelper {
                 line = leftTrim(line); // See issue 57
                 StringTree st = new StringTree();
                 st.lineNum = lineNum;
-                if (line.matches("\\d .+") || strictLineBreaks) {
-                    if (!line.matches("\\d .+")) {
+                boolean beginsWithDigitAndSpace = (line.length() > 2 && Character.isDigit(line.charAt(0)) && line.charAt(1) == ' ');
+
+                if (beginsWithDigitAndSpace || strictLineBreaks) {
+                    if (!beginsWithDigitAndSpace) {
                         throw new GedcomParserException("Line " + lineNum + " does not begin with a level number and cannot be parsed.");
                     }
                     LinePieces lp = new LinePieces(line);
