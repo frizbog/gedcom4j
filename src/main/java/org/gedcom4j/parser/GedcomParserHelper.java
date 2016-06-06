@@ -80,7 +80,8 @@ final class GedcomParserHelper {
      * @throws GedcomParserException
      *             if there is a problem parsing the data in the file
      */
-    static StringTree readFile(String filename, List<String> errors, List<String> warnings, boolean strictLineBreaks) throws IOException, GedcomParserException {
+    static StringTree readFile(String filename, List<String> errors, List<String> warnings, boolean strictLineBreaks)
+            throws IOException, GedcomParserException {
         FileInputStream fis = new FileInputStream(filename);
         try {
             return makeStringTreeFromStream(new BufferedInputStream(fis), errors, warnings, strictLineBreaks);
@@ -107,8 +108,8 @@ final class GedcomParserHelper {
      * @throws GedcomParserException
      *             if there is an error parsing the gedcom data
      */
-    static StringTree readStream(BufferedInputStream stream, List<String> errors, List<String> warnings, boolean strictLineBreaks) throws IOException,
-    GedcomParserException {
+    static StringTree readStream(BufferedInputStream stream, List<String> errors, List<String> warnings, boolean strictLineBreaks)
+            throws IOException, GedcomParserException {
         return makeStringTreeFromStream(stream, errors, warnings, strictLineBreaks);
     }
 
@@ -155,8 +156,8 @@ final class GedcomParserHelper {
             return tree;
         }
         if (tree.children.isEmpty()) {
-            errors.add(currentNode.tag + " tag at line " + currentNode.lineNum + ": Unable to find suitable parent node at level " + lookingForLevel
-                    + " under " + tree);
+            errors.add(currentNode.tag + " tag at line " + currentNode.lineNum + ": Unable to find suitable parent node at level " + lookingForLevel + " under "
+                    + tree);
             return null;
         }
         StringTree lastChild = tree.children.get(tree.children.size() - 1);
@@ -196,13 +197,19 @@ final class GedcomParserHelper {
                 line = leftTrim(line); // See issue 57
                 StringTree st = new StringTree();
                 st.lineNum = lineNum;
-                boolean beginsWithDigitAndSpace = (line.length() > 2 && Character.isDigit(line.charAt(0)) && line.charAt(1) == ' ');
 
-                if (beginsWithDigitAndSpace || strictLineBreaks) {
-                    if (!beginsWithDigitAndSpace) {
-                        throw new GedcomParserException("Line " + lineNum + " does not begin with a level number and cannot be parsed.");
+                boolean beginsWithLevelAndSpace = false;
+                try {
+                    // Probably sets it to true, but might not for a non-standard file - see Issue 100
+                    beginsWithLevelAndSpace = startsWithLevelAndSpace(line, lineNum);
+                } catch (GedcomParserException e) {
+                    if (strictLineBreaks) {
+                        throw e;
                     }
-                    LinePieces lp = new LinePieces(line);
+                }
+
+                if (beginsWithLevelAndSpace) {
+                    LinePieces lp = new LinePieces(line, lineNum);
                     st.level = lp.level;
                     st.id = lp.id;
                     st.tag = lp.tag;
@@ -237,6 +244,42 @@ final class GedcomParserHelper {
             }
         }
         return result;
+    }
+
+    /**
+     * Does this line start with a 1-2 digit level number and a space?
+     * 
+     * @param line
+     *            the line being read
+     * @param lineNum
+     *            the line number being read
+     * @return true if and only if the line begins with a 1-2 digit level number followed by a space
+     * @throws GedcomParserException
+     *             if the line does not begin with a 1-2 digit number followed by a space
+     */
+    private static boolean startsWithLevelAndSpace(String line, int lineNum) throws GedcomParserException {
+
+        try {
+            char c1 = line.charAt(0);
+            char c2 = line.charAt(1);
+            char c3 = line.charAt(2);
+
+            if (Character.isDigit(c1)) {
+                if (' ' == c2) {
+                    return true;
+                } else if (Character.isDigit(c2) && ' ' == c3) {
+                    return true;
+                } else {
+                    throw new GedcomParserException(
+                            "Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
+                }
+            } else {
+                throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
+            }
+        } catch (IndexOutOfBoundsException e) {
+            throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
+        }
+
     }
 
     /**
