@@ -52,46 +52,85 @@ class LinePieces {
      * 
      * @param line
      *            a single line of text from the GEDCOM file
+     * @param lineNum
+     *            which line in the file this is
+     * @throws GedcomParserException
+     *             if the line of text cannot be split into pieces
      */
-    LinePieces(String line) {
+    LinePieces(String line, int lineNum) throws GedcomParserException {
 
-        // Level is always 1st character
-        level = Integer.parseInt(line.substring(0, 1));
-
-        int c = 2; // 3rd character in line
+        int currCharIdx = getLevelAndReturnIndex(line, lineNum);
 
         StringBuilder i = null;
         StringBuilder t = new StringBuilder();
 
         // Take care of the id, if any
-        if ('@' == (line.charAt(c))) {
-            while (c < line.length() && line.charAt(c) != ' ') {
+        if ('@' == (line.charAt(currCharIdx))) {
+            while (currCharIdx < line.length() && line.charAt(currCharIdx) != ' ') {
                 if (i == null) {
-                    i = new StringBuilder(String.valueOf(line.charAt(c++)));
+                    i = new StringBuilder(String.valueOf(line.charAt(currCharIdx++)));
                 } else {
-                    i.append(String.valueOf(line.charAt(c++)));
+                    i.append(String.valueOf(line.charAt(currCharIdx++)));
                 }
             }
-            c++;
+            currCharIdx++;
         }
         if (i != null) {
             id = i.toString();
         }
 
         // Parse the tag
-        while (c < line.length() && line.charAt(c) != ' ') {
+        while (currCharIdx < line.length() && line.charAt(currCharIdx) != ' ') {
             if (t == null) {
-                t = new StringBuilder(String.valueOf(line.charAt(c++)));
+                t = new StringBuilder(String.valueOf(line.charAt(currCharIdx++)));
             } else {
-                t.append(String.valueOf(line.charAt(c++)));
+                t.append(String.valueOf(line.charAt(currCharIdx++)));
             }
         }
         if (t != null) {
             tag = t.toString();
         }
 
-        if (c < line.length()) {
-            remainder = line.substring(c + 1);
+        if (currCharIdx < line.length()) {
+            remainder = line.substring(currCharIdx + 1);
+        }
+    }
+
+    /**
+     * Parse the level number from the current line, then find the character after the first space (i.e., the part
+     * following the level number). Assumes that the line is well-formed insofar as it begins with a 1-2 digit level
+     * number followed by at least one space character, otherwise a {@link GedcomParserException} is thrown. The basis
+     * for this assumption is the fact that the {@link GedcomParserHelper} class already does this checking prior to
+     * breaking up the line into pieces
+     * 
+     * @param line
+     *            the line from the file/stream
+     * @param lineNum
+     *            the line number
+     * @return the index in the line to continue parsing after
+     * @throws GedcomParserException
+     *             if the line does not begin with a 1-2 digit number followed by a space
+     */
+    private int getLevelAndReturnIndex(String line, int lineNum) throws GedcomParserException {
+        try {
+            char c2 = line.charAt(1); // 2nd character in line
+
+            int result = -1;
+
+            if (' ' == c2) {
+                // Second character in line is a space, so assume a 1-digit level
+                level = Integer.parseInt(line.substring(0, 1));
+                result = 2; // Continue parsing at 3rd character in line
+            } else {
+                // Second character in line is not a space, so assume a 2-digit level
+                level = Integer.parseInt(line.substring(0, 2));
+                result = 3; // Continue parsting at 4th character in line
+            }
+            return result;
+        } catch (NumberFormatException e) {
+            throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
+        } catch (IndexOutOfBoundsException e) {
+            throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
         }
     }
 }

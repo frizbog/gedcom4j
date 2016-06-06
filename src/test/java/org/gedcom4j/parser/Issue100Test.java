@@ -92,7 +92,8 @@ public class Issue100Test {
             gp.load("sample/Sopranos.ged");
             fail("Should have gotten a " + GedcomParserException.class.getName());
         } catch (GedcomParserException e) {
-            assertEquals("Line 26 does not begin with a level number and cannot be parsed.", e.getMessage());
+            assertEquals("Line 26 does not begin with a 1 or 2 digit number for the level followed by a space: "
+                    + "This is the next line of the text that should have been tagged as a CONTinuation.", e.getMessage());
         }
     }
 }
