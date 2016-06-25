@@ -62,7 +62,7 @@ class LinePieces {
     private final char[] chars;
 
     /**
-     * Constructor that makes a {@link LinePieces2} object from a line of text input from a GEDCOM file
+     * Constructor that makes a {@link LinePieces} object from a line of text input from a GEDCOM file
      * 
      * @param lineToParse
      *            a single line of text from the GEDCOM file
@@ -77,28 +77,6 @@ class LinePieces {
         chars = new char[line.length()];
         line.getChars(0, line.length(), chars, 0);
 
-        parseLevel(lineNum);
-        processXrefId();
-        parseTag();
-
-        if (currCharIdx < line.length()) {
-            remainder = line.substring(currCharIdx + 1);
-        }
-    }
-
-    /**
-     * Parse the level number from the current line, then find the character after the first space (i.e., the part
-     * following the level number). Assumes that the line is well-formed insofar as it begins with a 1-2 digit level
-     * number followed by at least one space character, otherwise a {@link GedcomParserException} is thrown. The basis
-     * for this assumption is the fact that the {@link GedcomParserHelper} class already does this checking prior to
-     * breaking up the line into pieces
-     * 
-     * @param lineNum
-     *            the line number
-     * @throws GedcomParserException
-     *             if the line does not begin with a 1-2 digit number followed by a space
-     */
-    private void parseLevel(int lineNum) throws GedcomParserException {
         try {
             char c2 = line.charAt(1); // 2nd character in line
 
@@ -118,26 +96,7 @@ class LinePieces {
         } catch (IndexOutOfBoundsException e) {
             throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
         }
-    }
 
-    /**
-     * Parse the tag part out of the line
-     */
-    private void parseTag() {
-        // Parse the tag
-        StringBuilder t = new StringBuilder();
-        while (currCharIdx < line.length() && chars[currCharIdx] != ' ') {
-            t.append(chars[currCharIdx++]);
-        }
-        if (t.length() > 0) {
-            tag = t.toString().intern();
-        }
-    }
-
-    /**
-     * Process the XREF ID portion of the line
-     */
-    private void processXrefId() {
         // Take care of the id, if any
         StringBuilder i = null;
         if ('@' == (chars[currCharIdx])) {
@@ -151,6 +110,19 @@ class LinePieces {
         }
         if (i != null) {
             id = i.toString().intern();
+        }
+
+        // Parse the tag
+        StringBuilder t = new StringBuilder();
+        while (currCharIdx < line.length() && chars[currCharIdx] != ' ') {
+            t.append(chars[currCharIdx++]);
+        }
+        if (t.length() > 0) {
+            tag = t.toString().intern();
+        }
+
+        if (currCharIdx < line.length()) {
+            remainder = line.substring(currCharIdx + 1);
         }
     }
 }
