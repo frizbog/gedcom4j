@@ -38,7 +38,7 @@ public class FamilyChild extends AbstractElement {
     /**
      * Notes on the membership
      */
-    public List<Note> notes = new ArrayList<Note>();
+    public List<Note> notes = new ArrayList<Note>(0);
 
     /**
      * Pedigree information

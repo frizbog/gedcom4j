@@ -35,7 +35,7 @@ public class Address extends AbstractElement {
     /**
      * The lines of the address
      */
-    public List<String> lines = new ArrayList<String>();
+    public List<String> lines = new ArrayList<String>(0);
 
     /**
      * Line one of the address

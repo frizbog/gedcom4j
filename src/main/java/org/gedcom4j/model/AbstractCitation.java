@@ -35,7 +35,7 @@ public abstract class AbstractCitation extends AbstractElement {
     /**
      * Notes on this source citation
      */
-    public List<Note> notes = new ArrayList<Note>();
+    public List<Note> notes = new ArrayList<Note>(0);
 
     @Override
     public boolean equals(Object obj) {
@@ -43,7 +43,7 @@ public abstract class AbstractCitation extends AbstractElement {
             return false;
         }
         AbstractCitation abstractCitation = (AbstractCitation) obj;
-        if(notes.equals(abstractCitation.notes)) {
+        if (notes.equals(abstractCitation.notes)) {
             return true;
         }
         return false;

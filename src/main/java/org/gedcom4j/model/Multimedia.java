@@ -59,23 +59,23 @@ public class Multimedia extends AbstractElement {
     /**
      * The file reference for this multimedia item
      */
-    public List<FileReference> fileReferences = new ArrayList<FileReference>();
+    public List<FileReference> fileReferences = new ArrayList<FileReference>(0);
 
     /**
      * Notes for this multimedia item
      */
-    public List<Note> notes = new ArrayList<Note>();
+    public List<Note> notes = new ArrayList<Note>(0);
 
     /**
      * Source citations for this multimedia item
      */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>();
+    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
 
     /**
      * The binary (blob) for this multimedia item. Encoded as string data. This field should always be an empty list for
      * 5.5.1 files.
      */
-    public List<String> blob = new ArrayList<String>();
+    public List<String> blob = new ArrayList<String>(0);
 
     /**
      * The next object in the chain holding binary data if it needs to be continued due to size. This field should
@@ -86,7 +86,7 @@ public class Multimedia extends AbstractElement {
     /**
      * User references
      */
-    public List<UserReference> userReferences = new ArrayList<UserReference>();
+    public List<UserReference> userReferences = new ArrayList<UserReference>(0);
 
     /**
      * The change date for this multimedia item

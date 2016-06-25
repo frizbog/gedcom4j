@@ -48,12 +48,12 @@ public class Association extends AbstractElement {
     /**
      * The citations for this association
      */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>();
+    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
 
     /**
      * Notes about this association
      */
-    public List<Note> notes = new ArrayList<Note>();
+    public List<Note> notes = new ArrayList<Note>(0);
 
     @Override
     public boolean equals(Object obj) {

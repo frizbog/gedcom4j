@@ -52,7 +52,7 @@ public class CitationWithSource extends AbstractCitation {
     /**
      * A list of citation data entries
      */
-    public List<CitationData> data = new ArrayList<CitationData>();
+    public List<CitationData> data = new ArrayList<CitationData>(0);
 
     /**
      * A reference to the cited source
@@ -62,7 +62,7 @@ public class CitationWithSource extends AbstractCitation {
     /**
      * Multimedia links for this source citation
      */
-    public List<Multimedia> multimedia = new ArrayList<Multimedia>();
+    public List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
 
     /**
      * The role in the event cited

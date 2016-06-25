@@ -38,12 +38,12 @@ public class SourceData extends AbstractElement {
     /**
      * The events recorded.
      */
-    public List<EventRecorded> eventsRecorded = new ArrayList<EventRecorded>();
+    public List<EventRecorded> eventsRecorded = new ArrayList<EventRecorded>(0);
 
     /**
      * The notes.
      */
-    public List<Note> notes = new ArrayList<Note>();
+    public List<Note> notes = new ArrayList<Note>(0);
 
     @Override
     public boolean equals(Object obj) {

@@ -39,7 +39,7 @@ public class Header extends AbstractElement {
     /**
      * Copyright information for the GEDCOM file.
      */
-    public List<String> copyrightData = new ArrayList<String>();
+    public List<String> copyrightData = new ArrayList<String>(0);
 
     /**
      * The date of the GEDCOM file
@@ -94,7 +94,7 @@ public class Header extends AbstractElement {
     /**
      * A bunch of textual notes
      */
-    public List<String> notes = new ArrayList<String>();
+    public List<String> notes = new ArrayList<String>(0);
 
     /**
      * {@inheritDoc}
