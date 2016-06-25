@@ -46,6 +46,33 @@ public enum LdsIndividualOrdinanceType {
     CHILD_SEALING("SLGC", "LDS Child Sealing");
 
     /**
+     * Get an enum constant from the tag it corresponds to
+     * 
+     * @param tag
+     *            the tag
+     * @return the corresponding enum constant for the supplied tag (if any)
+     */
+    public static LdsIndividualOrdinanceType getFromTag(String tag) {
+        for (LdsIndividualOrdinanceType t : values()) {
+            if (t.tag.intern().equals(tag)) {
+                return t;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Is the supplied tag value one of the known tags for an LDS individual ordinance?
+     * 
+     * @param tag
+     *            the tag
+     * @return true if and only if the supplied tag corresponds to a known LDS individual ordinance type
+     */
+    public static boolean isValidTag(String tag) {
+        return getFromTag(tag) != null;
+    }
+
+    /**
      * The tag
      */
     public final String tag;
@@ -64,34 +91,7 @@ public enum LdsIndividualOrdinanceType {
      *            the display value
      */
     private LdsIndividualOrdinanceType(String tag, String display) {
-        this.tag = tag;
-        this.display = display;
-    }
-
-    /**
-     * Get an enum constant from the tag it corresponds to
-     * 
-     * @param tag
-     *            the tag
-     * @return the corresponding enum constant for the supplied tag (if any)
-     */
-    public static LdsIndividualOrdinanceType getFromTag(String tag) {
-        for (LdsIndividualOrdinanceType t : values()) {
-            if (t.tag.equals(tag)) {
-                return t;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Is the supplied tag value one of the known tags for an LDS individual ordinance?
-     * 
-     * @param tag
-     *            the tag
-     * @return true if and only if the supplied tag corresponds to a known LDS individual ordinance type
-     */
-    public static boolean isValidTag(String tag) {
-        return getFromTag(tag) != null;
+        this.tag = tag.intern();
+        this.display = display.intern();
     }
 }

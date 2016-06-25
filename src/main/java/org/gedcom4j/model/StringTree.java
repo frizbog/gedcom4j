@@ -108,7 +108,7 @@ public class StringTree {
             if (other.id != null) {
                 return false;
             }
-        } else if (!id.equals(other.id)) {
+        } else if (!id.intern().equals(other.id)) {
             return false;
         }
         if (level != other.level) {
@@ -121,7 +121,7 @@ public class StringTree {
             if (other.tag != null) {
                 return false;
             }
-        } else if (!tag.equals(other.tag)) {
+        } else if (!tag.intern().equals(other.tag.intern())) {
             return false;
         }
         if (value == null) {
@@ -142,10 +142,10 @@ public class StringTree {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((children == null) ? 0 : children.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.intern().hashCode());
         result = prime * result + level;
         result = prime * result + lineNum;
-        result = prime * result + ((tag == null) ? 0 : tag.hashCode());
+        result = prime * result + ((tag == null) ? 0 : tag.intern().hashCode());
         result = prime * result + ((value == null) ? 0 : value.hashCode());
         return result;
     }
@@ -155,7 +155,8 @@ public class StringTree {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Line " + lineNum + ": " + level + (id == null ? "" : " " + id) + " " + tag + " " + value);
+        StringBuilder sb = new StringBuilder(
+                "Line " + lineNum + ": " + level + (id == null ? "" : " " + id.intern()) + " " + (tag == null ? null : tag.intern()) + " " + value);
         for (StringTree ch : children) {
             sb.append("\n").append(ch);
         }

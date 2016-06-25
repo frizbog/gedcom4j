@@ -42,13 +42,11 @@ import org.gedcom4j.validate.Severity;
  * General usage is as follows:
  * </p>
  * <ul>
- * <li>
- * Instantiate a <code>GedcomWriter</code>, passing the {@link Gedcom} to be written as a parameter to the constructor.</li>
- * <li>
- * Call one of the variants of the <code>write</code> method to write the data</li>
- * <li>
- * Optionally check the contents of the {@link #validationFindings} collection to see if there was anything problematic
- * found in your data.</li>
+ * <li>Instantiate a <code>GedcomWriter</code>, passing the {@link Gedcom} to be written as a parameter to the
+ * constructor.</li>
+ * <li>Call one of the variants of the <code>write</code> method to write the data</li>
+ * <li>Optionally check the contents of the {@link #validationFindings} collection to see if there was anything
+ * problematic found in your data.</li>
  * </ul>
  * 
  * <h3>Validation</h3>
@@ -316,8 +314,8 @@ public class GedcomWriter {
             }
             for (FamilyChild fc : i.familiesWhereChild) {
                 if (fc.status != null) {
-                    throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.xref
-                            + " is in a family with a status specified (a Gedcom 5.5.1 only feature)");
+                    throw new GedcomWriterVersionDataMismatchException(
+                            "Gedcom version is 5.5, but Individual " + i.xref + " is in a family with a status specified (a Gedcom 5.5.1 only feature)");
                 }
             }
         }
@@ -355,8 +353,8 @@ public class GedcomWriter {
     private void checkVersionCompatibility551() throws GedcomWriterVersionDataMismatchException {
         for (Multimedia m : gedcom.multimedia.values()) {
             if (!m.blob.isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5.1, but multimedia item " + m.xref
-                        + " contains BLOB data which is unsupported in 5.5.1");
+                throw new GedcomWriterVersionDataMismatchException(
+                        "Gedcom version is 5.5.1, but multimedia item " + m.xref + " contains BLOB data which is unsupported in 5.5.1");
             }
         }
     }
@@ -544,8 +542,8 @@ public class GedcomWriter {
         for (StringTree st : customTags) {
             StringBuilder line = new StringBuilder(Integer.toString(level));
             line.append(" ");
-            if (st.id != null && st.id.trim().length() > 0) {
-                line.append(st.id).append(" ");
+            if (st.id != null && st.id.intern().trim().length() > 0) {
+                line.append(st.id.intern()).append(" ");
             }
             line.append(st.tag);
             if (st.value != null && st.value.trim().length() > 0) {
@@ -943,8 +941,8 @@ public class GedcomWriter {
             emitTagIfValueNotNull(1, "RIN", m.recIdNumber);
             emitChangeDate(1, m.changeDate);
             if (!m.fileReferences.isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but found file references in multimedia object " + m.xref
-                        + " which are not allowed until GEDCOM 5.5.1");
+                throw new GedcomWriterVersionDataMismatchException(
+                        "GEDCOM version is 5.5, but found file references in multimedia object " + m.xref + " which are not allowed until GEDCOM 5.5.1");
             }
             emitCustomTags(1, m.customTags);
         }
@@ -974,20 +972,20 @@ public class GedcomWriter {
             emitChangeDate(1, m.changeDate);
             emitCustomTags(1, m.customTags);
             if (!m.blob.isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but BLOB data on multimedia item " + m.xref
-                        + " was found.  This is only allowed in GEDCOM 5.5");
+                throw new GedcomWriterVersionDataMismatchException(
+                        "GEDCOM version is 5.5.1, but BLOB data on multimedia item " + m.xref + " was found.  This is only allowed in GEDCOM 5.5");
             }
             if (m.continuedObject != null) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but BLOB continuation data on multimedia item " + m.xref
-                        + " was found.  This is only allowed in GEDCOM 5.5");
+                throw new GedcomWriterVersionDataMismatchException(
+                        "GEDCOM version is 5.5.1, but BLOB continuation data on multimedia item " + m.xref + " was found.  This is only allowed in GEDCOM 5.5");
             }
             if (m.embeddedMediaFormat != null) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but format on multimedia item " + m.xref
-                        + " was found.  This is only allowed in GEDCOM 5.5");
+                throw new GedcomWriterVersionDataMismatchException(
+                        "GEDCOM version is 5.5.1, but format on multimedia item " + m.xref + " was found.  This is only allowed in GEDCOM 5.5");
             }
             if (m.embeddedTitle != null) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but title on multimedia item " + m.xref
-                        + " was found.  This is only allowed in GEDCOM 5.5");
+                throw new GedcomWriterVersionDataMismatchException(
+                        "GEDCOM version is 5.5.1, but title on multimedia item " + m.xref + " was found.  This is only allowed in GEDCOM 5.5");
             }
         }
     }
@@ -1013,8 +1011,8 @@ public class GedcomWriter {
                     // GEDCOM 5.5 format
                     emitTag(level, "OBJE");
                     if (m.fileReferences.size() > 1) {
-                        throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but multimedia link references "
-                                + "multiple files, which is only allowed in GEDCOM 5.5.1");
+                        throw new GedcomWriterVersionDataMismatchException(
+                                "GEDCOM version is 5.5, but multimedia link references " + "multiple files, which is only allowed in GEDCOM 5.5.1");
                     }
                     if (m.fileReferences.size() == 1) {
                         FileReference fr = m.fileReferences.get(0);
@@ -1195,16 +1193,16 @@ public class GedcomWriter {
         emitNotes(level + 1, p.notes);
         for (NameVariation nv : p.romanized) {
             if (g55()) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but romanized variation was specified on place " + p.placeName
-                        + ", which is only allowed in GEDCOM 5.5.1");
+                throw new GedcomWriterVersionDataMismatchException(
+                        "GEDCOM version is 5.5, but romanized variation was specified on place " + p.placeName + ", which is only allowed in GEDCOM 5.5.1");
             }
             emitTagWithRequiredValue(level + 1, "ROMN", nv.variation);
             emitTagIfValueNotNull(level + 2, "TYPE", nv.variationType);
         }
         for (NameVariation nv : p.phonetic) {
             if (g55()) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but phonetic variation was specified on place " + p.placeName
-                        + ", which is only allowed in GEDCOM 5.5.1");
+                throw new GedcomWriterVersionDataMismatchException(
+                        "GEDCOM version is 5.5, but phonetic variation was specified on place " + p.placeName + ", which is only allowed in GEDCOM 5.5.1");
             }
             emitTagWithRequiredValue(level + 1, "FONE", nv.variation);
             emitTagIfValueNotNull(level + 2, "TYPE", nv.variationType);
@@ -1214,8 +1212,8 @@ public class GedcomWriter {
             emitTagWithRequiredValue(level + 2, "LATI", p.latitude);
             emitTagWithRequiredValue(level + 2, "LONG", p.longitude);
             if (g55()) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but map coordinates were specified on place " + p.placeName
-                        + ", which is only allowed in GEDCOM 5.5.1");
+                throw new GedcomWriterVersionDataMismatchException(
+                        "GEDCOM version is 5.5, but map coordinates were specified on place " + p.placeName + ", which is only allowed in GEDCOM 5.5.1");
             }
         }
         emitCustomTags(level + 1, p.customTags);
