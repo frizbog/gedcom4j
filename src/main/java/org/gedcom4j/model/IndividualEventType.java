@@ -134,7 +134,7 @@ public enum IndividualEventType {
      */
     public static IndividualEventType getFromTag(String tag) {
         for (IndividualEventType t : values()) {
-            if (t.tag.intern().equals(tag)) {
+            if (t.tag.equals(tag)) {
                 return t;
             }
         }

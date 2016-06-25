@@ -227,7 +227,7 @@ final class GedcomParserHelper {
                     if (lastAdded != null) {
                         // Try to add as a CONT line to previous node, as if the file had been properly escaped
                         st.level = lastAdded.level + 1;
-                        st.tag = Tag.CONTINUATION.tagText.intern();
+                        st.tag = Tag.CONTINUATION.tagText;
                         st.value = line;
                         st.parent = lastAdded;
                         lastAdded.children.add(st);

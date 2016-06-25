@@ -241,12 +241,12 @@ public enum Tag {
      * @return true iff the string provided matches the text string for this tag
      */
     public boolean equals(String s) {
-        return tagText.intern().equals(s);
+        return tagText.equals(s);
     }
 
     @Override
     public String toString() {
-        return tagText.intern();
+        return tagText;
     }
 
 }

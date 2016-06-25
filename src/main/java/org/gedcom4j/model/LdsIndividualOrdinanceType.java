@@ -54,7 +54,7 @@ public enum LdsIndividualOrdinanceType {
      */
     public static LdsIndividualOrdinanceType getFromTag(String tag) {
         for (LdsIndividualOrdinanceType t : values()) {
-            if (t.tag.intern().equals(tag)) {
+            if (t.tag.equals(tag)) {
                 return t;
             }
         }

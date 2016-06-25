@@ -102,7 +102,9 @@ public class Source extends AbstractElement {
      *            the xref
      */
     public Source(String xref) {
-        this.xref = xref;
+        if (xref != null) {
+            this.xref = xref.intern();
+        }
     }
 
     /**

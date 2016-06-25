@@ -82,7 +82,7 @@ public enum FamilyEventType {
      */
     public static FamilyEventType getFromTag(String tag) {
         for (FamilyEventType t : values()) {
-            if (t.tag.intern().equals(tag)) {
+            if (t.tag.equals(tag)) {
                 return t;
             }
         }

@@ -97,7 +97,7 @@ public enum IndividualAttributeType {
      */
     public static IndividualAttributeType getFromTag(String tag) {
         for (IndividualAttributeType t : values()) {
-            if (t.tag.intern().equals(tag)) {
+            if (t.tag.equals(tag)) {
                 return t;
             }
         }
