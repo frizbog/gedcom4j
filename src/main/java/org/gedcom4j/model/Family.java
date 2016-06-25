@@ -53,7 +53,7 @@ public class Family extends AbstractElement {
     /**
      * A list of the children in the family
      */
-    public List<Individual> children = new ArrayList<Individual>();
+    public List<Individual> children = new ArrayList<Individual>(0);
 
     /**
      * The number of children
@@ -63,22 +63,22 @@ public class Family extends AbstractElement {
     /**
      * A list of the submitters for this family
      */
-    public List<Submitter> submitters = new ArrayList<Submitter>();
+    public List<Submitter> submitters = new ArrayList<Submitter>(0);
 
     /**
      * The LDS Spouse Sealings for this family
      */
-    public List<LdsSpouseSealing> ldsSpouseSealings = new ArrayList<LdsSpouseSealing>();
+    public List<LdsSpouseSealing> ldsSpouseSealings = new ArrayList<LdsSpouseSealing>(0);
 
     /**
      * The source citations for this family
      */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>();
+    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
 
     /**
      * The multimedia for this family
      */
-    public List<Multimedia> multimedia = new ArrayList<Multimedia>();
+    public List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
 
     /**
      * The change date information for this family record
@@ -88,12 +88,12 @@ public class Family extends AbstractElement {
     /**
      * All the family events
      */
-    public List<FamilyEvent> events = new ArrayList<FamilyEvent>();
+    public List<FamilyEvent> events = new ArrayList<FamilyEvent>(0);
 
     /**
      * Notes on this family
      */
-    public List<Note> notes = new ArrayList<Note>();
+    public List<Note> notes = new ArrayList<Note>(0);
 
     /**
      * A cross reference id that things can use to identify this family
@@ -103,7 +103,7 @@ public class Family extends AbstractElement {
     /**
      * The user references
      */
-    public List<UserReference> userReferences = new ArrayList<UserReference>();
+    public List<UserReference> userReferences = new ArrayList<UserReference>(0);
 
     /**
      * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be

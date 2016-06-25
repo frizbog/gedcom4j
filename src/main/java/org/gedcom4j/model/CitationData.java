@@ -38,7 +38,7 @@ public class CitationData extends AbstractElement {
     /**
      * The source text - one or more lines of it
      */
-    public List<List<String>> sourceText = new ArrayList<List<String>>();
+    public List<List<String>> sourceText = new ArrayList<List<String>>(0);
 
     @Override
     public boolean equals(Object obj) {

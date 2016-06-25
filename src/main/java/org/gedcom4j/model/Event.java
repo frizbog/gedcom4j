@@ -39,22 +39,22 @@ public class Event extends AbstractElement {
     /**
      * The phone numbers involved with this event
      */
-    public List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>();
+    public List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * Web URL's. New for GEDCOM 5.5.1.
      */
-    public List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>();
+    public List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * Fax numbers. New for GEDCOM 5.5.1.
      */
-    public List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>();
+    public List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * The emails for this submitter. New for GEDCOM 5.5.1
      */
-    public List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>();
+    public List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * The age of the person to whom this event is attached at the time it occurred
@@ -69,7 +69,7 @@ public class Event extends AbstractElement {
     /**
      * List of source citations for this event
      */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>();
+    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
 
     /**
      * The date of this event
@@ -84,12 +84,12 @@ public class Event extends AbstractElement {
     /**
      * Multimeda for this event
      */
-    public List<Multimedia> multimedia = new ArrayList<Multimedia>();
+    public List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
 
     /**
      * Notes for this event
      */
-    public List<Note> notes = new ArrayList<Note>();
+    public List<Note> notes = new ArrayList<Note>(0);
 
     /**
      * The place where this event occurred

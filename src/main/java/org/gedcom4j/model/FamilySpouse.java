@@ -39,7 +39,7 @@ public class FamilySpouse extends AbstractElement {
     /**
      * Notes on the membership
      */
-    public List<Note> notes = new ArrayList<Note>();
+    public List<Note> notes = new ArrayList<Note>(0);
 
     @Override
     public boolean equals(Object obj) {

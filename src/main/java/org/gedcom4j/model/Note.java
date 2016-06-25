@@ -39,17 +39,17 @@ public class Note extends AbstractElement {
     /**
      * The lines of text of this note
      */
-    public List<String> lines = new ArrayList<String>();
+    public List<String> lines = new ArrayList<String>(0);
 
     /**
      * The citations for this note
      */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>();
+    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
 
     /**
      * The user references for this note
      */
-    public List<UserReference> userReferences = new ArrayList<UserReference>();
+    public List<UserReference> userReferences = new ArrayList<UserReference>(0);
 
     /**
      * The change date for this note

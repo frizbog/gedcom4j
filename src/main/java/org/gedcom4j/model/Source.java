@@ -43,27 +43,27 @@ public class Source extends AbstractElement {
     /**
      * The title text
      */
-    public List<String> title = new ArrayList<String>();
+    public List<String> title = new ArrayList<String>(0);
 
     /**
      * Notes on this source
      */
-    public List<Note> notes = new ArrayList<Note>();
+    public List<Note> notes = new ArrayList<Note>(0);
 
     /**
      * Publication facts on this source
      */
-    public List<String> publicationFacts = new ArrayList<String>();
+    public List<String> publicationFacts = new ArrayList<String>(0);
 
     /**
      * The originators/authors
      */
-    public List<String> originatorsAuthors = new ArrayList<String>();
+    public List<String> originatorsAuthors = new ArrayList<String>(0);
 
     /**
      * Multimedia for this source
      */
-    public List<Multimedia> multimedia = new ArrayList<Multimedia>();
+    public List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
 
     /**
      * The change date for this source
@@ -73,7 +73,7 @@ public class Source extends AbstractElement {
     /**
      * User references for this source
      */
-    public List<UserReference> userReferences = new ArrayList<UserReference>();
+    public List<UserReference> userReferences = new ArrayList<UserReference>(0);
 
     /**
      * Source data
@@ -83,7 +83,7 @@ public class Source extends AbstractElement {
     /**
      * Text from the source
      */
-    public List<String> sourceText = new ArrayList<String>();
+    public List<String> sourceText = new ArrayList<String>(0);
 
     /**
      * A repository Citation

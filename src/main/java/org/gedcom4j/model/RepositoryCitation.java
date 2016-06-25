@@ -41,12 +41,12 @@ public class RepositoryCitation extends AbstractElement {
     /**
      * Notes on this repository citation
      */
-    public List<Note> notes = new ArrayList<Note>();
+    public List<Note> notes = new ArrayList<Note>(0);
 
     /**
      * Call numbers
      */
-    public List<SourceCallNumber> callNumbers = new ArrayList<SourceCallNumber>();
+    public List<SourceCallNumber> callNumbers = new ArrayList<SourceCallNumber>(0);
 
     @Override
     public boolean equals(Object obj) {

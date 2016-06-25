@@ -64,12 +64,12 @@ public class PersonalNameVariation extends NameVariation {
     /**
      * Notes on this name
      */
-    public List<Note> notes = new ArrayList<Note>();
+    public List<Note> notes = new ArrayList<Note>(0);
 
     /**
      * Citations for this name
      */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>();
+    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
 
     /**
      * Determine if this object is equal to another

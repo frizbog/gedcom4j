@@ -55,12 +55,12 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
     /**
      * The citations for this ordinance
      */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>();
+    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
 
     /**
      * The notes for this ordinance
      */
-    public List<Note> notes = new ArrayList<Note>();
+    public List<Note> notes = new ArrayList<Note>(0);
 
     @Override
     public boolean equals(Object obj) {

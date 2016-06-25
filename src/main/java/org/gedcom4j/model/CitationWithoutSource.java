@@ -36,12 +36,12 @@ public class CitationWithoutSource extends AbstractCitation {
     /**
      * Lines of text describing this citation
      */
-    public List<String> description = new ArrayList<String>();
+    public List<String> description = new ArrayList<String>(0);
 
     /**
      * Lines of Lines of text from the source (yeah, really)
      */
-    public List<List<String>> textFromSource = new ArrayList<List<String>>();
+    public List<List<String>> textFromSource = new ArrayList<List<String>>(0);
 
     @Override
     public boolean equals(Object obj) {

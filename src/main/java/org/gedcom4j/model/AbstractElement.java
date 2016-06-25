@@ -34,7 +34,7 @@ public abstract class AbstractElement {
     /**
      * A list of custom tags on this item.
      */
-    public List<StringTree> customTags = new ArrayList<StringTree>();
+    public List<StringTree> customTags = new ArrayList<StringTree>(0);
 
     @Override
     public boolean equals(Object obj) {

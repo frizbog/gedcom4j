@@ -43,7 +43,7 @@ public class ChangeDate extends AbstractElement {
     /**
      * Notes about the change
      */
-    public List<Note> notes = new ArrayList<Note>();
+    public List<Note> notes = new ArrayList<Note>(0);
 
     @Override
     public boolean equals(Object obj) {

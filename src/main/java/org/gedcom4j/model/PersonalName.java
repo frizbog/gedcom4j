@@ -69,22 +69,22 @@ public class PersonalName extends AbstractElement {
     /**
      * Notes on this name
      */
-    public List<Note> notes = new ArrayList<Note>();
+    public List<Note> notes = new ArrayList<Note>(0);
 
     /**
      * Citations for this name
      */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>();
+    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
 
     /**
      * Romanized variant. New for GEDCOM 5.5.1
      */
-    public List<PersonalNameVariation> romanized = new ArrayList<PersonalNameVariation>();
+    public List<PersonalNameVariation> romanized = new ArrayList<PersonalNameVariation>(0);
 
     /**
      * Phonetic spelling. New for GEDCOM 5.5.1
      */
-    public List<PersonalNameVariation> phonetic = new ArrayList<PersonalNameVariation>();
+    public List<PersonalNameVariation> phonetic = new ArrayList<PersonalNameVariation>(0);
 
     @Override
     public boolean equals(Object obj) {

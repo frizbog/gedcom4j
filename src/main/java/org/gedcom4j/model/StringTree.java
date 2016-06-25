@@ -64,7 +64,7 @@ public class StringTree {
     /**
      * All the elements that are child elements of this element
      */
-    public List<StringTree> children = new ArrayList<StringTree>();
+    public List<StringTree> children = new ArrayList<StringTree>(0);
 
     /**
      * <p>

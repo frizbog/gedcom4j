@@ -44,22 +44,22 @@ public class Place extends AbstractElement {
     /**
      * Source citations for this place
      */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>();
+    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
 
     /**
      * Notes for this place
      */
-    public List<Note> notes = new ArrayList<Note>();
+    public List<Note> notes = new ArrayList<Note>(0);
 
     /**
      * Phonetic variations on the place name. New for GEDCOM 5.5.1.
      */
-    public List<NameVariation> phonetic = new ArrayList<NameVariation>();
+    public List<NameVariation> phonetic = new ArrayList<NameVariation>(0);
 
     /**
      * Romanized variations on the place name. New for GEDCOM 5.5.1.
      */
-    public List<NameVariation> romanized = new ArrayList<NameVariation>();
+    public List<NameVariation> romanized = new ArrayList<NameVariation>(0);
 
     /**
      * Latitude. New for GEDCOM 5.5.1.

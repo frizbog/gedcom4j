@@ -35,12 +35,12 @@ public class Individual extends AbstractElement {
     /**
      * Aliases for the current individual.
      */
-    public List<StringWithCustomTags> aliases = new ArrayList<StringWithCustomTags>();
+    public List<StringWithCustomTags> aliases = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * A list of submitter(s) who are interested in the ancestry of this individual.
      */
-    public List<Submitter> ancestorInterest = new ArrayList<Submitter>();
+    public List<Submitter> ancestorInterest = new ArrayList<Submitter>(0);
 
     /**
      * The Ancestral File Number of this individual.
@@ -50,12 +50,12 @@ public class Individual extends AbstractElement {
     /**
      * A list of associations to which this individual belongs/belonged.
      */
-    public List<Association> associations = new ArrayList<Association>();
+    public List<Association> associations = new ArrayList<Association>(0);
 
     /**
      * A list of individual attributes about this individual.
      */
-    public List<IndividualAttribute> attributes = new ArrayList<IndividualAttribute>();
+    public List<IndividualAttribute> attributes = new ArrayList<IndividualAttribute>(0);
 
     /**
      * The change date for this individual
@@ -65,47 +65,47 @@ public class Individual extends AbstractElement {
     /**
      * A list of citations of sources about this individual
      */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>();
+    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
 
     /**
      * A list of submitters who are interested in the descendants of this individual.
      */
-    public List<Submitter> descendantInterest = new ArrayList<Submitter>();
+    public List<Submitter> descendantInterest = new ArrayList<Submitter>(0);
 
     /**
      * A list of events for this individual.
      */
-    public List<IndividualEvent> events = new ArrayList<IndividualEvent>();
+    public List<IndividualEvent> events = new ArrayList<IndividualEvent>(0);
 
     /**
      * A list of families to which this individual was a child
      */
-    public List<FamilyChild> familiesWhereChild = new ArrayList<FamilyChild>();
+    public List<FamilyChild> familiesWhereChild = new ArrayList<FamilyChild>(0);
 
     /**
      * A list of families to which this individual was either the husband or wife
      */
-    public List<FamilySpouse> familiesWhereSpouse = new ArrayList<FamilySpouse>();
+    public List<FamilySpouse> familiesWhereSpouse = new ArrayList<FamilySpouse>(0);
 
     /**
      * A list of LDS individual ordinances for this individual
      */
-    public List<LdsIndividualOrdinance> ldsIndividualOrdinances = new ArrayList<LdsIndividualOrdinance>();
+    public List<LdsIndividualOrdinance> ldsIndividualOrdinances = new ArrayList<LdsIndividualOrdinance>(0);
 
     /**
      * A list of multimedia items for this individual
      */
-    public List<Multimedia> multimedia = new ArrayList<Multimedia>();
+    public List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
 
     /**
      * A list of names for this individual
      */
-    public List<PersonalName> names = new ArrayList<PersonalName>();
+    public List<PersonalName> names = new ArrayList<PersonalName>(0);
 
     /**
      * A list of notes for this individual
      */
-    public List<Note> notes = new ArrayList<Note>();
+    public List<Note> notes = new ArrayList<Note>(0);
 
     /**
      * The permanent record file number for this individual
@@ -130,12 +130,12 @@ public class Individual extends AbstractElement {
     /**
      * A list of submitter(s) of this individual
      */
-    public List<Submitter> submitters = new ArrayList<Submitter>();
+    public List<Submitter> submitters = new ArrayList<Submitter>(0);
 
     /**
      * A list of user references for this individual
      */
-    public List<UserReference> userReferences = new ArrayList<UserReference>();
+    public List<UserReference> userReferences = new ArrayList<UserReference>(0);
 
     /**
      * The cross-reference ID for this individual
@@ -150,22 +150,22 @@ public class Individual extends AbstractElement {
     /**
      * The phone numbers for the individual
      */
-    public List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>();
+    public List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * Web URL's. New for GEDCOM 5.5.1.
      */
-    public List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>();
+    public List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * Fax numbers. New for GEDCOM 5.5.1.
      */
-    public List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>();
+    public List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * The emails for this submitter. New for GEDCOM 5.5.1
      */
-    public List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>();
+    public List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
 
     // CHECKSTYLE:OFF for method length
     /**
@@ -428,7 +428,7 @@ public class Individual extends AbstractElement {
      * @return a list of attributes of the specified type
      */
     public List<IndividualAttribute> getAttributesOfType(IndividualAttributeType type) {
-        List<IndividualAttribute> result = new ArrayList<IndividualAttribute>();
+        List<IndividualAttribute> result = new ArrayList<IndividualAttribute>(0);
         for (IndividualAttribute ir : attributes) {
             if (ir.type == type) {
                 result.add(ir);
@@ -466,7 +466,7 @@ public class Individual extends AbstractElement {
      * @return a list of events of the specified type
      */
     public List<IndividualEvent> getEventsOfType(IndividualEventType type) {
-        List<IndividualEvent> result = new ArrayList<IndividualEvent>();
+        List<IndividualEvent> result = new ArrayList<IndividualEvent>(0);
         for (IndividualEvent ie : events) {
             if (ie.type == type) {
                 result.add(ie);

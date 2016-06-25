@@ -58,7 +58,7 @@ public class Submitter extends AbstractElement {
     /**
      * The language preferences
      */
-    public List<StringWithCustomTags> languagePref = new ArrayList<StringWithCustomTags>();
+    public List<StringWithCustomTags> languagePref = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * The address of this submitter
@@ -68,27 +68,27 @@ public class Submitter extends AbstractElement {
     /**
      * The phone numbers for this submitter
      */
-    public List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>();
+    public List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * Web URL's. New for GEDCOM 5.5.1.
      */
-    public List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>();
+    public List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * Fax numbers. New for GEDCOM 5.5.1.
      */
-    public List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>();
+    public List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * The emails for this submitter. New for GEDCOM 5.5.1
      */
-    public List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>();
+    public List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * The multimedia for this submitter
      */
-    public List<Multimedia> multimedia = new ArrayList<Multimedia>();
+    public List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
 
     /**
      * The change date for this submitter
@@ -98,12 +98,12 @@ public class Submitter extends AbstractElement {
     /**
      * The user references for this submitter
      */
-    public List<UserReference> userReferences = new ArrayList<UserReference>();
+    public List<UserReference> userReferences = new ArrayList<UserReference>(0);
 
     /**
      * The notes for this submitter
      */
-    public List<Note> notes = new ArrayList<Note>();
+    public List<Note> notes = new ArrayList<Note>(0);
 
     /**
      * {@inheritDoc}
