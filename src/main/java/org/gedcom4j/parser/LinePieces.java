@@ -48,6 +48,11 @@ class LinePieces {
     String remainder;
 
     /**
+     * The current character index into the line
+     */
+    private int currCharIdx;
+
+    /**
      * Constructor that makes a {@link LinePieces} object from a line of text input from a GEDCOM file
      * 
      * @param line
@@ -59,37 +64,10 @@ class LinePieces {
      */
     LinePieces(String line, int lineNum) throws GedcomParserException {
 
-        int currCharIdx = getLevelAndReturnIndex(line, lineNum);
+        currCharIdx = getLevelAndReturnIndex(line, lineNum);
 
-        StringBuilder i = null;
-        StringBuilder t = new StringBuilder();
-
-        // Take care of the id, if any
-        if ('@' == (line.charAt(currCharIdx))) {
-            while (currCharIdx < line.length() && line.charAt(currCharIdx) != ' ') {
-                if (i == null) {
-                    i = new StringBuilder(String.valueOf(line.charAt(currCharIdx++)));
-                } else {
-                    i.append(String.valueOf(line.charAt(currCharIdx++)));
-                }
-            }
-            currCharIdx++;
-        }
-        if (i != null) {
-            id = i.toString();
-        }
-
-        // Parse the tag
-        while (currCharIdx < line.length() && line.charAt(currCharIdx) != ' ') {
-            if (t == null) {
-                t = new StringBuilder(String.valueOf(line.charAt(currCharIdx++)));
-            } else {
-                t.append(String.valueOf(line.charAt(currCharIdx++)));
-            }
-        }
-        if (t != null) {
-            tag = t.toString();
-        }
+        processXrefId(line);
+        parseTag(line);
 
         if (currCharIdx < line.length()) {
             remainder = line.substring(currCharIdx + 1);
@@ -131,6 +109,51 @@ class LinePieces {
             throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
         } catch (IndexOutOfBoundsException e) {
             throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
+        }
+    }
+
+    /**
+     * Parse the tag part out of the line
+     * 
+     * @param line
+     *            the line
+     */
+    private void parseTag(String line) {
+        // Parse the tag
+        StringBuilder t = null;
+        while (currCharIdx < line.length() && line.charAt(currCharIdx) != ' ') {
+            if (t == null) {
+                t = new StringBuilder(String.valueOf(line.charAt(currCharIdx++)));
+            } else {
+                t.append(String.valueOf(line.charAt(currCharIdx++)));
+            }
+        }
+        if (t != null) {
+            tag = t.toString().intern();
+        }
+    }
+
+    /**
+     * Process the XREF ID portion of the line
+     * 
+     * @param line
+     *            the line
+     */
+    private void processXrefId(String line) {
+        // Take care of the id, if any
+        StringBuilder i = null;
+        if ('@' == (line.charAt(currCharIdx))) {
+            while (currCharIdx < line.length() && line.charAt(currCharIdx) != ' ') {
+                if (i == null) {
+                    i = new StringBuilder(String.valueOf(line.charAt(currCharIdx++)));
+                } else {
+                    i.append(String.valueOf(line.charAt(currCharIdx++)));
+                }
+            }
+            currCharIdx++;
+        }
+        if (i != null) {
+            id = i.toString().intern();
         }
     }
 }

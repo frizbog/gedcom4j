@@ -61,7 +61,7 @@ public enum Encoding {
     public static Set<String> getSupportedCharacterSetNames() {
         Set<String> result = new TreeSet<String>();
         for (Encoding e : values()) {
-            result.add(e.characterSetName.intern());
+            result.add(e.characterSetName);
         }
         return result;
     }
@@ -75,7 +75,7 @@ public enum Encoding {
      */
     public static boolean isValidCharacterSetName(String characterSetName) {
         for (Encoding e : values()) {
-            if (e.characterSetName.intern().equals(characterSetName)) {
+            if (e.characterSetName.equals(characterSetName)) {
                 return true;
             }
         }

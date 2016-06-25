@@ -542,8 +542,8 @@ public class GedcomWriter {
         for (StringTree st : customTags) {
             StringBuilder line = new StringBuilder(Integer.toString(level));
             line.append(" ");
-            if (st.id != null && st.id.intern().trim().length() > 0) {
-                line.append(st.id.intern()).append(" ");
+            if (st.id != null && st.id.trim().length() > 0) {
+                line.append(st.id).append(" ");
             }
             line.append(st.tag);
             if (st.value != null && st.value.trim().length() > 0) {
