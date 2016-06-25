@@ -102,7 +102,7 @@ public class StringWithCustomTags extends AbstractElement {
         StringBuilder sb = new StringBuilder(value == null ? "null" : value);
         for (StringTree ct : customTags) {
             sb.append("\n");
-            sb.append(ct.level + (ct.id == null ? "" : " " + ct.id) + " " + ct.tag + " " + ct.value);
+            sb.append(ct.level + (ct.id == null ? "" : " " + ct.id.intern()) + " " + ct.tag.intern() + " " + ct.value);
         }
 
         return sb.toString();

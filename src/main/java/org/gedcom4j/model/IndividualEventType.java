@@ -126,6 +126,33 @@ public enum IndividualEventType {
     EVENT("EVEN", "Event");
 
     /**
+     * Get an individual event type enum constant from its tag
+     * 
+     * @param tag
+     *            the tag (as a string)
+     * @return the individual event enum constant that corresponds to the tag
+     */
+    public static IndividualEventType getFromTag(String tag) {
+        for (IndividualEventType t : values()) {
+            if (t.tag.intern().equals(tag)) {
+                return t;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Is the string supplied a tag that corresponds to an enumerated Individual Event Type?
+     * 
+     * @param tag
+     *            the tag being tested
+     * @return true if and only if the tag corresponds to an enumerated individual event type
+     */
+    public static boolean isValidTag(String tag) {
+        return getFromTag(tag) != null;
+    }
+
+    /**
      * The tag
      */
     public final String tag;
@@ -144,35 +171,8 @@ public enum IndividualEventType {
      *            the display value
      */
     private IndividualEventType(String tag, String display) {
-        this.tag = tag;
-        this.display = display;
-    }
-
-    /**
-     * Get an individual event type enum constant from its tag
-     * 
-     * @param tag
-     *            the tag (as a string)
-     * @return the individual event enum constant that corresponds to the tag
-     */
-    public static IndividualEventType getFromTag(String tag) {
-        for (IndividualEventType t : values()) {
-            if (t.tag.equals(tag)) {
-                return t;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Is the string supplied a tag that corresponds to an enumerated Individual Event Type?
-     * 
-     * @param tag
-     *            the tag being tested
-     * @return true if and only if the tag corresponds to an enumerated individual event type
-     */
-    public static boolean isValidTag(String tag) {
-        return getFromTag(tag) != null;
+        this.tag = tag.intern();
+        this.display = display.intern();
     }
 
 }

@@ -74,6 +74,33 @@ public enum FamilyEventType {
     EVENT("EVEN", "Event");
 
     /**
+     * Get an enum type from its tag string
+     * 
+     * @param tag
+     *            the tag as a string
+     * @return the enum type that corresponds to the tag, or null if it's not a known tag
+     */
+    public static FamilyEventType getFromTag(String tag) {
+        for (FamilyEventType t : values()) {
+            if (t.tag.intern().equals(tag)) {
+                return t;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Is the tag string a valid tag for a Family Event Type?
+     * 
+     * @param tag
+     *            the tag as a string
+     * @return true if and only if the tag is one of the known tags for Family Event types
+     */
+    public static boolean isValidTag(String tag) {
+        return getFromTag(tag) != null;
+    }
+
+    /**
      * The tag
      */
     public final String tag;
@@ -92,35 +119,8 @@ public enum FamilyEventType {
      *            the display value for the enum constant
      */
     private FamilyEventType(String tag, String display) {
-        this.tag = tag;
-        this.display = display;
-    }
-
-    /**
-     * Get an enum type from its tag string
-     * 
-     * @param tag
-     *            the tag as a string
-     * @return the enum type that corresponds to the tag, or null if it's not a known tag
-     */
-    public static FamilyEventType getFromTag(String tag) {
-        for (FamilyEventType t : values()) {
-            if (t.tag.equals(tag)) {
-                return t;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Is the tag string a valid tag for a Family Event Type?
-     * 
-     * @param tag
-     *            the tag as a string
-     * @return true if and only if the tag is one of the known tags for Family Event types
-     */
-    public static boolean isValidTag(String tag) {
-        return getFromTag(tag) != null;
+        this.tag = tag.intern();
+        this.display = display.intern();
     }
 
 }

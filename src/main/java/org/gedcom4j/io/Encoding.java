@@ -32,14 +32,12 @@ import java.util.TreeSet;
 public enum Encoding {
 
     /**
-     * ASCII. Only characters from 0x00 to 0x7F are expected, one byte per
-     * character.
+     * ASCII. Only characters from 0x00 to 0x7F are expected, one byte per character.
      */
     ASCII("ASCII"),
     /**
-     * ANSEL (American National Standard for Extended Latin), aka ANSI
-     * Z39.47-1985, aka MARC-8. This is the default for GEDCOM files. One byte
-     * per character.
+     * ANSEL (American National Standard for Extended Latin), aka ANSI Z39.47-1985, aka MARC-8. This is the default for
+     * GEDCOM files. One byte per character.
      */
     ANSEL("ANSEL"),
     /**
@@ -55,26 +53,6 @@ public enum Encoding {
      */
     UTF_8("UTF-8");
 
-
-    /**
-     * The character set name found in the GEDCOM that represents a character
-     * set encoding. Note that multiple instances of this enum can share the
-     * same value for this field.
-     */
-    private String characterSetName;
-
-    /**
-     * Constructor
-     *
-     * @param characterSetName
-     *            the character set name in the GEDCOM that corresponds to this
-     *            Encoding object. Note that this value will not be unique among
-     *            instances in the enum.
-     */
-    private Encoding(String characterSetName) {
-        this.characterSetName = characterSetName;
-    }
-
     /**
      * Get an alphabetically sorted set of supported character set names
      * 
@@ -83,7 +61,7 @@ public enum Encoding {
     public static Set<String> getSupportedCharacterSetNames() {
         Set<String> result = new TreeSet<String>();
         for (Encoding e : values()) {
-            result.add(e.characterSetName);
+            result.add(e.characterSetName.intern());
         }
         return result;
     }
@@ -93,16 +71,32 @@ public enum Encoding {
      * 
      * @param characterSetName
      *            the character set name (e.g., "ANSEL", "UTF-8")
-     * @return true if and only if there is an {@link Encoding} defined for the
-     *         given character set name
+     * @return true if and only if there is an {@link Encoding} defined for the given character set name
      */
     public static boolean isValidCharacterSetName(String characterSetName) {
         for (Encoding e : values()) {
-            if (e.characterSetName.equals(characterSetName)) {
+            if (e.characterSetName.intern().equals(characterSetName)) {
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * The character set name found in the GEDCOM that represents a character set encoding. Note that multiple instances
+     * of this enum can share the same value for this field.
+     */
+    private String characterSetName;
+
+    /**
+     * Constructor
+     *
+     * @param characterSetName
+     *            the character set name in the GEDCOM that corresponds to this Encoding object. Note that this value
+     *            will not be unique among instances in the enum.
+     */
+    private Encoding(String characterSetName) {
+        this.characterSetName = characterSetName.intern();
     }
 
     /**
@@ -111,6 +105,6 @@ public enum Encoding {
      * @return the character set name
      */
     public String getCharacterSetName() {
-        return characterSetName;
+        return characterSetName.intern();
     }
 }

@@ -211,8 +211,8 @@ final class GedcomParserHelper {
                 if (beginsWithLevelAndSpace) {
                     LinePieces lp = new LinePieces(line, lineNum);
                     st.level = lp.level;
-                    st.id = lp.id;
-                    st.tag = lp.tag;
+                    st.id = lp.id == null ? null : lp.id.intern();
+                    st.tag = lp.tag.intern();
                     st.value = lp.remainder;
                     StringTree addTo;
                     addTo = findLast(result, lp.level - 1, errors, st);
@@ -227,7 +227,7 @@ final class GedcomParserHelper {
                     if (lastAdded != null) {
                         // Try to add as a CONT line to previous node, as if the file had been properly escaped
                         st.level = lastAdded.level + 1;
-                        st.tag = Tag.CONTINUATION.tagText;
+                        st.tag = Tag.CONTINUATION.tagText.intern();
                         st.value = line;
                         st.parent = lastAdded;
                         lastAdded.children.add(st);

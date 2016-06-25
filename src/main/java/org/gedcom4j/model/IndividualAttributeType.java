@@ -89,6 +89,33 @@ public enum IndividualAttributeType {
     FACT("FACT", "Fact");
 
     /**
+     * Get an enum constant from its tag value
+     * 
+     * @param tag
+     *            the tag value for the enum constant you want
+     * @return the enum constant that matches the supplied tag, or null if no match was found
+     */
+    public static IndividualAttributeType getFromTag(String tag) {
+        for (IndividualAttributeType t : values()) {
+            if (t.tag.intern().equals(tag)) {
+                return t;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Is the supplied tag a valid value for an Individual Attribute?
+     * 
+     * @param tag
+     *            the tag we are testing
+     * @return true if and only if the tag supplied is a valid tag for an Individual Attribute
+     */
+    public static boolean isValidTag(String tag) {
+        return getFromTag(tag) != null;
+    }
+
+    /**
      * The tag
      */
     public final String tag;
@@ -107,34 +134,7 @@ public enum IndividualAttributeType {
      *            the display value
      */
     private IndividualAttributeType(String tag, String display) {
-        this.tag = tag;
-        this.display = display;
-    }
-
-    /**
-     * Get an enum constant from its tag value
-     * 
-     * @param tag
-     *            the tag value for the enum constant you want
-     * @return the enum constant that matches the supplied tag, or null if no match was found
-     */
-    public static IndividualAttributeType getFromTag(String tag) {
-        for (IndividualAttributeType t : values()) {
-            if (t.tag.equals(tag)) {
-                return t;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Is the supplied tag a valid value for an Individual Attribute?
-     * 
-     * @param tag
-     *            the tag we are testing
-     * @return true if and only if the tag supplied is a valid tag for an Individual Attribute
-     */
-    public static boolean isValidTag(String tag) {
-        return getFromTag(tag) != null;
+        this.tag = tag.intern();
+        this.display = display.intern();
     }
 }

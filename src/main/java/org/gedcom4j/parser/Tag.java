@@ -230,7 +230,7 @@ public enum Tag {
      *            the text string for the tag
      */
     private Tag(String tagText) {
-        this.tagText = tagText;
+        this.tagText = tagText.intern();
     }
 
     /**
@@ -241,12 +241,12 @@ public enum Tag {
      * @return true iff the string provided matches the text string for this tag
      */
     public boolean equals(String s) {
-        return tagText.equals(s);
+        return tagText.intern().equals(s);
     }
 
     @Override
     public String toString() {
-        return tagText;
+        return tagText.intern();
     }
 
 }
