@@ -27,6 +27,7 @@ package org.gedcom4j.parser;
  * @author frizbog1
  */
 class LinePieces {
+
     /**
      * The level of the line
      */
@@ -53,21 +54,32 @@ class LinePieces {
     private int currCharIdx;
 
     /**
-     * Constructor that makes a {@link LinePieces} object from a line of text input from a GEDCOM file
+     * The line
+     */
+    private final String line;
+
+    /** The characters in the line */
+    private final char[] chars;
+
+    /**
+     * Constructor that makes a {@link LinePieces2} object from a line of text input from a GEDCOM file
      * 
-     * @param line
+     * @param lineToParse
      *            a single line of text from the GEDCOM file
      * @param lineNum
      *            which line in the file this is
      * @throws GedcomParserException
      *             if the line of text cannot be split into pieces
      */
-    LinePieces(String line, int lineNum) throws GedcomParserException {
+    LinePieces(String lineToParse, int lineNum) throws GedcomParserException {
 
-        currCharIdx = getLevelAndReturnIndex(line, lineNum);
+        line = lineToParse;
+        chars = new char[line.length()];
+        line.getChars(0, line.length(), chars, 0);
 
-        processXrefId(line);
-        parseTag(line);
+        parseLevel(lineNum);
+        processXrefId();
+        parseTag();
 
         if (currCharIdx < line.length()) {
             remainder = line.substring(currCharIdx + 1);
@@ -81,30 +93,26 @@ class LinePieces {
      * for this assumption is the fact that the {@link GedcomParserHelper} class already does this checking prior to
      * breaking up the line into pieces
      * 
-     * @param line
-     *            the line from the file/stream
      * @param lineNum
      *            the line number
-     * @return the index in the line to continue parsing after
      * @throws GedcomParserException
      *             if the line does not begin with a 1-2 digit number followed by a space
      */
-    private int getLevelAndReturnIndex(String line, int lineNum) throws GedcomParserException {
+    private void parseLevel(int lineNum) throws GedcomParserException {
         try {
             char c2 = line.charAt(1); // 2nd character in line
 
-            int result = -1;
+            currCharIdx = -1;
 
             if (' ' == c2) {
                 // Second character in line is a space, so assume a 1-digit level
-                level = Integer.parseInt(line.substring(0, 1));
-                result = 2; // Continue parsing at 3rd character in line
+                level = Character.getNumericValue(chars[0]);
+                currCharIdx = 2; // Continue parsing at 3rd character in line
             } else {
                 // Second character in line is not a space, so assume a 2-digit level
-                level = Integer.parseInt(line.substring(0, 2));
-                result = 3; // Continue parsting at 4th character in line
+                level = Character.getNumericValue(chars[0]) * 10 + Character.getNumericValue(chars[1]);
+                currCharIdx = 3; // Continue parsting at 4th character in line
             }
-            return result;
         } catch (NumberFormatException e) {
             throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
         } catch (IndexOutOfBoundsException e) {
@@ -114,41 +122,30 @@ class LinePieces {
 
     /**
      * Parse the tag part out of the line
-     * 
-     * @param line
-     *            the line
      */
-    private void parseTag(String line) {
+    private void parseTag() {
         // Parse the tag
-        StringBuilder t = null;
-        while (currCharIdx < line.length() && line.charAt(currCharIdx) != ' ') {
-            if (t == null) {
-                t = new StringBuilder(String.valueOf(line.charAt(currCharIdx++)));
-            } else {
-                t.append(String.valueOf(line.charAt(currCharIdx++)));
-            }
+        StringBuilder t = new StringBuilder();
+        while (currCharIdx < line.length() && chars[currCharIdx] != ' ') {
+            t.append(chars[currCharIdx++]);
         }
-        if (t != null) {
+        if (t.length() > 0) {
             tag = t.toString().intern();
         }
     }
 
     /**
      * Process the XREF ID portion of the line
-     * 
-     * @param line
-     *            the line
      */
-    private void processXrefId(String line) {
+    private void processXrefId() {
         // Take care of the id, if any
         StringBuilder i = null;
-        if ('@' == (line.charAt(currCharIdx))) {
-            while (currCharIdx < line.length() && line.charAt(currCharIdx) != ' ') {
+        if ('@' == (chars[currCharIdx])) {
+            while (currCharIdx < line.length() && chars[currCharIdx] != ' ') {
                 if (i == null) {
-                    i = new StringBuilder(String.valueOf(line.charAt(currCharIdx++)));
-                } else {
-                    i.append(String.valueOf(line.charAt(currCharIdx++)));
+                    i = new StringBuilder();
                 }
+                i.append(chars[currCharIdx++]);
             }
             currCharIdx++;
         }
