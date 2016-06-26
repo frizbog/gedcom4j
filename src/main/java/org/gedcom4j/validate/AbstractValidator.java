@@ -21,11 +21,11 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.model.*;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.gedcom4j.model.*;
 
 /**
  * A base class for all validators
@@ -160,12 +160,10 @@ abstract class AbstractValidator {
         try {
             fldVal = customTagsField.get(o);
         } catch (IllegalArgumentException e) {
-            addError("Cannot get value of customTags attribute on object of type " + o.getClass().getSimpleName()
-                    + " - " + e.getMessage(), o);
+            addError("Cannot get value of customTags attribute on object of type " + o.getClass().getSimpleName() + " - " + e.getMessage(), o);
             return;
         } catch (IllegalAccessException e) {
-            addError("Cannot get value of customTags attribute on object of type " + o.getClass().getSimpleName()
-                    + " - " + e.getMessage(), o);
+            addError("Cannot get value of customTags attribute on object of type " + o.getClass().getSimpleName() + " - " + e.getMessage(), o);
             return;
         }
         if (fldVal == null) {
@@ -174,12 +172,10 @@ abstract class AbstractValidator {
                 try {
                     customTagsField.set(o, customTags);
                 } catch (IllegalArgumentException e) {
-                    addError("Cannot autorepair value of customTags attribute on object of type "
-                            + o.getClass().getSimpleName() + " - " + e.getMessage(), o);
+                    addError("Cannot autorepair value of customTags attribute on object of type " + o.getClass().getSimpleName() + " - " + e.getMessage(), o);
                     return;
                 } catch (IllegalAccessException e) {
-                    addError("Cannot autorepair value of customTags attribute on object of type "
-                            + o.getClass().getSimpleName() + " - " + e.getMessage(), o);
+                    addError("Cannot autorepair value of customTags attribute on object of type " + o.getClass().getSimpleName() + " - " + e.getMessage(), o);
                     return;
                 }
                 rootValidator.addInfo("Custom tag collection was null - repaired", o);
@@ -217,8 +213,8 @@ abstract class AbstractValidator {
      */
     protected void checkOptionalString(String optionalString, String fieldDescription, Object objectContainingField) {
         if (optionalString != null && optionalString.trim().length() == 0) {
-            addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName()
-                    + " is specified, but has a blank value", objectContainingField);
+            addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName() + " is specified, but has a blank value",
+                    objectContainingField);
         }
     }
 
@@ -232,11 +228,10 @@ abstract class AbstractValidator {
      * @param objectContainingField
      *            the object containing the field being checked
      */
-    protected void checkOptionalString(StringWithCustomTags optionalString, String fieldDescription,
-            Object objectContainingField) {
+    protected void checkOptionalString(StringWithCustomTags optionalString, String fieldDescription, Object objectContainingField) {
         if (optionalString != null && optionalString.value != null && optionalString.value.trim().length() == 0) {
-            addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName()
-                    + " is specified, but has a blank value", objectContainingField);
+            addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName() + " is specified, but has a blank value",
+                    objectContainingField);
         }
         checkStringWithCustomTags(optionalString, fieldDescription);
     }
@@ -253,8 +248,8 @@ abstract class AbstractValidator {
      */
     protected void checkRequiredString(String requiredString, String fieldDescription, Object objectContainingField) {
         if (requiredString == null || requiredString.trim().length() == 0) {
-            addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName()
-                    + " is required, but is either null or blank", objectContainingField);
+            addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName() + " is required, but is either null or blank",
+                    objectContainingField);
         }
     }
 
@@ -268,11 +263,10 @@ abstract class AbstractValidator {
      * @param objectContainingField
      *            the object containing the field being checked
      */
-    protected void checkRequiredString(StringWithCustomTags requiredString, String fieldDescription,
-            Object objectContainingField) {
+    protected void checkRequiredString(StringWithCustomTags requiredString, String fieldDescription, Object objectContainingField) {
         if (requiredString == null || requiredString.value == null || requiredString.value.trim().length() == 0) {
-            addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName()
-                    + " is required, but is either null or blank", objectContainingField);
+            addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName() + " is required, but is either null or blank",
+                    objectContainingField);
         }
         checkStringWithCustomTags(requiredString, fieldDescription);
     }
@@ -289,12 +283,27 @@ abstract class AbstractValidator {
      *            are blank strings allowed in the string list?
      */
     protected void checkStringList(List<String> stringList, String description, boolean blanksAllowed) {
-        for (String a : stringList) {
+        int i = 0;
+        while (i < stringList.size()) {
+            String a = stringList.get(i);
             if (a == null) {
-                addError("String list (" + description + ") contains null entry", stringList);
+                if (rootValidator.autorepair == true) {
+                    addInfo("String list (" + description + ") contains null entry - removed", stringList);
+                    stringList.remove(i);
+                    continue;
+                } else {
+                    addError("String list (" + description + ") contains null entry", stringList);
+                }
             } else if (!blanksAllowed && a.trim().length() == 0) {
-                addError("String list (" + description + ") contains blank entry where none are allowed", stringList);
+                if (rootValidator.autorepair == true) {
+                    addInfo("String list (" + description + ") contains blank entry where none are allowed - removed", stringList);
+                    stringList.remove(i);
+                    continue;
+                } else {
+                    addError("String list (" + description + ") contains blank entry where none are allowed", stringList);
+                }
             }
+            i++;
         }
     }
 
@@ -310,12 +319,27 @@ abstract class AbstractValidator {
      *            are blank strings allowed in the string list?
      */
     protected void checkStringTagList(List<StringWithCustomTags> stringList, String description, boolean blanksAllowed) {
-        for (StringWithCustomTags a : stringList) {
+        int i = 0;
+        while (i < stringList.size()) {
+            StringWithCustomTags a = stringList.get(i);
             if (a == null || a.value == null) {
-                addError("String list (" + description + ") contains null entry", stringList);
+                if (rootValidator.autorepair == true) {
+                    addInfo("String list (" + description + ") contains null entry - removed", stringList);
+                    stringList.remove(i);
+                    continue;
+                } else {
+                    addError("String list (" + description + ") contains null entry", stringList);
+                }
             } else if (!blanksAllowed && a.value.trim().length() == 0) {
-                addError("String list (" + description + ") contains blank entry where none are allowed", stringList);
+                if (rootValidator.autorepair == true) {
+                    addInfo("String list (" + description + ") contains blank entry where none are allowed - removed", stringList);
+                    stringList.remove(i);
+                    continue;
+                } else {
+                    addError("String list (" + description + ") contains blank entry where none are allowed", stringList);
+                }
             }
+            i++;
         }
     }
 
@@ -330,8 +354,7 @@ abstract class AbstractValidator {
     protected void checkUserReferences(List<UserReference> userReferences, Object objectWithUserReferences) {
         for (UserReference userReference : userReferences) {
             if (userReference == null) {
-                addError("Null user reference in collection on " + objectWithUserReferences.getClass().getSimpleName(),
-                        objectWithUserReferences);
+                addError("Null user reference in collection on " + objectWithUserReferences.getClass().getSimpleName(), objectWithUserReferences);
             } else {
                 checkRequiredString(userReference.referenceNum, "reference number", userReference);
                 checkOptionalString(userReference.type, "reference type", userReference);
@@ -364,32 +387,24 @@ abstract class AbstractValidator {
             checkRequiredString(xref, xrefFieldName, objectContainingXref);
             if (xref != null) {
                 if (xref.length() < 3) {
-                    addError("xref on " + objectContainingXref.getClass().getSimpleName()
-                            + " is too short to be a valid xref", objectContainingXref);
+                    addError("xref on " + objectContainingXref.getClass().getSimpleName() + " is too short to be a valid xref", objectContainingXref);
                 } else if (xref.charAt(0) != '@') {
-                    addError("xref on " + objectContainingXref.getClass().getSimpleName()
-                            + " is doesn't start with an at-sign (@)", objectContainingXref);
+                    addError("xref on " + objectContainingXref.getClass().getSimpleName() + " is doesn't start with an at-sign (@)", objectContainingXref);
                 }
                 if (!xref.endsWith("@")) {
-                    addError("xref on " + objectContainingXref.getClass().getSimpleName()
-                            + " is doesn't end with an at-sign (@)", objectContainingXref);
+                    addError("xref on " + objectContainingXref.getClass().getSimpleName() + " is doesn't end with an at-sign (@)", objectContainingXref);
                 }
             }
         } catch (SecurityException e) {
-            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName()
-                    + " doesn't have an xref to validate", e);
+            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName() + " doesn't have an xref to validate", e);
         } catch (ClassCastException e) {
-            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName()
-                    + " doesn't have an xref to validate", e);
+            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName() + " doesn't have an xref to validate", e);
         } catch (NoSuchFieldException e) {
-            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName()
-                    + " doesn't have an xref to validate", e);
+            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName() + " doesn't have an xref to validate", e);
         } catch (IllegalArgumentException e) {
-            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName()
-                    + " doesn't have an xref to validate", e);
+            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName() + " doesn't have an xref to validate", e);
         } catch (IllegalAccessException e) {
-            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName()
-                    + " doesn't have an xref to validate", e);
+            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName() + " doesn't have an xref to validate", e);
         }
     }
 

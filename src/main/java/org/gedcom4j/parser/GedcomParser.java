@@ -255,14 +255,15 @@ public class GedcomParser {
      * @return the submitter with the specified xref
      */
     private Submitter getSubmitter(String xref) {
-        Submitter i;
-        i = gedcom.submitters.get(xref);
-        if (i == null) {
-            i = new Submitter();
-            i.xref = xref;
-            gedcom.submitters.put(xref, i);
+        Submitter s;
+        s = gedcom.submitters.get(xref);
+        if (s == null) {
+            s = new Submitter();
+            s.name = new StringWithCustomTags("UNSPECIFIED");
+            s.xref = xref;
+            gedcom.submitters.put(xref, s);
         }
-        return i;
+        return s;
     }
 
     /**
