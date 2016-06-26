@@ -24,7 +24,6 @@ package org.gedcom4j.io;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -49,7 +48,7 @@ class UnicodeBigEndianReader extends AbstractEncodingSpecificReader {
      * {@inheritDoc}
      */
     @Override
-    protected Collection<? extends String> load() throws IOException {
+    protected List<String> load() throws IOException {
         List<String> result = new ArrayList<String>();
 
         StringBuilder lineBuffer = new StringBuilder();

@@ -2,6 +2,7 @@ package org.gedcom4j.parser;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import org.gedcom4j.io.GedcomFileReader;
@@ -39,6 +40,13 @@ public class StringTreeBuilder {
     }
 
     /**
+     * An array of references to the most recently added node for each given level. Works as a fast index to the nodes
+     * so we can find parents quickly. Whenever a new node is added, set, or removed for level N, all entries in this
+     * index &gt; N (i.e., all the child levels) need to be cleared.
+     */
+    private final StringTree[] lastNodeAtLevel = new StringTree[100];
+
+    /**
      * The buffered input stream we are reading from
      */
     private final BufferedInputStream inputStream;
@@ -73,7 +81,7 @@ public class StringTreeBuilder {
     /**
      * The tree that represents the entire file. Will be returned at the end of the StringTree construction process.
      */
-    private StringTree treeForWholeFile;
+    private final StringTree treeForWholeFile = new StringTree();
 
     /**
      * The most recently added node
@@ -111,7 +119,6 @@ public class StringTreeBuilder {
      */
     StringTree makeStringTreeFromStream() throws IOException, GedcomParserException {
         List<String> lines = new GedcomFileReader(inputStream).getLines();
-        treeForWholeFile = new StringTree();
         treeForWholeFile.level = -1;
         mostRecentlyAdded = null;
         try {
@@ -125,7 +132,7 @@ public class StringTreeBuilder {
                 checkIfNewLevelLine(lineNum, line);
 
                 if (beginsWithLevelAndSpace) {
-                    addNewNode(line, lineNum);
+                    addNewNode(lineNum, line);
                     mostRecentlyAdded = treeForCurrentLine;
                 } else {
                     makeConcatenationOfPreviousNode(lineNum, line);
@@ -142,25 +149,36 @@ public class StringTreeBuilder {
     /**
      * Add a new node to the correct parent node in the StringTree
      * 
-     * @param line
-     *            the current line of the file
      * @param lineNum
      *            the current line number in the file
+     * @param line
+     *            the current line of the file
      * 
      * @throws GedcomParserException
+     *             if there are file lines that are not well formed - see {@link LinePieces#LinePieces(String, int)}
      */
-    private void addNewNode(String line, int lineNum) throws GedcomParserException {
+    private void addNewNode(int lineNum, String line) throws GedcomParserException {
         LinePieces lp = new LinePieces(line, lineNum);
         treeForCurrentLine.level = lp.level;
-        treeForCurrentLine.id = (lp.id == null ? null : lp.id.intern());
+        treeForCurrentLine.id = lp.id;
         treeForCurrentLine.tag = lp.tag.intern();
         treeForCurrentLine.value = lp.remainder;
-        StringTree addTo;
-        addTo = findPlaceToAttachNode(treeForWholeFile);
-        if (addTo != null) {
+
+        StringTree addTo = null;
+        if (treeForCurrentLine.level == 0) {
+            addTo = treeForWholeFile;
+        } else {
+            addTo = lastNodeAtLevel[treeForCurrentLine.level - 1];
+        }
+        if (addTo == null) {
+            errors.add(treeForCurrentLine.tag + " tag at line " + treeForCurrentLine.lineNum + ": Unable to find suitable parent node at level "
+                    + (treeForCurrentLine.level - 1));
+        } else {
             addTo.children.add(treeForCurrentLine);
             treeForCurrentLine.parent = addTo;
+            lastNodeAtLevel[treeForCurrentLine.level] = treeForCurrentLine;
         }
+        Arrays.fill(lastNodeAtLevel, treeForCurrentLine.level + 1, 100, null);
     }
 
     /**
@@ -180,7 +198,7 @@ public class StringTreeBuilder {
         beginsWithLevelAndSpace = false;
         try {
             // Probably sets it to true, but might not for a non-standard file - see Issue 100
-            beginsWithLevelAndSpace = startsWithLevelAndSpace(line, lineNum);
+            beginsWithLevelAndSpace = startsWithLevelAndSpace(lineNum, line);
         } catch (GedcomParserException e) {
             if (strictLineBreaks) {
                 throw e;
@@ -189,44 +207,12 @@ public class StringTreeBuilder {
     }
 
     /**
-     * Find the last item at the supplied level in the supplied tree, so we can find a parent node to hang the current
-     * node on. Uses recursion to look for the latest child item of the latest child item (etc) of the root of the tree.
-     * 
-     * @param lookInSubtree
-     *            the tree (or portion thereof) we want to look through for a place to attach currentNode
-     * 
-     * @return the last item at the supplied level in the supplied tree
-     * @throws GedcomParserException
-     *             if there is an issue with level numbers not being consistent
-     */
-    private StringTree findPlaceToAttachNode(StringTree lookInSubtree) throws GedcomParserException {
-        if (lookInSubtree.level == (treeForCurrentLine.level - 1)) {
-            // If the level we're looking in is the level we want, we're done
-            return lookInSubtree;
-        }
-        if (lookInSubtree.children.isEmpty()) {
-            // If the tree we're looking for has no children, we can't proceed
-            errors.add(treeForCurrentLine.tag + " tag at line " + treeForCurrentLine.lineNum + ": Unable to find suitable parent node at level "
-                    + (treeForCurrentLine.level - 1) + " under " + lookInSubtree);
-            return null;
-        }
-        // Get the most recently added item in the tree we're looking through
-        StringTree lastChild = lookInSubtree.children.get(lookInSubtree.children.size() - 1);
-
-        if (lastChild.level == (treeForCurrentLine.level - 1)) {
-            // that child is at the level we want, so return it
-            return lastChild;
-        }
-
-        // Found the most recently loaded node, but the level isn't right, so recurse into
-        return findPlaceToAttachNode(lastChild);
-    }
-
-    /**
      * Make the current node a concatenation of the previous node.
      * 
      * @param lineNum
+     *            the current line number in the file
      * @param line
+     *            the current line of the file
      */
     private void makeConcatenationOfPreviousNode(int lineNum, String line) {
         // Doesn't begin with a level number followed by a space, and we don't have strictLineBreaks
@@ -248,15 +234,16 @@ public class StringTreeBuilder {
     /**
      * Does this line start with a 1-2 digit level number and a space?
      * 
-     * @param line
-     *            the line being read
      * @param lineNum
      *            the line number being read
+     * @param line
+     *            the line being read
+     * 
      * @return true if and only if the line begins with a 1-2 digit level number followed by a space
      * @throws GedcomParserException
      *             if the line does not begin with a 1-2 digit number followed by a space
      */
-    private boolean startsWithLevelAndSpace(String line, int lineNum) throws GedcomParserException {
+    private boolean startsWithLevelAndSpace(int lineNum, String line) throws GedcomParserException {
 
         try {
             char c1 = line.charAt(0);

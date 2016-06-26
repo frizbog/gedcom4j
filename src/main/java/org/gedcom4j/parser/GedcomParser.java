@@ -153,7 +153,7 @@ public class GedcomParser {
         Family f = gedcom.families.get(xref);
         if (f == null) {
             f = new Family();
-            f.xref = xref.intern();
+            f.xref = xref;
             gedcom.families.put(xref, f);
         }
         return f;
@@ -171,7 +171,7 @@ public class GedcomParser {
         i = gedcom.individuals.get(xref);
         if (i == null) {
             i = new Individual();
-            i.xref = xref.intern();
+            i.xref = xref;
             gedcom.individuals.put(xref, i);
         }
         return i;
@@ -189,7 +189,7 @@ public class GedcomParser {
         m = gedcom.multimedia.get(xref);
         if (m == null) {
             m = new Multimedia();
-            m.xref = xref.intern();
+            m.xref = xref;
             gedcom.multimedia.put(xref, m);
         }
         return m;
@@ -207,7 +207,7 @@ public class GedcomParser {
         note = gedcom.notes.get(xref);
         if (note == null) {
             note = new Note();
-            note.xref = xref.intern();
+            note.xref = xref;
             gedcom.notes.put(xref, note);
         }
         return note;
@@ -224,7 +224,7 @@ public class GedcomParser {
         Repository r = gedcom.repositories.get(xref);
         if (r == null) {
             r = new Repository();
-            r.xref = xref.intern();
+            r.xref = xref;
             gedcom.repositories.put(xref, r);
         }
         return r;
@@ -259,7 +259,7 @@ public class GedcomParser {
         i = gedcom.submitters.get(xref);
         if (i == null) {
             i = new Submitter();
-            i.xref = xref.intern();
+            i.xref = xref;
             gedcom.submitters.put(xref, i);
         }
         return i;
@@ -1388,7 +1388,7 @@ public class GedcomParser {
      *            the OBJE node being loaded
      */
     private void loadMultimediaRecord55(StringTree st) {
-        Multimedia m = getMultimedia(st.id.intern());
+        Multimedia m = getMultimedia(st.id);
         for (StringTree ch : st.children) {
             if (Tag.FORM.equals(ch.tag)) {
                 m.embeddedMediaFormat = new StringWithCustomTags(ch);
@@ -1436,7 +1436,7 @@ public class GedcomParser {
      *            the OBJE node being loaded
      */
     private void loadMultimediaRecord551(StringTree st) {
-        Multimedia m = getMultimedia(st.id.intern());
+        Multimedia m = getMultimedia(st.id);
         for (StringTree ch : st.children) {
             if (Tag.FILE.equals(ch.tag)) {
                 FileReference fr = new FileReference();

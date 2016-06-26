@@ -23,7 +23,7 @@ package org.gedcom4j.io;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * A base class for the various kinds of readers needed based on the encoding used for the data
@@ -53,5 +53,5 @@ abstract class AbstractEncodingSpecificReader {
      * @throws IOException
      *             if there is a problem reading the bytes
      */
-    protected abstract Collection<? extends String> load() throws IOException;
+    protected abstract List<String> load() throws IOException;
 }
