@@ -24,25 +24,25 @@ package org.gedcom4j.parser;
 import junit.framework.TestCase;
 
 /**
- * Test for {@link GedcomParserHelper}
+ * Test for {@link StringTreeBuilder}
  * 
  * @author frizbog
  */
-public class GedcomParserHelperTest extends TestCase {
+public class StringTreeBuilderTest extends TestCase {
 
     /**
-     * Test case for {@link GedcomParserHelper#leftTrim(String)}
+     * Test case for {@link StringTreeBuilder#leftTrim(String)}
      */
     public void testLeftTrim() {
-        assertNull(GedcomParserHelper.leftTrim(null));
-        assertEquals("This is a test", GedcomParserHelper.leftTrim("            This is a test"));
-        assertEquals("This is a test", GedcomParserHelper.leftTrim(" This is a test"));
-        assertEquals("This is a test", GedcomParserHelper.leftTrim("This is a test"));
-        assertEquals("This is a test", GedcomParserHelper.leftTrim("\t   This is a test"));
-        assertEquals("This is a test", GedcomParserHelper.leftTrim(" \t  This is a test"));
-        assertEquals("This is a test", GedcomParserHelper.leftTrim(" \n  This is a test"));
-        assertEquals("This is a test", GedcomParserHelper.leftTrim(" \t\n  \n\r  This is a test"));
-        assertEquals("This is a test", GedcomParserHelper.leftTrim(" \t\n  \u000B\f\n\r  This is a test"));
+        assertNull(StringTreeBuilder.leftTrim(null));
+        assertEquals("This is a test", StringTreeBuilder.leftTrim("            This is a test"));
+        assertEquals("This is a test", StringTreeBuilder.leftTrim(" This is a test"));
+        assertEquals("This is a test", StringTreeBuilder.leftTrim("This is a test"));
+        assertEquals("This is a test", StringTreeBuilder.leftTrim("\t   This is a test"));
+        assertEquals("This is a test", StringTreeBuilder.leftTrim(" \t  This is a test"));
+        assertEquals("This is a test", StringTreeBuilder.leftTrim(" \n  This is a test"));
+        assertEquals("This is a test", StringTreeBuilder.leftTrim(" \t\n  \n\r  This is a test"));
+        assertEquals("This is a test", StringTreeBuilder.leftTrim(" \t\n  \u000B\f\n\r  This is a test"));
     }
 
 }

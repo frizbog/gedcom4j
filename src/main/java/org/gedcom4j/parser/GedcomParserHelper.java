@@ -27,7 +27,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
-import org.gedcom4j.io.GedcomFileReader;
 import org.gedcom4j.model.StringTree;
 
 /**
@@ -37,29 +36,6 @@ import org.gedcom4j.model.StringTree;
  * 
  */
 final class GedcomParserHelper {
-
-    /**
-     * Trim all whitespace off the left side (only) of the supplied string.
-     * 
-     * @param line
-     *            the string to trim left leading whitespace from
-     * @return the line passed in with the leading whitespace removed. If the original string passed in was null, null
-     *         is returned here.
-     */
-    static String leftTrim(String line) {
-        if (line == null) {
-            return null;
-        }
-        if (line == "") {
-            return "";
-        }
-        for (int i = 0; i < line.length(); i++) {
-            if (!Character.isWhitespace(line.charAt(i))) {
-                return line.substring(i);
-            }
-        }
-        return "";
-    }
 
     /**
      * Load the flat file into a tree structure that reflects the heirarchy of its contents, using the default encoding
@@ -136,38 +112,6 @@ final class GedcomParserHelper {
     }
 
     /**
-     * Find the last item at the supplied level in the supplied tree. Uses recursion to look for the latest child item
-     * of the latest child item (etc) of the root of the tree.
-     * 
-     * @param tree
-     *            the tree (or portion thereof) we want to look through
-     * @param lookingForLevel
-     *            the level in the tree that we want to find
-     * @param errors
-     *            a list of error strings we can add to if we can keep processing
-     * @param currentNode
-     *            the current node we are trying to process and find a parent to hang this node on
-     * @return the last item at the supplied level in the supplied tree
-     * @throws GedcomParserException
-     *             if there is an issue with level numbers not being consistent
-     */
-    private static StringTree findLast(StringTree tree, int lookingForLevel, List<String> errors, StringTree currentNode) throws GedcomParserException {
-        if (tree.level == lookingForLevel) {
-            return tree;
-        }
-        if (tree.children.isEmpty()) {
-            errors.add(currentNode.tag + " tag at line " + currentNode.lineNum + ": Unable to find suitable parent node at level " + lookingForLevel + " under "
-                    + tree);
-            return null;
-        }
-        StringTree lastChild = tree.children.get(tree.children.size() - 1);
-        if (lastChild.level == lookingForLevel) {
-            return lastChild;
-        }
-        return findLast(lastChild, lookingForLevel, errors, currentNode);
-    }
-
-    /**
      * Read data from an {@link java.io.InputStream} and construct a {@link StringTree} object from its contents
      * 
      * @param bytes
@@ -187,99 +131,7 @@ final class GedcomParserHelper {
      */
     private static StringTree makeStringTreeFromStream(BufferedInputStream bytes, List<String> errors, List<String> warnings, boolean strictLineBreaks)
             throws IOException, GedcomParserException {
-        List<String> lines = new GedcomFileReader(bytes).getLines();
-        StringTree result = new StringTree();
-        result.level = -1;
-        StringTree lastAdded = null;
-        try {
-            for (int lineNum = 1; lineNum <= lines.size(); lineNum++) {
-                String line = lines.get(lineNum - 1);
-                line = leftTrim(line); // See issue 57
-                StringTree st = new StringTree();
-                st.lineNum = lineNum;
-
-                boolean beginsWithLevelAndSpace = false;
-                try {
-                    // Probably sets it to true, but might not for a non-standard file - see Issue 100
-                    beginsWithLevelAndSpace = startsWithLevelAndSpace(line, lineNum);
-                } catch (GedcomParserException e) {
-                    if (strictLineBreaks) {
-                        throw e;
-                    }
-                }
-
-                if (beginsWithLevelAndSpace) {
-                    LinePieces lp = new LinePieces(line, lineNum);
-                    st.level = lp.level;
-                    st.id = lp.id == null ? null : lp.id.intern();
-                    st.tag = lp.tag.intern();
-                    st.value = lp.remainder;
-                    StringTree addTo;
-                    addTo = findLast(result, lp.level - 1, errors, st);
-                    if (addTo != null) {
-                        addTo.children.add(st);
-                        st.parent = addTo;
-                    }
-                    lastAdded = st;
-                } else {
-                    // Doesn't begin with a level number followed by a space, and we don't have strictLineBreaks
-                    // required, so it's probably meant to be a continuation of the previous text value.
-                    if (lastAdded != null) {
-                        // Try to add as a CONT line to previous node, as if the file had been properly escaped
-                        st.level = lastAdded.level + 1;
-                        st.tag = Tag.CONTINUATION.tagText;
-                        st.value = line;
-                        st.parent = lastAdded;
-                        lastAdded.children.add(st);
-                        warnings.add("Line " + lineNum + " did not begin with a level and tag, so it was treated as a "
-                                + "non-standard continuation of the previous line.");
-                    } else {
-                        warnings.add("Line " + lineNum + " did not begin with a level and tag, so it was discarded.");
-                    }
-                }
-            }
-        } finally {
-            if (bytes != null) {
-                bytes.close();
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Does this line start with a 1-2 digit level number and a space?
-     * 
-     * @param line
-     *            the line being read
-     * @param lineNum
-     *            the line number being read
-     * @return true if and only if the line begins with a 1-2 digit level number followed by a space
-     * @throws GedcomParserException
-     *             if the line does not begin with a 1-2 digit number followed by a space
-     */
-    private static boolean startsWithLevelAndSpace(String line, int lineNum) throws GedcomParserException {
-
-        try {
-            char c1 = line.charAt(0);
-            char c2 = line.charAt(1);
-            char c3 = line.charAt(2);
-
-            if (Character.isDigit(c1)) {
-                if (' ' == c2) {
-                    return true;
-                } else if (Character.isDigit(c2) && ' ' == c3) {
-                    return true;
-                } else {
-                    throw new GedcomParserException(
-                            "Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
-                }
-            } else {
-                throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
-            }
-        } catch (IndexOutOfBoundsException e) {
-            throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
-        }
-
+        return new StringTreeBuilder(bytes, errors, warnings, strictLineBreaks).makeStringTreeFromStream();
     }
 
     /**
