@@ -55,45 +55,46 @@ class AnselReader extends AbstractEncodingSpecificReader {
     @Override
     protected List<String> load() throws IOException {
         List<String> result = new ArrayList<String>();
-        StringBuilder lineBuffer = new StringBuilder();
+        char[] lineBuffer = new char[256];
 
         int lastChar;
-        int b = -1;
+        int currChar = -1;
         boolean eof = false;
+        int lineBufferIdx = 0;
 
         while (!eof) {
-            lastChar = b;
-            b = byteStream.read();
+            lastChar = currChar;
+            currChar = byteStream.read();
 
             // Check for EOF
-            if (b < 0) {
-                addNonBlankLine(result, lineBuffer);
+            if (currChar < 0) {
+                addNonBlankLine(result, lineBuffer, lineBufferIdx);
                 break;
             }
 
             // Check for carriage returns - signify EOL
-            if (b == 0x0D) {
-                addNonBlankLine(result, lineBuffer);
-                lineBuffer.setLength(0);
+            if (currChar == 0x0D) {
+                addNonBlankLine(result, lineBuffer, lineBufferIdx);
+                lineBufferIdx = 0;
                 continue;
             }
 
             // Check for line feeds - signify EOL (unless prev char was a
             // CR)
-            if (b == 0x0A) {
+            if (currChar == 0x0A) {
                 if (lastChar != 0x0D) {
-                    addNonBlankLine(result, lineBuffer);
-                    lineBuffer.setLength(0);
+                    addNonBlankLine(result, lineBuffer, lineBufferIdx);
+                    lineBufferIdx = 0;
                 }
                 continue;
             }
 
             // All other characters are treated the same at this point,
             // regardless of encoding, and added as is
-            lineBuffer.append(Character.valueOf((char) b));
+            lineBuffer[lineBufferIdx++] = (char) currChar;
             continue;
         }
-        result = anselHandler.toUtf16(result);
+        result = anselHandler.toUtf16Lines(result);
         return result;
     }
 
@@ -104,10 +105,14 @@ class AnselReader extends AbstractEncodingSpecificReader {
      *            the resulting list of lines
      * @param lineBuffer
      *            the line buffer - this is all the ANSEL bytes in the line, converted to characters
+     * @param lineBufferIdx
+     *            the position in the line buffer we're up to - that is, the portion of the line buffer that is
+     *            populated with data we want to use
      */
-    private void addNonBlankLine(List<String> result, StringBuilder lineBuffer) {
-        if (lineBuffer.length() > 0) {
-            result.add(lineBuffer.toString());
+    private void addNonBlankLine(List<String> result, char[] lineBuffer, int lineBufferIdx) {
+        if (lineBufferIdx > 0) {
+            String s = new String(lineBuffer).substring(0, lineBufferIdx);
+            result.add(s);
         }
     }
 

@@ -57,11 +57,10 @@ import java.util.List;
  * Special care has to be taken on CONC tag lines because the line split could occur between the diacritical at the end
  * of a line, and the letter being modified at the beginning of the next one
  * </p>
- * 
+ *
  * @author frizbog
  */
 class AnselHandler {
-
     /**
      * The byte value at which ANSEL extended characters begin
      */
@@ -75,12 +74,12 @@ class AnselHandler {
     /**
      * Converts a file (list) of UTF-16 lines into ANSEL lines. Note that some Unicode characters with diacritical marks
      * can be split into multiple ANSEL characters.
-     * 
+     *
      * @param utf16Lines
      *            a list of java UTF-16 strings, each character of which will be expanded/converted to ANSEL.
      * @return a list of UTF16 strings
      */
-    public List<String> toAnsel(List<String> utf16Lines) {
+    public List<String> toAnselLines(List<String> utf16Lines) {
         List<String> result = new ArrayList<String>();
         for (String utf16 : utf16Lines) {
             result.add(toAnsel(utf16));
@@ -90,12 +89,12 @@ class AnselHandler {
 
     /**
      * Converts a file (list) of ansel lines into utf16 lines
-     * 
+     *
      * @param anselLines
      *            a list of strings, each character of which represents an unconverted ANSEL byte
      * @return a list of UTF16 strings
      */
-    public List<String> toUtf16(List<String> anselLines) {
+    public List<String> toUtf16Lines(List<String> anselLines) {
         List<String> result = new ArrayList<String>();
         String prevAnsel = null;
         for (String ansel : anselLines) {
@@ -138,13 +137,15 @@ class AnselHandler {
 
     /**
      * Convert a single UTF-16 string into a string of characters, each of which represents an ANSEL character
-     * 
+     *
      * @param utf16
      *            a run-of-the mill java string in UTF-16 encoding, containing special characters if desired
      * @return a string, each character of which corresponds to a single byte that should be written to ANSEL stream
      */
     String toAnsel(String utf16) {
-        StringBuilder ansel = new StringBuilder();
+        char[] ansel = new char[512];
+        int anselIdx = 0;
+
         for (int i = 0; i < utf16.length(); i++) {
 
             char c = utf16.charAt(i);
@@ -170,24 +171,24 @@ class AnselHandler {
                     oneCharAhead = 0; // Wipe out to zero - indicates no combining diacritics at all
                 }
             }
-            if (twoCharAhead != 0) /* there were two combining diacritics following the base character */{
-                ansel.append(AnselMapping.encode(oneCharAhead));
-                ansel.append(AnselMapping.encode(twoCharAhead));
+            if (twoCharAhead != 0) /* there were two combining diacritics following the base character */ {
+                ansel[anselIdx++] = AnselMapping.encode(oneCharAhead);
+                ansel[anselIdx++] = AnselMapping.encode(twoCharAhead);
+                ansel[anselIdx++] = c;
                 i += 2;
-                ansel.append(c);
                 continue;
             }
-            if (oneCharAhead != 0) /* there was one combining diacritic following the base character */{
-                ansel.append(AnselMapping.encode(oneCharAhead));
+            if (oneCharAhead != 0) /* there was one combining diacritic following the base character */ {
+                ansel[anselIdx++] = AnselMapping.encode(oneCharAhead);
                 i++;
-                ansel.append(c);
+                ansel[anselIdx++] = c;
                 continue;
             }
 
             // No combining diacritics following the base character
             // Characters below a certain point don't need mapping
             if (c < ANSEL_EXTENDED_BEGIN_AT) {
-                ansel.append(c);
+                ansel[anselIdx++] = c;
                 continue;
             }
 
@@ -195,7 +196,7 @@ class AnselHandler {
             // diacritic
             char ec = AnselMapping.encode(c);
             if (ec < ANSEL_DIACRITICS_BEGIN_AT && ec != c) {
-                ansel.append(AnselMapping.encode(c));
+                ansel[anselIdx++] = AnselMapping.encode(c);
                 continue;
             }
 
@@ -207,44 +208,48 @@ class AnselHandler {
             if (breakdown != null) {
                 // Precomposed diacritic - write down decomposed character - base character last for ANSEL
                 if (breakdown.length > 1 && breakdown[1] > (char) 0x0000) {
-                    ansel.append(breakdown[1]); // Already encoded to ANSEL
+                    // Already encoded to ANSEL
+                    ansel[anselIdx++] = breakdown[1];
                 }
                 if (breakdown.length > 2 && breakdown[2] > (char) 0x0000) {
-                    ansel.append(breakdown[2]); // Already encoded to ANSEL
+                    // Already encoded to ANSEL
+                    ansel[anselIdx++] = breakdown[2];
                 }
-                ansel.append(breakdown[0]);
+                ansel[anselIdx++] = breakdown[0];
             } else {
                 // Some leftover combining diacritic?
-                ansel.append(AnselMapping.encode(c));
+                ansel[anselIdx++] = AnselMapping.encode(c);
             }
 
         }
-        return ansel.toString();
+        String s = new String(ansel).substring(0, anselIdx);
+        return s;
     }
 
     /**
      * Convert an string of ANSEL bytes to UTF-16
-     * 
+     *
      * @param ansel
      *            A string of ANSEL data. Each byte of ANSEL data should be represented as a single character in the
      *            string, unconverted to any unicode and without changing the order of characters.
      * @return the UTF16 string representation of the ANSEL data, after translation
      */
     String toUtf16(String ansel) {
-        StringBuilder utf16 = new StringBuilder();
+        char[] utf16 = new char[512];
         int anselIndex = 0;
+        int utfIdx = 0;
         char c;
         while (anselIndex < ansel.length()) {
             c = ansel.charAt(anselIndex++);
             if (c < ANSEL_DIACRITICS_BEGIN_AT || anselIndex >= ansel.length()) {
-                utf16.append(AnselMapping.decode(c));
+                utf16[utfIdx++] = AnselMapping.decode(c);
                 continue;
             }
             char diacritic2 = 0; // 0 means no second diacritic
             char diacritic1 = c; // this character is actually a diacritic, so save it, and get another character
             if (anselIndex >= ansel.length()) {
                 // wraps in middle of diacritic+character combination - ugh
-                utf16.append(AnselMapping.decode(c));
+                utf16[utfIdx++] = AnselMapping.decode(c);
                 continue;
             }
             c = ansel.charAt(anselIndex++);
@@ -253,7 +258,7 @@ class AnselHandler {
                 diacritic2 = c;
                 if (anselIndex >= ansel.length()) {
                     // wraps in middle of diacritic+character combination - ugh
-                    utf16.append(AnselMapping.decode(c));
+                    utf16[utfIdx++] = AnselMapping.decode(c);
                     continue;
                 }
                 c = ansel.charAt(anselIndex++);
@@ -261,22 +266,23 @@ class AnselHandler {
             char combined = getCombinedGlyph(c, diacritic1, diacritic2);
             if (combined != 0) {
                 // A combined glyph was available!
-                utf16.append(combined);
+                utf16[utfIdx++] = combined;
             } else {
                 // no combined glyph available - continue to use a composite
-                utf16.append(AnselMapping.decode(c));
-                utf16.append(AnselMapping.decode(diacritic1));
+                utf16[utfIdx++] = AnselMapping.decode(c);
+                utf16[utfIdx++] = AnselMapping.decode(diacritic1);
                 if (diacritic2 != 0) {
-                    utf16.append(AnselMapping.decode(diacritic2));
+                    utf16[utfIdx++] = AnselMapping.decode(diacritic1);
                 }
             }
         }
-        return utf16.toString();
+        String s = new String(utf16).substring(0, utfIdx);
+        return s;
     }
 
     /**
      * Return true if ANSEL string ends in a combining diacritical
-     * 
+     *
      * @param s
      *            the ANSEL string
      * @return true if ANSEL string ends in a combining diacritical
@@ -289,7 +295,7 @@ class AnselHandler {
      * Some unicode characters are represented in ANSEL as a combination of characters. This method returns an array of
      * those characters if such a breakdown exists, or null otherwise. All results are already encoded to ANSEL and
      * should not be encoded again.
-     * 
+     *
      * @param c
      *            the unicode character to be represented
      * @return the array of characters that represent that character, or null if there is no special breakdown. The
@@ -1927,7 +1933,7 @@ class AnselHandler {
     /**
      * Get a unicode character that represents the precombined base character plus up to two diacritic modifiers.
      * Results are already decoded from ANSEL and should not be decoded again.
-     * 
+     *
      * @param baseChar
      *            the base character
      * @param modifier1
