@@ -59,9 +59,26 @@ public class StringTreeBuilder {
      */
     private final boolean strictLineBreaks;
 
+    /**
+     * A flag indicating whether the current line from the input file begins with a 1-2 digit level number followed by a
+     * space
+     */
     private boolean beginsWithLevelAndSpace;
 
-    private StringTree stringTreeForCurrentFileLine;
+    /**
+     * The string tree node that represents the current line and all its children.
+     */
+    private StringTree treeForCurrentLine;
+
+    /**
+     * The tree that represents the entire file. Will be returned at the end of the StringTree construction process.
+     */
+    private StringTree treeForWholeFile;
+
+    /**
+     * The most recently added node
+     */
+    private StringTree mostRecentlyAdded;
 
     /**
      * Constructor
@@ -94,55 +111,24 @@ public class StringTreeBuilder {
      */
     StringTree makeStringTreeFromStream() throws IOException, GedcomParserException {
         List<String> lines = new GedcomFileReader(inputStream).getLines();
-        StringTree entireStringTree = new StringTree();
-        entireStringTree.level = -1;
-        StringTree lastAdded = null;
+        treeForWholeFile = new StringTree();
+        treeForWholeFile.level = -1;
+        mostRecentlyAdded = null;
         try {
             for (int lineNum = 1; lineNum <= lines.size(); lineNum++) {
-                stringTreeForCurrentFileLine = new StringTree();
-                stringTreeForCurrentFileLine.lineNum = lineNum;
+                treeForCurrentLine = new StringTree();
+                treeForCurrentLine.lineNum = lineNum;
 
                 String line = lines.get(lineNum - 1);
                 line = leftTrim(line); // See issue 57
 
-                beginsWithLevelAndSpace = false;
-                try {
-                    // Probably sets it to true, but might not for a non-standard file - see Issue 100
-                    beginsWithLevelAndSpace = startsWithLevelAndSpace(line, lineNum);
-                } catch (GedcomParserException e) {
-                    if (strictLineBreaks) {
-                        throw e;
-                    }
-                }
+                checkIfNewLevelLine(lineNum, line);
 
                 if (beginsWithLevelAndSpace) {
-                    LinePieces lp = new LinePieces(line, lineNum);
-                    stringTreeForCurrentFileLine.level = lp.level;
-                    stringTreeForCurrentFileLine.id = (lp.id == null ? null : lp.id.intern());
-                    stringTreeForCurrentFileLine.tag = lp.tag.intern();
-                    stringTreeForCurrentFileLine.value = lp.remainder;
-                    StringTree addTo;
-                    addTo = findPlaceToAttachNode(entireStringTree);
-                    if (addTo != null) {
-                        addTo.children.add(stringTreeForCurrentFileLine);
-                        stringTreeForCurrentFileLine.parent = addTo;
-                    }
-                    lastAdded = stringTreeForCurrentFileLine;
+                    addNewNode(line, lineNum);
+                    mostRecentlyAdded = treeForCurrentLine;
                 } else {
-                    // Doesn't begin with a level number followed by a space, and we don't have strictLineBreaks
-                    // required, so it's probably meant to be a continuation of the previous text value.
-                    if (lastAdded != null) {
-                        // Try to add as a CONT line to previous node, as if the file had been properly escaped
-                        stringTreeForCurrentFileLine.level = lastAdded.level + 1;
-                        stringTreeForCurrentFileLine.tag = Tag.CONTINUATION.tagText;
-                        stringTreeForCurrentFileLine.value = line;
-                        stringTreeForCurrentFileLine.parent = lastAdded;
-                        lastAdded.children.add(stringTreeForCurrentFileLine);
-                        warnings.add("Line " + lineNum + " did not begin with a level and tag, so it was treated as a "
-                                + "non-standard continuation of the previous line.");
-                    } else {
-                        warnings.add("Line " + lineNum + " did not begin with a level and tag, so it was discarded.");
-                    }
+                    makeConcatenationOfPreviousNode(lineNum, line);
                 }
             }
         } finally {
@@ -150,7 +136,56 @@ public class StringTreeBuilder {
                 inputStream.close();
             }
         }
-        return entireStringTree;
+        return treeForWholeFile;
+    }
+
+    /**
+     * Add a new node to the correct parent node in the StringTree
+     * 
+     * @param line
+     *            the current line of the file
+     * @param lineNum
+     *            the current line number in the file
+     * 
+     * @throws GedcomParserException
+     */
+    private void addNewNode(String line, int lineNum) throws GedcomParserException {
+        LinePieces lp = new LinePieces(line, lineNum);
+        treeForCurrentLine.level = lp.level;
+        treeForCurrentLine.id = (lp.id == null ? null : lp.id.intern());
+        treeForCurrentLine.tag = lp.tag.intern();
+        treeForCurrentLine.value = lp.remainder;
+        StringTree addTo;
+        addTo = findPlaceToAttachNode(treeForWholeFile);
+        if (addTo != null) {
+            addTo.children.add(treeForCurrentLine);
+            treeForCurrentLine.parent = addTo;
+        }
+    }
+
+    /**
+     * Check that the line has a level number so we can know whether it's a new line or a continuation of the previous
+     * one
+     * 
+     * @param lineNum
+     *            the current line number in the file
+     * @param line
+     *            the current line of the file
+     * @throws GedcomParserException
+     *             if we can't determine whether the current line is a new leveled line in the file or not when strict
+     *             line breaks are off, or that the line does not begin with a level number when strict line breaks are
+     *             enabled.
+     */
+    private void checkIfNewLevelLine(int lineNum, String line) throws GedcomParserException {
+        beginsWithLevelAndSpace = false;
+        try {
+            // Probably sets it to true, but might not for a non-standard file - see Issue 100
+            beginsWithLevelAndSpace = startsWithLevelAndSpace(line, lineNum);
+        } catch (GedcomParserException e) {
+            if (strictLineBreaks) {
+                throw e;
+            }
+        }
     }
 
     /**
@@ -165,26 +200,49 @@ public class StringTreeBuilder {
      *             if there is an issue with level numbers not being consistent
      */
     private StringTree findPlaceToAttachNode(StringTree lookInSubtree) throws GedcomParserException {
-        if (lookInSubtree.level == (stringTreeForCurrentFileLine.level - 1)) {
+        if (lookInSubtree.level == (treeForCurrentLine.level - 1)) {
             // If the level we're looking in is the level we want, we're done
             return lookInSubtree;
         }
         if (lookInSubtree.children.isEmpty()) {
             // If the tree we're looking for has no children, we can't proceed
-            errors.add(stringTreeForCurrentFileLine.tag + " tag at line " + stringTreeForCurrentFileLine.lineNum
-                    + ": Unable to find suitable parent node at level " + (stringTreeForCurrentFileLine.level - 1) + " under " + lookInSubtree);
+            errors.add(treeForCurrentLine.tag + " tag at line " + treeForCurrentLine.lineNum + ": Unable to find suitable parent node at level "
+                    + (treeForCurrentLine.level - 1) + " under " + lookInSubtree);
             return null;
         }
         // Get the most recently added item in the tree we're looking through
         StringTree lastChild = lookInSubtree.children.get(lookInSubtree.children.size() - 1);
 
-        if (lastChild.level == (stringTreeForCurrentFileLine.level - 1)) {
+        if (lastChild.level == (treeForCurrentLine.level - 1)) {
             // that child is at the level we want, so return it
             return lastChild;
         }
 
         // Found the most recently loaded node, but the level isn't right, so recurse into
         return findPlaceToAttachNode(lastChild);
+    }
+
+    /**
+     * Make the current node a concatenation of the previous node.
+     * 
+     * @param lineNum
+     * @param line
+     */
+    private void makeConcatenationOfPreviousNode(int lineNum, String line) {
+        // Doesn't begin with a level number followed by a space, and we don't have strictLineBreaks
+        // required, so it's probably meant to be a continuation of the previous text value.
+        if (mostRecentlyAdded != null) {
+            // Try to add as a CONT line to previous node, as if the file had been properly escaped
+            treeForCurrentLine.level = mostRecentlyAdded.level + 1;
+            treeForCurrentLine.tag = Tag.CONTINUATION.tagText;
+            treeForCurrentLine.value = line;
+            treeForCurrentLine.parent = mostRecentlyAdded;
+            mostRecentlyAdded.children.add(treeForCurrentLine);
+            warnings.add(
+                    "Line " + lineNum + " did not begin with a level and tag, so it was treated as a " + "non-standard continuation of the previous line.");
+        } else {
+            warnings.add("Line " + lineNum + " did not begin with a level and tag, so it was discarded.");
+        }
     }
 
     /**
