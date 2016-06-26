@@ -74,9 +74,19 @@ class LinePieces {
     LinePieces(String lineToParse, int lineNum) throws GedcomParserException {
 
         line = lineToParse;
-        chars = new char[line.length()];
-        line.getChars(0, line.length(), chars, 0);
 
+        chars = line.toCharArray();
+
+        processLevel(lineNum);
+
+        processXrefId();
+
+        processTag();
+
+        processRemainder();
+    }
+
+    private void processLevel(int lineNum) throws GedcomParserException {
         try {
             char c2 = line.charAt(1); // 2nd character in line
 
@@ -96,7 +106,26 @@ class LinePieces {
         } catch (IndexOutOfBoundsException e) {
             throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
         }
+    }
 
+    private void processRemainder() {
+        if (currCharIdx < line.length()) {
+            remainder = line.substring(currCharIdx + 1);
+        }
+    }
+
+    private void processTag() {
+        // Parse the tag
+        StringBuilder t = new StringBuilder();
+        while (currCharIdx < line.length() && chars[currCharIdx] != ' ') {
+            t.append(chars[currCharIdx++]);
+        }
+        if (t.length() > 0) {
+            tag = t.toString().intern();
+        }
+    }
+
+    private void processXrefId() {
         // Take care of the id, if any
         StringBuilder i = null;
         if ('@' == (chars[currCharIdx])) {
@@ -110,19 +139,6 @@ class LinePieces {
         }
         if (i != null) {
             id = i.toString().intern();
-        }
-
-        // Parse the tag
-        StringBuilder t = new StringBuilder();
-        while (currCharIdx < line.length() && chars[currCharIdx] != ' ') {
-            t.append(chars[currCharIdx++]);
-        }
-        if (t.length() > 0) {
-            tag = t.toString().intern();
-        }
-
-        if (currCharIdx < line.length()) {
-            remainder = line.substring(currCharIdx + 1);
         }
     }
 }
