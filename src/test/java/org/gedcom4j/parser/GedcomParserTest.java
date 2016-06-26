@@ -26,10 +26,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import junit.framework.TestCase;
-
 import org.gedcom4j.model.*;
 import org.junit.Test;
+
+import junit.framework.TestCase;
 
 /**
  * Tests for the {@link GedcomParser} class
@@ -116,7 +116,7 @@ public class GedcomParserTest extends TestCase {
         assertFalse(g.submitters.isEmpty());
         Submitter submitter = g.submitters.values().iterator().next();
         assertNotNull(submitter);
-        assertNull(submitter.name);
+        assertEquals(new StringWithCustomTags("UNSPECIFIED"), submitter.name);
 
         // Check header
         assertEquals("6.00", g.header.sourceSystem.versionNum.value);
@@ -126,8 +126,7 @@ public class GedcomParserTest extends TestCase {
         // shown
         assertEquals(2, g.sources.size());
         for (Source s : g.sources.values()) {
-            assertTrue(s.title.get(0).equals("William Barnett Family.FTW")
-                    || s.title.get(0).equals("Warrick County, IN WPA Indexes"));
+            assertTrue(s.title.get(0).equals("William Barnett Family.FTW") || s.title.get(0).equals("Warrick County, IN WPA Indexes"));
         }
 
         assertEquals(17, g.families.size());
@@ -337,8 +336,7 @@ public class GedcomParserTest extends TestCase {
         // Name 0 - Note 0
         note = name.notes.get(0);
         assertEquals(5, note.lines.size());
-        assertEquals(
-                "These are notes about the first NAME structure in this record. These notes are embedded in the INDIVIDUAL record itself.",
+        assertEquals("These are notes about the first NAME structure in this record. These notes are embedded in the INDIVIDUAL record itself.",
                 note.lines.get(0));
 
         // Name 1

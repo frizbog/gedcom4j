@@ -363,7 +363,6 @@ public class GedcomValidator extends AbstractValidator {
             } else {
                 addError("Submitters collection is empty", gedcom);
             }
-            return;
         }
         for (Submitter s : gedcom.submitters.values()) {
             new SubmitterValidator(rootValidator, s).validate();

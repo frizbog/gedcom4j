@@ -131,7 +131,7 @@ public class GedcomWriter {
         gedcom.header.fileName = new StringWithCustomTags(file.getName());
 
         // If the file doesn't exist yet, we have to create it, otherwise a FileNotFoundException will be thrown
-        if (!file.exists() && !file.getParentFile().exists() && !file.getParentFile().mkdirs() && !file.createNewFile()) {
+        if (!file.exists() && !file.getCanonicalFile().getParentFile().exists() && !file.getCanonicalFile().getParentFile().mkdirs() && !file.createNewFile()) {
             throw new IOException("Unable to create file " + file.getName());
         }
         OutputStream o = new FileOutputStream(file);
