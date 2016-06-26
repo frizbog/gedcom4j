@@ -55,7 +55,7 @@ public class Issue87Test {
         // We should have an error in the collection about the problem
         assertEquals(1, gp.errors.size());
         String e = gp.errors.get(0);
-        assertEquals("NOTE tag at line 46: Unable to find suitable parent node at level 2 under Line 45: 1 MARR null", e);
+        assertEquals("NOTE tag at line 46: Unable to find suitable parent node at level 2", e);
 
         // There should also be no NOTE tag under the MARR event
         Family family = gp.gedcom.families.get("@F1031@");

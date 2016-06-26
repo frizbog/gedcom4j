@@ -86,6 +86,14 @@ class LinePieces {
         processRemainder();
     }
 
+    /**
+     * Process the level portion of the line
+     * 
+     * @param lineNum
+     *            the line number we're currently reading
+     * @throws GedcomParserException
+     *             if the line does not begin with a 1 or 2 digit number for level, followed by a space
+     */
     private void processLevel(int lineNum) throws GedcomParserException {
         try {
             char c2 = line.charAt(1); // 2nd character in line
@@ -99,7 +107,7 @@ class LinePieces {
             } else {
                 // Second character in line is not a space, so assume a 2-digit level
                 level = Character.getNumericValue(chars[0]) * 10 + Character.getNumericValue(chars[1]);
-                currCharIdx = 3; // Continue parsting at 4th character in line
+                currCharIdx = 3; // Continue parsing at 4th character in line
             }
         } catch (NumberFormatException e) {
             throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
@@ -108,16 +116,22 @@ class LinePieces {
         }
     }
 
+    /**
+     * Process the remainder of the line
+     */
     private void processRemainder() {
-        if (currCharIdx < line.length()) {
+        if (currCharIdx < chars.length) {
             remainder = line.substring(currCharIdx + 1);
         }
     }
 
+    /**
+     * Process the tag portion of the line
+     */
     private void processTag() {
         // Parse the tag
         StringBuilder t = new StringBuilder();
-        while (currCharIdx < line.length() && chars[currCharIdx] != ' ') {
+        while (currCharIdx < chars.length && chars[currCharIdx] != ' ') {
             t.append(chars[currCharIdx++]);
         }
         if (t.length() > 0) {
@@ -125,11 +139,14 @@ class LinePieces {
         }
     }
 
+    /**
+     * Process the XREF ID portion of the line, if there is one
+     */
     private void processXrefId() {
         // Take care of the id, if any
         StringBuilder i = null;
         if ('@' == (chars[currCharIdx])) {
-            while (currCharIdx < line.length() && chars[currCharIdx] != ' ') {
+            while (currCharIdx < chars.length && chars[currCharIdx] != ' ') {
                 if (i == null) {
                     i = new StringBuilder();
                 }

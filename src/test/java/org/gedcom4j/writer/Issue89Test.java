@@ -2,10 +2,10 @@ package org.gedcom4j.writer;
 
 import java.io.ByteArrayOutputStream;
 
-import junit.framework.TestCase;
-
 import org.gedcom4j.model.*;
 import org.junit.Test;
+
+import junit.framework.TestCase;
 
 /**
  * Test for issue 89 where custom tags are not being emitted by the GedcomWriter

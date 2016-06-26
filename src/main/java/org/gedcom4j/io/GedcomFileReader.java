@@ -22,7 +22,6 @@
 package org.gedcom4j.io;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -77,15 +76,12 @@ public class GedcomFileReader {
 
         saveFirstChunk();
 
-        List<String> result = new ArrayList<String>();
         try {
             AbstractEncodingSpecificReader encodingSpecificReader = getEncodingSpecificReader();
-            result.addAll(encodingSpecificReader.load());
+            return encodingSpecificReader.load();
         } catch (UnsupportedGedcomCharsetException e) {
             throw new IOException("Unable to parse GEDCOM data - " + e.getMessage()); // NOPMD - Java 5 compatibility
         }
-
-        return result;
     }
 
     /**

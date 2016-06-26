@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -63,7 +62,7 @@ class Utf8Reader extends AbstractEncodingSpecificReader {
     }
 
     @Override
-    protected Collection<? extends String> load() throws IOException {
+    protected List<String> load() throws IOException {
         List<String> result = new ArrayList<String>();
         InputStreamReader r = null;
         BufferedReader br = null;
