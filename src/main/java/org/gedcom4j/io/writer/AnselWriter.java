@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import org.gedcom4j.io.encoding.AnselHandler;
+import org.gedcom4j.writer.GedcomWriter;
 
 /**
  * A class that writes GEDCOM data in ANSEL format.
@@ -38,6 +39,16 @@ class AnselWriter extends AbstractEncodingSpecificWriter {
      * The helper class that converts UTF-16 strings to ANSEL encoded data
      */
     private final AnselHandler anselHandler = new AnselHandler();
+
+    /**
+     * Constructor
+     * 
+     * @param writer
+     *            The {@link GedcomWriter} this object is assisting
+     */
+    public AnselWriter(GedcomWriter writer) {
+        super(writer);
+    }
 
     /**
      * {@inheritDoc}

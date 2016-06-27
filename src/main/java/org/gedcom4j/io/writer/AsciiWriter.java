@@ -25,12 +25,24 @@ package org.gedcom4j.io.writer;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.gedcom4j.writer.GedcomWriter;
+
 /**
  * A class that writes GEDCOM data in ASCII format.
  * 
  * @author frizbog
  */
 class AsciiWriter extends AbstractEncodingSpecificWriter {
+
+    /**
+     * Constructor
+     * 
+     * @param writer
+     *            The {@link GedcomWriter} this object is assisting
+     */
+    public AsciiWriter(GedcomWriter writer) {
+        super(writer);
+    }
 
     /**
      * <p>

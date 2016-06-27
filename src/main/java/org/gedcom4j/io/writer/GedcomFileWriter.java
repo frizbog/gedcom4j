@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
-import org.gedcom4j.io.*;
+import org.gedcom4j.writer.GedcomWriter;
 
 /**
  * <p>
@@ -64,12 +64,20 @@ public class GedcomFileWriter {
     private final List<String> gedcomLines;
 
     /**
+     * The {@link GedcomWriter} this object is assisting
+     */
+    protected GedcomWriter writer;
+
+    /**
      * Constructor
      * 
+     * @param writer
+     *            The {@link GedcomWriter} this object is assisting
      * @param gedcomLines
      *            the lines of text to write
      */
-    public GedcomFileWriter(List<String> gedcomLines) {
+    public GedcomFileWriter(GedcomWriter writer, List<String> gedcomLines) {
+        this.writer = writer;
         this.gedcomLines = gedcomLines;
         setDefaultLineTerminator();
     }
@@ -84,22 +92,22 @@ public class GedcomFileWriter {
      */
     public void write(OutputStream out) throws IOException {
 
-        encodingSpecificWriter = new AnselWriter();
+        encodingSpecificWriter = new AnselWriter(writer);
 
         for (String line : gedcomLines) {
             if ("1 CHAR ASCII".equals(line)) {
-                encodingSpecificWriter = new AsciiWriter();
+                encodingSpecificWriter = new AsciiWriter(writer);
                 break;
             }
             if ("1 CHAR UTF-8".equals(line)) {
-                encodingSpecificWriter = new Utf8Writer();
+                encodingSpecificWriter = new Utf8Writer(writer);
                 break;
             }
             if ("1 CHAR UNICODE".equals(line)) {
                 if (useLittleEndianForUnicode) {
-                    encodingSpecificWriter = new UnicodeLittleEndianWriter();
+                    encodingSpecificWriter = new UnicodeLittleEndianWriter(writer);
                 } else {
-                    encodingSpecificWriter = new UnicodeBigEndianWriter();
+                    encodingSpecificWriter = new UnicodeBigEndianWriter(writer);
                 }
                 break;
             }

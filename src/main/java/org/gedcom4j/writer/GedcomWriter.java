@@ -313,7 +313,7 @@ public class GedcomWriter {
         emitTrailer();
         emitCustomTags(1, gedcom.customTags);
         try {
-            GedcomFileWriter gfw = new GedcomFileWriter(lines);
+            GedcomFileWriter gfw = new GedcomFileWriter(this, lines);
             gfw.useLittleEndianForUnicode = useLittleEndianForUnicode;
             gfw.write(out);
         } catch (IOException e) {

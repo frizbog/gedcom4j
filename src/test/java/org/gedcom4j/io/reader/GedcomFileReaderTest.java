@@ -28,7 +28,7 @@ import static org.junit.Assert.assertNotNull;
 import java.io.*;
 import java.util.List;
 
-import org.gedcom4j.io.reader.GedcomFileReader;
+import org.gedcom4j.exception.ParserCancelledException;
 import org.gedcom4j.parser.GedcomParser;
 import org.junit.Test;
 
@@ -43,9 +43,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
+     * @throws ParserCancelledException
+     *             if the file load was cancelled
      */
     @Test
-    public void testAnselCrlf() throws IOException {
+    public void testAnselCrlf() throws IOException, ParserCancelledException {
         /*
          * Some encoded ANSEL data for a file with two lines. Line one consists of a zero, a space, and an uppercase H.
          * Line two consists of a lowercase o. The lines are separated by a CRLF.
@@ -74,9 +76,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
+     * @throws ParserCancelledException
+     *             if the file load was cancelled
      */
     @Test
-    public void testAnselCrOnly() throws IOException {
+    public void testAnselCrOnly() throws IOException, ParserCancelledException {
         /*
          * Some encoded ANSEL data for a file with two lines. Line one consists of a zero, a space, and an uppercase H.
          * Line two consists of a lowercase o. The lines are separated by a CR only.
@@ -106,9 +110,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
+     * @throws ParserCancelledException
+     *             if the file load was cancelled
      */
     @Test
-    public void testAnselDecodingSingleLine() throws IOException {
+    public void testAnselDecodingSingleLine() throws IOException, ParserCancelledException {
         /*
          * Some encoded ANSEL data for the phrase "0 Hello", with the l's replaced by those uppercase L's with slashes
          * through them (U+0141)
@@ -137,9 +143,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
+     * @throws ParserCancelledException
+     *             if the file load was cancelled
      */
     @Test
-    public void testAnselLfOnly() throws IOException {
+    public void testAnselLfOnly() throws IOException, ParserCancelledException {
         /*
          * Some encoded ANSEL data for a file with two lines. Line one consists of a zero, a space, and an uppercase H.
          * Line two consists of a lowercase o. The lines are separated by a LF only.
@@ -192,9 +200,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
+     * @throws ParserCancelledException
+     *             if the file load was cancelled
      */
     @Test
-    public void testUnicodeBigEndianWithCrlf() throws IOException {
+    public void testUnicodeBigEndianWithCrlf() throws IOException, ParserCancelledException {
         /*
          * Unicode, big-endian data with CRLF line terminator. Says "0 HEAD" on line 1 and "1 CHAR" on line 2.
          */
@@ -223,9 +233,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
+     * @throws ParserCancelledException
+     *             if the file load was cancelled
      */
     @Test
-    public void testUnicodeBigEndianWithCrOnly() throws IOException {
+    public void testUnicodeBigEndianWithCrOnly() throws IOException, ParserCancelledException {
         /*
          * Unicode, big-endian data with CRLF line terminator. Says "0 HEAD" on line 1 and "1 CHAR" on line 2.
          */
@@ -254,9 +266,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
+     * @throws ParserCancelledException
+     *             if the file load was cancelled
      */
     @Test
-    public void testUnicodeBigEndianWithLfOnly() throws IOException {
+    public void testUnicodeBigEndianWithLfOnly() throws IOException, ParserCancelledException {
         /*
          * Unicode, big-endian data with CRLF line terminator. Says "0 HEAD" on line 1 and "1 CHAR" on line 2.
          */
@@ -285,9 +299,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
+     * @throws ParserCancelledException
+     *             if the file load was cancelled
      */
     @Test
-    public void testUnicodeLittleEndianWithCrlf() throws IOException {
+    public void testUnicodeLittleEndianWithCrlf() throws IOException, ParserCancelledException {
         /*
          * Unicode, little-endian data with CRLF line terminator. Says "0 HEAD" on line 1 and "1 CHAR" on line 2.
          */
@@ -316,9 +332,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
+     * @throws ParserCancelledException
+     *             if the file load was cancelled
      */
     @Test
-    public void testUnicodeLittleEndianWithCrOnly() throws IOException {
+    public void testUnicodeLittleEndianWithCrOnly() throws IOException, ParserCancelledException {
         /*
          * Unicode, little-endian data with CRLF line terminator. Says "0 HEAD" on line 1 and "1 CHAR" on line 2.
          */
@@ -347,9 +365,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
+     * @throws ParserCancelledException
+     *             if the file load was cancelled
      */
     @Test
-    public void testUnicodeLittleEndianWithLfOnly() throws IOException {
+    public void testUnicodeLittleEndianWithLfOnly() throws IOException, ParserCancelledException {
         /*
          * Unicode, little-endian data with CRLF line terminator. Says "0 HEAD" on line 1 and "1 CHAR" on line 2.
          */
@@ -378,9 +398,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
+     * @throws ParserCancelledException
+     *             if the file load was cancelled
      */
     @Test
-    public void testUtf8CrLfBOM() throws IOException {
+    public void testUtf8CrLfBOM() throws IOException, ParserCancelledException {
         testUtf8File("sample/utf8_crlf_bom.ged");
     }
 
@@ -389,9 +411,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
+     * @throws ParserCancelledException
+     *             if the file load was cancelled
      */
     @Test
-    public void testUtf8CrLfNoBOM() throws IOException {
+    public void testUtf8CrLfNoBOM() throws IOException, ParserCancelledException {
         testUtf8File("sample/utf8_crlf_nobom.ged");
     }
 
@@ -400,9 +424,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
+     * @throws ParserCancelledException
+     *             if the file load was cancelled
      */
     @Test
-    public void testUtf8CrNoBOM() throws IOException {
+    public void testUtf8CrNoBOM() throws IOException, ParserCancelledException {
         testUtf8File("sample/utf8_cr_nobom.ged");
     }
 
@@ -411,9 +437,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
+     * @throws ParserCancelledException
+     *             if the file load was cancelled
      */
     @Test
-    public void testUtf8LfNoBOM() throws IOException {
+    public void testUtf8LfNoBOM() throws IOException, ParserCancelledException {
         testUtf8File("sample/utf8_lf_nobom.ged");
     }
 
@@ -426,8 +454,10 @@ public class GedcomFileReaderTest {
      *             if the file can't be loaded
      * @throws FileNotFoundException
      *             if the file can't be found
+     * @throws ParserCancelledException
+     *             if the file load was cancelled
      */
-    void testUtf8File(String fileName) throws IOException, FileNotFoundException {
+    void testUtf8File(String fileName) throws IOException, FileNotFoundException, ParserCancelledException {
         FileInputStream fileInputStream = null;
         try {
             fileInputStream = new FileInputStream(fileName);

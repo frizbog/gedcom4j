@@ -164,6 +164,15 @@ public class GedcomParser {
     }
 
     /**
+     * Is the load and parse operation cancelled?
+     * 
+     * @return whether the load and parse operation is cancelled
+     */
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    /**
      * Load a gedcom file from an input stream and create an object hierarchy from the data therein.
      * 
      * @param stream
