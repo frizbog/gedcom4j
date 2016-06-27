@@ -28,6 +28,7 @@ import static org.junit.Assert.assertNotNull;
 import java.io.*;
 import java.util.List;
 
+import org.gedcom4j.parser.GedcomParser;
 import org.junit.Test;
 
 /**
@@ -53,7 +54,7 @@ public class GedcomFileReaderTest {
         BufferedInputStream s = null;
         try {
             s = new BufferedInputStream(new ByteArrayInputStream(anselData));
-            GedcomFileReader gr = new GedcomFileReader(s);
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), s);
             List<String> lines = gr.getLines();
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -84,7 +85,8 @@ public class GedcomFileReaderTest {
         BufferedInputStream s = null;
         try {
             s = new BufferedInputStream(new ByteArrayInputStream(anselData));
-            GedcomFileReader gr = new GedcomFileReader(s);
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), s);
+            ;
             List<String> lines = gr.getLines();
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -116,7 +118,8 @@ public class GedcomFileReaderTest {
         try {
             s = new BufferedInputStream(new ByteArrayInputStream(anselData));
 
-            GedcomFileReader gr = new GedcomFileReader(s);
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), s);
+            ;
             List<String> lines = gr.getLines();
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -145,7 +148,8 @@ public class GedcomFileReaderTest {
         BufferedInputStream s = null;
         try {
             s = new BufferedInputStream(new ByteArrayInputStream(anselData));
-            GedcomFileReader gr = new GedcomFileReader(s);
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), s);
+            ;
             List<String> lines = gr.getLines();
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -167,7 +171,8 @@ public class GedcomFileReaderTest {
      */
     @Test
     public void testFirstNBytes() throws IOException {
-        GedcomFileReader gfr = new GedcomFileReader(new BufferedInputStream(new ByteArrayInputStream(new byte[] { 0x12, 0x34, 0x56, 0x78 })));
+        GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(),
+                new BufferedInputStream(new ByteArrayInputStream(new byte[] { 0x12, 0x34, 0x56, 0x78 })));
         // Haven't save the first chunk yet
         assertNotNull(gfr.firstChunk);
         assertEquals(0x0, gfr.firstNBytes(1));
@@ -197,7 +202,8 @@ public class GedcomFileReaderTest {
         BufferedInputStream s = null;
         try {
             s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
-            GedcomFileReader gr = new GedcomFileReader(s);
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), s);
+            ;
             List<String> lines = gr.getLines();
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -227,7 +233,8 @@ public class GedcomFileReaderTest {
         BufferedInputStream s = null;
         try {
             s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
-            GedcomFileReader gr = new GedcomFileReader(s);
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), s);
+            ;
             List<String> lines = gr.getLines();
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -257,7 +264,8 @@ public class GedcomFileReaderTest {
         BufferedInputStream s = null;
         try {
             s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
-            GedcomFileReader gr = new GedcomFileReader(s);
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), s);
+            ;
             List<String> lines = gr.getLines();
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -287,7 +295,8 @@ public class GedcomFileReaderTest {
         BufferedInputStream s = null;
         try {
             s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
-            GedcomFileReader gr = new GedcomFileReader(s);
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), s);
+            ;
             List<String> lines = gr.getLines();
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -317,7 +326,8 @@ public class GedcomFileReaderTest {
         BufferedInputStream s = null;
         try {
             s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
-            GedcomFileReader gr = new GedcomFileReader(s);
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), s);
+            ;
             List<String> lines = gr.getLines();
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -347,7 +357,8 @@ public class GedcomFileReaderTest {
         BufferedInputStream s = null;
         try {
             s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
-            GedcomFileReader gr = new GedcomFileReader(s);
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), s);
+            ;
             List<String> lines = gr.getLines();
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -419,7 +430,7 @@ public class GedcomFileReaderTest {
         FileInputStream fileInputStream = null;
         try {
             fileInputStream = new FileInputStream(fileName);
-            GedcomFileReader gr = new GedcomFileReader(new BufferedInputStream(fileInputStream));
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), new BufferedInputStream(fileInputStream));
             List<String> lines = gr.getLines();
             assertNotNull(lines);
             assertEquals(77, lines.size());

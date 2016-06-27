@@ -59,6 +59,12 @@ public class GedcomWriterTest {
     private static final String SAMPLE_STRESS_TEST_FILENAME = "sample/TGC551.ged";
 
     /**
+     * Determines whether to write noise out to System.out. Useful to change to true temporarily for debugging this test
+     * but should be always set to false when checked into repository.
+     */
+    private static boolean verbose = false;
+
+    /**
      * The original gedcom structure read in from the torture test file.
      */
     private final Gedcom gedcomOrig;
@@ -72,12 +78,6 @@ public class GedcomWriterTest {
      * Lines that are read back from the files we write during the test
      */
     private List<String> readbackLines;
-
-    /**
-     * Determines whether to write noise out to System.out. Useful to change to true temporarily for debugging this test
-     * but should be always set to false when checked into repository.
-     */
-    private static boolean verbose = false;
 
     /**
      * Constructor. Does some test fixture initialization once for the whole class rather than in setUp().
@@ -106,7 +106,7 @@ public class GedcomWriterTest {
         FileInputStream byteStream = null;
         try {
             byteStream = new FileInputStream(tempFile);
-            GedcomFileReader gfr = new GedcomFileReader(new BufferedInputStream(byteStream));
+            GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(), new BufferedInputStream(byteStream));
             readbackLines = gfr.getLines();
         } finally {
             if (byteStream != null) {
@@ -422,7 +422,7 @@ public class GedcomWriterTest {
      *             if the file can't be read
      */
     private List<String> readBack(File fileToRead) throws IOException {
-        GedcomFileReader gfr = new GedcomFileReader(new BufferedInputStream(new FileInputStream(fileToRead)));
+        GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(), new BufferedInputStream(new FileInputStream(fileToRead)));
         return gfr.getLines();
     }
 
