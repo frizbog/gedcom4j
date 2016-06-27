@@ -66,7 +66,7 @@ public class UnicodeBigEndianReaderCancellationTest implements FileProgressListe
     @Test(expected = LoadCancelledException.class)
     public void testRegistered() throws IOException, GedcomParserException {
         eventCount = 0;
-        gp.registerObserver(this);
+        gp.registerFileObserver(this);
         gp.load("sample/willis-unicode-bigendian.ged");
     }
 

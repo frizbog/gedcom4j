@@ -101,7 +101,7 @@ class AsciiReader extends AbstractEncodingSpecificReader {
             // If we fell through to here, we have an extended character
             throw new IOException("Extended characters not supported in ASCII: 0x" + Integer.toHexString(b));
         }
-        parser.notifyObservers(new FileProgressEvent(this, linesRead, true));
+        parser.notifyFileObservers(new FileProgressEvent(this, linesRead, true));
         return result;
     }
 
@@ -119,7 +119,7 @@ class AsciiReader extends AbstractEncodingSpecificReader {
         }
         linesRead++;
         if (linesRead % 100 == 0) {
-            parser.notifyObservers(new FileProgressEvent(this, linesRead, false));
+            parser.notifyFileObservers(new FileProgressEvent(this, linesRead, false));
         }
     }
 

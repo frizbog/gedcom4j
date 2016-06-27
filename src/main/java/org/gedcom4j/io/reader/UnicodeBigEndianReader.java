@@ -109,7 +109,7 @@ class UnicodeBigEndianReader extends AbstractEncodingSpecificReader {
             int unicodeChar = b1 << 8 | b2;
             lineBuffer.append(Character.valueOf((char) unicodeChar));
         }
-        parser.notifyObservers(new FileProgressEvent(this, linesRead, true));
+        parser.notifyFileObservers(new FileProgressEvent(this, linesRead, true));
         return result;
     }
 
@@ -127,7 +127,7 @@ class UnicodeBigEndianReader extends AbstractEncodingSpecificReader {
         }
         linesRead++;
         if (linesRead % 100 == 0) {
-            parser.notifyObservers(new FileProgressEvent(this, linesRead, false));
+            parser.notifyFileObservers(new FileProgressEvent(this, linesRead, false));
         }
     }
 

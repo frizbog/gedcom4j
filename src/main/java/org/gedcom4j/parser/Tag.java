@@ -32,7 +32,7 @@ package org.gedcom4j.parser;
  * 
  * @author frizbog
  */
-public enum Tag {
+enum Tag {
     /** Abbreviation */
     ABBREVIATION("ABBR"),
     /** Address */
