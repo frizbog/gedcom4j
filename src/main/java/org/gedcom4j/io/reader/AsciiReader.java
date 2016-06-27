@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.parser.GedcomParser;
 
 /**
@@ -100,6 +101,7 @@ class AsciiReader extends AbstractEncodingSpecificReader {
             // If we fell through to here, we have an extended character
             throw new IOException("Extended characters not supported in ASCII: 0x" + Integer.toHexString(b));
         }
+        parser.notifyObservers(new FileProgressEvent(this, linesRead, true));
         return result;
     }
 
@@ -114,6 +116,10 @@ class AsciiReader extends AbstractEncodingSpecificReader {
     private void addNonBlankLine(List<String> result, StringBuilder lineBuffer) {
         if (lineBuffer.length() > 0) {
             result.add(lineBuffer.toString());
+        }
+        linesRead++;
+        if (linesRead % 100 == 0) {
+            parser.notifyObservers(new FileProgressEvent(this, linesRead, false));
         }
     }
 

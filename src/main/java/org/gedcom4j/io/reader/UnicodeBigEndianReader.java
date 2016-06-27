@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.parser.GedcomParser;
 
 /**
@@ -108,6 +109,7 @@ class UnicodeBigEndianReader extends AbstractEncodingSpecificReader {
             int unicodeChar = b1 << 8 | b2;
             lineBuffer.append(Character.valueOf((char) unicodeChar));
         }
+        parser.notifyObservers(new FileProgressEvent(this, linesRead, true));
         return result;
     }
 
@@ -122,6 +124,10 @@ class UnicodeBigEndianReader extends AbstractEncodingSpecificReader {
     private void addNonBlankLine(List<String> result, StringBuilder lineBuffer) {
         if (lineBuffer.length() > 0) {
             result.add(lineBuffer.toString());
+        }
+        linesRead++;
+        if (linesRead % 100 == 0) {
+            parser.notifyObservers(new FileProgressEvent(this, linesRead, false));
         }
     }
 

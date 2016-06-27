@@ -72,7 +72,8 @@ public class Issue80WriterTest {
         // Write to sysout
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
-        gw.write(System.out, false);
+        gw.useLittleEndianForUnicode = false;
+        gw.write(System.out);
 
         // Now that we've written the gedcom, let's examine what we wrote
         assertEquals("Should have written 17 lines", 17, gw.lines.size());
