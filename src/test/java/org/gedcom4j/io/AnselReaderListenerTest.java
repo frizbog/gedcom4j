@@ -30,8 +30,8 @@ public class AnselReaderListenerTest implements FileProgressListener {
 
     @Override
     public void progressNotification(FileProgressEvent e) {
-        System.out.println(e);
-
+        eventCount++;
+        lastEvent = e;
     }
 
     /**
@@ -52,23 +52,43 @@ public class AnselReaderListenerTest implements FileProgressListener {
         assertNull(lastEvent);
     }
 
-    @Test
     /**
-     * Test when you've never registered as a listener
+     * Test when you've registered as a listener
      * 
      * @throws IOException
      *             if the file can't be loaded
      * @throws GedcomParserException
      *             if the file can't be parsed
      */
+    @Test
     public void testRegistered() throws IOException, GedcomParserException {
+        eventCount = 0;
+        GedcomParser gp = new GedcomParser();
+        gp.registerObserver(this);
+        gp.load("sample/willis-ansel.ged");
+        assertNotNull(gp.gedcom);
+        assertEquals(201, eventCount);
+        assertNotNull(lastEvent);
+        assertTrue(lastEvent.isComplete());
+        assertEquals(20035, lastEvent.getLinesProcessed());
+    }
+
+    /**
+     * Test when you've registered then unregistered as a listener
+     * 
+     * @throws IOException
+     *             if the file can't be loaded
+     * @throws GedcomParserException
+     *             if the file can't be parsed
+     */
+    @Test
+    public void testUnregistered() throws IOException, GedcomParserException {
         eventCount = 0;
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-ansel.ged");
         assertNotNull(gp.gedcom);
-        assertEquals(7, eventCount);
-        assertNotNull(lastEvent);
-        assertTrue(lastEvent.isComplete());
+        assertEquals(0, eventCount);
+        assertNull(lastEvent);
     }
 
 }

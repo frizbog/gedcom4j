@@ -26,6 +26,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.parser.GedcomParser;
+
 /**
  * A reader that loads from an input stream and gives back a collection of strings representing the data therein. This
  * implementation handles little-endian Unicode data.
@@ -37,11 +39,14 @@ class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
     /**
      * Constructor
      * 
+     * @param parser
+     *            the {@link GedcomParser} which is using this object to read files
+     * 
      * @param byteStream
      *            the stream of data to be read
      */
-    public UnicodeLittleEndianReader(InputStream byteStream) {
-        super(byteStream);
+    public UnicodeLittleEndianReader(GedcomParser parser, InputStream byteStream) {
+        super(parser, byteStream);
     }
 
     /**

@@ -32,6 +32,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.gedcom4j.io.FileProgressEvent;
 import org.gedcom4j.io.FileProgressListener;
 import org.gedcom4j.io.GedcomFileReader;
+import org.gedcom4j.io.LoadCancelledException;
 import org.gedcom4j.model.*;
 
 import javafx.fxml.LoadException;
@@ -140,7 +141,7 @@ public class GedcomParser {
     public void load(BufferedInputStream stream) throws IOException, GedcomParserException {
         StringTree stringTree = readStream(stream);
         if (cancelled) {
-            throw new LoadException("File load/parse cancelled");
+            throw new LoadCancelledException("File load/parse cancelled");
         }
         loadRootItems(stringTree);
     }
@@ -161,6 +162,25 @@ public class GedcomParser {
             throw new LoadException("File load/parse cancelled");
         }
         loadRootItems(stringTree);
+    }
+
+    /**
+     * Notify all listeners about the change
+     * 
+     * @param e
+     *            the change event to tell the observers
+     */
+    public void notifyObservers(FileProgressEvent e) {
+        int i = 0;
+        while (i < observers.size()) {
+            WeakReference<FileProgressListener> observerRef = observers.get(i);
+            if (observerRef == null) {
+                observers.remove(observerRef);
+            } else {
+                observerRef.get().progressNotification(e);
+                i++;
+            }
+        }
     }
 
     /**
@@ -190,24 +210,6 @@ public class GedcomParser {
             }
         }
         observers.add(new WeakReference<FileProgressListener>(observer));
-    }
-
-    /**
-     * Notify all listeners about the change
-     * 
-     * @param e
-     *            the change event to tell the observers
-     */
-    protected void notifyObservers(FileProgressEvent e) {
-        int i = 0;
-        while (i < observers.size()) {
-            WeakReference<FileProgressListener> observerRef = observers.get(i);
-            if (observerRef == null) {
-                observers.remove(observerRef);
-            } else {
-                observerRef.get().progressNotification(e);
-            }
-        }
     }
 
     /**
