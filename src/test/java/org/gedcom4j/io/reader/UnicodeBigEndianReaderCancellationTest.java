@@ -31,11 +31,11 @@ import org.gedcom4j.parser.GedcomParserException;
 import org.junit.Test;
 
 /**
- * Test cancelling loads using {@link AnselReader}
+ * Test cancelling loads using {@link UnicodeBigEndianReader}
  * 
  * @author frizbog
  */
-public class AnselReaderCancellationTest implements FileProgressListener {
+public class UnicodeBigEndianReaderCancellationTest implements FileProgressListener {
 
     /**
      * The number of event notifications received
@@ -56,7 +56,7 @@ public class AnselReaderCancellationTest implements FileProgressListener {
     }
 
     /**
-     * Test when you've registered as a listener - cancel after 100 notifications
+     * t Test when you've registered as a listener - cancel after 100 notifications
      * 
      * @throws IOException
      *             if the file can't be loaded
@@ -67,7 +67,7 @@ public class AnselReaderCancellationTest implements FileProgressListener {
     public void testRegistered() throws IOException, GedcomParserException {
         eventCount = 0;
         gp.registerObserver(this);
-        gp.load("sample/willis-ansel.ged");
+        gp.load("sample/willis-unicode-bigendian.ged");
     }
 
 }
