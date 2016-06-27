@@ -21,6 +21,8 @@
  */
 package org.gedcom4j.model;
 
+import org.gedcom4j.exception.UnsupportedVersionException;
+
 /**
  * A GEDCOM version supported by gedcom4j
  * 

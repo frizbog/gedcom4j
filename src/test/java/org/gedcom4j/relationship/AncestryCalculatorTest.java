@@ -26,10 +26,10 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.Set;
 
+import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.parser.GedcomParser;
-import org.gedcom4j.parser.GedcomParserException;
 import org.gedcom4j.query.Finder;
 import org.junit.Before;
 import org.junit.Test;

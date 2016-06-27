@@ -26,9 +26,10 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 
+import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.model.*;
 import org.gedcom4j.parser.GedcomParser;
-import org.gedcom4j.parser.GedcomParserException;
 import org.gedcom4j.validate.GedcomValidationFinding;
 import org.gedcom4j.validate.Severity;
 import org.junit.Test;

@@ -19,21 +19,58 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.gedcom4j.io.reader;
+package org.gedcom4j.exception;
 
 /**
- * Test getting listener notifications from {@link UnicodeLittleEndianReader}. See {@link AbstractReaderListenerTest}
- * for the real code that does the testing.
+ * A base exception class for when the GedcomWriter fails
  * 
- * @author frizbog
+ * @author frizbog1
+ * 
  */
-public class UnicodeLittleEndianReaderListenerTest extends AbstractReaderListenerTest {
+public class GedcomWriterException extends Exception {
 
     /**
-     * Constructor
+     * Serial Version UID
      */
-    public UnicodeLittleEndianReaderListenerTest() {
-        super("sample/willis-unicode-littleendian.ged", 20036, 41);
+    private static final long serialVersionUID = -5656983786362148078L;
+
+    /**
+     * Default constructor
+     */
+    public GedcomWriterException() {
+        super();
+    }
+
+    /**
+     * Constructor that only takes a message
+     * 
+     * @param message
+     *            the message of the exception
+     */
+    public GedcomWriterException(String message) {
+        super(message);
+    }
+
+    /**
+     * Constructor that takes both a message and an underlying cause
+     * 
+     * @param message
+     *            the message of the exception
+     * @param cause
+     *            the underlying cause of the exception
+     */
+    public GedcomWriterException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    /**
+     * Constructor that only takes a causing throwable
+     * 
+     * @param cause
+     *            the underlying cause of the exception
+     */
+    public GedcomWriterException(Throwable cause) {
+        super(cause);
     }
 
 }

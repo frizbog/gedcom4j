@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.List;
 
+import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.*;
 import org.gedcom4j.query.Finder;
 import org.junit.Test;

@@ -19,59 +19,56 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.gedcom4j.validate;
+package org.gedcom4j.exception;
 
 /**
- * An exception indicating that the process of validation failed. Does not mean
- * that there is a problem with the data -- those are found in the
- * {@link GedcomValidator#findings} collection.
+ * Represents an unsupported/illegal value for a charset encoding in a GEDCOM file
  * 
  * @author frizbog1
- * 
  */
-public class GedcomValidationException extends RuntimeException {
+public class UnsupportedGedcomCharsetException extends Exception {
 
     /**
      * Serial Version UID
      */
-    private static final long serialVersionUID = -5656983786362148078L;
+    private static final long serialVersionUID = -1209602510830929697L;
 
     /**
      * Default constructor
      */
-    public GedcomValidationException() {
-        super();
+    public UnsupportedGedcomCharsetException() {
+        // Superclass handles just fine
     }
 
     /**
-     * Constructor that only takes a message
+     * Constructor that takes just the message
      * 
      * @param message
-     *            the message of the exception
+     *            the message
      */
-    public GedcomValidationException(String message) {
+    public UnsupportedGedcomCharsetException(String message) {
         super(message);
     }
 
     /**
-     * Constructor that takes both a message and an underlying cause
+     * Constructor that takes the message and cause
      * 
      * @param message
-     *            the message of the exception
+     *            the message
      * @param cause
-     *            the underlying cause of the exception
+     *            the cause
      */
-    public GedcomValidationException(String message, Throwable cause) {
+    public UnsupportedGedcomCharsetException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
-     * Constructor that only takes a causing throwable
+     * Constructor that takes just the cause
      * 
      * @param cause
-     *            the underlying cause of the exception
+     *            the cause
      */
-    public GedcomValidationException(Throwable cause) {
+    public UnsupportedGedcomCharsetException(Throwable cause) {
         super(cause);
     }
 

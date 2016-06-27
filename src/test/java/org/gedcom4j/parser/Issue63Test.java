@@ -27,6 +27,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 
+import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.junit.Test;

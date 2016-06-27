@@ -1,13 +1,11 @@
-package org.gedcom4j.io.exception;
-
-import org.gedcom4j.parser.GedcomParserException;
+package org.gedcom4j.exception;
 
 /**
  * Exception indicating that the file load/parse operation was cancelled
  * 
  * @author frizbog
  */
-public class LoadCancelledException extends GedcomParserException {
+public class ParserCancelledException extends GedcomParserException {
 
     /**
      * Serial version uid
@@ -17,7 +15,7 @@ public class LoadCancelledException extends GedcomParserException {
     /**
      * No-arg constructor
      */
-    public LoadCancelledException() {
+    public ParserCancelledException() {
         super();
     }
 
@@ -27,7 +25,7 @@ public class LoadCancelledException extends GedcomParserException {
      * @param message
      *            the message
      */
-    public LoadCancelledException(String message) {
+    public ParserCancelledException(String message) {
         super(message);
     }
 
@@ -39,7 +37,7 @@ public class LoadCancelledException extends GedcomParserException {
      * @param cause
      *            the cause
      */
-    public LoadCancelledException(String message, Throwable cause) {
+    public ParserCancelledException(String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -49,7 +47,7 @@ public class LoadCancelledException extends GedcomParserException {
      * @param cause
      *            the cause
      */
-    public LoadCancelledException(Throwable cause) {
+    public ParserCancelledException(Throwable cause) {
         super(cause);
     }
 

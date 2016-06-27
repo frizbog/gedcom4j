@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.gedcom4j.model;
+package org.gedcom4j.exception;
 
 /**
  * An exception for when an unsupported GEDCOM version is used

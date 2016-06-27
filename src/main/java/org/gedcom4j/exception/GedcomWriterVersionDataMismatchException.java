@@ -19,57 +19,59 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.gedcom4j.writer;
+
+package org.gedcom4j.exception;
 
 /**
- * A base exception class for when the GedcomWriter fails
+ * Represents a mismatch between the data being written and the GEDCOM version under which it's supposed to be written... in other words, the code is
+ * trying to write 5.5.1 data as a 5.5 file or vice-versa.
  * 
- * @author frizbog1
+ * @author frizbog
  * 
  */
-public class GedcomWriterException extends Exception {
+public class GedcomWriterVersionDataMismatchException extends GedcomWriterException {
 
     /**
      * Serial Version UID
      */
-    private static final long serialVersionUID = -5656983786362148078L;
+    private static final long serialVersionUID = -3893462493329487757L;
 
     /**
      * Default constructor
      */
-    public GedcomWriterException() {
+    public GedcomWriterVersionDataMismatchException() {
         super();
     }
 
     /**
-     * Constructor that only takes a message
+     * Constructor that takes just a message
      * 
      * @param message
-     *            the message of the exception
+     *            the message
      */
-    public GedcomWriterException(String message) {
+    public GedcomWriterVersionDataMismatchException(String message) {
         super(message);
     }
 
     /**
-     * Constructor that takes both a message and an underlying cause
+     * Constructor that takes a message and a cause
      * 
      * @param message
-     *            the message of the exception
+     *            the message
      * @param cause
-     *            the underlying cause of the exception
+     *            the cause
      */
-    public GedcomWriterException(String message, Throwable cause) {
+    public GedcomWriterVersionDataMismatchException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
-     * Constructor that only takes a causing throwable
+     * Constructor that takes just a cause
      * 
      * @param cause
-     *            the underlying cause of the exception
+     *            the cause
      */
-    public GedcomWriterException(Throwable cause) {
+    public GedcomWriterVersionDataMismatchException(Throwable cause) {
         super(cause);
     }
 

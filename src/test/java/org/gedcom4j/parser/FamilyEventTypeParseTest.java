@@ -25,6 +25,7 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
+import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyEvent;
 import org.gedcom4j.model.Gedcom;

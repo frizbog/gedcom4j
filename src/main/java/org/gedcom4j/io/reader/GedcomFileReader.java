@@ -24,7 +24,7 @@ package org.gedcom4j.io.reader;
 import java.io.*;
 import java.util.List;
 
-import org.gedcom4j.io.exception.UnsupportedGedcomCharsetException;
+import org.gedcom4j.exception.UnsupportedGedcomCharsetException;
 import org.gedcom4j.parser.GedcomParser;
 
 /**

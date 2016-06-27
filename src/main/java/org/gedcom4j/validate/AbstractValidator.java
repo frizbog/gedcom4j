@@ -25,6 +25,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.exception.GedcomValidationException;
 import org.gedcom4j.model.*;
 
 /**

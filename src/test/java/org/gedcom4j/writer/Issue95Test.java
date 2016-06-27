@@ -29,9 +29,10 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.model.*;
 import org.gedcom4j.parser.GedcomParser;
-import org.gedcom4j.parser.GedcomParserException;
 import org.junit.Test;
 
 /**

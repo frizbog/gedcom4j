@@ -127,7 +127,7 @@ class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
             result.add(lineBuffer.toString());
         }
         linesRead++;
-        if (linesRead % 100 == 0) {
+        if (linesRead % parser.getReadNotificationRate() == 0) {
             parser.notifyFileObservers(new FileProgressEvent(this, linesRead, false));
         }
     }

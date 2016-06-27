@@ -25,14 +25,23 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.gedcom4j.exception.GedcomWriterException;
+import org.gedcom4j.exception.GedcomWriterVersionDataMismatchException;
+import org.gedcom4j.exception.WriterCancelledException;
+import org.gedcom4j.io.event.FileProgressEvent;
+import org.gedcom4j.io.event.FileProgressListener;
 import org.gedcom4j.io.writer.GedcomFileWriter;
 import org.gedcom4j.model.*;
 import org.gedcom4j.validate.GedcomValidationFinding;
 import org.gedcom4j.validate.GedcomValidator;
 import org.gedcom4j.validate.Severity;
+import org.gedcom4j.writer.event.ConstructProgressEvent;
+import org.gedcom4j.writer.event.ConstructProgressListener;
 
 /**
  * <p>
@@ -78,29 +87,6 @@ public class GedcomWriter {
     private static final int MAX_LINE_LENGTH = 128;
 
     /**
-     * The Gedcom data to write
-     */
-    private final Gedcom gedcom;
-
-    /**
-     * Are we suppressing the call to the validator? Deliberately package-private so unit tests can fiddle with it to
-     * make testing easy.
-     */
-    boolean validationSuppressed = false;
-
-    /**
-     * The lines of the GEDCOM transmission, which will be written using a {@link GedcomFileWriter}. Deliberately
-     * package-private so tests can access it but others can't alter it.
-     */
-    List<String> lines = new ArrayList<String>();
-
-    /**
-     * A list of things found during validation of the gedcom data prior to writing it. If the data cannot be written
-     * due to an exception caused by failure to validate, this collection will describe the issues encountered.
-     */
-    public List<GedcomValidationFinding> validationFindings;
-
-    /**
      * Whether or not to use autorepair in the validation step
      */
     public boolean autorepair = false;
@@ -111,6 +97,54 @@ public class GedcomWriter {
     public boolean useLittleEndianForUnicode = true;
 
     /**
+     * A list of things found during validation of the gedcom data prior to writing it. If the data cannot be written
+     * due to an exception caused by failure to validate, this collection will describe the issues encountered.
+     */
+    public List<GedcomValidationFinding> validationFindings;
+
+    /**
+     * The lines of the GEDCOM transmission, which will be written using a {@link GedcomFileWriter}. Deliberately
+     * package-private so tests can access it but others can't alter it.
+     */
+    List<String> lines = new ArrayList<String>();
+
+    /**
+     * Are we suppressing the call to the validator? Deliberately package-private so unit tests can fiddle with it to
+     * make testing easy.
+     */
+    boolean validationSuppressed = false;
+
+    /**
+     * Has this writer been cancelled?
+     */
+    private boolean cancelled;
+
+    /**
+     * Send a notification whenever more than this many lines are constructed
+     */
+    private int constructionNotificationRate = 500;
+
+    /**
+     * The list of observers on string construction
+     */
+    private final List<WeakReference<ConstructProgressListener>> constructObservers = new CopyOnWriteArrayList<WeakReference<ConstructProgressListener>>();
+
+    /**
+     * The list of observers on file operations
+     */
+    private final List<WeakReference<FileProgressListener>> fileObservers = new CopyOnWriteArrayList<WeakReference<FileProgressListener>>();
+
+    /**
+     * The Gedcom data to write
+     */
+    private final Gedcom gedcom;
+
+    /**
+     * The number of lines constructed as last reported to the observers
+     */
+    private int lastLineCountNotified = 0;
+
+    /**
      * Constructor
      * 
      * @param gedcom
@@ -118,6 +152,103 @@ public class GedcomWriter {
      */
     public GedcomWriter(Gedcom gedcom) {
         this.gedcom = gedcom;
+    }
+
+    /**
+     * Cancel construction of the GEDCOM and writing it to a file
+     */
+    public void cancel() {
+        cancelled = true;
+    }
+
+    /**
+     * Get the construction notification rate - how many lines need to be constructed before getting a notification
+     * 
+     * @return the construction notification rate - how many lines need to be constructed before getting a notification
+     */
+    public int getConstructionNotificationRate() {
+        return constructionNotificationRate;
+    }
+
+    /**
+     * Has this writer been cancelled?
+     * 
+     * @return true if this writer has been cancelled
+     */
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    /**
+     * Register a observer (listener) to be informed about progress and completion.
+     * 
+     * @param observer
+     *            the observer you want notified
+     */
+    public void registerConstructObserver(ConstructProgressListener observer) {
+        constructObservers.add(new WeakReference<ConstructProgressListener>(observer));
+    }
+
+    /**
+     * Register a observer (listener) to be informed about progress and completion.
+     * 
+     * @param observer
+     *            the observer you want notified
+     */
+    public void registerFileObserver(FileProgressListener observer) {
+        fileObservers.add(new WeakReference<FileProgressListener>(observer));
+    }
+
+    /**
+     * Set the construction notification rate - how many lines need to be constructed before getting a notification
+     * 
+     * @param constructionNotificationRate
+     *            the construction notification rate - how many lines need to be constructed before getting a
+     *            notification
+     */
+    public void setConstructionNotificationRate(int constructionNotificationRate) {
+        if (constructionNotificationRate < 1) {
+            throw new IllegalArgumentException("Construction Notification Rate must be at least 1");
+        }
+        this.constructionNotificationRate = constructionNotificationRate;
+    }
+
+    /**
+     * Unregister a observer (listener) to be informed about progress and completion.
+     * 
+     * @param observer
+     *            the observer you want notified
+     */
+    public void unregisterConstructObserver(ConstructProgressListener observer) {
+        int i = 0;
+        while (i < constructObservers.size()) {
+            WeakReference<ConstructProgressListener> observerRef = constructObservers.get(i);
+            if (observerRef == null || observerRef.get() == observer) {
+                constructObservers.remove(observerRef);
+            } else {
+                i++;
+            }
+        }
+        constructObservers.add(new WeakReference<ConstructProgressListener>(observer));
+    }
+
+    /**
+     * Unregister a observer (listener) to be informed about progress and completion.
+     * 
+     * @param observer
+     *            the observer you want notified
+     */
+    public void unregisterFileObserver(FileProgressListener observer) {
+        int i = 0;
+        while (i < fileObservers.size()) {
+            WeakReference<FileProgressListener> observerRef = fileObservers.get(i);
+            if (observerRef == null || observerRef.get() == observer) {
+                fileObservers.remove(observerRef);
+            } else {
+                i++;
+            }
+        }
+        fileObservers.add(new WeakReference<FileProgressListener>(observer));
     }
 
     /**
@@ -627,6 +758,10 @@ public class GedcomWriter {
             emitTagIfValueNotNull(1, "RIN", f.automatedRecordId);
             emitChangeDate(1, f.changeDate);
             emitCustomTags(1, f.customTags);
+            notifyConstructObserversIfNeeded();
+            if (cancelled) {
+                throw new WriterCancelledException("Construction and writing of GEDCOM cancelled");
+            }
         }
     }
 
@@ -798,6 +933,10 @@ public class GedcomWriter {
             emitTagIfValueNotNull(1, "RIN", i.recIdNumber);
             emitChangeDate(1, i.changeDate);
             emitCustomTags(1, i.customTags);
+            notifyConstructObserversIfNeeded();
+            if (cancelled) {
+                throw new WriterCancelledException("Construction and writing of GEDCOM cancelled");
+            }
         }
     }
 
@@ -934,6 +1073,10 @@ public class GedcomWriter {
                         "GEDCOM version is 5.5, but found file references in multimedia object " + m.xref + " which are not allowed until GEDCOM 5.5.1");
             }
             emitCustomTags(1, m.customTags);
+            notifyConstructObserversIfNeeded();
+            if (cancelled) {
+                throw new WriterCancelledException("Construction and writing of GEDCOM cancelled");
+            }
         }
     }
 
@@ -975,6 +1118,10 @@ public class GedcomWriter {
             if (m.embeddedTitle != null) {
                 throw new GedcomWriterVersionDataMismatchException(
                         "GEDCOM version is 5.5.1, but title on multimedia item " + m.xref + " was found.  This is only allowed in GEDCOM 5.5");
+            }
+            notifyConstructObserversIfNeeded();
+            if (cancelled) {
+                throw new WriterCancelledException("Construction and writing of GEDCOM cancelled");
             }
         }
     }
@@ -1092,6 +1239,10 @@ public class GedcomWriter {
         for (Note n : notes) {
             emitNote(level, n);
             emitCustomTags(level + 1, n.customTags);
+            notifyConstructObserversIfNeeded();
+            if (cancelled) {
+                throw new WriterCancelledException("Construction and writing of GEDCOM cancelled");
+            }
         }
     }
 
@@ -1215,6 +1366,7 @@ public class GedcomWriter {
      *             if the data is malformed and cannot be written
      */
     private void emitRecords() throws GedcomWriterException {
+        notifyConstructObserversIfNeeded();
         emitIndividuals();
         emitFamilies();
         if (g55()) {
@@ -1251,6 +1403,10 @@ public class GedcomWriter {
             emitEmails(1, r.emails);
             emitChangeDate(1, r.changeDate);
             emitCustomTags(1, r.customTags);
+            notifyConstructObserversIfNeeded();
+            if (cancelled) {
+                throw new WriterCancelledException("Construction and writing of GEDCOM cancelled");
+            }
         }
     }
 
@@ -1339,6 +1495,10 @@ public class GedcomWriter {
             emitTagIfValueNotNull(1, "RIN", s.recIdNumber);
             emitChangeDate(1, s.changeDate);
             emitCustomTags(1, s.customTags);
+            notifyConstructObserversIfNeeded();
+            if (cancelled) {
+                throw new WriterCancelledException("Construction and writing of GEDCOM cancelled");
+            }
         }
     }
 
@@ -1446,6 +1606,10 @@ public class GedcomWriter {
             emitTagIfValueNotNull(1, "RIN", s.recIdNumber);
             emitChangeDate(1, s.changeDate);
             emitCustomTags(1, s.customTags);
+            notifyConstructObserversIfNeeded();
+            if (cancelled) {
+                throw new WriterCancelledException("Construction and writing of GEDCOM cancelled");
+            }
         }
     }
 
@@ -1702,6 +1866,7 @@ public class GedcomWriter {
      */
     private void emitTrailer() {
         lines.add("0 TRLR");
+        notifyConstructObservers(new ConstructProgressEvent(this, lines.size(), true));
     }
 
     /**
@@ -1728,5 +1893,53 @@ public class GedcomWriter {
     private boolean g55() {
         return gedcom != null && gedcom.header != null && gedcom.header.gedcomVersion != null
                 && SupportedVersion.V5_5.equals(gedcom.header.gedcomVersion.versionNumber);
+    }
+
+    /**
+     * Notify all listeners about the line being
+     * 
+     * @param e
+     *            the change event to tell the observers
+     */
+    private void notifyConstructObservers(ConstructProgressEvent e) {
+        int i = 0;
+        lastLineCountNotified = e.getLinesProcessed();
+        while (i < constructObservers.size()) {
+            WeakReference<ConstructProgressListener> observerRef = constructObservers.get(i);
+            if (observerRef == null) {
+                constructObservers.remove(observerRef);
+            } else {
+                observerRef.get().progressNotification(e);
+                i++;
+            }
+        }
+    }
+
+    /**
+     * Notify construct observers if more than 100 lines have been constructed since last time we notified them
+     */
+    private void notifyConstructObserversIfNeeded() {
+        if ((lines.size() - lastLineCountNotified) > constructionNotificationRate) {
+            notifyConstructObservers(new ConstructProgressEvent(this, lines.size(), true));
+        }
+    }
+
+    /**
+     * Notify all listeners about the file progress
+     * 
+     * @param e
+     *            the change event to tell the observers
+     */
+    private void notifyFileObservers(FileProgressEvent e) {
+        int i = 0;
+        while (i < fileObservers.size()) {
+            WeakReference<FileProgressListener> observerRef = fileObservers.get(i);
+            if (observerRef == null) {
+                fileObservers.remove(observerRef);
+            } else {
+                observerRef.get().progressNotification(e);
+                i++;
+            }
+        }
     }
 }

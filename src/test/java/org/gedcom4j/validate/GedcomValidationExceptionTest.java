@@ -23,7 +23,7 @@ package org.gedcom4j.validate;
 
 import junit.framework.Assert;
 
-import org.gedcom4j.validate.GedcomValidationException;
+import org.gedcom4j.exception.GedcomValidationException;
 import org.junit.Test;
 
 /**
@@ -34,7 +34,7 @@ public class GedcomValidationExceptionTest {
 
     /**
      * Test method for
-     * {@link org.gedcom4j.validate.GedcomValidationException#GedcomValidationException()}
+     * {@link org.gedcom4j.exception.GedcomValidationException#GedcomValidationException()}
      * .
      */
     @Test
@@ -50,7 +50,7 @@ public class GedcomValidationExceptionTest {
 
     /**
      * Test method for
-     * {@link org.gedcom4j.validate.GedcomValidationException#GedcomValidationException(java.lang.String)}
+     * {@link org.gedcom4j.exception.GedcomValidationException#GedcomValidationException(java.lang.String)}
      * .
      */
     @Test
@@ -66,7 +66,7 @@ public class GedcomValidationExceptionTest {
 
     /**
      * Test method for
-     * {@link org.gedcom4j.validate.GedcomValidationException#GedcomValidationException(java.lang.String, java.lang.Throwable)}
+     * {@link org.gedcom4j.exception.GedcomValidationException#GedcomValidationException(java.lang.String, java.lang.Throwable)}
      * .
      */
     @Test
@@ -82,7 +82,7 @@ public class GedcomValidationExceptionTest {
 
     /**
      * Test method for
-     * {@link org.gedcom4j.validate.GedcomValidationException#GedcomValidationException(java.lang.Throwable)}
+     * {@link org.gedcom4j.exception.GedcomValidationException#GedcomValidationException(java.lang.Throwable)}
      * .
      */
     @Test

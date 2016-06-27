@@ -26,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.*;
 import org.junit.Test;
 

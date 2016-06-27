@@ -23,6 +23,7 @@ package org.gedcom4j.validate;
 
 import java.util.ArrayList;
 
+import org.gedcom4j.exception.GedcomValidationException;
 import org.gedcom4j.model.*;
 
 /**

@@ -25,6 +25,7 @@ package org.gedcom4j.writer;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.model.*;
 import org.junit.Test;
 
