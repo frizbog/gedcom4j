@@ -23,7 +23,7 @@ package org.gedcom4j.validate;
 
 import java.util.ArrayList;
 
-import org.gedcom4j.io.Encoding;
+import org.gedcom4j.io.encoding.Encoding;
 import org.gedcom4j.model.*;
 
 /**

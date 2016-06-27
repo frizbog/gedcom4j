@@ -28,7 +28,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.gedcom4j.io.GedcomFileWriter;
+import org.gedcom4j.io.writer.GedcomFileWriter;
 import org.gedcom4j.model.*;
 import org.gedcom4j.validate.GedcomValidationFinding;
 import org.gedcom4j.validate.GedcomValidator;
