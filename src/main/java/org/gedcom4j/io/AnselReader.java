@@ -26,6 +26,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.parser.GedcomParser;
+
 /**
  * A reader that loads from an input stream and gives back a collection of strings representing the data therein. This
  * implementation handles ANSEL encoding (1 byte per character, some extended character support).
@@ -42,11 +44,14 @@ class AnselReader extends AbstractEncodingSpecificReader {
     /**
      * Constructor
      * 
+     * @param parser
+     *            the {@link GedcomParser} which is using this object to read files
+     * 
      * @param byteStream
      *            the stream of data being read
      */
-    protected AnselReader(InputStream byteStream) {
-        super(byteStream);
+    protected AnselReader(GedcomParser parser, InputStream byteStream) {
+        super(parser, byteStream);
     }
 
     /**
@@ -95,7 +100,7 @@ class AnselReader extends AbstractEncodingSpecificReader {
             continue;
         }
         result = anselHandler.toUtf16Lines(result);
-        notifyObservers(new FileProgressEvent(this, linesRead, true));
+        parser.notifyObservers(new FileProgressEvent(this, linesRead, true));
         return result;
     }
 
@@ -116,7 +121,7 @@ class AnselReader extends AbstractEncodingSpecificReader {
             result.add(s);
             linesRead++;
             if (linesRead % 100 == 0) {
-                notifyObservers(new FileProgressEvent(this, linesRead, false));
+                parser.notifyObservers(new FileProgressEvent(this, linesRead, false));
             }
         }
     }

@@ -62,6 +62,11 @@ public class GedcomFileReader {
     private AbstractEncodingSpecificReader encodingSpecificReader;
 
     /**
+     * The {@link GedcomParser} we're reading files for
+     */
+    private final GedcomParser parser;
+
+    /**
      * Constructor
      * 
      * @param parser
@@ -71,6 +76,7 @@ public class GedcomFileReader {
      *            the buffered input stream of bytes
      */
     public GedcomFileReader(GedcomParser parser, BufferedInputStream bufferedInputStream) {
+        this.parser = parser;
         byteStream = bufferedInputStream;
     }
 
@@ -157,17 +163,17 @@ public class GedcomFileReader {
                 if (s.startsWith("1 CHAR ")) {
                     String e = s.substring("1 CHAR ".length());
                     if ("ANSEL".equalsIgnoreCase(e)) {
-                        return new AnselReader(byteStream);
+                        return new AnselReader(parser, byteStream);
                     } else if ("UTF-8".equalsIgnoreCase(e)) {
-                        return new Utf8Reader(byteStream);
+                        return new Utf8Reader(parser, byteStream);
                     } else if ("ASCII".equalsIgnoreCase(e)) {
-                        return new AsciiReader(byteStream);
+                        return new AsciiReader(parser, byteStream);
                     } else if ("ANSI".equalsIgnoreCase(e)) {
                         /*
                          * Technically, this is illegal, but UTF_8 is the most-likely-to-work scenario, so let's try it
                          * and be a bit forgiving
                          */
-                        return new Utf8Reader(byteStream);
+                        return new Utf8Reader(parser, byteStream);
                     } else {
                         throw new UnsupportedGedcomCharsetException("Specified charset " + e + " is not a supported charset encoding for GEDCOMs");
                     }
@@ -181,7 +187,7 @@ public class GedcomFileReader {
             }
         }
         // All other avenues exhausted, go with an ANSEL reader since that's the default encoding in GEDCOM 5.5
-        return new AnselReader(byteStream);
+        return new AnselReader(parser, byteStream);
     }
 
     /**
@@ -204,7 +210,7 @@ public class GedcomFileReader {
              * Special byte order marker to indicate UTF-8 encoding. Not every program does this, but if it does, we
              * KNOW it's UTF-8 and should discard the BOM
              */
-            AbstractEncodingSpecificReader result = new Utf8Reader(byteStream);
+            AbstractEncodingSpecificReader result = new Utf8Reader(parser, byteStream);
             ((Utf8Reader) result).setByteOrderMarkerRead(true);
             return result;
         }
@@ -212,11 +218,11 @@ public class GedcomFileReader {
         if (firstNBytes(2) == 0xFFFE || firstNBytes(2) == 0x3000 || firstNBytes(2) == 0x0D00 || firstNBytes(2) == 0x0A00) {
             // If the first two firstChunk make up a single zero character, a single line feed character, or a single
             // carriage return character, using the bytes shown, it's unicode little-endian
-            return new UnicodeLittleEndianReader(byteStream);
+            return new UnicodeLittleEndianReader(parser, byteStream);
         } else if (firstNBytes(2) == 0xFEFF || firstNBytes(2) == 0x0030 || firstNBytes(2) == 0x000D || firstNBytes(2) == 0x000A) {
             // If the first two firstChunk make up a single zero character, a single line feed character, or a single
             // carriage return character, using the bytes shown, it's unicode big-endian
-            return new UnicodeBigEndianReader(byteStream);
+            return new UnicodeBigEndianReader(parser, byteStream);
         } else {
             boolean zeroFollowedBySpace = firstNBytes(2) == 0x3020;
             boolean blankLineFollowedByZero = firstNBytes(2) == 0x0A30 || firstNBytes(2) == 0x0D30;

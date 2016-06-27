@@ -10,8 +10,47 @@ import org.gedcom4j.parser.GedcomParserException;
 public class LoadCancelledException extends GedcomParserException {
 
     /**
-     * Serial Version UID
+     * Serial version uid
      */
-    private static final long serialVersionUID = -2970871813651521055L;
+    private static final long serialVersionUID = -3295979672863551432L;
+
+    /**
+     * No-arg constructor
+     */
+    public LoadCancelledException() {
+        super();
+    }
+
+    /**
+     * Constructor that takes just a message
+     * 
+     * @param message
+     *            the message
+     */
+    public LoadCancelledException(String message) {
+        super(message);
+    }
+
+    /**
+     * Constructor that takes a message and a cause
+     * 
+     * @param message
+     *            the message
+     * @param cause
+     *            the cause
+     */
+    public LoadCancelledException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    /**
+     * Constructor that takes just a cause
+     * 
+     * @param cause
+     *            the cause
+     */
+    public LoadCancelledException(Throwable cause) {
+        super(cause);
+    }
 
 }
