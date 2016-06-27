@@ -29,10 +29,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.gedcom4j.io.FileProgressEvent;
-import org.gedcom4j.io.FileProgressListener;
-import org.gedcom4j.io.GedcomFileReader;
-import org.gedcom4j.io.LoadCancelledException;
+import org.gedcom4j.io.event.FileProgressEvent;
+import org.gedcom4j.io.event.FileProgressListener;
+import org.gedcom4j.io.exception.LoadCancelledException;
+import org.gedcom4j.io.reader.GedcomFileReader;
 import org.gedcom4j.model.*;
 
 import javafx.fxml.LoadException;

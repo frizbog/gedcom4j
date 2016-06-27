@@ -21,7 +21,7 @@
  */
 package org.gedcom4j.model;
 
-import org.gedcom4j.io.Encoding;
+import org.gedcom4j.io.encoding.Encoding;
 
 /**
  * A character set.
