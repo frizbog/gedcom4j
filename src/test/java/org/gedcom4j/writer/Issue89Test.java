@@ -2,6 +2,7 @@ package org.gedcom4j.writer;
 
 import java.io.ByteArrayOutputStream;
 
+import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.model.*;
 import org.junit.Test;
 

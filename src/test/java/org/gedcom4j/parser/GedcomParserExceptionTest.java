@@ -23,7 +23,7 @@ package org.gedcom4j.parser;
 
 import junit.framework.Assert;
 
-import org.gedcom4j.parser.GedcomParserException;
+import org.gedcom4j.exception.GedcomParserException;
 import org.junit.Test;
 
 /**
@@ -34,7 +34,7 @@ public class GedcomParserExceptionTest {
 
     /**
      * Test method for
-     * {@link org.gedcom4j.parser.GedcomParserException#GedcomParserException()}
+     * {@link org.gedcom4j.exception.GedcomParserException#GedcomParserException()}
      * .
      */
     @Test
@@ -50,7 +50,7 @@ public class GedcomParserExceptionTest {
 
     /**
      * Test method for
-     * {@link org.gedcom4j.parser.GedcomParserException#GedcomParserException(java.lang.String)}
+     * {@link org.gedcom4j.exception.GedcomParserException#GedcomParserException(java.lang.String)}
      * .
      */
     @Test
@@ -66,7 +66,7 @@ public class GedcomParserExceptionTest {
 
     /**
      * Test method for
-     * {@link org.gedcom4j.parser.GedcomParserException#GedcomParserException(java.lang.String, java.lang.Throwable)}
+     * {@link org.gedcom4j.exception.GedcomParserException#GedcomParserException(java.lang.String, java.lang.Throwable)}
      * .
      */
     @Test
@@ -82,7 +82,7 @@ public class GedcomParserExceptionTest {
 
     /**
      * Test method for
-     * {@link org.gedcom4j.parser.GedcomParserException#GedcomParserException(java.lang.Throwable)}
+     * {@link org.gedcom4j.exception.GedcomParserException#GedcomParserException(java.lang.Throwable)}
      * .
      */
     @Test

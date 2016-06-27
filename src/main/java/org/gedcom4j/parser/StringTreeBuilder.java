@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.StringTree;
 
 /**

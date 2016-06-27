@@ -23,7 +23,7 @@ package org.gedcom4j.writer;
 
 import junit.framework.Assert;
 
-import org.gedcom4j.writer.GedcomWriterException;
+import org.gedcom4j.exception.GedcomWriterException;
 import org.junit.Test;
 
 /**
@@ -34,7 +34,7 @@ public class GedcomWriterExceptionTest {
 
     /**
      * Test method for
-     * {@link org.gedcom4j.writer.GedcomWriterException#GedcomWriterException()}
+     * {@link org.gedcom4j.exception.GedcomWriterException#GedcomWriterException()}
      * .
      */
     @Test
@@ -50,7 +50,7 @@ public class GedcomWriterExceptionTest {
 
     /**
      * Test method for
-     * {@link org.gedcom4j.writer.GedcomWriterException#GedcomWriterException(java.lang.String)}
+     * {@link org.gedcom4j.exception.GedcomWriterException#GedcomWriterException(java.lang.String)}
      * .
      */
     @Test
@@ -66,7 +66,7 @@ public class GedcomWriterExceptionTest {
 
     /**
      * Test method for
-     * {@link org.gedcom4j.writer.GedcomWriterException#GedcomWriterException(java.lang.String, java.lang.Throwable)}
+     * {@link org.gedcom4j.exception.GedcomWriterException#GedcomWriterException(java.lang.String, java.lang.Throwable)}
      * .
      */
     @Test
@@ -82,7 +82,7 @@ public class GedcomWriterExceptionTest {
 
     /**
      * Test method for
-     * {@link org.gedcom4j.writer.GedcomWriterException#GedcomWriterException(java.lang.Throwable)}
+     * {@link org.gedcom4j.exception.GedcomWriterException#GedcomWriterException(java.lang.Throwable)}
      * .
      */
     @Test

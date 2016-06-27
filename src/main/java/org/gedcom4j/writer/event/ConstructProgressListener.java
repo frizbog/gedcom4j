@@ -19,58 +19,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.gedcom4j.parser;
+package org.gedcom4j.writer.event;
 
 /**
- * An exception thrown by the parser indicating inability to deal with the input
- * file
+ * Interface for listening for GEDCOM string construction progress
  * 
- * @author frizbog1
+ * @author frizbog
  */
-public class GedcomParserException extends Exception {
-
+public interface ConstructProgressListener {
     /**
-     * The serial version UID
-     */
-    public static final long serialVersionUID = 6803960812766915985L;
-
-    /**
-     * No-arg constructor.
-     */
-    public GedcomParserException() {
-        super();
-    }
-
-    /**
-     * Constructor that takes a message only
+     * Some progress has occurred
      * 
-     * @param message
-     *            the message
+     * @param e
+     *            information about the progress made
      */
-    public GedcomParserException(String message) {
-        super(message);
-    }
-
-    /**
-     * Constructor that takes a message and a causing exception
-     * 
-     * @param message
-     *            the message
-     * @param cause
-     *            the causing exception
-     */
-    public GedcomParserException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    /**
-     * Constructor that takes only a causing exception
-     * 
-     * @param cause
-     *            the causing exception
-     */
-    public GedcomParserException(Throwable cause) {
-        super(cause);
-    }
-
+    public void progressNotification(ConstructProgressEvent e);
 }

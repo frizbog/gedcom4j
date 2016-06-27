@@ -29,6 +29,7 @@ import static org.junit.Assert.fail;
 import java.io.IOException;
 import java.util.List;
 
+import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.Submitter;
 import org.junit.Test;

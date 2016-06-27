@@ -25,7 +25,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
-import org.gedcom4j.io.exception.LoadCancelledException;
+import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.exception.ParserCancelledException;
 import org.gedcom4j.parser.event.ParseProgressEvent;
 import org.gedcom4j.parser.event.ParseProgressListener;
 import org.junit.Test;
@@ -66,7 +67,7 @@ public class ParserProgressAndCancellationTest implements ParseProgressListener 
      * @throws IOException
      * @throws GedcomParserException
      */
-    @Test(expected = LoadCancelledException.class)
+    @Test(expected = ParserCancelledException.class)
     public void testCancellation() throws IOException, GedcomParserException {
         gp = new GedcomParser();
         cancelAfter = 100;

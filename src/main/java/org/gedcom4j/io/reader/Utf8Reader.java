@@ -87,7 +87,7 @@ class Utf8Reader extends AbstractEncodingSpecificReader {
                     result.add(s);
                 }
                 linesRead++;
-                if (linesRead % 100 == 0) {
+                if (linesRead % parser.getReadNotificationRate() == 0) {
                     parser.notifyFileObservers(new FileProgressEvent(this, linesRead, false));
                 }
                 s = br.readLine();

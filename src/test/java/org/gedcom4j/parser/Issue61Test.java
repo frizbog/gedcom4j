@@ -28,6 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
+import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.StringTree;

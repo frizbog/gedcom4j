@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 
+import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submission;

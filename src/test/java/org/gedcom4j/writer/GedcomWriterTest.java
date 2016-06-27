@@ -35,10 +35,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.io.reader.GedcomFileReader;
 import org.gedcom4j.model.*;
 import org.gedcom4j.parser.GedcomParser;
-import org.gedcom4j.parser.GedcomParserException;
 import org.junit.Before;
 import org.junit.Test;
 

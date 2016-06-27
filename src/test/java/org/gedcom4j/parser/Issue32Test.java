@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.Note;
 import org.junit.Test;

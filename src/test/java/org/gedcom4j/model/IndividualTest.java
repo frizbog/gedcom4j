@@ -30,8 +30,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
+import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.parser.GedcomParser;
-import org.gedcom4j.parser.GedcomParserException;
 import org.gedcom4j.query.Finder;
 import org.junit.Test;
 

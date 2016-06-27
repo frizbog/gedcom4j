@@ -122,7 +122,7 @@ class AnselReader extends AbstractEncodingSpecificReader {
             String s = new String(lineBuffer).substring(0, lineBufferIdx);
             result.add(s);
             linesRead++;
-            if (linesRead % 100 == 0) {
+            if (linesRead % parser.getReadNotificationRate() == 0) {
                 parser.notifyFileObservers(new FileProgressEvent(this, linesRead, false));
             }
         }

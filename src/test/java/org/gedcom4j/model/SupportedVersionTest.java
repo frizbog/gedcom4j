@@ -25,8 +25,8 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import org.gedcom4j.exception.UnsupportedVersionException;
 import org.gedcom4j.model.SupportedVersion;
-import org.gedcom4j.model.UnsupportedVersionException;
 import org.junit.Test;
 
 /**

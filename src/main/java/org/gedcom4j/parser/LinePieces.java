@@ -21,6 +21,8 @@
  */
 package org.gedcom4j.parser;
 
+import org.gedcom4j.exception.GedcomParserException;
+
 /**
  * A class that breaks up a line in a GEDCOM file into its component parts.
  * 

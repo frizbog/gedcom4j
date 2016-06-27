@@ -23,11 +23,11 @@ package org.gedcom4j.io.reader;
 
 import java.io.IOException;
 
+import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.exception.ParserCancelledException;
 import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.io.event.FileProgressListener;
-import org.gedcom4j.io.exception.LoadCancelledException;
 import org.gedcom4j.parser.GedcomParser;
-import org.gedcom4j.parser.GedcomParserException;
 import org.junit.Test;
 
 /**
@@ -50,7 +50,7 @@ public class AsciiReaderCancellationTest implements FileProgressListener {
     @Override
     public void progressNotification(FileProgressEvent e) {
         eventCount++;
-        if (eventCount >= 100) {
+        if (eventCount >= 5) {
             gp.cancel();
         }
     }
@@ -63,7 +63,7 @@ public class AsciiReaderCancellationTest implements FileProgressListener {
      * @throws GedcomParserException
      *             if the file can't be parsed
      */
-    @Test(expected = LoadCancelledException.class)
+    @Test(expected = ParserCancelledException.class)
     public void testRegistered() throws IOException, GedcomParserException {
         eventCount = 0;
         gp.registerFileObserver(this);
