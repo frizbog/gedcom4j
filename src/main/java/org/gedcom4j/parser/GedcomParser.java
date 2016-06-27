@@ -35,8 +35,6 @@ import org.gedcom4j.io.exception.LoadCancelledException;
 import org.gedcom4j.io.reader.GedcomFileReader;
 import org.gedcom4j.model.*;
 
-import javafx.fxml.LoadException;
-
 /**
  * <p>
  * Class for parsing GEDCOM 5.5 files and creating a {@link Gedcom} structure from them.
@@ -159,7 +157,7 @@ public class GedcomParser {
     public void load(String filename) throws IOException, GedcomParserException {
         StringTree stringTree = readFile(filename);
         if (cancelled) {
-            throw new LoadException("File load/parse cancelled");
+            throw new LoadCancelledException("File load/parse cancelled");
         }
         loadRootItems(stringTree);
     }
