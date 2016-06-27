@@ -23,44 +23,59 @@ package org.gedcom4j.io.writer;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import org.gedcom4j.exception.WriterCancelledException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.exception.GedcomWriterException;
+import org.gedcom4j.io.event.FileProgressEvent;
+import org.gedcom4j.io.event.FileProgressListener;
+import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.writer.GedcomWriter;
 import org.junit.Test;
 
 /**
- * Test for {@link AnselWriter}
+ * Test cancelling file writes using {@link AnselWriter}
  * 
  * @author frizbog
  */
-public class AnselWriterTest {
+public class AnselWriterCancellationTest implements FileProgressListener {
 
     /**
-     * Try writing a UTF-16 string with diacritics out as an ANSEL string
-     * 
-     * @throws IOException
-     *             if the line cannot be written to the memory output stream
-     * @throws WriterCancelledException
-     *             if the write operation was cancelled
+     * The number of event notifications received
      */
-    @Test
-    public void testWriteLine() throws IOException, WriterCancelledException {
-        AnselWriter anselWriter = new AnselWriter(new GedcomWriter(new Gedcom()));
-        anselWriter.terminator = LineTerminator.CRLF;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        // Mix of precomposed and combined diacritics
-        String utf16 = "ẢB\u0309C\u0309D\u0309ẺF\u0309G\u0309H\u0309ỈJ\u0309K\u0309L\u0309M\u0309";
-        anselWriter.writeLine(baos, utf16);
-        String ansel = baos.toString();
-        String expected = "\uFFFD\u0041\uFFFD\u0042\uFFFD\u0043\uFFFD\u0044\uFFFD\u0045\uFFFD\u0046"
-                + "\uFFFD\u0047\uFFFD\u0048\uFFFD\u0049\uFFFD\u004A\uFFFD\u004B\uFFFD\u004C\uFFFD\u004D\r\n";
-        for (int i = 0; i < ansel.length(); i++) {
-            char a = ansel.charAt(i);
-            char e = expected.charAt(i);
-            assertEquals("Character " + i + " is not equal", e, a);
+    private int eventCount;
+
+    /**
+     * GedcomParser test fixture
+     */
+    private final GedcomParser gp = new GedcomParser();
+
+    @Override
+    public void progressNotification(FileProgressEvent e) {
+        eventCount++;
+        if (eventCount >= 5) {
+            gp.cancel();
         }
     }
+
+    /**
+     * Test when you've registered as a listener - cancel after 100 notifications
+     * 
+     * @throws IOException
+     *             if the file can't be loaded
+     * @throws GedcomParserException
+     *             if the file can't be parsed
+     * @throws GedcomWriterException
+     *             if there's a problem writing the file
+     */
+    @Test
+    public void testRegistered() throws IOException, GedcomParserException, GedcomWriterException {
+        gp.load("sample/willis-ansel.ged");
+        eventCount = 0;
+        GedcomWriter gw = new GedcomWriter(gp.gedcom);
+        gw.registerFileObserver(this);
+        gw.write(new NullOutputStream());
+        assertEquals(990, eventCount);
+    }
+
 }

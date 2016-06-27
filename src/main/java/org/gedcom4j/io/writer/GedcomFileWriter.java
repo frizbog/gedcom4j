@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
+import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.writer.GedcomWriter;
 
 /**
@@ -89,8 +90,10 @@ public class GedcomFileWriter {
      *            the output stream
      * @throws IOException
      *             if the data can't be written to the stream
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
-    public void write(OutputStream out) throws IOException {
+    public void write(OutputStream out) throws IOException, WriterCancelledException {
 
         encodingSpecificWriter = new AnselWriter(writer);
 
