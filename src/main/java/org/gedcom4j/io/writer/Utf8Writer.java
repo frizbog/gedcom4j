@@ -27,12 +27,24 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 
+import org.gedcom4j.writer.GedcomWriter;
+
 /**
  * A class that writes GEDCOM data in UTF-8 format.
  * 
  * @author frizbog
  */
 class Utf8Writer extends AbstractEncodingSpecificWriter {
+
+    /**
+     * Constructor
+     * 
+     * @param writer
+     *            The {@link GedcomWriter} this object is assisting
+     */
+    public Utf8Writer(GedcomWriter writer) {
+        super(writer);
+    }
 
     /**
      * {@inheritDoc}
@@ -79,8 +91,7 @@ class Utf8Writer extends AbstractEncodingSpecificWriter {
     @Override
     protected void writeLine(OutputStream out, String line) throws IOException {
         // Not used
-        throw new UnsupportedOperationException(this.getClass().getName()
-                + " does not use the abstract writeLine method");
+        throw new UnsupportedOperationException(this.getClass().getName() + " does not use the abstract writeLine method");
     }
 
     /**
@@ -92,8 +103,7 @@ class Utf8Writer extends AbstractEncodingSpecificWriter {
     @Override
     protected void writeLineTerminator(OutputStream out) throws IOException {
         // Not used
-        throw new UnsupportedOperationException(this.getClass().getName()
-                + " does not use the abstract writeLineTerminator method");
+        throw new UnsupportedOperationException(this.getClass().getName() + " does not use the abstract writeLineTerminator method");
     }
 
 }

@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
+import org.gedcom4j.writer.GedcomWriter;
+
 /**
  * A base class for encoding-specific writer classes.
  * 
@@ -41,6 +43,21 @@ abstract class AbstractEncodingSpecificWriter {
      * The line terminator character to use - defaults to JVM settings but can be overridden
      */
     protected LineTerminator terminator;
+
+    /**
+     * The {@link GedcomWriter} this object is assisting
+     */
+    protected GedcomWriter writer;
+
+    /**
+     * Constructor
+     * 
+     * @param writer
+     *            The {@link GedcomWriter} this object is assisting
+     */
+    public AbstractEncodingSpecificWriter(GedcomWriter writer) {
+        this.writer = writer;
+    }
 
     /**
      * Write the gedcom lines to an output stream, encoding as needed

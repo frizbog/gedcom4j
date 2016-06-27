@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import org.gedcom4j.exception.ParserCancelledException;
 import org.gedcom4j.parser.GedcomParser;
 
 /**
@@ -49,11 +50,6 @@ abstract class AbstractEncodingSpecificReader {
     protected boolean complete = false;
 
     /**
-     * Is the load process being cancelled
-     */
-    protected boolean cancelled;
-
-    /**
      * The {@link GedcomParser} we're reading files for
      */
     protected final GedcomParser parser;
@@ -76,7 +72,7 @@ abstract class AbstractEncodingSpecificReader {
      * Indicate that file loading should be cancelled
      */
     public void cancel() {
-        cancelled = true;
+        parser.cancel();
     }
 
     /**
@@ -85,6 +81,8 @@ abstract class AbstractEncodingSpecificReader {
      * @return all the lines of the input stream
      * @throws IOException
      *             if there is a problem reading the bytes
+     * @throws ParserCancelledException
+     *             if the file load is cancelled
      */
-    protected abstract List<String> load() throws IOException;
+    protected abstract List<String> load() throws IOException, ParserCancelledException;
 }

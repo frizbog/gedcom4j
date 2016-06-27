@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.exception.ParserCancelledException;
 import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.parser.GedcomParser;
 
@@ -54,7 +55,7 @@ class AsciiReader extends AbstractEncodingSpecificReader {
      * {@inheritDoc}
      */
     @Override
-    protected List<String> load() throws IOException {
+    protected List<String> load() throws IOException, ParserCancelledException {
         List<String> result = new ArrayList<String>();
         StringBuilder lineBuffer = new StringBuilder();
 
@@ -112,8 +113,13 @@ class AsciiReader extends AbstractEncodingSpecificReader {
      *            the resulting list of lines
      * @param lineBuffer
      *            the line buffer
+     * @throws ParserCancelledException
+     *             if the file load is cancelled
      */
-    private void addNonBlankLine(List<String> result, StringBuilder lineBuffer) {
+    private void addNonBlankLine(List<String> result, StringBuilder lineBuffer) throws ParserCancelledException {
+        if (parser.isCancelled()) {
+            throw new ParserCancelledException("File load is cancelled");
+        }
         if (lineBuffer.length() > 0) {
             result.add(lineBuffer.toString());
         }

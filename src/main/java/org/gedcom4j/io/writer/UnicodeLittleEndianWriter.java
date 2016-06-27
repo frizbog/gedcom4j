@@ -24,12 +24,23 @@ package org.gedcom4j.io.writer;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.gedcom4j.writer.GedcomWriter;
+
 /**
  * A class that writes GEDCOM data in little-endian Unicode format.
  * 
  * @author frizbog
  */
 class UnicodeLittleEndianWriter extends AbstractEncodingSpecificWriter {
+    /**
+     * Constructor
+     * 
+     * @param writer
+     *            The {@link GedcomWriter} this object is assisting
+     */
+    public UnicodeLittleEndianWriter(GedcomWriter writer) {
+        super(writer);
+    }
 
     /**
      * {@inheritDoc}

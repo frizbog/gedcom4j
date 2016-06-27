@@ -28,6 +28,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.exception.ParserCancelledException;
 import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.parser.GedcomParser;
 
@@ -68,7 +69,7 @@ class Utf8Reader extends AbstractEncodingSpecificReader {
     }
 
     @Override
-    protected List<String> load() throws IOException {
+    protected List<String> load() throws IOException, ParserCancelledException {
         List<String> result = new ArrayList<String>();
         InputStreamReader r = null;
         BufferedReader br = null;
@@ -83,6 +84,9 @@ class Utf8Reader extends AbstractEncodingSpecificReader {
             br = new BufferedReader(r);
             String s = br.readLine();
             while (s != null) {
+                if (parser.isCancelled()) {
+                    throw new ParserCancelledException("File load is cancelled");
+                }
                 if (s.length() != 0) {
                     result.add(s);
                 }

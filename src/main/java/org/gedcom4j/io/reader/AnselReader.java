@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.exception.ParserCancelledException;
 import org.gedcom4j.io.encoding.AnselHandler;
 import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.parser.GedcomParser;
@@ -60,7 +61,7 @@ class AnselReader extends AbstractEncodingSpecificReader {
      * {@inheritDoc}
      */
     @Override
-    protected List<String> load() throws IOException {
+    protected List<String> load() throws IOException, ParserCancelledException {
         List<String> result = new ArrayList<String>();
         char[] lineBuffer = new char[256];
 
@@ -116,15 +117,20 @@ class AnselReader extends AbstractEncodingSpecificReader {
      * @param lineBufferIdx
      *            the position in the line buffer we're up to - that is, the portion of the line buffer that is
      *            populated with data we want to use
+     * @throws ParserCancelledException
+     *             if the file load is cancelled
      */
-    private void addNonBlankLine(List<String> result, char[] lineBuffer, int lineBufferIdx) {
+    private void addNonBlankLine(List<String> result, char[] lineBuffer, int lineBufferIdx) throws ParserCancelledException {
+        if (parser.isCancelled()) {
+            throw new ParserCancelledException("File load is cancelled");
+        }
         if (lineBufferIdx > 0) {
             String s = new String(lineBuffer).substring(0, lineBufferIdx);
             result.add(s);
-            linesRead++;
-            if (linesRead % parser.getReadNotificationRate() == 0) {
-                parser.notifyFileObservers(new FileProgressEvent(this, linesRead, false));
-            }
+        }
+        linesRead++;
+        if (linesRead % parser.getReadNotificationRate() == 0) {
+            parser.notifyFileObservers(new FileProgressEvent(this, linesRead, false));
         }
     }
 
