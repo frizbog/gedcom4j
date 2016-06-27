@@ -26,12 +26,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.gedcom4j.exception.GedcomWriterException;
+import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submission;
@@ -49,21 +49,6 @@ import org.junit.Test;
 public class GedcomFileWriterTest {
 
     /**
-     * Inner class that ignores what's written to it
-     */
-    class NullOutputStream extends OutputStream {
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void write(int b) throws IOException {
-            ; // Do nothing
-        }
-
-    }
-
-    /**
      * Test when there is no data
      */
     @Test
@@ -78,9 +63,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if anything goes wrong with the writing of the data
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testEncodingDetectionAnselExplicit() throws IOException {
+    public void testEncodingDetectionAnselExplicit() throws IOException, WriterCancelledException {
         List<String> lines = new ArrayList<String>();
         lines.add("0 HEAD");
         lines.add("1 CHAR ANSEL");
@@ -94,9 +81,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if anything goes wrong with the writing of the data
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testEncodingDetectionAscii() throws IOException {
+    public void testEncodingDetectionAscii() throws IOException, WriterCancelledException {
         List<String> lines = new ArrayList<String>();
         lines.add("0 HEAD");
         lines.add("1 CHAR ASCII");
@@ -114,9 +103,11 @@ public class GedcomFileWriterTest {
      * Test encoding detection when no format is explicitly asked for
      * 
      * @throws IOException
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testEncodingDetectionDefault() throws IOException {
+    public void testEncodingDetectionDefault() throws IOException, WriterCancelledException {
         List<String> lines = new ArrayList<String>();
         lines.add("0 HEAD");
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
@@ -132,9 +123,11 @@ public class GedcomFileWriterTest {
      * Test encoding detection for UNICODE
      * 
      * @throws IOException
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testEncodingDetectionUnicode() throws IOException {
+    public void testEncodingDetectionUnicode() throws IOException, WriterCancelledException {
         List<String> lines = new ArrayList<String>();
         lines.add("0 HEAD");
         lines.add("1 CHAR UNICODE");
@@ -150,9 +143,11 @@ public class GedcomFileWriterTest {
      * Test encoding detection for UTF-8
      * 
      * @throws IOException
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testEncodingDetectionUtf8() throws IOException {
+    public void testEncodingDetectionUtf8() throws IOException, WriterCancelledException {
         List<String> lines = new ArrayList<String>();
         lines.add("0 HEAD");
         lines.add("1 CHAR UTF-8");
@@ -171,9 +166,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if the data can't be written
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testOutputAnselCrLf() throws IOException {
+    public void testOutputAnselCrLf() throws IOException, WriterCancelledException {
         List<String> lines = getAnselGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
         gfw.terminator = LineTerminator.CRLF;
@@ -203,9 +200,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if the data can't be written
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testOutputAnselCrOnly() throws IOException {
+    public void testOutputAnselCrOnly() throws IOException, WriterCancelledException {
         List<String> lines = getAnselGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
         gfw.terminator = LineTerminator.CR_ONLY;
@@ -234,9 +233,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if the data can't be written
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testOutputAnselLfCr() throws IOException {
+    public void testOutputAnselLfCr() throws IOException, WriterCancelledException {
         List<String> lines = getAnselGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
         gfw.terminator = LineTerminator.LFCR;
@@ -267,9 +268,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if the data can't be written
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testOutputAnselLfOnly() throws IOException {
+    public void testOutputAnselLfOnly() throws IOException, WriterCancelledException {
         List<String> lines = getAnselGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
         gfw.terminator = LineTerminator.LF_ONLY;
@@ -297,9 +300,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if the data can't be written
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testOutputAsciiCrLf() throws IOException {
+    public void testOutputAsciiCrLf() throws IOException, WriterCancelledException {
         List<String> lines = getAsciiGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
         gfw.terminator = LineTerminator.CRLF;
@@ -330,9 +335,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if the data can't be written
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testOutputAsciiCrOnly() throws IOException {
+    public void testOutputAsciiCrOnly() throws IOException, WriterCancelledException {
         List<String> lines = getAsciiGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
         gfw.terminator = LineTerminator.CR_ONLY;
@@ -362,9 +369,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if the data can't be written
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testOutputAsciiLfCr() throws IOException {
+    public void testOutputAsciiLfCr() throws IOException, WriterCancelledException {
         List<String> lines = getAsciiGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
         gfw.terminator = LineTerminator.LFCR;
@@ -395,9 +404,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if the data can't be written
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testOutputAsciiLfOnly() throws IOException {
+    public void testOutputAsciiLfOnly() throws IOException, WriterCancelledException {
         List<String> lines = getAsciiGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
         gfw.terminator = LineTerminator.LF_ONLY;
@@ -427,9 +438,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if the data can't be written
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testOutputUnicodeBigEndianCrLF() throws IOException {
+    public void testOutputUnicodeBigEndianCrLF() throws IOException, WriterCancelledException {
         List<String> lines = getUnicodeGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
         gfw.useLittleEndianForUnicode = false;
@@ -461,9 +474,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if the data can't be written
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testOutputUnicodeBigEndianCrOnly() throws IOException {
+    public void testOutputUnicodeBigEndianCrOnly() throws IOException, WriterCancelledException {
         List<String> lines = getUnicodeGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
         gfw.useLittleEndianForUnicode = false;
@@ -493,9 +508,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if the data can't be written
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testOutputUnicodeBigEndianLfCr() throws IOException {
+    public void testOutputUnicodeBigEndianLfCr() throws IOException, WriterCancelledException {
         List<String> lines = getUnicodeGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
         gfw.useLittleEndianForUnicode = false;
@@ -525,9 +542,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if the data can't be written
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testOutputUnicodeBigEndianLfOnly() throws IOException {
+    public void testOutputUnicodeBigEndianLfOnly() throws IOException, WriterCancelledException {
         List<String> lines = getUnicodeGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
         gfw.useLittleEndianForUnicode = false;
@@ -557,9 +576,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if the data can't be written
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testOutputUnicodeLittleEndianCrLf() throws IOException {
+    public void testOutputUnicodeLittleEndianCrLf() throws IOException, WriterCancelledException {
         List<String> lines = getUnicodeGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
 
@@ -591,9 +612,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if the data can't be written
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testOutputUnicodeLittleEndianCrOnly() throws IOException {
+    public void testOutputUnicodeLittleEndianCrOnly() throws IOException, WriterCancelledException {
         List<String> lines = getUnicodeGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
 
@@ -625,9 +648,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if the data can't be written
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testOutputUnicodeLittleEndianLfCr() throws IOException {
+    public void testOutputUnicodeLittleEndianLfCr() throws IOException, WriterCancelledException {
         List<String> lines = getUnicodeGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
 
@@ -659,9 +684,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if the data can't be written
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testOutputUnicodeLittleEndianLfOnly() throws IOException {
+    public void testOutputUnicodeLittleEndianLfOnly() throws IOException, WriterCancelledException {
         List<String> lines = getUnicodeGedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
 
@@ -693,9 +720,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if the data can't be written
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testOutputUtf8CrLf() throws IOException {
+    public void testOutputUtf8CrLf() throws IOException, WriterCancelledException {
         List<String> lines = getUtf8GedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
         gfw.terminator = LineTerminator.CRLF;
@@ -723,9 +752,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if the data can't be written
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testOutputUtf8CrOnly() throws IOException {
+    public void testOutputUtf8CrOnly() throws IOException, WriterCancelledException {
         List<String> lines = getUtf8GedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
         gfw.terminator = LineTerminator.CR_ONLY;
@@ -753,9 +784,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if the data can't be written
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testOutputUtf8LfCr() throws IOException {
+    public void testOutputUtf8LfCr() throws IOException, WriterCancelledException {
         List<String> lines = getUtf8GedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
         gfw.terminator = LineTerminator.LFCR;
@@ -783,9 +816,11 @@ public class GedcomFileWriterTest {
      * 
      * @throws IOException
      *             if the data can't be written
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
     @Test
-    public void testOutputUtf8LfOnly() throws IOException {
+    public void testOutputUtf8LfOnly() throws IOException, WriterCancelledException {
         List<String> lines = getUtf8GedcomLines();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
         gfw.terminator = LineTerminator.LF_ONLY;

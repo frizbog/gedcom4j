@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
+import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.writer.GedcomWriter;
 
 /**
@@ -66,8 +67,10 @@ abstract class AbstractEncodingSpecificWriter {
      *            the output stream
      * @throws IOException
      *             if the data can't be written to the stream
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
-    public void write(OutputStream out) throws IOException {
+    public void write(OutputStream out) throws IOException, WriterCancelledException {
         for (String line : gedcomLines) {
             writeLine(out, line);
         }
@@ -82,8 +85,10 @@ abstract class AbstractEncodingSpecificWriter {
      *            the line of text we're writing
      * @throws IOException
      *             if the data can't be written to the stream
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
-    protected abstract void writeLine(OutputStream out, String line) throws IOException;
+    protected abstract void writeLine(OutputStream out, String line) throws IOException, WriterCancelledException;
 
     /**
      * Write out the appropriate line terminator based on the encoding and terminator selection for this instance
@@ -92,6 +97,8 @@ abstract class AbstractEncodingSpecificWriter {
      *            the output stream we're writing to
      * @throws IOException
      *             if the line terminator can't be written to the stream
+     * @throws WriterCancelledException
+     *             if the write operation was cancelled
      */
-    protected abstract void writeLineTerminator(OutputStream out) throws IOException;
+    protected abstract void writeLineTerminator(OutputStream out) throws IOException, WriterCancelledException;
 }
