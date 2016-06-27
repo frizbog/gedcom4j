@@ -102,7 +102,7 @@ class AnselReader extends AbstractEncodingSpecificReader {
             continue;
         }
         result = anselHandler.toUtf16Lines(result);
-        parser.notifyObservers(new FileProgressEvent(this, linesRead, true));
+        parser.notifyFileObservers(new FileProgressEvent(this, linesRead, true));
         return result;
     }
 
@@ -123,7 +123,7 @@ class AnselReader extends AbstractEncodingSpecificReader {
             result.add(s);
             linesRead++;
             if (linesRead % 100 == 0) {
-                parser.notifyObservers(new FileProgressEvent(this, linesRead, false));
+                parser.notifyFileObservers(new FileProgressEvent(this, linesRead, false));
             }
         }
     }

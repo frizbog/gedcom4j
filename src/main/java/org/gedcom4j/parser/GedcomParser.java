@@ -34,6 +34,8 @@ import org.gedcom4j.io.event.FileProgressListener;
 import org.gedcom4j.io.exception.LoadCancelledException;
 import org.gedcom4j.io.reader.GedcomFileReader;
 import org.gedcom4j.model.*;
+import org.gedcom4j.parser.event.ParseProgressEvent;
+import org.gedcom4j.parser.event.ParseProgressListener;
 
 /**
  * <p>
@@ -110,14 +112,19 @@ public class GedcomParser {
     public List<String> warnings = new ArrayList<String>();
 
     /**
-     * The list of observers
+     * The list of observers on file operations
      */
-    private final List<WeakReference<FileProgressListener>> observers = new CopyOnWriteArrayList<WeakReference<FileProgressListener>>();
+    private final List<WeakReference<FileProgressListener>> fileObservers = new CopyOnWriteArrayList<WeakReference<FileProgressListener>>();
 
     /**
-     * Is the load process being cancelled
+     * Is the load/parse process being cancelled
      */
     private boolean cancelled;
+
+    /**
+     * The list of observers on parsing
+     */
+    private final List<WeakReference<ParseProgressListener>> parseObservers = new CopyOnWriteArrayList<WeakReference<ParseProgressListener>>();
 
     /**
      * Indicate that file loading should be cancelled
@@ -168,12 +175,31 @@ public class GedcomParser {
      * @param e
      *            the change event to tell the observers
      */
-    public void notifyObservers(FileProgressEvent e) {
+    public void notifyFileObservers(FileProgressEvent e) {
         int i = 0;
-        while (i < observers.size()) {
-            WeakReference<FileProgressListener> observerRef = observers.get(i);
+        while (i < fileObservers.size()) {
+            WeakReference<FileProgressListener> observerRef = fileObservers.get(i);
             if (observerRef == null) {
-                observers.remove(observerRef);
+                fileObservers.remove(observerRef);
+            } else {
+                observerRef.get().progressNotification(e);
+                i++;
+            }
+        }
+    }
+
+    /**
+     * Notify all listeners about the change
+     * 
+     * @param e
+     *            the change event to tell the observers
+     */
+    public void notifyParseObservers(ParseProgressEvent e) {
+        int i = 0;
+        while (i < parseObservers.size()) {
+            WeakReference<ParseProgressListener> observerRef = parseObservers.get(i);
+            if (observerRef == null) {
+                parseObservers.remove(observerRef);
             } else {
                 observerRef.get().progressNotification(e);
                 i++;
@@ -187,8 +213,18 @@ public class GedcomParser {
      * @param observer
      *            the observer you want notified
      */
-    public void registerObserver(FileProgressListener observer) {
-        observers.add(new WeakReference<FileProgressListener>(observer));
+    public void registerFileObserver(FileProgressListener observer) {
+        fileObservers.add(new WeakReference<FileProgressListener>(observer));
+    }
+
+    /**
+     * Register a observer (listener) to be informed about progress and completion.
+     * 
+     * @param observer
+     *            the observer you want notified
+     */
+    public void registerParseObserver(ParseProgressListener observer) {
+        parseObservers.add(new WeakReference<ParseProgressListener>(observer));
     }
 
     /**
@@ -197,17 +233,36 @@ public class GedcomParser {
      * @param observer
      *            the observer you want notified
      */
-    public void unregisterObserver(FileProgressListener observer) {
+    public void unregisterFileObserver(FileProgressListener observer) {
         int i = 0;
-        while (i < observers.size()) {
-            WeakReference<FileProgressListener> observerRef = observers.get(i);
+        while (i < fileObservers.size()) {
+            WeakReference<FileProgressListener> observerRef = fileObservers.get(i);
             if (observerRef == null || observerRef.get() == observer) {
-                observers.remove(observerRef);
+                fileObservers.remove(observerRef);
             } else {
                 i++;
             }
         }
-        observers.add(new WeakReference<FileProgressListener>(observer));
+        fileObservers.add(new WeakReference<FileProgressListener>(observer));
+    }
+
+    /**
+     * Unregister a observer (listener) to be informed about progress and completion.
+     * 
+     * @param observer
+     *            the observer you want notified
+     */
+    public void unregisterParseObserver(ParseProgressListener observer) {
+        int i = 0;
+        while (i < parseObservers.size()) {
+            WeakReference<ParseProgressListener> observerRef = parseObservers.get(i);
+            if (observerRef == null || observerRef.get() == observer) {
+                parseObservers.remove(observerRef);
+            } else {
+                i++;
+            }
+        }
+        parseObservers.add(new WeakReference<ParseProgressListener>(observer));
     }
 
     /**
@@ -1880,6 +1935,10 @@ public class GedcomParser {
      *             if the data cannot be parsed because it's not in the format expected
      */
     private void loadRootItems(StringTree st) throws GedcomParserException {
+        if (cancelled) {
+            throw new LoadCancelledException("File load/parse cancelled");
+        }
+        int i = 0;
         for (StringTree ch : st.children) {
             if (Tag.HEADER.equals(ch.tag)) {
                 loadHeader(ch);
@@ -1904,7 +1963,14 @@ public class GedcomParser {
             } else {
                 unknownTag(ch, gedcom);
             }
+            if (i % 100 == 0) {
+                notifyParseObservers(new ParseProgressEvent(this, gedcom, false));
+            }
+            if (cancelled) {
+                throw new LoadCancelledException("File load/parse cancelled");
+            }
         }
+        notifyParseObservers(new ParseProgressEvent(this, gedcom, true));
     }
 
     /**

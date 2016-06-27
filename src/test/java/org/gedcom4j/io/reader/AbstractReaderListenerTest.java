@@ -118,7 +118,7 @@ public abstract class AbstractReaderListenerTest implements FileProgressListener
     public void testRegistered() throws IOException, GedcomParserException {
         eventCount = 0;
         GedcomParser gp = new GedcomParser();
-        gp.registerObserver(this);
+        gp.registerFileObserver(this);
         gp.load(fileName);
         assertNotNull(gp.gedcom);
         assertEquals(expectedNotifications, eventCount);

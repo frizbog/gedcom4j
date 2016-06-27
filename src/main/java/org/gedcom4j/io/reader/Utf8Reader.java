@@ -88,7 +88,7 @@ class Utf8Reader extends AbstractEncodingSpecificReader {
                 }
                 linesRead++;
                 if (linesRead % 100 == 0) {
-                    parser.notifyObservers(new FileProgressEvent(this, linesRead, false));
+                    parser.notifyFileObservers(new FileProgressEvent(this, linesRead, false));
                 }
                 s = br.readLine();
             }
@@ -104,7 +104,7 @@ class Utf8Reader extends AbstractEncodingSpecificReader {
             }
         }
 
-        parser.notifyObservers(new FileProgressEvent(this, linesRead, true));
+        parser.notifyFileObservers(new FileProgressEvent(this, linesRead, true));
         return result;
     }
 
