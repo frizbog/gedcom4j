@@ -24,9 +24,11 @@ package org.gedcom4j.io;
 import java.io.*;
 import java.util.List;
 
+import org.gedcom4j.parser.GedcomParser;
+
 /**
- * A class for reading the gedcom files and handling ASCII, ANSEL, and UNICODE coding as needed. It's basic job is to
- * turn the bytes from the file into a buffer (a {@link List} of Strings) that the
+ * An encoding-agnostic class for reading the GEDCOM files and handling ASCII, ANSEL, and UNICODE coding as needed. It's
+ * basic job is to turn the bytes from the file into a buffer (a {@link List} of Strings) that the
  * {@link org.gedcom4j.parser.GedcomParser} can work with. This class is needed because the built-in character encodings
  * in Java don't support ANSEL encoding, which is the default encoding for gedcom files in v5.5 standard.
  * 
@@ -55,12 +57,20 @@ public class GedcomFileReader {
     private final BufferedInputStream byteStream;
 
     /**
+     * The encoding-specific reader helper class to actually read the bytes
+     */
+    private AbstractEncodingSpecificReader encodingSpecificReader;
+
+    /**
      * Constructor
+     * 
+     * @param parser
+     *            the {@link GedcomParser} which is using this object to read files
      * 
      * @param bufferedInputStream
      *            the buffered input stream of bytes
      */
-    public GedcomFileReader(BufferedInputStream bufferedInputStream) {
+    public GedcomFileReader(GedcomParser parser, BufferedInputStream bufferedInputStream) {
         byteStream = bufferedInputStream;
     }
 
@@ -77,7 +87,7 @@ public class GedcomFileReader {
         saveFirstChunk();
 
         try {
-            AbstractEncodingSpecificReader encodingSpecificReader = getEncodingSpecificReader();
+            encodingSpecificReader = getEncodingSpecificReader();
             return encodingSpecificReader.load();
         } catch (UnsupportedGedcomCharsetException e) {
             throw new IOException("Unable to parse GEDCOM data - " + e.getMessage()); // NOPMD - Java 5 compatibility

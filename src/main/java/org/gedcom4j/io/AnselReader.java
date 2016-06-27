@@ -95,11 +95,12 @@ class AnselReader extends AbstractEncodingSpecificReader {
             continue;
         }
         result = anselHandler.toUtf16Lines(result);
+        notifyObservers(new FileProgressEvent(this, linesRead, true));
         return result;
     }
 
     /**
-     * Add line to result if it is not blank
+     * Add line to result if it is not blank. Notify listeners of progress every 100 lines.
      * 
      * @param result
      *            the resulting list of lines
@@ -113,6 +114,10 @@ class AnselReader extends AbstractEncodingSpecificReader {
         if (lineBufferIdx > 0) {
             String s = new String(lineBuffer).substring(0, lineBufferIdx);
             result.add(s);
+            linesRead++;
+            if (linesRead % 100 == 0) {
+                notifyObservers(new FileProgressEvent(this, linesRead, false));
+            }
         }
     }
 

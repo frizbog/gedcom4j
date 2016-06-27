@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import org.gedcom4j.io.GedcomFileReader;
 import org.gedcom4j.model.StringTree;
 
 /**
@@ -52,22 +51,6 @@ public class StringTreeBuilder {
     private final BufferedInputStream inputStream;
 
     /**
-     * The list of errors we might add new error messages to
-     */
-    private final List<String> errors;
-
-    /**
-     * The list of warnings we might add new warnings to
-     */
-    private final List<String> warnings;
-
-    /**
-     * Whether we require strict line breaks to be observed, or whether we will try and interpret line breaks as if they
-     * had been properly escaped with CONC/CONT tags
-     */
-    private final boolean strictLineBreaks;
-
-    /**
      * A flag indicating whether the current line from the input file begins with a 1-2 digit level number followed by a
      * space
      */
@@ -89,27 +72,29 @@ public class StringTreeBuilder {
     private StringTree mostRecentlyAdded;
 
     /**
+     * The {@link GedcomParser} instance this object is building {@link StringTree} instances for
+     */
+    private final GedcomParser parser;
+
+    /**
      * Constructor
+     * 
+     * @param parser
+     *            the {@link GedcomParser} this object will be assisting with making a {@link StringTree} for
      * 
      * @param inputStream
      *            The buffered input stream we are reading from
-     * @param errors
-     *            The list of errors we might add new error messages to
-     * @param warnings
-     *            The list of warnings we might add new warnings to
-     * @param strictLineBreaks
-     *            Whether we require strict line breaks to be observed, or whether we will try and interpret line breaks
-     *            as if they had been properly escaped with CONC/CONT tags
      */
-    public StringTreeBuilder(BufferedInputStream inputStream, List<String> errors, List<String> warnings, boolean strictLineBreaks) {
+    public StringTreeBuilder(GedcomParser parser, BufferedInputStream inputStream) {
+        this.parser = parser;
         this.inputStream = inputStream;
-        this.errors = errors;
-        this.warnings = warnings;
-        this.strictLineBreaks = strictLineBreaks;
     }
 
     /**
-     * Read data from an {@link java.io.InputStream} and construct a {@link StringTree} object from its contents
+     * Construct a {@link StringTree} out of a flat {@link List} of Strings
+     * 
+     * @param lines
+     *            the lines of the file
      * 
      * @return the {@link StringTree} created from the contents of the input stream
      * @throws IOException
@@ -117,8 +102,7 @@ public class StringTreeBuilder {
      * @throws GedcomParserException
      *             if there is an error with parsing the data from the stream
      */
-    StringTree makeStringTreeFromStream() throws IOException, GedcomParserException {
-        List<String> lines = new GedcomFileReader(inputStream).getLines();
+    StringTree makeStringTreeFromFlatLines(List<String> lines) throws IOException, GedcomParserException {
         treeForWholeFile.level = -1;
         mostRecentlyAdded = null;
         try {
@@ -171,7 +155,7 @@ public class StringTreeBuilder {
             addTo = lastNodeAtLevel[treeForCurrentLine.level - 1];
         }
         if (addTo == null) {
-            errors.add(treeForCurrentLine.tag + " tag at line " + treeForCurrentLine.lineNum + ": Unable to find suitable parent node at level "
+            parser.errors.add(treeForCurrentLine.tag + " tag at line " + treeForCurrentLine.lineNum + ": Unable to find suitable parent node at level "
                     + (treeForCurrentLine.level - 1));
         } else {
             addTo.children.add(treeForCurrentLine);
@@ -200,7 +184,7 @@ public class StringTreeBuilder {
             // Probably sets it to true, but might not for a non-standard file - see Issue 100
             beginsWithLevelAndSpace = startsWithLevelAndSpace(lineNum, line);
         } catch (GedcomParserException e) {
-            if (strictLineBreaks) {
+            if (parser.strictLineBreaks) {
                 throw e;
             }
         }
@@ -224,10 +208,10 @@ public class StringTreeBuilder {
             treeForCurrentLine.value = line;
             treeForCurrentLine.parent = mostRecentlyAdded;
             mostRecentlyAdded.children.add(treeForCurrentLine);
-            warnings.add(
+            parser.warnings.add(
                     "Line " + lineNum + " did not begin with a level and tag, so it was treated as a " + "non-standard continuation of the previous line.");
         } else {
-            warnings.add("Line " + lineNum + " did not begin with a level and tag, so it was discarded.");
+            parser.warnings.add("Line " + lineNum + " did not begin with a level and tag, so it was discarded.");
         }
     }
 

@@ -22,11 +22,19 @@
 package org.gedcom4j.parser;
 
 import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.gedcom4j.io.FileProgressEvent;
+import org.gedcom4j.io.FileProgressListener;
+import org.gedcom4j.io.GedcomFileReader;
 import org.gedcom4j.model.*;
+
+import javafx.fxml.LoadException;
 
 /**
  * <p>
@@ -103,6 +111,23 @@ public class GedcomParser {
     public List<String> warnings = new ArrayList<String>();
 
     /**
+     * The list of observers
+     */
+    private final List<WeakReference<FileProgressListener>> observers = new CopyOnWriteArrayList<WeakReference<FileProgressListener>>();
+
+    /**
+     * Is the load process being cancelled
+     */
+    private boolean cancelled;
+
+    /**
+     * Indicate that file loading should be cancelled
+     */
+    public void cancel() {
+        cancelled = true;
+    }
+
+    /**
      * Load a gedcom file from an input stream and create an object hierarchy from the data therein.
      * 
      * @param stream
@@ -113,7 +138,10 @@ public class GedcomParser {
      *             if the file cannot be parsed
      */
     public void load(BufferedInputStream stream) throws IOException, GedcomParserException {
-        StringTree stringTree = GedcomParserHelper.readStream(stream, errors, warnings, strictLineBreaks);
+        StringTree stringTree = readStream(stream);
+        if (cancelled) {
+            throw new LoadException("File load/parse cancelled");
+        }
         loadRootItems(stringTree);
     }
 
@@ -128,8 +156,79 @@ public class GedcomParser {
      *             if the file cannot be parsed
      */
     public void load(String filename) throws IOException, GedcomParserException {
-        StringTree stringTree = GedcomParserHelper.readFile(filename, errors, warnings, strictLineBreaks);
+        StringTree stringTree = readFile(filename);
+        if (cancelled) {
+            throw new LoadException("File load/parse cancelled");
+        }
         loadRootItems(stringTree);
+    }
+
+    /**
+     * Register a observer (listener) to be informed about progress and completion.
+     * 
+     * @param observer
+     *            the observer you want notified
+     */
+    public void registerObserver(FileProgressListener observer) {
+        observers.add(new WeakReference<FileProgressListener>(observer));
+    }
+
+    /**
+     * Unregister a observer (listener) to be informed about progress and completion.
+     * 
+     * @param observer
+     *            the observer you want notified
+     */
+    public void unregisterObserver(FileProgressListener observer) {
+        int i = 0;
+        while (i < observers.size()) {
+            WeakReference<FileProgressListener> observerRef = observers.get(i);
+            if (observerRef == null || observerRef.get() == observer) {
+                observers.remove(observerRef);
+            } else {
+                i++;
+            }
+        }
+        observers.add(new WeakReference<FileProgressListener>(observer));
+    }
+
+    /**
+     * Notify all listeners about the change
+     * 
+     * @param e
+     *            the change event to tell the observers
+     */
+    protected void notifyObservers(FileProgressEvent e) {
+        int i = 0;
+        while (i < observers.size()) {
+            WeakReference<FileProgressListener> observerRef = observers.get(i);
+            if (observerRef == null) {
+                observers.remove(observerRef);
+            } else {
+                observerRef.get().progressNotification(e);
+            }
+        }
+    }
+
+    /**
+     * Load the flat file into a tree structure that reflects the heirarchy of its contents, using the default encoding
+     * for your JVM
+     * 
+     * @param filename
+     *            the file to load
+     * @return the string tree representation of the data from the file
+     * @throws IOException
+     *             if there is a problem reading the file
+     * @throws GedcomParserException
+     *             if there is a problem parsing the data in the file
+     */
+    StringTree readFile(String filename) throws IOException, GedcomParserException {
+        FileInputStream fis = new FileInputStream(filename);
+        try {
+            return makeStringTreeFromStream(new BufferedInputStream(fis));
+        } finally {
+            fis.close();
+        }
     }
 
     /**
@@ -367,7 +466,7 @@ public class GedcomParser {
      */
     private void loadCitation(StringTree st, List<AbstractCitation> list) {
         AbstractCitation citation;
-        if (GedcomParserHelper.referencesAnotherNode(st)) {
+        if (referencesAnotherNode(st)) {
             citation = new CitationWithSource();
             loadCitationWithSource(st, citation);
         } else {
@@ -444,7 +543,7 @@ public class GedcomParser {
     private void loadCitationWithSource(StringTree st, AbstractCitation citation) {
         CitationWithSource cws = (CitationWithSource) citation;
         Source src = null;
-        if (GedcomParserHelper.referencesAnotherNode(st)) {
+        if (referencesAnotherNode(st)) {
             src = getSource(st.value);
         }
         cws.source = src;
@@ -1343,7 +1442,7 @@ public class GedcomParser {
      */
     private void loadMultimediaLink(StringTree st, List<Multimedia> multimedia) {
         Multimedia m;
-        if (GedcomParserHelper.referencesAnotherNode(st)) {
+        if (referencesAnotherNode(st)) {
             m = getMultimedia(st.value);
         } else {
             m = new Multimedia();
@@ -1494,7 +1593,7 @@ public class GedcomParser {
      */
     private void loadNote(StringTree st, List<Note> notes) {
         Note note;
-        if (st.id == null && GedcomParserHelper.referencesAnotherNode(st)) {
+        if (st.id == null && referencesAnotherNode(st)) {
             note = getNote(st.value);
             notes.add(note);
             return;
@@ -1502,7 +1601,7 @@ public class GedcomParser {
             note = new Note();
             notes.add(note);
         } else {
-            if (GedcomParserHelper.referencesAnotherNode(st)) {
+            if (referencesAnotherNode(st)) {
                 warnings.add("NOTE line has both an XREF_ID (" + st.id + ") and SUBMITTER_TEXT (" + st.value
                         + ") value between @ signs - treating SUBMITTER_TEXT as string, not a cross-reference");
             }
@@ -2050,6 +2149,59 @@ public class GedcomParser {
             u.type = st.children.get(0).value;
         }
 
+    }
+
+    /**
+     * Read data from an {@link java.io.InputStream} and construct a {@link StringTree} object from its contents
+     * 
+     * @param bytes
+     *            the input stream over the bytes of the file
+     * @return the {@link StringTree} created from the contents of the input stream
+     * @throws IOException
+     *             if there is a problem reading the data from the reader
+     * @throws GedcomParserException
+     *             if there is an error with parsing the data from the stream
+     */
+    private StringTree makeStringTreeFromStream(BufferedInputStream bytes) throws IOException, GedcomParserException {
+        List<String> lines = new GedcomFileReader(this, bytes).getLines();
+        return new StringTreeBuilder(this, bytes).makeStringTreeFromFlatLines(lines);
+    }
+
+    /**
+     * Read all the data from a stream and return the StringTree representation of that data
+     * 
+     * @param stream
+     *            the stream to read
+     * @return the data from the stream as a StringTree
+     * @throws IOException
+     *             if there's a problem reading the data off the stream
+     * @throws GedcomParserException
+     *             if there is an error parsing the gedcom data
+     */
+    private StringTree readStream(BufferedInputStream stream) throws IOException, GedcomParserException {
+        return makeStringTreeFromStream(stream);
+    }
+
+    /**
+     * Returns true if the node passed in uses a cross-reference to another node
+     * 
+     * @param st
+     *            the node
+     * @return true if and only if the node passed in uses a cross-reference to another node
+     */
+    private boolean referencesAnotherNode(StringTree st) {
+        if (st.value == null) {
+            return false;
+        }
+        int r1 = st.value.indexOf('@');
+        if (r1 == -1) {
+            return false;
+        }
+        int r2 = st.value.indexOf('@', r1);
+        if (r2 == -1) {
+            return false;
+        }
+        return true;
     }
 
     /**

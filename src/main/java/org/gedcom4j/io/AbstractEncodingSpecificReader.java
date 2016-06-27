@@ -23,7 +23,9 @@ package org.gedcom4j.io;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * A base class for the various kinds of readers needed based on the encoding used for the data
@@ -37,6 +39,26 @@ abstract class AbstractEncodingSpecificReader {
     protected final InputStream byteStream;
 
     /**
+     * The number of lines read from the input file
+     */
+    protected int linesRead = 0;
+
+    /**
+     * Whether the file has been completely read
+     */
+    protected boolean complete = false;
+
+    /**
+     * The list of observers
+     */
+    protected List<WeakReference<FileProgressListener>> observers = new CopyOnWriteArrayList<WeakReference<FileProgressListener>>();
+
+    /**
+     * Is the load process being cancelled
+     */
+    protected boolean cancelled;
+
+    /**
      * Constructor.
      * 
      * @param byteStream
@@ -47,6 +69,42 @@ abstract class AbstractEncodingSpecificReader {
     }
 
     /**
+     * Indicate that file loading should be cancelled
+     */
+    public void cancel() {
+        cancelled = true;
+    }
+
+    /**
+     * Register a observer (listener) to be informed about progress and completion.
+     * 
+     * @param observer
+     *            the observer you want notified
+     */
+    public void registerObserver(FileProgressListener observer) {
+        observers.add(new WeakReference<FileProgressListener>(observer));
+    }
+
+    /**
+     * Unregister a observer (listener) to be informed about progress and completion.
+     * 
+     * @param observer
+     *            the observer you want notified
+     */
+    public void unregisterObserver(FileProgressListener observer) {
+        int i = 0;
+        while (i < observers.size()) {
+            WeakReference<FileProgressListener> observerRef = observers.get(i);
+            if (observerRef == null || observerRef.get() == observer) {
+                observers.remove(observerRef);
+            } else {
+                i++;
+            }
+        }
+        observers.add(new WeakReference<FileProgressListener>(observer));
+    }
+
+    /**
      * Read all the lines using the appropriate encoding
      * 
      * @return all the lines of the input stream
@@ -54,4 +112,22 @@ abstract class AbstractEncodingSpecificReader {
      *             if there is a problem reading the bytes
      */
     protected abstract List<String> load() throws IOException;
+
+    /**
+     * Notify all listeners about the change
+     * 
+     * @param e
+     *            the change event to tell the observers
+     */
+    protected void notifyObservers(FileProgressEvent e) {
+        int i = 0;
+        while (i < observers.size()) {
+            WeakReference<FileProgressListener> observerRef = observers.get(i);
+            if (observerRef == null) {
+                observers.remove(observerRef);
+            } else {
+                observerRef.get().progressNotification(e);
+            }
+        }
+    }
 }
