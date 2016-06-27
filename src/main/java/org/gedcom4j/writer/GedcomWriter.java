@@ -106,6 +106,11 @@ public class GedcomWriter {
     public boolean autorepair = false;
 
     /**
+     * Whether to use little-endian unicode
+     */
+    public boolean useLittleEndianForUnicode = true;
+
+    /**
      * Constructor
      * 
      * @param gedcom
@@ -144,32 +149,16 @@ public class GedcomWriter {
     }
 
     /**
-     * Write the {@link Gedcom} data in GEDCOM 5.5 format to an output stream. If the data is unicode, the data will be
-     * written in little-endian format.
-     * 
-     * @param out
-     *            the output stream we're writing to
-     * @throws GedcomWriterException
-     *             if the data is malformed and cannot be written
-     */
-    public void write(OutputStream out) throws GedcomWriterException {
-        write(out, true);
-    }
-
-    /**
      * Write the {@link Gedcom} data in GEDCOM 5.5 format to an output stream
      * 
      * @param out
      *            the output stream we're writing to
-     * @param littleEndianForUnicode
-     *            if writing unicode, should the byte-order be little-endian? Ignored if output data encoding is not
-     *            unicode.
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written; or if the data fails validation with one or more
      *             finding of severity ERROR (and validation is not suppressed - see
      *             {@link GedcomWriter#validationSuppressed})
      */
-    public void write(OutputStream out, boolean littleEndianForUnicode) throws GedcomWriterException {
+    public void write(OutputStream out) throws GedcomWriterException {
         if (!validationSuppressed) {
             GedcomValidator gv = new GedcomValidator(gedcom);
             gv.autorepair = autorepair;
@@ -194,7 +183,7 @@ public class GedcomWriter {
         emitCustomTags(1, gedcom.customTags);
         try {
             GedcomFileWriter gfw = new GedcomFileWriter(lines);
-            gfw.useLittleEndianForUnicode = littleEndianForUnicode;
+            gfw.useLittleEndianForUnicode = useLittleEndianForUnicode;
             gfw.write(out);
         } catch (IOException e) {
             throw new GedcomWriterException("Unable to write file", e);

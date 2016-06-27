@@ -28,6 +28,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.parser.GedcomParser;
 
 /**
@@ -85,6 +86,10 @@ class Utf8Reader extends AbstractEncodingSpecificReader {
                 if (s.length() != 0) {
                     result.add(s);
                 }
+                linesRead++;
+                if (linesRead % 100 == 0) {
+                    parser.notifyObservers(new FileProgressEvent(this, linesRead, false));
+                }
                 s = br.readLine();
             }
         } finally {
@@ -99,6 +104,7 @@ class Utf8Reader extends AbstractEncodingSpecificReader {
             }
         }
 
+        parser.notifyObservers(new FileProgressEvent(this, linesRead, true));
         return result;
     }
 
