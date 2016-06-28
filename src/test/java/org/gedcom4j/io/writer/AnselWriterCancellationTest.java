@@ -27,6 +27,7 @@ import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.GedcomWriterException;
+import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.io.event.FileProgressListener;
 import org.gedcom4j.parser.GedcomParser;
@@ -46,20 +47,20 @@ public class AnselWriterCancellationTest implements FileProgressListener {
     private int eventCount;
 
     /**
-     * GedcomParser test fixture
+     * GedcomWriter test fixture
      */
-    private final GedcomParser gp = new GedcomParser();
+    private GedcomWriter gw;
 
     @Override
     public void progressNotification(FileProgressEvent e) {
         eventCount++;
         if (eventCount >= 5) {
-            gp.cancel();
+            gw.cancel();
         }
     }
 
     /**
-     * Test when you've registered as a listener - cancel after 100 notifications
+     * Test when you've registered as a listener - cancel after 5 notifications
      * 
      * @throws IOException
      *             if the file can't be loaded
@@ -68,14 +69,15 @@ public class AnselWriterCancellationTest implements FileProgressListener {
      * @throws GedcomWriterException
      *             if there's a problem writing the file
      */
-    @Test
+    @Test(expected = WriterCancelledException.class)
     public void testRegistered() throws IOException, GedcomParserException, GedcomWriterException {
+        GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-ansel.ged");
         eventCount = 0;
-        GedcomWriter gw = new GedcomWriter(gp.gedcom);
+        gw = new GedcomWriter(gp.gedcom);
         gw.registerFileObserver(this);
         gw.write(new NullOutputStream());
-        assertEquals(990, eventCount);
+        assertEquals(42, eventCount);
     }
 
 }

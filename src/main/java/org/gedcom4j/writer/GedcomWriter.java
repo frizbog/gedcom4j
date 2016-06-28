@@ -125,6 +125,11 @@ public class GedcomWriter {
     private int constructionNotificationRate = 500;
 
     /**
+     * Send a notification whenever more than this many lines are written to a file
+     */
+    private int fileNotificationRate = 500;
+
+    /**
      * The list of observers on string construction
      */
     private final List<WeakReference<ConstructProgressListener>> constructObservers = new CopyOnWriteArrayList<WeakReference<ConstructProgressListener>>();
@@ -171,12 +176,40 @@ public class GedcomWriter {
     }
 
     /**
+     * Get the number of lines to be written between each file notification
+     * 
+     * @return the number of lines to be written between each file notification
+     */
+    public int getFileNotificationRate() {
+        return fileNotificationRate;
+    }
+
+    /**
      * Has this writer been cancelled?
      * 
      * @return true if this writer has been cancelled
      */
     public boolean isCancelled() {
         return cancelled;
+    }
+
+    /**
+     * Notify all listeners about the file progress
+     * 
+     * @param e
+     *            the change event to tell the observers
+     */
+    public void notifyFileObservers(FileProgressEvent e) {
+        int i = 0;
+        while (i < fileObservers.size()) {
+            WeakReference<FileProgressListener> observerRef = fileObservers.get(i);
+            if (observerRef == null) {
+                fileObservers.remove(observerRef);
+            } else {
+                observerRef.get().progressNotification(e);
+                i++;
+            }
+        }
     }
 
     /**
@@ -204,13 +237,26 @@ public class GedcomWriter {
      * 
      * @param constructionNotificationRate
      *            the construction notification rate - how many lines need to be constructed before getting a
-     *            notification
+     *            notification. Must be 1 or greater.
      */
     public void setConstructionNotificationRate(int constructionNotificationRate) {
         if (constructionNotificationRate < 1) {
             throw new IllegalArgumentException("Construction Notification Rate must be at least 1");
         }
         this.constructionNotificationRate = constructionNotificationRate;
+    }
+
+    /**
+     * Set the number of lines to be written between each file notification
+     * 
+     * @param fileNotificationRate
+     *            the number of lines to be written between each file notification. Must be 1 or greater.
+     */
+    public void setFileNotificationRate(int fileNotificationRate) {
+        if (fileNotificationRate < 1) {
+            throw new IllegalArgumentException("File Notification Rate must be at least 1");
+        }
+        this.fileNotificationRate = fileNotificationRate;
     }
 
     /**
@@ -1921,25 +1967,6 @@ public class GedcomWriter {
     private void notifyConstructObserversIfNeeded() {
         if ((lines.size() - lastLineCountNotified) > constructionNotificationRate) {
             notifyConstructObservers(new ConstructProgressEvent(this, lines.size(), true));
-        }
-    }
-
-    /**
-     * Notify all listeners about the file progress
-     * 
-     * @param e
-     *            the change event to tell the observers
-     */
-    private void notifyFileObservers(FileProgressEvent e) {
-        int i = 0;
-        while (i < fileObservers.size()) {
-            WeakReference<FileProgressListener> observerRef = fileObservers.get(i);
-            if (observerRef == null) {
-                fileObservers.remove(observerRef);
-            } else {
-                observerRef.get().progressNotification(e);
-                i++;
-            }
         }
     }
 }

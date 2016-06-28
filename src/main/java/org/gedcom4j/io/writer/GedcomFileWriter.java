@@ -44,6 +44,7 @@ import org.gedcom4j.writer.GedcomWriter;
  * 
  */
 public class GedcomFileWriter {
+
     /**
      * The line terminator character to use - defaults to JVM settings but can be overridden
      */
