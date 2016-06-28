@@ -26,6 +26,7 @@ import java.io.OutputStream;
 import java.util.List;
 
 import org.gedcom4j.exception.WriterCancelledException;
+import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.writer.GedcomWriter;
 
 /**
@@ -71,9 +72,15 @@ abstract class AbstractEncodingSpecificWriter {
      *             if the write operation was cancelled
      */
     public void write(OutputStream out) throws IOException, WriterCancelledException {
+        int lineCount = 0;
         for (String line : gedcomLines) {
+            if (lineCount % writer.getFileNotificationRate() == 0) {
+                writer.notifyFileObservers(new FileProgressEvent(this, lineCount, false));
+            }
             writeLine(out, line);
+            lineCount++;
         }
+        writer.notifyFileObservers(new FileProgressEvent(this, lineCount, true));
     }
 
     /**

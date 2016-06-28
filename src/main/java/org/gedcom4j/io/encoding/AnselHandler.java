@@ -239,30 +239,41 @@ public class AnselHandler {
         int anselIndex = 0;
         int utfIdx = 0;
         char c;
-        while (anselIndex < ansel.length()) {
+        int len = ansel.length();
+        while (anselIndex < len) {
+            // Get a character to examine
             c = ansel.charAt(anselIndex++);
-            if (c < ANSEL_DIACRITICS_BEGIN_AT || anselIndex >= ansel.length()) {
+            // If the character isn't a diacritical character, we can just process it as normal
+            if (c < ANSEL_DIACRITICS_BEGIN_AT || anselIndex >= len) {
                 utf16[utfIdx++] = AnselMapping.decode(c);
                 continue;
             }
+
+            // It's a diacritic, but there might be two diacritics before the actual character
             char diacritic2 = 0; // 0 means no second diacritic
             char diacritic1 = c; // this character is actually a diacritic, so save it, and get another character
-            if (anselIndex >= ansel.length()) {
-                // wraps in middle of diacritic+character combination - ugh
+            if (anselIndex >= len) {
+                // wraps in middle of diacritic+character combination
                 utf16[utfIdx++] = AnselMapping.decode(c);
                 continue;
             }
             c = ansel.charAt(anselIndex++);
+
+            // If the next character we got is also a diacritic, we need to do the same sort of thing
             if (c >= ANSEL_DIACRITICS_BEGIN_AT) {
                 // This character is ALSO a diacritic - save it and read another character
                 diacritic2 = c;
-                if (anselIndex >= ansel.length()) {
-                    // wraps in middle of diacritic+character combination - ugh
+                if (anselIndex >= len) {
+                    // wraps in middle of diacritic+character combination
                     utf16[utfIdx++] = AnselMapping.decode(c);
                     continue;
                 }
+                // Get the base character
                 c = ansel.charAt(anselIndex++);
             }
+            // Otherwise the character we just read was the base character
+
+            // See if there's a combined glyph for the base+the diacritics
             char combined = getCombinedGlyph(c, diacritic1, diacritic2);
             if (combined != 0) {
                 // A combined glyph was available!

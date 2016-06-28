@@ -25,6 +25,7 @@ package org.gedcom4j.io.writer;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.writer.GedcomWriter;
 
 /**
@@ -48,7 +49,7 @@ class UnicodeBigEndianWriter extends AbstractEncodingSpecificWriter {
      * {@inheritDoc}
      */
     @Override
-    protected void writeLine(OutputStream out, String line) throws IOException {
+    protected void writeLine(OutputStream out, String line) throws IOException, WriterCancelledException {
         for (int i = 0; i < line.length(); i++) {
             char c = line.charAt(i);
             out.write(c >> 8);
@@ -61,7 +62,7 @@ class UnicodeBigEndianWriter extends AbstractEncodingSpecificWriter {
      * {@inheritDoc}
      */
     @Override
-    protected void writeLineTerminator(OutputStream out) throws IOException {
+    protected void writeLineTerminator(OutputStream out) throws IOException, WriterCancelledException {
         switch (terminator) {
             case CR_ONLY:
                 out.write((byte) 0x00);
@@ -85,6 +86,9 @@ class UnicodeBigEndianWriter extends AbstractEncodingSpecificWriter {
                 break;
             default:
                 throw new IllegalStateException("Terminator selection of " + terminator + " is an unrecognized value");
+        }
+        if (writer.isCancelled()) {
+            throw new WriterCancelledException("Construction and writing of GEDCOM cancelled");
         }
     }
 

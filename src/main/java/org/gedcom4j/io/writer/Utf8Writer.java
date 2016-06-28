@@ -27,6 +27,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 
+import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.writer.GedcomWriter;
 
 /**
@@ -50,7 +51,7 @@ class Utf8Writer extends AbstractEncodingSpecificWriter {
      * {@inheritDoc}
      */
     @Override
-    public void write(OutputStream out) throws IOException {
+    public void write(OutputStream out) throws IOException, WriterCancelledException {
         String lineTerminatorString = null;
         switch (terminator) {
             case CR_ONLY:
@@ -70,15 +71,18 @@ class Utf8Writer extends AbstractEncodingSpecificWriter {
         }
 
         // Go ahead and use Java's built in UTF-8 encoder here
-        OutputStreamWriter writer = new OutputStreamWriter(out, Charset.forName("UTF-8"));
+        OutputStreamWriter osw = new OutputStreamWriter(out, Charset.forName("UTF-8"));
         try {
             for (String line : gedcomLines) {
-                writer.write(line);
-                writer.write(lineTerminatorString);
+                osw.write(line);
+                osw.write(lineTerminatorString);
+                if (writer.isCancelled()) {
+                    throw new WriterCancelledException("Construction and writing of GEDCOM cancelled");
+                }
             }
         } finally {
-            writer.flush();
-            writer.close();
+            osw.flush();
+            osw.close();
         }
     }
 
