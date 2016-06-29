@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.gedcom4j.exception.ParserCancelledException;
+import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.parser.GedcomParser;
 
 /**
@@ -81,8 +81,8 @@ abstract class AbstractEncodingSpecificReader {
      * @return all the lines of the input stream
      * @throws IOException
      *             if there is a problem reading the bytes
-     * @throws ParserCancelledException
-     *             if the file load is cancelled
+     * @throws GedcomParserException
+     *             if the file load is cancelled or fails
      */
-    protected abstract List<String> load() throws IOException, ParserCancelledException;
+    protected abstract List<String> load() throws IOException, GedcomParserException;
 }

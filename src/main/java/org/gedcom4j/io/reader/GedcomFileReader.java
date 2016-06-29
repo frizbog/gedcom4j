@@ -24,7 +24,7 @@ package org.gedcom4j.io.reader;
 import java.io.*;
 import java.util.List;
 
-import org.gedcom4j.exception.ParserCancelledException;
+import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.UnsupportedGedcomCharsetException;
 import org.gedcom4j.parser.GedcomParser;
 
@@ -89,10 +89,10 @@ public class GedcomFileReader {
      *         represented by the byte stream
      * @throws IOException
      *             if there is a problem reading the data
-     * @throws ParserCancelledException
-     *             if the file load was cancelled
+     * @throws GedcomParserException
+     *             if the file load was cancelled or wasn not well formed
      */
-    public List<String> getLines() throws IOException, ParserCancelledException {
+    public List<String> getLines() throws IOException, GedcomParserException {
 
         saveFirstChunk();
 
