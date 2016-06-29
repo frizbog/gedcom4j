@@ -28,7 +28,7 @@ import static org.junit.Assert.assertNotNull;
 import java.io.*;
 import java.util.List;
 
-import org.gedcom4j.exception.ParserCancelledException;
+import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.parser.GedcomParser;
 import org.junit.Test;
 
@@ -43,11 +43,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
-     * @throws ParserCancelledException
-     *             if the file load was cancelled
+     * @throws GedcomParserException
+     *             if the file load was cancelled or had malformed data
      */
     @Test
-    public void testAnselCrlf() throws IOException, ParserCancelledException {
+    public void testAnselCrlf() throws IOException, GedcomParserException {
         /*
          * Some encoded ANSEL data for a file with two lines. Line one consists of a zero, a space, and an uppercase H.
          * Line two consists of a lowercase o. The lines are separated by a CRLF.
@@ -76,11 +76,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
-     * @throws ParserCancelledException
-     *             if the file load was cancelled
+     * @throws GedcomParserException
+     *             if the file load was cancelled or had malformed data
      */
     @Test
-    public void testAnselCrOnly() throws IOException, ParserCancelledException {
+    public void testAnselCrOnly() throws IOException, GedcomParserException {
         /*
          * Some encoded ANSEL data for a file with two lines. Line one consists of a zero, a space, and an uppercase H.
          * Line two consists of a lowercase o. The lines are separated by a CR only.
@@ -110,11 +110,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
-     * @throws ParserCancelledException
-     *             if the file load was cancelled
+     * @throws GedcomParserException
+     *             if the file load was cancelled or had malformed data
      */
     @Test
-    public void testAnselDecodingSingleLine() throws IOException, ParserCancelledException {
+    public void testAnselDecodingSingleLine() throws IOException, GedcomParserException {
         /*
          * Some encoded ANSEL data for the phrase "0 Hello", with the l's replaced by those uppercase L's with slashes
          * through them (U+0141)
@@ -143,11 +143,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
-     * @throws ParserCancelledException
-     *             if the file load was cancelled
+     * @throws GedcomParserException
+     *             if the file load was cancelled or had malformed data
      */
     @Test
-    public void testAnselLfOnly() throws IOException, ParserCancelledException {
+    public void testAnselLfOnly() throws IOException, GedcomParserException {
         /*
          * Some encoded ANSEL data for a file with two lines. Line one consists of a zero, a space, and an uppercase H.
          * Line two consists of a lowercase o. The lines are separated by a LF only.
@@ -200,11 +200,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
-     * @throws ParserCancelledException
-     *             if the file load was cancelled
+     * @throws GedcomParserException
+     *             if the file load was cancelled or had malformed data
      */
     @Test
-    public void testUnicodeBigEndianWithCrlf() throws IOException, ParserCancelledException {
+    public void testUnicodeBigEndianWithCrlf() throws IOException, GedcomParserException {
         /*
          * Unicode, big-endian data with CRLF line terminator. Says "0 HEAD" on line 1 and "1 CHAR" on line 2.
          */
@@ -233,11 +233,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
-     * @throws ParserCancelledException
-     *             if the file load was cancelled
+     * @throws GedcomParserException
+     *             if the file load was cancelled or had malformed data
      */
     @Test
-    public void testUnicodeBigEndianWithCrOnly() throws IOException, ParserCancelledException {
+    public void testUnicodeBigEndianWithCrOnly() throws IOException, GedcomParserException {
         /*
          * Unicode, big-endian data with CRLF line terminator. Says "0 HEAD" on line 1 and "1 CHAR" on line 2.
          */
@@ -266,11 +266,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
-     * @throws ParserCancelledException
-     *             if the file load was cancelled
+     * @throws GedcomParserException
+     *             if the file load was cancelled or had malformed data
      */
     @Test
-    public void testUnicodeBigEndianWithLfOnly() throws IOException, ParserCancelledException {
+    public void testUnicodeBigEndianWithLfOnly() throws IOException, GedcomParserException {
         /*
          * Unicode, big-endian data with CRLF line terminator. Says "0 HEAD" on line 1 and "1 CHAR" on line 2.
          */
@@ -299,11 +299,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
-     * @throws ParserCancelledException
-     *             if the file load was cancelled
+     * @throws GedcomParserException
+     *             if the file load was cancelled or had malformed data
      */
     @Test
-    public void testUnicodeLittleEndianWithCrlf() throws IOException, ParserCancelledException {
+    public void testUnicodeLittleEndianWithCrlf() throws IOException, GedcomParserException {
         /*
          * Unicode, little-endian data with CRLF line terminator. Says "0 HEAD" on line 1 and "1 CHAR" on line 2.
          */
@@ -332,11 +332,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
-     * @throws ParserCancelledException
-     *             if the file load was cancelled
+     * @throws GedcomParserException
+     *             if the file load was cancelled or had malformed data
      */
     @Test
-    public void testUnicodeLittleEndianWithCrOnly() throws IOException, ParserCancelledException {
+    public void testUnicodeLittleEndianWithCrOnly() throws IOException, GedcomParserException {
         /*
          * Unicode, little-endian data with CRLF line terminator. Says "0 HEAD" on line 1 and "1 CHAR" on line 2.
          */
@@ -365,11 +365,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
-     * @throws ParserCancelledException
-     *             if the file load was cancelled
+     * @throws GedcomParserException
+     *             if the file load was cancelled or had malformed data
      */
     @Test
-    public void testUnicodeLittleEndianWithLfOnly() throws IOException, ParserCancelledException {
+    public void testUnicodeLittleEndianWithLfOnly() throws IOException, GedcomParserException {
         /*
          * Unicode, little-endian data with CRLF line terminator. Says "0 HEAD" on line 1 and "1 CHAR" on line 2.
          */
@@ -398,11 +398,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
-     * @throws ParserCancelledException
-     *             if the file load was cancelled
+     * @throws GedcomParserException
+     *             if the file load was cancelled or had malformed data
      */
     @Test
-    public void testUtf8CrLfBOM() throws IOException, ParserCancelledException {
+    public void testUtf8CrLfBOM() throws IOException, GedcomParserException {
         testUtf8File("sample/utf8_crlf_bom.ged");
     }
 
@@ -411,11 +411,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
-     * @throws ParserCancelledException
-     *             if the file load was cancelled
+     * @throws GedcomParserException
+     *             if the file load was cancelled or had malformed data
      */
     @Test
-    public void testUtf8CrLfNoBOM() throws IOException, ParserCancelledException {
+    public void testUtf8CrLfNoBOM() throws IOException, GedcomParserException {
         testUtf8File("sample/utf8_crlf_nobom.ged");
     }
 
@@ -424,11 +424,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
-     * @throws ParserCancelledException
-     *             if the file load was cancelled
+     * @throws GedcomParserException
+     *             if the file load was cancelled or had malformed data
      */
     @Test
-    public void testUtf8CrNoBOM() throws IOException, ParserCancelledException {
+    public void testUtf8CrNoBOM() throws IOException, GedcomParserException {
         testUtf8File("sample/utf8_cr_nobom.ged");
     }
 
@@ -437,11 +437,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the data can't be read
-     * @throws ParserCancelledException
+     * @throws GedcomParserException
      *             if the file load was cancelled
      */
     @Test
-    public void testUtf8LfNoBOM() throws IOException, ParserCancelledException {
+    public void testUtf8LfNoBOM() throws IOException, GedcomParserException {
         testUtf8File("sample/utf8_lf_nobom.ged");
     }
 
@@ -454,10 +454,10 @@ public class GedcomFileReaderTest {
      *             if the file can't be loaded
      * @throws FileNotFoundException
      *             if the file can't be found
-     * @throws ParserCancelledException
-     *             if the file load was cancelled
+     * @throws GedcomParserException
+     *             if the file load was cancelled or had malformed data
      */
-    void testUtf8File(String fileName) throws IOException, FileNotFoundException, ParserCancelledException {
+    void testUtf8File(String fileName) throws IOException, FileNotFoundException, GedcomParserException {
         FileInputStream fileInputStream = null;
         try {
             fileInputStream = new FileInputStream(fileName);

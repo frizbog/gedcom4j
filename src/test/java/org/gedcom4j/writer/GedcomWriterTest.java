@@ -37,7 +37,6 @@ import java.util.Map.Entry;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.GedcomWriterException;
-import org.gedcom4j.exception.ParserCancelledException;
 import org.gedcom4j.io.reader.GedcomFileReader;
 import org.gedcom4j.model.*;
 import org.gedcom4j.parser.GedcomParser;
@@ -345,11 +344,11 @@ public class GedcomWriterTest {
      *             if some file somewhere can't be read or written
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
-     * @throws ParserCancelledException
-     *             if the file load was cancelled
+     * @throws GedcomParserException
+     *             if the file load was cancelled or included malformed data
      */
     @Test
-    public void testWriteEmptyGedcom() throws IOException, GedcomWriterException, ParserCancelledException {
+    public void testWriteEmptyGedcom() throws IOException, GedcomWriterException, GedcomParserException {
         // Write an empty file
         Gedcom g = new Gedcom();
         GedcomWriter gw = new GedcomWriter(g);
@@ -424,10 +423,10 @@ public class GedcomWriterTest {
      * @return the lines of the file
      * @throws IOException
      *             if the file can't be read
-     * @throws ParserCancelledException
-     *             if the file load was cancelled
+     * @throws GedcomParserException
+     *             if the file load was cancelled or was malformed
      */
-    private List<String> readBack(File fileToRead) throws IOException, ParserCancelledException {
+    private List<String> readBack(File fileToRead) throws IOException, GedcomParserException {
         GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(), new BufferedInputStream(new FileInputStream(fileToRead)));
         return gfr.getLines();
     }
