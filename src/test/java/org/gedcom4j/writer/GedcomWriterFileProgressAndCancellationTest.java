@@ -39,7 +39,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class GedcomWriterFileProgressAndCancellationTest2 implements ConstructProgressListener {
+public class GedcomWriterFileProgressAndCancellationTest implements ConstructProgressListener {
 
     /**
      * Number of notifications received
