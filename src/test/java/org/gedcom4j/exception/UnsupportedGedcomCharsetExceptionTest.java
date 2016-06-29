@@ -19,75 +19,75 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.gedcom4j.writer;
+package org.gedcom4j.exception;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import org.gedcom4j.exception.GedcomWriterVersionDataMismatchException;
+import org.gedcom4j.exception.UnsupportedGedcomCharsetException;
 import org.junit.Test;
 
 /**
- * Test for {@link GedcomWriterVersionDataMismatchException}
- * 
  * @author frizbog1
+ * 
  */
-public class GedcomWriterVersionDataMismatchExceptionTest {
+public class UnsupportedGedcomCharsetExceptionTest {
 
     /**
-     * Test no arg constructor
+     * Test throwing the exception with cause and message
      */
     @Test
-    public void testGedcomWriterVersionDataMismatchException() {
+    public void testCauseAndMessage() {
         try {
-            throw new GedcomWriterVersionDataMismatchException();
-        } catch (GedcomWriterVersionDataMismatchException e) {
+            throw new UnsupportedGedcomCharsetException("Foo", new Exception(
+                    "Foo"));
+        } catch (UnsupportedGedcomCharsetException e) {
             assertNotNull(e);
+            assertEquals("Foo", e.getMessage());
+            assertNotNull(e.getCause());
+        }
+    }
+
+    /**
+     * Test throwing the exception with just a cause
+     */
+    @Test
+    public void testJustCause() {
+        try {
+            throw new UnsupportedGedcomCharsetException(new Exception("Foo"));
+        } catch (UnsupportedGedcomCharsetException e) {
+            assertNotNull(e);
+            assertEquals("java.lang.Exception: Foo", e.getMessage());
+            assertNotNull(e.getCause());
+        }
+    }
+
+    /**
+     * Test throwing the exception with just message
+     */
+    @Test
+    public void testJustMessage() {
+        try {
+            throw new UnsupportedGedcomCharsetException("Foo");
+        } catch (UnsupportedGedcomCharsetException e) {
+            assertNotNull(e);
+            assertEquals("Foo", e.getMessage());
             assertNull(e.getCause());
+        }
+    }
+
+    /**
+     * Test throwing the exception with no parms
+     */
+    @Test
+    public void testNoParms() {
+        try {
+            throw new UnsupportedGedcomCharsetException();
+        } catch (UnsupportedGedcomCharsetException e) {
+            assertNotNull(e);
             assertNull(e.getMessage());
-        }
-    }
-
-    /**
-     * Test single string constructor
-     */
-    @Test
-    public void testGedcomWriterVersionDataMismatchExceptionString() {
-        try {
-            throw new GedcomWriterVersionDataMismatchException("Foo");
-        } catch (GedcomWriterVersionDataMismatchException e) {
-            assertNotNull(e);
             assertNull(e.getCause());
-            assertEquals("Foo", e.getMessage());
-        }
-    }
-
-    /**
-     * Test constructor that takes string and throwable
-     */
-    @Test
-    public void testGedcomWriterVersionDataMismatchExceptionStringThrowable() {
-        try {
-            throw new GedcomWriterVersionDataMismatchException("Foo", new RuntimeException());
-        } catch (GedcomWriterVersionDataMismatchException e) {
-            assertNotNull(e);
-            assertNotNull(e.getCause());
-            assertEquals("Foo", e.getMessage());
-        }
-    }
-
-    /**
-     * Test constructor that takes throwable
-     */
-    @Test
-    public void testGedcomWriterVersionDataMismatchExceptionThrowable() {
-        try {
-            throw new GedcomWriterVersionDataMismatchException(new RuntimeException());
-        } catch (GedcomWriterVersionDataMismatchException e) {
-            assertNotNull(e);
-            assertNotNull(e.getCause());
-            assertNotNull(e.getMessage());
         }
     }
 
