@@ -1,12 +1,14 @@
 package org.gedcom4j.parser;
 
+import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.io.event.FileProgressEvent;
+import org.gedcom4j.io.event.FileProgressEvent2;
+import org.gedcom4j.model.StringTree;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
-import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.StringTree;
 
 /**
  * Class for building the big StringTree representing the input file, so it can be parsed and loaded into the object
@@ -125,8 +127,12 @@ public class StringTreeBuilder {
                 } else {
                     makeConcatenationOfPreviousNode(lineNum, line);
                 }
+                if (lineNum % parser.getReadNotificationRate() == 0) {
+                    parser.notifyFileObservers(new FileProgressEvent2(this, lineNum, false));
+                }
             }
         } finally {
+            parser.notifyFileObservers(new FileProgressEvent2(this, lines.size(), true));
             if (inputStream != null) {
                 inputStream.close();
             }
