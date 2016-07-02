@@ -26,7 +26,7 @@ package org.gedcom4j.exception;
  * 
  * @author frizbog1
  */
-public class UnsupportedGedcomCharsetException extends Exception {
+public class UnsupportedGedcomCharsetException extends GedcomParserException {
 
     /**
      * Serial Version UID

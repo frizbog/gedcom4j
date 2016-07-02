@@ -23,13 +23,9 @@ package org.gedcom4j.io.reader;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.exception.ParserCancelledException;
 import org.gedcom4j.io.encoding.AnselHandler;
-import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.parser.GedcomParser;
 
 /**
@@ -66,9 +62,9 @@ class AnselReader extends AbstractEncodingSpecificReader {
     private final char[] lineBuffer = new char[256];
 
     /**
-     * The resulting list of strings containing the file data
+     * Are we at the end of file yet?
      */
-    List<String> result = new ArrayList<String>();
+    private final boolean eof = false;
 
     /**
      * Constructor
@@ -83,137 +79,140 @@ class AnselReader extends AbstractEncodingSpecificReader {
         super(parser, byteStream);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    protected List<String> load() throws IOException, GedcomParserException {
-
-        boolean eof = false;
+    public String nextLine() throws IOException, GedcomParserException {
+        if (eof) {
+            return null;
+        }
+        String result = null;
         while (!eof) {
             lastChar = currChar;
             currChar = byteStream.read();
 
             // Check for EOF
             if (currChar < 0) {
-                addNonBlankLine();
+                result = getThisLine();
                 break;
             }
 
             // Check for carriage returns - signify EOL
             if (currChar == 0x0D) {
-                addNonBlankLine();
+                result = getThisLine();
                 lineBufferIdx = 0;
-                continue;
+                break;
             }
 
             // Check for line feeds - signify EOL (unless prev char was a
             // CR)
             if (currChar == 0x0A) {
                 if (lastChar != 0x0D) {
-                    addNonBlankLine();
+                    result = getThisLine();
                     lineBufferIdx = 0;
                 }
-                continue;
+                break;
             }
 
             // All other characters are treated the same at this point,
             // regardless of encoding, and added as is
             lineBuffer[lineBufferIdx++] = (char) currChar;
 
-            forceLineSplitIfNeeded();
+            if (lineBufferIdx >= 255) {
+                result = getThisLine();
+                insertSyntheticConcTag();
+            }
 
             continue;
         }
-        result = anselHandler.toUtf16Lines(result);
-        parser.notifyFileObservers(new FileProgressEvent(this, linesRead, true));
         return result;
     }
 
     /**
-     * Add line to result if it is not blank. Notify listeners of progress every 100 lines.
+     * Determine what level the current line in the line buffer is
      * 
-     * @throws ParserCancelledException
-     *             if the file load is cancelled
+     * @return what level the current line in the line buffer is
+     * @throws GedcomParserException
+     *             if the line level can't be determined, because the file doesn't begin with a 1 or 2 digit number
+     *             followed by a space.
      */
-    private void addNonBlankLine() throws ParserCancelledException {
-        if (parser.isCancelled()) {
-            throw new ParserCancelledException("File load is cancelled");
-        }
-        if (lineBufferIdx > 0) {
-            String s = new String(lineBuffer).substring(0, lineBufferIdx);
-            if (STRINGS_TO_INTERN.contains(s)) {
-                result.add(s.intern());
+    private int getCurrentLevelFromLineBuffer() throws GedcomParserException {
+        int level = -1;
+        if (Character.isDigit(lineBuffer[0])) {
+            if (Character.isDigit(lineBuffer[1])) {
+                if (lineBuffer[2] == ' ') {
+                    level = Character.getNumericValue(lineBuffer[0]) * 10 + Character.getNumericValue(lineBuffer[1]);
+
+                } else {
+                    /*
+                     * Line is too long and doesn't begin with a 1 or 2 digit number followed by a space, so we can't
+                     * put in CONC's on the fly (because we don't know what level we're at)
+                     */
+                    throw new GedcomParserException(
+                            "Line " + linesRead + " exceeds 255 characters and does not begin with a 1 or 2 digit number. " + "Can't split automatically.");
+                }
             } else {
-                result.add(s);
+                if (lineBuffer[1] == ' ') {
+                    level = Character.getNumericValue(lineBuffer[0]);
+                } else {
+                    /*
+                     * Line is too long and doesn't begin with a 1 or 2 digit number followed by a space, so we can't
+                     * put in CONC's on the fly (because we don't know what level we're at)
+                     */
+                    throw new GedcomParserException(
+                            "Line " + linesRead + " exceeds 255 characters and does not begin with a 1 or 2 digit number. " + "Can't split automatically.");
+                }
             }
+        } else {
+            /*
+             * Line is too long and doesn't begin with a 1 or 2 digit number followed by a space, so we can't put in
+             * CONC's on the fly (because we don't know what level we're at)
+             */
+            throw new GedcomParserException(
+                    "Line " + linesRead + " exceeds 255 characters and does not begin with a 1 or 2 digit number. Can't split automatically.");
         }
-        linesRead++;
-        if (linesRead % parser.getReadNotificationRate() == 0) {
-            parser.notifyFileObservers(new FileProgressEvent(this, linesRead, false));
-        }
+        return level;
     }
 
     /**
-     * Force synthetic CONC tags for any line longer than 255 characters
+     * Get the current line buffer's contents
      * 
-     * @throws ParserCancelledException
+     * @return the current line buffer's contents
+     */
+    private String getThisLine() {
+        String result = null;
+        if (lineBufferIdx > 0) {
+            String s = new String(lineBuffer).substring(0, lineBufferIdx);
+            result = anselHandler.toUtf16(s);
+            if (STRINGS_TO_INTERN.contains(result)) {
+                result = result.intern();
+            }
+        }
+        linesRead++;
+        return result;
+    }
+
+    /**
+     * Insert synthetic CONC tags into the character buffer as if they had been there the whole time
+     * 
      * @throws GedcomParserException
      */
-    private void forceLineSplitIfNeeded() throws ParserCancelledException, GedcomParserException {
-        if (lineBufferIdx >= 255) {
-            int level = -1;
-            addNonBlankLine();
-            if (Character.isDigit(lineBuffer[0])) {
-                if (Character.isDigit(lineBuffer[1])) {
-                    if (lineBuffer[2] == ' ') {
-                        level = Character.getNumericValue(lineBuffer[0]) * 10 + Character.getNumericValue(lineBuffer[1]);
+    private void insertSyntheticConcTag() throws GedcomParserException {
+        int level = getCurrentLevelFromLineBuffer();
 
-                    } else {
-                        /*
-                         * Line is too long and doesn't begin with a 1 or 2 digit number followed by a space, so we
-                         * can't put in CONC's on the fly (because we don't know what level we're at)
-                         */
-                        throw new GedcomParserException(
-                                "Line " + linesRead + " exceeds 255 characters and does not begin with a 1 or 2 digit number. " + "Can't split automatically.");
-                    }
-                } else {
-                    if (lineBuffer[1] == ' ') {
-                        level = Character.getNumericValue(lineBuffer[0]);
-                    } else {
-                        /*
-                         * Line is too long and doesn't begin with a 1 or 2 digit number followed by a space, so we
-                         * can't put in CONC's on the fly (because we don't know what level we're at)
-                         */
-                        throw new GedcomParserException(
-                                "Line " + linesRead + " exceeds 255 characters and does not begin with a 1 or 2 digit number. " + "Can't split automatically.");
-                    }
-                }
-            } else {
-                /*
-                 * Line is too long and doesn't begin with a 1 or 2 digit number followed by a space, so we can't put in
-                 * CONC's on the fly (because we don't know what level we're at)
-                 */
-                throw new GedcomParserException(
-                        "Line " + linesRead + " exceeds 255 characters and does not begin with a 1 or 2 digit number. Can't split automatically.");
-            }
-
-            lineBufferIdx = 0;
-            parser.warnings.add("Line " + linesRead + " exceeds 255 characters - introducing synthetic CONC tag to split line");
-            level++;
-            if (level > 9) {
-                lineBuffer[lineBufferIdx++] = Character.forDigit(level / 10, 10);
-                lineBuffer[lineBufferIdx++] = Character.forDigit(level % 10, 10);
-            } else {
-                lineBuffer[lineBufferIdx++] = Character.forDigit(level, 10);
-            }
-            lineBuffer[lineBufferIdx++] = ' ';
-            lineBuffer[lineBufferIdx++] = 'C';
-            lineBuffer[lineBufferIdx++] = 'O';
-            lineBuffer[lineBufferIdx++] = 'N';
-            lineBuffer[lineBufferIdx++] = 'C';
-            lineBuffer[lineBufferIdx++] = ' ';
+        lineBufferIdx = 0;
+        parser.warnings.add("Line " + linesRead + " exceeds 255 characters - introducing synthetic CONC tag to split line");
+        level++;
+        if (level > 9) {
+            lineBuffer[lineBufferIdx++] = Character.forDigit(level / 10, 10);
+            lineBuffer[lineBufferIdx++] = Character.forDigit(level % 10, 10);
+        } else {
+            lineBuffer[lineBufferIdx++] = Character.forDigit(level, 10);
         }
+        lineBuffer[lineBufferIdx++] = ' ';
+        lineBuffer[lineBufferIdx++] = 'C';
+        lineBuffer[lineBufferIdx++] = 'O';
+        lineBuffer[lineBufferIdx++] = 'N';
+        lineBuffer[lineBufferIdx++] = 'C';
+        lineBuffer[lineBufferIdx++] = ' ';
     }
 
 }

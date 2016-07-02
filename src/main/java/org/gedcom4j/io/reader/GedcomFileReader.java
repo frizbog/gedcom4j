@@ -22,10 +22,12 @@
 package org.gedcom4j.io.reader;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.UnsupportedGedcomCharsetException;
+import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.parser.GedcomParser;
 
 /**
@@ -61,12 +63,17 @@ public class GedcomFileReader {
     /**
      * The encoding-specific reader helper class to actually read the bytes
      */
-    private AbstractEncodingSpecificReader encodingSpecificReader;
+    private final AbstractEncodingSpecificReader encodingSpecificReader;
 
     /**
      * The {@link GedcomParser} we're reading files for
      */
     private final GedcomParser parser;
+
+    /**
+     * Number of lines processed
+     */
+    private int linesProcessed = 0;
 
     /**
      * Constructor
@@ -76,10 +83,16 @@ public class GedcomFileReader {
      * 
      * @param bufferedInputStream
      *            the buffered input stream of bytes
+     * @throws IOException
+     *             if there is a problem reading the data
+     * @throws UnsupportedGedcomCharsetException
+     *             if the file is using an unsupported character encoding
      */
-    public GedcomFileReader(GedcomParser parser, BufferedInputStream bufferedInputStream) {
+    public GedcomFileReader(GedcomParser parser, BufferedInputStream bufferedInputStream) throws IOException, UnsupportedGedcomCharsetException {
         this.parser = parser;
         byteStream = bufferedInputStream;
+        saveFirstChunk();
+        encodingSpecificReader = getEncodingSpecificReader();
     }
 
     /**
@@ -90,18 +103,36 @@ public class GedcomFileReader {
      * @throws IOException
      *             if there is a problem reading the data
      * @throws GedcomParserException
-     *             if the file load was cancelled or wasn not well formed
+     *             if the file load was cancelled or was not well formed
      */
     public List<String> getLines() throws IOException, GedcomParserException {
+        List<String> result = new ArrayList<String>();
+        String s = null;
+        do {
+            s = nextLine();
+            if (s != null) {
+                result.add(s);
+            }
+        } while (s != null);
+        return result;
+    }
 
-        saveFirstChunk();
-
-        try {
-            encodingSpecificReader = getEncodingSpecificReader();
-            return encodingSpecificReader.load();
-        } catch (UnsupportedGedcomCharsetException e) {
-            throw new IOException("Unable to parse GEDCOM data - " + e.getMessage()); // NOPMD - Java 5 compatibility
+    /**
+     * Get the next line of the file.
+     * 
+     * @return the next line of the file, or null if no more lines to read.
+     * @throws IOException
+     *             if there is a problem reading the data
+     * @throws GedcomParserException
+     *             if the file is malformed and cannot be processed as a result
+     */
+    public String nextLine() throws IOException, GedcomParserException {
+        String result = encodingSpecificReader.nextLine();
+        linesProcessed++;
+        if (linesProcessed % parser.getReadNotificationRate() == 0 || result == null) {
+            parser.notifyFileObservers(new FileProgressEvent(this, linesProcessed, result == null));
         }
+        return result;
     }
 
     /**

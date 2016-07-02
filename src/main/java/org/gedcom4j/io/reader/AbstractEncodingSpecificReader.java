@@ -85,13 +85,14 @@ abstract class AbstractEncodingSpecificReader {
     }
 
     /**
-     * Read all the lines using the appropriate encoding
+     * Get the next line of the file.
      * 
-     * @return all the lines of the input stream
+     * @return the next line of the file, or null if no more lines to read.
      * @throws IOException
-     *             if there is a problem reading the bytes
+     *             if the file cannot be read
      * @throws GedcomParserException
-     *             if the file load is cancelled or fails
+     *             if the file is malformed and cannot be parsed as a GEDCOM file for some reason
      */
-    protected abstract List<String> load() throws IOException, GedcomParserException;
+    public abstract String nextLine() throws IOException, GedcomParserException;
+
 }
