@@ -28,7 +28,7 @@ public class StringTreeBuilder {
         if (line == null) {
             return null;
         }
-        if (line == "") {
+        if (line.length() == 0) {
             return "";
         }
         if (!Character.isWhitespace(line.charAt(0))) {

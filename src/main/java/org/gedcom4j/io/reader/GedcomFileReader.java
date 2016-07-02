@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.exception.ParserCancelledException;
 import org.gedcom4j.exception.UnsupportedGedcomCharsetException;
 import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.parser.GedcomParser;
@@ -110,7 +111,7 @@ public class GedcomFileReader {
         String s = null;
         do {
             s = nextLine();
-            if (s != null) {
+            if (s != null && s.length() > 0) {
                 result.add(s);
             }
         } while (s != null);
@@ -127,6 +128,9 @@ public class GedcomFileReader {
      *             if the file is malformed and cannot be processed as a result
      */
     public String nextLine() throws IOException, GedcomParserException {
+        if (parser.isCancelled()) {
+            throw new ParserCancelledException("File load is cancelled");
+        }
         String result = encodingSpecificReader.nextLine();
         linesProcessed++;
         if (linesProcessed % parser.getReadNotificationRate() == 0 || result == null) {

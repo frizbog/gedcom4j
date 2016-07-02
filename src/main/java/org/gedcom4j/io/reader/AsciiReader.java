@@ -23,20 +23,36 @@ package org.gedcom4j.io.reader;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.gedcom4j.exception.ParserCancelledException;
-import org.gedcom4j.io.event.FileProgressEvent;
+import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.parser.GedcomParser;
 
 /**
- * A reader that loads from an input stream and gives back a collection of strings representing the data therein. This
- * implementation handles ASCII encoding (1 byte per character, no extended character support).
+ * A reader that reads a single line from an Ascii-encoded file.
  * 
  * @author frizbog
  */
 class AsciiReader extends AbstractEncodingSpecificReader {
+
+    /**
+     * Are we at the end of file yet?
+     */
+    private boolean eof = false;
+
+    /**
+     * The prior character we read
+     */
+    private int lastChar = -1;
+
+    /**
+     * The current character we've just read
+     */
+    private int currChar = -1;
+
+    /**
+     * The line buffer for the current line
+     */
+    private final StringBuilder lineBuffer = new StringBuilder();
 
     /**
      * Constructor
@@ -51,87 +67,50 @@ class AsciiReader extends AbstractEncodingSpecificReader {
         super(parser, byteStream);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    protected List<String> load() throws IOException, ParserCancelledException {
-        List<String> result = new ArrayList<String>();
-        StringBuilder lineBuffer = new StringBuilder();
-
-        int lastChar;
-        int b = -1;
-        boolean eof = false;
-
+    public String nextLine() throws IOException, GedcomParserException {
+        String result = null;
         while (!eof) {
-            lastChar = b;
-            b = byteStream.read();
+            lastChar = currChar;
+            currChar = byteStream.read();
 
             // Check for EOF
-            if (b < 0) {
+            if (currChar < 0) {
                 // hit EOF - add final line buffer (last line) and get out
-                addNonBlankLine(result, lineBuffer);
+                eof = true;
+                result = lineBuffer.toString();
                 break;
             }
 
             // Check for carriage returns - signify EOL
-            if (b == 0x0D) {
-                addNonBlankLine(result, lineBuffer);
+            if (currChar == 0x0D) {
+                result = lineBuffer.toString();
                 lineBuffer.setLength(0);
-                continue;
+                break;
             }
 
             // Check for line feeds - signify EOL (unless prev char was a
             // CR)
-            if (b == 0x0A) {
+            if (currChar == 0x0A) {
                 if (lastChar != 0x0D) {
-                    addNonBlankLine(result, lineBuffer);
+                    result = lineBuffer.toString();
                     lineBuffer.setLength(0);
                 }
-                continue;
+                break;
             }
 
             // All other characters in 0x00 to 0x7F range are treated the
             // same,
             // regardless of encoding, and added as is
-            if (b < 0x80) {
-                lineBuffer.append(Character.valueOf((char) b));
+            if (currChar < 0x80) {
+                lineBuffer.append(Character.valueOf((char) currChar));
                 continue;
             }
 
             // If we fell through to here, we have an extended character
-            throw new IOException("Extended characters not supported in ASCII: 0x" + Integer.toHexString(b));
+            throw new IOException("Extended characters not supported in ASCII: 0x" + Integer.toHexString(currChar));
         }
-        parser.notifyFileObservers(new FileProgressEvent(this, linesRead, true));
         return result;
-    }
-
-    /**
-     * Add line to result if it is not blank
-     * 
-     * @param result
-     *            the resulting list of lines
-     * @param lineBuffer
-     *            the line buffer
-     * @throws ParserCancelledException
-     *             if the file load is cancelled
-     */
-    private void addNonBlankLine(List<String> result, StringBuilder lineBuffer) throws ParserCancelledException {
-        if (parser.isCancelled()) {
-            throw new ParserCancelledException("File load is cancelled");
-        }
-        if (lineBuffer.length() > 0) {
-            String s = lineBuffer.toString();
-            if (STRINGS_TO_INTERN.contains(s)) {
-                result.add(s.intern());
-            } else {
-                result.add(s);
-            }
-        }
-        linesRead++;
-        if (linesRead % parser.getReadNotificationRate() == 0) {
-            parser.notifyFileObservers(new FileProgressEvent(this, linesRead, false));
-        }
     }
 
 }

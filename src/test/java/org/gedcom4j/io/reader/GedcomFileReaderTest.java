@@ -29,6 +29,7 @@ import java.io.*;
 import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.exception.UnsupportedGedcomCharsetException;
 import org.gedcom4j.parser.GedcomParser;
 import org.junit.Test;
 
@@ -177,9 +178,11 @@ public class GedcomFileReaderTest {
      * 
      * @throws IOException
      *             if the first few bytes of the "file" cannot be read
+     * @throws UnsupportedGedcomCharsetException
+     *             if the character set is not supported
      */
     @Test
-    public void testFirstNBytes() throws IOException {
+    public void testFirstNBytes() throws IOException, UnsupportedGedcomCharsetException {
         GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(),
                 new BufferedInputStream(new ByteArrayInputStream(new byte[] { 0x12, 0x34, 0x56, 0x78 })));
         // Haven't save the first chunk yet
@@ -459,9 +462,11 @@ public class GedcomFileReaderTest {
      */
     void testUtf8File(String fileName) throws IOException, FileNotFoundException, GedcomParserException {
         FileInputStream fileInputStream = null;
+        BufferedInputStream bufferedInputStream = null;
         try {
             fileInputStream = new FileInputStream(fileName);
-            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), new BufferedInputStream(fileInputStream));
+            bufferedInputStream = new BufferedInputStream(fileInputStream);
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), bufferedInputStream);
             List<String> lines = gr.getLines();
             assertNotNull(lines);
             assertEquals(77, lines.size());
@@ -481,6 +486,9 @@ public class GedcomFileReaderTest {
             assertEquals("1 NAME Ellen /\u0141owenst\u0117in/", lines.get(49));
             assertEquals("1 NAME Fred /\u00DBlrich/", lines.get(53));
         } finally {
+            if (bufferedInputStream != null) {
+                bufferedInputStream.close();
+            }
             if (fileInputStream != null) {
                 fileInputStream.close();
             }
