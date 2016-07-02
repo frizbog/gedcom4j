@@ -23,6 +23,7 @@ package org.gedcom4j.io.reader;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
@@ -34,6 +35,14 @@ import org.gedcom4j.parser.GedcomParser;
  * @author frizbog
  */
 abstract class AbstractEncodingSpecificReader {
+
+    /**
+     * A collection of entire lines (Strings to intern) when loading into StringTree's - these are the strings that
+     * appear super-frequently in files. This will help keep from making loads of duplicated copies in the heap.
+     */
+    protected final static List<String> STRINGS_TO_INTERN = Arrays
+            .asList(new String[] { "3 DATA", "1 BIRT", "1 SEX M", "1 SEX F", "1 DEAT", "1 MARR", "1 BURI", "1 EVEN", "1 RESI" });
+
     /**
      * The stream of bytes to read
      */

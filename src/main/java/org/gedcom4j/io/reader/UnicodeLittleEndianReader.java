@@ -130,7 +130,12 @@ class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
             throw new ParserCancelledException("File load is cancelled");
         }
         if (lineBuffer.length() > 0) {
-            result.add(lineBuffer.toString());
+            String s = lineBuffer.toString();
+            if (STRINGS_TO_INTERN.contains(s)) {
+                result.add(s.intern());
+            } else {
+                result.add(s);
+            }
         }
         linesRead++;
         if (linesRead % parser.getReadNotificationRate() == 0) {
