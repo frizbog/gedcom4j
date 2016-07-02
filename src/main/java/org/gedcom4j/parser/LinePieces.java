@@ -55,11 +55,6 @@ class LinePieces {
      */
     private int currCharIdx;
 
-    /**
-     * The line
-     */
-    private final String line;
-
     /** The characters in the line */
     private final char[] chars;
 
@@ -75,9 +70,7 @@ class LinePieces {
      */
     LinePieces(String lineToParse, int lineNum) throws GedcomParserException {
 
-        line = lineToParse;
-
-        chars = line.toCharArray();
+        chars = lineToParse.toCharArray();
 
         processLevel(lineNum);
 
@@ -98,7 +91,7 @@ class LinePieces {
      */
     private void processLevel(int lineNum) throws GedcomParserException {
         try {
-            char c2 = line.charAt(1); // 2nd character in line
+            char c2 = chars[1]; // 2nd character in line
 
             currCharIdx = -1;
 
@@ -112,9 +105,11 @@ class LinePieces {
                 currCharIdx = 3; // Continue parsing at 4th character in line
             }
         } catch (NumberFormatException e) {
-            throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line, e);
+            throw new GedcomParserException(
+                    "Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + new String(chars), e);
         } catch (IndexOutOfBoundsException e) {
-            throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line, e);
+            throw new GedcomParserException(
+                    "Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + new String(chars), e);
         }
     }
 
@@ -123,7 +118,7 @@ class LinePieces {
      */
     private void processRemainder() {
         if (currCharIdx < chars.length) {
-            remainder = line.substring(currCharIdx + 1);
+            remainder = new String(chars, currCharIdx + 1, chars.length - currCharIdx - 1);
         }
     }
 

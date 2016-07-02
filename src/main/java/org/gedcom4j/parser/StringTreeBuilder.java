@@ -31,6 +31,9 @@ public class StringTreeBuilder {
         if (line == "") {
             return "";
         }
+        if (!Character.isWhitespace(line.charAt(0))) {
+            return line;
+        }
         for (int i = 0; i < line.length(); i++) {
             if (!Character.isWhitespace(line.charAt(i))) {
                 return line.substring(i);
@@ -148,6 +151,7 @@ public class StringTreeBuilder {
         treeForCurrentLine.id = lp.id;
         treeForCurrentLine.tag = lp.tag.intern();
         treeForCurrentLine.value = lp.remainder;
+        lp = null;
 
         StringTree addTo = null;
         if (treeForCurrentLine.level == 0) {
