@@ -21,7 +21,6 @@
  */
 package org.gedcom4j.io.event;
 
-import java.io.Serializable;
 import java.util.EventObject;
 
 /**
@@ -29,7 +28,7 @@ import java.util.EventObject;
  * 
  * @author frizbog
  */
-public class FileProgressEvent extends EventObject implements Serializable {
+public class FileProgressEvent extends EventObject {
 
     /**
      * Serial version uid

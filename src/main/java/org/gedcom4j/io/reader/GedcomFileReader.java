@@ -238,11 +238,9 @@ public class GedcomFileReader {
                  * Could be ANSEL, ASCII, or UTF-8. Figure out which
                  */
                 return anselAsciiOrUtf8();
-            } else {
-
-                throw new IOException("Does not appear to be a valid gedcom file - " + "doesn't begin with a zero or newline in any supported encoding, "
-                        + "and does not begin with a BOM marker for UTF-8 encoding. ");
             }
+            throw new IOException("Does not appear to be a valid gedcom file - " + "doesn't begin with a zero or newline in any supported encoding, "
+                    + "and does not begin with a BOM marker for UTF-8 encoding. ");
         }
 
     }

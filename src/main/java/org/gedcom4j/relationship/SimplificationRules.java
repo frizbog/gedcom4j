@@ -31,13 +31,40 @@ import java.util.List;
  */
 final class SimplificationRules {
 
+    /**
+     * The rules for simplification
+     */
     static List<RelationshipName[]> rules = new ArrayList<RelationshipName[]>();
 
     /**
-     * Private constructor prevents instantiation or subclassing
+     * <p>
+     * A list of 3-element arrays, containing rules on how to collapse complicated relationships down into simpler
+     * forms. Each row is an array of three {@link RelationshipName}s; let's call them r1, r2, and r3. Let's also assume
+     * there are three people: A, B, and C. If A is related to B by r1, and B is related to C by r2, then A is related
+     * to C as r3 and B can be removed.
+     * </p>
+     * <p>
+     * Example: Rule= <code>[FATHER, SON, BROTHER]</code>. Bob's FATHER is Jim; Jim's SON is Fred; therefore Bob's
+     * BROTHER is Fred.
+     * </p>
+     * <p>
+     * The order that these triplets appear in the list is the order in which the rules are applied. Rules that build on
+     * previous relationship simplifications should appear later in the list.
+     * </p>
      */
-    private SimplificationRules() {
-        super();
+
+    /* static initializer to load the list */
+    static {
+        mothersAndFathers();
+        siblings();
+        grandparentsAndGrandchildren();
+        greatGrandparentsAndGreatGrandchildren();
+        greatGreatGrandparentsAndGreatGreatGrandchildren();
+        greatGreatGreatGrandparentsAndGreatGreatGreatGrandchildren();
+        auntsUnclesNiecesNephews();
+        firstCousins();
+        greatAuntsUnclesNiecesNephews();
+        greatGreatAuntsUnclesNiecesNephews();
     }
 
     /**
@@ -325,34 +352,10 @@ final class SimplificationRules {
     }
 
     /**
-     * <p>
-     * A list of 3-element arrays, containing rules on how to collapse complicated relationships down into simpler
-     * forms. Each row is an array of three {@link RelationshipName}s; let's call them r1, r2, and r3. Let's also assume
-     * there are three people: A, B, and C. If A is related to B by r1, and B is related to C by r2, then A is related
-     * to C as r3 and B can be removed.
-     * </p>
-     * <p>
-     * Example: Rule= <code>[FATHER, SON, BROTHER]</code>. Bob's FATHER is Jim; Jim's SON is Fred; therefore Bob's
-     * BROTHER is Fred.
-     * </p>
-     * <p>
-     * The order that these triplets appear in the list is the order in which the rules are applied. Rules that build on
-     * previous relationship simplifications should appear later in the list.
-     * </p>
+     * Private constructor prevents instantiation or subclassing
      */
-
-    /* static initializer to load the list */
-    static {
-        mothersAndFathers();
-        siblings();
-        grandparentsAndGrandchildren();
-        greatGrandparentsAndGreatGrandchildren();
-        greatGreatGrandparentsAndGreatGreatGrandchildren();
-        greatGreatGreatGrandparentsAndGreatGreatGreatGrandchildren();
-        auntsUnclesNiecesNephews();
-        firstCousins();
-        greatAuntsUnclesNiecesNephews();
-        greatGreatAuntsUnclesNiecesNephews();
+    private SimplificationRules() {
+        super();
     }
 
 }
