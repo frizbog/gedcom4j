@@ -1,0 +1,52 @@
+==============================
+GEDCOM4J RELEASE NOTES
+==============================
+
+1 Jul 2016 - v2.3.0
+===================
+v2.3.0 of gedcom4j was primarily focused on improving performance for installations with smaller heap sizes and less CPU power available (for whatever reason), including the ability to get progress notification on file load/parse and construct/write operations, as well as introducing the ability to cancel these operations while in progress.
+
+Internally, there was also a change to the AnselReader so that files with lines that exceed the 255 character limit mentioned in the GEDCOM spec continue to be read like they did before, despite the optimizations introduced for this release. AnselReader now uses a fixed-size char array to buffer data rather than a StringBuilder (for performance reasons), but the fixed size of the array introduced problems for lines that exceeded the length of the array.  To get around this, the class now internally introduces synthetic CONC tags in long lines during the file read process (as if they had been split properly according to spec), which in most cases get removed during the parse process as strings are concatenated back together (as the CONC tag indicates).  Most users won't notice anything has happened, but in case it comes up, there it is.
+
+You may notice that gedcom4j skipped from 2.2.8 to 2.3.0 without a 2.2.9 release. 2.2.9 had snapshots that were built and put in Maven Central, but API-impacting changes were introduced, so 2.2.9 was abandoned as not released, and 2.3.0 was created in keeping with semantic versioning concepts.
+
+The changes to the API are as follows:
+
+o  Exceptions defined in gedcom4j are now all in the org.gedcom4j.exception package, and these are checked exceptions, so you'll probably need to touch up your imports.
+
+o  The GedcomParser now has new methods for registering and unregistering listeners for file read progress and data parsing progress, and to set how frequently your listeners are notified. You can also cancel a load/parse operation in progress using the GedcomParser.cancel() method.
+
+o  The GedcomWriter now has new methods for registering and unregistering listeners for progress updates on constructing string data from GEDCOM data, and for writing the files, and to set how frequently your listeners are notified. You can also cancel a construct/write operation in progress using the GedcomWriter.cancel() method.
+
+o  Several classes were moved to new packages, including some enumerations you might be using (like Encoding) so again, you may need to touch up your imports.
+
+o  Visibility of some classes has also changed (such as the Tag enum), so you may no longer be able to use them.
+
+Issues addressed (see GitHub): #103, #105
+
+
+10 Jun 2016 - v2.2.8 available
+==============================
+This release fixes an issue where two-digit level numbers were not supported like the spec requires.
+
+
+2 Jun 2016 - v2.2.7 available
+==============================
+This was a performance improvement release. The GedcomParser class now loads files about 20 times faster than release v2.2.6.
+
+
+22 May 2016 - v2.2.6 available
+==============================
+Two changes involve line breaks embedded within the text value of a tag. The GEDCOM spec directs implementations to split lines using CONT or CONC tags and not to have embedded line-breaks within text strings. This release brings gedcom4j into adherence to the spec on this matter, and allows more flexibility when parsing files that do not strictly conform to the spec. Issues around loading Unicode files with byte order marks and in trying to get an individual's descendants are also fixed. Details are available on the downloads page.
+
+
+18 May 2016 - v2.2.5 available
+==============================
+This release addresses two bugs. The first was a bug where custom tags were being emitted twice by the GedcomWriter class. The other was a bug where the GedcomParser class would throw an exception when a root-level NOTE line in the GEDCOM had an XREF definition and text that looked like a cross-reference to another NOTE. The fixed code treats the text as literal text now, and adds a warning to the GedcomParser.warnings collection (since it's most likely a mistake, and not really what the specs call for).
+
+
+15 Mar 2016 - v2.2.4 available
+==============================
+This release addresses two bugs. The first is an issue in the default String representation of an individual, where it would not show the death date correctly if the individual also had a birth date. The second is an issue where custom tags in the data structure were not being emitted by the GedcomWriter.
+
+
