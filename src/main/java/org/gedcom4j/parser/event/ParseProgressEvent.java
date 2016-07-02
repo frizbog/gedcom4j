@@ -21,7 +21,6 @@
  */
 package org.gedcom4j.parser.event;
 
-import java.io.Serializable;
 import java.util.EventObject;
 
 import org.gedcom4j.model.Gedcom;
@@ -31,7 +30,7 @@ import org.gedcom4j.model.Gedcom;
  * 
  * @author frizbog
  */
-public class ParseProgressEvent extends EventObject implements Serializable {
+public class ParseProgressEvent extends EventObject {
 
     /**
      * Serial version uid

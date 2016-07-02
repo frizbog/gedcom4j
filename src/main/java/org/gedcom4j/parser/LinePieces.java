@@ -112,9 +112,9 @@ class LinePieces {
                 currCharIdx = 3; // Continue parsing at 4th character in line
             }
         } catch (NumberFormatException e) {
-            throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
+            throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line, e);
         } catch (IndexOutOfBoundsException e) {
-            throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
+            throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line, e);
         }
     }
 

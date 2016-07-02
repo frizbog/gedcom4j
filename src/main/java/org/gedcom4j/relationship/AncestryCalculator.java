@@ -124,10 +124,8 @@ public class AncestryCalculator {
 
         if (lookForAncestor(descendant, ancestor) && genCount > 0) {
             return genCount;
-        } else {
-            throw new IllegalArgumentException("Ancestor/descendant relationship not found for " + ancestor + " and  "
-                    + descendant);
         }
+        throw new IllegalArgumentException("Ancestor/descendant relationship not found for " + ancestor + " and  " + descendant);
     }
 
     /**

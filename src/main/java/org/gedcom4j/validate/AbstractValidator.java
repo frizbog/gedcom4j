@@ -292,17 +292,15 @@ abstract class AbstractValidator {
                     addInfo("String list (" + description + ") contains null entry - removed", stringList);
                     stringList.remove(i);
                     continue;
-                } else {
-                    addError("String list (" + description + ") contains null entry", stringList);
                 }
+                addError("String list (" + description + ") contains null entry", stringList);
             } else if (!blanksAllowed && a.trim().length() == 0) {
                 if (rootValidator.autorepair == true) {
                     addInfo("String list (" + description + ") contains blank entry where none are allowed - removed", stringList);
                     stringList.remove(i);
                     continue;
-                } else {
-                    addError("String list (" + description + ") contains blank entry where none are allowed", stringList);
                 }
+                addError("String list (" + description + ") contains blank entry where none are allowed", stringList);
             }
             i++;
         }
@@ -328,17 +326,15 @@ abstract class AbstractValidator {
                     addInfo("String list (" + description + ") contains null entry - removed", stringList);
                     stringList.remove(i);
                     continue;
-                } else {
-                    addError("String list (" + description + ") contains null entry", stringList);
                 }
+                addError("String list (" + description + ") contains null entry", stringList);
             } else if (!blanksAllowed && a.value.trim().length() == 0) {
                 if (rootValidator.autorepair == true) {
                     addInfo("String list (" + description + ") contains blank entry where none are allowed - removed", stringList);
                     stringList.remove(i);
                     continue;
-                } else {
-                    addError("String list (" + description + ") contains blank entry where none are allowed", stringList);
                 }
+                addError("String list (" + description + ") contains blank entry where none are allowed", stringList);
             }
             i++;
         }

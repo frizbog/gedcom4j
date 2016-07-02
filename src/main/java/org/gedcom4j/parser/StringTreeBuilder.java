@@ -244,11 +244,10 @@ public class StringTreeBuilder {
                     throw new GedcomParserException(
                             "Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
                 }
-            } else {
-                throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
             }
-        } catch (IndexOutOfBoundsException e) {
             throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
+        } catch (IndexOutOfBoundsException e) {
+            throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line, e);
         }
 
     }
