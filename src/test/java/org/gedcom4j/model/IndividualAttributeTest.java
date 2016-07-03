@@ -67,9 +67,9 @@ public class IndividualAttributeTest {
         i2.citations.add(new CitationWithoutSource());
         assertEquals(i1, i2);
 
-        i1.customTags.add(new StringTree());
+        i1.getCustomTags().add(new StringTree());
         assertFalse(i1.equals(i2));
-        i2.customTags.add(new StringTree());
+        i2.getCustomTags().add(new StringTree());
         assertEquals(i1, i2);
 
         i1.date = new StringWithCustomTags("Three");
@@ -181,9 +181,9 @@ public class IndividualAttributeTest {
         i2.citations.add(new CitationWithoutSource());
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.customTags.add(new StringTree());
+        i1.getCustomTags().add(new StringTree());
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.customTags.add(new StringTree());
+        i2.getCustomTags().add(new StringTree());
         assertEquals(i1.hashCode(), i2.hashCode());
 
         i1.date = new StringWithCustomTags("Three");
@@ -275,7 +275,7 @@ public class IndividualAttributeTest {
         i.age = new StringWithCustomTags("One");
         i.cause = new StringWithCustomTags("Two");
         i.citations.add(new CitationWithoutSource());
-        i.customTags.add(new StringTree());
+        i.getCustomTags().add(new StringTree());
         i.date = new StringWithCustomTags("Three");
         i.description = new StringWithCustomTags("Four");
         i.emails.add(new StringWithCustomTags("Five"));

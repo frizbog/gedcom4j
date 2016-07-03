@@ -54,10 +54,10 @@ public class Issue63Test {
         gp.load("sample/Issue 63.ged");
         Gedcom g = gp.gedcom;
         assertNotNull(g);
-        assertEquals(1, g.families.size());
+        assertEquals(1, g.getFamilies().size());
         assertEquals(2, g.individuals.size());
 
-        Family family = g.families.get("@F001@");
+        Family family = g.getFamilies().get("@F001@");
         assertNotNull(family);
         assertNotNull(family.husband);
         assertEquals("@I001@", family.husband.xref);

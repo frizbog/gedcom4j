@@ -89,6 +89,6 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
     public String toString() {
         return "LdsIndividualOrdinance [familyWhereChild=" + familyWhereChild + ", type=" + type + ", yNull=" + yNull
                 + ", status=" + status + ", date=" + date + ", temple=" + temple + ", place=" + place + ", citations="
-                + citations + ", notes=" + notes + ", customTags=" + customTags + "]";
+                + getCitations() + ", notes=" + notes + ", customTags=" + getCustomTags() + "]";
     }
 }

@@ -204,7 +204,7 @@ public class Repository extends AbstractElement {
                 + (userReferences != null ? "userReferences=" + userReferences + ", " : "")
                 + (phoneNumbers != null ? "phoneNumbers=" + phoneNumbers + ", " : "") + (wwwUrls != null ? "wwwUrls=" + wwwUrls + ", " : "")
                 + (faxNumbers != null ? "faxNumbers=" + faxNumbers + ", " : "") + (emails != null ? "emails=" + emails + ", " : "")
-                + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 
 }

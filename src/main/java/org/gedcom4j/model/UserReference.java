@@ -78,6 +78,6 @@ public class UserReference extends AbstractElement {
     @Override
     public String toString() {
         return "UserReference [" + (referenceNum != null ? "referenceNum=" + referenceNum + ", " : "") + (type != null ? "type=" + type + ", " : "")
-                + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

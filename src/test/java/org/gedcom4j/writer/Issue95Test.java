@@ -70,14 +70,14 @@ public class Issue95Test {
         for (IndividualEvent ev : i.events) {
             if (ev.type == IndividualEventType.BIRTH) {
                 assertEquals("4 July 1776", ev.date.value);
-                assertEquals(1, ev.customTags.size());
-                StringTree ct = ev.customTags.get(0);
+                assertEquals(1, ev.getCustomTags().size());
+                StringTree ct = ev.getCustomTags().get(0);
                 assertEquals("_METHOD", ct.tag);
                 assertEquals("Hatched from egg", ct.value);
                 assertEquals(2, ct.level);
             } else if (ev.type == IndividualEventType.DEATH) {
                 assertEquals("Suffolk, VA, USA", ev.place.placeName);
-                assertTrue(ev.customTags.isEmpty());
+                assertTrue(ev.getCustomTags().isEmpty());
             } else {
                 fail("Unexpected Individual Event type " + ev.type);
             }

@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * An abstract class from which most other items in the data model extend. Exists to hold custom tag information, which
  * by definition cannot be known in advance.
@@ -34,7 +36,7 @@ public abstract class AbstractElement {
     /**
      * A list of custom tags on this item.
      */
-    public List<StringTree> customTags = new ArrayList<StringTree>(0);
+    protected List<StringTree> customTags = Options.isCollectionInitializationEnabled() ? getCustomTags(true) : null;
 
     @Override
     public boolean equals(Object obj) {
@@ -48,21 +50,44 @@ public abstract class AbstractElement {
             return false;
         }
         AbstractElement other = (AbstractElement) obj;
-        if (customTags == null) {
-            if (other.customTags != null) {
+        if (getCustomTags() == null) {
+            if (other.getCustomTags() != null) {
                 return false;
             }
-        } else if (!customTags.equals(other.customTags)) {
+        } else if (!getCustomTags().equals(other.getCustomTags())) {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Get the customTags
+     * 
+     * @return the customTags
+     */
+    public List<StringTree> getCustomTags() {
+        return customTags;
+    }
+
+    /**
+     * Get the customTags
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed
+     * @return the customTags
+     */
+    public List<StringTree> getCustomTags(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && customTags == null) {
+            customTags = new ArrayList<StringTree>(0);
+        }
+        return customTags;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (customTags == null ? 0 : customTags.hashCode());
+        result = prime * result + (getCustomTags() == null ? 0 : getCustomTags().hashCode());
         return result;
     }
 

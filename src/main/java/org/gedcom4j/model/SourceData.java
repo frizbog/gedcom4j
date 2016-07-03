@@ -95,6 +95,6 @@ public class SourceData extends AbstractElement {
     public String toString() {
         return "SourceData [" + (respAgency != null ? "respAgency=" + respAgency + ", " : "")
                 + (eventsRecorded != null ? "eventsRecorded=" + eventsRecorded + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
-                + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

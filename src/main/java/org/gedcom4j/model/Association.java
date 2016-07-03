@@ -123,6 +123,6 @@ public class Association extends AbstractElement {
                 + (associatedEntityXref != null ? "associatedEntityXref=" + associatedEntityXref + ", " : "")
                 + (associatedEntityType != null ? "associatedEntityType=" + associatedEntityType + ", " : "")
                 + (citations != null ? "citations=" + citations + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
-                + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

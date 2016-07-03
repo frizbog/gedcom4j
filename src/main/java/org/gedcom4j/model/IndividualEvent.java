@@ -79,7 +79,7 @@ public class IndividualEvent extends Event {
                 + ", description=" + description + ", multimedia=" + multimedia + ", notes=" + notes + ", place="
                 + place + ", respAgency=" + respAgency + ", yNull=" + yNull + ", subType=" + subType
                 + ", religiousAffiliation=" + religiousAffiliation + ", restrictionNotice=" + restrictionNotice
-                + ", customTags=" + customTags + "]";
+                + ", customTags=" + getCustomTags() + "]";
     }
 
 }

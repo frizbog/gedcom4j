@@ -222,7 +222,7 @@ public class Multimedia extends AbstractElement {
                 + (userReferences != null ? "userReferences=" + userReferences + ", " : "") + (changeDate != null ? "changeDate=" + changeDate + ", " : "")
                 + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "")
                 + (embeddedMediaFormat != null ? "embeddedMediaFormat=" + embeddedMediaFormat + ", " : "")
-                + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 
 }

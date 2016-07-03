@@ -31,7 +31,7 @@ public class StringWithCustomTags extends AbstractElement {
     /**
      * The string value itself.
      */
-    public String value;
+    private String value;
 
     /**
      * Default constructor
@@ -58,7 +58,9 @@ public class StringWithCustomTags extends AbstractElement {
      */
     public StringWithCustomTags(StringTree s) {
         value = s.value;
-        customTags = s.children;
+        if (s.children != null && !s.children.isEmpty()) {
+            getCustomTags(true).addAll(s.children);
+        }
     }
 
     /**
@@ -87,6 +89,15 @@ public class StringWithCustomTags extends AbstractElement {
     }
 
     /**
+     * Get the value
+     * 
+     * @return the value
+     */
+    public String getValue() {
+        return value;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -97,10 +108,20 @@ public class StringWithCustomTags extends AbstractElement {
         return result;
     }
 
+    /**
+     * Set the value
+     * 
+     * @param value
+     *            the value to set
+     */
+    public void setValue(String value) {
+        this.value = value;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(value == null ? "null" : value);
-        for (StringTree ct : customTags) {
+        for (StringTree ct : getCustomTags()) {
             sb.append("\n");
             sb.append(ct.level + (ct.id == null ? "" : " " + ct.id) + " " + ct.tag + " " + ct.value);
         }

@@ -126,6 +126,6 @@ public class SourceSystem extends AbstractElement {
     public String toString() {
         return "SourceSystem [" + (systemId != null ? "systemId=" + systemId + ", " : "") + (versionNum != null ? "versionNum=" + versionNum + ", " : "")
                 + (productName != null ? "productName=" + productName + ", " : "") + (corporation != null ? "corporation=" + corporation + ", " : "")
-                + (sourceData != null ? "sourceData=" + sourceData + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (sourceData != null ? "sourceData=" + sourceData + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

@@ -35,7 +35,7 @@ public class Issue89Test extends TestCase {
         sct.id = "@CT001@";
         sct.tag = "_CUSTSB";
         sct.value = "Custom Submitter Tag";
-        s.customTags.add(sct);
+        s.getCustomTags().add(sct);
 
         StringTree nct = new StringTree();
         /* Note the level value gets ignored when writing */
@@ -43,7 +43,7 @@ public class Issue89Test extends TestCase {
         // No ID on this tag
         nct.tag = "_CUSTNM";
         nct.value = "Custom Name Tag";
-        s.name.customTags.add(nct);
+        s.name.getCustomTags().add(nct);
 
         StringTree hct = new StringTree();
         hct.id = "@CT003@";

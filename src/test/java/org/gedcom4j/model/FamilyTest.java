@@ -160,8 +160,8 @@ public class FamilyTest {
     @Test
     public void testToString() {
         assertEquals("Family [wife=Ginger /Rogers/, spouse of Fred /Astaire/, husband=Fred /Astaire/, spouse of Ginger /Rogers/, children=[], "
-                + "submitters=[], ldsSpouseSealings=[], citations=[], multimedia=[], events=[], notes=[], userReferences=[], customTags=[]]",
-                family1.toString());
+                + "submitters=[], ldsSpouseSealings=[], citations=[], multimedia=[], events=[], notes=[], userReferences=[], customTags=[]]", family1
+                        .toString());
     }
 
     /**

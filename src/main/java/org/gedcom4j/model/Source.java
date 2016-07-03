@@ -250,6 +250,6 @@ public class Source extends AbstractElement {
                 + (userReferences != null ? "userReferences=" + userReferences + ", " : "") + (data != null ? "data=" + data + ", " : "")
                 + (sourceText != null ? "sourceText=" + sourceText + ", " : "")
                 + (repositoryCitation != null ? "repositoryCitation=" + repositoryCitation + ", " : "") + (xref != null ? "xref=" + xref + ", " : "")
-                + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

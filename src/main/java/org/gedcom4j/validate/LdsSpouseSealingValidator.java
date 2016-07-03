@@ -61,15 +61,15 @@ class LdsSpouseSealingValidator extends AbstractValidator {
             addError("LDS Spouse Sealing is null and cannot be validated");
             return;
         }
-        if (s.citations == null) {
+        if (s.getCitations() == null) {
             if (rootValidator.autorepair) {
-                s.citations = new ArrayList<AbstractCitation>();
+                s.setCitations(new ArrayList<AbstractCitation>());
                 addInfo("citations collection for lds spouse sealing was null - rootValidator.autorepaired", s);
             } else {
                 addError("citations collection for lds spouse sealing is null", s);
             }
         } else {
-            for (AbstractCitation c : s.citations) {
+            for (AbstractCitation c : s.getCitations()) {
                 new CitationValidator(rootValidator, c).validate();
             }
         }

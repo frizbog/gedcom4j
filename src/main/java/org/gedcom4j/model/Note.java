@@ -136,6 +136,6 @@ public class Note extends AbstractElement {
         return "Note [" + (xref != null ? "xref=" + xref + ", " : "") + (lines != null ? "lines=" + lines + ", " : "")
                 + (citations != null ? "citations=" + citations + ", " : "") + (userReferences != null ? "userReferences=" + userReferences + ", " : "")
                 + (changeDate != null ? "changeDate=" + changeDate + ", " : "") + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "")
-                + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

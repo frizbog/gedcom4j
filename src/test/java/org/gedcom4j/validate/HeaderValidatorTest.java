@@ -81,7 +81,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         rootValidator.validate();
         assertNoIssues();
 
-        h.characterSet.customTags = null;
+        h.characterSet.setCustomTags(null);
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "custom tag", "is null");
 
@@ -218,7 +218,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         rootValidator.validate();
         assertNoIssues();
 
-        h.sourceSystem.productName.customTags = null;
+        h.sourceSystem.productName.setCustomTags(null);
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "custom tag");
 

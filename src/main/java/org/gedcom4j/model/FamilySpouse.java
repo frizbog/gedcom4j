@@ -93,6 +93,6 @@ public class FamilySpouse extends AbstractElement {
     @Override
     public String toString() {
         return "FamilySpouse [" + (family != null ? "family=" + family + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
-                + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

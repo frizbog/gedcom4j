@@ -255,6 +255,6 @@ public class Submitter extends AbstractElement {
                 + (faxNumbers != null ? "faxNumbers=" + faxNumbers + ", " : "") + (emails != null ? "emails=" + emails + ", " : "")
                 + (multimedia != null ? "multimedia=" + multimedia + ", " : "") + (changeDate != null ? "changeDate=" + changeDate + ", " : "")
                 + (userReferences != null ? "userReferences=" + userReferences + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
-                + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

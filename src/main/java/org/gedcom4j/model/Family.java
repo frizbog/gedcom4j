@@ -279,7 +279,7 @@ public class Family extends AbstractElement {
                 + (changeDate != null ? "changeDate=" + changeDate + ", " : "") + (events != null ? "events=" + events + ", " : "")
                 + (notes != null ? "notes=" + notes + ", " : "") + (xref != null ? "xref=" + xref + ", " : "")
                 + (userReferences != null ? "userReferences=" + userReferences + ", " : "")
-                + (restrictionNotice != null ? "restrictionNotice=" + restrictionNotice + ", " : "") + (customTags != null ? "customTags=" + customTags : "")
+                + (restrictionNotice != null ? "restrictionNotice=" + restrictionNotice + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "")
                 + "]";
     }
 

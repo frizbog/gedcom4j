@@ -82,7 +82,7 @@ public class NameVariation extends AbstractElement {
     @Override
     public String toString() {
         return "NameVariation [" + (variationType != null ? "variationType=" + variationType + ", " : "")
-                + (variation != null ? "variation=" + variation + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (variation != null ? "variation=" + variation + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 
 }

@@ -98,6 +98,6 @@ public class HeaderSourceData extends AbstractElement {
     @Override
     public String toString() {
         return "HeaderSourceData [" + (name != null ? "name=" + name + ", " : "") + (publishDate != null ? "publishDate=" + publishDate + ", " : "")
-                + (copyright != null ? "copyright=" + copyright + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (copyright != null ? "copyright=" + copyright + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

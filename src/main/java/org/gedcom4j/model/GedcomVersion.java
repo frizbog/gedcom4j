@@ -80,6 +80,6 @@ public class GedcomVersion extends AbstractElement {
     @Override
     public String toString() {
         return "GedcomVersion [" + (versionNumber != null ? "versionNumber=" + versionNumber + ", " : "")
-                + (gedcomForm != null ? "gedcomForm=" + gedcomForm + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (gedcomForm != null ? "gedcomForm=" + gedcomForm + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

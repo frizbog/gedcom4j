@@ -163,6 +163,6 @@ public class Place extends AbstractElement {
                 + (citations != null ? "citations=" + citations + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
                 + (phonetic != null ? "phonetic=" + phonetic + ", " : "") + (romanized != null ? "romanized=" + romanized + ", " : "")
                 + (latitude != null ? "latitude=" + latitude + ", " : "") + (longitude != null ? "longitude=" + longitude + ", " : "")
-                + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

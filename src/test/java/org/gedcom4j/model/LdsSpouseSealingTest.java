@@ -45,14 +45,14 @@ public class LdsSpouseSealingTest {
         assertNotSame(l1, l2);
         assertEquals(l1, l2);
 
-        l1.citations.add(new CitationWithoutSource());
+        l1.getCitations().add(new CitationWithoutSource());
         assertFalse(l1.equals(l2));
-        l2.citations.add(new CitationWithoutSource());
+        l2.getCitations().add(new CitationWithoutSource());
         assertEquals(l1, l2);
 
-        l1.customTags.add(new StringTree());
+        l1.getCustomTags().add(new StringTree());
         assertFalse(l1.equals(l2));
-        l2.customTags.add(new StringTree());
+        l2.getCustomTags().add(new StringTree());
         assertEquals(l1, l2);
 
         l1.date = new StringWithCustomTags("Frying Pan");
@@ -82,14 +82,14 @@ public class LdsSpouseSealingTest {
         assertNotSame(l1, l2);
         assertEquals(l1.hashCode(), l2.hashCode());
 
-        l1.citations.add(new CitationWithoutSource());
+        l1.getCitations().add(new CitationWithoutSource());
         assertFalse(l1.hashCode() == l2.hashCode());
-        l2.citations.add(new CitationWithoutSource());
+        l2.getCitations().add(new CitationWithoutSource());
         assertEquals(l1.hashCode(), l2.hashCode());
 
-        l1.customTags.add(new StringTree());
+        l1.getCustomTags().add(new StringTree());
         assertFalse(l1.hashCode() == l2.hashCode());
-        l2.customTags.add(new StringTree());
+        l2.getCustomTags().add(new StringTree());
         assertEquals(l1.hashCode(), l2.hashCode());
 
         l1.date = new StringWithCustomTags("Frying Pan");
@@ -116,8 +116,8 @@ public class LdsSpouseSealingTest {
         LdsSpouseSealing l = new LdsSpouseSealing();
         assertEquals("LdsSpouseSealing [status=null, date=null, temple=null, place=null, citations=[], notes=[], customTags=[]]", l.toString());
 
-        l.citations.add(new CitationWithoutSource());
-        l.customTags.add(new StringTree());
+        l.getCitations().add(new CitationWithoutSource());
+        l.getCustomTags().add(new StringTree());
         l.date = new StringWithCustomTags("Frying Pan");
         l.place = new StringWithCustomTags("Howdy");
         l.status = new StringWithCustomTags("Test");

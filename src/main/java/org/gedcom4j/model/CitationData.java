@@ -81,6 +81,6 @@ public class CitationData extends AbstractElement {
     @Override
     public String toString() {
         return "CitationData [" + (entryDate != null ? "entryDate=" + entryDate + ", " : "") + (sourceText != null ? "sourceText=" + sourceText + ", " : "")
-                + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

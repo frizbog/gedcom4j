@@ -24,7 +24,6 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import org.gedcom4j.model.Trailer;
 import org.junit.Test;
 
 /**
@@ -34,8 +33,7 @@ import org.junit.Test;
 public class TrailerTest {
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.model.Trailer#equals(java.lang.Object)}.
+     * Test method for {@link org.gedcom4j.model.Trailer#equals(java.lang.Object)}.
      */
     @Test
     public void testEqualsObject() {
@@ -43,9 +41,7 @@ public class TrailerTest {
         assertEquals(t1, t1);
 
         Trailer t2 = new Trailer();
-        assertEquals(
-                "Hashcodes for trailers are always equal - they have no properties",
-                t1, t2);
+        assertEquals("Hashcodes for trailers are always equal - they have no properties", t1, t2);
 
         assertFalse(t1.equals(null));
         assertFalse(t1.equals(this));
@@ -58,9 +54,7 @@ public class TrailerTest {
     public void testHashCode() {
         Trailer t1 = new Trailer();
         Trailer t2 = new Trailer();
-        assertEquals(
-                "Hashcodes for trailers are always equal - they have no properties",
-                t1.hashCode(), t2.hashCode());
+        assertEquals("Hashcodes for trailers are always equal - they have no properties", t1.hashCode(), t2.hashCode());
     }
 
 }

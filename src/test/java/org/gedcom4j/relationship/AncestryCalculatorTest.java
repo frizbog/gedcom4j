@@ -82,7 +82,7 @@ public class AncestryCalculatorTest {
         assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?",
                 43, g.individuals.size());
         assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?",
-                18, g.families.size());
+                18, g.getFamilies().size());
         finder = new Finder(g);
     }
 

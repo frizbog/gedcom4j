@@ -307,7 +307,7 @@ public class Event extends AbstractElement {
                 + (respAgency != null ? "respAgency=" + respAgency + ", " : "") + (yNull != null ? "yNull=" + yNull + ", " : "")
                 + (subType != null ? "subType=" + subType + ", " : "")
                 + (religiousAffiliation != null ? "religiousAffiliation=" + religiousAffiliation + ", " : "")
-                + (restrictionNotice != null ? "restrictionNotice=" + restrictionNotice + ", " : "") + (customTags != null ? "customTags=" + customTags : "")
+                + (restrictionNotice != null ? "restrictionNotice=" + restrictionNotice + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "")
                 + "]";
     }
 

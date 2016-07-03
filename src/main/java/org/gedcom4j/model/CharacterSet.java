@@ -80,6 +80,6 @@ public class CharacterSet extends AbstractElement {
     @Override
     public String toString() {
         return "CharacterSet [" + (characterSetName != null ? "characterSetName=" + characterSetName + ", " : "")
-                + (versionNum != null ? "versionNum=" + versionNum + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (versionNum != null ? "versionNum=" + versionNum + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

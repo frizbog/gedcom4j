@@ -237,7 +237,7 @@ public class Header extends AbstractElement {
                 + (sourceSystem != null ? "sourceSystem=" + sourceSystem + ", " : "") + (submission != null ? "submission=" + submission + ", " : "")
                 + (submitter != null ? "submitter=" + submitter + ", " : "") + (time != null ? "time=" + time + ", " : "")
                 + (language != null ? "language=" + language + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
-                + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 
 }

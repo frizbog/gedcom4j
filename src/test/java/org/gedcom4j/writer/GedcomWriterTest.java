@@ -155,7 +155,7 @@ public class GedcomWriterTest {
      */
     @Test
     public void testFamilies() {
-        Map<String, Family> fm1 = gedcomOrig.families;
+        Map<String, Family> fm1 = gedcomOrig.getFamilies();
         Map<String, Family> fm2 = gedcomReadback.families;
         assertNotSame(fm1, fm2);
         assertEquals(fm1.keySet(), fm2.keySet());

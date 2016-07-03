@@ -93,6 +93,6 @@ public class EventRecorded extends AbstractElement {
     @Override
     public String toString() {
         return "EventRecorded [" + (eventType != null ? "eventType=" + eventType + ", " : "") + (datePeriod != null ? "datePeriod=" + datePeriod + ", " : "")
-                + (jurisdiction != null ? "jurisdiction=" + jurisdiction + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (jurisdiction != null ? "jurisdiction=" + jurisdiction + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

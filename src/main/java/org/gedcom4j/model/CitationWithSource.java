@@ -161,6 +161,6 @@ public class CitationWithSource extends AbstractCitation {
                 + (certainty != null ? "certainty=" + certainty + ", " : "") + (eventCited != null ? "eventCited=" + eventCited + ", " : "")
                 + (data != null ? "data=" + data + ", " : "") + (source != null ? "source=" + source + ", " : "")
                 + (multimedia != null ? "multimedia=" + multimedia + ", " : "") + (roleInEvent != null ? "roleInEvent=" + roleInEvent + ", " : "")
-                + (getNotes() != null ? "notes=" + getNotes() + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (getNotes() != null ? "notes=" + getNotes() + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

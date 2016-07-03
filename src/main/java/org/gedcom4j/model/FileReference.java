@@ -108,7 +108,7 @@ public class FileReference extends AbstractElement {
     public String toString() {
         return "FileReference [" + (referenceToFile != null ? "referenceToFile=" + referenceToFile + ", " : "")
                 + (format != null ? "format=" + format + ", " : "") + (mediaType != null ? "mediaType=" + mediaType + ", " : "")
-                + (title != null ? "title=" + title + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (title != null ? "title=" + title + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 
 }

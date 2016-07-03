@@ -94,11 +94,11 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     public void testCitations() {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.ldsSpouseSealings.add(s);
-        s.citations = null;
+        s.setCitations(null);
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "citations", "null");
 
-        s.citations = new ArrayList<AbstractCitation>();
+        s.setCitations(new ArrayList<AbstractCitation>());
         rootValidator.validate();
         assertNoIssues();
     }
@@ -110,11 +110,11 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     public void testCustomTags() {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.ldsSpouseSealings.add(s);
-        s.customTags = null;
+        s.setCustomTags(null);
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "custom", "tag", "null");
 
-        s.customTags = new ArrayList<StringTree>();
+        s.setCustomTags(new ArrayList<StringTree>());
         rootValidator.validate();
         assertNoIssues();
     }

@@ -171,6 +171,6 @@ public class Submission extends AbstractElement {
                 + (templeCode != null ? "templeCode=" + templeCode + ", " : "") + (ancestorsCount != null ? "ancestorsCount=" + ancestorsCount + ", " : "")
                 + (descendantsCount != null ? "descendantsCount=" + descendantsCount + ", " : "")
                 + (ordinanceProcessFlag != null ? "ordinanceProcessFlag=" + ordinanceProcessFlag + ", " : "")
-                + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

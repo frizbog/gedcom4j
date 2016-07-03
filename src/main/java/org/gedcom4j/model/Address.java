@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * Represents an address. Corresponds to part of the ADDRESS_STRUCTURE element in the GEDCOM specification. The other
  * parts of the structure containing phone numbers, faxes, urls, and emails are kept in in the objects that have those
@@ -35,37 +37,37 @@ public class Address extends AbstractElement {
     /**
      * The lines of the address
      */
-    public List<String> lines = new ArrayList<String>(0);
+    private List<String> lines = Options.isCollectionInitializationEnabled() ? getLines(true) : null;
 
     /**
      * Line one of the address
      */
-    public StringWithCustomTags addr1;
+    private StringWithCustomTags addr1;
 
     /**
      * Line two of the address
      */
-    public StringWithCustomTags addr2;
+    private StringWithCustomTags addr2;
 
     /**
      * City
      */
-    public StringWithCustomTags city;
+    private StringWithCustomTags city;
 
     /**
      * State/province
      */
-    public StringWithCustomTags stateProvince;
+    private StringWithCustomTags stateProvince;
 
     /**
      * Postal code
      */
-    public StringWithCustomTags postalCode;
+    private StringWithCustomTags postalCode;
 
     /**
      * Country
      */
-    public StringWithCustomTags country;
+    private StringWithCustomTags country;
 
     @Override
     public boolean equals(Object obj) {
@@ -131,6 +133,84 @@ public class Address extends AbstractElement {
         return true;
     }
 
+    /**
+     * Get the addr1
+     * 
+     * @return the addr1
+     */
+    public StringWithCustomTags getAddr1() {
+        return addr1;
+    }
+
+    /**
+     * Get the addr2
+     * 
+     * @return the addr2
+     */
+    public StringWithCustomTags getAddr2() {
+        return addr2;
+    }
+
+    /**
+     * Get the city
+     * 
+     * @return the city
+     */
+    public StringWithCustomTags getCity() {
+        return city;
+    }
+
+    /**
+     * Get the country
+     * 
+     * @return the country
+     */
+    public StringWithCustomTags getCountry() {
+        return country;
+    }
+
+    /**
+     * Get the lines
+     * 
+     * @return the lines
+     */
+    public List<String> getLines() {
+        return lines;
+    }
+
+    /**
+     * Get the lines
+     * 
+     * @param initializeIfNeeded
+     *            initialize the lines collection if needed
+     * 
+     * @return the lines
+     */
+    public List<String> getLines(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && lines == null) {
+            lines = new ArrayList<String>(0);
+        }
+        return lines;
+    }
+
+    /**
+     * Get the postalCode
+     * 
+     * @return the postalCode
+     */
+    public StringWithCustomTags getPostalCode() {
+        return postalCode;
+    }
+
+    /**
+     * Get the stateProvince
+     * 
+     * @return the stateProvince
+     */
+    public StringWithCustomTags getStateProvince() {
+        return stateProvince;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -145,11 +225,71 @@ public class Address extends AbstractElement {
         return result;
     }
 
+    /**
+     * Set the addr1
+     * 
+     * @param addr1
+     *            the addr1 to set
+     */
+    public void setAddr1(StringWithCustomTags addr1) {
+        this.addr1 = addr1;
+    }
+
+    /**
+     * Set the addr2
+     * 
+     * @param addr2
+     *            the addr2 to set
+     */
+    public void setAddr2(StringWithCustomTags addr2) {
+        this.addr2 = addr2;
+    }
+
+    /**
+     * Set the city
+     * 
+     * @param city
+     *            the city to set
+     */
+    public void setCity(StringWithCustomTags city) {
+        this.city = city;
+    }
+
+    /**
+     * Set the country
+     * 
+     * @param country
+     *            the country to set
+     */
+    public void setCountry(StringWithCustomTags country) {
+        this.country = country;
+    }
+
+    /**
+     * Set the postalCode
+     * 
+     * @param postalCode
+     *            the postalCode to set
+     */
+    public void setPostalCode(StringWithCustomTags postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    /**
+     * Set the stateProvince
+     * 
+     * @param stateProvince
+     *            the stateProvince to set
+     */
+    public void setStateProvince(StringWithCustomTags stateProvince) {
+        this.stateProvince = stateProvince;
+    }
+
     @Override
     public String toString() {
-        return "Address [" + (lines != null ? "lines=" + lines + ", " : "") + (addr1 != null ? "addr1=" + addr1 + ", " : "")
-                + (addr2 != null ? "addr2=" + addr2 + ", " : "") + (city != null ? "city=" + city + ", " : "")
-                + (stateProvince != null ? "stateProvince=" + stateProvince + ", " : "") + (postalCode != null ? "postalCode=" + postalCode + ", " : "")
-                + (country != null ? "country=" + country + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
+        return "Address [" + (lines != null ? "lines=" + lines + ", " : "") + (addr1 != null ? "addr1=" + addr1 + ", " : "") + (addr2 != null ? "addr2=" + addr2
+                + ", " : "") + (city != null ? "city=" + city + ", " : "") + (stateProvince != null ? "stateProvince=" + stateProvince + ", " : "")
+                + (postalCode != null ? "postalCode=" + postalCode + ", " : "") + (country != null ? "country=" + country + ", " : "")
+                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

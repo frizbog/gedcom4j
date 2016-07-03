@@ -89,7 +89,7 @@ public class GedcomParserTest extends TestCase {
         gp.load("sample/allged.ged");
         assertTrue(gp.errors.isEmpty());
         assertTrue(gp.warnings.isEmpty());
-        assertEquals("There is exactly 1 custom tag on the file as a whole", 1, gp.gedcom.customTags.size());
+        assertEquals("There is exactly 1 custom tag on the file as a whole", 1, gp.gedcom.getCustomTags().size());
         assertEquals("There is exactly 1 custom tag in the header", 1, gp.gedcom.header.customTags.size());
         Gedcom g = gp.gedcom;
         assertFalse(g.submitters.isEmpty());
@@ -130,11 +130,11 @@ public class GedcomParserTest extends TestCase {
             assertTrue(s.title.get(0).equals("William Barnett Family.FTW") || s.title.get(0).equals("Warrick County, IN WPA Indexes"));
         }
 
-        assertEquals(17, g.families.size());
+        assertEquals(17, g.getFamilies().size());
         assertEquals(64, g.individuals.size());
 
         // Check a specific family
-        Family family = g.families.get("@F1428@");
+        Family family = g.getFamilies().get("@F1428@");
         assertNotNull(family);
         assertEquals(3, family.children.size());
         assertEquals("Lawrence Henry /Barnett/", family.husband.names.get(0).basic);
@@ -176,7 +176,7 @@ public class GedcomParserTest extends TestCase {
         Gedcom g = gp.gedcom;
         assertNotNull(g);
         assertTrue(g.individuals.isEmpty());
-        assertTrue(g.families.isEmpty());
+        assertTrue(g.getFamilies().isEmpty());
         assertTrue(g.multimedia.isEmpty());
         assertTrue(g.sources.isEmpty());
         assertNotNull(g.submitters);
@@ -200,7 +200,7 @@ public class GedcomParserTest extends TestCase {
         Gedcom g = gp.gedcom;
         assertNotNull(g);
         assertTrue(g.individuals.isEmpty());
-        assertTrue(g.families.isEmpty());
+        assertTrue(g.getFamilies().isEmpty());
         assertTrue(g.multimedia.isEmpty());
         assertTrue(g.sources.isEmpty());
         assertNotNull(g.submitters);
@@ -267,7 +267,7 @@ public class GedcomParserTest extends TestCase {
         assertNotNull(submitter);
         assertEquals("John A. Nairn", submitter.name.value);
 
-        assertEquals(7, g.families.size());
+        assertEquals(7, g.getFamilies().size());
         assertEquals(2, g.sources.size());
         assertEquals(1, g.multimedia.size());
         assertEquals(15, g.individuals.size());
@@ -299,7 +299,7 @@ public class GedcomParserTest extends TestCase {
         assertNotNull(submitter);
         assertEquals("John A. Nairn", submitter.name.value);
 
-        assertEquals(7, g.families.size());
+        assertEquals(7, g.getFamilies().size());
         assertEquals(2, g.sources.size());
         assertEquals(1, g.multimedia.size());
         assertEquals(15, g.individuals.size());

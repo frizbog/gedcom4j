@@ -26,7 +26,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import org.gedcom4j.exception.UnsupportedVersionException;
-import org.gedcom4j.model.SupportedVersion;
 import org.junit.Test;
 
 /**
@@ -51,7 +50,7 @@ public class SupportedVersionTest {
         try {
             SupportedVersion.forString("frying pan");
             fail("Should have gotten an exception");
-        } catch (UnsupportedVersionException expectedAndIgnored) {
+        } catch (@SuppressWarnings("unused") UnsupportedVersionException expectedAndIgnored) {
             ; // Good!
         }
     }

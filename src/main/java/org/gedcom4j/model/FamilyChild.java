@@ -133,6 +133,6 @@ public class FamilyChild extends AbstractElement {
     public String toString() {
         return "FamilyChild [" + (family != null ? "family=" + family + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
                 + (pedigree != null ? "pedigree=" + pedigree + ", " : "") + (adoptedBy != null ? "adoptedBy=" + adoptedBy + ", " : "")
-                + (status != null ? "status=" + status + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (status != null ? "status=" + status + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

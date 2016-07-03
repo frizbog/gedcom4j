@@ -379,6 +379,9 @@ public class Gedcom extends AbstractElement {
     /**
      * Get the submitters
      * 
+     * @param initializeIfNeeded
+     *            initialize the submitters map if needed
+     * 
      * @return the submitters
      */
     public Map<String, Submitter> getSubmitters(boolean initializeIfNeeded) {

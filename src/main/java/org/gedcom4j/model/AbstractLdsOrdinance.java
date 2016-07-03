@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * A base class for LDS sealing/ordinance data
  * 
@@ -35,32 +37,32 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
     /**
      * The status
      */
-    public StringWithCustomTags status;
+    protected StringWithCustomTags status;
 
     /**
      * The date
      */
-    public StringWithCustomTags date;
+    protected StringWithCustomTags date;
 
     /**
      * The temple code
      */
-    public StringWithCustomTags temple;
+    protected StringWithCustomTags temple;
 
     /**
      * The place
      */
-    public StringWithCustomTags place;
+    protected StringWithCustomTags place;
 
     /**
      * The citations for this ordinance
      */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
+    protected List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? getCitations(true) : null;
 
     /**
      * The notes for this ordinance
      */
-    public List<Note> notes = new ArrayList<Note>(0);
+    protected List<Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
 
     @Override
     public boolean equals(Object obj) {
@@ -74,11 +76,11 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
             return false;
         }
         AbstractLdsOrdinance other = (AbstractLdsOrdinance) obj;
-        if (citations == null) {
-            if (other.citations != null) {
+        if (getCitations() == null) {
+            if (other.getCitations() != null) {
                 return false;
             }
-        } else if (!citations.equals(other.citations)) {
+        } else if (!getCitations().equals(other.getCitations())) {
             return false;
         }
         if (date == null) {
@@ -119,17 +121,139 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
         return true;
     }
 
+    /**
+     * Get the citations
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations() {
+        return citations;
+    }
+
+    /**
+     * Get the citations
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && citations == null) {
+            citations = new ArrayList<AbstractCitation>();
+        }
+        return citations;
+    }
+
+    /**
+     * Get the date
+     * 
+     * @return the date
+     */
+    public StringWithCustomTags getDate() {
+        return date;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the place
+     * 
+     * @return the place
+     */
+    public StringWithCustomTags getPlace() {
+        return place;
+    }
+
+    /**
+     * Get the status
+     * 
+     * @return the status
+     */
+    public StringWithCustomTags getStatus() {
+        return status;
+    }
+
+    /**
+     * Get the temple
+     * 
+     * @return the temple
+     */
+    public StringWithCustomTags getTemple() {
+        return temple;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + (citations == null ? 0 : citations.hashCode());
+        result = prime * result + (getCitations() == null ? 0 : getCitations().hashCode());
         result = prime * result + (date == null ? 0 : date.hashCode());
         result = prime * result + (notes == null ? 0 : notes.hashCode());
         result = prime * result + (place == null ? 0 : place.hashCode());
         result = prime * result + (status == null ? 0 : status.hashCode());
         result = prime * result + (temple == null ? 0 : temple.hashCode());
         return result;
+    }
+
+    /**
+     * Set the date
+     * 
+     * @param date
+     *            the date to set
+     */
+    public void setDate(StringWithCustomTags date) {
+        this.date = date;
+    }
+
+    /**
+     * Set the place
+     * 
+     * @param place
+     *            the place to set
+     */
+    public void setPlace(StringWithCustomTags place) {
+        this.place = place;
+    }
+
+    /**
+     * Set the status
+     * 
+     * @param status
+     *            the status to set
+     */
+    public void setStatus(StringWithCustomTags status) {
+        this.status = status;
+    }
+
+    /**
+     * Set the temple
+     * 
+     * @param temple
+     *            the temple to set
+     */
+    public void setTemple(StringWithCustomTags temple) {
+        this.temple = temple;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            true if this collection should be created on-the-fly if it is currently null
+     * @return the notes
+     */
+    private List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
     }
 
 }

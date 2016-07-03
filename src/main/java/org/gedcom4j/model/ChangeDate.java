@@ -94,6 +94,6 @@ public class ChangeDate extends AbstractElement {
     @Override
     public String toString() {
         return "ChangeDate [" + (date != null ? "date=" + date + ", " : "") + (time != null ? "time=" + time + ", " : "")
-                + (notes != null ? "notes=" + notes + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (notes != null ? "notes=" + notes + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

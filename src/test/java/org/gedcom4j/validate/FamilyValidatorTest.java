@@ -131,11 +131,11 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoCustomTags() {
-        f.customTags = null;
+        f.setCustomTags(null);
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "custom", "tag");
 
-        f.customTags = new ArrayList<StringTree>();
+        f.setCustomTags(new ArrayList<StringTree>());
         rootValidator.validate();
         assertNoIssues();
     }

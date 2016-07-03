@@ -59,10 +59,10 @@ public class GedcomParser551Test {
         assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
-        assertNotNull(g.header);
-        assertNotNull(g.header.copyrightData);
-        assertEquals(3, g.header.copyrightData.size());
-        assertEquals("License: Creative Commons Attribution-ShareAlike 3.0", g.header.copyrightData.get(1));
+        assertNotNull(g.getHeader());
+        assertNotNull(g.getHeader().copyrightData);
+        assertEquals(3, g.getHeader().copyrightData.size());
+        assertEquals("License: Creative Commons Attribution-ShareAlike 3.0", g.getHeader().copyrightData.get(1));
     }
 
     /**
@@ -81,14 +81,14 @@ public class GedcomParser551Test {
         // assertTrue(gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
-        assertNotNull(g.submitters);
-        assertEquals(1, g.submitters.entrySet().size());
-        Submitter s = g.submitters.get("@SUBM01@");
+        assertNotNull(g.getSubmitters());
+        assertEquals(1, g.getSubmitters().entrySet().size());
+        Submitter s = g.getSubmitters().get("@SUBM01@");
         assertNotNull(s);
-        assertEquals("Matt /Harrah/", s.name.value);
+        assertEquals("Matt /Harrah/", s.name.getValue());
         assertNotNull(s.emails);
         assertEquals(2, s.emails.size());
-        assertEquals("frizbog@charter.net", s.emails.get(1).value);
+        assertEquals("frizbog@charter.net", s.emails.get(1).getValue());
     }
 
     /**
@@ -118,8 +118,8 @@ public class GedcomParser551Test {
         IndividualAttribute fact = facts.get(0);
         assertNotNull(fact);
         assertEquals(IndividualAttributeType.FACT, fact.type);
-        assertEquals("Place from", fact.subType.value);
-        assertEquals("Combe Florey", fact.description.value);
+        assertEquals("Place from", fact.subType.getValue());
+        assertEquals("Combe Florey", fact.description.getValue());
     }
 
     /**
@@ -138,10 +138,10 @@ public class GedcomParser551Test {
         // assertTrue(gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
-        assertNotNull(g.header);
-        assertNotNull(g.header.sourceSystem);
-        assertNotNull(g.header.sourceSystem.corporation);
-        Corporation c = g.header.sourceSystem.corporation;
+        assertNotNull(g.getHeader());
+        assertNotNull(g.getHeader().sourceSystem);
+        assertNotNull(g.getHeader().sourceSystem.corporation);
+        Corporation c = g.getHeader().sourceSystem.corporation;
         assertEquals("The Church of Jesus Christ of Latter-day Saints", c.businessName);
         assertNotNull(c.faxNumbers);
         assertEquals(1, c.faxNumbers.size());
@@ -197,8 +197,8 @@ public class GedcomParser551Test {
         assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
-        assertEquals(1, g.individuals.size());
-        Individual i = g.individuals.get("@I1@");
+        assertEquals(1, g.getIndividuals().size());
+        Individual i = g.getIndividuals().get("@I1@");
         assertEquals(1, i.events.size());
         IndividualEvent e = i.events.get(0);
         assertEquals(IndividualEventType.BIRTH, e.type);
@@ -231,8 +231,8 @@ public class GedcomParser551Test {
         assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
-        assertEquals(1, g.individuals.size());
-        Individual i = g.individuals.get("@I1@");
+        assertEquals(1, g.getIndividuals().size());
+        Individual i = g.getIndividuals().get("@I1@");
         assertEquals(1, i.events.size());
         IndividualEvent e = i.events.get(0);
         assertEquals(IndividualEventType.BIRTH, e.type);
@@ -354,22 +354,22 @@ public class GedcomParser551Test {
         Gedcom g = gp.gedcom;
         assertNotNull(g);
 
-        Family f = g.families.get("@F1@");
+        Family f = g.getFamilies().get("@F1@");
         assertNotNull(f);
 
         // Negative test
         FamilyEvent divorce = f.events.get(0);
         assertNotNull(divorce);
         assertEquals(FamilyEventType.DIVORCE, divorce.type);
-        assertEquals("2 Sep 1880", divorce.date.value);
+        assertEquals("2 Sep 1880", divorce.date.getValue());
         assertNull(divorce.religiousAffiliation);
 
         // Positive test
         FamilyEvent marriage = f.events.get(1);
         assertNotNull(marriage);
         assertEquals(FamilyEventType.MARRIAGE, marriage.type);
-        assertEquals("25 Oct 1875", marriage.date.value);
-        assertEquals("Civil", marriage.religiousAffiliation.value);
+        assertEquals("25 Oct 1875", marriage.date.getValue());
+        assertEquals("Civil", marriage.religiousAffiliation.getValue());
     }
 
     /**
@@ -391,7 +391,7 @@ public class GedcomParser551Test {
         assertNotNull(g);
 
         // Positive test
-        Individual elizabeth = g.individuals.get("@I75@");
+        Individual elizabeth = g.getIndividuals().get("@I75@");
         assertNotNull(elizabeth);
         List<IndividualEvent> christenings = elizabeth.getEventsOfType(IndividualEventType.CHRISTENING);
         assertNotNull(christenings);
@@ -400,17 +400,17 @@ public class GedcomParser551Test {
         assertNotNull(c);
         assertNotNull(c.place);
         assertEquals("Peel Hospital, Selkirkshire ", c.place.placeName);
-        assertEquals("Episcopalian", c.religiousAffiliation.value);
+        assertEquals("Episcopalian", c.religiousAffiliation.getValue());
 
         // Negative test
-        Individual annie = g.individuals.get("@I76@");
+        Individual annie = g.getIndividuals().get("@I76@");
         assertNotNull(annie);
         List<IndividualEvent> births = annie.getEventsOfType(IndividualEventType.BIRTH);
         assertNotNull(births);
         assertEquals(1, births.size());
         IndividualEvent b = births.get(0);
         assertNotNull(b);
-        assertEquals("1889", b.date.value);
+        assertEquals("1889", b.date.getValue());
         assertNull(b.religiousAffiliation);
     }
 
@@ -434,14 +434,14 @@ public class GedcomParser551Test {
         assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
-        assertNotNull(g.families);
-        Family f = g.families.get("@F1@");
+        assertNotNull(g.getFamilies());
+        Family f = g.getFamilies().get("@F1@");
         assertNotNull(f);
         assertNotNull(f.events);
         assertEquals(1, f.events.size());
         FamilyEvent e = f.events.get(0);
-        assertEquals("locked", e.restrictionNotice.value);
-        f = g.families.get("@F2@");
+        assertEquals("locked", e.restrictionNotice.getValue());
+        f = g.getFamilies().get("@F2@");
         assertNotNull(f);
         assertNull(f.restrictionNotice);
         assertNotNull(f.events);
@@ -467,11 +467,11 @@ public class GedcomParser551Test {
         assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
-        assertNotNull(g.families);
-        Family f = g.families.get("@F1@");
+        assertNotNull(g.getFamilies());
+        Family f = g.getFamilies().get("@F1@");
         assertNotNull(f);
-        assertEquals("locked", f.restrictionNotice.value);
-        f = g.families.get("@F2@");
+        assertEquals("locked", f.restrictionNotice.getValue());
+        f = g.getFamilies().get("@F2@");
         assertNotNull(f);
         assertNull(f.restrictionNotice);
     }
@@ -492,7 +492,7 @@ public class GedcomParser551Test {
         assertTrue(gp.errors.isEmpty());
         assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
-        Individual ladislaus = g.individuals.get("@I2797@");
+        Individual ladislaus = g.getIndividuals().get("@I2797@");
         assertNotNull(ladislaus);
         assertEquals(1, ladislaus.names.size());
         PersonalName pn = ladislaus.names.get(0);
@@ -520,8 +520,8 @@ public class GedcomParser551Test {
         assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
-        assertEquals(1, g.individuals.size());
-        Individual i = g.individuals.get("@I1@");
+        assertEquals(1, g.getIndividuals().size());
+        Individual i = g.getIndividuals().get("@I1@");
         assertEquals(1, i.events.size());
         IndividualEvent e = i.events.get(0);
         assertEquals(IndividualEventType.BIRTH, e.type);
@@ -535,7 +535,7 @@ public class GedcomParser551Test {
         NameVariation nv = p.romanized.get(0);
         assertNotNull(nv);
         assertEquals("Tarnow, Cracow, Poland", nv.variation);
-        assertEquals("Google translate", nv.variationType.value);
+        assertEquals("Google translate", nv.variationType.getValue());
     }
 
     /**
@@ -556,17 +556,17 @@ public class GedcomParser551Test {
         assertNotNull(g);
 
         // Positive test
-        Individual george = g.individuals.get("@I3@");
+        Individual george = g.getIndividuals().get("@I3@");
         assertNotNull(george);
         assertEquals(1, george.familiesWhereChild.size());
         FamilyChild fc1 = george.familiesWhereChild.get(0);
         assertNotNull(fc1);
         assertNotNull(fc1.family);
         assertEquals("@F3@", fc1.family.xref);
-        assertEquals("proven", fc1.status.value);
+        assertEquals("proven", fc1.status.getValue());
 
         // Negative test
-        Individual anne = g.individuals.get("@I4@");
+        Individual anne = g.getIndividuals().get("@I4@");
         assertNotNull(anne);
         assertEquals(1, anne.familiesWhereChild.size());
         FamilyChild fc2 = anne.familiesWhereChild.get(0);
@@ -592,13 +592,13 @@ public class GedcomParser551Test {
         assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
-        assertNotNull(g.submitters);
-        assertEquals(1, g.submitters.entrySet().size());
-        Submitter s = g.submitters.get("@SUBM01@");
+        assertNotNull(g.getSubmitters());
+        assertEquals(1, g.getSubmitters().entrySet().size());
+        Submitter s = g.getSubmitters().get("@SUBM01@");
         assertNotNull(s);
-        assertEquals("Matt /Harrah/", s.name.value);
+        assertEquals("Matt /Harrah/", s.name.getValue());
         assertNotNull(s.wwwUrls);
         assertEquals(2, s.wwwUrls.size());
-        assertEquals("https://www.facebook.com/Gedcom4j", s.wwwUrls.get(1).value);
+        assertEquals("https://www.facebook.com/Gedcom4j", s.wwwUrls.get(1).getValue());
     }
 }

@@ -60,9 +60,9 @@ public class Issue61Test {
         assertTrue(gp.errors.isEmpty());
         for (Individual i : g.individuals.values()) {
             assertNotNull(i);
-            assertNotNull(i.customTags);
-            assertFalse("Individual " + i + " has no custom tags", i.customTags.isEmpty());
-            for (StringTree ct : i.customTags) {
+            assertNotNull(i.getCustomTags());
+            assertFalse("Individual " + i + " has no custom tags", i.getCustomTags().isEmpty());
+            for (StringTree ct : i.getCustomTags()) {
                 assertTrue("Custom tag should be WAND or MUGL, but is " + ct.value, "WAND".equals(ct.tag) || "MUGL".equals(ct.tag));
                 if ("WAND".equals(ct.tag)) {
                     assertNotNull(ct.value);
@@ -97,8 +97,8 @@ public class Issue61Test {
         }
         for (Individual i : g.individuals.values()) {
             assertNotNull(i);
-            assertNotNull(i.customTags);
-            assertTrue(i.customTags.isEmpty());
+            assertNotNull(i.getCustomTags());
+            assertTrue(i.getCustomTags().isEmpty());
         }
     }
 }

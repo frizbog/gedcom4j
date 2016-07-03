@@ -52,7 +52,7 @@ public class FamilyEventTypeParseTest extends TestCase {
      */
     public void testIssue2() throws IOException, GedcomParserException {
         int familyCount = 0;
-        for (Family fam : g.families.values()) {
+        for (Family fam : g.getFamilies().values()) {
             familyCount++;
             assertNotNull(fam.events);
             for (FamilyEvent event : fam.events) {

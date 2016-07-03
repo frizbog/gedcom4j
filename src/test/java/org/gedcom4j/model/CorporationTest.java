@@ -24,7 +24,6 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import org.gedcom4j.model.Corporation;
 import org.junit.Test;
 
 /**
@@ -34,48 +33,34 @@ import org.junit.Test;
 public class CorporationTest {
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.model.Corporation#equals(java.lang.Object)}
-     * .
+     * Test method for {@link org.gedcom4j.model.Corporation#equals(java.lang.Object)} .
      */
     @Test
     public void testEqualsObject() {
         Corporation c1 = new Corporation();
         assertEquals(c1, c1);
         Corporation c2 = new Corporation();
-        assertEquals(
-                "CorporationTests are equal, so equals() should return true",
-                c1, c2);
+        assertEquals("CorporationTests are equal, so equals() should return true", c1, c2);
         c1.businessName = "Frying Pan";
-        assertFalse(
-                "CorporationTests are no longer equal, so hashcodes should no longer equal",
-                c1.equals(c2));
+        assertFalse("CorporationTests are no longer equal, so hashcodes should no longer equal", c1.equals(c2));
         c2.businessName = "Frying Pan";
-        assertEquals(
-                "CorporationTests are equal again, so equals() should return true again",
-                c1.hashCode(), c2.hashCode());
+        assertEquals("CorporationTests are equal again, so equals() should return true again", c1.hashCode(), c2.hashCode());
         assertFalse(c1.equals(null));
         assertFalse(c1.equals(this));
     }
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.model.Corporation#hashCode()}.
+     * Test method for {@link org.gedcom4j.model.Corporation#hashCode()}.
      */
     @Test
     public void testHashCode() {
         Corporation c1 = new Corporation();
         Corporation c2 = new Corporation();
-        assertEquals("Objects are equal, so equals() should return true",
-                c1.hashCode(), c2.hashCode());
+        assertEquals("Objects are equal, so equals() should return true", c1.hashCode(), c2.hashCode());
         c1.businessName = "Frying Pan";
-        assertFalse(
-                "Objects are no longer equal, so equals() should return false",
-                c1.hashCode() == c2.hashCode());
+        assertFalse("Objects are no longer equal, so equals() should return false", c1.hashCode() == c2.hashCode());
         c2.businessName = "Frying Pan";
-        assertEquals(
-                "Objects are equal again, so equals() should return true again",
-                c1.hashCode(), c2.hashCode());
+        assertEquals("Objects are equal again, so equals() should return true again", c1.hashCode(), c2.hashCode());
     }
 
 }

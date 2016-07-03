@@ -145,7 +145,7 @@ public class Corporation extends AbstractElement {
         return "Corporation [" + (businessName != null ? "businessName=" + businessName + ", " : "") + (address != null ? "address=" + address + ", " : "")
                 + (phoneNumbers != null ? "phoneNumbers=" + phoneNumbers + ", " : "") + (wwwUrls != null ? "wwwUrls=" + wwwUrls + ", " : "")
                 + (faxNumbers != null ? "faxNumbers=" + faxNumbers + ", " : "") + (emails != null ? "emails=" + emails + ", " : "")
-                + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 
 }

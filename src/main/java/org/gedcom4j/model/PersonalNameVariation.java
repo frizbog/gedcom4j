@@ -194,7 +194,7 @@ public class PersonalNameVariation extends NameVariation {
                 + (surname != null ? "surname=" + surname + ", " : "") + (suffix != null ? "suffix=" + suffix + ", " : "")
                 + (notes != null ? "notes=" + notes + ", " : "") + (citations != null ? "citations=" + citations + ", " : "")
                 + (variationType != null ? "variationType=" + variationType + ", " : "") + (variation != null ? "variation=" + variation + ", " : "")
-                + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 
 }

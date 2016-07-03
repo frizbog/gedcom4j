@@ -93,6 +93,6 @@ public class CitationWithoutSource extends AbstractCitation {
     public String toString() {
         return "CitationWithoutSource [" + (description != null ? "description=" + description + ", " : "")
                 + (textFromSource != null ? "textFromSource=" + textFromSource + ", " : "") + (getNotes() != null ? "notes=" + getNotes() + ", " : "")
-                + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }
