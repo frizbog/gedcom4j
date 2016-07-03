@@ -59,7 +59,7 @@ public class Issue87Test {
         assertEquals("NOTE tag at line 46: Unable to find suitable parent node at level 2", e);
 
         // There should also be no NOTE tag under the MARR event
-        Family family = gp.gedcom.families.get("@F1031@");
+        Family family = gp.gedcom.getFamilies().get("@F1031@");
         assertNotNull(family);
         assertEquals(1, family.events.size());
         FamilyEvent marriage = family.events.get(0);

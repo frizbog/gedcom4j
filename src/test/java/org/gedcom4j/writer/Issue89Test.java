@@ -23,13 +23,13 @@ public class Issue89Test extends TestCase {
     @Test
     public void testIssue89() throws GedcomWriterException {
         Gedcom g = new Gedcom();
-        g.submission = new Submission("@SUBN0001@");
-        g.header.submission = g.submission;
+        g.setSubmission(new Submission("@SUBN0001@"));
+        g.getHeader().submission = g.getSubmission();
         Submitter s = new Submitter();
         s.xref = "@SUBM0001@";
         s.name = new StringWithCustomTags("Joe Tester");
-        g.submitters.put(s.xref, s);
-        g.header.submitter = s;
+        g.getSubmitters().put(s.xref, s);
+        g.getHeader().submitter = s;
 
         StringTree sct = new StringTree();
         sct.id = "@CT001@";
@@ -49,7 +49,7 @@ public class Issue89Test extends TestCase {
         hct.id = "@CT003@";
         hct.tag = "_CUSTHD";
         hct.value = "Custom Header Tag";
-        g.header.customTags.add(hct);
+        g.getHeader().getCustomTags().add(hct);
 
         StringTree hct2 = new StringTree();
         hct2.id = "@CT004@";

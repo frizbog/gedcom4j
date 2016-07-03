@@ -53,9 +53,9 @@ public class Issue80ParserTest {
         assertTrue(gp.errors.isEmpty());
         assertTrue(gp.warnings.isEmpty());
         assertNotNull(gp.gedcom);
-        assertEquals(1, gp.gedcom.individuals.size());
+        assertEquals(1, gp.gedcom.getIndividuals().size());
 
-        Individual i = gp.gedcom.individuals.values().iterator().next();
+        Individual i = gp.gedcom.getIndividuals().values().iterator().next();
         assertNotNull(i);
         assertNotNull(i.events);
         assertEquals(1, i.events.size());
@@ -69,7 +69,7 @@ public class Issue80ParserTest {
         assertNotNull(ie.place);
 
         Place p = ie.place;
-        assertEquals("36.72", p.latitude.value);
-        assertEquals("-76.58", p.longitude.value);
+        assertEquals("36.72", p.latitude.getValue());
+        assertEquals("-76.58", p.longitude.getValue());
     }
 }

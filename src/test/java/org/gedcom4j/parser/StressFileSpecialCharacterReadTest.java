@@ -67,7 +67,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testCharacterSet() {
-        assertEquals("ANSEL", g.header.characterSet.characterSetName.value);
+        assertEquals("ANSEL", g.getHeader().characterSet.characterSetName.getValue());
     }
 
     /**
@@ -260,7 +260,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void textCopyright() {
-        assertEquals("© 1997 by H. Eichmann, parts © 1999-2000 by J. A. Nairn.", g.header.copyrightData.get(0));
+        assertEquals("© 1997 by H. Eichmann, parts © 1999-2000 by J. A. Nairn.", g.getHeader().copyrightData.get(0));
     }
 
     /**
@@ -326,8 +326,8 @@ public class StressFileSpecialCharacterReadTest {
         for (int i = 0; i < Math.min(expected.length(), actual.length()); i++) {
             assertEquals(String.format(
                     "Character %d of two strings are not the same\nExpect String: %s\nActual String: %s\nExpect Char: %s (%04X)\nActual Char: %s (%04X)\n", i,
-                    expected, actual, expected.charAt(i), (int) expected.charAt(i), actual.charAt(i), (int) actual.charAt(i)), expected.charAt(i),
-                    actual.charAt(i));
+                    expected, actual, expected.charAt(i), (int) expected.charAt(i), actual.charAt(i), (int) actual.charAt(i)), expected.charAt(i), actual
+                            .charAt(i));
         }
     }
 }

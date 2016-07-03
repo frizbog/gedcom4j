@@ -55,7 +55,7 @@ public class Issue63Test {
         Gedcom g = gp.gedcom;
         assertNotNull(g);
         assertEquals(1, g.getFamilies().size());
-        assertEquals(2, g.individuals.size());
+        assertEquals(2, g.getIndividuals().size());
 
         Family family = g.getFamilies().get("@F001@");
         assertNotNull(family);

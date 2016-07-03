@@ -79,9 +79,9 @@ public class Issue62Test {
         assertNotNull(g);
         assertTrue(gp.errors.isEmpty());
         assertEquals("Two tags had descriptions where [Y|<NULL>] belonged", 2, gp.warnings.size());
-        assertFalse(g.individuals.isEmpty());
-        assertEquals(1, g.individuals.size());
-        Individual i = g.individuals.values().iterator().next();
+        assertFalse(g.getIndividuals().isEmpty());
+        assertEquals(1, g.getIndividuals().size());
+        Individual i = g.getIndividuals().values().iterator().next();
         assertNotNull(i);
         assertEquals(4, i.events.size());
         birth = i.events.get(0);
@@ -100,10 +100,10 @@ public class Issue62Test {
     @Test
     public void testBirthDescription() {
         assertNotNull(birth.description);
-        assertNotNull(birth.description.value);
-        assertTrue(birth.description.value.startsWith("This was entered"));
-        assertTrue(birth.description.value.endsWith("laborum."));
-        assertEquals(552, birth.description.value.length());
+        assertNotNull(birth.description.getValue());
+        assertTrue(birth.description.getValue().startsWith("This was entered"));
+        assertTrue(birth.description.getValue().endsWith("laborum."));
+        assertEquals(552, birth.description.getValue().length());
     }
 
     /**
@@ -122,7 +122,7 @@ public class Issue62Test {
     @Test
     public void testBurialDescription() {
         assertNotNull(burial.description);
-        assertEquals("Unmarked grave", burial.description.value);
+        assertEquals("Unmarked grave", burial.description.getValue());
     }
 
     /**

@@ -62,14 +62,14 @@ public class Issue95Test {
         assertTrue(gp.errors.isEmpty());
         assertTrue(gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
-        Individual i = g.individuals.get("@I1@");
+        Individual i = g.getIndividuals().get("@I1@");
         assertNotNull(i);
 
         // Let's start by making sure everything loaded as expected
         assertEquals(2, i.events.size());
         for (IndividualEvent ev : i.events) {
             if (ev.type == IndividualEventType.BIRTH) {
-                assertEquals("4 July 1776", ev.date.value);
+                assertEquals("4 July 1776", ev.date.getValue());
                 assertEquals(1, ev.getCustomTags().size());
                 StringTree ct = ev.getCustomTags().get(0);
                 assertEquals("_METHOD", ct.tag);

@@ -65,8 +65,8 @@ public class EventsWithDescriptionsTest {
         Gedcom gBefore = gp.gedcom;
         assertNotNull(gBefore);
 
-        assertEquals(1, gBefore.individuals.size());
-        Individual iBefore = gBefore.individuals.get("@I1@");
+        assertEquals(1, gBefore.getIndividuals().size());
+        Individual iBefore = gBefore.getIndividuals().get("@I1@");
         assertNotNull(iBefore);
 
         assertNotNull(iBefore.events);
@@ -89,8 +89,8 @@ public class EventsWithDescriptionsTest {
         Gedcom gAfter = gp.gedcom;
         assertNotNull(gBefore);
 
-        assertEquals(1, gAfter.individuals.size());
-        Individual iAfter = gAfter.individuals.get("@I1@");
+        assertEquals(1, gAfter.getIndividuals().size());
+        Individual iAfter = gAfter.getIndividuals().get("@I1@");
         assertNotNull(iAfter);
 
         assertNotNull(iAfter.events);
@@ -124,8 +124,8 @@ public class EventsWithDescriptionsTest {
         Gedcom gBefore = gp.gedcom;
         assertNotNull(gBefore);
 
-        assertEquals(1, gBefore.individuals.size());
-        Individual iBefore = gBefore.individuals.get("@I1@");
+        assertEquals(1, gBefore.getIndividuals().size());
+        Individual iBefore = gBefore.getIndividuals().get("@I1@");
         assertNotNull(iBefore);
 
         assertNotNull(iBefore.events);

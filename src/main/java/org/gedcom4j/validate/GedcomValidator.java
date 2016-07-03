@@ -180,15 +180,6 @@ public class GedcomValidator extends AbstractValidator {
      * Validate the families map
      */
     private void validateFamilies() {
-        if (gedcom.getFamilies() == null) {
-            if (rootValidator.autorepair) {
-                gedcom.getFamilies(true).clear();
-                rootValidator.addInfo("Map of families in gedcom was null - repaired", gedcom);
-            } else {
-                rootValidator.addError("Map of families in gedcom is null", gedcom);
-                return;
-            }
-        }
         for (Entry<String, Family> e : gedcom.getFamilies().entrySet()) {
             if (e.getKey() == null) {
                 if (rootValidator.autorepair) {
@@ -231,15 +222,6 @@ public class GedcomValidator extends AbstractValidator {
      * Validate the {@link Gedcom#individuals} collection
      */
     private void validateIndividuals() {
-        if (gedcom.getIndividuals() == null) {
-            if (autorepair) {
-                gedcom.getIndividuals(true).clear();
-                addInfo("Individuals collection was null - autorepaired", gedcom);
-            } else {
-                addError("Individuals collection is null", gedcom);
-                return;
-            }
-        }
         for (Entry<String, Individual> e : gedcom.getIndividuals().entrySet()) {
             if (e.getKey() == null) {
                 addError("Entry in individuals collection has null key", e);
@@ -284,15 +266,6 @@ public class GedcomValidator extends AbstractValidator {
      * Validate the repositories collection
      */
     private void validateRepositories() {
-        if (gedcom.getRepositories() == null) {
-            if (autorepair) {
-                gedcom.getRepositories(true).clear();
-                addInfo("Repositories collection on root gedcom was null - autorepaired", gedcom);
-                return;
-            }
-            addError("Repositories collection on root gedcom is null", gedcom);
-            return;
-        }
         for (Entry<String, Repository> e : gedcom.getRepositories().entrySet()) {
             if (e.getKey() == null) {
                 addError("Entry in repositories collection has null key", e);
@@ -315,15 +288,6 @@ public class GedcomValidator extends AbstractValidator {
      * Validate the {@link Gedcom#sources} collection
      */
     private void validateSources() {
-        if (gedcom.getSources() == null) {
-            if (autorepair) {
-                gedcom.getSources(true).clear();
-                addInfo("Sources collection was null - autorepaired", gedcom);
-            } else {
-                addError("Sources collection is null", gedcom);
-                return;
-            }
-        }
         for (Entry<String, Source> e : gedcom.getSources().entrySet()) {
             if (e.getKey() == null) {
                 addError("Entry in sources collection has null key", e);
@@ -345,15 +309,6 @@ public class GedcomValidator extends AbstractValidator {
      * Validate the submitters collection
      */
     private void validateSubmitters() {
-        if (gedcom.getSubmission() == null) {
-            if (autorepair) {
-                gedcom.getSubmitters(true).clear();
-                addInfo("Submitters collection was missing on gedcom - repaired", gedcom);
-            } else {
-                addInfo("Submitters collection is missing on gedcom", gedcom);
-                return;
-            }
-        }
         if (gedcom.getSubmitters().isEmpty()) {
             if (autorepair) {
                 Submitter s = new Submitter();

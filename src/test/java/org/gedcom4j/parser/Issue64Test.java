@@ -49,7 +49,7 @@ public class Issue64Test {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/Issue 64.ged");
         assertNotNull(gp.gedcom);
-        assertEquals(2, gp.gedcom.individuals.size());
-        assertEquals(1, gp.gedcom.families.size());
+        assertEquals(2, gp.gedcom.getIndividuals().size());
+        assertEquals(1, gp.gedcom.getFamilies().size());
     }
 }

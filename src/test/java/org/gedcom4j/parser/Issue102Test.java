@@ -108,7 +108,7 @@ public class Issue102Test {
         gp.load("sample/issue102_99levels.ged");
         assertTrue(gp.errors.isEmpty());
         assertTrue(gp.warnings.isEmpty());
-        Submitter submitter = gp.gedcom.submitters.get("@SUBM001@");
+        Submitter submitter = gp.gedcom.getSubmitters().get("@SUBM001@");
         assertNotNull(submitter);
         assertNotNull(submitter.name);
         List<StringTree> customTags = submitter.name.getCustomTags();

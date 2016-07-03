@@ -58,7 +58,7 @@ public class Issue61Test {
         Gedcom g = gp.gedcom;
         assertNotNull(g);
         assertTrue(gp.errors.isEmpty());
-        for (Individual i : g.individuals.values()) {
+        for (Individual i : g.getIndividuals().values()) {
             assertNotNull(i);
             assertNotNull(i.getCustomTags());
             assertFalse("Individual " + i + " has no custom tags", i.getCustomTags().isEmpty());
@@ -95,7 +95,7 @@ public class Issue61Test {
             // These are the bad tags that were deliberately introduced
             assertTrue(e.contains("WAND") || e.contains("MUGL"));
         }
-        for (Individual i : g.individuals.values()) {
+        for (Individual i : g.getIndividuals().values()) {
             assertNotNull(i);
             assertNotNull(i.getCustomTags());
             assertTrue(i.getCustomTags().isEmpty());

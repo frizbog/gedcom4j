@@ -156,7 +156,7 @@ public class GedcomWriterTest {
     @Test
     public void testFamilies() {
         Map<String, Family> fm1 = gedcomOrig.getFamilies();
-        Map<String, Family> fm2 = gedcomReadback.families;
+        Map<String, Family> fm2 = gedcomReadback.getFamilies();
         assertNotSame(fm1, fm2);
         assertEquals(fm1.keySet(), fm2.keySet());
         for (Entry<String, Family> e : fm1.entrySet()) {
@@ -171,8 +171,8 @@ public class GedcomWriterTest {
      */
     @Test
     public void testHeader() {
-        Header h1 = gedcomOrig.header;
-        Header h2 = gedcomReadback.header;
+        Header h1 = gedcomOrig.getHeader();
+        Header h2 = gedcomReadback.getHeader();
         assertNotSame(h1, h2);
         assertNotNull(h1);
 
@@ -197,8 +197,8 @@ public class GedcomWriterTest {
      */
     @Test
     public void testIndividuals() {
-        Map<String, Individual> f1 = gedcomOrig.individuals;
-        Map<String, Individual> f2 = gedcomReadback.individuals;
+        Map<String, Individual> f1 = gedcomOrig.getIndividuals();
+        Map<String, Individual> f2 = gedcomReadback.getIndividuals();
         assertNotSame(f1, f2);
         assertEquals(f1.keySet().size(), f2.keySet().size());
     }
@@ -208,7 +208,7 @@ public class GedcomWriterTest {
      */
     @Test
     public void testMultimedia() {
-        assertNotSame(gedcomOrig.multimedia, gedcomReadback.multimedia);
+        assertNotSame(gedcomOrig.getMultimedia(), gedcomReadback.getMultimedia());
         assertLineSequence("Multimedia via reference not found as expected", readbackLines, "2 FORM PICT", "2 TITL Macintosh PICT file", "2 FILE ImgFile.PIC",
                 "1 OBJE", "2 FORM PNTG", "2 TITL Macintosh MacPaint file", "2 FILE ImgFile.MAC", "1 OBJE");
         assertLineSequence("Embedded and encoded multimedia not found as expected", readbackLines, "0 @M1@ OBJE", "1 FORM PICT",
@@ -220,7 +220,7 @@ public class GedcomWriterTest {
                 "2 CONT /Dw/.Tvz.E5zzUE9/kHz.Tw2/DzzzEEA.kE2zk5yzk2/zzs21.U2/Dw/.Tw/.Tzy",
                 "2 CONT /.fy/.HzzkHzzzo21Ds00.E2.UE2.U62/.k./Ds0.UE0/Do0..E8/UE2.U62.U9w", "2 CONT /.Tx/.20.jg2/jo2..9u/.0U.6A.zk",
                 "1 REFN User Reference Number", "2 TYPE User Reference Type", "1 RIN 1", "1 CHAN", "2 DATE 14 Jan 2001", "3 TIME 14:10:31");
-        assertEquals(gedcomOrig.multimedia, gedcomReadback.multimedia);
+        assertEquals(gedcomOrig.getMultimedia(), gedcomReadback.getMultimedia());
     }
 
     /**
@@ -269,7 +269,7 @@ public class GedcomWriterTest {
                 "2 ADR2 Across the street from Temple Square", "2 CITY Salt Lake City", "2 STAE Utah", "2 POST 84111", "2 CTRY USA", "1 NOTE @N2@",
                 "1 REFN User Ref Number", "2 TYPE Sample", "1 RIN 1", "1 PHON +1-801-240-2331 (information)", "1 PHON +1-801-240-1278 (gifts & donations)",
                 "1 PHON +1-801-240-2584 (support)", "1 CHAN", "2 DATE 12 Mar 2000", "3 TIME 10:36:02");
-        assertEquals("Lists of repositories should be equal", gedcomOrig.repositories, gedcomReadback.repositories);
+        assertEquals("Lists of repositories should be equal", gedcomOrig.getRepositories(), gedcomReadback.getRepositories());
     }
 
     /**
@@ -277,11 +277,11 @@ public class GedcomWriterTest {
      */
     @Test
     public void testSources() {
-        assertNotSame(gedcomOrig.sources, gedcomReadback.sources);
+        assertNotSame(gedcomOrig.getSources(), gedcomReadback.getSources());
         assertLineSequence("Source @SR2@ not read back as expected", readbackLines, "0 @SR2@ SOUR", "1 AUTH Second Source Author",
                 "1 TITL All I Know About GEDCOM, I Learned on the Internet", "1 ABBR What I Know About GEDCOM", "1 NOTE @N16@", "1 RIN 2", "1 CHAN",
                 "2 DATE 11 Jan 2001", "3 TIME 16:21:39");
-        assertEquals(gedcomOrig.sources, gedcomReadback.sources);
+        assertEquals(gedcomOrig.getSources(), gedcomReadback.getSources());
     }
 
     /**
@@ -325,8 +325,8 @@ public class GedcomWriterTest {
      */
     @Test
     public void testSubmitterSubmissions() {
-        assertEquals(gedcomOrig.submission, gedcomReadback.submission);
-        assertEquals(gedcomOrig.submitters, gedcomReadback.submitters);
+        assertEquals(gedcomOrig.getSubmission(), gedcomReadback.getSubmission());
+        assertEquals(gedcomOrig.getSubmitters(), gedcomReadback.getSubmitters());
         assertLineSequence("Submission @SUBMISSION@ not read back as expected", readbackLines, "0 @SUBMISSION@ SUBN", "1 SUBM @SUBMITTER@",
                 "1 FAMF NameOfFamilyFile", "1 TEMP Abbreviated Temple Code", "1 ANCE 1", "1 DESC 1", "1 ORDI yes", "1 RIN 1");
         assertLineSequence("Primary submitter @SUBMITTER@ not read back as expected", readbackLines, "0 @SUBMITTER@ SUBM", "1 NAME John A. Nairn",

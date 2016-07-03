@@ -24,7 +24,6 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import org.gedcom4j.Options;
 import org.junit.After;
@@ -93,7 +92,7 @@ public class GedcomTest {
     }
 
     /**
-     * Test when initialization is turned on
+     * Maps should be initialized
      */
     @Test
     public void testInitialized() {
@@ -101,17 +100,11 @@ public class GedcomTest {
         Gedcom g = new Gedcom();
         assertNotNull(g);
         assertNotNull(g.getFamilies());
-    }
-
-    /**
-     * Test when initialization is turned off
-     */
-    @Test
-    public void testUninitialized() {
-        Options.setCollectionInitializationEnabled(false);
-        Gedcom g = new Gedcom();
-        assertNotNull(g);
-        assertNull(g.getFamilies());
-        assertNotNull(g.getFamilies(true));
+        assertNotNull(g.getIndividuals());
+        assertNotNull(g.getMultimedia());
+        assertNotNull(g.getNotes());
+        assertNotNull(g.getRepositories());
+        assertNotNull(g.getSources());
+        assertNotNull(g.getSubmitters());
     }
 }

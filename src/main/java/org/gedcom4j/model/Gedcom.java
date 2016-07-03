@@ -24,8 +24,6 @@ package org.gedcom4j.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.gedcom4j.Options;
-
 /**
  * <p>
  * Main (root) class for an entire GEDCOM file.
@@ -66,7 +64,7 @@ public class Gedcom extends AbstractElement {
      * A map of all the families in the GEDCOM file. The map is keyed on family cross-reference numbers, and the
      * families themselves are in the value set.
      */
-    private Map<String, Family> families = Options.isCollectionInitializationEnabled() ? getFamilies(true) : null;
+    private final Map<String, Family> families = new HashMap<String, Family>();
 
     /**
      * Header information about the GEDCOM
@@ -77,31 +75,31 @@ public class Gedcom extends AbstractElement {
      * A map of all the individuals in the GEDCOM file. The map is keyed on the individual cross-reference numbers and
      * the individuals themselves are in the value set.
      */
-    private Map<String, Individual> individuals = Options.isCollectionInitializationEnabled() ? getIndividuals(true) : null;
+    private final Map<String, Individual> individuals = new HashMap<String, Individual>(0);
 
     /**
      * A map of all the multimedia items in the GEDCOM file. The map is keyed by the multimedia cross-reference numbers,
      * and the multimedia items themselves (well, the metadata about them for 5.5.1) are in the value set. Remember,
      * GEDCOM 5.5.1 multimedia is not embedded in the GEDCOM, but the GEDCOM contains metadata about the multimedia.
      */
-    private Map<String, Multimedia> multimedia = Options.isCollectionInitializationEnabled() ? getMultimedia(true) : null;
+    private final Map<String, Multimedia> multimedia = new HashMap<String, Multimedia>(0);
 
     /**
      * A map of notes. The map is keyed with cross-reference numbers and the notes themselves are the values.
      */
-    private Map<String, Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
+    private final Map<String, Note> notes = new HashMap<String, Note>(0);
 
     /**
      * A map of all the source repositories in the GEDCOM file. The map is keyed on the repository cross-reference
      * numbers, and the repositories themselves are in the value set.
      */
-    private Map<String, Repository> repositories = Options.isCollectionInitializationEnabled() ? getRepositories(true) : null;
+    private final Map<String, Repository> repositories = new HashMap<String, Repository>(0);
 
     /**
      * A map of all the sources in the GEDCOM file. The map is keyed on source cross-reference numbers, and the sources
      * themselves are in the value set.
      */
-    private Map<String, Source> sources = Options.isCollectionInitializationEnabled() ? getSources(true) : null;
+    private final Map<String, Source> sources = new HashMap<String, Source>(0);
 
     /**
      * Information about the GEDCOM submission. There is only one and it is required, so the xref ID has a default.
@@ -112,7 +110,7 @@ public class Gedcom extends AbstractElement {
      * A map of the submitters in the GEDCOM file. The map is keyed on submitter cross-reference numbers, and the
      * submitters themselves are in the value set
      */
-    private Map<String, Submitter> submitters = Options.isCollectionInitializationEnabled() ? getSubmitters(true) : null;
+    private final Map<String, Submitter> submitters = new HashMap<String, Submitter>(0);
 
     /**
      * The trailer of the file
@@ -214,21 +212,6 @@ public class Gedcom extends AbstractElement {
     }
 
     /**
-     * Get the families, initializing as needed
-     * 
-     * @param initializeIfNeeded
-     *            initialize the families map if needed
-     * 
-     * @return the families
-     */
-    public Map<String, Family> getFamilies(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && families == null) {
-            families = new HashMap<String, Family>();
-        }
-        return families;
-    }
-
-    /**
      * Get the header
      * 
      * @return the header
@@ -247,41 +230,11 @@ public class Gedcom extends AbstractElement {
     }
 
     /**
-     * Get the individuals, initializing as needed
-     * 
-     * @param initializeIfNeeded
-     *            initialize the individuals map if needed
-     * 
-     * @return the individuals
-     */
-    public Map<String, Individual> getIndividuals(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && individuals == null) {
-            individuals = new HashMap<String, Individual>();
-        }
-        return individuals;
-    }
-
-    /**
      * Get the multimedia
      * 
      * @return the multimedia
      */
     public Map<String, Multimedia> getMultimedia() {
-        return multimedia;
-    }
-
-    /**
-     * Get the multimedia, initializing as needed
-     * 
-     * @param initializeIfNeeded
-     *            initialize the multimedia map if needed
-     * 
-     * @return the multimedia
-     */
-    public Map<String, Multimedia> getMultimedia(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && multimedia == null) {
-            multimedia = new HashMap<String, Multimedia>();
-        }
         return multimedia;
     }
 
@@ -295,21 +248,6 @@ public class Gedcom extends AbstractElement {
     }
 
     /**
-     * Get the notes
-     * 
-     * @param initializeIfNeeded
-     *            initialize the notes map if needed
-     * 
-     * @return the notes
-     */
-    public Map<String, Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new HashMap<String, Note>();
-        }
-        return notes;
-    }
-
-    /**
      * Get the repositories
      * 
      * @return the repositories
@@ -319,42 +257,11 @@ public class Gedcom extends AbstractElement {
     }
 
     /**
-     * Get the repositories
-     * 
-     * @param initializeIfNeeded
-     *            initialize the repositories map if needed
-     * 
-     * @return the repositories
-     */
-
-    public Map<String, Repository> getRepositories(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && repositories == null) {
-            repositories = new HashMap<String, Repository>();
-        }
-        return repositories;
-    }
-
-    /**
      * Get the sources
      * 
      * @return the sources
      */
     public Map<String, Source> getSources() {
-        return sources;
-    }
-
-    /**
-     * Get the sources
-     * 
-     * @param initializeIfNeeded
-     *            initialize the repositories map if needed
-     * 
-     * @return the sources
-     */
-    public Map<String, Source> getSources(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && sources == null) {
-            sources = new HashMap<String, Source>();
-        }
         return sources;
     }
 
@@ -373,21 +280,6 @@ public class Gedcom extends AbstractElement {
      * @return the submitters
      */
     public Map<String, Submitter> getSubmitters() {
-        return submitters;
-    }
-
-    /**
-     * Get the submitters
-     * 
-     * @param initializeIfNeeded
-     *            initialize the submitters map if needed
-     * 
-     * @return the submitters
-     */
-    public Map<String, Submitter> getSubmitters(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && submitters == null) {
-            submitters = new HashMap<String, Submitter>();
-        }
         return submitters;
     }
 

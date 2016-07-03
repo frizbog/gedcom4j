@@ -42,6 +42,12 @@ import org.junit.Test;
 public class AncestryCalculatorTest {
 
     /**
+     * Determines whether to write noise out to System.out. Useful to change to true temporarily for debugging this test
+     * but should be always set to false when checked into repository.
+     */
+    private static final boolean VERBOSE = false;
+
+    /**
      * The gedcom to work with for testing
      */
     private Gedcom g;
@@ -55,12 +61,6 @@ public class AncestryCalculatorTest {
      * Ancestry calculator test fixture
      */
     private final AncestryCalculator anc = new AncestryCalculator();
-
-    /**
-     * Determines whether to write noise out to System.out. Useful to change to true temporarily for debugging this test
-     * but should be always set to false when checked into repository.
-     */
-    private static final boolean VERBOSE = false;
 
     /**
      * Set up test fixtures
@@ -79,10 +79,8 @@ public class AncestryCalculatorTest {
         assertTrue(gp.warnings.isEmpty());
         g = gp.gedcom;
         assertNotNull(g);
-        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?",
-                43, g.individuals.size());
-        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?",
-                18, g.getFamilies().size());
+        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g.getIndividuals().size());
+        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?", 18, g.getFamilies().size());
         finder = new Finder(g);
     }
 
@@ -138,10 +136,8 @@ public class AncestryCalculatorTest {
             System.out.println("Ancestors of Theresa Andrews");
             dumpIndividuals(theresaAncestors);
         }
-        assertTrue("Theresa is Robert's child, so all of Robert's ancestors are also Theresa's ancestors",
-                theresaAncestors.containsAll(robertAncestors));
-        assertTrue("Theresa is Robert's child, so Theresa has ancestors that are not Robert's",
-                theresaAncestors.size() > robertAncestors.size());
+        assertTrue("Theresa is Robert's child, so all of Robert's ancestors are also Theresa's ancestors", theresaAncestors.containsAll(robertAncestors));
+        assertTrue("Theresa is Robert's child, so Theresa has ancestors that are not Robert's", theresaAncestors.size() > robertAncestors.size());
     }
 
     /**
@@ -157,13 +153,13 @@ public class AncestryCalculatorTest {
         try {
             anc.getGenerationCount(sammy, sally);
             fail("Expected an IllegalArgumentException since sally is not an ancestor of sammy - they are brother and sister");
-        } catch (IllegalArgumentException desired) {
+        } catch (@SuppressWarnings("unused") IllegalArgumentException desired) {
             // Yay! It worked!
         }
         try {
             anc.getGenerationCount(sally, sammy);
             fail("Expected an IllegalArgumentException since sammy is not an ancestor of sally - they are brother and sister");
-        } catch (IllegalArgumentException desired) {
+        } catch (@SuppressWarnings("unused") IllegalArgumentException desired) {
             // Yay! It worked!
         }
     }
@@ -181,7 +177,7 @@ public class AncestryCalculatorTest {
         try {
             anc.getGenerationCount(steven, sally);
             fail("Expected an IllegalArgumentException since sally is a descendant of steven, not an ancestor");
-        } catch (IllegalArgumentException desired) {
+        } catch (@SuppressWarnings("unused") IllegalArgumentException desired) {
             // Yay! It worked!
         }
     }
@@ -200,7 +196,7 @@ public class AncestryCalculatorTest {
         try {
             anc.getGenerationCount(steven, robert);
             fail("Expected an IllegalArgumentException since robert is a descendant of steven, not an ancestor");
-        } catch (IllegalArgumentException desired) {
+        } catch (@SuppressWarnings("unused") IllegalArgumentException desired) {
             // Yay! It worked!
         }
     }
@@ -219,7 +215,7 @@ public class AncestryCalculatorTest {
         try {
             anc.getGenerationCount(kenneth, alex);
             fail("Expected an IllegalArgumentException since alex is a descendant of kenneth, not an ancestor");
-        } catch (IllegalArgumentException desired) {
+        } catch (@SuppressWarnings("unused") IllegalArgumentException desired) {
             // Yay! It worked!
         }
     }
@@ -245,8 +241,7 @@ public class AncestryCalculatorTest {
         Individual sammy = getPerson("Struthers", "Sammy");
 
         Set<Individual> lowestCommonAncestors = anc.getLowestCommonAncestors(sally, sammy);
-        assertEquals("Sammy and Sally (brother and sister) have two common ancestors (their parents)", 2,
-                lowestCommonAncestors.size());
+        assertEquals("Sammy and Sally (brother and sister) have two common ancestors (their parents)", 2, lowestCommonAncestors.size());
         Individual steven = getPerson("Struthers", "Steven");
         Individual gladys = getPerson("Knight", "Gladys");
         assertTrue("Steven is a common ancestor (their dad)", lowestCommonAncestors.contains(steven));
@@ -263,15 +258,11 @@ public class AncestryCalculatorTest {
         Individual sammy = getPerson("Struthers", "Sammy");
 
         Set<Individual> lowestCommonAncestors = anc.getLowestCommonAncestors(robert, sammy);
-        assertEquals(
-                "Robert (son) and Sammy (father) have two ancestors in common: Sammy's parents/Robert's grandparents",
-                2, lowestCommonAncestors.size());
+        assertEquals("Robert (son) and Sammy (father) have two ancestors in common: Sammy's parents/Robert's grandparents", 2, lowestCommonAncestors.size());
         Individual steven = getPerson("Struthers", "Steven");
         Individual gladys = getPerson("Knight", "Gladys");
-        assertTrue("Steven is a common ancestor (Sammy's dad and Robert's grandfather)",
-                lowestCommonAncestors.contains(steven));
-        assertTrue("Gladys is a common ancestor (Sammy's mom and Robert's grandmother)",
-                lowestCommonAncestors.contains(gladys));
+        assertTrue("Steven is a common ancestor (Sammy's dad and Robert's grandfather)", lowestCommonAncestors.contains(steven));
+        assertTrue("Gladys is a common ancestor (Sammy's mom and Robert's grandmother)", lowestCommonAncestors.contains(gladys));
     }
 
     /**
@@ -291,18 +282,16 @@ public class AncestryCalculatorTest {
             }
         }
         Set<Individual> lowestCommonAncestors = anc.getLowestCommonAncestors(robert, theresa);
-        assertEquals("Robert (father) and Theresa (daughter) should have two lowest common ancestors:"
-                + " James Andrews, and Sally Struthers", 2, lowestCommonAncestors.size());
+        assertEquals("Robert (father) and Theresa (daughter) should have two lowest common ancestors:" + " James Andrews, and Sally Struthers", 2,
+                lowestCommonAncestors.size());
         Individual sally = getPerson("Struthers", "Sally");
         Individual james = getPerson("Andrews", "James");
-        assertTrue("Sally is a common ancestor (Robert's mom and Theresa's grandmother)",
-                lowestCommonAncestors.contains(sally));
-        assertTrue("James is a common ancestor (Robert's dad and Theresa's grandfather)",
-                lowestCommonAncestors.contains(james));
-        assertFalse("Steven Struthers (Robert's grandfather) is a common ancestor, but not a LOWEST common ancestor",
-                lowestCommonAncestors.contains(getPerson("Struthers", "Steven")));
-        assertFalse("Gladys Knight (Robert's grandmother) is a common ancestor, but not a LOWEST common ancestor",
-                lowestCommonAncestors.contains(getPerson("Knight", "Gladys")));
+        assertTrue("Sally is a common ancestor (Robert's mom and Theresa's grandmother)", lowestCommonAncestors.contains(sally));
+        assertTrue("James is a common ancestor (Robert's dad and Theresa's grandfather)", lowestCommonAncestors.contains(james));
+        assertFalse("Steven Struthers (Robert's grandfather) is a common ancestor, but not a LOWEST common ancestor", lowestCommonAncestors.contains(getPerson(
+                "Struthers", "Steven")));
+        assertFalse("Gladys Knight (Robert's grandmother) is a common ancestor, but not a LOWEST common ancestor", lowestCommonAncestors.contains(getPerson(
+                "Knight", "Gladys")));
     }
 
     /**

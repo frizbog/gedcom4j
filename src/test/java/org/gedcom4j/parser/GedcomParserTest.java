@@ -90,12 +90,12 @@ public class GedcomParserTest extends TestCase {
         assertTrue(gp.errors.isEmpty());
         assertTrue(gp.warnings.isEmpty());
         assertEquals("There is exactly 1 custom tag on the file as a whole", 1, gp.gedcom.getCustomTags().size());
-        assertEquals("There is exactly 1 custom tag in the header", 1, gp.gedcom.header.customTags.size());
+        assertEquals("There is exactly 1 custom tag in the header", 1, gp.gedcom.getHeader().getCustomTags().size());
         Gedcom g = gp.gedcom;
-        assertFalse(g.submitters.isEmpty());
-        Submitter submitter = g.submitters.values().iterator().next();
+        assertFalse(g.getSubmitters().isEmpty());
+        Submitter submitter = g.getSubmitters().values().iterator().next();
         assertNotNull(submitter);
-        assertEquals("/Submitter-Name/", submitter.name.value);
+        assertEquals("/Submitter-Name/", submitter.name.getValue());
     }
 
     /**
@@ -114,24 +114,24 @@ public class GedcomParserTest extends TestCase {
         Gedcom g = gp.gedcom;
 
         // Check submitter
-        assertFalse(g.submitters.isEmpty());
-        Submitter submitter = g.submitters.values().iterator().next();
+        assertFalse(g.getSubmitters().isEmpty());
+        Submitter submitter = g.getSubmitters().values().iterator().next();
         assertNotNull(submitter);
         assertEquals(new StringWithCustomTags("UNSPECIFIED"), submitter.name);
 
         // Check header
-        assertEquals("6.00", g.header.sourceSystem.versionNum.value);
-        assertEquals("(510) 794-6850", g.header.sourceSystem.corporation.phoneNumbers.get(0).value);
+        assertEquals("6.00", g.getHeader().sourceSystem.versionNum.getValue());
+        assertEquals("(510) 794-6850", g.getHeader().sourceSystem.corporation.phoneNumbers.get(0).getValue());
 
         // There are two sources in this file, and their names should be as
         // shown
-        assertEquals(2, g.sources.size());
-        for (Source s : g.sources.values()) {
+        assertEquals(2, g.getSources().size());
+        for (Source s : g.getSources().values()) {
             assertTrue(s.title.get(0).equals("William Barnett Family.FTW") || s.title.get(0).equals("Warrick County, IN WPA Indexes"));
         }
 
         assertEquals(17, g.getFamilies().size());
-        assertEquals(64, g.individuals.size());
+        assertEquals(64, g.getIndividuals().size());
 
         // Check a specific family
         Family family = g.getFamilies().get("@F1428@");
@@ -175,12 +175,12 @@ public class GedcomParserTest extends TestCase {
         // And the data is as we expected, right?
         Gedcom g = gp.gedcom;
         assertNotNull(g);
-        assertTrue(g.individuals.isEmpty());
+        assertTrue(g.getIndividuals().isEmpty());
         assertTrue(g.getFamilies().isEmpty());
-        assertTrue(g.multimedia.isEmpty());
-        assertTrue(g.sources.isEmpty());
-        assertNotNull(g.submitters);
-        assertEquals(1, g.submitters.size());
+        assertTrue(g.getMultimedia().isEmpty());
+        assertTrue(g.getSources().isEmpty());
+        assertNotNull(g.getSubmitters());
+        assertEquals(1, g.getSubmitters().size());
     }
 
     /**
@@ -199,12 +199,12 @@ public class GedcomParserTest extends TestCase {
         // And the data is as we expected, right?
         Gedcom g = gp.gedcom;
         assertNotNull(g);
-        assertTrue(g.individuals.isEmpty());
+        assertTrue(g.getIndividuals().isEmpty());
         assertTrue(g.getFamilies().isEmpty());
-        assertTrue(g.multimedia.isEmpty());
-        assertTrue(g.sources.isEmpty());
-        assertNotNull(g.submitters);
-        assertEquals(1, g.submitters.size());
+        assertTrue(g.getMultimedia().isEmpty());
+        assertTrue(g.getSources().isEmpty());
+        assertNotNull(g.getSubmitters());
+        assertEquals(1, g.getSubmitters().size());
     }
 
     /**
@@ -217,9 +217,22 @@ public class GedcomParserTest extends TestCase {
      */
     public void testLoadStream() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        InputStream stream = new FileInputStream("sample/TGC551LF.ged");
-        gp.load(new BufferedInputStream(stream));
-        checkTGC551LF(gp);
+        InputStream stream = null;
+        BufferedInputStream bis = null;
+        try {
+            stream = new FileInputStream("sample/TGC551LF.ged");
+            bis = new BufferedInputStream(stream);
+            gp.load(bis);
+            checkTGC551LF(gp);
+
+        } finally {
+            if (bis != null) {
+                bis.close();
+            }
+            if (stream != null) {
+                stream.close();
+            }
+        }
     }
 
     /**
@@ -261,16 +274,16 @@ public class GedcomParserTest extends TestCase {
         assertTrue(gp.errors.isEmpty());
         assertTrue(gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
-        assertNotNull(g.header);
-        assertEquals(3, g.submitters.size());
-        Submitter submitter = g.submitters.get("@SUBMITTER@");
+        assertNotNull(g.getHeader());
+        assertEquals(3, g.getSubmitters().size());
+        Submitter submitter = g.getSubmitters().get("@SUBMITTER@");
         assertNotNull(submitter);
-        assertEquals("John A. Nairn", submitter.name.value);
+        assertEquals("John A. Nairn", submitter.name.getValue());
 
         assertEquals(7, g.getFamilies().size());
-        assertEquals(2, g.sources.size());
-        assertEquals(1, g.multimedia.size());
-        assertEquals(15, g.individuals.size());
+        assertEquals(2, g.getSources().size());
+        assertEquals(1, g.getMultimedia().size());
+        assertEquals(15, g.getIndividuals().size());
     }
 
     /**
@@ -293,21 +306,21 @@ public class GedcomParserTest extends TestCase {
         assertTrue(gp.errors.isEmpty());
         assertTrue(gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
-        assertNotNull(g.header);
-        assertEquals(3, g.submitters.size());
-        Submitter submitter = g.submitters.get("@SUBMITTER@");
+        assertNotNull(g.getHeader());
+        assertEquals(3, g.getSubmitters().size());
+        Submitter submitter = g.getSubmitters().get("@SUBMITTER@");
         assertNotNull(submitter);
-        assertEquals("John A. Nairn", submitter.name.value);
+        assertEquals("John A. Nairn", submitter.name.getValue());
 
         assertEquals(7, g.getFamilies().size());
-        assertEquals(2, g.sources.size());
-        assertEquals(1, g.multimedia.size());
-        assertEquals(15, g.individuals.size());
+        assertEquals(2, g.getSources().size());
+        assertEquals(1, g.getMultimedia().size());
+        assertEquals(15, g.getIndividuals().size());
 
         // ===============================================================
         // Individual @PERSON1@
         // ===============================================================
-        indi = g.individuals.get("@PERSON1@");
+        indi = g.getIndividuals().get("@PERSON1@");
 
         assertEquals("@PERSON1@", indi.xref);
 
@@ -337,8 +350,8 @@ public class GedcomParserTest extends TestCase {
         // Name 0 - Note 0
         note = name.notes.get(0);
         assertEquals(5, note.lines.size());
-        assertEquals("These are notes about the first NAME structure in this record. These notes are embedded in the INDIVIDUAL record itself.",
-                note.lines.get(0));
+        assertEquals("These are notes about the first NAME structure in this record. These notes are embedded in the INDIVIDUAL record itself.", note.lines.get(
+                0));
 
         // Name 1
         name = indi.names.get(1);
