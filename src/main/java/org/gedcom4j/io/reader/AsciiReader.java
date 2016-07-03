@@ -40,11 +40,6 @@ class AsciiReader extends AbstractEncodingSpecificReader {
     private boolean eof = false;
 
     /**
-     * The prior character we read
-     */
-    private int lastChar = -1;
-
-    /**
      * The current character we've just read
      */
     private int currChar = -1;
@@ -71,7 +66,6 @@ class AsciiReader extends AbstractEncodingSpecificReader {
     public String nextLine() throws IOException, GedcomParserException {
         String result = null;
         while (!eof) {
-            lastChar = currChar;
             currChar = byteStream.read();
 
             // Check for EOF

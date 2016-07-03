@@ -51,16 +51,6 @@ class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
     private boolean eof = false;
 
     /**
-     * The prior character we read, byte 1
-     */
-    private int lastChar1 = -1;
-
-    /**
-     * The prior character we read, byte 2
-     */
-    private int lastChar2 = -1;
-
-    /**
      * The line buffer for the current line
      */
     private final StringBuilder lineBuffer = new StringBuilder();
@@ -85,8 +75,6 @@ class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
         boolean beginningOfFile = true;
 
         while (!eof) {
-            lastChar1 = currChar1;
-            lastChar2 = currChar2;
             currChar1 = byteStream.read();
             currChar2 = byteStream.read();
 
