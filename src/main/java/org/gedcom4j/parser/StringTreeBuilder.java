@@ -85,6 +85,11 @@ public class StringTreeBuilder {
     private String line;
 
     /**
+     * A canonicalizing string pool to reduce the number of repeated instances of strings, without using String.intern()
+     */
+    private final StringCanonicalizer canonizer = new StringCanonicalizer();
+
+    /**
      * Constructor
      * 
      * @param parser
@@ -166,7 +171,7 @@ public class StringTreeBuilder {
         treeForCurrentLine.level = lp.level;
         treeForCurrentLine.id = lp.id;
         treeForCurrentLine.tag = lp.tag.intern();
-        treeForCurrentLine.value = lp.remainder;
+        treeForCurrentLine.value = canonizer.getCanonicalVersion(lp.remainder);
         lp = null;
 
         StringTree addTo = null;

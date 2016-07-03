@@ -41,6 +41,7 @@ import java.util.List;
  * @author frizbog1
  */
 public class StringTree {
+
     /**
      * The level of this element
      */
