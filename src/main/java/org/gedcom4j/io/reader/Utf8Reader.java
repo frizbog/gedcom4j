@@ -86,7 +86,15 @@ class Utf8Reader extends AbstractEncodingSpecificReader {
     public String nextLine() throws IOException, GedcomParserException {
         String result = null;
         String s = bufferedReader.readLine();
-        while (s != null) {
+
+        // Strip off Byte Order Mark if needed
+        if (s != null && s.length() > 0 && s.charAt(0) == ((char) 0xFEFF)) {
+            s = s.substring(1);
+        }
+
+        while (s != null)
+
+        {
             if (s.length() != 0) {
                 result = s;
                 break;

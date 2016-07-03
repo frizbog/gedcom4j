@@ -109,12 +109,19 @@ public class GedcomFileReader {
     public List<String> getLines() throws IOException, GedcomParserException {
         List<String> result = new ArrayList<String>();
         String s = nextLine();
+
+        // Strip off Byte Order Mark if needed
+        if (s != null && s.length() > 0 && s.charAt(0) == ((char) 0xFEFF)) {
+            s = s.substring(1);
+        }
+
         while (s != null) {
             if (s.length() > 0) {
                 result.add(s);
             }
             s = nextLine();
         }
+        encodingSpecificReader.cleanUp();
         return result;
     }
 
