@@ -23,6 +23,7 @@ package org.gedcom4j.io.reader;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.io.encoding.AnselHandler;
@@ -35,6 +36,11 @@ import org.gedcom4j.parser.GedcomParser;
  * @author frizbog
  */
 class AnselReader extends AbstractEncodingSpecificReader {
+
+    /**
+     * The byte value at which combining diacritics begin in ANSEL encoding
+     */
+    private static final char ANSEL_DIACRITICS_BEGIN_AT = 0x00E0;
 
     /**
      * Helper class
@@ -52,9 +58,9 @@ class AnselReader extends AbstractEncodingSpecificReader {
     private int currChar = -1;
 
     /**
-     * Last character read
+     * Are we at the end of file yet?
      */
-    private int lastChar;
+    private boolean eof = false;
 
     /**
      * The line buffer
@@ -62,9 +68,26 @@ class AnselReader extends AbstractEncodingSpecificReader {
     private final char[] lineBuffer = new char[256];
 
     /**
-     * Are we at the end of file yet?
+     * Prior character read
      */
-    private boolean eof = false;
+    private int oneCharBack = -1;
+
+    /**
+     * Character prior to the last character read before the current character - need this because sometimes there are
+     * two combining diactrical characters
+     */
+    private int twoCharsBack = -1;
+
+    /**
+     * Index into {@link #holdingBin} array
+     */
+    private int holdingBinIdx = 0;
+
+    /**
+     * A holding bin for combining diacritics that are separated from the base character by a line break. This makes it
+     * possible for us to keep the diacritics and the base character together.
+     */
+    private final char[] holdingBin = new char[2];
 
     /**
      * Constructor
@@ -86,7 +109,8 @@ class AnselReader extends AbstractEncodingSpecificReader {
         }
         String result = null;
         while (!eof) {
-            lastChar = currChar;
+            twoCharsBack = oneCharBack;
+            oneCharBack = currChar;
             currChar = byteStream.read();
 
             // Check for EOF
@@ -96,64 +120,107 @@ class AnselReader extends AbstractEncodingSpecificReader {
                 break;
             }
 
+            // Ignore leading spaces
+            if (currChar == ' ' && lineBufferIdx == 0) {
+                continue;
+            }
+
             // Check for carriage returns or line feeds - signify EOL
             if (currChar == 0x0D || currChar == 0x0A) {
+
+                // Check for line breaks between combining diacritics and the base characters
+
+                if (oneCharBack >= ANSEL_DIACRITICS_BEGIN_AT) {
+                    if (twoCharsBack >= ANSEL_DIACRITICS_BEGIN_AT) {
+                        /*
+                         * Two diacritics at end of line, already in the lineBuffer, and presumably the base character
+                         * is at the beginning of the next line (after a CONC tag) - store in holding bin
+                         */
+                        holdingBin[holdingBinIdx++] = (char) twoCharsBack;
+                        twoCharsBack = -1; // Keeps from holding characters in reserve repeatedly
+                    }
+                    /*
+                     * One diacritic at end of line, already in the lineBuffer, and presumably the base character is at
+                     * the beginning of the next line (after a CONC tag) - store in holding bin
+                     */
+                    holdingBin[holdingBinIdx++] = (char) oneCharBack;
+                    oneCharBack = -1; // Keeps from holding characters in reserve repeatedly
+                }
+
+                // If we have a line break and contents in the buffer, return the string
                 if (lineBufferIdx > 0) {
                     result = getThisLine();
-                    lineBufferIdx = 0;
                     break;
                 }
+
+                // Otherwise, ignore the extra line break characters
                 continue;
+            }
+
+            // If this is a CONC line, AND if we have held-over diacritics from the previous line, pretend they're here
+            // on the byte strem now
+            if (holdingBinIdx > 0 && isStartOfConcLine()) {
+                lineBuffer[lineBufferIdx++] = holdingBin[0];
+                if (holdingBinIdx > 1) {
+                    lineBuffer[lineBufferIdx++] = holdingBin[1];
+                }
+                holdingBinIdx = 0;
+                holdingBin[0] = ' ';
+                holdingBin[1] = ' ';
+
+            }
+
+            // Split line if it's too long, but don't split diactrics apart from their base characters
+            if (lineBufferIdx >= 250 && currChar < ANSEL_DIACRITICS_BEGIN_AT) {
+                result = getThisLine();
+                insertSyntheticConcTag(result);
+                break;
             }
 
             // All other characters are treated the same at this point,
             // regardless of encoding, and added as is
             lineBuffer[lineBufferIdx++] = (char) currChar;
 
-            if (lineBufferIdx >= 255) {
-                result = getThisLine();
-                lineBufferIdx = 0;
-                insertSyntheticConcTag();
-                break;
-            }
-
         }
         return result;
+
     }
 
     /**
-     * Determine what level the current line in the line buffer is
+     * Determine what level was in use on the provided line
      * 
-     * @return what level the current line in the line buffer is
+     * @param line
+     *            the line to determine the level of
+     * 
+     * @return what level the supplied line was
      * @throws GedcomParserException
      *             if the line level can't be determined, because the file doesn't begin with a 1 or 2 digit number
      *             followed by a space.
      */
-    private int getCurrentLevelFromLineBuffer() throws GedcomParserException {
+    private int getLevelFromLine(String line) throws GedcomParserException {
         int level = -1;
-        if (Character.isDigit(lineBuffer[0])) {
-            if (Character.isDigit(lineBuffer[1])) {
-                if (lineBuffer[2] == ' ') {
-                    level = Character.getNumericValue(lineBuffer[0]) * 10 + Character.getNumericValue(lineBuffer[1]);
+        char[] lineChars = line.toCharArray();
+        if (Character.isDigit(lineChars[0])) {
+            if (Character.isDigit(lineChars[1])) {
+                if (lineChars[2] == ' ') {
+                    level = Character.getNumericValue(lineChars[0]) * 10 + Character.getNumericValue(lineChars[1]);
 
                 } else {
                     /*
                      * Line is too long and doesn't begin with a 1 or 2 digit number followed by a space, so we can't
                      * put in CONC's on the fly (because we don't know what level we're at)
                      */
-                    throw new GedcomParserException("Line " + linesRead + " exceeds 255 characters and does not begin with a 1 or 2 digit number. "
-                            + "Can't split automatically.");
+                    throw new GedcomParserException("Line " + linesRead + " does not begin with a 1 or 2 digit number. " + "Can't split automatically.");
                 }
             } else {
-                if (lineBuffer[1] == ' ') {
-                    level = Character.getNumericValue(lineBuffer[0]);
+                if (lineChars[1] == ' ') {
+                    level = Character.getNumericValue(lineChars[0]);
                 } else {
                     /*
                      * Line is too long and doesn't begin with a 1 or 2 digit number followed by a space, so we can't
                      * put in CONC's on the fly (because we don't know what level we're at)
                      */
-                    throw new GedcomParserException("Line " + linesRead + " exceeds 255 characters and does not begin with a 1 or 2 digit number. "
-                            + "Can't split automatically.");
+                    throw new GedcomParserException("Line " + linesRead + " does not begin with a 1 or 2 digit number. " + "Can't split automatically.");
                 }
             }
         } else {
@@ -161,8 +228,7 @@ class AnselReader extends AbstractEncodingSpecificReader {
              * Line is too long and doesn't begin with a 1 or 2 digit number followed by a space, so we can't put in
              * CONC's on the fly (because we don't know what level we're at)
              */
-            throw new GedcomParserException("Line " + linesRead
-                    + " exceeds 255 characters and does not begin with a 1 or 2 digit number. Can't split automatically.");
+            throw new GedcomParserException("Line " + linesRead + " does not begin with a 1 or 2 digit number. Can't split automatically.");
         }
         return level;
     }
@@ -175,26 +241,27 @@ class AnselReader extends AbstractEncodingSpecificReader {
     private String getThisLine() {
         String result = null;
         if (lineBufferIdx > 0) {
-            String s = new String(lineBuffer).substring(0, lineBufferIdx);
+            String s = new String(lineBuffer).substring(0, lineBufferIdx - holdingBinIdx);
             result = anselHandler.toUtf16(s);
-            if (STRINGS_TO_INTERN.contains(result)) {
-                result = result.intern();
-            }
         }
         linesRead++;
+        Arrays.fill(lineBuffer, ' ');
+        lineBufferIdx = 0;
         return result;
     }
 
     /**
      * Insert synthetic CONC tags into the character buffer as if they had been there the whole time
      * 
+     * @param previousLine
+     *            the previous line
+     * 
      * @throws GedcomParserException
      */
-    private void insertSyntheticConcTag() throws GedcomParserException {
-        int level = getCurrentLevelFromLineBuffer();
+    private void insertSyntheticConcTag(String previousLine) throws GedcomParserException {
+        int level = getLevelFromLine(previousLine);
 
-        lineBufferIdx = 0;
-        parser.warnings.add("Line " + linesRead + " exceeds 255 characters - introducing synthetic CONC tag to split line");
+        parser.warnings.add("Line " + linesRead + " exceeds max length - introducing synthetic CONC tag to split line");
         level++;
         if (level > 9) {
             lineBuffer[lineBufferIdx++] = Character.forDigit(level / 10, 10);
@@ -208,6 +275,19 @@ class AnselReader extends AbstractEncodingSpecificReader {
         lineBuffer[lineBufferIdx++] = 'N';
         lineBuffer[lineBufferIdx++] = 'C';
         lineBuffer[lineBufferIdx++] = ' ';
+        lineBuffer[lineBufferIdx++] = (char) currChar;
+    }
+
+    /**
+     * Are we at the beginning of the text portion of a CONC line? If so, now would be the time to insert any held-over
+     * characters from the previous line
+     * 
+     * @return true iff we at the beginning of the text portion of a CONC line
+     */
+    private boolean isStartOfConcLine() {
+        return (lineBufferIdx >= 7 && Character.isDigit(lineBuffer[lineBufferIdx - 7]) && lineBuffer[lineBufferIdx - 6] == ' ' && lineBuffer[lineBufferIdx
+                - 5] == 'C' && lineBuffer[lineBufferIdx - 4] == 'O' && lineBuffer[lineBufferIdx - 3] == 'N' && lineBuffer[lineBufferIdx - 2] == 'C'
+                && lineBuffer[lineBufferIdx - 1] == ' ');
     }
 
 }

@@ -53,7 +53,7 @@ public class GedcomFileReaderTest {
          * Some encoded ANSEL data for a file with two lines. Line one consists of a zero, a space, and an uppercase H.
          * Line two consists of a lowercase o. The lines are separated by a CRLF.
          */
-        byte[] anselData = { 0x30, 0x20, 0x48, 0x0D, 0x0A, 0x6F };
+        byte[] anselData = { 0x30, 0x20, 0x48, /* CRLF begin */ 0x0D, 0x0A, /* CRLF end */ 0x6F };
 
         BufferedInputStream s = null;
         try {
