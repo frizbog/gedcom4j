@@ -83,8 +83,8 @@ public class IndividualTest {
         assertTrue(gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
-        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g.individuals.size());
-        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?", 18, g.families.size());
+        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g.getIndividuals().size());
+        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?", 18, g.getFamilies().size());
 
         Individual robert = getPerson(g, "Andrews", "Robert");
         Set<Individual> ancestors = robert.getAncestors();
@@ -135,8 +135,8 @@ public class IndividualTest {
         assertTrue(gp.warnings.isEmpty());
         Gedcom g = gp.gedcom;
         assertNotNull(g);
-        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g.individuals.size());
-        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?", 18, g.families.size());
+        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g.getIndividuals().size());
+        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?", 18, g.getFamilies().size());
 
         Individual alex = getPerson(g, "Zucco", "Alex");
         Set<Individual> descendants = alex.getDescendants();

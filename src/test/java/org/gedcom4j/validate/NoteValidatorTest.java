@@ -46,7 +46,7 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
 
         Note n = new Note();
         n.xref = "@N0001@";
-        g.notes.put(n.xref, n);
+        g.getNotes().put(n.xref, n);
 
         rootValidator.validate();
         assertNoIssues();

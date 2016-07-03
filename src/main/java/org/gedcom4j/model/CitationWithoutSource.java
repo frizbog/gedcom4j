@@ -62,11 +62,11 @@ public class CitationWithoutSource extends AbstractCitation {
         } else if (!description.equals(other.description)) {
             return false;
         }
-        if (notes == null) {
-            if (other.notes != null) {
+        if (getNotes() == null) {
+            if (other.getNotes() != null) {
                 return false;
             }
-        } else if (!notes.equals(other.notes)) {
+        } else if (!getNotes().equals(other.getNotes())) {
             return false;
         }
         if (textFromSource == null) {
@@ -84,7 +84,7 @@ public class CitationWithoutSource extends AbstractCitation {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + (description == null ? 0 : description.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (getNotes() == null ? 0 : getNotes().hashCode());
         result = prime * result + (textFromSource == null ? 0 : textFromSource.hashCode());
         return result;
     }
@@ -92,7 +92,7 @@ public class CitationWithoutSource extends AbstractCitation {
     @Override
     public String toString() {
         return "CitationWithoutSource [" + (description != null ? "description=" + description + ", " : "")
-                + (textFromSource != null ? "textFromSource=" + textFromSource + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
+                + (textFromSource != null ? "textFromSource=" + textFromSource + ", " : "") + (getNotes() != null ? "notes=" + getNotes() + ", " : "")
                 + (customTags != null ? "customTags=" + customTags : "") + "]";
     }
 }

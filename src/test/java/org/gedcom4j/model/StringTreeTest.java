@@ -139,28 +139,28 @@ public class StringTreeTest {
         gp.load("sample/5.5.1 sample 1.ged");
         Gedcom g = gp.gedcom;
 
-        for (Family f : g.families.values()) {
+        for (Family f : g.getFamilies().values()) {
             assertNotNull(f.customTags.toString());
             assertFalse(0 == f.customTags.hashCode());
 
             assertNotNull(f.toString());
             assertFalse(0 == f.hashCode());
         }
-        for (Individual i : g.individuals.values()) {
+        for (Individual i : g.getIndividuals().values()) {
             assertNotNull(i.customTags.toString());
             assertFalse(0 == i.customTags.hashCode());
 
             assertNotNull(i.toString());
             assertFalse(0 == i.hashCode());
         }
-        for (Multimedia m : g.multimedia.values()) {
+        for (Multimedia m : g.getMultimedia().values()) {
             assertNotNull(m.customTags.toString());
             assertFalse(0 == m.customTags.hashCode());
 
             assertNotNull(m.toString());
             assertFalse(0 == m.hashCode());
         }
-        for (Note n : g.notes.values()) {
+        for (Note n : g.getNotes().values()) {
             assertNotNull(n.customTags.toString());
             assertFalse(0 == n.customTags.hashCode());
 

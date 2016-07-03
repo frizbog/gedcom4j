@@ -153,7 +153,7 @@ public class GedcomValidator extends AbstractValidator {
         validateSources();
         validateSubmission(gedcom.submission);
         validateTrailer();
-        checkNotes(new ArrayList<Note>(gedcom.notes.values()), gedcom);
+        checkNotes(new ArrayList<Note>(gedcom.getNotes().values()), gedcom);
     }
 
     /**
@@ -273,7 +273,7 @@ public class GedcomValidator extends AbstractValidator {
      */
     private void validateNotes() {
         int i = 0;
-        for (Note n : gedcom.notes.values()) {
+        for (Note n : gedcom.getNotes().values()) {
             i++;
             new NoteValidator(rootValidator, i, n).validate();
         }

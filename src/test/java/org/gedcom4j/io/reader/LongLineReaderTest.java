@@ -78,7 +78,7 @@ public class LongLineReaderTest {
             gp.load("sample/superlongline-ansel.ged");
             assertTrue(gp.errors.isEmpty());
             assertEquals(1, gp.warnings.size());
-            Note n = gp.gedcom.notes.get("@N1@");
+            Note n = gp.gedcom.getNotes().get("@N1@");
             assertEquals("This is an ridiculously long line that exceeds the GEDCOM maximum line length of 255 characters "
                     + "so that we can test whether the readers can properly introduce CONC tags on the fly and keep "
                     + "going as if everything was ok when the file has lines that are way too long like this one is, "

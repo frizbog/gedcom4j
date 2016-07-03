@@ -24,18 +24,19 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * An abstract base class for other source citations (both with and without source)
  * 
  * @author frizbog1
- * 
  */
 public abstract class AbstractCitation extends AbstractElement {
 
     /**
      * Notes on this source citation
      */
-    public List<Note> notes = new ArrayList<Note>(0);
+    private List<Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
 
     @Override
     public boolean equals(Object obj) {
@@ -43,9 +44,32 @@ public abstract class AbstractCitation extends AbstractElement {
             return false;
         }
         AbstractCitation abstractCitation = (AbstractCitation) obj;
-        if (notes.equals(abstractCitation.notes)) {
+        if (getNotes().equals(abstractCitation.getNotes())) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            true if this collection should be created on-the-fly if it is currently null
+     * @return the notes
+     */
+    private List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
     }
 }

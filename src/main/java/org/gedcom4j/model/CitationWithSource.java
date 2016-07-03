@@ -109,11 +109,11 @@ public class CitationWithSource extends AbstractCitation {
         } else if (!multimedia.equals(other.multimedia)) {
             return false;
         }
-        if (notes == null) {
-            if (other.notes != null) {
+        if (getNotes() == null) {
+            if (other.getNotes() != null) {
                 return false;
             }
-        } else if (!notes.equals(other.notes)) {
+        } else if (!getNotes().equals(other.getNotes())) {
             return false;
         }
         if (roleInEvent == null) {
@@ -148,7 +148,7 @@ public class CitationWithSource extends AbstractCitation {
         result = prime * result + (data == null ? 0 : data.hashCode());
         result = prime * result + (eventCited == null ? 0 : eventCited.hashCode());
         result = prime * result + (multimedia == null ? 0 : multimedia.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (getNotes() == null ? 0 : getNotes().hashCode());
         result = prime * result + (roleInEvent == null ? 0 : roleInEvent.hashCode());
         result = prime * result + (source == null ? 0 : source.hashCode());
         result = prime * result + (whereInSource == null ? 0 : whereInSource.hashCode());
@@ -161,6 +161,6 @@ public class CitationWithSource extends AbstractCitation {
                 + (certainty != null ? "certainty=" + certainty + ", " : "") + (eventCited != null ? "eventCited=" + eventCited + ", " : "")
                 + (data != null ? "data=" + data + ", " : "") + (source != null ? "source=" + source + ", " : "")
                 + (multimedia != null ? "multimedia=" + multimedia + ", " : "") + (roleInEvent != null ? "roleInEvent=" + roleInEvent + ", " : "")
-                + (notes != null ? "notes=" + notes + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
+                + (getNotes() != null ? "notes=" + getNotes() + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
     }
 }

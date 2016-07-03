@@ -105,15 +105,15 @@ class CitationValidator extends AbstractValidator {
             throw new IllegalStateException("AbstractCitation references must be either CitationWithSource"
                     + " instances or CitationWithoutSource instances");
         }
-        if (citation.notes == null) {
+        if (citation.getNotes() == null) {
             if (rootValidator.autorepair) {
-                citation.notes = new ArrayList<Note>();
+                citation.setNotes(new ArrayList<Note>());
                 addInfo("Notes collection was null on " + citation.getClass().getSimpleName() + " - autorepaired");
             } else {
                 addError("Notes collection is null on " + citation.getClass().getSimpleName());
             }
         } else {
-            checkNotes(citation.notes, citation);
+            checkNotes(citation.getNotes(), citation);
 
         }
 

@@ -62,9 +62,9 @@ public class Issue96Test {
 
         Gedcom g = gp.gedcom;
         assertNotNull(g);
-        assertNotNull(g.notes);
-        assertEquals(1, g.notes.size());
-        Note note = g.notes.values().iterator().next();
+        assertNotNull(g.getNotes());
+        assertEquals(1, g.getNotes().size());
+        Note note = g.getNotes().values().iterator().next();
 
         // Cross-reference (or what looks like one) treated like text?
         assertEquals("@N0@", note.lines.get(0));

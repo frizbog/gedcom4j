@@ -89,13 +89,13 @@ public class ParseProgressEvent extends EventObject {
      */
     public ParseProgressEvent(Object source, Gedcom g, boolean complete) {
         super(source);
-        familiesProcessed = g.families.size();
-        individualsProcessed = g.individuals.size();
-        multimediaProcessed = g.multimedia.size();
-        notesProcessed = g.notes.size();
-        repositoriesProcessed = g.repositories.size();
-        sourcesProcessed = g.sources.size();
-        submittersProcessed = g.submitters.size();
+        familiesProcessed = g.getFamilies().size();
+        individualsProcessed = g.getIndividuals().size();
+        multimediaProcessed = g.getMultimedia().size();
+        notesProcessed = g.getNotes().size();
+        repositoriesProcessed = g.getRepositories().size();
+        sourcesProcessed = g.getSources().size();
+        submittersProcessed = g.getSubmitters().size();
         this.complete = complete;
     }
 

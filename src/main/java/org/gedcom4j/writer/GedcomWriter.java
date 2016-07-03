@@ -658,7 +658,7 @@ public class GedcomWriter {
         for (List<String> linesOfText : cws.textFromSource) {
             emitLinesOfText(level + 1, "TEXT", linesOfText);
         }
-        emitNotes(level + 1, cws.notes);
+        emitNotes(level + 1, cws.getNotes());
         emitCustomTags(level + 1, cws.customTags);
     }
 
@@ -692,7 +692,7 @@ public class GedcomWriter {
         }
         emitTagIfValueNotNull(level + 1, "QUAY", cws.certainty);
         emitMultimediaLinks(level + 1, cws.multimedia);
-        emitNotes(level + 1, cws.notes);
+        emitNotes(level + 1, cws.getNotes());
         emitCustomTags(level + 1, cws.customTags);
     }
 
@@ -1420,7 +1420,7 @@ public class GedcomWriter {
         } else {
             emitMultimedia551();
         }
-        emitNotes(0, new ArrayList<Note>(gedcom.notes.values()));
+        emitNotes(0, new ArrayList<Note>(gedcom.getNotes().values()));
         emitRepositories();
         emitSources();
         emitSubmitter();

@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.gedcom4j.Options;
+
 /**
  * <p>
  * Main (root) class for an entire GEDCOM file.
@@ -64,58 +66,58 @@ public class Gedcom extends AbstractElement {
      * A map of all the families in the GEDCOM file. The map is keyed on family cross-reference numbers, and the
      * families themselves are in the value set.
      */
-    public Map<String, Family> families = new HashMap<String, Family>();
+    private Map<String, Family> families = Options.isCollectionInitializationEnabled() ? getFamilies(true) : null;
 
     /**
      * Header information about the GEDCOM
      */
-    public Header header = new Header();
+    private Header header = new Header();
 
     /**
      * A map of all the individuals in the GEDCOM file. The map is keyed on the individual cross-reference numbers and
      * the individuals themselves are in the value set.
      */
-    public Map<String, Individual> individuals = new HashMap<String, Individual>();
+    private Map<String, Individual> individuals = Options.isCollectionInitializationEnabled() ? getIndividuals(true) : null;
 
     /**
      * A map of all the multimedia items in the GEDCOM file. The map is keyed by the multimedia cross-reference numbers,
      * and the multimedia items themselves (well, the metadata about them for 5.5.1) are in the value set. Remember,
      * GEDCOM 5.5.1 multimedia is not embedded in the GEDCOM, but the GEDCOM contains metadata about the multimedia.
      */
-    public Map<String, Multimedia> multimedia = new HashMap<String, Multimedia>();
+    private Map<String, Multimedia> multimedia = Options.isCollectionInitializationEnabled() ? getMultimedia(true) : null;
 
     /**
      * A map of notes. The map is keyed with cross-reference numbers and the notes themselves are the values.
      */
-    public Map<String, Note> notes = new HashMap<String, Note>();
+    private Map<String, Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
 
     /**
      * A map of all the source repositories in the GEDCOM file. The map is keyed on the repository cross-reference
-     * numbers, and the repositories themsevles are in the value set.
+     * numbers, and the repositories themselves are in the value set.
      */
-    public Map<String, Repository> repositories = new HashMap<String, Repository>();
+    private Map<String, Repository> repositories = Options.isCollectionInitializationEnabled() ? getRepositories(true) : null;
 
     /**
      * A map of all the sources in the GEDCOM file. The map is keyed on source cross-reference numbers, and the sources
-     * themsevles are in the value set.
+     * themselves are in the value set.
      */
-    public Map<String, Source> sources = new HashMap<String, Source>();
+    private Map<String, Source> sources = Options.isCollectionInitializationEnabled() ? getSources(true) : null;
 
     /**
      * Information about the GEDCOM submission. There is only one and it is required, so the xref ID has a default.
      */
-    public Submission submission = new Submission("@SUBMISSION@");
+    private Submission submission = new Submission("@SUBMISSION@");
 
     /**
      * A map of the submitters in the GEDCOM file. The map is keyed on submitter cross-reference numbers, and the
      * submitters themselves are in the value set
      */
-    public Map<String, Submitter> submitters = new HashMap<String, Submitter>();
+    private Map<String, Submitter> submitters = Options.isCollectionInitializationEnabled() ? getSubmitters(true) : null;
 
     /**
      * The trailer of the file
      */
-    public Trailer trailer = new Trailer();
+    private Trailer trailer = new Trailer();
 
     @Override
     public boolean equals(Object obj) {
@@ -157,11 +159,11 @@ public class Gedcom extends AbstractElement {
         } else if (!multimedia.equals(other.multimedia)) {
             return false;
         }
-        if (notes == null) {
-            if (other.notes != null) {
+        if (getNotes() == null) {
+            if (other.getNotes() != null) {
                 return false;
             }
-        } else if (!notes.equals(other.notes)) {
+        } else if (!getNotes().equals(other.getNotes())) {
             return false;
         }
         if (repositories == null) {
@@ -202,6 +204,199 @@ public class Gedcom extends AbstractElement {
         return true;
     }
 
+    /**
+     * Get the families
+     * 
+     * @return the families
+     */
+    public Map<String, Family> getFamilies() {
+        return families;
+    }
+
+    /**
+     * Get the families, initializing as needed
+     * 
+     * @param initializeIfNeeded
+     *            initialize the families map if needed
+     * 
+     * @return the families
+     */
+    public Map<String, Family> getFamilies(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && families == null) {
+            families = new HashMap<String, Family>();
+        }
+        return families;
+    }
+
+    /**
+     * Get the header
+     * 
+     * @return the header
+     */
+    public Header getHeader() {
+        return header;
+    }
+
+    /**
+     * Get the individuals
+     * 
+     * @return the individuals
+     */
+    public Map<String, Individual> getIndividuals() {
+        return individuals;
+    }
+
+    /**
+     * Get the individuals, initializing as needed
+     * 
+     * @param initializeIfNeeded
+     *            initialize the individuals map if needed
+     * 
+     * @return the individuals
+     */
+    public Map<String, Individual> getIndividuals(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && individuals == null) {
+            individuals = new HashMap<String, Individual>();
+        }
+        return individuals;
+    }
+
+    /**
+     * Get the multimedia
+     * 
+     * @return the multimedia
+     */
+    public Map<String, Multimedia> getMultimedia() {
+        return multimedia;
+    }
+
+    /**
+     * Get the multimedia, initializing as needed
+     * 
+     * @param initializeIfNeeded
+     *            initialize the multimedia map if needed
+     * 
+     * @return the multimedia
+     */
+    public Map<String, Multimedia> getMultimedia(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && multimedia == null) {
+            multimedia = new HashMap<String, Multimedia>();
+        }
+        return multimedia;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public Map<String, Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the notes map if needed
+     * 
+     * @return the notes
+     */
+    public Map<String, Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new HashMap<String, Note>();
+        }
+        return notes;
+    }
+
+    /**
+     * Get the repositories
+     * 
+     * @return the repositories
+     */
+    public Map<String, Repository> getRepositories() {
+        return repositories;
+    }
+
+    /**
+     * Get the repositories
+     * 
+     * @param initializeIfNeeded
+     *            initialize the repositories map if needed
+     * 
+     * @return the repositories
+     */
+
+    public Map<String, Repository> getRepositories(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && repositories == null) {
+            repositories = new HashMap<String, Repository>();
+        }
+        return repositories;
+    }
+
+    /**
+     * Get the sources
+     * 
+     * @return the sources
+     */
+    public Map<String, Source> getSources() {
+        return sources;
+    }
+
+    /**
+     * Get the sources
+     * 
+     * @param initializeIfNeeded
+     *            initialize the repositories map if needed
+     * 
+     * @return the sources
+     */
+    public Map<String, Source> getSources(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && sources == null) {
+            sources = new HashMap<String, Source>();
+        }
+        return sources;
+    }
+
+    /**
+     * Get the submission
+     * 
+     * @return the submission
+     */
+    public Submission getSubmission() {
+        return submission;
+    }
+
+    /**
+     * Get the submitters
+     * 
+     * @return the submitters
+     */
+    public Map<String, Submitter> getSubmitters() {
+        return submitters;
+    }
+
+    /**
+     * Get the submitters
+     * 
+     * @return the submitters
+     */
+    public Map<String, Submitter> getSubmitters(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && submitters == null) {
+            submitters = new HashMap<String, Submitter>();
+        }
+        return submitters;
+    }
+
+    /**
+     * Get the trailer
+     * 
+     * @return the trailer
+     */
+    public Trailer getTrailer() {
+        return trailer;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -210,12 +405,42 @@ public class Gedcom extends AbstractElement {
         result = prime * result + (header == null ? 0 : header.hashCode());
         result = prime * result + (individuals == null ? 0 : individuals.hashCode());
         result = prime * result + (multimedia == null ? 0 : multimedia.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (getNotes() == null ? 0 : getNotes().hashCode());
         result = prime * result + (repositories == null ? 0 : repositories.hashCode());
         result = prime * result + (sources == null ? 0 : sources.hashCode());
         result = prime * result + (submission == null ? 0 : submission.hashCode());
         result = prime * result + (submitters == null ? 0 : submitters.hashCode());
         result = prime * result + (trailer == null ? 0 : trailer.hashCode());
         return result;
+    }
+
+    /**
+     * Set the header
+     * 
+     * @param header
+     *            the header to set
+     */
+    public void setHeader(Header header) {
+        this.header = header;
+    }
+
+    /**
+     * Set the submission
+     * 
+     * @param submission
+     *            the submission to set
+     */
+    public void setSubmission(Submission submission) {
+        this.submission = submission;
+    }
+
+    /**
+     * Set the trailer
+     * 
+     * @param trailer
+     *            the trailer to set
+     */
+    public void setTrailer(Trailer trailer) {
+        this.trailer = trailer;
     }
 }

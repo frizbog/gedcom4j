@@ -332,7 +332,7 @@ public class GedcomParserTest extends TestCase {
         assertEquals("42", citWithSource.whereInSource.toString());
 
         assertEquals(0, citWithSource.multimedia.size());
-        assertEquals(0, citWithSource.notes.size());
+        assertEquals(0, citWithSource.getNotes().size());
 
         // Name 0 - Note 0
         note = name.notes.get(0);
@@ -357,7 +357,7 @@ public class GedcomParserTest extends TestCase {
         assertEquals("55", citWithSource.whereInSource.toString());
 
         assertEquals(1, citWithSource.multimedia.size());
-        assertEquals(1, citWithSource.notes.size());
+        assertEquals(1, citWithSource.getNotes().size());
 
         // Name 1 - Multimedia 0
         multimedia = citWithSource.multimedia.get(0);
@@ -378,7 +378,7 @@ public class GedcomParserTest extends TestCase {
         assertEquals("These are some notes of this multimedia link in the NAME structure.", note.lines.get(0));
 
         // Name 1 - Citation 0 - Note 0
-        note = citWithSource.notes.get(0);
+        note = citWithSource.getNotes().get(0);
         assertEquals(3, note.lines.size());
         assertEquals(
                 "This source citation has all fields possible in a source citation to a separate SOURCE record. Besides the link to the SOURCE record there are possible fields about this citation (e.g., PAGE, TEXT, etc.)",
@@ -412,10 +412,10 @@ public class GedcomParserTest extends TestCase {
         assertEquals("42", citWithSource.whereInSource.toString());
 
         assertEquals(0, citWithSource.multimedia.size());
-        assertEquals(1, citWithSource.notes.size());
+        assertEquals(1, citWithSource.getNotes().size());
 
         // Citation 0 - Note 0
-        note = citWithSource.notes.get(0);
+        note = citWithSource.getNotes().get(0);
         assertEquals(1, note.lines.size());
         assertEquals("A source note.", note.lines.get(0));
 
@@ -428,10 +428,10 @@ public class GedcomParserTest extends TestCase {
         assertEquals(null, citWithSource.whereInSource);
 
         assertEquals(0, citWithSource.multimedia.size());
-        assertEquals(1, citWithSource.notes.size());
+        assertEquals(1, citWithSource.getNotes().size());
 
         // Citation 1 - Note 0
-        note = citWithSource.notes.get(0);
+        note = citWithSource.getNotes().get(0);
         assertEquals(1, note.lines.size());
         assertEquals("This is a second source citation in this record.", note.lines.get(0));
 
@@ -439,10 +439,10 @@ public class GedcomParserTest extends TestCase {
         assertTrue(indi.citations.get(2) instanceof CitationWithoutSource);
         citWithoutSource = (CitationWithoutSource) indi.citations.get(2);
 
-        assertEquals(1, citWithoutSource.notes.size());
+        assertEquals(1, citWithoutSource.getNotes().size());
 
         // Citation 2 - Note 0
-        note = citWithoutSource.notes.get(0);
+        note = citWithoutSource.getNotes().get(0);
         assertEquals(1, note.lines.size());
         assertEquals(
                 "How does software handle embedded SOURCE records on import? Such source citations are common in old GEDCOM files. More modern GEDCOM files should use source citations to SOURCE records.",

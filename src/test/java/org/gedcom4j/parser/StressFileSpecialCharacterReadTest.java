@@ -76,7 +76,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacritics() {
-        Note note = g.notes.get("@N24@");
+        Note note = g.getNotes().get("@N24@");
         assertEquals(179, note.lines.size());
 
         // E0 (Unicode: hook above, 0309) low rising tone mark
@@ -268,7 +268,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void textExtended() {
-        Note note = g.notes.get("@N25@"); // This one has lots of extended characters
+        Note note = g.getNotes().get("@N25@"); // This one has lots of extended characters
         assertEquals(43, note.lines.size());
         assertEqualsCharByChar("A1 slash l - uppercase (Ł)", note.lines.get(4));
         assertEqualsCharByChar("A2 slash o - uppercase (Ø)", note.lines.get(5));

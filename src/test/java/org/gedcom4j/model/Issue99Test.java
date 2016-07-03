@@ -54,7 +54,7 @@ public class Issue99Test {
     public void testGetDescendants() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis.ged");
-        assertEquals(761, gp.gedcom.individuals.size());
+        assertEquals(761, gp.gedcom.getIndividuals().size());
         Finder f = new Finder(gp.gedcom);
         List<Individual> matches = f.findByName("Willis", "Edmund Henry");
         assertNotNull(matches);

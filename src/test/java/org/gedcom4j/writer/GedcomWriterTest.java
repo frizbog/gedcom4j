@@ -228,13 +228,13 @@ public class GedcomWriterTest {
      */
     @Test
     public void testNotes() {
-        assertNotSame(gedcomOrig.notes, gedcomReadback.notes);
+        assertNotSame(gedcomOrig.getNotes(), gedcomReadback.getNotes());
         assertLineSequence("Note with xref and text on same line not found as expected", readbackLines,
                 "0 @N19@ NOTE A note about this LDS spouse sealing source.", "1 CHAN", "2 DATE 12 Mar 2000", "3 TIME 12:32:13");
-        assertEquals(gedcomOrig.notes.keySet(), gedcomReadback.notes.keySet());
-        for (String xref : gedcomOrig.notes.keySet()) {
-            Note n1 = gedcomOrig.notes.get(xref);
-            Note n2 = gedcomReadback.notes.get(xref);
+        assertEquals(gedcomOrig.getNotes().keySet(), gedcomReadback.getNotes().keySet());
+        for (String xref : gedcomOrig.getNotes().keySet()) {
+            Note n1 = gedcomOrig.getNotes().get(xref);
+            Note n2 = gedcomReadback.getNotes().get(xref);
             assertEquals(n1.lines.size(), n2.lines.size());
             String prevLine = null;
             for (int i = 0; i < n1.lines.size(); i++) {

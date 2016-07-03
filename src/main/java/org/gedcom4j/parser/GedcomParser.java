@@ -339,8 +339,8 @@ public class GedcomParser {
      * @return true if and only if the Gedcom data says it is for the 5.5 standard.
      */
     private boolean g55() {
-        return gedcom != null && gedcom.header != null && gedcom.header.gedcomVersion != null && SupportedVersion.V5_5.equals(
-                gedcom.header.gedcomVersion.versionNumber);
+        return gedcom != null && gedcom.getHeader() != null && gedcom.getHeader().gedcomVersion != null && SupportedVersion.V5_5.equals(gedcom
+                .getHeader().gedcomVersion.versionNumber);
     }
 
     /**
@@ -351,11 +351,11 @@ public class GedcomParser {
      * @return the family with the specified xref
      */
     private Family getFamily(String xref) {
-        Family f = gedcom.families.get(xref);
+        Family f = gedcom.getFamilies().get(xref);
         if (f == null) {
             f = new Family();
             f.xref = xref;
-            gedcom.families.put(xref, f);
+            gedcom.getFamilies().put(xref, f);
         }
         return f;
     }
@@ -369,11 +369,11 @@ public class GedcomParser {
      */
     private Individual getIndividual(String xref) {
         Individual i;
-        i = gedcom.individuals.get(xref);
+        i = gedcom.getIndividuals().get(xref);
         if (i == null) {
             i = new Individual();
             i.xref = xref;
-            gedcom.individuals.put(xref, i);
+            gedcom.getIndividuals().put(xref, i);
         }
         return i;
     }
@@ -387,11 +387,11 @@ public class GedcomParser {
      */
     private Multimedia getMultimedia(String xref) {
         Multimedia m;
-        m = gedcom.multimedia.get(xref);
+        m = gedcom.getMultimedia().get(xref);
         if (m == null) {
             m = new Multimedia();
             m.xref = xref;
-            gedcom.multimedia.put(xref, m);
+            gedcom.getMultimedia().put(xref, m);
         }
         return m;
     }
@@ -405,11 +405,11 @@ public class GedcomParser {
      */
     private Note getNote(String xref) {
         Note note;
-        note = gedcom.notes.get(xref);
+        note = gedcom.getNotes().get(xref);
         if (note == null) {
             note = new Note();
             note.xref = xref;
-            gedcom.notes.put(xref, note);
+            gedcom.getNotes().put(xref, note);
         }
         return note;
     }
@@ -422,11 +422,11 @@ public class GedcomParser {
      * @return the repository with the specified xref
      */
     private Repository getRepository(String xref) {
-        Repository r = gedcom.repositories.get(xref);
+        Repository r = gedcom.getRepositories().get(xref);
         if (r == null) {
             r = new Repository();
             r.xref = xref;
-            gedcom.repositories.put(xref, r);
+            gedcom.getRepositories().put(xref, r);
         }
         return r;
 
@@ -440,10 +440,10 @@ public class GedcomParser {
      * @return the source with the specified xref
      */
     private Source getSource(String xref) {
-        Source src = gedcom.sources.get(xref);
+        Source src = gedcom.getSources().get(xref);
         if (src == null) {
             src = new Source(xref);
-            gedcom.sources.put(src.xref, src);
+            gedcom.getSources().put(src.xref, src);
         }
         return src;
     }
@@ -457,12 +457,12 @@ public class GedcomParser {
      */
     private Submitter getSubmitter(String xref) {
         Submitter s;
-        s = gedcom.submitters.get(xref);
+        s = gedcom.getSubmitters().get(xref);
         if (s == null) {
             s = new Submitter();
             s.name = new StringWithCustomTags("UNSPECIFIED");
             s.xref = xref;
-            gedcom.submitters.put(xref, s);
+            gedcom.getSubmitters().put(xref, s);
         }
         return s;
     }
@@ -627,7 +627,7 @@ public class GedcomParser {
                 cws.textFromSource.add(ls);
                 loadMultiLinesOfText(ch, ls, cws);
             } else if (Tag.NOTE.equals(ch.tag)) {
-                loadNote(ch, cws.notes);
+                loadNote(ch, cws.getNotes());
             } else {
                 unknownTag(ch, citation);
             }
@@ -670,7 +670,7 @@ public class GedcomParser {
             } else if (Tag.QUALITY.equals(ch.tag)) {
                 cws.certainty = new StringWithCustomTags(ch);
             } else if (Tag.NOTE.equals(ch.tag)) {
-                loadNote(ch, cws.notes);
+                loadNote(ch, cws.getNotes());
             } else if (Tag.OBJECT_MULTIMEDIA.equals(ch.tag)) {
                 loadMultimediaLink(ch, cws.multimedia);
             } else {
@@ -1090,7 +1090,7 @@ public class GedcomParser {
      */
     private void loadHeader(StringTree st) {
         Header header = new Header();
-        gedcom.header = header;
+        gedcom.setHeader(header);
         for (StringTree ch : st.children) {
             if (Tag.SOURCE.equals(ch.tag)) {
                 header.sourceSystem = new SourceSystem();
@@ -1130,7 +1130,7 @@ public class GedcomParser {
                      * HEAD structure has a cross-reference to that root-level structure, so we're setting it here (if
                      * it hasn't already been loaded, which it probably isn't yet)
                      */
-                    header.submission = gedcom.submission;
+                    header.submission = gedcom.getSubmission();
                 }
             } else if (Tag.LANGUAGE.equals(ch.tag)) {
                 header.language = new StringWithCustomTags(ch);
@@ -2000,7 +2000,7 @@ public class GedcomParser {
             } else if (Tag.FAMILY.equals(ch.tag)) {
                 loadFamily(ch);
             } else if (Tag.TRAILER.equals(ch.tag)) {
-                gedcom.trailer = new Trailer();
+                gedcom.setTrailer(new Trailer());
             } else if (Tag.SOURCE.equals(ch.tag)) {
                 loadSource(ch);
             } else if (Tag.REPOSITORY.equals(ch.tag)) {
@@ -2162,34 +2162,34 @@ public class GedcomParser {
      */
     private void loadSubmission(StringTree st) {
         Submission s = new Submission(st.id);
-        gedcom.submission = s;
-        if (gedcom.header == null) {
-            gedcom.header = new Header();
+        gedcom.setSubmission(s);
+        if (gedcom.getHeader() == null) {
+            gedcom.setHeader(new Header());
         }
-        if (gedcom.header.submission == null) {
+        if (gedcom.getHeader().submission == null) {
             /*
              * The GEDCOM spec puts a cross reference to the root-level SUBN element in the HEAD structure. Now that we
              * have a submission object, represent that cross reference in the header object
              */
-            gedcom.header.submission = s;
+            gedcom.getHeader().submission = s;
         }
         for (StringTree ch : st.children) {
             if (Tag.SUBMITTER.equals(ch.tag)) {
-                gedcom.submission.submitter = getSubmitter(ch.value);
+                gedcom.getSubmission().submitter = getSubmitter(ch.value);
             } else if (Tag.FAMILY_FILE.equals(ch.tag)) {
-                gedcom.submission.nameOfFamilyFile = new StringWithCustomTags(ch);
+                gedcom.getSubmission().nameOfFamilyFile = new StringWithCustomTags(ch);
             } else if (Tag.TEMPLE.equals(ch.tag)) {
-                gedcom.submission.templeCode = new StringWithCustomTags(ch);
+                gedcom.getSubmission().templeCode = new StringWithCustomTags(ch);
             } else if (Tag.ANCESTORS.equals(ch.tag)) {
-                gedcom.submission.ancestorsCount = new StringWithCustomTags(ch);
+                gedcom.getSubmission().ancestorsCount = new StringWithCustomTags(ch);
             } else if (Tag.DESCENDANTS.equals(ch.tag)) {
-                gedcom.submission.descendantsCount = new StringWithCustomTags(ch);
+                gedcom.getSubmission().descendantsCount = new StringWithCustomTags(ch);
             } else if (Tag.ORDINANCE_PROCESS_FLAG.equals(ch.tag)) {
-                gedcom.submission.ordinanceProcessFlag = new StringWithCustomTags(ch);
+                gedcom.getSubmission().ordinanceProcessFlag = new StringWithCustomTags(ch);
             } else if (Tag.RECORD_ID_NUMBER.equals(ch.tag)) {
-                gedcom.submission.recIdNumber = new StringWithCustomTags(ch);
+                gedcom.getSubmission().recIdNumber = new StringWithCustomTags(ch);
             } else {
-                unknownTag(ch, gedcom.submission);
+                unknownTag(ch, gedcom.getSubmission());
             }
         }
 
