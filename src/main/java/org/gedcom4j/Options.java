@@ -19,57 +19,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.gedcom4j.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.gedcom4j.Options;
+package org.gedcom4j;
 
 /**
- * An abstract base class for other source citations (both with and without source)
+ * A utility class to hold a variety of options for gedcom4j processing.
  * 
- * @author frizbog1
+ * @author frizbog
+ * @since 3.0.0
  */
-public abstract class AbstractCitation extends AbstractElement {
+public class Options {
+
+    /** Should collections in the object model be pre-initialized? */
+    private static boolean collectionInitializationEnabled = true;
 
     /**
-     * Notes on this source citation
+     * Get the collectionInitializationEnabled
+     * 
+     * @return the collectionInitializationEnabled
      */
-    protected List<Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!super.equals(obj)) {
-            return false;
-        }
-        AbstractCitation abstractCitation = (AbstractCitation) obj;
-        if (getNotes().equals(abstractCitation.getNotes())) {
-            return true;
-        }
-        return false;
+    public static boolean isCollectionInitializationEnabled() {
+        return collectionInitializationEnabled;
     }
 
     /**
-     * Get the notes
-     * 
-     * @return the notes
+     * Reset all options to defaults
      */
-    public List<Note> getNotes() {
-        return notes;
+    public static void resetToDefaults() {
+        collectionInitializationEnabled = true;
     }
 
     /**
-     * Get the notes
+     * Set the collectionInitializationEnabled
      * 
-     * @param initializeIfNeeded
-     *            true if this collection should be created on-the-fly if it is currently null
-     * @return the notes
+     * @param collectionInitializationEnabled
+     *            the collectionInitializationEnabled to set
      */
-    public List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<Note>(0);
-        }
-        return notes;
+    public static void setCollectionInitializationEnabled(boolean collectionInitializationEnabled) {
+        Options.collectionInitializationEnabled = collectionInitializationEnabled;
+    }
+
+    /**
+     * Private constructor prevents instantiation and subclassing.
+     */
+    private Options() {
+        ; // Do nothing
     }
 }

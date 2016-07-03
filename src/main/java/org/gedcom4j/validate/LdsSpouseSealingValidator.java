@@ -21,8 +21,6 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.ArrayList;
-
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.LdsSpouseSealing;
 
@@ -63,7 +61,7 @@ class LdsSpouseSealingValidator extends AbstractValidator {
         }
         if (s.getCitations() == null) {
             if (rootValidator.autorepair) {
-                s.setCitations(new ArrayList<AbstractCitation>());
+                s.getCitations(true).clear();
                 addInfo("citations collection for lds spouse sealing was null - rootValidator.autorepaired", s);
             } else {
                 addError("citations collection for lds spouse sealing is null", s);
@@ -74,11 +72,11 @@ class LdsSpouseSealingValidator extends AbstractValidator {
             }
         }
         checkCustomTags(s);
-        checkOptionalString(s.date, "date", s);
-        checkNotes(s.notes, s);
-        checkOptionalString(s.place, "place", s);
-        checkOptionalString(s.status, "status", s);
-        checkOptionalString(s.temple, "temple", s);
+        checkOptionalString(s.getDate(), "date", s);
+        checkNotes(s.getNotes(), s);
+        checkOptionalString(s.getPlace(), "place", s);
+        checkOptionalString(s.getStatus(), "status", s);
+        checkOptionalString(s.getTemple(), "temple", s);
     }
 
 }

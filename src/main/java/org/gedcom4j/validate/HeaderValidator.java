@@ -65,8 +65,7 @@ class HeaderValidator extends AbstractValidator {
                 header.copyrightData = new ArrayList<String>();
                 rootValidator.addInfo("Copyright data collection was null - repaired", header);
             } else {
-                rootValidator.addError("Copyright data collection is null - must be at least an empty collection",
-                        header);
+                rootValidator.addError("Copyright data collection is null - must be at least an empty collection", header);
             }
         }
         checkCustomTags(header);
@@ -102,21 +101,19 @@ class HeaderValidator extends AbstractValidator {
                 header.notes = new ArrayList<String>();
                 rootValidator.addInfo("Notes collection in header was null - repaired", header);
             } else {
-                rootValidator.addError("Notes collection in header is null - must be at least an empty collection",
-                        header);
+                rootValidator.addError("Notes collection in header is null - must be at least an empty collection", header);
             }
         }
         checkOptionalString(header.placeHierarchy, "place hierarchy", header);
         checkSourceSystem();
         if (header.submitter == null) {
             if (rootValidator.autorepair) {
-                if (rootValidator.gedcom.submitters == null || rootValidator.gedcom.submitters.isEmpty()) {
-                    rootValidator.addError("Submitter not specified in header, and autorepair could not "
-                            + "find a submitter to select as default", header);
+                if (rootValidator.gedcom.getSubmitters() == null || rootValidator.gedcom.getSubmitters().isEmpty()) {
+                    rootValidator.addError("Submitter not specified in header, and autorepair could not " + "find a submitter to select as default", header);
                 } else {
                     // Take the first submitter from the collection and set that
                     // as the primary submitter in the header
-                    header.submitter = rootValidator.gedcom.submitters.values().iterator().next();
+                    header.submitter = rootValidator.gedcom.getSubmitters().values().iterator().next();
                 }
             } else {
                 rootValidator.addError("Submitter not specified in header", header);
@@ -152,10 +149,9 @@ class HeaderValidator extends AbstractValidator {
                 return;
             }
         }
-        if (!Encoding.isValidCharacterSetName(header.characterSet.characterSetName.value)) {
-            rootValidator.addError(
-                    "Character set name is not one of the supported encodings ("
-                            + Encoding.getSupportedCharacterSetNames() + ")", header.characterSet.characterSetName);
+        if (!Encoding.isValidCharacterSetName(header.characterSet.characterSetName.getValue())) {
+            rootValidator.addError("Character set name is not one of the supported encodings (" + Encoding.getSupportedCharacterSetNames() + ")",
+                    header.characterSet.characterSetName);
         }
         checkOptionalString(header.characterSet.characterSetName, "character set name", header.characterSet);
         checkOptionalString(header.characterSet.versionNum, "character set version number", header.characterSet);
@@ -199,11 +195,9 @@ class HeaderValidator extends AbstractValidator {
             if (sd.name == null || sd.name.trim().length() == 0) {
                 if (rootValidator.autorepair) {
                     sd.name = "UNSPECIFIED";
-                    rootValidator.addInfo("Source data was specified for source system, "
-                            + "but name of source data was not specified - repaired", sd);
+                    rootValidator.addInfo("Source data was specified for source system, " + "but name of source data was not specified - repaired", sd);
                 } else {
-                    rootValidator.addError("Source data is specified for source system, "
-                            + "but name of source data is not specified", sd);
+                    rootValidator.addError("Source data is specified for source system, " + "but name of source data is not specified", sd);
                 }
 
             }

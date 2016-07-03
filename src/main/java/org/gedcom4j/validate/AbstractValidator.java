@@ -230,7 +230,7 @@ abstract class AbstractValidator {
      *            the object containing the field being checked
      */
     protected void checkOptionalString(StringWithCustomTags optionalString, String fieldDescription, Object objectContainingField) {
-        if (optionalString != null && optionalString.value != null && optionalString.value.trim().length() == 0) {
+        if (optionalString != null && optionalString.getValue() != null && optionalString.getValue().trim().length() == 0) {
             addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName() + " is specified, but has a blank value",
                     objectContainingField);
         }
@@ -265,7 +265,7 @@ abstract class AbstractValidator {
      *            the object containing the field being checked
      */
     protected void checkRequiredString(StringWithCustomTags requiredString, String fieldDescription, Object objectContainingField) {
-        if (requiredString == null || requiredString.value == null || requiredString.value.trim().length() == 0) {
+        if (requiredString == null || requiredString.getValue() == null || requiredString.getValue().trim().length() == 0) {
             addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName() + " is required, but is either null or blank",
                     objectContainingField);
         }
@@ -321,14 +321,14 @@ abstract class AbstractValidator {
         int i = 0;
         while (i < stringList.size()) {
             StringWithCustomTags a = stringList.get(i);
-            if (a == null || a.value == null) {
+            if (a == null || a.getValue() == null) {
                 if (rootValidator.autorepair == true) {
                     addInfo("String list (" + description + ") contains null entry - removed", stringList);
                     stringList.remove(i);
                     continue;
                 }
                 addError("String list (" + description + ") contains null entry", stringList);
-            } else if (!blanksAllowed && a.value.trim().length() == 0) {
+            } else if (!blanksAllowed && a.getValue().trim().length() == 0) {
                 if (rootValidator.autorepair == true) {
                     addInfo("String list (" + description + ") contains blank entry where none are allowed - removed", stringList);
                     stringList.remove(i);
@@ -423,7 +423,7 @@ abstract class AbstractValidator {
         if (swct == null) {
             return;
         }
-        if (swct.value == null || swct.value.trim().length() == 0) {
+        if (swct.getValue() == null || swct.getValue().trim().length() == 0) {
             addError("A string with custom tags object (" + fieldDescription + ") was defined with no value", swct);
         }
         checkCustomTags(swct);

@@ -296,9 +296,9 @@ public class RelationshipCalculator {
         SimpleRelationship r = new SimpleRelationship();
         r.individual1 = personBeingExamined;
         r.individual2 = child;
-        if ("M".equals(child.sex.value)) {
+        if ("M".equals(child.sex.getValue())) {
             r.name = SON;
-        } else if ("F".equals(child.sex.value)) {
+        } else if ("F".equals(child.sex.getValue())) {
             r.name = DAUGHTER;
         } else {
             r.name = CHILD;
@@ -321,9 +321,9 @@ public class RelationshipCalculator {
         SimpleRelationship r = new SimpleRelationship();
         r.individual1 = personBeingExamined;
         r.individual2 = father;
-        if ("M".equals(personBeingExamined.sex.value)) {
+        if ("M".equals(personBeingExamined.sex.getValue())) {
             r.reverseName = SON;
-        } else if ("F".equals(personBeingExamined.sex.value)) {
+        } else if ("F".equals(personBeingExamined.sex.getValue())) {
             r.reverseName = DAUGHTER;
         } else {
             r.reverseName = CHILD;
@@ -364,9 +364,9 @@ public class RelationshipCalculator {
         SimpleRelationship r = new SimpleRelationship();
         r.individual1 = personBeingExamined;
         r.individual2 = mother;
-        if ("M".equals(personBeingExamined.sex.value)) {
+        if ("M".equals(personBeingExamined.sex.getValue())) {
             r.reverseName = SON;
-        } else if ("F".equals(personBeingExamined.sex.value)) {
+        } else if ("F".equals(personBeingExamined.sex.getValue())) {
             r.reverseName = DAUGHTER;
         } else {
             r.reverseName = CHILD;
@@ -407,10 +407,10 @@ public class RelationshipCalculator {
      * @return what the relationship would be back to the original person
      */
     private RelationshipName getReverseRelationship(RelationshipName relationship, StringWithCustomTags sex) {
-        if ("M".equals(sex.value)) {
+        if ("M".equals(sex.getValue())) {
             return relationship.reverseForMale;
         }
-        if ("F".equals(sex.value)) {
+        if ("F".equals(sex.getValue())) {
             return relationship.reverseForFemale;
         }
         return relationship.reverseForUnknown;

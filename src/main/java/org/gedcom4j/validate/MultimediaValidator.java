@@ -59,19 +59,16 @@ class MultimediaValidator extends AbstractValidator {
             throw new GedcomValidationException("Root validator passed in to MultimediaValidator constructor was null");
         }
         mm = multimedia;
-        if (rootValidator.gedcom == null || rootValidator.gedcom.header == null
-                || rootValidator.gedcom.header.gedcomVersion == null
-                || rootValidator.gedcom.header.gedcomVersion.versionNumber == null) {
+        if (rootValidator.gedcom == null || rootValidator.gedcom.getHeader() == null || rootValidator.gedcom.getHeader().gedcomVersion == null
+                || rootValidator.gedcom.getHeader().gedcomVersion.versionNumber == null) {
             if (rootValidator.autorepair) {
                 gedcomVersion = SupportedVersion.V5_5_1;
-                rootValidator
-                        .addInfo("Was not able to determine GEDCOM version - assuming 5.5.1", rootValidator.gedcom);
+                rootValidator.addInfo("Was not able to determine GEDCOM version - assuming 5.5.1", rootValidator.gedcom);
             } else {
-                rootValidator.addError("Was not able to determine GEDCOM version - cannot validate multimedia objects",
-                        rootValidator.gedcom);
+                rootValidator.addError("Was not able to determine GEDCOM version - cannot validate multimedia objects", rootValidator.gedcom);
             }
         } else {
-            gedcomVersion = rootValidator.gedcom.header.gedcomVersion.versionNumber;
+            gedcomVersion = rootValidator.gedcom.getHeader().gedcomVersion.versionNumber;
         }
     }
 
@@ -150,9 +147,9 @@ class MultimediaValidator extends AbstractValidator {
         }
 
         // Item should be found in map using the xref as the key
-        if (rootValidator.gedcom.multimedia.get(mm.xref) != mm) {
+        if (rootValidator.gedcom.getMultimedia().get(mm.xref) != mm) {
             if (rootValidator.autorepair) {
-                rootValidator.gedcom.multimedia.put(mm.xref, mm);
+                rootValidator.gedcom.getMultimedia().put(mm.xref, mm);
                 rootValidator.addInfo("Multimedia object not keyed by xref in map - repaired", mm);
             } else {
                 rootValidator.addError("Multimedia object not keyed by xref in map", mm);
@@ -187,8 +184,7 @@ class MultimediaValidator extends AbstractValidator {
         if (!mm.citations.isEmpty()) {
             if (rootValidator.autorepair) {
                 mm.citations.clear();
-                rootValidator.addInfo("Citations collection was populated, but not allowed in "
-                        + "v5.5 of gedcom - repaired (cleared)", mm);
+                rootValidator.addInfo("Citations collection was populated, but not allowed in " + "v5.5 of gedcom - repaired (cleared)", mm);
             } else {
                 rootValidator.addError("Citations collection is populated, but not allowed in " + "v5.5 of gedcom", mm);
             }
@@ -218,8 +214,7 @@ class MultimediaValidator extends AbstractValidator {
         if (mm.blob != null && !mm.blob.isEmpty()) {
             if (rootValidator.autorepair) {
                 mm.blob.clear();
-                addInfo("Embedded media object had a populated blob object, "
-                        + "which is not allowed in GEDCOM 5.5.1 - repaired (cleared)", mm);
+                addInfo("Embedded media object had a populated blob object, " + "which is not allowed in GEDCOM 5.5.1 - repaired (cleared)", mm);
             } else {
                 addError("Embedded media object has a populated blob object, which is not allowed in GEDCOM 5.5.1", mm);
             }
@@ -229,11 +224,9 @@ class MultimediaValidator extends AbstractValidator {
         if (mm.embeddedMediaFormat != null) {
             if (rootValidator.autorepair) {
                 mm.embeddedMediaFormat = null;
-                rootValidator.addInfo("Multimedia object had a format for embedded media, "
-                        + "which is not allowed in GEDCOM 5.5.1 - repaired (cleared)", mm);
+                rootValidator.addInfo("Multimedia object had a format for embedded media, " + "which is not allowed in GEDCOM 5.5.1 - repaired (cleared)", mm);
             } else {
-                rootValidator.addError("Multimedia object has a format for embedded media, "
-                        + "which is not allowed in GEDCOM 5.5.1", mm);
+                rootValidator.addError("Multimedia object has a format for embedded media, " + "which is not allowed in GEDCOM 5.5.1", mm);
             }
 
         }

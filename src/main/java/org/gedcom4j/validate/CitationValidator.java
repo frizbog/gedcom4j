@@ -27,7 +27,6 @@ import java.util.List;
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.CitationWithSource;
 import org.gedcom4j.model.CitationWithoutSource;
-import org.gedcom4j.model.Note;
 
 /**
  * A validator for source citations - both {@link CitationWithoutSource} and {@link CitationWithSource}. See
@@ -83,31 +82,26 @@ class CitationValidator extends AbstractValidator {
             if (c.textFromSource == null) {
                 if (rootValidator.autorepair) {
                     c.textFromSource = new ArrayList<List<String>>();
-                    addInfo("Text from source collection (the list of lists) was null in CitationWithoutSource - autorepaired",
-                            citation);
+                    addInfo("Text from source collection (the list of lists) was null in CitationWithoutSource - autorepaired", citation);
                 } else {
-                    addError("Text from source collection (the list of lists) is null in CitationWithoutSource",
-                            citation);
+                    addError("Text from source collection (the list of lists) is null in CitationWithoutSource", citation);
                 }
             } else {
                 for (List<String> sl : c.textFromSource) {
                     if (sl == null) {
-                        addError(
-                                "Text from source collection (the list of lists) in CitationWithoutSource contains a null",
-                                citation);
+                        addError("Text from source collection (the list of lists) in CitationWithoutSource contains a null", citation);
                     } else {
-                        checkStringList(sl,
-                                "one of the sublists in the textFromSource collection on a source citation", true);
+                        checkStringList(sl, "one of the sublists in the textFromSource collection on a source citation", true);
                     }
                 }
             }
         } else {
-            throw new IllegalStateException("AbstractCitation references must be either CitationWithSource"
-                    + " instances or CitationWithoutSource instances");
+            throw new IllegalStateException("AbstractCitation references must be either CitationWithSource" + " instances or CitationWithoutSource instances");
         }
         if (citation.getNotes() == null) {
             if (rootValidator.autorepair) {
-                citation.setNotes(new ArrayList<Note>());
+                citation.getNotes(true).clear();
+                ;
                 addInfo("Notes collection was null on " + citation.getClass().getSimpleName() + " - autorepaired");
             } else {
                 addError("Notes collection is null on " + citation.getClass().getSimpleName());

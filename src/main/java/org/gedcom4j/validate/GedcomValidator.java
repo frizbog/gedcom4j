@@ -22,7 +22,6 @@
 package org.gedcom4j.validate;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -151,7 +150,7 @@ public class GedcomValidator extends AbstractValidator {
         validateMultimedia();
         validateNotes();
         validateSources();
-        validateSubmission(gedcom.submission);
+        validateSubmission(gedcom.getSubmission());
         validateTrailer();
         checkNotes(new ArrayList<Note>(gedcom.getNotes().values()), gedcom);
     }
@@ -181,16 +180,16 @@ public class GedcomValidator extends AbstractValidator {
      * Validate the families map
      */
     private void validateFamilies() {
-        if (gedcom.families == null) {
+        if (gedcom.getFamilies() == null) {
             if (rootValidator.autorepair) {
-                gedcom.families = new HashMap<String, Family>();
+                gedcom.getFamilies(true).clear();
                 rootValidator.addInfo("Map of families in gedcom was null - repaired", gedcom);
             } else {
                 rootValidator.addError("Map of families in gedcom is null", gedcom);
                 return;
             }
         }
-        for (Entry<String, Family> e : gedcom.families.entrySet()) {
+        for (Entry<String, Family> e : gedcom.getFamilies().entrySet()) {
             if (e.getKey() == null) {
                 if (rootValidator.autorepair) {
                     rootValidator.addError("Family in map but has null key - cannot repair", e.getValue());
@@ -216,32 +215,32 @@ public class GedcomValidator extends AbstractValidator {
      * Validate the {@link Gedcom#header} object
      */
     private void validateHeader() {
-        if (gedcom.header == null) {
+        if (gedcom.getHeader() == null) {
             if (autorepair) {
-                gedcom.header = new Header();
+                gedcom.setHeader(new Header());
                 addInfo("Header was null - autorepaired");
             } else {
                 addError("GEDCOM Header is null");
                 return;
             }
         }
-        new HeaderValidator(rootValidator, gedcom.header).validate();
+        new HeaderValidator(rootValidator, gedcom.getHeader()).validate();
     }
 
     /**
      * Validate the {@link Gedcom#individuals} collection
      */
     private void validateIndividuals() {
-        if (gedcom.individuals == null) {
+        if (gedcom.getIndividuals() == null) {
             if (autorepair) {
-                gedcom.individuals = new HashMap<String, Individual>();
+                gedcom.getIndividuals(true).clear();
                 addInfo("Individuals collection was null - autorepaired", gedcom);
             } else {
                 addError("Individuals collection is null", gedcom);
                 return;
             }
         }
-        for (Entry<String, Individual> e : gedcom.individuals.entrySet()) {
+        for (Entry<String, Individual> e : gedcom.getIndividuals().entrySet()) {
             if (e.getKey() == null) {
                 addError("Entry in individuals collection has null key", e);
                 return;
@@ -262,9 +261,11 @@ public class GedcomValidator extends AbstractValidator {
      * Validate the collection of {@link Multimedia} objects
      */
     private void validateMultimedia() {
-        for (Multimedia m : gedcom.multimedia.values()) {
-            MultimediaValidator mv = new MultimediaValidator(this, m);
-            mv.validate();
+        if (gedcom.getMultimedia() != null) {
+            for (Multimedia m : gedcom.getMultimedia().values()) {
+                MultimediaValidator mv = new MultimediaValidator(this, m);
+                mv.validate();
+            }
         }
     }
 
@@ -283,16 +284,16 @@ public class GedcomValidator extends AbstractValidator {
      * Validate the repositories collection
      */
     private void validateRepositories() {
-        if (gedcom.repositories == null) {
+        if (gedcom.getRepositories() == null) {
             if (autorepair) {
-                gedcom.repositories = new HashMap<String, Repository>();
+                gedcom.getRepositories(true).clear();
                 addInfo("Repositories collection on root gedcom was null - autorepaired", gedcom);
                 return;
             }
             addError("Repositories collection on root gedcom is null", gedcom);
             return;
         }
-        for (Entry<String, Repository> e : gedcom.repositories.entrySet()) {
+        for (Entry<String, Repository> e : gedcom.getRepositories().entrySet()) {
             if (e.getKey() == null) {
                 addError("Entry in repositories collection has null key", e);
                 return;
@@ -314,16 +315,16 @@ public class GedcomValidator extends AbstractValidator {
      * Validate the {@link Gedcom#sources} collection
      */
     private void validateSources() {
-        if (gedcom.sources == null) {
+        if (gedcom.getSources() == null) {
             if (autorepair) {
-                gedcom.sources = new HashMap<String, Source>();
+                gedcom.getSources(true).clear();
                 addInfo("Sources collection was null - autorepaired", gedcom);
             } else {
                 addError("Sources collection is null", gedcom);
                 return;
             }
         }
-        for (Entry<String, Source> e : gedcom.sources.entrySet()) {
+        for (Entry<String, Source> e : gedcom.getSources().entrySet()) {
             if (e.getKey() == null) {
                 addError("Entry in sources collection has null key", e);
                 return;
@@ -344,27 +345,27 @@ public class GedcomValidator extends AbstractValidator {
      * Validate the submitters collection
      */
     private void validateSubmitters() {
-        if (gedcom.submitters == null) {
+        if (gedcom.getSubmission() == null) {
             if (autorepair) {
-                gedcom.submitters = new HashMap<String, Submitter>();
+                gedcom.getSubmitters(true).clear();
                 addInfo("Submitters collection was missing on gedcom - repaired", gedcom);
             } else {
                 addInfo("Submitters collection is missing on gedcom", gedcom);
                 return;
             }
         }
-        if (gedcom.submitters.isEmpty()) {
+        if (gedcom.getSubmitters().isEmpty()) {
             if (autorepair) {
                 Submitter s = new Submitter();
                 s.xref = "@SUBM0000@";
                 s.name = new StringWithCustomTags("UNSPECIFIED");
-                gedcom.submitters.put(s.xref, s);
+                gedcom.getSubmitters().put(s.xref, s);
                 addInfo("Submitters collection was empty - repaired", gedcom);
             } else {
                 addError("Submitters collection is empty", gedcom);
             }
         }
-        for (Submitter s : gedcom.submitters.values()) {
+        for (Submitter s : gedcom.getSubmitters().values()) {
             new SubmitterValidator(rootValidator, s).validate();
         }
     }
@@ -373,9 +374,9 @@ public class GedcomValidator extends AbstractValidator {
      * Validate the trailer
      */
     private void validateTrailer() {
-        if (gedcom.trailer == null) {
+        if (gedcom.getTrailer() == null) {
             if (rootValidator.autorepair) {
-                gedcom.trailer = new Trailer();
+                gedcom.setTrailer(new Trailer());
                 rootValidator.addInfo("Gedcom had no trailer - repaired", gedcom);
             } else {
                 rootValidator.addError("Gedcom has no trailer", gedcom);
