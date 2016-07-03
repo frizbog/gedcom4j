@@ -93,7 +93,9 @@ class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
             // Check for EOF
             if (currChar1 < 0 || currChar2 < 0) {
                 // hit EOF - add final line buffer (last line) and get out
-                result = lineBuffer.toString();
+                if (lineBuffer.length() > 0) {
+                    result = lineBuffer.toString();
+                }
                 eof = true;
                 break;
             }

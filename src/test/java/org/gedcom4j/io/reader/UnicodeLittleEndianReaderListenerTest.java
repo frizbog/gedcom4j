@@ -33,7 +33,7 @@ public class UnicodeLittleEndianReaderListenerTest extends AbstractReaderListene
      * Constructor
      */
     public UnicodeLittleEndianReaderListenerTest() {
-        super("sample/willis-unicode-littleendian.ged", 20037, 41);
+        super("sample/willis-unicode-littleendian.ged", 20036, 41);
     }
 
 }

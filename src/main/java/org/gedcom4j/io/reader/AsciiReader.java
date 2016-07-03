@@ -78,24 +78,21 @@ class AsciiReader extends AbstractEncodingSpecificReader {
             if (currChar < 0) {
                 // hit EOF - add final line buffer (last line) and get out
                 eof = true;
-                result = lineBuffer.toString();
+                if (lineBuffer.length() > 0) {
+                    result = lineBuffer.toString();
+                }
                 break;
             }
 
-            // Check for carriage returns - signify EOL
-            if (currChar == 0x0D) {
+            // Ignore leading spaces
+            if (currChar == ' ' && lineBuffer.length() == 0) {
+                continue;
+            }
+
+            // Check for carriage returns or line feeds - signify EOL
+            if ((currChar == 0x0D || currChar == 0x0A) && lineBuffer.length() > 0) {
                 result = lineBuffer.toString();
                 lineBuffer.setLength(0);
-                break;
-            }
-
-            // Check for line feeds - signify EOL (unless prev char was a
-            // CR)
-            if (currChar == 0x0A) {
-                if (lastChar != 0x0D) {
-                    result = lineBuffer.toString();
-                    lineBuffer.setLength(0);
-                }
                 break;
             }
 

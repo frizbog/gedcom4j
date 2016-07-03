@@ -1,6 +1,5 @@
 package org.gedcom4j.parser;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -50,11 +49,6 @@ public class StringTreeBuilder {
     private final StringTree[] lastNodeAtLevel = new StringTree[100];
 
     /**
-     * The buffered input stream we are reading from
-     */
-    private final BufferedInputStream inputStream;
-
-    /**
      * A flag indicating whether the current line from the input file begins with a 1-2 digit level number followed by a
      * space
      */
@@ -96,15 +90,22 @@ public class StringTreeBuilder {
      * @param parser
      *            the {@link GedcomParser} this object will be assisting with making a {@link StringTree} for
      * 
-     * @param inputStream
-     *            The buffered input stream we are reading from
      */
-    public StringTreeBuilder(GedcomParser parser, BufferedInputStream inputStream) {
+    public StringTreeBuilder(GedcomParser parser) {
         this.parser = parser;
-        this.inputStream = inputStream;
-        treeForWholeFile.level = -1;
+        getTree().level = -1;
         mostRecentlyAdded = null;
         lineNum = 0; // Haven't read any lines yet
+    }
+
+    /**
+     * Get the string tree representing the entire file - the string tree that this {@link StringTreeBuilder} object was
+     * created to build
+     * 
+     * @return the string tree representing the entire file
+     */
+    public StringTree getTree() {
+        return treeForWholeFile;
     }
 
     /**
@@ -145,19 +146,13 @@ public class StringTreeBuilder {
      *             if there is an error with parsing the data from the stream
      */
     StringTree makeStringTreeFromFlatLines(List<String> lines) throws IOException, GedcomParserException {
-        treeForWholeFile.level = -1;
+        getTree().level = -1;
         mostRecentlyAdded = null;
-        try {
-            while (lineNum < lines.size()) {
-                String l = leftTrim(lines.get(lineNum));
-                appendLine(l);
-            }
-        } finally {
-            if (inputStream != null) {
-                inputStream.close();
-            }
+        while (lineNum < lines.size()) {
+            String l = leftTrim(lines.get(lineNum));
+            appendLine(l);
         }
-        return treeForWholeFile;
+        return getTree();
     }
 
     /**
@@ -176,7 +171,7 @@ public class StringTreeBuilder {
 
         StringTree addTo = null;
         if (treeForCurrentLine.level == 0) {
-            addTo = treeForWholeFile;
+            addTo = getTree();
         } else {
             addTo = lastNodeAtLevel[treeForCurrentLine.level - 1];
         }

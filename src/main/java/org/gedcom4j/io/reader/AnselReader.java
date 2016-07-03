@@ -126,7 +126,7 @@ class AnselReader extends AbstractEncodingSpecificReader {
             }
 
             // Check for carriage returns or line feeds - signify EOL
-            if (currChar == 0x0D || currChar == 0x0A) {
+            if ((currChar == 0x0D || currChar == 0x0A)) {
 
                 // Check for line breaks between combining diacritics and the base characters
 

@@ -2276,8 +2276,26 @@ public class GedcomParser {
      *             if there is an error with parsing the data from the stream
      */
     private StringTree makeStringTreeFromStream(BufferedInputStream bytes) throws IOException, GedcomParserException {
-        List<String> lines = new GedcomFileReader(this, bytes).getLines();
-        return new StringTreeBuilder(this, bytes).makeStringTreeFromFlatLines(lines);
+        /* This was the old way - loaded entire file into arraylist of strings */
+        /*
+         * List<String> lines = new GedcomFileReader(this, bytes).getLines(); return new StringTreeBuilder(this,
+         * bytes).makeStringTreeFromFlatLines(lines);
+         */
+        /*
+         * This is the new way - reads line at a time and adds each one to StringTree, avoiding temp arraylist of
+         * strings
+         */
+        GedcomFileReader gfr = new GedcomFileReader(this, bytes);
+        StringTreeBuilder stb = new StringTreeBuilder(this);
+        String line = gfr.nextLine();
+        while (line != null) {
+            stb.appendLine(line);
+            line = gfr.nextLine();
+            if (cancelled) {
+                throw new ParserCancelledException("File load/parse is cancelled");
+            }
+        }
+        return stb.getTree();
     }
 
     /**
