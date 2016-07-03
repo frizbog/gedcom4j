@@ -339,8 +339,8 @@ public class GedcomParser {
      * @return true if and only if the Gedcom data says it is for the 5.5 standard.
      */
     private boolean g55() {
-        return gedcom != null && gedcom.header != null && gedcom.header.gedcomVersion != null
-                && SupportedVersion.V5_5.equals(gedcom.header.gedcomVersion.versionNumber);
+        return gedcom != null && gedcom.header != null && gedcom.header.gedcomVersion != null && SupportedVersion.V5_5.equals(
+                gedcom.header.gedcomVersion.versionNumber);
     }
 
     /**
@@ -1046,9 +1046,9 @@ public class GedcomParser {
             } else if (Tag.NOTE.equals(ch.tag)) {
                 loadNote(ch, m.notes);
                 if (!g55()) {
-                    warnings.add(
-                            "Gedcom version was 5.5.1, but a NOTE was found on a multimedia link on line " + ch.lineNum + ", which is no longer supported. "
-                                    + "Data will be loaded, but cannot be written back out unless the GEDCOM version is changed to 5.5");
+                    warnings.add("Gedcom version was 5.5.1, but a NOTE was found on a multimedia link on line " + ch.lineNum
+                            + ", which is no longer supported. "
+                            + "Data will be loaded, but cannot be written back out unless the GEDCOM version is changed to 5.5");
                 }
             } else {
                 unknownTag(ch, m);

@@ -81,6 +81,16 @@ public class StringTreeBuilder {
     private final GedcomParser parser;
 
     /**
+     * The line number we're on - 1-based!!!!!!
+     */
+    private int lineNum = 0;
+
+    /**
+     * The line we're currently processing
+     */
+    private String line;
+
+    /**
      * Constructor
      * 
      * @param parser
@@ -92,6 +102,34 @@ public class StringTreeBuilder {
     public StringTreeBuilder(GedcomParser parser, BufferedInputStream inputStream) {
         this.parser = parser;
         this.inputStream = inputStream;
+        treeForWholeFile.level = -1;
+        mostRecentlyAdded = null;
+        lineNum = 0; // Haven't read any lines yet
+    }
+
+    /**
+     * Add the supplied line to the right place in the StringTree being built
+     * 
+     * @param l
+     *            the line to add
+     * 
+     * @throws GedcomParserException
+     *             if there is an error with parsing the data from the stream
+     */
+    void appendLine(String l) throws GedcomParserException {
+        line = l;
+        lineNum++;
+        treeForCurrentLine = new StringTree();
+        treeForCurrentLine.lineNum = lineNum;
+
+        checkIfNewLevelLine();
+
+        if (beginsWithLevelAndSpace) {
+            addNewNode();
+            mostRecentlyAdded = treeForCurrentLine;
+        } else {
+            makeConcatenationOfPreviousNode();
+        }
     }
 
     /**
@@ -110,21 +148,9 @@ public class StringTreeBuilder {
         treeForWholeFile.level = -1;
         mostRecentlyAdded = null;
         try {
-            for (int lineNum = 1; lineNum <= lines.size(); lineNum++) {
-                treeForCurrentLine = new StringTree();
-                treeForCurrentLine.lineNum = lineNum;
-
-                String line = lines.get(lineNum - 1);
-                line = leftTrim(line); // See issue 57
-
-                checkIfNewLevelLine(lineNum, line);
-
-                if (beginsWithLevelAndSpace) {
-                    addNewNode(lineNum, line);
-                    mostRecentlyAdded = treeForCurrentLine;
-                } else {
-                    makeConcatenationOfPreviousNode(lineNum, line);
-                }
+            while (lineNum < lines.size()) {
+                String l = leftTrim(lines.get(lineNum));
+                appendLine(l);
             }
         } finally {
             if (inputStream != null) {
@@ -137,15 +163,10 @@ public class StringTreeBuilder {
     /**
      * Add a new node to the correct parent node in the StringTree
      * 
-     * @param lineNum
-     *            the current line number in the file
-     * @param line
-     *            the current line of the file
-     * 
      * @throws GedcomParserException
      *             if there are file lines that are not well formed - see {@link LinePieces#LinePieces(String, int)}
      */
-    private void addNewNode(int lineNum, String line) throws GedcomParserException {
+    private void addNewNode() throws GedcomParserException {
         LinePieces lp = new LinePieces(line, lineNum);
         treeForCurrentLine.level = lp.level;
         treeForCurrentLine.id = lp.id;
@@ -174,20 +195,16 @@ public class StringTreeBuilder {
      * Check that the line has a level number so we can know whether it's a new line or a continuation of the previous
      * one
      * 
-     * @param lineNum
-     *            the current line number in the file
-     * @param line
-     *            the current line of the file
      * @throws GedcomParserException
      *             if we can't determine whether the current line is a new leveled line in the file or not when strict
      *             line breaks are off, or that the line does not begin with a level number when strict line breaks are
      *             enabled.
      */
-    private void checkIfNewLevelLine(int lineNum, String line) throws GedcomParserException {
+    private void checkIfNewLevelLine() throws GedcomParserException {
         beginsWithLevelAndSpace = false;
         try {
             // Probably sets it to true, but might not for a non-standard file - see Issue 100
-            beginsWithLevelAndSpace = startsWithLevelAndSpace(lineNum, line);
+            beginsWithLevelAndSpace = startsWithLevelAndSpace();
         } catch (GedcomParserException e) {
             if (parser.strictLineBreaks) {
                 throw e;
@@ -197,13 +214,8 @@ public class StringTreeBuilder {
 
     /**
      * Make the current node a concatenation of the previous node.
-     * 
-     * @param lineNum
-     *            the current line number in the file
-     * @param line
-     *            the current line of the file
      */
-    private void makeConcatenationOfPreviousNode(int lineNum, String line) {
+    private void makeConcatenationOfPreviousNode() {
         // Doesn't begin with a level number followed by a space, and we don't have strictLineBreaks
         // required, so it's probably meant to be a continuation of the previous text value.
         if (mostRecentlyAdded != null) {
@@ -213,8 +225,8 @@ public class StringTreeBuilder {
             treeForCurrentLine.value = line;
             treeForCurrentLine.parent = mostRecentlyAdded;
             mostRecentlyAdded.children.add(treeForCurrentLine);
-            parser.warnings.add(
-                    "Line " + lineNum + " did not begin with a level and tag, so it was treated as a " + "non-standard continuation of the previous line.");
+            parser.warnings.add("Line " + lineNum + " did not begin with a level and tag, so it was treated as a "
+                    + "non-standard continuation of the previous line.");
         } else {
             parser.warnings.add("Line " + lineNum + " did not begin with a level and tag, so it was discarded.");
         }
@@ -223,16 +235,11 @@ public class StringTreeBuilder {
     /**
      * Does this line start with a 1-2 digit level number and a space?
      * 
-     * @param lineNum
-     *            the line number being read
-     * @param line
-     *            the line being read
-     * 
      * @return true if and only if the line begins with a 1-2 digit level number followed by a space
      * @throws GedcomParserException
      *             if the line does not begin with a 1-2 digit number followed by a space
      */
-    private boolean startsWithLevelAndSpace(int lineNum, String line) throws GedcomParserException {
+    private boolean startsWithLevelAndSpace() throws GedcomParserException {
 
         try {
             char c1 = line.charAt(0);
@@ -245,8 +252,8 @@ public class StringTreeBuilder {
                 } else if (Character.isDigit(c2) && ' ' == c3) {
                     return true;
                 } else {
-                    throw new GedcomParserException(
-                            "Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
+                    throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: "
+                            + line);
                 }
             }
             throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
