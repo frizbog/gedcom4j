@@ -33,7 +33,7 @@ public class UnicodeBigEndianReaderListenerTest extends AbstractReaderListenerTe
      * Constructor
      */
     public UnicodeBigEndianReaderListenerTest() {
-        super("sample/willis-unicode-bigendian.ged", 20036, 41);
+        super("sample/willis-unicode-bigendian.ged", 20037, 41);
     }
 
 }

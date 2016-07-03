@@ -108,13 +108,13 @@ public class GedcomFileReader {
      */
     public List<String> getLines() throws IOException, GedcomParserException {
         List<String> result = new ArrayList<String>();
-        String s = null;
-        do {
-            s = nextLine();
-            if (s != null && s.length() > 0) {
+        String s = nextLine();
+        while (s != null) {
+            if (s.length() > 0) {
                 result.add(s);
             }
-        } while (s != null);
+            s = nextLine();
+        }
         return result;
     }
 

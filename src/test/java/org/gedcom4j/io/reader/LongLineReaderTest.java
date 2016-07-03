@@ -27,6 +27,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
@@ -58,7 +59,14 @@ public class LongLineReaderTest {
             fis = new FileInputStream("sample/superlongline-ansel.ged");
             GedcomParser gp = new GedcomParser();
             AnselReader ar = new AnselReader(gp, fis);
-            List<String> strings = ar.load();
+
+            List<String> strings = new ArrayList<String>();
+            String s = ar.nextLine();
+            while (s != null) {
+                strings.add(s);
+                s = ar.nextLine();
+            }
+
             assertNotNull(strings);
             assertEquals("Should say there were 12 lines even though the file only has 11", 12, strings.size());
             assertEquals("0 @N1@ NOTE This is an ridiculously long line that exceeds the GEDCOM maximum line length of 255 characters "

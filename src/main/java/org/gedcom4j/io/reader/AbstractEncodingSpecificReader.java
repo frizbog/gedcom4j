@@ -72,16 +72,9 @@ abstract class AbstractEncodingSpecificReader {
      * @param byteStream
      *            the stream of bytes to read
      */
-    protected AbstractEncodingSpecificReader(GedcomParser parser, InputStream byteStream) {
+    AbstractEncodingSpecificReader(GedcomParser parser, InputStream byteStream) {
         this.parser = parser;
         this.byteStream = byteStream;
-    }
-
-    /**
-     * Indicate that file loading should be cancelled
-     */
-    public void cancel() {
-        parser.cancel();
     }
 
     /**
@@ -94,5 +87,14 @@ abstract class AbstractEncodingSpecificReader {
      *             if the file is malformed and cannot be parsed as a GEDCOM file for some reason
      */
     public abstract String nextLine() throws IOException, GedcomParserException;
+
+    /**
+     * Close resources that might have been opened in the concrete class
+     * 
+     * @throws IOException
+     */
+    void cleanUp() throws IOException {
+        ; // Do nothing
+    }
 
 }

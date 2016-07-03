@@ -23,11 +23,8 @@ package org.gedcom4j.io.reader;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.gedcom4j.exception.ParserCancelledException;
-import org.gedcom4j.io.event.FileProgressEvent;
+import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.parser.GedcomParser;
 
 /**
@@ -37,6 +34,36 @@ import org.gedcom4j.parser.GedcomParser;
  * @author frizbog
  */
 class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
+
+    /**
+     * The current character we've just read, byte 1
+     */
+    private int currChar1 = -1;
+
+    /**
+     * The current character we've just read, byte 2
+     */
+    private int currChar2 = -1;
+
+    /**
+     * Are we at the end of file yet?
+     */
+    private boolean eof = false;
+
+    /**
+     * The prior character we read, byte 1
+     */
+    private int lastChar1 = -1;
+
+    /**
+     * The prior character we read, byte 2
+     */
+    private int lastChar2 = -1;
+
+    /**
+     * The line buffer for the current line
+     */
+    private final StringBuilder lineBuffer = new StringBuilder();
 
     /**
      * Constructor
@@ -51,96 +78,56 @@ class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
         super(parser, byteStream);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    protected List<String> load() throws IOException, ParserCancelledException {
-        List<String> result = new ArrayList<String>();
-
-        StringBuilder lineBuffer = new StringBuilder();
-
-        boolean eof = false;
-        int b1 = -1;
-        int b2 = -1;
-
-        int lastB1;
-        int lastB2;
+    public String nextLine() throws IOException, GedcomParserException {
+        String result = null;
 
         boolean beginningOfFile = true;
 
         while (!eof) {
-            lastB1 = b1;
-            lastB2 = b2;
-            b1 = byteStream.read();
-            b2 = byteStream.read();
+            lastChar1 = currChar1;
+            lastChar2 = currChar2;
+            currChar1 = byteStream.read();
+            currChar2 = byteStream.read();
 
             // Check for EOF
-            if (b1 < 0 || b2 < 0) {
+            if (currChar1 < 0 || currChar2 < 0) {
                 // hit EOF - add final line buffer (last line) and get out
-                addNonBlankLine(result, lineBuffer);
+                result = lineBuffer.toString();
+                eof = true;
                 break;
             }
 
             // If it's a byte order marker at the beginning of the file, discard it
-            if (beginningOfFile && (b1 == 0xFF && b2 == 0xFE)) {
+            if (beginningOfFile && (currChar1 == 0xFF && currChar2 == 0xFE)) {
                 beginningOfFile = false;
                 lineBuffer.setLength(0);
-                continue;
+                break;
             }
 
             beginningOfFile = false;
 
             // Check for carriage returns - signify EOL
-            if (b1 == 0x0D && b2 == 0x00) {
-                addNonBlankLine(result, lineBuffer);
+            if (currChar1 == 0x0D && currChar2 == 0x00) {
+                result = lineBuffer.toString();
                 lineBuffer.setLength(0);
-                continue;
+                break;
             }
 
             // Check for line feeds - signify EOL (unless prev char was a
             // CR)
-            if (b1 == 0x0A && b2 == 0x00) {
-                if (lastB1 != 0x0D || lastB2 != 0x00) {
-                    addNonBlankLine(result, lineBuffer);
+            if (currChar1 == 0x0A && currChar2 == 0x00) {
+                if (lastChar1 != 0x0D || lastChar2 != 0x00) {
+                    result = lineBuffer.toString();
                     lineBuffer.setLength(0);
                 }
-                continue;
+                break;
             }
 
-            int unicodeChar = b2 << 8 | b1;
+            int unicodeChar = currChar2 << 8 | currChar1;
             lineBuffer.append(Character.valueOf((char) unicodeChar));
         }
-        parser.notifyFileObservers(new FileProgressEvent(this, linesRead, true));
         return result;
-    }
-
-    /**
-     * Add line to result if it is not blank
-     * 
-     * @param result
-     *            the resulting list of lines
-     * @param lineBuffer
-     *            the line buffer
-     * @throws ParserCancelledException
-     *             if the file load is cancelled
-     */
-    private void addNonBlankLine(List<String> result, StringBuilder lineBuffer) throws ParserCancelledException {
-        if (parser.isCancelled()) {
-            throw new ParserCancelledException("File load is cancelled");
-        }
-        if (lineBuffer.length() > 0) {
-            String s = lineBuffer.toString();
-            if (STRINGS_TO_INTERN.contains(s)) {
-                result.add(s.intern());
-            } else {
-                result.add(s);
-            }
-        }
-        linesRead++;
-        if (linesRead % parser.getReadNotificationRate() == 0) {
-            parser.notifyFileObservers(new FileProgressEvent(this, linesRead, false));
-        }
     }
 
 }

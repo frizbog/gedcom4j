@@ -29,8 +29,8 @@ import org.gedcom4j.io.encoding.AnselHandler;
 import org.gedcom4j.parser.GedcomParser;
 
 /**
- * A reader that loads from an input stream and gives back a collection of strings representing the data therein. This
- * implementation handles ANSEL encoding (1 byte per character, some extended character support).
+ * A reader that reads a single line from an ANSEL-encoded file. This implementation handles ANSEL encoding (1 byte per
+ * character, some extended character support).
  * 
  * @author frizbog
  */

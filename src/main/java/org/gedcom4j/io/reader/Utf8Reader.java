@@ -25,11 +25,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.gedcom4j.exception.ParserCancelledException;
-import org.gedcom4j.io.event.FileProgressEvent;
+import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.parser.GedcomParser;
 
 /**
@@ -46,6 +43,16 @@ class Utf8Reader extends AbstractEncodingSpecificReader {
     private boolean byteOrderMarkerRead;
 
     /**
+     * Input stream reader for internal use over the byte stream
+     */
+    private InputStreamReader inputStreamReader;
+
+    /**
+     * Buffered reader over the input stream reader, for interanl use
+     */
+    private BufferedReader bufferedReader;
+
+    /**
      * Constructor
      * 
      * @param parser
@@ -53,9 +60,40 @@ class Utf8Reader extends AbstractEncodingSpecificReader {
      * 
      * @param byteStream
      *            the stream of data to read
+     * @throws IOException
+     *             if there's a problem reading the data
      */
-    protected Utf8Reader(GedcomParser parser, InputStream byteStream) {
+    Utf8Reader(GedcomParser parser, InputStream byteStream) throws IOException {
         super(parser, byteStream);
+        inputStreamReader = null;
+        bufferedReader = null;
+        try {
+            inputStreamReader = new InputStreamReader(byteStream, "UTF8");
+
+            if (byteOrderMarkerRead) {
+                // discard the byte order marker if one was detected
+                inputStreamReader.read();
+            }
+
+            bufferedReader = new BufferedReader(inputStreamReader);
+        } catch (IOException e) {
+            cleanUp();
+            throw e;
+        }
+    }
+
+    @Override
+    public String nextLine() throws IOException, GedcomParserException {
+        String result = null;
+        String s = bufferedReader.readLine();
+        while (s != null) {
+            if (s.length() != 0) {
+                result = s;
+                break;
+            }
+            s = bufferedReader.readLine();
+        }
+        return result;
     }
 
     /**
@@ -69,51 +107,13 @@ class Utf8Reader extends AbstractEncodingSpecificReader {
     }
 
     @Override
-    protected List<String> load() throws IOException, ParserCancelledException {
-        List<String> result = new ArrayList<String>();
-        InputStreamReader r = null;
-        BufferedReader br = null;
-        try {
-            r = new InputStreamReader(byteStream, "UTF8");
-
-            if (byteOrderMarkerRead) {
-                // discard the byte order marker if one was detected
-                r.read();
-            }
-
-            br = new BufferedReader(r);
-            String s = br.readLine();
-            while (s != null) {
-                if (parser.isCancelled()) {
-                    throw new ParserCancelledException("File load is cancelled");
-                }
-                if (s.length() != 0) {
-                    if (STRINGS_TO_INTERN.contains(s)) {
-                        result.add(s.intern());
-                    } else {
-                        result.add(s);
-                    }
-                }
-                linesRead++;
-                if (linesRead % parser.getReadNotificationRate() == 0) {
-                    parser.notifyFileObservers(new FileProgressEvent(this, linesRead, false));
-                }
-                s = br.readLine();
-            }
-        } finally {
-            if (br != null) {
-                br.close();
-            }
-            if (r != null) {
-                r.close();
-            }
-            if (byteStream != null) {
-                byteStream.close();
-            }
+    void cleanUp() throws IOException {
+        if (bufferedReader != null) {
+            bufferedReader.close();
         }
-
-        parser.notifyFileObservers(new FileProgressEvent(this, linesRead, true));
-        return result;
+        if (inputStreamReader != null) {
+            inputStreamReader.close();
+        }
     }
 
 }
