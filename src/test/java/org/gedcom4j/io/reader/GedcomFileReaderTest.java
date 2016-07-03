@@ -127,11 +127,9 @@ public class GedcomFileReaderTest {
             s = new BufferedInputStream(new ByteArrayInputStream(anselData));
 
             GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), s);
-            ;
-            List<String> lines = gr.getLines();
-            assertNotNull(lines);
-            assertFalse(lines.isEmpty());
-            assertEquals("0 He\u0141\u0141o", lines.get(0));
+            String l = gr.nextLine();
+            assertNotNull(l);
+            assertEquals("0 He\u0141\u0141o", l);
         } finally {
             if (s != null) {
                 s.close();
@@ -183,19 +181,14 @@ public class GedcomFileReaderTest {
      */
     @Test
     public void testFirstNBytes() throws IOException, UnsupportedGedcomCharsetException {
-        GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(),
-                new BufferedInputStream(new ByteArrayInputStream(new byte[] { 0x12, 0x34, 0x56, 0x78 })));
+        byte[] bytes = new byte[] { '0', ' ', 0x12, 0x34 };
+        GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(), new BufferedInputStream(new ByteArrayInputStream(bytes)));
         // Haven't save the first chunk yet
         assertNotNull(gfr.firstChunk);
-        assertEquals(0x0, gfr.firstNBytes(1));
-        assertEquals(0x0, gfr.firstNBytes(2));
-        assertEquals(0x0, gfr.firstNBytes(3));
-
-        gfr.saveFirstChunk();
-        assertEquals(0x12, gfr.firstNBytes(1));
-        assertEquals(0x1234, gfr.firstNBytes(2));
-        assertEquals(0x123456, gfr.firstNBytes(3));
-        assertEquals(0x12345678, gfr.firstNBytes(4));
+        assertEquals(0x30, gfr.firstNBytes(1));
+        assertEquals(0x3020, gfr.firstNBytes(2));
+        assertEquals(0x302012, gfr.firstNBytes(3));
+        assertEquals(0x30201234, gfr.firstNBytes(4));
     }
 
     /**
@@ -460,7 +453,7 @@ public class GedcomFileReaderTest {
      * @throws GedcomParserException
      *             if the file load was cancelled or had malformed data
      */
-    void testUtf8File(String fileName) throws IOException, FileNotFoundException, GedcomParserException {
+    private void testUtf8File(String fileName) throws IOException, FileNotFoundException, GedcomParserException {
         FileInputStream fileInputStream = null;
         BufferedInputStream bufferedInputStream = null;
         try {

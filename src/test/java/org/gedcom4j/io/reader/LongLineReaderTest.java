@@ -66,14 +66,13 @@ public class LongLineReaderTest {
                 strings.add(s);
                 s = ar.nextLine();
             }
-
             assertNotNull(strings);
             assertEquals("Should say there were 12 lines even though the file only has 11", 12, strings.size());
             assertEquals("0 @N1@ NOTE This is an ridiculously long line that exceeds the GEDCOM maximum line length of 255 characters "
                     + "so that we can test whether the readers can properly introduce CONC tags on the fly and keep going as if "
                     + "everything was ok when the file has lines ", strings.get(9));
-            assertEquals("1 CONC that are way too long like this one is, even though there are lots of programs that write non-standard GEDCOM files.",
-                    strings.get(10));
+            assertEquals("1 CONC that are way too long like this one is, even though there are lots of programs that write non-standard GEDCOM files.", strings
+                    .get(10));
 
             gp = new GedcomParser();
             gp.load("sample/superlongline-ansel.ged");

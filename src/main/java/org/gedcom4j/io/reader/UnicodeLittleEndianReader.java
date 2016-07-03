@@ -107,21 +107,14 @@ class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
 
             beginningOfFile = false;
 
-            // Check for carriage returns - signify EOL
-            if (currChar1 == 0x0D && currChar2 == 0x00) {
-                result = lineBuffer.toString();
-                lineBuffer.setLength(0);
-                break;
-            }
-
-            // Check for line feeds - signify EOL (unless prev char was a
-            // CR)
-            if (currChar1 == 0x0A && currChar2 == 0x00) {
-                if (lastChar1 != 0x0D || lastChar2 != 0x00) {
+            // Check for carriage returns or line feeds - signify EOL
+            if ((currChar1 == 0x0D && currChar2 == 0x00) || (currChar1 == 0x0A && currChar2 == 0x00)) {
+                if (lineBuffer.length() > 0) {
                     result = lineBuffer.toString();
                     lineBuffer.setLength(0);
+                    break;
                 }
-                break;
+                continue;
             }
 
             int unicodeChar = currChar2 << 8 | currChar1;

@@ -105,23 +105,17 @@ class UnicodeBigEndianReader extends AbstractEncodingSpecificReader {
 
             beginningOfFile = false;
 
-            // Check for carriage returns - signify EOL
-            if (currChar1 == 0x00 && currChar2 == 0x0D) {
-                result = lineBuffer.toString();
-                lineBuffer.setLength(0);
-                break;
-            }
-
-            // Check for line feeds - signify EOL (unless prev char was a
-            // CR)
-            if (currChar1 == 0x00 && currChar2 == 0x0A) {
-                if (lastChar1 != 0x00 || lastChar2 != 0x0D) {
+            // Check for carriage returns or line feeds - signify EOL
+            if ((currChar1 == 0x00 && currChar2 == 0x0D) || (currChar1 == 0x00 && currChar2 == 0x0A)) {
+                if (lineBuffer.length() > 0) {
                     result = lineBuffer.toString();
                     lineBuffer.setLength(0);
+                    break;
                 }
-                break;
+                continue;
             }
 
+            // Do bit shifting stuff to make the character from the bytes
             int unicodeChar = currChar1 << 8 | currChar2;
             lineBuffer.append(Character.valueOf((char) unicodeChar));
         }

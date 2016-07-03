@@ -156,23 +156,6 @@ public class GedcomFileReader {
     }
 
     /**
-     * Save off a chunk of the beginning of the input stream to memory for easy inspection. The data is loaded into the
-     * field
-     * 
-     * @throws IOException
-     *             if the stream of bytes cannot be read.
-     */
-    void saveFirstChunk() throws IOException {
-        byteStream.mark(FIRST_CHUNK_SIZE);
-        int read = byteStream.read(firstChunk);
-        if (read < 0) {
-            throw new IOException("Unable to read bytes off stream");
-        }
-        byteStream.reset();
-
-    }
-
-    /**
      * Tries to determined from examining the first 1000 lines/2k of the file if the file is ASCII, ANSEL, or UTF-8
      * encoded using a variety of means.
      * 
@@ -277,6 +260,23 @@ public class GedcomFileReader {
             throw new IOException("Does not appear to be a valid gedcom file - " + "doesn't begin with a zero or newline in any supported encoding, "
                     + "and does not begin with a BOM marker for UTF-8 encoding. ");
         }
+
+    }
+
+    /**
+     * Save off a chunk of the beginning of the input stream to memory for easy inspection. The data is loaded into the
+     * field
+     * 
+     * @throws IOException
+     *             if the stream of bytes cannot be read.
+     */
+    private void saveFirstChunk() throws IOException {
+        byteStream.mark(FIRST_CHUNK_SIZE);
+        int read = byteStream.read(firstChunk);
+        if (read < 0) {
+            throw new IOException("Unable to read bytes off stream");
+        }
+        byteStream.reset();
 
     }
 }

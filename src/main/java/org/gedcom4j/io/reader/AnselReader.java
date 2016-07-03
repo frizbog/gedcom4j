@@ -64,7 +64,7 @@ class AnselReader extends AbstractEncodingSpecificReader {
     /**
      * Are we at the end of file yet?
      */
-    private final boolean eof = false;
+    private boolean eof = false;
 
     /**
      * Constructor
@@ -92,24 +92,18 @@ class AnselReader extends AbstractEncodingSpecificReader {
             // Check for EOF
             if (currChar < 0) {
                 result = getThisLine();
+                eof = true;
                 break;
             }
 
-            // Check for carriage returns - signify EOL
-            if (currChar == 0x0D) {
-                result = getThisLine();
-                lineBufferIdx = 0;
-                break;
-            }
-
-            // Check for line feeds - signify EOL (unless prev char was a
-            // CR)
-            if (currChar == 0x0A) {
-                if (lastChar != 0x0D) {
+            // Check for carriage returns or line feeds - signify EOL
+            if (currChar == 0x0D || currChar == 0x0A) {
+                if (lineBufferIdx > 0) {
                     result = getThisLine();
                     lineBufferIdx = 0;
+                    break;
                 }
-                break;
+                continue;
             }
 
             // All other characters are treated the same at this point,
@@ -118,10 +112,11 @@ class AnselReader extends AbstractEncodingSpecificReader {
 
             if (lineBufferIdx >= 255) {
                 result = getThisLine();
+                lineBufferIdx = 0;
                 insertSyntheticConcTag();
+                break;
             }
 
-            continue;
         }
         return result;
     }
@@ -146,8 +141,8 @@ class AnselReader extends AbstractEncodingSpecificReader {
                      * Line is too long and doesn't begin with a 1 or 2 digit number followed by a space, so we can't
                      * put in CONC's on the fly (because we don't know what level we're at)
                      */
-                    throw new GedcomParserException(
-                            "Line " + linesRead + " exceeds 255 characters and does not begin with a 1 or 2 digit number. " + "Can't split automatically.");
+                    throw new GedcomParserException("Line " + linesRead + " exceeds 255 characters and does not begin with a 1 or 2 digit number. "
+                            + "Can't split automatically.");
                 }
             } else {
                 if (lineBuffer[1] == ' ') {
@@ -157,8 +152,8 @@ class AnselReader extends AbstractEncodingSpecificReader {
                      * Line is too long and doesn't begin with a 1 or 2 digit number followed by a space, so we can't
                      * put in CONC's on the fly (because we don't know what level we're at)
                      */
-                    throw new GedcomParserException(
-                            "Line " + linesRead + " exceeds 255 characters and does not begin with a 1 or 2 digit number. " + "Can't split automatically.");
+                    throw new GedcomParserException("Line " + linesRead + " exceeds 255 characters and does not begin with a 1 or 2 digit number. "
+                            + "Can't split automatically.");
                 }
             }
         } else {
@@ -166,8 +161,8 @@ class AnselReader extends AbstractEncodingSpecificReader {
              * Line is too long and doesn't begin with a 1 or 2 digit number followed by a space, so we can't put in
              * CONC's on the fly (because we don't know what level we're at)
              */
-            throw new GedcomParserException(
-                    "Line " + linesRead + " exceeds 255 characters and does not begin with a 1 or 2 digit number. Can't split automatically.");
+            throw new GedcomParserException("Line " + linesRead
+                    + " exceeds 255 characters and does not begin with a 1 or 2 digit number. Can't split automatically.");
         }
         return level;
     }
