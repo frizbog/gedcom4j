@@ -22,7 +22,6 @@
 package org.gedcom4j.io.reader;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
@@ -94,35 +93,6 @@ public class GedcomFileReader {
         byteStream = bufferedInputStream;
         saveFirstChunk();
         encodingSpecificReader = getEncodingSpecificReader();
-    }
-
-    /**
-     * Get the gedcom file as a list of string
-     * 
-     * @return a <code>List</code> of <code>String</code> objects, each of which represents a line of the input file
-     *         represented by the byte stream
-     * @throws IOException
-     *             if there is a problem reading the data
-     * @throws GedcomParserException
-     *             if the file load was cancelled or was not well formed
-     */
-    public List<String> getLines() throws IOException, GedcomParserException {
-        List<String> result = new ArrayList<String>();
-        String s = nextLine();
-
-        // Strip off Byte Order Mark if needed
-        if (s != null && s.length() > 0 && s.charAt(0) == ((char) 0xFEFF)) {
-            s = s.substring(1);
-        }
-
-        while (s != null) {
-            if (s.length() > 0) {
-                result.add(s);
-            }
-            s = nextLine();
-        }
-        encodingSpecificReader.cleanUp();
-        return result;
     }
 
     /**

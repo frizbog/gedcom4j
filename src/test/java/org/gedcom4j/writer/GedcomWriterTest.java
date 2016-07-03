@@ -108,7 +108,12 @@ public class GedcomWriterTest {
         try {
             byteStream = new FileInputStream(tempFile);
             GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(), new BufferedInputStream(byteStream));
-            readbackLines = gfr.getLines();
+            readbackLines = new ArrayList<String>();
+            String s = gfr.nextLine();
+            while (s != null) {
+                readbackLines.add(s);
+                s = gfr.nextLine();
+            }
         } finally {
             if (byteStream != null) {
                 byteStream.close();
@@ -427,8 +432,28 @@ public class GedcomWriterTest {
      *             if the file load was cancelled or was malformed
      */
     private List<String> readBack(File fileToRead) throws IOException, GedcomParserException {
-        GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(), new BufferedInputStream(new FileInputStream(fileToRead)));
-        return gfr.getLines();
+        FileInputStream fis = null;
+        BufferedInputStream bis = null;
+        try {
+            fis = new FileInputStream(fileToRead);
+            bis = new BufferedInputStream(fis);
+            GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(), bis);
+            List<String> result = new ArrayList<String>();
+            String s = gfr.nextLine();
+            while (s != null) {
+                result.add(s);
+                s = gfr.nextLine();
+            }
+
+            return result;
+        } finally {
+            if (bis != null) {
+                bis.close();
+            }
+            if (fis != null) {
+                fis.close();
+            }
+        }
     }
 
 }
