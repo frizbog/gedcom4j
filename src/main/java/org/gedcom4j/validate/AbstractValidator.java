@@ -22,6 +22,8 @@
 package org.gedcom4j.validate;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -146,24 +148,27 @@ abstract class AbstractValidator {
      */
     protected void checkCustomTags(Object o) {
 
-        Field customTagsField = null;
+        Method customTagsGetter = null;
         try {
-            customTagsField = o.getClass().getField("customTags");
-        } catch (@SuppressWarnings("unused") NoSuchFieldException unusedAndIgnored) {
-            addError("There is no field named 'customTags' on object of type " + o.getClass().getSimpleName() + ".", o);
-            return;
+            customTagsGetter = o.getClass().getMethod("getCustomTags");
         } catch (@SuppressWarnings("unused") SecurityException unusedAndIgnored) {
-            addError("Cannot access field named 'customTags' on object of type " + o.getClass().getSimpleName() + ".", o);
+            addError("Cannot access getter named 'getCustomTags' on object of type " + o.getClass().getSimpleName() + ".", o);
+            return;
+        } catch (NoSuchMethodException e) {
+            addError("Cannot find getter named 'getCustomTags' on object of type " + o.getClass().getSimpleName() + ".", o);
             return;
         }
 
         Object fldVal = null;
         try {
-            fldVal = customTagsField.get(o);
+            fldVal = customTagsGetter.invoke(o);
         } catch (IllegalArgumentException e) {
             addError("Cannot get value of customTags attribute on object of type " + o.getClass().getSimpleName() + " - " + e.getMessage(), o);
             return;
         } catch (IllegalAccessException e) {
+            addError("Cannot get value of customTags attribute on object of type " + o.getClass().getSimpleName() + " - " + e.getMessage(), o);
+            return;
+        } catch (InvocationTargetException e) {
             addError("Cannot get value of customTags attribute on object of type " + o.getClass().getSimpleName() + " - " + e.getMessage(), o);
             return;
         }
@@ -171,11 +176,14 @@ abstract class AbstractValidator {
             if (rootValidator.autorepair) {
                 List<StringTree> customTags = new ArrayList<StringTree>();
                 try {
-                    customTagsField.set(o, customTags);
+                    customTagsGetter.invoke(o, customTags);
                 } catch (IllegalArgumentException e) {
                     addError("Cannot autorepair value of customTags attribute on object of type " + o.getClass().getSimpleName() + " - " + e.getMessage(), o);
                     return;
                 } catch (IllegalAccessException e) {
+                    addError("Cannot autorepair value of customTags attribute on object of type " + o.getClass().getSimpleName() + " - " + e.getMessage(), o);
+                    return;
+                } catch (InvocationTargetException e) {
                     addError("Cannot autorepair value of customTags attribute on object of type " + o.getClass().getSimpleName() + " - " + e.getMessage(), o);
                     return;
                 }

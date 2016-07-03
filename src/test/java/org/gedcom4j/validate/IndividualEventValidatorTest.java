@@ -45,7 +45,7 @@ public class IndividualEventValidatorTest extends AbstractValidatorTestCase {
 
         Individual i = new Individual();
         i.xref = "@I0001@";
-        g.individuals.put(i.xref, i);
+        g.getIndividuals().put(i.xref, i);
 
         IndividualEvent e = new IndividualEvent();
         i.events.add(e);
@@ -92,7 +92,7 @@ public class IndividualEventValidatorTest extends AbstractValidatorTestCase {
         assertNoIssues();
 
         e.address = new Address();
-        e.address.city = new StringWithCustomTags("FryingPanVille");
+        e.address.setCity(new StringWithCustomTags("FryingPanVille"));
         rootValidator.validate();
         assertNoIssues();
     }

@@ -21,12 +21,7 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.model.Gedcom;
-import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.PersonalName;
-import org.gedcom4j.model.PersonalNameVariation;
-import org.gedcom4j.model.StringWithCustomTags;
-import org.gedcom4j.model.TestHelper;
+import org.gedcom4j.model.*;
 import org.junit.Test;
 
 /**
@@ -47,7 +42,7 @@ public class PersonalNameVariationValidatorTest extends AbstractValidatorTestCas
 
         Individual i = new Individual();
         i.xref = "@I00001@";
-        g.individuals.put(i.xref, i);
+        g.getIndividuals().put(i.xref, i);
 
         PersonalName pn = new PersonalName();
         i.names.add(pn);

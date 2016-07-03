@@ -35,6 +35,11 @@ import org.gedcom4j.model.TestHelper;
  */
 public class IndividualValidatorTest extends AbstractValidatorTestCase {
 
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+    }
+
     /**
      * Test for a default individual (no xref)
      */
@@ -46,9 +51,8 @@ public class IndividualValidatorTest extends AbstractValidatorTestCase {
     }
 
     /**
-     * Test for {@link GedcomValidator#validateIndividuals()} with a malformed
-     * xref on an individual, which does not match its key in the individuals
-     * map
+     * Test for {@link GedcomValidator#validateIndividuals()} with a malformed xref on an individual, which does not
+     * match its key in the individuals map
      */
     public void testValidateIndividuals2() {
         Gedcom g = TestHelper.getMinimalGedcom();
@@ -56,7 +60,7 @@ public class IndividualValidatorTest extends AbstractValidatorTestCase {
         // Deliberately introduce a problem
         Individual i = new Individual();
         i.xref = "FryingPan";
-        g.individuals.put("WrongKey", i);
+        g.getIndividuals().put("WrongKey", i);
 
         // Go validate
         rootValidator = new GedcomValidator(g);
@@ -75,11 +79,6 @@ public class IndividualValidatorTest extends AbstractValidatorTestCase {
             }
         }
         assertEquals("There should be one finding of severity ERROR", 1, errorsCount);
-    }
-
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
     }
 
 }

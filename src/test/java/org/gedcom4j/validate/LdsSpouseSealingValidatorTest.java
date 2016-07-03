@@ -66,22 +66,22 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
 
         dad = new Individual();
         dad.xref = "@I00001@";
-        gedcom.individuals.put(dad.xref, dad);
+        gedcom.getIndividuals().put(dad.xref, dad);
 
         mom = new Individual();
         mom.xref = "@I00002@";
-        gedcom.individuals.put(mom.xref, mom);
+        gedcom.getIndividuals().put(mom.xref, mom);
 
         jr = new Individual();
         jr.xref = "@I00003@";
-        gedcom.individuals.put(jr.xref, jr);
+        gedcom.getIndividuals().put(jr.xref, jr);
 
         f = new Family();
         f.xref = "@F0001@";
         f.husband = dad;
         f.wife = mom;
         f.children.add(jr);
-        gedcom.families.put(f.xref, f);
+        gedcom.getFamilies().put(f.xref, f);
 
         rootValidator.validate();
         assertNoIssues();
@@ -94,11 +94,8 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     public void testCitations() {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.ldsSpouseSealings.add(s);
-        s.setCitations(null);
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "citations", "null");
 
-        s.setCitations(new ArrayList<AbstractCitation>());
+        s.getCitations().clear();
         rootValidator.validate();
         assertNoIssues();
     }
@@ -110,11 +107,8 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     public void testCustomTags() {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.ldsSpouseSealings.add(s);
-        s.setCustomTags(null);
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "custom", "tag", "null");
 
-        s.setCustomTags(new ArrayList<StringTree>());
+        s.getCustomTags().clear();
         rootValidator.validate();
         assertNoIssues();
     }
@@ -126,19 +120,19 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     public void testDate() {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.ldsSpouseSealings.add(s);
-        s.date = new StringWithCustomTags((String) null);
+        s.setDate(new StringWithCustomTags((String) null));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "date", "no value");
 
-        s.date = new StringWithCustomTags("");
+        s.setDate(new StringWithCustomTags(""));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "date", "no value");
 
-        s.date = new StringWithCustomTags("              ");
+        s.setDate(new StringWithCustomTags("              "));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "date", "no value");
 
-        s.date = new StringWithCustomTags("Frying Pan");
+        s.setDate(new StringWithCustomTags("Frying Pan"));
         rootValidator.validate();
         assertNoIssues();
     }
@@ -150,11 +144,8 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     public void testNotes() {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.ldsSpouseSealings.add(s);
-        s.notes = null;
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "notes", "null");
 
-        s.notes = new ArrayList<Note>();
+        s.getNotes().clear();
         rootValidator.validate();
         assertNoIssues();
     }
@@ -179,19 +170,19 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     public void testPlace() {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.ldsSpouseSealings.add(s);
-        s.place = new StringWithCustomTags((String) null);
+        s.setPlace(new StringWithCustomTags((String) null));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "place", "no value");
 
-        s.place = new StringWithCustomTags("");
+        s.setPlace(new StringWithCustomTags(""));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "place", "no value");
 
-        s.place = new StringWithCustomTags("              ");
+        s.setPlace(new StringWithCustomTags("              "));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "place", "no value");
 
-        s.place = new StringWithCustomTags("Frying Pan");
+        s.setPlace(new StringWithCustomTags("Frying Pan"));
         rootValidator.validate();
         assertNoIssues();
     }
@@ -203,19 +194,19 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     public void testStatus() {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.ldsSpouseSealings.add(s);
-        s.status = new StringWithCustomTags((String) null);
+        s.setStatus(new StringWithCustomTags((String) null));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "status", "no value");
 
-        s.status = new StringWithCustomTags("");
+        s.setStatus(new StringWithCustomTags(""));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "status", "no value");
 
-        s.status = new StringWithCustomTags("              ");
+        s.setStatus(new StringWithCustomTags("              "));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "status", "no value");
 
-        s.status = new StringWithCustomTags("Frying Pan");
+        s.setStatus(new StringWithCustomTags("Frying Pan"));
         rootValidator.validate();
         assertNoIssues();
     }
@@ -227,19 +218,19 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     public void testTemple() {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.ldsSpouseSealings.add(s);
-        s.temple = new StringWithCustomTags((String) null);
+        s.setTemple(new StringWithCustomTags((String) null));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "temple", "no value");
 
-        s.temple = new StringWithCustomTags("");
+        s.setTemple(new StringWithCustomTags(""));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "temple", "no value");
 
-        s.temple = new StringWithCustomTags("              ");
+        s.setTemple(new StringWithCustomTags("              "));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "temple", "no value");
 
-        s.temple = new StringWithCustomTags("Frying Pan");
+        s.setTemple(new StringWithCustomTags("Frying Pan"));
         rootValidator.validate();
         assertNoIssues();
     }

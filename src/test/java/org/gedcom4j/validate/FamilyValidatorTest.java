@@ -67,22 +67,22 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
 
         dad = new Individual();
         dad.xref = "@I00001@";
-        gedcom.individuals.put(dad.xref, dad);
+        gedcom.getIndividuals().put(dad.xref, dad);
 
         mom = new Individual();
         mom.xref = "@I00002@";
-        gedcom.individuals.put(mom.xref, mom);
+        gedcom.getIndividuals().put(mom.xref, mom);
 
         jr = new Individual();
         jr.xref = "@I00003@";
-        gedcom.individuals.put(jr.xref, jr);
+        gedcom.getIndividuals().put(jr.xref, jr);
 
         f = new Family();
         f.xref = "@F0001@";
         f.husband = dad;
         f.wife = mom;
         f.children.add(jr);
-        gedcom.families.put(f.xref, f);
+        gedcom.getFamilies().put(f.xref, f);
 
         rootValidator.validate();
         assertNoIssues();
@@ -131,11 +131,7 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoCustomTags() {
-        f.setCustomTags(null);
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "custom", "tag");
-
-        f.setCustomTags(new ArrayList<StringTree>());
+        f.getCustomTags().clear();
         rootValidator.validate();
         assertNoIssues();
     }
