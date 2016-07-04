@@ -45,11 +45,11 @@ public class TagTest {
      */
     @Test
     public void testEquals() {
-        assertTrue(Tag.ABBREVIATION.equals("ABBR"));
-        assertTrue(Tag.SUBMISSION.equals("SUBN"));
-        assertTrue(Tag.TRAILER.equals("TRLR"));
-        assertFalse(Tag.BLOB.equals("FRYINGPAN"));
-        assertFalse(Tag.HEADER.equals(null));
+        assertTrue(Tag.ABBREVIATION.equalsText("ABBR"));
+        assertTrue(Tag.SUBMISSION.equalsText("SUBN"));
+        assertTrue(Tag.TRAILER.equalsText("TRLR"));
+        assertFalse(Tag.BLOB.equalsText("FRYINGPAN"));
+        assertFalse(Tag.HEADER.equalsText(null));
     }
 
     /**

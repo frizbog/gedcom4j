@@ -241,7 +241,7 @@ enum Tag {
      *            the string to evaluate against this Tag
      * @return true iff the string provided matches the text string for this tag
      */
-    public boolean equals(String s) {
+    public boolean equalsText(String s) {
         return tagText.equals(s);
     }
 

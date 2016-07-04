@@ -28,7 +28,7 @@ package org.gedcom4j;
  * @author frizbog
  * @since 3.0.0
  */
-public class Options {
+public final class Options {
 
     /** Should collections in the object model be pre-initialized? */
     private static boolean collectionInitializationEnabled = true;
@@ -63,6 +63,6 @@ public class Options {
      * Private constructor prevents instantiation and subclassing.
      */
     private Options() {
-        ; // Do nothing
+        // Do nothing
     }
 }

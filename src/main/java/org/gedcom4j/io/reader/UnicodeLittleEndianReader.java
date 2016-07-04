@@ -33,17 +33,7 @@ import org.gedcom4j.parser.GedcomParser;
  * 
  * @author frizbog
  */
-class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
-
-    /**
-     * The current character we've just read, byte 1
-     */
-    private int currChar1 = -1;
-
-    /**
-     * The current character we've just read, byte 2
-     */
-    private int currChar2 = -1;
+final class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
 
     /**
      * Are we at the end of file yet?
@@ -75,8 +65,8 @@ class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
         boolean beginningOfFile = true;
 
         while (!eof) {
-            currChar1 = byteStream.read();
-            currChar2 = byteStream.read();
+            int currChar1 = byteStream.read();
+            int currChar2 = byteStream.read();
 
             // Check for EOF
             if (currChar1 < 0 || currChar2 < 0) {
@@ -111,6 +101,11 @@ class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
             lineBuffer.append(Character.valueOf((char) unicodeChar));
         }
         return result;
+    }
+
+    @Override
+    void cleanUp() throws IOException {
+        // do nothing
     }
 
 }

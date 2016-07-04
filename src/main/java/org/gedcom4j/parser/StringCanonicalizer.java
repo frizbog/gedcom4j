@@ -61,9 +61,21 @@ class StringCanonicalizer {
             count = 0;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public String toString() {
-            return "CanonicalizedString [count=" + count + ", " + (value != null ? "value=" + value : "") + "]";
+            StringBuilder builder = new StringBuilder();
+            builder.append("CanonicalizedString [count=");
+            builder.append(count);
+            builder.append(", ");
+            if (value != null) {
+                builder.append("value=");
+                builder.append(value);
+            }
+            builder.append("]");
+            return builder.toString();
         }
 
     }

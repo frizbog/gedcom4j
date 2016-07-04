@@ -1806,9 +1806,13 @@ public class GedcomWriter {
      *             if the value is null or blank (which never happens, because we check for it)
      */
     private void emitTagWithOptionalValue(int level, String tag, String value) throws GedcomWriterException {
-        if (value != null) {
+        if (value == null) {
+            StringBuilder line = new StringBuilder(Integer.toString(level));
+            line.append(" ").append(tag);
+            lines.add(line.toString());
+        } else {
             List<String> temp = new ArrayList<String>();
-            temp.add(value.toString());
+            temp.add(value);
             List<String> valueLines = splitLinesOnBreakingCharacters(temp);
 
             boolean first = true;
@@ -1827,10 +1831,6 @@ public class GedcomWriter {
 
                 first = false;
             }
-        } else {
-            StringBuilder line = new StringBuilder(Integer.toString(level));
-            line.append(" ").append(tag);
-            lines.add(line.toString());
         }
     }
 

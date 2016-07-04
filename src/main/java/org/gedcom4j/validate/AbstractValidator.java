@@ -220,7 +220,7 @@ abstract class AbstractValidator {
      *            the object containing the field being checked
      */
     protected void checkOptionalString(String optionalString, String fieldDescription, Object objectContainingField) {
-        if (optionalString != null && optionalString.trim().length() == 0) {
+        if (optionalString != null && !isSpecified(optionalString)) {
             addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName() + " is specified, but has a blank value",
                     objectContainingField);
         }
@@ -237,7 +237,7 @@ abstract class AbstractValidator {
      *            the object containing the field being checked
      */
     protected void checkOptionalString(StringWithCustomTags optionalString, String fieldDescription, Object objectContainingField) {
-        if (optionalString != null && optionalString.getValue() != null && optionalString.getValue().trim().length() == 0) {
+        if (optionalString != null && optionalString.getValue() != null && !isSpecified(optionalString.getValue())) {
             addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName() + " is specified, but has a blank value",
                     objectContainingField);
         }
@@ -255,7 +255,7 @@ abstract class AbstractValidator {
      *            the object containing the field being checked
      */
     protected void checkRequiredString(String requiredString, String fieldDescription, Object objectContainingField) {
-        if (requiredString == null || requiredString.trim().length() == 0) {
+        if (!isSpecified(requiredString)) {
             addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName() + " is required, but is either null or blank",
                     objectContainingField);
         }
@@ -301,7 +301,7 @@ abstract class AbstractValidator {
                     continue;
                 }
                 addError("String list (" + description + ") contains null entry", stringList);
-            } else if (!blanksAllowed && a.trim().length() == 0) {
+            } else if (!blanksAllowed && !isSpecified(a)) {
                 if (rootValidator.isAutorepairEnabled()) {
                     addInfo("String list (" + description + ") contains blank entry where none are allowed - removed", stringList);
                     stringList.remove(i);
@@ -422,6 +422,25 @@ abstract class AbstractValidator {
     }
 
     /**
+     * Is the string supplied non-null, and has something other than whitespace in it?
+     * 
+     * @param s
+     *            the strings
+     * @return true if the string supplied non-null, and has something other than whitespace in it
+     */
+    protected boolean isSpecified(String s) {
+        if (s == null || s.isEmpty()) {
+            return false;
+        }
+        for (int i = 0; i < s.length(); i++) {
+            if (!Character.isWhitespace(s.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Validate the gedcom file
      */
     protected abstract void validate();
@@ -439,7 +458,7 @@ abstract class AbstractValidator {
         if (swct == null) {
             return;
         }
-        if (swct.getValue() == null || swct.getValue().trim().length() == 0) {
+        if (swct.getValue() == null || !isSpecified(swct.getValue())) {
             addError("A string with custom tags object (" + fieldDescription + ") was defined with no value", swct);
         }
         checkCustomTags(swct);

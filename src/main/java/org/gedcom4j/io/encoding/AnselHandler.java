@@ -139,7 +139,10 @@ public class AnselHandler {
              * combining diacritic
              */
             char[] breakdown = getBrokenDownGlyph(c);
-            if (breakdown != null) {
+            if (breakdown == null) {
+                // Some leftover combining diacritic?
+                ansel[anselIdx++] = AnselMapping.encode(c);
+            } else {
                 // Precomposed diacritic - write down decomposed character - base character last for ANSEL
                 if (breakdown.length > 1 && breakdown[1] > (char) 0x0000) {
                     // Already encoded to ANSEL
@@ -150,9 +153,6 @@ public class AnselHandler {
                     ansel[anselIdx++] = breakdown[2];
                 }
                 ansel[anselIdx++] = breakdown[0];
-            } else {
-                // Some leftover combining diacritic?
-                ansel[anselIdx++] = AnselMapping.encode(c);
             }
 
         }
@@ -224,16 +224,16 @@ public class AnselHandler {
 
             // See if there's a combined glyph for the base+the diacritics
             char combined = getCombinedGlyph(c, diacritic1, diacritic2);
-            if (combined != 0) {
-                // A combined glyph was available!
-                utf16[utfIdx++] = combined;
-            } else {
+            if (combined == 0) {
                 // no combined glyph available - continue to use a composite
                 utf16[utfIdx++] = AnselMapping.decode(c);
                 utf16[utfIdx++] = AnselMapping.decode(diacritic1);
                 if (diacritic2 != 0) {
                     utf16[utfIdx++] = AnselMapping.decode(diacritic1);
                 }
+            } else {
+                // A combined glyph was available!
+                utf16[utfIdx++] = combined;
             }
         }
         return new String(utf16).substring(0, utfIdx);
@@ -3627,8 +3627,6 @@ public class AnselHandler {
                 return '\u1E57';
             }
 
-        }
-        if (baseChar == 'q') {
         }
         if (baseChar == 'r') {
             if (modifier1 == '\u00E2' /* ACUTE */) {

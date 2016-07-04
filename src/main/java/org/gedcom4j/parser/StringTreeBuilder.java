@@ -218,7 +218,9 @@ public class StringTreeBuilder {
     private void makeConcatenationOfPreviousNode() {
         // Doesn't begin with a level number followed by a space, and we don't have strictLineBreaks
         // required, so it's probably meant to be a continuation of the previous text value.
-        if (mostRecentlyAdded != null) {
+        if (mostRecentlyAdded == null) {
+            parser.getWarnings().add("Line " + lineNum + " did not begin with a level and tag, so it was discarded.");
+        } else {
             // Try to add as a CONT line to previous node, as if the file had been properly escaped
             treeForCurrentLine.setLevel(mostRecentlyAdded.getLevel() + 1);
             treeForCurrentLine.setTag(Tag.CONTINUATION.tagText);
@@ -227,8 +229,6 @@ public class StringTreeBuilder {
             mostRecentlyAdded.getChildren().add(treeForCurrentLine);
             parser.getWarnings().add("Line " + lineNum + " did not begin with a level and tag, so it was treated as a "
                     + "non-standard continuation of the previous line.");
-        } else {
-            parser.getWarnings().add("Line " + lineNum + " did not begin with a level and tag, so it was discarded.");
         }
     }
 

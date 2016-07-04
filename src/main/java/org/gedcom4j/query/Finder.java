@@ -89,15 +89,16 @@ public class Finder {
                 }
                 // Other times they are concatenated with slashes around the
                 // surname
-                String lookingFor = given + " /" + surname + "/";
+                StringBuffer lookingFor = new StringBuffer();
+                lookingFor.append(given).append(" /").append(surname).append("/");
                 if (prefix != null) {
-                    lookingFor = prefix + " " + lookingFor;
+                    lookingFor.insert(0, " ").insert(0, prefix);
                 }
                 if (suffix != null) {
-                    lookingFor = lookingFor + " " + suffix;
+                    lookingFor.append(" ").append(suffix);
                 }
 
-                if (n.getBasic() != null && n.getBasic().equalsIgnoreCase(lookingFor)) {
+                if (n.getBasic() != null && n.getBasic().equalsIgnoreCase(lookingFor.toString())) {
                     result.add(i);
                     continue;
                 }

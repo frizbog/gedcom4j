@@ -38,7 +38,7 @@ import org.gedcom4j.parser.GedcomParser;
  * 
  * @author frizbog1
  */
-public class GedcomFileReader {
+public final class GedcomFileReader {
 
     /**
      * The size of the first chunk of the GEDCOM to just load into memory for easy review. 16K.

@@ -84,8 +84,6 @@ abstract class AbstractEncodingSpecificReader {
      * 
      * @throws IOException
      */
-    void cleanUp() throws IOException {
-        ; // Do nothing
-    }
+    abstract void cleanUp() throws IOException;
 
 }

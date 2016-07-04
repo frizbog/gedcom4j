@@ -100,7 +100,6 @@ class CitationValidator extends AbstractValidator {
         if (citation.getNotes() == null) {
             if (rootValidator.isAutorepairEnabled()) {
                 citation.getNotes(true).clear();
-                ;
                 addInfo("Notes collection was null on " + citation.getClass().getSimpleName() + " - autorepaired");
             } else {
                 addError("Notes collection is null on " + citation.getClass().getSimpleName());

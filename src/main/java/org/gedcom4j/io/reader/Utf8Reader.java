@@ -35,7 +35,7 @@ import org.gedcom4j.parser.GedcomParser;
  * 
  * @author frizbog
  */
-class Utf8Reader extends AbstractEncodingSpecificReader {
+final class Utf8Reader extends AbstractEncodingSpecificReader {
 
     /**
      * Was a byte order marker read when inspecting the file to detect encoding?
@@ -45,12 +45,12 @@ class Utf8Reader extends AbstractEncodingSpecificReader {
     /**
      * Input stream reader for internal use over the byte stream
      */
-    private InputStreamReader inputStreamReader;
+    private final InputStreamReader inputStreamReader;
 
     /**
-     * Buffered reader over the input stream reader, for interanl use
+     * Buffered reader over the input stream reader, for internal use
      */
-    private BufferedReader bufferedReader;
+    private final BufferedReader bufferedReader;
 
     /**
      * Constructor
@@ -65,8 +65,6 @@ class Utf8Reader extends AbstractEncodingSpecificReader {
      */
     Utf8Reader(GedcomParser parser, InputStream byteStream) throws IOException {
         super(parser, byteStream);
-        inputStreamReader = null;
-        bufferedReader = null;
         try {
             inputStreamReader = new InputStreamReader(byteStream, "UTF8");
 
@@ -77,7 +75,7 @@ class Utf8Reader extends AbstractEncodingSpecificReader {
 
             bufferedReader = new BufferedReader(inputStreamReader);
         } catch (IOException e) {
-            cleanUp();
+            closeReaders();
             throw e;
         }
     }
@@ -116,6 +114,17 @@ class Utf8Reader extends AbstractEncodingSpecificReader {
 
     @Override
     void cleanUp() throws IOException {
+        closeReaders();
+    }
+
+    /**
+     * Close the readers created in this class. Private so it can't be overridden (like {@link #cleanUp()} can be),
+     * which makes it safe to call from the constructor.
+     * 
+     * @throws IOException
+     *             if the readers can't be closed
+     */
+    private void closeReaders() throws IOException {
         if (bufferedReader != null) {
             bufferedReader.close();
         }

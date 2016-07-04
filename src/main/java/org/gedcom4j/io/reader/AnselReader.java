@@ -35,7 +35,7 @@ import org.gedcom4j.parser.GedcomParser;
  * 
  * @author frizbog
  */
-class AnselReader extends AbstractEncodingSpecificReader {
+final class AnselReader extends AbstractEncodingSpecificReader {
 
     /**
      * The byte value at which combining diacritics begin in ANSEL encoding
@@ -73,12 +73,6 @@ class AnselReader extends AbstractEncodingSpecificReader {
     private int oneCharBack = -1;
 
     /**
-     * Character prior to the last character read before the current character - need this because sometimes there are
-     * two combining diactrical characters
-     */
-    private int twoCharsBack = -1;
-
-    /**
      * Index into {@link #holdingBin} array
      */
     private int holdingBinIdx = 0;
@@ -109,7 +103,7 @@ class AnselReader extends AbstractEncodingSpecificReader {
         }
         String result = null;
         while (!eof) {
-            twoCharsBack = oneCharBack;
+            int twoCharsBack = oneCharBack;
             oneCharBack = currChar;
             currChar = byteStream.read();
 
@@ -184,6 +178,11 @@ class AnselReader extends AbstractEncodingSpecificReader {
         }
         return result;
 
+    }
+
+    @Override
+    void cleanUp() throws IOException {
+        // do nothing
     }
 
     /**

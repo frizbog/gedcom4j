@@ -32,17 +32,12 @@ import org.gedcom4j.parser.GedcomParser;
  * 
  * @author frizbog
  */
-class AsciiReader extends AbstractEncodingSpecificReader {
+final class AsciiReader extends AbstractEncodingSpecificReader {
 
     /**
      * Are we at the end of file yet?
      */
     private boolean eof = false;
-
-    /**
-     * The current character we've just read
-     */
-    private int currChar = -1;
 
     /**
      * The line buffer for the current line
@@ -66,7 +61,7 @@ class AsciiReader extends AbstractEncodingSpecificReader {
     public String nextLine() throws IOException, GedcomParserException {
         String result = null;
         while (!eof) {
-            currChar = byteStream.read();
+            int currChar = byteStream.read();
 
             // Check for EOF
             if (currChar < 0) {
@@ -102,6 +97,11 @@ class AsciiReader extends AbstractEncodingSpecificReader {
             throw new IOException("Extended characters not supported in ASCII: 0x" + Integer.toHexString(currChar));
         }
         return result;
+    }
+
+    @Override
+    void cleanUp() throws IOException {
+        // do nothing
     }
 
 }
