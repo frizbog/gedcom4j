@@ -132,9 +132,9 @@ public class IndividualAttributeTest {
         i2.subType = new StringWithCustomTags("Eleven");
         assertEquals(i1, i2);
 
-        i1.type = IndividualAttributeType.FACT;
+        i1.setType(IndividualAttributeType.FACT);
         assertFalse(i1.equals(i2));
-        i2.type = IndividualAttributeType.FACT;
+        i2.setType(IndividualAttributeType.FACT);
         assertEquals(i1, i2);
 
         i1.wwwUrls.add(new StringWithCustomTags("Twelve"));
@@ -246,9 +246,9 @@ public class IndividualAttributeTest {
         i2.subType = new StringWithCustomTags("Eleven");
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.type = IndividualAttributeType.FACT;
+        i1.setType(IndividualAttributeType.FACT);
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.type = IndividualAttributeType.FACT;
+        i2.setType(IndividualAttributeType.FACT);
         assertEquals(i1.hashCode(), i2.hashCode());
 
         i1.wwwUrls.add(new StringWithCustomTags("Twelve"));
@@ -288,7 +288,7 @@ public class IndividualAttributeTest {
         i.respAgency = new StringWithCustomTags("Nine");
         i.restrictionNotice = new StringWithCustomTags("Ten");
         i.subType = new StringWithCustomTags("Eleven");
-        i.type = IndividualAttributeType.FACT;
+        i.setType(IndividualAttributeType.FACT);
         i.wwwUrls.add(new StringWithCustomTags("Twelve"));
         i.yNull = "Thirteen";
 

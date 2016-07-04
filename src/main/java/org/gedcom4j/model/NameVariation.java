@@ -34,12 +34,12 @@ public class NameVariation extends AbstractElement {
      * The variation type. For romanized names, the method used in transforming the text to a romanized variation. For
      * phonetic names, the method used in transforming the text to the phonetic variation.
      */
-    public StringWithCustomTags variationType;
+    protected StringWithCustomTags variationType;
 
     /**
      * The variation text
      */
-    public String variation;
+    protected String variation;
 
     @Override
     public boolean equals(Object obj) {
@@ -70,6 +70,24 @@ public class NameVariation extends AbstractElement {
         return true;
     }
 
+    /**
+     * Get the variation
+     * 
+     * @return the variation
+     */
+    public String getVariation() {
+        return variation;
+    }
+
+    /**
+     * Get the variationType
+     * 
+     * @return the variationType
+     */
+    public StringWithCustomTags getVariationType() {
+        return variationType;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -79,10 +97,30 @@ public class NameVariation extends AbstractElement {
         return result;
     }
 
+    /**
+     * Set the variation
+     * 
+     * @param variation
+     *            the variation to set
+     */
+    public void setVariation(String variation) {
+        this.variation = variation;
+    }
+
+    /**
+     * Set the variationType
+     * 
+     * @param variationType
+     *            the variationType to set
+     */
+    public void setVariationType(StringWithCustomTags variationType) {
+        this.variationType = variationType;
+    }
+
     @Override
     public String toString() {
-        return "NameVariation [" + (variationType != null ? "variationType=" + variationType + ", " : "")
-                + (variation != null ? "variation=" + variation + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        return "NameVariation [" + (variationType != null ? "variationType=" + variationType + ", " : "") + (variation != null ? "variation=" + variation + ", "
+                : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 
 }

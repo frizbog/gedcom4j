@@ -149,6 +149,24 @@ public class Submission extends AbstractElement {
         return true;
     }
 
+    /**
+     * Get the recIdNumber
+     * 
+     * @return the recIdNumber
+     */
+    public StringWithCustomTags getRecIdNumber() {
+        return recIdNumber;
+    }
+
+    /**
+     * Get the xref
+     * 
+     * @return the xref
+     */
+    public String getXref() {
+        return xref;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -164,25 +182,6 @@ public class Submission extends AbstractElement {
         return result;
     }
 
-    @Override
-    public String toString() {
-        return "Submission [" + (xref != null ? "xref=" + xref + ", " : "") + (submitter != null ? "submitter=" + submitter + ", " : "")
-                + (nameOfFamilyFile != null ? "nameOfFamilyFile=" + nameOfFamilyFile + ", " : "")
-                + (templeCode != null ? "templeCode=" + templeCode + ", " : "") + (ancestorsCount != null ? "ancestorsCount=" + ancestorsCount + ", " : "")
-                + (descendantsCount != null ? "descendantsCount=" + descendantsCount + ", " : "")
-                + (ordinanceProcessFlag != null ? "ordinanceProcessFlag=" + ordinanceProcessFlag + ", " : "")
-                + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
-    }
-
-    /**
-     * Get the recIdNumber
-     * 
-     * @return the recIdNumber
-     */
-    public StringWithCustomTags getRecIdNumber() {
-        return recIdNumber;
-    }
-
     /**
      * Set the recIdNumber
      * 
@@ -194,15 +193,6 @@ public class Submission extends AbstractElement {
     }
 
     /**
-     * Get the xref
-     * 
-     * @return the xref
-     */
-    public String getXref() {
-        return xref;
-    }
-
-    /**
      * Set the xref
      * 
      * @param xref
@@ -210,5 +200,14 @@ public class Submission extends AbstractElement {
      */
     public void setXref(String xref) {
         this.xref = xref;
+    }
+
+    @Override
+    public String toString() {
+        return "Submission [" + (xref != null ? "xref=" + xref + ", " : "") + (submitter != null ? "submitter=" + submitter + ", " : "")
+                + (nameOfFamilyFile != null ? "nameOfFamilyFile=" + nameOfFamilyFile + ", " : "") + (templeCode != null ? "templeCode=" + templeCode + ", "
+                        : "") + (ancestorsCount != null ? "ancestorsCount=" + ancestorsCount + ", " : "") + (descendantsCount != null ? "descendantsCount="
+                                + descendantsCount + ", " : "") + (ordinanceProcessFlag != null ? "ordinanceProcessFlag=" + ordinanceProcessFlag + ", " : "")
+                + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

@@ -59,8 +59,8 @@ class NameVariationValidator extends AbstractValidator {
             return;
         }
         checkCustomTags(nv);
-        checkRequiredString(nv.variation, "variation on a personal name", nv);
-        checkOptionalString(nv.variationType, "type of variation on a personal name", nv);
+        checkRequiredString(nv.getVariation(), "variation on a personal name", nv);
+        checkOptionalString(nv.getVariationType(), "type of variation on a personal name", nv);
 
     }
 }

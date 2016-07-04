@@ -70,11 +70,11 @@ public class Issue100Test {
         assertNotNull(i.getNotes());
         assertEquals(1, i.getNotes().size());
         Note n = i.getNotes().get(0);
-        assertNotNull(n.lines);
-        assertEquals(3, n.lines.size());
-        assertEquals("This note was deliberately hand-edited to put a line break in the text without a CONT line.", n.lines.get(0));
-        assertEquals("This is the next line of the text that should have been tagged as a CONTinuation.", n.lines.get(1));
-        assertEquals("This is another line of continuation text that should have been tagged.", n.lines.get(2));
+        assertNotNull(n.getLines());
+        assertEquals(3, n.getLines().size());
+        assertEquals("This note was deliberately hand-edited to put a line break in the text without a CONT line.", n.getLines().get(0));
+        assertEquals("This is the next line of the text that should have been tagged as a CONTinuation.", n.getLines().get(1));
+        assertEquals("This is another line of continuation text that should have been tagged.", n.getLines().get(2));
     }
 
     /**

@@ -31,7 +31,7 @@ public class IndividualAttribute extends AbstractEvent {
     /**
      * The type of attribute
      */
-    public IndividualAttributeType type;
+    private IndividualAttributeType type;
 
     @Override
     public boolean equals(Object obj) {
@@ -51,12 +51,31 @@ public class IndividualAttribute extends AbstractEvent {
         return true;
     }
 
+    /**
+     * Get the type
+     * 
+     * @return the type
+     */
+    public IndividualAttributeType getType() {
+        return type;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + (type == null ? 0 : type.hashCode());
         return result;
+    }
+
+    /**
+     * Set the type
+     * 
+     * @param type
+     *            the type to set
+     */
+    public void setType(IndividualAttributeType type) {
+        this.type = type;
     }
 
     @Override

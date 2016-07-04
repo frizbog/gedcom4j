@@ -30,12 +30,12 @@ public class IndividualEvent extends AbstractEvent {
     /**
      * The type of event this represents
      */
-    public IndividualEventType type;
+    private IndividualEventType type;
 
     /**
      * The family to which this individual adopted was adopted
      */
-    public FamilyChild family;
+    private FamilyChild family;
 
     @Override
     public boolean equals(Object obj) {
@@ -62,6 +62,24 @@ public class IndividualEvent extends AbstractEvent {
         return true;
     }
 
+    /**
+     * Get the family
+     * 
+     * @return the family
+     */
+    public FamilyChild getFamily() {
+        return family;
+    }
+
+    /**
+     * Get the type
+     * 
+     * @return the type
+     */
+    public IndividualEventType getType() {
+        return type;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -69,6 +87,26 @@ public class IndividualEvent extends AbstractEvent {
         result = prime * result + (family == null ? 0 : family.hashCode());
         result = prime * result + (type == null ? 0 : type.hashCode());
         return result;
+    }
+
+    /**
+     * Set the family
+     * 
+     * @param family
+     *            the family to set
+     */
+    public void setFamily(FamilyChild family) {
+        this.family = family;
+    }
+
+    /**
+     * Set the type
+     * 
+     * @param type
+     *            the type to set
+     */
+    public void setType(IndividualEventType type) {
+        this.type = type;
     }
 
     @Override

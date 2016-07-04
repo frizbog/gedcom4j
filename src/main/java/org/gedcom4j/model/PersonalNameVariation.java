@@ -36,32 +36,32 @@ public class PersonalNameVariation extends NameVariation {
     /**
      * The prefix for the name
      */
-    public StringWithCustomTags prefix;
+    private StringWithCustomTags prefix;
 
     /**
      * The given (aka "Christian" or "first") names
      */
-    public StringWithCustomTags givenName;
+    private StringWithCustomTags givenName;
 
     /**
      * Nickname
      */
-    public StringWithCustomTags nickname;
+    private StringWithCustomTags nickname;
 
     /**
      * Surname prefix
      */
-    public StringWithCustomTags surnamePrefix;
+    private StringWithCustomTags surnamePrefix;
 
     /**
      * The surname (aka "family" or "last" name)
      */
-    public StringWithCustomTags surname;
+    private StringWithCustomTags surname;
 
     /**
      * The suffix
      */
-    public StringWithCustomTags suffix;
+    private StringWithCustomTags suffix;
 
     /**
      * Notes about this object
@@ -191,6 +191,24 @@ public class PersonalNameVariation extends NameVariation {
     }
 
     /**
+     * Get the givenName
+     * 
+     * @return the givenName
+     */
+    public StringWithCustomTags getGivenName() {
+        return givenName;
+    }
+
+    /**
+     * Get the nickname
+     * 
+     * @return the nickname
+     */
+    public StringWithCustomTags getNickname() {
+        return nickname;
+    }
+
+    /**
      * Get the notes
      * 
      * @return the notes
@@ -215,6 +233,42 @@ public class PersonalNameVariation extends NameVariation {
     }
 
     /**
+     * Get the prefix
+     * 
+     * @return the prefix
+     */
+    public StringWithCustomTags getPrefix() {
+        return prefix;
+    }
+
+    /**
+     * Get the suffix
+     * 
+     * @return the suffix
+     */
+    public StringWithCustomTags getSuffix() {
+        return suffix;
+    }
+
+    /**
+     * Get the surname
+     * 
+     * @return the surname
+     */
+    public StringWithCustomTags getSurname() {
+        return surname;
+    }
+
+    /**
+     * Get the surnamePrefix
+     * 
+     * @return the surnamePrefix
+     */
+    public StringWithCustomTags getSurnamePrefix() {
+        return surnamePrefix;
+    }
+
+    /**
      * Calculate a hashcode for this object
      * 
      * @see java.lang.Object#hashCode()
@@ -235,6 +289,66 @@ public class PersonalNameVariation extends NameVariation {
         result = prime * result + (variation == null ? 0 : variation.hashCode());
         result = prime * result + (variationType == null ? 0 : variationType.hashCode());
         return result;
+    }
+
+    /**
+     * Set the givenName
+     * 
+     * @param givenName
+     *            the givenName to set
+     */
+    public void setGivenName(StringWithCustomTags givenName) {
+        this.givenName = givenName;
+    }
+
+    /**
+     * Set the nickname
+     * 
+     * @param nickname
+     *            the nickname to set
+     */
+    public void setNickname(StringWithCustomTags nickname) {
+        this.nickname = nickname;
+    }
+
+    /**
+     * Set the prefix
+     * 
+     * @param prefix
+     *            the prefix to set
+     */
+    public void setPrefix(StringWithCustomTags prefix) {
+        this.prefix = prefix;
+    }
+
+    /**
+     * Set the suffix
+     * 
+     * @param suffix
+     *            the suffix to set
+     */
+    public void setSuffix(StringWithCustomTags suffix) {
+        this.suffix = suffix;
+    }
+
+    /**
+     * Set the surname
+     * 
+     * @param surname
+     *            the surname to set
+     */
+    public void setSurname(StringWithCustomTags surname) {
+        this.surname = surname;
+    }
+
+    /**
+     * Set the surnamePrefix
+     * 
+     * @param surnamePrefix
+     *            the surnamePrefix to set
+     */
+    public void setSurnamePrefix(StringWithCustomTags surnamePrefix) {
+        this.surnamePrefix = surnamePrefix;
     }
 
     @Override

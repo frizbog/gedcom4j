@@ -80,7 +80,7 @@ public class Issue81ReaderTest {
         IndividualEvent e = i.getEvents().get(1);
         assertEquals(1, e.getNotes().size());
         Note note = e.getNotes().get(0);
-        assertEquals(6, note.lines.size());
+        assertEquals(6, note.getLines().size());
 
         assertEquals("Sa grand-mère l'a nourrie car sa mère était placée nourrice dans une famille de riches. "
                 + "Son oncle ( une tante en réalité Agueda), allaité avec elle, est décédé ( voir acte). "
@@ -91,42 +91,35 @@ public class Issue81ReaderTest {
                 + "la fille d'Ascension) jusqu'à la frontière française. Elle a été \" bien accueillie \" par les "
                 + "Français à la descente du train et placée dans les camps des réfugiés espagnols, à Verdelais "
                 + "le 3/2/1939 pendant 10 mois, Oloron, 2 mois,Gurs 1 mois, Agde, 4 mois, puis à Noé près de "
-                + "Toulouse du 17/2/1941 à septembre 1944 ( lettre écrite par mémé pour Victoire), elle y retrouve " + "son mari qui est " + "arrêté " // This
-                                                                                                                                                       // is
-                                                                                                                                                       // the
-                                                                                                                                                       // word
-                                                                                                                                                       // that
-                                                                                                                                                       // was
-                                                                                                                                                       // split
-                                                                                                                                                       // between
-                                                                                                                                                       // a
-                                                                                                                                                       // diacritical
-                                                                                                                                                       // and
-                                                                                                                                                       // the
-                                                                                                                                                       // letter
-                                                                                                                                                       // it
-                                                                                                                                                       // modifies
+                + "Toulouse du 17/2/1941 à septembre 1944 ( lettre écrite par mémé pour Victoire), elle y retrouve " + "son mari qui est "
+                /*
+                 * This word below is the one that was split between a diacritical and the letter it modifies
+                 */
+                + "arrêté "
+                /*
+                 * This word above is the one that was split between a diacritical and the letter it modifies
+                 */
                 + "et déporté. Les femmes juives étaient déportées aussi. Alexandre naît, "
                 + "son prénom vient du bar placé près du camp, elle va travailler dans les fermes voisines, "
                 + "Alexandre et ses sœurs sont gardés au camp, par les infirmières françaises. De là, ils iront "
                 + "à Boucau rejoindre d'autres Espagnols à \"la Petite Espagne\" près du Pont Sémard. Sa cousine, "
                 + "venue du village, restera à Fonsorbes avec son mari, copain de guerre de Téofilo. A Boucau, elle "
                 + "retrouvera Ascencion. Vincent naîtra après le retour de son père prisonnier à Dachau. Daniel sera "
-                + "conçu au retour  du sanatorium, dans lequel son père avait été soigné. ", note.lines.get(0));
+                + "conçu au retour  du sanatorium, dans lequel son père avait été soigné. ", note.getLines().get(0));
 
         assertEquals("Mémé m'a raconté son histoire, le soir en faisant la vaisselle. Il ne faut pas oublier. "
                 + "C'est l'histoire de la famille Martin, mais aussi celle de toutes les révolutions, car des "
                 + "gens ont voulu, que leurs enfants vivent mieux, qu'ils échappent à la misère. On doit les "
-                + "respecter et les aimer pour cela, malgré leurs défauts et leurs différences. Nicole", note.lines.get(1));
+                + "respecter et les aimer pour cela, malgré leurs défauts et leurs différences. Nicole", note.getLines().get(1));
 
-        assertEquals("", note.lines.get(2));
+        assertEquals("", note.getLines().get(2));
 
         assertEquals("J'ai photographié la calle de soportales car c'est la rue où est née et a vécue mémé. Quand "
-                + "elle est née, ses parents n'étaient pas mariés et elle vivait chez les parents de sa mère. Corinne", note.lines.get(3));
+                + "elle est née, ses parents n'étaient pas mariés et elle vivait chez les parents de sa mère. Corinne", note.getLines().get(3));
 
-        assertEquals("", note.lines.get(4));
+        assertEquals("", note.getLines().get(4));
 
-        assertEquals(" ", note.lines.get(5));
+        assertEquals(" ", note.getLines().get(5));
     }
 
     /**

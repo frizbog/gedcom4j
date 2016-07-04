@@ -22,8 +22,6 @@
 
 package org.gedcom4j.validate;
 
-import java.util.ArrayList;
-
 import org.gedcom4j.model.*;
 import org.junit.Test;
 
@@ -65,12 +63,6 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "reference number", "null");
 
-        n.lines = null;
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "lines", "text", "null");
-        n.lines = new ArrayList<String>();
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "reference number", "null");
     }
 
     /**
@@ -89,7 +81,7 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
         // Notes without xrefs must have lines of text
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "note", "without xref", "lines");
-        n.lines.add("Frying Pan");
+        n.getLines().add("Frying Pan");
         rootValidator.validate();
         assertNoIssues();
 
@@ -107,15 +99,6 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "reference number", "UserReference", "null");
 
-        n.lines = null;
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "lines", "text", "null");
-        n.lines = new ArrayList<String>();
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "note", "without xref", "lines");
-        n.lines.add("Frying Pan");
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "reference number", "UserReference", "null");
     }
 
 }

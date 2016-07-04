@@ -54,21 +54,21 @@ public class PersonalNameVariationValidatorTest extends AbstractValidatorTestCas
 
         PersonalNameVariation romanized = new PersonalNameVariation();
         pn.romanized.add(romanized);
-        romanized.givenName = new StringWithCustomTags("Bjorn");
-        romanized.surname = new StringWithCustomTags("Jorgen");
+        romanized.setGivenName(new StringWithCustomTags("Bjorn"));
+        romanized.setSurname(new StringWithCustomTags("Jorgen"));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "variation", "name", "required");
-        romanized.variation = "Bjorn /Jorgen/";
+        romanized.setVariation("Bjorn /Jorgen/");
         rootValidator.validate();
         assertNoIssues();
 
         PersonalNameVariation phonetic = new PersonalNameVariation();
         pn.phonetic.add(phonetic);
-        phonetic.givenName = new StringWithCustomTags("Byorn");
-        phonetic.surname = new StringWithCustomTags("Yorgen");
+        phonetic.setGivenName(new StringWithCustomTags("Byorn"));
+        phonetic.setSurname(new StringWithCustomTags("Yorgen"));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "variation", "name", "required");
-        phonetic.variation = "Byorn /Yorgen/";
+        phonetic.setVariation("Byorn /Yorgen/");
         rootValidator.validate();
         assertNoIssues();
 

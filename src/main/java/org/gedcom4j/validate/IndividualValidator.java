@@ -148,7 +148,7 @@ class IndividualValidator extends AbstractValidator {
             }
         } else {
             for (IndividualAttribute a : individual.getAttributes()) {
-                if (a.type == null) {
+                if (a.getType() == null) {
                     addError("Individual attribute requires a type", a);
                 }
             }
@@ -168,7 +168,7 @@ class IndividualValidator extends AbstractValidator {
             }
         } else {
             for (IndividualEvent a : individual.getEvents()) {
-                if (a.type == null) {
+                if (a.getType() == null) {
                     addError("Individual event requires a type", a);
                 }
                 new EventValidator(rootValidator, a).validate();

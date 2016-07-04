@@ -88,13 +88,13 @@ public class Issue32Test {
         assertEquals(1, notes.size());
         Note note = notes.get(0);
         assertNotNull(note);
-        assertNotNull(note.lines);
-        assertEquals(1, note.lines.size());
+        assertNotNull(note.getLines());
+        assertEquals(1, note.getLines().size());
         assertEquals("Lorem ipsum dolor sit amet, consectetur adipisicing elit, " + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
                 + "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris " + "nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in "
                 + "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla "
-                + "pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa " + "qui officia deserunt mollit anim id est laborum.", note.lines
-                        .get(0));
+                + "pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa " + "qui officia deserunt mollit anim id est laborum.", note
+                        .getLines().get(0));
     }
 
     /**
@@ -107,14 +107,15 @@ public class Issue32Test {
         assertEquals(1, notes.size());
         Note note = notes.get(0);
         assertNotNull(note);
-        assertNotNull(note.lines);
-        assertEquals(3, note.lines.size());
-        assertEquals("Lorem ipsum dolor sit amet, consectetur adipisicing elit, " + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-                note.lines.get(0));
+        assertNotNull(note.getLines());
+        assertEquals(3, note.getLines().size());
+        assertEquals("Lorem ipsum dolor sit amet, consectetur adipisicing elit, " + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", note
+                .getLines().get(0));
         assertEquals("Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris "
                 + "nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in " + "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla "
-                + "pariatur. ", note.lines.get(1));
-        assertEquals("Excepteur sint occaecat cupidatat non proident, sunt in culpa " + "qui officia deserunt mollit anim id est laborum.", note.lines.get(2));
+                + "pariatur. ", note.getLines().get(1));
+        assertEquals("Excepteur sint occaecat cupidatat non proident, sunt in culpa " + "qui officia deserunt mollit anim id est laborum.", note.getLines().get(
+                2));
 
     }
 }

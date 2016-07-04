@@ -59,10 +59,10 @@ public class GedcomWriter551Test {
         assertTrue(gw.lines.isEmpty());
 
         Multimedia m = new Multimedia();
-        m.embeddedMediaFormat = new StringWithCustomTags("bmp");
+        m.setEmbeddedMediaFormat(new StringWithCustomTags("bmp"));
         m.setXref("@M1@");
         g.getMultimedia().put(m.getXref(), m);
-        m.blob.add("Blob data only allowed with 5.5");
+        m.getBlob().add("Blob data only allowed with 5.5");
         try {
             gw.write("tmp/delete-me.ged");
             for (GedcomValidationFinding f : gw.validationFindings) {
@@ -86,8 +86,8 @@ public class GedcomWriter551Test {
         // Set back to 5.5.1, clear the blob and embedded format, and all should
         // be fine
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
-        m.blob.clear();
-        m.embeddedMediaFormat = null;
+        m.getBlob().clear();
+        m.setEmbeddedMediaFormat(null);
         gw.write("tmp/delete-me.ged");
 
     }
@@ -232,7 +232,7 @@ public class GedcomWriter551Test {
         i.getNames().add(pn);
         IndividualEvent e = new IndividualEvent();
         i.getEvents().add(e);
-        e.type = IndividualEventType.BIRTH;
+        e.setType(IndividualEventType.BIRTH);
         e.setPlace(new Place());
         e.getPlace().placeName = "Krakow, Poland";
         e.getPlace().latitude = new StringWithCustomTags("+50\u00B0 3' 1.49\"");
@@ -254,7 +254,7 @@ public class GedcomWriter551Test {
         assertNotNull(i);
         assertEquals(1, i.getEvents().size());
         e = i.getEvents().get(0);
-        assertEquals(IndividualEventType.BIRTH, e.type);
+        assertEquals(IndividualEventType.BIRTH, e.getType());
         Place p = e.getPlace();
         assertNotNull(p);
         assertEquals("Krakow, Poland", p.placeName);
@@ -323,12 +323,12 @@ public class GedcomWriter551Test {
         fr.setTitle(new StringWithCustomTags("Foo"));
         fr.setFormat(new StringWithCustomTags("gif"));
         fr.setMediaType(new StringWithCustomTags("disk"));
-        m1.fileReferences.add(fr);
+        m1.getFileReferences().add(fr);
         fr = new FileReference();
         fr.setReferenceToFile(new StringWithCustomTags("C:/bar.png"));
         fr.setFormat(new StringWithCustomTags("png"));
         fr.setTitle(new StringWithCustomTags("Bar"));
-        m1.fileReferences.add(fr);
+        m1.getFileReferences().add(fr);
 
         // Write it
         GedcomWriter gw = new GedcomWriter(g1);
@@ -344,17 +344,17 @@ public class GedcomWriter551Test {
         assertEquals(1, g2.getMultimedia().size());
         Multimedia m2 = g2.getMultimedia().get("@M0@");
         assertNotNull(m2);
-        assertNull(m2.embeddedMediaFormat);
-        assertNull(m2.changeDate);
+        assertNull(m2.getEmbeddedMediaFormat());
+        assertNull(m2.getChangeDate());
         assertTrue(m2.getNotes().isEmpty());
-        assertEquals(2, m2.fileReferences.size());
+        assertEquals(2, m2.getFileReferences().size());
 
-        fr = m2.fileReferences.get(0);
+        fr = m2.getFileReferences().get(0);
         assertEquals("C:/foo.gif", fr.getReferenceToFile().getValue());
         assertEquals("gif", fr.getFormat().getValue());
         assertEquals("disk", fr.getMediaType().getValue());
         assertEquals("Foo", fr.getTitle().getValue());
-        fr = m2.fileReferences.get(1);
+        fr = m2.getFileReferences().get(1);
         assertEquals("C:/bar.png", fr.getReferenceToFile().getValue());
         assertEquals("png", fr.getFormat().getValue());
         assertNull(fr.getMediaType());
@@ -397,10 +397,10 @@ public class GedcomWriter551Test {
             assertTrue(expected.getMessage().toLowerCase().contains("required value for tag fone"));
         }
         // Now fix it
-        pnv.variation = "Byorn /Yorgen/";
+        pnv.setVariation("Byorn /Yorgen/");
         gw.write("tmp/delete-me.ged");
         // Now fiddle with it further
-        pnv.variationType = new StringWithCustomTags("Typed it like it sounds, duh");
+        pnv.setVariationType(new StringWithCustomTags("Typed it like it sounds, duh"));
         gw.write("tmp/delete-me.ged");
 
         // Add a bad romanized variation
@@ -413,10 +413,10 @@ public class GedcomWriter551Test {
             assertTrue(expected.getMessage().toLowerCase().contains("required value for tag romn"));
         }
         // Now Fix it
-        pnv.variation = "Bjorn /Jorgen/";
+        pnv.setVariation("Bjorn /Jorgen/");
         gw.write("tmp/delete-me.ged");
         // Now fiddle with it further
-        pnv.variationType = new StringWithCustomTags("Removed the slashes from the O's");
+        pnv.setVariationType(new StringWithCustomTags("Removed the slashes from the O's"));
         gw.write("tmp/delete-me.ged");
 
     }

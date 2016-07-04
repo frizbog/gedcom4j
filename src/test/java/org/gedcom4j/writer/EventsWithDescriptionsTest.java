@@ -73,7 +73,7 @@ public class EventsWithDescriptionsTest {
         assertEquals(4, iBefore.getEvents().size());
         IndividualEvent eBefore = iBefore.getEvents().get(0); // The birth event
         assertNotNull(eBefore);
-        assertEquals(IndividualEventType.BIRTH, eBefore.type);
+        assertEquals(IndividualEventType.BIRTH, eBefore.getType());
         assertNull(eBefore.getyNull());
         assertNotNull(eBefore.getDescription());
 
@@ -97,7 +97,7 @@ public class EventsWithDescriptionsTest {
         assertEquals(4, iAfter.getEvents().size());
         IndividualEvent eAfter = iAfter.getEvents().get(0); // The birth event
         assertNotNull(eAfter);
-        assertEquals(IndividualEventType.BIRTH, eAfter.type);
+        assertEquals(IndividualEventType.BIRTH, eAfter.getType());
         assertNull(eAfter.getyNull());
 
         // And the big payoff...
@@ -132,7 +132,7 @@ public class EventsWithDescriptionsTest {
         assertEquals(4, iBefore.getEvents().size());
         IndividualEvent eBefore = iBefore.getEvents().get(0); // The birth event
         assertNotNull(eBefore);
-        assertEquals(IndividualEventType.BIRTH, eBefore.type);
+        assertEquals(IndividualEventType.BIRTH, eBefore.getType());
         assertNull(eBefore.getyNull());
         assertNotNull(eBefore.getDescription());
 

@@ -69,12 +69,12 @@ class PersonalNameVariationValidator extends NameVariationValidator {
                 new CitationValidator(rootValidator, c).validate();
             }
         }
-        checkOptionalString(pnv.givenName, "given name", pnv);
-        checkOptionalString(pnv.nickname, "nickname", pnv);
-        checkOptionalString(pnv.prefix, "prefix", pnv);
-        checkOptionalString(pnv.suffix, "suffix", pnv);
-        checkOptionalString(pnv.surname, "surname", pnv);
-        checkOptionalString(pnv.surnamePrefix, "surname prefix", pnv);
+        checkOptionalString(pnv.getGivenName(), "given name", pnv);
+        checkOptionalString(pnv.getNickname(), "nickname", pnv);
+        checkOptionalString(pnv.getPrefix(), "prefix", pnv);
+        checkOptionalString(pnv.getSuffix(), "suffix", pnv);
+        checkOptionalString(pnv.getSurname(), "surname", pnv);
+        checkOptionalString(pnv.getSurnamePrefix(), "surname prefix", pnv);
         checkNotes(pnv.getNotes(), pnv);
     }
 }

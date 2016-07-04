@@ -53,7 +53,7 @@ public class Issue80WriterTest {
         p.longitude = new StringWithCustomTags("3.14159");
 
         IndividualEvent b = new IndividualEvent();
-        b.type = IndividualEventType.BIRTH;
+        b.setType(IndividualEventType.BIRTH);
         b.setPlace(p);
 
         Individual i = new Individual();

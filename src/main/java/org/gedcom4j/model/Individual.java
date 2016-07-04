@@ -525,7 +525,7 @@ public class Individual extends AbstractElement {
     public List<IndividualAttribute> getAttributesOfType(IndividualAttributeType type) {
         List<IndividualAttribute> result = new ArrayList<IndividualAttribute>(0);
         for (IndividualAttribute ir : attributes) {
-            if (ir.type == type) {
+            if (ir.getType() == type) {
                 result.add(ir);
             }
         }
@@ -666,7 +666,7 @@ public class Individual extends AbstractElement {
     public List<IndividualEvent> getEventsOfType(IndividualEventType type) {
         List<IndividualEvent> result = new ArrayList<IndividualEvent>(0);
         for (IndividualEvent ie : events) {
-            if (ie.type == type) {
+            if (ie.getType() == type) {
                 result.add(ie);
             }
         }

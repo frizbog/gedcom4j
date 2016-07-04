@@ -117,7 +117,7 @@ public class GedcomParser551Test {
         assertEquals(1, facts.size());
         IndividualAttribute fact = facts.get(0);
         assertNotNull(fact);
-        assertEquals(IndividualAttributeType.FACT, fact.type);
+        assertEquals(IndividualAttributeType.FACT, fact.getType());
         assertEquals("Place from", fact.getSubType().getValue());
         assertEquals("Combe Florey", fact.getDescription().getValue());
     }
@@ -177,8 +177,8 @@ public class GedcomParser551Test {
         assertNotNull(pn.phonetic);
         assertEquals(1, pn.phonetic.size());
         NameVariation pnv = pn.phonetic.get(0);
-        assertEquals("Anonymus /Pinter/", pnv.variation);
-        assertNull(pnv.variationType);
+        assertEquals("Anonymus /Pinter/", pnv.getVariation());
+        assertNull(pnv.getVariationType());
     }
 
     /**
@@ -201,7 +201,7 @@ public class GedcomParser551Test {
         Individual i = g.getIndividuals().get("@I1@");
         assertEquals(1, i.getEvents().size());
         IndividualEvent e = i.getEvents().get(0);
-        assertEquals(IndividualEventType.BIRTH, e.type);
+        assertEquals(IndividualEventType.BIRTH, e.getType());
         assertNotNull(e.getPlace());
         Place p = e.getPlace();
         assertEquals("Tarnowie, Krak\u00F3w, Poland", p.placeName);
@@ -211,8 +211,8 @@ public class GedcomParser551Test {
         assertEquals(1, p.phonetic.size());
         NameVariation nv = p.phonetic.get(0);
         assertNotNull(nv);
-        assertEquals("Tarr-now, Krack-ow, Poh-land", nv.variation);
-        assertEquals("guessing", nv.variationType.toString());
+        assertEquals("Tarr-now, Krack-ow, Poh-land", nv.getVariation());
+        assertEquals("guessing", nv.getVariationType().toString());
     }
 
     /**
@@ -235,7 +235,7 @@ public class GedcomParser551Test {
         Individual i = g.getIndividuals().get("@I1@");
         assertEquals(1, i.getEvents().size());
         IndividualEvent e = i.getEvents().get(0);
-        assertEquals(IndividualEventType.BIRTH, e.type);
+        assertEquals(IndividualEventType.BIRTH, e.getType());
         assertNotNull(e.getPlace());
         Place p = e.getPlace();
         assertEquals("Tarnowie, Krak\u00F3w, Poland", e.getPlace().placeName);
@@ -500,8 +500,8 @@ public class GedcomParser551Test {
         assertNotNull(pn.romanized);
         assertEquals(1, pn.romanized.size());
         NameVariation pnv = pn.romanized.get(0);
-        assertEquals("Walter /Borgula/", pnv.variation);
-        assertNull(pnv.variationType);
+        assertEquals("Walter /Borgula/", pnv.getVariation());
+        assertNull(pnv.getVariationType());
     }
 
     /**
@@ -524,7 +524,7 @@ public class GedcomParser551Test {
         Individual i = g.getIndividuals().get("@I1@");
         assertEquals(1, i.getEvents().size());
         IndividualEvent e = i.getEvents().get(0);
-        assertEquals(IndividualEventType.BIRTH, e.type);
+        assertEquals(IndividualEventType.BIRTH, e.getType());
         assertNotNull(e.getPlace());
         Place p = e.getPlace();
         assertEquals("Tarnowie, Krak\u00F3w, Poland", e.getPlace().placeName);
@@ -534,8 +534,8 @@ public class GedcomParser551Test {
         assertEquals(1, p.romanized.size());
         NameVariation nv = p.romanized.get(0);
         assertNotNull(nv);
-        assertEquals("Tarnow, Cracow, Poland", nv.variation);
-        assertEquals("Google translate", nv.variationType.getValue());
+        assertEquals("Tarnow, Cracow, Poland", nv.getVariation());
+        assertEquals("Google translate", nv.getVariationType().getValue());
     }
 
     /**

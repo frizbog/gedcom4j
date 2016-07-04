@@ -36,12 +36,12 @@ public class Note extends AbstractElement {
     /**
      * The lines of text of this note
      */
-    public List<String> lines = new ArrayList<String>(0);
+    private List<String> lines = new ArrayList<String>(0);
 
     /**
      * The change date for this note
      */
-    public ChangeDate changeDate;
+    private ChangeDate changeDate;
 
     /**
      * The record ID number
@@ -120,25 +120,60 @@ public class Note extends AbstractElement {
         return true;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
-        result = prime * result + (citations == null ? 0 : citations.hashCode());
-        result = prime * result + (lines == null ? 0 : lines.hashCode());
-        result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
-        result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
-        result = prime * result + (xref == null ? 0 : xref.hashCode());
-        return result;
+    /**
+     * Get the changeDate
+     * 
+     * @return the changeDate
+     */
+    public ChangeDate getChangeDate() {
+        return changeDate;
     }
 
-    @Override
-    public String toString() {
-        return "Note [" + (xref != null ? "xref=" + xref + ", " : "") + (lines != null ? "lines=" + lines + ", " : "")
-                + (citations != null ? "citations=" + citations + ", " : "") + (userReferences != null ? "userReferences=" + userReferences + ", " : "")
-                + (changeDate != null ? "changeDate=" + changeDate + ", " : "") + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "")
-                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+    /**
+     * Get the citations
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations() {
+        return citations;
+    }
+
+    /**
+     * Get the citations
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && citations == null) {
+            citations = new ArrayList<AbstractCitation>(0);
+        }
+        return citations;
+    }
+
+    /**
+     * Get the lines
+     * 
+     * @return the lines
+     */
+    public List<String> getLines() {
+        return lines;
+    }
+
+    /**
+     * Get the lines
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the lines
+     */
+    public List<String> getLines(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && lines == null) {
+            lines = new ArrayList<String>(0);
+        }
+        return lines;
     }
 
     /**
@@ -148,35 +183,6 @@ public class Note extends AbstractElement {
      */
     public StringWithCustomTags getRecIdNumber() {
         return recIdNumber;
-    }
-
-    /**
-     * Set the recIdNumber
-     * 
-     * @param recIdNumber
-     *            the recIdNumber to set
-     */
-    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
-        this.recIdNumber = recIdNumber;
-    }
-
-    /**
-     * Get the xref
-     * 
-     * @return the xref
-     */
-    public String getXref() {
-        return xref;
-    }
-
-    /**
-     * Set the xref
-     * 
-     * @param xref
-     *            the xref to set
-     */
-    public void setXref(String xref) {
-        this.xref = xref;
     }
 
     /**
@@ -203,26 +209,62 @@ public class Note extends AbstractElement {
     }
 
     /**
-     * Get the citations
+     * Get the xref
      * 
-     * @return the citations
+     * @return the xref
      */
-    public List<AbstractCitation> getCitations() {
-        return citations;
+    public String getXref() {
+        return xref;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
+        result = prime * result + (citations == null ? 0 : citations.hashCode());
+        result = prime * result + (lines == null ? 0 : lines.hashCode());
+        result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
+        result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
+        result = prime * result + (xref == null ? 0 : xref.hashCode());
+        return result;
     }
 
     /**
-     * Get the citations
+     * Set the changeDate
      * 
-     * @param initializeIfNeeded
-     *            initialize the collection if needed?
-     * 
-     * @return the citations
+     * @param changeDate
+     *            the changeDate to set
      */
-    public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && citations == null) {
-            citations = new ArrayList<AbstractCitation>(0);
-        }
-        return citations;
+    public void setChangeDate(ChangeDate changeDate) {
+        this.changeDate = changeDate;
+    }
+
+    /**
+     * Set the recIdNumber
+     * 
+     * @param recIdNumber
+     *            the recIdNumber to set
+     */
+    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+        this.recIdNumber = recIdNumber;
+    }
+
+    /**
+     * Set the xref
+     * 
+     * @param xref
+     *            the xref to set
+     */
+    public void setXref(String xref) {
+        this.xref = xref;
+    }
+
+    @Override
+    public String toString() {
+        return "Note [" + (xref != null ? "xref=" + xref + ", " : "") + (lines != null ? "lines=" + lines + ", " : "") + (citations != null ? "citations="
+                + citations + ", " : "") + (userReferences != null ? "userReferences=" + userReferences + ", " : "") + (changeDate != null ? "changeDate="
+                        + changeDate + ", " : "") + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "") + (getCustomTags() != null ? "customTags="
+                                + getCustomTags() : "") + "]";
     }
 }

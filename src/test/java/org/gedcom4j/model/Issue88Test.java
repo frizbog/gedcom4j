@@ -42,7 +42,7 @@ public class Issue88Test {
         name.basic = "Bob /ROBERTS/";
         i.getNames().add(name);
         IndividualEvent birth = new IndividualEvent();
-        birth.type = IndividualEventType.BIRTH;
+        birth.setType(IndividualEventType.BIRTH);
         birth.date = new StringWithCustomTags("1/1/1950");
         i.getEvents().add(birth);
 
@@ -61,11 +61,11 @@ public class Issue88Test {
         name.basic = "Bob /ROBERTS/";
         i.getNames().add(name);
         IndividualEvent birth = new IndividualEvent();
-        birth.type = IndividualEventType.BIRTH;
+        birth.setType(IndividualEventType.BIRTH);
         birth.date = new StringWithCustomTags("1/1/1950");
         i.getEvents().add(birth);
         IndividualEvent death = new IndividualEvent();
-        death.type = IndividualEventType.DEATH;
+        death.setType(IndividualEventType.DEATH);
         death.date = new StringWithCustomTags("12/31/1999");
         i.getEvents().add(death);
 
@@ -84,7 +84,7 @@ public class Issue88Test {
         name.basic = "Bob /ROBERTS/";
         i.getNames().add(name);
         IndividualEvent death = new IndividualEvent();
-        death.type = IndividualEventType.DEATH;
+        death.setType(IndividualEventType.DEATH);
         death.date = new StringWithCustomTags("12/31/1999");
         i.getEvents().add(death);
 

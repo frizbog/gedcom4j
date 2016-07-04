@@ -75,12 +75,12 @@ public enum LdsIndividualOrdinanceType {
     /**
      * The tag
      */
-    public final String tag;
+    private final String tag;
 
     /**
      * The display value
      */
-    public final String display;
+    private final String display;
 
     /**
      * Contructor
@@ -93,5 +93,23 @@ public enum LdsIndividualOrdinanceType {
     private LdsIndividualOrdinanceType(String tag, String display) {
         this.tag = tag.intern();
         this.display = display.intern();
+    }
+
+    /**
+     * Get the display
+     * 
+     * @return the display
+     */
+    public String getDisplay() {
+        return display;
+    }
+
+    /**
+     * Get the tag
+     * 
+     * @return the tag
+     */
+    public String getTag() {
+        return tag;
     }
 }

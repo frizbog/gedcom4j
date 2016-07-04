@@ -78,7 +78,7 @@ public class SourceCallNumber extends AbstractElement {
 
     @Override
     public String toString() {
-        return "SourceCallNumber [" + (callNumber != null ? "callNumber=" + callNumber + ", " : "")
-                + (mediaType != null ? "mediaType=" + mediaType + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        return "SourceCallNumber [" + (callNumber != null ? "callNumber=" + callNumber + ", " : "") + (mediaType != null ? "mediaType=" + mediaType + ", " : "")
+                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

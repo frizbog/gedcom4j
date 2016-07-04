@@ -240,11 +240,11 @@ public class GedcomWriterTest {
         for (String xref : gedcomOrig.getNotes().keySet()) {
             Note n1 = gedcomOrig.getNotes().get(xref);
             Note n2 = gedcomReadback.getNotes().get(xref);
-            assertEquals(n1.lines.size(), n2.lines.size());
+            assertEquals(n1.getLines().size(), n2.getLines().size());
             String prevLine = null;
-            for (int i = 0; i < n1.lines.size(); i++) {
-                String l1 = n1.lines.get(i);
-                String l2 = n2.lines.get(i);
+            for (int i = 0; i < n1.getLines().size(); i++) {
+                String l1 = n1.getLines().get(i);
+                String l2 = n2.getLines().get(i);
                 if (!l1.equals(l2)) {
                     System.out.println("On line following \"" + prevLine + "\":");
                     System.out.println("Should be " + l1);

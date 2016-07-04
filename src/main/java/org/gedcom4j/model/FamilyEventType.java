@@ -29,7 +29,7 @@ package org.gedcom4j.model;
  */
 public enum FamilyEventType {
     /**
-     * Annullment
+     * Annulment
      */
     ANNULMENT("ANUL", "Annulment"),
     /**

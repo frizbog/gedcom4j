@@ -67,7 +67,7 @@ public class Issue96Test {
         Note note = g.getNotes().values().iterator().next();
 
         // Cross-reference (or what looks like one) treated like text?
-        assertEquals("@N0@", note.lines.get(0));
+        assertEquals("@N0@", note.getLines().get(0));
         // ID treated like ID
         assertEquals("@N00000000000000005678@", note.getXref());
     }

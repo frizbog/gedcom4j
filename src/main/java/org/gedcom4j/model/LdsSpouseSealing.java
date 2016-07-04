@@ -30,8 +30,8 @@ public class LdsSpouseSealing extends AbstractLdsOrdinance {
 
     @Override
     public String toString() {
-        return "LdsSpouseSealing [status=" + status + ", date=" + date + ", temple=" + temple + ", place=" + place
-                + ", citations=" + getCitations() + ", notes=" + notes + ", customTags=" + getCustomTags() + "]";
+        return "LdsSpouseSealing [status=" + status + ", date=" + date + ", temple=" + temple + ", place=" + place + ", citations=" + getCitations()
+                + ", notes=" + notes + ", customTags=" + getCustomTags() + "]";
     }
 
 }

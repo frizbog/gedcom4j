@@ -82,7 +82,7 @@ public class LongLineReaderTest {
             assertEquals("This is an ridiculously long line that exceeds the GEDCOM maximum line length of 255 characters "
                     + "so that we can test whether the readers can properly introduce CONC tags on the fly and keep "
                     + "going as if everything was ok when the file has lines that are way too long like this one is, "
-                    + "even though there are lots of programs that write non-standard GEDCOM files.", n.lines.get(0));
+                    + "even though there are lots of programs that write non-standard GEDCOM files.", n.getLines().get(0));
         } finally {
             if (fis != null) {
                 fis.close();

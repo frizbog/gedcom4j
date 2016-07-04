@@ -68,18 +68,18 @@ public class Issue95Test {
         // Let's start by making sure everything loaded as expected
         assertEquals(2, i.getEvents().size());
         for (IndividualEvent ev : i.getEvents()) {
-            if (ev.type == IndividualEventType.BIRTH) {
+            if (ev.getType() == IndividualEventType.BIRTH) {
                 assertEquals("4 July 1776", ev.getDate().getValue());
                 assertEquals(1, ev.getCustomTags().size());
                 StringTree ct = ev.getCustomTags().get(0);
                 assertEquals("_METHOD", ct.tag);
                 assertEquals("Hatched from egg", ct.value);
                 assertEquals(2, ct.level);
-            } else if (ev.type == IndividualEventType.DEATH) {
+            } else if (ev.getType() == IndividualEventType.DEATH) {
                 assertEquals("Suffolk, VA, USA", ev.getPlace().placeName);
                 assertTrue(ev.getCustomTags().isEmpty());
             } else {
-                fail("Unexpected Individual Event type " + ev.type);
+                fail("Unexpected Individual Event type " + ev.getType());
             }
         }
 

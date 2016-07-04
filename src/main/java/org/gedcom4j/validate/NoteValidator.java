@@ -22,8 +22,6 @@
 
 package org.gedcom4j.validate;
 
-import java.util.ArrayList;
-
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.Note;
 
@@ -67,9 +65,9 @@ class NoteValidator extends AbstractValidator {
     @Override
     protected void validate() {
 
-        if (n.lines == null) {
+        if (n.getLines() == null) {
             if (rootValidator.autorepair) {
-                n.lines = new ArrayList<String>();
+                n.getLines(true).clear();
                 addInfo("Lines of text collection on note was null - autorepaired");
             } else {
                 addError("Lines of text collection on note is null", n);
@@ -77,7 +75,7 @@ class NoteValidator extends AbstractValidator {
             }
         }
 
-        if (n.getXref() == null && n.lines.isEmpty()) {
+        if (n.getXref() == null && n.getLines().isEmpty()) {
             addError("Note " + i + " without xref has no lines", n);
         }
 
@@ -104,7 +102,7 @@ class NoteValidator extends AbstractValidator {
         } else {
             checkUserReferences(n.getUserReferences(), n);
         }
-        checkChangeDate(n.changeDate, n);
+        checkChangeDate(n.getChangeDate(), n);
     }
 
 }

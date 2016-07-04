@@ -21,8 +21,6 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.ArrayList;
-
 import org.gedcom4j.exception.GedcomValidationException;
 import org.gedcom4j.model.*;
 
@@ -171,14 +169,14 @@ class MultimediaValidator extends AbstractValidator {
      * Validate that the multimedia object conforms to GEDCOM 5.5 rules
      */
     private void validate55() {
-        if (mm.blob.isEmpty()) {
+        if (mm.getBlob().isEmpty()) {
             if (rootValidator.autorepair) {
                 addError("Embedded media object has an empty blob object - cannot repair", mm);
             } else {
                 addError("Embedded media object has an empty blob object", mm);
             }
         }
-        checkRequiredString(mm.embeddedMediaFormat, "embedded media format", mm);
+        checkRequiredString(mm.getEmbeddedMediaFormat(), "embedded media format", mm);
 
         // Validate the citations - only allowed in 5.5.1
         if (!mm.getCitations().isEmpty()) {
@@ -197,23 +195,23 @@ class MultimediaValidator extends AbstractValidator {
     private void validate551() {
 
         // File references
-        if (mm.fileReferences == null) {
+        if (mm.getFileReferences() == null) {
             if (rootValidator.autorepair) {
-                mm.fileReferences = new ArrayList<FileReference>();
+                mm.getFileReferences(true).clear();
                 rootValidator.addInfo("Multimedia object did not have list of file references - repaired", mm);
             } else {
                 rootValidator.addError("Multimedia object does not have list of file references", mm);
                 return;
             }
         }
-        for (FileReference fr : mm.fileReferences) {
+        for (FileReference fr : mm.getFileReferences()) {
             checkFileReference(fr);
         }
 
         // Blobs must be empty in 5.5.1
-        if (mm.blob != null && !mm.blob.isEmpty()) {
+        if (mm.getBlob() != null && !mm.getBlob().isEmpty()) {
             if (rootValidator.autorepair) {
-                mm.blob.clear();
+                mm.getBlob().clear();
                 addInfo("Embedded media object had a populated blob object, " + "which is not allowed in GEDCOM 5.5.1 - repaired (cleared)", mm);
             } else {
                 addError("Embedded media object has a populated blob object, which is not allowed in GEDCOM 5.5.1", mm);
@@ -221,9 +219,9 @@ class MultimediaValidator extends AbstractValidator {
         }
 
         // Cannot have an embedded media format in 5.5.1
-        if (mm.embeddedMediaFormat != null) {
+        if (mm.getEmbeddedMediaFormat() != null) {
             if (rootValidator.autorepair) {
-                mm.embeddedMediaFormat = null;
+                mm.setEmbeddedMediaFormat(null);
                 rootValidator.addInfo("Multimedia object had a format for embedded media, " + "which is not allowed in GEDCOM 5.5.1 - repaired (cleared)", mm);
             } else {
                 rootValidator.addError("Multimedia object has a format for embedded media, " + "which is not allowed in GEDCOM 5.5.1", mm);
@@ -244,7 +242,7 @@ class MultimediaValidator extends AbstractValidator {
     private void validateCommon() {
         checkXref();
         checkOptionalString(mm.getRecIdNumber(), "record id number", mm);
-        checkChangeDate(mm.changeDate, mm);
+        checkChangeDate(mm.getChangeDate(), mm);
         checkUserReferences();
         if (mm.getCitations() == null) {
             if (rootValidator.autorepair) {
@@ -254,14 +252,14 @@ class MultimediaValidator extends AbstractValidator {
                 addError("citations collection for multimedia object is null", mm);
             }
         }
-        if (mm.continuedObject != null) {
-            new MultimediaValidator(rootValidator, mm.continuedObject).validate();
+        if (mm.getContinuedObject() != null) {
+            new MultimediaValidator(rootValidator, mm.getContinuedObject()).validate();
         }
         // The blob object should always be instantiated, even for 5.5.1 (in
         // which case it should be an empty collection)
-        if (mm.blob == null) {
+        if (mm.getBlob() == null) {
             if (rootValidator.autorepair) {
-                mm.blob = new ArrayList<String>();
+                mm.getBlob(true).clear();
                 rootValidator.addInfo("Embedded blob was null - repaired", mm);
             } else {
                 rootValidator.addError("Embedded blob is null", mm);

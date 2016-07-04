@@ -50,7 +50,7 @@ public class IndividualEventValidatorTest extends AbstractValidatorTestCase {
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "event", "requires", "type");
 
-        e.type = IndividualEventType.BIRTH;
+        e.setType(IndividualEventType.BIRTH);
         rootValidator.validate();
         assertNoIssues();
 

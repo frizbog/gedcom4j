@@ -65,7 +65,7 @@ public class Issue80ParserTest {
         assertTrue(e instanceof IndividualEvent);
 
         IndividualEvent ie = (IndividualEvent) e;
-        assertEquals(IndividualEventType.BIRTH, ie.type);
+        assertEquals(IndividualEventType.BIRTH, ie.getType());
         assertNotNull(ie.getPlace());
 
         Place p = ie.getPlace();

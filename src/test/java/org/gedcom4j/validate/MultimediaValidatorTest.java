@@ -21,8 +21,6 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.ArrayList;
-
 import org.gedcom4j.model.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,12 +64,6 @@ public class MultimediaValidatorTest extends AbstractValidatorTestCase {
         mm.setXref("@MM001@");
         rootValidator.gedcom.getMultimedia().put(mm.getXref(), mm);
 
-        // Blob object must be instantiated regardless of version!
-        mm.blob = null;
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "blob", "null");
-        mm.blob = new ArrayList<String>();
-
         // Blob can be empty in 5.5.1
         rootValidator.gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         rootValidator.validate();
@@ -81,8 +73,8 @@ public class MultimediaValidatorTest extends AbstractValidatorTestCase {
         rootValidator.gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "blob", "empty");
-        mm.blob.add("foo");
-        mm.embeddedMediaFormat = new StringWithCustomTags("gif");
+        mm.getBlob().add("foo");
+        mm.setEmbeddedMediaFormat(new StringWithCustomTags("gif"));
         rootValidator.validate();
         assertNoIssues();
 
@@ -92,8 +84,8 @@ public class MultimediaValidatorTest extends AbstractValidatorTestCase {
         assertFindingsContain(Severity.ERROR, "blob", "populated", "5.5.1");
         assertFindingsContain(Severity.ERROR, "embedded", "media", "format", "5.5.1");
 
-        mm.blob.clear();
-        mm.embeddedMediaFormat = null;
+        mm.getBlob().clear();
+        mm.setEmbeddedMediaFormat(null);
         rootValidator.validate();
         assertNoIssues();
 

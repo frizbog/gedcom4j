@@ -30,18 +30,18 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
     /**
      * The family in which the individual was a child - used for SLGC types
      */
-    public FamilyChild familyWhereChild;
+    private FamilyChild familyWhereChild;
 
     /**
      * The type
      */
-    public LdsIndividualOrdinanceType type;
+    private LdsIndividualOrdinanceType type;
 
     /**
      * Allows for a Y or null to be processed after the type. Not strictly part of the GEDCOM, but allows for
      * flexibility
      */
-    public String yNull;
+    private String yNull;
 
     @Override
     public boolean equals(Object obj) {
@@ -75,6 +75,33 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
         return true;
     }
 
+    /**
+     * Get the familyWhereChild
+     * 
+     * @return the familyWhereChild
+     */
+    public FamilyChild getFamilyWhereChild() {
+        return familyWhereChild;
+    }
+
+    /**
+     * Get the type
+     * 
+     * @return the type
+     */
+    public LdsIndividualOrdinanceType getType() {
+        return type;
+    }
+
+    /**
+     * Get the yNull
+     * 
+     * @return the yNull
+     */
+    public String getyNull() {
+        return yNull;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -85,10 +112,39 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
         return result;
     }
 
+    /**
+     * Set the familyWhereChild
+     * 
+     * @param familyWhereChild
+     *            the familyWhereChild to set
+     */
+    public void setFamilyWhereChild(FamilyChild familyWhereChild) {
+        this.familyWhereChild = familyWhereChild;
+    }
+
+    /**
+     * Set the type
+     * 
+     * @param type
+     *            the type to set
+     */
+    public void setType(LdsIndividualOrdinanceType type) {
+        this.type = type;
+    }
+
+    /**
+     * Set the yNull
+     * 
+     * @param yNull
+     *            the yNull to set
+     */
+    public void setyNull(String yNull) {
+        this.yNull = yNull;
+    }
+
     @Override
     public String toString() {
-        return "LdsIndividualOrdinance [familyWhereChild=" + familyWhereChild + ", type=" + type + ", yNull=" + yNull
-                + ", status=" + status + ", date=" + date + ", temple=" + temple + ", place=" + place + ", citations="
-                + getCitations() + ", notes=" + notes + ", customTags=" + getCustomTags() + "]";
+        return "LdsIndividualOrdinance [familyWhereChild=" + familyWhereChild + ", type=" + type + ", yNull=" + yNull + ", status=" + status + ", date=" + date
+                + ", temple=" + temple + ", place=" + place + ", citations=" + getCitations() + ", notes=" + notes + ", customTags=" + getCustomTags() + "]";
     }
 }

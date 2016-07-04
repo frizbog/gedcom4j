@@ -51,34 +51,34 @@ public class Multimedia extends AbstractElement {
      * The title of this multimedia item. This field should ONLY be used when the spec is 5.5 and should be null for
      * 5.5.1 files.
      */
-    public StringWithCustomTags embeddedTitle;
+    private StringWithCustomTags embeddedTitle;
 
     /**
      * The file reference for this multimedia item
      */
-    public List<FileReference> fileReferences = new ArrayList<FileReference>(0);
+    private List<FileReference> fileReferences = new ArrayList<FileReference>(0);
 
     /**
      * The binary (blob) for this multimedia item. Encoded as string data. This field should always be an empty list for
      * 5.5.1 files.
      */
-    public List<String> blob = new ArrayList<String>(0);
+    private List<String> blob = new ArrayList<String>(0);
 
     /**
      * The next object in the chain holding binary data if it needs to be continued due to size. This field should
      * always be null for 5.5.1 files.
      */
-    public Multimedia continuedObject;
+    private Multimedia continuedObject;
 
     /**
      * The change date for this multimedia item
      */
-    public ChangeDate changeDate;
+    private ChangeDate changeDate;
 
     /**
      * The format of the multimedia object - only for 5.5 style multimedia files, and should be null for 5.5.1 files.
      */
-    public StringWithCustomTags embeddedMediaFormat;
+    private StringWithCustomTags embeddedMediaFormat;
 
     /**
      * Notes about this object
@@ -198,6 +198,112 @@ public class Multimedia extends AbstractElement {
     }
 
     /**
+     * Get the blob
+     * 
+     * @return the blob
+     */
+    public List<String> getBlob() {
+        return blob;
+    }
+
+    /**
+     * Get the blob
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed
+     * @return the blob
+     */
+    public List<String> getBlob(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && blob == null) {
+            blob = new ArrayList<String>(0);
+        }
+        return blob;
+    }
+
+    /**
+     * Get the changeDate
+     * 
+     * @return the changeDate
+     */
+    public ChangeDate getChangeDate() {
+        return changeDate;
+    }
+
+    /**
+     * Get the citations
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations() {
+        return citations;
+    }
+
+    /**
+     * Get the citations
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && citations == null) {
+            citations = new ArrayList<AbstractCitation>(0);
+        }
+        return citations;
+    }
+
+    /**
+     * Get the continuedObject
+     * 
+     * @return the continuedObject
+     */
+    public Multimedia getContinuedObject() {
+        return continuedObject;
+    }
+
+    /**
+     * Get the embeddedMediaFormat
+     * 
+     * @return the embeddedMediaFormat
+     */
+    public StringWithCustomTags getEmbeddedMediaFormat() {
+        return embeddedMediaFormat;
+    }
+
+    /**
+     * Get the embeddedTitle
+     * 
+     * @return the embeddedTitle
+     */
+    public StringWithCustomTags getEmbeddedTitle() {
+        return embeddedTitle;
+    }
+
+    /**
+     * Get the fileReferences
+     * 
+     * @return the fileReferences
+     */
+    public List<FileReference> getFileReferences() {
+        return fileReferences;
+    }
+
+    /**
+     * Get the fileReferences
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed
+     * @return the fileReferences
+     */
+    public List<FileReference> getFileReferences(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && fileReferences == null) {
+            fileReferences = new ArrayList<FileReference>(0);
+        }
+        return fileReferences;
+    }
+
+    /**
      * Get the notes
      * 
      * @return the notes
@@ -230,64 +336,6 @@ public class Multimedia extends AbstractElement {
         return recIdNumber;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + (blob == null ? 0 : blob.hashCode());
-        result = prime * result + (embeddedMediaFormat == null ? 0 : embeddedMediaFormat.hashCode());
-        result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
-        result = prime * result + (citations == null ? 0 : citations.hashCode());
-        result = prime * result + (continuedObject == null ? 0 : continuedObject.hashCode());
-        result = prime * result + (fileReferences == null ? 0 : fileReferences.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
-        result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
-        result = prime * result + (embeddedTitle == null ? 0 : embeddedTitle.hashCode());
-        result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
-        result = prime * result + (xref == null ? 0 : xref.hashCode());
-        return result;
-    }
-
-    /**
-     * Set the recIdNumber
-     * 
-     * @param recIdNumber
-     *            the recIdNumber to set
-     */
-    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
-        this.recIdNumber = recIdNumber;
-    }
-
-    @Override
-    public String toString() {
-        return "Multimedia [" + (xref != null ? "xref=" + xref + ", " : "") + (embeddedTitle != null ? "embeddedTitle=" + embeddedTitle + ", " : "")
-                + (fileReferences != null ? "fileReferences=" + fileReferences + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
-                + (citations != null ? "citations=" + citations + ", " : "") + (blob != null ? "blob=" + blob + ", " : "") + (continuedObject != null
-                        ? "continuedObject=" + continuedObject + ", " : "") + (userReferences != null ? "userReferences=" + userReferences + ", " : "")
-                + (changeDate != null ? "changeDate=" + changeDate + ", " : "") + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "")
-                + (embeddedMediaFormat != null ? "embeddedMediaFormat=" + embeddedMediaFormat + ", " : "") + (getCustomTags() != null ? "customTags="
-                        + getCustomTags() : "") + "]";
-    }
-
-    /**
-     * Get the xref
-     * 
-     * @return the xref
-     */
-    public String getXref() {
-        return xref;
-    }
-
-    /**
-     * Set the xref
-     * 
-     * @param xref
-     *            the xref to set
-     */
-    public void setXref(String xref) {
-        this.xref = xref;
-    }
-
     /**
      * Get the userReferences
      * 
@@ -312,27 +360,101 @@ public class Multimedia extends AbstractElement {
     }
 
     /**
-     * Get the citations
+     * Get the xref
      * 
-     * @return the citations
+     * @return the xref
      */
-    public List<AbstractCitation> getCitations() {
-        return citations;
+    public String getXref() {
+        return xref;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + (blob == null ? 0 : blob.hashCode());
+        result = prime * result + (embeddedMediaFormat == null ? 0 : embeddedMediaFormat.hashCode());
+        result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
+        result = prime * result + (citations == null ? 0 : citations.hashCode());
+        result = prime * result + (continuedObject == null ? 0 : continuedObject.hashCode());
+        result = prime * result + (fileReferences == null ? 0 : fileReferences.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
+        result = prime * result + (embeddedTitle == null ? 0 : embeddedTitle.hashCode());
+        result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
+        result = prime * result + (xref == null ? 0 : xref.hashCode());
+        return result;
     }
 
     /**
-     * Get the citations
+     * Set the changeDate
      * 
-     * @param initializeIfNeeded
-     *            initialize the collection if needed?
-     * 
-     * @return the citations
+     * @param changeDate
+     *            the changeDate to set
      */
-    public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && citations == null) {
-            citations = new ArrayList<AbstractCitation>(0);
-        }
-        return citations;
+    public void setChangeDate(ChangeDate changeDate) {
+        this.changeDate = changeDate;
+    }
+
+    /**
+     * Set the continuedObject
+     * 
+     * @param continuedObject
+     *            the continuedObject to set
+     */
+    public void setContinuedObject(Multimedia continuedObject) {
+        this.continuedObject = continuedObject;
+    }
+
+    /**
+     * Set the embeddedMediaFormat
+     * 
+     * @param embeddedMediaFormat
+     *            the embeddedMediaFormat to set
+     */
+    public void setEmbeddedMediaFormat(StringWithCustomTags embeddedMediaFormat) {
+        this.embeddedMediaFormat = embeddedMediaFormat;
+    }
+
+    /**
+     * Set the embeddedTitle
+     * 
+     * @param embeddedTitle
+     *            the embeddedTitle to set
+     */
+    public void setEmbeddedTitle(StringWithCustomTags embeddedTitle) {
+        this.embeddedTitle = embeddedTitle;
+    }
+
+    /**
+     * Set the recIdNumber
+     * 
+     * @param recIdNumber
+     *            the recIdNumber to set
+     */
+    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+        this.recIdNumber = recIdNumber;
+    }
+
+    /**
+     * Set the xref
+     * 
+     * @param xref
+     *            the xref to set
+     */
+    public void setXref(String xref) {
+        this.xref = xref;
+    }
+
+    @Override
+    public String toString() {
+        return "Multimedia [" + (xref != null ? "xref=" + xref + ", " : "") + (embeddedTitle != null ? "embeddedTitle=" + embeddedTitle + ", " : "")
+                + (fileReferences != null ? "fileReferences=" + fileReferences + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
+                + (citations != null ? "citations=" + citations + ", " : "") + (blob != null ? "blob=" + blob + ", " : "") + (continuedObject != null
+                        ? "continuedObject=" + continuedObject + ", " : "") + (userReferences != null ? "userReferences=" + userReferences + ", " : "")
+                + (changeDate != null ? "changeDate=" + changeDate + ", " : "") + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "")
+                + (embeddedMediaFormat != null ? "embeddedMediaFormat=" + embeddedMediaFormat + ", " : "") + (getCustomTags() != null ? "customTags="
+                        + getCustomTags() : "") + "]";
     }
 
 }
