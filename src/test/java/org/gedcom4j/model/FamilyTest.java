@@ -98,8 +98,8 @@ public class FamilyTest {
      */
     @Test
     public void testEqualsNegative() {
-        family1.xref = "@F1@";
-        family2.xref = "@F2@";
+        family1.setXref("@F1@");
+        family2.setXref("@F2@");
         assertFalse(family1.equals(family2));
     }
 
@@ -138,8 +138,8 @@ public class FamilyTest {
      */
     @Test
     public void testHashCodeNegative() {
-        family1.xref = "@F1@";
-        family2.xref = "@F2@";
+        family1.setXref("@F1@");
+        family2.setXref("@F2@");
         assertFalse(family1.hashCode() == family2.hashCode());
     }
 

@@ -43,31 +43,31 @@ public class AssociationTest {
         Association a2 = new Association();
         assertEquals(a1, a2);
 
-        a1.associatedEntityType = new StringWithCustomTags("Frying Pan");
+        a1.setAssociatedEntityType(new StringWithCustomTags("Frying Pan"));
         assertFalse(a1.equals(a2));
-        a2.associatedEntityType = new StringWithCustomTags("Frying Pan");
+        a2.setAssociatedEntityType(new StringWithCustomTags("Frying Pan"));
         assertEquals(a1, a2);
-        a1.associatedEntityType = null;
+        a1.setAssociatedEntityType(null);
         assertFalse(a1.equals(a2));
-        a2.associatedEntityType = null;
-        assertEquals(a1, a2);
-
-        a1.associatedEntityXref = "Frying Pan";
-        assertFalse(a1.equals(a2));
-        a2.associatedEntityXref = "Frying Pan";
-        assertEquals(a1, a2);
-        a1.associatedEntityXref = null;
-        assertFalse(a1.equals(a2));
-        a2.associatedEntityXref = null;
+        a2.setAssociatedEntityType(null);
         assertEquals(a1, a2);
 
-        a1.relationship = new StringWithCustomTags("Frying Pan");
+        a1.setAssociatedEntityXref("Frying Pan");
         assertFalse(a1.equals(a2));
-        a2.relationship = new StringWithCustomTags("Frying Pan");
+        a2.setAssociatedEntityXref("Frying Pan");
         assertEquals(a1, a2);
-        a1.relationship = null;
+        a1.setAssociatedEntityXref(null);
         assertFalse(a1.equals(a2));
-        a2.relationship = null;
+        a2.setAssociatedEntityXref(null);
+        assertEquals(a1, a2);
+
+        a1.setRelationship(new StringWithCustomTags("Frying Pan"));
+        assertFalse(a1.equals(a2));
+        a2.setRelationship(new StringWithCustomTags("Frying Pan"));
+        assertEquals(a1, a2);
+        a1.setRelationship(null);
+        assertFalse(a1.equals(a2));
+        a2.setRelationship(null);
         assertEquals(a1, a2);
 
         a1.citations.add(new CitationWithSource());
@@ -102,31 +102,31 @@ public class AssociationTest {
         Association a2 = new Association();
         assertEquals(a1, a2);
 
-        a1.associatedEntityType = new StringWithCustomTags("Frying Pan");
+        a1.setAssociatedEntityType(new StringWithCustomTags("Frying Pan"));
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.associatedEntityType = new StringWithCustomTags("Frying Pan");
+        a2.setAssociatedEntityType(new StringWithCustomTags("Frying Pan"));
         assertEquals(a1.hashCode(), a2.hashCode());
-        a1.associatedEntityType = null;
+        a1.setAssociatedEntityType(null);
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.associatedEntityType = null;
-        assertEquals(a1.hashCode(), a2.hashCode());
-
-        a1.associatedEntityXref = "Frying Pan";
-        assertFalse(a1.hashCode() == a2.hashCode());
-        a2.associatedEntityXref = "Frying Pan";
-        assertEquals(a1.hashCode(), a2.hashCode());
-        a1.associatedEntityXref = null;
-        assertFalse(a1.hashCode() == a2.hashCode());
-        a2.associatedEntityXref = null;
+        a2.setAssociatedEntityType(null);
         assertEquals(a1.hashCode(), a2.hashCode());
 
-        a1.relationship = new StringWithCustomTags("Frying Pan");
+        a1.setAssociatedEntityXref("Frying Pan");
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.relationship = new StringWithCustomTags("Frying Pan");
+        a2.setAssociatedEntityXref("Frying Pan");
         assertEquals(a1.hashCode(), a2.hashCode());
-        a1.relationship = null;
+        a1.setAssociatedEntityXref(null);
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.relationship = null;
+        a2.setAssociatedEntityXref(null);
+        assertEquals(a1.hashCode(), a2.hashCode());
+
+        a1.setRelationship(new StringWithCustomTags("Frying Pan"));
+        assertFalse(a1.hashCode() == a2.hashCode());
+        a2.setRelationship(new StringWithCustomTags("Frying Pan"));
+        assertEquals(a1.hashCode(), a2.hashCode());
+        a1.setRelationship(null);
+        assertFalse(a1.hashCode() == a2.hashCode());
+        a2.setRelationship(null);
         assertEquals(a1.hashCode(), a2.hashCode());
 
         a1.citations.add(new CitationWithSource());

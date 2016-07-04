@@ -21,8 +21,6 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.ArrayList;
-
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
 
@@ -52,27 +50,6 @@ class SubmitterValidator extends AbstractValidator {
         this.submitter = submitter;
     }
 
-    /**
-     * Check the language preferences
-     */
-    private void checkLanguagePreferences() {
-        if (submitter.languagePref == null) {
-            if (rootValidator.autorepair) {
-                submitter.languagePref = new ArrayList<StringWithCustomTags>();
-                addInfo("Submitter language preference collection was null - autorepaired", submitter);
-            } else {
-                addInfo("Submitter language preference collection is null", submitter);
-            }
-        } else {
-            if (submitter.languagePref.size() > 3) {
-                addError("Submitter exceeds limit on language preferences (3)", submitter);
-            }
-            for (StringWithCustomTags s : submitter.languagePref) {
-                checkRequiredString(s, "language pref", submitter);
-            }
-        }
-    }
-
     @Override
     protected void validate() {
         if (submitter == null) {
@@ -80,13 +57,34 @@ class SubmitterValidator extends AbstractValidator {
             return;
         }
         checkXref(submitter);
-        checkRequiredString(submitter.name, "name", submitter);
+        checkRequiredString(submitter.getName(), "name", submitter);
         checkLanguagePreferences();
-        checkOptionalString(submitter.recIdNumber, "record id number", submitter);
-        checkOptionalString(submitter.regFileNumber, "submitter registered rfn", submitter);
-        if (submitter.address != null) {
-            new AddressValidator(rootValidator, submitter.address).validate();
+        checkOptionalString(submitter.getRecIdNumber(), "record id number", submitter);
+        checkOptionalString(submitter.getRegFileNumber(), "submitter registered rfn", submitter);
+        if (submitter.getAddress() != null) {
+            new AddressValidator(rootValidator, submitter.getAddress()).validate();
         }
-        new NotesValidator(rootValidator, submitter, submitter.notes).validate();
+        new NotesValidator(rootValidator, submitter, submitter.getNotes()).validate();
+    }
+
+    /**
+     * Check the language preferences
+     */
+    private void checkLanguagePreferences() {
+        if (submitter.getLanguagePref() == null) {
+            if (rootValidator.autorepair) {
+                submitter.getLanguagePref(true).clear();
+                addInfo("Submitter language preference collection was null - autorepaired", submitter);
+            } else {
+                addInfo("Submitter language preference collection is null", submitter);
+            }
+        } else {
+            if (submitter.getLanguagePref().size() > 3) {
+                addError("Submitter exceeds limit on language preferences (3)", submitter);
+            }
+            for (StringWithCustomTags s : submitter.getLanguagePref()) {
+                checkRequiredString(s, "language pref", submitter);
+            }
+        }
     }
 }

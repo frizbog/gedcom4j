@@ -78,11 +78,11 @@ class NoteValidator extends AbstractValidator {
             }
         }
 
-        if (n.xref == null && n.lines.isEmpty()) {
+        if (n.getXref() == null && n.lines.isEmpty()) {
             addError("Note " + i + " without xref has no lines", n);
         }
 
-        checkOptionalString(n.recIdNumber, "automated record id", n);
+        checkOptionalString(n.getRecIdNumber(), "automated record id", n);
         if (n.citations == null) {
             if (rootValidator.autorepair) {
                 n.citations = new ArrayList<AbstractCitation>();

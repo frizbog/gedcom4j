@@ -70,11 +70,11 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
         rootValidator.gedcom = g;
         rootValidator.autorepair = false;
         Submitter s = new Submitter();
-        s.xref = "@SUBM0001@";
-        s.name = new StringWithCustomTags("test");
-        g.getSubmitters().put(s.xref, s);
+        s.setXref("@SUBM0001@");
+        s.setName(new StringWithCustomTags("test"));
+        g.getSubmitters().put(s.getXref(), s);
         g.setSubmission(new Submission("@SUBN0001@"));
-        g.getHeader().submitter = s;
+        g.getHeader().setSubmitter(s);
 
         g.setTrailer(null);
         rootValidator.validate();

@@ -23,18 +23,10 @@ package org.gedcom4j.validate;
 
 import java.util.ArrayList;
 
-import org.gedcom4j.model.AbstractCitation;
-import org.gedcom4j.model.Association;
-import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.IndividualAttribute;
-import org.gedcom4j.model.IndividualEvent;
-import org.gedcom4j.model.PersonalName;
-import org.gedcom4j.model.StringWithCustomTags;
-import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.*;
 
 /**
- * A validator for an {@link Individual}. See {@link GedcomValidator} for usage
- * information.
+ * A validator for an {@link Individual}. See {@link GedcomValidator} for usage information.
  * 
  * @author frizbog1
  * 
@@ -69,9 +61,9 @@ class IndividualValidator extends AbstractValidator {
         if (individual.names == null) {
             if (rootValidator.autorepair) {
                 individual.names = new ArrayList<PersonalName>();
-                rootValidator.addInfo("Individual " + individual.xref + " had no list of names - repaired", individual);
+                rootValidator.addInfo("Individual " + individual.getXref() + " had no list of names - repaired", individual);
             } else {
-                rootValidator.addError("Individual " + individual.xref + " has no list of names", individual);
+                rootValidator.addError("Individual " + individual.getXref() + " has no list of names", individual);
             }
         } else {
             for (PersonalName pn : individual.names) {
@@ -119,7 +111,7 @@ class IndividualValidator extends AbstractValidator {
                 if (a == null) {
                     addError("associations collection for individual contains null entry", individual);
                 } else {
-                    checkRequiredString(a.associatedEntityType, "associated entity type", a);
+                    checkRequiredString(a.getAssociatedEntityType(), "associated entity type", a);
                     checkXref(a, "associatedEntityXref");
                 }
             }
@@ -187,8 +179,7 @@ class IndividualValidator extends AbstractValidator {
     }
 
     /**
-     * Validate the two submitters collections:
-     * {@link Individual#ancestorInterest} and
+     * Validate the two submitters collections: {@link Individual#ancestorInterest} and
      * {@link Individual#descendantInterest}
      */
     private void checkSubmitters() {
@@ -207,8 +198,7 @@ class IndividualValidator extends AbstractValidator {
         if (individual.descendantInterest == null) {
             if (rootValidator.autorepair) {
                 individual.descendantInterest = new ArrayList<Submitter>();
-                addInfo("descendantInterest collection for individual was null - rootValidator.autorepaired",
-                        individual);
+                addInfo("descendantInterest collection for individual was null - rootValidator.autorepaired", individual);
             } else {
                 addError("descendantInterest collection for individual is null", individual);
             }

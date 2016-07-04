@@ -37,7 +37,7 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
      */
     public void testBadSource1() {
         Source src = new Source("bad xref");
-        src.recIdNumber = new StringWithCustomTags("");
+        src.setRecIdNumber(new StringWithCustomTags(""));
         AbstractValidator av = new SourceValidator(rootValidator, src);
         av.validate();
         assertFindingsContain(Severity.ERROR, "record id", "source", "blank");

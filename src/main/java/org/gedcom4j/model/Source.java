@@ -24,17 +24,14 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * A source for citations.
  * 
  * @author frizbog1
  */
 public class Source extends AbstractElement {
-    /**
-     * The record id number
-     */
-    public StringWithCustomTags recIdNumber;
-
     /**
      * Who filed the source
      */
@@ -44,11 +41,6 @@ public class Source extends AbstractElement {
      * The title text
      */
     public List<String> title = new ArrayList<String>(0);
-
-    /**
-     * Notes on this source
-     */
-    public List<Note> notes = new ArrayList<Note>(0);
 
     /**
      * Publication facts on this source
@@ -91,9 +83,19 @@ public class Source extends AbstractElement {
     public RepositoryCitation repositoryCitation;
 
     /**
-     * The xref of this source
+     * Notes about this object
      */
-    public String xref;
+    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+
+    /**
+     * The record ID number
+     */
+    private StringWithCustomTags recIdNumber;
+
+    /**
+     * The xref for this submitter
+     */
+    private String xref;
 
     /**
      * Constructor, takes required xref value
@@ -251,5 +253,67 @@ public class Source extends AbstractElement {
                 + (sourceText != null ? "sourceText=" + sourceText + ", " : "")
                 + (repositoryCitation != null ? "repositoryCitation=" + repositoryCitation + ", " : "") + (xref != null ? "xref=" + xref + ", " : "")
                 + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
+    /**
+     * Get the recIdNumber
+     * 
+     * @return the recIdNumber
+     */
+    public StringWithCustomTags getRecIdNumber() {
+        return recIdNumber;
+    }
+
+    /**
+     * Set the recIdNumber
+     * 
+     * @param recIdNumber
+     *            the recIdNumber to set
+     */
+    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+        this.recIdNumber = recIdNumber;
+    }
+
+    /**
+     * Get the xref
+     * 
+     * @return the xref
+     */
+    public String getXref() {
+        return xref;
+    }
+
+    /**
+     * Set the xref
+     * 
+     * @param xref
+     *            the xref to set
+     */
+    public void setXref(String xref) {
+        this.xref = xref;
     }
 }

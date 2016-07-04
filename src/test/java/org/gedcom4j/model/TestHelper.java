@@ -38,12 +38,12 @@ public final class TestHelper {
     public static Gedcom getMinimalGedcom() {
         Gedcom g = new Gedcom();
         g.setSubmission(new Submission("@SUBN0001@"));
-        g.getHeader().submission = g.getSubmission();
+        g.getHeader().setSubmission(g.getSubmission());
         Submitter s = new Submitter();
-        s.xref = "@SUBM0001@";
-        s.name = new StringWithCustomTags("Joe Tester");
-        g.getSubmitters().put(s.xref, s);
-        g.getHeader().submitter = s;
+        s.setXref("@SUBM0001@");
+        s.setName(new StringWithCustomTags("Joe Tester"));
+        g.getSubmitters().put(s.getXref(), s);
+        g.getHeader().setSubmitter(s);
         return g;
     }
 

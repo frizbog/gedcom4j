@@ -21,7 +21,6 @@
  */
 package org.gedcom4j.validate;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -123,17 +122,17 @@ abstract class AbstractValidator {
             // Change dates are always optional
             return;
         }
-        checkRequiredString(changeDate.date, "change date", objectWithChangeDate);
-        checkOptionalString(changeDate.time, "change time", objectWithChangeDate);
-        if (changeDate.notes == null) {
+        checkRequiredString(changeDate.getDate(), "change date", objectWithChangeDate);
+        checkOptionalString(changeDate.getTime(), "change time", objectWithChangeDate);
+        if (changeDate.getNotes() == null) {
             if (rootValidator.autorepair) {
-                changeDate.notes = new ArrayList<Note>();
+                changeDate.getNotes(true).clear();
                 addInfo("Notes collection was null on " + changeDate.getClass().getSimpleName() + " - autorepaired");
             } else {
                 addError("Notes collection is null on " + changeDate.getClass().getSimpleName());
             }
         } else {
-            checkNotes(changeDate.notes, changeDate);
+            checkNotes(changeDate.getNotes(), changeDate);
         }
 
     }
@@ -154,7 +153,7 @@ abstract class AbstractValidator {
         } catch (@SuppressWarnings("unused") SecurityException unusedAndIgnored) {
             addError("Cannot access getter named 'getCustomTags' on object of type " + o.getClass().getSimpleName() + ".", o);
             return;
-        } catch (NoSuchMethodException e) {
+        } catch (@SuppressWarnings("unused") NoSuchMethodException unusedAndIgnored) {
             addError("Cannot find getter named 'getCustomTags' on object of type " + o.getClass().getSimpleName() + ".", o);
             return;
         }
@@ -386,9 +385,10 @@ abstract class AbstractValidator {
      *            the name of the xref field
      */
     protected void checkXref(Object objectContainingXref, String xrefFieldName) {
+        String getterName = "get" + xrefFieldName.substring(0, 1).toUpperCase() + xrefFieldName.substring(1);
         try {
-            Field xrefField = objectContainingXref.getClass().getField(xrefFieldName);
-            String xref = (String) xrefField.get(objectContainingXref);
+            Method xrefGetter = objectContainingXref.getClass().getMethod(getterName);
+            String xref = (String) xrefGetter.invoke(objectContainingXref);
             checkRequiredString(xref, xrefFieldName, objectContainingXref);
             if (xref != null) {
                 if (xref.length() < 3) {
@@ -401,15 +401,23 @@ abstract class AbstractValidator {
                 }
             }
         } catch (SecurityException e) {
-            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName() + " doesn't have an xref to validate", e);
+            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName() + " doesn't have an xref getter named " + getterName
+                    + " that can be accessed to validate", e);
         } catch (ClassCastException e) {
-            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName() + " doesn't have an xref to validate", e);
-        } catch (NoSuchFieldException e) {
-            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName() + " doesn't have an xref to validate", e);
+            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName() + " doesn't have an xref getter of the right type named "
+                    + getterName + " to validate", e);
         } catch (IllegalArgumentException e) {
-            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName() + " doesn't have an xref to validate", e);
+            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName() + " doesn't have an xref getter named " + getterName
+                    + " to validate", e);
         } catch (IllegalAccessException e) {
-            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName() + " doesn't have an xref to validate", e);
+            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName() + " doesn't have an xref getter named " + getterName
+                    + " that can be accessed to validate", e);
+        } catch (InvocationTargetException e) {
+            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName() + " doesn't have an xref getter named " + getterName
+                    + " to validate", e);
+        } catch (NoSuchMethodException e) {
+            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName() + " doesn't have an xref getter named " + getterName
+                    + " to validate", e);
         }
     }
 

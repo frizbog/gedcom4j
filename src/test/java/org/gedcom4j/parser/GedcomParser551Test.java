@@ -60,9 +60,9 @@ public class GedcomParser551Test {
         Gedcom g = gp.gedcom;
         assertNotNull(g);
         assertNotNull(g.getHeader());
-        assertNotNull(g.getHeader().copyrightData);
-        assertEquals(3, g.getHeader().copyrightData.size());
-        assertEquals("License: Creative Commons Attribution-ShareAlike 3.0", g.getHeader().copyrightData.get(1));
+        assertNotNull(g.getHeader().getCopyrightData());
+        assertEquals(3, g.getHeader().getCopyrightData().size());
+        assertEquals("License: Creative Commons Attribution-ShareAlike 3.0", g.getHeader().getCopyrightData().get(1));
     }
 
     /**
@@ -85,10 +85,10 @@ public class GedcomParser551Test {
         assertEquals(1, g.getSubmitters().entrySet().size());
         Submitter s = g.getSubmitters().get("@SUBM01@");
         assertNotNull(s);
-        assertEquals("Matt /Harrah/", s.name.getValue());
-        assertNotNull(s.emails);
-        assertEquals(2, s.emails.size());
-        assertEquals("frizbog@charter.net", s.emails.get(1).getValue());
+        assertEquals("Matt /Harrah/", s.getName().getValue());
+        assertNotNull(s.getEmails());
+        assertEquals(2, s.getEmails().size());
+        assertEquals("frizbog@charter.net", s.getEmails().get(1).getValue());
     }
 
     /**
@@ -139,9 +139,9 @@ public class GedcomParser551Test {
         Gedcom g = gp.gedcom;
         assertNotNull(g);
         assertNotNull(g.getHeader());
-        assertNotNull(g.getHeader().sourceSystem);
-        assertNotNull(g.getHeader().sourceSystem.corporation);
-        Corporation c = g.getHeader().sourceSystem.corporation;
+        assertNotNull(g.getHeader().getSourceSystem());
+        assertNotNull(g.getHeader().getSourceSystem().corporation);
+        Corporation c = g.getHeader().getSourceSystem().corporation;
         assertEquals("The Church of Jesus Christ of Latter-day Saints", c.businessName);
         assertNotNull(c.faxNumbers);
         assertEquals(1, c.faxNumbers.size());
@@ -562,7 +562,7 @@ public class GedcomParser551Test {
         FamilyChild fc1 = george.familiesWhereChild.get(0);
         assertNotNull(fc1);
         assertNotNull(fc1.family);
-        assertEquals("@F3@", fc1.family.xref);
+        assertEquals("@F3@", fc1.family.getXref());
         assertEquals("proven", fc1.status.getValue());
 
         // Negative test
@@ -572,7 +572,7 @@ public class GedcomParser551Test {
         FamilyChild fc2 = anne.familiesWhereChild.get(0);
         assertNotNull(fc2);
         assertNotNull(fc2.family);
-        assertEquals("@F2@", fc2.family.xref);
+        assertEquals("@F2@", fc2.family.getXref());
         assertNull(fc2.status);
     }
 
@@ -596,9 +596,9 @@ public class GedcomParser551Test {
         assertEquals(1, g.getSubmitters().entrySet().size());
         Submitter s = g.getSubmitters().get("@SUBM01@");
         assertNotNull(s);
-        assertEquals("Matt /Harrah/", s.name.getValue());
-        assertNotNull(s.wwwUrls);
-        assertEquals(2, s.wwwUrls.size());
-        assertEquals("https://www.facebook.com/Gedcom4j", s.wwwUrls.get(1).getValue());
+        assertEquals("Matt /Harrah/", s.getName().getValue());
+        assertNotNull(s.getWwwUrls());
+        assertEquals(2, s.getWwwUrls().size());
+        assertEquals("https://www.facebook.com/Gedcom4j", s.getWwwUrls().get(1).getValue());
     }
 }

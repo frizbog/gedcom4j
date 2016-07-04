@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * <p>
  * A submitter. Corresponds to the SUBMITTER_RECORD structure in the GEDCOM standard.
@@ -38,72 +40,72 @@ public class Submitter extends AbstractElement {
     /**
      * The xref for this submitter
      */
-    public String xref;
+    private String xref;
 
     /**
      * The registration file number for this submitter
      */
-    public StringWithCustomTags regFileNumber;
+    private StringWithCustomTags regFileNumber;
 
     /**
      * The name of this submitter
      */
-    public StringWithCustomTags name;
+    private StringWithCustomTags name;
 
     /**
      * The record ID number
      */
-    public StringWithCustomTags recIdNumber;
+    private StringWithCustomTags recIdNumber;
 
     /**
      * The language preferences
      */
-    public List<StringWithCustomTags> languagePref = new ArrayList<StringWithCustomTags>(0);
+    private List<StringWithCustomTags> languagePref = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * The address of this submitter
      */
-    public Address address;
+    private Address address;
 
     /**
      * The phone numbers for this submitter
      */
-    public List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>(0);
+    private List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * Web URL's. New for GEDCOM 5.5.1.
      */
-    public List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>(0);
+    private List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * Fax numbers. New for GEDCOM 5.5.1.
      */
-    public List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>(0);
+    private List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * The emails for this submitter. New for GEDCOM 5.5.1
      */
-    public List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
+    private List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * The multimedia for this submitter
      */
-    public List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
+    private List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
 
     /**
      * The change date for this submitter
      */
-    public ChangeDate changeDate;
+    private ChangeDate changeDate;
 
     /**
      * The user references for this submitter
      */
-    public List<UserReference> userReferences = new ArrayList<UserReference>(0);
+    private List<UserReference> userReferences = new ArrayList<UserReference>(0);
 
     /**
-     * The notes for this submitter
+     * Notes about this object
      */
-    public List<Note> notes = new ArrayList<Note>(0);
+    private List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
 
     /**
      * {@inheritDoc}
@@ -223,6 +225,246 @@ public class Submitter extends AbstractElement {
     }
 
     /**
+     * Get the address
+     * 
+     * @return the address
+     */
+    public Address getAddress() {
+        return address;
+    }
+
+    /**
+     * Get the changeDate
+     * 
+     * @return the changeDate
+     */
+    public ChangeDate getChangeDate() {
+        return changeDate;
+    }
+
+    /**
+     * Get the emails
+     * 
+     * @return the emails
+     */
+    public List<StringWithCustomTags> getEmails() {
+        return emails;
+    }
+
+    /**
+     * Get the emails
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the emails
+     */
+    public List<StringWithCustomTags> getEmails(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && emails == null) {
+            emails = new ArrayList<StringWithCustomTags>(0);
+        }
+
+        return emails;
+    }
+
+    /**
+     * Get the faxNumbers
+     * 
+     * @return the faxNumbers
+     */
+    public List<StringWithCustomTags> getFaxNumbers() {
+        return faxNumbers;
+    }
+
+    /**
+     * Get the faxNumbers
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the faxNumbers
+     */
+    public List<StringWithCustomTags> getFaxNumbers(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && faxNumbers == null) {
+            faxNumbers = new ArrayList<StringWithCustomTags>(0);
+        }
+        return faxNumbers;
+    }
+
+    /**
+     * Get the languagePref
+     * 
+     * @return the languagePref
+     */
+    public List<StringWithCustomTags> getLanguagePref() {
+        return languagePref;
+    }
+
+    /**
+     * Get the languagePref
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the languagePref
+     */
+    public List<StringWithCustomTags> getLanguagePref(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && languagePref == null) {
+            languagePref = new ArrayList<StringWithCustomTags>(0);
+        }
+        return languagePref;
+    }
+
+    /**
+     * Get the multimedia
+     * 
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia() {
+        return multimedia;
+    }
+
+    /**
+     * Get the multimedia
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && multimedia == null) {
+            multimedia = new ArrayList<Multimedia>(0);
+        }
+        return multimedia;
+    }
+
+    /**
+     * Get the name
+     * 
+     * @return the name
+     */
+    public StringWithCustomTags getName() {
+        return name;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
+    /**
+     * Get the phoneNumbers
+     * 
+     * @return the phoneNumbers
+     */
+    public List<StringWithCustomTags> getPhoneNumbers() {
+        return phoneNumbers;
+    }
+
+    /**
+     * Get the phoneNumbers
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the phoneNumbers
+     */
+    public List<StringWithCustomTags> getPhoneNumbers(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && phoneNumbers == null) {
+            phoneNumbers = new ArrayList<StringWithCustomTags>(0);
+        }
+        return phoneNumbers;
+    }
+
+    /**
+     * Get the recIdNumber
+     * 
+     * @return the recIdNumber
+     */
+    public StringWithCustomTags getRecIdNumber() {
+        return recIdNumber;
+    }
+
+    /**
+     * Get the regFileNumber
+     * 
+     * @return the regFileNumber
+     */
+    public StringWithCustomTags getRegFileNumber() {
+        return regFileNumber;
+    }
+
+    /**
+     * Get the userReferences
+     * 
+     * @return the userReferences
+     */
+    public List<UserReference> getUserReferences() {
+        return userReferences;
+    }
+
+    /**
+     * Get the userReferences
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the userReferences
+     */
+    public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && userReferences == null) {
+            userReferences = new ArrayList<UserReference>(0);
+        }
+        return userReferences;
+    }
+
+    /**
+     * Get the wwwUrls
+     * 
+     * @return the wwwUrls
+     */
+    public List<StringWithCustomTags> getWwwUrls() {
+        return wwwUrls;
+    }
+
+    /**
+     * Get the wwwUrls
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the wwwUrls
+     */
+    public List<StringWithCustomTags> getWwwUrls(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && wwwUrls == null) {
+            wwwUrls = new ArrayList<StringWithCustomTags>(0);
+        }
+        return wwwUrls;
+    }
+
+    /**
+     * Get the xref
+     * 
+     * @return the xref
+     */
+    public String getXref() {
+        return xref;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -246,14 +488,74 @@ public class Submitter extends AbstractElement {
         return result;
     }
 
+    /**
+     * Set the address
+     * 
+     * @param address
+     *            the address to set
+     */
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    /**
+     * Set the changeDate
+     * 
+     * @param changeDate
+     *            the changeDate to set
+     */
+    public void setChangeDate(ChangeDate changeDate) {
+        this.changeDate = changeDate;
+    }
+
+    /**
+     * Set the name
+     * 
+     * @param name
+     *            the name to set
+     */
+    public void setName(StringWithCustomTags name) {
+        this.name = name;
+    }
+
+    /**
+     * Set the recIdNumber
+     * 
+     * @param recIdNumber
+     *            the recIdNumber to set
+     */
+    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+        this.recIdNumber = recIdNumber;
+    }
+
+    /**
+     * Set the regFileNumber
+     * 
+     * @param regFileNumber
+     *            the regFileNumber to set
+     */
+    public void setRegFileNumber(StringWithCustomTags regFileNumber) {
+        this.regFileNumber = regFileNumber;
+    }
+
+    /**
+     * Set the xref
+     * 
+     * @param xref
+     *            the xref to set
+     */
+    public void setXref(String xref) {
+        this.xref = xref;
+    }
+
     @Override
     public String toString() {
         return "Submitter [" + (xref != null ? "xref=" + xref + ", " : "") + (regFileNumber != null ? "regFileNumber=" + regFileNumber + ", " : "")
-                + (name != null ? "name=" + name + ", " : "") + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "")
-                + (languagePref != null ? "languagePref=" + languagePref + ", " : "") + (address != null ? "address=" + address + ", " : "")
-                + (phoneNumbers != null ? "phoneNumbers=" + phoneNumbers + ", " : "") + (wwwUrls != null ? "wwwUrls=" + wwwUrls + ", " : "")
-                + (faxNumbers != null ? "faxNumbers=" + faxNumbers + ", " : "") + (emails != null ? "emails=" + emails + ", " : "")
-                + (multimedia != null ? "multimedia=" + multimedia + ", " : "") + (changeDate != null ? "changeDate=" + changeDate + ", " : "")
+                + (name != null ? "name=" + name + ", " : "") + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "") + (languagePref != null
+                        ? "languagePref=" + languagePref + ", " : "") + (address != null ? "address=" + address + ", " : "") + (phoneNumbers != null
+                                ? "phoneNumbers=" + phoneNumbers + ", " : "") + (wwwUrls != null ? "wwwUrls=" + wwwUrls + ", " : "") + (faxNumbers != null
+                                        ? "faxNumbers=" + faxNumbers + ", " : "") + (emails != null ? "emails=" + emails + ", " : "") + (multimedia != null
+                                                ? "multimedia=" + multimedia + ", " : "") + (changeDate != null ? "changeDate=" + changeDate + ", " : "")
                 + (userReferences != null ? "userReferences=" + userReferences + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
                 + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }

@@ -25,8 +25,7 @@ import org.gedcom4j.model.Address;
 import org.gedcom4j.model.Repository;
 
 /**
- * A validator for a {@link Repository} structure. See {@link GedcomValidator}
- * for usage information.
+ * A validator for a {@link Repository} structure. See {@link GedcomValidator} for usage information.
  * 
  * @author frizbog1
  */
@@ -60,7 +59,7 @@ class RepositoryValidator extends AbstractValidator {
         checkChangeDate(repository.changeDate, repository);
         checkStringTagList(repository.emails, "email list", false);
         checkUserReferences(repository.userReferences, repository);
-        checkOptionalString(repository.recIdNumber, "automated record id", repository);
+        checkOptionalString(repository.getRecIdNumber(), "automated record id", repository);
         checkStringTagList(repository.phoneNumbers, "phone numbers", false);
         checkNotes(repository.notes, repository);
 

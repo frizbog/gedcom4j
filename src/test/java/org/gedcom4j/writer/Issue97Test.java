@@ -28,13 +28,13 @@ public class Issue97Test {
     public void testIssue97() throws GedcomWriterException {
         Gedcom g = new Gedcom();
         g.setSubmission(new Submission("@SUBN0001@"));
-        g.getHeader().submission = g.getSubmission();
+        g.getHeader().setSubmission(g.getSubmission());
         Submitter s = new Submitter();
-        s.xref = "@SUBM0001@";
+        s.setXref("@SUBM0001@");
         // Note the newline in the middle of the value
-        s.name = new StringWithCustomTags("Line break in middle of a wo\nrd");
-        g.getSubmitters().put(s.xref, s);
-        g.getHeader().submitter = s;
+        s.setName(new StringWithCustomTags("Line break in middle of a wo\nrd"));
+        g.getSubmitters().put(s.getXref(), s);
+        g.getHeader().setSubmitter(s);
 
         GedcomWriter gw = new GedcomWriter(g);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

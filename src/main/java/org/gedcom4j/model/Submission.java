@@ -29,11 +29,6 @@ package org.gedcom4j.model;
  */
 public class Submission extends AbstractElement {
     /**
-     * The xref for this submission - required field
-     */
-    public String xref;
-
-    /**
      * The submitter of this submission
      */
     public Submitter submitter;
@@ -64,9 +59,14 @@ public class Submission extends AbstractElement {
     public StringWithCustomTags ordinanceProcessFlag;
 
     /**
-     * The automated record id
+     * The record ID number
      */
-    public StringWithCustomTags recIdNumber;
+    private StringWithCustomTags recIdNumber;
+
+    /**
+     * The xref for this submitter
+     */
+    private String xref;
 
     /**
      * Constructor, takes required xref value
@@ -172,5 +172,43 @@ public class Submission extends AbstractElement {
                 + (descendantsCount != null ? "descendantsCount=" + descendantsCount + ", " : "")
                 + (ordinanceProcessFlag != null ? "ordinanceProcessFlag=" + ordinanceProcessFlag + ", " : "")
                 + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+    }
+
+    /**
+     * Get the recIdNumber
+     * 
+     * @return the recIdNumber
+     */
+    public StringWithCustomTags getRecIdNumber() {
+        return recIdNumber;
+    }
+
+    /**
+     * Set the recIdNumber
+     * 
+     * @param recIdNumber
+     *            the recIdNumber to set
+     */
+    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+        this.recIdNumber = recIdNumber;
+    }
+
+    /**
+     * Get the xref
+     * 
+     * @return the xref
+     */
+    public String getXref() {
+        return xref;
+    }
+
+    /**
+     * Set the xref
+     * 
+     * @param xref
+     *            the xref to set
+     */
+    public void setXref(String xref) {
+        this.xref = xref;
     }
 }

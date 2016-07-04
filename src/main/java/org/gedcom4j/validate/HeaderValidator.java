@@ -21,8 +21,6 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.ArrayList;
-
 import org.gedcom4j.io.encoding.Encoding;
 import org.gedcom4j.model.*;
 
@@ -60,113 +58,106 @@ class HeaderValidator extends AbstractValidator {
     @Override
     protected void validate() {
         checkCharacterSet();
-        if (header.copyrightData == null) {
+        if (header.getCopyrightData() == null) {
             if (rootValidator.autorepair) {
-                header.copyrightData = new ArrayList<String>();
+                header.getCopyrightData().clear();
                 rootValidator.addInfo("Copyright data collection was null - repaired", header);
             } else {
                 rootValidator.addError("Copyright data collection is null - must be at least an empty collection", header);
             }
         }
         checkCustomTags(header);
-        checkOptionalString(header.date, "date", header);
-        checkOptionalString(header.destinationSystem, "destination system", header);
+        checkOptionalString(header.getDate(), "date", header);
+        checkOptionalString(header.getDestinationSystem(), "destination system", header);
         /*
          * Filename is actually a required field -- but since the writer automatically fills in the filename if it's
          * blank, treating it as optional here
          */
-        checkOptionalString(header.fileName, "filename", header);
-        if (header.gedcomVersion == null) {
+        checkOptionalString(header.getFileName(), "filename", header);
+        if (header.getGedcomVersion() == null) {
             if (rootValidator.autorepair) {
-                header.gedcomVersion = new GedcomVersion();
+                header.setGedcomVersion(new GedcomVersion());
                 rootValidator.addInfo("GEDCOM version in header was null - repaired", header);
             } else {
                 rootValidator.addError("GEDCOM version in header must be specified", header);
                 return;
             }
         }
-        if (header.gedcomVersion.versionNumber == null) {
+        if (header.getGedcomVersion().versionNumber == null) {
             if (rootValidator.autorepair) {
-                header.gedcomVersion.versionNumber = SupportedVersion.V5_5_1;
+                header.getGedcomVersion().versionNumber = SupportedVersion.V5_5_1;
                 rootValidator.addInfo("GEDCOM version number in header was null - repaired", header);
             } else {
                 rootValidator.addError("GEDCOM version number in header must be specified", header);
                 return;
             }
         }
-        checkCustomTags(header.gedcomVersion);
-        checkOptionalString(header.language, "language", header);
-        if (header.notes == null) {
-            if (rootValidator.autorepair) {
-                header.notes = new ArrayList<String>();
-                rootValidator.addInfo("Notes collection in header was null - repaired", header);
-            } else {
-                rootValidator.addError("Notes collection in header is null - must be at least an empty collection", header);
-            }
-        }
-        checkOptionalString(header.placeHierarchy, "place hierarchy", header);
+        checkCustomTags(header.getGedcomVersion());
+        checkOptionalString(header.getLanguage(), "language", header);
+        new NotesValidator(rootValidator, header, header.getNotes()).validate();
+        checkOptionalString(header.getPlaceHierarchy(), "place hierarchy", header);
         checkSourceSystem();
-        if (header.submitter == null) {
+        if (header.getSubmitter() == null) {
             if (rootValidator.autorepair) {
                 if (rootValidator.gedcom.getSubmitters() == null || rootValidator.gedcom.getSubmitters().isEmpty()) {
                     rootValidator.addError("Submitter not specified in header, and autorepair could not " + "find a submitter to select as default", header);
                 } else {
                     // Take the first submitter from the collection and set that
                     // as the primary submitter in the header
-                    header.submitter = rootValidator.gedcom.getSubmitters().values().iterator().next();
+                    header.setSubmitter(rootValidator.gedcom.getSubmitters().values().iterator().next());
                 }
             } else {
                 rootValidator.addError("Submitter not specified in header", header);
             }
             return;
         }
-        new SubmitterValidator(rootValidator, header.submitter).validate();
-        if (header.submission != null) {
-            rootValidator.validateSubmission(header.submission);
+        new SubmitterValidator(rootValidator, header.getSubmitter()).validate();
+        if (header.getSubmission() != null) {
+            rootValidator.validateSubmission(header.getSubmission());
         }
-        checkOptionalString(header.time, "time", header);
+        checkOptionalString(header.getTime(), "time", header);
     }
 
     /**
      * Check the character set
      */
     private void checkCharacterSet() {
-        if (header.characterSet == null) {
+        if (header.getCharacterSet() == null) {
             if (rootValidator.autorepair) {
-                header.characterSet = new CharacterSet();
+                header.setCharacterSet(new CharacterSet());
                 rootValidator.addInfo("Header did not have a character set defined - corrected.", header);
             } else {
                 rootValidator.addError("Header has no character set defined", header);
                 return;
             }
         }
-        if (header.characterSet.characterSetName == null) {
+        if (header.getCharacterSet().characterSetName == null) {
             if (rootValidator.autorepair) {
-                header.characterSet.characterSetName = new StringWithCustomTags("ANSEL");
-                rootValidator.addInfo("Character set name was not defined", header.characterSet);
+                header.getCharacterSet().characterSetName = new StringWithCustomTags("ANSEL");
+                rootValidator.addInfo("Character set name was not defined", header.getCharacterSet());
             } else {
-                rootValidator.addError("Character set name was not defined", header.characterSet);
+                rootValidator.addError("Character set name was not defined", header.getCharacterSet());
                 return;
             }
         }
-        if (!Encoding.isValidCharacterSetName(header.characterSet.characterSetName.getValue())) {
-            rootValidator.addError("Character set name is not one of the supported encodings (" + Encoding.getSupportedCharacterSetNames() + ")",
-                    header.characterSet.characterSetName);
+        if (!Encoding.isValidCharacterSetName(header.getCharacterSet().characterSetName.getValue())) {
+            rootValidator.addError("Character set name is not one of the supported encodings (" + Encoding.getSupportedCharacterSetNames() + ")", header
+                    .getCharacterSet().characterSetName);
         }
-        checkOptionalString(header.characterSet.characterSetName, "character set name", header.characterSet);
-        checkOptionalString(header.characterSet.versionNum, "character set version number", header.characterSet);
-        checkCustomTags(header.characterSet);
+        checkOptionalString(header.getCharacterSet().characterSetName, "character set name", header.getCharacterSet());
+        checkOptionalString(header.getCharacterSet().versionNum, "character set version number", header.getCharacterSet());
+        checkCustomTags(header.getCharacterSet());
     }
 
     /**
      * Check the source system
      */
     private void checkSourceSystem() {
-        SourceSystem ss = header.sourceSystem;
+        SourceSystem ss = header.getSourceSystem();
         if (ss == null) {
             if (rootValidator.autorepair) {
                 ss = new SourceSystem();
-                header.sourceSystem = ss;
+                header.setSourceSystem(ss);
                 rootValidator.addInfo("No source system specified in header - repaired", header);
             } else {
                 rootValidator.addError("No source system specified in header", header);

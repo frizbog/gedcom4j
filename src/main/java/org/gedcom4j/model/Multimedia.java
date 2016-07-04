@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * <p>
  * A class for representing multimedia items. Corresponds to MULTIMEDIA_RECORD in the GEDCOM standard.
@@ -46,11 +48,6 @@ import java.util.List;
  */
 public class Multimedia extends AbstractElement {
     /**
-     * The xref for this multimedia item
-     */
-    public String xref;
-
-    /**
      * The title of this multimedia item. This field should ONLY be used when the spec is 5.5 and should be null for
      * 5.5.1 files.
      */
@@ -60,11 +57,6 @@ public class Multimedia extends AbstractElement {
      * The file reference for this multimedia item
      */
     public List<FileReference> fileReferences = new ArrayList<FileReference>(0);
-
-    /**
-     * Notes for this multimedia item
-     */
-    public List<Note> notes = new ArrayList<Note>(0);
 
     /**
      * Source citations for this multimedia item
@@ -94,14 +86,24 @@ public class Multimedia extends AbstractElement {
     public ChangeDate changeDate;
 
     /**
-     * The record id number for this multimedia item
-     */
-    public StringWithCustomTags recIdNumber;
-
-    /**
      * The format of the multimedia object - only for 5.5 style multimedia files, and should be null for 5.5.1 files.
      */
     public StringWithCustomTags embeddedMediaFormat;
+
+    /**
+     * Notes about this object
+     */
+    private List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+
+    /**
+     * The record ID number
+     */
+    private StringWithCustomTags recIdNumber;
+
+    /**
+     * The xref for this submitter
+     */
+    private String xref;
 
     @Override
     public boolean equals(Object obj) {
@@ -195,6 +197,39 @@ public class Multimedia extends AbstractElement {
         return true;
     }
 
+    /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
+    /**
+     * Get the recIdNumber
+     * 
+     * @return the recIdNumber
+     */
+    public StringWithCustomTags getRecIdNumber() {
+        return recIdNumber;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -213,16 +248,44 @@ public class Multimedia extends AbstractElement {
         return result;
     }
 
+    /**
+     * Set the recIdNumber
+     * 
+     * @param recIdNumber
+     *            the recIdNumber to set
+     */
+    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+        this.recIdNumber = recIdNumber;
+    }
+
     @Override
     public String toString() {
         return "Multimedia [" + (xref != null ? "xref=" + xref + ", " : "") + (embeddedTitle != null ? "embeddedTitle=" + embeddedTitle + ", " : "")
                 + (fileReferences != null ? "fileReferences=" + fileReferences + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
-                + (citations != null ? "citations=" + citations + ", " : "") + (blob != null ? "blob=" + blob + ", " : "")
-                + (continuedObject != null ? "continuedObject=" + continuedObject + ", " : "")
-                + (userReferences != null ? "userReferences=" + userReferences + ", " : "") + (changeDate != null ? "changeDate=" + changeDate + ", " : "")
-                + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "")
-                + (embeddedMediaFormat != null ? "embeddedMediaFormat=" + embeddedMediaFormat + ", " : "")
-                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+                + (citations != null ? "citations=" + citations + ", " : "") + (blob != null ? "blob=" + blob + ", " : "") + (continuedObject != null
+                        ? "continuedObject=" + continuedObject + ", " : "") + (userReferences != null ? "userReferences=" + userReferences + ", " : "")
+                + (changeDate != null ? "changeDate=" + changeDate + ", " : "") + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "")
+                + (embeddedMediaFormat != null ? "embeddedMediaFormat=" + embeddedMediaFormat + ", " : "") + (getCustomTags() != null ? "customTags="
+                        + getCustomTags() : "") + "]";
+    }
+
+    /**
+     * Get the xref
+     * 
+     * @return the xref
+     */
+    public String getXref() {
+        return xref;
+    }
+
+    /**
+     * Set the xref
+     * 
+     * @param xref
+     *            the xref to set
+     */
+    public void setXref(String xref) {
+        this.xref = xref;
     }
 
 }

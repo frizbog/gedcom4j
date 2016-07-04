@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * Name for an individual. Corresponds to PERSONAL_NAME_STRUCTURE in the GEDCOM standard.
  * 
@@ -67,11 +69,6 @@ public class PersonalName extends AbstractElement {
     public StringWithCustomTags suffix;
 
     /**
-     * Notes on this name
-     */
-    public List<Note> notes = new ArrayList<Note>(0);
-
-    /**
      * Citations for this name
      */
     public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
@@ -85,6 +82,11 @@ public class PersonalName extends AbstractElement {
      * Phonetic spelling. New for GEDCOM 5.5.1
      */
     public List<PersonalNameVariation> phonetic = new ArrayList<PersonalNameVariation>(0);
+
+    /**
+     * Notes about this object
+     */
+    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
 
     @Override
     public boolean equals(Object obj) {
@@ -202,6 +204,30 @@ public class PersonalName extends AbstractElement {
             return surname + ", " + givenName + (nickname == null ? "" : " \"" + nickname + "\"");
         }
         return basic;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
     }
 
 }

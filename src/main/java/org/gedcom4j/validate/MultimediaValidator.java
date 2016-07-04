@@ -59,8 +59,8 @@ class MultimediaValidator extends AbstractValidator {
             throw new GedcomValidationException("Root validator passed in to MultimediaValidator constructor was null");
         }
         mm = multimedia;
-        if (rootValidator.gedcom == null || rootValidator.gedcom.getHeader() == null || rootValidator.gedcom.getHeader().gedcomVersion == null
-                || rootValidator.gedcom.getHeader().gedcomVersion.versionNumber == null) {
+        if (rootValidator.gedcom == null || rootValidator.gedcom.getHeader() == null || rootValidator.gedcom.getHeader().getGedcomVersion() == null
+                || rootValidator.gedcom.getHeader().getGedcomVersion().versionNumber == null) {
             if (rootValidator.autorepair) {
                 gedcomVersion = SupportedVersion.V5_5_1;
                 rootValidator.addInfo("Was not able to determine GEDCOM version - assuming 5.5.1", rootValidator.gedcom);
@@ -68,7 +68,7 @@ class MultimediaValidator extends AbstractValidator {
                 rootValidator.addError("Was not able to determine GEDCOM version - cannot validate multimedia objects", rootValidator.gedcom);
             }
         } else {
-            gedcomVersion = rootValidator.gedcom.getHeader().gedcomVersion.versionNumber;
+            gedcomVersion = rootValidator.gedcom.getHeader().getGedcomVersion().versionNumber;
         }
     }
 
@@ -137,7 +137,7 @@ class MultimediaValidator extends AbstractValidator {
      */
     private void checkXref() {
         // Xref is required
-        if (mm.xref == null || mm.xref.trim().length() == 0) {
+        if (mm.getXref() == null || mm.getXref().trim().length() == 0) {
             if (rootValidator.autorepair) {
                 addError("Multimedia object must have xref - cannot autorepair", mm);
             } else {
@@ -147,9 +147,9 @@ class MultimediaValidator extends AbstractValidator {
         }
 
         // Item should be found in map using the xref as the key
-        if (rootValidator.gedcom.getMultimedia().get(mm.xref) != mm) {
+        if (rootValidator.gedcom.getMultimedia().get(mm.getXref()) != mm) {
             if (rootValidator.autorepair) {
-                rootValidator.gedcom.getMultimedia().put(mm.xref, mm);
+                rootValidator.gedcom.getMultimedia().put(mm.getXref(), mm);
                 rootValidator.addInfo("Multimedia object not keyed by xref in map - repaired", mm);
             } else {
                 rootValidator.addError("Multimedia object not keyed by xref in map", mm);
@@ -243,7 +243,7 @@ class MultimediaValidator extends AbstractValidator {
      */
     private void validateCommon() {
         checkXref();
-        checkOptionalString(mm.recIdNumber, "record id number", mm);
+        checkOptionalString(mm.getRecIdNumber(), "record id number", mm);
         checkChangeDate(mm.changeDate, mm);
         checkUserReferences();
         if (mm.citations == null) {
@@ -268,7 +268,7 @@ class MultimediaValidator extends AbstractValidator {
             }
         }
 
-        new NotesValidator(rootValidator, mm, mm.notes).validate();
+        new NotesValidator(rootValidator, mm, mm.getNotes()).validate();
     }
 
 }

@@ -33,8 +33,7 @@ import org.gedcom4j.model.Submitter;
 public class SubmitterValidatorTest extends AbstractValidatorTestCase {
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
+     * Test method for {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
      */
     public void testValidateNullSubmitter() {
         AbstractValidator sv = new SubmitterValidator(rootValidator, null);
@@ -43,13 +42,12 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     }
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
+     * Test method for {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
      */
     public void testValidateSubmitterHappyPath() {
         Submitter submitter = new Submitter();
-        submitter.name = new StringWithCustomTags("somebody");
-        submitter.xref = "@nobody@";
+        submitter.setName(new StringWithCustomTags("somebody"));
+        submitter.setXref("@nobody@");
         AbstractValidator sv = new SubmitterValidator(rootValidator, submitter);
         sv.validate();
         dumpFindings();
@@ -57,26 +55,24 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     }
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
+     * Test method for {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
      */
     public void testValidateSubmitterHasBlankName() {
         Submitter submitter = new Submitter();
-        submitter.xref = "@SOMEVALUE@";
-        submitter.name = new StringWithCustomTags("");
+        submitter.setXref("@SOMEVALUE@");
+        submitter.setName(new StringWithCustomTags(""));
         AbstractValidator sv = new SubmitterValidator(rootValidator, submitter);
         sv.validate();
         assertFindingsContain(Severity.ERROR, "name", "blank", "null");
     }
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
+     * Test method for {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
      */
     public void testValidateSubmitterHasBlankXref() {
         Submitter submitter = new Submitter();
-        submitter.name = new StringWithCustomTags("somebody");
-        submitter.xref = "";
+        submitter.setName(new StringWithCustomTags("somebody"));
+        submitter.setXref("");
         AbstractValidator sv = new SubmitterValidator(rootValidator, submitter);
         sv.validate();
         assertFindingsContain(Severity.ERROR, "xref", "too short");
@@ -85,24 +81,22 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     }
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
+     * Test method for {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
      */
     public void testValidateSubmitterHasNoName() {
         Submitter submitter = new Submitter();
-        submitter.xref = "@SOMEVALUE@";
+        submitter.setXref("@SOMEVALUE@");
         AbstractValidator sv = new SubmitterValidator(rootValidator, submitter);
         sv.validate();
         assertFindingsContain(Severity.ERROR, "name", "blank", "null");
     }
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
+     * Test method for {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
      */
     public void testValidateSubmitterHasNoXref() {
         Submitter submitter = new Submitter();
-        submitter.name = new StringWithCustomTags("somebody");
+        submitter.setName(new StringWithCustomTags("somebody"));
         AbstractValidator sv = new SubmitterValidator(rootValidator, submitter);
         sv.validate();
         assertFindingsContain(Severity.ERROR, "xref", "blank", "null");

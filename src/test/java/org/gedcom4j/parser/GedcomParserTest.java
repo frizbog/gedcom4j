@@ -95,7 +95,7 @@ public class GedcomParserTest extends TestCase {
         assertFalse(g.getSubmitters().isEmpty());
         Submitter submitter = g.getSubmitters().values().iterator().next();
         assertNotNull(submitter);
-        assertEquals("/Submitter-Name/", submitter.name.getValue());
+        assertEquals("/Submitter-Name/", submitter.getName().getValue());
     }
 
     /**
@@ -117,11 +117,11 @@ public class GedcomParserTest extends TestCase {
         assertFalse(g.getSubmitters().isEmpty());
         Submitter submitter = g.getSubmitters().values().iterator().next();
         assertNotNull(submitter);
-        assertEquals(new StringWithCustomTags("UNSPECIFIED"), submitter.name);
+        assertEquals(new StringWithCustomTags("UNSPECIFIED"), submitter.getName());
 
         // Check header
-        assertEquals("6.00", g.getHeader().sourceSystem.versionNum.getValue());
-        assertEquals("(510) 794-6850", g.getHeader().sourceSystem.corporation.phoneNumbers.get(0).getValue());
+        assertEquals("6.00", g.getHeader().getSourceSystem().versionNum.getValue());
+        assertEquals("(510) 794-6850", g.getHeader().getSourceSystem().corporation.phoneNumbers.get(0).getValue());
 
         // There are two sources in this file, and their names should be as
         // shown
@@ -278,7 +278,7 @@ public class GedcomParserTest extends TestCase {
         assertEquals(3, g.getSubmitters().size());
         Submitter submitter = g.getSubmitters().get("@SUBMITTER@");
         assertNotNull(submitter);
-        assertEquals("John A. Nairn", submitter.name.getValue());
+        assertEquals("John A. Nairn", submitter.getName().getValue());
 
         assertEquals(7, g.getFamilies().size());
         assertEquals(2, g.getSources().size());
@@ -310,7 +310,7 @@ public class GedcomParserTest extends TestCase {
         assertEquals(3, g.getSubmitters().size());
         Submitter submitter = g.getSubmitters().get("@SUBMITTER@");
         assertNotNull(submitter);
-        assertEquals("John A. Nairn", submitter.name.getValue());
+        assertEquals("John A. Nairn", submitter.getName().getValue());
 
         assertEquals(7, g.getFamilies().size());
         assertEquals(2, g.getSources().size());
@@ -322,7 +322,7 @@ public class GedcomParserTest extends TestCase {
         // ===============================================================
         indi = g.getIndividuals().get("@PERSON1@");
 
-        assertEquals("@PERSON1@", indi.xref);
+        assertEquals("@PERSON1@", indi.getXref());
 
         assertEquals(3, indi.citations.size());
         assertEquals(2, indi.names.size());
@@ -341,7 +341,7 @@ public class GedcomParserTest extends TestCase {
         citWithSource = (CitationWithSource) name.citations.get(0);
         source = citWithSource.source;
 
-        assertEquals("@SOURCE1@", source.xref);
+        assertEquals("@SOURCE1@", source.getXref());
         assertEquals("42", citWithSource.whereInSource.toString());
 
         assertEquals(0, citWithSource.multimedia.size());
@@ -366,7 +366,7 @@ public class GedcomParserTest extends TestCase {
         citWithSource = (CitationWithSource) name.citations.get(0);
         source = citWithSource.source;
 
-        assertEquals("@SOURCE1@", source.xref);
+        assertEquals("@SOURCE1@", source.getXref());
         assertEquals("55", citWithSource.whereInSource.toString());
 
         assertEquals(1, citWithSource.multimedia.size());
@@ -376,7 +376,7 @@ public class GedcomParserTest extends TestCase {
         multimedia = citWithSource.multimedia.get(0);
         assertEquals(0, multimedia.citations.size());
         assertEquals(1, multimedia.fileReferences.size());
-        assertEquals(1, multimedia.notes.size());
+        assertEquals(1, multimedia.getNotes().size());
 
         // Name 1 - Multimedia 0 - FileReference 0
         fileReference = multimedia.fileReferences.get(0);
@@ -386,7 +386,7 @@ public class GedcomParserTest extends TestCase {
         assertEquals(null, fileReference.title);
 
         // Name 1 - Multimedia 0 - Note 0
-        note = multimedia.notes.get(0);
+        note = multimedia.getNotes().get(0);
         assertEquals(1, note.lines.size());
         assertEquals("These are some notes of this multimedia link in the NAME structure.", note.lines.get(0));
 
@@ -421,7 +421,7 @@ public class GedcomParserTest extends TestCase {
         citWithSource = (CitationWithSource) indi.citations.get(0);
         source = citWithSource.source;
 
-        assertEquals("@SOURCE1@", source.xref);
+        assertEquals("@SOURCE1@", source.getXref());
         assertEquals("42", citWithSource.whereInSource.toString());
 
         assertEquals(0, citWithSource.multimedia.size());
@@ -437,7 +437,7 @@ public class GedcomParserTest extends TestCase {
         citWithSource = (CitationWithSource) indi.citations.get(1);
         source = citWithSource.source;
 
-        assertEquals("@SR2@", source.xref);
+        assertEquals("@SR2@", source.getXref());
         assertEquals(null, citWithSource.whereInSource);
 
         assertEquals(0, citWithSource.multimedia.size());

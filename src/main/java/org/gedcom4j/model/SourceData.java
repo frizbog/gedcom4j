@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * Data in a Source structure. Corresponds to the set of fields under the DATA tag on a SOURCE_RECORD.
  * 
@@ -41,9 +43,9 @@ public class SourceData extends AbstractElement {
     public List<EventRecorded> eventsRecorded = new ArrayList<EventRecorded>(0);
 
     /**
-     * The notes.
+     * Notes about this object
      */
-    public List<Note> notes = new ArrayList<Note>(0);
+    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
 
     @Override
     public boolean equals(Object obj) {
@@ -96,5 +98,29 @@ public class SourceData extends AbstractElement {
         return "SourceData [" + (respAgency != null ? "respAgency=" + respAgency + ", " : "")
                 + (eventsRecorded != null ? "eventsRecorded=" + eventsRecorded + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
                 + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
     }
 }

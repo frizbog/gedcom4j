@@ -105,9 +105,11 @@ public class GedcomWriterTest {
         gw.write(tempFile);
 
         FileInputStream byteStream = null;
+        BufferedInputStream bufferedInputStream = null;
         try {
             byteStream = new FileInputStream(tempFile);
-            GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(), new BufferedInputStream(byteStream));
+            bufferedInputStream = new BufferedInputStream(byteStream);
+            GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(), bufferedInputStream);
             readbackLines = new ArrayList<String>();
             String s = gfr.nextLine();
             while (s != null) {
@@ -115,6 +117,9 @@ public class GedcomWriterTest {
                 s = gfr.nextLine();
             }
         } finally {
+            if (bufferedInputStream != null) {
+                bufferedInputStream.close();
+            }
             if (byteStream != null) {
                 byteStream.close();
             }
@@ -162,7 +167,7 @@ public class GedcomWriterTest {
         for (Entry<String, Family> e : fm1.entrySet()) {
             Family f1 = e.getValue();
             Family f2 = fm2.get(e.getKey());
-            assertEquals("Family " + f1.xref + " should be the same but isn't", f1, f2);
+            assertEquals("Family " + f1.getXref() + " should be the same but isn't", f1, f2);
         }
     }
 

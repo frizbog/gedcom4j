@@ -66,23 +66,23 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
         rootValidator.autorepair = false;
 
         dad = new Individual();
-        dad.xref = "@I00001@";
-        gedcom.getIndividuals().put(dad.xref, dad);
+        dad.setXref("@I00001@");
+        gedcom.getIndividuals().put(dad.getXref(), dad);
 
         mom = new Individual();
-        mom.xref = "@I00002@";
-        gedcom.getIndividuals().put(mom.xref, mom);
+        mom.setXref("@I00002@");
+        gedcom.getIndividuals().put(mom.getXref(), mom);
 
         jr = new Individual();
-        jr.xref = "@I00003@";
-        gedcom.getIndividuals().put(jr.xref, jr);
+        jr.setXref("@I00003@");
+        gedcom.getIndividuals().put(jr.getXref(), jr);
 
         f = new Family();
-        f.xref = "@F0001@";
+        f.setXref("@F0001@");
         f.husband = dad;
         f.wife = mom;
         f.children.add(jr);
-        gedcom.getFamilies().put(f.xref, f);
+        gedcom.getFamilies().put(f.getXref(), f);
 
         rootValidator.validate();
         assertNoIssues();

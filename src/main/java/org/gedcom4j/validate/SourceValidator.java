@@ -95,7 +95,7 @@ class SourceValidator extends AbstractValidator {
         checkNotes(source.notes, source);
         checkStringList(source.originatorsAuthors, "originators/authors", false);
         checkStringList(source.publicationFacts, "publication facts", false);
-        checkOptionalString(source.recIdNumber, "automated record id", source);
+        checkOptionalString(source.getRecIdNumber(), "automated record id", source);
         checkStringList(source.sourceText, "source text", true);
         checkOptionalString(source.sourceFiledBy, "source filed by", source);
         checkStringList(source.title, "title", true);
@@ -128,8 +128,7 @@ class SourceValidator extends AbstractValidator {
                 checkOptionalString(scn.callNumber, "call number", scn);
                 if (scn.callNumber == null) {
                     if (scn.mediaType != null) {
-                        addError("You cannot specify media type without a call number in a SourceCallNumber structure",
-                                scn);
+                        addError("You cannot specify media type without a call number in a SourceCallNumber structure", scn);
                     }
                 } else {
                     checkOptionalString(scn.mediaType, "media type", scn);

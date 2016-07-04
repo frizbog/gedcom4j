@@ -66,6 +66,7 @@ public class GedcomFileWriterTest {
      * @throws WriterCancelledException
      *             if the write operation was cancelled
      */
+    @SuppressWarnings("resource")
     @Test
     public void testEncodingDetectionAnselExplicit() throws IOException, WriterCancelledException {
         List<String> lines = new ArrayList<String>();
@@ -84,6 +85,7 @@ public class GedcomFileWriterTest {
      * @throws WriterCancelledException
      *             if the write operation was cancelled
      */
+    @SuppressWarnings("resource")
     @Test
     public void testEncodingDetectionAscii() throws IOException, WriterCancelledException {
         List<String> lines = new ArrayList<String>();
@@ -106,6 +108,7 @@ public class GedcomFileWriterTest {
      * @throws WriterCancelledException
      *             if the write operation was cancelled
      */
+    @SuppressWarnings("resource")
     @Test
     public void testEncodingDetectionDefault() throws IOException, WriterCancelledException {
         List<String> lines = new ArrayList<String>();
@@ -126,6 +129,7 @@ public class GedcomFileWriterTest {
      * @throws WriterCancelledException
      *             if the write operation was cancelled
      */
+    @SuppressWarnings("resource")
     @Test
     public void testEncodingDetectionUnicode() throws IOException, WriterCancelledException {
         List<String> lines = new ArrayList<String>();
@@ -146,6 +150,7 @@ public class GedcomFileWriterTest {
      * @throws WriterCancelledException
      *             if the write operation was cancelled
      */
+    @SuppressWarnings("resource")
     @Test
     public void testEncodingDetectionUtf8() throws IOException, WriterCancelledException {
         List<String> lines = new ArrayList<String>();
@@ -848,12 +853,12 @@ public class GedcomFileWriterTest {
         String fn = "tmp/gedcomfilewritertest.ged";
         Gedcom g = new Gedcom();
         g.setSubmission(new Submission("@SUBN0001@"));
-        g.getHeader().submission = g.getSubmission();
+        g.getHeader().setSubmission(g.getSubmission());
         Submitter s = new Submitter();
-        s.xref = "@SUBM0001@";
-        s.name = new StringWithCustomTags("Joe Tester");
-        g.getSubmitters().put(s.xref, s);
-        g.getHeader().submitter = s;
+        s.setXref("@SUBM0001@");
+        s.setName(new StringWithCustomTags("Joe Tester"));
+        g.getSubmitters().put(s.getXref(), s);
+        g.getHeader().setSubmitter(s);
         GedcomWriter gw = new GedcomWriter(g);
         gw.write(fn);
     }

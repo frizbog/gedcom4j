@@ -56,8 +56,8 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
         rootValidator.autorepair = false;
 
         ind = new Individual();
-        ind.xref = "@I00001@";
-        gedcom.getIndividuals().put(ind.xref, ind);
+        ind.setXref("@I00001@");
+        gedcom.getIndividuals().put(ind.getXref(), ind);
 
         pn = new PersonalName();
         ind.names.add(pn);

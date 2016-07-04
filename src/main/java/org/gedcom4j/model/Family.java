@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * A family record. Corresponds to FAM_RECORD in the GEDCOM spec.
  * 
@@ -91,16 +93,6 @@ public class Family extends AbstractElement {
     public List<FamilyEvent> events = new ArrayList<FamilyEvent>(0);
 
     /**
-     * Notes on this family
-     */
-    public List<Note> notes = new ArrayList<Note>(0);
-
-    /**
-     * A cross reference id that things can use to identify this family
-     */
-    public String xref;
-
-    /**
      * The user references
      */
     public List<UserReference> userReferences = new ArrayList<UserReference>(0);
@@ -110,6 +102,16 @@ public class Family extends AbstractElement {
      * "confidential", "locked", or "privacy" but this implementation allows any value.
      */
     public StringWithCustomTags restrictionNotice;
+
+    /**
+     * Notes about this object
+     */
+    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+
+    /**
+     * The xref for this submitter
+     */
+    private String xref;
 
     /**
      * {@inheritDoc}
@@ -281,6 +283,49 @@ public class Family extends AbstractElement {
                 + (userReferences != null ? "userReferences=" + userReferences + ", " : "")
                 + (restrictionNotice != null ? "restrictionNotice=" + restrictionNotice + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "")
                 + "]";
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
+    /**
+     * Get the xref
+     * 
+     * @return the xref
+     */
+    public String getXref() {
+        return xref;
+    }
+
+    /**
+     * Set the xref
+     * 
+     * @param xref
+     *            the xref to set
+     */
+    public void setXref(String xref) {
+        this.xref = xref;
     }
 
 }

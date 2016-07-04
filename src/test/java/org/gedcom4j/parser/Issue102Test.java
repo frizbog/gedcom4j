@@ -110,8 +110,8 @@ public class Issue102Test {
         assertTrue(gp.warnings.isEmpty());
         Submitter submitter = gp.gedcom.getSubmitters().get("@SUBM001@");
         assertNotNull(submitter);
-        assertNotNull(submitter.name);
-        List<StringTree> customTags = submitter.name.getCustomTags();
+        assertNotNull(submitter.getName());
+        List<StringTree> customTags = submitter.getName().getCustomTags();
         assertNotNull(customTags);
         assertEquals(1, customTags.size());
         assertCustomTagRecursively(customTags.get(0), MAX_DEPTH);

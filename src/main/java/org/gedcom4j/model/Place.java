@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * A Place. Corresponds to PLACE_STRUCTURE in GEDCOM standard.
  * 
@@ -47,11 +49,6 @@ public class Place extends AbstractElement {
     public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
 
     /**
-     * Notes for this place
-     */
-    public List<Note> notes = new ArrayList<Note>(0);
-
-    /**
      * Phonetic variations on the place name. New for GEDCOM 5.5.1.
      */
     public List<NameVariation> phonetic = new ArrayList<NameVariation>(0);
@@ -70,6 +67,11 @@ public class Place extends AbstractElement {
      * Longitude. New for GEDCOM 5.5.1.
      */
     public StringWithCustomTags longitude;
+
+    /**
+     * Notes about this object
+     */
+    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
 
     @Override
     public boolean equals(Object obj) {
@@ -164,5 +166,29 @@ public class Place extends AbstractElement {
                 + (phonetic != null ? "phonetic=" + phonetic + ", " : "") + (romanized != null ? "romanized=" + romanized + ", " : "")
                 + (latitude != null ? "latitude=" + latitude + ", " : "") + (longitude != null ? "longitude=" + longitude + ", " : "")
                 + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
     }
 }

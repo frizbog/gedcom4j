@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * Represents an Association between two individuals. Corresponds to ASSOCIATION_STRUCTURE in the GEDCOM spec.
  * 
@@ -33,27 +35,27 @@ public class Association extends AbstractElement {
     /**
      * Relationship description
      */
-    public StringWithCustomTags relationship;
+    private StringWithCustomTags relationship;
 
     /**
      * The XREF to the associated entity
      */
-    public String associatedEntityXref;
+    private String associatedEntityXref;
 
     /**
      * The type of the associated entity
      */
-    public StringWithCustomTags associatedEntityType;
+    private StringWithCustomTags associatedEntityType;
 
     /**
      * The citations for this association
      */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
+    public List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? new ArrayList<AbstractCitation>(0) : null;
 
     /**
-     * Notes about this association
+     * Notes about this object
      */
-    public List<Note> notes = new ArrayList<Note>(0);
+    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
 
     @Override
     public boolean equals(Object obj) {
@@ -105,6 +107,81 @@ public class Association extends AbstractElement {
         return true;
     }
 
+    /**
+     * Get the associatedEntityType
+     * 
+     * @return the associatedEntityType
+     */
+    public StringWithCustomTags getAssociatedEntityType() {
+        return associatedEntityType;
+    }
+
+    /**
+     * Get the associatedEntityXref
+     * 
+     * @return the associatedEntityXref
+     */
+    public String getAssociatedEntityXref() {
+        return associatedEntityXref;
+    }
+
+    /**
+     * Get the citations
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations() {
+        return citations;
+    }
+
+    /**
+     * Get the citations
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && citations == null) {
+            citations = new ArrayList<AbstractCitation>(0);
+        }
+        return citations;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
+    /**
+     * Get the relationship
+     * 
+     * @return the relationship
+     */
+    public StringWithCustomTags getRelationship() {
+        return relationship;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -117,12 +194,41 @@ public class Association extends AbstractElement {
         return result;
     }
 
+    /**
+     * Set the associatedEntityType
+     * 
+     * @param associatedEntityType
+     *            the associatedEntityType to set
+     */
+    public void setAssociatedEntityType(StringWithCustomTags associatedEntityType) {
+        this.associatedEntityType = associatedEntityType;
+    }
+
+    /**
+     * Set the associatedEntityXref
+     * 
+     * @param associatedEntityXref
+     *            the associatedEntityXref to set
+     */
+    public void setAssociatedEntityXref(String associatedEntityXref) {
+        this.associatedEntityXref = associatedEntityXref;
+    }
+
+    /**
+     * Set the relationship
+     * 
+     * @param relationship
+     *            the relationship to set
+     */
+    public void setRelationship(StringWithCustomTags relationship) {
+        this.relationship = relationship;
+    }
+
     @Override
     public String toString() {
-        return "Association [" + (relationship != null ? "relationship=" + relationship + ", " : "")
-                + (associatedEntityXref != null ? "associatedEntityXref=" + associatedEntityXref + ", " : "")
-                + (associatedEntityType != null ? "associatedEntityType=" + associatedEntityType + ", " : "")
-                + (citations != null ? "citations=" + citations + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
-                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        return "Association [" + (relationship != null ? "relationship=" + relationship + ", " : "") + (associatedEntityXref != null ? "associatedEntityXref="
+                + associatedEntityXref + ", " : "") + (associatedEntityType != null ? "associatedEntityType=" + associatedEntityType + ", " : "")
+                + (citations != null ? "citations=" + citations + ", " : "") + (notes != null ? "notes=" + notes + ", " : "") + (getCustomTags() != null
+                        ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

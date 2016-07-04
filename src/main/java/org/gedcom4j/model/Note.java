@@ -32,11 +32,6 @@ import java.util.List;
  */
 public class Note extends AbstractElement {
     /**
-     * The xref for this note
-     */
-    public String xref;
-
-    /**
      * The lines of text of this note
      */
     public List<String> lines = new ArrayList<String>(0);
@@ -57,9 +52,14 @@ public class Note extends AbstractElement {
     public ChangeDate changeDate;
 
     /**
-     * The record ID for this note
+     * The record ID number
      */
-    public StringWithCustomTags recIdNumber;
+    private StringWithCustomTags recIdNumber;
+
+    /**
+     * The xref for this submitter
+     */
+    private String xref;
 
     @Override
     public boolean equals(Object obj) {
@@ -137,5 +137,43 @@ public class Note extends AbstractElement {
                 + (citations != null ? "citations=" + citations + ", " : "") + (userReferences != null ? "userReferences=" + userReferences + ", " : "")
                 + (changeDate != null ? "changeDate=" + changeDate + ", " : "") + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "")
                 + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+    }
+
+    /**
+     * Get the recIdNumber
+     * 
+     * @return the recIdNumber
+     */
+    public StringWithCustomTags getRecIdNumber() {
+        return recIdNumber;
+    }
+
+    /**
+     * Set the recIdNumber
+     * 
+     * @param recIdNumber
+     *            the recIdNumber to set
+     */
+    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+        this.recIdNumber = recIdNumber;
+    }
+
+    /**
+     * Get the xref
+     * 
+     * @return the xref
+     */
+    public String getXref() {
+        return xref;
+    }
+
+    /**
+     * Set the xref
+     * 
+     * @param xref
+     *            the xref to set
+     */
+    public void setXref(String xref) {
+        this.xref = xref;
     }
 }

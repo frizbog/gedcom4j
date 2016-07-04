@@ -172,7 +172,7 @@ public class GedcomValidator extends AbstractValidator {
         checkOptionalString(s.descendantsCount, "Descendant count", s);
         checkOptionalString(s.nameOfFamilyFile, "Name of family file", s);
         checkOptionalString(s.ordinanceProcessFlag, "Ordinance process flag", s);
-        checkOptionalString(s.recIdNumber, "Automated record id", s);
+        checkOptionalString(s.getRecIdNumber(), "Automated record id", s);
         checkOptionalString(s.templeCode, "Temple code", s);
     }
 
@@ -190,11 +190,11 @@ public class GedcomValidator extends AbstractValidator {
                 continue;
             }
             Family f = e.getValue();
-            if (!e.getKey().equals(f.xref)) {
+            if (!e.getKey().equals(f.getXref())) {
                 if (rootValidator.autorepair) {
-                    rootValidator.addError("Family in map not keyed by its xref - cannot repair", f.xref);
+                    rootValidator.addError("Family in map not keyed by its xref - cannot repair", f.getXref());
                 } else {
-                    rootValidator.addError("Family in map not keyed by its xref", f.xref);
+                    rootValidator.addError("Family in map not keyed by its xref", f.getXref());
                 }
                 continue;
             }
@@ -231,7 +231,7 @@ public class GedcomValidator extends AbstractValidator {
                 addError("Entry in individuals collection has null value", e);
                 return;
             }
-            if (!e.getKey().equals(e.getValue().xref)) {
+            if (!e.getKey().equals(e.getValue().getXref())) {
                 addError("Entry in individuals collection is not keyed by the individual's xref", e);
                 return;
             }
@@ -275,7 +275,7 @@ public class GedcomValidator extends AbstractValidator {
                 addError("Entry in repositories collection has null value", e);
                 return;
             }
-            if (!e.getKey().equals(e.getValue().xref)) {
+            if (!e.getKey().equals(e.getValue().getXref())) {
                 addError("Entry in repositories collection is not keyed by the Repository's xref", e);
                 return;
             }
@@ -297,7 +297,7 @@ public class GedcomValidator extends AbstractValidator {
                 addError("Entry in sources collection has null value", e);
                 return;
             }
-            if (!e.getKey().equals(e.getValue().xref)) {
+            if (!e.getKey().equals(e.getValue().getXref())) {
                 addError("Entry in sources collection is not keyed by the individual's xref", e);
                 return;
             }
@@ -312,9 +312,9 @@ public class GedcomValidator extends AbstractValidator {
         if (gedcom.getSubmitters().isEmpty()) {
             if (autorepair) {
                 Submitter s = new Submitter();
-                s.xref = "@SUBM0000@";
-                s.name = new StringWithCustomTags("UNSPECIFIED");
-                gedcom.getSubmitters().put(s.xref, s);
+                s.setXref("@SUBM0000@");
+                s.setName(new StringWithCustomTags("UNSPECIFIED"));
+                gedcom.getSubmitters().put(s.getXref(), s);
                 addInfo("Submitters collection was empty - repaired", gedcom);
             } else {
                 addError("Submitters collection is empty", gedcom);

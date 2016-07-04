@@ -47,13 +47,13 @@ public class MultimediaValidatorTest extends AbstractValidatorTestCase {
         rootValidator.gedcom = g;
         rootValidator.autorepair = false;
         Submitter s = new Submitter();
-        s.xref = "@SUBM0001@";
-        s.name = new StringWithCustomTags("test");
-        g.getSubmitters().put(s.xref, s);
+        s.setXref("@SUBM0001@");
+        s.setName(new StringWithCustomTags("test"));
+        g.getSubmitters().put(s.getXref(), s);
         g.setSubmission(new Submission("@SUBN0001@"));
         Header h = g.getHeader();
-        h.submitter = s;
-        h.submission = g.getSubmission();
+        h.setSubmitter(s);
+        h.setSubmission(g.getSubmission());
 
         mm = new Multimedia();
     }
@@ -63,8 +63,8 @@ public class MultimediaValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testEmbeddedMedia() {
-        mm.xref = "@MM001@";
-        rootValidator.gedcom.getMultimedia().put(mm.xref, mm);
+        mm.setXref("@MM001@");
+        rootValidator.gedcom.getMultimedia().put(mm.getXref(), mm);
 
         // Blob object must be instantiated regardless of version!
         mm.blob = null;
@@ -73,12 +73,12 @@ public class MultimediaValidatorTest extends AbstractValidatorTestCase {
         mm.blob = new ArrayList<String>();
 
         // Blob can be empty in 5.5.1
-        rootValidator.gedcom.getHeader().gedcomVersion.versionNumber = SupportedVersion.V5_5_1;
+        rootValidator.gedcom.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5_1;
         rootValidator.validate();
         assertNoIssues();
 
         // Blob must be populated in v5.5, and must have a format
-        rootValidator.gedcom.getHeader().gedcomVersion.versionNumber = SupportedVersion.V5_5;
+        rootValidator.gedcom.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "blob", "empty");
         mm.blob.add("foo");
@@ -87,7 +87,7 @@ public class MultimediaValidatorTest extends AbstractValidatorTestCase {
         assertNoIssues();
 
         // Blob must be empty in 5.5.1, and embedded media format must be null
-        rootValidator.gedcom.getHeader().gedcomVersion.versionNumber = SupportedVersion.V5_5_1;
+        rootValidator.gedcom.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5_1;
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "blob", "populated", "5.5.1");
         assertFindingsContain(Severity.ERROR, "embedded", "media", "format", "5.5.1");

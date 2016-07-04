@@ -45,8 +45,8 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
         rootValidator.autorepair = false;
 
         Note n = new Note();
-        n.xref = "@N0001@";
-        g.getNotes().put(n.xref, n);
+        n.setXref("@N0001@");
+        g.getNotes().put(n.getXref(), n);
 
         rootValidator.validate();
         assertNoIssues();
@@ -83,8 +83,8 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
         rootValidator.autorepair = false;
 
         Note n = new Note();
-        n.xref = null;
-        g.getHeader().submitter.notes.add(n);
+        n.setXref(null);
+        g.getHeader().getSubmitter().getNotes().add(n);
 
         // Notes without xrefs must have lines of text
         rootValidator.validate();

@@ -64,7 +64,7 @@ class FamilyValidator extends AbstractValidator {
         } else {
             for (Individual i : f.children) {
                 if (i == null) {
-                    rootValidator.addError("Family with xref '" + f.xref + "' has a null entry in children collection", f);
+                    rootValidator.addError("Family with xref '" + f.getXref() + "' has a null entry in children collection", f);
                 }
             }
         }

@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * Indicates an individual's membership, as a spouse, in a family
  * 
@@ -37,9 +39,9 @@ public class FamilySpouse extends AbstractElement {
     public Family family;
 
     /**
-     * Notes on the membership
+     * Notes about this object
      */
-    public List<Note> notes = new ArrayList<Note>(0);
+    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
 
     @Override
     public boolean equals(Object obj) {
@@ -61,12 +63,12 @@ public class FamilySpouse extends AbstractElement {
             if (other.family == null) {
                 return false;
             }
-            if (family.xref == null) {
-                if (other.family.xref != null) {
+            if (family.getXref() == null) {
+                if (other.family.getXref() != null) {
                     return false;
                 }
             } else {
-                if (!family.xref.equals(other.family.xref)) {
+                if (!family.getXref().equals(other.family.getXref())) {
                     return false;
                 }
             }
@@ -81,18 +83,42 @@ public class FamilySpouse extends AbstractElement {
         return true;
     }
 
+    /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + (family == null || family.xref == null ? 0 : family.xref.hashCode());
+        result = prime * result + (family == null || family.getXref() == null ? 0 : family.getXref().hashCode());
         result = prime * result + (notes == null ? 0 : notes.hashCode());
         return result;
     }
 
     @Override
     public String toString() {
-        return "FamilySpouse [" + (family != null ? "family=" + family + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
-                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        return "FamilySpouse [" + (family != null ? "family=" + family + ", " : "") + (notes != null ? "notes=" + notes + ", " : "") + (getCustomTags() != null
+                ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

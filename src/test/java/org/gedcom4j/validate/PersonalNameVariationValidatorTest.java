@@ -41,8 +41,8 @@ public class PersonalNameVariationValidatorTest extends AbstractValidatorTestCas
         rootValidator.gedcom = g;
 
         Individual i = new Individual();
-        i.xref = "@I00001@";
-        g.getIndividuals().put(i.xref, i);
+        i.setXref("@I00001@");
+        g.getIndividuals().put(i.getXref(), i);
 
         PersonalName pn = new PersonalName();
         i.names.add(pn);

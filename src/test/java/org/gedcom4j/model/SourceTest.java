@@ -80,9 +80,9 @@ public class SourceTest {
         s2.publicationFacts = null;
         assertEquals(s1, s2);
 
-        s1.recIdNumber = new StringWithCustomTags("Foo");
+        s1.setRecIdNumber(new StringWithCustomTags("Foo"));
         assertTrue(s1.hashCode() != s2.hashCode());
-        s2.recIdNumber = new StringWithCustomTags("Foo");
+        s2.setRecIdNumber(new StringWithCustomTags("Foo"));
         assertEquals(s1, s2);
 
         s1.repositoryCitation = new RepositoryCitation();
@@ -157,9 +157,9 @@ public class SourceTest {
         s2.publicationFacts = null;
         assertEquals(s1.hashCode(), s2.hashCode());
 
-        s1.recIdNumber = new StringWithCustomTags("Foo");
+        s1.setRecIdNumber(new StringWithCustomTags("Foo"));
         assertFalse(s1.hashCode() == s2.hashCode());
-        s2.recIdNumber = new StringWithCustomTags("Foo");
+        s2.setRecIdNumber(new StringWithCustomTags("Foo"));
         assertEquals(s1.hashCode(), s2.hashCode());
 
         s1.repositoryCitation = new RepositoryCitation();
@@ -205,7 +205,7 @@ public class SourceTest {
         s1.notes = null;
         s1.originatorsAuthors = null;
         s1.publicationFacts = null;
-        s1.recIdNumber = new StringWithCustomTags("Foo");
+        s1.setRecIdNumber(new StringWithCustomTags("Foo"));
         s1.repositoryCitation = new RepositoryCitation();
         s1.sourceFiledBy = new StringWithCustomTags("Bar");
         s1.sourceText = null;

@@ -44,8 +44,8 @@ public class IndividualEventValidatorTest extends AbstractValidatorTestCase {
         rootValidator.gedcom = g;
 
         Individual i = new Individual();
-        i.xref = "@I0001@";
-        g.getIndividuals().put(i.xref, i);
+        i.setXref("@I0001@");
+        g.getIndividuals().put(i.getXref(), i);
 
         IndividualEvent e = new IndividualEvent();
         i.events.add(e);

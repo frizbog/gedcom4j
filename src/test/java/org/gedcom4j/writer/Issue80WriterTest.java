@@ -57,7 +57,7 @@ public class Issue80WriterTest {
         b.place = p;
 
         Individual i = new Individual();
-        i.xref = "@I001@";
+        i.setXref("@I001@");
         i.events.add(b);
 
         Gedcom g = new Gedcom();
@@ -65,10 +65,10 @@ public class Issue80WriterTest {
 
         // Gedcoms require a submitter
         Submitter s = new Submitter();
-        s.xref = "@SUBM@"; // Some unique xref for a submitter
-        s.name = new StringWithCustomTags("Matt /Harrah/");
-        g.getHeader().submitter = s;
-        g.getSubmitters().put(s.xref, s); // Use the xref as the map key
+        s.setXref("@SUBM@"); // Some unique xref for a submitter
+        s.setName(new StringWithCustomTags("Matt /Harrah/"));
+        g.getHeader().setSubmitter(s);
+        g.getSubmitters().put(s.getXref(), s); // Use the xref as the map key
 
         // Write to sysout
         GedcomWriter gw = new GedcomWriter(g);

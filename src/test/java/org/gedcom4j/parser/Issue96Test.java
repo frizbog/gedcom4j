@@ -69,7 +69,7 @@ public class Issue96Test {
         // Cross-reference (or what looks like one) treated like text?
         assertEquals("@N0@", note.lines.get(0));
         // ID treated like ID
-        assertEquals("@N00000000000000005678@", note.xref);
+        assertEquals("@N00000000000000005678@", note.getXref());
     }
 
 }

@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * Represents an event. Corresponds to EVENT_DETAIL in the GEDCOM spec.
  * 
@@ -87,11 +89,6 @@ public class Event extends AbstractElement {
     public List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
 
     /**
-     * Notes for this event
-     */
-    public List<Note> notes = new ArrayList<Note>(0);
-
-    /**
      * The place where this event occurred
      */
     public Place place;
@@ -121,6 +118,11 @@ public class Event extends AbstractElement {
      * "confidential", "locked", or "privacy" but this implementation allows any value.
      */
     public StringWithCustomTags restrictionNotice;
+
+    /**
+     * Notes about this object
+     */
+    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
 
     /**
      * {@inheritDoc}
@@ -309,6 +311,30 @@ public class Event extends AbstractElement {
                 + (religiousAffiliation != null ? "religiousAffiliation=" + religiousAffiliation + ", " : "")
                 + (restrictionNotice != null ? "restrictionNotice=" + restrictionNotice + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "")
                 + "]";
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
     }
 
 }

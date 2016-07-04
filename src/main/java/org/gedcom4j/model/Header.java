@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * Header information about the GEDCOM file
  * 
@@ -34,67 +36,68 @@ public class Header extends AbstractElement {
     /**
      * The character set in use in the GEDCOM file
      */
-    public CharacterSet characterSet = new CharacterSet();
+    private CharacterSet characterSet = new CharacterSet();
 
     /**
      * Copyright information for the GEDCOM file.
      */
-    public List<String> copyrightData = new ArrayList<String>(0);
+    private List<String> copyrightData = Options.isCollectionInitializationEnabled() ? getCopyrightData(true) : null;
 
     /**
      * The date of the GEDCOM file
      */
-    public StringWithCustomTags date;
+    private StringWithCustomTags date;
 
     /**
      * The destination system for the GEDCOM file.
      */
-    public StringWithCustomTags destinationSystem;
+    private StringWithCustomTags destinationSystem;
 
     /**
      * The filename for the GEDCOM file
      */
-    public StringWithCustomTags fileName;
+    private StringWithCustomTags fileName;
 
     /**
      * The version information for the GEDCOM file
      */
-    public GedcomVersion gedcomVersion = new GedcomVersion();
+    private GedcomVersion gedcomVersion = new GedcomVersion();
 
     /**
      * The place structure for the file
      */
-    public StringWithCustomTags placeHierarchy;
+    private StringWithCustomTags placeHierarchy;
 
     /**
      * The source system for the GEDCOM file
      */
-    public SourceSystem sourceSystem = new SourceSystem();
+    private SourceSystem sourceSystem = new SourceSystem();
 
     /**
      * Information about the file submission
      */
-    public Submission submission;
+    private Submission submission;
 
     /**
      * Information about the submitter of the file
      */
-    public Submitter submitter;
+    private Submitter submitter;
 
     /**
      * The time of the file
      */
-    public StringWithCustomTags time;
+    private StringWithCustomTags time;
 
     /**
      * The language for the file
      */
-    public StringWithCustomTags language;
+    private StringWithCustomTags language;
 
     /**
-     * A bunch of textual notes
+     * Notes on this header. Technically, the spec does not allow multiple notes or multiline notes in headers, but it
+     * happens so often it's better to allow it than to stop people from being able to parse files.
      */
-    public List<String> notes = new ArrayList<String>(0);
+    private List<Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
 
     /**
      * {@inheritDoc}
@@ -206,6 +209,151 @@ public class Header extends AbstractElement {
         return true;
     }
 
+    /**
+     * Get the characterSet
+     * 
+     * @return the characterSet
+     */
+    public CharacterSet getCharacterSet() {
+        return characterSet;
+    }
+
+    /**
+     * Get the copyright data
+     * 
+     * @return the copyright data
+     */
+    public List<String> getCopyrightData() {
+        return copyrightData;
+    }
+
+    /**
+     * Get the copyright data
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the copyright data
+     */
+    public List<String> getCopyrightData(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && copyrightData == null) {
+            copyrightData = new ArrayList<String>(0);
+        }
+        return copyrightData;
+    }
+
+    /**
+     * Get the date
+     * 
+     * @return the date
+     */
+    public StringWithCustomTags getDate() {
+        return date;
+    }
+
+    /**
+     * Get the destinationSystem
+     * 
+     * @return the destinationSystem
+     */
+    public StringWithCustomTags getDestinationSystem() {
+        return destinationSystem;
+    }
+
+    /**
+     * Get the fileName
+     * 
+     * @return the fileName
+     */
+    public StringWithCustomTags getFileName() {
+        return fileName;
+    }
+
+    /**
+     * Get the gedcomVersion
+     * 
+     * @return the gedcomVersion
+     */
+    public GedcomVersion getGedcomVersion() {
+        return gedcomVersion;
+    }
+
+    /**
+     * Get the language
+     * 
+     * @return the language
+     */
+    public StringWithCustomTags getLanguage() {
+        return language;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            true if this collection should be created on-the-fly if it is currently null
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
+    /**
+     * Get the placeHierarchy
+     * 
+     * @return the placeHierarchy
+     */
+    public StringWithCustomTags getPlaceHierarchy() {
+        return placeHierarchy;
+    }
+
+    /**
+     * Get the sourceSystem
+     * 
+     * @return the sourceSystem
+     */
+    public SourceSystem getSourceSystem() {
+        return sourceSystem;
+    }
+
+    /**
+     * Get the submission
+     * 
+     * @return the submission
+     */
+    public Submission getSubmission() {
+        return submission;
+    }
+
+    /**
+     * Get the submitter
+     * 
+     * @return the submitter
+     */
+    public Submitter getSubmitter() {
+        return submitter;
+    }
+
+    /**
+     * Get the time
+     * 
+     * @return the time
+     */
+    public StringWithCustomTags getTime() {
+        return time;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -227,17 +375,125 @@ public class Header extends AbstractElement {
         return result;
     }
 
+    /**
+     * Set the characterSet
+     * 
+     * @param characterSet
+     *            the characterSet to set
+     */
+    public void setCharacterSet(CharacterSet characterSet) {
+        this.characterSet = characterSet;
+    }
+
+    /**
+     * Set the date
+     * 
+     * @param date
+     *            the date to set
+     */
+    public void setDate(StringWithCustomTags date) {
+        this.date = date;
+    }
+
+    /**
+     * Set the destinationSystem
+     * 
+     * @param destinationSystem
+     *            the destinationSystem to set
+     */
+    public void setDestinationSystem(StringWithCustomTags destinationSystem) {
+        this.destinationSystem = destinationSystem;
+    }
+
+    /**
+     * Set the fileName
+     * 
+     * @param fileName
+     *            the fileName to set
+     */
+    public void setFileName(StringWithCustomTags fileName) {
+        this.fileName = fileName;
+    }
+
+    /**
+     * Set the gedcomVersion
+     * 
+     * @param gedcomVersion
+     *            the gedcomVersion to set
+     */
+    public void setGedcomVersion(GedcomVersion gedcomVersion) {
+        this.gedcomVersion = gedcomVersion;
+    }
+
+    /**
+     * Set the language
+     * 
+     * @param language
+     *            the language to set
+     */
+    public void setLanguage(StringWithCustomTags language) {
+        this.language = language;
+    }
+
+    /**
+     * Set the placeHierarchy
+     * 
+     * @param placeHierarchy
+     *            the placeHierarchy to set
+     */
+    public void setPlaceHierarchy(StringWithCustomTags placeHierarchy) {
+        this.placeHierarchy = placeHierarchy;
+    }
+
+    /**
+     * Set the sourceSystem
+     * 
+     * @param sourceSystem
+     *            the sourceSystem to set
+     */
+    public void setSourceSystem(SourceSystem sourceSystem) {
+        this.sourceSystem = sourceSystem;
+    }
+
+    /**
+     * Set the submission
+     * 
+     * @param submission
+     *            the submission to set
+     */
+    public void setSubmission(Submission submission) {
+        this.submission = submission;
+    }
+
+    /**
+     * Set the submitter
+     * 
+     * @param submitter
+     *            the submitter to set
+     */
+    public void setSubmitter(Submitter submitter) {
+        this.submitter = submitter;
+    }
+
+    /**
+     * Set the time
+     * 
+     * @param time
+     *            the time to set
+     */
+    public void setTime(StringWithCustomTags time) {
+        this.time = time;
+    }
+
     @Override
     public String toString() {
-        return "Header [" + (characterSet != null ? "characterSet=" + characterSet + ", " : "")
-                + (copyrightData != null ? "copyrightData=" + copyrightData + ", " : "") + (date != null ? "date=" + date + ", " : "")
-                + (destinationSystem != null ? "destinationSystem=" + destinationSystem + ", " : "") + (fileName != null ? "fileName=" + fileName + ", " : "")
-                + (gedcomVersion != null ? "gedcomVersion=" + gedcomVersion + ", " : "")
-                + (placeHierarchy != null ? "placeHierarchy=" + placeHierarchy + ", " : "")
-                + (sourceSystem != null ? "sourceSystem=" + sourceSystem + ", " : "") + (submission != null ? "submission=" + submission + ", " : "")
-                + (submitter != null ? "submitter=" + submitter + ", " : "") + (time != null ? "time=" + time + ", " : "")
-                + (language != null ? "language=" + language + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
-                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        return "Header [" + (characterSet != null ? "characterSet=" + characterSet + ", " : "") + (copyrightData != null ? "copyrightData=" + copyrightData
+                + ", " : "") + (date != null ? "date=" + date + ", " : "") + (destinationSystem != null ? "destinationSystem=" + destinationSystem + ", " : "")
+                + (fileName != null ? "fileName=" + fileName + ", " : "") + (gedcomVersion != null ? "gedcomVersion=" + gedcomVersion + ", " : "")
+                + (placeHierarchy != null ? "placeHierarchy=" + placeHierarchy + ", " : "") + (sourceSystem != null ? "sourceSystem=" + sourceSystem + ", "
+                        : "") + (submission != null ? "submission=" + submission + ", " : "") + (submitter != null ? "submitter=" + submitter + ", " : "")
+                + (time != null ? "time=" + time + ", " : "") + (language != null ? "language=" + language + ", " : "") + (notes != null ? "notes=" + notes
+                        + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 
 }

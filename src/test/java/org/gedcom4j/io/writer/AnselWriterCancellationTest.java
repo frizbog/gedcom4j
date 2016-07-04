@@ -69,6 +69,7 @@ public class AnselWriterCancellationTest implements FileProgressListener {
      * @throws GedcomWriterException
      *             if there's a problem writing the file
      */
+    @SuppressWarnings("resource")
     @Test(expected = WriterCancelledException.class)
     public void testRegistered() throws IOException, GedcomParserException, GedcomWriterException {
         GedcomParser gp = new GedcomParser();

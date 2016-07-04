@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * A variation on a personal name - either a romanized version or a phonetic version. Introduced with GEDCOM 5.5.1.
  * 
@@ -62,14 +64,14 @@ public class PersonalNameVariation extends NameVariation {
     public StringWithCustomTags suffix;
 
     /**
-     * Notes on this name
-     */
-    public List<Note> notes = new ArrayList<Note>(0);
-
-    /**
      * Citations for this name
      */
     public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
+
+    /**
+     * Notes about this object
+     */
+    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
 
     /**
      * Determine if this object is equal to another
@@ -195,6 +197,30 @@ public class PersonalNameVariation extends NameVariation {
                 + (notes != null ? "notes=" + notes + ", " : "") + (citations != null ? "citations=" + citations + ", " : "")
                 + (variationType != null ? "variationType=" + variationType + ", " : "") + (variation != null ? "variation=" + variation + ", " : "")
                 + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
     }
 
 }

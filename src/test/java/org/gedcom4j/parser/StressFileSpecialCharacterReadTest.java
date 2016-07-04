@@ -67,7 +67,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testCharacterSet() {
-        assertEquals("ANSEL", g.getHeader().characterSet.characterSetName.getValue());
+        assertEquals("ANSEL", g.getHeader().getCharacterSet().characterSetName.getValue());
     }
 
     /**
@@ -260,7 +260,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void textCopyright() {
-        assertEquals("© 1997 by H. Eichmann, parts © 1999-2000 by J. A. Nairn.", g.getHeader().copyrightData.get(0));
+        assertEquals("© 1997 by H. Eichmann, parts © 1999-2000 by J. A. Nairn.", g.getHeader().getCopyrightData().get(0));
     }
 
     /**

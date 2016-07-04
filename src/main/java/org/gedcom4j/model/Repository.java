@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * A repository. Corresponds to REPOSITORY_RECORD in the GEDCOM standard.
  * 
@@ -32,29 +34,14 @@ import java.util.List;
  */
 public class Repository extends AbstractElement {
     /**
-     * The xref for this repository
-     */
-    public String xref;
-
-    /**
      * The name of this repository
      */
     public StringWithCustomTags name;
 
     /**
-     * The record ID for this repository
-     */
-    public StringWithCustomTags recIdNumber;
-
-    /**
      * The address for this repository
      */
     public Address address;
-
-    /**
-     * The notes for this repository
-     */
-    public List<Note> notes = new ArrayList<Note>(0);
 
     /**
      * The change date for this repository
@@ -85,6 +72,21 @@ public class Repository extends AbstractElement {
      * The emails for this submitter. New for GEDCOM 5.5.1
      */
     public List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
+
+    /**
+     * Notes about this object
+     */
+    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+
+    /**
+     * The record ID number
+     */
+    private StringWithCustomTags recIdNumber;
+
+    /**
+     * The xref for this submitter
+     */
+    private String xref;
 
     @Override
     public boolean equals(Object obj) {
@@ -205,6 +207,68 @@ public class Repository extends AbstractElement {
                 + (phoneNumbers != null ? "phoneNumbers=" + phoneNumbers + ", " : "") + (wwwUrls != null ? "wwwUrls=" + wwwUrls + ", " : "")
                 + (faxNumbers != null ? "faxNumbers=" + faxNumbers + ", " : "") + (emails != null ? "emails=" + emails + ", " : "")
                 + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
+    /**
+     * Get the recIdNumber
+     * 
+     * @return the recIdNumber
+     */
+    public StringWithCustomTags getRecIdNumber() {
+        return recIdNumber;
+    }
+
+    /**
+     * Set the recIdNumber
+     * 
+     * @param recIdNumber
+     *            the recIdNumber to set
+     */
+    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+        this.recIdNumber = recIdNumber;
+    }
+
+    /**
+     * Get the xref
+     * 
+     * @return the xref
+     */
+    public String getXref() {
+        return xref;
+    }
+
+    /**
+     * Set the xref
+     * 
+     * @param xref
+     *            the xref to set
+     */
+    public void setXref(String xref) {
+        this.xref = xref;
     }
 
 }

@@ -310,7 +310,7 @@ public class GedcomWriter {
      */
     public void write(File file) throws IOException, GedcomWriterException {
         // Automatically replace the contents of the filename in the header
-        gedcom.getHeader().fileName = new StringWithCustomTags(file.getName());
+        gedcom.getHeader().setFileName(new StringWithCustomTags(file.getName()));
 
         // If the file doesn't exist yet, we have to create it, otherwise a FileNotFoundException will be thrown
         if (!file.exists() && !file.getCanonicalFile().getParentFile().exists() && !file.getCanonicalFile().getParentFile().mkdirs() && !file.createNewFile()) {
@@ -411,12 +411,12 @@ public class GedcomWriter {
      */
     private void checkVersionCompatibility() throws GedcomWriterException {
 
-        if (gedcom.getHeader().gedcomVersion == null) {
+        if (gedcom.getHeader().getGedcomVersion() == null) {
             // If there's not one specified, set up a default one that specifies
             // 5.5.1
-            gedcom.getHeader().gedcomVersion = new GedcomVersion();
+            gedcom.getHeader().setGedcomVersion(new GedcomVersion());
         }
-        if (SupportedVersion.V5_5.equals(gedcom.getHeader().gedcomVersion.versionNumber)) {
+        if (SupportedVersion.V5_5.equals(gedcom.getHeader().getGedcomVersion().versionNumber)) {
             checkVersionCompatibility55();
         } else {
             checkVersionCompatibility551();
@@ -433,15 +433,15 @@ public class GedcomWriter {
     private void checkVersionCompatibility55() throws GedcomWriterVersionDataMismatchException {
         // Now that we know if we're working with a 5.5.1 file or not, let's
         // check some data points
-        if (gedcom.getHeader().copyrightData.size() > 1) {
+        if (gedcom.getHeader().getCopyrightData().size() > 1) {
             throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but has multi-line copyright data in header");
         }
-        if (gedcom.getHeader().characterSet != null && gedcom.getHeader().characterSet.characterSetName != null && "UTF-8".equals(gedcom
-                .getHeader().characterSet.characterSetName.getValue())) {
+        if (gedcom.getHeader().getCharacterSet() != null && gedcom.getHeader().getCharacterSet().characterSetName != null && "UTF-8".equals(gedcom.getHeader()
+                .getCharacterSet().characterSetName.getValue())) {
             throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but data is encoded using UTF-8");
         }
-        if (gedcom.getHeader().sourceSystem != null && gedcom.getHeader().sourceSystem.corporation != null) {
-            Corporation c = gedcom.getHeader().sourceSystem.corporation;
+        if (gedcom.getHeader().getSourceSystem() != null && gedcom.getHeader().getSourceSystem().corporation != null) {
+            Corporation c = gedcom.getHeader().getSourceSystem().corporation;
             if (!c.wwwUrls.isEmpty()) {
                 throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but source system corporation has www urls");
             }
@@ -454,57 +454,57 @@ public class GedcomWriter {
         }
         for (Individual i : gedcom.getIndividuals().values()) {
             if (!i.wwwUrls.isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.xref + " has www urls");
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref() + " has www urls");
             }
             if (!i.faxNumbers.isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.xref + " has fax numbers");
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref() + " has fax numbers");
             }
             if (!i.emails.isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.xref + " has emails");
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref() + " has emails");
             }
             for (Event e : i.events) {
                 if (!e.wwwUrls.isEmpty()) {
-                    throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.xref + " has www urls on an event");
+                    throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref() + " has www urls on an event");
                 }
                 if (!e.faxNumbers.isEmpty()) {
-                    throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.xref + " has fax numbers on an event");
+                    throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref() + " has fax numbers on an event");
                 }
                 if (!e.emails.isEmpty()) {
-                    throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.xref + " has emails on an event");
+                    throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref() + " has emails on an event");
                 }
             }
             for (IndividualAttribute a : i.attributes) {
                 if (IndividualAttributeType.FACT.equals(a.type)) {
-                    throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.xref + " has a FACT attribute");
+                    throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref() + " has a FACT attribute");
                 }
             }
             for (FamilyChild fc : i.familiesWhereChild) {
                 if (fc.status != null) {
-                    throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.xref
+                    throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref()
                             + " is in a family with a status specified (a Gedcom 5.5.1 only feature)");
                 }
             }
         }
         for (Submitter s : gedcom.getSubmitters().values()) {
-            if (!s.wwwUrls.isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Submitter " + s.xref + " has www urls");
+            if (!s.getWwwUrls().isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Submitter " + s.getXref() + " has www urls");
             }
-            if (!s.faxNumbers.isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Submitter " + s.xref + " has fax numbers");
+            if (!s.getFaxNumbers().isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Submitter " + s.getXref() + " has fax numbers");
             }
-            if (!s.emails.isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Submitter " + s.xref + " has emails");
+            if (!s.getEmails().isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Submitter " + s.getXref() + " has emails");
             }
         }
         for (Repository r : gedcom.getRepositories().values()) {
             if (!r.wwwUrls.isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Repository " + r.xref + " has www urls");
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Repository " + r.getXref() + " has www urls");
             }
             if (!r.faxNumbers.isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Repository " + r.xref + " has fax numbers");
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Repository " + r.getXref() + " has fax numbers");
             }
             if (!r.emails.isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Repository " + r.xref + " has emails");
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Repository " + r.getXref() + " has emails");
             }
         }
     }
@@ -519,7 +519,7 @@ public class GedcomWriter {
     private void checkVersionCompatibility551() throws GedcomWriterVersionDataMismatchException {
         for (Multimedia m : gedcom.getMultimedia().values()) {
             if (!m.blob.isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5.1, but multimedia item " + m.xref
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5.1, but multimedia item " + m.getXref()
                         + " contains BLOB data which is unsupported in 5.5.1");
             }
         }
@@ -587,9 +587,9 @@ public class GedcomWriter {
      */
     private void emitAssociationStructures(int level, List<Association> associations) throws GedcomWriterException {
         for (Association a : associations) {
-            emitTagWithRequiredValue(level, "ASSO", a.associatedEntityXref);
-            emitTagWithRequiredValue(level + 1, "TYPE", a.associatedEntityType);
-            emitTagWithRequiredValue(level + 1, "RELA", a.relationship);
+            emitTagWithRequiredValue(level, "ASSO", a.getAssociatedEntityXref());
+            emitTagWithRequiredValue(level + 1, "TYPE", a.getAssociatedEntityType());
+            emitTagWithRequiredValue(level + 1, "RELA", a.getRelationship());
             emitNotes(level + 1, a.notes);
             emitSourceCitations(level + 1, a.citations);
             emitCustomTags(level + 1, a.getCustomTags());
@@ -609,9 +609,9 @@ public class GedcomWriter {
     private void emitChangeDate(int level, ChangeDate cd) throws GedcomWriterException {
         if (cd != null) {
             emitTag(level, "CHAN");
-            emitTagWithRequiredValue(level + 1, "DATE", cd.date);
-            emitTagIfValueNotNull(level + 2, "TIME", cd.time);
-            emitNotes(level + 1, cd.notes);
+            emitTagWithRequiredValue(level + 1, "DATE", cd.getDate());
+            emitTagIfValueNotNull(level + 2, "TIME", cd.getTime());
+            emitNotes(level + 1, cd.getNotes());
             emitCustomTags(level + 1, cd.getCustomTags());
         }
     }
@@ -634,7 +634,7 @@ public class GedcomWriter {
             if (familyChild.family == null) {
                 throw new GedcomWriterException("Family to which " + i + " was a child had a null family reference");
             }
-            emitTagWithRequiredValue(level, "FAMC", familyChild.family.xref);
+            emitTagWithRequiredValue(level, "FAMC", familyChild.family.getXref());
             emitTagIfValueNotNull(level + 1, "PEDI", familyChild.pedigree);
             emitTagIfValueNotNull(level + 1, "STAT", familyChild.status);
             emitNotes(level + 1, familyChild.notes);
@@ -674,10 +674,10 @@ public class GedcomWriter {
      */
     private void emitCitationWithSource(int level, CitationWithSource cws) throws GedcomWriterException {
         Source source = cws.source;
-        if (source == null || source.xref == null || source.xref.length() == 0) {
+        if (source == null || source.getXref() == null || source.getXref().length() == 0) {
             throw new GedcomWriterException("Citation with source must have a source record with an xref/id");
         }
-        emitTagWithRequiredValue(level, "SOUR", source.xref);
+        emitTagWithRequiredValue(level, "SOUR", source.getXref());
         emitTagIfValueNotNull(level + 1, "PAGE", cws.whereInSource);
         emitTagIfValueNotNull(level + 1, "EVEN", cws.eventCited);
         emitTagIfValueNotNull(level + 2, "ROLE", cws.roleInEvent);
@@ -773,22 +773,22 @@ public class GedcomWriter {
      */
     private void emitFamilies() throws GedcomWriterException {
         for (Family f : gedcom.getFamilies().values()) {
-            emitTag(0, f.xref, "FAM");
+            emitTag(0, f.getXref(), "FAM");
             for (FamilyEvent e : f.events) {
                 emitFamilyEventStructure(1, e);
             }
             if (f.husband != null) {
-                emitTagWithRequiredValue(1, "HUSB", f.husband.xref);
+                emitTagWithRequiredValue(1, "HUSB", f.husband.getXref());
             }
             if (f.wife != null) {
-                emitTagWithRequiredValue(1, "WIFE", f.wife.xref);
+                emitTagWithRequiredValue(1, "WIFE", f.wife.getXref());
             }
             for (Individual i : f.children) {
-                emitTagWithRequiredValue(1, "CHIL", i.xref);
+                emitTagWithRequiredValue(1, "CHIL", i.getXref());
             }
             emitTagIfValueNotNull(1, "NCHI", f.numChildren);
             for (Submitter s : f.submitters) {
-                emitTagWithRequiredValue(1, "SUBM", s.xref);
+                emitTagWithRequiredValue(1, "SUBM", s.getXref());
             }
             for (LdsSpouseSealing s : f.ldsSpouseSealings) {
                 emitLdsFamilyOrdinance(1, s);
@@ -862,31 +862,31 @@ public class GedcomWriter {
             header = new Header();
         }
         lines.add("0 HEAD");
-        emitSourceSystem(header.sourceSystem);
-        emitTagIfValueNotNull(1, "DEST", header.destinationSystem);
-        if (header.date != null) {
-            emitTagIfValueNotNull(1, "DATE", header.date);
-            emitTagIfValueNotNull(2, "TIME", header.time);
+        emitSourceSystem(header.getSourceSystem());
+        emitTagIfValueNotNull(1, "DEST", header.getDestinationSystem());
+        if (header.getDate() != null) {
+            emitTagIfValueNotNull(1, "DATE", header.getDate());
+            emitTagIfValueNotNull(2, "TIME", header.getTime());
         }
-        if (header.submitter != null) {
-            emitTagWithRequiredValue(1, "SUBM", header.submitter.xref);
+        if (header.getSubmitter() != null) {
+            emitTagWithRequiredValue(1, "SUBM", header.getSubmitter().getXref());
         }
-        if (header.submission != null) {
-            emitTagWithRequiredValue(1, "SUBN", header.submission.xref);
+        if (header.getSubmission() != null) {
+            emitTagWithRequiredValue(1, "SUBN", header.getSubmission().getXref());
         }
-        emitTagIfValueNotNull(1, "FILE", header.fileName);
-        emitLinesOfText(1, "COPR", header.copyrightData);
+        emitTagIfValueNotNull(1, "FILE", header.getFileName());
+        emitLinesOfText(1, "COPR", header.getCopyrightData());
         emitTag(1, "GEDC");
-        emitTagWithRequiredValue(2, "VERS", header.gedcomVersion.versionNumber.toString());
-        emitTagWithRequiredValue(2, "FORM", header.gedcomVersion.gedcomForm);
-        emitTagWithRequiredValue(1, "CHAR", header.characterSet.characterSetName);
-        emitTagIfValueNotNull(2, "VERS", header.characterSet.versionNum);
-        emitTagIfValueNotNull(1, "LANG", header.language);
-        if (header.placeHierarchy != null && header.placeHierarchy.getValue() != null && header.placeHierarchy.getValue().length() > 0) {
+        emitTagWithRequiredValue(2, "VERS", header.getGedcomVersion().versionNumber.toString());
+        emitTagWithRequiredValue(2, "FORM", header.getGedcomVersion().gedcomForm);
+        emitTagWithRequiredValue(1, "CHAR", header.getCharacterSet().characterSetName);
+        emitTagIfValueNotNull(2, "VERS", header.getCharacterSet().versionNum);
+        emitTagIfValueNotNull(1, "LANG", header.getLanguage());
+        if (header.getPlaceHierarchy() != null && header.getPlaceHierarchy().getValue() != null && header.getPlaceHierarchy().getValue().length() > 0) {
             emitTag(1, "PLAC");
-            emitTagWithRequiredValue(2, "FORM", header.placeHierarchy);
+            emitTagWithRequiredValue(2, "FORM", header.getPlaceHierarchy());
         }
-        emitNoteLines(1, null, header.notes);
+        emitNotes(1, header.getNotes());
         emitCustomTags(1, header.getCustomTags());
     }
 
@@ -927,11 +927,11 @@ public class GedcomWriter {
             emitTagWithOptionalValue(level, e.type.tag, e.yNull);
             emitEventDetail(level + 1, e);
             if (e.type == IndividualEventType.BIRTH || e.type == IndividualEventType.CHRISTENING) {
-                if (e.family != null && e.family.family != null && e.family.family.xref != null) {
-                    emitTagWithRequiredValue(level + 1, "FAMC", e.family.family.xref);
+                if (e.family != null && e.family.family != null && e.family.family.getXref() != null) {
+                    emitTagWithRequiredValue(level + 1, "FAMC", e.family.family.getXref());
                 }
-            } else if (e.type == IndividualEventType.ADOPTION && e.family != null && e.family.family != null && e.family.family.xref != null) {
-                emitTagWithRequiredValue(level + 1, "FAMC", e.family.family.xref);
+            } else if (e.type == IndividualEventType.ADOPTION && e.family != null && e.family.family != null && e.family.family.getXref() != null) {
+                emitTagWithRequiredValue(level + 1, "FAMC", e.family.family.getXref());
                 emitTagIfValueNotNull(level + 2, "ADOP", e.family.adoptedBy);
             }
         }
@@ -945,7 +945,7 @@ public class GedcomWriter {
      */
     private void emitIndividuals() throws GedcomWriterException {
         for (Individual i : gedcom.getIndividuals().values()) {
-            emitTag(0, i.xref, "INDI");
+            emitTag(0, i.getXref(), "INDI");
             emitTagIfValueNotNull(1, "RESN", i.restrictionNotice);
             emitPersonalNames(1, i.names);
             emitTagIfValueNotNull(1, "SEX", i.sex);
@@ -955,17 +955,17 @@ public class GedcomWriter {
             emitChildToFamilyLinks(1, i);
             emitSpouseInFamilyLinks(1, i);
             for (Submitter s : i.submitters) {
-                emitTagWithRequiredValue(1, "SUBM", s.xref);
+                emitTagWithRequiredValue(1, "SUBM", s.getXref());
             }
             emitAssociationStructures(1, i.associations);
             for (StringWithCustomTags s : i.aliases) {
                 emitTagWithRequiredValue(1, "ALIA", s);
             }
             for (Submitter s : i.ancestorInterest) {
-                emitTagWithRequiredValue(1, "ANCI", s.xref);
+                emitTagWithRequiredValue(1, "ANCI", s.getXref());
             }
             for (Submitter s : i.descendantInterest) {
-                emitTagWithRequiredValue(1, "DESI", s.xref);
+                emitTagWithRequiredValue(1, "DESI", s.getXref());
             }
             emitSourceCitations(1, i.citations);
             emitMultimediaLinks(1, i.multimedia);
@@ -976,7 +976,7 @@ public class GedcomWriter {
                 emitTagWithRequiredValue(1, "REFN", u.referenceNum);
                 emitTagIfValueNotNull(2, "TYPE", u.type);
             }
-            emitTagIfValueNotNull(1, "RIN", i.recIdNumber);
+            emitTagIfValueNotNull(1, "RIN", i.getRecIdNumber());
             emitChangeDate(1, i.changeDate);
             emitCustomTags(1, i.getCustomTags());
             notifyConstructObserversIfNeeded();
@@ -1031,7 +1031,7 @@ public class GedcomWriter {
                 if (o.familyWhereChild.family == null) {
                     throw new GedcomWriterException("LDS Ordinance info for a child sealing had familyChild object with a null reference to a family");
                 }
-                emitTagWithRequiredValue(level + 1, "FAMC", o.familyWhereChild.family.xref);
+                emitTagWithRequiredValue(level + 1, "FAMC", o.familyWhereChild.family.getXref());
             }
             emitSourceCitations(level + 1, o.getCitations());
             emitNotes(level + 1, o.getNotes());
@@ -1097,25 +1097,25 @@ public class GedcomWriter {
      */
     private void emitMultimedia55() throws GedcomWriterException {
         for (Multimedia m : gedcom.getMultimedia().values()) {
-            emitTag(0, m.xref, "OBJE");
+            emitTag(0, m.getXref(), "OBJE");
             emitTagWithRequiredValue(1, "FORM", m.embeddedMediaFormat);
             emitTagIfValueNotNull(1, "TITL", m.embeddedTitle);
-            emitNotes(1, m.notes);
+            emitNotes(1, m.getNotes());
             emitTag(1, "BLOB");
             for (String b : m.blob) {
                 emitTagWithRequiredValue(2, "CONT", b);
             }
-            if (m.continuedObject != null && m.continuedObject.xref != null) {
-                emitTagWithRequiredValue(1, "OBJE", m.continuedObject.xref);
+            if (m.continuedObject != null && m.continuedObject.getXref() != null) {
+                emitTagWithRequiredValue(1, "OBJE", m.continuedObject.getXref());
             }
             for (UserReference u : m.userReferences) {
                 emitTagWithRequiredValue(1, "REFN", u.referenceNum);
                 emitTagIfValueNotNull(2, "TYPE", u.type);
             }
-            emitTagIfValueNotNull(1, "RIN", m.recIdNumber);
+            emitTagIfValueNotNull(1, "RIN", m.getRecIdNumber());
             emitChangeDate(1, m.changeDate);
             if (!m.fileReferences.isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but found file references in multimedia object " + m.xref
+                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but found file references in multimedia object " + m.getXref()
                         + " which are not allowed until GEDCOM 5.5.1");
             }
             emitCustomTags(1, m.getCustomTags());
@@ -1134,7 +1134,7 @@ public class GedcomWriter {
      */
     private void emitMultimedia551() throws GedcomWriterException {
         for (Multimedia m : gedcom.getMultimedia().values()) {
-            emitTag(0, m.xref, "OBJE");
+            emitTag(0, m.getXref(), "OBJE");
             for (FileReference fr : m.fileReferences) {
                 emitTagWithRequiredValue(1, "FILE", fr.referenceToFile);
                 emitTagWithRequiredValue(2, "FORM", fr.format);
@@ -1145,24 +1145,24 @@ public class GedcomWriter {
                 emitTagWithRequiredValue(1, "REFN", u.referenceNum);
                 emitTagIfValueNotNull(2, "TYPE", u.type);
             }
-            emitTagIfValueNotNull(1, "RIN", m.recIdNumber);
-            emitNotes(1, m.notes);
+            emitTagIfValueNotNull(1, "RIN", m.getRecIdNumber());
+            emitNotes(1, m.getNotes());
             emitChangeDate(1, m.changeDate);
             emitCustomTags(1, m.getCustomTags());
             if (!m.blob.isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but BLOB data on multimedia item " + m.xref
+                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but BLOB data on multimedia item " + m.getXref()
                         + " was found.  This is only allowed in GEDCOM 5.5");
             }
             if (m.continuedObject != null) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but BLOB continuation data on multimedia item " + m.xref
+                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but BLOB continuation data on multimedia item " + m.getXref()
                         + " was found.  This is only allowed in GEDCOM 5.5");
             }
             if (m.embeddedMediaFormat != null) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but format on multimedia item " + m.xref
+                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but format on multimedia item " + m.getXref()
                         + " was found.  This is only allowed in GEDCOM 5.5");
             }
             if (m.embeddedTitle != null) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but title on multimedia item " + m.xref
+                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but title on multimedia item " + m.getXref()
                         + " was found.  This is only allowed in GEDCOM 5.5");
             }
             notifyConstructObserversIfNeeded();
@@ -1187,7 +1187,7 @@ public class GedcomWriter {
             return;
         }
         for (Multimedia m : multimedia) {
-            if (m.xref == null) {
+            if (m.getXref() == null) {
                 // Link to referenced form
                 if (g55()) {
                     // GEDCOM 5.5 format
@@ -1209,7 +1209,7 @@ public class GedcomWriter {
                         emitTagWithRequiredValue(level + 1, "FORM", m.embeddedMediaFormat);
                         emitTagIfValueNotNull(level + 1, "TITL", m.embeddedTitle);
                     }
-                    emitNotes(level + 1, m.notes);
+                    emitNotes(level + 1, m.getNotes());
                 } else {
                     // GEDCOM 5.5.1 format
                     for (FileReference fr : m.fileReferences) {
@@ -1218,14 +1218,14 @@ public class GedcomWriter {
                         emitTagIfValueNotNull(level + 3, "MEDI", fr.mediaType);
                         emitTagIfValueNotNull(level + 1, "TITL", fr.title);
                     }
-                    if (!m.notes.isEmpty()) {
+                    if (!m.getNotes().isEmpty()) {
                         throw new GedcomWriterVersionDataMismatchException(
                                 "GEDCOM version is 5.5.1, but multimedia link has notes which are no longer allowed in 5.5");
                     }
                 }
             } else {
                 // Link to the embedded form
-                emitTagWithRequiredValue(level, "OBJE", m.xref);
+                emitTagWithRequiredValue(level, "OBJE", m.getXref());
             }
             emitCustomTags(level + 1, m.getCustomTags());
         }
@@ -1242,17 +1242,17 @@ public class GedcomWriter {
      *             if the data is malformed and cannot be written
      */
     private void emitNote(int level, Note note) throws GedcomWriterException {
-        if (level > 0 && note.xref != null) {
-            emitTagWithRequiredValue(level, "NOTE", note.xref);
+        if (level > 0 && note.getXref() != null) {
+            emitTagWithRequiredValue(level, "NOTE", note.getXref());
             return;
         }
-        emitNoteLines(level, note.xref, note.lines);
+        emitNoteLines(level, note.getXref(), note.lines);
         emitSourceCitations(level + 1, note.citations);
         for (UserReference u : note.userReferences) {
             emitTagWithRequiredValue(level + 1, "REFN", u.referenceNum);
             emitTagIfValueNotNull(level + 2, "TYPE", u.type);
         }
-        emitTagIfValueNotNull(level + 1, "RIN", note.recIdNumber);
+        emitTagIfValueNotNull(level + 1, "RIN", note.getRecIdNumber());
         emitChangeDate(level + 1, note.changeDate);
         emitCustomTags(level + 1, note.getCustomTags());
     }
@@ -1434,7 +1434,7 @@ public class GedcomWriter {
      */
     private void emitRepositories() throws GedcomWriterException {
         for (Repository r : gedcom.getRepositories().values()) {
-            emitTag(0, r.xref, "REPO");
+            emitTag(0, r.getXref(), "REPO");
             emitTagIfValueNotNull(1, "NAME", r.name);
             emitAddress(1, r.address);
             emitNotes(1, r.notes);
@@ -1442,7 +1442,7 @@ public class GedcomWriter {
                 emitTagWithRequiredValue(1, "REFN", u.referenceNum);
                 emitTagIfValueNotNull(2, "TYPE", u.type);
             }
-            emitTagIfValueNotNull(1, "RIN", r.recIdNumber);
+            emitTagIfValueNotNull(1, "RIN", r.getRecIdNumber());
             emitPhoneNumbers(1, r.phoneNumbers);
             emitWwwUrls(1, r.wwwUrls);
             emitFaxNumbers(1, r.faxNumbers);
@@ -1514,7 +1514,7 @@ public class GedcomWriter {
      */
     private void emitSources() throws GedcomWriterException {
         for (Source s : gedcom.getSources().values()) {
-            emitTag(0, s.xref, "SOUR");
+            emitTag(0, s.getXref(), "SOUR");
             SourceData d = s.data;
             if (d != null) {
                 emitTag(1, "DATA");
@@ -1538,7 +1538,7 @@ public class GedcomWriter {
                 emitTagWithRequiredValue(1, "REFN", u.referenceNum);
                 emitTagIfValueNotNull(2, "TYPE", u.type);
             }
-            emitTagIfValueNotNull(1, "RIN", s.recIdNumber);
+            emitTagIfValueNotNull(1, "RIN", s.getRecIdNumber());
             emitChangeDate(1, s.changeDate);
             emitCustomTags(1, s.getCustomTags());
             notifyConstructObserversIfNeeded();
@@ -1599,7 +1599,7 @@ public class GedcomWriter {
             if (familySpouse.family == null) {
                 throw new GedcomWriterException("Family in which " + i + " was a spouse had a null family reference");
             }
-            emitTagWithRequiredValue(level, "FAMS", familySpouse.family.xref);
+            emitTagWithRequiredValue(level, "FAMS", familySpouse.family.getXref());
             emitNotes(level + 1, familySpouse.notes);
             emitCustomTags(level + 1, familySpouse.getCustomTags());
         }
@@ -1616,16 +1616,16 @@ public class GedcomWriter {
         if (s == null) {
             return;
         }
-        emitTag(0, s.xref, "SUBN");
+        emitTag(0, s.getXref(), "SUBN");
         if (s.submitter != null) {
-            emitTagWithOptionalValue(1, "SUBM", s.submitter.xref);
+            emitTagWithOptionalValue(1, "SUBM", s.submitter.getXref());
         }
         emitTagIfValueNotNull(1, "FAMF", s.nameOfFamilyFile);
         emitTagIfValueNotNull(1, "TEMP", s.templeCode);
         emitTagIfValueNotNull(1, "ANCE", s.ancestorsCount);
         emitTagIfValueNotNull(1, "DESC", s.descendantsCount);
         emitTagIfValueNotNull(1, "ORDI", s.ordinanceProcessFlag);
-        emitTagIfValueNotNull(1, "RIN", s.recIdNumber);
+        emitTagIfValueNotNull(1, "RIN", s.getRecIdNumber());
         emitCustomTags(1, s.getCustomTags());
     }
 
@@ -1637,20 +1637,20 @@ public class GedcomWriter {
      */
     private void emitSubmitter() throws GedcomWriterException {
         for (Submitter s : gedcom.getSubmitters().values()) {
-            emitTag(0, s.xref, "SUBM");
-            emitTagWithOptionalValueAndCustomSubtags(1, "NAME", s.name);
-            emitAddress(1, s.address);
-            emitMultimediaLinks(1, s.multimedia);
-            for (StringWithCustomTags l : s.languagePref) {
+            emitTag(0, s.getXref(), "SUBM");
+            emitTagWithOptionalValueAndCustomSubtags(1, "NAME", s.getName());
+            emitAddress(1, s.getAddress());
+            emitMultimediaLinks(1, s.getMultimedia());
+            for (StringWithCustomTags l : s.getLanguagePref()) {
                 emitTagWithRequiredValue(1, "LANG", l);
             }
-            emitPhoneNumbers(1, s.phoneNumbers);
-            emitWwwUrls(1, s.wwwUrls);
-            emitFaxNumbers(1, s.faxNumbers);
-            emitEmails(1, s.emails);
-            emitTagIfValueNotNull(1, "RFN", s.regFileNumber);
-            emitTagIfValueNotNull(1, "RIN", s.recIdNumber);
-            emitChangeDate(1, s.changeDate);
+            emitPhoneNumbers(1, s.getPhoneNumbers());
+            emitWwwUrls(1, s.getWwwUrls());
+            emitFaxNumbers(1, s.getFaxNumbers());
+            emitEmails(1, s.getEmails());
+            emitTagIfValueNotNull(1, "RFN", s.getRegFileNumber());
+            emitTagIfValueNotNull(1, "RIN", s.getRecIdNumber());
+            emitChangeDate(1, s.getChangeDate());
             emitCustomTags(1, s.getCustomTags());
             notifyConstructObserversIfNeeded();
             if (cancelled) {
@@ -1937,8 +1937,8 @@ public class GedcomWriter {
      * @return true if and only if the Gedcom data says it is for the 5.5 standard.
      */
     private boolean g55() {
-        return gedcom != null && gedcom.getHeader() != null && gedcom.getHeader().gedcomVersion != null && SupportedVersion.V5_5.equals(gedcom
-                .getHeader().gedcomVersion.versionNumber);
+        return gedcom != null && gedcom.getHeader() != null && gedcom.getHeader().getGedcomVersion() != null && SupportedVersion.V5_5.equals(gedcom.getHeader()
+                .getGedcomVersion().versionNumber);
     }
 
     /**

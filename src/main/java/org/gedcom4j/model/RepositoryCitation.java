@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * A citation to a repository
  * 
@@ -39,14 +41,14 @@ public class RepositoryCitation extends AbstractElement {
     public String repositoryXref;
 
     /**
-     * Notes on this repository citation
-     */
-    public List<Note> notes = new ArrayList<Note>(0);
-
-    /**
      * Call numbers
      */
     public List<SourceCallNumber> callNumbers = new ArrayList<SourceCallNumber>(0);
+
+    /**
+     * Notes about this object
+     */
+    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
 
     @Override
     public boolean equals(Object obj) {
@@ -99,6 +101,30 @@ public class RepositoryCitation extends AbstractElement {
         return "RepositoryCitation [" + (repositoryXref != null ? "repositoryXref=" + repositoryXref + ", " : "")
                 + (notes != null ? "notes=" + notes + ", " : "") + (callNumbers != null ? "callNumbers=" + callNumbers + ", " : "")
                 + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
     }
 
 }

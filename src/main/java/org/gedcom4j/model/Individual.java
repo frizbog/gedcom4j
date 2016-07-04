@@ -26,6 +26,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.gedcom4j.Options;
+
 /**
  * An individual person. Corresponds to the INDIVIDUAL_RECORD structure in the GEDCOM specification.
  * 
@@ -103,19 +105,9 @@ public class Individual extends AbstractElement {
     public List<PersonalName> names = new ArrayList<PersonalName>(0);
 
     /**
-     * A list of notes for this individual
-     */
-    public List<Note> notes = new ArrayList<Note>(0);
-
-    /**
      * The permanent record file number for this individual
      */
     public StringWithCustomTags permanentRecFileNumber;
-
-    /**
-     * The record ID number for this individual
-     */
-    public StringWithCustomTags recIdNumber;
 
     /**
      * The restriction notice (if any) for this individual
@@ -136,11 +128,6 @@ public class Individual extends AbstractElement {
      * A list of user references for this individual
      */
     public List<UserReference> userReferences = new ArrayList<UserReference>(0);
-
-    /**
-     * The cross-reference ID for this individual
-     */
-    public String xref;
 
     /**
      * The address of this individual
@@ -166,6 +153,21 @@ public class Individual extends AbstractElement {
      * The emails for this submitter. New for GEDCOM 5.5.1
      */
     public List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
+
+    /**
+     * Notes about this object
+     */
+    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+
+    /**
+     * The record ID number
+     */
+    private StringWithCustomTags recIdNumber;
+
+    /**
+     * The xref for this submitter
+     */
+    private String xref;
 
     // CHECKSTYLE:OFF for method length
     /**
@@ -600,5 +602,67 @@ public class Individual extends AbstractElement {
             found = true;
         }
         return sb.toString();
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
+    /**
+     * Get the recIdNumber
+     * 
+     * @return the recIdNumber
+     */
+    public StringWithCustomTags getRecIdNumber() {
+        return recIdNumber;
+    }
+
+    /**
+     * Set the recIdNumber
+     * 
+     * @param recIdNumber
+     *            the recIdNumber to set
+     */
+    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+        this.recIdNumber = recIdNumber;
+    }
+
+    /**
+     * Get the xref
+     * 
+     * @return the xref
+     */
+    public String getXref() {
+        return xref;
+    }
+
+    /**
+     * Set the xref
+     * 
+     * @param xref
+     *            the xref to set
+     */
+    public void setXref(String xref) {
+        this.xref = xref;
     }
 }

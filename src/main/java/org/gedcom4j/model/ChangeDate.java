@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * A date/time that a change was made.
  * 
@@ -33,17 +35,17 @@ public class ChangeDate extends AbstractElement {
     /**
      * The date (as a string)
      */
-    public StringWithCustomTags date;
+    private StringWithCustomTags date;
 
     /**
      * The time (as a string)
      */
-    public StringWithCustomTags time;
+    private StringWithCustomTags time;
 
     /**
-     * Notes about the change
+     * Notes about this object
      */
-    public List<Note> notes = new ArrayList<Note>(0);
+    private List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
 
     @Override
     public boolean equals(Object obj) {
@@ -81,6 +83,48 @@ public class ChangeDate extends AbstractElement {
         return true;
     }
 
+    /**
+     * Get the date
+     * 
+     * @return the date
+     */
+    public StringWithCustomTags getDate() {
+        return date;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
+    /**
+     * Get the time
+     * 
+     * @return the time
+     */
+    public StringWithCustomTags getTime() {
+        return time;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -91,9 +135,29 @@ public class ChangeDate extends AbstractElement {
         return result;
     }
 
+    /**
+     * Set the date
+     * 
+     * @param date
+     *            the date to set
+     */
+    public void setDate(StringWithCustomTags date) {
+        this.date = date;
+    }
+
+    /**
+     * Set the time
+     * 
+     * @param time
+     *            the time to set
+     */
+    public void setTime(StringWithCustomTags time) {
+        this.time = time;
+    }
+
     @Override
     public String toString() {
-        return "ChangeDate [" + (date != null ? "date=" + date + ", " : "") + (time != null ? "time=" + time + ", " : "")
-                + (notes != null ? "notes=" + notes + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        return "ChangeDate [" + (date != null ? "date=" + date + ", " : "") + (time != null ? "time=" + time + ", " : "") + (notes != null ? "notes=" + notes
+                + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

@@ -59,7 +59,7 @@ public class IndividualValidatorTest extends AbstractValidatorTestCase {
 
         // Deliberately introduce a problem
         Individual i = new Individual();
-        i.xref = "FryingPan";
+        i.setXref("FryingPan");
         g.getIndividuals().put("WrongKey", i);
 
         // Go validate
