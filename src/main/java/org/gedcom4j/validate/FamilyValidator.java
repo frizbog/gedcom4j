@@ -53,7 +53,7 @@ class FamilyValidator extends AbstractValidator {
         checkOptionalString(f.getAutomatedRecordId(), "Automated record id", f);
         checkChangeDate(f.getChangeDate(), f);
         if (f.getChildren() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 f.getChildren(true).clear();
                 rootValidator.addInfo("Family's collection of children was null - repaired", f);
             } else {
@@ -67,7 +67,7 @@ class FamilyValidator extends AbstractValidator {
             }
         }
         if (f.getCitations() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 f.getCitations(true).clear();
                 addInfo("citations collection for family was null - rootValidator.autorepaired", f);
             } else {
@@ -89,7 +89,7 @@ class FamilyValidator extends AbstractValidator {
             new IndividualValidator(rootValidator, f.getWife()).validate();
         }
         if (f.getLdsSpouseSealings() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 f.getLdsSpouseSealings(true).clear();
                 addInfo("LDS spouse sealings collection for family was null - rootValidator.autorepaired", f);
             } else {
@@ -101,7 +101,7 @@ class FamilyValidator extends AbstractValidator {
             }
         }
         if (f.getMultimedia() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 f.getMultimedia(true).clear();
                 addInfo("Multimedia collection for family was null - rootValidator.autorepaired", f);
             } else {
@@ -117,7 +117,7 @@ class FamilyValidator extends AbstractValidator {
         checkOptionalString(f.getRecFileNumber(), "record file number", f);
         checkOptionalString(f.getRestrictionNotice(), "restriction notice", f);
         if (f.getSubmitters() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 f.getSubmitters(true).clear();
                 addInfo("Submitters collection was missing on family - repaired", f);
             } else {

@@ -75,7 +75,7 @@ public class AnselWriterCancellationTest implements FileProgressListener {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-ansel.ged");
         eventCount = 0;
-        gw = new GedcomWriter(gp.gedcom);
+        gw = new GedcomWriter(gp.getGedcom());
         gw.registerFileObserver(this);
         gw.write(new NullOutputStream());
         assertEquals(42, eventCount);

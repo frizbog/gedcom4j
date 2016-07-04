@@ -53,11 +53,11 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
 
         // Go validate
         GedcomValidator v = new GedcomValidator(g);
-        v.autorepair = false;
+        v.setAutorepairEnabled(false);
         v.validate();
-        assertFalse("Whether or not autorepair is on, there should be findings", v.findings.isEmpty());
-        for (GedcomValidationFinding f : v.findings) {
-            assertEquals("With autorepair off, findings should be at error", Severity.ERROR, f.severity);
+        assertFalse("Whether or not autorepair is on, there should be findings", v.getFindings().isEmpty());
+        for (GedcomValidationFinding f : v.getFindings()) {
+            assertEquals("With autorepair off, findings should be at error", Severity.ERROR, f.getSeverity());
         }
     }
 
@@ -68,7 +68,7 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
     public void testTrailer() {
         Gedcom g = new Gedcom();
         rootValidator.gedcom = g;
-        rootValidator.autorepair = false;
+        rootValidator.setAutorepairEnabled(false);
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
         s.setName(new StringWithCustomTags("test"));
@@ -95,11 +95,11 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
         verbose = true;
         rootValidator.validate();
         dumpFindings();
-        assertTrue("A new gedcom structure run through the validator with autorepair on should always have at least one finding", rootValidator.findings
+        assertTrue("A new gedcom structure run through the validator with autorepair on should always have at least one finding", rootValidator.getFindings()
                 .size() > 0);
-        for (GedcomValidationFinding f : rootValidator.findings) {
-            assertEquals("All findings on a new gedcom structure run through the validator with autorepair on should be at level of INFO", Severity.INFO,
-                    f.severity);
+        for (GedcomValidationFinding f : rootValidator.getFindings()) {
+            assertEquals("All findings on a new gedcom structure run through the validator with autorepair on should be at level of INFO", Severity.INFO, f
+                    .getSeverity());
         }
     }
 
@@ -115,8 +115,8 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
         // Load a file
         GedcomParser p = new GedcomParser();
         p.load(SAMPLE_STRESS_TEST_FILENAME);
-        assertTrue(p.errors.isEmpty());
-        rootValidator = new GedcomValidator(p.gedcom);
+        assertTrue(p.getErrors().isEmpty());
+        rootValidator = new GedcomValidator(p.getGedcom());
         rootValidator.validate();
         dumpFindings();
         /*

@@ -36,17 +36,17 @@ public class Relationship implements Comparable<Relationship> {
     /**
      * The chain of relationships from person 1 to person 2
      */
-    public List<SimpleRelationship> chain = new ArrayList<SimpleRelationship>();
+    private final List<SimpleRelationship> chain = new ArrayList<SimpleRelationship>();
 
     /**
      * Person 1
      */
-    public Individual individual1;
+    private Individual individual1;
 
     /**
      * Person 2
      */
-    public Individual individual2;
+    private Individual individual2;
 
     /**
      * Default constructor
@@ -127,6 +127,33 @@ public class Relationship implements Comparable<Relationship> {
     }
 
     /**
+     * Get the chain
+     * 
+     * @return the chain
+     */
+    public List<SimpleRelationship> getChain() {
+        return chain;
+    }
+
+    /**
+     * Get the individual1
+     * 
+     * @return the individual1
+     */
+    public Individual getIndividual1() {
+        return individual1;
+    }
+
+    /**
+     * Get the individual2
+     * 
+     * @return the individual2
+     */
+    public Individual getIndividual2() {
+        return individual2;
+    }
+
+    /**
      * Total up all the simplicity ratings of the relationships in the chain
      * 
      * @return the sum of all the simplicity ratings of the relationships that make up the chain
@@ -134,7 +161,7 @@ public class Relationship implements Comparable<Relationship> {
     public int getTotalSimplicity() {
         int result = 0;
         for (SimpleRelationship sr : chain) {
-            result += sr.name.simplicity;
+            result += sr.getName().simplicity;
         }
         return result;
     }
@@ -153,6 +180,26 @@ public class Relationship implements Comparable<Relationship> {
     }
 
     /**
+     * Set the individual1
+     * 
+     * @param individual1
+     *            the individual1 to set
+     */
+    public void setIndividual1(Individual individual1) {
+        this.individual1 = individual1;
+    }
+
+    /**
+     * Set the individual2
+     * 
+     * @param individual2
+     *            the individual2 to set
+     */
+    public void setIndividual2(Individual individual2) {
+        this.individual2 = individual2;
+    }
+
+    /**
      * Represent this object as a string
      * 
      * @return this object as a string
@@ -168,16 +215,16 @@ public class Relationship implements Comparable<Relationship> {
                 sb.append(", ");
             }
             first = false;
-            if (sr.individual1.getNames().isEmpty()) {
+            if (sr.getIndividual1().getNames().isEmpty()) {
                 sb.append("Unknown");
             } else {
-                sb.append(sr.individual1.getNames().get(0));
+                sb.append(sr.getIndividual1().getNames().get(0));
             }
-            sb.append("'s ").append(sr.name).append(" ");
-            if (sr.individual2.getNames().isEmpty()) {
+            sb.append("'s ").append(sr.getName()).append(" ");
+            if (sr.getIndividual2().getNames().isEmpty()) {
                 sb.append("Unknown");
             } else {
-                sb.append(sr.individual2.getNames().get(0));
+                sb.append(sr.getIndividual2().getNames().get(0));
             }
         }
         sb.append(">, ").append(chain.size()).append(" step(s)");

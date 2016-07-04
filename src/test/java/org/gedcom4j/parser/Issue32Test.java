@@ -53,13 +53,13 @@ public class Issue32Test {
     public void test() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/issue32.ged");
-        assertTrue(gp.errors.isEmpty());
-        assertNotNull(gp.gedcom);
-        assertNotNull(gp.gedcom.getIndividuals());
-        assertEquals("There are ten individuals in the test gedcom", 10, gp.gedcom.getIndividuals().size());
+        assertTrue(gp.getErrors().isEmpty());
+        assertNotNull(gp.getGedcom());
+        assertNotNull(gp.getGedcom().getIndividuals());
+        assertEquals("There are ten individuals in the test gedcom", 10, gp.getGedcom().getIndividuals().size());
         boolean foundJohn = false;
         boolean foundMary = false;
-        for (Entry<String, Individual> i : gp.gedcom.getIndividuals().entrySet()) {
+        for (Entry<String, Individual> i : gp.getGedcom().getIndividuals().entrySet()) {
             if (i.getKey().equalsIgnoreCase("@I1@")) {
                 foundJohn = true;
                 Individual john = i.getValue();

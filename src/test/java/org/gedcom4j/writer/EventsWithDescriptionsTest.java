@@ -62,7 +62,7 @@ public class EventsWithDescriptionsTest {
         // Read original non-standard file, find non-standard birth event, assert some pre-conditions
         GedcomParser gp = new GedcomParser();
         gp.load("sample/Event Tag Test.ged");
-        Gedcom gBefore = gp.gedcom;
+        Gedcom gBefore = gp.getGedcom();
         assertNotNull(gBefore);
 
         assertEquals(1, gBefore.getIndividuals().size());
@@ -86,7 +86,7 @@ public class EventsWithDescriptionsTest {
         // Read the file we just wrote back in. The non-standard part should be removed.
         gp = new GedcomParser();
         gp.load(fn);
-        Gedcom gAfter = gp.gedcom;
+        Gedcom gAfter = gp.getGedcom();
         assertNotNull(gBefore);
 
         assertEquals(1, gAfter.getIndividuals().size());
@@ -121,7 +121,7 @@ public class EventsWithDescriptionsTest {
         // Read original non-standard file, find non-standard birth event, assert some pre-conditions
         GedcomParser gp = new GedcomParser();
         gp.load("sample/Event Tag Test.ged");
-        Gedcom gBefore = gp.gedcom;
+        Gedcom gBefore = gp.getGedcom();
         assertNotNull(gBefore);
 
         assertEquals(1, gBefore.getIndividuals().size());

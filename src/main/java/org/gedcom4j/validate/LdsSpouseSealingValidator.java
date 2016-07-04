@@ -60,7 +60,7 @@ class LdsSpouseSealingValidator extends AbstractValidator {
             return;
         }
         if (s.getCitations() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 s.getCitations(true).clear();
                 addInfo("citations collection for lds spouse sealing was null - rootValidator.autorepaired", s);
             } else {

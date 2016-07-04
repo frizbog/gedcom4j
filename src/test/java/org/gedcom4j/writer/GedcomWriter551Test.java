@@ -72,7 +72,7 @@ public class GedcomWriter551Test {
         } catch (@SuppressWarnings("unused") GedcomWriterException expectedAndIgnored) {
             boolean foundBlobError = false;
             for (GedcomValidationFinding f : gw.validationFindings) {
-                if (f.severity == Severity.ERROR && f.problemDescription.toLowerCase().contains("blob")) {
+                if (f.getSeverity() == Severity.ERROR && f.getProblemDescription().toLowerCase().contains("blob")) {
                     foundBlobError = true;
                 }
             }
@@ -244,11 +244,11 @@ public class GedcomWriter551Test {
         // Read it back
         GedcomParser gp = new GedcomParser();
         gp.load("tmp/writertest551.ged");
-        assertTrue(gp.errors.isEmpty());
-        assertTrue(gp.warnings.isEmpty());
+        assertTrue(gp.getErrors().isEmpty());
+        assertTrue(gp.getWarnings().isEmpty());
 
         // Look for expected data
-        g = gp.gedcom;
+        g = gp.getGedcom();
         assertNotNull(g);
         i = g.getIndividuals().get("@I1@");
         assertNotNull(i);
@@ -337,10 +337,10 @@ public class GedcomWriter551Test {
         // Read it back
         GedcomParser gp = new GedcomParser();
         gp.load("tmp/writertest551.ged");
-        assertNotNull(gp.gedcom);
+        assertNotNull(gp.getGedcom());
 
         // See if we read back what we originally built
-        Gedcom g2 = gp.gedcom;
+        Gedcom g2 = gp.getGedcom();
         assertEquals(1, g2.getMultimedia().size());
         Multimedia m2 = g2.getMultimedia().get("@M0@");
         assertNotNull(m2);

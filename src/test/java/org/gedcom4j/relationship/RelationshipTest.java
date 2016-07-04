@@ -43,10 +43,10 @@ public class RelationshipTest {
     public void testChain() {
         Relationship r1 = new Relationship();
         Relationship r2 = new Relationship();
-        r1.chain = null;
+        r1.getChain().add(new SimpleRelationship());
         assertFalse(r1.equals(r2));
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.chain = null;
+        r2.getChain().add(new SimpleRelationship());
         assertTrue(r1.equals(r2));
         assertTrue(r1.hashCode() == r2.hashCode());
     }
@@ -58,10 +58,10 @@ public class RelationshipTest {
     public void testIndividual1() {
         Relationship r1 = new Relationship();
         Relationship r2 = new Relationship();
-        r1.individual1 = new Individual();
+        r1.setIndividual1(new Individual());
         assertFalse(r1.equals(r2));
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.individual1 = new Individual();
+        r2.setIndividual1(new Individual());
         assertTrue(r1.equals(r2));
         assertTrue(r1.hashCode() == r2.hashCode());
     }
@@ -73,10 +73,10 @@ public class RelationshipTest {
     public void testIndividual2() {
         Relationship r1 = new Relationship();
         Relationship r2 = new Relationship();
-        r1.individual2 = new Individual();
+        r1.setIndividual2(new Individual());
         assertFalse(r1.equals(r2));
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.individual2 = new Individual();
+        r2.setIndividual2(new Individual());
         assertTrue(r1.equals(r2));
         assertTrue(r1.hashCode() == r2.hashCode());
     }
@@ -100,14 +100,14 @@ public class RelationshipTest {
         Relationship r = new Relationship();
         assertEquals("<>, 0 step(s)", r.toString());
 
-        r.individual1 = new Individual();
-        r.individual2 = new Individual();
+        r.setIndividual1(new Individual());
+        r.setIndividual2(new Individual());
         SimpleRelationship sr = new SimpleRelationship();
-        sr.name = RelationshipName.FATHER;
-        sr.reverseName = RelationshipName.SON;
-        sr.individual1 = r.individual1;
-        sr.individual2 = r.individual2;
-        r.chain.add(sr);
+        sr.setName(RelationshipName.FATHER);
+        sr.setReverseName(RelationshipName.SON);
+        sr.setIndividual1(r.getIndividual1());
+        sr.setIndividual2(r.getIndividual2());
+        r.getChain().add(sr);
 
         assertEquals("<Unknown's FATHER Unknown>, 1 step(s)", r.toString());
     }

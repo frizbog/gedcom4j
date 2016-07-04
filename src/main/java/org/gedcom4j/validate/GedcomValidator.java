@@ -44,7 +44,7 @@ import org.gedcom4j.model.*;
  * <ol>
  * <li>Instantiate a {@link GedcomValidator}, passing the {@link Gedcom} structure to be validated as the argument to
  * the constructor</li>
- * <li>If desired, turn off automatic repairs during validation by setting {@link GedcomValidator#autorepair} to
+ * <li>If desired, turn off automatic repairs during validation by setting {@link GedcomValidator#autorepairEnabled} to
  * <tt>false</tt>.
  * <li>Call the {@link GedcomValidator#validate()} method.</li>
  * <li>Inspect the {@link GedcomValidator#findings} list, which contains {@link GedcomValidationFinding} objects
@@ -81,12 +81,12 @@ public class GedcomValidator extends AbstractValidator {
      * Will the most simple, obvious, non-destructive errors be automatically fixed? This includes things like creating
      * empty collections where one is expected but only a null reference exists.
      */
-    public boolean autorepair = true;
+    private boolean autorepairEnabled = true;
 
     /**
      * The findings from validation
      */
-    public List<GedcomValidationFinding> findings = new ArrayList<GedcomValidationFinding>();
+    private final List<GedcomValidationFinding> findings = new ArrayList<GedcomValidationFinding>();
 
     /**
      * The gedcom structure being validated
@@ -105,13 +105,22 @@ public class GedcomValidator extends AbstractValidator {
     }
 
     /**
+     * Get the findings
+     * 
+     * @return the findings
+     */
+    public List<GedcomValidationFinding> getFindings() {
+        return findings;
+    }
+
+    /**
      * Are there any errors in the findings (so far)?
      * 
      * @return true if there exists at least one finding with severity ERROR
      */
     public boolean hasErrors() {
         for (GedcomValidationFinding finding : rootValidator.findings) {
-            if (finding.severity == Severity.ERROR) {
+            if (finding.getSeverity() == Severity.ERROR) {
                 return true;
             }
         }
@@ -125,11 +134,30 @@ public class GedcomValidator extends AbstractValidator {
      */
     public boolean hasWarnings() {
         for (GedcomValidationFinding finding : rootValidator.findings) {
-            if (finding.severity == Severity.WARNING) {
+            if (finding.getSeverity() == Severity.WARNING) {
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * Get the autorepair
+     * 
+     * @return the autorepair
+     */
+    public boolean isAutorepairEnabled() {
+        return autorepairEnabled;
+    }
+
+    /**
+     * Set the autorepair
+     * 
+     * @param autorepair
+     *            the autorepair to set
+     */
+    public void setAutorepairEnabled(boolean autorepair) {
+        autorepairEnabled = autorepair;
     }
 
     /**
@@ -182,7 +210,7 @@ public class GedcomValidator extends AbstractValidator {
     private void validateFamilies() {
         for (Entry<String, Family> e : gedcom.getFamilies().entrySet()) {
             if (e.getKey() == null) {
-                if (rootValidator.autorepair) {
+                if (rootValidator.autorepairEnabled) {
                     rootValidator.addError("Family in map but has null key - cannot repair", e.getValue());
                 } else {
                     rootValidator.addError("Family in map but has null key", e.getValue());
@@ -191,7 +219,7 @@ public class GedcomValidator extends AbstractValidator {
             }
             Family f = e.getValue();
             if (!e.getKey().equals(f.getXref())) {
-                if (rootValidator.autorepair) {
+                if (rootValidator.autorepairEnabled) {
                     rootValidator.addError("Family in map not keyed by its xref - cannot repair", f.getXref());
                 } else {
                     rootValidator.addError("Family in map not keyed by its xref", f.getXref());
@@ -207,7 +235,7 @@ public class GedcomValidator extends AbstractValidator {
      */
     private void validateHeader() {
         if (gedcom.getHeader() == null) {
-            if (autorepair) {
+            if (autorepairEnabled) {
                 gedcom.setHeader(new Header());
                 addInfo("Header was null - autorepaired");
             } else {
@@ -310,7 +338,7 @@ public class GedcomValidator extends AbstractValidator {
      */
     private void validateSubmitters() {
         if (gedcom.getSubmitters().isEmpty()) {
-            if (autorepair) {
+            if (autorepairEnabled) {
                 Submitter s = new Submitter();
                 s.setXref("@SUBM0000@");
                 s.setName(new StringWithCustomTags("UNSPECIFIED"));
@@ -330,7 +358,7 @@ public class GedcomValidator extends AbstractValidator {
      */
     private void validateTrailer() {
         if (gedcom.getTrailer() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.autorepairEnabled) {
                 gedcom.setTrailer(new Trailer());
                 rootValidator.addInfo("Gedcom had no trailer - repaired", gedcom);
             } else {

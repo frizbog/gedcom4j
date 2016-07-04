@@ -54,10 +54,10 @@ public class GedcomParserTest extends TestCase {
     public void testBadCustomTag() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/Bad_custom_tag.ged");
-        assertNotNull(gp.errors);
-        assertEquals(1, gp.errors.size());
-        assertNotNull(gp.errors.get(0));
-        assertTrue(gp.errors.get(0).contains("Line 28: Cannot handle tag BUST"));
+        assertNotNull(gp.getErrors());
+        assertEquals(1, gp.getErrors().size());
+        assertNotNull(gp.getErrors().get(0));
+        assertTrue(gp.getErrors().get(0).contains("Line 28: Cannot handle tag BUST"));
     }
 
     /**
@@ -71,7 +71,7 @@ public class GedcomParserTest extends TestCase {
     public void testLoad1() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/TGC551.ged");
-        assertTrue(gp.errors.isEmpty());
+        assertTrue(gp.getErrors().isEmpty());
         checkTGC551LF(gp);
     }
 
@@ -85,13 +85,13 @@ public class GedcomParserTest extends TestCase {
      */
     public void testLoad2() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        assertTrue(gp.errors.isEmpty());
+        assertTrue(gp.getErrors().isEmpty());
         gp.load("sample/allged.ged");
-        assertTrue(gp.errors.isEmpty());
-        assertTrue(gp.warnings.isEmpty());
-        assertEquals("There is exactly 1 custom tag on the file as a whole", 1, gp.gedcom.getCustomTags().size());
-        assertEquals("There is exactly 1 custom tag in the header", 1, gp.gedcom.getHeader().getCustomTags().size());
-        Gedcom g = gp.gedcom;
+        assertTrue(gp.getErrors().isEmpty());
+        assertTrue(gp.getWarnings().isEmpty());
+        assertEquals("There is exactly 1 custom tag on the file as a whole", 1, gp.getGedcom().getCustomTags().size());
+        assertEquals("There is exactly 1 custom tag in the header", 1, gp.getGedcom().getHeader().getCustomTags().size());
+        Gedcom g = gp.getGedcom();
         assertFalse(g.getSubmitters().isEmpty());
         Submitter submitter = g.getSubmitters().values().iterator().next();
         assertNotNull(submitter);
@@ -109,9 +109,9 @@ public class GedcomParserTest extends TestCase {
     public void testLoad3() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/a31486.ged");
-        assertTrue(gp.errors.isEmpty());
-        assertTrue(gp.warnings.isEmpty());
-        Gedcom g = gp.gedcom;
+        assertTrue(gp.getErrors().isEmpty());
+        assertTrue(gp.getWarnings().isEmpty());
+        Gedcom g = gp.getGedcom();
 
         // Check submitter
         assertFalse(g.getSubmitters().isEmpty());
@@ -169,11 +169,11 @@ public class GedcomParserTest extends TestCase {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/minimal55indented.ged");
         // No problems detected, right?
-        assertTrue(gp.errors.isEmpty());
-        assertTrue(gp.warnings.isEmpty());
+        assertTrue(gp.getErrors().isEmpty());
+        assertTrue(gp.getWarnings().isEmpty());
 
         // And the data is as we expected, right?
-        Gedcom g = gp.gedcom;
+        Gedcom g = gp.getGedcom();
         assertNotNull(g);
         assertTrue(g.getIndividuals().isEmpty());
         assertTrue(g.getFamilies().isEmpty());
@@ -193,11 +193,11 @@ public class GedcomParserTest extends TestCase {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/minimal55.ged");
         // No problems detected, right?
-        assertTrue(gp.errors.isEmpty());
-        assertTrue(gp.warnings.isEmpty());
+        assertTrue(gp.getErrors().isEmpty());
+        assertTrue(gp.getWarnings().isEmpty());
 
         // And the data is as we expected, right?
-        Gedcom g = gp.gedcom;
+        Gedcom g = gp.getGedcom();
         assertNotNull(g);
         assertTrue(g.getIndividuals().isEmpty());
         assertTrue(g.getFamilies().isEmpty());
@@ -271,9 +271,9 @@ public class GedcomParserTest extends TestCase {
      *            the {@link GedcomParser}
      */
     private void checkTGC551LF(GedcomParser gp) {
-        assertTrue(gp.errors.isEmpty());
-        assertTrue(gp.warnings.isEmpty());
-        Gedcom g = gp.gedcom;
+        assertTrue(gp.getErrors().isEmpty());
+        assertTrue(gp.getWarnings().isEmpty());
+        Gedcom g = gp.getGedcom();
         assertNotNull(g.getHeader());
         assertEquals(3, g.getSubmitters().size());
         Submitter submitter = g.getSubmitters().get("@SUBMITTER@");
@@ -303,9 +303,9 @@ public class GedcomParserTest extends TestCase {
         CitationWithoutSource citWithoutSource;
         Source source;
 
-        assertTrue(gp.errors.isEmpty());
-        assertTrue(gp.warnings.isEmpty());
-        Gedcom g = gp.gedcom;
+        assertTrue(gp.getErrors().isEmpty());
+        assertTrue(gp.getWarnings().isEmpty());
+        Gedcom g = gp.getGedcom();
         assertNotNull(g.getHeader());
         assertEquals(3, g.getSubmitters().size());
         Submitter submitter = g.getSubmitters().get("@SUBMITTER@");

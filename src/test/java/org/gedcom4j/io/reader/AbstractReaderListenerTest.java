@@ -101,7 +101,7 @@ public abstract class AbstractReaderListenerTest implements FileProgressListener
         eventCount = 0;
         GedcomParser gp = new GedcomParser();
         gp.load(fileName);
-        assertNotNull(gp.gedcom);
+        assertNotNull(gp.getGedcom());
         assertEquals(0, eventCount);
         assertNull(lastEvent);
     }
@@ -120,7 +120,7 @@ public abstract class AbstractReaderListenerTest implements FileProgressListener
         GedcomParser gp = new GedcomParser();
         gp.registerFileObserver(this);
         gp.load(fileName);
-        assertNotNull(gp.gedcom);
+        assertNotNull(gp.getGedcom());
         assertEquals(expectedNotifications, eventCount);
         assertNotNull(lastEvent);
         assertTrue(lastEvent.isComplete());
@@ -140,7 +140,7 @@ public abstract class AbstractReaderListenerTest implements FileProgressListener
         eventCount = 0;
         GedcomParser gp = new GedcomParser();
         gp.load(fileName);
-        assertNotNull(gp.gedcom);
+        assertNotNull(gp.getGedcom());
         assertEquals(0, eventCount);
         assertNull(lastEvent);
     }

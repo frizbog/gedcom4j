@@ -58,7 +58,7 @@ class PersonalNameVariationValidator extends NameVariationValidator {
         }
         PersonalNameVariation pnv = (PersonalNameVariation) nv;
         if (pnv.getCitations() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 pnv.getCitations(true).clear();
                 addInfo("citations collection for personal name was null - autorepaired", pnv);
             } else {

@@ -72,7 +72,7 @@ class SubmitterValidator extends AbstractValidator {
      */
     private void checkLanguagePreferences() {
         if (submitter.getLanguagePref() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 submitter.getLanguagePref(true).clear();
                 addInfo("Submitter language preference collection was null - autorepaired", submitter);
             } else {

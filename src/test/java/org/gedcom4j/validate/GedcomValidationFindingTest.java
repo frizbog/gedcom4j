@@ -21,8 +21,6 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.validate.GedcomValidationFinding;
-import org.gedcom4j.validate.Severity;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -35,33 +33,28 @@ import org.junit.Test;
 public class GedcomValidationFindingTest {
 
     /**
-     * Test for
-     * {@link GedcomValidationFinding#GedcomValidationFinding(String, Severity, Object)}
-     * - nulls as parameters
+     * Test for {@link GedcomValidationFinding#GedcomValidationFinding(String, Severity, Object)} - nulls as parameters
      */
     @Test
     public void testGedcomValidationFinding1() {
-        GedcomValidationFinding gvf = new GedcomValidationFinding(null, null,
-                this);
+        GedcomValidationFinding gvf = new GedcomValidationFinding(null, null, this);
         Assert.assertNotNull(gvf);
-        Assert.assertNull(gvf.problemDescription);
-        Assert.assertNull(gvf.severity);
-        Assert.assertSame(this, gvf.itemWithProblem);
+        Assert.assertNull(gvf.getProblemDescription());
+        Assert.assertNull(gvf.getSeverity());
+        Assert.assertSame(this, gvf.getItemWithProblem());
     }
 
     /**
-     * Test for
-     * {@link GedcomValidationFinding#GedcomValidationFinding(String, Severity, Object)}
-     * - values for parameters
+     * Test for {@link GedcomValidationFinding#GedcomValidationFinding(String, Severity, Object)} - values for
+     * parameters
      */
     @Test
     public void testGedcomValidationFinding2() {
-        GedcomValidationFinding gvf = new GedcomValidationFinding(
-                "testing 1 2 3", Severity.ERROR, this);
+        GedcomValidationFinding gvf = new GedcomValidationFinding("testing 1 2 3", Severity.ERROR, this);
         Assert.assertNotNull(gvf);
-        Assert.assertEquals("testing 1 2 3", gvf.problemDescription);
-        Assert.assertEquals(Severity.ERROR, gvf.severity);
-        Assert.assertSame(this, gvf.itemWithProblem);
+        Assert.assertEquals("testing 1 2 3", gvf.getProblemDescription());
+        Assert.assertEquals(Severity.ERROR, gvf.getSeverity());
+        Assert.assertSame(this, gvf.getItemWithProblem());
     }
 
     /**
@@ -69,8 +62,7 @@ public class GedcomValidationFindingTest {
      */
     @Test
     public void testToString() {
-        GedcomValidationFinding gvf = new GedcomValidationFinding(
-                "testing 1 2 3", Severity.ERROR, Integer.valueOf(4));
+        GedcomValidationFinding gvf = new GedcomValidationFinding("testing 1 2 3", Severity.ERROR, Integer.valueOf(4));
         Assert.assertEquals("ERROR: testing 1 2 3 (4)", gvf.toString());
     }
 

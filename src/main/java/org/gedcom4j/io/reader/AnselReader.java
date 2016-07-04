@@ -261,7 +261,7 @@ class AnselReader extends AbstractEncodingSpecificReader {
     private void insertSyntheticConcTag(String previousLine) throws GedcomParserException {
         int level = getLevelFromLine(previousLine);
 
-        parser.warnings.add("Line " + linesRead + " exceeds max length - introducing synthetic CONC tag to split line");
+        parser.getWarnings().add("Line " + linesRead + " exceeds max length - introducing synthetic CONC tag to split line");
         level++;
         if (level > 9) {
             lineBuffer[lineBufferIdx++] = Character.forDigit(level / 10, 10);

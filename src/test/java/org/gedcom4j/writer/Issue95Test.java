@@ -59,9 +59,9 @@ public class Issue95Test {
     public void testIssue95() throws IOException, GedcomParserException, GedcomWriterException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/issue95.ged");
-        assertTrue(gp.errors.isEmpty());
-        assertTrue(gp.warnings.isEmpty());
-        Gedcom g = gp.gedcom;
+        assertTrue(gp.getErrors().isEmpty());
+        assertTrue(gp.getWarnings().isEmpty());
+        Gedcom g = gp.getGedcom();
         Individual i = g.getIndividuals().get("@I1@");
         assertNotNull(i);
 

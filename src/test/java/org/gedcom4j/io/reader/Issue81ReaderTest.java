@@ -56,15 +56,15 @@ public class Issue81ReaderTest {
     public void setUp() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/issue81.ged");
-        for (String e : gp.errors) {
+        for (String e : gp.getErrors()) {
             System.err.println(e);
         }
-        for (String w : gp.warnings) {
+        for (String w : gp.getWarnings()) {
             System.err.println(w);
         }
-        assertEquals(0, gp.errors.size());
-        assertEquals(0, gp.warnings.size());
-        g = gp.gedcom;
+        assertEquals(0, gp.getErrors().size());
+        assertEquals(0, gp.getWarnings().size());
+        g = gp.getGedcom();
         assertEquals(2, g.getIndividuals().size());
     }
 

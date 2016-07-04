@@ -43,7 +43,7 @@ public class MultimediaValidatorTest extends AbstractValidatorTestCase {
         super.setUp();
         Gedcom g = new Gedcom();
         rootValidator.gedcom = g;
-        rootValidator.autorepair = false;
+        rootValidator.setAutorepairEnabled(false);
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
         s.setName(new StringWithCustomTags("test"));

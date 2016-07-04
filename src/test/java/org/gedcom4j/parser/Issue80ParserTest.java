@@ -50,12 +50,12 @@ public class Issue80ParserTest {
     public void testIssue80() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/Issue 80.ged");
-        assertTrue(gp.errors.isEmpty());
-        assertTrue(gp.warnings.isEmpty());
-        assertNotNull(gp.gedcom);
-        assertEquals(1, gp.gedcom.getIndividuals().size());
+        assertTrue(gp.getErrors().isEmpty());
+        assertTrue(gp.getWarnings().isEmpty());
+        assertNotNull(gp.getGedcom());
+        assertEquals(1, gp.getGedcom().getIndividuals().size());
 
-        Individual i = gp.gedcom.getIndividuals().values().iterator().next();
+        Individual i = gp.getGedcom().getIndividuals().values().iterator().next();
         assertNotNull(i);
         assertNotNull(i.getEvents());
         assertEquals(1, i.getEvents().size());

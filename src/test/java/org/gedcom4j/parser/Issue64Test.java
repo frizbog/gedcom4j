@@ -48,8 +48,8 @@ public class Issue64Test {
     public void testIssue64() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/Issue 64.ged");
-        assertNotNull(gp.gedcom);
-        assertEquals(2, gp.gedcom.getIndividuals().size());
-        assertEquals(1, gp.gedcom.getFamilies().size());
+        assertNotNull(gp.getGedcom());
+        assertEquals(2, gp.getGedcom().getIndividuals().size());
+        assertEquals(1, gp.getGedcom().getFamilies().size());
     }
 }

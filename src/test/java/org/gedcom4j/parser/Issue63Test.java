@@ -52,7 +52,7 @@ public class Issue63Test {
     public void test() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/Issue 63.ged");
-        Gedcom g = gp.gedcom;
+        Gedcom g = gp.getGedcom();
         assertNotNull(g);
         assertEquals(1, g.getFamilies().size());
         assertEquals(2, g.getIndividuals().size());

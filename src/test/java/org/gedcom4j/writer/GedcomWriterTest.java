@@ -94,8 +94,8 @@ public class GedcomWriterTest {
         // Load a file
         GedcomParser p = new GedcomParser();
         p.load(SAMPLE_STRESS_TEST_FILENAME);
-        assertTrue(p.errors.isEmpty());
-        gedcomOrig = p.gedcom;
+        assertTrue(p.getErrors().isEmpty());
+        gedcomOrig = p.getGedcom();
 
         GedcomWriter gw = new GedcomWriter(gedcomOrig);
         gw.validationSuppressed = true;
@@ -128,16 +128,16 @@ public class GedcomWriterTest {
         // Reload the file we just wrote
         p = new GedcomParser();
         p.load(tempFile.getAbsolutePath());
-        for (String s : p.errors) {
+        for (String s : p.getErrors()) {
             System.err.println(s);
         }
-        assertTrue(p.errors.isEmpty());
-        assertTrue(p.warnings.isEmpty());
-        gedcomReadback = p.gedcom;
-        for (String e : p.errors) {
+        assertTrue(p.getErrors().isEmpty());
+        assertTrue(p.getWarnings().isEmpty());
+        gedcomReadback = p.getGedcom();
+        for (String e : p.getErrors()) {
             System.err.println(e);
         }
-        assertTrue(p.errors.isEmpty());
+        assertTrue(p.getErrors().isEmpty());
     }
 
     /**

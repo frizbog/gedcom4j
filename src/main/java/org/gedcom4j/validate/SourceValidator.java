@@ -65,7 +65,7 @@ class SourceValidator extends AbstractValidator {
             checkNotes(sd.getNotes(), sd);
             checkOptionalString(sd.getRespAgency(), "responsible agency", sd);
             if (sd.getEventsRecorded() == null) {
-                if (rootValidator.autorepair) {
+                if (rootValidator.isAutorepairEnabled()) {
                     sd.getEventsRecorded(true).clear();
                     addInfo("Collection of recorded events in source data structure was null - autorepaired", sd);
                 } else {
@@ -80,7 +80,7 @@ class SourceValidator extends AbstractValidator {
             }
         }
         if (source.getMultimedia() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 source.getMultimedia(true).clear();
                 addInfo("Multimedia collection on source was null - autorepaired", source);
             }
@@ -115,7 +115,7 @@ class SourceValidator extends AbstractValidator {
      */
     private void checkCallNumbers(RepositoryCitation citation) {
         if (citation.getCallNumbers() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 citation.getCallNumbers(true).clear();
                 addInfo("Call numbers collection on repository citation was null - autorepaired", citation);
             } else {

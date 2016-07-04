@@ -79,9 +79,9 @@ public class IndividualTest {
     public void testGetAncestors() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/RelationshipTest.ged");
-        assertTrue(gp.errors.isEmpty());
-        assertTrue(gp.warnings.isEmpty());
-        Gedcom g = gp.gedcom;
+        assertTrue(gp.getErrors().isEmpty());
+        assertTrue(gp.getWarnings().isEmpty());
+        Gedcom g = gp.getGedcom();
         assertNotNull(g);
         assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g.getIndividuals().size());
         assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?", 18, g.getFamilies().size());
@@ -131,9 +131,9 @@ public class IndividualTest {
     public void testGetDescendants() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/RelationshipTest.ged");
-        assertTrue(gp.errors.isEmpty());
-        assertTrue(gp.warnings.isEmpty());
-        Gedcom g = gp.gedcom;
+        assertTrue(gp.getErrors().isEmpty());
+        assertTrue(gp.getWarnings().isEmpty());
+        Gedcom g = gp.getGedcom();
         assertNotNull(g);
         assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g.getIndividuals().size());
         assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?", 18, g.getFamilies().size());

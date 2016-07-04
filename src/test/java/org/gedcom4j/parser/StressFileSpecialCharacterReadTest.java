@@ -58,8 +58,8 @@ public class StressFileSpecialCharacterReadTest {
     public void setUp() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/TGC551.ged");
-        assertTrue(gp.errors.isEmpty());
-        g = gp.gedcom;
+        assertTrue(gp.getErrors().isEmpty());
+        g = gp.getGedcom();
     }
 
     /**

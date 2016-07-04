@@ -53,11 +53,11 @@ public class Issue61Test {
     @Test
     public void testIssue61Loose() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.strictCustomTags = false;
+        gp.setStrictCustomTags(false);
         gp.load("sample/Harry_Potter.ged");
-        Gedcom g = gp.gedcom;
+        Gedcom g = gp.getGedcom();
         assertNotNull(g);
-        assertTrue(gp.errors.isEmpty());
+        assertTrue(gp.getErrors().isEmpty());
         for (Individual i : g.getIndividuals().values()) {
             assertNotNull(i);
             assertNotNull(i.getCustomTags());
@@ -86,12 +86,12 @@ public class Issue61Test {
     @Test
     public void testIssue61Strict() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.strictCustomTags = true;
+        gp.setStrictCustomTags(true);
         gp.load("sample/Harry_Potter.ged");
-        Gedcom g = gp.gedcom;
+        Gedcom g = gp.getGedcom();
         assertNotNull(g);
-        assertTrue(!gp.errors.isEmpty());
-        for (String e : gp.errors) {
+        assertTrue(!gp.getErrors().isEmpty());
+        for (String e : gp.getErrors()) {
             // These are the bad tags that were deliberately introduced
             assertTrue(e.contains("WAND") || e.contains("MUGL"));
         }

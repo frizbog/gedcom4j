@@ -59,7 +59,7 @@ class MultimediaValidator extends AbstractValidator {
         mm = multimedia;
         if (rootValidator.gedcom == null || rootValidator.gedcom.getHeader() == null || rootValidator.gedcom.getHeader().getGedcomVersion() == null
                 || rootValidator.gedcom.getHeader().getGedcomVersion().getVersionNumber() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 gedcomVersion = SupportedVersion.V5_5_1;
                 rootValidator.addInfo("Was not able to determine GEDCOM version - assuming 5.5.1", rootValidator.gedcom);
             } else {
@@ -91,7 +91,7 @@ class MultimediaValidator extends AbstractValidator {
      */
     private void checkFileReference(FileReference fr) {
         if (fr == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 addError("Null file reference in list of file references in multimedia object - cannot repair", mm);
             } else {
                 addError("Null file reference in list of file references in multimedia object", mm);
@@ -109,7 +109,7 @@ class MultimediaValidator extends AbstractValidator {
      */
     private void checkUserReferences() {
         if (mm.getUserReferences() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 mm.getUserReferences(true).clear();
                 rootValidator.addInfo("List of user references on multimedia object was null - repaired", mm);
             } else {
@@ -120,7 +120,7 @@ class MultimediaValidator extends AbstractValidator {
         for (UserReference u : mm.getUserReferences()) {
             checkCustomTags(u);
             if (u.getReferenceNum() == null) {
-                if (rootValidator.autorepair) {
+                if (rootValidator.isAutorepairEnabled()) {
                     addError("User reference is has a null or blank reference number - cannot repair", u);
                 } else {
                     addError("User reference is has a null or blank reference number", u);
@@ -136,7 +136,7 @@ class MultimediaValidator extends AbstractValidator {
     private void checkXref() {
         // Xref is required
         if (mm.getXref() == null || mm.getXref().trim().length() == 0) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 addError("Multimedia object must have xref - cannot autorepair", mm);
             } else {
                 addError("Multimedia object must have xref", mm);
@@ -146,7 +146,7 @@ class MultimediaValidator extends AbstractValidator {
 
         // Item should be found in map using the xref as the key
         if (rootValidator.gedcom.getMultimedia().get(mm.getXref()) != mm) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 rootValidator.gedcom.getMultimedia().put(mm.getXref(), mm);
                 rootValidator.addInfo("Multimedia object not keyed by xref in map - repaired", mm);
             } else {
@@ -170,7 +170,7 @@ class MultimediaValidator extends AbstractValidator {
      */
     private void validate55() {
         if (mm.getBlob().isEmpty()) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 addError("Embedded media object has an empty blob object - cannot repair", mm);
             } else {
                 addError("Embedded media object has an empty blob object", mm);
@@ -180,7 +180,7 @@ class MultimediaValidator extends AbstractValidator {
 
         // Validate the citations - only allowed in 5.5.1
         if (!mm.getCitations().isEmpty()) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 mm.getCitations(true).clear();
                 rootValidator.addInfo("Citations collection was populated, but not allowed in " + "v5.5 of gedcom - repaired (cleared)", mm);
             } else {
@@ -196,7 +196,7 @@ class MultimediaValidator extends AbstractValidator {
 
         // File references
         if (mm.getFileReferences() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 mm.getFileReferences(true).clear();
                 rootValidator.addInfo("Multimedia object did not have list of file references - repaired", mm);
             } else {
@@ -210,7 +210,7 @@ class MultimediaValidator extends AbstractValidator {
 
         // Blobs must be empty in 5.5.1
         if (mm.getBlob() != null && !mm.getBlob().isEmpty()) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 mm.getBlob().clear();
                 addInfo("Embedded media object had a populated blob object, " + "which is not allowed in GEDCOM 5.5.1 - repaired (cleared)", mm);
             } else {
@@ -220,7 +220,7 @@ class MultimediaValidator extends AbstractValidator {
 
         // Cannot have an embedded media format in 5.5.1
         if (mm.getEmbeddedMediaFormat() != null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 mm.setEmbeddedMediaFormat(null);
                 rootValidator.addInfo("Multimedia object had a format for embedded media, " + "which is not allowed in GEDCOM 5.5.1 - repaired (cleared)", mm);
             } else {
@@ -245,7 +245,7 @@ class MultimediaValidator extends AbstractValidator {
         checkChangeDate(mm.getChangeDate(), mm);
         checkUserReferences();
         if (mm.getCitations() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 mm.getCitations(true).clear();
                 addInfo("citations collection for multimedia object was null - rootValidator.autorepaired", mm);
             } else {
@@ -258,7 +258,7 @@ class MultimediaValidator extends AbstractValidator {
         // The blob object should always be instantiated, even for 5.5.1 (in
         // which case it should be an empty collection)
         if (mm.getBlob() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 mm.getBlob(true).clear();
                 rootValidator.addInfo("Embedded blob was null - repaired", mm);
             } else {

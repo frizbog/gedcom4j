@@ -79,7 +79,7 @@ class CitationValidator extends AbstractValidator {
             CitationWithoutSource c = (CitationWithoutSource) citation;
             checkStringList(c.getDescription(), "description on a citation without a source", true);
             if (c.getTextFromSource() == null) {
-                if (rootValidator.autorepair) {
+                if (rootValidator.isAutorepairEnabled()) {
                     c.getTextFromSource(true).clear();
                     addInfo("Text from source collection (the list of lists) was null in CitationWithoutSource - autorepaired", citation);
                 } else {
@@ -98,7 +98,7 @@ class CitationValidator extends AbstractValidator {
             throw new IllegalStateException("AbstractCitation references must be either CitationWithSource" + " instances or CitationWithoutSource instances");
         }
         if (citation.getNotes() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 citation.getNotes(true).clear();
                 ;
                 addInfo("Notes collection was null on " + citation.getClass().getSimpleName() + " - autorepaired");

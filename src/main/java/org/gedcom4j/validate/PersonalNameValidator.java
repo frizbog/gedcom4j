@@ -62,7 +62,7 @@ class PersonalNameValidator extends AbstractValidator {
         }
         checkRequiredString(pn.getBasic(), "basic name", pn);
         if (pn.getCitations() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 pn.getCitations(true).clear();
                 addInfo("citations collection for personal name was null - autorepaired", pn);
             } else {
@@ -84,7 +84,7 @@ class PersonalNameValidator extends AbstractValidator {
 
         checkNotes(pn.getNotes(), pn);
         if (pn.getPhonetic() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 pn.getPhonetic(true).clear();
                 rootValidator.addInfo("Event had null list of phonetic name variations - repaired", pn);
             } else {
@@ -98,7 +98,7 @@ class PersonalNameValidator extends AbstractValidator {
         }
 
         if (pn.getRomanized() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 pn.getRomanized(true).clear();
                 rootValidator.addInfo("Event had null list of romanized name variations - repaired", pn);
             } else {

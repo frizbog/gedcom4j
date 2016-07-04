@@ -50,7 +50,7 @@ abstract class AbstractValidator {
      *            the description of the error
      */
     protected void addError(String description) {
-        rootValidator.findings.add(new GedcomValidationFinding(description, Severity.ERROR, null));
+        rootValidator.getFindings().add(new GedcomValidationFinding(description, Severity.ERROR, null));
     }
 
     /**
@@ -62,7 +62,7 @@ abstract class AbstractValidator {
      *            the object in error
      */
     protected void addError(String description, Object o) {
-        rootValidator.findings.add(new GedcomValidationFinding(description, Severity.ERROR, o));
+        rootValidator.getFindings().add(new GedcomValidationFinding(description, Severity.ERROR, o));
     }
 
     /**
@@ -72,7 +72,7 @@ abstract class AbstractValidator {
      *            the description of the finding
      */
     protected void addInfo(String description) {
-        rootValidator.findings.add(new GedcomValidationFinding(description, Severity.INFO, null));
+        rootValidator.getFindings().add(new GedcomValidationFinding(description, Severity.INFO, null));
     }
 
     /**
@@ -84,7 +84,7 @@ abstract class AbstractValidator {
      *            the object in error
      */
     protected void addInfo(String description, Object o) {
-        rootValidator.findings.add(new GedcomValidationFinding(description, Severity.INFO, o));
+        rootValidator.getFindings().add(new GedcomValidationFinding(description, Severity.INFO, o));
     }
 
     /**
@@ -94,7 +94,7 @@ abstract class AbstractValidator {
      *            the description of the warning
      */
     protected void addWarning(String description) {
-        rootValidator.findings.add(new GedcomValidationFinding(description, Severity.WARNING, null));
+        rootValidator.getFindings().add(new GedcomValidationFinding(description, Severity.WARNING, null));
     }
 
     /**
@@ -106,7 +106,7 @@ abstract class AbstractValidator {
      *            the object in error
      */
     protected void addWarning(String description, Object o) {
-        rootValidator.findings.add(new GedcomValidationFinding(description, Severity.WARNING, o));
+        rootValidator.getFindings().add(new GedcomValidationFinding(description, Severity.WARNING, o));
     }
 
     /**
@@ -125,7 +125,7 @@ abstract class AbstractValidator {
         checkRequiredString(changeDate.getDate(), "change date", objectWithChangeDate);
         checkOptionalString(changeDate.getTime(), "change time", objectWithChangeDate);
         if (changeDate.getNotes() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 changeDate.getNotes(true).clear();
                 addInfo("Notes collection was null on " + changeDate.getClass().getSimpleName() + " - autorepaired");
             } else {
@@ -172,7 +172,7 @@ abstract class AbstractValidator {
             return;
         }
         if (fldVal == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 List<StringTree> customTags = new ArrayList<StringTree>();
                 try {
                     customTagsGetter.invoke(o, customTags);
@@ -295,14 +295,14 @@ abstract class AbstractValidator {
         while (i < stringList.size()) {
             String a = stringList.get(i);
             if (a == null) {
-                if (rootValidator.autorepair == true) {
+                if (rootValidator.isAutorepairEnabled()) {
                     addInfo("String list (" + description + ") contains null entry - removed", stringList);
                     stringList.remove(i);
                     continue;
                 }
                 addError("String list (" + description + ") contains null entry", stringList);
             } else if (!blanksAllowed && a.trim().length() == 0) {
-                if (rootValidator.autorepair == true) {
+                if (rootValidator.isAutorepairEnabled()) {
                     addInfo("String list (" + description + ") contains blank entry where none are allowed - removed", stringList);
                     stringList.remove(i);
                     continue;
@@ -329,14 +329,14 @@ abstract class AbstractValidator {
         while (i < stringList.size()) {
             StringWithCustomTags a = stringList.get(i);
             if (a == null || a.getValue() == null) {
-                if (rootValidator.autorepair == true) {
+                if (rootValidator.isAutorepairEnabled()) {
                     addInfo("String list (" + description + ") contains null entry - removed", stringList);
                     stringList.remove(i);
                     continue;
                 }
                 addError("String list (" + description + ") contains null entry", stringList);
             } else if (!blanksAllowed && a.getValue().trim().length() == 0) {
-                if (rootValidator.autorepair == true) {
+                if (rootValidator.isAutorepairEnabled()) {
                     addInfo("String list (" + description + ") contains blank entry where none are allowed - removed", stringList);
                     stringList.remove(i);
                     continue;

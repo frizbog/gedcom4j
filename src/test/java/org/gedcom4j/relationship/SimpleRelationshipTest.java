@@ -55,27 +55,27 @@ public class SimpleRelationshipTest {
     public void setUp() {
         sr1 = new SimpleRelationship();
         sr2 = new SimpleRelationship();
-        sr1.individual1 = new Individual();
-        sr2.individual1 = new Individual();
-        sr1.individual2 = new Individual();
-        sr2.individual2 = new Individual();
+        sr1.setIndividual1(new Individual());
+        sr2.setIndividual1(new Individual());
+        sr1.setIndividual2(new Individual());
+        sr2.setIndividual2(new Individual());
         PersonalName n = new PersonalName();
         n.setBasic("Bill");
-        sr1.individual1.getNames().add(n);
+        sr1.getIndividual1().getNames().add(n);
         n = new PersonalName();
         n.setBasic("Sam");
-        sr1.individual2.getNames().add(n);
+        sr1.getIndividual2().getNames().add(n);
         n = new PersonalName();
         n.setBasic("Bill");
-        sr2.individual1.getNames().add(n);
+        sr2.getIndividual1().getNames().add(n);
         n = new PersonalName();
         n.setBasic("Sam");
-        sr2.individual2.getNames().add(n);
+        sr2.getIndividual2().getNames().add(n);
 
-        sr1.name = RelationshipName.FATHER;
-        sr1.reverseName = RelationshipName.SON;
-        sr2.name = RelationshipName.FATHER;
-        sr2.reverseName = RelationshipName.SON;
+        sr1.setName(RelationshipName.FATHER);
+        sr1.setReverseName(RelationshipName.SON);
+        sr2.setName(RelationshipName.FATHER);
+        sr2.setReverseName(RelationshipName.SON);
 
     }
 
@@ -87,31 +87,31 @@ public class SimpleRelationshipTest {
         assertEquals(sr1, sr2);
 
         // Perturb the relationship names
-        sr1.name = RelationshipName.CHILD;
+        sr1.setName(RelationshipName.CHILD);
         assertFalse(sr1.equals(sr2));
-        sr2.name = RelationshipName.CHILD;
+        sr2.setName(RelationshipName.CHILD);
         assertEquals(sr1, sr2);
 
         // Perturb the relationship reverse names
-        sr1.reverseName = RelationshipName.BROTHER;
+        sr1.setReverseName(RelationshipName.BROTHER);
         assertFalse(sr1.equals(sr2));
-        sr2.reverseName = RelationshipName.BROTHER;
+        sr2.setReverseName(RelationshipName.BROTHER);
         assertEquals(sr1, sr2);
 
         // Perturb the individuals
-        sr1.individual1.setChangeDate(new ChangeDate());
+        sr1.getIndividual1().setChangeDate(new ChangeDate());
         assertFalse(sr1.equals(sr2));
-        sr2.individual1.setChangeDate(new ChangeDate());
+        sr2.getIndividual1().setChangeDate(new ChangeDate());
         assertEquals(sr1, sr2);
 
-        sr1.individual1 = null;
+        sr1.setIndividual1(null);
         assertFalse(sr1.equals(sr2));
-        sr2.individual1 = null;
+        sr2.setIndividual1(null);
         assertEquals(sr1, sr2);
 
-        sr1.individual2 = null;
+        sr1.setIndividual2(null);
         assertFalse(sr1.equals(sr2));
-        sr2.individual2 = null;
+        sr2.setIndividual2(null);
         assertEquals(sr1.hashCode(), sr2.hashCode());
     }
 
@@ -123,31 +123,31 @@ public class SimpleRelationshipTest {
         assertEquals(sr1.hashCode(), sr2.hashCode());
 
         // Perturb the relationship names
-        sr1.name = RelationshipName.CHILD;
+        sr1.setName(RelationshipName.CHILD);
         assertFalse(sr1.hashCode() == sr2.hashCode());
-        sr2.name = RelationshipName.CHILD;
+        sr2.setName(RelationshipName.CHILD);
         assertEquals(sr1.hashCode(), sr2.hashCode());
 
         // Perturb the relationship reverse names
-        sr1.reverseName = RelationshipName.BROTHER;
+        sr1.setReverseName(RelationshipName.BROTHER);
         assertFalse(sr1.hashCode() == sr2.hashCode());
-        sr2.reverseName = RelationshipName.BROTHER;
+        sr2.setReverseName(RelationshipName.BROTHER);
         assertEquals(sr1.hashCode(), sr2.hashCode());
 
         // Perturb the individuals
-        sr1.individual1.setChangeDate(new ChangeDate());
+        sr1.getIndividual1().setChangeDate(new ChangeDate());
         assertFalse(sr1.hashCode() == sr2.hashCode());
-        sr2.individual1.setChangeDate(new ChangeDate());
+        sr2.getIndividual1().setChangeDate(new ChangeDate());
         assertEquals(sr1.hashCode(), sr2.hashCode());
 
-        sr1.individual1 = null;
+        sr1.setIndividual1(null);
         assertFalse(sr1.hashCode() == sr2.hashCode());
-        sr2.individual1 = null;
+        sr2.setIndividual1(null);
         assertEquals(sr1.hashCode(), sr2.hashCode());
 
-        sr1.individual2 = null;
+        sr1.setIndividual2(null);
         assertFalse(sr1.hashCode() == sr2.hashCode());
-        sr2.individual2 = null;
+        sr2.setIndividual2(null);
         assertEquals(sr1.hashCode(), sr2.hashCode());
     }
 
@@ -159,22 +159,22 @@ public class SimpleRelationshipTest {
         assertEquals("Bill's FATHER Sam", sr1.toString());
 
         // Perturb the data
-        sr1.name = RelationshipName.FIRST_COUSIN;
-        sr1.reverseName = RelationshipName.FIRST_COUSIN;
-        sr1.individual1.setChangeDate(new ChangeDate());
+        sr1.setName(RelationshipName.FIRST_COUSIN);
+        sr1.setReverseName(RelationshipName.FIRST_COUSIN);
+        sr1.getIndividual1().setChangeDate(new ChangeDate());
 
         assertEquals("Bill's FIRST_COUSIN Sam", sr1.toString());
 
-        sr1.generationsRemoved = 1;
+        sr1.setGenerationsRemoved(1);
         assertEquals("Bill's FIRST_COUSIN_ONCE_REMOVED Sam", sr1.toString());
 
-        sr1.generationsRemoved = 2;
+        sr1.setGenerationsRemoved(2);
         assertEquals("Bill's FIRST_COUSIN_TWICE_REMOVED Sam", sr1.toString());
 
-        sr1.generationsRemoved = 3;
+        sr1.setGenerationsRemoved(3);
         assertEquals("Bill's FIRST_COUSIN_3X_REMOVED Sam", sr1.toString());
 
-        sr1.generationsRemoved = 4;
+        sr1.setGenerationsRemoved(4);
         assertEquals("Bill's FIRST_COUSIN_4X_REMOVED Sam", sr1.toString());
     }
 

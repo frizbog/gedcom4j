@@ -66,7 +66,7 @@ class NoteValidator extends AbstractValidator {
     protected void validate() {
 
         if (n.getLines() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 n.getLines(true).clear();
                 addInfo("Lines of text collection on note was null - autorepaired");
             } else {
@@ -81,7 +81,7 @@ class NoteValidator extends AbstractValidator {
 
         checkOptionalString(n.getRecIdNumber(), "automated record id", n);
         if (n.getCitations() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 n.getCitations(true).clear();
                 addInfo("Source citations collection on note was null - autorepaired");
             } else {
@@ -93,7 +93,7 @@ class NoteValidator extends AbstractValidator {
             }
         }
         if (n.getUserReferences() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 n.getUserReferences(true).clear();
                 addInfo("User references collection on note was null - autorepaired");
             } else {

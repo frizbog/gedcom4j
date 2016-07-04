@@ -46,14 +46,9 @@ import org.gedcom4j.writer.GedcomWriter;
 public class GedcomFileWriter {
 
     /**
-     * The line terminator character to use - defaults to JVM settings but can be overridden
+     * The {@link GedcomWriter} this object is assisting
      */
-    public LineTerminator terminator;
-
-    /**
-     * Should this writer use little-endian ordering when writing unicode data? Defaults to true.
-     */
-    public boolean useLittleEndianForUnicode = true;
+    protected GedcomWriter writer;
 
     /**
      * The encoding-specific writer that was or will be used by this writer.
@@ -66,9 +61,14 @@ public class GedcomFileWriter {
     private final List<String> gedcomLines;
 
     /**
-     * The {@link GedcomWriter} this object is assisting
+     * The line terminator character to use - defaults to JVM settings but can be overridden
      */
-    protected GedcomWriter writer;
+    private LineTerminator terminator;
+
+    /**
+     * Should this writer use little-endian ordering when writing unicode data? Defaults to true.
+     */
+    private boolean useLittleEndianForUnicode = true;
 
     /**
      * Constructor
@@ -82,6 +82,44 @@ public class GedcomFileWriter {
         this.writer = writer;
         this.gedcomLines = gedcomLines;
         setDefaultLineTerminator();
+    }
+
+    /**
+     * Get the terminator
+     * 
+     * @return the terminator
+     */
+    public LineTerminator getTerminator() {
+        return terminator;
+    }
+
+    /**
+     * Get the useLittleEndianForUnicode
+     * 
+     * @return the useLittleEndianForUnicode
+     */
+    public boolean isUseLittleEndianForUnicode() {
+        return useLittleEndianForUnicode;
+    }
+
+    /**
+     * Set the terminator
+     * 
+     * @param terminator
+     *            the terminator to set
+     */
+    public void setTerminator(LineTerminator terminator) {
+        this.terminator = terminator;
+    }
+
+    /**
+     * Set the useLittleEndianForUnicode
+     * 
+     * @param useLittleEndianForUnicode
+     *            the useLittleEndianForUnicode to set
+     */
+    public void setUseLittleEndianForUnicode(boolean useLittleEndianForUnicode) {
+        this.useLittleEndianForUnicode = useLittleEndianForUnicode;
     }
 
     /**

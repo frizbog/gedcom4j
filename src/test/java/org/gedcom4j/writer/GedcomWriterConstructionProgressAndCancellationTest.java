@@ -79,7 +79,7 @@ public class GedcomWriterConstructionProgressAndCancellationTest implements Cons
     public void testCancellation() throws IOException, GedcomParserException, GedcomWriterException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-ascii.ged");
-        gw = new GedcomWriter(gp.gedcom);
+        gw = new GedcomWriter(gp.getGedcom());
         gw.registerConstructObserver(this);
         cancelAfter = 5;
         gw.write(new NullOutputStream());
@@ -100,7 +100,7 @@ public class GedcomWriterConstructionProgressAndCancellationTest implements Cons
     public void testNoCancellation() throws IOException, GedcomParserException, GedcomWriterException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-ascii.ged");
-        gw = new GedcomWriter(gp.gedcom);
+        gw = new GedcomWriter(gp.getGedcom());
         gw.registerConstructObserver(this);
         gw.write(new NullOutputStream());
         assertEquals(38, notificationCount);

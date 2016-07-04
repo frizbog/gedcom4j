@@ -75,10 +75,10 @@ public class Issue62Test {
     public void setUp() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/Event Tag Test.ged");
-        Gedcom g = gp.gedcom;
+        Gedcom g = gp.getGedcom();
         assertNotNull(g);
-        assertTrue(gp.errors.isEmpty());
-        assertEquals("Two tags had descriptions where [Y|<NULL>] belonged", 2, gp.warnings.size());
+        assertTrue(gp.getErrors().isEmpty());
+        assertEquals("Two tags had descriptions where [Y|<NULL>] belonged", 2, gp.getWarnings().size());
         assertFalse(g.getIndividuals().isEmpty());
         assertEquals(1, g.getIndividuals().size());
         Individual i = g.getIndividuals().values().iterator().next();

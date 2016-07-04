@@ -72,9 +72,9 @@ import org.gedcom4j.writer.event.ConstructProgressListener;
  * 
  * <p>
  * Although validation is automatically performed, autorepair is turned off by default (see
- * {@link org.gedcom4j.validate.GedcomValidator#autorepair})...this way your data is not altered. Validation can be
- * suppressed if you want by setting {@link #validationSuppressed} to true, but this is not recommended. You can also
- * force autorepair on if you want.
+ * {@link org.gedcom4j.validate.GedcomValidator#setAutorepairEnabled(boolean)})...this way your data is not altered.
+ * Validation can be suppressed if you want by setting {@link #validationSuppressed} to true, but this is not
+ * recommended. You can also force autorepair on if you want.
  * </p>
  * 
  * @author frizbog1
@@ -338,12 +338,12 @@ public class GedcomWriter {
     public void write(OutputStream out) throws GedcomWriterException {
         if (!validationSuppressed) {
             GedcomValidator gv = new GedcomValidator(gedcom);
-            gv.autorepair = autorepair;
+            gv.setAutorepairEnabled(autorepair);
             gv.validate();
-            validationFindings = gv.findings;
+            validationFindings = gv.getFindings();
             int numErrorFindings = 0;
             for (GedcomValidationFinding f : validationFindings) {
-                if (f.severity == Severity.ERROR) {
+                if (f.getSeverity() == Severity.ERROR) {
                     numErrorFindings++;
                 }
             }
@@ -360,7 +360,7 @@ public class GedcomWriter {
         emitCustomTags(1, gedcom.getCustomTags());
         try {
             GedcomFileWriter gfw = new GedcomFileWriter(this, lines);
-            gfw.useLittleEndianForUnicode = useLittleEndianForUnicode;
+            gfw.setUseLittleEndianForUnicode(useLittleEndianForUnicode);
             gfw.write(out);
         } catch (IOException e) {
             throw new GedcomWriterException("Unable to write file", e);

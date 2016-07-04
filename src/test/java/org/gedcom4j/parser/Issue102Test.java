@@ -63,11 +63,12 @@ public class Issue102Test {
     @Test
     public void test100LevelsRelaxed() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.strictLineBreaks = false;
+        gp.setStrictLineBreaks(false);
         gp.load("sample/issue102_100levels.ged");
-        assertEquals(0, gp.errors.size());
-        assertEquals(1, gp.warnings.size());
-        assertEquals("Line 108 did not begin with a level and tag, so it was treated as a non-standard continuation of the previous line.", gp.warnings.get(0));
+        assertEquals(0, gp.getErrors().size());
+        assertEquals(1, gp.getWarnings().size());
+        assertEquals("Line 108 did not begin with a level and tag, so it was treated as a non-standard continuation of the previous line.", gp.getWarnings()
+                .get(0));
     }
 
     /**
@@ -83,7 +84,7 @@ public class Issue102Test {
     @Test
     public void test100LevelsStrict() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.strictLineBreaks = true;
+        gp.setStrictLineBreaks(true);
         try {
             gp.load("sample/issue102_100levels.ged");
             fail("Expected a " + GedcomParserException.class.getName());
@@ -106,9 +107,9 @@ public class Issue102Test {
     public void test99Levels() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/issue102_99levels.ged");
-        assertTrue(gp.errors.isEmpty());
-        assertTrue(gp.warnings.isEmpty());
-        Submitter submitter = gp.gedcom.getSubmitters().get("@SUBM001@");
+        assertTrue(gp.getErrors().isEmpty());
+        assertTrue(gp.getWarnings().isEmpty());
+        Submitter submitter = gp.getGedcom().getSubmitters().get("@SUBM001@");
         assertNotNull(submitter);
         assertNotNull(submitter.getName());
         List<StringTree> customTags = submitter.getName().getCustomTags();

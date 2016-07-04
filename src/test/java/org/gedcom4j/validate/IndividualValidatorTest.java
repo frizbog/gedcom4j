@@ -70,12 +70,12 @@ public class IndividualValidatorTest extends AbstractValidatorTestCase {
         // Assert stuff
         dumpFindings();
         int errorsCount = 0;
-        for (GedcomValidationFinding f : rootValidator.findings) {
+        for (GedcomValidationFinding f : rootValidator.getFindings()) {
             assertNotNull(f);
-            assertNotNull("The finding should have an object attached", f.itemWithProblem);
-            if (f.severity == Severity.ERROR) {
+            assertNotNull("The finding should have an object attached", f.getItemWithProblem());
+            if (f.getSeverity() == Severity.ERROR) {
                 errorsCount++;
-                assertTrue("The object attached should be a Map entry", f.itemWithProblem instanceof Map.Entry);
+                assertTrue("The object attached should be a Map entry", f.getItemWithProblem() instanceof Map.Entry);
             }
         }
         assertEquals("There should be one finding of severity ERROR", 1, errorsCount);

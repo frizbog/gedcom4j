@@ -31,17 +31,17 @@ public class GedcomValidationFinding {
     /**
      * The object that had a problem with it
      */
-    public Object itemWithProblem;
+    private Object itemWithProblem;
 
     /**
      * A description of the problem
      */
-    public String problemDescription;
+    private String problemDescription;
 
     /**
      * How severe is the problem
      */
-    public Severity severity;
+    private Severity severity;
 
     /**
      * Constructor
@@ -57,6 +57,63 @@ public class GedcomValidationFinding {
         problemDescription = description;
         this.severity = severity;
         itemWithProblem = obj;
+    }
+
+    /**
+     * Get the itemWithProblem
+     * 
+     * @return the itemWithProblem
+     */
+    public Object getItemWithProblem() {
+        return itemWithProblem;
+    }
+
+    /**
+     * Get the problemDescription
+     * 
+     * @return the problemDescription
+     */
+    public String getProblemDescription() {
+        return problemDescription;
+    }
+
+    /**
+     * Get the severity
+     * 
+     * @return the severity
+     */
+    public Severity getSeverity() {
+        return severity;
+    }
+
+    /**
+     * Set the itemWithProblem
+     * 
+     * @param itemWithProblem
+     *            the itemWithProblem to set
+     */
+    public void setItemWithProblem(Object itemWithProblem) {
+        this.itemWithProblem = itemWithProblem;
+    }
+
+    /**
+     * Set the problemDescription
+     * 
+     * @param problemDescription
+     *            the problemDescription to set
+     */
+    public void setProblemDescription(String problemDescription) {
+        this.problemDescription = problemDescription;
+    }
+
+    /**
+     * Set the severity
+     * 
+     * @param severity
+     *            the severity to set
+     */
+    public void setSeverity(Severity severity) {
+        this.severity = severity;
     }
 
     @Override

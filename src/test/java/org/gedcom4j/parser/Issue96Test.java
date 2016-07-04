@@ -52,15 +52,15 @@ public class Issue96Test {
     public void testIssue96() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/issue96.ged");
-        assertTrue(gp.errors.isEmpty());
-        assertEquals(1, gp.warnings.size());
-        String w = gp.warnings.get(0);
+        assertTrue(gp.getErrors().isEmpty());
+        assertEquals(1, gp.getWarnings().size());
+        String w = gp.getWarnings().get(0);
 
         // There should be one warning
         assertTrue(w.matches("NOTE line has both an XREF_ID \\(.*\\) and SUBMITTER_TEXT \\(.*\\) value between @ signs - "
                 + "treating SUBMITTER_TEXT as string, not a cross-reference"));
 
-        Gedcom g = gp.gedcom;
+        Gedcom g = gp.getGedcom();
         assertNotNull(g);
         assertNotNull(g.getNotes());
         assertEquals(1, g.getNotes().size());

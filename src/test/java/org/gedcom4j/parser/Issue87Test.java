@@ -51,15 +51,15 @@ public class Issue87Test {
     public void testIssue87() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/Issue87.ged");
-        assertTrue(gp.warnings.isEmpty());
+        assertTrue(gp.getWarnings().isEmpty());
 
         // We should have an error in the collection about the problem
-        assertEquals(1, gp.errors.size());
-        String e = gp.errors.get(0);
+        assertEquals(1, gp.getErrors().size());
+        String e = gp.getErrors().get(0);
         assertEquals("NOTE tag at line 46: Unable to find suitable parent node at level 2", e);
 
         // There should also be no NOTE tag under the MARR event
-        Family family = gp.gedcom.getFamilies().get("@F1031@");
+        Family family = gp.getGedcom().getFamilies().get("@F1031@");
         assertNotNull(family);
         assertEquals(1, family.getEvents().size());
         FamilyEvent marriage = family.getEvents().get(0);

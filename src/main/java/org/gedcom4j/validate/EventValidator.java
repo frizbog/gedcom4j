@@ -66,7 +66,7 @@ class EventValidator extends AbstractValidator {
         checkOptionalString(e.getAge(), "age", e);
         checkOptionalString(e.getCause(), "cause", e);
         if (e.getCitations() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 e.getCitations(true).clear();
                 rootValidator.addInfo("Event had null list of citations - repaired", e);
             } else {
@@ -84,7 +84,7 @@ class EventValidator extends AbstractValidator {
             rootValidator.addError("Event has description, which is non-standard. Remove this value, or move it (perhaps to a Note).", e);
         }
         if (e.getEmails() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 e.getEmails(true).clear();
                 rootValidator.addInfo("Event had null list of emails - repaired", e);
             } else {
@@ -96,7 +96,7 @@ class EventValidator extends AbstractValidator {
             }
         }
         if (e.getFaxNumbers() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 e.getFaxNumbers(true).clear();
                 rootValidator.addInfo("Event had null list of fax numbers - repaired", e);
             } else {
@@ -108,7 +108,7 @@ class EventValidator extends AbstractValidator {
             }
         }
         if (e.getMultimedia() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 e.getMultimedia(true).clear();
                 rootValidator.addInfo("Event had null list of multimedia - repaired", e);
             } else {
@@ -121,7 +121,7 @@ class EventValidator extends AbstractValidator {
         }
         checkNotes(e.getNotes(), e);
         if (e.getPhoneNumbers() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 e.getPhoneNumbers(true).clear();
                 rootValidator.addInfo("Event had null list of phone numbers - repaired", e);
             } else {
@@ -140,7 +140,7 @@ class EventValidator extends AbstractValidator {
         checkOptionalString(e.getRestrictionNotice(), "restriction notice", e);
         checkOptionalString(e.getSubType(), "subtype", e);
         if (e.getWwwUrls() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 e.getWwwUrls(true).clear();
                 rootValidator.addInfo("Event had null list of www urls - repaired", e);
             } else {

@@ -47,8 +47,8 @@ public class Issue98Test {
     public void testUtf16BigEndianWithByteOrderMarker() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/utf16be.ged");
-        assertTrue(gp.errors.isEmpty());
-        assertTrue(gp.warnings.isEmpty());
+        assertTrue(gp.getErrors().isEmpty());
+        assertTrue(gp.getWarnings().isEmpty());
     }
 
     /**
@@ -63,8 +63,8 @@ public class Issue98Test {
     public void testUtf16LittleEndianWithByteOrderMarker() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/utf16le.ged");
-        assertTrue(gp.errors.isEmpty());
-        assertTrue(gp.warnings.isEmpty());
+        assertTrue(gp.getErrors().isEmpty());
+        assertTrue(gp.getWarnings().isEmpty());
     }
 
     /**
@@ -79,8 +79,8 @@ public class Issue98Test {
     public void testUtf8WithByteOrderMarker() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/utf8.ged");
-        assertTrue(gp.errors.isEmpty());
-        assertTrue(gp.warnings.isEmpty());
+        assertTrue(gp.getErrors().isEmpty());
+        assertTrue(gp.getWarnings().isEmpty());
     }
 
 }

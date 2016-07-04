@@ -21,9 +21,9 @@
  */
 package org.gedcom4j.validate;
 
-import junit.framework.TestCase;
-
 import org.gedcom4j.model.Gedcom;
+
+import junit.framework.TestCase;
 
 /**
  * A base class for validator tests with handy helper methods
@@ -66,6 +66,16 @@ public abstract class AbstractValidatorTestCase extends TestCase {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        gedcom = new Gedcom();
+        rootValidator = new GedcomValidator(gedcom);
+    }
+
+    /**
      * Assert that the findings collection on the root validator contains at least one finding of the specified severity
      * with a given substring
      * 
@@ -75,11 +85,11 @@ public abstract class AbstractValidatorTestCase extends TestCase {
      *            substring to look for in the finding's description
      */
     protected void assertFindingsContain(Severity severity, String... substringOfDescription) {
-        for (GedcomValidationFinding f : rootValidator.findings) {
-            if (f.severity == severity) {
+        for (GedcomValidationFinding f : rootValidator.getFindings()) {
+            if (f.getSeverity() == severity) {
                 boolean matchAllSoFar = true;
                 for (String substring : substringOfDescription) {
-                    if (!f.problemDescription.toLowerCase().contains(substring.toLowerCase())) {
+                    if (!f.getProblemDescription().toLowerCase().contains(substring.toLowerCase())) {
                         matchAllSoFar = false;
                     }
                 }
@@ -122,24 +132,14 @@ public abstract class AbstractValidatorTestCase extends TestCase {
      * Write all the findings out to stdout
      */
     protected void dumpFindings() {
-        if (rootValidator.findings.isEmpty()) {
+        if (rootValidator.getFindings().isEmpty()) {
             return;
         }
-        if (rootValidator.findings.size() > 0) {
-            System.out.println(rootValidator.findings.size() + " finding(s) from validation");
+        if (rootValidator.getFindings().size() > 0) {
+            System.out.println(rootValidator.getFindings().size() + " finding(s) from validation");
         }
-        for (GedcomValidationFinding f : rootValidator.findings) {
+        for (GedcomValidationFinding f : rootValidator.getFindings()) {
             System.out.println("  " + f);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        gedcom = new Gedcom();
-        rootValidator = new GedcomValidator(gedcom);
     }
 }

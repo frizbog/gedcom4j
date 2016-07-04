@@ -181,7 +181,7 @@ public class StringTreeBuilder {
             addTo = lastNodeAtLevel[treeForCurrentLine.getLevel() - 1];
         }
         if (addTo == null) {
-            parser.errors.add(treeForCurrentLine.getTag() + " tag at line " + treeForCurrentLine.getLineNum()
+            parser.getErrors().add(treeForCurrentLine.getTag() + " tag at line " + treeForCurrentLine.getLineNum()
                     + ": Unable to find suitable parent node at level " + (treeForCurrentLine.getLevel() - 1));
         } else {
             addTo.getChildren().add(treeForCurrentLine);
@@ -206,7 +206,7 @@ public class StringTreeBuilder {
             // Probably sets it to true, but might not for a non-standard file - see Issue 100
             beginsWithLevelAndSpace = startsWithLevelAndSpace();
         } catch (GedcomParserException e) {
-            if (parser.strictLineBreaks) {
+            if (parser.isStrictLineBreaks()) {
                 throw e;
             }
         }
@@ -225,10 +225,10 @@ public class StringTreeBuilder {
             treeForCurrentLine.setValue(line);
             treeForCurrentLine.setParent(mostRecentlyAdded);
             mostRecentlyAdded.getChildren().add(treeForCurrentLine);
-            parser.warnings.add("Line " + lineNum + " did not begin with a level and tag, so it was treated as a "
+            parser.getWarnings().add("Line " + lineNum + " did not begin with a level and tag, so it was treated as a "
                     + "non-standard continuation of the previous line.");
         } else {
-            parser.warnings.add("Line " + lineNum + " did not begin with a level and tag, so it was discarded.");
+            parser.getWarnings().add("Line " + lineNum + " did not begin with a level and tag, so it was discarded.");
         }
     }
 

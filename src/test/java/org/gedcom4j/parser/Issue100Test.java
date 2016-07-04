@@ -55,12 +55,14 @@ public class Issue100Test {
     @Test
     public void testRelaxed() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.strictLineBreaks = false;
+        gp.setStrictLineBreaks(false);
         gp.load("sample/Sopranos.ged");
-        Gedcom g = gp.gedcom;
-        assertEquals(2, gp.warnings.size());
-        assertTrue(gp.warnings.contains("Line 26 did not begin with a level and tag, so it was treated as a non-standard continuation of the previous line."));
-        assertTrue(gp.warnings.contains("Line 27 did not begin with a level and tag, so it was treated as a non-standard continuation of the previous line."));
+        Gedcom g = gp.getGedcom();
+        assertEquals(2, gp.getWarnings().size());
+        assertTrue(gp.getWarnings().contains(
+                "Line 26 did not begin with a level and tag, so it was treated as a non-standard continuation of the previous line."));
+        assertTrue(gp.getWarnings().contains(
+                "Line 27 did not begin with a level and tag, so it was treated as a non-standard continuation of the previous line."));
 
         assertNotNull(g);
         Finder f = new Finder(g);
@@ -88,7 +90,7 @@ public class Issue100Test {
     @Test
     public void testStrict() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.strictLineBreaks = true;
+        gp.setStrictLineBreaks(true);
         try {
             gp.load("sample/Sopranos.ged");
             fail("Should have gotten a " + GedcomParserException.class.getName());

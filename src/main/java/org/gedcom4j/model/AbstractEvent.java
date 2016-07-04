@@ -36,7 +36,7 @@ public abstract class AbstractEvent extends AbstractElement {
     /**
      * The place where this event occurred
      */
-    public Place place;
+    protected Place place;
 
     /**
      * The address where this event took place

@@ -60,7 +60,7 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
         super.setUp();
         gedcom = TestHelper.getMinimalGedcom();
         rootValidator.gedcom = gedcom;
-        rootValidator.autorepair = false;
+        rootValidator.setAutorepairEnabled(false);
 
         dad = new Individual();
         dad.setXref("@I00001@");

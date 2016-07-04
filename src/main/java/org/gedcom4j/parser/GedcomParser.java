@@ -87,12 +87,12 @@ public class GedcomParser {
     /**
      * The things that went wrong while parsing the gedcom file
      */
-    public List<String> errors = new ArrayList<String>();
+    private final List<String> errors = new ArrayList<String>();
 
     /**
      * The content of the gedcom file
      */
-    public Gedcom gedcom = new Gedcom();
+    private Gedcom gedcom = new Gedcom();
 
     /**
      * Indicates whether handling of custom tags should be strict - that is, must an unrecognized tag begin with an
@@ -100,18 +100,18 @@ public class GedcomParser {
      * tags even if they don't begin with underscores, and no errors will be issued. If true, unrecognized tags that do
      * not begin with underscores will be discarded, with errors added to the errors collection.
      */
-    public boolean strictCustomTags = true;
+    private boolean strictCustomTags = true;
 
     /**
      * Indicates whether non-compliant GEDCOM files with actual line breaks in text values (rather than CONT tags)
      * should be parsed (with some loss of data) rather than fail with an exception.
      */
-    public boolean strictLineBreaks = true;
+    private boolean strictLineBreaks = true;
 
     /**
      * The warnings issued during the parsing of the gedcom file
      */
-    public List<String> warnings = new ArrayList<String>();
+    private final List<String> warnings = new ArrayList<String>();
 
     /**
      * Is the load/parse process being cancelled
@@ -146,12 +146,48 @@ public class GedcomParser {
     }
 
     /**
+     * Get the errors
+     * 
+     * @return the errors
+     */
+    public List<String> getErrors() {
+        return errors;
+    }
+
+    /**
+     * Get the fileObservers
+     * 
+     * @return the fileObservers
+     */
+    public List<WeakReference<FileProgressListener>> getFileObservers() {
+        return fileObservers;
+    }
+
+    /**
+     * Get the gedcom
+     * 
+     * @return the gedcom
+     */
+    public Gedcom getGedcom() {
+        return gedcom;
+    }
+
+    /**
      * Get the parse notification rate (the number of items that get parsed between each notification, if listening)
      * 
      * @return the parse notification rate (the number of items that get parsed between each notification, if listening)
      */
     public int getParseNotificationRate() {
         return parseNotificationRate;
+    }
+
+    /**
+     * Get the parseObservers
+     * 
+     * @return the parseObservers
+     */
+    public List<WeakReference<ParseProgressListener>> getParseObservers() {
+        return parseObservers;
     }
 
     /**
@@ -164,12 +200,39 @@ public class GedcomParser {
     }
 
     /**
+     * Get the warnings
+     * 
+     * @return the warnings
+     */
+    public List<String> getWarnings() {
+        return warnings;
+    }
+
+    /**
      * Is the load and parse operation cancelled?
      * 
      * @return whether the load and parse operation is cancelled
      */
     public boolean isCancelled() {
         return cancelled;
+    }
+
+    /**
+     * Get the strictCustomTags
+     * 
+     * @return the strictCustomTags
+     */
+    public boolean isStrictCustomTags() {
+        return strictCustomTags;
+    }
+
+    /**
+     * Get the strictLineBreaks
+     * 
+     * @return the strictLineBreaks
+     */
+    public boolean isStrictLineBreaks() {
+        return strictLineBreaks;
     }
 
     /**
@@ -248,6 +311,16 @@ public class GedcomParser {
     }
 
     /**
+     * Set the gedcom
+     * 
+     * @param gedcom
+     *            the gedcom to set
+     */
+    public void setGedcom(Gedcom gedcom) {
+        this.gedcom = gedcom;
+    }
+
+    /**
      * Set the parse notification rate (the number of items that get parsed between each notification, if listening)
      * 
      * @param parseNotificationRate
@@ -272,6 +345,26 @@ public class GedcomParser {
             throw new IllegalArgumentException("Read Notification Rate must be at least 1");
         }
         this.readNotificationRate = readNotificationRate;
+    }
+
+    /**
+     * Set the strictCustomTags
+     * 
+     * @param strictCustomTags
+     *            the strictCustomTags to set
+     */
+    public void setStrictCustomTags(boolean strictCustomTags) {
+        this.strictCustomTags = strictCustomTags;
+    }
+
+    /**
+     * Set the strictLineBreaks
+     * 
+     * @param strictLineBreaks
+     *            the strictLineBreaks to set
+     */
+    public void setStrictLineBreaks(boolean strictLineBreaks) {
+        this.strictLineBreaks = strictLineBreaks;
     }
 
     /**

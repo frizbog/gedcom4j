@@ -58,7 +58,7 @@ class PlaceValidator extends AbstractValidator {
             return;
         }
         if (place.getCitations() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 place.getCitations(true).clear();
                 rootValidator.addInfo("Event had null list of citations - repaired", place);
             } else {
@@ -75,7 +75,7 @@ class PlaceValidator extends AbstractValidator {
         checkNotes(place.getNotes(), place);
         checkOptionalString(place.getPlaceFormat(), "place format", place);
         if (place.getPlaceName() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 addError("Place name was unspecified and cannot be repaired");
             } else {
                 addError("Place name was unspecified");
@@ -83,7 +83,7 @@ class PlaceValidator extends AbstractValidator {
         }
 
         if (place.getPhonetic() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 place.getPhonetic(true).clear();
                 rootValidator.addInfo("Event had null list of phonetic name variations - repaired", place);
             } else {
@@ -95,7 +95,7 @@ class PlaceValidator extends AbstractValidator {
         }
 
         if (place.getRomanized() == null) {
-            if (rootValidator.autorepair) {
+            if (rootValidator.isAutorepairEnabled()) {
                 place.getRomanized(true).clear();
                 rootValidator.addInfo("Event had null list of romanized name variations - repaired", place);
             } else {

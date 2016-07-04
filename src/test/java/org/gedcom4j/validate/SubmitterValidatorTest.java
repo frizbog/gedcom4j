@@ -51,7 +51,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
         AbstractValidator sv = new SubmitterValidator(rootValidator, submitter);
         sv.validate();
         dumpFindings();
-        assertTrue(rootValidator.findings.isEmpty());
+        assertTrue(rootValidator.getFindings().isEmpty());
     }
 
     /**

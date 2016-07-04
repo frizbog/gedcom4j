@@ -32,27 +32,27 @@ public class SimpleRelationship {
     /**
      * Individual 1
      */
-    public Individual individual1;
+    private Individual individual1;
 
     /**
      * Individual 2
      */
-    public Individual individual2;
+    private Individual individual2;
 
     /**
      * The name of the relationship from person 1 to person 2
      */
-    public RelationshipName name;
+    private RelationshipName name;
 
     /**
      * The name of the relationship from person 2 to person 1
      */
-    public RelationshipName reverseName;
+    private RelationshipName reverseName;
 
     /**
      * Number of generations removed -- applies ONLY to cousin relationships
      */
-    public int generationsRemoved = 0;
+    private int generationsRemoved = 0;
 
     /**
      * Default constructor
@@ -113,6 +113,51 @@ public class SimpleRelationship {
         return true;
     }
 
+    /**
+     * Get the generationsRemoved
+     * 
+     * @return the generationsRemoved
+     */
+    public int getGenerationsRemoved() {
+        return generationsRemoved;
+    }
+
+    /**
+     * Get the individual1
+     * 
+     * @return the individual1
+     */
+    public Individual getIndividual1() {
+        return individual1;
+    }
+
+    /**
+     * Get the individual2
+     * 
+     * @return the individual2
+     */
+    public Individual getIndividual2() {
+        return individual2;
+    }
+
+    /**
+     * Get the name
+     * 
+     * @return the name
+     */
+    public RelationshipName getName() {
+        return name;
+    }
+
+    /**
+     * Get the reverseName
+     * 
+     * @return the reverseName
+     */
+    public RelationshipName getReverseName() {
+        return reverseName;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -123,6 +168,56 @@ public class SimpleRelationship {
         result = prime * result + (reverseName == null ? 0 : reverseName.hashCode());
         result = prime * result + generationsRemoved;
         return result;
+    }
+
+    /**
+     * Set the generationsRemoved
+     * 
+     * @param generationsRemoved
+     *            the generationsRemoved to set
+     */
+    public void setGenerationsRemoved(int generationsRemoved) {
+        this.generationsRemoved = generationsRemoved;
+    }
+
+    /**
+     * Set the individual1
+     * 
+     * @param individual1
+     *            the individual1 to set
+     */
+    public void setIndividual1(Individual individual1) {
+        this.individual1 = individual1;
+    }
+
+    /**
+     * Set the individual2
+     * 
+     * @param individual2
+     *            the individual2 to set
+     */
+    public void setIndividual2(Individual individual2) {
+        this.individual2 = individual2;
+    }
+
+    /**
+     * Set the name
+     * 
+     * @param name
+     *            the name to set
+     */
+    public void setName(RelationshipName name) {
+        this.name = name;
+    }
+
+    /**
+     * Set the reverseName
+     * 
+     * @param reverseName
+     *            the reverseName to set
+     */
+    public void setReverseName(RelationshipName reverseName) {
+        this.reverseName = reverseName;
     }
 
     /**
@@ -151,4 +246,5 @@ public class SimpleRelationship {
         sb.append(" ").append(individual2 == null ? "null" : individual2.getNames().get(0));
         return sb.toString();
     }
+
 }
