@@ -30,6 +30,11 @@ import org.gedcom4j.io.encoding.Encoding;
  */
 public class CharacterSet extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 1745150676480256110L;
+
+    /**
      * The name of a character set
      */
     private StringWithCustomTags characterSetName = new StringWithCustomTags(Encoding.ANSEL.toString());

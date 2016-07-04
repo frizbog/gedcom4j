@@ -34,6 +34,11 @@ import org.gedcom4j.Options;
  */
 public class Note extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 8355989906882622025L;
+
+    /**
      * The change date for this note
      */
     private ChangeDate changeDate;

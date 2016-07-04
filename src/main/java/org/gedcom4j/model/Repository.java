@@ -34,6 +34,11 @@ import org.gedcom4j.Options;
  */
 public class Repository extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 4976586157819833016L;
+
+    /**
      * The address for this repository
      */
     private Address address;

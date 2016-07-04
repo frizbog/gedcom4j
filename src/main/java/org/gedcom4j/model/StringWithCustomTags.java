@@ -31,6 +31,11 @@ import java.util.List;
 public class StringWithCustomTags extends AbstractElement {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -2479578654715820890L;
+
+    /**
      * The string value itself.
      */
     private String value;

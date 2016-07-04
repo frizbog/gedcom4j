@@ -33,6 +33,11 @@ import org.gedcom4j.Options;
  */
 public class SourceData extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -5082188791769651553L;
+
+    /**
      * The events recorded.
      */
     private List<EventRecorded> eventsRecorded = getEventsRecorded(Options.isCollectionInitializationEnabled());

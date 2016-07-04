@@ -33,5 +33,5 @@ public interface ConstructProgressListener {
      * @param e
      *            information about the progress made
      */
-    public void progressNotification(ConstructProgressEvent e);
+    void progressNotification(ConstructProgressEvent e);
 }

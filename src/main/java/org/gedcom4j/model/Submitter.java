@@ -38,6 +38,11 @@ import org.gedcom4j.Options;
  */
 public class Submitter extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 964849855689332389L;
+
+    /**
      * The address of this submitter
      */
     private Address address;

@@ -35,6 +35,11 @@ import org.gedcom4j.Options;
  */
 public class CitationWithSource extends AbstractCitation {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 1886846774727359828L;
+
+    /**
      * The quality of this citation. Supposed to be 0, 1, 2, or 3, but stored as a string since we're not doing math on
      * it.
      */

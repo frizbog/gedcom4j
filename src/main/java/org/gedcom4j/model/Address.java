@@ -35,6 +35,11 @@ import org.gedcom4j.Options;
  */
 public class Address extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 8172155175015540119L;
+
+    /**
      * Line one of the address
      */
     private StringWithCustomTags addr1;

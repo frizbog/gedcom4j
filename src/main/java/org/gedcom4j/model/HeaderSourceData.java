@@ -35,6 +35,11 @@ package org.gedcom4j.model;
  */
 public class HeaderSourceData extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 7952401381182039454L;
+
+    /**
      * Copyright information
      */
     private StringWithCustomTags copyright;

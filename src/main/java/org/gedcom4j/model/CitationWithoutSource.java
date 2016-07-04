@@ -36,6 +36,11 @@ import org.gedcom4j.Options;
  */
 public class CitationWithoutSource extends AbstractCitation {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -3562494505830574223L;
+
+    /**
      * Lines of text describing this citation
      */
     private List<String> description = getDescription(Options.isCollectionInitializationEnabled());

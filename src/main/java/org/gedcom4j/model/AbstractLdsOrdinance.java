@@ -35,6 +35,11 @@ import org.gedcom4j.Options;
 public abstract class AbstractLdsOrdinance extends AbstractElement {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -5525451103364917970L;
+
+    /**
      * The citations for this ordinance
      */
     protected List<AbstractCitation> citations = getCitations(Options.isCollectionInitializationEnabled());

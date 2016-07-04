@@ -28,6 +28,11 @@ package org.gedcom4j.model;
  */
 public class UserReference extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -7283713193577447000L;
+
+    /**
      * The reference number
      */
     private String referenceNum;

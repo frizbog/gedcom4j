@@ -31,6 +31,11 @@ package org.gedcom4j.model;
 public class FileReference extends AbstractElement {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -5131568367094232521L;
+
+    /**
      * The format of the referenced file
      */
     private StringWithCustomTags format;

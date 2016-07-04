@@ -34,6 +34,11 @@ import org.gedcom4j.Options;
  */
 public class PersonalName extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -3038084172374523321L;
+
+    /**
      * The name in basic, unbroken-down format
      */
     private String basic;

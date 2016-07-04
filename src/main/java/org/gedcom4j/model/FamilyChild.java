@@ -33,6 +33,11 @@ import org.gedcom4j.Options;
  */
 public class FamilyChild extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -1971285607249074683L;
+
+    /**
      * Who did the adopting.
      */
     private AdoptedByWhichParent adoptedBy;

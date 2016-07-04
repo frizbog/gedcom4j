@@ -29,6 +29,11 @@ package org.gedcom4j.model;
  */
 public class SourceCallNumber extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 508420414070288759L;
+
+    /**
      * The call number. Corresponds to SOURCE_CALL_NUMBER in the Gedcom spec.
      */
     private StringWithCustomTags callNumber;

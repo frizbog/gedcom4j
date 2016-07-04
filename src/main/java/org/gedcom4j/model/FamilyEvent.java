@@ -30,6 +30,11 @@ package org.gedcom4j.model;
  */
 public class FamilyEvent extends AbstractEvent {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -5964078401105991388L;
+
+    /**
      * Age of husband at time of event
      */
     private StringWithCustomTags husbandAge;

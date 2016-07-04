@@ -29,6 +29,11 @@ package org.gedcom4j.model;
  */
 public class Submission extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -2881845846882881000L;
+
+    /**
      * The number of ancestor generations
      */
     private StringWithCustomTags ancestorsCount;

@@ -31,6 +31,11 @@ package org.gedcom4j.model;
 public class NameVariation extends AbstractElement {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 5302060855856746189L;
+
+    /**
      * The variation text
      */
     protected String variation;

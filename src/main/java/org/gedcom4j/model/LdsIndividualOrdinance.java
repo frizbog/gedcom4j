@@ -28,6 +28,11 @@ package org.gedcom4j.model;
  */
 public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -6448687737594960394L;
+
+    /**
      * The family in which the individual was a child - used for SLGC types
      */
     private FamilyChild familyWhereChild;

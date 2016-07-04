@@ -34,6 +34,11 @@ import org.gedcom4j.Options;
  */
 public class Place extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 7023491338742765865L;
+
+    /**
      * The citations for this object
      */
     private List<AbstractCitation> citations = getCitations(Options.isCollectionInitializationEnabled());

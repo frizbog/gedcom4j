@@ -30,6 +30,11 @@ package org.gedcom4j.model;
 public class GedcomVersion extends AbstractElement {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -8766863038155122803L;
+
+    /**
      * The form
      */
     private StringWithCustomTags gedcomForm = new StringWithCustomTags("LINEAGE-LINKED");

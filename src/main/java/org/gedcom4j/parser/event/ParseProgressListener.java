@@ -33,5 +33,5 @@ public interface ParseProgressListener {
      * @param e
      *            information about the progress made
      */
-    public void progressNotification(ParseProgressEvent e);
+    void progressNotification(ParseProgressEvent e);
 }

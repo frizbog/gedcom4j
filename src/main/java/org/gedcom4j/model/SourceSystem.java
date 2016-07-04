@@ -35,6 +35,11 @@ package org.gedcom4j.model;
  */
 public class SourceSystem extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -1121533380857695596L;
+
+    /**
      * The corporation that owns this source system
      */
     private Corporation corporation;

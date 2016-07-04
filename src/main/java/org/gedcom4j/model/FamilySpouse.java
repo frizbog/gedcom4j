@@ -34,6 +34,11 @@ import org.gedcom4j.Options;
  */
 public class FamilySpouse extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -2986477725062735490L;
+
+    /**
      * The family in which the person was one of the spouses
      */
     private Family family;

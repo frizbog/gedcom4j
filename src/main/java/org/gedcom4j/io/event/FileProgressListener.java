@@ -33,5 +33,5 @@ public interface FileProgressListener {
      * @param e
      *            information about the progress made
      */
-    public void progressNotification(FileProgressEvent e);
+    void progressNotification(FileProgressEvent e);
 }

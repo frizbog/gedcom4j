@@ -48,6 +48,11 @@ import org.gedcom4j.Options;
  */
 public class Multimedia extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 9046705221369603960L;
+
+    /**
      * The binary (blob) for this multimedia item. Encoded as string data. This field should always be an empty list for
      * 5.5.1 files.
      */

@@ -35,6 +35,11 @@ import org.gedcom4j.Options;
 public class RepositoryCitation extends AbstractElement {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -5547254435002018057L;
+
+    /**
      * Call numbers
      */
     private List<SourceCallNumber> callNumbers = getCallNumbers(Options.isCollectionInitializationEnabled());

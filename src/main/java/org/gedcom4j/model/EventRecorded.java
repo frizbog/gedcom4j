@@ -30,6 +30,11 @@ package org.gedcom4j.model;
  */
 public class EventRecorded extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -6640977866006853891L;
+
+    /**
      * The date period covered in the source
      */
     private StringWithCustomTags datePeriod;

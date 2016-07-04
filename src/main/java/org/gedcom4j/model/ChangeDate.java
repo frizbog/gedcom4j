@@ -33,6 +33,11 @@ import org.gedcom4j.Options;
  */
 public class ChangeDate extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 6134688970119877487L;
+
+    /**
      * The date (as a string)
      */
     private StringWithCustomTags date;

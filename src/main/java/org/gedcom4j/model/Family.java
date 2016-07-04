@@ -33,6 +33,11 @@ import org.gedcom4j.Options;
  */
 public class Family extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -2614258744184662622L;
+
+    /**
      * The automated record ID number
      */
     private StringWithCustomTags automatedRecordId;

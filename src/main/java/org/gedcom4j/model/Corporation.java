@@ -41,6 +41,11 @@ import org.gedcom4j.Options;
  */
 public class Corporation extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -2468158832702366329L;
+
+    /**
      * The address
      */
     private Address address;

@@ -34,6 +34,11 @@ import org.gedcom4j.Options;
 public abstract class AbstractCitation extends AbstractElement {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 5842672179681957413L;
+
+    /**
      * Notes on this source citation
      */
     protected List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());

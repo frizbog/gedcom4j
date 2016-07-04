@@ -34,6 +34,11 @@ import org.gedcom4j.Options;
  */
 public class PersonalNameVariation extends NameVariation {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 1262477720634081355L;
+
+    /**
      * The citations for this object
      */
     private List<AbstractCitation> citations = getCitations(Options.isCollectionInitializationEnabled());

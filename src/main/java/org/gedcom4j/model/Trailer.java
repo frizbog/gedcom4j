@@ -21,13 +21,20 @@
  */
 package org.gedcom4j.model;
 
+import java.io.Serializable;
+
 /**
  * The trailer record.
  * 
  * @author frizbog1
  * 
  */
-public class Trailer {
+public class Trailer implements Serializable {
+    /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 2300633464080707042L;
+
     /**
      * {@inheritDoc}
      */

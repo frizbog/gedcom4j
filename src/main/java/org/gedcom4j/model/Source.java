@@ -33,6 +33,11 @@ import org.gedcom4j.Options;
  */
 public class Source extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 5580720679037154352L;
+
+    /**
      * The change date for this source
      */
     private ChangeDate changeDate;

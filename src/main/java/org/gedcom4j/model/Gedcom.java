@@ -61,6 +61,11 @@ import java.util.Map;
  */
 public class Gedcom extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -2972879346299316334L;
+
+    /**
      * A map of all the families in the GEDCOM file. The map is keyed on family cross-reference numbers, and the
      * families themselves are in the value set.
      */

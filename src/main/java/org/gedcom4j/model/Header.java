@@ -34,6 +34,11 @@ import org.gedcom4j.Options;
  */
 public class Header extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 2648392706111388922L;
+
+    /**
      * The character set in use in the GEDCOM file
      */
     private CharacterSet characterSet = new CharacterSet();

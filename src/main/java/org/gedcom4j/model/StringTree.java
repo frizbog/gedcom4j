@@ -21,6 +21,7 @@
  */
 package org.gedcom4j.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,12 @@ import org.gedcom4j.Options;
  * 
  * @author frizbog1
  */
-public class StringTree {
+public class StringTree implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 7858738185646682895L;
 
     /**
      * All the elements that are child elements of this element

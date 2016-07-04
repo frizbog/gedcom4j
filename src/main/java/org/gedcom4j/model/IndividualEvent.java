@@ -28,6 +28,11 @@ package org.gedcom4j.model;
  */
 public class IndividualEvent extends AbstractEvent {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 6290302687051916574L;
+
+    /**
      * The family to which this individual adopted was adopted
      */
     private FamilyChild family;

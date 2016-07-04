@@ -97,9 +97,7 @@ public class AnselHandler {
                     // It's a diacritic - check one more character ahead, combining diacritics can come in pairs
                     if (i + 2 < utf16.length()) {
                         twoCharAhead = utf16.charAt(i + 2);
-                        if (AnselMapping.isUnicodeCombiningDiacritic(twoCharAhead)) {
-                            // It's another diacritic
-                        } else {
+                        if (!AnselMapping.isUnicodeCombiningDiacritic(twoCharAhead)) {
                             twoCharAhead = 0; // Wipe out to zero - indicates only one combining diacritic
                         }
                     }
@@ -158,8 +156,7 @@ public class AnselHandler {
             }
 
         }
-        String s = new String(ansel).substring(0, anselIdx);
-        return s;
+        return new String(ansel).substring(0, anselIdx);
     }
 
     /**
@@ -239,8 +236,7 @@ public class AnselHandler {
                 }
             }
         }
-        String s = new String(utf16).substring(0, utfIdx);
-        return s;
+        return new String(utf16).substring(0, utfIdx);
     }
 
     /**
@@ -2625,8 +2621,6 @@ public class AnselHandler {
                 return '\u1E56';
             }
 
-        }
-        if (baseChar == 'Q') {
         }
         if (baseChar == 'R') {
             if (modifier1 == '\u00E2' /* ACUTE */) {

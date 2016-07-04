@@ -28,6 +28,11 @@ package org.gedcom4j.model;
  */
 public class LdsSpouseSealing extends AbstractLdsOrdinance {
 
+    /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -6357595096472920377L;
+
     @Override
     public String toString() {
         return "LdsSpouseSealing [status=" + status + ", date=" + date + ", temple=" + temple + ", place=" + place + ", citations=" + getCitations()

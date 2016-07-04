@@ -33,6 +33,11 @@ import org.gedcom4j.Options;
  */
 public class Association extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -4189651960132766112L;
+
+    /**
      * The type of the associated entity
      */
     private StringWithCustomTags associatedEntityType;

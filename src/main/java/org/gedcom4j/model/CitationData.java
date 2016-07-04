@@ -33,6 +33,11 @@ import org.gedcom4j.Options;
  */
 public class CitationData extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -423230002337524774L;
+
+    /**
      * The date of the entry
      */
     private StringWithCustomTags entryDate;

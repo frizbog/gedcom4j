@@ -34,6 +34,11 @@ import org.gedcom4j.Options;
  */
 public abstract class AbstractEvent extends AbstractElement {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 2745411202618610785L;
+
+    /**
      * The place where this event occurred
      */
     protected Place place;

@@ -29,6 +29,11 @@ package org.gedcom4j.model;
  */
 public class IndividualAttribute extends AbstractEvent {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 5029917676949449650L;
+
+    /**
      * The type of attribute
      */
     private IndividualAttributeType type;
