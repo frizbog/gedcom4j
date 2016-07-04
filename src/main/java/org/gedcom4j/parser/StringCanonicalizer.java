@@ -93,7 +93,7 @@ class StringCanonicalizer {
     /**
      * The max size of the string pool
      */
-    private int maxPoolSize = 500;
+    private int maxPoolSize = 1000;
 
     /**
      * The number of eviction events that occurred
