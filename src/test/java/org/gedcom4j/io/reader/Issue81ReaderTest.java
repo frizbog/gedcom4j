@@ -152,8 +152,8 @@ public class Issue81ReaderTest {
         Individual i = g.getIndividuals().get("@I001@");
         assertNotNull(i);
         PersonalName n = i.getNames().get(0);
-        assertEquals("Dolor\u00E8s", n.givenName.getValue());
-        assertEquals("Dolor\u00E8s/./", n.basic);
+        assertEquals("Dolor\u00E8s", n.getGivenName().getValue());
+        assertEquals("Dolor\u00E8s/./", n.getBasic());
     }
 
     /**
@@ -164,8 +164,8 @@ public class Issue81ReaderTest {
         Individual i = g.getIndividuals().get("@I002@");
         assertNotNull(i);
         PersonalName n = i.getNames().get(0);
-        assertEquals("Therese", n.givenName.getValue());
-        assertEquals("VACQU\u00C9", n.surname.getValue());
-        assertEquals("Therese/VACQU\u00C9/", n.basic);
+        assertEquals("Therese", n.getGivenName().getValue());
+        assertEquals("VACQU\u00C9", n.getSurname().getValue());
+        assertEquals("Therese/VACQU\u00C9/", n.getBasic());
     }
 }

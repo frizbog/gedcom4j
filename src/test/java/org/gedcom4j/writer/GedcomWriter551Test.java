@@ -228,7 +228,7 @@ public class GedcomWriter551Test {
         i.setXref("@I1@");
         g.getIndividuals().put(i.getXref(), i);
         PersonalName pn = new PersonalName();
-        pn.basic = "Joe /Fryingpan/";
+        pn.setBasic("Joe /Fryingpan/");
         i.getNames().add(pn);
         IndividualEvent e = new IndividualEvent();
         i.getEvents().add(e);
@@ -377,7 +377,7 @@ public class GedcomWriter551Test {
         i.setXref("@I0001@");
         g.getIndividuals().put(i.getXref(), i);
         PersonalName pn = new PersonalName();
-        pn.basic = "Bj\u00F8rn /J\u00F8rgen/";
+        pn.setBasic("Bj\u00F8rn /J\u00F8rgen/");
         i.getNames().add(pn);
 
         GedcomWriter gw = new GedcomWriter(g);
@@ -389,7 +389,7 @@ public class GedcomWriter551Test {
 
         // Add a malformed phonetic variation
         PersonalNameVariation pnv = new PersonalNameVariation();
-        pn.phonetic.add(pnv);
+        pn.getPhonetic().add(pnv);
         try {
             gw.write("tmp/delete-me.ged");
             fail("Expected to get a GedcomWriterException due to missing field on personal name variation");
@@ -405,7 +405,7 @@ public class GedcomWriter551Test {
 
         // Add a bad romanized variation
         pnv = new PersonalNameVariation();
-        pn.romanized.add(pnv);
+        pn.getRomanized().add(pnv);
         try {
             gw.write("tmp/delete-me.ged");
             fail("Expected to get a GedcomWriterException due to missing field on personal name variation");

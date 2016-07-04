@@ -33,17 +33,17 @@ public enum LdsIndividualOrdinanceType {
      */
     BAPTISM("BAPL", "LDS Baptism"),
     /**
+     * Child sealing
+     */
+    CHILD_SEALING("SLGC", "LDS Child Sealing"),
+    /**
      * Confirmation
      */
     CONFIRMATION("CONL", "LDS Confirmation"),
     /**
      * Endowment
      */
-    ENDOWMENT("ENDL", "LDS Endowment"),
-    /**
-     * Child sealing
-     */
-    CHILD_SEALING("SLGC", "LDS Child Sealing");
+    ENDOWMENT("ENDL", "LDS Endowment");
 
     /**
      * Get an enum constant from the tag it corresponds to
@@ -73,14 +73,14 @@ public enum LdsIndividualOrdinanceType {
     }
 
     /**
-     * The tag
-     */
-    private final String tag;
-
-    /**
      * The display value
      */
     private final String display;
+
+    /**
+     * The tag
+     */
+    private final String tag;
 
     /**
      * Contructor

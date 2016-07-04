@@ -33,19 +33,19 @@ import org.gedcom4j.Options;
  */
 public class SourceData extends AbstractElement {
     /**
-     * The responsible agency.
-     */
-    private StringWithCustomTags respAgency;
-
-    /**
      * The events recorded.
      */
-    private List<EventRecorded> eventsRecorded = new ArrayList<EventRecorded>(0);
+    private List<EventRecorded> eventsRecorded = getEventsRecorded(Options.isCollectionInitializationEnabled());
 
     /**
      * Notes about this object
      */
-    private List<Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The responsible agency.
+     */
+    private StringWithCustomTags respAgency;
 
     @Override
     public boolean equals(Object obj) {

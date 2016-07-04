@@ -47,13 +47,13 @@ public class PersonalNameVariationValidatorTest extends AbstractValidatorTestCas
         PersonalName pn = new PersonalName();
         i.getNames().add(pn);
 
-        pn.basic = "Bj\u00F8rn /J\u00F8orgen/";
+        pn.setBasic("Bj\u00F8rn /J\u00F8orgen/");
 
         rootValidator.validate();
         assertNoIssues();
 
         PersonalNameVariation romanized = new PersonalNameVariation();
-        pn.romanized.add(romanized);
+        pn.getRomanized().add(romanized);
         romanized.setGivenName(new StringWithCustomTags("Bjorn"));
         romanized.setSurname(new StringWithCustomTags("Jorgen"));
         rootValidator.validate();
@@ -63,7 +63,7 @@ public class PersonalNameVariationValidatorTest extends AbstractValidatorTestCas
         assertNoIssues();
 
         PersonalNameVariation phonetic = new PersonalNameVariation();
-        pn.phonetic.add(phonetic);
+        pn.getPhonetic().add(phonetic);
         phonetic.setGivenName(new StringWithCustomTags("Byorn"));
         phonetic.setSurname(new StringWithCustomTags("Yorgen"));
         rootValidator.validate();

@@ -33,26 +33,6 @@ import org.gedcom4j.Options;
  */
 public class Source extends AbstractElement {
     /**
-     * Who filed the source
-     */
-    private StringWithCustomTags sourceFiledBy;
-
-    /**
-     * The title text
-     */
-    private List<String> title = new ArrayList<String>(0);
-
-    /**
-     * Publication facts on this source
-     */
-    private List<String> publicationFacts = new ArrayList<String>(0);
-
-    /**
-     * The originators/authors
-     */
-    private List<String> originatorsAuthors = new ArrayList<String>(0);
-
-    /**
      * The change date for this source
      */
     private ChangeDate changeDate;
@@ -63,19 +43,24 @@ public class Source extends AbstractElement {
     private SourceData data;
 
     /**
-     * Text from the source
+     * Multimedia links for this source citation
      */
-    private List<String> sourceText = new ArrayList<String>(0);
-
-    /**
-     * A repository Citation
-     */
-    private RepositoryCitation repositoryCitation;
+    private List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
 
     /**
      * Notes about this object
      */
-    private List<Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The originators/authors
+     */
+    private List<String> originatorsAuthors = getOriginatorsAuthors(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Publication facts on this source
+     */
+    private List<String> publicationFacts = getPublicationFacts(Options.isCollectionInitializationEnabled());
 
     /**
      * The record ID number
@@ -83,19 +68,34 @@ public class Source extends AbstractElement {
     private StringWithCustomTags recIdNumber;
 
     /**
-     * The xref for this submitter
+     * A repository Citation
      */
-    private String xref;
+    private RepositoryCitation repositoryCitation;
 
     /**
-     * Multimedia links for this source citation
+     * Who filed the source
      */
-    private List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
+    private StringWithCustomTags sourceFiledBy;
+
+    /**
+     * Text from the source
+     */
+    private List<String> sourceText = getSourceText(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The title text
+     */
+    private List<String> title = getTitle(Options.isCollectionInitializationEnabled());
 
     /**
      * The user references for this submitter
      */
-    private List<UserReference> userReferences = new ArrayList<UserReference>(0);
+    private List<UserReference> userReferences = getUserReferences(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The xref for this submitter
+     */
+    private String xref;
 
     /**
      * Constructor, takes required xref value

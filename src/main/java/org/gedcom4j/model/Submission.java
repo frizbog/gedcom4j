@@ -29,21 +29,6 @@ package org.gedcom4j.model;
  */
 public class Submission extends AbstractElement {
     /**
-     * The submitter of this submission
-     */
-    private Submitter submitter;
-
-    /**
-     * The name of the family file
-     */
-    private StringWithCustomTags nameOfFamilyFile;
-
-    /**
-     * The temple code for this submission
-     */
-    private StringWithCustomTags templeCode;
-
-    /**
      * The number of ancestor generations
      */
     private StringWithCustomTags ancestorsCount;
@@ -54,6 +39,11 @@ public class Submission extends AbstractElement {
     private StringWithCustomTags descendantsCount;
 
     /**
+     * The name of the family file
+     */
+    private StringWithCustomTags nameOfFamilyFile;
+
+    /**
      * The ordinance process flag
      */
     private StringWithCustomTags ordinanceProcessFlag;
@@ -62,6 +52,16 @@ public class Submission extends AbstractElement {
      * The record ID number
      */
     private StringWithCustomTags recIdNumber;
+
+    /**
+     * The submitter of this submission
+     */
+    private Submitter submitter;
+
+    /**
+     * The temple code for this submission
+     */
+    private StringWithCustomTags templeCode;
 
     /**
      * The xref for this submitter

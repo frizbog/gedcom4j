@@ -48,21 +48,20 @@ import org.gedcom4j.Options;
  */
 public class Multimedia extends AbstractElement {
     /**
-     * The title of this multimedia item. This field should ONLY be used when the spec is 5.5 and should be null for
-     * 5.5.1 files.
-     */
-    private StringWithCustomTags embeddedTitle;
-
-    /**
-     * The file reference for this multimedia item
-     */
-    private List<FileReference> fileReferences = new ArrayList<FileReference>(0);
-
-    /**
      * The binary (blob) for this multimedia item. Encoded as string data. This field should always be an empty list for
      * 5.5.1 files.
      */
-    private List<String> blob = new ArrayList<String>(0);
+    private List<String> blob = getBlob(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The change date for this multimedia item
+     */
+    private ChangeDate changeDate;
+
+    /**
+     * The citations for this object
+     */
+    private List<AbstractCitation> citations = getCitations(Options.isCollectionInitializationEnabled());
 
     /**
      * The next object in the chain holding binary data if it needs to be continued due to size. This field should
@@ -71,19 +70,25 @@ public class Multimedia extends AbstractElement {
     private Multimedia continuedObject;
 
     /**
-     * The change date for this multimedia item
-     */
-    private ChangeDate changeDate;
-
-    /**
      * The format of the multimedia object - only for 5.5 style multimedia files, and should be null for 5.5.1 files.
      */
     private StringWithCustomTags embeddedMediaFormat;
 
     /**
+     * The title of this multimedia item. This field should ONLY be used when the spec is 5.5 and should be null for
+     * 5.5.1 files.
+     */
+    private StringWithCustomTags embeddedTitle;
+
+    /**
+     * The file reference for this multimedia item
+     */
+    private List<FileReference> fileReferences = getFileReferences(Options.isCollectionInitializationEnabled());
+
+    /**
      * Notes about this object
      */
-    private List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     /**
      * The record ID number
@@ -91,19 +96,14 @@ public class Multimedia extends AbstractElement {
     private StringWithCustomTags recIdNumber;
 
     /**
+     * The user references for this submitter
+     */
+    private List<UserReference> userReferences = getUserReferences(Options.isCollectionInitializationEnabled());
+
+    /**
      * The xref for this submitter
      */
     private String xref;
-
-    /**
-     * The user references for this submitter
-     */
-    private List<UserReference> userReferences = new ArrayList<UserReference>(0);
-
-    /**
-     * The citations for this object
-     */
-    private List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? new ArrayList<AbstractCitation>(0) : null;
 
     @Override
     public boolean equals(Object obj) {

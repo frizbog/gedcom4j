@@ -35,6 +35,11 @@ package org.gedcom4j.model;
  */
 public class HeaderSourceData extends AbstractElement {
     /**
+     * Copyright information
+     */
+    private StringWithCustomTags copyright;
+
+    /**
      * The name of the source data. This field must be valued to pass validation, so the default value is "UNSPECIFIED".
      */
     private String name = "UNSPECIFIED";
@@ -43,11 +48,6 @@ public class HeaderSourceData extends AbstractElement {
      * The publish date
      */
     private StringWithCustomTags publishDate;
-
-    /**
-     * Copyright information
-     */
-    private StringWithCustomTags copyright;
 
     @Override
     public boolean equals(Object obj) {

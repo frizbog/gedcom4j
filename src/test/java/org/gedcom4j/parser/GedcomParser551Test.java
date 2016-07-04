@@ -174,9 +174,9 @@ public class GedcomParser551Test {
         assertEquals(1, dude.getNames().size());
         PersonalName pn = dude.getNames().get(0);
         assertNotNull(pn);
-        assertNotNull(pn.phonetic);
-        assertEquals(1, pn.phonetic.size());
-        NameVariation pnv = pn.phonetic.get(0);
+        assertNotNull(pn.getPhonetic());
+        assertEquals(1, pn.getPhonetic().size());
+        NameVariation pnv = pn.getPhonetic().get(0);
         assertEquals("Anonymus /Pinter/", pnv.getVariation());
         assertNull(pnv.getVariationType());
     }
@@ -497,9 +497,9 @@ public class GedcomParser551Test {
         assertEquals(1, ladislaus.getNames().size());
         PersonalName pn = ladislaus.getNames().get(0);
         assertNotNull(pn);
-        assertNotNull(pn.romanized);
-        assertEquals(1, pn.romanized.size());
-        NameVariation pnv = pn.romanized.get(0);
+        assertNotNull(pn.getRomanized());
+        assertEquals(1, pn.getRomanized().size());
+        NameVariation pnv = pn.getRomanized().get(0);
         assertEquals("Walter /Borgula/", pnv.getVariation());
         assertNull(pnv.getVariationType());
     }

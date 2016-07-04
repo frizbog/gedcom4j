@@ -41,7 +41,7 @@ public class FamilySpouse extends AbstractElement {
     /**
      * Notes about this object
      */
-    private List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     @Override
     public boolean equals(Object obj) {

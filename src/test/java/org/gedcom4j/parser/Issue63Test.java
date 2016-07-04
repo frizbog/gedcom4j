@@ -61,13 +61,13 @@ public class Issue63Test {
         assertNotNull(family);
         assertNotNull(family.getHusband());
         assertEquals("@I001@", family.getHusband().getXref());
-        assertEquals("Husband /Gedcom/", family.getHusband().getNames().get(0).basic);
+        assertEquals("Husband /Gedcom/", family.getHusband().getNames().get(0).getBasic());
 
         assertNotNull(family.getWife());
         assertEquals("@I002@", family.getWife().getXref());
 
         // Things above this line passed (and below this line failed) prior to the fix for Issue 63
-        assertEquals("Wife /Gedcom/", family.getWife().getNames().get(0).basic);
+        assertEquals("Wife /Gedcom/", family.getWife().getNames().get(0).getBasic());
 
     }
 }

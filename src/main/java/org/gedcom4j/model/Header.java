@@ -41,7 +41,7 @@ public class Header extends AbstractElement {
     /**
      * Copyright information for the GEDCOM file.
      */
-    private List<String> copyrightData = Options.isCollectionInitializationEnabled() ? getCopyrightData(true) : null;
+    private List<String> copyrightData = getCopyrightData(Options.isCollectionInitializationEnabled());
 
     /**
      * The date of the GEDCOM file
@@ -62,6 +62,17 @@ public class Header extends AbstractElement {
      * The version information for the GEDCOM file
      */
     private GedcomVersion gedcomVersion = new GedcomVersion();
+
+    /**
+     * The language for the file
+     */
+    private StringWithCustomTags language;
+
+    /**
+     * Notes on this header. Technically, the spec does not allow multiple notes or multiline notes in headers, but it
+     * happens so often it's better to allow it than to stop people from being able to parse files.
+     */
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     /**
      * The place structure for the file
@@ -87,17 +98,6 @@ public class Header extends AbstractElement {
      * The time of the file
      */
     private StringWithCustomTags time;
-
-    /**
-     * The language for the file
-     */
-    private StringWithCustomTags language;
-
-    /**
-     * Notes on this header. Technically, the spec does not allow multiple notes or multiline notes in headers, but it
-     * happens so often it's better to allow it than to stop people from being able to parse files.
-     */
-    private List<Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
 
     /**
      * {@inheritDoc}

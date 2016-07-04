@@ -36,7 +36,7 @@ public abstract class AbstractCitation extends AbstractElement {
     /**
      * Notes on this source citation
      */
-    protected List<Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
+    protected List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     @Override
     public boolean equals(Object obj) {

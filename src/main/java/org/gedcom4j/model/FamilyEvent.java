@@ -30,14 +30,14 @@ package org.gedcom4j.model;
  */
 public class FamilyEvent extends AbstractEvent {
     /**
-     * The type of event. See FAMILY_EVENT_STRUCTURE in the GEDCOM standard for more info.
-     */
-    private FamilyEventType type;
-
-    /**
      * Age of husband at time of event
      */
     private StringWithCustomTags husbandAge;
+
+    /**
+     * The type of event. See FAMILY_EVENT_STRUCTURE in the GEDCOM standard for more info.
+     */
+    private FamilyEventType type;
 
     /**
      * Age of wife at time of event

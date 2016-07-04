@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * <p>
  * Represents a Corporation.
@@ -39,34 +41,34 @@ import java.util.List;
  */
 public class Corporation extends AbstractElement {
     /**
-     * The business name. This field must be valued to pass validation, so the default value is "UNSPECIFIED".
-     */
-    private String businessName = "UNSPECIFIED";
-
-    /**
      * The address
      */
     private Address address;
 
     /**
-     * The phone numbers for this submitter
+     * The business name. This field must be valued to pass validation, so the default value is "UNSPECIFIED".
      */
-    private List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * Web URL's. New for GEDCOM 5.5.1.
-     */
-    private List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * Fax numbers. New for GEDCOM 5.5.1.
-     */
-    private List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>(0);
+    private String businessName = "UNSPECIFIED";
 
     /**
      * The emails for this submitter. New for GEDCOM 5.5.1
      */
-    private List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
+    private List<StringWithCustomTags> emails = getEmails(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Fax numbers. New for GEDCOM 5.5.1.
+     */
+    private List<StringWithCustomTags> faxNumbers = getFaxNumbers(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The phone numbers for this submitter
+     */
+    private List<StringWithCustomTags> phoneNumbers = getPhoneNumbers(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Web URL's. New for GEDCOM 5.5.1.
+     */
+    private List<StringWithCustomTags> wwwUrls = getWwwUrls(Options.isCollectionInitializationEnabled());
 
     @Override
     public boolean equals(Object obj) {

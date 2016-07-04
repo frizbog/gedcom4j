@@ -38,59 +38,9 @@ import org.gedcom4j.Options;
  */
 public class Submitter extends AbstractElement {
     /**
-     * The xref for this submitter
-     */
-    private String xref;
-
-    /**
-     * The registration file number for this submitter
-     */
-    private StringWithCustomTags regFileNumber;
-
-    /**
-     * The name of this submitter
-     */
-    private StringWithCustomTags name;
-
-    /**
-     * The record ID number
-     */
-    private StringWithCustomTags recIdNumber;
-
-    /**
-     * The language preferences
-     */
-    private List<StringWithCustomTags> languagePref = new ArrayList<StringWithCustomTags>(0);
-
-    /**
      * The address of this submitter
      */
     private Address address;
-
-    /**
-     * The phone numbers for this submitter
-     */
-    private List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * Web URL's. New for GEDCOM 5.5.1.
-     */
-    private List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * Fax numbers. New for GEDCOM 5.5.1.
-     */
-    private List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * The emails for this submitter. New for GEDCOM 5.5.1
-     */
-    private List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * The multimedia for this submitter
-     */
-    private List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
 
     /**
      * The change date for this submitter
@@ -98,14 +48,64 @@ public class Submitter extends AbstractElement {
     private ChangeDate changeDate;
 
     /**
-     * The user references for this submitter
+     * The emails for this submitter. New for GEDCOM 5.5.1
      */
-    private List<UserReference> userReferences = new ArrayList<UserReference>(0);
+    private List<StringWithCustomTags> emails = getEmails(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Fax numbers. New for GEDCOM 5.5.1.
+     */
+    private List<StringWithCustomTags> faxNumbers = getFaxNumbers(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The language preferences
+     */
+    private List<StringWithCustomTags> languagePref = getLanguagePref(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The multimedia for this submitter
+     */
+    private List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The name of this submitter
+     */
+    private StringWithCustomTags name;
 
     /**
      * Notes about this object
      */
-    private List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The phone numbers for this submitter
+     */
+    private List<StringWithCustomTags> phoneNumbers = getPhoneNumbers(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The record ID number
+     */
+    private StringWithCustomTags recIdNumber;
+
+    /**
+     * The registration file number for this submitter
+     */
+    private StringWithCustomTags regFileNumber;
+
+    /**
+     * The user references for this submitter
+     */
+    private List<UserReference> userReferences = getUserReferences(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Web URL's. New for GEDCOM 5.5.1.
+     */
+    private List<StringWithCustomTags> wwwUrls = getWwwUrls(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The xref for this submitter
+     */
+    private String xref;
 
     /**
      * {@inheritDoc}

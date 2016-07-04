@@ -35,20 +35,20 @@ import org.gedcom4j.Options;
 public class RepositoryCitation extends AbstractElement {
 
     /**
-     * The xref of the repository. Kept as a string copy of the xref deliberately to avoid circular references in the
-     * object graph (particularly, Note -&gt; Citation -&gt; Source -&gt; Repository -&gt; Note -&gt; Citation...)
-     */
-    private String repositoryXref;
-
-    /**
      * Call numbers
      */
-    private List<SourceCallNumber> callNumbers = new ArrayList<SourceCallNumber>(0);
+    private List<SourceCallNumber> callNumbers = getCallNumbers(Options.isCollectionInitializationEnabled());
 
     /**
      * Notes about this object
      */
-    private List<Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The xref of the repository. Kept as a string copy of the xref deliberately to avoid circular references in the
+     * object graph (particularly, Note -&gt; Citation -&gt; Source -&gt; Repository -&gt; Note -&gt; Citation...)
+     */
+    private String repositoryXref;
 
     @Override
     public boolean equals(Object obj) {

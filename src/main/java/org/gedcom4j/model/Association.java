@@ -33,9 +33,9 @@ import org.gedcom4j.Options;
  */
 public class Association extends AbstractElement {
     /**
-     * Relationship description
+     * The type of the associated entity
      */
-    private StringWithCustomTags relationship;
+    private StringWithCustomTags associatedEntityType;
 
     /**
      * The XREF to the associated entity
@@ -43,19 +43,19 @@ public class Association extends AbstractElement {
     private String associatedEntityXref;
 
     /**
-     * The type of the associated entity
-     */
-    private StringWithCustomTags associatedEntityType;
-
-    /**
      * The citations for this object
      */
-    private List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? new ArrayList<AbstractCitation>(0) : null;
+    private List<AbstractCitation> citations = getCitations(Options.isCollectionInitializationEnabled());
 
     /**
      * Notes about this object
      */
-    private List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Relationship description
+     */
+    private StringWithCustomTags relationship;
 
     @Override
     public boolean equals(Object obj) {

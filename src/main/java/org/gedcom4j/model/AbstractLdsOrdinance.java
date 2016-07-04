@@ -35,9 +35,9 @@ import org.gedcom4j.Options;
 public abstract class AbstractLdsOrdinance extends AbstractElement {
 
     /**
-     * The status
+     * The citations for this ordinance
      */
-    protected StringWithCustomTags status;
+    protected List<AbstractCitation> citations = getCitations(Options.isCollectionInitializationEnabled());
 
     /**
      * The date
@@ -45,9 +45,9 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
     protected StringWithCustomTags date;
 
     /**
-     * The temple code
+     * The notes for this ordinance
      */
-    protected StringWithCustomTags temple;
+    protected List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     /**
      * The place
@@ -55,14 +55,14 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
     protected StringWithCustomTags place;
 
     /**
-     * The citations for this ordinance
+     * The status
      */
-    protected List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? getCitations(true) : null;
+    protected StringWithCustomTags status;
 
     /**
-     * The notes for this ordinance
+     * The temple code
      */
-    protected List<Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
+    protected StringWithCustomTags temple;
 
     @Override
     public boolean equals(Object obj) {

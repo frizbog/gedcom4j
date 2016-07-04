@@ -38,14 +38,14 @@ public class ChangeDate extends AbstractElement {
     private StringWithCustomTags date;
 
     /**
+     * Notes about this object
+     */
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
+
+    /**
      * The time (as a string)
      */
     private StringWithCustomTags time;
-
-    /**
-     * Notes about this object
-     */
-    private List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
 
     @Override
     public boolean equals(Object obj) {

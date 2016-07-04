@@ -39,7 +39,7 @@ public class Issue88Test {
         // Set up an individual with a birth and death date
         Individual i = new Individual();
         PersonalName name = new PersonalName();
-        name.basic = "Bob /ROBERTS/";
+        name.setBasic("Bob /ROBERTS/");
         i.getNames().add(name);
         IndividualEvent birth = new IndividualEvent();
         birth.setType(IndividualEventType.BIRTH);
@@ -58,7 +58,7 @@ public class Issue88Test {
         // Set up an individual with a birth and death date
         Individual i = new Individual();
         PersonalName name = new PersonalName();
-        name.basic = "Bob /ROBERTS/";
+        name.setBasic("Bob /ROBERTS/");
         i.getNames().add(name);
         IndividualEvent birth = new IndividualEvent();
         birth.setType(IndividualEventType.BIRTH);
@@ -81,7 +81,7 @@ public class Issue88Test {
         // Set up an individual with a birth and death date
         Individual i = new Individual();
         PersonalName name = new PersonalName();
-        name.basic = "Bob /ROBERTS/";
+        name.setBasic("Bob /ROBERTS/");
         i.getNames().add(name);
         IndividualEvent death = new IndividualEvent();
         death.setType(IndividualEventType.DEATH);

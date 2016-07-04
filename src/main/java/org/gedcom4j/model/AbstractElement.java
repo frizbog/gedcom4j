@@ -36,7 +36,7 @@ public abstract class AbstractElement {
     /**
      * A list of custom tags on this item.
      */
-    protected List<StringTree> customTags = Options.isCollectionInitializationEnabled() ? getCustomTags(true) : null;
+    protected List<StringTree> customTags = getCustomTags(Options.isCollectionInitializationEnabled());
 
     @Override
     public boolean equals(Object obj) {

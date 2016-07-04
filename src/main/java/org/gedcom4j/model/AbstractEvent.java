@@ -34,6 +34,11 @@ import org.gedcom4j.Options;
  */
 public abstract class AbstractEvent extends AbstractElement {
     /**
+     * The place where this event occurred
+     */
+    public Place place;
+
+    /**
      * The address where this event took place
      */
     protected Address address;
@@ -49,6 +54,11 @@ public abstract class AbstractEvent extends AbstractElement {
     protected StringWithCustomTags cause;
 
     /**
+     * The citations for this object
+     */
+    protected List<AbstractCitation> citations = getCitations(Options.isCollectionInitializationEnabled());
+
+    /**
      * The date of this event
      */
     protected StringWithCustomTags date;
@@ -59,29 +69,39 @@ public abstract class AbstractEvent extends AbstractElement {
     protected StringWithCustomTags description;
 
     /**
-     * The place where this event occurred
+     * The emails for this submitter. New for GEDCOM 5.5.1
      */
-    public Place place;
+    protected List<StringWithCustomTags> emails = getEmails(Options.isCollectionInitializationEnabled());
 
     /**
-     * The responsible agency for this event
+     * Fax numbers. New for GEDCOM 5.5.1.
      */
-    protected StringWithCustomTags respAgency;
+    protected List<StringWithCustomTags> faxNumbers = getFaxNumbers(Options.isCollectionInitializationEnabled());
 
     /**
-     * Either a Y or a null after the event type;
+     * Multimedia links for this source citation
      */
-    protected String yNull;
+    protected List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
 
     /**
-     * A subtype that further qualifies the type
+     * Notes about this object
      */
-    protected StringWithCustomTags subType;
+    protected List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The phone numbers for this submitter
+     */
+    protected List<StringWithCustomTags> phoneNumbers = getPhoneNumbers(Options.isCollectionInitializationEnabled());
 
     /**
      * The religious affiliation of this event. New for GEDCOM 5.5.1.
      */
     protected StringWithCustomTags religiousAffiliation;
+
+    /**
+     * The responsible agency for this event
+     */
+    protected StringWithCustomTags respAgency;
 
     /**
      * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be
@@ -90,39 +110,19 @@ public abstract class AbstractEvent extends AbstractElement {
     protected StringWithCustomTags restrictionNotice;
 
     /**
-     * Notes about this object
+     * A subtype that further qualifies the type
      */
-    protected List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
-
-    /**
-     * The phone numbers for this submitter
-     */
-    protected List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>(0);
+    protected StringWithCustomTags subType;
 
     /**
      * Web URL's. New for GEDCOM 5.5.1.
      */
-    protected List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>(0);
+    protected List<StringWithCustomTags> wwwUrls = getWwwUrls(Options.isCollectionInitializationEnabled());
 
     /**
-     * Fax numbers. New for GEDCOM 5.5.1.
+     * Either a Y or a null after the event type;
      */
-    protected List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * The emails for this submitter. New for GEDCOM 5.5.1
-     */
-    protected List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * Multimedia links for this source citation
-     */
-    protected List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
-
-    /**
-     * The citations for this object
-     */
-    protected List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? new ArrayList<AbstractCitation>(0) : null;
+    protected String yNull;
 
     /**
      * {@inheritDoc}

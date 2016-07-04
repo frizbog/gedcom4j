@@ -34,14 +34,19 @@ import org.gedcom4j.Options;
  */
 public class Note extends AbstractElement {
     /**
-     * The lines of text of this note
-     */
-    private List<String> lines = new ArrayList<String>(0);
-
-    /**
      * The change date for this note
      */
     private ChangeDate changeDate;
+
+    /**
+     * The citations for this object
+     */
+    private List<AbstractCitation> citations = getCitations(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The lines of text of this note
+     */
+    private List<String> lines = getLines(Options.isCollectionInitializationEnabled());
 
     /**
      * The record ID number
@@ -49,19 +54,14 @@ public class Note extends AbstractElement {
     private StringWithCustomTags recIdNumber;
 
     /**
+     * The user references for this submitter
+     */
+    private List<UserReference> userReferences = getUserReferences(Options.isCollectionInitializationEnabled());
+
+    /**
      * The xref for this submitter
      */
     private String xref;
-
-    /**
-     * The user references for this submitter
-     */
-    private List<UserReference> userReferences = new ArrayList<UserReference>(0);
-
-    /**
-     * The citations for this object
-     */
-    private List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? new ArrayList<AbstractCitation>(0) : null;
 
     @Override
     public boolean equals(Object obj) {

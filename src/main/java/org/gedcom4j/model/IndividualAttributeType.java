@@ -36,13 +36,17 @@ public enum IndividualAttributeType {
      */
     CASTE_NAME("CAST", "Caste Type"),
     /**
-     * Physical description
+     * Count of children
      */
-    PHYSICAL_DESCRIPTION("DSCR", "Physical Description"),
+    COUNT_OF_CHILDREN("NCHI", "Number of Children"),
     /**
-     * Scholastic achievement
+     * Count of marriages
      */
-    SCHOLASTIC_ACHIEVEMENT("EDUC", "Scholastic Achievement"),
+    COUNT_OF_MARRIAGES("NMR", "Number of Marriages"),
+    /**
+     * Generic fact. New for GEDCOM 5.5.1.
+     */
+    FACT("FACT", "Fact"),
     /**
      * National ID number
      */
@@ -52,17 +56,17 @@ public enum IndividualAttributeType {
      */
     NATIONAL_OR_TRIBAL_ORIGIN("NATI", "National or Tribal Origin"),
     /**
-     * Count of children
+     * Nobility type title
      */
-    COUNT_OF_CHILDREN("NCHI", "Number of Children"),
-    /**
-     * Count of marriages
-     */
-    COUNT_OF_MARRIAGES("NMR", "Number of Marriages"),
+    NOBILITY_TYPE_TITLE("TITL", "Title"),
     /**
      * Occupation
      */
     OCCUPATION("OCCU", "Occupation"),
+    /**
+     * Physical description
+     */
+    PHYSICAL_DESCRIPTION("DSCR", "Physical Description"),
     /**
      * Possessions
      */
@@ -76,17 +80,13 @@ public enum IndividualAttributeType {
      */
     RESIDENCE("RESI", "Residence"),
     /**
+     * Scholastic achievement
+     */
+    SCHOLASTIC_ACHIEVEMENT("EDUC", "Scholastic Achievement"),
+    /**
      * Social Security Number
      */
-    SOCIAL_SECURITY_NUMBER("SSN", "Social Security Number"),
-    /**
-     * Nobility type title
-     */
-    NOBILITY_TYPE_TITLE("TITL", "Title"),
-    /**
-     * Generic fact. New for GEDCOM 5.5.1.
-     */
-    FACT("FACT", "Fact");
+    SOCIAL_SECURITY_NUMBER("SSN", "Social Security Number");
 
     /**
      * Get an enum constant from its tag value
@@ -116,14 +116,14 @@ public enum IndividualAttributeType {
     }
 
     /**
-     * The tag
-     */
-    private final String tag;
-
-    /**
      * The display value for the type
      */
     private final String display;
+
+    /**
+     * The tag
+     */
+    private final String tag;
 
     /**
      * Constructor

@@ -57,13 +57,13 @@ public class FamilyTest {
 
         family1.setHusband(new Individual());
         PersonalName hn1 = new PersonalName();
-        hn1.basic = "Fred /Astaire/";
+        hn1.setBasic("Fred /Astaire/");
         family1.getHusband().getNames().add(hn1);
         family1.getHusband().getFamiliesWhereSpouse().add(fs1);
 
         family1.setWife(new Individual());
         PersonalName wn1 = new PersonalName();
-        wn1.basic = "Ginger /Rogers/";
+        wn1.setBasic("Ginger /Rogers/");
         family1.getWife().getNames().add(wn1);
         family1.getWife().getFamiliesWhereSpouse().add(fs1);
 
@@ -73,13 +73,13 @@ public class FamilyTest {
 
         family2.setHusband(new Individual());
         PersonalName hn2 = new PersonalName();
-        hn2.basic = "Fred /Astaire/";
+        hn2.setBasic("Fred /Astaire/");
         family2.getHusband().getNames().add(hn2);
         family2.getHusband().getFamiliesWhereSpouse().add(fs2);
 
         family2.setWife(new Individual());
         PersonalName wn2 = new PersonalName();
-        wn2.basic = "Ginger /Rogers/";
+        wn2.setBasic("Ginger /Rogers/");
         family2.getWife().getNames().add(wn2);
         family2.getWife().getFamiliesWhereSpouse().add(fs2);
     }

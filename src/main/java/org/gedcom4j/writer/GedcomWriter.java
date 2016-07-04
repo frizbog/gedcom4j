@@ -1305,17 +1305,17 @@ public class GedcomWriter {
      */
     private void emitPersonalNames(int level, List<PersonalName> names) throws GedcomWriterException {
         for (PersonalName n : names) {
-            emitTagWithOptionalValue(level, "NAME", n.basic);
-            emitTagIfValueNotNull(level + 1, "NPFX", n.prefix);
-            emitTagIfValueNotNull(level + 1, "GIVN", n.givenName);
-            emitTagIfValueNotNull(level + 1, "NICK", n.nickname);
-            emitTagIfValueNotNull(level + 1, "SPFX", n.surnamePrefix);
-            emitTagIfValueNotNull(level + 1, "SURN", n.surname);
-            emitTagIfValueNotNull(level + 1, "NSFX", n.suffix);
-            for (PersonalNameVariation pnv : n.romanized) {
+            emitTagWithOptionalValue(level, "NAME", n.getBasic());
+            emitTagIfValueNotNull(level + 1, "NPFX", n.getPrefix());
+            emitTagIfValueNotNull(level + 1, "GIVN", n.getGivenName());
+            emitTagIfValueNotNull(level + 1, "NICK", n.getNickname());
+            emitTagIfValueNotNull(level + 1, "SPFX", n.getSurnamePrefix());
+            emitTagIfValueNotNull(level + 1, "SURN", n.getSurname());
+            emitTagIfValueNotNull(level + 1, "NSFX", n.getSuffix());
+            for (PersonalNameVariation pnv : n.getRomanized()) {
                 emitPersonalNameVariation(level + 1, "ROMN", pnv);
             }
-            for (PersonalNameVariation pnv : n.phonetic) {
+            for (PersonalNameVariation pnv : n.getPhonetic()) {
                 emitPersonalNameVariation(level + 1, "FONE", pnv);
             }
             emitSourceCitations(level + 1, n.getCitations());

@@ -34,9 +34,9 @@ import org.gedcom4j.Options;
  */
 public class PersonalNameVariation extends NameVariation {
     /**
-     * The prefix for the name
+     * The citations for this object
      */
-    private StringWithCustomTags prefix;
+    private List<AbstractCitation> citations = getCitations(Options.isCollectionInitializationEnabled());
 
     /**
      * The given (aka "Christian" or "first") names
@@ -49,14 +49,14 @@ public class PersonalNameVariation extends NameVariation {
     private StringWithCustomTags nickname;
 
     /**
-     * Surname prefix
+     * Notes about this object
      */
-    private StringWithCustomTags surnamePrefix;
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     /**
-     * The surname (aka "family" or "last" name)
+     * The prefix for the name
      */
-    private StringWithCustomTags surname;
+    private StringWithCustomTags prefix;
 
     /**
      * The suffix
@@ -64,14 +64,14 @@ public class PersonalNameVariation extends NameVariation {
     private StringWithCustomTags suffix;
 
     /**
-     * Notes about this object
+     * The surname (aka "family" or "last" name)
      */
-    private List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+    private StringWithCustomTags surname;
 
     /**
-     * The citations for this object
+     * Surname prefix
      */
-    private List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? new ArrayList<AbstractCitation>(0) : null;
+    private StringWithCustomTags surnamePrefix;
 
     /**
      * Determine if this object is equal to another

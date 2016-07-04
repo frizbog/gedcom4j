@@ -36,57 +36,57 @@ public class PersonalName extends AbstractElement {
     /**
      * The name in basic, unbroken-down format
      */
-    public String basic;
-
-    /**
-     * The prefix for the name
-     */
-    public StringWithCustomTags prefix;
-
-    /**
-     * The given (aka "Christian" or "first") names
-     */
-    public StringWithCustomTags givenName;
-
-    /**
-     * Nickname
-     */
-    public StringWithCustomTags nickname;
-
-    /**
-     * Surname prefix
-     */
-    public StringWithCustomTags surnamePrefix;
-
-    /**
-     * The surname (aka "family" or "last" name)
-     */
-    public StringWithCustomTags surname;
-
-    /**
-     * The suffix
-     */
-    public StringWithCustomTags suffix;
-
-    /**
-     * Romanized variant. New for GEDCOM 5.5.1
-     */
-    public List<PersonalNameVariation> romanized = new ArrayList<PersonalNameVariation>(0);
-
-    /**
-     * Phonetic spelling. New for GEDCOM 5.5.1
-     */
-    public List<PersonalNameVariation> phonetic = new ArrayList<PersonalNameVariation>(0);
-
-    /**
-     * Notes about this object
-     */
-    private List<Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
+    private String basic;
 
     /**
      * The citations for this object
      */
-    private List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? new ArrayList<AbstractCitation>(0) : null;
+    private List<AbstractCitation> citations = getCitations(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The given (aka "Christian" or "first") names
+     */
+    private StringWithCustomTags givenName;
+
+    /**
+     * Nickname
+     */
+    private StringWithCustomTags nickname;
+
+    /**
+     * Notes about this object
+     */
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Phonetic spelling. New for GEDCOM 5.5.1
+     */
+    private List<PersonalNameVariation> phonetic = getPhonetic(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The prefix for the name
+     */
+    private StringWithCustomTags prefix;
+
+    /**
+     * Romanized variant. New for GEDCOM 5.5.1
+     */
+    private List<PersonalNameVariation> romanized = getRomanized(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The suffix
+     */
+    private StringWithCustomTags suffix;
+
+    /**
+     * The surname (aka "family" or "last" name)
+     */
+    private StringWithCustomTags surname;
+
+    /**
+     * Surname prefix
+     */
+    private StringWithCustomTags surnamePrefix;
 
     @Override
     public boolean equals(Object obj) {
@@ -181,6 +181,15 @@ public class PersonalName extends AbstractElement {
     }
 
     /**
+     * Get the basic
+     * 
+     * @return the basic
+     */
+    public String getBasic() {
+        return basic;
+    }
+
+    /**
      * Get the citations
      * 
      * @return the citations
@@ -202,6 +211,24 @@ public class PersonalName extends AbstractElement {
             citations = new ArrayList<AbstractCitation>(0);
         }
         return citations;
+    }
+
+    /**
+     * Get the givenName
+     * 
+     * @return the givenName
+     */
+    public StringWithCustomTags getGivenName() {
+        return givenName;
+    }
+
+    /**
+     * Get the nickname
+     * 
+     * @return the nickname
+     */
+    public StringWithCustomTags getNickname() {
+        return nickname;
     }
 
     /**
@@ -228,6 +255,88 @@ public class PersonalName extends AbstractElement {
         return notes;
     }
 
+    /**
+     * Get the phonetic
+     * 
+     * @return the phonetic
+     */
+    public List<PersonalNameVariation> getPhonetic() {
+        return phonetic;
+    }
+
+    /**
+     * Get the phonetic
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the phonetic
+     */
+    public List<PersonalNameVariation> getPhonetic(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && phonetic == null) {
+            phonetic = new ArrayList<PersonalNameVariation>(0);
+        }
+        return phonetic;
+    }
+
+    /**
+     * Get the prefix
+     * 
+     * @return the prefix
+     */
+    public StringWithCustomTags getPrefix() {
+        return prefix;
+    }
+
+    /**
+     * Get the romanized
+     * 
+     * @return the romanized
+     */
+    public List<PersonalNameVariation> getRomanized() {
+        return romanized;
+    }
+
+    /**
+     * Get the romanized
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the romanized
+     */
+    public List<PersonalNameVariation> getRomanized(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && romanized == null) {
+            romanized = new ArrayList<PersonalNameVariation>(0);
+        }
+        return romanized;
+    }
+
+    /**
+     * Get the suffix
+     * 
+     * @return the suffix
+     */
+    public StringWithCustomTags getSuffix() {
+        return suffix;
+    }
+
+    /**
+     * Get the surname
+     * 
+     * @return the surname
+     */
+    public StringWithCustomTags getSurname() {
+        return surname;
+    }
+
+    /**
+     * Get the surnamePrefix
+     * 
+     * @return the surnamePrefix
+     */
+    public StringWithCustomTags getSurnamePrefix() {
+        return surnamePrefix;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -244,6 +353,76 @@ public class PersonalName extends AbstractElement {
         result = prime * result + (romanized == null ? 0 : romanized.hashCode());
         result = prime * result + (phonetic == null ? 0 : phonetic.hashCode());
         return result;
+    }
+
+    /**
+     * Set the basic
+     * 
+     * @param basic
+     *            the basic to set
+     */
+    public void setBasic(String basic) {
+        this.basic = basic;
+    }
+
+    /**
+     * Set the givenName
+     * 
+     * @param givenName
+     *            the givenName to set
+     */
+    public void setGivenName(StringWithCustomTags givenName) {
+        this.givenName = givenName;
+    }
+
+    /**
+     * Set the nickname
+     * 
+     * @param nickname
+     *            the nickname to set
+     */
+    public void setNickname(StringWithCustomTags nickname) {
+        this.nickname = nickname;
+    }
+
+    /**
+     * Set the prefix
+     * 
+     * @param prefix
+     *            the prefix to set
+     */
+    public void setPrefix(StringWithCustomTags prefix) {
+        this.prefix = prefix;
+    }
+
+    /**
+     * Set the suffix
+     * 
+     * @param suffix
+     *            the suffix to set
+     */
+    public void setSuffix(StringWithCustomTags suffix) {
+        this.suffix = suffix;
+    }
+
+    /**
+     * Set the surname
+     * 
+     * @param surname
+     *            the surname to set
+     */
+    public void setSurname(StringWithCustomTags surname) {
+        this.surname = surname;
+    }
+
+    /**
+     * Set the surnamePrefix
+     * 
+     * @param surnamePrefix
+     *            the surnamePrefix to set
+     */
+    public void setSurnamePrefix(StringWithCustomTags surnamePrefix) {
+        this.surnamePrefix = surnamePrefix;
     }
 
     @Override

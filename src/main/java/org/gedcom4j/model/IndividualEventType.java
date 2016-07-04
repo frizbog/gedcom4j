@@ -37,10 +37,6 @@ public enum IndividualEventType {
      */
     ARRIVAL("ARVL", "Arrival"),
     /**
-     * Birth
-     */
-    BIRTH("BIRT", "Birth"),
-    /**
      * Baptism
      */
     BAPTISM("BAPM", "Baptism"),
@@ -52,6 +48,10 @@ public enum IndividualEventType {
      * Bas Mitzvah
      */
     BAS_MITZVAH("BASM", "Bas Miztvah"),
+    /**
+     * Birth
+     */
+    BIRTH("BIRT", "Birth"),
     /**
      * Blessing
      */
@@ -89,6 +89,10 @@ public enum IndividualEventType {
      */
     EMIGRATION("EMIG", "Emigration"),
     /**
+     * Event
+     */
+    EVENT("EVEN", "Event"),
+    /**
      * First Communion
      */
     FIRST_COMMUNION("FCOM", "First Communion"),
@@ -109,21 +113,17 @@ public enum IndividualEventType {
      */
     ORDINATION("ORDN", "Ordination"),
     /**
-     * Retirement
-     */
-    RETIREMENT("RETI", "Retirement"),
-    /**
      * Probate
      */
     PROBATE("PROB", "Probate"),
     /**
+     * Retirement
+     */
+    RETIREMENT("RETI", "Retirement"),
+    /**
      * Will
      */
-    WILL("WILL", "Will"),
-    /**
-     * Event
-     */
-    EVENT("EVEN", "Event");
+    WILL("WILL", "Will");
 
     /**
      * Get an individual event type enum constant from its tag
@@ -153,14 +153,14 @@ public enum IndividualEventType {
     }
 
     /**
-     * The tag
-     */
-    private final String tag;
-
-    /**
      * The display value
      */
     private final String display;
+
+    /**
+     * The tag
+     */
+    private final String tag;
 
     /**
      * Private constructor

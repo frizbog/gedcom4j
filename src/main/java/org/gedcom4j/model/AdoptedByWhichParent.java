@@ -29,15 +29,15 @@ package org.gedcom4j.model;
  */
 public enum AdoptedByWhichParent {
     /**
+     * Both parents adopted
+     */
+    BOTH,
+    /**
      * The husband did the adopting
      */
     HUSBAND,
     /**
      * The wife did the adopting
      */
-    WIFE,
-    /**
-     * Both parents adopted
-     */
-    BOTH;
+    WIFE;
 }

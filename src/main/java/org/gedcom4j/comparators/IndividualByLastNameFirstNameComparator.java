@@ -64,26 +64,26 @@ public class IndividualByLastNameFirstNameComparator implements Serializable, Co
         }
 
         if (n1 != null) {
-            if (n1.surname == null && n1.givenName == null) {
-                if (n1.basic.contains("/")) {
-                    String sn = n1.basic.substring(n1.basic.indexOf("/"));
-                    String gn = n1.basic.substring(0, n1.basic.indexOf("/"));
+            if (n1.getSurname() == null && n1.getGivenName() == null) {
+                if (n1.getBasic().contains("/")) {
+                    String sn = n1.getBasic().substring(n1.getBasic().indexOf("/"));
+                    String gn = n1.getBasic().substring(0, n1.getBasic().indexOf("/"));
                     s1 = sn + ", " + gn;
                 }
             } else {
-                s1 = n1.surname + ", " + n1.givenName;
+                s1 = n1.getSurname() + ", " + n1.getGivenName();
             }
         }
 
         if (n2 != null) {
-            if (n2.surname == null && n2.givenName == null) {
-                if (n2.basic.contains("/")) {
-                    String sn = n2.basic.substring(n2.basic.indexOf("/"));
-                    String gn = n2.basic.substring(0, n2.basic.indexOf("/"));
+            if (n2.getSurname() == null && n2.getGivenName() == null) {
+                if (n2.getBasic().contains("/")) {
+                    String sn = n2.getBasic().substring(n2.getBasic().indexOf("/"));
+                    String gn = n2.getBasic().substring(0, n2.getBasic().indexOf("/"));
                     s2 = sn + ", " + gn;
                 }
             } else {
-                s2 = n2.surname + ", " + n2.givenName;
+                s2 = n2.getSurname() + ", " + n2.getGivenName();
             }
         }
 

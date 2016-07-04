@@ -49,6 +49,10 @@ public enum FamilyEventType {
      */
     ENGAGEMENT("ENGA", "Engagement"),
     /**
+     * General event
+     */
+    EVENT("EVEN", "Event"),
+    /**
      * Marriage
      */
     MARRIAGE("MARR", "Marriage"),
@@ -67,11 +71,7 @@ public enum FamilyEventType {
     /**
      * Marriage settlement
      */
-    MARRIAGE_SETTLEMENT("MARS", "Marriage settlement"),
-    /**
-     * General event
-     */
-    EVENT("EVEN", "Event");
+    MARRIAGE_SETTLEMENT("MARS", "Marriage settlement");
 
     /**
      * Get an enum type from its tag string
@@ -101,14 +101,14 @@ public enum FamilyEventType {
     }
 
     /**
-     * The tag
-     */
-    private final String tag;
-
-    /**
      * The display value for the tag
      */
     private final String display;
+
+    /**
+     * The tag
+     */
+    private final String tag;
 
     /**
      * Constructor

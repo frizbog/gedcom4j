@@ -33,44 +33,9 @@ import org.gedcom4j.Options;
  */
 public class Family extends AbstractElement {
     /**
-     * The permanent record file number
-     */
-    private StringWithCustomTags recFileNumber;
-
-    /**
      * The automated record ID number
      */
     private StringWithCustomTags automatedRecordId;
-
-    /**
-     * The wife in the family
-     */
-    private Individual wife;
-
-    /**
-     * The husband in the family
-     */
-    private Individual husband;
-
-    /**
-     * A list of the children in the family
-     */
-    private List<Individual> children = new ArrayList<Individual>(0);
-
-    /**
-     * The number of children
-     */
-    private StringWithCustomTags numChildren;
-
-    /**
-     * A list of the submitters for this family
-     */
-    private List<Submitter> submitters = new ArrayList<Submitter>(0);
-
-    /**
-     * The LDS Spouse Sealings for this family
-     */
-    private List<LdsSpouseSealing> ldsSpouseSealings = new ArrayList<LdsSpouseSealing>(0);
 
     /**
      * The change date information for this family record
@@ -78,9 +43,49 @@ public class Family extends AbstractElement {
     private ChangeDate changeDate;
 
     /**
+     * A list of the children in the family
+     */
+    private List<Individual> children = getChildren(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The citations for this object
+     */
+    private List<AbstractCitation> citations = getCitations(Options.isCollectionInitializationEnabled());
+
+    /**
      * All the family events
      */
-    private List<FamilyEvent> events = new ArrayList<FamilyEvent>(0);
+    private List<FamilyEvent> events = getEvents(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The husband in the family
+     */
+    private Individual husband;
+
+    /**
+     * The LDS Spouse Sealings for this family
+     */
+    private List<LdsSpouseSealing> ldsSpouseSealings = getLdsSpouseSealings(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Multimedia links for this source citation
+     */
+    private List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Notes about this object
+     */
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The number of children
+     */
+    private StringWithCustomTags numChildren;
+
+    /**
+     * The permanent record file number
+     */
+    private StringWithCustomTags recFileNumber;
 
     /**
      * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be
@@ -89,29 +94,24 @@ public class Family extends AbstractElement {
     private StringWithCustomTags restrictionNotice;
 
     /**
-     * Notes about this object
+     * A list of the submitters for this family
      */
-    private List<Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
+    private List<Submitter> submitters = getSubmitters(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The user references for this submitter
+     */
+    private List<UserReference> userReferences = getUserReferences(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The wife in the family
+     */
+    private Individual wife;
 
     /**
      * The xref for this submitter
      */
     private String xref;
-
-    /**
-     * Multimedia links for this source citation
-     */
-    private List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
-
-    /**
-     * The user references for this submitter
-     */
-    private List<UserReference> userReferences = new ArrayList<UserReference>(0);
-
-    /**
-     * The citations for this object
-     */
-    private List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? new ArrayList<AbstractCitation>(0) : null;
 
     /**
      * {@inheritDoc}

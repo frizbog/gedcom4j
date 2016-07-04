@@ -30,14 +30,14 @@ package org.gedcom4j.model;
  */
 public class EventRecorded extends AbstractElement {
     /**
-     * The event type (tag)
-     */
-    private String eventType;
-
-    /**
      * The date period covered in the source
      */
     private StringWithCustomTags datePeriod;
+
+    /**
+     * The event type (tag)
+     */
+    private String eventType;
 
     /**
      * The jurisdiction of the source. Corresponds to SOURCE_JURISDICTION_PLACE in the GEDCOM spec.

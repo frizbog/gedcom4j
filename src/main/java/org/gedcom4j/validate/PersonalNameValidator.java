@@ -21,8 +21,6 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.ArrayList;
-
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.NameVariation;
 import org.gedcom4j.model.PersonalName;
@@ -62,7 +60,7 @@ class PersonalNameValidator extends AbstractValidator {
             addError("Personal name was null - cannot validate");
             return;
         }
-        checkRequiredString(pn.basic, "basic name", pn);
+        checkRequiredString(pn.getBasic(), "basic name", pn);
         if (pn.getCitations() == null) {
             if (rootValidator.autorepair) {
                 pn.getCitations(true).clear();
@@ -77,37 +75,37 @@ class PersonalNameValidator extends AbstractValidator {
             }
         }
         checkCustomTags(pn);
-        checkOptionalString(pn.givenName, "given name", pn);
-        checkOptionalString(pn.nickname, "nickname", pn);
-        checkOptionalString(pn.prefix, "prefix", pn);
-        checkOptionalString(pn.suffix, "suffix", pn);
-        checkOptionalString(pn.surname, "surname", pn);
-        checkOptionalString(pn.surnamePrefix, "surname prefix", pn);
+        checkOptionalString(pn.getGivenName(), "given name", pn);
+        checkOptionalString(pn.getNickname(), "nickname", pn);
+        checkOptionalString(pn.getPrefix(), "prefix", pn);
+        checkOptionalString(pn.getSuffix(), "suffix", pn);
+        checkOptionalString(pn.getSurname(), "surname", pn);
+        checkOptionalString(pn.getSurnamePrefix(), "surname prefix", pn);
 
         checkNotes(pn.getNotes(), pn);
-        if (pn.phonetic == null) {
+        if (pn.getPhonetic() == null) {
             if (rootValidator.autorepair) {
-                pn.phonetic = new ArrayList<PersonalNameVariation>();
+                pn.getPhonetic(true).clear();
                 rootValidator.addInfo("Event had null list of phonetic name variations - repaired", pn);
             } else {
                 rootValidator.addError("Event has null list of phonetic name variations", pn);
             }
         } else {
-            for (NameVariation nv : pn.phonetic) {
+            for (NameVariation nv : pn.getPhonetic()) {
                 PersonalNameVariation pnv = (PersonalNameVariation) nv;
                 new PersonalNameVariationValidator(rootValidator, pnv).validate();
             }
         }
 
-        if (pn.romanized == null) {
+        if (pn.getRomanized() == null) {
             if (rootValidator.autorepair) {
-                pn.romanized = new ArrayList<PersonalNameVariation>();
+                pn.getRomanized(true).clear();
                 rootValidator.addInfo("Event had null list of romanized name variations - repaired", pn);
             } else {
                 rootValidator.addError("Event has null list of romanized name variations", pn);
             }
         } else {
-            for (NameVariation nv : pn.romanized) {
+            for (NameVariation nv : pn.getRomanized()) {
                 PersonalNameVariation pnv = (PersonalNameVariation) nv;
                 new PersonalNameVariationValidator(rootValidator, pnv).validate();
             }

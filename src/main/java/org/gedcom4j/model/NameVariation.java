@@ -31,15 +31,15 @@ package org.gedcom4j.model;
 public class NameVariation extends AbstractElement {
 
     /**
+     * The variation text
+     */
+    protected String variation;
+
+    /**
      * The variation type. For romanized names, the method used in transforming the text to a romanized variation. For
      * phonetic names, the method used in transforming the text to the phonetic variation.
      */
     protected StringWithCustomTags variationType;
-
-    /**
-     * The variation text
-     */
-    protected String variation;
 
     @Override
     public boolean equals(Object obj) {

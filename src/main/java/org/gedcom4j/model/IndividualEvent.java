@@ -28,14 +28,14 @@ package org.gedcom4j.model;
  */
 public class IndividualEvent extends AbstractEvent {
     /**
-     * The type of event this represents
-     */
-    private IndividualEventType type;
-
-    /**
      * The family to which this individual adopted was adopted
      */
     private FamilyChild family;
+
+    /**
+     * The type of event this represents
+     */
+    private IndividualEventType type;
 
     @Override
     public boolean equals(Object obj) {

@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * A class for source citation data.
  * 
@@ -38,7 +40,7 @@ public class CitationData extends AbstractElement {
     /**
      * The source text - one or more lines of it
      */
-    private List<List<String>> sourceText = new ArrayList<List<String>>(0);
+    private List<List<String>> sourceText = getSourceText(Options.isCollectionInitializationEnabled());
 
     @Override
     public boolean equals(Object obj) {

@@ -33,9 +33,19 @@ import org.gedcom4j.Options;
  */
 public class FamilyChild extends AbstractElement {
     /**
+     * Who did the adopting.
+     */
+    private AdoptedByWhichParent adoptedBy;
+
+    /**
      * The family to which the child belonged
      */
     private Family family;
+
+    /**
+     * Notes about this object
+     */
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     /**
      * Pedigree information
@@ -43,20 +53,10 @@ public class FamilyChild extends AbstractElement {
     private StringWithCustomTags pedigree;
 
     /**
-     * Who did the adopting.
-     */
-    private AdoptedByWhichParent adoptedBy;
-
-    /**
      * The status of this Family/Child relationship. New for GEDCOM 5.5.1. Supposed to be "challenged", "disproven", or
      * "proven", but this implementation allows any value.
      */
     private StringWithCustomTags status;
-
-    /**
-     * Notes about this object
-     */
-    private List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
 
     @Override
     public boolean equals(Object obj) {

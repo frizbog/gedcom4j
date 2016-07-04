@@ -42,12 +42,12 @@ public class Individual extends AbstractElement {
     /**
      * Aliases for the current individual.
      */
-    private List<StringWithCustomTags> aliases = new ArrayList<StringWithCustomTags>(0);
+    private List<StringWithCustomTags> aliases = getAliases(Options.isCollectionInitializationEnabled());
 
     /**
      * A list of submitter(s) who are interested in the ancestry of this individual.
      */
-    private List<Submitter> ancestorInterest = new ArrayList<Submitter>(0);
+    private List<Submitter> ancestorInterest = getAncestorInterest(Options.isCollectionInitializationEnabled());
 
     /**
      * The Ancestral File Number of this individual.
@@ -57,12 +57,12 @@ public class Individual extends AbstractElement {
     /**
      * A list of associations to which this individual belongs/belonged.
      */
-    private List<Association> associations = new ArrayList<Association>(0);
+    private List<Association> associations = getAssociations(Options.isCollectionInitializationEnabled());
 
     /**
      * A list of individual attributes about this individual.
      */
-    private List<IndividualAttribute> attributes = new ArrayList<IndividualAttribute>(0);
+    private List<IndividualAttribute> attributes = getAttributes(Options.isCollectionInitializationEnabled());
 
     /**
      * The change date for this individual
@@ -72,57 +72,57 @@ public class Individual extends AbstractElement {
     /**
      * The citations for this object
      */
-    private List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? new ArrayList<AbstractCitation>(0) : null;
+    private List<AbstractCitation> citations = getCitations(Options.isCollectionInitializationEnabled());
 
     /**
      * A list of submitters who are interested in the descendants of this individual.
      */
-    private List<Submitter> descendantInterest = new ArrayList<Submitter>(0);
+    private List<Submitter> descendantInterest = getDescendantInterest(Options.isCollectionInitializationEnabled());
 
     /**
      * The emails for this submitter. New for GEDCOM 5.5.1
      */
-    private List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
+    private List<StringWithCustomTags> emails = getEmails(Options.isCollectionInitializationEnabled());
 
     /**
      * A list of events for this individual.
      */
-    private List<IndividualEvent> events = new ArrayList<IndividualEvent>(0);
+    private List<IndividualEvent> events = getEvents(Options.isCollectionInitializationEnabled());
 
     /**
      * A list of families to which this individual was a child
      */
-    private List<FamilyChild> familiesWhereChild = new ArrayList<FamilyChild>(0);
+    private List<FamilyChild> familiesWhereChild = getFamiliesWhereChild(Options.isCollectionInitializationEnabled());
 
     /**
      * A list of families to which this individual was either the husband or wife
      */
-    private List<FamilySpouse> familiesWhereSpouse = new ArrayList<FamilySpouse>(0);
+    private List<FamilySpouse> familiesWhereSpouse = getFamiliesWhereSpouse(Options.isCollectionInitializationEnabled());
 
     /**
      * Fax numbers. New for GEDCOM 5.5.1.
      */
-    private List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>(0);
+    private List<StringWithCustomTags> faxNumbers = getFaxNumbers(Options.isCollectionInitializationEnabled());
 
     /**
      * A list of LDS individual ordinances for this individual
      */
-    private List<LdsIndividualOrdinance> ldsIndividualOrdinances = new ArrayList<LdsIndividualOrdinance>(0);
+    private List<LdsIndividualOrdinance> ldsIndividualOrdinances = getLdsIndividualOrdinances(Options.isCollectionInitializationEnabled());
 
     /**
      * Multimedia links for this source citation
      */
-    private List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
+    private List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
 
     /**
      * A list of names for this individual
      */
-    private List<PersonalName> names = new ArrayList<PersonalName>(0);
+    private List<PersonalName> names = getNames(Options.isCollectionInitializationEnabled());
 
     /**
      * Notes about this object
      */
-    private List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     /**
      * The permanent record file number for this individual
@@ -132,7 +132,7 @@ public class Individual extends AbstractElement {
     /**
      * The phone numbers for this submitter
      */
-    private List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>(0);
+    private List<StringWithCustomTags> phoneNumbers = getPhoneNumbers(Options.isCollectionInitializationEnabled());
 
     /**
      * The record ID number
@@ -152,17 +152,17 @@ public class Individual extends AbstractElement {
     /**
      * A list of submitter(s) of this individual
      */
-    private List<Submitter> submitters = new ArrayList<Submitter>(0);
+    private List<Submitter> submitters = getSubmitters(Options.isCollectionInitializationEnabled());
 
     /**
      * The user references for this submitter
      */
-    private List<UserReference> userReferences = new ArrayList<UserReference>(0);
+    private List<UserReference> userReferences = getUserReferences(Options.isCollectionInitializationEnabled());
 
     /**
      * Web URL's. New for GEDCOM 5.5.1.
      */
-    private List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>(0);
+    private List<StringWithCustomTags> wwwUrls = getWwwUrls(Options.isCollectionInitializationEnabled());
 
     /**
      * The xref for this submitter

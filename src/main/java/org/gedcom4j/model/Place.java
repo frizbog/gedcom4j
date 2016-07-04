@@ -34,24 +34,9 @@ import org.gedcom4j.Options;
  */
 public class Place extends AbstractElement {
     /**
-     * The place name (value)
+     * The citations for this object
      */
-    private String placeName;
-
-    /**
-     * The place format (hierarchy)
-     */
-    private StringWithCustomTags placeFormat;
-
-    /**
-     * Phonetic variations on the place name. New for GEDCOM 5.5.1.
-     */
-    private List<NameVariation> phonetic = new ArrayList<NameVariation>(0);
-
-    /**
-     * Romanized variations on the place name. New for GEDCOM 5.5.1.
-     */
-    private List<NameVariation> romanized = new ArrayList<NameVariation>(0);
+    private List<AbstractCitation> citations = getCitations(Options.isCollectionInitializationEnabled());
 
     /**
      * Latitude. New for GEDCOM 5.5.1.
@@ -66,12 +51,27 @@ public class Place extends AbstractElement {
     /**
      * Notes about this object
      */
-    private List<Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     /**
-     * The citations for this object
+     * Phonetic variations on the place name. New for GEDCOM 5.5.1.
      */
-    private List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? new ArrayList<AbstractCitation>(0) : null;
+    private List<NameVariation> phonetic = getPhonetic(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The place format (hierarchy)
+     */
+    private StringWithCustomTags placeFormat;
+
+    /**
+     * The place name (value)
+     */
+    private String placeName;
+
+    /**
+     * Romanized variations on the place name. New for GEDCOM 5.5.1.
+     */
+    private List<NameVariation> romanized = getRomanized(Options.isCollectionInitializationEnabled());
 
     @Override
     public boolean equals(Object obj) {

@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * A citation with a source. Corresponds to the first (preferred) form of the SOURCE_CITATION structure (which you'd do
  * in Pascal with a variant record, but here we use subclasses of a parent abstract class).
@@ -33,15 +35,15 @@ import java.util.List;
  */
 public class CitationWithSource extends AbstractCitation {
     /**
-     * Where within the source is the information being cited
-     */
-    private StringWithCustomTags whereInSource;
-
-    /**
      * The quality of this citation. Supposed to be 0, 1, 2, or 3, but stored as a string since we're not doing math on
      * it.
      */
     private StringWithCustomTags certainty;
+
+    /**
+     * A list of citation data entries
+     */
+    private List<CitationData> data = getData(Options.isCollectionInitializationEnabled());
 
     /**
      * The type of event or attribute cited from. Will be the tag from one of the the following three enum types:
@@ -50,9 +52,14 @@ public class CitationWithSource extends AbstractCitation {
     private StringWithCustomTags eventCited;
 
     /**
-     * A list of citation data entries
+     * Multimedia links for this source citation
      */
-    private List<CitationData> data = new ArrayList<CitationData>(0);
+    private List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The role in the event cited
+     */
+    private StringWithCustomTags roleInEvent;
 
     /**
      * A reference to the cited source
@@ -60,14 +67,9 @@ public class CitationWithSource extends AbstractCitation {
     private Source source;
 
     /**
-     * Multimedia links for this source citation
+     * Where within the source is the information being cited
      */
-    private List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
-
-    /**
-     * The role in the event cited
-     */
-    private StringWithCustomTags roleInEvent;
+    private StringWithCustomTags whereInSource;
 
     @Override
     public boolean equals(Object obj) {

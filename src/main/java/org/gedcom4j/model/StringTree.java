@@ -43,9 +43,9 @@ import java.util.List;
 public class StringTree {
 
     /**
-     * The level of this element
+     * All the elements that are child elements of this element
      */
-    public int level;
+    public List<StringTree> children = new ArrayList<StringTree>(0);
 
     /**
      * The ID number of this element
@@ -53,19 +53,14 @@ public class StringTree {
     public String id;
 
     /**
-     * The tag for this element
+     * The level of this element
      */
-    public String tag;
+    public int level;
 
     /**
-     * The value for this element (basically everything after the tag)
+     * The line number of the GEDCOM from which this element was derived
      */
-    public String value;
-
-    /**
-     * All the elements that are child elements of this element
-     */
-    public List<StringTree> children = new ArrayList<StringTree>(0);
+    public int lineNum;
 
     /**
      * <p>
@@ -79,9 +74,14 @@ public class StringTree {
     public StringTree parent = null;
 
     /**
-     * The line number of the GEDCOM from which this element was derived
+     * The tag for this element
      */
-    public int lineNum;
+    public String tag;
+
+    /**
+     * The value for this element (basically everything after the tag)
+     */
+    public String value;
 
     /**
      * {@inheritDoc}

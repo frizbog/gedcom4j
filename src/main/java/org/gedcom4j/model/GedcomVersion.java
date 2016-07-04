@@ -30,14 +30,14 @@ package org.gedcom4j.model;
 public class GedcomVersion extends AbstractElement {
 
     /**
-     * The version number for this GEDCOM
-     */
-    private SupportedVersion versionNumber = SupportedVersion.V5_5_1;
-
-    /**
      * The form
      */
     private StringWithCustomTags gedcomForm = new StringWithCustomTags("LINEAGE-LINKED");
+
+    /**
+     * The version number for this GEDCOM
+     */
+    private SupportedVersion versionNumber = SupportedVersion.V5_5_1;
 
     @Override
     public boolean equals(Object obj) {

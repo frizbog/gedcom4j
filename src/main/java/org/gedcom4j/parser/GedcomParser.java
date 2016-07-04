@@ -1750,31 +1750,31 @@ public class GedcomParser {
      *            the personal name structure to fill in
      */
     private void loadPersonalName(StringTree st, PersonalName pn) {
-        pn.basic = st.value;
+        pn.setBasic(st.value);
         for (StringTree ch : st.children) {
             if (Tag.NAME_PREFIX.equals(ch.tag)) {
-                pn.prefix = new StringWithCustomTags(ch);
+                pn.setPrefix(new StringWithCustomTags(ch));
             } else if (Tag.GIVEN_NAME.equals(ch.tag)) {
-                pn.givenName = new StringWithCustomTags(ch);
+                pn.setGivenName(new StringWithCustomTags(ch));
             } else if (Tag.NICKNAME.equals(ch.tag)) {
-                pn.nickname = new StringWithCustomTags(ch);
+                pn.setNickname(new StringWithCustomTags(ch));
             } else if (Tag.SURNAME_PREFIX.equals(ch.tag)) {
-                pn.surnamePrefix = new StringWithCustomTags(ch);
+                pn.setSurnamePrefix(new StringWithCustomTags(ch));
             } else if (Tag.SURNAME.equals(ch.tag)) {
-                pn.surname = new StringWithCustomTags(ch);
+                pn.setSurname(new StringWithCustomTags(ch));
             } else if (Tag.NAME_SUFFIX.equals(ch.tag)) {
-                pn.suffix = new StringWithCustomTags(ch);
+                pn.setSuffix(new StringWithCustomTags(ch));
             } else if (Tag.SOURCE.equals(ch.tag)) {
                 loadCitation(ch, pn.getCitations());
             } else if (Tag.NOTE.equals(ch.tag)) {
                 loadNote(ch, pn.getNotes());
             } else if (Tag.ROMANIZED.equals(ch.tag)) {
                 PersonalNameVariation pnv = new PersonalNameVariation();
-                pn.romanized.add(pnv);
+                pn.getRomanized().add(pnv);
                 loadPersonalNameVariation(ch, pnv);
             } else if (Tag.PHONETIC.equals(ch.tag)) {
                 PersonalNameVariation pnv = new PersonalNameVariation();
-                pn.phonetic.add(pnv);
+                pn.getPhonetic().add(pnv);
                 loadPersonalNameVariation(ch, pnv);
             } else {
                 unknownTag(ch, pn);

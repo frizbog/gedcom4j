@@ -278,7 +278,7 @@ public class AncestryCalculatorTest {
         if (VERBOSE) {
             System.out.println("Any match of these will be fine:");
             for (Individual i : anc.getExtendedAncestry(robert)) {
-                System.out.println("\t" + i.getNames().get(0).basic);
+                System.out.println("\t" + i.getNames().get(0).getBasic());
             }
         }
         Set<Individual> lowestCommonAncestors = anc.getLowestCommonAncestors(robert, theresa);

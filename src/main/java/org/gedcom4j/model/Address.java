@@ -35,11 +35,6 @@ import org.gedcom4j.Options;
  */
 public class Address extends AbstractElement {
     /**
-     * The lines of the address
-     */
-    private List<String> lines = Options.isCollectionInitializationEnabled() ? getLines(true) : null;
-
-    /**
      * Line one of the address
      */
     private StringWithCustomTags addr1;
@@ -55,9 +50,14 @@ public class Address extends AbstractElement {
     private StringWithCustomTags city;
 
     /**
-     * State/province
+     * Country
      */
-    private StringWithCustomTags stateProvince;
+    private StringWithCustomTags country;
+
+    /**
+     * The lines of the address
+     */
+    private List<String> lines = getLines(Options.isCollectionInitializationEnabled());
 
     /**
      * Postal code
@@ -65,9 +65,9 @@ public class Address extends AbstractElement {
     private StringWithCustomTags postalCode;
 
     /**
-     * Country
+     * State/province
      */
-    private StringWithCustomTags country;
+    private StringWithCustomTags stateProvince;
 
     @Override
     public boolean equals(Object obj) {

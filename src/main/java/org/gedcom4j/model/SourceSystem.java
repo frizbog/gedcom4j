@@ -35,6 +35,21 @@ package org.gedcom4j.model;
  */
 public class SourceSystem extends AbstractElement {
     /**
+     * The corporation that owns this source system
+     */
+    private Corporation corporation;
+
+    /**
+     * The product name for this source system
+     */
+    private StringWithCustomTags productName;
+
+    /**
+     * Header source data for this source system.
+     */
+    private HeaderSourceData sourceData;
+
+    /**
      * The system ID for this source system. This field must be valued to pass validation, so the default value is
      * "UNSPECIFIED".
      */
@@ -44,21 +59,6 @@ public class SourceSystem extends AbstractElement {
      * The version number of this source system
      */
     private StringWithCustomTags versionNum;
-
-    /**
-     * The product name for this source system
-     */
-    private StringWithCustomTags productName;
-
-    /**
-     * The corporation that owns this source system
-     */
-    private Corporation corporation;
-
-    /**
-     * Header source data for this source system.
-     */
-    private HeaderSourceData sourceData;
 
     @Override
     public boolean equals(Object obj) {

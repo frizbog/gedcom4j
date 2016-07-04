@@ -31,11 +31,6 @@ package org.gedcom4j.model;
 public class FileReference extends AbstractElement {
 
     /**
-     * The actual reference to the file - a URL, a file name, something
-     */
-    private StringWithCustomTags referenceToFile;
-
-    /**
      * The format of the referenced file
      */
     private StringWithCustomTags format;
@@ -44,6 +39,11 @@ public class FileReference extends AbstractElement {
      * The media type of the referenced file
      */
     private StringWithCustomTags mediaType;
+
+    /**
+     * The actual reference to the file - a URL, a file name, something
+     */
+    private StringWithCustomTags referenceToFile;
 
     /**
      * The descriptive title for this file reference

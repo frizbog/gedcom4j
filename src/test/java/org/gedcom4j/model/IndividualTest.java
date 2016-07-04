@@ -286,7 +286,7 @@ public class IndividualTest {
      */
     private void addBasicName(Individual i, String string) {
         PersonalName pn = new PersonalName();
-        pn.basic = string;
+        pn.setBasic(string);
         i.getNames().add(pn);
 
     }

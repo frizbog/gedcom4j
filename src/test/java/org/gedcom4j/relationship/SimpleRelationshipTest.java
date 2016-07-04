@@ -60,16 +60,16 @@ public class SimpleRelationshipTest {
         sr1.individual2 = new Individual();
         sr2.individual2 = new Individual();
         PersonalName n = new PersonalName();
-        n.basic = "Bill";
+        n.setBasic("Bill");
         sr1.individual1.getNames().add(n);
         n = new PersonalName();
-        n.basic = "Sam";
+        n.setBasic("Sam");
         sr1.individual2.getNames().add(n);
         n = new PersonalName();
-        n.basic = "Bill";
+        n.setBasic("Bill");
         sr2.individual1.getNames().add(n);
         n = new PersonalName();
-        n.basic = "Sam";
+        n.setBasic("Sam");
         sr2.individual2.getNames().add(n);
 
         sr1.name = RelationshipName.FATHER;

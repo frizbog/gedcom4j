@@ -34,11 +34,6 @@ import org.gedcom4j.Options;
  */
 public class Repository extends AbstractElement {
     /**
-     * The name of this repository
-     */
-    private StringWithCustomTags name;
-
-    /**
      * The address for this repository
      */
     private Address address;
@@ -49,9 +44,29 @@ public class Repository extends AbstractElement {
     private ChangeDate changeDate;
 
     /**
+     * The emails for this submitter. New for GEDCOM 5.5.1
+     */
+    private List<StringWithCustomTags> emails = getEmails(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Fax numbers. New for GEDCOM 5.5.1.
+     */
+    private List<StringWithCustomTags> faxNumbers = getFaxNumbers(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The name of this repository
+     */
+    private StringWithCustomTags name;
+
+    /**
      * Notes about this object
      */
-    private List<Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The phone numbers for this submitter
+     */
+    private List<StringWithCustomTags> phoneNumbers = getPhoneNumbers(Options.isCollectionInitializationEnabled());
 
     /**
      * The record ID number
@@ -59,34 +74,19 @@ public class Repository extends AbstractElement {
     private StringWithCustomTags recIdNumber;
 
     /**
-     * The xref for this submitter
+     * The user references for this submitter
      */
-    private String xref;
-
-    /**
-     * The phone numbers for this submitter
-     */
-    private List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>(0);
+    private List<UserReference> userReferences = getUserReferences(Options.isCollectionInitializationEnabled());
 
     /**
      * Web URL's. New for GEDCOM 5.5.1.
      */
-    private List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>(0);
+    private List<StringWithCustomTags> wwwUrls = getWwwUrls(Options.isCollectionInitializationEnabled());
 
     /**
-     * Fax numbers. New for GEDCOM 5.5.1.
+     * The xref for this submitter
      */
-    private List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * The emails for this submitter. New for GEDCOM 5.5.1
-     */
-    private List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * The user references for this submitter
-     */
-    private List<UserReference> userReferences = new ArrayList<UserReference>(0);
+    private String xref;
 
     @Override
     public boolean equals(Object obj) {
