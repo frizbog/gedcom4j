@@ -40,7 +40,7 @@ final class Utf8Reader extends AbstractEncodingSpecificReader {
     /**
      * Was a byte order marker read when inspecting the file to detect encoding?
      */
-    private boolean byteOrderMarkerRead;
+    private boolean byteOrderMarkerRead = false;
 
     /**
      * Input stream reader for internal use over the byte stream

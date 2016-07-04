@@ -284,7 +284,10 @@ public class GedcomParser {
             if (observerRef == null) {
                 fileObservers.remove(observerRef);
             } else {
-                observerRef.get().progressNotification(e);
+                FileProgressListener l = observerRef.get();
+                if (l != null) {
+                    l.progressNotification(e);
+                }
                 i++;
             }
         }
@@ -2405,7 +2408,10 @@ public class GedcomParser {
             if (observerRef == null) {
                 parseObservers.remove(observerRef);
             } else {
-                observerRef.get().progressNotification(e);
+                ParseProgressListener l = observerRef.get();
+                if (l != null) {
+                    l.progressNotification(e);
+                }
                 i++;
             }
         }

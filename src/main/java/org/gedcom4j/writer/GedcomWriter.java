@@ -233,7 +233,10 @@ public class GedcomWriter {
             if (observerRef == null) {
                 fileObservers.remove(observerRef);
             } else {
-                observerRef.get().progressNotification(e);
+                FileProgressListener l = observerRef.get();
+                if (l != null) {
+                    l.progressNotification(e);
+                }
                 i++;
             }
         }
@@ -2003,7 +2006,10 @@ public class GedcomWriter {
             if (observerRef == null) {
                 constructObservers.remove(observerRef);
             } else {
-                observerRef.get().progressNotification(e);
+                ConstructProgressListener l = observerRef.get();
+                if (l != null) {
+                    l.progressNotification(e);
+                }
                 i++;
             }
         }
