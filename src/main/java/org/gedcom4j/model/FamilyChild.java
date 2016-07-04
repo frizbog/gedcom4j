@@ -236,10 +236,43 @@ public class FamilyChild extends AbstractElement {
         this.status = status;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "FamilyChild [" + (family != null ? "family=" + family + ", " : "") + (notes != null ? "notes=" + notes + ", " : "") + (pedigree != null
-                ? "pedigree=" + pedigree + ", " : "") + (adoptedBy != null ? "adoptedBy=" + adoptedBy + ", " : "") + (status != null ? "status=" + status + ", "
-                        : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("FamilyChild [");
+        if (adoptedBy != null) {
+            builder.append("adoptedBy=");
+            builder.append(adoptedBy);
+            builder.append(", ");
+        }
+        if (family != null) {
+            builder.append("family=");
+            builder.append(family);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (pedigree != null) {
+            builder.append("pedigree=");
+            builder.append(pedigree);
+            builder.append(", ");
+        }
+        if (status != null) {
+            builder.append("status=");
+            builder.append(status);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

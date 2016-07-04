@@ -553,15 +553,88 @@ public class Submitter extends AbstractElement {
         this.xref = xref;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "Submitter [" + (xref != null ? "xref=" + xref + ", " : "") + (regFileNumber != null ? "regFileNumber=" + regFileNumber + ", " : "")
-                + (name != null ? "name=" + name + ", " : "") + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "") + (languagePref != null
-                        ? "languagePref=" + languagePref + ", " : "") + (address != null ? "address=" + address + ", " : "") + (phoneNumbers != null
-                                ? "phoneNumbers=" + phoneNumbers + ", " : "") + (wwwUrls != null ? "wwwUrls=" + wwwUrls + ", " : "") + (faxNumbers != null
-                                        ? "faxNumbers=" + faxNumbers + ", " : "") + (emails != null ? "emails=" + emails + ", " : "") + (multimedia != null
-                                                ? "multimedia=" + multimedia + ", " : "") + (changeDate != null ? "changeDate=" + changeDate + ", " : "")
-                + (userReferences != null ? "userReferences=" + userReferences + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
-                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("Submitter [");
+        if (address != null) {
+            builder.append("address=");
+            builder.append(address);
+            builder.append(", ");
+        }
+        if (changeDate != null) {
+            builder.append("changeDate=");
+            builder.append(changeDate);
+            builder.append(", ");
+        }
+        if (emails != null) {
+            builder.append("emails=");
+            builder.append(emails);
+            builder.append(", ");
+        }
+        if (faxNumbers != null) {
+            builder.append("faxNumbers=");
+            builder.append(faxNumbers);
+            builder.append(", ");
+        }
+        if (languagePref != null) {
+            builder.append("languagePref=");
+            builder.append(languagePref);
+            builder.append(", ");
+        }
+        if (multimedia != null) {
+            builder.append("multimedia=");
+            builder.append(multimedia);
+            builder.append(", ");
+        }
+        if (name != null) {
+            builder.append("name=");
+            builder.append(name);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (phoneNumbers != null) {
+            builder.append("phoneNumbers=");
+            builder.append(phoneNumbers);
+            builder.append(", ");
+        }
+        if (recIdNumber != null) {
+            builder.append("recIdNumber=");
+            builder.append(recIdNumber);
+            builder.append(", ");
+        }
+        if (regFileNumber != null) {
+            builder.append("regFileNumber=");
+            builder.append(regFileNumber);
+            builder.append(", ");
+        }
+        if (userReferences != null) {
+            builder.append("userReferences=");
+            builder.append(userReferences);
+            builder.append(", ");
+        }
+        if (wwwUrls != null) {
+            builder.append("wwwUrls=");
+            builder.append(wwwUrls);
+            builder.append(", ");
+        }
+        if (xref != null) {
+            builder.append("xref=");
+            builder.append(xref);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

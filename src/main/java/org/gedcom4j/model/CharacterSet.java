@@ -120,9 +120,28 @@ public class CharacterSet extends AbstractElement {
         this.versionNum = versionNum;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "CharacterSet [" + (characterSetName != null ? "characterSetName=" + characterSetName + ", " : "") + (versionNum != null ? "versionNum="
-                + versionNum + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("CharacterSet [");
+        if (characterSetName != null) {
+            builder.append("characterSetName=");
+            builder.append(characterSetName);
+            builder.append(", ");
+        }
+        if (versionNum != null) {
+            builder.append("versionNum=");
+            builder.append(versionNum);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

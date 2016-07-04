@@ -265,11 +265,48 @@ public class Note extends AbstractElement {
         this.xref = xref;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "Note [" + (xref != null ? "xref=" + xref + ", " : "") + (lines != null ? "lines=" + lines + ", " : "") + (citations != null ? "citations="
-                + citations + ", " : "") + (userReferences != null ? "userReferences=" + userReferences + ", " : "") + (changeDate != null ? "changeDate="
-                        + changeDate + ", " : "") + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "") + (getCustomTags() != null ? "customTags="
-                                + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("Note [");
+        if (changeDate != null) {
+            builder.append("changeDate=");
+            builder.append(changeDate);
+            builder.append(", ");
+        }
+        if (citations != null) {
+            builder.append("citations=");
+            builder.append(citations);
+            builder.append(", ");
+        }
+        if (lines != null) {
+            builder.append("lines=");
+            builder.append(lines);
+            builder.append(", ");
+        }
+        if (recIdNumber != null) {
+            builder.append("recIdNumber=");
+            builder.append(recIdNumber);
+            builder.append(", ");
+        }
+        if (userReferences != null) {
+            builder.append("userReferences=");
+            builder.append(userReferences);
+            builder.append(", ");
+        }
+        if (xref != null) {
+            builder.append("xref=");
+            builder.append(xref);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

@@ -122,10 +122,29 @@ public class NameVariation extends AbstractElement {
         this.variationType = variationType;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "NameVariation [" + (variationType != null ? "variationType=" + variationType + ", " : "") + (variation != null ? "variation=" + variation + ", "
-                : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("NameVariation [");
+        if (variation != null) {
+            builder.append("variation=");
+            builder.append(variation);
+            builder.append(", ");
+        }
+        if (variationType != null) {
+            builder.append("variationType=");
+            builder.append(variationType);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
 }

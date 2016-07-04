@@ -140,9 +140,28 @@ public class FamilySpouse extends AbstractElement {
         this.family = family;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "FamilySpouse [" + (family != null ? "family=" + family + ", " : "") + (notes != null ? "notes=" + notes + ", " : "") + (getCustomTags() != null
-                ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("FamilySpouse [");
+        if (family != null) {
+            builder.append("family=");
+            builder.append(family);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

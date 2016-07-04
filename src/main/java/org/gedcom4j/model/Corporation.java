@@ -278,12 +278,44 @@ public class Corporation extends AbstractElement {
         this.businessName = businessName;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "Corporation [" + (businessName != null ? "businessName=" + businessName + ", " : "") + (address != null ? "address=" + address + ", " : "")
-                + (phoneNumbers != null ? "phoneNumbers=" + phoneNumbers + ", " : "") + (wwwUrls != null ? "wwwUrls=" + wwwUrls + ", " : "")
-                + (faxNumbers != null ? "faxNumbers=" + faxNumbers + ", " : "") + (emails != null ? "emails=" + emails + ", " : "") + (getCustomTags() != null
-                        ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("Corporation [");
+        if (address != null) {
+            builder.append("address=");
+            builder.append(address);
+            builder.append(", ");
+        }
+        if (businessName != null) {
+            builder.append("businessName=");
+            builder.append(businessName);
+            builder.append(", ");
+        }
+        if (emails != null) {
+            builder.append("emails=");
+            builder.append(emails);
+            builder.append(", ");
+        }
+        if (faxNumbers != null) {
+            builder.append("faxNumbers=");
+            builder.append(faxNumbers);
+            builder.append(", ");
+        }
+        if (phoneNumbers != null) {
+            builder.append("phoneNumbers=");
+            builder.append(phoneNumbers);
+            builder.append(", ");
+        }
+        if (wwwUrls != null) {
+            builder.append("wwwUrls=");
+            builder.append(wwwUrls);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
 }

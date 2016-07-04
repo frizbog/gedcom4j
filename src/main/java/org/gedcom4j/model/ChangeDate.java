@@ -160,9 +160,33 @@ public class ChangeDate extends AbstractElement {
         this.time = time;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "ChangeDate [" + (date != null ? "date=" + date + ", " : "") + (time != null ? "time=" + time + ", " : "") + (notes != null ? "notes=" + notes
-                + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("ChangeDate [");
+        if (date != null) {
+            builder.append("date=");
+            builder.append(date);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (time != null) {
+            builder.append("time=");
+            builder.append(time);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

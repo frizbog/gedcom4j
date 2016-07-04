@@ -321,12 +321,58 @@ public class Submission extends AbstractElement {
         this.xref = xref;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "Submission [" + (xref != null ? "xref=" + xref + ", " : "") + (submitter != null ? "submitter=" + submitter + ", " : "")
-                + (nameOfFamilyFile != null ? "nameOfFamilyFile=" + nameOfFamilyFile + ", " : "") + (templeCode != null ? "templeCode=" + templeCode + ", "
-                        : "") + (ancestorsCount != null ? "ancestorsCount=" + ancestorsCount + ", " : "") + (descendantsCount != null ? "descendantsCount="
-                                + descendantsCount + ", " : "") + (ordinanceProcessFlag != null ? "ordinanceProcessFlag=" + ordinanceProcessFlag + ", " : "")
-                + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("Submission [");
+        if (ancestorsCount != null) {
+            builder.append("ancestorsCount=");
+            builder.append(ancestorsCount);
+            builder.append(", ");
+        }
+        if (descendantsCount != null) {
+            builder.append("descendantsCount=");
+            builder.append(descendantsCount);
+            builder.append(", ");
+        }
+        if (nameOfFamilyFile != null) {
+            builder.append("nameOfFamilyFile=");
+            builder.append(nameOfFamilyFile);
+            builder.append(", ");
+        }
+        if (ordinanceProcessFlag != null) {
+            builder.append("ordinanceProcessFlag=");
+            builder.append(ordinanceProcessFlag);
+            builder.append(", ");
+        }
+        if (recIdNumber != null) {
+            builder.append("recIdNumber=");
+            builder.append(recIdNumber);
+            builder.append(", ");
+        }
+        if (submitter != null) {
+            builder.append("submitter=");
+            builder.append(submitter);
+            builder.append(", ");
+        }
+        if (templeCode != null) {
+            builder.append("templeCode=");
+            builder.append(templeCode);
+            builder.append(", ");
+        }
+        if (xref != null) {
+            builder.append("xref=");
+            builder.append(xref);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

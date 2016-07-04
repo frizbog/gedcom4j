@@ -101,7 +101,7 @@ public class NameVariationTest {
         nv.variation = "Frying Pan";
         nv.getCustomTags().add(new StringTree());
         nv.variationType = new StringWithCustomTags("All");
-        assertEquals("NameVariation [variationType=All, variation=Frying Pan, customTags=[Line 0: 0 null null]]", nv.toString());
+        assertEquals("NameVariation [variation=Frying Pan, variationType=All, customTags=[Line 0: 0 null null]]", nv.toString());
 
     }
 }

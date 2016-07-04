@@ -43,16 +43,29 @@ public abstract class AbstractCitation extends AbstractElement {
      */
     protected List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (!super.equals(obj)) {
             return false;
         }
-        AbstractCitation abstractCitation = (AbstractCitation) obj;
-        if (getNotes().equals(abstractCitation.getNotes())) {
-            return true;
+        if (getClass() != obj.getClass()) {
+            return false;
         }
-        return false;
+        AbstractCitation other = (AbstractCitation) obj;
+        if (notes == null) {
+            if (other.notes != null) {
+                return false;
+            }
+        } else if (!notes.equals(other.notes)) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -76,5 +89,36 @@ public abstract class AbstractCitation extends AbstractElement {
             notes = new ArrayList<Note>(0);
         }
         return notes;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("AbstractCitation [");
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

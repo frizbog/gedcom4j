@@ -141,4 +141,9 @@ public enum FamilyEventType {
         return tag;
     }
 
+    @Override
+    public String toString() {
+        return getDisplay();
+    }
+
 }

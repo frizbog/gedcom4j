@@ -157,9 +157,33 @@ public class HeaderSourceData extends AbstractElement {
         this.publishDate = publishDate;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "HeaderSourceData [" + (name != null ? "name=" + name + ", " : "") + (publishDate != null ? "publishDate=" + publishDate + ", " : "")
-                + (copyright != null ? "copyright=" + copyright + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("HeaderSourceData [");
+        if (copyright != null) {
+            builder.append("copyright=");
+            builder.append(copyright);
+            builder.append(", ");
+        }
+        if (name != null) {
+            builder.append("name=");
+            builder.append(name);
+            builder.append(", ");
+        }
+        if (publishDate != null) {
+            builder.append("publishDate=");
+            builder.append(publishDate);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

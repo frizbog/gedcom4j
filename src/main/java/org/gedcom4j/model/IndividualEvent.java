@@ -61,10 +61,7 @@ public class IndividualEvent extends AbstractEvent {
         } else if (!family.equals(other.family)) {
             return false;
         }
-        if (type != other.type) {
-            return false;
-        }
-        return true;
+        return (type == other.type);
     }
 
     /**
@@ -114,13 +111,119 @@ public class IndividualEvent extends AbstractEvent {
         this.type = type;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "IndividualEvent [type=" + type + ", family=" + family + ", address=" + address + ", phoneNumbers=" + phoneNumbers + ", wwwUrls=" + wwwUrls
-                + ", faxNumbers=" + faxNumbers + ", emails=" + emails + ", age=" + age + ", cause=" + cause + ", citations=" + citations + ", date=" + date
-                + ", description=" + description + ", multimedia=" + multimedia + ", notes=" + notes + ", place=" + place + ", respAgency=" + respAgency
-                + ", yNull=" + yNull + ", subType=" + subType + ", religiousAffiliation=" + religiousAffiliation + ", restrictionNotice=" + restrictionNotice
-                + ", customTags=" + getCustomTags() + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("IndividualEvent [");
+        if (family != null) {
+            builder.append("family=");
+            builder.append(family);
+            builder.append(", ");
+        }
+        if (type != null) {
+            builder.append("type=");
+            builder.append(type);
+            builder.append(", ");
+        }
+        if (address != null) {
+            builder.append("address=");
+            builder.append(address);
+            builder.append(", ");
+        }
+        if (age != null) {
+            builder.append("age=");
+            builder.append(age);
+            builder.append(", ");
+        }
+        if (cause != null) {
+            builder.append("cause=");
+            builder.append(cause);
+            builder.append(", ");
+        }
+        if (citations != null) {
+            builder.append("citations=");
+            builder.append(citations);
+            builder.append(", ");
+        }
+        if (date != null) {
+            builder.append("date=");
+            builder.append(date);
+            builder.append(", ");
+        }
+        if (description != null) {
+            builder.append("description=");
+            builder.append(description);
+            builder.append(", ");
+        }
+        if (emails != null) {
+            builder.append("emails=");
+            builder.append(emails);
+            builder.append(", ");
+        }
+        if (faxNumbers != null) {
+            builder.append("faxNumbers=");
+            builder.append(faxNumbers);
+            builder.append(", ");
+        }
+        if (multimedia != null) {
+            builder.append("multimedia=");
+            builder.append(multimedia);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (phoneNumbers != null) {
+            builder.append("phoneNumbers=");
+            builder.append(phoneNumbers);
+            builder.append(", ");
+        }
+        if (place != null) {
+            builder.append("place=");
+            builder.append(place);
+            builder.append(", ");
+        }
+        if (religiousAffiliation != null) {
+            builder.append("religiousAffiliation=");
+            builder.append(religiousAffiliation);
+            builder.append(", ");
+        }
+        if (respAgency != null) {
+            builder.append("respAgency=");
+            builder.append(respAgency);
+            builder.append(", ");
+        }
+        if (restrictionNotice != null) {
+            builder.append("restrictionNotice=");
+            builder.append(restrictionNotice);
+            builder.append(", ");
+        }
+        if (subType != null) {
+            builder.append("subType=");
+            builder.append(subType);
+            builder.append(", ");
+        }
+        if (wwwUrls != null) {
+            builder.append("wwwUrls=");
+            builder.append(wwwUrls);
+            builder.append(", ");
+        }
+        if (yNull != null) {
+            builder.append("yNull=");
+            builder.append(yNull);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
 }

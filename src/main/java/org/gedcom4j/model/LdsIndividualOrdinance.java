@@ -147,9 +147,63 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
         this.yNull = yNull;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "LdsIndividualOrdinance [familyWhereChild=" + familyWhereChild + ", type=" + type + ", yNull=" + yNull + ", status=" + status + ", date=" + date
-                + ", temple=" + temple + ", place=" + place + ", citations=" + getCitations() + ", notes=" + notes + ", customTags=" + getCustomTags() + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("LdsIndividualOrdinance [");
+        if (familyWhereChild != null) {
+            builder.append("familyWhereChild=");
+            builder.append(familyWhereChild);
+            builder.append(", ");
+        }
+        if (type != null) {
+            builder.append("type=");
+            builder.append(type);
+            builder.append(", ");
+        }
+        if (yNull != null) {
+            builder.append("yNull=");
+            builder.append(yNull);
+            builder.append(", ");
+        }
+        if (citations != null) {
+            builder.append("citations=");
+            builder.append(citations);
+            builder.append(", ");
+        }
+        if (date != null) {
+            builder.append("date=");
+            builder.append(date);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (place != null) {
+            builder.append("place=");
+            builder.append(place);
+            builder.append(", ");
+        }
+        if (status != null) {
+            builder.append("status=");
+            builder.append(status);
+            builder.append(", ");
+        }
+        if (temple != null) {
+            builder.append("temple=");
+            builder.append(temple);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

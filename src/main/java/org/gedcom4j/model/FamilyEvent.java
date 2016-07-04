@@ -154,19 +154,124 @@ public class FamilyEvent extends AbstractEvent {
         this.wifeAge = wifeAge;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "FamilyEvent [" + (type != null ? "type=" + type + ", " : "") + (husbandAge != null ? "husbandAge=" + husbandAge + ", " : "") + (wifeAge != null
-                ? "wifeAge=" + wifeAge + ", " : "") + (address != null ? "address=" + address + ", " : "") + (phoneNumbers != null ? "phoneNumbers="
-                        + phoneNumbers + ", " : "") + (wwwUrls != null ? "wwwUrls=" + wwwUrls + ", " : "") + (faxNumbers != null ? "faxNumbers=" + faxNumbers
-                                + ", " : "") + (emails != null ? "emails=" + emails + ", " : "") + (age != null ? "age=" + age + ", " : "") + (cause != null
-                                        ? "cause=" + cause + ", " : "") + (citations != null ? "citations=" + citations + ", " : "") + (date != null ? "date="
-                                                + date + ", " : "") + (description != null ? "description=" + description + ", " : "") + (multimedia != null
-                                                        ? "multimedia=" + multimedia + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
-                + (place != null ? "place=" + place + ", " : "") + (respAgency != null ? "respAgency=" + respAgency + ", " : "") + (yNull != null ? "yNull="
-                        + yNull + ", " : "") + (subType != null ? "subType=" + subType + ", " : "") + (religiousAffiliation != null ? "religiousAffiliation="
-                                + religiousAffiliation + ", " : "") + (restrictionNotice != null ? "restrictionNotice=" + restrictionNotice + ", " : "")
-                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("FamilyEvent [");
+        if (husbandAge != null) {
+            builder.append("husbandAge=");
+            builder.append(husbandAge);
+            builder.append(", ");
+        }
+        if (type != null) {
+            builder.append("type=");
+            builder.append(type);
+            builder.append(", ");
+        }
+        if (wifeAge != null) {
+            builder.append("wifeAge=");
+            builder.append(wifeAge);
+            builder.append(", ");
+        }
+        if (address != null) {
+            builder.append("address=");
+            builder.append(address);
+            builder.append(", ");
+        }
+        if (age != null) {
+            builder.append("age=");
+            builder.append(age);
+            builder.append(", ");
+        }
+        if (cause != null) {
+            builder.append("cause=");
+            builder.append(cause);
+            builder.append(", ");
+        }
+        if (citations != null) {
+            builder.append("citations=");
+            builder.append(citations);
+            builder.append(", ");
+        }
+        if (date != null) {
+            builder.append("date=");
+            builder.append(date);
+            builder.append(", ");
+        }
+        if (description != null) {
+            builder.append("description=");
+            builder.append(description);
+            builder.append(", ");
+        }
+        if (emails != null) {
+            builder.append("emails=");
+            builder.append(emails);
+            builder.append(", ");
+        }
+        if (faxNumbers != null) {
+            builder.append("faxNumbers=");
+            builder.append(faxNumbers);
+            builder.append(", ");
+        }
+        if (multimedia != null) {
+            builder.append("multimedia=");
+            builder.append(multimedia);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (phoneNumbers != null) {
+            builder.append("phoneNumbers=");
+            builder.append(phoneNumbers);
+            builder.append(", ");
+        }
+        if (place != null) {
+            builder.append("place=");
+            builder.append(place);
+            builder.append(", ");
+        }
+        if (religiousAffiliation != null) {
+            builder.append("religiousAffiliation=");
+            builder.append(religiousAffiliation);
+            builder.append(", ");
+        }
+        if (respAgency != null) {
+            builder.append("respAgency=");
+            builder.append(respAgency);
+            builder.append(", ");
+        }
+        if (restrictionNotice != null) {
+            builder.append("restrictionNotice=");
+            builder.append(restrictionNotice);
+            builder.append(", ");
+        }
+        if (subType != null) {
+            builder.append("subType=");
+            builder.append(subType);
+            builder.append(", ");
+        }
+        if (wwwUrls != null) {
+            builder.append("wwwUrls=");
+            builder.append(wwwUrls);
+            builder.append(", ");
+        }
+        if (yNull != null) {
+            builder.append("yNull=");
+            builder.append(yNull);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
 }

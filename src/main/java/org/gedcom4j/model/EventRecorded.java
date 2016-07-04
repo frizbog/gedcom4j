@@ -152,9 +152,33 @@ public class EventRecorded extends AbstractElement {
         this.jurisdiction = jurisdiction;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "EventRecorded [" + (eventType != null ? "eventType=" + eventType + ", " : "") + (datePeriod != null ? "datePeriod=" + datePeriod + ", " : "")
-                + (jurisdiction != null ? "jurisdiction=" + jurisdiction + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("EventRecorded [");
+        if (datePeriod != null) {
+            builder.append("datePeriod=");
+            builder.append(datePeriod);
+            builder.append(", ");
+        }
+        if (eventType != null) {
+            builder.append("eventType=");
+            builder.append(eventType);
+            builder.append(", ");
+        }
+        if (jurisdiction != null) {
+            builder.append("jurisdiction=");
+            builder.append(jurisdiction);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

@@ -119,9 +119,28 @@ public class SourceCallNumber extends AbstractElement {
         this.mediaType = mediaType;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "SourceCallNumber [" + (callNumber != null ? "callNumber=" + callNumber + ", " : "") + (mediaType != null ? "mediaType=" + mediaType + ", " : "")
-                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("SourceCallNumber [");
+        if (callNumber != null) {
+            builder.append("callNumber=");
+            builder.append(callNumber);
+            builder.append(", ");
+        }
+        if (mediaType != null) {
+            builder.append("mediaType=");
+            builder.append(mediaType);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

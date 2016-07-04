@@ -430,6 +430,9 @@ public class PersonalName extends AbstractElement {
         this.surnamePrefix = surnamePrefix;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         if (surname != null || givenName != null) {

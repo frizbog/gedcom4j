@@ -21,7 +21,9 @@
  */
 package org.gedcom4j.model;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -342,5 +344,89 @@ public class Gedcom extends AbstractElement {
      */
     public void setTrailer(Trailer trailer) {
         this.trailer = trailer;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        final int maxLen = 3;
+        StringBuilder builder = new StringBuilder();
+        builder.append("Gedcom [");
+        if (families != null) {
+            builder.append("families=");
+            builder.append(toStringLimitCollection(families.entrySet(), maxLen));
+            builder.append(", ");
+        }
+        if (header != null) {
+            builder.append("header=");
+            builder.append(header);
+            builder.append(", ");
+        }
+        if (individuals != null) {
+            builder.append("individuals=");
+            builder.append(toStringLimitCollection(individuals.entrySet(), maxLen));
+            builder.append(", ");
+        }
+        if (multimedia != null) {
+            builder.append("multimedia=");
+            builder.append(toStringLimitCollection(multimedia.entrySet(), maxLen));
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(toStringLimitCollection(notes.entrySet(), maxLen));
+            builder.append(", ");
+        }
+        if (repositories != null) {
+            builder.append("repositories=");
+            builder.append(toStringLimitCollection(repositories.entrySet(), maxLen));
+            builder.append(", ");
+        }
+        if (sources != null) {
+            builder.append("sources=");
+            builder.append(toStringLimitCollection(sources.entrySet(), maxLen));
+            builder.append(", ");
+        }
+        if (submission != null) {
+            builder.append("submission=");
+            builder.append(submission);
+            builder.append(", ");
+        }
+        if (submitters != null) {
+            builder.append("submitters=");
+            builder.append(toStringLimitCollection(submitters.entrySet(), maxLen));
+            builder.append(", ");
+        }
+        if (trailer != null) {
+            builder.append("trailer=");
+            builder.append(trailer);
+        }
+        builder.append("]");
+        return builder.toString();
+    }
+
+    /**
+     * A helper class to limit the number of items shown from a collection
+     * 
+     * @param collection
+     *            the collection
+     * @param maxLen
+     *            the max number of items to show from the collection
+     * @return a String representation of the first <tt>maxLen</tt> items in the collection
+     */
+    private String toStringLimitCollection(Collection<?> collection, int maxLen) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("[");
+        int i = 0;
+        for (Iterator<?> iterator = collection.iterator(); iterator.hasNext() && i < maxLen; i++) {
+            if (i > 0) {
+                builder.append(", ");
+            }
+            builder.append(iterator.next());
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

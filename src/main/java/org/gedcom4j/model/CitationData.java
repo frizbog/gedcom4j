@@ -127,9 +127,28 @@ public class CitationData extends AbstractElement {
         this.entryDate = entryDate;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "CitationData [" + (entryDate != null ? "entryDate=" + entryDate + ", " : "") + (sourceText != null ? "sourceText=" + sourceText + ", " : "")
-                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("CitationData [");
+        if (entryDate != null) {
+            builder.append("entryDate=");
+            builder.append(entryDate);
+            builder.append(", ");
+        }
+        if (sourceText != null) {
+            builder.append("sourceText=");
+            builder.append(sourceText);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

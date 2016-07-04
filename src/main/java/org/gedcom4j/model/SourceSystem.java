@@ -222,10 +222,43 @@ public class SourceSystem extends AbstractElement {
         this.versionNum = versionNum;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "SourceSystem [" + (systemId != null ? "systemId=" + systemId + ", " : "") + (versionNum != null ? "versionNum=" + versionNum + ", " : "")
-                + (productName != null ? "productName=" + productName + ", " : "") + (corporation != null ? "corporation=" + corporation + ", " : "")
-                + (sourceData != null ? "sourceData=" + sourceData + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("SourceSystem [");
+        if (corporation != null) {
+            builder.append("corporation=");
+            builder.append(corporation);
+            builder.append(", ");
+        }
+        if (productName != null) {
+            builder.append("productName=");
+            builder.append(productName);
+            builder.append(", ");
+        }
+        if (sourceData != null) {
+            builder.append("sourceData=");
+            builder.append(sourceData);
+            builder.append(", ");
+        }
+        if (systemId != null) {
+            builder.append("systemId=");
+            builder.append(systemId);
+            builder.append(", ");
+        }
+        if (versionNum != null) {
+            builder.append("versionNum=");
+            builder.append(versionNum);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

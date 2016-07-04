@@ -112,4 +112,10 @@ public enum LdsIndividualOrdinanceType {
     public String getTag() {
         return tag;
     }
+
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        return getDisplay();
+    }
 }

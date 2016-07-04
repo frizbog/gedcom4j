@@ -356,14 +356,69 @@ public class PersonalNameVariation extends NameVariation {
         this.surnamePrefix = surnamePrefix;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "PersonalNameVariation [" + (prefix != null ? "prefix=" + prefix + ", " : "") + (givenName != null ? "givenName=" + givenName + ", " : "")
-                + (nickname != null ? "nickname=" + nickname + ", " : "") + (surnamePrefix != null ? "surnamePrefix=" + surnamePrefix + ", " : "")
-                + (surname != null ? "surname=" + surname + ", " : "") + (suffix != null ? "suffix=" + suffix + ", " : "") + (notes != null ? "notes=" + notes
-                        + ", " : "") + (citations != null ? "citations=" + citations + ", " : "") + (variationType != null ? "variationType=" + variationType
-                                + ", " : "") + (variation != null ? "variation=" + variation + ", " : "") + (getCustomTags() != null ? "customTags="
-                                        + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("PersonalNameVariation [");
+        if (citations != null) {
+            builder.append("citations=");
+            builder.append(citations);
+            builder.append(", ");
+        }
+        if (givenName != null) {
+            builder.append("givenName=");
+            builder.append(givenName);
+            builder.append(", ");
+        }
+        if (nickname != null) {
+            builder.append("nickname=");
+            builder.append(nickname);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (prefix != null) {
+            builder.append("prefix=");
+            builder.append(prefix);
+            builder.append(", ");
+        }
+        if (suffix != null) {
+            builder.append("suffix=");
+            builder.append(suffix);
+            builder.append(", ");
+        }
+        if (surname != null) {
+            builder.append("surname=");
+            builder.append(surname);
+            builder.append(", ");
+        }
+        if (surnamePrefix != null) {
+            builder.append("surnamePrefix=");
+            builder.append(surnamePrefix);
+            builder.append(", ");
+        }
+        if (variation != null) {
+            builder.append("variation=");
+            builder.append(variation);
+            builder.append(", ");
+        }
+        if (variationType != null) {
+            builder.append("variationType=");
+            builder.append(variationType);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
 }

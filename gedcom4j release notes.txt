@@ -2,8 +2,26 @@
 GEDCOM4J RELEASE NOTES
 ==============================
 
-1 Jul 2016 - v2.3.0
-===================
+?? ??? 2016 - v3.0.0
+====================
+v3.0.0 is a major release. Most existing code using earlier versions of gedcom4j will need significant modification, primarily around the object model.
+
+Issue #83 - The biggest change is that gedcom4j now uses the JavaBean spec for its object model and internal objects as well. Where you used to access public fields of the data model, you now need to use getters and setters.
+
+Issue #104 - The classes in the model now implement java.io.Serializable and defined serial version UIDs.
+
+Other changes not related to Issues in the issue tracker (https://github.com/frizbog/gedcom4j/issues):
+- toString() implementations of most model objects have been rewritten  
+
+
+?? Jul 2016 - v2.3.1
+====================
+Issue #106 - File parsing and loading into object model is now done line by line on-the-fly, rather than loading the entire file into memory, then parsing the lines of the file.
+
+
+
+01 Jul 2016 - v2.3.0
+====================
 v2.3.0 of gedcom4j was primarily focused on improving performance for installations with smaller heap sizes and less CPU power available (for whatever reason), including the ability to get progress notification on file load/parse and construct/write operations, as well as introducing the ability to cancel these operations while in progress.
 
 Internally, there was also a change to the AnselReader so that files with lines that exceed the 255 character limit mentioned in the GEDCOM spec continue to be read like they did before, despite the optimizations introduced for this release. AnselReader now uses a fixed-size char array to buffer data rather than a StringBuilder (for performance reasons), but the fixed size of the array introduced problems for lines that exceeded the length of the array.  To get around this, the class now internally introduces synthetic CONC tags in long lines during the file read process (as if they had been split properly according to spec), which in most cases get removed during the parse process as strings are concatenated back together (as the CONC tag indicates).  Most users won't notice anything has happened, but in case it comes up, there it is.

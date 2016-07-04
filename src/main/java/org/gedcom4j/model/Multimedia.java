@@ -451,15 +451,74 @@ public class Multimedia extends AbstractElement {
         this.xref = xref;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "Multimedia [" + (xref != null ? "xref=" + xref + ", " : "") + (embeddedTitle != null ? "embeddedTitle=" + embeddedTitle + ", " : "")
-                + (fileReferences != null ? "fileReferences=" + fileReferences + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
-                + (citations != null ? "citations=" + citations + ", " : "") + (blob != null ? "blob=" + blob + ", " : "") + (continuedObject != null
-                        ? "continuedObject=" + continuedObject + ", " : "") + (userReferences != null ? "userReferences=" + userReferences + ", " : "")
-                + (changeDate != null ? "changeDate=" + changeDate + ", " : "") + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "")
-                + (embeddedMediaFormat != null ? "embeddedMediaFormat=" + embeddedMediaFormat + ", " : "") + (getCustomTags() != null ? "customTags="
-                        + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("Multimedia [");
+        if (blob != null) {
+            builder.append("blob=");
+            builder.append(blob);
+            builder.append(", ");
+        }
+        if (changeDate != null) {
+            builder.append("changeDate=");
+            builder.append(changeDate);
+            builder.append(", ");
+        }
+        if (citations != null) {
+            builder.append("citations=");
+            builder.append(citations);
+            builder.append(", ");
+        }
+        if (continuedObject != null) {
+            builder.append("continuedObject=");
+            builder.append(continuedObject);
+            builder.append(", ");
+        }
+        if (embeddedMediaFormat != null) {
+            builder.append("embeddedMediaFormat=");
+            builder.append(embeddedMediaFormat);
+            builder.append(", ");
+        }
+        if (embeddedTitle != null) {
+            builder.append("embeddedTitle=");
+            builder.append(embeddedTitle);
+            builder.append(", ");
+        }
+        if (fileReferences != null) {
+            builder.append("fileReferences=");
+            builder.append(fileReferences);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (recIdNumber != null) {
+            builder.append("recIdNumber=");
+            builder.append(recIdNumber);
+            builder.append(", ");
+        }
+        if (userReferences != null) {
+            builder.append("userReferences=");
+            builder.append(userReferences);
+            builder.append(", ");
+        }
+        if (xref != null) {
+            builder.append("xref=");
+            builder.append(xref);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
 }

@@ -523,15 +523,83 @@ public class Source extends AbstractElement {
         this.xref = xref;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "Source [" + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "") + (sourceFiledBy != null ? "sourceFiledBy=" + sourceFiledBy + ", "
-                : "") + (title != null ? "title=" + title + ", " : "") + (notes != null ? "notes=" + notes + ", " : "") + (publicationFacts != null
-                        ? "publicationFacts=" + publicationFacts + ", " : "") + (originatorsAuthors != null ? "originatorsAuthors=" + originatorsAuthors + ", "
-                                : "") + (multimedia != null ? "multimedia=" + multimedia + ", " : "") + (changeDate != null ? "changeDate=" + changeDate + ", "
-                                        : "") + (userReferences != null ? "userReferences=" + userReferences + ", " : "") + (data != null ? "data=" + data
-                                                + ", " : "") + (sourceText != null ? "sourceText=" + sourceText + ", " : "") + (repositoryCitation != null
-                                                        ? "repositoryCitation=" + repositoryCitation + ", " : "") + (xref != null ? "xref=" + xref + ", " : "")
-                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("Source [");
+        if (changeDate != null) {
+            builder.append("changeDate=");
+            builder.append(changeDate);
+            builder.append(", ");
+        }
+        if (data != null) {
+            builder.append("data=");
+            builder.append(data);
+            builder.append(", ");
+        }
+        if (multimedia != null) {
+            builder.append("multimedia=");
+            builder.append(multimedia);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (originatorsAuthors != null) {
+            builder.append("originatorsAuthors=");
+            builder.append(originatorsAuthors);
+            builder.append(", ");
+        }
+        if (publicationFacts != null) {
+            builder.append("publicationFacts=");
+            builder.append(publicationFacts);
+            builder.append(", ");
+        }
+        if (recIdNumber != null) {
+            builder.append("recIdNumber=");
+            builder.append(recIdNumber);
+            builder.append(", ");
+        }
+        if (repositoryCitation != null) {
+            builder.append("repositoryCitation=");
+            builder.append(repositoryCitation);
+            builder.append(", ");
+        }
+        if (sourceFiledBy != null) {
+            builder.append("sourceFiledBy=");
+            builder.append(sourceFiledBy);
+            builder.append(", ");
+        }
+        if (sourceText != null) {
+            builder.append("sourceText=");
+            builder.append(sourceText);
+            builder.append(", ");
+        }
+        if (title != null) {
+            builder.append("title=");
+            builder.append(title);
+            builder.append(", ");
+        }
+        if (userReferences != null) {
+            builder.append("userReferences=");
+            builder.append(userReferences);
+            builder.append(", ");
+        }
+        if (xref != null) {
+            builder.append("xref=");
+            builder.append(xref);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

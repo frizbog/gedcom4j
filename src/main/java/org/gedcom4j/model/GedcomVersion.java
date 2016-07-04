@@ -120,9 +120,28 @@ public class GedcomVersion extends AbstractElement {
         this.versionNumber = versionNumber;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "GedcomVersion [" + (versionNumber != null ? "versionNumber=" + versionNumber + ", " : "") + (gedcomForm != null ? "gedcomForm=" + gedcomForm
-                + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("GedcomVersion [");
+        if (gedcomForm != null) {
+            builder.append("gedcomForm=");
+            builder.append(gedcomForm);
+            builder.append(", ");
+        }
+        if (versionNumber != null) {
+            builder.append("versionNumber=");
+            builder.append(versionNumber);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

@@ -195,8 +195,8 @@ public class SourceTest {
     @Test
     public void testToString() {
         Source s1 = new Source("Foo");
-        assertEquals("Source [title=[], notes=[], publicationFacts=[], originatorsAuthors=[], multimedia=[], userReferences=[], "
-                + "sourceText=[], xref=Foo, customTags=[]]", s1.toString());
+        assertEquals("Source [multimedia=[], notes=[], originatorsAuthors=[], publicationFacts=[], sourceText=[], "
+                + "title=[], userReferences=[], xref=Foo, customTags=[]]", s1.toString());
 
         s1.setChangeDate(new ChangeDate());
         s1.customTags = null;
@@ -211,10 +211,10 @@ public class SourceTest {
         s1.getSourceText().clear();
         s1.getTitle().clear();
         s1.getUserReferences().clear();
-        assertEquals("Source [recIdNumber=Foo, sourceFiledBy=Bar, title=[], " + "notes=[Note [lines=[], citations=[], userReferences=[], customTags=[]]], "
-                + "publicationFacts=[], originatorsAuthors=[], multimedia=[], " + "changeDate=ChangeDate [notes=[], customTags=[]], userReferences=[], "
-                + "data=SourceData [eventsRecorded=[], notes=[], customTags=[]], sourceText=[], "
-                + "repositoryCitation=RepositoryCitation [notes=[], callNumbers=[], customTags=[]], xref=Foo, ]", s1.toString());
+        assertEquals("Source [changeDate=ChangeDate [notes=[], customTags=[]], data=SourceData [eventsRecorded=[], notes=[], customTags=[]], multimedia=[], "
+                + "notes=[Note [citations=[], lines=[], userReferences=[], customTags=[]]], " + "originatorsAuthors=[], publicationFacts=[], recIdNumber=Foo, "
+                + "repositoryCitation=RepositoryCitation [callNumbers=[], notes=[], customTags=[]], "
+                + "sourceFiledBy=Bar, sourceText=[], title=[], userReferences=[], xref=Foo, ]", s1.toString());
 
     }
 

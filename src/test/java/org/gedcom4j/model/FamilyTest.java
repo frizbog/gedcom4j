@@ -159,9 +159,9 @@ public class FamilyTest {
      */
     @Test
     public void testToString() {
-        assertEquals("Family [wife=Ginger /Rogers/, spouse of Fred /Astaire/, husband=Fred /Astaire/, spouse of Ginger /Rogers/, children=[], "
-                + "submitters=[], ldsSpouseSealings=[], citations=[], multimedia=[], events=[], notes=[], userReferences=[], customTags=[]]", family1
-                        .toString());
+        assertEquals("Family [children=[], citations=[], events=[], "
+                + "husband=Fred /Astaire/, spouse of Ginger /Rogers/, ldsSpouseSealings=[], multimedia=[], notes=[], submitters=[], userReferences=[], "
+                + "wife=Ginger /Rogers/, spouse of Fred /Astaire/, customTags=[]]", family1.toString());
     }
 
     /**
@@ -169,7 +169,7 @@ public class FamilyTest {
      */
     @Test
     public void testToStringNew() {
-        assertEquals("Family [children=[], submitters=[], ldsSpouseSealings=[], citations=[], multimedia=[], events=[], notes=[], "
-                + "userReferences=[], customTags=[]]", new Family().toString());
+        assertEquals("Family [children=[], citations=[], events=[], ldsSpouseSealings=[], multimedia=[], "
+                + "notes=[], submitters=[], userReferences=[], customTags=[]]", new Family().toString());
     }
 }

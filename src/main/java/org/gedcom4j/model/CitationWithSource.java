@@ -303,12 +303,58 @@ public class CitationWithSource extends AbstractCitation {
         this.whereInSource = whereInSource;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "CitationWithSource [" + (whereInSource != null ? "whereInSource=" + whereInSource + ", " : "") + (certainty != null ? "certainty=" + certainty
-                + ", " : "") + (eventCited != null ? "eventCited=" + eventCited + ", " : "") + (data != null ? "data=" + data + ", " : "") + (source != null
-                        ? "source=" + source + ", " : "") + (multimedia != null ? "multimedia=" + multimedia + ", " : "") + (roleInEvent != null
-                                ? "roleInEvent=" + roleInEvent + ", " : "") + (getNotes() != null ? "notes=" + getNotes() + ", " : "")
-                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("CitationWithSource [");
+        if (certainty != null) {
+            builder.append("certainty=");
+            builder.append(certainty);
+            builder.append(", ");
+        }
+        if (data != null) {
+            builder.append("data=");
+            builder.append(data);
+            builder.append(", ");
+        }
+        if (eventCited != null) {
+            builder.append("eventCited=");
+            builder.append(eventCited);
+            builder.append(", ");
+        }
+        if (multimedia != null) {
+            builder.append("multimedia=");
+            builder.append(multimedia);
+            builder.append(", ");
+        }
+        if (roleInEvent != null) {
+            builder.append("roleInEvent=");
+            builder.append(roleInEvent);
+            builder.append(", ");
+        }
+        if (source != null) {
+            builder.append("source=");
+            builder.append(source);
+            builder.append(", ");
+        }
+        if (whereInSource != null) {
+            builder.append("whereInSource=");
+            builder.append(whereInSource);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

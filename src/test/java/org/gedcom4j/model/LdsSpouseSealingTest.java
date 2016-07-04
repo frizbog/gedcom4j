@@ -114,7 +114,7 @@ public class LdsSpouseSealingTest {
     @Test
     public void testToString() {
         LdsSpouseSealing l = new LdsSpouseSealing();
-        assertEquals("LdsSpouseSealing [status=null, date=null, temple=null, place=null, citations=[], notes=[], customTags=[]]", l.toString());
+        assertEquals("LdsSpouseSealing [citations=[], notes=[], customTags=[]]", l.toString());
 
         l.getCitations().add(new CitationWithoutSource());
         l.getCustomTags().add(new StringTree());
@@ -122,9 +122,8 @@ public class LdsSpouseSealingTest {
         l.place = new StringWithCustomTags("Howdy");
         l.status = new StringWithCustomTags("Test");
 
-        assertEquals("LdsSpouseSealing [status=Test, date=Frying Pan, temple=null, place=Howdy, "
-                + "citations=[CitationWithoutSource [description=[], textFromSource=[], notes=[], customTags=[]]], "
-                + "notes=[], customTags=[Line 0: 0 null null]]", l.toString());
+        assertEquals("LdsSpouseSealing [citations=[CitationWithoutSource [description=[], textFromSource=[]]],"
+                + " date=Frying Pan, notes=[], place=Howdy, status=Test, customTags=[Line 0: 0 null null]]", l.toString());
     }
 
 }

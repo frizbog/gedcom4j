@@ -613,17 +613,99 @@ public class Family extends AbstractElement {
         this.xref = xref;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "Family [" + (recFileNumber != null ? "recFileNumber=" + recFileNumber + ", " : "") + (automatedRecordId != null ? "automatedRecordId="
-                + automatedRecordId + ", " : "") + (wife != null ? "wife=" + wife + ", " : "") + (husband != null ? "husband=" + husband + ", " : "")
-                + (children != null ? "children=" + children + ", " : "") + (numChildren != null ? "numChildren=" + numChildren + ", " : "")
-                + (submitters != null ? "submitters=" + submitters + ", " : "") + (ldsSpouseSealings != null ? "ldsSpouseSealings=" + ldsSpouseSealings + ", "
-                        : "") + (citations != null ? "citations=" + citations + ", " : "") + (multimedia != null ? "multimedia=" + multimedia + ", " : "")
-                + (changeDate != null ? "changeDate=" + changeDate + ", " : "") + (events != null ? "events=" + events + ", " : "") + (notes != null ? "notes="
-                        + notes + ", " : "") + (xref != null ? "xref=" + xref + ", " : "") + (userReferences != null ? "userReferences=" + userReferences + ", "
-                                : "") + (restrictionNotice != null ? "restrictionNotice=" + restrictionNotice + ", " : "") + (getCustomTags() != null
-                                        ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("Family [");
+        if (automatedRecordId != null) {
+            builder.append("automatedRecordId=");
+            builder.append(automatedRecordId);
+            builder.append(", ");
+        }
+        if (changeDate != null) {
+            builder.append("changeDate=");
+            builder.append(changeDate);
+            builder.append(", ");
+        }
+        if (children != null) {
+            builder.append("children=");
+            builder.append(children);
+            builder.append(", ");
+        }
+        if (citations != null) {
+            builder.append("citations=");
+            builder.append(citations);
+            builder.append(", ");
+        }
+        if (events != null) {
+            builder.append("events=");
+            builder.append(events);
+            builder.append(", ");
+        }
+        if (husband != null) {
+            builder.append("husband=");
+            builder.append(husband);
+            builder.append(", ");
+        }
+        if (ldsSpouseSealings != null) {
+            builder.append("ldsSpouseSealings=");
+            builder.append(ldsSpouseSealings);
+            builder.append(", ");
+        }
+        if (multimedia != null) {
+            builder.append("multimedia=");
+            builder.append(multimedia);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (numChildren != null) {
+            builder.append("numChildren=");
+            builder.append(numChildren);
+            builder.append(", ");
+        }
+        if (recFileNumber != null) {
+            builder.append("recFileNumber=");
+            builder.append(recFileNumber);
+            builder.append(", ");
+        }
+        if (restrictionNotice != null) {
+            builder.append("restrictionNotice=");
+            builder.append(restrictionNotice);
+            builder.append(", ");
+        }
+        if (submitters != null) {
+            builder.append("submitters=");
+            builder.append(submitters);
+            builder.append(", ");
+        }
+        if (userReferences != null) {
+            builder.append("userReferences=");
+            builder.append(userReferences);
+            builder.append(", ");
+        }
+        if (wife != null) {
+            builder.append("wife=");
+            builder.append(wife);
+            builder.append(", ");
+        }
+        if (xref != null) {
+            builder.append("xref=");
+            builder.append(xref);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
 }

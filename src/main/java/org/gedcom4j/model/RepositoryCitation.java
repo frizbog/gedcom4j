@@ -167,11 +167,34 @@ public class RepositoryCitation extends AbstractElement {
         this.repositoryXref = repositoryXref;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "RepositoryCitation [" + (repositoryXref != null ? "repositoryXref=" + repositoryXref + ", " : "") + (notes != null ? "notes=" + notes + ", "
-                : "") + (callNumbers != null ? "callNumbers=" + callNumbers + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "")
-                + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("RepositoryCitation [");
+        if (callNumbers != null) {
+            builder.append("callNumbers=");
+            builder.append(callNumbers);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (repositoryXref != null) {
+            builder.append("repositoryXref=");
+            builder.append(repositoryXref);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
 }

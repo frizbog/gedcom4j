@@ -490,15 +490,84 @@ public class Header extends AbstractElement {
         this.time = time;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "Header [" + (characterSet != null ? "characterSet=" + characterSet + ", " : "") + (copyrightData != null ? "copyrightData=" + copyrightData
-                + ", " : "") + (date != null ? "date=" + date + ", " : "") + (destinationSystem != null ? "destinationSystem=" + destinationSystem + ", " : "")
-                + (fileName != null ? "fileName=" + fileName + ", " : "") + (gedcomVersion != null ? "gedcomVersion=" + gedcomVersion + ", " : "")
-                + (placeHierarchy != null ? "placeHierarchy=" + placeHierarchy + ", " : "") + (sourceSystem != null ? "sourceSystem=" + sourceSystem + ", "
-                        : "") + (submission != null ? "submission=" + submission + ", " : "") + (submitter != null ? "submitter=" + submitter + ", " : "")
-                + (time != null ? "time=" + time + ", " : "") + (language != null ? "language=" + language + ", " : "") + (notes != null ? "notes=" + notes
-                        + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("Header [");
+        if (characterSet != null) {
+            builder.append("characterSet=");
+            builder.append(characterSet);
+            builder.append(", ");
+        }
+        if (copyrightData != null) {
+            builder.append("copyrightData=");
+            builder.append(copyrightData);
+            builder.append(", ");
+        }
+        if (date != null) {
+            builder.append("date=");
+            builder.append(date);
+            builder.append(", ");
+        }
+        if (destinationSystem != null) {
+            builder.append("destinationSystem=");
+            builder.append(destinationSystem);
+            builder.append(", ");
+        }
+        if (fileName != null) {
+            builder.append("fileName=");
+            builder.append(fileName);
+            builder.append(", ");
+        }
+        if (gedcomVersion != null) {
+            builder.append("gedcomVersion=");
+            builder.append(gedcomVersion);
+            builder.append(", ");
+        }
+        if (language != null) {
+            builder.append("language=");
+            builder.append(language);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (placeHierarchy != null) {
+            builder.append("placeHierarchy=");
+            builder.append(placeHierarchy);
+            builder.append(", ");
+        }
+        if (sourceSystem != null) {
+            builder.append("sourceSystem=");
+            builder.append(sourceSystem);
+            builder.append(", ");
+        }
+        if (submission != null) {
+            builder.append("submission=");
+            builder.append(submission);
+            builder.append(", ");
+        }
+        if (submitter != null) {
+            builder.append("submitter=");
+            builder.append(submitter);
+            builder.append(", ");
+        }
+        if (time != null) {
+            builder.append("time=");
+            builder.append(time);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
 }

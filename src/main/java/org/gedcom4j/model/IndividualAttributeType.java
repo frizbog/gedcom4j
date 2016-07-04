@@ -155,4 +155,9 @@ public enum IndividualAttributeType {
     public String getTag() {
         return tag;
     }
+
+    @Override
+    public String toString() {
+        return getDisplay();
+    }
 }

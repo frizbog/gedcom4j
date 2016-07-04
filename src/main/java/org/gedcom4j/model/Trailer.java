@@ -51,4 +51,14 @@ public class Trailer implements Serializable {
     public int hashCode() {
         return 1;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Trailer []");
+        return builder.toString();
+    }
 }

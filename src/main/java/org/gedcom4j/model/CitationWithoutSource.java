@@ -142,10 +142,23 @@ public class CitationWithoutSource extends AbstractCitation {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "CitationWithoutSource [" + (description != null ? "description=" + description + ", " : "") + (textFromSource != null ? "textFromSource="
-                + textFromSource + ", " : "") + (getNotes() != null ? "notes=" + getNotes() + ", " : "") + (getCustomTags() != null ? "customTags="
-                        + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("CitationWithoutSource [");
+        if (description != null) {
+            builder.append("description=");
+            builder.append(description);
+            builder.append(", ");
+        }
+        if (textFromSource != null) {
+            builder.append("textFromSource=");
+            builder.append(textFromSource);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

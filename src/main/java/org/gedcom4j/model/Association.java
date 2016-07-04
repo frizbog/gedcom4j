@@ -229,11 +229,43 @@ public class Association extends AbstractElement {
         this.relationship = relationship;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "Association [" + (relationship != null ? "relationship=" + relationship + ", " : "") + (associatedEntityXref != null ? "associatedEntityXref="
-                + associatedEntityXref + ", " : "") + (associatedEntityType != null ? "associatedEntityType=" + associatedEntityType + ", " : "")
-                + (citations != null ? "citations=" + citations + ", " : "") + (notes != null ? "notes=" + notes + ", " : "") + (getCustomTags() != null
-                        ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("Association [");
+        if (associatedEntityType != null) {
+            builder.append("associatedEntityType=");
+            builder.append(associatedEntityType);
+            builder.append(", ");
+        }
+        if (associatedEntityXref != null) {
+            builder.append("associatedEntityXref=");
+            builder.append(associatedEntityXref);
+            builder.append(", ");
+        }
+        if (citations != null) {
+            builder.append("citations=");
+            builder.append(citations);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (relationship != null) {
+            builder.append("relationship=");
+            builder.append(relationship);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

@@ -118,9 +118,28 @@ public class UserReference extends AbstractElement {
         this.type = type;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "UserReference [" + (referenceNum != null ? "referenceNum=" + referenceNum + ", " : "") + (type != null ? "type=" + type + ", " : "")
-                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("UserReference [");
+        if (referenceNum != null) {
+            builder.append("referenceNum=");
+            builder.append(referenceNum);
+            builder.append(", ");
+        }
+        if (type != null) {
+            builder.append("type=");
+            builder.append(type);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

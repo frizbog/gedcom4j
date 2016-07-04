@@ -290,11 +290,53 @@ public class Address extends AbstractElement {
         this.stateProvince = stateProvince;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "Address [" + (lines != null ? "lines=" + lines + ", " : "") + (addr1 != null ? "addr1=" + addr1 + ", " : "") + (addr2 != null ? "addr2=" + addr2
-                + ", " : "") + (city != null ? "city=" + city + ", " : "") + (stateProvince != null ? "stateProvince=" + stateProvince + ", " : "")
-                + (postalCode != null ? "postalCode=" + postalCode + ", " : "") + (country != null ? "country=" + country + ", " : "")
-                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("Address [");
+        if (addr1 != null) {
+            builder.append("addr1=");
+            builder.append(addr1);
+            builder.append(", ");
+        }
+        if (addr2 != null) {
+            builder.append("addr2=");
+            builder.append(addr2);
+            builder.append(", ");
+        }
+        if (city != null) {
+            builder.append("city=");
+            builder.append(city);
+            builder.append(", ");
+        }
+        if (country != null) {
+            builder.append("country=");
+            builder.append(country);
+            builder.append(", ");
+        }
+        if (lines != null) {
+            builder.append("lines=");
+            builder.append(lines);
+            builder.append(", ");
+        }
+        if (postalCode != null) {
+            builder.append("postalCode=");
+            builder.append(postalCode);
+            builder.append(", ");
+        }
+        if (stateProvince != null) {
+            builder.append("stateProvince=");
+            builder.append(stateProvince);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

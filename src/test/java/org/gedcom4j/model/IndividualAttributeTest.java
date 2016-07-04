@@ -269,7 +269,8 @@ public class IndividualAttributeTest {
     @Test
     public void testToString() {
         IndividualAttribute i = new IndividualAttribute();
-        assertEquals("IndividualAttribute [type=null]", i.toString());
+        assertEquals("IndividualAttribute [citations=[], emails=[], faxNumbers=[], multimedia=[], notes=[], phoneNumbers=[], wwwUrls=[], customTags=[]]", i
+                .toString());
 
         i.address = new Address();
         i.age = new StringWithCustomTags("One");
@@ -292,8 +293,13 @@ public class IndividualAttributeTest {
         i.wwwUrls.add(new StringWithCustomTags("Twelve"));
         i.yNull = "Thirteen";
 
-        assertEquals("IndividualAttribute [type=FACT, address=Address [lines=[], customTags=[]], age=One, cause=Two, date=Three, description=Four, "
-                + "place=Place [citations=[], notes=[], phonetic=[], romanized=[], customTags=[]], subType=Eleven]", i.toString());
+        assertEquals("IndividualAttribute [type=Fact, address=Address [lines=[], customTags=[]], age=One, cause=Two, "
+                + "citations=[CitationWithoutSource [description=[], textFromSource=[]]], date=Three, description=Four, "
+                + "emails=[Five], faxNumbers=[Six], multimedia=[Multimedia [blob=[], citations=[], fileReferences=[], "
+                + "notes=[], userReferences=[], customTags=[]]], notes=[Note [citations=[], lines=[], userReferences=[], "
+                + "customTags=[]]], phoneNumbers=[Seven], place=Place [citations=[], notes=[], phonetic=[], romanized=[], "
+                + "customTags=[]], religiousAffiliation=Eight, respAgency=Nine, restrictionNotice=Ten, subType=Eleven, wwwUrls=[Twelve], "
+                + "yNull=Thirteen, customTags=[Line 0: 0 null null]]", i.toString());
     }
 
 }

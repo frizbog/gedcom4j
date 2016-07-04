@@ -334,12 +334,58 @@ public class Place extends AbstractElement {
         this.placeName = placeName;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "Place [" + (placeName != null ? "placeName=" + placeName + ", " : "") + (placeFormat != null ? "placeFormat=" + placeFormat + ", " : "")
-                + (citations != null ? "citations=" + citations + ", " : "") + (notes != null ? "notes=" + notes + ", " : "") + (phonetic != null ? "phonetic="
-                        + phonetic + ", " : "") + (romanized != null ? "romanized=" + romanized + ", " : "") + (latitude != null ? "latitude=" + latitude + ", "
-                                : "") + (longitude != null ? "longitude=" + longitude + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags()
-                                        : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("Place [");
+        if (citations != null) {
+            builder.append("citations=");
+            builder.append(citations);
+            builder.append(", ");
+        }
+        if (latitude != null) {
+            builder.append("latitude=");
+            builder.append(latitude);
+            builder.append(", ");
+        }
+        if (longitude != null) {
+            builder.append("longitude=");
+            builder.append(longitude);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (phonetic != null) {
+            builder.append("phonetic=");
+            builder.append(phonetic);
+            builder.append(", ");
+        }
+        if (placeFormat != null) {
+            builder.append("placeFormat=");
+            builder.append(placeFormat);
+            builder.append(", ");
+        }
+        if (placeName != null) {
+            builder.append("placeName=");
+            builder.append(placeName);
+            builder.append(", ");
+        }
+        if (romanized != null) {
+            builder.append("romanized=");
+            builder.append(romanized);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

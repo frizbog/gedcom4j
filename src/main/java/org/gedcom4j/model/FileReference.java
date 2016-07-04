@@ -185,11 +185,39 @@ public class FileReference extends AbstractElement {
         this.title = title;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "FileReference [" + (referenceToFile != null ? "referenceToFile=" + referenceToFile + ", " : "") + (format != null ? "format=" + format + ", "
-                : "") + (mediaType != null ? "mediaType=" + mediaType + ", " : "") + (title != null ? "title=" + title + ", " : "") + (getCustomTags() != null
-                        ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("FileReference [");
+        if (format != null) {
+            builder.append("format=");
+            builder.append(format);
+            builder.append(", ");
+        }
+        if (mediaType != null) {
+            builder.append("mediaType=");
+            builder.append(mediaType);
+            builder.append(", ");
+        }
+        if (referenceToFile != null) {
+            builder.append("referenceToFile=");
+            builder.append(referenceToFile);
+            builder.append(", ");
+        }
+        if (title != null) {
+            builder.append("title=");
+            builder.append(title);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
 }

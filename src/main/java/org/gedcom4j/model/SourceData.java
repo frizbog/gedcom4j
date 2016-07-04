@@ -164,9 +164,33 @@ public class SourceData extends AbstractElement {
         this.respAgency = respAgency;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "SourceData [" + (respAgency != null ? "respAgency=" + respAgency + ", " : "") + (eventsRecorded != null ? "eventsRecorded=" + eventsRecorded
-                + ", " : "") + (notes != null ? "notes=" + notes + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("SourceData [");
+        if (eventsRecorded != null) {
+            builder.append("eventsRecorded=");
+            builder.append(eventsRecorded);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (respAgency != null) {
+            builder.append("respAgency=");
+            builder.append(respAgency);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }
