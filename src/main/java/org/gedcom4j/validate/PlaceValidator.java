@@ -21,6 +21,7 @@
  */
 package org.gedcom4j.validate;
 
+import org.gedcom4j.Options;
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.NameVariation;
 import org.gedcom4j.model.Place;
@@ -57,7 +58,7 @@ class PlaceValidator extends AbstractValidator {
             addError("Place is null and cannot be validated or repaired");
             return;
         }
-        if (place.getCitations() == null) {
+        if (place.getCitations() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 place.getCitations(true).clear();
                 rootValidator.addInfo("Event had null list of citations - repaired", place);
@@ -84,7 +85,7 @@ class PlaceValidator extends AbstractValidator {
             }
         }
 
-        if (place.getPhonetic() == null) {
+        if (place.getPhonetic() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 place.getPhonetic(true).clear();
                 rootValidator.addInfo("Event had null list of phonetic name variations - repaired", place);
@@ -98,7 +99,7 @@ class PlaceValidator extends AbstractValidator {
             }
         }
 
-        if (place.getRomanized() == null) {
+        if (place.getRomanized() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 place.getRomanized(true).clear();
                 rootValidator.addInfo("Event had null list of romanized name variations - repaired", place);

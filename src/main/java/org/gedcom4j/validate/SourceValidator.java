@@ -21,6 +21,7 @@
  */
 package org.gedcom4j.validate;
 
+import org.gedcom4j.Options;
 import org.gedcom4j.model.*;
 
 /**
@@ -79,15 +80,17 @@ class SourceValidator extends AbstractValidator {
                 }
             }
         }
-        if (source.getMultimedia() == null) {
+        if (source.getMultimedia() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 source.getMultimedia(true).clear();
                 addInfo("Multimedia collection on source was null - autorepaired", source);
             }
             addError("Multimedia collection on source is null", source);
         } else {
-            for (Multimedia multimedia : source.getMultimedia()) {
-                new MultimediaValidator(rootValidator, multimedia).validate();
+            if (source.getMultimedia() != null) {
+                for (Multimedia multimedia : source.getMultimedia()) {
+                    new MultimediaValidator(rootValidator, multimedia).validate();
+                }
             }
         }
         checkNotes(source.getNotes(), source);
@@ -114,7 +117,7 @@ class SourceValidator extends AbstractValidator {
      *            the citation to check the call numbers on
      */
     private void checkCallNumbers(RepositoryCitation citation) {
-        if (citation.getCallNumbers() == null) {
+        if (citation.getCallNumbers() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 citation.getCallNumbers(true).clear();
                 addInfo("Call numbers collection on repository citation was null - autorepaired", citation);
@@ -122,14 +125,16 @@ class SourceValidator extends AbstractValidator {
                 addError("Call numbers collection on repository citation is null", citation);
             }
         } else {
-            for (SourceCallNumber scn : citation.getCallNumbers()) {
-                checkOptionalString(scn.getCallNumber(), "call number", scn);
-                if (scn.getCallNumber() == null) {
-                    if (scn.getMediaType() != null) {
-                        addError("You cannot specify media type without a call number in a SourceCallNumber structure", scn);
+            if (citation.getCallNumbers() != null) {
+                for (SourceCallNumber scn : citation.getCallNumbers()) {
+                    checkOptionalString(scn.getCallNumber(), "call number", scn);
+                    if (scn.getCallNumber() == null) {
+                        if (scn.getMediaType() != null) {
+                            addError("You cannot specify media type without a call number in a SourceCallNumber structure", scn);
+                        }
+                    } else {
+                        checkOptionalString(scn.getMediaType(), "media type", scn);
                     }
-                } else {
-                    checkOptionalString(scn.getMediaType(), "media type", scn);
                 }
             }
         }

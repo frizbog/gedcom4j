@@ -21,6 +21,7 @@
  */
 package org.gedcom4j.validate;
 
+import org.gedcom4j.Options;
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.Multimedia;
@@ -65,7 +66,7 @@ class EventValidator extends AbstractValidator {
         }
         checkOptionalString(e.getAge(), "age", e);
         checkOptionalString(e.getCause(), "cause", e);
-        if (e.getCitations() == null) {
+        if (e.getCitations() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 e.getCitations(true).clear();
                 rootValidator.addInfo("Event had null list of citations - repaired", e);
@@ -74,8 +75,10 @@ class EventValidator extends AbstractValidator {
                 return;
             }
         } else {
-            for (AbstractCitation c : e.getCitations()) {
-                new CitationValidator(rootValidator, c).validate();
+            if (e.getCitations() != null) {
+                for (AbstractCitation c : e.getCitations()) {
+                    new CitationValidator(rootValidator, c).validate();
+                }
             }
         }
         checkCustomTags(e);
@@ -83,7 +86,7 @@ class EventValidator extends AbstractValidator {
         if (e.getDescription() != null && e.getDescription().trim().length() != 0) {
             rootValidator.addError("Event has description, which is non-standard. Remove this value, or move it (perhaps to a Note).", e);
         }
-        if (e.getEmails() == null) {
+        if (e.getEmails() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 e.getEmails(true).clear();
                 rootValidator.addInfo("Event had null list of emails - repaired", e);
@@ -91,11 +94,13 @@ class EventValidator extends AbstractValidator {
                 rootValidator.addError("Event has null list of emails", e);
             }
         } else {
-            for (StringWithCustomTags swct : e.getEmails()) {
-                checkRequiredString(swct, "email", e);
+            if (e.getEmails() != null) {
+                for (StringWithCustomTags swct : e.getEmails()) {
+                    checkRequiredString(swct, "email", e);
+                }
             }
         }
-        if (e.getFaxNumbers() == null) {
+        if (e.getFaxNumbers() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 e.getFaxNumbers(true).clear();
                 rootValidator.addInfo("Event had null list of fax numbers - repaired", e);
@@ -103,11 +108,13 @@ class EventValidator extends AbstractValidator {
                 rootValidator.addError("Event has null list of fax numbers", e);
             }
         } else {
-            for (StringWithCustomTags swct : e.getFaxNumbers()) {
-                checkRequiredString(swct, "fax number", e);
+            if (e.getFaxNumbers() != null) {
+                for (StringWithCustomTags swct : e.getFaxNumbers()) {
+                    checkRequiredString(swct, "fax number", e);
+                }
             }
         }
-        if (e.getMultimedia() == null) {
+        if (e.getMultimedia() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 e.getMultimedia(true).clear();
                 rootValidator.addInfo("Event had null list of multimedia - repaired", e);
@@ -115,12 +122,14 @@ class EventValidator extends AbstractValidator {
                 rootValidator.addError("Event has null list of multimedia", e);
             }
         } else {
-            for (Multimedia m : e.getMultimedia()) {
-                new MultimediaValidator(rootValidator, m).validate();
+            if (e.getMultimedia() != null) {
+                for (Multimedia m : e.getMultimedia()) {
+                    new MultimediaValidator(rootValidator, m).validate();
+                }
             }
         }
         checkNotes(e.getNotes(), e);
-        if (e.getPhoneNumbers() == null) {
+        if (e.getPhoneNumbers() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 e.getPhoneNumbers(true).clear();
                 rootValidator.addInfo("Event had null list of phone numbers - repaired", e);
@@ -128,8 +137,10 @@ class EventValidator extends AbstractValidator {
                 rootValidator.addError("Event has null list of phone numbers", e);
             }
         } else {
-            for (StringWithCustomTags swct : e.getPhoneNumbers()) {
-                checkRequiredString(swct, "phone number", e);
+            if (e.getPhoneNumbers() != null) {
+                for (StringWithCustomTags swct : e.getPhoneNumbers()) {
+                    checkRequiredString(swct, "phone number", e);
+                }
             }
         }
         if (e.getPlace() != null) {
@@ -139,7 +150,7 @@ class EventValidator extends AbstractValidator {
         checkOptionalString(e.getRespAgency(), "responsible agency", e);
         checkOptionalString(e.getRestrictionNotice(), "restriction notice", e);
         checkOptionalString(e.getSubType(), "subtype", e);
-        if (e.getWwwUrls() == null) {
+        if (e.getWwwUrls() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 e.getWwwUrls(true).clear();
                 rootValidator.addInfo("Event had null list of www urls - repaired", e);
@@ -147,8 +158,10 @@ class EventValidator extends AbstractValidator {
                 rootValidator.addError("Event has null list of www url", e);
             }
         } else {
-            for (StringWithCustomTags swct : e.getWwwUrls()) {
-                checkRequiredString(swct, "www url", e);
+            if (e.getWwwUrls() != null) {
+                for (StringWithCustomTags swct : e.getWwwUrls()) {
+                    checkRequiredString(swct, "www url", e);
+                }
             }
         }
 

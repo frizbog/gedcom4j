@@ -22,6 +22,7 @@
 
 package org.gedcom4j.validate;
 
+import org.gedcom4j.Options;
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.Note;
 
@@ -80,7 +81,7 @@ class NoteValidator extends AbstractValidator {
         }
 
         checkOptionalString(n.getRecIdNumber(), "automated record id", n);
-        if (n.getCitations() == null) {
+        if (n.getCitations() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 n.getCitations(true).clear();
                 addInfo("Source citations collection on note was null - autorepaired");
@@ -88,11 +89,13 @@ class NoteValidator extends AbstractValidator {
                 addError("Source citations collection on note is null", n);
             }
         } else {
-            for (AbstractCitation c : n.getCitations()) {
-                new CitationValidator(rootValidator, c).validate();
+            if (n.getCitations() != null) {
+                for (AbstractCitation c : n.getCitations()) {
+                    new CitationValidator(rootValidator, c).validate();
+                }
             }
         }
-        if (n.getUserReferences() == null) {
+        if (n.getUserReferences() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 n.getUserReferences(true).clear();
                 addInfo("User references collection on note was null - autorepaired");

@@ -21,6 +21,7 @@
  */
 package org.gedcom4j.validate;
 
+import org.gedcom4j.Options;
 import org.gedcom4j.model.*;
 
 /**
@@ -52,7 +53,7 @@ class FamilyValidator extends AbstractValidator {
     protected void validate() {
         checkOptionalString(f.getAutomatedRecordId(), "Automated record id", f);
         checkChangeDate(f.getChangeDate(), f);
-        if (f.getChildren() == null) {
+        if (f.getChildren() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 f.getChildren(true).clear();
                 rootValidator.addInfo("Family's collection of children was null - repaired", f);
@@ -60,13 +61,15 @@ class FamilyValidator extends AbstractValidator {
                 rootValidator.addError("Family's collection of children is null", f);
             }
         } else {
-            for (Individual i : f.getChildren()) {
-                if (i == null) {
-                    rootValidator.addError("Family with xref '" + f.getXref() + "' has a null entry in children collection", f);
+            if (f.getChildren() != null) {
+                for (Individual i : f.getChildren()) {
+                    if (i == null) {
+                        rootValidator.addError("Family with xref '" + f.getXref() + "' has a null entry in children collection", f);
+                    }
                 }
             }
         }
-        if (f.getCitations() == null) {
+        if (f.getCitations() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 f.getCitations(true).clear();
                 addInfo("citations collection for family was null - rootValidator.autorepaired", f);
@@ -74,8 +77,10 @@ class FamilyValidator extends AbstractValidator {
                 addError("citations collection for family is null", f);
             }
         } else {
-            for (AbstractCitation c : f.getCitations()) {
-                new CitationValidator(rootValidator, c).validate();
+            if (f.getCitations() != null) {
+                for (AbstractCitation c : f.getCitations()) {
+                    new CitationValidator(rootValidator, c).validate();
+                }
             }
         }
         checkCustomTags(f);
@@ -90,7 +95,7 @@ class FamilyValidator extends AbstractValidator {
         if (f.getWife() != null) {
             new IndividualValidator(rootValidator, f.getWife()).validate();
         }
-        if (f.getLdsSpouseSealings() == null) {
+        if (f.getLdsSpouseSealings() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 f.getLdsSpouseSealings(true).clear();
                 addInfo("LDS spouse sealings collection for family was null - rootValidator.autorepaired", f);
@@ -98,11 +103,13 @@ class FamilyValidator extends AbstractValidator {
                 addError("LDS spouse sealings collection for family is null", f);
             }
         } else {
-            for (LdsSpouseSealing s : f.getLdsSpouseSealings()) {
-                new LdsSpouseSealingValidator(rootValidator, s).validate();
+            if (f.getLdsSpouseSealings() != null) {
+                for (LdsSpouseSealing s : f.getLdsSpouseSealings()) {
+                    new LdsSpouseSealingValidator(rootValidator, s).validate();
+                }
             }
         }
-        if (f.getMultimedia() == null) {
+        if (f.getMultimedia() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 f.getMultimedia(true).clear();
                 addInfo("Multimedia collection for family was null - rootValidator.autorepaired", f);
@@ -110,15 +117,17 @@ class FamilyValidator extends AbstractValidator {
                 addError("Multimedia collection for family is null", f);
             }
         } else {
-            for (Multimedia m : f.getMultimedia()) {
-                new MultimediaValidator(rootValidator, m).validate();
+            if (f.getMultimedia() != null) {
+                for (Multimedia m : f.getMultimedia()) {
+                    new MultimediaValidator(rootValidator, m).validate();
+                }
             }
         }
         checkNotes(f.getNotes(), f);
         checkOptionalString(f.getNumChildren(), "number of children", f);
         checkOptionalString(f.getRecFileNumber(), "record file number", f);
         checkOptionalString(f.getRestrictionNotice(), "restriction notice", f);
-        if (f.getSubmitters() == null) {
+        if (f.getSubmitters() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 f.getSubmitters(true).clear();
                 addInfo("Submitters collection was missing on family - repaired", f);
@@ -127,8 +136,10 @@ class FamilyValidator extends AbstractValidator {
                 return;
             }
         } else {
-            for (Submitter s : f.getSubmitters()) {
-                new SubmitterValidator(rootValidator, s).validate();
+            if (f.getSubmitters() != null) {
+                for (Submitter s : f.getSubmitters()) {
+                    new SubmitterValidator(rootValidator, s).validate();
+                }
             }
         }
         checkUserReferences(f.getUserReferences(), f);

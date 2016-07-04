@@ -23,6 +23,7 @@ package org.gedcom4j.validate;
 
 import java.util.List;
 
+import org.gedcom4j.Options;
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.CitationWithSource;
 import org.gedcom4j.model.CitationWithoutSource;
@@ -78,7 +79,7 @@ class CitationValidator extends AbstractValidator {
         } else if (citation instanceof CitationWithoutSource) {
             CitationWithoutSource c = (CitationWithoutSource) citation;
             checkStringList(c.getDescription(), "description on a citation without a source", true);
-            if (c.getTextFromSource() == null) {
+            if (c.getTextFromSource() == null && Options.isCollectionInitializationEnabled()) {
                 if (rootValidator.isAutorepairEnabled()) {
                     c.getTextFromSource(true).clear();
                     addInfo("Text from source collection (the list of lists) was null in CitationWithoutSource - autorepaired", citation);
@@ -86,18 +87,20 @@ class CitationValidator extends AbstractValidator {
                     addError("Text from source collection (the list of lists) is null in CitationWithoutSource", citation);
                 }
             } else {
-                for (List<String> sl : c.getTextFromSource()) {
-                    if (sl == null) {
-                        addError("Text from source collection (the list of lists) in CitationWithoutSource contains a null", citation);
-                    } else {
-                        checkStringList(sl, "one of the sublists in the textFromSource collection on a source citation", true);
+                if (c.getTextFromSource() != null) {
+                    for (List<String> sl : c.getTextFromSource()) {
+                        if (sl == null) {
+                            addError("Text from source collection (the list of lists) in CitationWithoutSource contains a null", citation);
+                        } else {
+                            checkStringList(sl, "one of the sublists in the textFromSource collection on a source citation", true);
+                        }
                     }
                 }
             }
         } else {
             throw new IllegalStateException("AbstractCitation references must be either CitationWithSource" + " instances or CitationWithoutSource instances");
         }
-        if (citation.getNotes() == null) {
+        if (citation.getNotes() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 citation.getNotes(true).clear();
                 addInfo("Notes collection was null on " + citation.getClass().getSimpleName() + " - autorepaired");
@@ -106,7 +109,6 @@ class CitationValidator extends AbstractValidator {
             }
         } else {
             checkNotes(citation.getNotes(), citation);
-
         }
 
     }

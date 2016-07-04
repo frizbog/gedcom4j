@@ -115,7 +115,6 @@ public enum LdsIndividualOrdinanceType {
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
         return getDisplay();
     }
 }

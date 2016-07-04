@@ -125,7 +125,7 @@ abstract class AbstractValidator {
         }
         checkRequiredString(changeDate.getDate(), "change date", objectWithChangeDate);
         checkOptionalString(changeDate.getTime(), "change time", objectWithChangeDate);
-        if (changeDate.getNotes() == null) {
+        if (changeDate.getNotes() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 changeDate.getNotes(true).clear();
                 addInfo("Notes collection was null on " + changeDate.getClass().getSimpleName() + " - autorepaired");
