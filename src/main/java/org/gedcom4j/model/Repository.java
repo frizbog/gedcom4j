@@ -36,17 +36,17 @@ public class Repository extends AbstractElement {
     /**
      * The name of this repository
      */
-    public StringWithCustomTags name;
+    private StringWithCustomTags name;
 
     /**
      * The address for this repository
      */
-    public Address address;
+    private Address address;
 
     /**
      * The change date for this repository
      */
-    public ChangeDate changeDate;
+    private ChangeDate changeDate;
 
     /**
      * Notes about this object
@@ -181,6 +181,24 @@ public class Repository extends AbstractElement {
     }
 
     /**
+     * Get the address
+     * 
+     * @return the address
+     */
+    public Address getAddress() {
+        return address;
+    }
+
+    /**
+     * Get the changeDate
+     * 
+     * @return the changeDate
+     */
+    public ChangeDate getChangeDate() {
+        return changeDate;
+    }
+
+    /**
      * Get the emails
      * 
      * @return the emails
@@ -225,6 +243,15 @@ public class Repository extends AbstractElement {
             faxNumbers = new ArrayList<StringWithCustomTags>(0);
         }
         return faxNumbers;
+    }
+
+    /**
+     * Get the name
+     * 
+     * @return the name
+     */
+    public StringWithCustomTags getName() {
+        return name;
     }
 
     /**
@@ -354,6 +381,36 @@ public class Repository extends AbstractElement {
         result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
         result = prime * result + (xref == null ? 0 : xref.hashCode());
         return result;
+    }
+
+    /**
+     * Set the address
+     * 
+     * @param address
+     *            the address to set
+     */
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    /**
+     * Set the changeDate
+     * 
+     * @param changeDate
+     *            the changeDate to set
+     */
+    public void setChangeDate(ChangeDate changeDate) {
+        this.changeDate = changeDate;
+    }
+
+    /**
+     * Set the name
+     * 
+     * @param name
+     *            the name to set
+     */
+    public void setName(StringWithCustomTags name) {
+        this.name = name;
     }
 
     /**

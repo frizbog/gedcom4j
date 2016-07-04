@@ -43,22 +43,22 @@ public class RepositoryTest {
         Repository r2 = new Repository();
         assertEquals(r1, r2);
 
-        r1.address = new Address();
+        r1.setAddress(new Address());
         assertFalse(r1.equals(r2));
-        r2.address = new Address();
+        r2.setAddress(new Address());
         assertEquals(r1, r2);
-        r1.address = null;
+        r1.setAddress(null);
         assertFalse(r1.equals(r2));
-        r2.address = null;
+        r2.setAddress(null);
         assertEquals(r1, r2);
 
-        r1.changeDate = new ChangeDate();
+        r1.setChangeDate(new ChangeDate());
         assertFalse(r1.equals(r2));
-        r2.changeDate = new ChangeDate();
+        r2.setChangeDate(new ChangeDate());
         assertEquals(r1, r2);
-        r1.changeDate = null;
+        r1.setChangeDate(null);
         assertFalse(r1.equals(r2));
-        r2.changeDate = null;
+        r2.setChangeDate(null);
         assertEquals(r1, r2);
 
         r1.getEmails().add(new StringWithCustomTags("Frying Pan"));
@@ -70,13 +70,13 @@ public class RepositoryTest {
         r2.getEmails().clear();
         assertEquals(r1, r2);
 
-        r1.name = new StringWithCustomTags("Frying Pan");
+        r1.setName(new StringWithCustomTags("Frying Pan"));
         assertFalse(r1.equals(r2));
-        r2.name = new StringWithCustomTags("Frying Pan");
+        r2.setName(new StringWithCustomTags("Frying Pan"));
         assertEquals(r1, r2);
-        r1.name = null;
+        r1.setName(null);
         assertFalse(r1.equals(r2));
-        r2.name = null;
+        r2.setName(null);
         assertEquals(r1, r2);
 
         r1.getNotes().add(new Note());
@@ -119,22 +119,22 @@ public class RepositoryTest {
         Repository r2 = new Repository();
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1.address = new Address();
+        r1.setAddress(new Address());
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.address = new Address();
+        r2.setAddress(new Address());
         assertEquals(r1.hashCode(), r2.hashCode());
-        r1.address = null;
+        r1.setAddress(null);
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.address = null;
+        r2.setAddress(null);
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1.changeDate = new ChangeDate();
+        r1.setChangeDate(new ChangeDate());
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.changeDate = new ChangeDate();
+        r2.setChangeDate(new ChangeDate());
         assertEquals(r1.hashCode(), r2.hashCode());
-        r1.changeDate = null;
+        r1.setChangeDate(null);
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.changeDate = null;
+        r2.setChangeDate(null);
         assertEquals(r1.hashCode(), r2.hashCode());
 
         r1.getEmails().add(new StringWithCustomTags("Frying Pan"));
@@ -146,13 +146,13 @@ public class RepositoryTest {
         r2.getEmails().clear();
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1.name = new StringWithCustomTags("Frying Pan");
+        r1.setName(new StringWithCustomTags("Frying Pan"));
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.name = new StringWithCustomTags("Frying Pan");
+        r2.setName(new StringWithCustomTags("Frying Pan"));
         assertEquals(r1.hashCode(), r2.hashCode());
-        r1.name = null;
+        r1.setName(null);
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.name = null;
+        r2.setName(null);
         assertEquals(r1.hashCode(), r2.hashCode());
 
         r1.getNotes().add(new Note());

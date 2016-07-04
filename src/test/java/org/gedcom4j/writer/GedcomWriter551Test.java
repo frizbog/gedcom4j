@@ -234,9 +234,9 @@ public class GedcomWriter551Test {
         i.getEvents().add(e);
         e.setType(IndividualEventType.BIRTH);
         e.setPlace(new Place());
-        e.getPlace().placeName = "Krakow, Poland";
-        e.getPlace().latitude = new StringWithCustomTags("+50\u00B0 3' 1.49\"");
-        e.getPlace().longitude = new StringWithCustomTags("+19\u00B0 56' 21.48\"");
+        e.getPlace().setPlaceName("Krakow, Poland");
+        e.getPlace().setLatitude(new StringWithCustomTags("+50\u00B0 3' 1.49\""));
+        e.getPlace().setLongitude(new StringWithCustomTags("+19\u00B0 56' 21.48\""));
 
         // Write the test data
         gw.write("tmp/writertest551.ged");
@@ -257,13 +257,13 @@ public class GedcomWriter551Test {
         assertEquals(IndividualEventType.BIRTH, e.getType());
         Place p = e.getPlace();
         assertNotNull(p);
-        assertEquals("Krakow, Poland", p.placeName);
+        assertEquals("Krakow, Poland", p.getPlaceName());
         // while we're here...
-        assertTrue(p.romanized.isEmpty());
-        assertTrue(p.phonetic.isEmpty());
+        assertTrue(p.getRomanized().isEmpty());
+        assertTrue(p.getPhonetic().isEmpty());
         // ok, back to task at hand
-        assertEquals("+50\u00B0 3' 1.49\"", p.latitude.getValue());
-        assertEquals("+19\u00B0 56' 21.48\"", p.longitude.getValue());
+        assertEquals("+50\u00B0 3' 1.49\"", p.getLatitude().getValue());
+        assertEquals("+19\u00B0 56' 21.48\"", p.getLongitude().getValue());
     }
 
     /**

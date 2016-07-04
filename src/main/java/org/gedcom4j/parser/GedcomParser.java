@@ -1827,25 +1827,25 @@ public class GedcomParser {
      *            the place structure to fill in
      */
     private void loadPlace(StringTree st, Place place) {
-        place.placeName = st.value;
+        place.setPlaceName(st.value);
         for (StringTree ch : st.children) {
             if (Tag.FORM.equals(ch.tag)) {
-                place.placeFormat = new StringWithCustomTags(ch);
+                place.setPlaceFormat(new StringWithCustomTags(ch));
             } else if (Tag.SOURCE.equals(ch.tag)) {
                 loadCitation(ch, place.getCitations());
             } else if (Tag.NOTE.equals(ch.tag)) {
                 loadNote(ch, place.getNotes());
             } else if (Tag.CONCATENATION.equals(ch.tag)) {
-                place.placeName += (ch.value == null ? "" : ch.value);
+                place.setPlaceName(place.getPlaceName() + (ch.value == null ? "" : ch.value));
             } else if (Tag.CONTINUATION.equals(ch.tag)) {
-                place.placeName += "\n" + (ch.value == null ? "" : ch.value);
+                place.setPlaceName(place.getPlaceName() + "\n" + (ch.value == null ? "" : ch.value));
             } else if (Tag.ROMANIZED.equals(ch.tag)) {
                 if (g55()) {
                     warnings.add("GEDCOM version is 5.5 but a romanized variation was specified on a place on line " + ch.lineNum
                             + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
                 NameVariation nv = new NameVariation();
-                place.romanized.add(nv);
+                place.getRomanized().add(nv);
                 nv.setVariation(ch.value);
                 for (StringTree gch : ch.children) {
                     if (Tag.TYPE.equals(gch.tag)) {
@@ -1860,7 +1860,7 @@ public class GedcomParser {
                             + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
                 NameVariation nv = new NameVariation();
-                place.phonetic.add(nv);
+                place.getPhonetic().add(nv);
                 nv.setVariation(ch.value);
                 for (StringTree gch : ch.children) {
                     if (Tag.TYPE.equals(gch.tag)) {
@@ -1876,9 +1876,9 @@ public class GedcomParser {
                 }
                 for (StringTree gch : ch.children) {
                     if (Tag.LATITUDE.equals(gch.tag)) {
-                        place.latitude = new StringWithCustomTags(gch);
+                        place.setLatitude(new StringWithCustomTags(gch));
                     } else if (Tag.LONGITUDE.equals(gch.tag)) {
-                        place.longitude = new StringWithCustomTags(gch);
+                        place.setLongitude(new StringWithCustomTags(gch));
                     } else {
                         unknownTag(gch, place);
                     }
@@ -1900,10 +1900,10 @@ public class GedcomParser {
         Repository r = getRepository(st.id);
         for (StringTree ch : st.children) {
             if (Tag.NAME.equals(ch.tag)) {
-                r.name = new StringWithCustomTags(ch);
+                r.setName(new StringWithCustomTags(ch));
             } else if (Tag.ADDRESS.equals(ch.tag)) {
-                r.address = new Address();
-                loadAddress(ch, r.address);
+                r.setAddress(new Address());
+                loadAddress(ch, r.getAddress());
             } else if (Tag.PHONE.equals(ch.tag)) {
                 r.getPhoneNumbers().add(new StringWithCustomTags(ch));
             } else if (Tag.WEB_ADDRESS.equals(ch.tag)) {
@@ -1933,8 +1933,8 @@ public class GedcomParser {
             } else if (Tag.RECORD_ID_NUMBER.equals(ch.tag)) {
                 r.setRecIdNumber(new StringWithCustomTags(ch));
             } else if (Tag.CHANGED_DATETIME.equals(ch.tag)) {
-                r.changeDate = new ChangeDate();
-                loadChangeDate(ch, r.changeDate);
+                r.setChangeDate(new ChangeDate());
+                loadChangeDate(ch, r.getChangeDate());
             } else {
                 unknownTag(ch, r);
             }
@@ -1951,19 +1951,19 @@ public class GedcomParser {
      */
     private RepositoryCitation loadRepositoryCitation(StringTree st) {
         RepositoryCitation r = new RepositoryCitation();
-        r.repositoryXref = st.value;
+        r.setRepositoryXref(st.value);
         for (StringTree ch : st.children) {
             if (Tag.NOTE.equals(ch.tag)) {
                 loadNote(ch, r.getNotes());
             } else if (Tag.CALL_NUMBER.equals(ch.tag)) {
                 SourceCallNumber scn = new SourceCallNumber();
-                r.callNumbers.add(scn);
-                scn.callNumber = new StringWithCustomTags(ch.value);
+                r.getCallNumbers().add(scn);
+                scn.setCallNumber(new StringWithCustomTags(ch.value));
                 for (StringTree gch : ch.children) {
                     if (Tag.MEDIA.equals(gch.tag)) {
-                        scn.mediaType = new StringWithCustomTags(gch);
+                        scn.setMediaType(new StringWithCustomTags(gch));
                     } else {
-                        unknownTag(gch, scn.callNumber);
+                        unknownTag(gch, scn.getCallNumber());
                     }
                 }
             } else {
@@ -2048,20 +2048,20 @@ public class GedcomParser {
         Source s = getSource(st.id);
         for (StringTree ch : st.children) {
             if (Tag.DATA_FOR_SOURCE.equals(ch.tag)) {
-                s.data = new SourceData();
-                loadSourceData(ch, s.data);
+                s.setData(new SourceData());
+                loadSourceData(ch, s.getData());
             } else if (Tag.TITLE.equals(ch.tag)) {
-                loadMultiLinesOfText(ch, s.title, s);
+                loadMultiLinesOfText(ch, s.getTitle(), s);
             } else if (Tag.PUBLICATION_FACTS.equals(ch.tag)) {
-                loadMultiLinesOfText(ch, s.publicationFacts, s);
+                loadMultiLinesOfText(ch, s.getPublicationFacts(), s);
             } else if (Tag.TEXT.equals(ch.tag)) {
-                loadMultiLinesOfText(ch, s.sourceText, s);
+                loadMultiLinesOfText(ch, s.getSourceText(), s);
             } else if (Tag.ABBREVIATION.equals(ch.tag)) {
-                s.sourceFiledBy = new StringWithCustomTags(ch);
+                s.setSourceFiledBy(new StringWithCustomTags(ch));
             } else if (Tag.AUTHORS.equals(ch.tag)) {
-                loadMultiLinesOfText(ch, s.originatorsAuthors, s);
+                loadMultiLinesOfText(ch, s.getOriginatorsAuthors(), s);
             } else if (Tag.REPOSITORY.equals(ch.tag)) {
-                s.repositoryCitation = loadRepositoryCitation(ch);
+                s.setRepositoryCitation(loadRepositoryCitation(ch));
             } else if (Tag.NOTE.equals(ch.tag)) {
                 loadNote(ch, s.getNotes());
             } else if (Tag.OBJECT_MULTIMEDIA.equals(ch.tag)) {
@@ -2073,8 +2073,8 @@ public class GedcomParser {
             } else if (Tag.RECORD_ID_NUMBER.equals(ch.tag)) {
                 s.setRecIdNumber(new StringWithCustomTags(ch));
             } else if (Tag.CHANGED_DATETIME.equals(ch.tag)) {
-                s.changeDate = new ChangeDate();
-                loadChangeDate(ch, s.changeDate);
+                s.setChangeDate(new ChangeDate());
+                loadChangeDate(ch, s.getChangeDate());
             } else {
                 unknownTag(ch, s);
             }

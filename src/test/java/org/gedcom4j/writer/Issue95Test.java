@@ -76,7 +76,7 @@ public class Issue95Test {
                 assertEquals("Hatched from egg", ct.value);
                 assertEquals(2, ct.level);
             } else if (ev.getType() == IndividualEventType.DEATH) {
-                assertEquals("Suffolk, VA, USA", ev.getPlace().placeName);
+                assertEquals("Suffolk, VA, USA", ev.getPlace().getPlaceName());
                 assertTrue(ev.getCustomTags().isEmpty());
             } else {
                 fail("Unexpected Individual Event type " + ev.getType());

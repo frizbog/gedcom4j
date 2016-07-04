@@ -35,42 +35,42 @@ public class Source extends AbstractElement {
     /**
      * Who filed the source
      */
-    public StringWithCustomTags sourceFiledBy;
+    private StringWithCustomTags sourceFiledBy;
 
     /**
      * The title text
      */
-    public List<String> title = new ArrayList<String>(0);
+    private List<String> title = new ArrayList<String>(0);
 
     /**
      * Publication facts on this source
      */
-    public List<String> publicationFacts = new ArrayList<String>(0);
+    private List<String> publicationFacts = new ArrayList<String>(0);
 
     /**
      * The originators/authors
      */
-    public List<String> originatorsAuthors = new ArrayList<String>(0);
+    private List<String> originatorsAuthors = new ArrayList<String>(0);
 
     /**
      * The change date for this source
      */
-    public ChangeDate changeDate;
+    private ChangeDate changeDate;
 
     /**
      * Source data
      */
-    public SourceData data;
+    private SourceData data;
 
     /**
      * Text from the source
      */
-    public List<String> sourceText = new ArrayList<String>(0);
+    private List<String> sourceText = new ArrayList<String>(0);
 
     /**
      * A repository Citation
      */
-    public RepositoryCitation repositoryCitation;
+    private RepositoryCitation repositoryCitation;
 
     /**
      * Notes about this object
@@ -220,6 +220,24 @@ public class Source extends AbstractElement {
     }
 
     /**
+     * Get the changeDate
+     * 
+     * @return the changeDate
+     */
+    public ChangeDate getChangeDate() {
+        return changeDate;
+    }
+
+    /**
+     * Get the data
+     * 
+     * @return the data
+     */
+    public SourceData getData() {
+        return data;
+    }
+
+    /**
      * Get the multimedia
      * 
      * @return the multimedia
@@ -267,12 +285,122 @@ public class Source extends AbstractElement {
     }
 
     /**
+     * Get the originatorsAuthors
+     * 
+     * @return the originatorsAuthors
+     */
+    public List<String> getOriginatorsAuthors() {
+        return originatorsAuthors;
+    }
+
+    /**
+     * Get the originatorsAuthors
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the originatorsAuthors
+     */
+    public List<String> getOriginatorsAuthors(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && originatorsAuthors == null) {
+            originatorsAuthors = new ArrayList<String>(0);
+        }
+        return originatorsAuthors;
+    }
+
+    /**
+     * Get the publicationFacts
+     * 
+     * @return the publicationFacts
+     */
+    public List<String> getPublicationFacts() {
+        return publicationFacts;
+    }
+
+    /**
+     * Get the publicationFacts
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the publicationFacts
+     */
+    public List<String> getPublicationFacts(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && publicationFacts == null) {
+            publicationFacts = new ArrayList<String>(0);
+        }
+        return publicationFacts;
+    }
+
+    /**
      * Get the recIdNumber
      * 
      * @return the recIdNumber
      */
     public StringWithCustomTags getRecIdNumber() {
         return recIdNumber;
+    }
+
+    /**
+     * Get the repositoryCitation
+     * 
+     * @return the repositoryCitation
+     */
+    public RepositoryCitation getRepositoryCitation() {
+        return repositoryCitation;
+    }
+
+    /**
+     * Get the sourceFiledBy
+     * 
+     * @return the sourceFiledBy
+     */
+    public StringWithCustomTags getSourceFiledBy() {
+        return sourceFiledBy;
+    }
+
+    /**
+     * Get the sourceText
+     * 
+     * @return the sourceText
+     */
+    public List<String> getSourceText() {
+        return sourceText;
+    }
+
+    /**
+     * Get the sourceText
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the sourceText
+     */
+    public List<String> getSourceText(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && sourceText == null) {
+            sourceText = new ArrayList<String>(0);
+        }
+        return sourceText;
+    }
+
+    /**
+     * Get the title
+     * 
+     * @return the title
+     */
+    public List<String> getTitle() {
+        return title;
+    }
+
+    /**
+     * Get the title
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the title
+     */
+    public List<String> getTitle(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && title == null) {
+            title = new ArrayList<String>(0);
+        }
+        return title;
     }
 
     /**
@@ -331,6 +459,26 @@ public class Source extends AbstractElement {
     }
 
     /**
+     * Set the changeDate
+     * 
+     * @param changeDate
+     *            the changeDate to set
+     */
+    public void setChangeDate(ChangeDate changeDate) {
+        this.changeDate = changeDate;
+    }
+
+    /**
+     * Set the data
+     * 
+     * @param data
+     *            the data to set
+     */
+    public void setData(SourceData data) {
+        this.data = data;
+    }
+
+    /**
      * Set the recIdNumber
      * 
      * @param recIdNumber
@@ -338,6 +486,26 @@ public class Source extends AbstractElement {
      */
     public void setRecIdNumber(StringWithCustomTags recIdNumber) {
         this.recIdNumber = recIdNumber;
+    }
+
+    /**
+     * Set the repositoryCitation
+     * 
+     * @param repositoryCitation
+     *            the repositoryCitation to set
+     */
+    public void setRepositoryCitation(RepositoryCitation repositoryCitation) {
+        this.repositoryCitation = repositoryCitation;
+    }
+
+    /**
+     * Set the sourceFiledBy
+     * 
+     * @param sourceFiledBy
+     *            the sourceFiledBy to set
+     */
+    public void setSourceFiledBy(StringWithCustomTags sourceFiledBy) {
+        this.sourceFiledBy = sourceFiledBy;
     }
 
     /**

@@ -69,7 +69,7 @@ public class Issue80ParserTest {
         assertNotNull(ie.getPlace());
 
         Place p = ie.getPlace();
-        assertEquals("36.72", p.latitude.getValue());
-        assertEquals("-76.58", p.longitude.getValue());
+        assertEquals("36.72", p.getLatitude().getValue());
+        assertEquals("-76.58", p.getLongitude().getValue());
     }
 }

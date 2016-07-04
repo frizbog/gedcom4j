@@ -1374,32 +1374,32 @@ public class GedcomWriter {
      *             if the data is malformed and cannot be written
      */
     private void emitPlace(int level, Place p) throws GedcomWriterException {
-        emitTagWithOptionalValue(level, "PLAC", p.placeName);
-        emitTagIfValueNotNull(level + 1, "FORM", p.placeFormat);
+        emitTagWithOptionalValue(level, "PLAC", p.getPlaceName());
+        emitTagIfValueNotNull(level + 1, "FORM", p.getPlaceFormat());
         emitSourceCitations(level + 1, p.getCitations());
         emitNotes(level + 1, p.getNotes());
-        for (NameVariation nv : p.romanized) {
+        for (NameVariation nv : p.getRomanized()) {
             if (g55()) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but romanized variation was specified on place " + p.placeName
+                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but romanized variation was specified on place " + p.getPlaceName()
                         + ", which is only allowed in GEDCOM 5.5.1");
             }
             emitTagWithRequiredValue(level + 1, "ROMN", nv.getVariation());
             emitTagIfValueNotNull(level + 2, "TYPE", nv.getVariationType());
         }
-        for (NameVariation nv : p.phonetic) {
+        for (NameVariation nv : p.getPhonetic()) {
             if (g55()) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but phonetic variation was specified on place " + p.placeName
+                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but phonetic variation was specified on place " + p.getPlaceName()
                         + ", which is only allowed in GEDCOM 5.5.1");
             }
             emitTagWithRequiredValue(level + 1, "FONE", nv.getVariation());
             emitTagIfValueNotNull(level + 2, "TYPE", nv.getVariationType());
         }
-        if (p.latitude != null || p.longitude != null) {
+        if (p.getLatitude() != null || p.getLongitude() != null) {
             emitTag(level + 1, "MAP");
-            emitTagWithRequiredValue(level + 2, "LATI", p.latitude);
-            emitTagWithRequiredValue(level + 2, "LONG", p.longitude);
+            emitTagWithRequiredValue(level + 2, "LATI", p.getLatitude());
+            emitTagWithRequiredValue(level + 2, "LONG", p.getLongitude());
             if (g55()) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but map coordinates were specified on place " + p.placeName
+                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but map coordinates were specified on place " + p.getPlaceName()
                         + ", which is only allowed in GEDCOM 5.5.1");
             }
         }
@@ -1436,8 +1436,8 @@ public class GedcomWriter {
     private void emitRepositories() throws GedcomWriterException {
         for (Repository r : gedcom.getRepositories().values()) {
             emitTag(0, r.getXref(), "REPO");
-            emitTagIfValueNotNull(1, "NAME", r.name);
-            emitAddress(1, r.address);
+            emitTagIfValueNotNull(1, "NAME", r.getName());
+            emitAddress(1, r.getAddress());
             emitNotes(1, r.getNotes());
             for (UserReference u : r.getUserReferences()) {
                 emitTagWithRequiredValue(1, "REFN", u.referenceNum);
@@ -1448,7 +1448,7 @@ public class GedcomWriter {
             emitWwwUrls(1, r.getWwwUrls());
             emitFaxNumbers(1, r.getFaxNumbers());
             emitEmails(1, r.getEmails());
-            emitChangeDate(1, r.changeDate);
+            emitChangeDate(1, r.getChangeDate());
             emitCustomTags(1, r.getCustomTags());
             notifyConstructObserversIfNeeded();
             if (cancelled) {
@@ -1469,14 +1469,14 @@ public class GedcomWriter {
      */
     private void emitRepositoryCitation(int level, RepositoryCitation repositoryCitation) throws GedcomWriterException {
         if (repositoryCitation != null) {
-            if (repositoryCitation.repositoryXref == null) {
+            if (repositoryCitation.getRepositoryXref() == null) {
                 throw new GedcomWriterException("Repository Citation has null repository reference");
             }
-            emitTagWithRequiredValue(level, "REPO", repositoryCitation.repositoryXref);
+            emitTagWithRequiredValue(level, "REPO", repositoryCitation.getRepositoryXref());
             emitNotes(level + 1, repositoryCitation.getNotes());
-            for (SourceCallNumber scn : repositoryCitation.callNumbers) {
-                emitTagWithRequiredValue(level + 1, "CALN", scn.callNumber);
-                emitTagIfValueNotNull(level + 2, "MEDI", scn.mediaType);
+            for (SourceCallNumber scn : repositoryCitation.getCallNumbers()) {
+                emitTagWithRequiredValue(level + 1, "CALN", scn.getCallNumber());
+                emitTagIfValueNotNull(level + 2, "MEDI", scn.getMediaType());
             }
             emitCustomTags(level + 1, repositoryCitation.getCustomTags());
         }
@@ -1516,7 +1516,7 @@ public class GedcomWriter {
     private void emitSources() throws GedcomWriterException {
         for (Source s : gedcom.getSources().values()) {
             emitTag(0, s.getXref(), "SOUR");
-            SourceData d = s.data;
+            SourceData d = s.getData();
             if (d != null) {
                 emitTag(1, "DATA");
                 for (EventRecorded e : d.eventsRecorded) {
@@ -1527,12 +1527,12 @@ public class GedcomWriter {
                 emitTagIfValueNotNull(2, "AGNC", d.respAgency);
                 emitNotes(2, d.getNotes());
             }
-            emitLinesOfText(1, "AUTH", s.originatorsAuthors);
-            emitLinesOfText(1, "TITL", s.title);
-            emitTagIfValueNotNull(1, "ABBR", s.sourceFiledBy);
-            emitLinesOfText(1, "PUBL", s.publicationFacts);
-            emitLinesOfText(1, "TEXT", s.sourceText);
-            emitRepositoryCitation(1, s.repositoryCitation);
+            emitLinesOfText(1, "AUTH", s.getOriginatorsAuthors());
+            emitLinesOfText(1, "TITL", s.getTitle());
+            emitTagIfValueNotNull(1, "ABBR", s.getSourceFiledBy());
+            emitLinesOfText(1, "PUBL", s.getPublicationFacts());
+            emitLinesOfText(1, "TEXT", s.getSourceText());
+            emitRepositoryCitation(1, s.getRepositoryCitation());
             emitMultimediaLinks(1, s.getMultimedia());
             emitNotes(1, s.getNotes());
             for (UserReference u : s.getUserReferences()) {
@@ -1540,7 +1540,7 @@ public class GedcomWriter {
                 emitTagIfValueNotNull(2, "TYPE", u.type);
             }
             emitTagIfValueNotNull(1, "RIN", s.getRecIdNumber());
-            emitChangeDate(1, s.changeDate);
+            emitChangeDate(1, s.getChangeDate());
             emitCustomTags(1, s.getCustomTags());
             notifyConstructObserversIfNeeded();
             if (cancelled) {

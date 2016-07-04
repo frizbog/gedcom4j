@@ -55,15 +55,15 @@ class RepositoryValidator extends AbstractValidator {
             return;
         }
         checkXref(repository);
-        checkOptionalString(repository.name, "name", repository);
-        checkChangeDate(repository.changeDate, repository);
+        checkOptionalString(repository.getName(), "name", repository);
+        checkChangeDate(repository.getChangeDate(), repository);
         checkStringTagList(repository.getEmails(), "email list", false);
         checkUserReferences(repository.getUserReferences(), repository);
         checkOptionalString(repository.getRecIdNumber(), "automated record id", repository);
         checkStringTagList(repository.getPhoneNumbers(), "phone numbers", false);
         checkNotes(repository.getNotes(), repository);
 
-        Address a = repository.address;
+        Address a = repository.getAddress();
         if (a != null) {
             new AddressValidator(rootValidator, a).validate();
         }

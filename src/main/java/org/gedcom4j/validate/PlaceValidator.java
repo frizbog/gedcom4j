@@ -21,8 +21,6 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.ArrayList;
-
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.NameVariation;
 import org.gedcom4j.model.Place;
@@ -72,11 +70,11 @@ class PlaceValidator extends AbstractValidator {
         }
         checkCustomTags(place);
 
-        checkOptionalString(place.latitude, "latitude", place);
-        checkOptionalString(place.longitude, "longitude", place);
+        checkOptionalString(place.getLatitude(), "latitude", place);
+        checkOptionalString(place.getLongitude(), "longitude", place);
         checkNotes(place.getNotes(), place);
-        checkOptionalString(place.placeFormat, "place format", place);
-        if (place.placeName == null) {
+        checkOptionalString(place.getPlaceFormat(), "place format", place);
+        if (place.getPlaceName() == null) {
             if (rootValidator.autorepair) {
                 addError("Place name was unspecified and cannot be repaired");
             } else {
@@ -84,27 +82,27 @@ class PlaceValidator extends AbstractValidator {
             }
         }
 
-        if (place.phonetic == null) {
+        if (place.getPhonetic() == null) {
             if (rootValidator.autorepair) {
-                place.phonetic = new ArrayList<NameVariation>();
+                place.getPhonetic(true).clear();
                 rootValidator.addInfo("Event had null list of phonetic name variations - repaired", place);
             } else {
                 rootValidator.addError("Event has null list of phonetic name variations", place);
             }
         }
-        for (NameVariation nv : place.phonetic) {
+        for (NameVariation nv : place.getPhonetic()) {
             new NameVariationValidator(rootValidator, nv).validate();
         }
 
-        if (place.romanized == null) {
+        if (place.getRomanized() == null) {
             if (rootValidator.autorepair) {
-                place.romanized = new ArrayList<NameVariation>();
+                place.getRomanized(true).clear();
                 rootValidator.addInfo("Event had null list of romanized name variations - repaired", place);
             } else {
                 rootValidator.addError("Event has null list of romanized name variations", place);
             }
         }
-        for (NameVariation nv : place.romanized) {
+        for (NameVariation nv : place.getRomanized()) {
             new NameVariationValidator(rootValidator, nv).validate();
         }
 

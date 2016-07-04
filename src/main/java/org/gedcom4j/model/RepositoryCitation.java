@@ -38,12 +38,12 @@ public class RepositoryCitation extends AbstractElement {
      * The xref of the repository. Kept as a string copy of the xref deliberately to avoid circular references in the
      * object graph (particularly, Note -&gt; Citation -&gt; Source -&gt; Repository -&gt; Note -&gt; Citation...)
      */
-    public String repositoryXref;
+    private String repositoryXref;
 
     /**
      * Call numbers
      */
-    public List<SourceCallNumber> callNumbers = new ArrayList<SourceCallNumber>(0);
+    private List<SourceCallNumber> callNumbers = new ArrayList<SourceCallNumber>(0);
 
     /**
      * Notes about this object
@@ -87,6 +87,29 @@ public class RepositoryCitation extends AbstractElement {
     }
 
     /**
+     * Get the callNumbers
+     * 
+     * @return the callNumbers
+     */
+    public List<SourceCallNumber> getCallNumbers() {
+        return callNumbers;
+    }
+
+    /**
+     * Get the callNumbers
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the callNumbers
+     */
+    public List<SourceCallNumber> getCallNumbers(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && callNumbers == null) {
+            callNumbers = new ArrayList<SourceCallNumber>(0);
+        }
+        return callNumbers;
+    }
+
+    /**
      * Get the notes
      * 
      * @return the notes
@@ -110,6 +133,15 @@ public class RepositoryCitation extends AbstractElement {
         return notes;
     }
 
+    /**
+     * Get the repositoryXref
+     * 
+     * @return the repositoryXref
+     */
+    public String getRepositoryXref() {
+        return repositoryXref;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -118,6 +150,16 @@ public class RepositoryCitation extends AbstractElement {
         result = prime * result + (notes == null ? 0 : notes.hashCode());
         result = prime * result + (repositoryXref == null ? 0 : repositoryXref.hashCode());
         return result;
+    }
+
+    /**
+     * Set the repositoryXref
+     * 
+     * @param repositoryXref
+     *            the repositoryXref to set
+     */
+    public void setRepositoryXref(String repositoryXref) {
+        this.repositoryXref = repositoryXref;
     }
 
     @Override

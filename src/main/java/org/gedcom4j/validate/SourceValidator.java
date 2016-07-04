@@ -61,9 +61,9 @@ class SourceValidator extends AbstractValidator {
             return;
         }
         checkXref(source);
-        checkChangeDate(source.changeDate, source);
-        if (source.data != null) {
-            SourceData sd = source.data;
+        checkChangeDate(source.getChangeDate(), source);
+        if (source.getData() != null) {
+            SourceData sd = source.getData();
             checkNotes(sd.getNotes(), sd);
             checkOptionalString(sd.respAgency, "responsible agency", sd);
             if (sd.eventsRecorded == null) {
@@ -93,45 +93,45 @@ class SourceValidator extends AbstractValidator {
             }
         }
         checkNotes(source.getNotes(), source);
-        checkStringList(source.originatorsAuthors, "originators/authors", false);
-        checkStringList(source.publicationFacts, "publication facts", false);
+        checkStringList(source.getOriginatorsAuthors(), "originators/authors", false);
+        checkStringList(source.getPublicationFacts(), "publication facts", false);
         checkOptionalString(source.getRecIdNumber(), "automated record id", source);
-        checkStringList(source.sourceText, "source text", true);
-        checkOptionalString(source.sourceFiledBy, "source filed by", source);
-        checkStringList(source.title, "title", true);
+        checkStringList(source.getSourceText(), "source text", true);
+        checkOptionalString(source.getSourceFiledBy(), "source filed by", source);
+        checkStringList(source.getTitle(), "title", true);
         checkUserReferences(source.getUserReferences(), source);
 
-        RepositoryCitation c = source.repositoryCitation;
+        RepositoryCitation c = source.getRepositoryCitation();
         if (c != null) {
             checkNotes(c.getNotes(), c);
-            checkRequiredString(c.repositoryXref, "repository xref", c);
+            checkRequiredString(c.getRepositoryXref(), "repository xref", c);
             checkCallNumbers(c);
         }
     }
 
     /**
-     * Check the call numbers on a RepositoryCitation objct
+     * Check the call numbers on a RepositoryCitation object
      * 
      * @param citation
      *            the citation to check the call numbers on
      */
     private void checkCallNumbers(RepositoryCitation citation) {
-        if (citation.callNumbers == null) {
+        if (citation.getCallNumbers() == null) {
             if (rootValidator.autorepair) {
-                citation.callNumbers = new ArrayList<SourceCallNumber>();
+                citation.getCallNumbers(true).clear();
                 addInfo("Call numbers collection on repository citation was null - autorepaired", citation);
             } else {
                 addError("Call numbers collection on repository citation is null", citation);
             }
         } else {
-            for (SourceCallNumber scn : citation.callNumbers) {
-                checkOptionalString(scn.callNumber, "call number", scn);
-                if (scn.callNumber == null) {
-                    if (scn.mediaType != null) {
+            for (SourceCallNumber scn : citation.getCallNumbers()) {
+                checkOptionalString(scn.getCallNumber(), "call number", scn);
+                if (scn.getCallNumber() == null) {
+                    if (scn.getMediaType() != null) {
                         addError("You cannot specify media type without a call number in a SourceCallNumber structure", scn);
                     }
                 } else {
-                    checkOptionalString(scn.mediaType, "media type", scn);
+                    checkOptionalString(scn.getMediaType(), "media type", scn);
                 }
             }
         }

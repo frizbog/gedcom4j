@@ -31,12 +31,12 @@ public class SourceCallNumber extends AbstractElement {
     /**
      * The call number. Corresponds to SOURCE_CALL_NUMBER in the Gedcom spec.
      */
-    public StringWithCustomTags callNumber;
+    private StringWithCustomTags callNumber;
 
     /**
      * The media type, corresponds to SOURCE_MEDIA_TYPE in the Gedcom spec
      */
-    public StringWithCustomTags mediaType;
+    private StringWithCustomTags mediaType;
 
     @Override
     public boolean equals(Object obj) {
@@ -67,6 +67,24 @@ public class SourceCallNumber extends AbstractElement {
         return true;
     }
 
+    /**
+     * Get the callNumber
+     * 
+     * @return the callNumber
+     */
+    public StringWithCustomTags getCallNumber() {
+        return callNumber;
+    }
+
+    /**
+     * Get the mediaType
+     * 
+     * @return the mediaType
+     */
+    public StringWithCustomTags getMediaType() {
+        return mediaType;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -74,6 +92,26 @@ public class SourceCallNumber extends AbstractElement {
         result = prime * result + (callNumber == null ? 0 : callNumber.hashCode());
         result = prime * result + (mediaType == null ? 0 : mediaType.hashCode());
         return result;
+    }
+
+    /**
+     * Set the callNumber
+     * 
+     * @param callNumber
+     *            the callNumber to set
+     */
+    public void setCallNumber(StringWithCustomTags callNumber) {
+        this.callNumber = callNumber;
+    }
+
+    /**
+     * Set the mediaType
+     * 
+     * @param mediaType
+     *            the mediaType to set
+     */
+    public void setMediaType(StringWithCustomTags mediaType) {
+        this.mediaType = mediaType;
     }
 
     @Override
