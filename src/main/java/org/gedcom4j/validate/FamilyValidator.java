@@ -102,15 +102,15 @@ class FamilyValidator extends AbstractValidator {
                 new LdsSpouseSealingValidator(rootValidator, s).validate();
             }
         }
-        if (f.multimedia == null) {
+        if (f.getMultimedia() == null) {
             if (rootValidator.autorepair) {
-                f.multimedia = new ArrayList<Multimedia>();
+                f.getMultimedia(true).clear();
                 addInfo("Multimedia collection for family was null - rootValidator.autorepaired", f);
             } else {
                 addError("Multimedia collection for family is null", f);
             }
         } else {
-            for (Multimedia m : f.multimedia) {
+            for (Multimedia m : f.getMultimedia()) {
                 new MultimediaValidator(rootValidator, m).validate();
             }
         }

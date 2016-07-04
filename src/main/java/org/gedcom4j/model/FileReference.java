@@ -33,22 +33,22 @@ public class FileReference extends AbstractElement {
     /**
      * The actual reference to the file - a URL, a file name, something
      */
-    public StringWithCustomTags referenceToFile;
+    private StringWithCustomTags referenceToFile;
 
     /**
      * The format of the referenced file
      */
-    public StringWithCustomTags format;
+    private StringWithCustomTags format;
 
     /**
      * The media type of the referenced file
      */
-    public StringWithCustomTags mediaType;
+    private StringWithCustomTags mediaType;
 
     /**
      * The descriptive title for this file reference
      */
-    public StringWithCustomTags title;
+    private StringWithCustomTags title;
 
     @Override
     public boolean equals(Object obj) {
@@ -93,6 +93,42 @@ public class FileReference extends AbstractElement {
         return true;
     }
 
+    /**
+     * Get the format
+     * 
+     * @return the format
+     */
+    public StringWithCustomTags getFormat() {
+        return format;
+    }
+
+    /**
+     * Get the mediaType
+     * 
+     * @return the mediaType
+     */
+    public StringWithCustomTags getMediaType() {
+        return mediaType;
+    }
+
+    /**
+     * Get the referenceToFile
+     * 
+     * @return the referenceToFile
+     */
+    public StringWithCustomTags getReferenceToFile() {
+        return referenceToFile;
+    }
+
+    /**
+     * Get the title
+     * 
+     * @return the title
+     */
+    public StringWithCustomTags getTitle() {
+        return title;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -104,11 +140,51 @@ public class FileReference extends AbstractElement {
         return result;
     }
 
+    /**
+     * Set the format
+     * 
+     * @param format
+     *            the format to set
+     */
+    public void setFormat(StringWithCustomTags format) {
+        this.format = format;
+    }
+
+    /**
+     * Set the mediaType
+     * 
+     * @param mediaType
+     *            the mediaType to set
+     */
+    public void setMediaType(StringWithCustomTags mediaType) {
+        this.mediaType = mediaType;
+    }
+
+    /**
+     * Set the referenceToFile
+     * 
+     * @param referenceToFile
+     *            the referenceToFile to set
+     */
+    public void setReferenceToFile(StringWithCustomTags referenceToFile) {
+        this.referenceToFile = referenceToFile;
+    }
+
+    /**
+     * Set the title
+     * 
+     * @param title
+     *            the title to set
+     */
+    public void setTitle(StringWithCustomTags title) {
+        this.title = title;
+    }
+
     @Override
     public String toString() {
-        return "FileReference [" + (referenceToFile != null ? "referenceToFile=" + referenceToFile + ", " : "")
-                + (format != null ? "format=" + format + ", " : "") + (mediaType != null ? "mediaType=" + mediaType + ", " : "")
-                + (title != null ? "title=" + title + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        return "FileReference [" + (referenceToFile != null ? "referenceToFile=" + referenceToFile + ", " : "") + (format != null ? "format=" + format + ", "
+                : "") + (mediaType != null ? "mediaType=" + mediaType + ", " : "") + (title != null ? "title=" + title + ", " : "") + (getCustomTags() != null
+                        ? "customTags=" + getCustomTags() : "") + "]";
     }
 
 }

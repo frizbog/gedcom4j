@@ -36,37 +36,27 @@ public abstract class AbstractEvent extends AbstractElement {
     /**
      * The address where this event took place
      */
-    public Address address;
+    protected Address address;
 
     /**
      * The age of the person to whom this event is attached at the time it occurred
      */
-    public StringWithCustomTags age;
+    protected StringWithCustomTags age;
 
     /**
      * The cause of the event
      */
-    public StringWithCustomTags cause;
-
-    /**
-     * List of source citations for this event
-     */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
+    protected StringWithCustomTags cause;
 
     /**
      * The date of this event
      */
-    public StringWithCustomTags date;
+    protected StringWithCustomTags date;
 
     /**
      * A description of this event
      */
-    public StringWithCustomTags description;
-
-    /**
-     * Multimeda for this event
-     */
-    public List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
+    protected StringWithCustomTags description;
 
     /**
      * The place where this event occurred
@@ -76,33 +66,33 @@ public abstract class AbstractEvent extends AbstractElement {
     /**
      * The responsible agency for this event
      */
-    public StringWithCustomTags respAgency;
+    protected StringWithCustomTags respAgency;
 
     /**
      * Either a Y or a null after the event type;
      */
-    public String yNull;
+    protected String yNull;
 
     /**
      * A subtype that further qualifies the type
      */
-    public StringWithCustomTags subType;
+    protected StringWithCustomTags subType;
 
     /**
      * The religious affiliation of this event. New for GEDCOM 5.5.1.
      */
-    public StringWithCustomTags religiousAffiliation;
+    protected StringWithCustomTags religiousAffiliation;
 
     /**
      * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be
      * "confidential", "locked", or "privacy" but this implementation allows any value.
      */
-    public StringWithCustomTags restrictionNotice;
+    protected StringWithCustomTags restrictionNotice;
 
     /**
      * Notes about this object
      */
-    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+    protected List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
 
     /**
      * The phone numbers for this submitter
@@ -123,6 +113,16 @@ public abstract class AbstractEvent extends AbstractElement {
      * The emails for this submitter. New for GEDCOM 5.5.1
      */
     protected List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
+
+    /**
+     * Multimedia links for this source citation
+     */
+    protected List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
+
+    /**
+     * The citations for this association
+     */
+    protected List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? new ArrayList<AbstractCitation>(0) : null;
 
     /**
      * {@inheritDoc}
@@ -271,6 +271,75 @@ public abstract class AbstractEvent extends AbstractElement {
     }
 
     /**
+     * Get the address
+     * 
+     * @return the address
+     */
+    public Address getAddress() {
+        return address;
+    }
+
+    /**
+     * Get the age
+     * 
+     * @return the age
+     */
+    public StringWithCustomTags getAge() {
+        return age;
+    }
+
+    /**
+     * Get the cause
+     * 
+     * @return the cause
+     */
+    public StringWithCustomTags getCause() {
+        return cause;
+    }
+
+    /**
+     * Get the citations
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations() {
+        return citations;
+    }
+
+    /**
+     * Get the citations
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && citations == null) {
+            citations = new ArrayList<AbstractCitation>(0);
+        }
+        return citations;
+    }
+
+    /**
+     * Get the date
+     * 
+     * @return the date
+     */
+    public StringWithCustomTags getDate() {
+        return date;
+    }
+
+    /**
+     * Get the description
+     * 
+     * @return the description
+     */
+    public StringWithCustomTags getDescription() {
+        return description;
+    }
+
+    /**
      * Get the emails
      * 
      * @return the emails
@@ -315,6 +384,29 @@ public abstract class AbstractEvent extends AbstractElement {
             faxNumbers = new ArrayList<StringWithCustomTags>(0);
         }
         return faxNumbers;
+    }
+
+    /**
+     * Get the multimedia
+     * 
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia() {
+        return multimedia;
+    }
+
+    /**
+     * Get the multimedia
+     * 
+     * @param initializeIfNeeded
+     *            true if this collection should be created on-the-fly if it is currently null
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && multimedia == null) {
+            multimedia = new ArrayList<Multimedia>(0);
+        }
+        return multimedia;
     }
 
     /**
@@ -365,6 +457,51 @@ public abstract class AbstractEvent extends AbstractElement {
     }
 
     /**
+     * Get the place
+     * 
+     * @return the place
+     */
+    public Place getPlace() {
+        return place;
+    }
+
+    /**
+     * Get the religiousAffiliation
+     * 
+     * @return the religiousAffiliation
+     */
+    public StringWithCustomTags getReligiousAffiliation() {
+        return religiousAffiliation;
+    }
+
+    /**
+     * Get the respAgency
+     * 
+     * @return the respAgency
+     */
+    public StringWithCustomTags getRespAgency() {
+        return respAgency;
+    }
+
+    /**
+     * Get the restrictionNotice
+     * 
+     * @return the restrictionNotice
+     */
+    public StringWithCustomTags getRestrictionNotice() {
+        return restrictionNotice;
+    }
+
+    /**
+     * Get the subType
+     * 
+     * @return the subType
+     */
+    public StringWithCustomTags getSubType() {
+        return subType;
+    }
+
+    /**
      * Get the wwwUrls
      * 
      * @return the wwwUrls
@@ -385,6 +522,15 @@ public abstract class AbstractEvent extends AbstractElement {
             wwwUrls = new ArrayList<StringWithCustomTags>(0);
         }
         return wwwUrls;
+    }
+
+    /**
+     * Get the yNull
+     * 
+     * @return the yNull
+     */
+    public String getyNull() {
+        return yNull;
     }
 
     /**
@@ -413,6 +559,116 @@ public abstract class AbstractEvent extends AbstractElement {
         result = prime * result + (wwwUrls == null ? 0 : wwwUrls.hashCode());
         result = prime * result + (emails == null ? 0 : emails.hashCode());
         return result;
+    }
+
+    /**
+     * Set the address
+     * 
+     * @param address
+     *            the address to set
+     */
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    /**
+     * Set the age
+     * 
+     * @param age
+     *            the age to set
+     */
+    public void setAge(StringWithCustomTags age) {
+        this.age = age;
+    }
+
+    /**
+     * Set the cause
+     * 
+     * @param cause
+     *            the cause to set
+     */
+    public void setCause(StringWithCustomTags cause) {
+        this.cause = cause;
+    }
+
+    /**
+     * Set the date
+     * 
+     * @param date
+     *            the date to set
+     */
+    public void setDate(StringWithCustomTags date) {
+        this.date = date;
+    }
+
+    /**
+     * Set the description
+     * 
+     * @param description
+     *            the description to set
+     */
+    public void setDescription(StringWithCustomTags description) {
+        this.description = description;
+    }
+
+    /**
+     * Set the place
+     * 
+     * @param place
+     *            the place to set
+     */
+    public void setPlace(Place place) {
+        this.place = place;
+    }
+
+    /**
+     * Set the religiousAffiliation
+     * 
+     * @param religiousAffiliation
+     *            the religiousAffiliation to set
+     */
+    public void setReligiousAffiliation(StringWithCustomTags religiousAffiliation) {
+        this.religiousAffiliation = religiousAffiliation;
+    }
+
+    /**
+     * Set the respAgency
+     * 
+     * @param respAgency
+     *            the respAgency to set
+     */
+    public void setRespAgency(StringWithCustomTags respAgency) {
+        this.respAgency = respAgency;
+    }
+
+    /**
+     * Set the restrictionNotice
+     * 
+     * @param restrictionNotice
+     *            the restrictionNotice to set
+     */
+    public void setRestrictionNotice(StringWithCustomTags restrictionNotice) {
+        this.restrictionNotice = restrictionNotice;
+    }
+
+    /**
+     * Set the subType
+     * 
+     * @param subType
+     *            the subType to set
+     */
+    public void setSubType(StringWithCustomTags subType) {
+        this.subType = subType;
+    }
+
+    /**
+     * Set the yNull
+     * 
+     * @param yNull
+     *            the yNull to set
+     */
+    public void setyNull(String yNull) {
+        this.yNull = yNull;
     }
 
     @Override

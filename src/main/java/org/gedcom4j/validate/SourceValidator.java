@@ -75,20 +75,20 @@ class SourceValidator extends AbstractValidator {
                 }
             } else {
                 for (EventRecorded er : sd.eventsRecorded) {
-                    checkOptionalString(er.datePeriod, "date period", er);
-                    checkOptionalString(er.eventType, "event type", er);
-                    checkOptionalString(er.jurisdiction, "jurisdiction", er);
+                    checkOptionalString(er.getDatePeriod(), "date period", er);
+                    checkOptionalString(er.getEventType(), "event type", er);
+                    checkOptionalString(er.getJurisdiction(), "jurisdiction", er);
                 }
             }
         }
-        if (source.multimedia == null) {
+        if (source.getMultimedia() == null) {
             if (rootValidator.autorepair) {
-                source.multimedia = new ArrayList<Multimedia>();
+                source.getMultimedia(true).clear();
                 addInfo("Multimedia collection on source was null - autorepaired", source);
             }
             addError("Multimedia collection on source is null", source);
         } else {
-            for (Multimedia multimedia : source.multimedia) {
+            for (Multimedia multimedia : source.getMultimedia()) {
                 new MultimediaValidator(rootValidator, multimedia).validate();
             }
         }

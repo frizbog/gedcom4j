@@ -63,8 +63,8 @@ public class Issue87Test {
         assertNotNull(family);
         assertEquals(1, family.events.size());
         FamilyEvent marriage = family.events.get(0);
-        assertEquals(FamilyEventType.MARRIAGE, marriage.type);
-        assertTrue(marriage.notes.isEmpty());
+        assertEquals(FamilyEventType.MARRIAGE, marriage.getType());
+        assertTrue(marriage.getNotes().isEmpty());
     }
 
 }

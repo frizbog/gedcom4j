@@ -30,19 +30,19 @@ package org.gedcom4j.model;
  */
 public class FamilyEvent extends AbstractEvent {
     /**
-     * The type of event. See FAMILY_EVENT_STRUCTURE in teh GEDCOM standard for more info.
+     * The type of event. See FAMILY_EVENT_STRUCTURE in the GEDCOM standard for more info.
      */
-    public FamilyEventType type;
+    private FamilyEventType type;
 
     /**
      * Age of husband at time of event
      */
-    public StringWithCustomTags husbandAge;
+    private StringWithCustomTags husbandAge;
 
     /**
      * Age of wife at time of event
      */
-    public StringWithCustomTags wifeAge;
+    private StringWithCustomTags wifeAge;
 
     /**
      * {@inheritDoc}
@@ -80,6 +80,33 @@ public class FamilyEvent extends AbstractEvent {
     }
 
     /**
+     * Get the husbandAge
+     * 
+     * @return the husbandAge
+     */
+    public StringWithCustomTags getHusbandAge() {
+        return husbandAge;
+    }
+
+    /**
+     * Get the type
+     * 
+     * @return the type
+     */
+    public FamilyEventType getType() {
+        return type;
+    }
+
+    /**
+     * Get the wifeAge
+     * 
+     * @return the wifeAge
+     */
+    public StringWithCustomTags getWifeAge() {
+        return wifeAge;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -90,6 +117,36 @@ public class FamilyEvent extends AbstractEvent {
         result = prime * result + (type == null ? 0 : type.hashCode());
         result = prime * result + (wifeAge == null ? 0 : wifeAge.hashCode());
         return result;
+    }
+
+    /**
+     * Set the husbandAge
+     * 
+     * @param husbandAge
+     *            the husbandAge to set
+     */
+    public void setHusbandAge(StringWithCustomTags husbandAge) {
+        this.husbandAge = husbandAge;
+    }
+
+    /**
+     * Set the type
+     * 
+     * @param type
+     *            the type to set
+     */
+    public void setType(FamilyEventType type) {
+        this.type = type;
+    }
+
+    /**
+     * Set the wifeAge
+     * 
+     * @param wifeAge
+     *            the wifeAge to set
+     */
+    public void setWifeAge(StringWithCustomTags wifeAge) {
+        this.wifeAge = wifeAge;
     }
 
     @Override

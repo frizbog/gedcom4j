@@ -53,11 +53,6 @@ public class Source extends AbstractElement {
     public List<String> originatorsAuthors = new ArrayList<String>(0);
 
     /**
-     * Multimedia for this source
-     */
-    public List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
-
-    /**
      * The change date for this source
      */
     public ChangeDate changeDate;
@@ -96,6 +91,11 @@ public class Source extends AbstractElement {
      * The xref for this submitter
      */
     private String xref;
+
+    /**
+     * Multimedia links for this source citation
+     */
+    private List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
 
     /**
      * Constructor, takes required xref value
@@ -315,5 +315,28 @@ public class Source extends AbstractElement {
      */
     public void setXref(String xref) {
         this.xref = xref;
+    }
+
+    /**
+     * Get the multimedia
+     * 
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia() {
+        return multimedia;
+    }
+
+    /**
+     * Get the multimedia
+     * 
+     * @param initializeIfNeeded
+     *            true if this collection should be created on-the-fly if it is currently null
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && multimedia == null) {
+            multimedia = new ArrayList<Multimedia>(0);
+        }
+        return multimedia;
     }
 }

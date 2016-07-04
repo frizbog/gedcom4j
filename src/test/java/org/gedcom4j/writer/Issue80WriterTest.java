@@ -54,7 +54,7 @@ public class Issue80WriterTest {
 
         IndividualEvent b = new IndividualEvent();
         b.type = IndividualEventType.BIRTH;
-        b.place = p;
+        b.setPlace(p);
 
         Individual i = new Individual();
         i.setXref("@I001@");

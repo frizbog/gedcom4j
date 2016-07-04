@@ -233,10 +233,10 @@ public class GedcomWriter551Test {
         IndividualEvent e = new IndividualEvent();
         i.events.add(e);
         e.type = IndividualEventType.BIRTH;
-        e.place = new Place();
-        e.place.placeName = "Krakow, Poland";
-        e.place.latitude = new StringWithCustomTags("+50\u00B0 3' 1.49\"");
-        e.place.longitude = new StringWithCustomTags("+19\u00B0 56' 21.48\"");
+        e.setPlace(new Place());
+        e.getPlace().placeName = "Krakow, Poland";
+        e.getPlace().latitude = new StringWithCustomTags("+50\u00B0 3' 1.49\"");
+        e.getPlace().longitude = new StringWithCustomTags("+19\u00B0 56' 21.48\"");
 
         // Write the test data
         gw.write("tmp/writertest551.ged");
@@ -255,7 +255,7 @@ public class GedcomWriter551Test {
         assertEquals(1, i.events.size());
         e = i.events.get(0);
         assertEquals(IndividualEventType.BIRTH, e.type);
-        Place p = e.place;
+        Place p = e.getPlace();
         assertNotNull(p);
         assertEquals("Krakow, Poland", p.placeName);
         // while we're here...
@@ -319,15 +319,15 @@ public class GedcomWriter551Test {
         m1.setXref("@M0@");
         g1.getMultimedia().put(m1.getXref(), m1);
         FileReference fr = new FileReference();
-        fr.referenceToFile = new StringWithCustomTags("C:/foo.gif");
-        fr.title = new StringWithCustomTags("Foo");
-        fr.format = new StringWithCustomTags("gif");
-        fr.mediaType = new StringWithCustomTags("disk");
+        fr.setReferenceToFile(new StringWithCustomTags("C:/foo.gif"));
+        fr.setTitle(new StringWithCustomTags("Foo"));
+        fr.setFormat(new StringWithCustomTags("gif"));
+        fr.setMediaType(new StringWithCustomTags("disk"));
         m1.fileReferences.add(fr);
         fr = new FileReference();
-        fr.referenceToFile = new StringWithCustomTags("C:/bar.png");
-        fr.format = new StringWithCustomTags("png");
-        fr.title = new StringWithCustomTags("Bar");
+        fr.setReferenceToFile(new StringWithCustomTags("C:/bar.png"));
+        fr.setFormat(new StringWithCustomTags("png"));
+        fr.setTitle(new StringWithCustomTags("Bar"));
         m1.fileReferences.add(fr);
 
         // Write it
@@ -350,15 +350,15 @@ public class GedcomWriter551Test {
         assertEquals(2, m2.fileReferences.size());
 
         fr = m2.fileReferences.get(0);
-        assertEquals("C:/foo.gif", fr.referenceToFile.getValue());
-        assertEquals("gif", fr.format.getValue());
-        assertEquals("disk", fr.mediaType.getValue());
-        assertEquals("Foo", fr.title.getValue());
+        assertEquals("C:/foo.gif", fr.getReferenceToFile().getValue());
+        assertEquals("gif", fr.getFormat().getValue());
+        assertEquals("disk", fr.getMediaType().getValue());
+        assertEquals("Foo", fr.getTitle().getValue());
         fr = m2.fileReferences.get(1);
-        assertEquals("C:/bar.png", fr.referenceToFile.getValue());
-        assertEquals("png", fr.format.getValue());
-        assertNull(fr.mediaType);
-        assertEquals("Bar", fr.title.getValue());
+        assertEquals("C:/bar.png", fr.getReferenceToFile().getValue());
+        assertEquals("png", fr.getFormat().getValue());
+        assertNull(fr.getMediaType());
+        assertEquals("Bar", fr.getTitle().getValue());
 
     }
 

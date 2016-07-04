@@ -32,17 +32,17 @@ public class EventRecorded extends AbstractElement {
     /**
      * The event type (tag)
      */
-    public String eventType;
+    private String eventType;
 
     /**
      * The date period covered in the source
      */
-    public StringWithCustomTags datePeriod;
+    private StringWithCustomTags datePeriod;
 
     /**
      * The jurisdiction of the source. Corresponds to SOURCE_JURISDICTION_PLACE in the GEDCOM spec.
      */
-    public StringWithCustomTags jurisdiction;
+    private StringWithCustomTags jurisdiction;
 
     @Override
     public boolean equals(Object obj) {
@@ -80,6 +80,33 @@ public class EventRecorded extends AbstractElement {
         return true;
     }
 
+    /**
+     * Get the datePeriod
+     * 
+     * @return the datePeriod
+     */
+    public StringWithCustomTags getDatePeriod() {
+        return datePeriod;
+    }
+
+    /**
+     * Get the eventType
+     * 
+     * @return the eventType
+     */
+    public String getEventType() {
+        return eventType;
+    }
+
+    /**
+     * Get the jurisdiction
+     * 
+     * @return the jurisdiction
+     */
+    public StringWithCustomTags getJurisdiction() {
+        return jurisdiction;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -88,6 +115,36 @@ public class EventRecorded extends AbstractElement {
         result = prime * result + (eventType == null ? 0 : eventType.hashCode());
         result = prime * result + (jurisdiction == null ? 0 : jurisdiction.hashCode());
         return result;
+    }
+
+    /**
+     * Set the datePeriod
+     * 
+     * @param datePeriod
+     *            the datePeriod to set
+     */
+    public void setDatePeriod(StringWithCustomTags datePeriod) {
+        this.datePeriod = datePeriod;
+    }
+
+    /**
+     * Set the eventType
+     * 
+     * @param eventType
+     *            the eventType to set
+     */
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
+    }
+
+    /**
+     * Set the jurisdiction
+     * 
+     * @param jurisdiction
+     *            the jurisdiction to set
+     */
+    public void setJurisdiction(StringWithCustomTags jurisdiction) {
+        this.jurisdiction = jurisdiction;
     }
 
     @Override

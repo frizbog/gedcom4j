@@ -36,12 +36,12 @@ public class FamilySpouse extends AbstractElement {
     /**
      * The family in which the person was one of the spouses
      */
-    public Family family;
+    private Family family;
 
     /**
      * Notes about this object
      */
-    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+    private List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
 
     @Override
     public boolean equals(Object obj) {
@@ -84,6 +84,15 @@ public class FamilySpouse extends AbstractElement {
     }
 
     /**
+     * Get the family
+     * 
+     * @return the family
+     */
+    public Family getFamily() {
+        return family;
+    }
+
+    /**
      * Get the notes
      * 
      * @return the notes
@@ -114,6 +123,16 @@ public class FamilySpouse extends AbstractElement {
         result = prime * result + (family == null || family.getXref() == null ? 0 : family.getXref().hashCode());
         result = prime * result + (notes == null ? 0 : notes.hashCode());
         return result;
+    }
+
+    /**
+     * Set the family
+     * 
+     * @param family
+     *            the family to set
+     */
+    public void setFamily(Family family) {
+        this.family = family;
     }
 
     @Override

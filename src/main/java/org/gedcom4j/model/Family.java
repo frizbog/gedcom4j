@@ -78,11 +78,6 @@ public class Family extends AbstractElement {
     public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
 
     /**
-     * The multimedia for this family
-     */
-    public List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
-
-    /**
      * The change date information for this family record
      */
     public ChangeDate changeDate;
@@ -112,6 +107,11 @@ public class Family extends AbstractElement {
      * The xref for this submitter
      */
     private String xref;
+
+    /**
+     * Multimedia links for this source citation
+     */
+    private List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
 
     /**
      * {@inheritDoc}
@@ -326,6 +326,29 @@ public class Family extends AbstractElement {
      */
     public void setXref(String xref) {
         this.xref = xref;
+    }
+
+    /**
+     * Get the multimedia
+     * 
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia() {
+        return multimedia;
+    }
+
+    /**
+     * Get the multimedia
+     * 
+     * @param initializeIfNeeded
+     *            true if this collection should be created on-the-fly if it is currently null
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && multimedia == null) {
+            multimedia = new ArrayList<Multimedia>(0);
+        }
+        return multimedia;
     }
 
 }

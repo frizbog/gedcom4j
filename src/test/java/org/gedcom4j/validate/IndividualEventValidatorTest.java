@@ -21,8 +21,6 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.ArrayList;
-
 import org.gedcom4j.model.*;
 import org.junit.Test;
 
@@ -56,10 +54,7 @@ public class IndividualEventValidatorTest extends AbstractValidatorTestCase {
         rootValidator.validate();
         assertNoIssues();
 
-        e.citations = null;
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "citations");
-        e.citations = new ArrayList<AbstractCitation>();
+        e.getCitations().clear();
         rootValidator.validate();
         assertNoIssues();
 
@@ -79,8 +74,8 @@ public class IndividualEventValidatorTest extends AbstractValidatorTestCase {
         rootValidator.validate();
         assertNoIssues();
 
-        e.address = new Address();
-        e.address.setCity(new StringWithCustomTags("FryingPanVille"));
+        e.setAddress(new Address());
+        e.getAddress().setCity(new StringWithCustomTags("FryingPanVille"));
         rootValidator.validate();
         assertNoIssues();
     }

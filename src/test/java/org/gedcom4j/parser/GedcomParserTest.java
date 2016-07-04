@@ -380,10 +380,10 @@ public class GedcomParserTest extends TestCase {
 
         // Name 1 - Multimedia 0 - FileReference 0
         fileReference = multimedia.fileReferences.get(0);
-        assertEquals("jpeg", fileReference.format.toString());
-        assertEquals(null, fileReference.mediaType);
-        assertEquals("ImgFile.JPG", fileReference.referenceToFile.toString());
-        assertEquals(null, fileReference.title);
+        assertEquals("jpeg", fileReference.getFormat().toString());
+        assertEquals(null, fileReference.getMediaType());
+        assertEquals("ImgFile.JPG", fileReference.getReferenceToFile().toString());
+        assertEquals(null, fileReference.getTitle());
 
         // Name 1 - Multimedia 0 - Note 0
         note = multimedia.getNotes().get(0);

@@ -100,10 +100,10 @@ class MultimediaValidator extends AbstractValidator {
             }
             return;
         }
-        checkRequiredString(fr.format, "format", fr);
-        checkOptionalString(fr.mediaType, "media type", fr);
-        checkOptionalString(fr.title, "title", fr);
-        checkRequiredString(fr.referenceToFile, "reference to file", fr);
+        checkRequiredString(fr.getFormat(), "format", fr);
+        checkOptionalString(fr.getMediaType(), "media type", fr);
+        checkOptionalString(fr.getTitle(), "title", fr);
+        checkRequiredString(fr.getReferenceToFile(), "reference to file", fr);
     }
 
     /**

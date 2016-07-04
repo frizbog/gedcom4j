@@ -118,8 +118,8 @@ public class GedcomParser551Test {
         IndividualAttribute fact = facts.get(0);
         assertNotNull(fact);
         assertEquals(IndividualAttributeType.FACT, fact.type);
-        assertEquals("Place from", fact.subType.getValue());
-        assertEquals("Combe Florey", fact.description.getValue());
+        assertEquals("Place from", fact.getSubType().getValue());
+        assertEquals("Combe Florey", fact.getDescription().getValue());
     }
 
     /**
@@ -202,9 +202,9 @@ public class GedcomParser551Test {
         assertEquals(1, i.events.size());
         IndividualEvent e = i.events.get(0);
         assertEquals(IndividualEventType.BIRTH, e.type);
-        assertNotNull(e.place);
-        Place p = e.place;
-        assertEquals("Tarnowie, Krak\u00F3w, Poland", e.place.placeName);
+        assertNotNull(e.getPlace());
+        Place p = e.getPlace();
+        assertEquals("Tarnowie, Krak\u00F3w, Poland", p.placeName);
         assertNotNull(p.notes);
         assertEquals(1, p.notes.size());
         assertNotNull(p.phonetic);
@@ -236,9 +236,9 @@ public class GedcomParser551Test {
         assertEquals(1, i.events.size());
         IndividualEvent e = i.events.get(0);
         assertEquals(IndividualEventType.BIRTH, e.type);
-        assertNotNull(e.place);
-        Place p = e.place;
-        assertEquals("Tarnowie, Krak\u00F3w, Poland", e.place.placeName);
+        assertNotNull(e.getPlace());
+        Place p = e.getPlace();
+        assertEquals("Tarnowie, Krak\u00F3w, Poland", e.getPlace().placeName);
         assertNotNull(p.notes);
         assertEquals(1, p.notes.size());
 
@@ -360,16 +360,16 @@ public class GedcomParser551Test {
         // Negative test
         FamilyEvent divorce = f.events.get(0);
         assertNotNull(divorce);
-        assertEquals(FamilyEventType.DIVORCE, divorce.type);
-        assertEquals("2 Sep 1880", divorce.date.getValue());
-        assertNull(divorce.religiousAffiliation);
+        assertEquals(FamilyEventType.DIVORCE, divorce.getType());
+        assertEquals("2 Sep 1880", divorce.getDate().getValue());
+        assertNull(divorce.getReligiousAffiliation());
 
         // Positive test
         FamilyEvent marriage = f.events.get(1);
         assertNotNull(marriage);
-        assertEquals(FamilyEventType.MARRIAGE, marriage.type);
-        assertEquals("25 Oct 1875", marriage.date.getValue());
-        assertEquals("Civil", marriage.religiousAffiliation.getValue());
+        assertEquals(FamilyEventType.MARRIAGE, marriage.getType());
+        assertEquals("25 Oct 1875", marriage.getDate().getValue());
+        assertEquals("Civil", marriage.getReligiousAffiliation().getValue());
     }
 
     /**
@@ -398,9 +398,9 @@ public class GedcomParser551Test {
         assertEquals(1, christenings.size());
         IndividualEvent c = christenings.get(0);
         assertNotNull(c);
-        assertNotNull(c.place);
-        assertEquals("Peel Hospital, Selkirkshire ", c.place.placeName);
-        assertEquals("Episcopalian", c.religiousAffiliation.getValue());
+        assertNotNull(c.getPlace());
+        assertEquals("Peel Hospital, Selkirkshire ", c.getPlace().placeName);
+        assertEquals("Episcopalian", c.getReligiousAffiliation().getValue());
 
         // Negative test
         Individual annie = g.getIndividuals().get("@I76@");
@@ -410,8 +410,8 @@ public class GedcomParser551Test {
         assertEquals(1, births.size());
         IndividualEvent b = births.get(0);
         assertNotNull(b);
-        assertEquals("1889", b.date.getValue());
-        assertNull(b.religiousAffiliation);
+        assertEquals("1889", b.getDate().getValue());
+        assertNull(b.getReligiousAffiliation());
     }
 
     /**
@@ -440,14 +440,14 @@ public class GedcomParser551Test {
         assertNotNull(f.events);
         assertEquals(1, f.events.size());
         FamilyEvent e = f.events.get(0);
-        assertEquals("locked", e.restrictionNotice.getValue());
+        assertEquals("locked", e.getRestrictionNotice().getValue());
         f = g.getFamilies().get("@F2@");
         assertNotNull(f);
         assertNull(f.restrictionNotice);
         assertNotNull(f.events);
         assertEquals(1, f.events.size());
         e = f.events.get(0);
-        assertNull(e.restrictionNotice);
+        assertNull(e.getRestrictionNotice());
     }
 
     /**
@@ -525,9 +525,9 @@ public class GedcomParser551Test {
         assertEquals(1, i.events.size());
         IndividualEvent e = i.events.get(0);
         assertEquals(IndividualEventType.BIRTH, e.type);
-        assertNotNull(e.place);
-        Place p = e.place;
-        assertEquals("Tarnowie, Krak\u00F3w, Poland", e.place.placeName);
+        assertNotNull(e.getPlace());
+        Place p = e.getPlace();
+        assertEquals("Tarnowie, Krak\u00F3w, Poland", e.getPlace().placeName);
         assertNotNull(p.notes);
         assertEquals(1, p.notes.size());
         assertNotNull(p.romanized);
@@ -561,9 +561,9 @@ public class GedcomParser551Test {
         assertEquals(1, george.familiesWhereChild.size());
         FamilyChild fc1 = george.familiesWhereChild.get(0);
         assertNotNull(fc1);
-        assertNotNull(fc1.family);
-        assertEquals("@F3@", fc1.family.getXref());
-        assertEquals("proven", fc1.status.getValue());
+        assertNotNull(fc1.getFamily());
+        assertEquals("@F3@", fc1.getFamily().getXref());
+        assertEquals("proven", fc1.getStatus().getValue());
 
         // Negative test
         Individual anne = g.getIndividuals().get("@I4@");
@@ -571,9 +571,9 @@ public class GedcomParser551Test {
         assertEquals(1, anne.familiesWhereChild.size());
         FamilyChild fc2 = anne.familiesWhereChild.get(0);
         assertNotNull(fc2);
-        assertNotNull(fc2.family);
-        assertEquals("@F2@", fc2.family.getXref());
-        assertNull(fc2.status);
+        assertNotNull(fc2.getFamily());
+        assertEquals("@F2@", fc2.getFamily().getXref());
+        assertNull(fc2.getStatus());
     }
 
     /**

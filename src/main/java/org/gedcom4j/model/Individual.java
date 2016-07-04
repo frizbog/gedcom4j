@@ -95,11 +95,6 @@ public class Individual extends AbstractElement {
     public List<LdsIndividualOrdinance> ldsIndividualOrdinances = new ArrayList<LdsIndividualOrdinance>(0);
 
     /**
-     * A list of multimedia items for this individual
-     */
-    public List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
-
-    /**
      * A list of names for this individual
      */
     public List<PersonalName> names = new ArrayList<PersonalName>(0);
@@ -168,6 +163,11 @@ public class Individual extends AbstractElement {
      * The emails for this submitter. New for GEDCOM 5.5.1
      */
     private List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
+
+    /**
+     * Multimedia links for this source citation
+     */
+    private List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
 
     // CHECKSTYLE:OFF for method length
     /**
@@ -408,13 +408,13 @@ public class Individual extends AbstractElement {
     public Set<Individual> getAncestors() {
         Set<Individual> result = new HashSet<Individual>();
         for (FamilyChild f : familiesWhereChild) {
-            if (f.family.husband != null && !result.contains(f.family.husband)) {
-                result.add(f.family.husband);
-                result.addAll(f.family.husband.getAncestors());
+            if (f.getFamily().husband != null && !result.contains(f.getFamily().husband)) {
+                result.add(f.getFamily().husband);
+                result.addAll(f.getFamily().husband.getAncestors());
             }
-            if (f.family.wife != null && !result.contains(f.family.wife)) {
-                result.add(f.family.wife);
-                result.addAll(f.family.wife.getAncestors());
+            if (f.getFamily().wife != null && !result.contains(f.getFamily().wife)) {
+                result.add(f.getFamily().wife);
+                result.addAll(f.getFamily().wife.getAncestors());
             }
         }
         return result;
@@ -448,7 +448,7 @@ public class Individual extends AbstractElement {
     public Set<Individual> getDescendants() {
         Set<Individual> result = new HashSet<Individual>();
         for (FamilySpouse f : familiesWhereSpouse) {
-            for (Individual i : f.family.children) {
+            for (Individual i : f.getFamily().children) {
                 // Recurse if we have not seen this person before in the results already
                 if (i != this && !result.contains(i) && !i.familiesWhereSpouse.isEmpty()) {
                     Set<Individual> d = i.getDescendants();
@@ -458,6 +458,30 @@ public class Individual extends AbstractElement {
             }
         }
         return result;
+    }
+
+    /**
+     * Get the emails
+     * 
+     * @return the emails
+     */
+    public List<StringWithCustomTags> getEmails() {
+        return emails;
+    }
+
+    /**
+     * Get the emails
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the emails
+     */
+    public List<StringWithCustomTags> getEmails(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && emails == null) {
+            emails = new ArrayList<StringWithCustomTags>(0);
+        }
+
+        return emails;
     }
 
     /**
@@ -478,6 +502,108 @@ public class Individual extends AbstractElement {
     }
 
     /**
+     * Get the faxNumbers
+     * 
+     * @return the faxNumbers
+     */
+    public List<StringWithCustomTags> getFaxNumbers() {
+        return faxNumbers;
+    }
+
+    /**
+     * Get the faxNumbers
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the faxNumbers
+     */
+    public List<StringWithCustomTags> getFaxNumbers(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && faxNumbers == null) {
+            faxNumbers = new ArrayList<StringWithCustomTags>(0);
+        }
+        return faxNumbers;
+    }
+
+    /**
+     * Get the multimedia
+     * 
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia() {
+        return multimedia;
+    }
+
+    /**
+     * Get the multimedia
+     * 
+     * @param initializeIfNeeded
+     *            true if this collection should be created on-the-fly if it is currently null
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && multimedia == null) {
+            multimedia = new ArrayList<Multimedia>(0);
+        }
+        return multimedia;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
+    /**
+     * Get the phoneNumbers
+     * 
+     * @return the phoneNumbers
+     */
+    public List<StringWithCustomTags> getPhoneNumbers() {
+        return phoneNumbers;
+    }
+
+    /**
+     * Get the phoneNumbers
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the phoneNumbers
+     */
+    public List<StringWithCustomTags> getPhoneNumbers(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && phoneNumbers == null) {
+            phoneNumbers = new ArrayList<StringWithCustomTags>(0);
+        }
+        return phoneNumbers;
+    }
+
+    /**
+     * Get the recIdNumber
+     * 
+     * @return the recIdNumber
+     */
+    public StringWithCustomTags getRecIdNumber() {
+        return recIdNumber;
+    }
+
+    /**
      * Get a set of spouses for the current individual. Always returns a set, although it may be empty. The returned set
      * is in no particular order.
      * 
@@ -486,14 +612,47 @@ public class Individual extends AbstractElement {
     public Set<Individual> getSpouses() {
         Set<Individual> result = new HashSet<Individual>();
         for (FamilySpouse f : familiesWhereSpouse) {
-            if (this != f.family.husband && f.family.husband != null) {
-                result.add(f.family.husband);
+            Family fam = f.getFamily();
+            if (this != fam.husband && fam.husband != null) {
+                result.add(fam.husband);
             }
-            if (this != f.family.wife && f.family.wife != null) {
-                result.add(f.family.wife);
+            if (this != fam.wife && fam.wife != null) {
+                result.add(fam.wife);
             }
         }
         return result;
+    }
+
+    /**
+     * Get the wwwUrls
+     * 
+     * @return the wwwUrls
+     */
+    public List<StringWithCustomTags> getWwwUrls() {
+        return wwwUrls;
+    }
+
+    /**
+     * Get the wwwUrls
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the wwwUrls
+     */
+    public List<StringWithCustomTags> getWwwUrls(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && wwwUrls == null) {
+            wwwUrls = new ArrayList<StringWithCustomTags>(0);
+        }
+        return wwwUrls;
+    }
+
+    /**
+     * Get the xref
+     * 
+     * @return the xref
+     */
+    public String getXref() {
+        return xref;
     }
 
     /**
@@ -537,6 +696,26 @@ public class Individual extends AbstractElement {
     }
 
     /**
+     * Set the recIdNumber
+     * 
+     * @param recIdNumber
+     *            the recIdNumber to set
+     */
+    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+        this.recIdNumber = recIdNumber;
+    }
+
+    /**
+     * Set the xref
+     * 
+     * @param xref
+     *            the xref to set
+     */
+    public void setXref(String xref) {
+        this.xref = xref;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -555,30 +734,31 @@ public class Individual extends AbstractElement {
         }
         for (FamilySpouse f : familiesWhereSpouse) {
             sb.append(", spouse of ");
-            if (f.family.husband == this) {
-                if (f.family.wife == null) {
+            Family fam = f.getFamily();
+            if (fam.husband == this) {
+                if (fam.wife == null) {
                     sb.append("unknown");
                 } else {
-                    sb.append(f.family.wife.formattedName());
+                    sb.append(fam.wife.formattedName());
                 }
             } else {
-                if (f.family.husband == null) {
+                if (fam.husband == null) {
                     sb.append("unknown");
                 } else {
-                    sb.append(f.family.husband.formattedName());
+                    sb.append(fam.husband.formattedName());
                 }
             }
         }
         for (FamilyChild f : familiesWhereChild) {
             sb.append(", child of ");
-            if (f.family.wife != null) {
-                sb.append(f.family.wife.formattedName());
+            if (f.getFamily().wife != null) {
+                sb.append(f.getFamily().wife.formattedName());
                 sb.append(" and ");
             }
-            if (f.family.husband == null) {
+            if (f.getFamily().husband == null) {
                 sb.append("unknown");
             } else {
-                sb.append(f.family.husband.formattedName());
+                sb.append(f.getFamily().husband.formattedName());
             }
         }
         boolean found = false;
@@ -602,160 +782,5 @@ public class Individual extends AbstractElement {
             found = true;
         }
         return sb.toString();
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @return the notes
-     */
-    public List<Note> getNotes() {
-        return notes;
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection if needed?
-     * 
-     * @return the notes
-     */
-    public List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<Note>(0);
-        }
-        return notes;
-    }
-
-    /**
-     * Get the recIdNumber
-     * 
-     * @return the recIdNumber
-     */
-    public StringWithCustomTags getRecIdNumber() {
-        return recIdNumber;
-    }
-
-    /**
-     * Set the recIdNumber
-     * 
-     * @param recIdNumber
-     *            the recIdNumber to set
-     */
-    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
-        this.recIdNumber = recIdNumber;
-    }
-
-    /**
-     * Get the xref
-     * 
-     * @return the xref
-     */
-    public String getXref() {
-        return xref;
-    }
-
-    /**
-     * Set the xref
-     * 
-     * @param xref
-     *            the xref to set
-     */
-    public void setXref(String xref) {
-        this.xref = xref;
-    }
-
-    /**
-     * Get the emails
-     * 
-     * @return the emails
-     */
-    public List<StringWithCustomTags> getEmails() {
-        return emails;
-    }
-
-    /**
-     * Get the emails
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the emails
-     */
-    public List<StringWithCustomTags> getEmails(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && emails == null) {
-            emails = new ArrayList<StringWithCustomTags>(0);
-        }
-    
-        return emails;
-    }
-
-    /**
-     * Get the faxNumbers
-     * 
-     * @return the faxNumbers
-     */
-    public List<StringWithCustomTags> getFaxNumbers() {
-        return faxNumbers;
-    }
-
-    /**
-     * Get the faxNumbers
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the faxNumbers
-     */
-    public List<StringWithCustomTags> getFaxNumbers(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && faxNumbers == null) {
-            faxNumbers = new ArrayList<StringWithCustomTags>(0);
-        }
-        return faxNumbers;
-    }
-
-    /**
-     * Get the phoneNumbers
-     * 
-     * @return the phoneNumbers
-     */
-    public List<StringWithCustomTags> getPhoneNumbers() {
-        return phoneNumbers;
-    }
-
-    /**
-     * Get the phoneNumbers
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the phoneNumbers
-     */
-    public List<StringWithCustomTags> getPhoneNumbers(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && phoneNumbers == null) {
-            phoneNumbers = new ArrayList<StringWithCustomTags>(0);
-        }
-        return phoneNumbers;
-    }
-
-    /**
-     * Get the wwwUrls
-     * 
-     * @return the wwwUrls
-     */
-    public List<StringWithCustomTags> getWwwUrls() {
-        return wwwUrls;
-    }
-
-    /**
-     * Get the wwwUrls
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the wwwUrls
-     */
-    public List<StringWithCustomTags> getWwwUrls(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && wwwUrls == null) {
-            wwwUrls = new ArrayList<StringWithCustomTags>(0);
-        }
-        return wwwUrls;
     }
 }

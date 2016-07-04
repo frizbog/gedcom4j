@@ -53,7 +53,7 @@ public class FamilyTest {
 
         family1 = new Family();
         FamilySpouse fs1 = new FamilySpouse();
-        fs1.family = family1;
+        fs1.setFamily(family1);
 
         family1.husband = new Individual();
         PersonalName hn1 = new PersonalName();
@@ -69,7 +69,7 @@ public class FamilyTest {
 
         family2 = new Family();
         FamilySpouse fs2 = new FamilySpouse();
-        fs2.family = family2;
+        fs2.setFamily(family2);
 
         family2.husband = new Individual();
         PersonalName hn2 = new PersonalName();

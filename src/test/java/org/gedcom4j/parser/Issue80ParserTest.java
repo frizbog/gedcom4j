@@ -66,9 +66,9 @@ public class Issue80ParserTest {
 
         IndividualEvent ie = (IndividualEvent) e;
         assertEquals(IndividualEventType.BIRTH, ie.type);
-        assertNotNull(ie.place);
+        assertNotNull(ie.getPlace());
 
-        Place p = ie.place;
+        Place p = ie.getPlace();
         assertEquals("36.72", p.latitude.getValue());
         assertEquals("-76.58", p.longitude.getValue());
     }

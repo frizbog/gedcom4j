@@ -52,7 +52,7 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
         Source src = new Source("@Test@");
         src.data = new SourceData();
         EventRecorded e = new EventRecorded();
-        e.datePeriod = new StringWithCustomTags("anytime");
+        e.setDatePeriod(new StringWithCustomTags("anytime"));
         src.data.eventsRecorded.add(e);
         AbstractValidator av = new SourceValidator(rootValidator, src);
         av.validate();

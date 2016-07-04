@@ -78,8 +78,8 @@ public class Issue81ReaderTest {
         assertNotNull(i);
         assertEquals(2, i.events.size());
         IndividualEvent e = i.events.get(1);
-        assertEquals(1, e.notes.size());
-        Note note = e.notes.get(0);
+        assertEquals(1, e.getNotes().size());
+        Note note = e.getNotes().get(0);
         assertEquals(6, note.lines.size());
 
         assertEquals("Sa grand-mère l'a nourrie car sa mère était placée nourrice dans une famille de riches. "
@@ -137,8 +137,8 @@ public class Issue81ReaderTest {
         Individual i = g.getIndividuals().get("@I002@");
         assertNotNull(i);
         assertEquals(2, i.events.size());
-        assertEquals("lib\u00E9r\u00E9e", i.events.get(0).subType.getValue());
-        assertEquals("histoire de m\u00E9m\u00E9", i.events.get(1).subType.getValue());
+        assertEquals("lib\u00E9r\u00E9e", i.events.get(0).getSubType().getValue());
+        assertEquals("histoire de m\u00E9m\u00E9", i.events.get(1).getSubType().getValue());
     }
 
     /**

@@ -25,10 +25,7 @@ import static org.gedcom4j.relationship.RelationshipName.*;
 
 import java.util.*;
 
-import org.gedcom4j.model.FamilyChild;
-import org.gedcom4j.model.FamilySpouse;
-import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.*;
 
 /**
  * <p>
@@ -245,35 +242,37 @@ public class RelationshipCalculator {
             lookedAt.add(personBeingExamined);
             /* Not our target, so check relatives, starting with parents */
             for (FamilyChild fc : personBeingExamined.familiesWhereChild) {
-                if (!lookedAt.contains(fc.family.husband)) {
-                    examineFather(personBeingExamined, fc.family.husband);
+                Family family = fc.getFamily();
+                if (!lookedAt.contains(family.husband)) {
+                    examineFather(personBeingExamined, family.husband);
                 }
-                if (!lookedAt.contains(fc.family.wife)) {
-                    examineMother(personBeingExamined, fc.family.wife);
+                if (!lookedAt.contains(family.wife)) {
+                    examineMother(personBeingExamined, family.wife);
                 }
             }
             /* Next check spouses */
             for (FamilySpouse fs : personBeingExamined.familiesWhereSpouse) {
-                if (fs.family.husband == personBeingExamined) {
-                    if (lookedAt.contains(fs.family.wife)) {
+                Family family = fs.getFamily();
+                if (family.husband == personBeingExamined) {
+                    if (lookedAt.contains(family.wife)) {
                         continue;
                     }
                     examineWife(personBeingExamined, fs);
-                } else if (fs.family.wife == personBeingExamined) {
-                    if (lookedAt.contains(fs.family.husband)) {
+                } else if (family.wife == personBeingExamined) {
+                    if (lookedAt.contains(family.husband)) {
                         continue;
                     }
                     examineHusband(personBeingExamined, fs);
                 }
                 /* and check the children */
-                for (Individual c : fs.family.children) {
+                for (Individual c : family.children) {
                     if (lookedAt.contains(c)) {
                         continue;
                     }
-                    if (fs.family.husband == personBeingExamined) { // NOPMD - deliberately using ==, want to check if
+                    if (family.husband == personBeingExamined) { // NOPMD - deliberately using ==, want to check if
                         // same instance
                         examineChild(personBeingExamined, c, FATHER);
-                    } else if (fs.family.wife == personBeingExamined) { // NOPMD - deliberately using ==, want to check
+                    } else if (family.wife == personBeingExamined) { // NOPMD - deliberately using ==, want to check
                         // if same instance
                         examineChild(personBeingExamined, c, MOTHER);
                     }
@@ -345,7 +344,7 @@ public class RelationshipCalculator {
     private void examineHusband(Individual personBeingExamined, FamilySpouse fs) {
         SimpleRelationship r = new SimpleRelationship();
         r.individual1 = personBeingExamined;
-        r.individual2 = fs.family.husband;
+        r.individual2 = fs.getFamily().husband;
         r.name = RelationshipName.HUSBAND;
         currentChain.add(r);
         examine(r.individual2);
@@ -388,7 +387,7 @@ public class RelationshipCalculator {
     private void examineWife(Individual personBeingExamined, FamilySpouse fs) {
         SimpleRelationship r = new SimpleRelationship();
         r.individual1 = personBeingExamined;
-        r.individual2 = fs.family.wife;
+        r.individual2 = fs.getFamily().wife;
         r.name = RelationshipName.WIFE;
         currentChain.add(r);
         examine(r.individual2);

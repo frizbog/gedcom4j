@@ -74,8 +74,8 @@ public class EventsWithDescriptionsTest {
         IndividualEvent eBefore = iBefore.events.get(0); // The birth event
         assertNotNull(eBefore);
         assertEquals(IndividualEventType.BIRTH, eBefore.type);
-        assertNull(eBefore.yNull);
-        assertNotNull(eBefore.description);
+        assertNull(eBefore.getyNull());
+        assertNotNull(eBefore.getDescription());
 
         // Write the file back out in standard format
         String fn = "tmp/" + this.getClass().getName() + ".ged";
@@ -98,10 +98,10 @@ public class EventsWithDescriptionsTest {
         IndividualEvent eAfter = iAfter.events.get(0); // The birth event
         assertNotNull(eAfter);
         assertEquals(IndividualEventType.BIRTH, eAfter.type);
-        assertNull(eAfter.yNull);
+        assertNull(eAfter.getyNull());
 
         // And the big payoff...
-        assertNull(eAfter.description);
+        assertNull(eAfter.getDescription());
 
     }
 
@@ -133,8 +133,8 @@ public class EventsWithDescriptionsTest {
         IndividualEvent eBefore = iBefore.events.get(0); // The birth event
         assertNotNull(eBefore);
         assertEquals(IndividualEventType.BIRTH, eBefore.type);
-        assertNull(eBefore.yNull);
-        assertNotNull(eBefore.description);
+        assertNull(eBefore.getyNull());
+        assertNotNull(eBefore.getDescription());
 
         // Attempt to write the file back out in standard format
         String fn = "tmp/" + this.getClass().getName() + ".ged";

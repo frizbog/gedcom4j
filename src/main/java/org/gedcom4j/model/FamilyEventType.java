@@ -103,12 +103,12 @@ public enum FamilyEventType {
     /**
      * The tag
      */
-    public final String tag;
+    private final String tag;
 
     /**
      * The display value for the tag
      */
-    public final String display;
+    private final String display;
 
     /**
      * Constructor
@@ -121,6 +121,24 @@ public enum FamilyEventType {
     private FamilyEventType(String tag, String display) {
         this.tag = tag.intern();
         this.display = display.intern();
+    }
+
+    /**
+     * Get the display
+     * 
+     * @return the display
+     */
+    public String getDisplay() {
+        return display;
+    }
+
+    /**
+     * Get the tag
+     * 
+     * @return the tag
+     */
+    public String getTag() {
+        return tag;
     }
 
 }

@@ -21,8 +21,6 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.ArrayList;
-
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.Multimedia;
@@ -62,27 +60,27 @@ class EventValidator extends AbstractValidator {
             addError("Event is null and cannot be validated or autorepaired");
             return;
         }
-        if (e.address != null) {
-            new AddressValidator(rootValidator, e.address).validate();
+        if (e.getAddress() != null) {
+            new AddressValidator(rootValidator, e.getAddress()).validate();
         }
-        checkOptionalString(e.age, "age", e);
-        checkOptionalString(e.cause, "cause", e);
-        if (e.citations == null) {
+        checkOptionalString(e.getAge(), "age", e);
+        checkOptionalString(e.getCause(), "cause", e);
+        if (e.getCitations() == null) {
             if (rootValidator.autorepair) {
-                e.citations = new ArrayList<AbstractCitation>();
+                e.getCitations(true).clear();
                 rootValidator.addInfo("Event had null list of citations - repaired", e);
             } else {
                 rootValidator.addError("Event has null list of citations", e);
                 return;
             }
         } else {
-            for (AbstractCitation c : e.citations) {
+            for (AbstractCitation c : e.getCitations()) {
                 new CitationValidator(rootValidator, c).validate();
             }
         }
         checkCustomTags(e);
-        checkOptionalString(e.date, "date", e);
-        if (e.description != null && e.description.trim().length() != 0) {
+        checkOptionalString(e.getDate(), "date", e);
+        if (e.getDescription() != null && e.getDescription().trim().length() != 0) {
             rootValidator.addError("Event has description, which is non-standard. Remove this value, or move it (perhaps to a Note).", e);
         }
         if (e.getEmails() == null) {
@@ -109,19 +107,19 @@ class EventValidator extends AbstractValidator {
                 checkRequiredString(swct, "fax number", e);
             }
         }
-        if (e.multimedia == null) {
+        if (e.getMultimedia() == null) {
             if (rootValidator.autorepair) {
-                e.multimedia = new ArrayList<Multimedia>();
+                e.getMultimedia(true).clear();
                 rootValidator.addInfo("Event had null list of multimedia - repaired", e);
             } else {
                 rootValidator.addError("Event has null list of multimedia", e);
             }
         } else {
-            for (Multimedia m : e.multimedia) {
+            for (Multimedia m : e.getMultimedia()) {
                 new MultimediaValidator(rootValidator, m).validate();
             }
         }
-        checkNotes(e.notes, e);
+        checkNotes(e.getNotes(), e);
         if (e.getPhoneNumbers() == null) {
             if (rootValidator.autorepair) {
                 e.getPhoneNumbers(true).clear();
@@ -134,13 +132,13 @@ class EventValidator extends AbstractValidator {
                 checkRequiredString(swct, "phone number", e);
             }
         }
-        if (e.place != null) {
-            new PlaceValidator(rootValidator, e.place).validate();
+        if (e.getPlace() != null) {
+            new PlaceValidator(rootValidator, e.getPlace()).validate();
         }
-        checkOptionalString(e.religiousAffiliation, "religious affiliation", e);
-        checkOptionalString(e.respAgency, "responsible agency", e);
-        checkOptionalString(e.restrictionNotice, "restriction notice", e);
-        checkOptionalString(e.subType, "subtype", e);
+        checkOptionalString(e.getReligiousAffiliation(), "religious affiliation", e);
+        checkOptionalString(e.getRespAgency(), "responsible agency", e);
+        checkOptionalString(e.getRestrictionNotice(), "restriction notice", e);
+        checkOptionalString(e.getSubType(), "subtype", e);
         if (e.getWwwUrls() == null) {
             if (rootValidator.autorepair) {
                 e.getWwwUrls(true).clear();

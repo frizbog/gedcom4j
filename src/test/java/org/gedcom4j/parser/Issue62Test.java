@@ -99,11 +99,11 @@ public class Issue62Test {
      */
     @Test
     public void testBirthDescription() {
-        assertNotNull(birth.description);
-        assertNotNull(birth.description.getValue());
-        assertTrue(birth.description.getValue().startsWith("This was entered"));
-        assertTrue(birth.description.getValue().endsWith("laborum."));
-        assertEquals(552, birth.description.getValue().length());
+        assertNotNull(birth.getDescription());
+        assertNotNull(birth.getDescription().getValue());
+        assertTrue(birth.getDescription().getValue().startsWith("This was entered"));
+        assertTrue(birth.getDescription().getValue().endsWith("laborum."));
+        assertEquals(552, birth.getDescription().getValue().length());
     }
 
     /**
@@ -113,7 +113,7 @@ public class Issue62Test {
      */
     @Test
     public void testBirthYNull() {
-        assertNull("", birth.yNull);
+        assertNull("", birth.getyNull());
     }
 
     /**
@@ -121,8 +121,8 @@ public class Issue62Test {
      */
     @Test
     public void testBurialDescription() {
-        assertNotNull(burial.description);
-        assertEquals("Unmarked grave", burial.description.getValue());
+        assertNotNull(burial.getDescription());
+        assertEquals("Unmarked grave", burial.getDescription().getValue());
     }
 
     /**
@@ -131,7 +131,7 @@ public class Issue62Test {
      */
     @Test
     public void testBurialYNull() {
-        assertNull(burial.yNull);
+        assertNull(burial.getyNull());
     }
 
     /**
@@ -139,7 +139,7 @@ public class Issue62Test {
      */
     @Test
     public void testCremationDescription() {
-        assertNull(cremation.description);
+        assertNull(cremation.getDescription());
     }
 
     /**
@@ -148,7 +148,7 @@ public class Issue62Test {
      */
     @Test
     public void testCremationYNull() {
-        assertEquals("Y", cremation.yNull);
+        assertEquals("Y", cremation.getyNull());
     }
 
     /**
@@ -156,7 +156,7 @@ public class Issue62Test {
      */
     @Test
     public void testDeathDescription() {
-        assertNull(death.description);
+        assertNull(death.getDescription());
     }
 
     /**
@@ -166,6 +166,6 @@ public class Issue62Test {
      */
     @Test
     public void testDeathYNull() {
-        assertNull(death.yNull);
+        assertNull(death.getyNull());
     }
 }

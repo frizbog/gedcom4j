@@ -181,11 +181,7 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoMultimedia() {
-        f.multimedia = null;
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "multimedia", "null");
-
-        f.multimedia = new ArrayList<Multimedia>();
+        f.getMultimedia().clear();
         rootValidator.validate();
         assertNoIssues();
     }

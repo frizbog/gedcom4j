@@ -75,11 +75,11 @@ public class AncestryCalculator {
         // Get every family this individual was a child of
         for (FamilyChild fc : individual.familiesWhereChild) {
             // Add father and all his wives
-            Individual dad = fc.family.husband;
+            Individual dad = fc.getFamily().husband;
             if (dad != null && !result.contains(dad)) {
                 result.add(dad);
                 for (FamilySpouse fs : dad.familiesWhereSpouse) {
-                    Individual dadsWife = fs.family.wife;
+                    Individual dadsWife = fs.getFamily().wife;
                     if (dadsWife != null) {
                         result.add(dadsWife);
                         result.addAll(getExtendedAncestry(dadsWife));
@@ -90,11 +90,11 @@ public class AncestryCalculator {
             }
 
             // Add mother and all her husbands
-            Individual mom = fc.family.wife;
+            Individual mom = fc.getFamily().wife;
             if (mom != null && !result.contains(mom)) {
                 result.add(mom);
                 for (FamilySpouse fs : mom.familiesWhereSpouse) {
-                    Individual momsHusband = fs.family.husband;
+                    Individual momsHusband = fs.getFamily().husband;
                     if (momsHusband != null) {
                         result.add(momsHusband);
                         result.addAll(getExtendedAncestry(momsHusband));
@@ -187,12 +187,12 @@ public class AncestryCalculator {
         // if they are in the other person's set of ancestors
         for (FamilyChild fc : individual.familiesWhereChild) {
             // First check dad
-            if (!checkedAlready.contains(fc.family.husband)) {
-                checkParent(level, set, fc.family.husband);
+            if (!checkedAlready.contains(fc.getFamily().husband)) {
+                checkParent(level, set, fc.getFamily().husband);
             }
             // Now check mom
-            if (!checkedAlready.contains(fc.family.wife)) {
-                checkParent(level, set, fc.family.wife);
+            if (!checkedAlready.contains(fc.getFamily().wife)) {
+                checkParent(level, set, fc.getFamily().wife);
             }
         }
 
@@ -200,11 +200,11 @@ public class AncestryCalculator {
             // we didn't find any common ancestors, so recurse up this
             // individual's parents
             for (FamilyChild fc : individual.familiesWhereChild) {
-                Individual dad = fc.family.husband;
+                Individual dad = fc.getFamily().husband;
                 if (dad != null && !checkedAlready.contains(dad)) {
                     addLowestCommonAncestorsToSet(dad, set, level + 1);
                 }
-                Individual mom = fc.family.wife;
+                Individual mom = fc.getFamily().wife;
                 if (mom != null && !checkedAlready.contains(mom)) {
                     addLowestCommonAncestorsToSet(mom, set, level + 1);
                 }
@@ -269,11 +269,12 @@ public class AncestryCalculator {
      * @return the spouse of the individual passed in
      */
     private Individual getSpouse(FamilySpouse fs, Individual i) {
-        if (fs.family.husband == i) {
-            return fs.family.wife;
+        Family fam = fs.getFamily();
+        if (fam.husband == i) {
+            return fam.wife;
         }
-        if (fs.family.wife == i) {
-            return fs.family.husband;
+        if (fam.wife == i) {
+            return fam.husband;
         }
         return null;
     }
@@ -304,7 +305,7 @@ public class AncestryCalculator {
     private boolean lookForAncestor(Individual person, Individual ancestor) {
         if (person != null && person.familiesWhereChild != null) {
             for (FamilyChild fc : person.familiesWhereChild) {
-                Family f = fc.family;
+                Family f = fc.getFamily();
                 if (ancestor.equals(f.husband) || ancestor.equals(f.wife)) {
                     genCount = 1;
                     return true;

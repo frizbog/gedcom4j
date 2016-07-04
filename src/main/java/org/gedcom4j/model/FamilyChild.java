@@ -35,28 +35,28 @@ public class FamilyChild extends AbstractElement {
     /**
      * The family to which the child belonged
      */
-    public Family family;
+    private Family family;
 
     /**
      * Pedigree information
      */
-    public StringWithCustomTags pedigree;
+    private StringWithCustomTags pedigree;
 
     /**
      * Who did the adopting.
      */
-    public AdoptedByWhichParent adoptedBy;
+    private AdoptedByWhichParent adoptedBy;
 
     /**
      * The status of this Family/Child relationship. New for GEDCOM 5.5.1. Supposed to be "challenged", "disproven", or
      * "proven", but this implementation allows any value.
      */
-    public StringWithCustomTags status;
+    private StringWithCustomTags status;
 
     /**
      * Notes about this object
      */
-    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+    private List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
 
     @Override
     public boolean equals(Object obj) {
@@ -120,6 +120,24 @@ public class FamilyChild extends AbstractElement {
     }
 
     /**
+     * Get the adoptedBy
+     * 
+     * @return the adoptedBy
+     */
+    public AdoptedByWhichParent getAdoptedBy() {
+        return adoptedBy;
+    }
+
+    /**
+     * Get the family
+     * 
+     * @return the family
+     */
+    public Family getFamily() {
+        return family;
+    }
+
+    /**
      * Get the notes
      * 
      * @return the notes
@@ -143,6 +161,24 @@ public class FamilyChild extends AbstractElement {
         return notes;
     }
 
+    /**
+     * Get the pedigree
+     * 
+     * @return the pedigree
+     */
+    public StringWithCustomTags getPedigree() {
+        return pedigree;
+    }
+
+    /**
+     * Get the status
+     * 
+     * @return the status
+     */
+    public StringWithCustomTags getStatus() {
+        return status;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -153,6 +189,46 @@ public class FamilyChild extends AbstractElement {
         result = prime * result + (pedigree == null ? 0 : pedigree.hashCode());
         result = prime * result + (status == null ? 0 : status.hashCode());
         return result;
+    }
+
+    /**
+     * Set the adoptedBy
+     * 
+     * @param adoptedBy
+     *            the adoptedBy to set
+     */
+    public void setAdoptedBy(AdoptedByWhichParent adoptedBy) {
+        this.adoptedBy = adoptedBy;
+    }
+
+    /**
+     * Set the family
+     * 
+     * @param family
+     *            the family to set
+     */
+    public void setFamily(Family family) {
+        this.family = family;
+    }
+
+    /**
+     * Set the pedigree
+     * 
+     * @param pedigree
+     *            the pedigree to set
+     */
+    public void setPedigree(StringWithCustomTags pedigree) {
+        this.pedigree = pedigree;
+    }
+
+    /**
+     * Set the status
+     * 
+     * @param status
+     *            the status to set
+     */
+    public void setStatus(StringWithCustomTags status) {
+        this.status = status;
     }
 
     @Override
