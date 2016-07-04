@@ -26,6 +26,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
 import org.gedcom4j.exception.GedcomValidationException;
 import org.gedcom4j.model.*;
 
@@ -171,7 +172,7 @@ abstract class AbstractValidator {
             addError("Cannot get value of customTags attribute on object of type " + o.getClass().getSimpleName() + " - " + e.getMessage(), o);
             return;
         }
-        if (fldVal == null) {
+        if (fldVal == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 List<StringTree> customTags = new ArrayList<StringTree>();
                 try {
@@ -191,7 +192,7 @@ abstract class AbstractValidator {
                 rootValidator.addError("Custom tag collection is null - must be at least an empty collection", o);
             }
         } else {
-            if (!(fldVal instanceof List<?>)) {
+            if (fldVal != null && !(fldVal instanceof List<?>)) {
                 rootValidator.addError("Custom tag collection is not a List", o);
             }
         }
@@ -292,24 +293,26 @@ abstract class AbstractValidator {
      */
     protected void checkStringList(List<String> stringList, String description, boolean blanksAllowed) {
         int i = 0;
-        while (i < stringList.size()) {
-            String a = stringList.get(i);
-            if (a == null) {
-                if (rootValidator.isAutorepairEnabled()) {
-                    addInfo("String list (" + description + ") contains null entry - removed", stringList);
-                    stringList.remove(i);
-                    continue;
+        if (stringList != null) {
+            while (i < stringList.size()) {
+                String a = stringList.get(i);
+                if (a == null) {
+                    if (rootValidator.isAutorepairEnabled()) {
+                        addInfo("String list (" + description + ") contains null entry - removed", stringList);
+                        stringList.remove(i);
+                        continue;
+                    }
+                    addError("String list (" + description + ") contains null entry", stringList);
+                } else if (!blanksAllowed && !isSpecified(a)) {
+                    if (rootValidator.isAutorepairEnabled()) {
+                        addInfo("String list (" + description + ") contains blank entry where none are allowed - removed", stringList);
+                        stringList.remove(i);
+                        continue;
+                    }
+                    addError("String list (" + description + ") contains blank entry where none are allowed", stringList);
                 }
-                addError("String list (" + description + ") contains null entry", stringList);
-            } else if (!blanksAllowed && !isSpecified(a)) {
-                if (rootValidator.isAutorepairEnabled()) {
-                    addInfo("String list (" + description + ") contains blank entry where none are allowed - removed", stringList);
-                    stringList.remove(i);
-                    continue;
-                }
-                addError("String list (" + description + ") contains blank entry where none are allowed", stringList);
+                i++;
             }
-            i++;
         }
     }
 
@@ -326,24 +329,26 @@ abstract class AbstractValidator {
      */
     protected void checkStringTagList(List<StringWithCustomTags> stringList, String description, boolean blanksAllowed) {
         int i = 0;
-        while (i < stringList.size()) {
-            StringWithCustomTags a = stringList.get(i);
-            if (a == null || a.getValue() == null) {
-                if (rootValidator.isAutorepairEnabled()) {
-                    addInfo("String list (" + description + ") contains null entry - removed", stringList);
-                    stringList.remove(i);
-                    continue;
+        if (stringList != null) {
+            while (i < stringList.size()) {
+                StringWithCustomTags a = stringList.get(i);
+                if (a == null || a.getValue() == null) {
+                    if (rootValidator.isAutorepairEnabled()) {
+                        addInfo("String list (" + description + ") contains null entry - removed", stringList);
+                        stringList.remove(i);
+                        continue;
+                    }
+                    addError("String list (" + description + ") contains null entry", stringList);
+                } else if (!blanksAllowed && a.getValue().trim().length() == 0) {
+                    if (rootValidator.isAutorepairEnabled()) {
+                        addInfo("String list (" + description + ") contains blank entry where none are allowed - removed", stringList);
+                        stringList.remove(i);
+                        continue;
+                    }
+                    addError("String list (" + description + ") contains blank entry where none are allowed", stringList);
                 }
-                addError("String list (" + description + ") contains null entry", stringList);
-            } else if (!blanksAllowed && a.getValue().trim().length() == 0) {
-                if (rootValidator.isAutorepairEnabled()) {
-                    addInfo("String list (" + description + ") contains blank entry where none are allowed - removed", stringList);
-                    stringList.remove(i);
-                    continue;
-                }
-                addError("String list (" + description + ") contains blank entry where none are allowed", stringList);
+                i++;
             }
-            i++;
         }
     }
 
@@ -356,12 +361,14 @@ abstract class AbstractValidator {
      *            the object that contains the collection of user references
      */
     protected void checkUserReferences(List<UserReference> userReferences, Object objectWithUserReferences) {
-        for (UserReference userReference : userReferences) {
-            if (userReference == null) {
-                addError("Null user reference in collection on " + objectWithUserReferences.getClass().getSimpleName(), objectWithUserReferences);
-            } else {
-                checkRequiredString(userReference.getReferenceNum(), "reference number", userReference);
-                checkOptionalString(userReference.getType(), "reference type", userReference);
+        if (userReferences != null) {
+            for (UserReference userReference : userReferences) {
+                if (userReference == null) {
+                    addError("Null user reference in collection on " + objectWithUserReferences.getClass().getSimpleName(), objectWithUserReferences);
+                } else {
+                    checkRequiredString(userReference.getReferenceNum(), "reference number", userReference);
+                    checkOptionalString(userReference.getType(), "reference type", userReference);
+                }
             }
         }
     }

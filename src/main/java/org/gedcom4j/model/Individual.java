@@ -450,14 +450,16 @@ public class Individual extends AbstractElement {
      */
     public Set<Individual> getAncestors() {
         Set<Individual> result = new HashSet<Individual>();
-        for (FamilyChild f : familiesWhereChild) {
-            if (f.getFamily().getHusband() != null && !result.contains(f.getFamily().getHusband())) {
-                result.add(f.getFamily().getHusband());
-                result.addAll(f.getFamily().getHusband().getAncestors());
-            }
-            if (f.getFamily().getWife() != null && !result.contains(f.getFamily().getWife())) {
-                result.add(f.getFamily().getWife());
-                result.addAll(f.getFamily().getWife().getAncestors());
+        if (familiesWhereChild != null) {
+            for (FamilyChild f : familiesWhereChild) {
+                if (f.getFamily().getHusband() != null && !result.contains(f.getFamily().getHusband())) {
+                    result.add(f.getFamily().getHusband());
+                    result.addAll(f.getFamily().getHusband().getAncestors());
+                }
+                if (f.getFamily().getWife() != null && !result.contains(f.getFamily().getWife())) {
+                    result.add(f.getFamily().getWife());
+                    result.addAll(f.getFamily().getWife().getAncestors());
+                }
             }
         }
         return result;
@@ -601,14 +603,16 @@ public class Individual extends AbstractElement {
      */
     public Set<Individual> getDescendants() {
         Set<Individual> result = new HashSet<Individual>();
-        for (FamilySpouse f : familiesWhereSpouse) {
-            for (Individual i : f.getFamily().getChildren()) {
-                // Recurse if we have not seen this person before in the results already
-                if (i != this && !result.contains(i) && !i.familiesWhereSpouse.isEmpty()) {
-                    Set<Individual> d = i.getDescendants();
-                    result.addAll(d);
+        if (familiesWhereSpouse != null) {
+            for (FamilySpouse f : familiesWhereSpouse) {
+                for (Individual i : f.getFamily().getChildren()) {
+                    // Recurse if we have not seen this person before in the results already
+                    if (i != this && !result.contains(i) && (i.familiesWhereSpouse == null || !i.familiesWhereSpouse.isEmpty())) {
+                        Set<Individual> d = i.getDescendants();
+                        result.addAll(d);
+                    }
+                    result.add(i);
                 }
-                result.add(i);
             }
         }
         return result;
@@ -670,9 +674,11 @@ public class Individual extends AbstractElement {
      */
     public List<IndividualEvent> getEventsOfType(IndividualEventType type) {
         List<IndividualEvent> result = new ArrayList<IndividualEvent>(0);
-        for (IndividualEvent ie : events) {
-            if (ie.getType() == type) {
-                result.add(ie);
+        if (events != null) {
+            for (IndividualEvent ie : events) {
+                if (ie.getType() == type) {
+                    result.add(ie);
+                }
             }
         }
         return result;
@@ -755,11 +761,13 @@ public class Individual extends AbstractElement {
      */
     public String getFormattedName() {
         StringBuilder sb = new StringBuilder();
-        for (PersonalName n : names) {
-            if (sb.length() > 0) {
-                sb.append(" aka ");
+        if (names != null) {
+            for (PersonalName n : names) {
+                if (sb.length() > 0) {
+                    sb.append(" aka ");
+                }
+                sb.append(n);
             }
-            sb.append(n);
         }
         return sb.toString();
     }
@@ -924,13 +932,15 @@ public class Individual extends AbstractElement {
      */
     public Set<Individual> getSpouses() {
         Set<Individual> result = new HashSet<Individual>();
-        for (FamilySpouse f : familiesWhereSpouse) {
-            Family fam = f.getFamily();
-            if (this != fam.getHusband() && fam.getHusband() != null) {
-                result.add(fam.getHusband());
-            }
-            if (this != fam.getWife() && fam.getWife() != null) {
-                result.add(fam.getWife());
+        if (familiesWhereSpouse != null) {
+            for (FamilySpouse f : familiesWhereSpouse) {
+                Family fam = f.getFamily();
+                if (this != fam.getHusband() && fam.getHusband() != null) {
+                    result.add(fam.getHusband());
+                }
+                if (this != fam.getWife() && fam.getWife() != null) {
+                    result.add(fam.getWife());
+                }
             }
         }
         return result;
@@ -1142,63 +1152,75 @@ public class Individual extends AbstractElement {
         StringBuilder sb = new StringBuilder(64); // Initial size - we know we're going to be appending more than 16
         // chars in most cases
         sb.append(getFormattedName());
-        for (StringWithCustomTags n : aliases) {
-            if (sb.length() > 0) {
-                sb.append(" aka ");
+        if (aliases != null) {
+            for (StringWithCustomTags n : aliases) {
+                if (sb.length() > 0) {
+                    sb.append(" aka ");
+                }
+                sb.append(n);
             }
-            sb.append(n);
         }
         if (sb.length() == 0) {
             sb.append("Unknown name");
         }
-        for (FamilySpouse f : familiesWhereSpouse) {
-            sb.append(", spouse of ");
-            Family fam = f.getFamily();
-            if (fam.getHusband() == this) {
-                if (fam.getWife() == null) {
-                    sb.append("unknown");
+        if (familiesWhereSpouse != null) {
+            for (FamilySpouse f : familiesWhereSpouse) {
+                sb.append(", spouse of ");
+                Family fam = f.getFamily();
+                if (fam.getHusband() == this) {
+                    if (fam.getWife() == null) {
+                        sb.append("unknown");
+                    } else {
+                        sb.append(fam.getWife().getFormattedName());
+                    }
                 } else {
-                    sb.append(fam.getWife().getFormattedName());
-                }
-            } else {
-                if (fam.getHusband() == null) {
-                    sb.append("unknown");
-                } else {
-                    sb.append(fam.getHusband().getFormattedName());
+                    if (fam.getHusband() == null) {
+                        sb.append("unknown");
+                    } else {
+                        sb.append(fam.getHusband().getFormattedName());
+                    }
                 }
             }
         }
-        for (FamilyChild f : familiesWhereChild) {
-            sb.append(", child of ");
-            if (f.getFamily().getWife() != null) {
-                sb.append(f.getFamily().getWife().getFormattedName());
-                sb.append(" and ");
-            }
-            if (f.getFamily().getHusband() == null) {
-                sb.append("unknown");
-            } else {
-                sb.append(f.getFamily().getHusband().getFormattedName());
+        if (familiesWhereChild != null) {
+            for (FamilyChild f : familiesWhereChild) {
+                sb.append(", child of ");
+                if (f.getFamily().getWife() != null) {
+                    sb.append(f.getFamily().getWife().getFormattedName());
+                    sb.append(" and ");
+                }
+                if (f.getFamily().getHusband() == null) {
+                    sb.append("unknown");
+                } else {
+                    sb.append(f.getFamily().getHusband().getFormattedName());
+                }
             }
         }
         boolean found = false;
-        for (IndividualEvent b : getEventsOfType(IndividualEventType.BIRTH)) {
-            if (found) {
-                sb.append(" / ");
-            } else {
-                sb.append(", b.");
+        List<IndividualEvent> births = getEventsOfType(IndividualEventType.BIRTH);
+        if (births != null) {
+            for (IndividualEvent b : births) {
+                if (found) {
+                    sb.append(" / ");
+                } else {
+                    sb.append(", b.");
+                }
+                sb.append(b.date);
+                found = true;
             }
-            sb.append(b.date);
-            found = true;
         }
         found = false;
-        for (IndividualEvent d : getEventsOfType(IndividualEventType.DEATH)) {
-            if (found) {
-                sb.append(" / ");
-            } else {
-                sb.append(", d.");
+        List<IndividualEvent> deaths = getEventsOfType(IndividualEventType.DEATH);
+        if (deaths != null) {
+            for (IndividualEvent d : deaths) {
+                if (found) {
+                    sb.append(" / ");
+                } else {
+                    sb.append(", d.");
+                }
+                sb.append(d.date);
+                found = true;
             }
-            sb.append(d.date);
-            found = true;
         }
         return sb.toString();
     }

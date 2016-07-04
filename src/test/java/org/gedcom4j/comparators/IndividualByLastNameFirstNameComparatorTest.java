@@ -149,7 +149,7 @@ public class IndividualByLastNameFirstNameComparatorTest {
     private void addBasicName(Individual i, String string) {
         PersonalName n = new PersonalName();
         n.setBasic(string);
-        i.getNames().add(n);
+        i.getNames(true).add(n);
     }
 
 }

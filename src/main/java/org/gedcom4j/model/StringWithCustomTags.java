@@ -129,9 +129,11 @@ public class StringWithCustomTags extends AbstractElement {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(value == null ? "null" : value);
-        for (StringTree ct : getCustomTags()) {
-            sb.append("\n");
-            sb.append(ct.getLevel() + (ct.getId() == null ? "" : " " + ct.getId()) + " " + ct.getTag() + " " + ct.getValue());
+        if (getCustomTags() != null) {
+            for (StringTree ct : getCustomTags()) {
+                sb.append("\n");
+                sb.append(ct.getLevel() + (ct.getId() == null ? "" : " " + ct.getId()) + " " + ct.getTag() + " " + ct.getValue());
+            }
         }
 
         return sb.toString();

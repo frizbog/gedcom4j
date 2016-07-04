@@ -47,9 +47,9 @@ public class StringTreeTest {
         assertNotSame(st1, st2);
         assertEquals(st1, st2);
 
-        st1.getChildren().add(new StringTree());
+        st1.getChildren(true).add(new StringTree());
         assertFalse(st1.equals(st2));
-        st2.getChildren().add(new StringTree());
+        st2.getChildren(true).add(new StringTree());
         assertEquals(st1, st2);
 
         st1.setLevel(1);
@@ -84,9 +84,9 @@ public class StringTreeTest {
         assertNotSame(st1, st2);
         assertEquals(st1.hashCode(), st2.hashCode());
 
-        st1.getChildren().add(new StringTree());
+        st1.getChildren(true).add(new StringTree());
         assertTrue(st1.hashCode() != st2.hashCode());
-        st2.getChildren().add(new StringTree());
+        st2.getChildren(true).add(new StringTree());
         assertEquals(st1.hashCode(), st2.hashCode());
 
         st1.setLevel(1);
@@ -118,7 +118,7 @@ public class StringTreeTest {
         StringTree st = new StringTree();
         assertEquals("Line 0: 0 null null", st.toString());
 
-        st.getChildren().add(new StringTree());
+        st.getChildren(true).add(new StringTree());
         st.setLevel(1);
         st.setId("Frying Pan");
         st.setLineNum(2);
@@ -140,28 +140,28 @@ public class StringTreeTest {
         Gedcom g = gp.getGedcom();
 
         for (Family f : g.getFamilies().values()) {
-            assertNotNull(f.getCustomTags().toString());
+            assertNotNull(f.getCustomTags(true).toString());
             assertFalse(0 == f.getCustomTags().hashCode());
 
             assertNotNull(f.toString());
             assertFalse(0 == f.hashCode());
         }
         for (Individual i : g.getIndividuals().values()) {
-            assertNotNull(i.getCustomTags().toString());
+            assertNotNull(i.getCustomTags(true).toString());
             assertFalse(0 == i.getCustomTags().hashCode());
 
             assertNotNull(i.toString());
             assertFalse(0 == i.hashCode());
         }
         for (Multimedia m : g.getMultimedia().values()) {
-            assertNotNull(m.getCustomTags().toString());
+            assertNotNull(m.getCustomTags(true).toString());
             assertFalse(0 == m.getCustomTags().hashCode());
 
             assertNotNull(m.toString());
             assertFalse(0 == m.hashCode());
         }
         for (Note n : g.getNotes().values()) {
-            assertNotNull(n.getCustomTags().toString());
+            assertNotNull(n.getCustomTags(true).toString());
             assertFalse(0 == n.getCustomTags().hashCode());
 
             assertNotNull(n.toString());

@@ -180,7 +180,7 @@ public class IndividualTest {
         FamilySpouse f = new FamilySpouse();
         f.setFamily(new Family());
         f.getFamily().setHusband(i);
-        i.getFamiliesWhereSpouse().add(f);
+        i.getFamiliesWhereSpouse(true).add(f);
         assertNotNull(i.getSpouses());
         assertTrue("Should still be empty because there is no wife in the family that this guy's a spouse in", i.getSpouses().isEmpty());
         f.getFamily().setWife(new Individual());
@@ -192,7 +192,7 @@ public class IndividualTest {
         f = new FamilySpouse();
         f.setFamily(new Family());
         f.getFamily().setHusband(i);
-        i.getFamiliesWhereSpouse().add(f);
+        i.getFamiliesWhereSpouse(true).add(f);
         assertNotNull(i.getSpouses());
         assertEquals("Should still be just one spouse because there is no wife in the 2nd family that this guy's a spouse in", 1, i.getSpouses().size());
 
@@ -247,14 +247,14 @@ public class IndividualTest {
         FamilySpouse f = new FamilySpouse();
         f.setFamily(new Family());
         f.getFamily().setHusband(i);
-        i.getFamiliesWhereSpouse().add(f);
+        i.getFamiliesWhereSpouse(true).add(f);
         f.getFamily().setWife(new Individual());
         addBasicName(f.getFamily().getWife(), "Anna //");
         // Add a second family and spouse
         f = new FamilySpouse();
         f.setFamily(new Family());
         f.getFamily().setHusband(i);
-        i.getFamiliesWhereSpouse().add(f);
+        i.getFamiliesWhereSpouse(true).add(f);
 
         f.getFamily().setWife(new Individual());
         addBasicName(f.getFamily().getWife(), "Elizabeth /Hofstadt/");
@@ -273,7 +273,7 @@ public class IndividualTest {
         IndividualAttribute e = new IndividualAttribute();
         e.setType(t);
         e.description = new StringWithCustomTags("Random text for uniqueness " + Math.random());
-        i.getAttributes().add(e);
+        i.getAttributes(true).add(e);
     }
 
     /**
@@ -287,7 +287,7 @@ public class IndividualTest {
     private void addBasicName(Individual i, String string) {
         PersonalName pn = new PersonalName();
         pn.setBasic(string);
-        i.getNames().add(pn);
+        i.getNames(true).add(pn);
 
     }
 
@@ -303,7 +303,7 @@ public class IndividualTest {
         IndividualEvent e = new IndividualEvent();
         e.setType(t);
         e.description = new StringWithCustomTags("Random text for uniqueness " + Math.random());
-        i.getEvents().add(e);
+        i.getEvents(true).add(e);
     }
 
     /**

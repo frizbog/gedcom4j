@@ -78,7 +78,7 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
         f.setXref("@F0001@");
         f.setHusband(dad);
         f.setWife(mom);
-        f.getChildren().add(jr);
+        f.getChildren(true).add(jr);
         gedcom.getFamilies().put(f.getXref(), f);
 
         rootValidator.validate();

@@ -70,18 +70,18 @@ public class AssociationTest {
         a2.setRelationship(null);
         assertEquals(a1, a2);
 
-        a1.getCitations().add(new CitationWithSource());
+        a1.getCitations(true).add(new CitationWithSource());
         assertFalse(a1.equals(a2));
-        a2.getCitations().add(new CitationWithSource());
+        a2.getCitations(true).add(new CitationWithSource());
         assertEquals(a1, a2);
         a1.getCitations().clear();
         assertFalse(a1.equals(a2));
         a2.getCitations().clear();
         assertEquals(a1, a2);
 
-        a1.getNotes().add(new Note());
+        a1.getNotes(true).add(new Note());
         assertFalse(a1.equals(a2));
-        a2.getNotes().add(new Note());
+        a2.getNotes(true).add(new Note());
         assertEquals(a1, a2);
         a1.getNotes().clear();
         assertFalse(a1.equals(a2));
@@ -129,18 +129,18 @@ public class AssociationTest {
         a2.setRelationship(null);
         assertEquals(a1.hashCode(), a2.hashCode());
 
-        a1.getCitations().add(new CitationWithSource());
+        a1.getCitations(true).add(new CitationWithSource());
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.getCitations().add(new CitationWithSource());
+        a2.getCitations(true).add(new CitationWithSource());
         assertEquals(a1.hashCode(), a2.hashCode());
         a1.getCitations().clear();
         assertFalse(a1.hashCode() == a2.hashCode());
         a2.getCitations().clear();
         assertEquals(a1.hashCode(), a2.hashCode());
 
-        a1.getNotes().add(new Note());
+        a1.getNotes(true).add(new Note());
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.getNotes().add(new Note());
+        a2.getNotes(true).add(new Note());
         assertEquals(a1.hashCode(), a2.hashCode());
         a1.getNotes().clear();
         assertFalse(a1.hashCode() == a2.hashCode());

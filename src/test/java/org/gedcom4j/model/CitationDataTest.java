@@ -27,6 +27,9 @@ import static org.junit.Assert.assertNotSame;
 
 import java.util.ArrayList;
 
+import org.gedcom4j.Options;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -36,6 +39,22 @@ import org.junit.Test;
  * 
  */
 public class CitationDataTest {
+
+    /**
+     * Things to do before each test
+     */
+    @Before
+    public void setUp() {
+        Options.resetToDefaults();
+    }
+
+    /**
+     * Things to do after each test
+     */
+    @After
+    public void tearDown() {
+        Options.resetToDefaults();
+    }
 
     /**
      * Test for .equals();
@@ -95,7 +114,24 @@ public class CitationDataTest {
      * Test for .toString()
      */
     @Test
-    public void testToString() {
+    public void testToStringNotPrepopulated() {
+        Options.setCollectionInitializationEnabled(false);
+        CitationData c1 = new CitationData();
+        assertEquals("CitationData []", c1.toString());
+
+        c1.customTags = null;
+        c1.setEntryDate(new StringWithCustomTags("Frying Pan"));
+        c1.getSourceText(true).add(new ArrayList<String>());
+
+        assertEquals("CitationData [entryDate=Frying Pan, sourceText=[[]], ]", c1.toString());
+    }
+
+    /**
+     * Test for .toString()
+     */
+    @Test
+    public void testToStringPrepopulated() {
+        Options.setCollectionInitializationEnabled(true);
         CitationData c1 = new CitationData();
         assertEquals("CitationData [sourceText=[], customTags=[]]", c1.toString());
 
@@ -105,5 +141,4 @@ public class CitationDataTest {
 
         assertEquals("CitationData [entryDate=Frying Pan, sourceText=[[]], ]", c1.toString());
     }
-
 }

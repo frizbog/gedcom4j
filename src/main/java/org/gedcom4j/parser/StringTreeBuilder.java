@@ -184,7 +184,7 @@ public class StringTreeBuilder {
             parser.getErrors().add(treeForCurrentLine.getTag() + " tag at line " + treeForCurrentLine.getLineNum()
                     + ": Unable to find suitable parent node at level " + (treeForCurrentLine.getLevel() - 1));
         } else {
-            addTo.getChildren().add(treeForCurrentLine);
+            addTo.getChildren(true).add(treeForCurrentLine);
             treeForCurrentLine.setParent(addTo);
             lastNodeAtLevel[treeForCurrentLine.getLevel()] = treeForCurrentLine;
         }
@@ -226,7 +226,7 @@ public class StringTreeBuilder {
             treeForCurrentLine.setTag(Tag.CONTINUATION.tagText);
             treeForCurrentLine.setValue(line);
             treeForCurrentLine.setParent(mostRecentlyAdded);
-            mostRecentlyAdded.getChildren().add(treeForCurrentLine);
+            mostRecentlyAdded.getChildren(true).add(treeForCurrentLine);
             parser.getWarnings().add("Line " + lineNum + " did not begin with a level and tag, so it was treated as a "
                     + "non-standard continuation of the previous line.");
         }

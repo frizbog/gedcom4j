@@ -65,8 +65,10 @@ class PlaceValidator extends AbstractValidator {
                 rootValidator.addError("Event has null list of citations", place);
             }
         }
-        for (AbstractCitation c : place.getCitations()) {
-            new CitationValidator(rootValidator, c).validate();
+        if (place.getCitations() != null) {
+            for (AbstractCitation c : place.getCitations()) {
+                new CitationValidator(rootValidator, c).validate();
+            }
         }
         checkCustomTags(place);
 
@@ -90,8 +92,10 @@ class PlaceValidator extends AbstractValidator {
                 rootValidator.addError("Event has null list of phonetic name variations", place);
             }
         }
-        for (NameVariation nv : place.getPhonetic()) {
-            new NameVariationValidator(rootValidator, nv).validate();
+        if (place.getPhonetic() != null) {
+            for (NameVariation nv : place.getPhonetic()) {
+                new NameVariationValidator(rootValidator, nv).validate();
+            }
         }
 
         if (place.getRomanized() == null) {
@@ -102,8 +106,10 @@ class PlaceValidator extends AbstractValidator {
                 rootValidator.addError("Event has null list of romanized name variations", place);
             }
         }
-        for (NameVariation nv : place.getRomanized()) {
-            new NameVariationValidator(rootValidator, nv).validate();
+        if (place.getRomanized() != null) {
+            for (NameVariation nv : place.getRomanized()) {
+                new NameVariationValidator(rootValidator, nv).validate();
+            }
         }
 
     }

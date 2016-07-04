@@ -10,6 +10,8 @@ Issue #83 - The biggest change is that gedcom4j now uses the JavaBean spec for i
 
 Issue #104 - The classes in the model now implement java.io.Serializable and defined serial version UIDs.
 
+Issue #108 - There is now a global options class named Options, in which you can choose whether collections in the object model should be automatically initialized (thus saving you from having to do null checks) or left null (thus saving memory).
+
 Other changes not related to Issues in the issue tracker (https://github.com/frizbog/gedcom4j/issues):
 - toString() implementations of most model objects have been rewritten  
 

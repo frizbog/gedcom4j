@@ -21,6 +21,7 @@
  */
 package org.gedcom4j.validate;
 
+import org.gedcom4j.Options;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
 
@@ -71,14 +72,7 @@ class SubmitterValidator extends AbstractValidator {
      * Check the language preferences
      */
     private void checkLanguagePreferences() {
-        if (submitter.getLanguagePref() == null) {
-            if (rootValidator.isAutorepairEnabled()) {
-                submitter.getLanguagePref(true).clear();
-                addInfo("Submitter language preference collection was null - autorepaired", submitter);
-            } else {
-                addInfo("Submitter language preference collection is null", submitter);
-            }
-        } else {
+        if (submitter.getLanguagePref(Options.isCollectionInitializationEnabled()) != null) {
             if (submitter.getLanguagePref().size() > 3) {
                 addError("Submitter exceeds limit on language preferences (3)", submitter);
             }

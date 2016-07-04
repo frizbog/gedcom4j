@@ -168,6 +168,20 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
     }
 
     /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            true if this collection should be created on-the-fly if it is currently null
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
+    /**
      * Get the place
      * 
      * @return the place
@@ -290,20 +304,6 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
         }
         builder.append("]");
         return builder.toString();
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @param initializeIfNeeded
-     *            true if this collection should be created on-the-fly if it is currently null
-     * @return the notes
-     */
-    private List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<Note>(0);
-        }
-        return notes;
     }
 
 }

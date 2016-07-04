@@ -51,15 +51,14 @@ public class IndividualByLastNameFirstNameComparator implements Serializable, Co
      * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
      */
     public int compare(Individual i1, Individual i2) {
-
         String s1 = "-unknown-";
         String s2 = "-unknown-";
         PersonalName n1 = null;
         PersonalName n2 = null;
-        if (!i1.getNames().isEmpty()) {
+        if (i1.getNames() != null && !i1.getNames().isEmpty()) {
             n1 = i1.getNames().get(0);
         }
-        if (!i2.getNames().isEmpty()) {
+        if (i2.getNames() != null && !i2.getNames().isEmpty()) {
             n2 = i2.getNames().get(0);
         }
 

@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.model.*;
+import org.gedcom4j.validate.GedcomValidationFinding;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -35,7 +36,7 @@ public class Issue89Test extends TestCase {
         sct.setId("@CT001@");
         sct.setTag("_CUSTSB");
         sct.setValue("Custom Submitter Tag");
-        s.getCustomTags().add(sct);
+        s.getCustomTags(true).add(sct);
 
         StringTree nct = new StringTree();
         /* Note the level value gets ignored when writing */
@@ -43,23 +44,30 @@ public class Issue89Test extends TestCase {
         // No ID on this tag
         nct.setTag("_CUSTNM");
         nct.setValue("Custom Name Tag");
-        s.getName().getCustomTags().add(nct);
+        s.getName().getCustomTags(true).add(nct);
 
         StringTree hct = new StringTree();
         hct.setId("@CT003@");
         hct.setTag("_CUSTHD");
         hct.setValue("Custom Header Tag");
-        g.getHeader().getCustomTags().add(hct);
+        g.getHeader().getCustomTags(true).add(hct);
 
         StringTree hct2 = new StringTree();
         hct2.setId("@CT004@");
         hct2.setTag("_CUSTHD2");
         hct2.setValue("Custom Inner Tag inside Custom Header Tag");
-        hct.getChildren().add(hct2);
+        hct.getChildren(true).add(hct2);
 
         GedcomWriter gw = new GedcomWriter(g);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        gw.write(baos);
+        try {
+            gw.write(baos);
+        } catch (GedcomWriterException e) {
+            for (GedcomValidationFinding f : gw.getValidationFindings()) {
+                System.out.println(f);
+            }
+            throw e;
+        }
         String output = baos.toString();
         assertEquals("0 HEAD\n" + "1 SOUR UNSPECIFIED\n" + "1 SUBM @SUBM0001@\n" + "1 SUBN @SUBN0001@\n" + "1 GEDC\n" + "2 VERS 5.5.1\n"
                 + "2 FORM LINEAGE-LINKED\n" + "1 CHAR ANSEL\n" + "1 @CT003@ _CUSTHD Custom Header Tag\n"

@@ -46,7 +46,7 @@ public class NameVariationTest {
         assertNotSame(nv1, nv2);
         assertEquals(nv1, nv2);
 
-        nv1.getCustomTags().add(new StringTree());
+        nv1.getCustomTags(true).add(new StringTree());
         assertFalse(nv1.equals(nv2));
         nv1.getCustomTags().clear();
         assertEquals(nv1, nv2);
@@ -74,7 +74,7 @@ public class NameVariationTest {
         assertNotSame(nv1, nv2);
         assertEquals(nv1.hashCode(), nv2.hashCode());
 
-        nv1.getCustomTags().add(new StringTree());
+        nv1.getCustomTags(true).add(new StringTree());
         assertFalse(nv1.hashCode() == nv2.hashCode());
         nv1.getCustomTags().clear();
         assertEquals(nv1.hashCode(), nv2.hashCode());

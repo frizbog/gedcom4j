@@ -25,6 +25,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
 import org.gedcom4j.exception.GedcomValidationException;
 import org.gedcom4j.model.Note;
 
@@ -67,11 +68,11 @@ class NotesValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        if (notes == null) {
+        if (notes == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 try {
                     Field f = parentObject.getClass().getField("notes");
-                    f.set(parentObject, new ArrayList<Note>());
+                    f.set(parentObject, new ArrayList<Note>(0));
                     addInfo("Notes collection on " + parentObject.getClass().getSimpleName() + " was null - autorepaired");
                 } catch (SecurityException e) {
                     throw new GedcomValidationException("Could not autorepair null notes collection on " + parentObject.getClass().getSimpleName(), e);
@@ -87,9 +88,11 @@ class NotesValidator extends AbstractValidator {
             }
         } else {
             int i = 0;
-            for (Note n : notes) {
-                i++;
-                new NoteValidator(rootValidator, i, n).validate();
+            if (notes != null) {
+                for (Note n : notes) {
+                    i++;
+                    new NoteValidator(rootValidator, i, n).validate();
+                }
             }
         }
 

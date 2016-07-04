@@ -21,6 +21,7 @@
  */
 package org.gedcom4j.validate;
 
+import org.gedcom4j.Options;
 import org.gedcom4j.io.encoding.Encoding;
 import org.gedcom4j.model.*;
 
@@ -58,7 +59,7 @@ class HeaderValidator extends AbstractValidator {
     @Override
     protected void validate() {
         checkCharacterSet();
-        if (header.getCopyrightData() == null) {
+        if (header.getCopyrightData() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 header.getCopyrightData(true).clear();
                 rootValidator.addInfo("Copyright data collection was null - repaired", header);

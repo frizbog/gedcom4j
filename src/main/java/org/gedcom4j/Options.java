@@ -31,7 +31,7 @@ package org.gedcom4j;
 public final class Options {
 
     /** Should collections in the object model be pre-initialized? */
-    private static boolean collectionInitializationEnabled = true;
+    private static boolean collectionInitializationEnabled = false;
 
     /**
      * Get the collectionInitializationEnabled

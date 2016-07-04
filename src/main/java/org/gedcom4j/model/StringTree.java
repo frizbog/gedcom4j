@@ -302,8 +302,10 @@ public class StringTree implements Serializable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Line " + lineNum + ": " + level + (id == null ? "" : " " + id) + " " + (tag == null ? null : tag) + " " + value);
-        for (StringTree ch : children) {
-            sb.append("\n").append(ch);
+        if (children != null) {
+            for (StringTree ch : children) {
+                sb.append("\n").append(ch);
+            }
         }
         return sb.toString();
     }
