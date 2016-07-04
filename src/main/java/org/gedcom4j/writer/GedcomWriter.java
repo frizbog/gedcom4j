@@ -87,22 +87,6 @@ public class GedcomWriter {
     private static final int MAX_LINE_LENGTH = 128;
 
     /**
-     * Whether or not to use autorepair in the validation step
-     */
-    public boolean autorepair = false;
-
-    /**
-     * Whether to use little-endian unicode
-     */
-    public boolean useLittleEndianForUnicode = true;
-
-    /**
-     * A list of things found during validation of the gedcom data prior to writing it. If the data cannot be written
-     * due to an exception caused by failure to validate, this collection will describe the issues encountered.
-     */
-    public List<GedcomValidationFinding> validationFindings;
-
-    /**
      * The lines of the GEDCOM transmission, which will be written using a {@link GedcomFileWriter}. Deliberately
      * package-private so tests can access it but others can't alter it.
      */
@@ -115,6 +99,11 @@ public class GedcomWriter {
     boolean validationSuppressed = false;
 
     /**
+     * Whether or not to use autorepair in the validation step
+     */
+    private boolean autorepair = false;
+
+    /**
      * Has this writer been cancelled?
      */
     private boolean cancelled;
@@ -125,14 +114,14 @@ public class GedcomWriter {
     private int constructionNotificationRate = 500;
 
     /**
-     * Send a notification whenever more than this many lines are written to a file
-     */
-    private int fileNotificationRate = 500;
-
-    /**
      * The list of observers on string construction
      */
     private final List<WeakReference<ConstructProgressListener>> constructObservers = new CopyOnWriteArrayList<WeakReference<ConstructProgressListener>>();
+
+    /**
+     * Send a notification whenever more than this many lines are written to a file
+     */
+    private int fileNotificationRate = 500;
 
     /**
      * The list of observers on file operations
@@ -148,6 +137,17 @@ public class GedcomWriter {
      * The number of lines constructed as last reported to the observers
      */
     private int lastLineCountNotified = 0;
+
+    /**
+     * Whether to use little-endian unicode
+     */
+    private boolean useLittleEndianForUnicode = true;
+
+    /**
+     * A list of things found during validation of the gedcom data prior to writing it. If the data cannot be written
+     * due to an exception caused by failure to validate, this collection will describe the issues encountered.
+     */
+    private List<GedcomValidationFinding> validationFindings;
 
     /**
      * Constructor
@@ -185,12 +185,39 @@ public class GedcomWriter {
     }
 
     /**
+     * Get the validationFindings
+     * 
+     * @return the validationFindings
+     */
+    public List<GedcomValidationFinding> getValidationFindings() {
+        return validationFindings;
+    }
+
+    /**
+     * Get the autorepair
+     * 
+     * @return the autorepair
+     */
+    public boolean isAutorepair() {
+        return autorepair;
+    }
+
+    /**
      * Has this writer been cancelled?
      * 
      * @return true if this writer has been cancelled
      */
     public boolean isCancelled() {
         return cancelled;
+    }
+
+    /**
+     * Get the useLittleEndianForUnicode
+     * 
+     * @return the useLittleEndianForUnicode
+     */
+    public boolean isUseLittleEndianForUnicode() {
+        return useLittleEndianForUnicode;
     }
 
     /**
@@ -233,6 +260,16 @@ public class GedcomWriter {
     }
 
     /**
+     * Set the autorepair
+     * 
+     * @param autorepair
+     *            the autorepair to set
+     */
+    public void setAutorepair(boolean autorepair) {
+        this.autorepair = autorepair;
+    }
+
+    /**
      * Set the construction notification rate - how many lines need to be constructed before getting a notification
      * 
      * @param constructionNotificationRate
@@ -257,6 +294,16 @@ public class GedcomWriter {
             throw new IllegalArgumentException("File Notification Rate must be at least 1");
         }
         this.fileNotificationRate = fileNotificationRate;
+    }
+
+    /**
+     * Set the useLittleEndianForUnicode
+     * 
+     * @param useLittleEndianForUnicode
+     *            the useLittleEndianForUnicode to set
+     */
+    public void setUseLittleEndianForUnicode(boolean useLittleEndianForUnicode) {
+        this.useLittleEndianForUnicode = useLittleEndianForUnicode;
     }
 
     /**

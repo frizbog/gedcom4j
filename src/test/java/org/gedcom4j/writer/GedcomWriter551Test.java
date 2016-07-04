@@ -55,7 +55,7 @@ public class GedcomWriter551Test {
         Gedcom g = TestHelper.getMinimalGedcom();
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
-        gw.autorepair = false;
+        gw.setAutorepair(false);
         assertTrue(gw.lines.isEmpty());
 
         Multimedia m = new Multimedia();
@@ -65,13 +65,13 @@ public class GedcomWriter551Test {
         m.getBlob().add("Blob data only allowed with 5.5");
         try {
             gw.write("tmp/delete-me.ged");
-            for (GedcomValidationFinding f : gw.validationFindings) {
+            for (GedcomValidationFinding f : gw.getValidationFindings()) {
                 System.out.println(f);
             }
             fail("Should have gotten a GedcomException about the blob data");
         } catch (@SuppressWarnings("unused") GedcomWriterException expectedAndIgnored) {
             boolean foundBlobError = false;
-            for (GedcomValidationFinding f : gw.validationFindings) {
+            for (GedcomValidationFinding f : gw.getValidationFindings()) {
                 if (f.getSeverity() == Severity.ERROR && f.getProblemDescription().toLowerCase().contains("blob")) {
                     foundBlobError = true;
                 }

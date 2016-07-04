@@ -161,7 +161,7 @@ public class Relationship implements Comparable<Relationship> {
     public int getTotalSimplicity() {
         int result = 0;
         for (SimpleRelationship sr : chain) {
-            result += sr.getName().simplicity;
+            result += sr.getName().getSimplicity();
         }
         return result;
     }

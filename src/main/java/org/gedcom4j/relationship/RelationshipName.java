@@ -38,8 +38,7 @@ public enum RelationshipName {
 
     GREAT_GRANDFATHER(3), GREAT_GRANDMOTHER(3), GREAT_GRANDSON(3), GREAT_GRANDDAUGHTER(3), GREAT_GRANDCHILD(3),
 
-    GREAT_GREAT_GRANDFATHER(4), GREAT_GREAT_GRANDMOTHER(4), GREAT_GREAT_GRANDSON(4), GREAT_GREAT_GRANDDAUGHTER(4), GREAT_GREAT_GRANDCHILD(
-            4),
+    GREAT_GREAT_GRANDFATHER(4), GREAT_GREAT_GRANDMOTHER(4), GREAT_GREAT_GRANDSON(4), GREAT_GREAT_GRANDDAUGHTER(4), GREAT_GREAT_GRANDCHILD(4),
 
     GREAT_GREAT_GREAT_GRANDCHILD(5), GREAT_GREAT_GREAT_GRANDSON(5), GREAT_GREAT_GREAT_GRANDDAUGHTER(5), GREAT_GREAT_GREAT_GRANDFATHER(
             5), GREAT_GREAT_GREAT_GRANDMOTHER(5),
@@ -53,28 +52,6 @@ public enum RelationshipName {
     GREAT_GREAT_UNCLE(9), GREAT_GREAT_AUNT(9), GREAT_GREAT_NEPHEW(9), GREAT_GREAT_NIECE(9);
 
     /* CHECKSTYLE:ON */
-
-    /**
-     * The simplicity or directness of the relationship. This value is used for evaluating the more preferred/simpler
-     * way of expressing relationship chains of equal lengths...all other things being equal, smaller numbers are
-     * preferred.
-     */
-    public final int simplicity;
-
-    /**
-     * The reverse of this relationship for males
-     */
-    RelationshipName reverseForMale;
-
-    /**
-     * The reverse of this relationship for females
-     */
-    RelationshipName reverseForFemale;
-
-    /**
-     * The reverse of this relationship for unknown gender
-     */
-    RelationshipName reverseForUnknown;
 
     static {
         /* Load all the reverse relationships */
@@ -224,6 +201,28 @@ public enum RelationshipName {
     }
 
     /**
+     * The simplicity or directness of the relationship. This value is used for evaluating the more preferred/simpler
+     * way of expressing relationship chains of equal lengths...all other things being equal, smaller numbers are
+     * preferred.
+     */
+    private final int simplicity;
+
+    /**
+     * The reverse of this relationship for males
+     */
+    RelationshipName reverseForMale;
+
+    /**
+     * The reverse of this relationship for females
+     */
+    RelationshipName reverseForFemale;
+
+    /**
+     * The reverse of this relationship for unknown gender
+     */
+    RelationshipName reverseForUnknown;
+
+    /**
      * Private constructor for setting the simplicity level
      * 
      * @param simplicity
@@ -231,5 +230,14 @@ public enum RelationshipName {
      */
     private RelationshipName(int simplicity) {
         this.simplicity = simplicity;
+    }
+
+    /**
+     * Get the simplicity
+     * 
+     * @return the simplicity
+     */
+    public int getSimplicity() {
+        return simplicity;
     }
 }
