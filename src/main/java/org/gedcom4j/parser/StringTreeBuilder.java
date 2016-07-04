@@ -98,7 +98,7 @@ public class StringTreeBuilder {
      */
     public StringTreeBuilder(GedcomParser parser) {
         this.parser = parser;
-        getTree().level = -1;
+        getTree().setLevel(-1);
         mostRecentlyAdded = null;
         lineNum = 0; // Haven't read any lines yet
     }
@@ -126,7 +126,7 @@ public class StringTreeBuilder {
         line = l;
         lineNum++;
         treeForCurrentLine = new StringTree();
-        treeForCurrentLine.lineNum = lineNum;
+        treeForCurrentLine.setLineNum(lineNum);
 
         checkIfNewLevelLine();
 
@@ -151,7 +151,7 @@ public class StringTreeBuilder {
      *             if there is an error with parsing the data from the stream
      */
     StringTree makeStringTreeFromFlatLines(List<String> lines) throws IOException, GedcomParserException {
-        getTree().level = -1;
+        getTree().setLevel(-1);
         mostRecentlyAdded = null;
         while (lineNum < lines.size()) {
             String l = leftTrim(lines.get(lineNum));
@@ -168,27 +168,27 @@ public class StringTreeBuilder {
      */
     private void addNewNode() throws GedcomParserException {
         LinePieces lp = new LinePieces(line, lineNum);
-        treeForCurrentLine.level = lp.level;
-        treeForCurrentLine.id = lp.id;
-        treeForCurrentLine.tag = lp.tag.intern();
-        treeForCurrentLine.value = canonizer.getCanonicalVersion(lp.remainder);
+        treeForCurrentLine.setLevel(lp.level);
+        treeForCurrentLine.setId(lp.id);
+        treeForCurrentLine.setTag(lp.tag.intern());
+        treeForCurrentLine.setValue(canonizer.getCanonicalVersion(lp.remainder));
         lp = null;
 
         StringTree addTo = null;
-        if (treeForCurrentLine.level == 0) {
+        if (treeForCurrentLine.getLevel() == 0) {
             addTo = getTree();
         } else {
-            addTo = lastNodeAtLevel[treeForCurrentLine.level - 1];
+            addTo = lastNodeAtLevel[treeForCurrentLine.getLevel() - 1];
         }
         if (addTo == null) {
-            parser.errors.add(treeForCurrentLine.tag + " tag at line " + treeForCurrentLine.lineNum + ": Unable to find suitable parent node at level "
-                    + (treeForCurrentLine.level - 1));
+            parser.errors.add(treeForCurrentLine.getTag() + " tag at line " + treeForCurrentLine.getLineNum()
+                    + ": Unable to find suitable parent node at level " + (treeForCurrentLine.getLevel() - 1));
         } else {
-            addTo.children.add(treeForCurrentLine);
-            treeForCurrentLine.parent = addTo;
-            lastNodeAtLevel[treeForCurrentLine.level] = treeForCurrentLine;
+            addTo.getChildren().add(treeForCurrentLine);
+            treeForCurrentLine.setParent(addTo);
+            lastNodeAtLevel[treeForCurrentLine.getLevel()] = treeForCurrentLine;
         }
-        Arrays.fill(lastNodeAtLevel, treeForCurrentLine.level + 1, 100, null);
+        Arrays.fill(lastNodeAtLevel, treeForCurrentLine.getLevel() + 1, 100, null);
     }
 
     /**
@@ -220,11 +220,11 @@ public class StringTreeBuilder {
         // required, so it's probably meant to be a continuation of the previous text value.
         if (mostRecentlyAdded != null) {
             // Try to add as a CONT line to previous node, as if the file had been properly escaped
-            treeForCurrentLine.level = mostRecentlyAdded.level + 1;
-            treeForCurrentLine.tag = Tag.CONTINUATION.tagText;
-            treeForCurrentLine.value = line;
-            treeForCurrentLine.parent = mostRecentlyAdded;
-            mostRecentlyAdded.children.add(treeForCurrentLine);
+            treeForCurrentLine.setLevel(mostRecentlyAdded.getLevel() + 1);
+            treeForCurrentLine.setTag(Tag.CONTINUATION.tagText);
+            treeForCurrentLine.setValue(line);
+            treeForCurrentLine.setParent(mostRecentlyAdded);
+            mostRecentlyAdded.getChildren().add(treeForCurrentLine);
             parser.warnings.add("Line " + lineNum + " did not begin with a level and tag, so it was treated as a "
                     + "non-standard continuation of the previous line.");
         } else {

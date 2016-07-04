@@ -21,6 +21,8 @@
  */
 package org.gedcom4j.model;
 
+import java.util.List;
+
 /**
  * Represents a string value from a tag, and allows for user-defined child tags
  * 
@@ -57,9 +59,10 @@ public class StringWithCustomTags extends AbstractElement {
      *            the stringtree with the value of the string, plus optional custom tags
      */
     public StringWithCustomTags(StringTree s) {
-        value = s.value;
-        if (s.children != null && !s.children.isEmpty()) {
-            getCustomTags(true).addAll(s.children);
+        value = s.getValue();
+        List<StringTree> children = s.getChildren();
+        if (children != null && !children.isEmpty()) {
+            getCustomTags(true).addAll(children);
         }
     }
 
@@ -123,7 +126,7 @@ public class StringWithCustomTags extends AbstractElement {
         StringBuilder sb = new StringBuilder(value == null ? "null" : value);
         for (StringTree ct : getCustomTags()) {
             sb.append("\n");
-            sb.append(ct.level + (ct.id == null ? "" : " " + ct.id) + " " + ct.tag + " " + ct.value);
+            sb.append(ct.getLevel() + (ct.getId() == null ? "" : " " + ct.getId()) + " " + ct.getTag() + " " + ct.getValue());
         }
 
         return sb.toString();

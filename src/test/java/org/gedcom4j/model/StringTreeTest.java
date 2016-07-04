@@ -47,29 +47,29 @@ public class StringTreeTest {
         assertNotSame(st1, st2);
         assertEquals(st1, st2);
 
-        st1.children.add(new StringTree());
+        st1.getChildren().add(new StringTree());
         assertFalse(st1.equals(st2));
-        st2.children.add(new StringTree());
+        st2.getChildren().add(new StringTree());
         assertEquals(st1, st2);
 
-        st1.level = 1;
+        st1.setLevel(1);
         assertFalse(st1.equals(st2));
-        st2.level = 1;
+        st2.setLevel(1);
         assertEquals(st1, st2);
 
-        st1.id = "Frying Pan";
+        st1.setId("Frying Pan");
         assertFalse(st1.equals(st2));
-        st2.id = "Frying Pan";
+        st2.setId("Frying Pan");
         assertEquals(st1, st2);
 
-        st1.lineNum = 2;
+        st1.setLineNum(2);
         assertFalse(st1.equals(st2));
-        st2.lineNum = 2;
+        st2.setLineNum(2);
         assertEquals(st1, st2);
 
-        st1.value = "Test";
+        st1.setValue("Test");
         assertFalse(st1.equals(st2));
-        st2.value = "Test";
+        st2.setValue("Test");
         assertEquals(st1, st2);
     }
 
@@ -84,29 +84,29 @@ public class StringTreeTest {
         assertNotSame(st1, st2);
         assertEquals(st1.hashCode(), st2.hashCode());
 
-        st1.children.add(new StringTree());
+        st1.getChildren().add(new StringTree());
         assertTrue(st1.hashCode() != st2.hashCode());
-        st2.children.add(new StringTree());
+        st2.getChildren().add(new StringTree());
         assertEquals(st1.hashCode(), st2.hashCode());
 
-        st1.level = 1;
+        st1.setLevel(1);
         assertTrue(st1.hashCode() != st2.hashCode());
-        st2.level = 1;
+        st2.setLevel(1);
         assertEquals(st1.hashCode(), st2.hashCode());
 
-        st1.id = "Frying Pan";
+        st1.setId("Frying Pan");
         assertTrue(st1.hashCode() != st2.hashCode());
-        st2.id = "Frying Pan";
+        st2.setId("Frying Pan");
         assertEquals(st1.hashCode(), st2.hashCode());
 
-        st1.lineNum = 2;
+        st1.setLineNum(2);
         assertTrue(st1.hashCode() != st2.hashCode());
-        st2.lineNum = 2;
+        st2.setLineNum(2);
         assertEquals(st1.hashCode(), st2.hashCode());
 
-        st1.value = "Test";
+        st1.setValue("Test");
         assertTrue(st1.hashCode() != st2.hashCode());
-        st2.value = "Test";
+        st2.setValue("Test");
         assertEquals(st1.hashCode(), st2.hashCode());
     }
 
@@ -118,11 +118,11 @@ public class StringTreeTest {
         StringTree st = new StringTree();
         assertEquals("Line 0: 0 null null", st.toString());
 
-        st.children.add(new StringTree());
-        st.level = 1;
-        st.id = "Frying Pan";
-        st.lineNum = 2;
-        st.value = "Test";
+        st.getChildren().add(new StringTree());
+        st.setLevel(1);
+        st.setId("Frying Pan");
+        st.setLineNum(2);
+        st.setValue("Test");
         assertEquals("Line 2: 1 Frying Pan null Test\nLine 0: 0 null null", st.toString());
     }
 

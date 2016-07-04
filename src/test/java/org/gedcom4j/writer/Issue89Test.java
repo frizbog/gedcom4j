@@ -32,30 +32,30 @@ public class Issue89Test extends TestCase {
         g.getHeader().setSubmitter(s);
 
         StringTree sct = new StringTree();
-        sct.id = "@CT001@";
-        sct.tag = "_CUSTSB";
-        sct.value = "Custom Submitter Tag";
+        sct.setId("@CT001@");
+        sct.setTag("_CUSTSB");
+        sct.setValue("Custom Submitter Tag");
         s.getCustomTags().add(sct);
 
         StringTree nct = new StringTree();
         /* Note the level value gets ignored when writing */
-        nct.level = 999;
+        nct.setLevel(999);
         // No ID on this tag
-        nct.tag = "_CUSTNM";
-        nct.value = "Custom Name Tag";
+        nct.setTag("_CUSTNM");
+        nct.setValue("Custom Name Tag");
         s.getName().getCustomTags().add(nct);
 
         StringTree hct = new StringTree();
-        hct.id = "@CT003@";
-        hct.tag = "_CUSTHD";
-        hct.value = "Custom Header Tag";
+        hct.setId("@CT003@");
+        hct.setTag("_CUSTHD");
+        hct.setValue("Custom Header Tag");
         g.getHeader().getCustomTags().add(hct);
 
         StringTree hct2 = new StringTree();
-        hct2.id = "@CT004@";
-        hct2.tag = "_CUSTHD2";
-        hct2.value = "Custom Inner Tag inside Custom Header Tag";
-        hct.children.add(hct2);
+        hct2.setId("@CT004@");
+        hct2.setTag("_CUSTHD2");
+        hct2.setValue("Custom Inner Tag inside Custom Header Tag");
+        hct.getChildren().add(hct2);
 
         GedcomWriter gw = new GedcomWriter(g);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

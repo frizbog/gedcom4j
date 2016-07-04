@@ -72,9 +72,9 @@ public class Issue95Test {
                 assertEquals("4 July 1776", ev.getDate().getValue());
                 assertEquals(1, ev.getCustomTags().size());
                 StringTree ct = ev.getCustomTags().get(0);
-                assertEquals("_METHOD", ct.tag);
-                assertEquals("Hatched from egg", ct.value);
-                assertEquals(2, ct.level);
+                assertEquals("_METHOD", ct.getTag());
+                assertEquals("Hatched from egg", ct.getValue());
+                assertEquals(2, ct.getLevel());
             } else if (ev.getType() == IndividualEventType.DEATH) {
                 assertEquals("Suffolk, VA, USA", ev.getPlace().getPlaceName());
                 assertTrue(ev.getCustomTags().isEmpty());

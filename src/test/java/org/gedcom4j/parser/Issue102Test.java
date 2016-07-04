@@ -126,14 +126,14 @@ public class Issue102Test {
      *            the number of times left to recurse
      */
     private void assertCustomTagRecursively(StringTree customTags, int remaining) {
-        assertEquals(99 - remaining, customTags.level);
+        assertEquals(99 - remaining, customTags.getLevel());
         if (remaining <= 0) {
             return;
         }
         assertNotNull("With " + remaining + " levels remaining, customTags was null", customTags);
-        assertNotNull("With " + remaining + " levels remaining, customTags had no children", customTags.children);
-        assertEquals("With " + remaining + " levels remaining, customTags did not have exactly one child. ", 1, customTags.children.size());
-        StringTree newCustomTags = customTags.children.get(0);
+        assertNotNull("With " + remaining + " levels remaining, customTags had no children", customTags.getChildren());
+        assertEquals("With " + remaining + " levels remaining, customTags did not have exactly one child. ", 1, customTags.getChildren().size());
+        StringTree newCustomTags = customTags.getChildren().get(0);
         assertNotNull(newCustomTags);
         assertCustomTagRecursively(newCustomTags, remaining - 1);
     }

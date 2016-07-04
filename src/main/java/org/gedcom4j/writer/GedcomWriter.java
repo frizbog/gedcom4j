@@ -708,15 +708,15 @@ public class GedcomWriter {
         for (StringTree st : customTags) {
             StringBuilder line = new StringBuilder(Integer.toString(level));
             line.append(" ");
-            if (st.id != null && st.id.trim().length() > 0) {
-                line.append(st.id).append(" ");
+            if (st.getId() != null && st.getId().trim().length() > 0) {
+                line.append(st.getId()).append(" ");
             }
-            line.append(st.tag);
-            if (st.value != null && st.value.trim().length() > 0) {
-                line.append(" ").append(st.value);
+            line.append(st.getTag());
+            if (st.getValue() != null && st.getValue().trim().length() > 0) {
+                line.append(" ").append(st.getValue());
             }
             lines.add(line.toString());
-            emitCustomTags(level + 1, st.children);
+            emitCustomTags(level + 1, st.getChildren());
         }
     }
 

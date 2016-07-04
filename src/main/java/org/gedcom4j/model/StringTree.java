@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * <p>
  * A structure to hold an element (as string data) from a GEDCOM file in such a way as to preserve and recognize the
@@ -45,22 +47,22 @@ public class StringTree {
     /**
      * All the elements that are child elements of this element
      */
-    public List<StringTree> children = new ArrayList<StringTree>(0);
+    private List<StringTree> children = getChildren(Options.isCollectionInitializationEnabled());
 
     /**
      * The ID number of this element
      */
-    public String id;
+    private String id;
 
     /**
      * The level of this element
      */
-    public int level;
+    private int level;
 
     /**
      * The line number of the GEDCOM from which this element was derived
      */
-    public int lineNum;
+    private int lineNum;
 
     /**
      * <p>
@@ -71,17 +73,17 @@ public class StringTree {
      * that leads to infinite recursion. See Issue #60.
      * </p>
      */
-    public StringTree parent = null;
+    private StringTree parent = null;
 
     /**
      * The tag for this element
      */
-    public String tag;
+    private String tag;
 
     /**
      * The value for this element (basically everything after the tag)
      */
-    public String value;
+    private String value;
 
     /**
      * {@inheritDoc}
@@ -136,6 +138,83 @@ public class StringTree {
     }
 
     /**
+     * Get the children
+     * 
+     * @return the children
+     */
+    public List<StringTree> getChildren() {
+        return children;
+    }
+
+    /**
+     * Get the children
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the children
+     */
+    public List<StringTree> getChildren(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && children == null) {
+            children = new ArrayList<StringTree>(0);
+        }
+        return children;
+    }
+
+    /**
+     * Get the id
+     * 
+     * @return the id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Get the level
+     * 
+     * @return the level
+     */
+    public int getLevel() {
+        return level;
+    }
+
+    /**
+     * Get the lineNum
+     * 
+     * @return the lineNum
+     */
+    public int getLineNum() {
+        return lineNum;
+    }
+
+    /**
+     * Get the parent
+     * 
+     * @return the parent
+     */
+    public StringTree getParent() {
+        return parent;
+    }
+
+    /**
+     * Get the tag
+     * 
+     * @return the tag
+     */
+    public String getTag() {
+        return tag;
+    }
+
+    /**
+     * Get the value
+     * 
+     * @return the value
+     */
+    public String getValue() {
+        return value;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -149,6 +228,66 @@ public class StringTree {
         result = prime * result + (tag == null ? 0 : tag.hashCode());
         result = prime * result + (value == null ? 0 : value.hashCode());
         return result;
+    }
+
+    /**
+     * Set the id
+     * 
+     * @param id
+     *            the id to set
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    /**
+     * Set the level
+     * 
+     * @param level
+     *            the level to set
+     */
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    /**
+     * Set the lineNum
+     * 
+     * @param lineNum
+     *            the lineNum to set
+     */
+    public void setLineNum(int lineNum) {
+        this.lineNum = lineNum;
+    }
+
+    /**
+     * Set the parent
+     * 
+     * @param parent
+     *            the parent to set
+     */
+    public void setParent(StringTree parent) {
+        this.parent = parent;
+    }
+
+    /**
+     * Set the tag
+     * 
+     * @param tag
+     *            the tag to set
+     */
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    /**
+     * Set the value
+     * 
+     * @param value
+     *            the value to set
+     */
+    public void setValue(String value) {
+        this.value = value;
     }
 
     /**

@@ -63,13 +63,13 @@ public class Issue61Test {
             assertNotNull(i.getCustomTags());
             assertFalse("Individual " + i + " has no custom tags", i.getCustomTags().isEmpty());
             for (StringTree ct : i.getCustomTags()) {
-                assertTrue("Custom tag should be WAND or MUGL, but is " + ct.value, "WAND".equals(ct.tag) || "MUGL".equals(ct.tag));
-                if ("WAND".equals(ct.tag)) {
-                    assertNotNull(ct.value);
-                    assertFalse(ct.value.trim().length() == 0);
+                assertTrue("Custom tag should be WAND or MUGL, but is " + ct.getValue(), "WAND".equals(ct.getTag()) || "MUGL".equals(ct.getTag()));
+                if ("WAND".equals(ct.getTag())) {
+                    assertNotNull(ct.getValue());
+                    assertFalse(ct.getValue().trim().length() == 0);
                 }
-                if ("MUGL".equals(ct.tag)) {
-                    assertNull(ct.value);
+                if ("MUGL".equals(ct.getTag())) {
+                    assertNull(ct.getValue());
                 }
             }
         }
