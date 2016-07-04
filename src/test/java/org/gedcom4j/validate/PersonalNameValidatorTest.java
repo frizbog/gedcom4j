@@ -61,7 +61,7 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
         gedcom.getIndividuals().put(ind.getXref(), ind);
 
         pn = new PersonalName();
-        ind.names.add(pn);
+        ind.getNames().add(pn);
         pn.basic = "Joe /Schmo/";
         rootValidator.validate();
         assertNoIssues();
@@ -141,7 +141,7 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testNullNameObject() {
 
-        ind.names.add(null);
+        ind.getNames().add(null);
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "name", "null");
     }

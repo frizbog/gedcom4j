@@ -57,10 +57,10 @@ public class Issue80ParserTest {
 
         Individual i = gp.gedcom.getIndividuals().values().iterator().next();
         assertNotNull(i);
-        assertNotNull(i.events);
-        assertEquals(1, i.events.size());
+        assertNotNull(i.getEvents());
+        assertEquals(1, i.getEvents().size());
 
-        AbstractEvent e = i.events.get(0);
+        AbstractEvent e = i.getEvents().get(0);
         assertNotNull(e);
         assertTrue(e instanceof IndividualEvent);
 

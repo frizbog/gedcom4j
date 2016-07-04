@@ -171,8 +171,8 @@ public class GedcomParser551Test {
         assertEquals(1, found.size());
         Individual dude = found.get(0);
         assertNotNull(dude);
-        assertEquals(1, dude.names.size());
-        PersonalName pn = dude.names.get(0);
+        assertEquals(1, dude.getNames().size());
+        PersonalName pn = dude.getNames().get(0);
         assertNotNull(pn);
         assertNotNull(pn.phonetic);
         assertEquals(1, pn.phonetic.size());
@@ -199,8 +199,8 @@ public class GedcomParser551Test {
         assertNotNull(g);
         assertEquals(1, g.getIndividuals().size());
         Individual i = g.getIndividuals().get("@I1@");
-        assertEquals(1, i.events.size());
-        IndividualEvent e = i.events.get(0);
+        assertEquals(1, i.getEvents().size());
+        IndividualEvent e = i.getEvents().get(0);
         assertEquals(IndividualEventType.BIRTH, e.type);
         assertNotNull(e.getPlace());
         Place p = e.getPlace();
@@ -233,8 +233,8 @@ public class GedcomParser551Test {
         assertNotNull(g);
         assertEquals(1, g.getIndividuals().size());
         Individual i = g.getIndividuals().get("@I1@");
-        assertEquals(1, i.events.size());
-        IndividualEvent e = i.events.get(0);
+        assertEquals(1, i.getEvents().size());
+        IndividualEvent e = i.getEvents().get(0);
         assertEquals(IndividualEventType.BIRTH, e.type);
         assertNotNull(e.getPlace());
         Place p = e.getPlace();
@@ -494,8 +494,8 @@ public class GedcomParser551Test {
         Gedcom g = gp.gedcom;
         Individual ladislaus = g.getIndividuals().get("@I2797@");
         assertNotNull(ladislaus);
-        assertEquals(1, ladislaus.names.size());
-        PersonalName pn = ladislaus.names.get(0);
+        assertEquals(1, ladislaus.getNames().size());
+        PersonalName pn = ladislaus.getNames().get(0);
         assertNotNull(pn);
         assertNotNull(pn.romanized);
         assertEquals(1, pn.romanized.size());
@@ -522,8 +522,8 @@ public class GedcomParser551Test {
         assertNotNull(g);
         assertEquals(1, g.getIndividuals().size());
         Individual i = g.getIndividuals().get("@I1@");
-        assertEquals(1, i.events.size());
-        IndividualEvent e = i.events.get(0);
+        assertEquals(1, i.getEvents().size());
+        IndividualEvent e = i.getEvents().get(0);
         assertEquals(IndividualEventType.BIRTH, e.type);
         assertNotNull(e.getPlace());
         Place p = e.getPlace();
@@ -558,8 +558,8 @@ public class GedcomParser551Test {
         // Positive test
         Individual george = g.getIndividuals().get("@I3@");
         assertNotNull(george);
-        assertEquals(1, george.familiesWhereChild.size());
-        FamilyChild fc1 = george.familiesWhereChild.get(0);
+        assertEquals(1, george.getFamiliesWhereChild().size());
+        FamilyChild fc1 = george.getFamiliesWhereChild().get(0);
         assertNotNull(fc1);
         assertNotNull(fc1.getFamily());
         assertEquals("@F3@", fc1.getFamily().getXref());
@@ -568,8 +568,8 @@ public class GedcomParser551Test {
         // Negative test
         Individual anne = g.getIndividuals().get("@I4@");
         assertNotNull(anne);
-        assertEquals(1, anne.familiesWhereChild.size());
-        FamilyChild fc2 = anne.familiesWhereChild.get(0);
+        assertEquals(1, anne.getFamiliesWhereChild().size());
+        FamilyChild fc2 = anne.getFamiliesWhereChild().get(0);
         assertNotNull(fc2);
         assertNotNull(fc2.getFamily());
         assertEquals("@F2@", fc2.getFamily().getXref());

@@ -58,14 +58,14 @@ public class FamilyTest {
         family1.husband = new Individual();
         PersonalName hn1 = new PersonalName();
         hn1.basic = "Fred /Astaire/";
-        family1.husband.names.add(hn1);
-        family1.husband.familiesWhereSpouse.add(fs1);
+        family1.husband.getNames().add(hn1);
+        family1.husband.getFamiliesWhereSpouse().add(fs1);
 
         family1.wife = new Individual();
         PersonalName wn1 = new PersonalName();
         wn1.basic = "Ginger /Rogers/";
-        family1.wife.names.add(wn1);
-        family1.wife.familiesWhereSpouse.add(fs1);
+        family1.wife.getNames().add(wn1);
+        family1.wife.getFamiliesWhereSpouse().add(fs1);
 
         family2 = new Family();
         FamilySpouse fs2 = new FamilySpouse();
@@ -74,14 +74,14 @@ public class FamilyTest {
         family2.husband = new Individual();
         PersonalName hn2 = new PersonalName();
         hn2.basic = "Fred /Astaire/";
-        family2.husband.names.add(hn2);
-        family2.husband.familiesWhereSpouse.add(fs2);
+        family2.husband.getNames().add(hn2);
+        family2.husband.getFamiliesWhereSpouse().add(fs2);
 
         family2.wife = new Individual();
         PersonalName wn2 = new PersonalName();
         wn2.basic = "Ginger /Rogers/";
-        family2.wife.names.add(wn2);
-        family2.wife.familiesWhereSpouse.add(fs2);
+        family2.wife.getNames().add(wn2);
+        family2.wife.getFamiliesWhereSpouse().add(fs2);
     }
 
     /**

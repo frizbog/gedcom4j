@@ -35,119 +35,49 @@ import org.gedcom4j.Options;
  */
 public class Individual extends AbstractElement {
     /**
+     * The address of this individual
+     */
+    private Address address;
+
+    /**
      * Aliases for the current individual.
      */
-    public List<StringWithCustomTags> aliases = new ArrayList<StringWithCustomTags>(0);
+    private List<StringWithCustomTags> aliases = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * A list of submitter(s) who are interested in the ancestry of this individual.
      */
-    public List<Submitter> ancestorInterest = new ArrayList<Submitter>(0);
+    private List<Submitter> ancestorInterest = new ArrayList<Submitter>(0);
 
     /**
      * The Ancestral File Number of this individual.
      */
-    public StringWithCustomTags ancestralFileNumber;
+    private StringWithCustomTags ancestralFileNumber;
 
     /**
      * A list of associations to which this individual belongs/belonged.
      */
-    public List<Association> associations = new ArrayList<Association>(0);
+    private List<Association> associations = new ArrayList<Association>(0);
 
     /**
      * A list of individual attributes about this individual.
      */
-    public List<IndividualAttribute> attributes = new ArrayList<IndividualAttribute>(0);
+    private List<IndividualAttribute> attributes = new ArrayList<IndividualAttribute>(0);
 
     /**
      * The change date for this individual
      */
-    public ChangeDate changeDate;
+    private ChangeDate changeDate;
+
+    /**
+     * The citations for this object
+     */
+    private List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? new ArrayList<AbstractCitation>(0) : null;
 
     /**
      * A list of submitters who are interested in the descendants of this individual.
      */
-    public List<Submitter> descendantInterest = new ArrayList<Submitter>(0);
-
-    /**
-     * A list of events for this individual.
-     */
-    public List<IndividualEvent> events = new ArrayList<IndividualEvent>(0);
-
-    /**
-     * A list of families to which this individual was a child
-     */
-    public List<FamilyChild> familiesWhereChild = new ArrayList<FamilyChild>(0);
-
-    /**
-     * A list of families to which this individual was either the husband or wife
-     */
-    public List<FamilySpouse> familiesWhereSpouse = new ArrayList<FamilySpouse>(0);
-
-    /**
-     * A list of LDS individual ordinances for this individual
-     */
-    public List<LdsIndividualOrdinance> ldsIndividualOrdinances = new ArrayList<LdsIndividualOrdinance>(0);
-
-    /**
-     * A list of names for this individual
-     */
-    public List<PersonalName> names = new ArrayList<PersonalName>(0);
-
-    /**
-     * The permanent record file number for this individual
-     */
-    public StringWithCustomTags permanentRecFileNumber;
-
-    /**
-     * The restriction notice (if any) for this individual
-     */
-    public StringWithCustomTags restrictionNotice;
-
-    /**
-     * The sex of this individual
-     */
-    public StringWithCustomTags sex;
-
-    /**
-     * A list of submitter(s) of this individual
-     */
-    public List<Submitter> submitters = new ArrayList<Submitter>(0);
-
-    /**
-     * The address of this individual
-     */
-    public Address address;
-
-    /**
-     * Notes about this object
-     */
-    private List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
-
-    /**
-     * The record ID number
-     */
-    private StringWithCustomTags recIdNumber;
-
-    /**
-     * The xref for this submitter
-     */
-    private String xref;
-
-    /**
-     * The phone numbers for this submitter
-     */
-    private List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * Web URL's. New for GEDCOM 5.5.1.
-     */
-    private List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * Fax numbers. New for GEDCOM 5.5.1.
-     */
-    private List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>(0);
+    private List<Submitter> descendantInterest = new ArrayList<Submitter>(0);
 
     /**
      * The emails for this submitter. New for GEDCOM 5.5.1
@@ -155,9 +85,74 @@ public class Individual extends AbstractElement {
     private List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
 
     /**
+     * A list of events for this individual.
+     */
+    private List<IndividualEvent> events = new ArrayList<IndividualEvent>(0);
+
+    /**
+     * A list of families to which this individual was a child
+     */
+    private List<FamilyChild> familiesWhereChild = new ArrayList<FamilyChild>(0);
+
+    /**
+     * A list of families to which this individual was either the husband or wife
+     */
+    private List<FamilySpouse> familiesWhereSpouse = new ArrayList<FamilySpouse>(0);
+
+    /**
+     * Fax numbers. New for GEDCOM 5.5.1.
+     */
+    private List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>(0);
+
+    /**
+     * A list of LDS individual ordinances for this individual
+     */
+    private List<LdsIndividualOrdinance> ldsIndividualOrdinances = new ArrayList<LdsIndividualOrdinance>(0);
+
+    /**
      * Multimedia links for this source citation
      */
     private List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
+
+    /**
+     * A list of names for this individual
+     */
+    private List<PersonalName> names = new ArrayList<PersonalName>(0);
+
+    /**
+     * Notes about this object
+     */
+    private List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+
+    /**
+     * The permanent record file number for this individual
+     */
+    private StringWithCustomTags permanentRecFileNumber;
+
+    /**
+     * The phone numbers for this submitter
+     */
+    private List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>(0);
+
+    /**
+     * The record ID number
+     */
+    private StringWithCustomTags recIdNumber;
+
+    /**
+     * The restriction notice (if any) for this individual
+     */
+    private StringWithCustomTags restrictionNotice;
+
+    /**
+     * The sex of this individual
+     */
+    private StringWithCustomTags sex;
+
+    /**
+     * A list of submitter(s) of this individual
+     */
+    private List<Submitter> submitters = new ArrayList<Submitter>(0);
 
     /**
      * The user references for this submitter
@@ -165,9 +160,14 @@ public class Individual extends AbstractElement {
     private List<UserReference> userReferences = new ArrayList<UserReference>(0);
 
     /**
-     * The citations for this object
+     * Web URL's. New for GEDCOM 5.5.1.
      */
-    private List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? new ArrayList<AbstractCitation>(0) : null;
+    private List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>(0);
+
+    /**
+     * The xref for this submitter
+     */
+    private String xref;
 
     // CHECKSTYLE:OFF for method length
     /**
@@ -382,20 +382,58 @@ public class Individual extends AbstractElement {
     // CHECKSTYLE:ON
 
     /**
-     * Get all the individual's names formatted as a single string. Names after the first one found are shown with "aka"
-     * in between each.
+     * Get the address
      * 
-     * @return a string with all the various names for the current individual
+     * @return the address
      */
-    public String formattedName() {
-        StringBuilder sb = new StringBuilder();
-        for (PersonalName n : names) {
-            if (sb.length() > 0) {
-                sb.append(" aka ");
-            }
-            sb.append(n);
+    public Address getAddress() {
+        return address;
+    }
+
+    /**
+     * Get the aliases
+     * 
+     * @return the aliases
+     */
+    public List<StringWithCustomTags> getAliases() {
+        return aliases;
+    }
+
+    /**
+     * Get the aliases
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the aliases
+     */
+    public List<StringWithCustomTags> getAliases(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && aliases == null) {
+            aliases = new ArrayList<StringWithCustomTags>(0);
         }
-        return sb.toString();
+        return aliases;
+    }
+
+    /**
+     * Get the ancestorInterest
+     * 
+     * @return the ancestorInterest
+     */
+    public List<Submitter> getAncestorInterest() {
+        return ancestorInterest;
+    }
+
+    /**
+     * Get the ancestorInterest
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the ancestorInterest
+     */
+    public List<Submitter> getAncestorInterest(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && ancestorInterest == null) {
+            ancestorInterest = new ArrayList<Submitter>(0);
+        }
+        return ancestorInterest;
     }
 
     /**
@@ -421,6 +459,61 @@ public class Individual extends AbstractElement {
     }
 
     /**
+     * Get the ancestralFileNumber
+     * 
+     * @return the ancestralFileNumber
+     */
+    public StringWithCustomTags getAncestralFileNumber() {
+        return ancestralFileNumber;
+    }
+
+    /**
+     * Get the associations
+     * 
+     * @return the associations
+     */
+    public List<Association> getAssociations() {
+        return associations;
+    }
+
+    /**
+     * Get the associations
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the associations
+     */
+    public List<Association> getAssociations(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && associations == null) {
+            associations = new ArrayList<Association>(0);
+        }
+        return associations;
+    }
+
+    /**
+     * Get the attributes
+     * 
+     * @return the attributes
+     */
+    public List<IndividualAttribute> getAttributes() {
+        return attributes;
+    }
+
+    /**
+     * Get the attributes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the attributes
+     */
+    public List<IndividualAttribute> getAttributes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && attributes == null) {
+            attributes = new ArrayList<IndividualAttribute>(0);
+        }
+        return attributes;
+    }
+
+    /**
      * Get a list of attributes of the supplied type for this individual. For example, calling this method passing
      * <code>IndividualAttributeType.OCCUPATION</code> will return a list of all the occupations recorded for this
      * individual.
@@ -437,6 +530,62 @@ public class Individual extends AbstractElement {
             }
         }
         return result;
+    }
+
+    /**
+     * Get the changeDate
+     * 
+     * @return the changeDate
+     */
+    public ChangeDate getChangeDate() {
+        return changeDate;
+    }
+
+    /**
+     * Get the citations
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations() {
+        return citations;
+    }
+
+    /**
+     * Get the citations
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && citations == null) {
+            citations = new ArrayList<AbstractCitation>(0);
+        }
+        return citations;
+    }
+
+    /**
+     * Get the descendantInterest
+     * 
+     * @return the descendantInterest
+     */
+    public List<Submitter> getDescendantInterest() {
+        return descendantInterest;
+    }
+
+    /**
+     * Get the descendantInterest
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the descendantInterest
+     */
+    public List<Submitter> getDescendantInterest(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && descendantInterest == null) {
+            descendantInterest = new ArrayList<Submitter>(0);
+        }
+        return descendantInterest;
     }
 
     /**
@@ -485,6 +634,29 @@ public class Individual extends AbstractElement {
     }
 
     /**
+     * Get the events
+     * 
+     * @return the events
+     */
+    public List<IndividualEvent> getEvents() {
+        return events;
+    }
+
+    /**
+     * Get the events
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the events
+     */
+    public List<IndividualEvent> getEvents(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && events == null) {
+            events = new ArrayList<IndividualEvent>(0);
+        }
+        return events;
+    }
+
+    /**
      * Get a list of events of the supplied type for this individual
      * 
      * @param type
@@ -499,6 +671,52 @@ public class Individual extends AbstractElement {
             }
         }
         return result;
+    }
+
+    /**
+     * Get the familiesWhereChild
+     * 
+     * @return the familiesWhereChild
+     */
+    public List<FamilyChild> getFamiliesWhereChild() {
+        return familiesWhereChild;
+    }
+
+    /**
+     * Get the familiesWhereChild
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the familiesWhereChild
+     */
+    public List<FamilyChild> getFamiliesWhereChild(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && familiesWhereChild == null) {
+            familiesWhereChild = new ArrayList<FamilyChild>(0);
+        }
+        return familiesWhereChild;
+    }
+
+    /**
+     * Get the familiesWhereSpouse
+     * 
+     * @return the familiesWhereSpouse
+     */
+    public List<FamilySpouse> getFamiliesWhereSpouse() {
+        return familiesWhereSpouse;
+    }
+
+    /**
+     * Get the familiesWhereSpouse
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the familiesWhereSpouse
+     */
+    public List<FamilySpouse> getFamiliesWhereSpouse(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && familiesWhereSpouse == null) {
+            familiesWhereSpouse = new ArrayList<FamilySpouse>(0);
+        }
+        return familiesWhereSpouse;
     }
 
     /**
@@ -525,6 +743,46 @@ public class Individual extends AbstractElement {
     }
 
     /**
+     * Get all the individual's names formatted as a single string. Names after the first one found are shown with "aka"
+     * in between each.
+     * 
+     * @return a string with all the various names for the current individual
+     */
+    public String getFormattedName() {
+        StringBuilder sb = new StringBuilder();
+        for (PersonalName n : names) {
+            if (sb.length() > 0) {
+                sb.append(" aka ");
+            }
+            sb.append(n);
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Get the ldsIndividualOrdinances
+     * 
+     * @return the ldsIndividualOrdinances
+     */
+    public List<LdsIndividualOrdinance> getLdsIndividualOrdinances() {
+        return ldsIndividualOrdinances;
+    }
+
+    /**
+     * Get the ldsIndividualOrdinances
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the ldsIndividualOrdinances
+     */
+    public List<LdsIndividualOrdinance> getLdsIndividualOrdinances(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && ldsIndividualOrdinances == null) {
+            ldsIndividualOrdinances = new ArrayList<LdsIndividualOrdinance>(0);
+        }
+        return ldsIndividualOrdinances;
+    }
+
+    /**
      * Get the multimedia
      * 
      * @return the multimedia
@@ -545,6 +803,29 @@ public class Individual extends AbstractElement {
             multimedia = new ArrayList<Multimedia>(0);
         }
         return multimedia;
+    }
+
+    /**
+     * Get the names
+     * 
+     * @return the names
+     */
+    public List<PersonalName> getNames() {
+        return names;
+    }
+
+    /**
+     * Get the names
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the names
+     */
+    public List<PersonalName> getNames(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && names == null) {
+            names = new ArrayList<PersonalName>(0);
+        }
+        return names;
     }
 
     /**
@@ -569,6 +850,15 @@ public class Individual extends AbstractElement {
             notes = new ArrayList<Note>(0);
         }
         return notes;
+    }
+
+    /**
+     * Get the permanentRecFileNumber
+     * 
+     * @return the permanentRecFileNumber
+     */
+    public StringWithCustomTags getPermanentRecFileNumber() {
+        return permanentRecFileNumber;
     }
 
     /**
@@ -604,6 +894,24 @@ public class Individual extends AbstractElement {
     }
 
     /**
+     * Get the restrictionNotice
+     * 
+     * @return the restrictionNotice
+     */
+    public StringWithCustomTags getRestrictionNotice() {
+        return restrictionNotice;
+    }
+
+    /**
+     * Get the sex
+     * 
+     * @return the sex
+     */
+    public StringWithCustomTags getSex() {
+        return sex;
+    }
+
+    /**
      * Get a set of spouses for the current individual. Always returns a set, although it may be empty. The returned set
      * is in no particular order.
      * 
@@ -621,6 +929,29 @@ public class Individual extends AbstractElement {
             }
         }
         return result;
+    }
+
+    /**
+     * Get the submitters
+     * 
+     * @return the submitters
+     */
+    public List<Submitter> getSubmitters() {
+        return submitters;
+    }
+
+    /**
+     * Get the submitters
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the submitters
+     */
+    public List<Submitter> getSubmitters(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && submitters == null) {
+            submitters = new ArrayList<Submitter>(0);
+        }
+        return submitters;
     }
 
     /**
@@ -719,6 +1050,46 @@ public class Individual extends AbstractElement {
     }
 
     /**
+     * Set the address
+     * 
+     * @param address
+     *            the address to set
+     */
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    /**
+     * Set the ancestralFileNumber
+     * 
+     * @param ancestralFileNumber
+     *            the ancestralFileNumber to set
+     */
+    public void setAncestralFileNumber(StringWithCustomTags ancestralFileNumber) {
+        this.ancestralFileNumber = ancestralFileNumber;
+    }
+
+    /**
+     * Set the changeDate
+     * 
+     * @param changeDate
+     *            the changeDate to set
+     */
+    public void setChangeDate(ChangeDate changeDate) {
+        this.changeDate = changeDate;
+    }
+
+    /**
+     * Set the permanentRecFileNumber
+     * 
+     * @param permanentRecFileNumber
+     *            the permanentRecFileNumber to set
+     */
+    public void setPermanentRecFileNumber(StringWithCustomTags permanentRecFileNumber) {
+        this.permanentRecFileNumber = permanentRecFileNumber;
+    }
+
+    /**
      * Set the recIdNumber
      * 
      * @param recIdNumber
@@ -726,6 +1097,26 @@ public class Individual extends AbstractElement {
      */
     public void setRecIdNumber(StringWithCustomTags recIdNumber) {
         this.recIdNumber = recIdNumber;
+    }
+
+    /**
+     * Set the restrictionNotice
+     * 
+     * @param restrictionNotice
+     *            the restrictionNotice to set
+     */
+    public void setRestrictionNotice(StringWithCustomTags restrictionNotice) {
+        this.restrictionNotice = restrictionNotice;
+    }
+
+    /**
+     * Set the sex
+     * 
+     * @param sex
+     *            the sex to set
+     */
+    public void setSex(StringWithCustomTags sex) {
+        this.sex = sex;
     }
 
     /**
@@ -745,7 +1136,7 @@ public class Individual extends AbstractElement {
     public String toString() {
         StringBuilder sb = new StringBuilder(64); // Initial size - we know we're going to be appending more than 16
         // chars in most cases
-        sb.append(formattedName());
+        sb.append(getFormattedName());
         for (StringWithCustomTags n : aliases) {
             if (sb.length() > 0) {
                 sb.append(" aka ");
@@ -762,26 +1153,26 @@ public class Individual extends AbstractElement {
                 if (fam.wife == null) {
                     sb.append("unknown");
                 } else {
-                    sb.append(fam.wife.formattedName());
+                    sb.append(fam.wife.getFormattedName());
                 }
             } else {
                 if (fam.husband == null) {
                     sb.append("unknown");
                 } else {
-                    sb.append(fam.husband.formattedName());
+                    sb.append(fam.husband.getFormattedName());
                 }
             }
         }
         for (FamilyChild f : familiesWhereChild) {
             sb.append(", child of ");
             if (f.getFamily().wife != null) {
-                sb.append(f.getFamily().wife.formattedName());
+                sb.append(f.getFamily().wife.getFormattedName());
                 sb.append(" and ");
             }
             if (f.getFamily().husband == null) {
                 sb.append("unknown");
             } else {
-                sb.append(f.getFamily().husband.formattedName());
+                sb.append(f.getFamily().husband.getFormattedName());
             }
         }
         boolean found = false;
@@ -807,27 +1198,4 @@ public class Individual extends AbstractElement {
         return sb.toString();
     }
 
-    /**
-     * Get the citations
-     * 
-     * @return the citations
-     */
-    public List<AbstractCitation> getCitations() {
-        return citations;
-    }
-
-    /**
-     * Get the citations
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection if needed?
-     * 
-     * @return the citations
-     */
-    public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && citations == null) {
-            citations = new ArrayList<AbstractCitation>(0);
-        }
-        return citations;
-    }
 }

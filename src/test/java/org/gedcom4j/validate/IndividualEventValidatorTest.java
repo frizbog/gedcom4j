@@ -46,7 +46,7 @@ public class IndividualEventValidatorTest extends AbstractValidatorTestCase {
         g.getIndividuals().put(i.getXref(), i);
 
         IndividualEvent e = new IndividualEvent();
-        i.events.add(e);
+        i.getEvents().add(e);
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "event", "requires", "type");
 

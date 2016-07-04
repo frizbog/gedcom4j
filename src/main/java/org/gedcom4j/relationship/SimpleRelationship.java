@@ -24,8 +24,7 @@ package org.gedcom4j.relationship;
 import org.gedcom4j.model.Individual;
 
 /**
- * A single-hop, simple relationship between two directly related individuals,
- * and the two individuals who are related.
+ * A single-hop, simple relationship between two directly related individuals, and the two individuals who are related.
  * 
  * @author frizbog1
  */
@@ -34,6 +33,7 @@ public class SimpleRelationship {
      * Individual 1
      */
     public Individual individual1;
+
     /**
      * Individual 2
      */
@@ -43,6 +43,7 @@ public class SimpleRelationship {
      * The name of the relationship from person 1 to person 2
      */
     public RelationshipName name;
+
     /**
      * The name of the relationship from person 2 to person 1
      */
@@ -133,21 +134,21 @@ public class SimpleRelationship {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append((individual1 == null ? "null" : individual1.names.get(0)) + "'s " + name);
+        sb.append((individual1 == null ? "null" : individual1.getNames().get(0)) + "'s " + name);
         switch (generationsRemoved) {
-        case 0:
-            break;
-        case 1:
-            sb.append("_ONCE_REMOVED");
-            break;
-        case 2:
-            sb.append("_TWICE_REMOVED");
-            break;
-        default:
-            sb.append("_" + generationsRemoved + "X_REMOVED");
-            break;
+            case 0:
+                break;
+            case 1:
+                sb.append("_ONCE_REMOVED");
+                break;
+            case 2:
+                sb.append("_TWICE_REMOVED");
+                break;
+            default:
+                sb.append("_" + generationsRemoved + "X_REMOVED");
+                break;
         }
-        sb.append(" ").append(individual2 == null ? "null" : individual2.names.get(0));
+        sb.append(" ").append(individual2 == null ? "null" : individual2.getNames().get(0));
         return sb.toString();
     }
 }

@@ -229,9 +229,9 @@ public class GedcomWriter551Test {
         g.getIndividuals().put(i.getXref(), i);
         PersonalName pn = new PersonalName();
         pn.basic = "Joe /Fryingpan/";
-        i.names.add(pn);
+        i.getNames().add(pn);
         IndividualEvent e = new IndividualEvent();
-        i.events.add(e);
+        i.getEvents().add(e);
         e.type = IndividualEventType.BIRTH;
         e.setPlace(new Place());
         e.getPlace().placeName = "Krakow, Poland";
@@ -252,8 +252,8 @@ public class GedcomWriter551Test {
         assertNotNull(g);
         i = g.getIndividuals().get("@I1@");
         assertNotNull(i);
-        assertEquals(1, i.events.size());
-        e = i.events.get(0);
+        assertEquals(1, i.getEvents().size());
+        e = i.getEvents().get(0);
         assertEquals(IndividualEventType.BIRTH, e.type);
         Place p = e.getPlace();
         assertNotNull(p);
@@ -378,7 +378,7 @@ public class GedcomWriter551Test {
         g.getIndividuals().put(i.getXref(), i);
         PersonalName pn = new PersonalName();
         pn.basic = "Bj\u00F8rn /J\u00F8rgen/";
-        i.names.add(pn);
+        i.getNames().add(pn);
 
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = true;

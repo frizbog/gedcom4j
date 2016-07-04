@@ -87,7 +87,7 @@ public class Relationship implements Comparable<Relationship> {
         if (other == null) {
             return 1;
         }
-        return Math.round(Math.signum((float)chain.size() - other.chain.size()));
+        return Math.round(Math.signum((float) chain.size() - other.chain.size()));
     }
 
     @Override
@@ -168,16 +168,16 @@ public class Relationship implements Comparable<Relationship> {
                 sb.append(", ");
             }
             first = false;
-            if (sr.individual1.names.isEmpty()) {
+            if (sr.individual1.getNames().isEmpty()) {
                 sb.append("Unknown");
             } else {
-                sb.append(sr.individual1.names.get(0));
+                sb.append(sr.individual1.getNames().get(0));
             }
             sb.append("'s ").append(sr.name).append(" ");
-            if (sr.individual2.names.isEmpty()) {
+            if (sr.individual2.getNames().isEmpty()) {
                 sb.append("Unknown");
             } else {
-                sb.append(sr.individual2.names.get(0));
+                sb.append(sr.individual2.getNames().get(0));
             }
         }
         sb.append(">, ").append(chain.size()).append(" step(s)");

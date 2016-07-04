@@ -137,8 +137,8 @@ public class GedcomParserTest extends TestCase {
         Family family = g.getFamilies().get("@F1428@");
         assertNotNull(family);
         assertEquals(3, family.children.size());
-        assertEquals("Lawrence Henry /Barnett/", family.husband.names.get(0).basic);
-        assertEquals("Velma //", family.wife.names.get(0).basic);
+        assertEquals("Lawrence Henry /Barnett/", family.husband.getNames().get(0).basic);
+        assertEquals("Velma //", family.wife.getNames().get(0).basic);
 
     }
 
@@ -325,11 +325,11 @@ public class GedcomParserTest extends TestCase {
         assertEquals("@PERSON1@", indi.getXref());
 
         assertEquals(3, indi.getCitations().size());
-        assertEquals(2, indi.names.size());
+        assertEquals(2, indi.getNames().size());
         assertEquals(2, indi.getNotes().size());
 
         // Name 0
-        name = indi.names.get(0);
+        name = indi.getNames().get(0);
         assertEquals("Joseph Tag /Torture/", name.basic);
         assertEquals("Torture, Joseph \"Joe\"", name.toString());
 
@@ -354,7 +354,7 @@ public class GedcomParserTest extends TestCase {
                 0));
 
         // Name 1
-        name = indi.names.get(1);
+        name = indi.getNames().get(1);
         assertEquals("William John /Smith/", name.basic);
         assertEquals("William John /Smith/", name.toString());
 

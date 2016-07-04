@@ -42,6 +42,7 @@ public class SimpleRelationshipTest {
      * Simple relationship 1 - test fixture
      */
     private SimpleRelationship sr1;
+
     /**
      * Simple relationship 2 - test fixture
      */
@@ -60,16 +61,16 @@ public class SimpleRelationshipTest {
         sr2.individual2 = new Individual();
         PersonalName n = new PersonalName();
         n.basic = "Bill";
-        sr1.individual1.names.add(n);
+        sr1.individual1.getNames().add(n);
         n = new PersonalName();
         n.basic = "Sam";
-        sr1.individual2.names.add(n);
+        sr1.individual2.getNames().add(n);
         n = new PersonalName();
         n.basic = "Bill";
-        sr2.individual1.names.add(n);
+        sr2.individual1.getNames().add(n);
         n = new PersonalName();
         n.basic = "Sam";
-        sr2.individual2.names.add(n);
+        sr2.individual2.getNames().add(n);
 
         sr1.name = RelationshipName.FATHER;
         sr1.reverseName = RelationshipName.SON;
@@ -79,9 +80,7 @@ public class SimpleRelationshipTest {
     }
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.relationship.SimpleRelationship#equals(java.lang.Object)}
-     * .
+     * Test method for {@link org.gedcom4j.relationship.SimpleRelationship#equals(java.lang.Object)} .
      */
     @Test
     public void testEqualsObject() {
@@ -100,9 +99,9 @@ public class SimpleRelationshipTest {
         assertEquals(sr1, sr2);
 
         // Perturb the individuals
-        sr1.individual1.changeDate = new ChangeDate();
+        sr1.individual1.setChangeDate(new ChangeDate());
         assertFalse(sr1.equals(sr2));
-        sr2.individual1.changeDate = new ChangeDate();
+        sr2.individual1.setChangeDate(new ChangeDate());
         assertEquals(sr1, sr2);
 
         sr1.individual1 = null;
@@ -117,8 +116,7 @@ public class SimpleRelationshipTest {
     }
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.relationship.SimpleRelationship#hashCode()}.
+     * Test method for {@link org.gedcom4j.relationship.SimpleRelationship#hashCode()}.
      */
     @Test
     public void testHashCode() {
@@ -137,9 +135,9 @@ public class SimpleRelationshipTest {
         assertEquals(sr1.hashCode(), sr2.hashCode());
 
         // Perturb the individuals
-        sr1.individual1.changeDate = new ChangeDate();
+        sr1.individual1.setChangeDate(new ChangeDate());
         assertFalse(sr1.hashCode() == sr2.hashCode());
-        sr2.individual1.changeDate = new ChangeDate();
+        sr2.individual1.setChangeDate(new ChangeDate());
         assertEquals(sr1.hashCode(), sr2.hashCode());
 
         sr1.individual1 = null;
@@ -154,8 +152,7 @@ public class SimpleRelationshipTest {
     }
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.relationship.SimpleRelationship#toString()}.
+     * Test method for {@link org.gedcom4j.relationship.SimpleRelationship#toString()}.
      */
     @Test
     public void testToString() {
@@ -164,7 +161,7 @@ public class SimpleRelationshipTest {
         // Perturb the data
         sr1.name = RelationshipName.FIRST_COUSIN;
         sr1.reverseName = RelationshipName.FIRST_COUSIN;
-        sr1.individual1.changeDate = new ChangeDate();
+        sr1.individual1.setChangeDate(new ChangeDate());
 
         assertEquals("Bill's FIRST_COUSIN Sam", sr1.toString());
 

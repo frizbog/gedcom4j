@@ -45,7 +45,7 @@ public class PersonalNameVariationValidatorTest extends AbstractValidatorTestCas
         g.getIndividuals().put(i.getXref(), i);
 
         PersonalName pn = new PersonalName();
-        i.names.add(pn);
+        i.getNames().add(pn);
 
         pn.basic = "Bj\u00F8rn /J\u00F8orgen/";
 

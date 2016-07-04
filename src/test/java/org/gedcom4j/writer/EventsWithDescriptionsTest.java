@@ -69,9 +69,9 @@ public class EventsWithDescriptionsTest {
         Individual iBefore = gBefore.getIndividuals().get("@I1@");
         assertNotNull(iBefore);
 
-        assertNotNull(iBefore.events);
-        assertEquals(4, iBefore.events.size());
-        IndividualEvent eBefore = iBefore.events.get(0); // The birth event
+        assertNotNull(iBefore.getEvents());
+        assertEquals(4, iBefore.getEvents().size());
+        IndividualEvent eBefore = iBefore.getEvents().get(0); // The birth event
         assertNotNull(eBefore);
         assertEquals(IndividualEventType.BIRTH, eBefore.type);
         assertNull(eBefore.getyNull());
@@ -93,9 +93,9 @@ public class EventsWithDescriptionsTest {
         Individual iAfter = gAfter.getIndividuals().get("@I1@");
         assertNotNull(iAfter);
 
-        assertNotNull(iAfter.events);
-        assertEquals(4, iAfter.events.size());
-        IndividualEvent eAfter = iAfter.events.get(0); // The birth event
+        assertNotNull(iAfter.getEvents());
+        assertEquals(4, iAfter.getEvents().size());
+        IndividualEvent eAfter = iAfter.getEvents().get(0); // The birth event
         assertNotNull(eAfter);
         assertEquals(IndividualEventType.BIRTH, eAfter.type);
         assertNull(eAfter.getyNull());
@@ -128,9 +128,9 @@ public class EventsWithDescriptionsTest {
         Individual iBefore = gBefore.getIndividuals().get("@I1@");
         assertNotNull(iBefore);
 
-        assertNotNull(iBefore.events);
-        assertEquals(4, iBefore.events.size());
-        IndividualEvent eBefore = iBefore.events.get(0); // The birth event
+        assertNotNull(iBefore.getEvents());
+        assertEquals(4, iBefore.getEvents().size());
+        IndividualEvent eBefore = iBefore.getEvents().get(0); // The birth event
         assertNotNull(eBefore);
         assertEquals(IndividualEventType.BIRTH, eBefore.type);
         assertNull(eBefore.getyNull());

@@ -21,8 +21,6 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.ArrayList;
-
 import org.gedcom4j.model.*;
 
 /**
@@ -58,15 +56,15 @@ class IndividualValidator extends AbstractValidator {
             return;
         }
         checkXref(individual);
-        if (individual.names == null) {
+        if (individual.getNames() == null) {
             if (rootValidator.autorepair) {
-                individual.names = new ArrayList<PersonalName>();
+                individual.getNames(true).clear();
                 rootValidator.addInfo("Individual " + individual.getXref() + " had no list of names - repaired", individual);
             } else {
                 rootValidator.addError("Individual " + individual.getXref() + " has no list of names", individual);
             }
         } else {
-            for (PersonalName pn : individual.names) {
+            for (PersonalName pn : individual.getNames()) {
                 new PersonalNameValidator(rootValidator, pn).validate();
             }
         }
@@ -83,15 +81,15 @@ class IndividualValidator extends AbstractValidator {
      * 
      */
     private void checkAliases() {
-        if (individual.aliases == null) {
+        if (individual.getAliases() == null) {
             if (rootValidator.autorepair) {
-                individual.aliases = new ArrayList<StringWithCustomTags>();
+                individual.getAliases(true).clear();
                 addInfo("aliases collection for individual was null - rootValidator.autorepaired", individual);
             } else {
                 addError("aliases collection for individual is null", individual);
             }
         } else {
-            checkStringTagList(individual.aliases, "aliases on individual", false);
+            checkStringTagList(individual.getAliases(), "aliases on individual", false);
         }
     }
 
@@ -99,15 +97,15 @@ class IndividualValidator extends AbstractValidator {
      * Validate the {@link Individual#associations} collection
      */
     private void checkAssociations() {
-        if (individual.associations == null) {
+        if (individual.getAssociations() == null) {
             if (rootValidator.autorepair) {
-                individual.associations = new ArrayList<Association>();
+                individual.getAssociations(true).clear();
                 addInfo("associations collection for individual was null - rootValidator.autorepaired", individual);
             } else {
                 addError("associations collection for individual is null", individual);
             }
         } else {
-            for (Association a : individual.associations) {
+            for (Association a : individual.getAssociations()) {
                 if (a == null) {
                     addError("associations collection for individual contains null entry", individual);
                 } else {
@@ -141,15 +139,15 @@ class IndividualValidator extends AbstractValidator {
      * Validate the {@link Individual#attributes} collection
      */
     private void checkIndividualAttributes() {
-        if (individual.attributes == null) {
+        if (individual.getAttributes() == null) {
             if (rootValidator.autorepair) {
-                individual.attributes = new ArrayList<IndividualAttribute>();
+                individual.getAttributes(true).clear();
                 addInfo("attributes collection for individual was null - rootValidator.autorepaired", individual);
             } else {
                 addError("attributes collection for individual is null", individual);
             }
         } else {
-            for (IndividualAttribute a : individual.attributes) {
+            for (IndividualAttribute a : individual.getAttributes()) {
                 if (a.type == null) {
                     addError("Individual attribute requires a type", a);
                 }
@@ -161,15 +159,15 @@ class IndividualValidator extends AbstractValidator {
      * Validate the {@link Individual#events} collection
      */
     private void checkIndividualEvents() {
-        if (individual.events == null) {
+        if (individual.getEvents() == null) {
             if (rootValidator.autorepair) {
-                individual.events = new ArrayList<IndividualEvent>();
+                individual.getEvents(true).clear();
                 addInfo("events collection for individual was null - rootValidator.autorepaired", individual);
             } else {
                 addError("events collection for individual is null", individual);
             }
         } else {
-            for (IndividualEvent a : individual.events) {
+            for (IndividualEvent a : individual.getEvents()) {
                 if (a.type == null) {
                     addError("Individual event requires a type", a);
                 }
@@ -183,27 +181,27 @@ class IndividualValidator extends AbstractValidator {
      * {@link Individual#descendantInterest}
      */
     private void checkSubmitters() {
-        if (individual.ancestorInterest == null) {
+        if (individual.getAncestorInterest() == null) {
             if (rootValidator.autorepair) {
-                individual.ancestorInterest = new ArrayList<Submitter>();
+                individual.getAncestorInterest(true).clear();
                 addInfo("ancestorInterest collection for individual was null - rootValidator.autorepaired", individual);
             } else {
                 addError("ancestorInterest collection for individual is null", individual);
             }
         } else {
-            for (Submitter submitter : individual.ancestorInterest) {
+            for (Submitter submitter : individual.getAncestorInterest()) {
                 new SubmitterValidator(rootValidator, submitter).validate();
             }
         }
-        if (individual.descendantInterest == null) {
+        if (individual.getDescendantInterest() == null) {
             if (rootValidator.autorepair) {
-                individual.descendantInterest = new ArrayList<Submitter>();
+                individual.getDescendantInterest(true).clear();
                 addInfo("descendantInterest collection for individual was null - rootValidator.autorepaired", individual);
             } else {
                 addError("descendantInterest collection for individual is null", individual);
             }
         } else {
-            for (Submitter submitter : individual.descendantInterest) {
+            for (Submitter submitter : individual.getDescendantInterest()) {
                 new SubmitterValidator(rootValidator, submitter).validate();
             }
         }

@@ -462,7 +462,7 @@ public class GedcomWriter {
             if (!i.getEmails().isEmpty()) {
                 throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref() + " has emails");
             }
-            for (AbstractEvent e : i.events) {
+            for (AbstractEvent e : i.getEvents()) {
                 if (!e.getWwwUrls().isEmpty()) {
                     throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref() + " has www urls on an event");
                 }
@@ -473,12 +473,12 @@ public class GedcomWriter {
                     throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref() + " has emails on an event");
                 }
             }
-            for (IndividualAttribute a : i.attributes) {
+            for (IndividualAttribute a : i.getAttributes()) {
                 if (IndividualAttributeType.FACT.equals(a.type)) {
                     throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref() + " has a FACT attribute");
                 }
             }
-            for (FamilyChild fc : i.familiesWhereChild) {
+            for (FamilyChild fc : i.getFamiliesWhereChild()) {
                 if (fc.getStatus() != null) {
                     throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref()
                             + " is in a family with a status specified (a Gedcom 5.5.1 only feature)");
@@ -627,7 +627,7 @@ public class GedcomWriter {
      *             if the data is malformed and cannot be written
      */
     private void emitChildToFamilyLinks(int level, Individual i) throws GedcomWriterException {
-        for (FamilyChild familyChild : i.familiesWhereChild) {
+        for (FamilyChild familyChild : i.getFamiliesWhereChild()) {
             if (familyChild == null) {
                 throw new GedcomWriterException("Family to which " + i + " was a child was null");
             }
@@ -946,38 +946,38 @@ public class GedcomWriter {
     private void emitIndividuals() throws GedcomWriterException {
         for (Individual i : gedcom.getIndividuals().values()) {
             emitTag(0, i.getXref(), "INDI");
-            emitTagIfValueNotNull(1, "RESN", i.restrictionNotice);
-            emitPersonalNames(1, i.names);
-            emitTagIfValueNotNull(1, "SEX", i.sex);
-            emitIndividualEvents(1, i.events);
-            emitIndividualAttributes(1, i.attributes);
-            emitLdsIndividualOrdinances(1, i.ldsIndividualOrdinances);
+            emitTagIfValueNotNull(1, "RESN", i.getRestrictionNotice());
+            emitPersonalNames(1, i.getNames());
+            emitTagIfValueNotNull(1, "SEX", i.getSex());
+            emitIndividualEvents(1, i.getEvents());
+            emitIndividualAttributes(1, i.getAttributes());
+            emitLdsIndividualOrdinances(1, i.getLdsIndividualOrdinances());
             emitChildToFamilyLinks(1, i);
             emitSpouseInFamilyLinks(1, i);
-            for (Submitter s : i.submitters) {
+            for (Submitter s : i.getSubmitters()) {
                 emitTagWithRequiredValue(1, "SUBM", s.getXref());
             }
-            emitAssociationStructures(1, i.associations);
-            for (StringWithCustomTags s : i.aliases) {
+            emitAssociationStructures(1, i.getAssociations());
+            for (StringWithCustomTags s : i.getAliases()) {
                 emitTagWithRequiredValue(1, "ALIA", s);
             }
-            for (Submitter s : i.ancestorInterest) {
+            for (Submitter s : i.getAncestorInterest()) {
                 emitTagWithRequiredValue(1, "ANCI", s.getXref());
             }
-            for (Submitter s : i.descendantInterest) {
+            for (Submitter s : i.getDescendantInterest()) {
                 emitTagWithRequiredValue(1, "DESI", s.getXref());
             }
             emitSourceCitations(1, i.getCitations());
             emitMultimediaLinks(1, i.getMultimedia());
             emitNotes(1, i.getNotes());
-            emitTagIfValueNotNull(1, "RFN", i.permanentRecFileNumber);
-            emitTagIfValueNotNull(1, "AFN", i.ancestralFileNumber);
+            emitTagIfValueNotNull(1, "RFN", i.getPermanentRecFileNumber());
+            emitTagIfValueNotNull(1, "AFN", i.getAncestralFileNumber());
             for (UserReference u : i.getUserReferences()) {
                 emitTagWithRequiredValue(1, "REFN", u.referenceNum);
                 emitTagIfValueNotNull(2, "TYPE", u.type);
             }
             emitTagIfValueNotNull(1, "RIN", i.getRecIdNumber());
-            emitChangeDate(1, i.changeDate);
+            emitChangeDate(1, i.getChangeDate());
             emitCustomTags(1, i.getCustomTags());
             notifyConstructObserversIfNeeded();
             if (cancelled) {
@@ -1592,7 +1592,7 @@ public class GedcomWriter {
      *             if data is malformed and cannot be written
      */
     private void emitSpouseInFamilyLinks(int level, Individual i) throws GedcomWriterException {
-        for (FamilySpouse familySpouse : i.familiesWhereSpouse) {
+        for (FamilySpouse familySpouse : i.getFamiliesWhereSpouse()) {
             if (familySpouse == null) {
                 throw new GedcomWriterException("Family in which " + i + " was a spouse was null");
             }

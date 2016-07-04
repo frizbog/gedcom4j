@@ -195,7 +195,7 @@ public class RelationshipCalculator {
 
             if (s1.name == rel1 && s2.name == rel2 && s1.individual2 == s2.individual1) {
                 // Get the reverse relationship
-                RelationshipName rr = getReverseRelationship(newRel, s1.individual1.sex);
+                RelationshipName rr = getReverseRelationship(newRel, s1.individual1.getSex());
                 if (rr != null) {
                     // Only collapse if we actually could derive a reverse
                     // relationship
@@ -241,7 +241,7 @@ public class RelationshipCalculator {
         } else {
             lookedAt.add(personBeingExamined);
             /* Not our target, so check relatives, starting with parents */
-            for (FamilyChild fc : personBeingExamined.familiesWhereChild) {
+            for (FamilyChild fc : personBeingExamined.getFamiliesWhereChild()) {
                 Family family = fc.getFamily();
                 if (!lookedAt.contains(family.husband)) {
                     examineFather(personBeingExamined, family.husband);
@@ -251,7 +251,7 @@ public class RelationshipCalculator {
                 }
             }
             /* Next check spouses */
-            for (FamilySpouse fs : personBeingExamined.familiesWhereSpouse) {
+            for (FamilySpouse fs : personBeingExamined.getFamiliesWhereSpouse()) {
                 Family family = fs.getFamily();
                 if (family.husband == personBeingExamined) {
                     if (lookedAt.contains(family.wife)) {
@@ -295,9 +295,9 @@ public class RelationshipCalculator {
         SimpleRelationship r = new SimpleRelationship();
         r.individual1 = personBeingExamined;
         r.individual2 = child;
-        if ("M".equals(child.sex.getValue())) {
+        if ("M".equals(child.getSex().getValue())) {
             r.name = SON;
-        } else if ("F".equals(child.sex.getValue())) {
+        } else if ("F".equals(child.getSex().getValue())) {
             r.name = DAUGHTER;
         } else {
             r.name = CHILD;
@@ -320,9 +320,9 @@ public class RelationshipCalculator {
         SimpleRelationship r = new SimpleRelationship();
         r.individual1 = personBeingExamined;
         r.individual2 = father;
-        if ("M".equals(personBeingExamined.sex.getValue())) {
+        if ("M".equals(personBeingExamined.getSex().getValue())) {
             r.reverseName = SON;
-        } else if ("F".equals(personBeingExamined.sex.getValue())) {
+        } else if ("F".equals(personBeingExamined.getSex().getValue())) {
             r.reverseName = DAUGHTER;
         } else {
             r.reverseName = CHILD;
@@ -363,9 +363,9 @@ public class RelationshipCalculator {
         SimpleRelationship r = new SimpleRelationship();
         r.individual1 = personBeingExamined;
         r.individual2 = mother;
-        if ("M".equals(personBeingExamined.sex.getValue())) {
+        if ("M".equals(personBeingExamined.getSex().getValue())) {
             r.reverseName = SON;
-        } else if ("F".equals(personBeingExamined.sex.getValue())) {
+        } else if ("F".equals(personBeingExamined.getSex().getValue())) {
             r.reverseName = DAUGHTER;
         } else {
             r.reverseName = CHILD;

@@ -76,8 +76,8 @@ public class Issue81ReaderTest {
     public void testConcDiacriticAtEndOfLine() {
         Individual i = g.getIndividuals().get("@I002@");
         assertNotNull(i);
-        assertEquals(2, i.events.size());
-        IndividualEvent e = i.events.get(1);
+        assertEquals(2, i.getEvents().size());
+        IndividualEvent e = i.getEvents().get(1);
         assertEquals(1, e.getNotes().size());
         Note note = e.getNotes().get(0);
         assertEquals(6, note.lines.size());
@@ -136,9 +136,9 @@ public class Issue81ReaderTest {
     public void testEventName() {
         Individual i = g.getIndividuals().get("@I002@");
         assertNotNull(i);
-        assertEquals(2, i.events.size());
-        assertEquals("lib\u00E9r\u00E9e", i.events.get(0).getSubType().getValue());
-        assertEquals("histoire de m\u00E9m\u00E9", i.events.get(1).getSubType().getValue());
+        assertEquals(2, i.getEvents().size());
+        assertEquals("lib\u00E9r\u00E9e", i.getEvents().get(0).getSubType().getValue());
+        assertEquals("histoire de m\u00E9m\u00E9", i.getEvents().get(1).getSubType().getValue());
     }
 
     /**
@@ -158,7 +158,7 @@ public class Issue81ReaderTest {
     public void testIndividual1Name() {
         Individual i = g.getIndividuals().get("@I001@");
         assertNotNull(i);
-        PersonalName n = i.names.get(0);
+        PersonalName n = i.getNames().get(0);
         assertEquals("Dolor\u00E8s", n.givenName.getValue());
         assertEquals("Dolor\u00E8s/./", n.basic);
     }
@@ -170,7 +170,7 @@ public class Issue81ReaderTest {
     public void testIndividual2Name() {
         Individual i = g.getIndividuals().get("@I002@");
         assertNotNull(i);
-        PersonalName n = i.names.get(0);
+        PersonalName n = i.getNames().get(0);
         assertEquals("Therese", n.givenName.getValue());
         assertEquals("VACQU\u00C9", n.surname.getValue());
         assertEquals("Therese/VACQU\u00C9/", n.basic);

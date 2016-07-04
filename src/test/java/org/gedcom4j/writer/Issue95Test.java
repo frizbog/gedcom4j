@@ -66,8 +66,8 @@ public class Issue95Test {
         assertNotNull(i);
 
         // Let's start by making sure everything loaded as expected
-        assertEquals(2, i.events.size());
-        for (IndividualEvent ev : i.events) {
+        assertEquals(2, i.getEvents().size());
+        for (IndividualEvent ev : i.getEvents()) {
             if (ev.type == IndividualEventType.BIRTH) {
                 assertEquals("4 July 1776", ev.getDate().getValue());
                 assertEquals(1, ev.getCustomTags().size());

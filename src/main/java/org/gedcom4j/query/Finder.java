@@ -79,7 +79,7 @@ public class Finder {
     public List<Individual> findByName(String prefix, String surname, String given, String suffix) {
         List<Individual> result = new ArrayList<Individual>();
         for (Individual i : g.getIndividuals().values()) {
-            for (PersonalName n : i.names) {
+            for (PersonalName n : i.getNames()) {
                 // Sometimes the name is broken up into separate fields in the
                 // GEDCOM
                 if ((surname == null || (n.surname != null && surname.equalsIgnoreCase(n.surname.getValue()))) && (given == null || (n.givenName != null

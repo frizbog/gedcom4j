@@ -52,20 +52,6 @@ public class IndividualByLastNameFirstNameComparatorTest {
     Individual i2;
 
     /**
-     * Helper method for readability, that adds a basic name to an individual
-     * 
-     * @param i
-     *            the individual who is getting their name added
-     * @param string
-     *            the basic name to add to the individual
-     */
-    private void addBasicName(Individual i, String string) {
-        PersonalName n = new PersonalName();
-        n.basic = string;
-        i.names.add(n);
-    }
-
-    /**
      * Set up test fixtures
      */
     @Before
@@ -86,10 +72,8 @@ public class IndividualByLastNameFirstNameComparatorTest {
         addBasicName(i2, "Bob /Marley/");
         addBasicName(i2, "Ziggy /Zoots/");
 
-        assertTrue("Bob Martin comes after Bob Marley, and Ziggy Zoots and Aaron Aardvark get ignored",
-                c.compare(i1, i2) > 0);
-        assertTrue("Bob Marley comes before Bob Martin, and Ziggy Zoots and Aaron Aardvark get ignored",
-                c.compare(i2, i1) < 0);
+        assertTrue("Bob Martin comes after Bob Marley, and Ziggy Zoots and Aaron Aardvark get ignored", c.compare(i1, i2) > 0);
+        assertTrue("Bob Marley comes before Bob Martin, and Ziggy Zoots and Aaron Aardvark get ignored", c.compare(i2, i1) < 0);
     }
 
     /**
@@ -124,10 +108,8 @@ public class IndividualByLastNameFirstNameComparatorTest {
     public void testOneHasNoName() {
         addBasicName(i1, "Bob /Marley/");
 
-        assertTrue("The individual with a name should always come after the individual with no names",
-                c.compare(i1, i2) > 0);
-        assertTrue("The individual with a name should always come after the individual with no names",
-                c.compare(i2, i1) < 0);
+        assertTrue("The individual with a name should always come after the individual with no names", c.compare(i1, i2) > 0);
+        assertTrue("The individual with a name should always come after the individual with no names", c.compare(i2, i1) < 0);
     }
 
     /**
@@ -154,6 +136,20 @@ public class IndividualByLastNameFirstNameComparatorTest {
 
         assertTrue("Ziggy Marley comes after Bob Marley", c.compare(i1, i2) > 0);
         assertTrue("Bob Marley comes before Ziggy Marley", c.compare(i2, i1) < 0);
+    }
+
+    /**
+     * Helper method for readability, that adds a basic name to an individual
+     * 
+     * @param i
+     *            the individual who is getting their name added
+     * @param string
+     *            the basic name to add to the individual
+     */
+    private void addBasicName(Individual i, String string) {
+        PersonalName n = new PersonalName();
+        n.basic = string;
+        i.getNames().add(n);
     }
 
 }

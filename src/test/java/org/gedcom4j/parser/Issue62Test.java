@@ -83,14 +83,14 @@ public class Issue62Test {
         assertEquals(1, g.getIndividuals().size());
         Individual i = g.getIndividuals().values().iterator().next();
         assertNotNull(i);
-        assertEquals(4, i.events.size());
-        birth = i.events.get(0);
+        assertEquals(4, i.getEvents().size());
+        birth = i.getEvents().get(0);
         assertNotNull(birth);
-        cremation = i.events.get(1);
+        cremation = i.getEvents().get(1);
         assertNotNull(cremation);
-        burial = i.events.get(2);
+        burial = i.getEvents().get(2);
         assertNotNull(burial);
-        death = i.events.get(3);
+        death = i.getEvents().get(3);
         assertNotNull(death);
     }
 

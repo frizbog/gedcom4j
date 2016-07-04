@@ -1177,13 +1177,13 @@ public class GedcomParser {
         for (StringTree ch : st.children) {
             if (Tag.NAME.equals(ch.tag)) {
                 PersonalName pn = new PersonalName();
-                i.names.add(pn);
+                i.getNames().add(pn);
                 loadPersonalName(ch, pn);
             } else if (Tag.SEX.equals(ch.tag)) {
-                i.sex = new StringWithCustomTags(ch);
+                i.setSex(new StringWithCustomTags(ch));
             } else if (Tag.ADDRESS.equals(ch.tag)) {
-                i.address = new Address();
-                loadAddress(ch, i.address);
+                i.setAddress(new Address());
+                loadAddress(ch, i.getAddress());
             } else if (Tag.PHONE.equals(ch.tag)) {
                 i.getPhoneNumbers().add(new StringWithCustomTags(ch));
             } else if (Tag.WEB_ADDRESS.equals(ch.tag)) {
@@ -1205,46 +1205,46 @@ public class GedcomParser {
                             + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if (IndividualEventType.isValidTag(ch.tag)) {
-                loadIndividualEvent(ch, i.events);
+                loadIndividualEvent(ch, i.getEvents());
             } else if (IndividualAttributeType.isValidTag(ch.tag)) {
-                loadIndividualAttribute(ch, i.attributes);
+                loadIndividualAttribute(ch, i.getAttributes());
             } else if (LdsIndividualOrdinanceType.isValidTag(ch.tag)) {
-                loadLdsIndividualOrdinance(ch, i.ldsIndividualOrdinances);
+                loadLdsIndividualOrdinance(ch, i.getLdsIndividualOrdinances());
             } else if (Tag.NOTE.equals(ch.tag)) {
                 loadNote(ch, i.getNotes());
             } else if (Tag.CHANGED_DATETIME.equals(ch.tag)) {
-                i.changeDate = new ChangeDate();
-                loadChangeDate(ch, i.changeDate);
+                i.setChangeDate(new ChangeDate());
+                loadChangeDate(ch, i.getChangeDate());
             } else if (Tag.RECORD_ID_NUMBER.equals(ch.tag)) {
                 i.setRecIdNumber(new StringWithCustomTags(ch));
             } else if (Tag.REGISTRATION_FILE_NUMBER.equals(ch.tag)) {
-                i.permanentRecFileNumber = new StringWithCustomTags(ch);
+                i.setPermanentRecFileNumber(new StringWithCustomTags(ch));
             } else if (Tag.OBJECT_MULTIMEDIA.equals(ch.tag)) {
                 loadMultimediaLink(ch, i.getMultimedia());
             } else if (Tag.RESTRICTION.equals(ch.tag)) {
-                i.restrictionNotice = new StringWithCustomTags(ch);
+                i.setRestrictionNotice(new StringWithCustomTags(ch));
             } else if (Tag.SOURCE.equals(ch.tag)) {
                 loadCitation(ch, i.getCitations());
             } else if (Tag.ALIAS.equals(ch.tag)) {
-                i.aliases.add(new StringWithCustomTags(ch));
+                i.getAliases().add(new StringWithCustomTags(ch));
             } else if (Tag.FAMILY_WHERE_SPOUSE.equals(ch.tag)) {
-                loadFamilyWhereSpouse(ch, i.familiesWhereSpouse);
+                loadFamilyWhereSpouse(ch, i.getFamiliesWhereSpouse());
             } else if (Tag.FAMILY_WHERE_CHILD.equals(ch.tag)) {
-                loadFamilyWhereChild(ch, i.familiesWhereChild);
+                loadFamilyWhereChild(ch, i.getFamiliesWhereChild());
             } else if (Tag.ASSOCIATION.equals(ch.tag)) {
-                loadAssociation(ch, i.associations);
+                loadAssociation(ch, i.getAssociations());
             } else if (Tag.ANCESTOR_INTEREST.equals(ch.tag)) {
-                i.ancestorInterest.add(getSubmitter(ch.value));
+                i.getAncestorInterest().add(getSubmitter(ch.value));
             } else if (Tag.DESCENDANT_INTEREST.equals(ch.tag)) {
-                i.descendantInterest.add(getSubmitter(ch.value));
+                i.getDescendantInterest().add(getSubmitter(ch.value));
             } else if (Tag.ANCESTRAL_FILE_NUMBER.equals(ch.tag)) {
-                i.ancestralFileNumber = new StringWithCustomTags(ch);
+                i.setAncestralFileNumber(new StringWithCustomTags(ch));
             } else if (Tag.REFERENCE.equals(ch.tag)) {
                 UserReference u = new UserReference();
                 i.getUserReferences().add(u);
                 loadUserReference(ch, u);
             } else if (Tag.SUBMITTER.equals(ch.tag)) {
-                i.submitters.add(getSubmitter(ch.value));
+                i.getSubmitters().add(getSubmitter(ch.value));
             } else {
                 unknownTag(ch, i);
             }
