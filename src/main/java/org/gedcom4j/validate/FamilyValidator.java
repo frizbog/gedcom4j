@@ -131,7 +131,7 @@ class FamilyValidator extends AbstractValidator {
                 new SubmitterValidator(rootValidator, s).validate();
             }
         }
-        checkUserReferences(f.userReferences, f);
+        checkUserReferences(f.getUserReferences(), f);
     }
 
 }

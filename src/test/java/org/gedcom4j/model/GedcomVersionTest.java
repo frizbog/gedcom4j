@@ -41,9 +41,9 @@ public class GedcomVersionTest {
         assertEquals(gv1, gv1);
         GedcomVersion gv2 = new GedcomVersion();
         assertEquals("objects are equal, so equals() should return true", gv1, gv2);
-        gv1.gedcomForm = new StringWithCustomTags("Frying Pan");
+        gv1.setGedcomForm(new StringWithCustomTags("Frying Pan"));
         assertFalse("objects are not equal, so equals() should not return true", gv1.equals(gv2));
-        gv2.gedcomForm = new StringWithCustomTags("Frying Pan");
+        gv2.setGedcomForm(new StringWithCustomTags("Frying Pan"));
         assertEquals("objects are equal again, so equals() should return true", gv1, gv2);
         assertFalse(gv1.equals(null));
         assertFalse(gv1.equals(this));
@@ -57,9 +57,9 @@ public class GedcomVersionTest {
         GedcomVersion gv1 = new GedcomVersion();
         GedcomVersion gv2 = new GedcomVersion();
         assertEquals("objects are equal, so hashcodes should equal", gv1.hashCode(), gv2.hashCode());
-        gv1.gedcomForm = new StringWithCustomTags("Frying Pan");
+        gv1.setGedcomForm(new StringWithCustomTags("Frying Pan"));
         assertFalse("objects are not equal, so hashcodes should not equal", gv1.hashCode() == gv2.hashCode());
-        gv2.gedcomForm = new StringWithCustomTags("Frying Pan");
+        gv2.setGedcomForm(new StringWithCustomTags("Frying Pan"));
         assertEquals("objects are equal again, so hashcodes should equal", gv1.hashCode(), gv2.hashCode());
     }
 }

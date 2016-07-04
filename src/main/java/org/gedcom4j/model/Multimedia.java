@@ -76,11 +76,6 @@ public class Multimedia extends AbstractElement {
     public Multimedia continuedObject;
 
     /**
-     * User references
-     */
-    public List<UserReference> userReferences = new ArrayList<UserReference>(0);
-
-    /**
      * The change date for this multimedia item
      */
     public ChangeDate changeDate;
@@ -104,6 +99,11 @@ public class Multimedia extends AbstractElement {
      * The xref for this submitter
      */
     private String xref;
+
+    /**
+     * The user references for this submitter
+     */
+    private List<UserReference> userReferences = new ArrayList<UserReference>(0);
 
     @Override
     public boolean equals(Object obj) {
@@ -286,6 +286,29 @@ public class Multimedia extends AbstractElement {
      */
     public void setXref(String xref) {
         this.xref = xref;
+    }
+
+    /**
+     * Get the userReferences
+     * 
+     * @return the userReferences
+     */
+    public List<UserReference> getUserReferences() {
+        return userReferences;
+    }
+
+    /**
+     * Get the userReferences
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the userReferences
+     */
+    public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && userReferences == null) {
+            userReferences = new ArrayList<UserReference>(0);
+        }
+        return userReferences;
     }
 
 }

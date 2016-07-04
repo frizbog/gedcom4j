@@ -99,7 +99,7 @@ class SourceValidator extends AbstractValidator {
         checkStringList(source.sourceText, "source text", true);
         checkOptionalString(source.sourceFiledBy, "source filed by", source);
         checkStringList(source.title, "title", true);
-        checkUserReferences(source.userReferences, source);
+        checkUserReferences(source.getUserReferences(), source);
 
         RepositoryCitation c = source.repositoryCitation;
         if (c != null) {

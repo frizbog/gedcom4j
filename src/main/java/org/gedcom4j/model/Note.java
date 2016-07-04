@@ -42,11 +42,6 @@ public class Note extends AbstractElement {
     public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
 
     /**
-     * The user references for this note
-     */
-    public List<UserReference> userReferences = new ArrayList<UserReference>(0);
-
-    /**
      * The change date for this note
      */
     public ChangeDate changeDate;
@@ -60,6 +55,11 @@ public class Note extends AbstractElement {
      * The xref for this submitter
      */
     private String xref;
+
+    /**
+     * The user references for this submitter
+     */
+    private List<UserReference> userReferences = new ArrayList<UserReference>(0);
 
     @Override
     public boolean equals(Object obj) {
@@ -175,5 +175,28 @@ public class Note extends AbstractElement {
      */
     public void setXref(String xref) {
         this.xref = xref;
+    }
+
+    /**
+     * Get the userReferences
+     * 
+     * @return the userReferences
+     */
+    public List<UserReference> getUserReferences() {
+        return userReferences;
+    }
+
+    /**
+     * Get the userReferences
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the userReferences
+     */
+    public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && userReferences == null) {
+            userReferences = new ArrayList<UserReference>(0);
+        }
+        return userReferences;
     }
 }

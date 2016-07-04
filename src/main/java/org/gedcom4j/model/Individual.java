@@ -120,11 +120,6 @@ public class Individual extends AbstractElement {
     public List<Submitter> submitters = new ArrayList<Submitter>(0);
 
     /**
-     * A list of user references for this individual
-     */
-    public List<UserReference> userReferences = new ArrayList<UserReference>(0);
-
-    /**
      * The address of this individual
      */
     public Address address;
@@ -168,6 +163,11 @@ public class Individual extends AbstractElement {
      * Multimedia links for this source citation
      */
     private List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
+
+    /**
+     * The user references for this submitter
+     */
+    private List<UserReference> userReferences = new ArrayList<UserReference>(0);
 
     // CHECKSTYLE:OFF for method length
     /**
@@ -782,5 +782,28 @@ public class Individual extends AbstractElement {
             found = true;
         }
         return sb.toString();
+    }
+
+    /**
+     * Get the userReferences
+     * 
+     * @return the userReferences
+     */
+    public List<UserReference> getUserReferences() {
+        return userReferences;
+    }
+
+    /**
+     * Get the userReferences
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the userReferences
+     */
+    public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && userReferences == null) {
+            userReferences = new ArrayList<UserReference>(0);
+        }
+        return userReferences;
     }
 }

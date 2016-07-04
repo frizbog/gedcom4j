@@ -60,7 +60,7 @@ class MultimediaValidator extends AbstractValidator {
         }
         mm = multimedia;
         if (rootValidator.gedcom == null || rootValidator.gedcom.getHeader() == null || rootValidator.gedcom.getHeader().getGedcomVersion() == null
-                || rootValidator.gedcom.getHeader().getGedcomVersion().versionNumber == null) {
+                || rootValidator.gedcom.getHeader().getGedcomVersion().getVersionNumber() == null) {
             if (rootValidator.autorepair) {
                 gedcomVersion = SupportedVersion.V5_5_1;
                 rootValidator.addInfo("Was not able to determine GEDCOM version - assuming 5.5.1", rootValidator.gedcom);
@@ -68,7 +68,7 @@ class MultimediaValidator extends AbstractValidator {
                 rootValidator.addError("Was not able to determine GEDCOM version - cannot validate multimedia objects", rootValidator.gedcom);
             }
         } else {
-            gedcomVersion = rootValidator.gedcom.getHeader().getGedcomVersion().versionNumber;
+            gedcomVersion = rootValidator.gedcom.getHeader().getGedcomVersion().getVersionNumber();
         }
     }
 
@@ -110,16 +110,16 @@ class MultimediaValidator extends AbstractValidator {
      * Check user references
      */
     private void checkUserReferences() {
-        if (mm.userReferences == null) {
+        if (mm.getUserReferences() == null) {
             if (rootValidator.autorepair) {
-                mm.userReferences = new ArrayList<UserReference>();
+                mm.getUserReferences().clear();
                 rootValidator.addInfo("List of user references on multimedia object was null - repaired", mm);
             } else {
                 rootValidator.addError("List of user references on multimedia object is null", mm);
                 return;
             }
         }
-        for (UserReference u : mm.userReferences) {
+        for (UserReference u : mm.getUserReferences()) {
             checkCustomTags(u);
             if (u.referenceNum == null) {
                 if (rootValidator.autorepair) {

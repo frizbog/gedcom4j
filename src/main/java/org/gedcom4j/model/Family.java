@@ -88,11 +88,6 @@ public class Family extends AbstractElement {
     public List<FamilyEvent> events = new ArrayList<FamilyEvent>(0);
 
     /**
-     * The user references
-     */
-    public List<UserReference> userReferences = new ArrayList<UserReference>(0);
-
-    /**
      * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be
      * "confidential", "locked", or "privacy" but this implementation allows any value.
      */
@@ -112,6 +107,11 @@ public class Family extends AbstractElement {
      * Multimedia links for this source citation
      */
     private List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
+
+    /**
+     * The user references for this submitter
+     */
+    private List<UserReference> userReferences = new ArrayList<UserReference>(0);
 
     /**
      * {@inheritDoc}
@@ -349,6 +349,29 @@ public class Family extends AbstractElement {
             multimedia = new ArrayList<Multimedia>(0);
         }
         return multimedia;
+    }
+
+    /**
+     * Get the userReferences
+     * 
+     * @return the userReferences
+     */
+    public List<UserReference> getUserReferences() {
+        return userReferences;
+    }
+
+    /**
+     * Get the userReferences
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the userReferences
+     */
+    public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && userReferences == null) {
+            userReferences = new ArrayList<UserReference>(0);
+        }
+        return userReferences;
     }
 
 }

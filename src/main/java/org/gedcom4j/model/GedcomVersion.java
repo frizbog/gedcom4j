@@ -32,12 +32,12 @@ public class GedcomVersion extends AbstractElement {
     /**
      * The version number for this GEDCOM
      */
-    public SupportedVersion versionNumber = SupportedVersion.V5_5_1;
+    private SupportedVersion versionNumber = SupportedVersion.V5_5_1;
 
     /**
      * The form
      */
-    public StringWithCustomTags gedcomForm = new StringWithCustomTags("LINEAGE-LINKED");
+    private StringWithCustomTags gedcomForm = new StringWithCustomTags("LINEAGE-LINKED");
 
     @Override
     public boolean equals(Object obj) {
@@ -68,6 +68,24 @@ public class GedcomVersion extends AbstractElement {
         return true;
     }
 
+    /**
+     * Get the gedcomForm
+     * 
+     * @return the gedcomForm
+     */
+    public StringWithCustomTags getGedcomForm() {
+        return gedcomForm;
+    }
+
+    /**
+     * Get the versionNumber
+     * 
+     * @return the versionNumber
+     */
+    public SupportedVersion getVersionNumber() {
+        return versionNumber;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -77,9 +95,29 @@ public class GedcomVersion extends AbstractElement {
         return result;
     }
 
+    /**
+     * Set the gedcomForm
+     * 
+     * @param gedcomForm
+     *            the gedcomForm to set
+     */
+    public void setGedcomForm(StringWithCustomTags gedcomForm) {
+        this.gedcomForm = gedcomForm;
+    }
+
+    /**
+     * Set the versionNumber
+     * 
+     * @param versionNumber
+     *            the versionNumber to set
+     */
+    public void setVersionNumber(SupportedVersion versionNumber) {
+        this.versionNumber = versionNumber;
+    }
+
     @Override
     public String toString() {
-        return "GedcomVersion [" + (versionNumber != null ? "versionNumber=" + versionNumber + ", " : "")
-                + (gedcomForm != null ? "gedcomForm=" + gedcomForm + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        return "GedcomVersion [" + (versionNumber != null ? "versionNumber=" + versionNumber + ", " : "") + (gedcomForm != null ? "gedcomForm=" + gedcomForm
+                + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

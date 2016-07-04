@@ -58,19 +58,19 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
         rootValidator.validate();
         assertNoIssues();
 
-        n.userReferences = null;
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "user", "references", "null");
-        n.userReferences = new ArrayList<UserReference>();
+        n.getUserReferences().clear();
         rootValidator.validate();
         assertNoIssues();
+        n.getUserReferences().add(new UserReference());
+        rootValidator.validate();
+        assertFindingsContain(Severity.ERROR, "reference number", "null");
 
         n.lines = null;
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "lines", "text", "null");
         n.lines = new ArrayList<String>();
         rootValidator.validate();
-        assertNoIssues();
+        assertFindingsContain(Severity.ERROR, "reference number", "null");
     }
 
     /**
@@ -100,12 +100,12 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
         rootValidator.validate();
         assertNoIssues();
 
-        n.userReferences = null;
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "user", "references", "null");
-        n.userReferences = new ArrayList<UserReference>();
+        n.getUserReferences().clear();
         rootValidator.validate();
         assertNoIssues();
+        n.getUserReferences().add(new UserReference());
+        rootValidator.validate();
+        assertFindingsContain(Severity.ERROR, "reference number", "UserReference", "null");
 
         n.lines = null;
         rootValidator.validate();
@@ -115,7 +115,7 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
         assertFindingsContain(Severity.ERROR, "note", "without xref", "lines");
         n.lines.add("Frying Pan");
         rootValidator.validate();
-        assertNoIssues();
+        assertFindingsContain(Severity.ERROR, "reference number", "UserReference", "null");
     }
 
 }

@@ -80,12 +80,12 @@ public class GedcomWriter551Test {
         }
 
         // Set to 5.5 and all should be fine
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         gw.write("tmp/delete-me.ged");
 
         // Set back to 5.5.1, clear the blob and embedded format, and all should
         // be fine
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5_1;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         m.blob.clear();
         m.embeddedMediaFormat = null;
         gw.write("tmp/delete-me.ged");
@@ -104,7 +104,7 @@ public class GedcomWriter551Test {
     public void testCorpInSourceSystemWith55Email() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
 
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setSourceSystem(new SourceSystem());
         Corporation c = new Corporation();
         g.getHeader().getSourceSystem().corporation = c;
@@ -122,12 +122,12 @@ public class GedcomWriter551Test {
         }
 
         // Switch to 5.5.1, all should be fine
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5_1;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         gw.write("tmp/delete-me.ged");
 
         // clear emails and switch back to 5.5, all should be fine
         c.getEmails().clear();
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         gw.write("tmp/delete-me.ged");
     }
 
@@ -142,7 +142,7 @@ public class GedcomWriter551Test {
     @Test
     public void testCorpInSourceSystemWith55Fax() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setSourceSystem(new SourceSystem());
         Corporation c = new Corporation();
         g.getHeader().getSourceSystem().corporation = c;
@@ -159,12 +159,12 @@ public class GedcomWriter551Test {
         }
 
         // Switch to 5.5.1, all should be fine
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5_1;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         gw.write("tmp/delete-me.ged");
 
         // clear fax numbers and switch back to 5.5, all should be fine
         c.getFaxNumbers().clear();
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         gw.write("tmp/delete-me.ged");
     }
 
@@ -179,7 +179,7 @@ public class GedcomWriter551Test {
     @Test
     public void testCorpInSourceSystemWith55Www() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setSourceSystem(new SourceSystem());
         Corporation c = new Corporation();
         g.getHeader().getSourceSystem().corporation = c;
@@ -197,12 +197,12 @@ public class GedcomWriter551Test {
         }
 
         // Switch to 5.5.1, all should be fine
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5_1;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         gw.write("tmp/delete-me.ged");
 
         // clear URLs and switch back to 5.5, all should be fine
         c.getWwwUrls().clear();
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         gw.write("tmp/delete-me.ged");
     }
 
@@ -220,7 +220,7 @@ public class GedcomWriter551Test {
     public void testMapCoords() throws IOException, GedcomWriterException, GedcomParserException {
         // Build up the test data
         Gedcom g = TestHelper.getMinimalGedcom();
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5_1;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
         assertTrue(gw.lines.isEmpty());
@@ -277,7 +277,7 @@ public class GedcomWriter551Test {
     @Test
     public void testMultilineCopyrightWith55() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().getCopyrightData().add("One line is ok");
         g.getHeader().getCopyrightData().add("Two lines is bad");
         GedcomWriter gw = new GedcomWriter(g);
@@ -291,12 +291,12 @@ public class GedcomWriter551Test {
         }
 
         // Switch to 5.5.1, all should be fine
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5_1;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         gw.write("tmp/delete-me.ged");
 
         // Switch back to 5.5, remove the extra line, all should be fine
         g.getHeader().getCopyrightData().remove(1);
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         gw.write("tmp/delete-me.ged");
 
     }
@@ -432,7 +432,7 @@ public class GedcomWriter551Test {
     @Test
     public void testRepositoryWith55Email() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         Repository r = new Repository();
         r.setXref("@R1@");
         g.getRepositories().put(r.getXref(), r);
@@ -450,10 +450,10 @@ public class GedcomWriter551Test {
         }
 
         // Switch to 5.5.1, all should be fine
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5_1;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         gw.write("tmp/delete-me.ged");
         r.getEmails().clear();
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         gw.write("tmp/delete-me.ged");
     }
 
@@ -468,7 +468,7 @@ public class GedcomWriter551Test {
     @Test
     public void testRepositoryWith55Fax() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         Repository r = new Repository();
         r.setXref("@R1@");
         g.getRepositories().put(r.getXref(), r);
@@ -486,10 +486,10 @@ public class GedcomWriter551Test {
         }
 
         // Switch to 5.5.1, all should be fine
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5_1;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         gw.write("tmp/delete-me.ged");
         r.getFaxNumbers().clear();
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         gw.write("tmp/delete-me.ged");
     }
 
@@ -504,7 +504,7 @@ public class GedcomWriter551Test {
     @Test
     public void testRepositoryWith55Www() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         Repository r = new Repository();
         r.setXref("@R1@");
         g.getRepositories().put(r.getXref(), r);
@@ -522,10 +522,10 @@ public class GedcomWriter551Test {
         }
 
         // Switch to 5.5.1, all should be fine
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5_1;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         gw.write("tmp/delete-me.ged");
         r.getWwwUrls().clear();
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         gw.write("tmp/delete-me.ged");
     }
 
@@ -540,7 +540,7 @@ public class GedcomWriter551Test {
     @Test
     public void testSubmitterWith55Email() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         Submitter s = new Submitter();
         s.setName(new StringWithCustomTags("test"));
         s.setXref("@S1@");
@@ -559,10 +559,10 @@ public class GedcomWriter551Test {
         }
 
         // Switch to 5.5.1, all should be fine
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5_1;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         gw.write("tmp/delete-me.ged");
         s.getEmails().clear();
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         gw.write("tmp/delete-me.ged");
     }
 
@@ -577,7 +577,7 @@ public class GedcomWriter551Test {
     @Test
     public void testSubmitterWith55Fax() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         Submitter s = new Submitter();
         s.setName(new StringWithCustomTags("test"));
         s.setXref("@S1@");
@@ -596,10 +596,10 @@ public class GedcomWriter551Test {
         }
 
         // Switch to 5.5.1, all should be fine
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5_1;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         gw.write("tmp/delete-me.ged");
         s.getFaxNumbers().clear();
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         gw.write("tmp/delete-me.ged");
     }
 
@@ -614,7 +614,7 @@ public class GedcomWriter551Test {
     @Test
     public void testSubmitterWith55Www() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         Submitter s = new Submitter();
         s.setName(new StringWithCustomTags("test"));
         s.setXref("@S1@");
@@ -633,10 +633,10 @@ public class GedcomWriter551Test {
         }
 
         // Switch to 5.5.1, all should be fine
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5_1;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         gw.write("tmp/delete-me.ged");
         s.getWwwUrls().clear();
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         gw.write("tmp/delete-me.ged");
     }
 
@@ -653,7 +653,7 @@ public class GedcomWriter551Test {
         Gedcom g = TestHelper.getMinimalGedcom();
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().getCharacterSet().setCharacterSetName(new StringWithCustomTags("UTF-8"));
         assertTrue(gw.lines.isEmpty());
         try {
@@ -664,7 +664,7 @@ public class GedcomWriter551Test {
         }
 
         // Switch to 5.5.1, all should be fine
-        g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5_1;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         gw.write("tmp/delete-me.ged");
     }
 

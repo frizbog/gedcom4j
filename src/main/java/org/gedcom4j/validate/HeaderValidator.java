@@ -83,9 +83,9 @@ class HeaderValidator extends AbstractValidator {
                 return;
             }
         }
-        if (header.getGedcomVersion().versionNumber == null) {
+        if (header.getGedcomVersion().getVersionNumber() == null) {
             if (rootValidator.autorepair) {
-                header.getGedcomVersion().versionNumber = SupportedVersion.V5_5_1;
+                header.getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
                 rootValidator.addInfo("GEDCOM version number in header was null - repaired", header);
             } else {
                 rootValidator.addError("GEDCOM version number in header must be specified", header);
@@ -183,17 +183,17 @@ class HeaderValidator extends AbstractValidator {
         checkOptionalString(ss.productName, "product name", ss);
         if (ss.sourceData != null) {
             HeaderSourceData sd = ss.sourceData;
-            if (sd.name == null || sd.name.trim().length() == 0) {
+            if (sd.getName() == null || sd.getName().trim().length() == 0) {
                 if (rootValidator.autorepair) {
-                    sd.name = "UNSPECIFIED";
+                    sd.setName("UNSPECIFIED");
                     rootValidator.addInfo("Source data was specified for source system, " + "but name of source data was not specified - repaired", sd);
                 } else {
                     rootValidator.addError("Source data is specified for source system, " + "but name of source data is not specified", sd);
                 }
 
             }
-            checkOptionalString(sd.copyright, "copyright", sd);
-            checkOptionalString(sd.publishDate, "publish date", sd);
+            checkOptionalString(sd.getCopyright(), "copyright", sd);
+            checkOptionalString(sd.getPublishDate(), "publish date", sd);
             checkCustomTags(sd);
         }
         if (ss.systemId == null) {

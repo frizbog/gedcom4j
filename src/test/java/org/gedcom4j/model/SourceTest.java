@@ -105,9 +105,9 @@ public class SourceTest {
         s2.title = null;
         assertEquals(s1, s2);
 
-        s1.userReferences = null;
+        s1.getUserReferences().add(new UserReference());
         assertTrue(s1.hashCode() != s2.hashCode());
-        s2.userReferences = null;
+        s2.getUserReferences().add(new UserReference());
         assertEquals(s1, s2);
 
     }
@@ -182,9 +182,9 @@ public class SourceTest {
         s2.title = null;
         assertEquals(s1.hashCode(), s2.hashCode());
 
-        s1.userReferences = null;
+        s1.getUserReferences().add(new UserReference());
         assertFalse(s1.hashCode() == s2.hashCode());
-        s2.userReferences = null;
+        s2.getUserReferences().add(new UserReference());
         assertEquals(s1.hashCode(), s2.hashCode());
 
     }
@@ -210,8 +210,8 @@ public class SourceTest {
         s1.sourceFiledBy = new StringWithCustomTags("Bar");
         s1.sourceText = null;
         s1.title = null;
-        s1.userReferences = null;
-        assertEquals("Source [recIdNumber=Foo, sourceFiledBy=Bar, multimedia=[], " + "changeDate=ChangeDate [notes=[], customTags=[]], "
+        s1.getUserReferences().clear();
+        assertEquals("Source [recIdNumber=Foo, sourceFiledBy=Bar, multimedia=[], " + "changeDate=ChangeDate [notes=[], customTags=[]], userReferences=[], "
                 + "data=SourceData [eventsRecorded=[], notes=[], customTags=[]], "
                 + "repositoryCitation=RepositoryCitation [notes=[], callNumbers=[], customTags=[]], xref=Foo, ]", s1.toString());
 

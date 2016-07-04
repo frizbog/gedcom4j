@@ -416,7 +416,7 @@ public class GedcomWriter {
             // 5.5.1
             gedcom.getHeader().setGedcomVersion(new GedcomVersion());
         }
-        if (SupportedVersion.V5_5.equals(gedcom.getHeader().getGedcomVersion().versionNumber)) {
+        if (SupportedVersion.V5_5.equals(gedcom.getHeader().getGedcomVersion().getVersionNumber())) {
             checkVersionCompatibility55();
         } else {
             checkVersionCompatibility551();
@@ -797,7 +797,7 @@ public class GedcomWriter {
             emitSourceCitations(1, f.citations);
             emitMultimediaLinks(1, f.getMultimedia());
             emitNotes(1, f.notes);
-            for (UserReference u : f.userReferences) {
+            for (UserReference u : f.getUserReferences()) {
                 emitTagWithRequiredValue(1, "REFN", u.referenceNum);
                 emitTagIfValueNotNull(2, "TYPE", u.type);
             }
@@ -877,8 +877,8 @@ public class GedcomWriter {
         emitTagIfValueNotNull(1, "FILE", header.getFileName());
         emitLinesOfText(1, "COPR", header.getCopyrightData());
         emitTag(1, "GEDC");
-        emitTagWithRequiredValue(2, "VERS", header.getGedcomVersion().versionNumber.toString());
-        emitTagWithRequiredValue(2, "FORM", header.getGedcomVersion().gedcomForm);
+        emitTagWithRequiredValue(2, "VERS", header.getGedcomVersion().getVersionNumber().toString());
+        emitTagWithRequiredValue(2, "FORM", header.getGedcomVersion().getGedcomForm());
         emitTagWithRequiredValue(1, "CHAR", header.getCharacterSet().getCharacterSetName());
         emitTagIfValueNotNull(2, "VERS", header.getCharacterSet().getVersionNum());
         emitTagIfValueNotNull(1, "LANG", header.getLanguage());
@@ -972,7 +972,7 @@ public class GedcomWriter {
             emitNotes(1, i.notes);
             emitTagIfValueNotNull(1, "RFN", i.permanentRecFileNumber);
             emitTagIfValueNotNull(1, "AFN", i.ancestralFileNumber);
-            for (UserReference u : i.userReferences) {
+            for (UserReference u : i.getUserReferences()) {
                 emitTagWithRequiredValue(1, "REFN", u.referenceNum);
                 emitTagIfValueNotNull(2, "TYPE", u.type);
             }
@@ -1108,7 +1108,7 @@ public class GedcomWriter {
             if (m.continuedObject != null && m.continuedObject.getXref() != null) {
                 emitTagWithRequiredValue(1, "OBJE", m.continuedObject.getXref());
             }
-            for (UserReference u : m.userReferences) {
+            for (UserReference u : m.getUserReferences()) {
                 emitTagWithRequiredValue(1, "REFN", u.referenceNum);
                 emitTagIfValueNotNull(2, "TYPE", u.type);
             }
@@ -1141,7 +1141,7 @@ public class GedcomWriter {
                 emitTagIfValueNotNull(3, "TYPE", fr.getMediaType());
                 emitTagIfValueNotNull(2, "TITL", fr.getTitle());
             }
-            for (UserReference u : m.userReferences) {
+            for (UserReference u : m.getUserReferences()) {
                 emitTagWithRequiredValue(1, "REFN", u.referenceNum);
                 emitTagIfValueNotNull(2, "TYPE", u.type);
             }
@@ -1248,7 +1248,7 @@ public class GedcomWriter {
         }
         emitNoteLines(level, note.getXref(), note.lines);
         emitSourceCitations(level + 1, note.citations);
-        for (UserReference u : note.userReferences) {
+        for (UserReference u : note.getUserReferences()) {
             emitTagWithRequiredValue(level + 1, "REFN", u.referenceNum);
             emitTagIfValueNotNull(level + 2, "TYPE", u.type);
         }
@@ -1438,7 +1438,7 @@ public class GedcomWriter {
             emitTagIfValueNotNull(1, "NAME", r.name);
             emitAddress(1, r.address);
             emitNotes(1, r.notes);
-            for (UserReference u : r.userReferences) {
+            for (UserReference u : r.getUserReferences()) {
                 emitTagWithRequiredValue(1, "REFN", u.referenceNum);
                 emitTagIfValueNotNull(2, "TYPE", u.type);
             }
@@ -1534,7 +1534,7 @@ public class GedcomWriter {
             emitRepositoryCitation(1, s.repositoryCitation);
             emitMultimediaLinks(1, s.getMultimedia());
             emitNotes(1, s.notes);
-            for (UserReference u : s.userReferences) {
+            for (UserReference u : s.getUserReferences()) {
                 emitTagWithRequiredValue(1, "REFN", u.referenceNum);
                 emitTagIfValueNotNull(2, "TYPE", u.type);
             }
@@ -1574,9 +1574,9 @@ public class GedcomWriter {
         }
         HeaderSourceData sourceData = sourceSystem.sourceData;
         if (sourceData != null) {
-            emitTagIfValueNotNull(2, "DATA", sourceData.name);
-            emitTagIfValueNotNull(3, "DATE", sourceData.publishDate);
-            emitTagIfValueNotNull(3, "COPR", sourceData.copyright);
+            emitTagIfValueNotNull(2, "DATA", sourceData.getName());
+            emitTagIfValueNotNull(3, "DATE", sourceData.getPublishDate());
+            emitTagIfValueNotNull(3, "COPR", sourceData.getCopyright());
         }
         emitCustomTags(1, sourceSystem.getCustomTags());
     }
@@ -1938,7 +1938,7 @@ public class GedcomWriter {
      */
     private boolean g55() {
         return gedcom != null && gedcom.getHeader() != null && gedcom.getHeader().getGedcomVersion() != null && SupportedVersion.V5_5.equals(gedcom.getHeader()
-                .getGedcomVersion().versionNumber);
+                .getGedcomVersion().getVersionNumber());
     }
 
     /**

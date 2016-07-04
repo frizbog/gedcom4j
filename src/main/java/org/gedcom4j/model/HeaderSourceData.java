@@ -37,17 +37,17 @@ public class HeaderSourceData extends AbstractElement {
     /**
      * The name of the source data. This field must be valued to pass validation, so the default value is "UNSPECIFIED".
      */
-    public String name = "UNSPECIFIED";
+    private String name = "UNSPECIFIED";
 
     /**
      * The publish date
      */
-    public StringWithCustomTags publishDate;
+    private StringWithCustomTags publishDate;
 
     /**
      * Copyright information
      */
-    public StringWithCustomTags copyright;
+    private StringWithCustomTags copyright;
 
     @Override
     public boolean equals(Object obj) {
@@ -85,6 +85,33 @@ public class HeaderSourceData extends AbstractElement {
         return true;
     }
 
+    /**
+     * Get the copyright
+     * 
+     * @return the copyright
+     */
+    public StringWithCustomTags getCopyright() {
+        return copyright;
+    }
+
+    /**
+     * Get the name
+     * 
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Get the publishDate
+     * 
+     * @return the publishDate
+     */
+    public StringWithCustomTags getPublishDate() {
+        return publishDate;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -93,6 +120,36 @@ public class HeaderSourceData extends AbstractElement {
         result = prime * result + (name == null ? 0 : name.hashCode());
         result = prime * result + (publishDate == null ? 0 : publishDate.hashCode());
         return result;
+    }
+
+    /**
+     * Set the copyright
+     * 
+     * @param copyright
+     *            the copyright to set
+     */
+    public void setCopyright(StringWithCustomTags copyright) {
+        this.copyright = copyright;
+    }
+
+    /**
+     * Set the name
+     * 
+     * @param name
+     *            the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Set the publishDate
+     * 
+     * @param publishDate
+     *            the publishDate to set
+     */
+    public void setPublishDate(StringWithCustomTags publishDate) {
+        this.publishDate = publishDate;
     }
 
     @Override

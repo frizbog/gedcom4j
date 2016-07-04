@@ -26,7 +26,6 @@ import java.util.ArrayList;
 
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.Note;
-import org.gedcom4j.model.UserReference;
 
 /**
  * Validator for a single {@link Note}
@@ -95,15 +94,15 @@ class NoteValidator extends AbstractValidator {
                 new CitationValidator(rootValidator, c).validate();
             }
         }
-        if (n.userReferences == null) {
+        if (n.getUserReferences() == null) {
             if (rootValidator.autorepair) {
-                n.userReferences = new ArrayList<UserReference>();
+                n.getUserReferences().clear();
                 addInfo("User references collection on note was null - autorepaired");
             } else {
                 addError("User references collection on note is null", n);
             }
         } else {
-            checkUserReferences(n.userReferences, n);
+            checkUserReferences(n.getUserReferences(), n);
         }
         checkChangeDate(n.changeDate, n);
     }

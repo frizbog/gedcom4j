@@ -120,7 +120,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         rootValidator.validate();
         assertNoIssues();
 
-        h.getGedcomVersion().versionNumber = null;
+        h.getGedcomVersion().setVersionNumber(null);
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "gedcom", "version", "number");
     }

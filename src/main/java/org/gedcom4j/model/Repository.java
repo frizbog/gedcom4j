@@ -49,11 +49,6 @@ public class Repository extends AbstractElement {
     public ChangeDate changeDate;
 
     /**
-     * The user references to this repository
-     */
-    public List<UserReference> userReferences = new ArrayList<UserReference>(0);
-
-    /**
      * Notes about this object
      */
     public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
@@ -87,6 +82,11 @@ public class Repository extends AbstractElement {
      * The emails for this submitter. New for GEDCOM 5.5.1
      */
     private List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
+
+    /**
+     * The user references for this submitter
+     */
+    private List<UserReference> userReferences = new ArrayList<UserReference>(0);
 
     @Override
     public boolean equals(Object obj) {
@@ -362,6 +362,29 @@ public class Repository extends AbstractElement {
             wwwUrls = new ArrayList<StringWithCustomTags>(0);
         }
         return wwwUrls;
+    }
+
+    /**
+     * Get the userReferences
+     * 
+     * @return the userReferences
+     */
+    public List<UserReference> getUserReferences() {
+        return userReferences;
+    }
+
+    /**
+     * Get the userReferences
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the userReferences
+     */
+    public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && userReferences == null) {
+            userReferences = new ArrayList<UserReference>(0);
+        }
+        return userReferences;
     }
 
 }

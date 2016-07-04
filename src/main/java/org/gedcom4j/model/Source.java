@@ -58,11 +58,6 @@ public class Source extends AbstractElement {
     public ChangeDate changeDate;
 
     /**
-     * User references for this source
-     */
-    public List<UserReference> userReferences = new ArrayList<UserReference>(0);
-
-    /**
      * Source data
      */
     public SourceData data;
@@ -96,6 +91,11 @@ public class Source extends AbstractElement {
      * Multimedia links for this source citation
      */
     private List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
+
+    /**
+     * The user references for this submitter
+     */
+    private List<UserReference> userReferences = new ArrayList<UserReference>(0);
 
     /**
      * Constructor, takes required xref value
@@ -338,5 +338,28 @@ public class Source extends AbstractElement {
             multimedia = new ArrayList<Multimedia>(0);
         }
         return multimedia;
+    }
+
+    /**
+     * Get the userReferences
+     * 
+     * @return the userReferences
+     */
+    public List<UserReference> getUserReferences() {
+        return userReferences;
+    }
+
+    /**
+     * Get the userReferences
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the userReferences
+     */
+    public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && userReferences == null) {
+            userReferences = new ArrayList<UserReference>(0);
+        }
+        return userReferences;
     }
 }
