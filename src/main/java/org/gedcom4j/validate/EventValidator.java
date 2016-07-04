@@ -24,7 +24,7 @@ package org.gedcom4j.validate;
 import java.util.ArrayList;
 
 import org.gedcom4j.model.AbstractCitation;
-import org.gedcom4j.model.Event;
+import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.StringWithCustomTags;
 
@@ -38,7 +38,7 @@ class EventValidator extends AbstractValidator {
     /**
      * The event being validated
      */
-    private final Event e;
+    private final AbstractEvent e;
 
     /**
      * Constructor
@@ -48,7 +48,7 @@ class EventValidator extends AbstractValidator {
      * @param e
      *            the event beign validated
      */
-    public EventValidator(GedcomValidator rootValidator, Event e) {
+    public EventValidator(GedcomValidator rootValidator, AbstractEvent e) {
         this.rootValidator = rootValidator;
         this.e = e;
     }
@@ -85,27 +85,27 @@ class EventValidator extends AbstractValidator {
         if (e.description != null && e.description.trim().length() != 0) {
             rootValidator.addError("Event has description, which is non-standard. Remove this value, or move it (perhaps to a Note).", e);
         }
-        if (e.emails == null) {
+        if (e.getEmails() == null) {
             if (rootValidator.autorepair) {
-                e.emails = new ArrayList<StringWithCustomTags>();
+                e.getEmails(true).clear();
                 rootValidator.addInfo("Event had null list of emails - repaired", e);
             } else {
                 rootValidator.addError("Event has null list of emails", e);
             }
         } else {
-            for (StringWithCustomTags swct : e.emails) {
+            for (StringWithCustomTags swct : e.getEmails()) {
                 checkRequiredString(swct, "email", e);
             }
         }
-        if (e.faxNumbers == null) {
+        if (e.getFaxNumbers() == null) {
             if (rootValidator.autorepair) {
-                e.faxNumbers = new ArrayList<StringWithCustomTags>();
+                e.getFaxNumbers(true).clear();
                 rootValidator.addInfo("Event had null list of fax numbers - repaired", e);
             } else {
                 rootValidator.addError("Event has null list of fax numbers", e);
             }
         } else {
-            for (StringWithCustomTags swct : e.faxNumbers) {
+            for (StringWithCustomTags swct : e.getFaxNumbers()) {
                 checkRequiredString(swct, "fax number", e);
             }
         }
@@ -122,16 +122,16 @@ class EventValidator extends AbstractValidator {
             }
         }
         checkNotes(e.notes, e);
-        if (e.phoneNumbers == null) {
+        if (e.getPhoneNumbers() == null) {
             if (rootValidator.autorepair) {
-                e.faxNumbers = new ArrayList<StringWithCustomTags>();
+                e.getPhoneNumbers(true).clear();
                 rootValidator.addInfo("Event had null list of phone numbers - repaired", e);
             } else {
                 rootValidator.addError("Event has null list of phone numbers", e);
             }
         } else {
-            for (StringWithCustomTags swct : e.phoneNumbers) {
-                checkRequiredString(swct, "phone numbe", e);
+            for (StringWithCustomTags swct : e.getPhoneNumbers()) {
+                checkRequiredString(swct, "phone number", e);
             }
         }
         if (e.place != null) {
@@ -141,15 +141,15 @@ class EventValidator extends AbstractValidator {
         checkOptionalString(e.respAgency, "responsible agency", e);
         checkOptionalString(e.restrictionNotice, "restriction notice", e);
         checkOptionalString(e.subType, "subtype", e);
-        if (e.wwwUrls == null) {
+        if (e.getWwwUrls() == null) {
             if (rootValidator.autorepair) {
-                e.wwwUrls = new ArrayList<StringWithCustomTags>();
+                e.getWwwUrls(true).clear();
                 rootValidator.addInfo("Event had null list of www urls - repaired", e);
             } else {
                 rootValidator.addError("Event has null list of www url", e);
             }
         } else {
-            for (StringWithCustomTags swct : e.wwwUrls) {
+            for (StringWithCustomTags swct : e.getWwwUrls()) {
                 checkRequiredString(swct, "www url", e);
             }
         }

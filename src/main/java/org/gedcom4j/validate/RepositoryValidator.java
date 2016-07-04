@@ -57,10 +57,10 @@ class RepositoryValidator extends AbstractValidator {
         checkXref(repository);
         checkOptionalString(repository.name, "name", repository);
         checkChangeDate(repository.changeDate, repository);
-        checkStringTagList(repository.emails, "email list", false);
+        checkStringTagList(repository.getEmails(), "email list", false);
         checkUserReferences(repository.userReferences, repository);
         checkOptionalString(repository.getRecIdNumber(), "automated record id", repository);
-        checkStringTagList(repository.phoneNumbers, "phone numbers", false);
+        checkStringTagList(repository.getPhoneNumbers(), "phone numbers", false);
         checkNotes(repository.notes, repository);
 
         Address a = repository.address;

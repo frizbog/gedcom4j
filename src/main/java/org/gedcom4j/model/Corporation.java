@@ -41,32 +41,32 @@ public class Corporation extends AbstractElement {
     /**
      * The business name. This field must be valued to pass validation, so the default value is "UNSPECIFIED".
      */
-    public String businessName = "UNSPECIFIED";
+    private String businessName = "UNSPECIFIED";
 
     /**
      * The address
      */
-    public Address address;
+    private Address address;
 
     /**
-     * The phone numbers
+     * The phone numbers for this submitter
      */
-    public List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>(0);
+    private List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * Web URL's. New for GEDCOM 5.5.1.
      */
-    public List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>(0);
+    private List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * Fax numbers. New for GEDCOM 5.5.1.
      */
-    public List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>(0);
+    private List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * The emails for this submitter. New for GEDCOM 5.5.1
      */
-    public List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
+    private List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
 
     @Override
     public boolean equals(Object obj) {
@@ -126,6 +126,117 @@ public class Corporation extends AbstractElement {
         return true;
     }
 
+    /**
+     * Get the address
+     * 
+     * @return the address
+     */
+    public Address getAddress() {
+        return address;
+    }
+
+    /**
+     * Get the businessName
+     * 
+     * @return the businessName
+     */
+    public String getBusinessName() {
+        return businessName;
+    }
+
+    /**
+     * Get the emails
+     * 
+     * @return the emails
+     */
+    public List<StringWithCustomTags> getEmails() {
+        return emails;
+    }
+
+    /**
+     * Get the emails
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the emails
+     */
+    public List<StringWithCustomTags> getEmails(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && emails == null) {
+            emails = new ArrayList<StringWithCustomTags>(0);
+        }
+
+        return emails;
+    }
+
+    /**
+     * Get the faxNumbers
+     * 
+     * @return the faxNumbers
+     */
+    public List<StringWithCustomTags> getFaxNumbers() {
+        return faxNumbers;
+    }
+
+    /**
+     * Get the faxNumbers
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the faxNumbers
+     */
+    public List<StringWithCustomTags> getFaxNumbers(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && faxNumbers == null) {
+            faxNumbers = new ArrayList<StringWithCustomTags>(0);
+        }
+        return faxNumbers;
+    }
+
+    /**
+     * Get the phoneNumbers
+     * 
+     * @return the phoneNumbers
+     */
+    public List<StringWithCustomTags> getPhoneNumbers() {
+        return phoneNumbers;
+    }
+
+    /**
+     * Get the phoneNumbers
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the phoneNumbers
+     */
+    public List<StringWithCustomTags> getPhoneNumbers(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && phoneNumbers == null) {
+            phoneNumbers = new ArrayList<StringWithCustomTags>(0);
+        }
+        return phoneNumbers;
+    }
+
+    /**
+     * Get the wwwUrls
+     * 
+     * @return the wwwUrls
+     */
+    public List<StringWithCustomTags> getWwwUrls() {
+        return wwwUrls;
+    }
+
+    /**
+     * Get the wwwUrls
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the wwwUrls
+     */
+    public List<StringWithCustomTags> getWwwUrls(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && wwwUrls == null) {
+            wwwUrls = new ArrayList<StringWithCustomTags>(0);
+        }
+        return wwwUrls;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -140,12 +251,32 @@ public class Corporation extends AbstractElement {
         return result;
     }
 
+    /**
+     * Set the address
+     * 
+     * @param address
+     *            the address to set
+     */
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    /**
+     * Set the businessName
+     * 
+     * @param businessName
+     *            the businessName to set
+     */
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
+    }
+
     @Override
     public String toString() {
         return "Corporation [" + (businessName != null ? "businessName=" + businessName + ", " : "") + (address != null ? "address=" + address + ", " : "")
                 + (phoneNumbers != null ? "phoneNumbers=" + phoneNumbers + ", " : "") + (wwwUrls != null ? "wwwUrls=" + wwwUrls + ", " : "")
-                + (faxNumbers != null ? "faxNumbers=" + faxNumbers + ", " : "") + (emails != null ? "emails=" + emails + ", " : "")
-                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+                + (faxNumbers != null ? "faxNumbers=" + faxNumbers + ", " : "") + (emails != null ? "emails=" + emails + ", " : "") + (getCustomTags() != null
+                        ? "customTags=" + getCustomTags() : "") + "]";
     }
 
 }

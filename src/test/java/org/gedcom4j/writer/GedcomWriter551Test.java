@@ -113,7 +113,7 @@ public class GedcomWriter551Test {
         assertTrue(gw.lines.isEmpty());
 
         // Email addresses
-        c.emails.add(new StringWithCustomTags("Not allowed under 5.5"));
+        c.getEmails().add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the corporation having an email");
@@ -126,7 +126,7 @@ public class GedcomWriter551Test {
         gw.write("tmp/delete-me.ged");
 
         // clear emails and switch back to 5.5, all should be fine
-        c.emails.clear();
+        c.getEmails().clear();
         g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
         gw.write("tmp/delete-me.ged");
     }
@@ -150,7 +150,7 @@ public class GedcomWriter551Test {
         gw.validationSuppressed = false;
         assertTrue(gw.lines.isEmpty());
         // Fax numbers
-        c.faxNumbers.add(new StringWithCustomTags("Not allowed under 5.5"));
+        c.getFaxNumbers().add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the corporation having a fax number");
@@ -163,7 +163,7 @@ public class GedcomWriter551Test {
         gw.write("tmp/delete-me.ged");
 
         // clear fax numbers and switch back to 5.5, all should be fine
-        c.faxNumbers.clear();
+        c.getFaxNumbers().clear();
         g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
         gw.write("tmp/delete-me.ged");
     }
@@ -188,7 +188,7 @@ public class GedcomWriter551Test {
         assertTrue(gw.lines.isEmpty());
 
         // WWW urls
-        c.wwwUrls.add(new StringWithCustomTags("Not allowed under 5.5"));
+        c.getWwwUrls().add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the corporation having a www url");
@@ -201,7 +201,7 @@ public class GedcomWriter551Test {
         gw.write("tmp/delete-me.ged");
 
         // clear URLs and switch back to 5.5, all should be fine
-        c.wwwUrls.clear();
+        c.getWwwUrls().clear();
         g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
         gw.write("tmp/delete-me.ged");
     }
@@ -441,7 +441,7 @@ public class GedcomWriter551Test {
         assertTrue(gw.lines.isEmpty());
 
         // Email addresses
-        r.emails.add(new StringWithCustomTags("Not allowed under 5.5"));
+        r.getEmails().add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the repository having an email");
@@ -452,7 +452,7 @@ public class GedcomWriter551Test {
         // Switch to 5.5.1, all should be fine
         g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5_1;
         gw.write("tmp/delete-me.ged");
-        r.emails.clear();
+        r.getEmails().clear();
         g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
         gw.write("tmp/delete-me.ged");
     }
@@ -477,7 +477,7 @@ public class GedcomWriter551Test {
         assertTrue(gw.lines.isEmpty());
 
         // Fax numbers
-        r.faxNumbers.add(new StringWithCustomTags("Not allowed under 5.5"));
+        r.getFaxNumbers().add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the repository having a fax number");
@@ -488,7 +488,7 @@ public class GedcomWriter551Test {
         // Switch to 5.5.1, all should be fine
         g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5_1;
         gw.write("tmp/delete-me.ged");
-        r.faxNumbers.clear();
+        r.getFaxNumbers().clear();
         g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
         gw.write("tmp/delete-me.ged");
     }
@@ -513,7 +513,7 @@ public class GedcomWriter551Test {
         assertTrue(gw.lines.isEmpty());
 
         // WWW urls
-        r.wwwUrls.add(new StringWithCustomTags("Not allowed under 5.5"));
+        r.getWwwUrls().add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the repository having a www url");
@@ -524,7 +524,7 @@ public class GedcomWriter551Test {
         // Switch to 5.5.1, all should be fine
         g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5_1;
         gw.write("tmp/delete-me.ged");
-        r.wwwUrls.clear();
+        r.getWwwUrls().clear();
         g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
         gw.write("tmp/delete-me.ged");
     }
@@ -654,7 +654,7 @@ public class GedcomWriter551Test {
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
         g.getHeader().getGedcomVersion().versionNumber = SupportedVersion.V5_5;
-        g.getHeader().getCharacterSet().characterSetName = new StringWithCustomTags("UTF-8");
+        g.getHeader().getCharacterSet().setCharacterSetName(new StringWithCustomTags("UTF-8"));
         assertTrue(gw.lines.isEmpty());
         try {
             gw.write("tmp/delete-me.ged");

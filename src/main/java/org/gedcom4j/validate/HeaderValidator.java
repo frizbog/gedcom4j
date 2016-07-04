@@ -131,21 +131,21 @@ class HeaderValidator extends AbstractValidator {
                 return;
             }
         }
-        if (header.getCharacterSet().characterSetName == null) {
+        if (header.getCharacterSet().getCharacterSetName() == null) {
             if (rootValidator.autorepair) {
-                header.getCharacterSet().characterSetName = new StringWithCustomTags("ANSEL");
+                header.getCharacterSet().setCharacterSetName(new StringWithCustomTags("ANSEL"));
                 rootValidator.addInfo("Character set name was not defined", header.getCharacterSet());
             } else {
                 rootValidator.addError("Character set name was not defined", header.getCharacterSet());
                 return;
             }
         }
-        if (!Encoding.isValidCharacterSetName(header.getCharacterSet().characterSetName.getValue())) {
+        if (!Encoding.isValidCharacterSetName(header.getCharacterSet().getCharacterSetName().getValue())) {
             rootValidator.addError("Character set name is not one of the supported encodings (" + Encoding.getSupportedCharacterSetNames() + ")", header
-                    .getCharacterSet().characterSetName);
+                    .getCharacterSet().getCharacterSetName());
         }
-        checkOptionalString(header.getCharacterSet().characterSetName, "character set name", header.getCharacterSet());
-        checkOptionalString(header.getCharacterSet().versionNum, "character set version number", header.getCharacterSet());
+        checkOptionalString(header.getCharacterSet().getCharacterSetName(), "character set name", header.getCharacterSet());
+        checkOptionalString(header.getCharacterSet().getVersionNum(), "character set version number", header.getCharacterSet());
         checkCustomTags(header.getCharacterSet());
     }
 
@@ -168,12 +168,12 @@ class HeaderValidator extends AbstractValidator {
         if (ss.corporation != null) {
             Corporation c = ss.corporation;
             checkCustomTags(c);
-            if (c.address != null) {
-                new AddressValidator(rootValidator, c.address).validate();
+            if (c.getAddress() != null) {
+                new AddressValidator(rootValidator, c.getAddress()).validate();
             }
-            if (c.businessName == null || c.businessName.trim().length() == 0) {
+            if (c.getBusinessName() == null || c.getBusinessName().trim().length() == 0) {
                 if (rootValidator.autorepair) {
-                    c.businessName = "UNSPECIFIED";
+                    c.setBusinessName("UNSPECIFIED");
                     rootValidator.addInfo("Corporation for source system exists but had no name - repaired", c);
                 } else {
                     rootValidator.addError("Corporation for source system exists but has no name", c);

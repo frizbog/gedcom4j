@@ -27,7 +27,7 @@ package org.gedcom4j.model;
  * @author frizbog1
  * 
  */
-public class IndividualAttribute extends Event {
+public class IndividualAttribute extends AbstractEvent {
     /**
      * The type of attribute
      */

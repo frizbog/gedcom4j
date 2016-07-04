@@ -81,7 +81,7 @@ class FamilyValidator extends AbstractValidator {
             }
         }
         checkCustomTags(f);
-        for (Event ev : f.events) {
+        for (AbstractEvent ev : f.events) {
             new EventValidator(rootValidator, ev).validate();
         }
         if (f.husband != null) {

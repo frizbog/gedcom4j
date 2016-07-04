@@ -52,14 +52,14 @@ public class CitationDataTest {
         c1.customTags = new ArrayList<StringTree>();
         assertEquals(c1, c2);
 
-        c1.entryDate = new StringWithCustomTags("Frying Pan");
+        c1.setEntryDate(new StringWithCustomTags("Frying Pan"));
         assertFalse(c1.equals(c2));
-        c2.entryDate = new StringWithCustomTags("Frying Pan");
+        c2.setEntryDate(new StringWithCustomTags("Frying Pan"));
         assertEquals(c1, c2);
 
-        c1.sourceText.add(new ArrayList<String>());
+        c1.getSourceText().add(new ArrayList<String>());
         assertFalse(c1.equals(c2));
-        c2.sourceText.add(new ArrayList<String>());
+        c2.getSourceText().add(new ArrayList<String>());
         assertEquals(c1, c2);
 
     }
@@ -79,14 +79,14 @@ public class CitationDataTest {
         c1.customTags = new ArrayList<StringTree>();
         assertEquals(c1.hashCode(), c2.hashCode());
 
-        c1.entryDate = new StringWithCustomTags("Frying Pan");
+        c1.setEntryDate(new StringWithCustomTags("Frying Pan"));
         assertFalse(c1.hashCode() == c2.hashCode());
-        c2.entryDate = new StringWithCustomTags("Frying Pan");
+        c2.setEntryDate(new StringWithCustomTags("Frying Pan"));
         assertEquals(c1.hashCode(), c2.hashCode());
 
-        c1.sourceText.add(new ArrayList<String>());
+        c1.getSourceText().add(new ArrayList<String>());
         assertFalse(c1.hashCode() == c2.hashCode());
-        c2.sourceText.add(new ArrayList<String>());
+        c2.getSourceText().add(new ArrayList<String>());
         assertEquals(c1.hashCode(), c2.hashCode());
 
     }
@@ -100,8 +100,8 @@ public class CitationDataTest {
         assertEquals("CitationData [sourceText=[], customTags=[]]", c1.toString());
 
         c1.customTags = null;
-        c1.entryDate = new StringWithCustomTags("Frying Pan");
-        c1.sourceText.add(new ArrayList<String>());
+        c1.setEntryDate(new StringWithCustomTags("Frying Pan"));
+        c1.getSourceText().add(new ArrayList<String>());
 
         assertEquals("CitationData [entryDate=Frying Pan, sourceText=[[]], ]", c1.toString());
     }

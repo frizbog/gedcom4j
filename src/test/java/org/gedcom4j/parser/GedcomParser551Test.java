@@ -142,12 +142,12 @@ public class GedcomParser551Test {
         assertNotNull(g.getHeader().getSourceSystem());
         assertNotNull(g.getHeader().getSourceSystem().corporation);
         Corporation c = g.getHeader().getSourceSystem().corporation;
-        assertEquals("The Church of Jesus Christ of Latter-day Saints", c.businessName);
-        assertNotNull(c.faxNumbers);
-        assertEquals(1, c.faxNumbers.size());
-        assertEquals("800-555-1212", c.faxNumbers.get(0).toString());
-        assertNotNull(c.emails);
-        assertTrue(c.emails.isEmpty());
+        assertEquals("The Church of Jesus Christ of Latter-day Saints", c.getBusinessName());
+        assertNotNull(c.getFaxNumbers());
+        assertEquals(1, c.getFaxNumbers().size());
+        assertEquals("800-555-1212", c.getFaxNumbers().get(0).toString());
+        assertNotNull(c.getEmails());
+        assertTrue(c.getEmails().isEmpty());
     }
 
     /**

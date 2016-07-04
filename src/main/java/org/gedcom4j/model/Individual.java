@@ -135,26 +135,6 @@ public class Individual extends AbstractElement {
     public Address address;
 
     /**
-     * The phone numbers for the individual
-     */
-    public List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * Web URL's. New for GEDCOM 5.5.1.
-     */
-    public List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * Fax numbers. New for GEDCOM 5.5.1.
-     */
-    public List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * The emails for this submitter. New for GEDCOM 5.5.1
-     */
-    public List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
-
-    /**
      * Notes about this object
      */
     public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
@@ -168,6 +148,26 @@ public class Individual extends AbstractElement {
      * The xref for this submitter
      */
     private String xref;
+
+    /**
+     * The phone numbers for this submitter
+     */
+    private List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>(0);
+
+    /**
+     * Web URL's. New for GEDCOM 5.5.1.
+     */
+    private List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>(0);
+
+    /**
+     * Fax numbers. New for GEDCOM 5.5.1.
+     */
+    private List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>(0);
+
+    /**
+     * The emails for this submitter. New for GEDCOM 5.5.1
+     */
+    private List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
 
     // CHECKSTYLE:OFF for method length
     /**
@@ -664,5 +664,98 @@ public class Individual extends AbstractElement {
      */
     public void setXref(String xref) {
         this.xref = xref;
+    }
+
+    /**
+     * Get the emails
+     * 
+     * @return the emails
+     */
+    public List<StringWithCustomTags> getEmails() {
+        return emails;
+    }
+
+    /**
+     * Get the emails
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the emails
+     */
+    public List<StringWithCustomTags> getEmails(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && emails == null) {
+            emails = new ArrayList<StringWithCustomTags>(0);
+        }
+    
+        return emails;
+    }
+
+    /**
+     * Get the faxNumbers
+     * 
+     * @return the faxNumbers
+     */
+    public List<StringWithCustomTags> getFaxNumbers() {
+        return faxNumbers;
+    }
+
+    /**
+     * Get the faxNumbers
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the faxNumbers
+     */
+    public List<StringWithCustomTags> getFaxNumbers(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && faxNumbers == null) {
+            faxNumbers = new ArrayList<StringWithCustomTags>(0);
+        }
+        return faxNumbers;
+    }
+
+    /**
+     * Get the phoneNumbers
+     * 
+     * @return the phoneNumbers
+     */
+    public List<StringWithCustomTags> getPhoneNumbers() {
+        return phoneNumbers;
+    }
+
+    /**
+     * Get the phoneNumbers
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the phoneNumbers
+     */
+    public List<StringWithCustomTags> getPhoneNumbers(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && phoneNumbers == null) {
+            phoneNumbers = new ArrayList<StringWithCustomTags>(0);
+        }
+        return phoneNumbers;
+    }
+
+    /**
+     * Get the wwwUrls
+     * 
+     * @return the wwwUrls
+     */
+    public List<StringWithCustomTags> getWwwUrls() {
+        return wwwUrls;
+    }
+
+    /**
+     * Get the wwwUrls
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the wwwUrls
+     */
+    public List<StringWithCustomTags> getWwwUrls(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && wwwUrls == null) {
+            wwwUrls = new ArrayList<StringWithCustomTags>(0);
+        }
+        return wwwUrls;
     }
 }

@@ -59,15 +59,15 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         rootValidator.validate();
         assertNoIssues();
 
-        h.getCharacterSet().characterSetName = null;
+        h.getCharacterSet().setCharacterSetName(null);
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "character set", "name", "not", "defined");
 
-        h.getCharacterSet().characterSetName = new StringWithCustomTags("FRYINGPAN");
+        h.getCharacterSet().setCharacterSetName(new StringWithCustomTags("FRYINGPAN"));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "character set", "not", "supported");
 
-        h.getCharacterSet().characterSetName = new StringWithCustomTags(Encoding.ASCII.getCharacterSetName());
+        h.getCharacterSet().setCharacterSetName(new StringWithCustomTags(Encoding.ASCII.getCharacterSetName()));
         rootValidator.validate();
         assertNoIssues();
 
@@ -185,11 +185,11 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         rootValidator.validate();
         assertNoIssues();
 
-        h.getSourceSystem().corporation.businessName = null;
+        h.getSourceSystem().corporation.setBusinessName(null);
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "source system", "corporation", "name");
 
-        h.getSourceSystem().corporation.businessName = "Frying Pan";
+        h.getSourceSystem().corporation.setBusinessName("Frying Pan");
         rootValidator.validate();
         assertNoIssues();
 

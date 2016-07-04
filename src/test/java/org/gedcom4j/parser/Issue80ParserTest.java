@@ -60,7 +60,7 @@ public class Issue80ParserTest {
         assertNotNull(i.events);
         assertEquals(1, i.events.size());
 
-        Event e = i.events.get(0);
+        AbstractEvent e = i.events.get(0);
         assertNotNull(e);
         assertTrue(e instanceof IndividualEvent);
 

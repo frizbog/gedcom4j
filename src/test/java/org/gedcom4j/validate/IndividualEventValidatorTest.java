@@ -38,7 +38,7 @@ public class IndividualEventValidatorTest extends AbstractValidatorTestCase {
      * Test validation
      */
     @Test
-    public void testValidtor() {
+    public void testValidator() {
         Gedcom g = TestHelper.getMinimalGedcom();
         rootValidator.autorepair = false;
         rootValidator.gedcom = g;
@@ -63,31 +63,19 @@ public class IndividualEventValidatorTest extends AbstractValidatorTestCase {
         rootValidator.validate();
         assertNoIssues();
 
-        e.emails = null;
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "emails");
-        e.emails = new ArrayList<StringWithCustomTags>();
+        e.getEmails().clear();
         rootValidator.validate();
         assertNoIssues();
 
-        e.wwwUrls = null;
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "www", "Url");
-        e.wwwUrls = new ArrayList<StringWithCustomTags>();
+        e.getWwwUrls().clear();
         rootValidator.validate();
         assertNoIssues();
 
-        e.faxNumbers = null;
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "fax", "numbers");
-        e.faxNumbers = new ArrayList<StringWithCustomTags>();
+        e.getFaxNumbers().clear();
         rootValidator.validate();
         assertNoIssues();
 
-        e.phoneNumbers = null;
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "phone", "numbers");
-        e.phoneNumbers = new ArrayList<StringWithCustomTags>();
+        e.getPhoneNumbers().clear();
         rootValidator.validate();
         assertNoIssues();
 

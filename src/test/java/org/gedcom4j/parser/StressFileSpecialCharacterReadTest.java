@@ -67,7 +67,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testCharacterSet() {
-        assertEquals("ANSEL", g.getHeader().getCharacterSet().characterSetName.getValue());
+        assertEquals("ANSEL", g.getHeader().getCharacterSet().getCharacterSetName().getValue());
     }
 
     /**

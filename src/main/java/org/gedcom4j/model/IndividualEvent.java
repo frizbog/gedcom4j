@@ -26,7 +26,7 @@ package org.gedcom4j.model;
  * 
  * @author frizbog1
  */
-public class IndividualEvent extends Event {
+public class IndividualEvent extends AbstractEvent {
     /**
      * The type of event this represents
      */
@@ -73,12 +73,10 @@ public class IndividualEvent extends Event {
 
     @Override
     public String toString() {
-        return "IndividualEvent [type=" + type + ", family=" + family + ", address=" + address + ", phoneNumbers="
-                + phoneNumbers + ", wwwUrls=" + wwwUrls + ", faxNumbers=" + faxNumbers + ", emails=" + emails
-                + ", age=" + age + ", cause=" + cause + ", citations=" + citations + ", date=" + date
-                + ", description=" + description + ", multimedia=" + multimedia + ", notes=" + notes + ", place="
-                + place + ", respAgency=" + respAgency + ", yNull=" + yNull + ", subType=" + subType
-                + ", religiousAffiliation=" + religiousAffiliation + ", restrictionNotice=" + restrictionNotice
+        return "IndividualEvent [type=" + type + ", family=" + family + ", address=" + address + ", phoneNumbers=" + phoneNumbers + ", wwwUrls=" + wwwUrls
+                + ", faxNumbers=" + faxNumbers + ", emails=" + emails + ", age=" + age + ", cause=" + cause + ", citations=" + citations + ", date=" + date
+                + ", description=" + description + ", multimedia=" + multimedia + ", notes=" + notes + ", place=" + place + ", respAgency=" + respAgency
+                + ", yNull=" + yNull + ", subType=" + subType + ", religiousAffiliation=" + religiousAffiliation + ", restrictionNotice=" + restrictionNotice
                 + ", customTags=" + getCustomTags() + "]";
     }
 

@@ -32,12 +32,12 @@ public class CharacterSet extends AbstractElement {
     /**
      * The name of a character set
      */
-    public StringWithCustomTags characterSetName = new StringWithCustomTags(Encoding.ANSEL.toString());
+    private StringWithCustomTags characterSetName = new StringWithCustomTags(Encoding.ANSEL.toString());
 
     /**
      * A version number of the character set
      */
-    public StringWithCustomTags versionNum;
+    private StringWithCustomTags versionNum;
 
     @Override
     public boolean equals(Object obj) {
@@ -68,6 +68,24 @@ public class CharacterSet extends AbstractElement {
         return true;
     }
 
+    /**
+     * Get the characterSetName
+     * 
+     * @return the characterSetName
+     */
+    public StringWithCustomTags getCharacterSetName() {
+        return characterSetName;
+    }
+
+    /**
+     * Get the versionNum
+     * 
+     * @return the versionNum
+     */
+    public StringWithCustomTags getVersionNum() {
+        return versionNum;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -77,9 +95,29 @@ public class CharacterSet extends AbstractElement {
         return result;
     }
 
+    /**
+     * Set the characterSetName
+     * 
+     * @param characterSetName
+     *            the characterSetName to set
+     */
+    public void setCharacterSetName(StringWithCustomTags characterSetName) {
+        this.characterSetName = characterSetName;
+    }
+
+    /**
+     * Set the versionNum
+     * 
+     * @param versionNum
+     *            the versionNum to set
+     */
+    public void setVersionNum(StringWithCustomTags versionNum) {
+        this.versionNum = versionNum;
+    }
+
     @Override
     public String toString() {
-        return "CharacterSet [" + (characterSetName != null ? "characterSetName=" + characterSetName + ", " : "")
-                + (versionNum != null ? "versionNum=" + versionNum + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        return "CharacterSet [" + (characterSetName != null ? "characterSetName=" + characterSetName + ", " : "") + (versionNum != null ? "versionNum="
+                + versionNum + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

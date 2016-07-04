@@ -121,7 +121,7 @@ public class GedcomParserTest extends TestCase {
 
         // Check header
         assertEquals("6.00", g.getHeader().getSourceSystem().versionNum.getValue());
-        assertEquals("(510) 794-6850", g.getHeader().getSourceSystem().corporation.phoneNumbers.get(0).getValue());
+        assertEquals("(510) 794-6850", g.getHeader().getSourceSystem().corporation.getPhoneNumbers().get(0).getValue());
 
         // There are two sources in this file, and their names should be as
         // shown
@@ -339,12 +339,12 @@ public class GedcomParserTest extends TestCase {
         // Name 0 - Citation 0
         assertTrue(name.citations.get(0) instanceof CitationWithSource);
         citWithSource = (CitationWithSource) name.citations.get(0);
-        source = citWithSource.source;
+        source = citWithSource.getSource();
 
         assertEquals("@SOURCE1@", source.getXref());
-        assertEquals("42", citWithSource.whereInSource.toString());
+        assertEquals("42", citWithSource.getWhereInSource().toString());
 
-        assertEquals(0, citWithSource.multimedia.size());
+        assertEquals(0, citWithSource.getMultimedia().size());
         assertEquals(0, citWithSource.getNotes().size());
 
         // Name 0 - Note 0
@@ -364,16 +364,16 @@ public class GedcomParserTest extends TestCase {
         // Name 1 - Citation 0
         assertTrue(name.citations.get(0) instanceof CitationWithSource);
         citWithSource = (CitationWithSource) name.citations.get(0);
-        source = citWithSource.source;
+        source = citWithSource.getSource();
 
         assertEquals("@SOURCE1@", source.getXref());
-        assertEquals("55", citWithSource.whereInSource.toString());
+        assertEquals("55", citWithSource.getWhereInSource().toString());
 
-        assertEquals(1, citWithSource.multimedia.size());
+        assertEquals(1, citWithSource.getMultimedia().size());
         assertEquals(1, citWithSource.getNotes().size());
 
         // Name 1 - Multimedia 0
-        multimedia = citWithSource.multimedia.get(0);
+        multimedia = citWithSource.getMultimedia().get(0);
         assertEquals(0, multimedia.citations.size());
         assertEquals(1, multimedia.fileReferences.size());
         assertEquals(1, multimedia.getNotes().size());
@@ -419,12 +419,12 @@ public class GedcomParserTest extends TestCase {
         // Citation 0
         assertTrue(indi.citations.get(0) instanceof CitationWithSource);
         citWithSource = (CitationWithSource) indi.citations.get(0);
-        source = citWithSource.source;
+        source = citWithSource.getSource();
 
         assertEquals("@SOURCE1@", source.getXref());
-        assertEquals("42", citWithSource.whereInSource.toString());
+        assertEquals("42", citWithSource.getWhereInSource().toString());
 
-        assertEquals(0, citWithSource.multimedia.size());
+        assertEquals(0, citWithSource.getMultimedia().size());
         assertEquals(1, citWithSource.getNotes().size());
 
         // Citation 0 - Note 0
@@ -435,12 +435,12 @@ public class GedcomParserTest extends TestCase {
         // Citation 1
         assertTrue(indi.citations.get(1) instanceof CitationWithSource);
         citWithSource = (CitationWithSource) indi.citations.get(1);
-        source = citWithSource.source;
+        source = citWithSource.getSource();
 
         assertEquals("@SR2@", source.getXref());
-        assertEquals(null, citWithSource.whereInSource);
+        assertEquals(null, citWithSource.getWhereInSource());
 
-        assertEquals(0, citWithSource.multimedia.size());
+        assertEquals(0, citWithSource.getMultimedia().size());
         assertEquals(1, citWithSource.getNotes().size());
 
         // Citation 1 - Note 0

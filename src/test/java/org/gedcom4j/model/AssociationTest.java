@@ -70,22 +70,22 @@ public class AssociationTest {
         a2.setRelationship(null);
         assertEquals(a1, a2);
 
-        a1.citations.add(new CitationWithSource());
+        a1.getCitations().add(new CitationWithSource());
         assertFalse(a1.equals(a2));
-        a2.citations.add(new CitationWithSource());
+        a2.getCitations().add(new CitationWithSource());
         assertEquals(a1, a2);
-        a1.citations = null;
+        a1.getCitations().clear();
         assertFalse(a1.equals(a2));
-        a2.citations = null;
+        a2.getCitations().clear();
         assertEquals(a1, a2);
 
-        a1.notes.add(new Note());
+        a1.getNotes().add(new Note());
         assertFalse(a1.equals(a2));
-        a2.notes.add(new Note());
+        a2.getNotes().add(new Note());
         assertEquals(a1, a2);
-        a1.notes = null;
+        a1.getNotes().clear();
         assertFalse(a1.equals(a2));
-        a2.notes = null;
+        a2.getNotes().clear();
         assertEquals(a1, a2);
 
         assertFalse(a1.equals(null));
@@ -129,22 +129,22 @@ public class AssociationTest {
         a2.setRelationship(null);
         assertEquals(a1.hashCode(), a2.hashCode());
 
-        a1.citations.add(new CitationWithSource());
+        a1.getCitations().add(new CitationWithSource());
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.citations.add(new CitationWithSource());
+        a2.getCitations().add(new CitationWithSource());
         assertEquals(a1.hashCode(), a2.hashCode());
-        a1.citations = null;
+        a1.getCitations().clear();
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.citations = null;
+        a2.getCitations().clear();
         assertEquals(a1.hashCode(), a2.hashCode());
 
-        a1.notes.add(new Note());
+        a1.getNotes().add(new Note());
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.notes.add(new Note());
+        a2.getNotes().add(new Note());
         assertEquals(a1.hashCode(), a2.hashCode());
-        a1.notes = null;
+        a1.getNotes().clear();
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.notes = null;
+        a2.getNotes().clear();
         assertEquals(a1.hashCode(), a2.hashCode());
 
         assertFalse(a1.hashCode() == hashCode());

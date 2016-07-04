@@ -32,31 +32,11 @@ import org.gedcom4j.Options;
  * @author frizbog1
  * 
  */
-public class Event extends AbstractElement {
+public abstract class AbstractEvent extends AbstractElement {
     /**
      * The address where this event took place
      */
     public Address address;
-
-    /**
-     * The phone numbers involved with this event
-     */
-    public List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * Web URL's. New for GEDCOM 5.5.1.
-     */
-    public List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * Fax numbers. New for GEDCOM 5.5.1.
-     */
-    public List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * The emails for this submitter. New for GEDCOM 5.5.1
-     */
-    public List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
 
     /**
      * The age of the person to whom this event is attached at the time it occurred
@@ -125,6 +105,26 @@ public class Event extends AbstractElement {
     public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
 
     /**
+     * The phone numbers for this submitter
+     */
+    protected List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>(0);
+
+    /**
+     * Web URL's. New for GEDCOM 5.5.1.
+     */
+    protected List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>(0);
+
+    /**
+     * Fax numbers. New for GEDCOM 5.5.1.
+     */
+    protected List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>(0);
+
+    /**
+     * The emails for this submitter. New for GEDCOM 5.5.1
+     */
+    protected List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
+
+    /**
      * {@inheritDoc}
      */
     @SuppressWarnings({ "PMD.ExcessiveMethodLength", "PMD.NcssMethodCount" })
@@ -136,10 +136,10 @@ public class Event extends AbstractElement {
         if (!super.equals(obj)) {
             return false;
         }
-        if (!(obj instanceof Event)) {
+        if (!(obj instanceof AbstractEvent)) {
             return false;
         }
-        Event other = (Event) obj;
+        AbstractEvent other = (AbstractEvent) obj;
         if (address == null) {
             if (other.address != null) {
                 return false;
@@ -271,6 +271,123 @@ public class Event extends AbstractElement {
     }
 
     /**
+     * Get the emails
+     * 
+     * @return the emails
+     */
+    public List<StringWithCustomTags> getEmails() {
+        return emails;
+    }
+
+    /**
+     * Get the emails
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the emails
+     */
+    public List<StringWithCustomTags> getEmails(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && emails == null) {
+            emails = new ArrayList<StringWithCustomTags>(0);
+        }
+
+        return emails;
+    }
+
+    /**
+     * Get the faxNumbers
+     * 
+     * @return the faxNumbers
+     */
+    public List<StringWithCustomTags> getFaxNumbers() {
+        return faxNumbers;
+    }
+
+    /**
+     * Get the faxNumbers
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the faxNumbers
+     */
+    public List<StringWithCustomTags> getFaxNumbers(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && faxNumbers == null) {
+            faxNumbers = new ArrayList<StringWithCustomTags>(0);
+        }
+        return faxNumbers;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
+    /**
+     * Get the phoneNumbers
+     * 
+     * @return the phoneNumbers
+     */
+    public List<StringWithCustomTags> getPhoneNumbers() {
+        return phoneNumbers;
+    }
+
+    /**
+     * Get the phoneNumbers
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the phoneNumbers
+     */
+    public List<StringWithCustomTags> getPhoneNumbers(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && phoneNumbers == null) {
+            phoneNumbers = new ArrayList<StringWithCustomTags>(0);
+        }
+        return phoneNumbers;
+    }
+
+    /**
+     * Get the wwwUrls
+     * 
+     * @return the wwwUrls
+     */
+    public List<StringWithCustomTags> getWwwUrls() {
+        return wwwUrls;
+    }
+
+    /**
+     * Get the wwwUrls
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the wwwUrls
+     */
+    public List<StringWithCustomTags> getWwwUrls(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && wwwUrls == null) {
+            wwwUrls = new ArrayList<StringWithCustomTags>(0);
+        }
+        return wwwUrls;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -301,40 +418,14 @@ public class Event extends AbstractElement {
     @Override
     public String toString() {
         return "Event [" + (address != null ? "address=" + address + ", " : "") + (phoneNumbers != null ? "phoneNumbers=" + phoneNumbers + ", " : "")
-                + (wwwUrls != null ? "wwwUrls=" + wwwUrls + ", " : "") + (faxNumbers != null ? "faxNumbers=" + faxNumbers + ", " : "")
-                + (emails != null ? "emails=" + emails + ", " : "") + (age != null ? "age=" + age + ", " : "") + (cause != null ? "cause=" + cause + ", " : "")
-                + (citations != null ? "citations=" + citations + ", " : "") + (date != null ? "date=" + date + ", " : "")
-                + (description != null ? "description=" + description + ", " : "") + (multimedia != null ? "multimedia=" + multimedia + ", " : "")
-                + (notes != null ? "notes=" + notes + ", " : "") + (place != null ? "place=" + place + ", " : "")
-                + (respAgency != null ? "respAgency=" + respAgency + ", " : "") + (yNull != null ? "yNull=" + yNull + ", " : "")
-                + (subType != null ? "subType=" + subType + ", " : "")
-                + (religiousAffiliation != null ? "religiousAffiliation=" + religiousAffiliation + ", " : "")
-                + (restrictionNotice != null ? "restrictionNotice=" + restrictionNotice + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "")
-                + "]";
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @return the notes
-     */
-    public List<Note> getNotes() {
-        return notes;
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection if needed?
-     * 
-     * @return the notes
-     */
-    public List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<Note>(0);
-        }
-        return notes;
+                + (wwwUrls != null ? "wwwUrls=" + wwwUrls + ", " : "") + (faxNumbers != null ? "faxNumbers=" + faxNumbers + ", " : "") + (emails != null
+                        ? "emails=" + emails + ", " : "") + (age != null ? "age=" + age + ", " : "") + (cause != null ? "cause=" + cause + ", " : "")
+                + (citations != null ? "citations=" + citations + ", " : "") + (date != null ? "date=" + date + ", " : "") + (description != null
+                        ? "description=" + description + ", " : "") + (multimedia != null ? "multimedia=" + multimedia + ", " : "") + (notes != null ? "notes="
+                                + notes + ", " : "") + (place != null ? "place=" + place + ", " : "") + (respAgency != null ? "respAgency=" + respAgency + ", "
+                                        : "") + (yNull != null ? "yNull=" + yNull + ", " : "") + (subType != null ? "subType=" + subType + ", " : "")
+                + (religiousAffiliation != null ? "religiousAffiliation=" + religiousAffiliation + ", " : "") + (restrictionNotice != null
+                        ? "restrictionNotice=" + restrictionNotice + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 
 }

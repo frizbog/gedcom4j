@@ -36,12 +36,12 @@ public class CitationWithoutSource extends AbstractCitation {
     /**
      * Lines of text describing this citation
      */
-    public List<String> description = new ArrayList<String>(0);
+    private List<String> description = new ArrayList<String>(0);
 
     /**
      * Lines of Lines of text from the source (yeah, really)
      */
-    public List<List<String>> textFromSource = new ArrayList<List<String>>(0);
+    private List<List<String>> textFromSource = new ArrayList<List<String>>(0);
 
     @Override
     public boolean equals(Object obj) {
@@ -79,6 +79,52 @@ public class CitationWithoutSource extends AbstractCitation {
         return true;
     }
 
+    /**
+     * Get the description
+     * 
+     * @return the description
+     */
+    public List<String> getDescription() {
+        return description;
+    }
+
+    /**
+     * Get the description
+     * 
+     * @param initializeIfNeeded
+     *            true if this collection should be created on-the-fly if it is currently null
+     * @return the description
+     */
+    public List<String> getDescription(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && description == null) {
+            description = new ArrayList<String>(0);
+        }
+        return description;
+    }
+
+    /**
+     * Get the textFromSource
+     * 
+     * @return the textFromSource
+     */
+    public List<List<String>> getTextFromSource() {
+        return textFromSource;
+    }
+
+    /**
+     * Get the textFromSource
+     * 
+     * @param initializeIfNeeded
+     *            true if this collection should be created on-the-fly if it is currently null
+     * @return the textFromSource
+     */
+    public List<List<String>> getTextFromSource(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && textFromSource == null) {
+            textFromSource = new ArrayList<List<String>>(0);
+        }
+        return textFromSource;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -91,8 +137,8 @@ public class CitationWithoutSource extends AbstractCitation {
 
     @Override
     public String toString() {
-        return "CitationWithoutSource [" + (description != null ? "description=" + description + ", " : "")
-                + (textFromSource != null ? "textFromSource=" + textFromSource + ", " : "") + (getNotes() != null ? "notes=" + getNotes() + ", " : "")
-                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        return "CitationWithoutSource [" + (description != null ? "description=" + description + ", " : "") + (textFromSource != null ? "textFromSource="
+                + textFromSource + ", " : "") + (getNotes() != null ? "notes=" + getNotes() + ", " : "") + (getCustomTags() != null ? "customTags="
+                        + getCustomTags() : "") + "]";
     }
 }

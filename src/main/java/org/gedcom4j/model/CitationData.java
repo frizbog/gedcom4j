@@ -33,12 +33,12 @@ public class CitationData extends AbstractElement {
     /**
      * The date of the entry
      */
-    public StringWithCustomTags entryDate;
+    private StringWithCustomTags entryDate;
 
     /**
      * The source text - one or more lines of it
      */
-    public List<List<String>> sourceText = new ArrayList<List<String>>(0);
+    private List<List<String>> sourceText = new ArrayList<List<String>>(0);
 
     @Override
     public boolean equals(Object obj) {
@@ -69,6 +69,38 @@ public class CitationData extends AbstractElement {
         return true;
     }
 
+    /**
+     * Get the entryDate
+     * 
+     * @return the entryDate
+     */
+    public StringWithCustomTags getEntryDate() {
+        return entryDate;
+    }
+
+    /**
+     * Get the sourceText
+     * 
+     * @return the sourceText
+     */
+    public List<List<String>> getSourceText() {
+        return sourceText;
+    }
+
+    /**
+     * Get the sourceText
+     * 
+     * @param initializeIfNeeded
+     *            true if this collection should be created on-the-fly if it is currently null
+     * @return the sourceText
+     */
+    public List<List<String>> getSourceText(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && sourceText == null) {
+            sourceText = new ArrayList<List<String>>(0);
+        }
+        return sourceText;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -76,6 +108,16 @@ public class CitationData extends AbstractElement {
         result = prime * result + (entryDate == null ? 0 : entryDate.hashCode());
         result = prime * result + (sourceText == null ? 0 : sourceText.hashCode());
         return result;
+    }
+
+    /**
+     * Set the entryDate
+     * 
+     * @param entryDate
+     *            the entryDate to set
+     */
+    public void setEntryDate(StringWithCustomTags entryDate) {
+        this.entryDate = entryDate;
     }
 
     @Override

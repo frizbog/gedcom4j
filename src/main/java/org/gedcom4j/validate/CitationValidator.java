@@ -21,7 +21,6 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.gedcom4j.model.AbstractCitation;
@@ -63,31 +62,31 @@ class CitationValidator extends AbstractValidator {
         }
         if (citation instanceof CitationWithSource) {
             CitationWithSource c = (CitationWithSource) citation;
-            if (c.source == null) {
+            if (c.getSource() == null) {
                 addError("CitationWithSource requires a non-null source reference", c);
             }
-            checkOptionalString(c.whereInSource, "where within source", c);
-            checkOptionalString(c.eventCited, "event type cited from", c);
-            if (c.eventCited == null) {
-                if (c.roleInEvent != null) {
+            checkOptionalString(c.getWhereInSource(), "where within source", c);
+            checkOptionalString(c.getEventCited(), "event type cited from", c);
+            if (c.getEventCited() == null) {
+                if (c.getRoleInEvent() != null) {
                     addError("CitationWithSource has role in event but a null event");
                 }
             } else {
-                checkOptionalString(c.roleInEvent, "role in event", c);
+                checkOptionalString(c.getRoleInEvent(), "role in event", c);
             }
-            checkOptionalString(c.certainty, "certainty/quality", c);
+            checkOptionalString(c.getCertainty(), "certainty/quality", c);
         } else if (citation instanceof CitationWithoutSource) {
             CitationWithoutSource c = (CitationWithoutSource) citation;
-            checkStringList(c.description, "description on a citation without a source", true);
-            if (c.textFromSource == null) {
+            checkStringList(c.getDescription(), "description on a citation without a source", true);
+            if (c.getTextFromSource() == null) {
                 if (rootValidator.autorepair) {
-                    c.textFromSource = new ArrayList<List<String>>();
+                    c.getTextFromSource(true).clear();
                     addInfo("Text from source collection (the list of lists) was null in CitationWithoutSource - autorepaired", citation);
                 } else {
                     addError("Text from source collection (the list of lists) is null in CitationWithoutSource", citation);
                 }
             } else {
-                for (List<String> sl : c.textFromSource) {
+                for (List<String> sl : c.getTextFromSource()) {
                     if (sl == null) {
                         addError("Text from source collection (the list of lists) in CitationWithoutSource contains a null", citation);
                     } else {

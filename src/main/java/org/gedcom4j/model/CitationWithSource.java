@@ -35,39 +35,39 @@ public class CitationWithSource extends AbstractCitation {
     /**
      * Where within the source is the information being cited
      */
-    public StringWithCustomTags whereInSource;
+    private StringWithCustomTags whereInSource;
 
     /**
      * The quality of this citation. Supposed to be 0, 1, 2, or 3, but stored as a string since we're not doing math on
      * it.
      */
-    public StringWithCustomTags certainty;
+    private StringWithCustomTags certainty;
 
     /**
      * The type of event or attribute cited from. Will be the tag from one of the the following three enum types:
      * {@link FamilyEventType}, {@link IndividualEventType}, {@link IndividualAttributeType}.
      */
-    public StringWithCustomTags eventCited;
+    private StringWithCustomTags eventCited;
 
     /**
      * A list of citation data entries
      */
-    public List<CitationData> data = new ArrayList<CitationData>(0);
+    private List<CitationData> data = new ArrayList<CitationData>(0);
 
     /**
      * A reference to the cited source
      */
-    public Source source;
+    private Source source;
 
     /**
      * Multimedia links for this source citation
      */
-    public List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
+    private List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
 
     /**
      * The role in the event cited
      */
-    public StringWithCustomTags roleInEvent;
+    private StringWithCustomTags roleInEvent;
 
     @Override
     public boolean equals(Object obj) {
@@ -140,6 +140,97 @@ public class CitationWithSource extends AbstractCitation {
         return true;
     }
 
+    /**
+     * Get the certainty
+     * 
+     * @return the certainty
+     */
+    public StringWithCustomTags getCertainty() {
+        return certainty;
+    }
+
+    /**
+     * Get the data
+     * 
+     * @return the data
+     */
+    public List<CitationData> getData() {
+        return data;
+    }
+
+    /**
+     * Get the data
+     * 
+     * @param initializeIfNeeded
+     *            true if this collection should be created on-the-fly if it is currently null
+     * @return the data
+     */
+    public List<CitationData> getData(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && data == null) {
+            data = new ArrayList<CitationData>(0);
+        }
+        return data;
+    }
+
+    /**
+     * Get the eventCited
+     * 
+     * @return the eventCited
+     */
+    public StringWithCustomTags getEventCited() {
+        return eventCited;
+    }
+
+    /**
+     * Get the multimedia
+     * 
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia() {
+        return multimedia;
+    }
+
+    /**
+     * Get the multimedia
+     * 
+     * @param initializeIfNeeded
+     *            true if this collection should be created on-the-fly if it is currently null
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && multimedia == null) {
+            multimedia = new ArrayList<Multimedia>(0);
+        }
+        return multimedia;
+    }
+
+    /**
+     * Get the roleInEvent
+     * 
+     * @return the roleInEvent
+     */
+    public StringWithCustomTags getRoleInEvent() {
+        return roleInEvent;
+    }
+
+    /**
+     * Get the source
+     * 
+     * @return the source
+     */
+    public Source getSource() {
+        return source;
+    }
+
+    /**
+     * Get the whereInSource
+     * 
+     * @return the whereInSource
+     */
+    public StringWithCustomTags getWhereInSource() {
+        return whereInSource;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -155,12 +246,62 @@ public class CitationWithSource extends AbstractCitation {
         return result;
     }
 
+    /**
+     * Set the certainty
+     * 
+     * @param certainty
+     *            the certainty to set
+     */
+    public void setCertainty(StringWithCustomTags certainty) {
+        this.certainty = certainty;
+    }
+
+    /**
+     * Set the eventCited
+     * 
+     * @param eventCited
+     *            the eventCited to set
+     */
+    public void setEventCited(StringWithCustomTags eventCited) {
+        this.eventCited = eventCited;
+    }
+
+    /**
+     * Set the roleInEvent
+     * 
+     * @param roleInEvent
+     *            the roleInEvent to set
+     */
+    public void setRoleInEvent(StringWithCustomTags roleInEvent) {
+        this.roleInEvent = roleInEvent;
+    }
+
+    /**
+     * Set the source
+     * 
+     * @param source
+     *            the source to set
+     */
+    public void setSource(Source source) {
+        this.source = source;
+    }
+
+    /**
+     * Set the whereInSource
+     * 
+     * @param whereInSource
+     *            the whereInSource to set
+     */
+    public void setWhereInSource(StringWithCustomTags whereInSource) {
+        this.whereInSource = whereInSource;
+    }
+
     @Override
     public String toString() {
-        return "CitationWithSource [" + (whereInSource != null ? "whereInSource=" + whereInSource + ", " : "")
-                + (certainty != null ? "certainty=" + certainty + ", " : "") + (eventCited != null ? "eventCited=" + eventCited + ", " : "")
-                + (data != null ? "data=" + data + ", " : "") + (source != null ? "source=" + source + ", " : "")
-                + (multimedia != null ? "multimedia=" + multimedia + ", " : "") + (roleInEvent != null ? "roleInEvent=" + roleInEvent + ", " : "")
-                + (getNotes() != null ? "notes=" + getNotes() + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+        return "CitationWithSource [" + (whereInSource != null ? "whereInSource=" + whereInSource + ", " : "") + (certainty != null ? "certainty=" + certainty
+                + ", " : "") + (eventCited != null ? "eventCited=" + eventCited + ", " : "") + (data != null ? "data=" + data + ", " : "") + (source != null
+                        ? "source=" + source + ", " : "") + (multimedia != null ? "multimedia=" + multimedia + ", " : "") + (roleInEvent != null
+                                ? "roleInEvent=" + roleInEvent + ", " : "") + (getNotes() != null ? "notes=" + getNotes() + ", " : "")
+                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }
