@@ -21,8 +21,6 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.ArrayList;
-
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.StringWithCustomTags;
@@ -82,9 +80,9 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
 
         f = new Family();
         f.setXref("@F0001@");
-        f.husband = dad;
-        f.wife = mom;
-        f.children.add(jr);
+        f.setHusband(dad);
+        f.setWife(mom);
+        f.getChildren().add(jr);
         gedcom.getFamilies().put(f.getXref(), f);
 
         rootValidator.validate();
@@ -96,21 +94,21 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testAutomatedRecordId() {
-        f.automatedRecordId = new StringWithCustomTags((String) null);
+        f.setAutomatedRecordId(new StringWithCustomTags((String) null));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "automated", "record", "id", "no value");
 
-        f.automatedRecordId = new StringWithCustomTags("");
+        f.setAutomatedRecordId(new StringWithCustomTags(""));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "automated", "record", "id", "blank");
         assertFindingsContain(Severity.ERROR, "automated", "record", "id", "custom tags", "no value");
 
-        f.automatedRecordId = new StringWithCustomTags("     ");
+        f.setAutomatedRecordId(new StringWithCustomTags("     "));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "automated", "record", "id", "blank");
         assertFindingsContain(Severity.ERROR, "automated", "record", "id", "custom tags", "no value");
 
-        f.automatedRecordId = new StringWithCustomTags("Frying Pan");
+        f.setAutomatedRecordId(new StringWithCustomTags("Frying Pan"));
         rootValidator.validate();
         assertNoIssues();
     }
@@ -140,7 +138,7 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoDadInFamily() {
-        f.husband = null;
+        f.setHusband(null);
 
         rootValidator.validate();
         assertNoIssues();
@@ -151,15 +149,11 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoKidsInFamily() {
-        f.children = null;
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "children", "null", "family");
-
-        f.children = new ArrayList<Individual>();
+        f.getChildren(true).clear();
         rootValidator.validate();
         assertNoIssues();
 
-        f.children.add(jr);
+        f.getChildren().add(jr);
         rootValidator.validate();
         assertNoIssues();
     }
@@ -169,7 +163,7 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoMomInFamily() {
-        f.wife = null;
+        f.setWife(null);
 
         rootValidator.validate();
         assertNoIssues();
@@ -190,9 +184,9 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoPeopleInFamily() {
-        f.husband = null;
-        f.wife = null;
-        f.children.clear();
+        f.setHusband(null);
+        f.setWife(null);
+        f.getChildren().clear();
 
         rootValidator.validate();
         assertNoIssues();

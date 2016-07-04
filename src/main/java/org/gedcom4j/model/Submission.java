@@ -31,32 +31,32 @@ public class Submission extends AbstractElement {
     /**
      * The submitter of this submission
      */
-    public Submitter submitter;
+    private Submitter submitter;
 
     /**
      * The name of the family file
      */
-    public StringWithCustomTags nameOfFamilyFile;
+    private StringWithCustomTags nameOfFamilyFile;
 
     /**
      * The temple code for this submission
      */
-    public StringWithCustomTags templeCode;
+    private StringWithCustomTags templeCode;
 
     /**
      * The number of ancestor generations
      */
-    public StringWithCustomTags ancestorsCount;
+    private StringWithCustomTags ancestorsCount;
 
     /**
      * The number of descendant generations
      */
-    public StringWithCustomTags descendantsCount;
+    private StringWithCustomTags descendantsCount;
 
     /**
      * The ordinance process flag
      */
-    public StringWithCustomTags ordinanceProcessFlag;
+    private StringWithCustomTags ordinanceProcessFlag;
 
     /**
      * The record ID number
@@ -150,12 +150,66 @@ public class Submission extends AbstractElement {
     }
 
     /**
+     * Get the ancestorsCount
+     * 
+     * @return the ancestorsCount
+     */
+    public StringWithCustomTags getAncestorsCount() {
+        return ancestorsCount;
+    }
+
+    /**
+     * Get the descendantsCount
+     * 
+     * @return the descendantsCount
+     */
+    public StringWithCustomTags getDescendantsCount() {
+        return descendantsCount;
+    }
+
+    /**
+     * Get the nameOfFamilyFile
+     * 
+     * @return the nameOfFamilyFile
+     */
+    public StringWithCustomTags getNameOfFamilyFile() {
+        return nameOfFamilyFile;
+    }
+
+    /**
+     * Get the ordinanceProcessFlag
+     * 
+     * @return the ordinanceProcessFlag
+     */
+    public StringWithCustomTags getOrdinanceProcessFlag() {
+        return ordinanceProcessFlag;
+    }
+
+    /**
      * Get the recIdNumber
      * 
      * @return the recIdNumber
      */
     public StringWithCustomTags getRecIdNumber() {
         return recIdNumber;
+    }
+
+    /**
+     * Get the submitter
+     * 
+     * @return the submitter
+     */
+    public Submitter getSubmitter() {
+        return submitter;
+    }
+
+    /**
+     * Get the templeCode
+     * 
+     * @return the templeCode
+     */
+    public StringWithCustomTags getTempleCode() {
+        return templeCode;
     }
 
     /**
@@ -183,6 +237,46 @@ public class Submission extends AbstractElement {
     }
 
     /**
+     * Set the ancestorsCount
+     * 
+     * @param ancestorsCount
+     *            the ancestorsCount to set
+     */
+    public void setAncestorsCount(StringWithCustomTags ancestorsCount) {
+        this.ancestorsCount = ancestorsCount;
+    }
+
+    /**
+     * Set the descendantsCount
+     * 
+     * @param descendantsCount
+     *            the descendantsCount to set
+     */
+    public void setDescendantsCount(StringWithCustomTags descendantsCount) {
+        this.descendantsCount = descendantsCount;
+    }
+
+    /**
+     * Set the nameOfFamilyFile
+     * 
+     * @param nameOfFamilyFile
+     *            the nameOfFamilyFile to set
+     */
+    public void setNameOfFamilyFile(StringWithCustomTags nameOfFamilyFile) {
+        this.nameOfFamilyFile = nameOfFamilyFile;
+    }
+
+    /**
+     * Set the ordinanceProcessFlag
+     * 
+     * @param ordinanceProcessFlag
+     *            the ordinanceProcessFlag to set
+     */
+    public void setOrdinanceProcessFlag(StringWithCustomTags ordinanceProcessFlag) {
+        this.ordinanceProcessFlag = ordinanceProcessFlag;
+    }
+
+    /**
      * Set the recIdNumber
      * 
      * @param recIdNumber
@@ -190,6 +284,26 @@ public class Submission extends AbstractElement {
      */
     public void setRecIdNumber(StringWithCustomTags recIdNumber) {
         this.recIdNumber = recIdNumber;
+    }
+
+    /**
+     * Set the submitter
+     * 
+     * @param submitter
+     *            the submitter to set
+     */
+    public void setSubmitter(Submitter submitter) {
+        this.submitter = submitter;
+    }
+
+    /**
+     * Set the templeCode
+     * 
+     * @param templeCode
+     *            the templeCode to set
+     */
+    public void setTempleCode(StringWithCustomTags templeCode) {
+        this.templeCode = templeCode;
     }
 
     /**

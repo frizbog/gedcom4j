@@ -177,35 +177,36 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         rootValidator.validate();
         assertNoIssues();
 
-        h.getSourceSystem().corporation = null;
+        SourceSystem ss = h.getSourceSystem();
+        ss.setCorporation(null);
         rootValidator.validate();
         assertNoIssues();
 
-        h.getSourceSystem().corporation = new Corporation();
+        ss.setCorporation(new Corporation());
         rootValidator.validate();
         assertNoIssues();
 
-        h.getSourceSystem().corporation.setBusinessName(null);
+        ss.getCorporation().setBusinessName(null);
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "source system", "corporation", "name");
 
-        h.getSourceSystem().corporation.setBusinessName("Frying Pan");
+        ss.getCorporation().setBusinessName("Frying Pan");
         rootValidator.validate();
         assertNoIssues();
 
-        h.getSourceSystem().productName = new StringWithCustomTags("Yo");
+        ss.setProductName(new StringWithCustomTags("Yo"));
         rootValidator.validate();
         assertNoIssues();
 
-        h.getSourceSystem().productName = null;
+        ss.setProductName(null);
         rootValidator.validate();
         assertNoIssues();
 
-        h.getSourceSystem().systemId = null;
+        ss.setSystemId(null);
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "source system", "system", "id");
 
-        h.getSourceSystem().systemId = "Test";
+        ss.setSystemId("Test");
         rootValidator.validate();
         assertNoIssues();
     }

@@ -360,8 +360,8 @@ abstract class AbstractValidator {
             if (userReference == null) {
                 addError("Null user reference in collection on " + objectWithUserReferences.getClass().getSimpleName(), objectWithUserReferences);
             } else {
-                checkRequiredString(userReference.referenceNum, "reference number", userReference);
-                checkOptionalString(userReference.type, "reference type", userReference);
+                checkRequiredString(userReference.getReferenceNum(), "reference number", userReference);
+                checkOptionalString(userReference.getType(), "reference type", userReference);
             }
         }
     }

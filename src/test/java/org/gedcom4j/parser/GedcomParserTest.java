@@ -120,8 +120,8 @@ public class GedcomParserTest extends TestCase {
         assertEquals(new StringWithCustomTags("UNSPECIFIED"), submitter.getName());
 
         // Check header
-        assertEquals("6.00", g.getHeader().getSourceSystem().versionNum.getValue());
-        assertEquals("(510) 794-6850", g.getHeader().getSourceSystem().corporation.getPhoneNumbers().get(0).getValue());
+        assertEquals("6.00", g.getHeader().getSourceSystem().getVersionNum().getValue());
+        assertEquals("(510) 794-6850", g.getHeader().getSourceSystem().getCorporation().getPhoneNumbers().get(0).getValue());
 
         // There are two sources in this file, and their names should be as
         // shown
@@ -136,9 +136,9 @@ public class GedcomParserTest extends TestCase {
         // Check a specific family
         Family family = g.getFamilies().get("@F1428@");
         assertNotNull(family);
-        assertEquals(3, family.children.size());
-        assertEquals("Lawrence Henry /Barnett/", family.husband.getNames().get(0).basic);
-        assertEquals("Velma //", family.wife.getNames().get(0).basic);
+        assertEquals(3, family.getChildren().size());
+        assertEquals("Lawrence Henry /Barnett/", family.getHusband().getNames().get(0).basic);
+        assertEquals("Velma //", family.getWife().getNames().get(0).basic);
 
     }
 

@@ -70,8 +70,8 @@ public class FamilyEventTypeParseTest extends TestCase {
         int familyCount = 0;
         for (Family fam : g.getFamilies().values()) {
             familyCount++;
-            assertNotNull(fam.events);
-            for (FamilyEvent event : fam.events) {
+            assertNotNull(fam.getEvents());
+            for (FamilyEvent event : fam.getEvents()) {
                 assertNotNull(event.getType());
             }
         }

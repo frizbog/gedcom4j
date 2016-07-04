@@ -55,33 +55,33 @@ public class FamilyTest {
         FamilySpouse fs1 = new FamilySpouse();
         fs1.setFamily(family1);
 
-        family1.husband = new Individual();
+        family1.setHusband(new Individual());
         PersonalName hn1 = new PersonalName();
         hn1.basic = "Fred /Astaire/";
-        family1.husband.getNames().add(hn1);
-        family1.husband.getFamiliesWhereSpouse().add(fs1);
+        family1.getHusband().getNames().add(hn1);
+        family1.getHusband().getFamiliesWhereSpouse().add(fs1);
 
-        family1.wife = new Individual();
+        family1.setWife(new Individual());
         PersonalName wn1 = new PersonalName();
         wn1.basic = "Ginger /Rogers/";
-        family1.wife.getNames().add(wn1);
-        family1.wife.getFamiliesWhereSpouse().add(fs1);
+        family1.getWife().getNames().add(wn1);
+        family1.getWife().getFamiliesWhereSpouse().add(fs1);
 
         family2 = new Family();
         FamilySpouse fs2 = new FamilySpouse();
         fs2.setFamily(family2);
 
-        family2.husband = new Individual();
+        family2.setHusband(new Individual());
         PersonalName hn2 = new PersonalName();
         hn2.basic = "Fred /Astaire/";
-        family2.husband.getNames().add(hn2);
-        family2.husband.getFamiliesWhereSpouse().add(fs2);
+        family2.getHusband().getNames().add(hn2);
+        family2.getHusband().getFamiliesWhereSpouse().add(fs2);
 
-        family2.wife = new Individual();
+        family2.setWife(new Individual());
         PersonalName wn2 = new PersonalName();
         wn2.basic = "Ginger /Rogers/";
-        family2.wife.getNames().add(wn2);
-        family2.wife.getFamiliesWhereSpouse().add(fs2);
+        family2.getWife().getNames().add(wn2);
+        family2.getWife().getFamiliesWhereSpouse().add(fs2);
     }
 
     /**

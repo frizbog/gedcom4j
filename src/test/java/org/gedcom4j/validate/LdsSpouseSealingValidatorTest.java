@@ -21,8 +21,6 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.ArrayList;
-
 import org.gedcom4j.model.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -78,9 +76,9 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
 
         f = new Family();
         f.setXref("@F0001@");
-        f.husband = dad;
-        f.wife = mom;
-        f.children.add(jr);
+        f.setHusband(dad);
+        f.setWife(mom);
+        f.getChildren().add(jr);
         gedcom.getFamilies().put(f.getXref(), f);
 
         rootValidator.validate();
@@ -93,7 +91,7 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testCitations() {
         LdsSpouseSealing s = new LdsSpouseSealing();
-        f.ldsSpouseSealings.add(s);
+        f.getLdsSpouseSealings().add(s);
 
         s.getCitations().clear();
         rootValidator.validate();
@@ -106,7 +104,7 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testCustomTags() {
         LdsSpouseSealing s = new LdsSpouseSealing();
-        f.ldsSpouseSealings.add(s);
+        f.getLdsSpouseSealings().add(s);
 
         s.getCustomTags().clear();
         rootValidator.validate();
@@ -119,7 +117,7 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testDate() {
         LdsSpouseSealing s = new LdsSpouseSealing();
-        f.ldsSpouseSealings.add(s);
+        f.getLdsSpouseSealings().add(s);
         s.setDate(new StringWithCustomTags((String) null));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "date", "no value");
@@ -143,7 +141,7 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testNotes() {
         LdsSpouseSealing s = new LdsSpouseSealing();
-        f.ldsSpouseSealings.add(s);
+        f.getLdsSpouseSealings().add(s);
 
         s.getNotes().clear();
         rootValidator.validate();
@@ -155,10 +153,7 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNullList() {
-        f.ldsSpouseSealings = null;
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "lds", "spouse", "sealings", "null");
-        f.ldsSpouseSealings = new ArrayList<LdsSpouseSealing>();
+        f.getLdsSpouseSealings(true).clear();
         rootValidator.validate();
         assertNoIssues();
     }
@@ -169,7 +164,7 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testPlace() {
         LdsSpouseSealing s = new LdsSpouseSealing();
-        f.ldsSpouseSealings.add(s);
+        f.getLdsSpouseSealings().add(s);
         s.setPlace(new StringWithCustomTags((String) null));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "place", "no value");
@@ -193,7 +188,7 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testStatus() {
         LdsSpouseSealing s = new LdsSpouseSealing();
-        f.ldsSpouseSealings.add(s);
+        f.getLdsSpouseSealings().add(s);
         s.setStatus(new StringWithCustomTags((String) null));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "status", "no value");
@@ -217,7 +212,7 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testTemple() {
         LdsSpouseSealing s = new LdsSpouseSealing();
-        f.ldsSpouseSealings.add(s);
+        f.getLdsSpouseSealings().add(s);
         s.setTemple(new StringWithCustomTags((String) null));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "temple", "no value");

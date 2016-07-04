@@ -21,8 +21,6 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.ArrayList;
-
 import org.gedcom4j.model.*;
 
 /**
@@ -65,16 +63,16 @@ class SourceValidator extends AbstractValidator {
         if (source.getData() != null) {
             SourceData sd = source.getData();
             checkNotes(sd.getNotes(), sd);
-            checkOptionalString(sd.respAgency, "responsible agency", sd);
-            if (sd.eventsRecorded == null) {
+            checkOptionalString(sd.getRespAgency(), "responsible agency", sd);
+            if (sd.getEventsRecorded() == null) {
                 if (rootValidator.autorepair) {
-                    sd.eventsRecorded = new ArrayList<EventRecorded>();
+                    sd.getEventsRecorded(true).clear();
                     addInfo("Collection of recorded events in source data structure was null - autorepaired", sd);
                 } else {
                     addError("Collection of recorded events in source data structure is null", sd);
                 }
             } else {
-                for (EventRecorded er : sd.eventsRecorded) {
+                for (EventRecorded er : sd.getEventsRecorded()) {
                     checkOptionalString(er.getDatePeriod(), "date period", er);
                     checkOptionalString(er.getEventType(), "event type", er);
                     checkOptionalString(er.getJurisdiction(), "jurisdiction", er);

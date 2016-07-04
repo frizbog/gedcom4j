@@ -440,8 +440,8 @@ public class GedcomWriter {
                 .getHeader().getCharacterSet().getCharacterSetName().getValue())) {
             throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but data is encoded using UTF-8");
         }
-        if (gedcom.getHeader().getSourceSystem() != null && gedcom.getHeader().getSourceSystem().corporation != null) {
-            Corporation c = gedcom.getHeader().getSourceSystem().corporation;
+        if (gedcom.getHeader().getSourceSystem() != null && gedcom.getHeader().getSourceSystem().getCorporation() != null) {
+            Corporation c = gedcom.getHeader().getSourceSystem().getCorporation();
             if (!c.getWwwUrls().isEmpty()) {
                 throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but source system corporation has www urls");
             }
@@ -774,35 +774,35 @@ public class GedcomWriter {
     private void emitFamilies() throws GedcomWriterException {
         for (Family f : gedcom.getFamilies().values()) {
             emitTag(0, f.getXref(), "FAM");
-            for (FamilyEvent e : f.events) {
+            for (FamilyEvent e : f.getEvents()) {
                 emitFamilyEventStructure(1, e);
             }
-            if (f.husband != null) {
-                emitTagWithRequiredValue(1, "HUSB", f.husband.getXref());
+            if (f.getHusband() != null) {
+                emitTagWithRequiredValue(1, "HUSB", f.getHusband().getXref());
             }
-            if (f.wife != null) {
-                emitTagWithRequiredValue(1, "WIFE", f.wife.getXref());
+            if (f.getWife() != null) {
+                emitTagWithRequiredValue(1, "WIFE", f.getWife().getXref());
             }
-            for (Individual i : f.children) {
+            for (Individual i : f.getChildren()) {
                 emitTagWithRequiredValue(1, "CHIL", i.getXref());
             }
-            emitTagIfValueNotNull(1, "NCHI", f.numChildren);
-            for (Submitter s : f.submitters) {
+            emitTagIfValueNotNull(1, "NCHI", f.getNumChildren());
+            for (Submitter s : f.getSubmitters()) {
                 emitTagWithRequiredValue(1, "SUBM", s.getXref());
             }
-            for (LdsSpouseSealing s : f.ldsSpouseSealings) {
+            for (LdsSpouseSealing s : f.getLdsSpouseSealings()) {
                 emitLdsFamilyOrdinance(1, s);
             }
-            emitTagIfValueNotNull(1, "RESN", f.restrictionNotice);
+            emitTagIfValueNotNull(1, "RESN", f.getRestrictionNotice());
             emitSourceCitations(1, f.getCitations());
             emitMultimediaLinks(1, f.getMultimedia());
             emitNotes(1, f.getNotes());
             for (UserReference u : f.getUserReferences()) {
-                emitTagWithRequiredValue(1, "REFN", u.referenceNum);
-                emitTagIfValueNotNull(2, "TYPE", u.type);
+                emitTagWithRequiredValue(1, "REFN", u.getReferenceNum());
+                emitTagIfValueNotNull(2, "TYPE", u.getType());
             }
-            emitTagIfValueNotNull(1, "RIN", f.automatedRecordId);
-            emitChangeDate(1, f.changeDate);
+            emitTagIfValueNotNull(1, "RIN", f.getAutomatedRecordId());
+            emitChangeDate(1, f.getChangeDate());
             emitCustomTags(1, f.getCustomTags());
             notifyConstructObserversIfNeeded();
             if (cancelled) {
@@ -974,8 +974,8 @@ public class GedcomWriter {
             emitTagIfValueNotNull(1, "RFN", i.getPermanentRecFileNumber());
             emitTagIfValueNotNull(1, "AFN", i.getAncestralFileNumber());
             for (UserReference u : i.getUserReferences()) {
-                emitTagWithRequiredValue(1, "REFN", u.referenceNum);
-                emitTagIfValueNotNull(2, "TYPE", u.type);
+                emitTagWithRequiredValue(1, "REFN", u.getReferenceNum());
+                emitTagIfValueNotNull(2, "TYPE", u.getType());
             }
             emitTagIfValueNotNull(1, "RIN", i.getRecIdNumber());
             emitChangeDate(1, i.getChangeDate());
@@ -1110,8 +1110,8 @@ public class GedcomWriter {
                 emitTagWithRequiredValue(1, "OBJE", m.getContinuedObject().getXref());
             }
             for (UserReference u : m.getUserReferences()) {
-                emitTagWithRequiredValue(1, "REFN", u.referenceNum);
-                emitTagIfValueNotNull(2, "TYPE", u.type);
+                emitTagWithRequiredValue(1, "REFN", u.getReferenceNum());
+                emitTagIfValueNotNull(2, "TYPE", u.getType());
             }
             emitTagIfValueNotNull(1, "RIN", m.getRecIdNumber());
             emitChangeDate(1, m.getChangeDate());
@@ -1143,8 +1143,8 @@ public class GedcomWriter {
                 emitTagIfValueNotNull(2, "TITL", fr.getTitle());
             }
             for (UserReference u : m.getUserReferences()) {
-                emitTagWithRequiredValue(1, "REFN", u.referenceNum);
-                emitTagIfValueNotNull(2, "TYPE", u.type);
+                emitTagWithRequiredValue(1, "REFN", u.getReferenceNum());
+                emitTagIfValueNotNull(2, "TYPE", u.getType());
             }
             emitTagIfValueNotNull(1, "RIN", m.getRecIdNumber());
             emitNotes(1, m.getNotes());
@@ -1250,8 +1250,8 @@ public class GedcomWriter {
         emitNoteLines(level, note.getXref(), note.getLines());
         emitSourceCitations(level + 1, note.getCitations());
         for (UserReference u : note.getUserReferences()) {
-            emitTagWithRequiredValue(level + 1, "REFN", u.referenceNum);
-            emitTagIfValueNotNull(level + 2, "TYPE", u.type);
+            emitTagWithRequiredValue(level + 1, "REFN", u.getReferenceNum());
+            emitTagIfValueNotNull(level + 2, "TYPE", u.getType());
         }
         emitTagIfValueNotNull(level + 1, "RIN", note.getRecIdNumber());
         emitChangeDate(level + 1, note.getChangeDate());
@@ -1440,8 +1440,8 @@ public class GedcomWriter {
             emitAddress(1, r.getAddress());
             emitNotes(1, r.getNotes());
             for (UserReference u : r.getUserReferences()) {
-                emitTagWithRequiredValue(1, "REFN", u.referenceNum);
-                emitTagIfValueNotNull(2, "TYPE", u.type);
+                emitTagWithRequiredValue(1, "REFN", u.getReferenceNum());
+                emitTagIfValueNotNull(2, "TYPE", u.getType());
             }
             emitTagIfValueNotNull(1, "RIN", r.getRecIdNumber());
             emitPhoneNumbers(1, r.getPhoneNumbers());
@@ -1519,12 +1519,12 @@ public class GedcomWriter {
             SourceData d = s.getData();
             if (d != null) {
                 emitTag(1, "DATA");
-                for (EventRecorded e : d.eventsRecorded) {
+                for (EventRecorded e : d.getEventsRecorded()) {
                     emitTagWithOptionalValue(2, "EVEN", e.getEventType());
                     emitTagIfValueNotNull(3, "DATE", e.getDatePeriod());
                     emitTagIfValueNotNull(3, "PLAC", e.getJurisdiction());
                 }
-                emitTagIfValueNotNull(2, "AGNC", d.respAgency);
+                emitTagIfValueNotNull(2, "AGNC", d.getRespAgency());
                 emitNotes(2, d.getNotes());
             }
             emitLinesOfText(1, "AUTH", s.getOriginatorsAuthors());
@@ -1536,8 +1536,8 @@ public class GedcomWriter {
             emitMultimediaLinks(1, s.getMultimedia());
             emitNotes(1, s.getNotes());
             for (UserReference u : s.getUserReferences()) {
-                emitTagWithRequiredValue(1, "REFN", u.referenceNum);
-                emitTagIfValueNotNull(2, "TYPE", u.type);
+                emitTagWithRequiredValue(1, "REFN", u.getReferenceNum());
+                emitTagIfValueNotNull(2, "TYPE", u.getType());
             }
             emitTagIfValueNotNull(1, "RIN", s.getRecIdNumber());
             emitChangeDate(1, s.getChangeDate());
@@ -1561,10 +1561,10 @@ public class GedcomWriter {
         if (sourceSystem == null) {
             return;
         }
-        emitTagWithRequiredValue(1, "SOUR", sourceSystem.systemId);
-        emitTagIfValueNotNull(2, "VERS", sourceSystem.versionNum);
-        emitTagIfValueNotNull(2, "NAME", sourceSystem.productName);
-        Corporation corporation = sourceSystem.corporation;
+        emitTagWithRequiredValue(1, "SOUR", sourceSystem.getSystemId());
+        emitTagIfValueNotNull(2, "VERS", sourceSystem.getVersionNum());
+        emitTagIfValueNotNull(2, "NAME", sourceSystem.getProductName());
+        Corporation corporation = sourceSystem.getCorporation();
         if (corporation != null) {
             emitTagWithOptionalValue(2, "CORP", corporation.getBusinessName());
             emitAddress(3, corporation.getAddress());
@@ -1573,7 +1573,7 @@ public class GedcomWriter {
             emitWwwUrls(3, corporation.getWwwUrls());
             emitEmails(3, corporation.getEmails());
         }
-        HeaderSourceData sourceData = sourceSystem.sourceData;
+        HeaderSourceData sourceData = sourceSystem.getSourceData();
         if (sourceData != null) {
             emitTagIfValueNotNull(2, "DATA", sourceData.getName());
             emitTagIfValueNotNull(3, "DATE", sourceData.getPublishDate());
@@ -1618,14 +1618,14 @@ public class GedcomWriter {
             return;
         }
         emitTag(0, s.getXref(), "SUBN");
-        if (s.submitter != null) {
-            emitTagWithOptionalValue(1, "SUBM", s.submitter.getXref());
+        if (s.getSubmitter() != null) {
+            emitTagWithOptionalValue(1, "SUBM", s.getSubmitter().getXref());
         }
-        emitTagIfValueNotNull(1, "FAMF", s.nameOfFamilyFile);
-        emitTagIfValueNotNull(1, "TEMP", s.templeCode);
-        emitTagIfValueNotNull(1, "ANCE", s.ancestorsCount);
-        emitTagIfValueNotNull(1, "DESC", s.descendantsCount);
-        emitTagIfValueNotNull(1, "ORDI", s.ordinanceProcessFlag);
+        emitTagIfValueNotNull(1, "FAMF", s.getNameOfFamilyFile());
+        emitTagIfValueNotNull(1, "TEMP", s.getTempleCode());
+        emitTagIfValueNotNull(1, "ANCE", s.getAncestorsCount());
+        emitTagIfValueNotNull(1, "DESC", s.getDescendantsCount());
+        emitTagIfValueNotNull(1, "ORDI", s.getOrdinanceProcessFlag());
         emitTagIfValueNotNull(1, "RIN", s.getRecIdNumber());
         emitCustomTags(1, s.getCustomTags());
     }

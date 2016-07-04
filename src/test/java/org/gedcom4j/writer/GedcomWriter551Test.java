@@ -107,7 +107,7 @@ public class GedcomWriter551Test {
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setSourceSystem(new SourceSystem());
         Corporation c = new Corporation();
-        g.getHeader().getSourceSystem().corporation = c;
+        g.getHeader().getSourceSystem().setCorporation(c);
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
         assertTrue(gw.lines.isEmpty());
@@ -145,7 +145,7 @@ public class GedcomWriter551Test {
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setSourceSystem(new SourceSystem());
         Corporation c = new Corporation();
-        g.getHeader().getSourceSystem().corporation = c;
+        g.getHeader().getSourceSystem().setCorporation(c);
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
         assertTrue(gw.lines.isEmpty());
@@ -182,7 +182,7 @@ public class GedcomWriter551Test {
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setSourceSystem(new SourceSystem());
         Corporation c = new Corporation();
-        g.getHeader().getSourceSystem().corporation = c;
+        g.getHeader().getSourceSystem().setCorporation(c);
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
         assertTrue(gw.lines.isEmpty());

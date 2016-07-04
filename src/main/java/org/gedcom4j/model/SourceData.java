@@ -35,12 +35,12 @@ public class SourceData extends AbstractElement {
     /**
      * The responsible agency.
      */
-    public StringWithCustomTags respAgency;
+    private StringWithCustomTags respAgency;
 
     /**
      * The events recorded.
      */
-    public List<EventRecorded> eventsRecorded = new ArrayList<EventRecorded>(0);
+    private List<EventRecorded> eventsRecorded = new ArrayList<EventRecorded>(0);
 
     /**
      * Notes about this object
@@ -84,6 +84,29 @@ public class SourceData extends AbstractElement {
     }
 
     /**
+     * Get the eventsRecorded
+     * 
+     * @return the eventsRecorded
+     */
+    public List<EventRecorded> getEventsRecorded() {
+        return eventsRecorded;
+    }
+
+    /**
+     * Get the eventsRecorded
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the eventsRecorded
+     */
+    public List<EventRecorded> getEventsRecorded(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && eventsRecorded == null) {
+            eventsRecorded = new ArrayList<EventRecorded>(0);
+        }
+        return eventsRecorded;
+    }
+
+    /**
      * Get the notes
      * 
      * @return the notes
@@ -107,6 +130,15 @@ public class SourceData extends AbstractElement {
         return notes;
     }
 
+    /**
+     * Get the respAgency
+     * 
+     * @return the respAgency
+     */
+    public StringWithCustomTags getRespAgency() {
+        return respAgency;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -115,6 +147,16 @@ public class SourceData extends AbstractElement {
         result = prime * result + (notes == null ? 0 : notes.hashCode());
         result = prime * result + (respAgency == null ? 0 : respAgency.hashCode());
         return result;
+    }
+
+    /**
+     * Set the respAgency
+     * 
+     * @param respAgency
+     *            the respAgency to set
+     */
+    public void setRespAgency(StringWithCustomTags respAgency) {
+        this.respAgency = respAgency;
     }
 
     @Override

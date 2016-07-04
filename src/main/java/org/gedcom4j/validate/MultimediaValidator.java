@@ -119,7 +119,7 @@ class MultimediaValidator extends AbstractValidator {
         }
         for (UserReference u : mm.getUserReferences()) {
             checkCustomTags(u);
-            if (u.referenceNum == null) {
+            if (u.getReferenceNum() == null) {
                 if (rootValidator.autorepair) {
                     addError("User reference is has a null or blank reference number - cannot repair", u);
                 } else {

@@ -179,25 +179,25 @@ public class IndividualTest {
         assertTrue(i.getSpouses().isEmpty());
         FamilySpouse f = new FamilySpouse();
         f.setFamily(new Family());
-        f.getFamily().husband = i;
+        f.getFamily().setHusband(i);
         i.getFamiliesWhereSpouse().add(f);
         assertNotNull(i.getSpouses());
         assertTrue("Should still be empty because there is no wife in the family that this guy's a spouse in", i.getSpouses().isEmpty());
-        f.getFamily().wife = new Individual();
-        addBasicName(f.getFamily().wife, "Anna //");
+        f.getFamily().setWife(new Individual());
+        addBasicName(f.getFamily().getWife(), "Anna //");
         assertNotNull(i.getSpouses());
         assertEquals("Ok, now there's a wife, should be exactly one spouse", 1, i.getSpouses().size());
 
         // Add a second family and spouse
         f = new FamilySpouse();
         f.setFamily(new Family());
-        f.getFamily().husband = i;
+        f.getFamily().setHusband(i);
         i.getFamiliesWhereSpouse().add(f);
         assertNotNull(i.getSpouses());
         assertEquals("Should still be just one spouse because there is no wife in the 2nd family that this guy's a spouse in", 1, i.getSpouses().size());
 
-        f.getFamily().wife = new Individual();
-        addBasicName(f.getFamily().wife, "Elizabeth /Hofstadt/");
+        f.getFamily().setWife(new Individual());
+        addBasicName(f.getFamily().getWife(), "Elizabeth /Hofstadt/");
         assertNotNull(i.getSpouses());
         assertEquals("Ok, now there's a wife in the 2nd family, should be exactly two spouses", 2, i.getSpouses().size());
     }
@@ -246,18 +246,18 @@ public class IndividualTest {
         addBasicName(i, "Donald /Draper/");
         FamilySpouse f = new FamilySpouse();
         f.setFamily(new Family());
-        f.getFamily().husband = i;
+        f.getFamily().setHusband(i);
         i.getFamiliesWhereSpouse().add(f);
-        f.getFamily().wife = new Individual();
-        addBasicName(f.getFamily().wife, "Anna //");
+        f.getFamily().setWife(new Individual());
+        addBasicName(f.getFamily().getWife(), "Anna //");
         // Add a second family and spouse
         f = new FamilySpouse();
         f.setFamily(new Family());
-        f.getFamily().husband = i;
+        f.getFamily().setHusband(i);
         i.getFamiliesWhereSpouse().add(f);
 
-        f.getFamily().wife = new Individual();
-        addBasicName(f.getFamily().wife, "Elizabeth /Hofstadt/");
+        f.getFamily().setWife(new Individual());
+        addBasicName(f.getFamily().getWife(), "Elizabeth /Hofstadt/");
         assertEquals("Donald /Draper/, spouse of Anna //, spouse of Elizabeth /Hofstadt/", i.toString());
     }
 

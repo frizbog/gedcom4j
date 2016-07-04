@@ -165,8 +165,8 @@ class HeaderValidator extends AbstractValidator {
             }
         }
         checkCustomTags(ss);
-        if (ss.corporation != null) {
-            Corporation c = ss.corporation;
+        if (ss.getCorporation() != null) {
+            Corporation c = ss.getCorporation();
             checkCustomTags(c);
             if (c.getAddress() != null) {
                 new AddressValidator(rootValidator, c.getAddress()).validate();
@@ -180,9 +180,9 @@ class HeaderValidator extends AbstractValidator {
                 }
             }
         }
-        checkOptionalString(ss.productName, "product name", ss);
-        if (ss.sourceData != null) {
-            HeaderSourceData sd = ss.sourceData;
+        checkOptionalString(ss.getProductName(), "product name", ss);
+        if (ss.getSourceData() != null) {
+            HeaderSourceData sd = ss.getSourceData();
             if (sd.getName() == null || sd.getName().trim().length() == 0) {
                 if (rootValidator.autorepair) {
                     sd.setName("UNSPECIFIED");
@@ -196,14 +196,14 @@ class HeaderValidator extends AbstractValidator {
             checkOptionalString(sd.getPublishDate(), "publish date", sd);
             checkCustomTags(sd);
         }
-        if (ss.systemId == null) {
+        if (ss.getSystemId() == null) {
             if (rootValidator.autorepair) {
-                ss.systemId = "UNSPECIFIED";
+                ss.setSystemId("UNSPECIFIED");
                 rootValidator.addInfo("System ID was not specified in source system in header - repaired", ss);
             } else {
                 rootValidator.addError("System ID must be specified in source system in header", ss);
             }
         }
-        checkOptionalString(ss.versionNum, "source system version number", ss);
+        checkOptionalString(ss.getVersionNum(), "source system version number", ss);
     }
 }

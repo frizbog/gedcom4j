@@ -38,27 +38,27 @@ public class SourceSystem extends AbstractElement {
      * The system ID for this source system. This field must be valued to pass validation, so the default value is
      * "UNSPECIFIED".
      */
-    public String systemId = "UNSPECIFIED";
+    private String systemId = "UNSPECIFIED";
 
     /**
      * The version number of this source system
      */
-    public StringWithCustomTags versionNum;
+    private StringWithCustomTags versionNum;
 
     /**
      * The product name for this source system
      */
-    public StringWithCustomTags productName;
+    private StringWithCustomTags productName;
 
     /**
      * The corporation that owns this source system
      */
-    public Corporation corporation;
+    private Corporation corporation;
 
     /**
      * Header source data for this source system.
      */
-    public HeaderSourceData sourceData;
+    private HeaderSourceData sourceData;
 
     @Override
     public boolean equals(Object obj) {
@@ -110,6 +110,51 @@ public class SourceSystem extends AbstractElement {
         return true;
     }
 
+    /**
+     * Get the corporation
+     * 
+     * @return the corporation
+     */
+    public Corporation getCorporation() {
+        return corporation;
+    }
+
+    /**
+     * Get the productName
+     * 
+     * @return the productName
+     */
+    public StringWithCustomTags getProductName() {
+        return productName;
+    }
+
+    /**
+     * Get the sourceData
+     * 
+     * @return the sourceData
+     */
+    public HeaderSourceData getSourceData() {
+        return sourceData;
+    }
+
+    /**
+     * Get the systemId
+     * 
+     * @return the systemId
+     */
+    public String getSystemId() {
+        return systemId;
+    }
+
+    /**
+     * Get the versionNum
+     * 
+     * @return the versionNum
+     */
+    public StringWithCustomTags getVersionNum() {
+        return versionNum;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -120,6 +165,56 @@ public class SourceSystem extends AbstractElement {
         result = prime * result + (systemId == null ? 0 : systemId.hashCode());
         result = prime * result + (versionNum == null ? 0 : versionNum.hashCode());
         return result;
+    }
+
+    /**
+     * Set the corporation
+     * 
+     * @param corporation
+     *            the corporation to set
+     */
+    public void setCorporation(Corporation corporation) {
+        this.corporation = corporation;
+    }
+
+    /**
+     * Set the productName
+     * 
+     * @param productName
+     *            the productName to set
+     */
+    public void setProductName(StringWithCustomTags productName) {
+        this.productName = productName;
+    }
+
+    /**
+     * Set the sourceData
+     * 
+     * @param sourceData
+     *            the sourceData to set
+     */
+    public void setSourceData(HeaderSourceData sourceData) {
+        this.sourceData = sourceData;
+    }
+
+    /**
+     * Set the systemId
+     * 
+     * @param systemId
+     *            the systemId to set
+     */
+    public void setSystemId(String systemId) {
+        this.systemId = systemId;
+    }
+
+    /**
+     * Set the versionNum
+     * 
+     * @param versionNum
+     *            the versionNum to set
+     */
+    public void setVersionNum(StringWithCustomTags versionNum) {
+        this.versionNum = versionNum;
     }
 
     @Override

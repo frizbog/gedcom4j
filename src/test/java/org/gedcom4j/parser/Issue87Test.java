@@ -61,8 +61,8 @@ public class Issue87Test {
         // There should also be no NOTE tag under the MARR event
         Family family = gp.gedcom.getFamilies().get("@F1031@");
         assertNotNull(family);
-        assertEquals(1, family.events.size());
-        FamilyEvent marriage = family.events.get(0);
+        assertEquals(1, family.getEvents().size());
+        FamilyEvent marriage = family.getEvents().get(0);
         assertEquals(FamilyEventType.MARRIAGE, marriage.getType());
         assertTrue(marriage.getNotes().isEmpty());
     }

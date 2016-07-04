@@ -140,8 +140,8 @@ public class GedcomParser551Test {
         assertNotNull(g);
         assertNotNull(g.getHeader());
         assertNotNull(g.getHeader().getSourceSystem());
-        assertNotNull(g.getHeader().getSourceSystem().corporation);
-        Corporation c = g.getHeader().getSourceSystem().corporation;
+        assertNotNull(g.getHeader().getSourceSystem().getCorporation());
+        Corporation c = g.getHeader().getSourceSystem().getCorporation();
         assertEquals("The Church of Jesus Christ of Latter-day Saints", c.getBusinessName());
         assertNotNull(c.getFaxNumbers());
         assertEquals(1, c.getFaxNumbers().size());
@@ -358,14 +358,14 @@ public class GedcomParser551Test {
         assertNotNull(f);
 
         // Negative test
-        FamilyEvent divorce = f.events.get(0);
+        FamilyEvent divorce = f.getEvents().get(0);
         assertNotNull(divorce);
         assertEquals(FamilyEventType.DIVORCE, divorce.getType());
         assertEquals("2 Sep 1880", divorce.getDate().getValue());
         assertNull(divorce.getReligiousAffiliation());
 
         // Positive test
-        FamilyEvent marriage = f.events.get(1);
+        FamilyEvent marriage = f.getEvents().get(1);
         assertNotNull(marriage);
         assertEquals(FamilyEventType.MARRIAGE, marriage.getType());
         assertEquals("25 Oct 1875", marriage.getDate().getValue());
@@ -437,16 +437,16 @@ public class GedcomParser551Test {
         assertNotNull(g.getFamilies());
         Family f = g.getFamilies().get("@F1@");
         assertNotNull(f);
-        assertNotNull(f.events);
-        assertEquals(1, f.events.size());
-        FamilyEvent e = f.events.get(0);
+        assertNotNull(f.getEvents());
+        assertEquals(1, f.getEvents().size());
+        FamilyEvent e = f.getEvents().get(0);
         assertEquals("locked", e.getRestrictionNotice().getValue());
         f = g.getFamilies().get("@F2@");
         assertNotNull(f);
-        assertNull(f.restrictionNotice);
-        assertNotNull(f.events);
-        assertEquals(1, f.events.size());
-        e = f.events.get(0);
+        assertNull(f.getRestrictionNotice());
+        assertNotNull(f.getEvents());
+        assertEquals(1, f.getEvents().size());
+        e = f.getEvents().get(0);
         assertNull(e.getRestrictionNotice());
     }
 
@@ -470,10 +470,10 @@ public class GedcomParser551Test {
         assertNotNull(g.getFamilies());
         Family f = g.getFamilies().get("@F1@");
         assertNotNull(f);
-        assertEquals("locked", f.restrictionNotice.getValue());
+        assertEquals("locked", f.getRestrictionNotice().getValue());
         f = g.getFamilies().get("@F2@");
         assertNotNull(f);
-        assertNull(f.restrictionNotice);
+        assertNull(f.getRestrictionNotice());
     }
 
     /**

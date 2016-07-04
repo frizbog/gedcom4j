@@ -35,58 +35,58 @@ public class Family extends AbstractElement {
     /**
      * The permanent record file number
      */
-    public StringWithCustomTags recFileNumber;
+    private StringWithCustomTags recFileNumber;
 
     /**
      * The automated record ID number
      */
-    public StringWithCustomTags automatedRecordId;
+    private StringWithCustomTags automatedRecordId;
 
     /**
      * The wife in the family
      */
-    public Individual wife;
+    private Individual wife;
 
     /**
      * The husband in the family
      */
-    public Individual husband;
+    private Individual husband;
 
     /**
      * A list of the children in the family
      */
-    public List<Individual> children = new ArrayList<Individual>(0);
+    private List<Individual> children = new ArrayList<Individual>(0);
 
     /**
      * The number of children
      */
-    public StringWithCustomTags numChildren;
+    private StringWithCustomTags numChildren;
 
     /**
      * A list of the submitters for this family
      */
-    public List<Submitter> submitters = new ArrayList<Submitter>(0);
+    private List<Submitter> submitters = new ArrayList<Submitter>(0);
 
     /**
      * The LDS Spouse Sealings for this family
      */
-    public List<LdsSpouseSealing> ldsSpouseSealings = new ArrayList<LdsSpouseSealing>(0);
+    private List<LdsSpouseSealing> ldsSpouseSealings = new ArrayList<LdsSpouseSealing>(0);
 
     /**
      * The change date information for this family record
      */
-    public ChangeDate changeDate;
+    private ChangeDate changeDate;
 
     /**
      * All the family events
      */
-    public List<FamilyEvent> events = new ArrayList<FamilyEvent>(0);
+    private List<FamilyEvent> events = new ArrayList<FamilyEvent>(0);
 
     /**
      * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be
      * "confidential", "locked", or "privacy" but this implementation allows any value.
      */
-    public StringWithCustomTags restrictionNotice;
+    private StringWithCustomTags restrictionNotice;
 
     /**
      * Notes about this object
@@ -245,6 +245,47 @@ public class Family extends AbstractElement {
     }
 
     /**
+     * Get the automatedRecordId
+     * 
+     * @return the automatedRecordId
+     */
+    public StringWithCustomTags getAutomatedRecordId() {
+        return automatedRecordId;
+    }
+
+    /**
+     * Get the changeDate
+     * 
+     * @return the changeDate
+     */
+    public ChangeDate getChangeDate() {
+        return changeDate;
+    }
+
+    /**
+     * Get the children
+     * 
+     * @return the children
+     */
+    public List<Individual> getChildren() {
+        return children;
+    }
+
+    /**
+     * Get the children
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the children
+     */
+    public List<Individual> getChildren(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && children == null) {
+            children = new ArrayList<Individual>(0);
+        }
+        return children;
+    }
+
+    /**
      * Get the citations
      * 
      * @return the citations
@@ -266,6 +307,61 @@ public class Family extends AbstractElement {
             citations = new ArrayList<AbstractCitation>(0);
         }
         return citations;
+    }
+
+    /**
+     * Get the events
+     * 
+     * @return the events
+     */
+    public List<FamilyEvent> getEvents() {
+        return events;
+    }
+
+    /**
+     * Get the events
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the events
+     */
+    public List<FamilyEvent> getEvents(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && events == null) {
+            events = new ArrayList<FamilyEvent>(0);
+        }
+        return events;
+    }
+
+    /**
+     * Get the husband
+     * 
+     * @return the husband
+     */
+    public Individual getHusband() {
+        return husband;
+    }
+
+    /**
+     * Get the ldsSpouseSealings
+     * 
+     * @return the ldsSpouseSealings
+     */
+    public List<LdsSpouseSealing> getLdsSpouseSealings() {
+        return ldsSpouseSealings;
+    }
+
+    /**
+     * Get the ldsSpouseSealings
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the ldsSpouseSealings
+     */
+    public List<LdsSpouseSealing> getLdsSpouseSealings(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && ldsSpouseSealings == null) {
+            ldsSpouseSealings = new ArrayList<LdsSpouseSealing>(0);
+        }
+        return ldsSpouseSealings;
     }
 
     /**
@@ -316,6 +412,56 @@ public class Family extends AbstractElement {
     }
 
     /**
+     * Get the numChildren
+     * 
+     * @return the numChildren
+     */
+    public StringWithCustomTags getNumChildren() {
+        return numChildren;
+    }
+
+    /**
+     * Get the recFileNumber
+     * 
+     * @return the recFileNumber
+     */
+    public StringWithCustomTags getRecFileNumber() {
+        return recFileNumber;
+    }
+
+    /**
+     * Get the restrictionNotice
+     * 
+     * @return the restrictionNotice
+     */
+    public StringWithCustomTags getRestrictionNotice() {
+        return restrictionNotice;
+    }
+
+    /**
+     * Get the submitters
+     * 
+     * @return the submitters
+     */
+    public List<Submitter> getSubmitters() {
+        return submitters;
+    }
+
+    /**
+     * Get the submitters
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the submitters
+     */
+    public List<Submitter> getSubmitters(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && submitters == null) {
+            submitters = new ArrayList<Submitter>(0);
+        }
+        return submitters;
+    }
+
+    /**
      * Get the userReferences
      * 
      * @return the userReferences
@@ -336,6 +482,15 @@ public class Family extends AbstractElement {
             userReferences = new ArrayList<UserReference>(0);
         }
         return userReferences;
+    }
+
+    /**
+     * Get the wife
+     * 
+     * @return the wife
+     */
+    public Individual getWife() {
+        return wife;
     }
 
     /**
@@ -371,6 +526,76 @@ public class Family extends AbstractElement {
         result = prime * result + (xref == null ? 0 : xref.hashCode());
         result = prime * result + (restrictionNotice == null ? 0 : restrictionNotice.hashCode());
         return result;
+    }
+
+    /**
+     * Set the automatedRecordId
+     * 
+     * @param automatedRecordId
+     *            the automatedRecordId to set
+     */
+    public void setAutomatedRecordId(StringWithCustomTags automatedRecordId) {
+        this.automatedRecordId = automatedRecordId;
+    }
+
+    /**
+     * Set the changeDate
+     * 
+     * @param changeDate
+     *            the changeDate to set
+     */
+    public void setChangeDate(ChangeDate changeDate) {
+        this.changeDate = changeDate;
+    }
+
+    /**
+     * Set the husband
+     * 
+     * @param husband
+     *            the husband to set
+     */
+    public void setHusband(Individual husband) {
+        this.husband = husband;
+    }
+
+    /**
+     * Set the numChildren
+     * 
+     * @param numChildren
+     *            the numChildren to set
+     */
+    public void setNumChildren(StringWithCustomTags numChildren) {
+        this.numChildren = numChildren;
+    }
+
+    /**
+     * Set the recFileNumber
+     * 
+     * @param recFileNumber
+     *            the recFileNumber to set
+     */
+    public void setRecFileNumber(StringWithCustomTags recFileNumber) {
+        this.recFileNumber = recFileNumber;
+    }
+
+    /**
+     * Set the restrictionNotice
+     * 
+     * @param restrictionNotice
+     *            the restrictionNotice to set
+     */
+    public void setRestrictionNotice(StringWithCustomTags restrictionNotice) {
+        this.restrictionNotice = restrictionNotice;
+    }
+
+    /**
+     * Set the wife
+     * 
+     * @param wife
+     *            the wife to set
+     */
+    public void setWife(Individual wife) {
+        this.wife = wife;
     }
 
     /**

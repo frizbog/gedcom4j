@@ -140,8 +140,8 @@ public class Issue81ReaderTest {
      */
     @Test
     public void testHeaderCorporation() {
-        assertEquals("BSD Concept \u00A9", g.getHeader().getSourceSystem().corporation.getBusinessName());
-        assertEquals("BSD Concept ©", g.getHeader().getSourceSystem().corporation.getBusinessName());
+        assertEquals("BSD Concept \u00A9", g.getHeader().getSourceSystem().getCorporation().getBusinessName());
+        assertEquals("BSD Concept ©", g.getHeader().getSourceSystem().getCorporation().getBusinessName());
     }
 
     /**

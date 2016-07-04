@@ -446,13 +446,13 @@ public class Individual extends AbstractElement {
     public Set<Individual> getAncestors() {
         Set<Individual> result = new HashSet<Individual>();
         for (FamilyChild f : familiesWhereChild) {
-            if (f.getFamily().husband != null && !result.contains(f.getFamily().husband)) {
-                result.add(f.getFamily().husband);
-                result.addAll(f.getFamily().husband.getAncestors());
+            if (f.getFamily().getHusband() != null && !result.contains(f.getFamily().getHusband())) {
+                result.add(f.getFamily().getHusband());
+                result.addAll(f.getFamily().getHusband().getAncestors());
             }
-            if (f.getFamily().wife != null && !result.contains(f.getFamily().wife)) {
-                result.add(f.getFamily().wife);
-                result.addAll(f.getFamily().wife.getAncestors());
+            if (f.getFamily().getWife() != null && !result.contains(f.getFamily().getWife())) {
+                result.add(f.getFamily().getWife());
+                result.addAll(f.getFamily().getWife().getAncestors());
             }
         }
         return result;
@@ -597,7 +597,7 @@ public class Individual extends AbstractElement {
     public Set<Individual> getDescendants() {
         Set<Individual> result = new HashSet<Individual>();
         for (FamilySpouse f : familiesWhereSpouse) {
-            for (Individual i : f.getFamily().children) {
+            for (Individual i : f.getFamily().getChildren()) {
                 // Recurse if we have not seen this person before in the results already
                 if (i != this && !result.contains(i) && !i.familiesWhereSpouse.isEmpty()) {
                     Set<Individual> d = i.getDescendants();
@@ -921,11 +921,11 @@ public class Individual extends AbstractElement {
         Set<Individual> result = new HashSet<Individual>();
         for (FamilySpouse f : familiesWhereSpouse) {
             Family fam = f.getFamily();
-            if (this != fam.husband && fam.husband != null) {
-                result.add(fam.husband);
+            if (this != fam.getHusband() && fam.getHusband() != null) {
+                result.add(fam.getHusband());
             }
-            if (this != fam.wife && fam.wife != null) {
-                result.add(fam.wife);
+            if (this != fam.getWife() && fam.getWife() != null) {
+                result.add(fam.getWife());
             }
         }
         return result;
@@ -1149,30 +1149,30 @@ public class Individual extends AbstractElement {
         for (FamilySpouse f : familiesWhereSpouse) {
             sb.append(", spouse of ");
             Family fam = f.getFamily();
-            if (fam.husband == this) {
-                if (fam.wife == null) {
+            if (fam.getHusband() == this) {
+                if (fam.getWife() == null) {
                     sb.append("unknown");
                 } else {
-                    sb.append(fam.wife.getFormattedName());
+                    sb.append(fam.getWife().getFormattedName());
                 }
             } else {
-                if (fam.husband == null) {
+                if (fam.getHusband() == null) {
                     sb.append("unknown");
                 } else {
-                    sb.append(fam.husband.getFormattedName());
+                    sb.append(fam.getHusband().getFormattedName());
                 }
             }
         }
         for (FamilyChild f : familiesWhereChild) {
             sb.append(", child of ");
-            if (f.getFamily().wife != null) {
-                sb.append(f.getFamily().wife.getFormattedName());
+            if (f.getFamily().getWife() != null) {
+                sb.append(f.getFamily().getWife().getFormattedName());
                 sb.append(" and ");
             }
-            if (f.getFamily().husband == null) {
+            if (f.getFamily().getHusband() == null) {
                 sb.append("unknown");
             } else {
-                sb.append(f.getFamily().husband.getFormattedName());
+                sb.append(f.getFamily().getHusband().getFormattedName());
             }
         }
         boolean found = false;

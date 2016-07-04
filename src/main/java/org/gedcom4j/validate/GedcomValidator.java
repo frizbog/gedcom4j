@@ -168,12 +168,12 @@ public class GedcomValidator extends AbstractValidator {
             return;
         }
         checkXref(s);
-        checkOptionalString(s.ancestorsCount, "Ancestor count", s);
-        checkOptionalString(s.descendantsCount, "Descendant count", s);
-        checkOptionalString(s.nameOfFamilyFile, "Name of family file", s);
-        checkOptionalString(s.ordinanceProcessFlag, "Ordinance process flag", s);
+        checkOptionalString(s.getAncestorsCount(), "Ancestor count", s);
+        checkOptionalString(s.getDescendantsCount(), "Descendant count", s);
+        checkOptionalString(s.getNameOfFamilyFile(), "Name of family file", s);
+        checkOptionalString(s.getOrdinanceProcessFlag(), "Ordinance process flag", s);
         checkOptionalString(s.getRecIdNumber(), "Automated record id", s);
-        checkOptionalString(s.templeCode, "Temple code", s);
+        checkOptionalString(s.getTempleCode(), "Temple code", s);
     }
 
     /**

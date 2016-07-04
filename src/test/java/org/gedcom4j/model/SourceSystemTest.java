@@ -42,22 +42,22 @@ public class SourceSystemTest {
         SourceSystem ss2 = new SourceSystem();
         assertEquals("equals() should be the same for equivalent objects", ss1, ss2);
 
-        ss1.productName = new StringWithCustomTags("Frying Pan");
+        ss1.setProductName(new StringWithCustomTags("Frying Pan"));
         assertFalse("They're not equivalent anymore, so equals should be false", ss1.equals(ss2));
-        ss2.productName = new StringWithCustomTags("Frying Pan");
+        ss2.setProductName(new StringWithCustomTags("Frying Pan"));
         assertEquals("equals() should be the same for equivalent objects", ss1, ss2);
-        ss1.productName = null;
+        ss1.setProductName(null);
         assertFalse("They're not equivalent anymore, so equals should be false", ss1.equals(ss2));
-        ss2.productName = null;
+        ss2.setProductName(null);
         assertEquals("equals() should be the same for equivalent objects", ss1, ss2);
 
-        ss1.systemId = "Frying Pan";
+        ss1.setSystemId("Frying Pan");
         assertFalse("They're not equivalent anymore, so equals should be false", ss1.equals(ss2));
-        ss2.systemId = "Frying Pan";
+        ss2.setSystemId("Frying Pan");
         assertEquals("equals() should be the same for equivalent objects", ss1, ss2);
-        ss1.systemId = null;
+        ss1.setSystemId(null);
         assertFalse("They're not equivalent anymore, so equals should be false", ss1.equals(ss2));
-        ss2.systemId = null;
+        ss2.setSystemId(null);
 
         assertEquals("equals() should be the same for equivalent objects", ss1, ss2);
         assertFalse(ss1.equals(null));
@@ -72,9 +72,9 @@ public class SourceSystemTest {
         SourceSystem ss1 = new SourceSystem();
         SourceSystem ss2 = new SourceSystem();
         assertEquals("Hashcodes should be the same for equivalent objects", ss1.hashCode(), ss2.hashCode());
-        ss1.productName = new StringWithCustomTags("Frying Pan");
+        ss1.setProductName(new StringWithCustomTags("Frying Pan"));
         assertFalse("They're not equivalent anymore, so the hashcodes should differ", ss1.hashCode() == ss2.hashCode());
-        ss2.productName = new StringWithCustomTags("Frying Pan");
+        ss2.setProductName(new StringWithCustomTags("Frying Pan"));
 
         assertEquals("Hashcodes should be the same for equivalent objects", ss1.hashCode(), ss2.hashCode());
     }

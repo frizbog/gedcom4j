@@ -21,8 +21,6 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.ArrayList;
-
 import org.gedcom4j.model.*;
 
 /**
@@ -52,17 +50,17 @@ class FamilyValidator extends AbstractValidator {
 
     @Override
     protected void validate() {
-        checkOptionalString(f.automatedRecordId, "Automated record id", f);
-        checkChangeDate(f.changeDate, f);
-        if (f.children == null) {
+        checkOptionalString(f.getAutomatedRecordId(), "Automated record id", f);
+        checkChangeDate(f.getChangeDate(), f);
+        if (f.getChildren() == null) {
             if (rootValidator.autorepair) {
-                f.children = new ArrayList<Individual>();
+                f.getChildren(true).clear();
                 rootValidator.addInfo("Family's collection of children was null - repaired", f);
             } else {
                 rootValidator.addError("Family's collection of children is null", f);
             }
         } else {
-            for (Individual i : f.children) {
+            for (Individual i : f.getChildren()) {
                 if (i == null) {
                     rootValidator.addError("Family with xref '" + f.getXref() + "' has a null entry in children collection", f);
                 }
@@ -81,24 +79,24 @@ class FamilyValidator extends AbstractValidator {
             }
         }
         checkCustomTags(f);
-        for (AbstractEvent ev : f.events) {
+        for (AbstractEvent ev : f.getEvents()) {
             new EventValidator(rootValidator, ev).validate();
         }
-        if (f.husband != null) {
-            new IndividualValidator(rootValidator, f.husband).validate();
+        if (f.getHusband() != null) {
+            new IndividualValidator(rootValidator, f.getHusband()).validate();
         }
-        if (f.wife != null) {
-            new IndividualValidator(rootValidator, f.wife).validate();
+        if (f.getWife() != null) {
+            new IndividualValidator(rootValidator, f.getWife()).validate();
         }
-        if (f.ldsSpouseSealings == null) {
+        if (f.getLdsSpouseSealings() == null) {
             if (rootValidator.autorepair) {
-                f.ldsSpouseSealings = new ArrayList<LdsSpouseSealing>();
+                f.getLdsSpouseSealings(true).clear();
                 addInfo("LDS spouse sealings collection for family was null - rootValidator.autorepaired", f);
             } else {
                 addError("LDS spouse sealings collection for family is null", f);
             }
         } else {
-            for (LdsSpouseSealing s : f.ldsSpouseSealings) {
+            for (LdsSpouseSealing s : f.getLdsSpouseSealings()) {
                 new LdsSpouseSealingValidator(rootValidator, s).validate();
             }
         }
@@ -115,19 +113,19 @@ class FamilyValidator extends AbstractValidator {
             }
         }
         checkNotes(f.getNotes(), f);
-        checkOptionalString(f.numChildren, "number of children", f);
-        checkOptionalString(f.recFileNumber, "record file number", f);
-        checkOptionalString(f.restrictionNotice, "restriction notice", f);
-        if (f.submitters == null) {
+        checkOptionalString(f.getNumChildren(), "number of children", f);
+        checkOptionalString(f.getRecFileNumber(), "record file number", f);
+        checkOptionalString(f.getRestrictionNotice(), "restriction notice", f);
+        if (f.getSubmitters() == null) {
             if (rootValidator.autorepair) {
-                f.submitters = new ArrayList<Submitter>();
+                f.getSubmitters(true).clear();
                 addInfo("Submitters collection was missing on family - repaired", f);
             } else {
                 addInfo("Submitters collection is missing on family", f);
                 return;
             }
         } else {
-            for (Submitter s : f.submitters) {
+            for (Submitter s : f.getSubmitters()) {
                 new SubmitterValidator(rootValidator, s).validate();
             }
         }

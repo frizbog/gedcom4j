@@ -729,38 +729,38 @@ public class GedcomParser {
         Family f = getFamily(st.id);
         for (StringTree ch : st.children) {
             if (Tag.HUSBAND.equals(ch.tag)) {
-                f.husband = getIndividual(ch.value);
+                f.setHusband(getIndividual(ch.value));
             } else if (Tag.WIFE.equals(ch.tag)) {
-                f.wife = getIndividual(ch.value);
+                f.setWife(getIndividual(ch.value));
             } else if (Tag.CHILD.equals(ch.tag)) {
-                f.children.add(getIndividual(ch.value));
+                f.getChildren().add(getIndividual(ch.value));
             } else if (Tag.NUM_CHILDREN.equals(ch.tag)) {
-                f.numChildren = new StringWithCustomTags(ch);
+                f.setNumChildren(new StringWithCustomTags(ch));
             } else if (Tag.SOURCE.equals(ch.tag)) {
                 loadCitation(ch, f.getCitations());
             } else if (Tag.OBJECT_MULTIMEDIA.equals(ch.tag)) {
                 loadMultimediaLink(ch, f.getMultimedia());
             } else if (Tag.RECORD_ID_NUMBER.equals(ch.tag)) {
-                f.automatedRecordId = new StringWithCustomTags(ch);
+                f.setAutomatedRecordId(new StringWithCustomTags(ch));
             } else if (Tag.CHANGED_DATETIME.equals(ch.tag)) {
-                f.changeDate = new ChangeDate();
-                loadChangeDate(ch, f.changeDate);
+                f.setChangeDate(new ChangeDate());
+                loadChangeDate(ch, f.getChangeDate());
             } else if (Tag.NOTE.equals(ch.tag)) {
                 loadNote(ch, f.getNotes());
             } else if (Tag.RESTRICTION.equals(ch.tag)) {
-                f.restrictionNotice = new StringWithCustomTags(ch);
+                f.setRestrictionNotice(new StringWithCustomTags(ch));
                 if (g55()) {
                     warnings.add("GEDCOM version is 5.5 but restriction notice was specified for family on line " + ch.lineNum
                             + " , which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                 }
             } else if (Tag.REGISTRATION_FILE_NUMBER.equals(ch.tag)) {
-                f.recFileNumber = new StringWithCustomTags(ch);
+                f.setRecFileNumber(new StringWithCustomTags(ch));
             } else if (FamilyEventType.isValidTag(ch.tag)) {
-                loadFamilyEvent(ch, f.events);
+                loadFamilyEvent(ch, f.getEvents());
             } else if (Tag.SEALING_SPOUSE.equals(ch.tag)) {
-                loadLdsSpouseSealing(ch, f.ldsSpouseSealings);
+                loadLdsSpouseSealing(ch, f.getLdsSpouseSealings());
             } else if (Tag.SUBMITTER.equals(ch.tag)) {
-                f.submitters.add(getSubmitter(ch.value));
+                f.getSubmitters().add(getSubmitter(ch.value));
             } else if (Tag.REFERENCE.equals(ch.tag)) {
                 UserReference u = new UserReference();
                 f.getUserReferences().add(u);
@@ -2096,7 +2096,7 @@ public class GedcomParser {
             } else if (Tag.NOTE.equals(ch.tag)) {
                 loadNote(ch, data.getNotes());
             } else if (Tag.AGENCY.equals(ch.tag)) {
-                data.respAgency = new StringWithCustomTags(ch);
+                data.setRespAgency(new StringWithCustomTags(ch));
             } else {
                 unknownTag(ch, data);
             }
@@ -2113,7 +2113,7 @@ public class GedcomParser {
      */
     private void loadSourceDataEventRecorded(StringTree st, SourceData data) {
         EventRecorded e = new EventRecorded();
-        data.eventsRecorded.add(e);
+        data.getEventsRecorded().add(e);
         e.setEventType(st.value);
         for (StringTree ch : st.children) {
             if (Tag.DATE.equals(ch.tag)) {
@@ -2136,18 +2136,18 @@ public class GedcomParser {
      *            the source system structure
      */
     private void loadSourceSystem(StringTree st, SourceSystem sourceSystem) {
-        sourceSystem.systemId = st.value;
+        sourceSystem.setSystemId(st.value);
         for (StringTree ch : st.children) {
             if (Tag.VERSION.equals(ch.tag)) {
-                sourceSystem.versionNum = new StringWithCustomTags(ch);
+                sourceSystem.setVersionNum(new StringWithCustomTags(ch));
             } else if (Tag.NAME.equals(ch.tag)) {
-                sourceSystem.productName = new StringWithCustomTags(ch);
+                sourceSystem.setProductName(new StringWithCustomTags(ch));
             } else if (Tag.CORPORATION.equals(ch.tag)) {
-                sourceSystem.corporation = new Corporation();
-                loadCorporation(ch, sourceSystem.corporation);
+                sourceSystem.setCorporation(new Corporation());
+                loadCorporation(ch, sourceSystem.getCorporation());
             } else if (Tag.DATA_FOR_CITATION.equals(ch.tag)) {
-                sourceSystem.sourceData = new HeaderSourceData();
-                loadHeaderSourceData(ch, sourceSystem.sourceData);
+                sourceSystem.setSourceData(new HeaderSourceData());
+                loadHeaderSourceData(ch, sourceSystem.getSourceData());
             } else {
                 unknownTag(ch, sourceSystem);
             }
@@ -2174,22 +2174,23 @@ public class GedcomParser {
             gedcom.getHeader().setSubmission(s);
         }
         for (StringTree ch : st.children) {
+            Submission submission = gedcom.getSubmission();
             if (Tag.SUBMITTER.equals(ch.tag)) {
-                gedcom.getSubmission().submitter = getSubmitter(ch.value);
+                submission.setSubmitter(getSubmitter(ch.value));
             } else if (Tag.FAMILY_FILE.equals(ch.tag)) {
-                gedcom.getSubmission().nameOfFamilyFile = new StringWithCustomTags(ch);
+                submission.setNameOfFamilyFile(new StringWithCustomTags(ch));
             } else if (Tag.TEMPLE.equals(ch.tag)) {
-                gedcom.getSubmission().templeCode = new StringWithCustomTags(ch);
+                submission.setTempleCode(new StringWithCustomTags(ch));
             } else if (Tag.ANCESTORS.equals(ch.tag)) {
-                gedcom.getSubmission().ancestorsCount = new StringWithCustomTags(ch);
+                submission.setAncestorsCount(new StringWithCustomTags(ch));
             } else if (Tag.DESCENDANTS.equals(ch.tag)) {
-                gedcom.getSubmission().descendantsCount = new StringWithCustomTags(ch);
+                submission.setDescendantsCount(new StringWithCustomTags(ch));
             } else if (Tag.ORDINANCE_PROCESS_FLAG.equals(ch.tag)) {
-                gedcom.getSubmission().ordinanceProcessFlag = new StringWithCustomTags(ch);
+                submission.setOrdinanceProcessFlag(new StringWithCustomTags(ch));
             } else if (Tag.RECORD_ID_NUMBER.equals(ch.tag)) {
-                gedcom.getSubmission().setRecIdNumber(new StringWithCustomTags(ch));
+                submission.setRecIdNumber(new StringWithCustomTags(ch));
             } else {
-                unknownTag(ch, gedcom.getSubmission());
+                unknownTag(ch, submission);
             }
         }
 
@@ -2257,9 +2258,9 @@ public class GedcomParser {
      *            the user reference object
      */
     private void loadUserReference(StringTree st, UserReference u) {
-        u.referenceNum = st.value;
+        u.setReferenceNum(st.value);
         if (!st.children.isEmpty()) {
-            u.type = st.children.get(0).value;
+            u.setType(st.children.get(0).value);
         }
 
     }
