@@ -21,9 +21,10 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.ArrayList;
-
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.PersonalName;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.TestHelper;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -129,11 +130,7 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNotes() {
-        pn.notes = null;
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "notes", "null");
-
-        pn.notes = new ArrayList<Note>();
+        pn.getNotes(true);
         rootValidator.validate();
         assertNoIssues();
     }

@@ -44,11 +44,6 @@ public class Place extends AbstractElement {
     public StringWithCustomTags placeFormat;
 
     /**
-     * Source citations for this place
-     */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
-
-    /**
      * Phonetic variations on the place name. New for GEDCOM 5.5.1.
      */
     public List<NameVariation> phonetic = new ArrayList<NameVariation>(0);
@@ -71,7 +66,12 @@ public class Place extends AbstractElement {
     /**
      * Notes about this object
      */
-    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+    private List<Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
+
+    /**
+     * The citations for this object
+     */
+    private List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? new ArrayList<AbstractCitation>(0) : null;
 
     @Override
     public boolean equals(Object obj) {
@@ -144,28 +144,28 @@ public class Place extends AbstractElement {
         return true;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + (citations == null ? 0 : citations.hashCode());
-        result = prime * result + (latitude == null ? 0 : latitude.hashCode());
-        result = prime * result + (longitude == null ? 0 : longitude.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
-        result = prime * result + (phonetic == null ? 0 : phonetic.hashCode());
-        result = prime * result + (placeFormat == null ? 0 : placeFormat.hashCode());
-        result = prime * result + (placeName == null ? 0 : placeName.hashCode());
-        result = prime * result + (romanized == null ? 0 : romanized.hashCode());
-        return result;
+    /**
+     * Get the citations
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations() {
+        return citations;
     }
 
-    @Override
-    public String toString() {
-        return "Place [" + (placeName != null ? "placeName=" + placeName + ", " : "") + (placeFormat != null ? "placeFormat=" + placeFormat + ", " : "")
-                + (citations != null ? "citations=" + citations + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
-                + (phonetic != null ? "phonetic=" + phonetic + ", " : "") + (romanized != null ? "romanized=" + romanized + ", " : "")
-                + (latitude != null ? "latitude=" + latitude + ", " : "") + (longitude != null ? "longitude=" + longitude + ", " : "")
-                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+    /**
+     * Get the citations
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && citations == null) {
+            citations = new ArrayList<AbstractCitation>(0);
+        }
+        return citations;
     }
 
     /**
@@ -190,5 +190,29 @@ public class Place extends AbstractElement {
             notes = new ArrayList<Note>(0);
         }
         return notes;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + (citations == null ? 0 : citations.hashCode());
+        result = prime * result + (latitude == null ? 0 : latitude.hashCode());
+        result = prime * result + (longitude == null ? 0 : longitude.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (phonetic == null ? 0 : phonetic.hashCode());
+        result = prime * result + (placeFormat == null ? 0 : placeFormat.hashCode());
+        result = prime * result + (placeName == null ? 0 : placeName.hashCode());
+        result = prime * result + (romanized == null ? 0 : romanized.hashCode());
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Place [" + (placeName != null ? "placeName=" + placeName + ", " : "") + (placeFormat != null ? "placeFormat=" + placeFormat + ", " : "")
+                + (citations != null ? "citations=" + citations + ", " : "") + (notes != null ? "notes=" + notes + ", " : "") + (phonetic != null ? "phonetic="
+                        + phonetic + ", " : "") + (romanized != null ? "romanized=" + romanized + ", " : "") + (latitude != null ? "latitude=" + latitude + ", "
+                                : "") + (longitude != null ? "longitude=" + longitude + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags()
+                                        : "") + "]";
     }
 }

@@ -67,9 +67,9 @@ public class Issue100Test {
         List<Individual> matches = f.findByName(null, "Soprano", "Anthony John", "Sr.");
         assertEquals(1, matches.size());
         Individual i = matches.get(0);
-        assertNotNull(i.notes);
-        assertEquals(1, i.notes.size());
-        Note n = i.notes.get(0);
+        assertNotNull(i.getNotes());
+        assertEquals(1, i.getNotes().size());
+        Note n = i.getNotes().get(0);
         assertNotNull(n.lines);
         assertEquals(3, n.lines.size());
         assertEquals("This note was deliberately hand-edited to put a line break in the text without a CONT line.", n.lines.get(0));

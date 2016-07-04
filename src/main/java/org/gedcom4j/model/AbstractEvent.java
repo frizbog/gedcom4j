@@ -120,7 +120,7 @@ public abstract class AbstractEvent extends AbstractElement {
     protected List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
 
     /**
-     * The citations for this association
+     * The citations for this object
      */
     protected List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? new ArrayList<AbstractCitation>(0) : null;
 

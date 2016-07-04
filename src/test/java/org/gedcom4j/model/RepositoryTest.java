@@ -79,13 +79,13 @@ public class RepositoryTest {
         r2.name = null;
         assertEquals(r1, r2);
 
-        r1.notes.add(new Note());
+        r1.getNotes().add(new Note());
         assertFalse(r1.equals(r2));
-        r2.notes.add(new Note());
+        r2.getNotes().add(new Note());
         assertEquals(r1, r2);
-        r1.notes = null;
+        r1.getNotes().clear();
         assertFalse(r1.equals(r2));
-        r2.notes = null;
+        r2.getNotes().clear();
         assertEquals(r1, r2);
 
         r1.getPhoneNumbers().add(new StringWithCustomTags("Frying Pan"));
@@ -155,13 +155,13 @@ public class RepositoryTest {
         r2.name = null;
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1.notes.add(new Note());
+        r1.getNotes().add(new Note());
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.notes.add(new Note());
+        r2.getNotes().add(new Note());
         assertEquals(r1.hashCode(), r2.hashCode());
-        r1.notes = null;
+        r1.getNotes().clear();
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.notes = null;
+        r2.getNotes().clear();
         assertEquals(r1.hashCode(), r2.hashCode());
 
         r1.getPhoneNumbers().add(new StringWithCustomTags("Frying Pan"));

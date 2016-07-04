@@ -794,9 +794,9 @@ public class GedcomWriter {
                 emitLdsFamilyOrdinance(1, s);
             }
             emitTagIfValueNotNull(1, "RESN", f.restrictionNotice);
-            emitSourceCitations(1, f.citations);
+            emitSourceCitations(1, f.getCitations());
             emitMultimediaLinks(1, f.getMultimedia());
-            emitNotes(1, f.notes);
+            emitNotes(1, f.getNotes());
             for (UserReference u : f.getUserReferences()) {
                 emitTagWithRequiredValue(1, "REFN", u.referenceNum);
                 emitTagIfValueNotNull(2, "TYPE", u.type);
@@ -967,9 +967,9 @@ public class GedcomWriter {
             for (Submitter s : i.descendantInterest) {
                 emitTagWithRequiredValue(1, "DESI", s.getXref());
             }
-            emitSourceCitations(1, i.citations);
+            emitSourceCitations(1, i.getCitations());
             emitMultimediaLinks(1, i.getMultimedia());
-            emitNotes(1, i.notes);
+            emitNotes(1, i.getNotes());
             emitTagIfValueNotNull(1, "RFN", i.permanentRecFileNumber);
             emitTagIfValueNotNull(1, "AFN", i.ancestralFileNumber);
             for (UserReference u : i.getUserReferences()) {
@@ -1247,7 +1247,7 @@ public class GedcomWriter {
             return;
         }
         emitNoteLines(level, note.getXref(), note.lines);
-        emitSourceCitations(level + 1, note.citations);
+        emitSourceCitations(level + 1, note.getCitations());
         for (UserReference u : note.getUserReferences()) {
             emitTagWithRequiredValue(level + 1, "REFN", u.referenceNum);
             emitTagIfValueNotNull(level + 2, "TYPE", u.type);
@@ -1317,8 +1317,8 @@ public class GedcomWriter {
             for (PersonalNameVariation pnv : n.phonetic) {
                 emitPersonalNameVariation(level + 1, "FONE", pnv);
             }
-            emitSourceCitations(level + 1, n.citations);
-            emitNotes(level + 1, n.notes);
+            emitSourceCitations(level + 1, n.getCitations());
+            emitNotes(level + 1, n.getNotes());
             emitCustomTags(level + 1, n.getCustomTags());
         }
     }
@@ -1343,8 +1343,8 @@ public class GedcomWriter {
         emitTagIfValueNotNull(level + 1, "SPFX", pnv.surnamePrefix);
         emitTagIfValueNotNull(level + 1, "SURN", pnv.surname);
         emitTagIfValueNotNull(level + 1, "NSFX", pnv.suffix);
-        emitSourceCitations(level + 1, pnv.citations);
-        emitNotes(level + 1, pnv.notes);
+        emitSourceCitations(level + 1, pnv.getCitations());
+        emitNotes(level + 1, pnv.getNotes());
         emitCustomTags(level + 1, pnv.getCustomTags());
     }
 
@@ -1375,8 +1375,8 @@ public class GedcomWriter {
     private void emitPlace(int level, Place p) throws GedcomWriterException {
         emitTagWithOptionalValue(level, "PLAC", p.placeName);
         emitTagIfValueNotNull(level + 1, "FORM", p.placeFormat);
-        emitSourceCitations(level + 1, p.citations);
-        emitNotes(level + 1, p.notes);
+        emitSourceCitations(level + 1, p.getCitations());
+        emitNotes(level + 1, p.getNotes());
         for (NameVariation nv : p.romanized) {
             if (g55()) {
                 throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but romanized variation was specified on place " + p.placeName
@@ -1437,7 +1437,7 @@ public class GedcomWriter {
             emitTag(0, r.getXref(), "REPO");
             emitTagIfValueNotNull(1, "NAME", r.name);
             emitAddress(1, r.address);
-            emitNotes(1, r.notes);
+            emitNotes(1, r.getNotes());
             for (UserReference u : r.getUserReferences()) {
                 emitTagWithRequiredValue(1, "REFN", u.referenceNum);
                 emitTagIfValueNotNull(2, "TYPE", u.type);
@@ -1472,7 +1472,7 @@ public class GedcomWriter {
                 throw new GedcomWriterException("Repository Citation has null repository reference");
             }
             emitTagWithRequiredValue(level, "REPO", repositoryCitation.repositoryXref);
-            emitNotes(level + 1, repositoryCitation.notes);
+            emitNotes(level + 1, repositoryCitation.getNotes());
             for (SourceCallNumber scn : repositoryCitation.callNumbers) {
                 emitTagWithRequiredValue(level + 1, "CALN", scn.callNumber);
                 emitTagIfValueNotNull(level + 2, "MEDI", scn.mediaType);
@@ -1524,7 +1524,7 @@ public class GedcomWriter {
                     emitTagIfValueNotNull(3, "PLAC", e.getJurisdiction());
                 }
                 emitTagIfValueNotNull(2, "AGNC", d.respAgency);
-                emitNotes(2, d.notes);
+                emitNotes(2, d.getNotes());
             }
             emitLinesOfText(1, "AUTH", s.originatorsAuthors);
             emitLinesOfText(1, "TITL", s.title);
@@ -1533,7 +1533,7 @@ public class GedcomWriter {
             emitLinesOfText(1, "TEXT", s.sourceText);
             emitRepositoryCitation(1, s.repositoryCitation);
             emitMultimediaLinks(1, s.getMultimedia());
-            emitNotes(1, s.notes);
+            emitNotes(1, s.getNotes());
             for (UserReference u : s.getUserReferences()) {
                 emitTagWithRequiredValue(1, "REFN", u.referenceNum);
                 emitTagIfValueNotNull(2, "TYPE", u.type);

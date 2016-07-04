@@ -73,11 +73,6 @@ public class Family extends AbstractElement {
     public List<LdsSpouseSealing> ldsSpouseSealings = new ArrayList<LdsSpouseSealing>(0);
 
     /**
-     * The source citations for this family
-     */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
-
-    /**
      * The change date information for this family record
      */
     public ChangeDate changeDate;
@@ -96,7 +91,7 @@ public class Family extends AbstractElement {
     /**
      * Notes about this object
      */
-    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+    private List<Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
 
     /**
      * The xref for this submitter
@@ -112,6 +107,11 @@ public class Family extends AbstractElement {
      * The user references for this submitter
      */
     private List<UserReference> userReferences = new ArrayList<UserReference>(0);
+
+    /**
+     * The citations for this object
+     */
+    private List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? new ArrayList<AbstractCitation>(0) : null;
 
     /**
      * {@inheritDoc}
@@ -245,44 +245,50 @@ public class Family extends AbstractElement {
     }
 
     /**
-     * {@inheritDoc}
+     * Get the citations
+     * 
+     * @return the citations
      */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + (automatedRecordId == null ? 0 : automatedRecordId.hashCode());
-        result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
-        result = prime * result + (children == null ? 0 : children.hashCode());
-        result = prime * result + (citations == null ? 0 : citations.hashCode());
-        result = prime * result + (events == null ? 0 : events.hashCode());
-        result = prime * result + (husband == null ? 0 : husband.hashCode());
-        result = prime * result + (ldsSpouseSealings == null ? 0 : ldsSpouseSealings.hashCode());
-        result = prime * result + (multimedia == null ? 0 : multimedia.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
-        result = prime * result + (numChildren == null ? 0 : numChildren.hashCode());
-        result = prime * result + (recFileNumber == null ? 0 : recFileNumber.hashCode());
-        result = prime * result + (submitters == null ? 0 : submitters.hashCode());
-        result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
-        result = prime * result + (wife == null ? 0 : wife.hashCode());
-        result = prime * result + (xref == null ? 0 : xref.hashCode());
-        result = prime * result + (restrictionNotice == null ? 0 : restrictionNotice.hashCode());
-        return result;
+    public List<AbstractCitation> getCitations() {
+        return citations;
     }
 
-    @Override
-    public String toString() {
-        return "Family [" + (recFileNumber != null ? "recFileNumber=" + recFileNumber + ", " : "")
-                + (automatedRecordId != null ? "automatedRecordId=" + automatedRecordId + ", " : "") + (wife != null ? "wife=" + wife + ", " : "")
-                + (husband != null ? "husband=" + husband + ", " : "") + (children != null ? "children=" + children + ", " : "")
-                + (numChildren != null ? "numChildren=" + numChildren + ", " : "") + (submitters != null ? "submitters=" + submitters + ", " : "")
-                + (ldsSpouseSealings != null ? "ldsSpouseSealings=" + ldsSpouseSealings + ", " : "")
-                + (citations != null ? "citations=" + citations + ", " : "") + (multimedia != null ? "multimedia=" + multimedia + ", " : "")
-                + (changeDate != null ? "changeDate=" + changeDate + ", " : "") + (events != null ? "events=" + events + ", " : "")
-                + (notes != null ? "notes=" + notes + ", " : "") + (xref != null ? "xref=" + xref + ", " : "")
-                + (userReferences != null ? "userReferences=" + userReferences + ", " : "")
-                + (restrictionNotice != null ? "restrictionNotice=" + restrictionNotice + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "")
-                + "]";
+    /**
+     * Get the citations
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && citations == null) {
+            citations = new ArrayList<AbstractCitation>(0);
+        }
+        return citations;
+    }
+
+    /**
+     * Get the multimedia
+     * 
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia() {
+        return multimedia;
+    }
+
+    /**
+     * Get the multimedia
+     * 
+     * @param initializeIfNeeded
+     *            true if this collection should be created on-the-fly if it is currently null
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && multimedia == null) {
+            multimedia = new ArrayList<Multimedia>(0);
+        }
+        return multimedia;
     }
 
     /**
@@ -310,48 +316,6 @@ public class Family extends AbstractElement {
     }
 
     /**
-     * Get the xref
-     * 
-     * @return the xref
-     */
-    public String getXref() {
-        return xref;
-    }
-
-    /**
-     * Set the xref
-     * 
-     * @param xref
-     *            the xref to set
-     */
-    public void setXref(String xref) {
-        this.xref = xref;
-    }
-
-    /**
-     * Get the multimedia
-     * 
-     * @return the multimedia
-     */
-    public List<Multimedia> getMultimedia() {
-        return multimedia;
-    }
-
-    /**
-     * Get the multimedia
-     * 
-     * @param initializeIfNeeded
-     *            true if this collection should be created on-the-fly if it is currently null
-     * @return the multimedia
-     */
-    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && multimedia == null) {
-            multimedia = new ArrayList<Multimedia>(0);
-        }
-        return multimedia;
-    }
-
-    /**
      * Get the userReferences
      * 
      * @return the userReferences
@@ -372,6 +336,64 @@ public class Family extends AbstractElement {
             userReferences = new ArrayList<UserReference>(0);
         }
         return userReferences;
+    }
+
+    /**
+     * Get the xref
+     * 
+     * @return the xref
+     */
+    public String getXref() {
+        return xref;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + (automatedRecordId == null ? 0 : automatedRecordId.hashCode());
+        result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
+        result = prime * result + (children == null ? 0 : children.hashCode());
+        result = prime * result + (citations == null ? 0 : citations.hashCode());
+        result = prime * result + (events == null ? 0 : events.hashCode());
+        result = prime * result + (husband == null ? 0 : husband.hashCode());
+        result = prime * result + (ldsSpouseSealings == null ? 0 : ldsSpouseSealings.hashCode());
+        result = prime * result + (multimedia == null ? 0 : multimedia.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (numChildren == null ? 0 : numChildren.hashCode());
+        result = prime * result + (recFileNumber == null ? 0 : recFileNumber.hashCode());
+        result = prime * result + (submitters == null ? 0 : submitters.hashCode());
+        result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
+        result = prime * result + (wife == null ? 0 : wife.hashCode());
+        result = prime * result + (xref == null ? 0 : xref.hashCode());
+        result = prime * result + (restrictionNotice == null ? 0 : restrictionNotice.hashCode());
+        return result;
+    }
+
+    /**
+     * Set the xref
+     * 
+     * @param xref
+     *            the xref to set
+     */
+    public void setXref(String xref) {
+        this.xref = xref;
+    }
+
+    @Override
+    public String toString() {
+        return "Family [" + (recFileNumber != null ? "recFileNumber=" + recFileNumber + ", " : "") + (automatedRecordId != null ? "automatedRecordId="
+                + automatedRecordId + ", " : "") + (wife != null ? "wife=" + wife + ", " : "") + (husband != null ? "husband=" + husband + ", " : "")
+                + (children != null ? "children=" + children + ", " : "") + (numChildren != null ? "numChildren=" + numChildren + ", " : "")
+                + (submitters != null ? "submitters=" + submitters + ", " : "") + (ldsSpouseSealings != null ? "ldsSpouseSealings=" + ldsSpouseSealings + ", "
+                        : "") + (citations != null ? "citations=" + citations + ", " : "") + (multimedia != null ? "multimedia=" + multimedia + ", " : "")
+                + (changeDate != null ? "changeDate=" + changeDate + ", " : "") + (events != null ? "events=" + events + ", " : "") + (notes != null ? "notes="
+                        + notes + ", " : "") + (xref != null ? "xref=" + xref + ", " : "") + (userReferences != null ? "userReferences=" + userReferences + ", "
+                                : "") + (restrictionNotice != null ? "restrictionNotice=" + restrictionNotice + ", " : "") + (getCustomTags() != null
+                                        ? "customTags=" + getCustomTags() : "") + "]";
     }
 
 }

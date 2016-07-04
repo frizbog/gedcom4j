@@ -123,15 +123,15 @@ class IndividualValidator extends AbstractValidator {
      * Validate the {@link Individual#citations} collection
      */
     private void checkCitations() {
-        if (individual.citations == null) {
+        if (individual.getCitations() == null) {
             if (rootValidator.autorepair) {
-                individual.citations = new ArrayList<AbstractCitation>();
+                individual.getCitations(true).clear();
                 addInfo("citations collection for individual was null - rootValidator.autorepaired", individual);
             } else {
                 addError("citations collection for individual is null", individual);
             }
         } else {
-            for (AbstractCitation c : individual.citations) {
+            for (AbstractCitation c : individual.getCitations()) {
                 new CitationValidator(rootValidator, c).validate();
             }
         }

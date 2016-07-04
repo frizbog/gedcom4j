@@ -65,9 +65,9 @@ public class SourceTest {
         s2.getMultimedia().add(new Multimedia());
         assertEquals(s1, s2);
 
-        s1.notes = null;
+        s1.getNotes().add(new Note());
         assertTrue(s1.hashCode() != s2.hashCode());
-        s2.notes = null;
+        s2.getNotes().add(new Note());
         assertEquals(s1, s2);
 
         s1.originatorsAuthors = null;
@@ -142,9 +142,9 @@ public class SourceTest {
         s2.getMultimedia().add(new Multimedia());
         assertEquals(s1.hashCode(), s2.hashCode());
 
-        s1.notes = null;
+        s1.getNotes().add(new Note());
         assertFalse(s1.hashCode() == s2.hashCode());
-        s2.notes = null;
+        s2.getNotes().add(new Note());
         assertEquals(s1.hashCode(), s2.hashCode());
 
         s1.originatorsAuthors = null;
@@ -202,7 +202,7 @@ public class SourceTest {
         s1.customTags = null;
         s1.data = new SourceData();
         s1.getMultimedia().clear();
-        s1.notes = null;
+        s1.getNotes().add(new Note());
         s1.originatorsAuthors = null;
         s1.publicationFacts = null;
         s1.setRecIdNumber(new StringWithCustomTags("Foo"));
@@ -211,8 +211,8 @@ public class SourceTest {
         s1.sourceText = null;
         s1.title = null;
         s1.getUserReferences().clear();
-        assertEquals("Source [recIdNumber=Foo, sourceFiledBy=Bar, multimedia=[], " + "changeDate=ChangeDate [notes=[], customTags=[]], userReferences=[], "
-                + "data=SourceData [eventsRecorded=[], notes=[], customTags=[]], "
+        assertEquals("Source [recIdNumber=Foo, sourceFiledBy=Bar, " + "notes=[Note [lines=[], citations=[], userReferences=[], customTags=[]]], multimedia=[], "
+                + "changeDate=ChangeDate [notes=[], customTags=[]], userReferences=[], data=SourceData [eventsRecorded=[], notes=[], customTags=[]], "
                 + "repositoryCitation=RepositoryCitation [notes=[], callNumbers=[], customTags=[]], xref=Foo, ]", s1.toString());
 
     }

@@ -60,7 +60,7 @@ class HeaderValidator extends AbstractValidator {
         checkCharacterSet();
         if (header.getCopyrightData() == null) {
             if (rootValidator.autorepair) {
-                header.getCopyrightData().clear();
+                header.getCopyrightData(true).clear();
                 rootValidator.addInfo("Copyright data collection was null - repaired", header);
             } else {
                 rootValidator.addError("Copyright data collection is null - must be at least an empty collection", header);

@@ -59,22 +59,22 @@ class PlaceValidator extends AbstractValidator {
             addError("Place is null and cannot be validated or repaired");
             return;
         }
-        if (place.citations == null) {
+        if (place.getCitations() == null) {
             if (rootValidator.autorepair) {
-                place.citations = new ArrayList<AbstractCitation>();
+                place.getCitations(true).clear();
                 rootValidator.addInfo("Event had null list of citations - repaired", place);
             } else {
                 rootValidator.addError("Event has null list of citations", place);
             }
         }
-        for (AbstractCitation c : place.citations) {
+        for (AbstractCitation c : place.getCitations()) {
             new CitationValidator(rootValidator, c).validate();
         }
         checkCustomTags(place);
 
         checkOptionalString(place.latitude, "latitude", place);
         checkOptionalString(place.longitude, "longitude", place);
-        checkNotes(place.notes, place);
+        checkNotes(place.getNotes(), place);
         checkOptionalString(place.placeFormat, "place format", place);
         if (place.placeName == null) {
             if (rootValidator.autorepair) {

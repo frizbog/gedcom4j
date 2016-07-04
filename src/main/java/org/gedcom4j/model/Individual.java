@@ -65,11 +65,6 @@ public class Individual extends AbstractElement {
     public ChangeDate changeDate;
 
     /**
-     * A list of citations of sources about this individual
-     */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
-
-    /**
      * A list of submitters who are interested in the descendants of this individual.
      */
     public List<Submitter> descendantInterest = new ArrayList<Submitter>(0);
@@ -127,7 +122,7 @@ public class Individual extends AbstractElement {
     /**
      * Notes about this object
      */
-    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+    private List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
 
     /**
      * The record ID number
@@ -168,6 +163,11 @@ public class Individual extends AbstractElement {
      * The user references for this submitter
      */
     private List<UserReference> userReferences = new ArrayList<UserReference>(0);
+
+    /**
+     * The citations for this object
+     */
+    private List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? new ArrayList<AbstractCitation>(0) : null;
 
     // CHECKSTYLE:OFF for method length
     /**
@@ -624,6 +624,29 @@ public class Individual extends AbstractElement {
     }
 
     /**
+     * Get the userReferences
+     * 
+     * @return the userReferences
+     */
+    public List<UserReference> getUserReferences() {
+        return userReferences;
+    }
+
+    /**
+     * Get the userReferences
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the userReferences
+     */
+    public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && userReferences == null) {
+            userReferences = new ArrayList<UserReference>(0);
+        }
+        return userReferences;
+    }
+
+    /**
      * Get the wwwUrls
      * 
      * @return the wwwUrls
@@ -785,25 +808,26 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the userReferences
+     * Get the citations
      * 
-     * @return the userReferences
+     * @return the citations
      */
-    public List<UserReference> getUserReferences() {
-        return userReferences;
+    public List<AbstractCitation> getCitations() {
+        return citations;
     }
 
     /**
-     * Get the userReferences
+     * Get the citations
      * 
      * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the userReferences
+     *            initialize the collection if needed?
+     * 
+     * @return the citations
      */
-    public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && userReferences == null) {
-            userReferences = new ArrayList<UserReference>(0);
+    public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && citations == null) {
+            citations = new ArrayList<AbstractCitation>(0);
         }
-        return userReferences;
+        return citations;
     }
 }

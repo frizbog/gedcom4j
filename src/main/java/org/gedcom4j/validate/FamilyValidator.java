@@ -68,15 +68,15 @@ class FamilyValidator extends AbstractValidator {
                 }
             }
         }
-        if (f.citations == null) {
+        if (f.getCitations() == null) {
             if (rootValidator.autorepair) {
-                f.citations = new ArrayList<AbstractCitation>();
+                f.getCitations(true).clear();
                 addInfo("citations collection for family was null - rootValidator.autorepaired", f);
             } else {
                 addError("citations collection for family is null", f);
             }
         } else {
-            for (AbstractCitation c : f.citations) {
+            for (AbstractCitation c : f.getCitations()) {
                 new CitationValidator(rootValidator, c).validate();
             }
         }
@@ -114,7 +114,7 @@ class FamilyValidator extends AbstractValidator {
                 new MultimediaValidator(rootValidator, m).validate();
             }
         }
-        checkNotes(f.notes, f);
+        checkNotes(f.getNotes(), f);
         checkOptionalString(f.numChildren, "number of children", f);
         checkOptionalString(f.recFileNumber, "record file number", f);
         checkOptionalString(f.restrictionNotice, "restriction notice", f);

@@ -46,9 +46,9 @@ public class PersonalNameVariationTest {
         assertNotSame(pnv1, pnv2);
         assertEquals(pnv1, pnv2);
 
-        pnv1.citations.add(new CitationWithoutSource());
+        pnv1.getCitations().add(new CitationWithoutSource());
         assertFalse(pnv1.equals(pnv2));
-        pnv1.citations.clear();
+        pnv1.getCitations().clear();
         assertEquals(pnv1, pnv2);
 
         pnv1.getCustomTags().add(new StringTree());
@@ -66,9 +66,9 @@ public class PersonalNameVariationTest {
         pnv1.nickname = null;
         assertEquals(pnv1, pnv2);
 
-        pnv1.notes.add(new Note());
+        pnv1.getNotes().add(new Note());
         assertFalse(pnv1.equals(pnv2));
-        pnv1.notes.clear();
+        pnv1.getNotes().clear();
         assertEquals(pnv1, pnv2);
 
         pnv1.prefix = new StringWithCustomTags("Yo");
@@ -114,9 +114,9 @@ public class PersonalNameVariationTest {
         assertNotSame(pnv1, pnv2);
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
-        pnv1.citations.add(new CitationWithoutSource());
+        pnv1.getCitations().add(new CitationWithoutSource());
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
-        pnv1.citations.clear();
+        pnv1.getCitations().clear();
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
         pnv1.getCustomTags().add(new StringTree());
@@ -134,9 +134,9 @@ public class PersonalNameVariationTest {
         pnv1.nickname = null;
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
-        pnv1.notes.add(new Note());
+        pnv1.getNotes().add(new Note());
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
-        pnv1.notes.clear();
+        pnv1.getNotes().clear();
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
         pnv1.prefix = new StringWithCustomTags("Yo");
@@ -183,7 +183,7 @@ public class PersonalNameVariationTest {
         pnv.getCustomTags().add(new StringTree());
         pnv.givenName = new StringWithCustomTags("Now");
         pnv.nickname = new StringWithCustomTags("Is");
-        pnv.notes.add(new Note());
+        pnv.getNotes().add(new Note());
         pnv.suffix = new StringWithCustomTags("The");
         pnv.surname = new StringWithCustomTags("Time");
         pnv.surnamePrefix = new StringWithCustomTags("For");

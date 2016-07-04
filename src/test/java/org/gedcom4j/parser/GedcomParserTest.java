@@ -324,21 +324,21 @@ public class GedcomParserTest extends TestCase {
 
         assertEquals("@PERSON1@", indi.getXref());
 
-        assertEquals(3, indi.citations.size());
+        assertEquals(3, indi.getCitations().size());
         assertEquals(2, indi.names.size());
-        assertEquals(2, indi.notes.size());
+        assertEquals(2, indi.getNotes().size());
 
         // Name 0
         name = indi.names.get(0);
         assertEquals("Joseph Tag /Torture/", name.basic);
         assertEquals("Torture, Joseph \"Joe\"", name.toString());
 
-        assertEquals(1, name.citations.size());
-        assertEquals(1, name.notes.size());
+        assertEquals(1, name.getCitations().size());
+        assertEquals(1, name.getNotes().size());
 
         // Name 0 - Citation 0
-        assertTrue(name.citations.get(0) instanceof CitationWithSource);
-        citWithSource = (CitationWithSource) name.citations.get(0);
+        assertTrue(name.getCitations().get(0) instanceof CitationWithSource);
+        citWithSource = (CitationWithSource) name.getCitations().get(0);
         source = citWithSource.getSource();
 
         assertEquals("@SOURCE1@", source.getXref());
@@ -348,7 +348,7 @@ public class GedcomParserTest extends TestCase {
         assertEquals(0, citWithSource.getNotes().size());
 
         // Name 0 - Note 0
-        note = name.notes.get(0);
+        note = name.getNotes().get(0);
         assertEquals(5, note.lines.size());
         assertEquals("These are notes about the first NAME structure in this record. These notes are embedded in the INDIVIDUAL record itself.", note.lines.get(
                 0));
@@ -358,12 +358,12 @@ public class GedcomParserTest extends TestCase {
         assertEquals("William John /Smith/", name.basic);
         assertEquals("William John /Smith/", name.toString());
 
-        assertEquals(1, name.citations.size());
-        assertEquals(1, name.notes.size());
+        assertEquals(1, name.getCitations().size());
+        assertEquals(1, name.getNotes().size());
 
         // Name 1 - Citation 0
-        assertTrue(name.citations.get(0) instanceof CitationWithSource);
-        citWithSource = (CitationWithSource) name.citations.get(0);
+        assertTrue(name.getCitations().get(0) instanceof CitationWithSource);
+        citWithSource = (CitationWithSource) name.getCitations().get(0);
         source = citWithSource.getSource();
 
         assertEquals("@SOURCE1@", source.getXref());
@@ -374,7 +374,7 @@ public class GedcomParserTest extends TestCase {
 
         // Name 1 - Multimedia 0
         multimedia = citWithSource.getMultimedia().get(0);
-        assertEquals(0, multimedia.citations.size());
+        assertEquals(0, multimedia.getCitations().size());
         assertEquals(1, multimedia.fileReferences.size());
         assertEquals(1, multimedia.getNotes().size());
 
@@ -398,27 +398,27 @@ public class GedcomParserTest extends TestCase {
                 note.lines.get(0));
 
         // Name 1 - Note 0
-        note = name.notes.get(0);
+        note = name.getNotes().get(0);
         assertEquals(3, note.lines.size());
         assertEquals(
                 "This is a second personal NAME structure in a single INDIVIDUAL record which is allowed in GEDCOM. This second NAME structure has all possible fields for a NAME structure.",
                 note.lines.get(0));
 
         // Note 0
-        note = indi.notes.get(0);
+        note = indi.getNotes().get(0);
         assertEquals(40, note.lines.size());
         assertEquals("Comments on \"Joseph Tag Torture\" INDIVIDUAL Record.", note.lines.get(0));
 
         // Note 1
-        note = indi.notes.get(1);
+        note = indi.getNotes().get(1);
         assertEquals(3, note.lines.size());
         assertEquals(
                 "This is a second set of notes for this single individual record. It is embedded in the INDIVIDUAL record instead of being in a separate NOTE record.",
                 note.lines.get(0));
 
         // Citation 0
-        assertTrue(indi.citations.get(0) instanceof CitationWithSource);
-        citWithSource = (CitationWithSource) indi.citations.get(0);
+        assertTrue(indi.getCitations().get(0) instanceof CitationWithSource);
+        citWithSource = (CitationWithSource) indi.getCitations().get(0);
         source = citWithSource.getSource();
 
         assertEquals("@SOURCE1@", source.getXref());
@@ -433,8 +433,8 @@ public class GedcomParserTest extends TestCase {
         assertEquals("A source note.", note.lines.get(0));
 
         // Citation 1
-        assertTrue(indi.citations.get(1) instanceof CitationWithSource);
-        citWithSource = (CitationWithSource) indi.citations.get(1);
+        assertTrue(indi.getCitations().get(1) instanceof CitationWithSource);
+        citWithSource = (CitationWithSource) indi.getCitations().get(1);
         source = citWithSource.getSource();
 
         assertEquals("@SR2@", source.getXref());
@@ -449,8 +449,8 @@ public class GedcomParserTest extends TestCase {
         assertEquals("This is a second source citation in this record.", note.lines.get(0));
 
         // Citation 2
-        assertTrue(indi.citations.get(2) instanceof CitationWithoutSource);
-        citWithoutSource = (CitationWithoutSource) indi.citations.get(2);
+        assertTrue(indi.getCitations().get(2) instanceof CitationWithoutSource);
+        citWithoutSource = (CitationWithoutSource) indi.getCitations().get(2);
 
         assertEquals(1, citWithoutSource.getNotes().size());
 

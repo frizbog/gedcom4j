@@ -112,7 +112,7 @@ class MultimediaValidator extends AbstractValidator {
     private void checkUserReferences() {
         if (mm.getUserReferences() == null) {
             if (rootValidator.autorepair) {
-                mm.getUserReferences().clear();
+                mm.getUserReferences(true).clear();
                 rootValidator.addInfo("List of user references on multimedia object was null - repaired", mm);
             } else {
                 rootValidator.addError("List of user references on multimedia object is null", mm);
@@ -181,9 +181,9 @@ class MultimediaValidator extends AbstractValidator {
         checkRequiredString(mm.embeddedMediaFormat, "embedded media format", mm);
 
         // Validate the citations - only allowed in 5.5.1
-        if (!mm.citations.isEmpty()) {
+        if (!mm.getCitations().isEmpty()) {
             if (rootValidator.autorepair) {
-                mm.citations.clear();
+                mm.getCitations(true).clear();
                 rootValidator.addInfo("Citations collection was populated, but not allowed in " + "v5.5 of gedcom - repaired (cleared)", mm);
             } else {
                 rootValidator.addError("Citations collection is populated, but not allowed in " + "v5.5 of gedcom", mm);
@@ -232,7 +232,7 @@ class MultimediaValidator extends AbstractValidator {
         }
 
         // Validate the citations - only allowed in 5.5.1
-        for (AbstractCitation c : mm.citations) {
+        for (AbstractCitation c : mm.getCitations()) {
             new CitationValidator(rootValidator, c).validate();
         }
 
@@ -246,9 +246,9 @@ class MultimediaValidator extends AbstractValidator {
         checkOptionalString(mm.getRecIdNumber(), "record id number", mm);
         checkChangeDate(mm.changeDate, mm);
         checkUserReferences();
-        if (mm.citations == null) {
+        if (mm.getCitations() == null) {
             if (rootValidator.autorepair) {
-                mm.citations = new ArrayList<AbstractCitation>();
+                mm.getCitations(true).clear();
                 addInfo("citations collection for multimedia object was null - rootValidator.autorepaired", mm);
             } else {
                 addError("citations collection for multimedia object is null", mm);

@@ -51,7 +51,7 @@ public class Repository extends AbstractElement {
     /**
      * Notes about this object
      */
-    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+    private List<Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
 
     /**
      * The record ID number
@@ -180,97 +180,6 @@ public class Repository extends AbstractElement {
         return true;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + (address == null ? 0 : address.hashCode());
-        result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
-        result = prime * result + (faxNumbers == null ? 0 : faxNumbers.hashCode());
-        result = prime * result + (wwwUrls == null ? 0 : wwwUrls.hashCode());
-        result = prime * result + (emails == null ? 0 : emails.hashCode());
-        result = prime * result + (name == null ? 0 : name.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
-        result = prime * result + (phoneNumbers == null ? 0 : phoneNumbers.hashCode());
-        result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
-        result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
-        result = prime * result + (xref == null ? 0 : xref.hashCode());
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Repository [" + (xref != null ? "xref=" + xref + ", " : "") + (name != null ? "name=" + name + ", " : "")
-                + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "") + (address != null ? "address=" + address + ", " : "")
-                + (notes != null ? "notes=" + notes + ", " : "") + (changeDate != null ? "changeDate=" + changeDate + ", " : "")
-                + (userReferences != null ? "userReferences=" + userReferences + ", " : "")
-                + (phoneNumbers != null ? "phoneNumbers=" + phoneNumbers + ", " : "") + (wwwUrls != null ? "wwwUrls=" + wwwUrls + ", " : "")
-                + (faxNumbers != null ? "faxNumbers=" + faxNumbers + ", " : "") + (emails != null ? "emails=" + emails + ", " : "")
-                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @return the notes
-     */
-    public List<Note> getNotes() {
-        return notes;
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection if needed?
-     * 
-     * @return the notes
-     */
-    public List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<Note>(0);
-        }
-        return notes;
-    }
-
-    /**
-     * Get the recIdNumber
-     * 
-     * @return the recIdNumber
-     */
-    public StringWithCustomTags getRecIdNumber() {
-        return recIdNumber;
-    }
-
-    /**
-     * Set the recIdNumber
-     * 
-     * @param recIdNumber
-     *            the recIdNumber to set
-     */
-    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
-        this.recIdNumber = recIdNumber;
-    }
-
-    /**
-     * Get the xref
-     * 
-     * @return the xref
-     */
-    public String getXref() {
-        return xref;
-    }
-
-    /**
-     * Set the xref
-     * 
-     * @param xref
-     *            the xref to set
-     */
-    public void setXref(String xref) {
-        this.xref = xref;
-    }
-
     /**
      * Get the emails
      * 
@@ -291,7 +200,7 @@ public class Repository extends AbstractElement {
         if (initializeIfNeeded && emails == null) {
             emails = new ArrayList<StringWithCustomTags>(0);
         }
-    
+
         return emails;
     }
 
@@ -319,6 +228,30 @@ public class Repository extends AbstractElement {
     }
 
     /**
+     * Get the notes
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
+    /**
      * Get the phoneNumbers
      * 
      * @return the phoneNumbers
@@ -339,6 +272,38 @@ public class Repository extends AbstractElement {
             phoneNumbers = new ArrayList<StringWithCustomTags>(0);
         }
         return phoneNumbers;
+    }
+
+    /**
+     * Get the recIdNumber
+     * 
+     * @return the recIdNumber
+     */
+    public StringWithCustomTags getRecIdNumber() {
+        return recIdNumber;
+    }
+
+    /**
+     * Get the userReferences
+     * 
+     * @return the userReferences
+     */
+    public List<UserReference> getUserReferences() {
+        return userReferences;
+    }
+
+    /**
+     * Get the userReferences
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the userReferences
+     */
+    public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && userReferences == null) {
+            userReferences = new ArrayList<UserReference>(0);
+        }
+        return userReferences;
     }
 
     /**
@@ -365,26 +330,60 @@ public class Repository extends AbstractElement {
     }
 
     /**
-     * Get the userReferences
+     * Get the xref
      * 
-     * @return the userReferences
+     * @return the xref
      */
-    public List<UserReference> getUserReferences() {
-        return userReferences;
+    public String getXref() {
+        return xref;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + (address == null ? 0 : address.hashCode());
+        result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
+        result = prime * result + (faxNumbers == null ? 0 : faxNumbers.hashCode());
+        result = prime * result + (wwwUrls == null ? 0 : wwwUrls.hashCode());
+        result = prime * result + (emails == null ? 0 : emails.hashCode());
+        result = prime * result + (name == null ? 0 : name.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (phoneNumbers == null ? 0 : phoneNumbers.hashCode());
+        result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
+        result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
+        result = prime * result + (xref == null ? 0 : xref.hashCode());
+        return result;
     }
 
     /**
-     * Get the userReferences
+     * Set the recIdNumber
      * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the userReferences
+     * @param recIdNumber
+     *            the recIdNumber to set
      */
-    public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && userReferences == null) {
-            userReferences = new ArrayList<UserReference>(0);
-        }
-        return userReferences;
+    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+        this.recIdNumber = recIdNumber;
+    }
+
+    /**
+     * Set the xref
+     * 
+     * @param xref
+     *            the xref to set
+     */
+    public void setXref(String xref) {
+        this.xref = xref;
+    }
+
+    @Override
+    public String toString() {
+        return "Repository [" + (xref != null ? "xref=" + xref + ", " : "") + (name != null ? "name=" + name + ", " : "") + (recIdNumber != null
+                ? "recIdNumber=" + recIdNumber + ", " : "") + (address != null ? "address=" + address + ", " : "") + (notes != null ? "notes=" + notes + ", "
+                        : "") + (changeDate != null ? "changeDate=" + changeDate + ", " : "") + (userReferences != null ? "userReferences=" + userReferences
+                                + ", " : "") + (phoneNumbers != null ? "phoneNumbers=" + phoneNumbers + ", " : "") + (wwwUrls != null ? "wwwUrls=" + wwwUrls
+                                        + ", " : "") + (faxNumbers != null ? "faxNumbers=" + faxNumbers + ", " : "") + (emails != null ? "emails=" + emails
+                                                + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 
 }

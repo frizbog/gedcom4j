@@ -69,11 +69,6 @@ public class PersonalName extends AbstractElement {
     public StringWithCustomTags suffix;
 
     /**
-     * Citations for this name
-     */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
-
-    /**
      * Romanized variant. New for GEDCOM 5.5.1
      */
     public List<PersonalNameVariation> romanized = new ArrayList<PersonalNameVariation>(0);
@@ -86,7 +81,12 @@ public class PersonalName extends AbstractElement {
     /**
      * Notes about this object
      */
-    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+    private List<Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
+
+    /**
+     * The citations for this object
+     */
+    private List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? new ArrayList<AbstractCitation>(0) : null;
 
     @Override
     public boolean equals(Object obj) {
@@ -180,30 +180,28 @@ public class PersonalName extends AbstractElement {
         return true;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + (basic == null ? 0 : basic.hashCode());
-        result = prime * result + (citations == null ? 0 : citations.hashCode());
-        result = prime * result + (givenName == null ? 0 : givenName.hashCode());
-        result = prime * result + (nickname == null ? 0 : nickname.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
-        result = prime * result + (prefix == null ? 0 : prefix.hashCode());
-        result = prime * result + (suffix == null ? 0 : suffix.hashCode());
-        result = prime * result + (surname == null ? 0 : surname.hashCode());
-        result = prime * result + (surnamePrefix == null ? 0 : surnamePrefix.hashCode());
-        result = prime * result + (romanized == null ? 0 : romanized.hashCode());
-        result = prime * result + (phonetic == null ? 0 : phonetic.hashCode());
-        return result;
+    /**
+     * Get the citations
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations() {
+        return citations;
     }
 
-    @Override
-    public String toString() {
-        if (surname != null || givenName != null) {
-            return surname + ", " + givenName + (nickname == null ? "" : " \"" + nickname + "\"");
+    /**
+     * Get the citations
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && citations == null) {
+            citations = new ArrayList<AbstractCitation>(0);
         }
-        return basic;
+        return citations;
     }
 
     /**
@@ -228,6 +226,32 @@ public class PersonalName extends AbstractElement {
             notes = new ArrayList<Note>(0);
         }
         return notes;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + (basic == null ? 0 : basic.hashCode());
+        result = prime * result + (citations == null ? 0 : citations.hashCode());
+        result = prime * result + (givenName == null ? 0 : givenName.hashCode());
+        result = prime * result + (nickname == null ? 0 : nickname.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (prefix == null ? 0 : prefix.hashCode());
+        result = prime * result + (suffix == null ? 0 : suffix.hashCode());
+        result = prime * result + (surname == null ? 0 : surname.hashCode());
+        result = prime * result + (surnamePrefix == null ? 0 : surnamePrefix.hashCode());
+        result = prime * result + (romanized == null ? 0 : romanized.hashCode());
+        result = prime * result + (phonetic == null ? 0 : phonetic.hashCode());
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        if (surname != null || givenName != null) {
+            return surname + ", " + givenName + (nickname == null ? "" : " \"" + nickname + "\"");
+        }
+        return basic;
     }
 
 }

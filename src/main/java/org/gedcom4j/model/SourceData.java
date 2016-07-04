@@ -45,7 +45,7 @@ public class SourceData extends AbstractElement {
     /**
      * Notes about this object
      */
-    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+    private List<Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
 
     @Override
     public boolean equals(Object obj) {
@@ -83,23 +83,6 @@ public class SourceData extends AbstractElement {
         return true;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + (eventsRecorded == null ? 0 : eventsRecorded.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
-        result = prime * result + (respAgency == null ? 0 : respAgency.hashCode());
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "SourceData [" + (respAgency != null ? "respAgency=" + respAgency + ", " : "")
-                + (eventsRecorded != null ? "eventsRecorded=" + eventsRecorded + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
-                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
-    }
-
     /**
      * Get the notes
      * 
@@ -122,5 +105,21 @@ public class SourceData extends AbstractElement {
             notes = new ArrayList<Note>(0);
         }
         return notes;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + (eventsRecorded == null ? 0 : eventsRecorded.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (respAgency == null ? 0 : respAgency.hashCode());
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "SourceData [" + (respAgency != null ? "respAgency=" + respAgency + ", " : "") + (eventsRecorded != null ? "eventsRecorded=" + eventsRecorded
+                + ", " : "") + (notes != null ? "notes=" + notes + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

@@ -24,6 +24,8 @@ package org.gedcom4j.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * A note. Corresponds to NOTE_STRUCTURE in the GEDCOM standard.
  * 
@@ -35,11 +37,6 @@ public class Note extends AbstractElement {
      * The lines of text of this note
      */
     public List<String> lines = new ArrayList<String>(0);
-
-    /**
-     * The citations for this note
-     */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
 
     /**
      * The change date for this note
@@ -60,6 +57,11 @@ public class Note extends AbstractElement {
      * The user references for this submitter
      */
     private List<UserReference> userReferences = new ArrayList<UserReference>(0);
+
+    /**
+     * The citations for this object
+     */
+    private List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? new ArrayList<AbstractCitation>(0) : null;
 
     @Override
     public boolean equals(Object obj) {
@@ -198,5 +200,29 @@ public class Note extends AbstractElement {
             userReferences = new ArrayList<UserReference>(0);
         }
         return userReferences;
+    }
+
+    /**
+     * Get the citations
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations() {
+        return citations;
+    }
+
+    /**
+     * Get the citations
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && citations == null) {
+            citations = new ArrayList<AbstractCitation>(0);
+        }
+        return citations;
     }
 }

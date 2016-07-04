@@ -51,16 +51,16 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
         rootValidator.validate();
         assertNoIssues();
 
-        n.citations = null;
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "citations", "null");
-        n.citations = new ArrayList<AbstractCitation>();
+        n.getCitations(true).clear();
         rootValidator.validate();
         assertNoIssues();
+        n.getCitations().add(new CitationWithSource());
+        rootValidator.validate();
+        assertFindingsContain(Severity.ERROR, "CitationWithSource", "non-null", "reference");
 
         n.getUserReferences().clear();
         rootValidator.validate();
-        assertNoIssues();
+        assertFindingsContain(Severity.ERROR, "CitationWithSource", "non-null", "reference");
         n.getUserReferences().add(new UserReference());
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "reference number", "null");
@@ -93,16 +93,16 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
         rootValidator.validate();
         assertNoIssues();
 
-        n.citations = null;
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "citations", "null");
-        n.citations = new ArrayList<AbstractCitation>();
+        n.getCitations(true).clear();
         rootValidator.validate();
         assertNoIssues();
+        n.getCitations().add(new CitationWithSource());
+        rootValidator.validate();
+        assertFindingsContain(Severity.ERROR, "CitationWithSource", "non-null", "reference");
 
         n.getUserReferences().clear();
         rootValidator.validate();
-        assertNoIssues();
+        assertFindingsContain(Severity.ERROR, "CitationWithSource", "non-null", "reference");
         n.getUserReferences().add(new UserReference());
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "reference number", "UserReference", "null");

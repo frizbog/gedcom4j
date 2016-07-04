@@ -64,13 +64,13 @@ public class Issue32Test {
                 foundJohn = true;
                 Individual john = i.getValue();
                 assertNotNull(john);
-                checkJohn(john.notes);
+                checkJohn(john.getNotes());
             }
             if (i.getKey().equalsIgnoreCase("@I2@")) {
                 foundMary = true;
                 Individual mary = i.getValue();
                 assertNotNull(mary);
-                checkMary(mary.notes);
+                checkMary(mary.getNotes());
             }
         }
         assertTrue("Didn't find john", foundJohn);

@@ -61,7 +61,7 @@ class RepositoryValidator extends AbstractValidator {
         checkUserReferences(repository.getUserReferences(), repository);
         checkOptionalString(repository.getRecIdNumber(), "automated record id", repository);
         checkStringTagList(repository.getPhoneNumbers(), "phone numbers", false);
-        checkNotes(repository.notes, repository);
+        checkNotes(repository.getNotes(), repository);
 
         Address a = repository.address;
         if (a != null) {

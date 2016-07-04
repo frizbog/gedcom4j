@@ -75,7 +75,7 @@ public class Source extends AbstractElement {
     /**
      * Notes about this object
      */
-    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+    private List<Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
 
     /**
      * The record ID number
@@ -220,39 +220,26 @@ public class Source extends AbstractElement {
     }
 
     /**
-     * {@inheritDoc}
+     * Get the multimedia
+     * 
+     * @return the multimedia
      */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
-        result = prime * result + (data == null ? 0 : data.hashCode());
-        result = prime * result + (multimedia == null ? 0 : multimedia.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
-        result = prime * result + (originatorsAuthors == null ? 0 : originatorsAuthors.hashCode());
-        result = prime * result + (publicationFacts == null ? 0 : publicationFacts.hashCode());
-        result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
-        result = prime * result + (repositoryCitation == null ? 0 : repositoryCitation.hashCode());
-        result = prime * result + (sourceFiledBy == null ? 0 : sourceFiledBy.hashCode());
-        result = prime * result + (sourceText == null ? 0 : sourceText.hashCode());
-        result = prime * result + (title == null ? 0 : title.hashCode());
-        result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
-        result = prime * result + (xref == null ? 0 : xref.hashCode());
-        return result;
+    public List<Multimedia> getMultimedia() {
+        return multimedia;
     }
 
-    @Override
-    public String toString() {
-        return "Source [" + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "")
-                + (sourceFiledBy != null ? "sourceFiledBy=" + sourceFiledBy + ", " : "") + (title != null ? "title=" + title + ", " : "")
-                + (notes != null ? "notes=" + notes + ", " : "") + (publicationFacts != null ? "publicationFacts=" + publicationFacts + ", " : "")
-                + (originatorsAuthors != null ? "originatorsAuthors=" + originatorsAuthors + ", " : "")
-                + (multimedia != null ? "multimedia=" + multimedia + ", " : "") + (changeDate != null ? "changeDate=" + changeDate + ", " : "")
-                + (userReferences != null ? "userReferences=" + userReferences + ", " : "") + (data != null ? "data=" + data + ", " : "")
-                + (sourceText != null ? "sourceText=" + sourceText + ", " : "")
-                + (repositoryCitation != null ? "repositoryCitation=" + repositoryCitation + ", " : "") + (xref != null ? "xref=" + xref + ", " : "")
-                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
+    /**
+     * Get the multimedia
+     * 
+     * @param initializeIfNeeded
+     *            true if this collection should be created on-the-fly if it is currently null
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && multimedia == null) {
+            multimedia = new ArrayList<Multimedia>(0);
+        }
+        return multimedia;
     }
 
     /**
@@ -289,58 +276,6 @@ public class Source extends AbstractElement {
     }
 
     /**
-     * Set the recIdNumber
-     * 
-     * @param recIdNumber
-     *            the recIdNumber to set
-     */
-    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
-        this.recIdNumber = recIdNumber;
-    }
-
-    /**
-     * Get the xref
-     * 
-     * @return the xref
-     */
-    public String getXref() {
-        return xref;
-    }
-
-    /**
-     * Set the xref
-     * 
-     * @param xref
-     *            the xref to set
-     */
-    public void setXref(String xref) {
-        this.xref = xref;
-    }
-
-    /**
-     * Get the multimedia
-     * 
-     * @return the multimedia
-     */
-    public List<Multimedia> getMultimedia() {
-        return multimedia;
-    }
-
-    /**
-     * Get the multimedia
-     * 
-     * @param initializeIfNeeded
-     *            true if this collection should be created on-the-fly if it is currently null
-     * @return the multimedia
-     */
-    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && multimedia == null) {
-            multimedia = new ArrayList<Multimedia>(0);
-        }
-        return multimedia;
-    }
-
-    /**
      * Get the userReferences
      * 
      * @return the userReferences
@@ -361,5 +296,69 @@ public class Source extends AbstractElement {
             userReferences = new ArrayList<UserReference>(0);
         }
         return userReferences;
+    }
+
+    /**
+     * Get the xref
+     * 
+     * @return the xref
+     */
+    public String getXref() {
+        return xref;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
+        result = prime * result + (data == null ? 0 : data.hashCode());
+        result = prime * result + (multimedia == null ? 0 : multimedia.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (originatorsAuthors == null ? 0 : originatorsAuthors.hashCode());
+        result = prime * result + (publicationFacts == null ? 0 : publicationFacts.hashCode());
+        result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
+        result = prime * result + (repositoryCitation == null ? 0 : repositoryCitation.hashCode());
+        result = prime * result + (sourceFiledBy == null ? 0 : sourceFiledBy.hashCode());
+        result = prime * result + (sourceText == null ? 0 : sourceText.hashCode());
+        result = prime * result + (title == null ? 0 : title.hashCode());
+        result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
+        result = prime * result + (xref == null ? 0 : xref.hashCode());
+        return result;
+    }
+
+    /**
+     * Set the recIdNumber
+     * 
+     * @param recIdNumber
+     *            the recIdNumber to set
+     */
+    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+        this.recIdNumber = recIdNumber;
+    }
+
+    /**
+     * Set the xref
+     * 
+     * @param xref
+     *            the xref to set
+     */
+    public void setXref(String xref) {
+        this.xref = xref;
+    }
+
+    @Override
+    public String toString() {
+        return "Source [" + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "") + (sourceFiledBy != null ? "sourceFiledBy=" + sourceFiledBy + ", "
+                : "") + (title != null ? "title=" + title + ", " : "") + (notes != null ? "notes=" + notes + ", " : "") + (publicationFacts != null
+                        ? "publicationFacts=" + publicationFacts + ", " : "") + (originatorsAuthors != null ? "originatorsAuthors=" + originatorsAuthors + ", "
+                                : "") + (multimedia != null ? "multimedia=" + multimedia + ", " : "") + (changeDate != null ? "changeDate=" + changeDate + ", "
+                                        : "") + (userReferences != null ? "userReferences=" + userReferences + ", " : "") + (data != null ? "data=" + data
+                                                + ", " : "") + (sourceText != null ? "sourceText=" + sourceText + ", " : "") + (repositoryCitation != null
+                                                        ? "repositoryCitation=" + repositoryCitation + ", " : "") + (xref != null ? "xref=" + xref + ", " : "")
+                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
     }
 }

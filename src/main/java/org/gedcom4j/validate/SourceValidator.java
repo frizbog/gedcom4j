@@ -64,7 +64,7 @@ class SourceValidator extends AbstractValidator {
         checkChangeDate(source.changeDate, source);
         if (source.data != null) {
             SourceData sd = source.data;
-            checkNotes(sd.notes, sd);
+            checkNotes(sd.getNotes(), sd);
             checkOptionalString(sd.respAgency, "responsible agency", sd);
             if (sd.eventsRecorded == null) {
                 if (rootValidator.autorepair) {
@@ -92,7 +92,7 @@ class SourceValidator extends AbstractValidator {
                 new MultimediaValidator(rootValidator, multimedia).validate();
             }
         }
-        checkNotes(source.notes, source);
+        checkNotes(source.getNotes(), source);
         checkStringList(source.originatorsAuthors, "originators/authors", false);
         checkStringList(source.publicationFacts, "publication facts", false);
         checkOptionalString(source.getRecIdNumber(), "automated record id", source);
@@ -103,7 +103,7 @@ class SourceValidator extends AbstractValidator {
 
         RepositoryCitation c = source.repositoryCitation;
         if (c != null) {
-            checkNotes(c.notes, c);
+            checkNotes(c.getNotes(), c);
             checkRequiredString(c.repositoryXref, "repository xref", c);
             checkCallNumbers(c);
         }

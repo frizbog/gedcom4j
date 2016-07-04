@@ -82,21 +82,21 @@ class NoteValidator extends AbstractValidator {
         }
 
         checkOptionalString(n.getRecIdNumber(), "automated record id", n);
-        if (n.citations == null) {
+        if (n.getCitations() == null) {
             if (rootValidator.autorepair) {
-                n.citations = new ArrayList<AbstractCitation>();
+                n.getCitations(true).clear();
                 addInfo("Source citations collection on note was null - autorepaired");
             } else {
                 addError("Source citations collection on note is null", n);
             }
         } else {
-            for (AbstractCitation c : n.citations) {
+            for (AbstractCitation c : n.getCitations()) {
                 new CitationValidator(rootValidator, c).validate();
             }
         }
         if (n.getUserReferences() == null) {
             if (rootValidator.autorepair) {
-                n.getUserReferences().clear();
+                n.getUserReferences(true).clear();
                 addInfo("User references collection on note was null - autorepaired");
             } else {
                 addError("User references collection on note is null", n);

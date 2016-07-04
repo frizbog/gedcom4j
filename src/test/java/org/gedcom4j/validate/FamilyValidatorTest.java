@@ -23,7 +23,10 @@ package org.gedcom4j.validate;
 
 import java.util.ArrayList;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Family;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.TestHelper;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -117,11 +120,7 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoCitations() {
-        f.citations = null;
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "citations", "null");
-
-        f.citations = new ArrayList<AbstractCitation>();
+        f.getCitations(true).clear();
         rootValidator.validate();
         assertNoIssues();
     }

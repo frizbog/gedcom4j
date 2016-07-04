@@ -48,7 +48,7 @@ public class Association extends AbstractElement {
     private StringWithCustomTags associatedEntityType;
 
     /**
-     * The citations for this association
+     * The citations for this object
      */
     private List<AbstractCitation> citations = Options.isCollectionInitializationEnabled() ? new ArrayList<AbstractCitation>(0) : null;
 

@@ -48,7 +48,7 @@ public class RepositoryCitation extends AbstractElement {
     /**
      * Notes about this object
      */
-    public List<Note> notes = Options.isCollectionInitializationEnabled() ? new ArrayList<Note>(0) : null;
+    private List<Note> notes = Options.isCollectionInitializationEnabled() ? getNotes(true) : null;
 
     @Override
     public boolean equals(Object obj) {
@@ -86,23 +86,6 @@ public class RepositoryCitation extends AbstractElement {
         return true;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + (callNumbers == null ? 0 : callNumbers.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
-        result = prime * result + (repositoryXref == null ? 0 : repositoryXref.hashCode());
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "RepositoryCitation [" + (repositoryXref != null ? "repositoryXref=" + repositoryXref + ", " : "")
-                + (notes != null ? "notes=" + notes + ", " : "") + (callNumbers != null ? "callNumbers=" + callNumbers + ", " : "")
-                + (getCustomTags() != null ? "customTags=" + getCustomTags() : "") + "]";
-    }
-
     /**
      * Get the notes
      * 
@@ -125,6 +108,23 @@ public class RepositoryCitation extends AbstractElement {
             notes = new ArrayList<Note>(0);
         }
         return notes;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + (callNumbers == null ? 0 : callNumbers.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (repositoryXref == null ? 0 : repositoryXref.hashCode());
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "RepositoryCitation [" + (repositoryXref != null ? "repositoryXref=" + repositoryXref + ", " : "") + (notes != null ? "notes=" + notes + ", "
+                : "") + (callNumbers != null ? "callNumbers=" + callNumbers + ", " : "") + (getCustomTags() != null ? "customTags=" + getCustomTags() : "")
+                + "]";
     }
 
 }

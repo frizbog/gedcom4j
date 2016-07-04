@@ -63,16 +63,16 @@ class PersonalNameValidator extends AbstractValidator {
             return;
         }
         checkRequiredString(pn.basic, "basic name", pn);
-        if (pn.citations == null) {
+        if (pn.getCitations() == null) {
             if (rootValidator.autorepair) {
-                pn.citations = new ArrayList<AbstractCitation>();
+                pn.getCitations(true).clear();
                 addInfo("citations collection for personal name was null - autorepaired", pn);
             } else {
                 addError("citations collection for personal name is null", pn);
             }
         }
-        if (pn.citations != null) {
-            for (AbstractCitation c : pn.citations) {
+        if (pn.getCitations() != null) {
+            for (AbstractCitation c : pn.getCitations()) {
                 new CitationValidator(rootValidator, c).validate();
             }
         }
@@ -84,7 +84,7 @@ class PersonalNameValidator extends AbstractValidator {
         checkOptionalString(pn.surname, "surname", pn);
         checkOptionalString(pn.surnamePrefix, "surname prefix", pn);
 
-        checkNotes(pn.notes, pn);
+        checkNotes(pn.getNotes(), pn);
         if (pn.phonetic == null) {
             if (rootValidator.autorepair) {
                 pn.phonetic = new ArrayList<PersonalNameVariation>();
