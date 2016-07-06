@@ -265,6 +265,12 @@ public class GedcomParser {
      *             if there is an error with parsing the data from the stream
      */
     public void load(BufferedInputStream bytes) throws IOException, GedcomParserException {
+        // Reset counters and stuff
+        lineNum = 0;
+        errors.clear();
+        warnings.clear();
+        cancelled = false;
+
         if (cancelled) {
             throw new ParserCancelledException("File load/parse cancelled");
         }
