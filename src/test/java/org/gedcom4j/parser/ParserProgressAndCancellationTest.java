@@ -70,7 +70,7 @@ public class ParserProgressAndCancellationTest implements ParseProgressListener 
     @Test(expected = ParserCancelledException.class)
     public void testCancellation() throws IOException, GedcomParserException {
         gp = new GedcomParser();
-        cancelAfter = 100;
+        cancelAfter = 5;
         gp.registerParseObserver(this);
         gp.load("sample/willis-ascii.ged");
     }
@@ -87,7 +87,7 @@ public class ParserProgressAndCancellationTest implements ParseProgressListener 
         cancelAfter = Integer.MAX_VALUE;
         gp.registerParseObserver(this);
         gp.load("sample/willis-ascii.ged");
-        assertEquals(1269, notificationCount);
+        assertEquals(40, notificationCount);
     }
 
 }

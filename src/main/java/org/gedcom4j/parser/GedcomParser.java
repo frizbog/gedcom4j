@@ -139,6 +139,16 @@ public class GedcomParser {
     private int parseNotificationRate = 500;
 
     /**
+     * The {@link StringTreeBuilder} that is assisting this class
+     */
+    private StringTreeBuilder stringTreeBuilder;
+
+    /**
+     * The 1-based line number that we've most recently read, so starts at zero (when we haven't read any lines yet)
+     */
+    private int lineNum;
+
+    /**
      * Indicate that file loading should be cancelled
      */
     public void cancel() {
@@ -170,6 +180,15 @@ public class GedcomParser {
      */
     public Gedcom getGedcom() {
         return gedcom;
+    }
+
+    /**
+     * Get the line number we're reading
+     * 
+     * @return the line number we're reading
+     */
+    public int getLineNum() {
+        return lineNum;
     }
 
     /**
@@ -236,25 +255,45 @@ public class GedcomParser {
     }
 
     /**
-     * Load a gedcom file from an input stream and create an object hierarchy from the data therein.
+     * Read data from an {@link java.io.InputStream} and construct a {@link StringTree} object from its contents
      * 
-     * @param stream
-     *            the stream to load from
+     * @param bytes
+     *            the input stream over the bytes of the file
      * @throws IOException
-     *             if the file cannot be read
+     *             if there is a problem reading the data from the reader
      * @throws GedcomParserException
-     *             if the file cannot be parsed
+     *             if there is an error with parsing the data from the stream
      */
-    public void load(BufferedInputStream stream) throws IOException, GedcomParserException {
+    public void load(BufferedInputStream bytes) throws IOException, GedcomParserException {
         if (cancelled) {
             throw new ParserCancelledException("File load/parse cancelled");
         }
-        StringTree stringTree = readStream(stream);
-        loadRootItems(stringTree);
+        GedcomFileReader gfr = new GedcomFileReader(this, bytes);
+        stringTreeBuilder = new StringTreeBuilder(this);
+        String line = gfr.nextLine();
+        while (line != null) {
+
+            if (line.charAt(0) == '0') {
+                // We've hit the start of the next root node
+                parseAndLoadPreviousStringTree();
+            }
+
+            lineNum++;
+            stringTreeBuilder.appendLine(line);
+            line = gfr.nextLine();
+            if (cancelled) {
+                throw new ParserCancelledException("File load/parse is cancelled");
+            }
+            if (lineNum % parseNotificationRate == 0) {
+                notifyParseObservers(new ParseProgressEvent(this, gedcom, false, lineNum));
+            }
+
+        }
+        parseAndLoadPreviousStringTree();
     }
 
     /**
-     * Load a gedcom file by filename and create an object heirarchy from the data therein.
+     * Load a gedcom file with the supplied name
      * 
      * @param filename
      *            the name of the file to load
@@ -264,11 +303,17 @@ public class GedcomParser {
      *             if the file cannot be parsed
      */
     public void load(String filename) throws IOException, GedcomParserException {
-        if (cancelled) {
-            throw new ParserCancelledException("File load/parse cancelled");
+        FileInputStream fis = new FileInputStream(filename);
+        BufferedInputStream bis = null;
+        try {
+            bis = new BufferedInputStream(fis);
+            load(bis);
+        } finally {
+            if (bis != null) {
+                bis.close();
+            }
+            fis.close();
         }
-        StringTree stringTree = readFile(filename);
-        loadRootItems(stringTree);
     }
 
     /**
@@ -414,19 +459,13 @@ public class GedcomParser {
      * 
      * @param filename
      *            the file to load
-     * @return the string tree representation of the data from the file
      * @throws IOException
      *             if there is a problem reading the file
      * @throws GedcomParserException
      *             if there is a problem parsing the data in the file
      */
-    StringTree readFile(String filename) throws IOException, GedcomParserException {
-        FileInputStream fis = new FileInputStream(filename);
-        try {
-            return makeStringTreeFromStream(new BufferedInputStream(fis));
-        } finally {
-            fis.close();
-        }
+    void readFile(String filename) throws IOException, GedcomParserException {
+
     }
 
     /**
@@ -2129,50 +2168,37 @@ public class GedcomParser {
     }
 
     /**
-     * Load the root level items for the gedcom
+     * Load a single root-level item
      * 
-     * @param st
-     *            the root of the string tree
+     * @param rootLevelItem
+     *            the string tree for the root level item
      * @throws GedcomParserException
      *             if the data cannot be parsed because it's not in the format expected
      */
-    private void loadRootItems(StringTree st) throws GedcomParserException {
-        if (cancelled) {
-            throw new ParserCancelledException("File load/parse cancelled");
+    private void loadRootItem(StringTree rootLevelItem) throws GedcomParserException {
+        if (Tag.HEADER.equalsText(rootLevelItem.getTag())) {
+            loadHeader(rootLevelItem);
+        } else if (Tag.SUBMITTER.equalsText(rootLevelItem.getTag())) {
+            loadSubmitter(rootLevelItem);
+        } else if (Tag.INDIVIDUAL.equalsText(rootLevelItem.getTag())) {
+            loadIndividual(rootLevelItem);
+        } else if (Tag.SUBMISSION.equalsText(rootLevelItem.getTag())) {
+            loadSubmission(rootLevelItem);
+        } else if (Tag.NOTE.equalsText(rootLevelItem.getTag())) {
+            loadRootNote(rootLevelItem);
+        } else if (Tag.FAMILY.equalsText(rootLevelItem.getTag())) {
+            loadFamily(rootLevelItem);
+        } else if (Tag.TRAILER.equalsText(rootLevelItem.getTag())) {
+            gedcom.setTrailer(new Trailer());
+        } else if (Tag.SOURCE.equalsText(rootLevelItem.getTag())) {
+            loadSource(rootLevelItem);
+        } else if (Tag.REPOSITORY.equalsText(rootLevelItem.getTag())) {
+            loadRepository(rootLevelItem);
+        } else if (Tag.OBJECT_MULTIMEDIA.equalsText(rootLevelItem.getTag())) {
+            loadMultimediaRecord(rootLevelItem);
+        } else {
+            unknownTag(rootLevelItem, gedcom);
         }
-        int i = 0;
-        for (StringTree ch : st.getChildren()) {
-            if (Tag.HEADER.equalsText(ch.getTag())) {
-                loadHeader(ch);
-            } else if (Tag.SUBMITTER.equalsText(ch.getTag())) {
-                loadSubmitter(ch);
-            } else if (Tag.INDIVIDUAL.equalsText(ch.getTag())) {
-                loadIndividual(ch);
-            } else if (Tag.SUBMISSION.equalsText(ch.getTag())) {
-                loadSubmission(ch);
-            } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                loadRootNote(ch);
-            } else if (Tag.FAMILY.equalsText(ch.getTag())) {
-                loadFamily(ch);
-            } else if (Tag.TRAILER.equalsText(ch.getTag())) {
-                gedcom.setTrailer(new Trailer());
-            } else if (Tag.SOURCE.equalsText(ch.getTag())) {
-                loadSource(ch);
-            } else if (Tag.REPOSITORY.equalsText(ch.getTag())) {
-                loadRepository(ch);
-            } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
-                loadMultimediaRecord(ch);
-            } else {
-                unknownTag(ch, gedcom);
-            }
-            if (i % parseNotificationRate == 0) {
-                notifyParseObservers(new ParseProgressEvent(this, gedcom, false));
-            }
-            if (cancelled) {
-                throw new ParserCancelledException("File load/parse cancelled");
-            }
-        }
-        notifyParseObservers(new ParseProgressEvent(this, gedcom, true));
     }
 
     /**
@@ -2427,40 +2453,6 @@ public class GedcomParser {
     }
 
     /**
-     * Read data from an {@link java.io.InputStream} and construct a {@link StringTree} object from its contents
-     * 
-     * @param bytes
-     *            the input stream over the bytes of the file
-     * @return the {@link StringTree} created from the contents of the input stream
-     * @throws IOException
-     *             if there is a problem reading the data from the reader
-     * @throws GedcomParserException
-     *             if there is an error with parsing the data from the stream
-     */
-    private StringTree makeStringTreeFromStream(BufferedInputStream bytes) throws IOException, GedcomParserException {
-        /* This was the old way - loaded entire file into arraylist of strings */
-        /*
-         * List<String> lines = new GedcomFileReader(this, bytes).getLines(); return new StringTreeBuilder(this,
-         * bytes).makeStringTreeFromFlatLines(lines);
-         */
-        /*
-         * This is the new way - reads line at a time and adds each one to StringTree, avoiding temp arraylist of
-         * strings
-         */
-        GedcomFileReader gfr = new GedcomFileReader(this, bytes);
-        StringTreeBuilder stb = new StringTreeBuilder(this);
-        String line = gfr.nextLine();
-        while (line != null) {
-            stb.appendLine(line);
-            line = gfr.nextLine();
-            if (cancelled) {
-                throw new ParserCancelledException("File load/parse is cancelled");
-            }
-        }
-        return stb.getTree();
-    }
-
-    /**
      * Notify all listeners about the change
      * 
      * @param e
@@ -2483,18 +2475,25 @@ public class GedcomParser {
     }
 
     /**
-     * Read all the data from a stream and return the StringTree representation of that data
+     * Parse the {@link StringTreeBuilder}'s string tree in memory, load it into the object model, then discard that
+     * string tree buffer
      * 
-     * @param stream
-     *            the stream to read
-     * @return the data from the stream as a StringTree
-     * @throws IOException
-     *             if there's a problem reading the data off the stream
      * @throws GedcomParserException
-     *             if there is an error parsing the gedcom data
+     *             if the string tree contents cannot be parsed, or parsing was cancelled
      */
-    private StringTree readStream(BufferedInputStream stream) throws IOException, GedcomParserException {
-        return makeStringTreeFromStream(stream);
+    private void parseAndLoadPreviousStringTree() throws GedcomParserException {
+        StringTree tree = stringTreeBuilder.getTree();
+        if (tree != null && tree.getLevel() == -1 && tree.getChildren() != null && tree.getChildren().size() == 1) {
+            // We've still got the prior root node in memory - parse it and add to object model
+            StringTree rootLevelItem = stringTreeBuilder.getTree().getChildren().get(0);
+            if (rootLevelItem.getLevel() != 0) {
+                throw new GedcomParserException("Expected a root level item in the buffer, but found " + rootLevelItem.getLevel() + " " + rootLevelItem.getTag()
+                        + " from line " + lineNum);
+            }
+            loadRootItem(rootLevelItem);
+            // And discard it, now that it's loaded
+            stringTreeBuilder = new StringTreeBuilder(this);
+        }
     }
 
     /**

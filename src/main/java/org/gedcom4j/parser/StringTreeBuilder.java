@@ -8,8 +8,9 @@ import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.StringTree;
 
 /**
- * Class for building the big StringTree representing the input file, so it can be parsed and loaded into the object
- * model
+ * Class for building {@link StringTree} objects for each root-level node in the input file. This class used to build a
+ * big StringTree for the entire file, but since v3.0.0 it only builds a root-level node (plus a wrapper/container node)
+ * at a time before it's discarded.
  * 
  * @author frizbog
  */
@@ -60,9 +61,9 @@ public class StringTreeBuilder {
     private StringTree treeForCurrentLine;
 
     /**
-     * The tree that represents the entire file. Will be returned at the end of the StringTree construction process.
+     * A base {@link StringTree} to hold a single root-level node
      */
-    private final StringTree treeForWholeFile = new StringTree();
+    private final StringTree wrapperNode = new StringTree();
 
     /**
      * The most recently added node
@@ -96,21 +97,21 @@ public class StringTreeBuilder {
      *            the {@link GedcomParser} this object will be assisting with making a {@link StringTree} for
      * 
      */
-    public StringTreeBuilder(GedcomParser parser) {
+    StringTreeBuilder(GedcomParser parser) {
         this.parser = parser;
         getTree().setLevel(-1);
         mostRecentlyAdded = null;
-        lineNum = 0; // Haven't read any lines yet
+        lineNum = parser.getLineNum();
     }
 
     /**
-     * Get the string tree representing the entire file - the string tree that this {@link StringTreeBuilder} object was
-     * created to build
+     * Get the string tree representing the root-level node, plus a container - the string tree that this
+     * {@link StringTreeBuilder} object was created to build
      * 
-     * @return the string tree representing the entire file
+     * @return the string tree representing the root level node, plus a wrapper node around it
      */
     public StringTree getTree() {
-        return treeForWholeFile;
+        return wrapperNode;
     }
 
     /**

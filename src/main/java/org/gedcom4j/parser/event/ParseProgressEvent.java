@@ -26,6 +26,10 @@ import java.util.EventObject;
 import org.gedcom4j.model.Gedcom;
 
 /**
+ * @author frizbog
+ *
+ */
+/**
  * An event to hold information about parsing progress.
  * 
  * @author frizbog
@@ -41,6 +45,11 @@ public class ParseProgressEvent extends EventObject {
      * Is the parse completely processed?
      */
     private final boolean complete;
+
+    /**
+     * The number of lines processed
+     */
+    private final int linesParsed;
 
     /**
      * Number of families processed
@@ -86,8 +95,10 @@ public class ParseProgressEvent extends EventObject {
      *            the gedcom being loaded - this is used for the source of the progress data
      * @param complete
      *            is the parse complete
+     * @param linesParsed
+     *            the number of lines parsed so far
      */
-    public ParseProgressEvent(Object source, Gedcom g, boolean complete) {
+    public ParseProgressEvent(Object source, Gedcom g, boolean complete, int linesParsed) {
         super(source);
         familiesProcessed = g.getFamilies().size();
         individualsProcessed = g.getIndividuals().size();
@@ -97,6 +108,7 @@ public class ParseProgressEvent extends EventObject {
         sourcesProcessed = g.getSources().size();
         submittersProcessed = g.getSubmitters().size();
         this.complete = complete;
+        this.linesParsed = linesParsed;
     }
 
     /**
@@ -115,6 +127,15 @@ public class ParseProgressEvent extends EventObject {
      */
     public int getIndividualsProcessed() {
         return individualsProcessed;
+    }
+
+    /**
+     * Get the linesParsed
+     * 
+     * @return the linesParsed
+     */
+    public int getLinesParsed() {
+        return linesParsed;
     }
 
     /**
@@ -171,11 +192,32 @@ public class ParseProgressEvent extends EventObject {
         return complete;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "ParseProgressEvent [complete=" + complete + ", familiesProcessed=" + familiesProcessed + ", individualsProcessed=" + individualsProcessed
-                + ", multimediaProcessed=" + multimediaProcessed + ", notesProcessed=" + notesProcessed + ", repositoriesProcessed=" + repositoriesProcessed
-                + ", sourcesProcessed=" + sourcesProcessed + ", submittersProcessed=" + submittersProcessed + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("ParseProgressEvent [complete=");
+        builder.append(complete);
+        builder.append(", linesParsed=");
+        builder.append(linesParsed);
+        builder.append(", familiesProcessed=");
+        builder.append(familiesProcessed);
+        builder.append(", individualsProcessed=");
+        builder.append(individualsProcessed);
+        builder.append(", multimediaProcessed=");
+        builder.append(multimediaProcessed);
+        builder.append(", notesProcessed=");
+        builder.append(notesProcessed);
+        builder.append(", repositoriesProcessed=");
+        builder.append(repositoriesProcessed);
+        builder.append(", sourcesProcessed=");
+        builder.append(sourcesProcessed);
+        builder.append(", submittersProcessed=");
+        builder.append(submittersProcessed);
+        builder.append("]");
+        return builder.toString();
     }
 
 }
