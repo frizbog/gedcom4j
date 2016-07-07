@@ -2016,7 +2016,6 @@ public class GedcomParser {
             if (cancelled) {
                 throw new ParserCancelledException("File load/parse cancelled");
             }
-            i++;
         }
         notifyParseObservers(new ParseProgressEvent(this, gedcom, true));
     }
