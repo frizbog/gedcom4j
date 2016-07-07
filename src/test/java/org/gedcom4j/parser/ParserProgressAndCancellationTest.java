@@ -72,6 +72,7 @@ public class ParserProgressAndCancellationTest implements ParseProgressListener 
         gp = new GedcomParser();
         cancelAfter = 100;
         gp.registerParseObserver(this);
+        gp.setParseNotificationRate(1);
         gp.load("sample/willis-ascii.ged");
     }
 
@@ -86,8 +87,9 @@ public class ParserProgressAndCancellationTest implements ParseProgressListener 
         gp = new GedcomParser();
         cancelAfter = Integer.MAX_VALUE;
         gp.registerParseObserver(this);
+        gp.setParseNotificationRate(10);
         gp.load("sample/willis-ascii.ged");
-        assertEquals(1269, notificationCount);
+        assertEquals(128, notificationCount);
     }
 
 }
