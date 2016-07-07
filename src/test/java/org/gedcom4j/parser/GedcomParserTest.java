@@ -26,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.gedcom4j.Options;
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.*;
 import org.junit.Test;
@@ -344,8 +345,13 @@ public class GedcomParserTest extends TestCase {
         assertEquals("@SOURCE1@", source.getXref());
         assertEquals("42", citWithSource.getWhereInSource().toString());
 
-        assertEquals(0, citWithSource.getMultimedia().size());
-        assertEquals(0, citWithSource.getNotes().size());
+        if (Options.isCollectionInitializationEnabled()) {
+            assertEquals(0, citWithSource.getMultimedia().size());
+            assertEquals(0, citWithSource.getNotes().size());
+        } else {
+            assertNull(citWithSource.getMultimedia());
+            assertNull(citWithSource.getNotes());
+        }
 
         // Name 0 - Note 0
         note = name.getNotes().get(0);
@@ -374,7 +380,11 @@ public class GedcomParserTest extends TestCase {
 
         // Name 1 - Multimedia 0
         multimedia = citWithSource.getMultimedia().get(0);
-        assertEquals(0, multimedia.getCitations().size());
+        if (Options.isCollectionInitializationEnabled()) {
+            assertEquals(0, multimedia.getCitations().size());
+        } else {
+            assertNull(multimedia.getCitations());
+        }
         assertEquals(1, multimedia.getFileReferences().size());
         assertEquals(1, multimedia.getNotes().size());
 
@@ -392,6 +402,8 @@ public class GedcomParserTest extends TestCase {
 
         // Name 1 - Citation 0 - Note 0
         note = citWithSource.getNotes().get(0);
+        assertNotNull(note);
+        assertNotNull(note.getLines());
         assertEquals(3, note.getLines().size());
         assertEquals(
                 "This source citation has all fields possible in a source citation to a separate SOURCE record. Besides the link to the SOURCE record there are possible fields about this citation (e.g., PAGE, TEXT, etc.)",

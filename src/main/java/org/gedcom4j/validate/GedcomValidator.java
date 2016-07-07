@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.gedcom4j.Options;
 import org.gedcom4j.model.*;
 
 /**
@@ -60,18 +61,10 @@ import org.gedcom4j.model.*;
  * <p>
  * The validation framework, by default and unless disabled, will attempt to automatically repair ("autorepair")
  * problems it finds in the object graph, so that if written as a GEDCOM file, the file written will conform to the
- * GEDCOM spec, as well as to help the developer avoid NullPointerExceptions due to certain items not being
- * instantiated.
+ * GEDCOM spec, as well as to help the developer avoid NullPointerExceptions due to certain items not being instantiated
+ * (if they have so selected in the {@link Options} class.
  * </p>
- * <p>
- * This section lists a number of the actions taken automatically when autorepair is enabled.
- * </p>
- * <ul>
- * <li>Collection fields (e.g., the language preferences collection on a submitter, or custom tags on those
- * fields/object that support them) are initialized to empty collections if they are null.</li>
- * <li>Certain mandatory fields are given default values. N.B. The values chosen as defaults may not be suitable, so the
- * user is urged to</li>
- * </ul>
+ * 
  * 
  * @author frizbog1
  */

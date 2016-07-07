@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.List;
 
+import org.gedcom4j.Options;
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.*;
 import org.gedcom4j.query.Finder;
@@ -146,8 +147,12 @@ public class GedcomParser551Test {
         assertNotNull(c.getFaxNumbers());
         assertEquals(1, c.getFaxNumbers().size());
         assertEquals("800-555-1212", c.getFaxNumbers().get(0).toString());
-        assertNotNull(c.getEmails());
-        assertTrue(c.getEmails().isEmpty());
+        if (Options.isCollectionInitializationEnabled()) {
+            assertNotNull(c.getEmails());
+            assertTrue(c.getEmails().isEmpty());
+        } else {
+            assertNull(c.getEmails());
+        }
     }
 
     /**

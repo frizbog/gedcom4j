@@ -28,6 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
+import org.gedcom4j.Options;
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
@@ -97,8 +98,12 @@ public class Issue61Test {
         }
         for (Individual i : g.getIndividuals().values()) {
             assertNotNull(i);
-            assertNotNull(i.getCustomTags());
-            assertTrue(i.getCustomTags().isEmpty());
+            if (Options.isCollectionInitializationEnabled()) {
+                assertNotNull(i.getCustomTags());
+                assertTrue(i.getCustomTags().isEmpty());
+            } else {
+                assertNull(i.getCustomTags());
+            }
         }
     }
 }

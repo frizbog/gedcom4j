@@ -23,12 +23,14 @@ package org.gedcom4j.validate;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.gedcom4j.Options;
 import org.gedcom4j.exception.GedcomValidationException;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.ChangeDate;
+import org.gedcom4j.model.Note;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.UserReference;
 
 /**
  * A base class for all validators
@@ -139,9 +141,8 @@ abstract class AbstractValidator {
     }
 
     /**
-     * Check custom tags on an object. Uses reflection to look for a property named "customTags" and checks if it's
-     * null--it's supposed to be at least an instantiated and empty collection. If autorepair is on, it will
-     * reflectively fix this.
+     * Check custom tags on an object. Uses reflection to look for a getter named "getCustomTags", invokes it, and
+     * checks the result. If autorepair is on, it will reflectively fix this.
      * 
      * @param o
      *            the object being validated
@@ -174,9 +175,8 @@ abstract class AbstractValidator {
         }
         if (fldVal == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
-                List<StringTree> customTags = new ArrayList<StringTree>();
                 try {
-                    customTagsGetter.invoke(o, customTags);
+                    customTagsGetter.invoke(o, true);
                 } catch (IllegalArgumentException e) {
                     addError("Cannot autorepair value of customTags attribute on object of type " + o.getClass().getSimpleName() + " - " + e.getMessage(), o);
                     return;

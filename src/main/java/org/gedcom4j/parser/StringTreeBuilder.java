@@ -35,7 +35,7 @@ import org.gedcom4j.model.StringTree;
  * 
  * @author frizbog
  */
-public class StringTreeBuilder {
+class StringTreeBuilder {
 
     /**
      * Trim all whitespace off the left side (only) of the supplied string.
