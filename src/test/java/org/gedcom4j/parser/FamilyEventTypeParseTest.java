@@ -21,21 +21,25 @@
  */
 package org.gedcom4j.parser;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyEvent;
 import org.gedcom4j.model.Gedcom;
-
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Stress test parsing for Family Events
  * 
  * @author frizbog1
  */
-public class FamilyEventTypeParseTest extends TestCase {
+public class FamilyEventTypeParseTest {
 
     /**
      * Test fixture - loaded GEDCOM
@@ -43,14 +47,14 @@ public class FamilyEventTypeParseTest extends TestCase {
     private Gedcom g;
 
     /**
-     * Set up test fixture by loading stress test file into a {@link Gedcom} struture
+     * Set up test fixture by loading stress test file into a {@link Gedcom} structure
      * 
      * @throws GedcomParserException
      *             if the file cannot be parsed
      * @throws IOException
      *             if there is an error reading the data
      */
-    @Override
+    @Before
     public void setUp() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/TGC551.ged");
@@ -66,13 +70,15 @@ public class FamilyEventTypeParseTest extends TestCase {
      * @throws IOException
      *             if there is an error reading the data
      */
+    @Test
     public void testIssue2() throws IOException, GedcomParserException {
         int familyCount = 0;
         for (Family fam : g.getFamilies().values()) {
             familyCount++;
-            assertNotNull(fam.getEvents());
-            for (FamilyEvent event : fam.getEvents()) {
-                assertNotNull(event.getType());
+            if (fam.getEvents() != null) {
+                for (FamilyEvent event : fam.getEvents()) {
+                    assertNotNull(event.getType());
+                }
             }
         }
         assertEquals("There are 7 families in the stress test file", 7, familyCount);

@@ -436,7 +436,7 @@ public class GedcomParserTest extends TestCase {
         assertEquals("@SOURCE1@", source.getXref());
         assertEquals("42", citWithSource.getWhereInSource().toString());
 
-        assertEquals(0, citWithSource.getMultimedia().size());
+        assertEquals(0, citWithSource.getMultimedia(true).size());
         assertEquals(1, citWithSource.getNotes().size());
 
         // Citation 0 - Note 0
@@ -452,7 +452,7 @@ public class GedcomParserTest extends TestCase {
         assertEquals("@SR2@", source.getXref());
         assertEquals(null, citWithSource.getWhereInSource());
 
-        assertEquals(0, citWithSource.getMultimedia().size());
+        assertEquals(0, citWithSource.getMultimedia(true).size());
         assertEquals(1, citWithSource.getNotes().size());
 
         // Citation 1 - Note 0

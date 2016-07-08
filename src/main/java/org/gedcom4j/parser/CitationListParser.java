@@ -162,7 +162,7 @@ class CitationListParser extends AbstractParser<List<AbstractCitation>> {
                     cws.setCertainty(new StringWithCustomTags(ch));
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
                     List<Note> notes = cws.getNotes(true);
-                    new NoteListParser(gedcomParser, st, notes).parse();
+                    new NoteListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
                     List<Multimedia> multimedia = cws.getMultimedia(true);
                     new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();

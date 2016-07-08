@@ -23,6 +23,7 @@ package org.gedcom4j.parser;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -64,7 +65,7 @@ public class Issue87Test {
         assertEquals(1, family.getEvents().size());
         FamilyEvent marriage = family.getEvents().get(0);
         assertEquals(FamilyEventType.MARRIAGE, marriage.getType());
-        assertTrue(marriage.getNotes().isEmpty());
+        assertNull(marriage.getNotes());
     }
 
 }
