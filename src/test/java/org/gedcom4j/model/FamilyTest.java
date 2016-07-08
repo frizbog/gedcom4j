@@ -58,14 +58,14 @@ public class FamilyTest {
         family1.setHusband(new Individual());
         PersonalName hn1 = new PersonalName();
         hn1.setBasic("Fred /Astaire/");
-        family1.getHusband().getNames().add(hn1);
-        family1.getHusband().getFamiliesWhereSpouse().add(fs1);
+        family1.getHusband().getNames(true).add(hn1);
+        family1.getHusband().getFamiliesWhereSpouse(true).add(fs1);
 
         family1.setWife(new Individual());
         PersonalName wn1 = new PersonalName();
         wn1.setBasic("Ginger /Rogers/");
-        family1.getWife().getNames().add(wn1);
-        family1.getWife().getFamiliesWhereSpouse().add(fs1);
+        family1.getWife().getNames(true).add(wn1);
+        family1.getWife().getFamiliesWhereSpouse(true).add(fs1);
 
         family2 = new Family();
         FamilySpouse fs2 = new FamilySpouse();
@@ -74,14 +74,14 @@ public class FamilyTest {
         family2.setHusband(new Individual());
         PersonalName hn2 = new PersonalName();
         hn2.setBasic("Fred /Astaire/");
-        family2.getHusband().getNames().add(hn2);
-        family2.getHusband().getFamiliesWhereSpouse().add(fs2);
+        family2.getHusband().getNames(true).add(hn2);
+        family2.getHusband().getFamiliesWhereSpouse(true).add(fs2);
 
         family2.setWife(new Individual());
         PersonalName wn2 = new PersonalName();
         wn2.setBasic("Ginger /Rogers/");
-        family2.getWife().getNames().add(wn2);
-        family2.getWife().getFamiliesWhereSpouse().add(fs2);
+        family2.getWife().getNames(true).add(wn2);
+        family2.getWife().getFamiliesWhereSpouse(true).add(fs2);
     }
 
     /**
@@ -159,9 +159,7 @@ public class FamilyTest {
      */
     @Test
     public void testToString() {
-        assertEquals("Family [children=[], citations=[], events=[], "
-                + "husband=Fred /Astaire/, spouse of Ginger /Rogers/, ldsSpouseSealings=[], multimedia=[], notes=[], submitters=[], userReferences=[], "
-                + "wife=Ginger /Rogers/, spouse of Fred /Astaire/, customTags=[]]", family1.toString());
+        assertEquals("Family [husband=Fred /Astaire/, spouse of Ginger /Rogers/, wife=Ginger /Rogers/, spouse of Fred /Astaire/, ]", family1.toString());
     }
 
     /**
@@ -169,7 +167,6 @@ public class FamilyTest {
      */
     @Test
     public void testToStringNew() {
-        assertEquals("Family [children=[], citations=[], events=[], ldsSpouseSealings=[], multimedia=[], "
-                + "notes=[], submitters=[], userReferences=[], customTags=[]]", new Family().toString());
+        assertEquals("Family []", new Family().toString());
     }
 }

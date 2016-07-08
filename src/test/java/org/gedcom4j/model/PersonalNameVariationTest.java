@@ -49,11 +49,15 @@ public class PersonalNameVariationTest {
         pnv1.getCitations(true).add(new CitationWithoutSource());
         assertFalse(pnv1.equals(pnv2));
         pnv1.getCitations().clear();
+        assertFalse(pnv1.equals(pnv2));
+        pnv2.getCitations(true).clear();
         assertEquals(pnv1, pnv2);
 
         pnv1.getCustomTags(true).add(new StringTree());
         assertFalse(pnv1.equals(pnv2));
         pnv1.getCustomTags().clear();
+        assertFalse(pnv1.equals(pnv2));
+        pnv2.getCustomTags(true).clear();
         assertEquals(pnv1, pnv2);
 
         pnv1.setGivenName(new StringWithCustomTags("Yo"));
@@ -69,6 +73,8 @@ public class PersonalNameVariationTest {
         pnv1.getNotes(true).add(new Note());
         assertFalse(pnv1.equals(pnv2));
         pnv1.getNotes().clear();
+        assertFalse(pnv1.equals(pnv2));
+        pnv2.getNotes(true).clear();
         assertEquals(pnv1, pnv2);
 
         pnv1.setPrefix(new StringWithCustomTags("Yo"));
@@ -117,11 +123,15 @@ public class PersonalNameVariationTest {
         pnv1.getCitations(true).add(new CitationWithoutSource());
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
         pnv1.getCitations().clear();
+        assertFalse(pnv1.hashCode() == pnv2.hashCode());
+        pnv2.getCitations(true).clear();
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
         pnv1.getCustomTags(true).add(new StringTree());
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
         pnv1.getCustomTags().clear();
+        assertFalse(pnv1.hashCode() == pnv2.hashCode());
+        pnv2.getCustomTags(true).clear();
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
         pnv1.setGivenName(new StringWithCustomTags("Yo"));
@@ -137,6 +147,8 @@ public class PersonalNameVariationTest {
         pnv1.getNotes(true).add(new Note());
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
         pnv1.getNotes().clear();
+        assertFalse(pnv1.hashCode() == pnv2.hashCode());
+        pnv2.getNotes(true).clear();
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
         pnv1.setPrefix(new StringWithCustomTags("Yo"));
@@ -177,7 +189,7 @@ public class PersonalNameVariationTest {
     @Test
     public void testToString() {
         PersonalNameVariation pnv = new PersonalNameVariation();
-        assertEquals("PersonalNameVariation [citations=[], notes=[], customTags=[]]", pnv.toString());
+        assertEquals("PersonalNameVariation []", pnv.toString());
 
         pnv.variation = "Frying Pan";
         pnv.getCustomTags(true).add(new StringTree());
@@ -188,9 +200,8 @@ public class PersonalNameVariationTest {
         pnv.setSurname(new StringWithCustomTags("Time"));
         pnv.setSurnamePrefix(new StringWithCustomTags("For"));
         pnv.variationType = new StringWithCustomTags("All");
-        assertEquals("PersonalNameVariation [citations=[], givenName=Now, nickname=Is, "
-                + "notes=[Note [citations=[], lines=[], userReferences=[], customTags=[]]], "
-                + "suffix=The, surname=Time, surnamePrefix=For, variation=Frying Pan, variationType=All, customTags=[Line 0: 0 null null]]", pnv.toString());
+        assertEquals("PersonalNameVariation [givenName=Now, nickname=Is, notes=[Note []], suffix=The, surname=Time, surnamePrefix=For, "
+                + "variation=Frying Pan, variationType=All, customTags=[Line 0: 0 (null tag) (null value)]]", pnv.toString());
 
     }
 }

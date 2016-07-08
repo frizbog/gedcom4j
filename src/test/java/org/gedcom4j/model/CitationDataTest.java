@@ -24,6 +24,7 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -67,19 +68,35 @@ public class CitationDataTest {
         assertEquals(c1, c2);
 
         c1.customTags = null;
-        assertFalse(c1.equals(c2));
+        if (Options.isCollectionInitializationEnabled()) {
+            assertFalse(c1.equals(c2));
+        } else {
+            assertEquals(c1, c2);
+        }
         c1.customTags = new ArrayList<StringTree>();
-        assertEquals(c1, c2);
+        if (Options.isCollectionInitializationEnabled()) {
+            assertEquals(c1, c2);
+        } else {
+            assertFalse(c1.equals(c2));
+        }
 
         c1.setEntryDate(new StringWithCustomTags("Frying Pan"));
         assertFalse(c1.equals(c2));
         c2.setEntryDate(new StringWithCustomTags("Frying Pan"));
-        assertEquals(c1, c2);
+        if (Options.isCollectionInitializationEnabled()) {
+            assertEquals(c1, c2);
+        } else {
+            assertFalse(c1.equals(c2));
+        }
 
-        c1.getSourceText().add(new ArrayList<String>());
+        c1.getSourceText(true).add(new ArrayList<String>());
         assertFalse(c1.equals(c2));
-        c2.getSourceText().add(new ArrayList<String>());
-        assertEquals(c1, c2);
+        c2.getSourceText(true).add(new ArrayList<String>());
+        if (Options.isCollectionInitializationEnabled()) {
+            assertEquals(c1, c2);
+        } else {
+            assertFalse(c1.equals(c2));
+        }
 
     }
 
@@ -94,19 +111,35 @@ public class CitationDataTest {
         assertEquals(c1.hashCode(), c2.hashCode());
 
         c1.customTags = null;
-        assertFalse(c1.hashCode() == c2.hashCode());
+        if (Options.isCollectionInitializationEnabled()) {
+            assertFalse(c1.hashCode() == c2.hashCode());
+        } else {
+            assertEquals(c1.hashCode(), c2.hashCode());
+        }
         c1.customTags = new ArrayList<StringTree>();
-        assertEquals(c1.hashCode(), c2.hashCode());
+        if (Options.isCollectionInitializationEnabled()) {
+            assertEquals(c1.hashCode(), c2.hashCode());
+        } else {
+            assertTrue(c1.hashCode() != c2.hashCode());
+        }
 
         c1.setEntryDate(new StringWithCustomTags("Frying Pan"));
         assertFalse(c1.hashCode() == c2.hashCode());
         c2.setEntryDate(new StringWithCustomTags("Frying Pan"));
-        assertEquals(c1.hashCode(), c2.hashCode());
+        if (Options.isCollectionInitializationEnabled()) {
+            assertEquals(c1.hashCode(), c2.hashCode());
+        } else {
+            assertTrue(c1.hashCode() != c2.hashCode());
+        }
 
-        c1.getSourceText().add(new ArrayList<String>());
+        c1.getSourceText(true).add(new ArrayList<String>());
         assertFalse(c1.hashCode() == c2.hashCode());
-        c2.getSourceText().add(new ArrayList<String>());
-        assertEquals(c1.hashCode(), c2.hashCode());
+        c2.getSourceText(true).add(new ArrayList<String>());
+        if (Options.isCollectionInitializationEnabled()) {
+            assertEquals(c1.hashCode(), c2.hashCode());
+        } else {
+            assertTrue(c1.hashCode() != c2.hashCode());
+        }
 
     }
 

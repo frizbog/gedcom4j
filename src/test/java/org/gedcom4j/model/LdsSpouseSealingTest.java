@@ -45,14 +45,14 @@ public class LdsSpouseSealingTest {
         assertNotSame(l1, l2);
         assertEquals(l1, l2);
 
-        l1.getCitations().add(new CitationWithoutSource());
+        l1.getCitations(true).add(new CitationWithoutSource());
         assertFalse(l1.equals(l2));
-        l2.getCitations().add(new CitationWithoutSource());
+        l2.getCitations(true).add(new CitationWithoutSource());
         assertEquals(l1, l2);
 
-        l1.getCustomTags().add(new StringTree());
+        l1.getCustomTags(true).add(new StringTree());
         assertFalse(l1.equals(l2));
-        l2.getCustomTags().add(new StringTree());
+        l2.getCustomTags(true).add(new StringTree());
         assertEquals(l1, l2);
 
         l1.date = new StringWithCustomTags("Frying Pan");
@@ -82,14 +82,14 @@ public class LdsSpouseSealingTest {
         assertNotSame(l1, l2);
         assertEquals(l1.hashCode(), l2.hashCode());
 
-        l1.getCitations().add(new CitationWithoutSource());
+        l1.getCitations(true).add(new CitationWithoutSource());
         assertFalse(l1.hashCode() == l2.hashCode());
-        l2.getCitations().add(new CitationWithoutSource());
+        l2.getCitations(true).add(new CitationWithoutSource());
         assertEquals(l1.hashCode(), l2.hashCode());
 
-        l1.getCustomTags().add(new StringTree());
+        l1.getCustomTags(true).add(new StringTree());
         assertFalse(l1.hashCode() == l2.hashCode());
-        l2.getCustomTags().add(new StringTree());
+        l2.getCustomTags(true).add(new StringTree());
         assertEquals(l1.hashCode(), l2.hashCode());
 
         l1.date = new StringWithCustomTags("Frying Pan");
@@ -114,16 +114,16 @@ public class LdsSpouseSealingTest {
     @Test
     public void testToString() {
         LdsSpouseSealing l = new LdsSpouseSealing();
-        assertEquals("LdsSpouseSealing [citations=[], notes=[], customTags=[]]", l.toString());
+        assertEquals("LdsSpouseSealing []", l.toString());
 
-        l.getCitations().add(new CitationWithoutSource());
-        l.getCustomTags().add(new StringTree());
+        l.getCitations(true).add(new CitationWithoutSource());
+        l.getCustomTags(true).add(new StringTree());
         l.date = new StringWithCustomTags("Frying Pan");
         l.place = new StringWithCustomTags("Howdy");
         l.status = new StringWithCustomTags("Test");
 
-        assertEquals("LdsSpouseSealing [citations=[CitationWithoutSource [description=[], textFromSource=[]]],"
-                + " date=Frying Pan, notes=[], place=Howdy, status=Test, customTags=[Line 0: 0 null null]]", l.toString());
+        assertEquals("LdsSpouseSealing [citations=[CitationWithoutSource []], date=Frying Pan, place=Howdy, "
+                + "status=Test, customTags=[Line 0: 0 (null tag) (null value)]]", l.toString());
     }
 
 }

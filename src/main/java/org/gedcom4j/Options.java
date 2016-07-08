@@ -46,7 +46,7 @@ public final class Options {
      * Reset all options to defaults
      */
     public static void resetToDefaults() {
-        collectionInitializationEnabled = true;
+        collectionInitializationEnabled = false;
     }
 
     /**

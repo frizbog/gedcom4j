@@ -116,14 +116,14 @@ public class StringTreeTest {
     @Test
     public void testToString() {
         StringTree st = new StringTree();
-        assertEquals("Line 0: 0 null null", st.toString());
+        assertEquals("Line 0: 0 (null tag) (null value)", st.toString());
 
         st.getChildren(true).add(new StringTree());
         st.setLevel(1);
         st.setId("Frying Pan");
         st.setLineNum(2);
         st.setValue("Test");
-        assertEquals("Line 2: 1 Frying Pan null Test\nLine 0: 0 null null", st.toString());
+        assertEquals("Line 2: 1 Frying Pan (null tag) Test\nLine 0: 0 (null tag) (null value)", st.toString());
     }
 
     /**

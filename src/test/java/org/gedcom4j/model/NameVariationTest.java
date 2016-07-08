@@ -49,6 +49,8 @@ public class NameVariationTest {
         nv1.getCustomTags(true).add(new StringTree());
         assertFalse(nv1.equals(nv2));
         nv1.getCustomTags().clear();
+        assertFalse(nv1.equals(nv2));
+        nv2.getCustomTags(true).clear();
         assertEquals(nv1, nv2);
 
         nv1.variation = "Yo";
@@ -77,6 +79,8 @@ public class NameVariationTest {
         nv1.getCustomTags(true).add(new StringTree());
         assertFalse(nv1.hashCode() == nv2.hashCode());
         nv1.getCustomTags().clear();
+        assertFalse(nv1.hashCode() == nv2.hashCode());
+        nv2.getCustomTags(true).clear();
         assertEquals(nv1.hashCode(), nv2.hashCode());
 
         nv1.variation = "Yo";
@@ -97,11 +101,11 @@ public class NameVariationTest {
     @Test
     public void testToString() {
         NameVariation nv = new NameVariation();
-        assertEquals("NameVariation [customTags=[]]", nv.toString());
+        assertEquals("NameVariation []", nv.toString());
         nv.variation = "Frying Pan";
-        nv.getCustomTags().add(new StringTree());
+        nv.getCustomTags(true).add(new StringTree());
         nv.variationType = new StringWithCustomTags("All");
-        assertEquals("NameVariation [variation=Frying Pan, variationType=All, customTags=[Line 0: 0 null null]]", nv.toString());
+        assertEquals("NameVariation [variation=Frying Pan, variationType=All, customTags=[Line 0: 0 (null tag) (null value)]]", nv.toString());
 
     }
 }

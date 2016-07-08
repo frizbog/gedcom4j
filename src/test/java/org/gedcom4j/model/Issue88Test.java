@@ -22,6 +22,7 @@
 package org.gedcom4j.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -40,11 +41,13 @@ public class Issue88Test {
         Individual i = new Individual();
         PersonalName name = new PersonalName();
         name.setBasic("Bob /ROBERTS/");
-        i.getNames().add(name);
+        assertNull(i.getNames());
+        i.getNames(true).add(name);
         IndividualEvent birth = new IndividualEvent();
         birth.setType(IndividualEventType.BIRTH);
         birth.date = new StringWithCustomTags("1/1/1950");
-        i.getEvents().add(birth);
+        assertNull(i.getEvents());
+        i.getEvents(true).add(birth);
 
         assertEquals("Bob /ROBERTS/, b.1/1/1950", i.toString());
     }
@@ -59,11 +62,13 @@ public class Issue88Test {
         Individual i = new Individual();
         PersonalName name = new PersonalName();
         name.setBasic("Bob /ROBERTS/");
-        i.getNames().add(name);
+        assertNull(i.getNames());
+        i.getNames(true).add(name);
         IndividualEvent birth = new IndividualEvent();
         birth.setType(IndividualEventType.BIRTH);
         birth.date = new StringWithCustomTags("1/1/1950");
-        i.getEvents().add(birth);
+        assertNull(i.getEvents());
+        i.getEvents(true).add(birth);
         IndividualEvent death = new IndividualEvent();
         death.setType(IndividualEventType.DEATH);
         death.date = new StringWithCustomTags("12/31/1999");
@@ -82,11 +87,13 @@ public class Issue88Test {
         Individual i = new Individual();
         PersonalName name = new PersonalName();
         name.setBasic("Bob /ROBERTS/");
-        i.getNames().add(name);
+        assertNull(i.getNames());
+        i.getNames(true).add(name);
         IndividualEvent death = new IndividualEvent();
         death.setType(IndividualEventType.DEATH);
         death.date = new StringWithCustomTags("12/31/1999");
-        i.getEvents().add(death);
+        assertNull(i.getEvents());
+        i.getEvents(true).add(death);
 
         assertEquals("Bob /ROBERTS/, d.12/31/1999", i.toString());
     }

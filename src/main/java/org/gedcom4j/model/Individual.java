@@ -605,13 +605,15 @@ public class Individual extends AbstractElement {
         Set<Individual> result = new HashSet<Individual>();
         if (familiesWhereSpouse != null) {
             for (FamilySpouse f : familiesWhereSpouse) {
-                for (Individual i : f.getFamily().getChildren()) {
-                    // Recurse if we have not seen this person before in the results already
-                    if (i != this && !result.contains(i) && (i.familiesWhereSpouse == null || !i.familiesWhereSpouse.isEmpty())) {
-                        Set<Individual> d = i.getDescendants();
-                        result.addAll(d);
+                if (f.getFamily().getChildren() != null) {
+                    for (Individual i : f.getFamily().getChildren()) {
+                        // Recurse if we have not seen this person before in the results already
+                        if (i != this && !result.contains(i) && (i.familiesWhereSpouse == null || !i.familiesWhereSpouse.isEmpty())) {
+                            Set<Individual> d = i.getDescendants();
+                            result.addAll(d);
+                        }
+                        result.add(i);
                     }
-                    result.add(i);
                 }
             }
         }

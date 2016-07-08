@@ -51,8 +51,10 @@ public class SourceTest {
         assertEquals(s1, s2);
 
         s1.customTags = null;
+        assertEquals(s1, s2);
+        s1.getCustomTags(true).clear();
         assertTrue(s1.hashCode() != s2.hashCode());
-        s2.customTags = null;
+        s2.getCustomTags(true).clear();
         assertEquals(s1, s2);
 
         s1.setData(new SourceData());
@@ -60,24 +62,24 @@ public class SourceTest {
         s2.setData(new SourceData());
         assertEquals(s1, s2);
 
-        s1.getMultimedia().add(new Multimedia());
+        s1.getMultimedia(true).add(new Multimedia());
         assertTrue(s1.hashCode() != s2.hashCode());
-        s2.getMultimedia().add(new Multimedia());
+        s2.getMultimedia(true).add(new Multimedia());
         assertEquals(s1, s2);
 
-        s1.getNotes().add(new Note());
+        s1.getNotes(true).add(new Note());
         assertTrue(s1.hashCode() != s2.hashCode());
-        s2.getNotes().add(new Note());
+        s2.getNotes(true).add(new Note());
         assertEquals(s1, s2);
 
-        s1.getOriginatorsAuthors().add("qweqwe");
+        s1.getOriginatorsAuthors(true).add("qweqwe");
         assertTrue(s1.hashCode() != s2.hashCode());
-        s2.getOriginatorsAuthors().add("qweqwe");
+        s2.getOriginatorsAuthors(true).add("qweqwe");
         assertEquals(s1, s2);
 
-        s1.getPublicationFacts().add("foo");
+        s1.getPublicationFacts(true).add("foo");
         assertTrue(s1.hashCode() != s2.hashCode());
-        s2.getPublicationFacts().add("foo");
+        s2.getPublicationFacts(true).add("foo");
         assertEquals(s1, s2);
 
         s1.setRecIdNumber(new StringWithCustomTags("Foo"));
@@ -95,19 +97,19 @@ public class SourceTest {
         s2.setSourceFiledBy(new StringWithCustomTags("Bar"));
         assertEquals(s1, s2);
 
-        s1.getSourceText().add("bar");
+        s1.getSourceText(true).add("bar");
         assertTrue(s1.hashCode() != s2.hashCode());
-        s2.getSourceText().add("bar");
+        s2.getSourceText(true).add("bar");
         assertEquals(s1, s2);
 
-        s1.getTitle().add("baz");
+        s1.getTitle(true).add("baz");
         assertTrue(s1.hashCode() != s2.hashCode());
-        s2.getTitle().add("baz");
+        s2.getTitle(true).add("baz");
         assertEquals(s1, s2);
 
-        s1.getUserReferences().add(new UserReference());
+        s1.getUserReferences(true).add(new UserReference());
         assertTrue(s1.hashCode() != s2.hashCode());
-        s2.getUserReferences().add(new UserReference());
+        s2.getUserReferences(true).add(new UserReference());
         assertEquals(s1, s2);
 
     }
@@ -128,8 +130,10 @@ public class SourceTest {
         assertEquals(s1.hashCode(), s2.hashCode());
 
         s1.customTags = null;
+        assertEquals(s1.hashCode(), s2.hashCode());
+        s1.getCustomTags(true).clear();
         assertFalse(s1.hashCode() == s2.hashCode());
-        s2.customTags = null;
+        s2.getCustomTags(true).clear();
         assertEquals(s1.hashCode(), s2.hashCode());
 
         s1.setData(new SourceData());
@@ -137,24 +141,24 @@ public class SourceTest {
         s2.setData(new SourceData());
         assertEquals(s1.hashCode(), s2.hashCode());
 
-        s1.getMultimedia().add(new Multimedia());
+        s1.getMultimedia(true).add(new Multimedia());
         assertFalse(s1.hashCode() == s2.hashCode());
-        s2.getMultimedia().add(new Multimedia());
+        s2.getMultimedia(true).add(new Multimedia());
         assertEquals(s1.hashCode(), s2.hashCode());
 
-        s1.getNotes().add(new Note());
+        s1.getNotes(true).add(new Note());
         assertFalse(s1.hashCode() == s2.hashCode());
-        s2.getNotes().add(new Note());
+        s2.getNotes(true).add(new Note());
         assertEquals(s1.hashCode(), s2.hashCode());
 
-        s1.getOriginatorsAuthors().add("foo");
+        s1.getOriginatorsAuthors(true).add("foo");
         assertFalse(s1.hashCode() == s2.hashCode());
-        s2.getOriginatorsAuthors().add("foo");
+        s2.getOriginatorsAuthors(true).add("foo");
         assertEquals(s1.hashCode(), s2.hashCode());
 
-        s1.getPublicationFacts().add("bar");
+        s1.getPublicationFacts(true).add("bar");
         assertFalse(s1.hashCode() == s2.hashCode());
-        s2.getPublicationFacts().add("bar");
+        s2.getPublicationFacts(true).add("bar");
         assertEquals(s1.hashCode(), s2.hashCode());
 
         s1.setRecIdNumber(new StringWithCustomTags("Foo"));
@@ -172,19 +176,19 @@ public class SourceTest {
         s2.setSourceFiledBy(new StringWithCustomTags("Bar"));
         assertEquals(s1.hashCode(), s2.hashCode());
 
-        s1.getSourceText().add("baz");
+        s1.getSourceText(true).add("baz");
         assertFalse(s1.hashCode() == s2.hashCode());
-        s2.getSourceText().add("baz");
+        s2.getSourceText(true).add("baz");
         assertEquals(s1.hashCode(), s2.hashCode());
 
-        s1.getTitle().add("bat");
+        s1.getTitle(true).add("bat");
         assertFalse(s1.hashCode() == s2.hashCode());
-        s2.getTitle().add("bat");
+        s2.getTitle(true).add("bat");
         assertEquals(s1.hashCode(), s2.hashCode());
 
-        s1.getUserReferences().add(new UserReference());
+        s1.getUserReferences(true).add(new UserReference());
         assertFalse(s1.hashCode() == s2.hashCode());
-        s2.getUserReferences().add(new UserReference());
+        s2.getUserReferences(true).add(new UserReference());
         assertEquals(s1.hashCode(), s2.hashCode());
 
     }
@@ -195,26 +199,24 @@ public class SourceTest {
     @Test
     public void testToString() {
         Source s1 = new Source("Foo");
-        assertEquals("Source [multimedia=[], notes=[], originatorsAuthors=[], publicationFacts=[], sourceText=[], "
-                + "title=[], userReferences=[], xref=Foo, customTags=[]]", s1.toString());
+        assertEquals("Source [xref=Foo, ]", s1.toString());
 
         s1.setChangeDate(new ChangeDate());
         s1.customTags = null;
         s1.setData(new SourceData());
-        s1.getMultimedia().clear();
-        s1.getNotes().add(new Note());
-        s1.getOriginatorsAuthors().clear();
-        s1.getPublicationFacts().clear();
+        s1.getMultimedia(true).clear();
+        s1.getNotes(true).add(new Note());
+        s1.getOriginatorsAuthors(true).clear();
+        s1.getPublicationFacts(true).clear();
         s1.setRecIdNumber(new StringWithCustomTags("Foo"));
         s1.setRepositoryCitation(new RepositoryCitation());
         s1.setSourceFiledBy(new StringWithCustomTags("Bar"));
-        s1.getSourceText().clear();
-        s1.getTitle().clear();
-        s1.getUserReferences().clear();
-        assertEquals("Source [changeDate=ChangeDate [notes=[], customTags=[]], data=SourceData [eventsRecorded=[], notes=[], customTags=[]], multimedia=[], "
-                + "notes=[Note [citations=[], lines=[], userReferences=[], customTags=[]]], " + "originatorsAuthors=[], publicationFacts=[], recIdNumber=Foo, "
-                + "repositoryCitation=RepositoryCitation [callNumbers=[], notes=[], customTags=[]], "
-                + "sourceFiledBy=Bar, sourceText=[], title=[], userReferences=[], xref=Foo, ]", s1.toString());
+        s1.getSourceText(true).clear();
+        s1.getTitle(true).clear();
+        s1.getUserReferences(true).clear();
+        assertEquals("Source [changeDate=ChangeDate [], data=SourceData [], multimedia=[], notes=[Note []], originatorsAuthors=[], "
+                + "publicationFacts=[], recIdNumber=Foo, repositoryCitation=RepositoryCitation [], sourceFiledBy=Bar, "
+                + "sourceText=[], title=[], userReferences=[], xref=Foo, ]", s1.toString());
 
     }
 
