@@ -1206,9 +1206,11 @@ public class GedcomWriter {
             if (m.getContinuedObject() != null && m.getContinuedObject().getXref() != null) {
                 emitTagWithRequiredValue(1, "OBJE", m.getContinuedObject().getXref());
             }
-            for (UserReference u : m.getUserReferences()) {
-                emitTagWithRequiredValue(1, "REFN", u.getReferenceNum());
-                emitTagIfValueNotNull(2, "TYPE", u.getType());
+            if (m.getUserReferences() != null) {
+                for (UserReference u : m.getUserReferences()) {
+                    emitTagWithRequiredValue(1, "REFN", u.getReferenceNum());
+                    emitTagIfValueNotNull(2, "TYPE", u.getType());
+                }
             }
             emitTagIfValueNotNull(1, "RIN", m.getRecIdNumber());
             emitChangeDate(1, m.getChangeDate());
@@ -1233,21 +1235,25 @@ public class GedcomWriter {
     private void emitMultimedia551() throws GedcomWriterException {
         for (Multimedia m : gedcom.getMultimedia().values()) {
             emitTag(0, m.getXref(), "OBJE");
-            for (FileReference fr : m.getFileReferences()) {
-                emitTagWithRequiredValue(1, "FILE", fr.getReferenceToFile());
-                emitTagWithRequiredValue(2, "FORM", fr.getFormat());
-                emitTagIfValueNotNull(3, "TYPE", fr.getMediaType());
-                emitTagIfValueNotNull(2, "TITL", fr.getTitle());
+            if (m.getFileReferences() != null) {
+                for (FileReference fr : m.getFileReferences()) {
+                    emitTagWithRequiredValue(1, "FILE", fr.getReferenceToFile());
+                    emitTagWithRequiredValue(2, "FORM", fr.getFormat());
+                    emitTagIfValueNotNull(3, "TYPE", fr.getMediaType());
+                    emitTagIfValueNotNull(2, "TITL", fr.getTitle());
+                }
             }
-            for (UserReference u : m.getUserReferences()) {
-                emitTagWithRequiredValue(1, "REFN", u.getReferenceNum());
-                emitTagIfValueNotNull(2, "TYPE", u.getType());
+            if (m.getUserReferences() != null) {
+                for (UserReference u : m.getUserReferences()) {
+                    emitTagWithRequiredValue(1, "REFN", u.getReferenceNum());
+                    emitTagIfValueNotNull(2, "TYPE", u.getType());
+                }
             }
             emitTagIfValueNotNull(1, "RIN", m.getRecIdNumber());
             emitNotes(1, m.getNotes());
             emitChangeDate(1, m.getChangeDate());
             emitCustomTags(1, m.getCustomTags());
-            if (!m.getBlob().isEmpty()) {
+            if (m.getBlob() != null && !m.getBlob().isEmpty()) {
                 throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but BLOB data on multimedia item " + m.getXref()
                         + " was found.  This is only allowed in GEDCOM 5.5");
             }

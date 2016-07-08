@@ -143,7 +143,7 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testNullNameObject() {
 
-        ind.getNames().add(null);
+        ind.getNames(true).add(null);
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "name", "null");
     }

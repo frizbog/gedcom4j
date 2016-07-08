@@ -170,7 +170,7 @@ public class CitationDataTest {
 
         c1.customTags = null;
         c1.setEntryDate(new StringWithCustomTags("Frying Pan"));
-        c1.getSourceText().add(new ArrayList<String>());
+        c1.getSourceText(true).add(new ArrayList<String>());
 
         assertEquals("CitationData [entryDate=Frying Pan, sourceText=[[]], ]", c1.toString());
     }

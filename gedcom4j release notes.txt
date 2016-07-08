@@ -10,8 +10,6 @@ Issue #83 - The biggest change is that gedcom4j now uses the JavaBean spec for i
 
 Issue #104 - The classes in the model now implement java.io.Serializable and defined serial version UIDs.
 
-Issue #108 - There is now a global options class named Options, in which you can choose whether collections in the object model should be automatically initialized (thus saving you from having to do null checks) or left null (thus saving memory).  The getter for each of these collections is overloaded with a getter that takes a boolean argument; when true, the getter will initialize the collection if needed before returning a reference.
-
 Issue #109 - GedcomParser and StringTreeBuilder now only builds a single root-level StringTree node at a time before parsing and loading it into the object model, instead of loading the entire file into a StringTree in memory prior to parsing it. 
 
 Other changes not related to Issues in the issue tracker (https://github.com/frizbog/gedcom4j/issues):
@@ -22,6 +20,7 @@ Other changes not related to Issues in the issue tracker (https://github.com/fri
 ====================
 Issue #106 - File parsing and loading into object model is now done line by line on-the-fly, rather than loading the entire file into memory, then parsing the lines of the file.
 
+Issue #108 - There is now a global options class named Options, in which you can choose whether collections in the object model should be automatically initialized (thus saving you from having to do null checks) or left null (thus saving memory).  The getter for each of these collections is overloaded with a getter that takes a boolean argument; when true, the getter will initialize the collection if needed before returning a reference. 
 
 
 01 Jul 2016 - v2.3.0

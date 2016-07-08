@@ -58,7 +58,7 @@ public class Issue80WriterTest {
 
         Individual i = new Individual();
         i.setXref("@I001@");
-        i.getEvents().add(b);
+        i.getEvents(true).add(b);
 
         Gedcom g = new Gedcom();
         g.getIndividuals().put("@I001@", i);

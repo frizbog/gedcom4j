@@ -162,26 +162,30 @@ class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
                     FileReference fr = new FileReference();
                     m.getFileReferences(true).add(fr);
                     fr.setReferenceToFile(new StringWithCustomTags(ch));
-                    if (ch.getChildren().size() != 1) {
-                        addError("Missing or multiple children nodes found under FILE node - GEDCOM 5.5.1 standard requires exactly 1 FORM node");
-                    }
-                    for (StringTree gch : ch.getChildren()) {
-                        if (Tag.FORM.equalsText(gch.getTag())) {
-                            fr.setFormat(new StringWithCustomTags(gch.getValue()));
-                            for (StringTree ggch : ch.getChildren()) {
-                                if (Tag.MEDIA.equalsText(ggch.getTag())) {
-                                    fr.setMediaType(new StringWithCustomTags(ggch));
-                                } else {
-                                    unknownTag(ggch, fr);
+                    if (ch.getChildren() != null) {
+                        if (ch.getChildren().size() != 1) {
+                            addError("Missing or multiple children nodes found under FILE node - GEDCOM 5.5.1 standard requires exactly 1 FORM node");
+                        }
+                        for (StringTree gch : ch.getChildren()) {
+                            if (Tag.FORM.equalsText(gch.getTag())) {
+                                fr.setFormat(new StringWithCustomTags(gch.getValue()));
+                                for (StringTree ggch : ch.getChildren()) {
+                                    if (Tag.MEDIA.equalsText(ggch.getTag())) {
+                                        fr.setMediaType(new StringWithCustomTags(ggch));
+                                    } else {
+                                        unknownTag(ggch, fr);
+                                    }
                                 }
+                            } else {
+                                unknownTag(gch, fr);
                             }
-                        } else {
-                            unknownTag(gch, fr);
                         }
                     }
                 } else if (Tag.TITLE.equalsText(ch.getTag())) {
-                    for (FileReference fr : m.getFileReferences()) {
-                        fr.setTitle(new StringWithCustomTags(ch.getTag().intern()));
+                    if (m.getFileReferences() != null) {
+                        for (FileReference fr : m.getFileReferences()) {
+                            fr.setTitle(new StringWithCustomTags(ch.getTag().intern()));
+                        }
                     }
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
                     List<Note> notes = m.getNotes(true);

@@ -62,7 +62,7 @@ public class GedcomWriter551Test {
         m.setEmbeddedMediaFormat(new StringWithCustomTags("bmp"));
         m.setXref("@M1@");
         g.getMultimedia().put(m.getXref(), m);
-        m.getBlob().add("Blob data only allowed with 5.5");
+        m.getBlob(true).add("Blob data only allowed with 5.5");
         try {
             gw.write("tmp/delete-me.ged");
             for (GedcomValidationFinding f : gw.getValidationFindings()) {
@@ -113,7 +113,7 @@ public class GedcomWriter551Test {
         assertTrue(gw.lines.isEmpty());
 
         // Email addresses
-        c.getEmails().add(new StringWithCustomTags("Not allowed under 5.5"));
+        c.getEmails(true).add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the corporation having an email");
@@ -150,7 +150,7 @@ public class GedcomWriter551Test {
         gw.validationSuppressed = false;
         assertTrue(gw.lines.isEmpty());
         // Fax numbers
-        c.getFaxNumbers().add(new StringWithCustomTags("Not allowed under 5.5"));
+        c.getFaxNumbers(true).add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the corporation having a fax number");
@@ -188,7 +188,7 @@ public class GedcomWriter551Test {
         assertTrue(gw.lines.isEmpty());
 
         // WWW urls
-        c.getWwwUrls().add(new StringWithCustomTags("Not allowed under 5.5"));
+        c.getWwwUrls(true).add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the corporation having a www url");
@@ -229,9 +229,9 @@ public class GedcomWriter551Test {
         g.getIndividuals().put(i.getXref(), i);
         PersonalName pn = new PersonalName();
         pn.setBasic("Joe /Fryingpan/");
-        i.getNames().add(pn);
+        i.getNames(true).add(pn);
         IndividualEvent e = new IndividualEvent();
-        i.getEvents().add(e);
+        i.getEvents(true).add(e);
         e.setType(IndividualEventType.BIRTH);
         e.setPlace(new Place());
         e.getPlace().setPlaceName("Krakow, Poland");
@@ -259,8 +259,8 @@ public class GedcomWriter551Test {
         assertNotNull(p);
         assertEquals("Krakow, Poland", p.getPlaceName());
         // while we're here...
-        assertTrue(p.getRomanized().isEmpty());
-        assertTrue(p.getPhonetic().isEmpty());
+        assertTrue(p.getRomanized() == null || p.getRomanized().isEmpty());
+        assertTrue(p.getPhonetic() == null || p.getPhonetic().isEmpty());
         // ok, back to task at hand
         assertEquals("+50\u00B0 3' 1.49\"", p.getLatitude().getValue());
         assertEquals("+19\u00B0 56' 21.48\"", p.getLongitude().getValue());
@@ -278,8 +278,8 @@ public class GedcomWriter551Test {
     public void testMultilineCopyrightWith55() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        g.getHeader().getCopyrightData().add("One line is ok");
-        g.getHeader().getCopyrightData().add("Two lines is bad");
+        g.getHeader().getCopyrightData(true).add("One line is ok");
+        g.getHeader().getCopyrightData(true).add("Two lines is bad");
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
         assertTrue(gw.lines.isEmpty());
@@ -323,12 +323,12 @@ public class GedcomWriter551Test {
         fr.setTitle(new StringWithCustomTags("Foo"));
         fr.setFormat(new StringWithCustomTags("gif"));
         fr.setMediaType(new StringWithCustomTags("disk"));
-        m1.getFileReferences().add(fr);
+        m1.getFileReferences(true).add(fr);
         fr = new FileReference();
         fr.setReferenceToFile(new StringWithCustomTags("C:/bar.png"));
         fr.setFormat(new StringWithCustomTags("png"));
         fr.setTitle(new StringWithCustomTags("Bar"));
-        m1.getFileReferences().add(fr);
+        m1.getFileReferences(true).add(fr);
 
         // Write it
         GedcomWriter gw = new GedcomWriter(g1);
@@ -346,7 +346,7 @@ public class GedcomWriter551Test {
         assertNotNull(m2);
         assertNull(m2.getEmbeddedMediaFormat());
         assertNull(m2.getChangeDate());
-        assertTrue(m2.getNotes().isEmpty());
+        assertTrue(m2.getNotes(true).isEmpty());
         assertEquals(2, m2.getFileReferences().size());
 
         fr = m2.getFileReferences().get(0);
@@ -378,7 +378,7 @@ public class GedcomWriter551Test {
         g.getIndividuals().put(i.getXref(), i);
         PersonalName pn = new PersonalName();
         pn.setBasic("Bj\u00F8rn /J\u00F8rgen/");
-        i.getNames().add(pn);
+        i.getNames(true).add(pn);
 
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = true;
@@ -389,7 +389,7 @@ public class GedcomWriter551Test {
 
         // Add a malformed phonetic variation
         PersonalNameVariation pnv = new PersonalNameVariation();
-        pn.getPhonetic().add(pnv);
+        pn.getPhonetic(true).add(pnv);
         try {
             gw.write("tmp/delete-me.ged");
             fail("Expected to get a GedcomWriterException due to missing field on personal name variation");
@@ -405,7 +405,7 @@ public class GedcomWriter551Test {
 
         // Add a bad romanized variation
         pnv = new PersonalNameVariation();
-        pn.getRomanized().add(pnv);
+        pn.getRomanized(true).add(pnv);
         try {
             gw.write("tmp/delete-me.ged");
             fail("Expected to get a GedcomWriterException due to missing field on personal name variation");
@@ -441,7 +441,7 @@ public class GedcomWriter551Test {
         assertTrue(gw.lines.isEmpty());
 
         // Email addresses
-        r.getEmails().add(new StringWithCustomTags("Not allowed under 5.5"));
+        r.getEmails(true).add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the repository having an email");
@@ -477,7 +477,7 @@ public class GedcomWriter551Test {
         assertTrue(gw.lines.isEmpty());
 
         // Fax numbers
-        r.getFaxNumbers().add(new StringWithCustomTags("Not allowed under 5.5"));
+        r.getFaxNumbers(true).add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the repository having a fax number");
@@ -513,7 +513,7 @@ public class GedcomWriter551Test {
         assertTrue(gw.lines.isEmpty());
 
         // WWW urls
-        r.getWwwUrls().add(new StringWithCustomTags("Not allowed under 5.5"));
+        r.getWwwUrls(true).add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the repository having a www url");
@@ -550,7 +550,7 @@ public class GedcomWriter551Test {
         assertTrue(gw.lines.isEmpty());
 
         // Email addresses
-        s.getEmails().add(new StringWithCustomTags("Not allowed under 5.5"));
+        s.getEmails(true).add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the submitter having an email");
@@ -587,7 +587,7 @@ public class GedcomWriter551Test {
         assertTrue(gw.lines.isEmpty());
 
         // Fax numbers
-        s.getFaxNumbers().add(new StringWithCustomTags("Not allowed under 5.5"));
+        s.getFaxNumbers(true).add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the submitter having a fax number");
@@ -624,7 +624,7 @@ public class GedcomWriter551Test {
         assertTrue(gw.lines.isEmpty());
 
         // WWW urls
-        s.getWwwUrls().add(new StringWithCustomTags("Not allowed under 5.5"));
+        s.getWwwUrls(true).add(new StringWithCustomTags("Not allowed under 5.5"));
         try {
             gw.write("tmp/delete-me.ged");
             fail("Should have gotten a GedcomException about the submitter having a www url");

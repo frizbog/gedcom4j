@@ -72,7 +72,7 @@ public class Issue88Test {
         IndividualEvent death = new IndividualEvent();
         death.setType(IndividualEventType.DEATH);
         death.date = new StringWithCustomTags("12/31/1999");
-        i.getEvents().add(death);
+        i.getEvents(true).add(death);
 
         assertEquals("Bob /ROBERTS/, b.1/1/1950, d.12/31/1999", i.toString());
     }

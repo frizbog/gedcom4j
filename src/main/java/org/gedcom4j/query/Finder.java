@@ -79,28 +79,30 @@ public class Finder {
     public List<Individual> findByName(String prefix, String surname, String given, String suffix) {
         List<Individual> result = new ArrayList<Individual>();
         for (Individual i : g.getIndividuals().values()) {
-            for (PersonalName n : i.getNames()) {
-                // Sometimes the name is broken up into separate fields in the
-                // GEDCOM
-                if ((surname == null || (n.getSurname() != null && surname.equalsIgnoreCase(n.getSurname().getValue()))) && (given == null || (n
-                        .getGivenName() != null && given.equalsIgnoreCase(n.getGivenName().getValue())))) {
-                    result.add(i);
-                    continue;
-                }
-                // Other times they are concatenated with slashes around the
-                // surname
-                StringBuffer lookingFor = new StringBuffer();
-                lookingFor.append(given).append(" /").append(surname).append("/");
-                if (prefix != null) {
-                    lookingFor.insert(0, " ").insert(0, prefix);
-                }
-                if (suffix != null) {
-                    lookingFor.append(" ").append(suffix);
-                }
+            if (i.getNames() != null) {
+                for (PersonalName n : i.getNames()) {
+                    // Sometimes the name is broken up into separate fields in the
+                    // GEDCOM
+                    if ((surname == null || (n.getSurname() != null && surname.equalsIgnoreCase(n.getSurname().getValue()))) && (given == null || (n
+                            .getGivenName() != null && given.equalsIgnoreCase(n.getGivenName().getValue())))) {
+                        result.add(i);
+                        continue;
+                    }
+                    // Other times they are concatenated with slashes around the
+                    // surname
+                    StringBuffer lookingFor = new StringBuffer();
+                    lookingFor.append(given).append(" /").append(surname).append("/");
+                    if (prefix != null) {
+                        lookingFor.insert(0, " ").insert(0, prefix);
+                    }
+                    if (suffix != null) {
+                        lookingFor.append(" ").append(suffix);
+                    }
 
-                if (n.getBasic() != null && n.getBasic().equalsIgnoreCase(lookingFor.toString())) {
-                    result.add(i);
-                    continue;
+                    if (n.getBasic() != null && n.getBasic().equalsIgnoreCase(lookingFor.toString())) {
+                        result.add(i);
+                        continue;
+                    }
                 }
             }
         }
