@@ -872,56 +872,6 @@ public class GedcomParser extends AbstractParser<Gedcom> {
      * @param st
      *            the node
      */
-    private void loadRepository(StringTree st) {
-        Repository r = getRepository(st.getId());
-        if (st.getChildren() != null) {
-            for (StringTree ch : st.getChildren()) {
-                if (Tag.NAME.equalsText(ch.getTag())) {
-                    r.setName(new StringWithCustomTags(ch));
-                } else if (Tag.ADDRESS.equalsText(ch.getTag())) {
-                    Address address = new Address();
-                    r.setAddress(address);
-                    new AddressParser(gedcomParser, ch, address).parse();
-                } else if (Tag.PHONE.equalsText(ch.getTag())) {
-                    r.getPhoneNumbers(true).add(new StringWithCustomTags(ch));
-                } else if (Tag.WEB_ADDRESS.equalsText(ch.getTag())) {
-                    r.getWwwUrls(true).add(new StringWithCustomTags(ch));
-                    if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but WWW URL was specified on repository " + r.getXref() + " on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
-                    }
-                } else if (Tag.FAX.equalsText(ch.getTag())) {
-                    r.getFaxNumbers(true).add(new StringWithCustomTags(ch));
-                    if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but fax was specified on repository " + r.getXref() + " on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
-                    }
-                } else if (Tag.EMAIL.equalsText(ch.getTag())) {
-                    r.getEmails(true).add(new StringWithCustomTags(ch));
-                    if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but email was specified on repository " + r.getXref() + " on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
-                    }
-                } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = r.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
-                } else if (Tag.REFERENCE.equalsText(ch.getTag())) {
-                    UserReference u = new UserReference();
-                    r.getUserReferences(true).add(u);
-                    new UserReferenceParser(gedcomParser, ch, u).parse();
-                } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
-                    r.setRecIdNumber(new StringWithCustomTags(ch));
-                } else if (Tag.CHANGED_DATETIME.equalsText(ch.getTag())) {
-                    ChangeDate changeDate = new ChangeDate();
-                    r.setChangeDate(changeDate);
-                    new ChangeDateParser(gedcomParser, ch, changeDate).parse();
-                } else {
-                    unknownTag(ch, r);
-                }
-            }
-        }
-
-    }
 
     /**
      * Load a single root-level item
@@ -933,16 +883,31 @@ public class GedcomParser extends AbstractParser<Gedcom> {
      */
     private void loadRootItem(StringTree rootLevelItem) throws GedcomParserException {
         if (Tag.HEADER.equalsText(rootLevelItem.getTag())) {
-            Header header = new Header();
-            gedcom.setHeader(header);
+            Header header = gedcom.getHeader();
+            if (header == null) {
+                header = new Header();
+                gedcom.setHeader(header);
+            }
             new HeaderParser(this, rootLevelItem, header).parse();
         } else if (Tag.SUBMITTER.equalsText(rootLevelItem.getTag())) {
-
-            loadSubmitter(rootLevelItem);
+            Submitter submitter = getSubmitter(rootLevelItem.getId());
+            new SubmitterParser(this, rootLevelItem, submitter).parse();
         } else if (Tag.INDIVIDUAL.equalsText(rootLevelItem.getTag())) {
             loadIndividual(rootLevelItem);
         } else if (Tag.SUBMISSION.equalsText(rootLevelItem.getTag())) {
-            loadSubmission(rootLevelItem);
+            Submission s = new Submission(rootLevelItem.getId());
+            gedcom.setSubmission(s);
+            if (gedcom.getHeader() == null) {
+                gedcom.setHeader(new Header());
+            }
+            if (gedcom.getHeader().getSubmission() == null) {
+                /*
+                 * The GEDCOM spec puts a cross reference to the root-level SUBN element in the HEAD structure. Now that
+                 * we have a submission object, represent that cross reference in the header object
+                 */
+                gedcom.getHeader().setSubmission(s);
+            }
+            new SubmissionParser(this, rootLevelItem, s).parse();
         } else if (Tag.NOTE.equalsText(rootLevelItem.getTag())) {
             List<Note> dummyList = new ArrayList<Note>();
             new NoteListParser(this, rootLevelItem, dummyList).parse();
@@ -957,115 +922,13 @@ public class GedcomParser extends AbstractParser<Gedcom> {
             Source s = getSource(rootLevelItem.getId());
             new SourceParser(this, rootLevelItem, s).parse();
         } else if (Tag.REPOSITORY.equalsText(rootLevelItem.getTag())) {
-            loadRepository(rootLevelItem);
+            Repository r = getRepository(rootLevelItem.getId());
+            new RepositoryParser(this, rootLevelItem, r).parse();
         } else if (Tag.OBJECT_MULTIMEDIA.equalsText(rootLevelItem.getTag())) {
             Multimedia multimedia = getMultimedia(rootLevelItem.getId());
             new MultimediaRecordParser(this, rootLevelItem, multimedia).parse();
         } else {
             unknownTag(rootLevelItem, gedcom);
-        }
-    }
-
-    /**
-     * Load the submission structure from a string tree node
-     * 
-     * @param st
-     *            the node
-     */
-    private void loadSubmission(StringTree st) {
-        Submission s = new Submission(st.getId());
-        gedcom.setSubmission(s);
-        if (gedcom.getHeader() == null) {
-            gedcom.setHeader(new Header());
-        }
-        if (gedcom.getHeader().getSubmission() == null) {
-            /*
-             * The GEDCOM spec puts a cross reference to the root-level SUBN element in the HEAD structure. Now that we
-             * have a submission object, represent that cross reference in the header object
-             */
-            gedcom.getHeader().setSubmission(s);
-        }
-        if (st.getChildren() != null) {
-            for (StringTree ch : st.getChildren()) {
-                Submission submission = gedcom.getSubmission();
-                if (Tag.SUBMITTER.equalsText(ch.getTag())) {
-                    submission.setSubmitter(getSubmitter(ch.getValue()));
-                } else if (Tag.FAMILY_FILE.equalsText(ch.getTag())) {
-                    submission.setNameOfFamilyFile(new StringWithCustomTags(ch));
-                } else if (Tag.TEMPLE.equalsText(ch.getTag())) {
-                    submission.setTempleCode(new StringWithCustomTags(ch));
-                } else if (Tag.ANCESTORS.equalsText(ch.getTag())) {
-                    submission.setAncestorsCount(new StringWithCustomTags(ch));
-                } else if (Tag.DESCENDANTS.equalsText(ch.getTag())) {
-                    submission.setDescendantsCount(new StringWithCustomTags(ch));
-                } else if (Tag.ORDINANCE_PROCESS_FLAG.equalsText(ch.getTag())) {
-                    submission.setOrdinanceProcessFlag(new StringWithCustomTags(ch));
-                } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
-                    submission.setRecIdNumber(new StringWithCustomTags(ch));
-                } else {
-                    unknownTag(ch, submission);
-                }
-            }
-        }
-
-    }
-
-    /**
-     * Load a submitter from a string tree node into the gedcom global collection of submitters
-     * 
-     * @param subm
-     *            the stringtree for the submitter node
-     */
-    private void loadSubmitter(StringTree subm) {
-        Submitter submitter = getSubmitter(subm.getId());
-        if (subm.getChildren() != null) {
-            for (StringTree ch : subm.getChildren()) {
-                if (Tag.NAME.equalsText(ch.getTag())) {
-                    submitter.setName(new StringWithCustomTags(ch));
-                } else if (Tag.ADDRESS.equalsText(ch.getTag())) {
-                    Address address = new Address();
-                    submitter.setAddress(address);
-                    new AddressParser(gedcomParser, ch, address).parse();
-                } else if (Tag.PHONE.equalsText(ch.getTag())) {
-                    submitter.getPhoneNumbers(true).add(new StringWithCustomTags(ch));
-                } else if (Tag.WEB_ADDRESS.equalsText(ch.getTag())) {
-                    submitter.getWwwUrls(true).add(new StringWithCustomTags(ch));
-                    if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but WWW URL number was specified on submitter on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
-                    }
-                } else if (Tag.FAX.equalsText(ch.getTag())) {
-                    submitter.getFaxNumbers(true).add(new StringWithCustomTags(ch));
-                    if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but fax number was specified on submitter on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
-                    }
-                } else if (Tag.EMAIL.equalsText(ch.getTag())) {
-                    submitter.getEmails(true).add(new StringWithCustomTags(ch));
-                    if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but email was specified on submitter on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
-                    }
-                } else if (Tag.LANGUAGE.equalsText(ch.getTag())) {
-                    submitter.getLanguagePref(true).add(new StringWithCustomTags(ch));
-                } else if (Tag.CHANGED_DATETIME.equalsText(ch.getTag())) {
-                    ChangeDate changeDate = new ChangeDate();
-                    submitter.setChangeDate(changeDate);
-                    new ChangeDateParser(gedcomParser, ch, changeDate).parse();
-                } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
-                    List<Multimedia> multimedia = submitter.getMultimedia(true);
-                    new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
-                } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
-                    submitter.setRecIdNumber(new StringWithCustomTags(ch));
-                } else if (Tag.REGISTRATION_FILE_NUMBER.equalsText(ch.getTag())) {
-                    submitter.setRegFileNumber(new StringWithCustomTags(ch));
-                } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = submitter.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
-                } else {
-                    unknownTag(ch, submitter);
-                }
-            }
         }
     }
 
