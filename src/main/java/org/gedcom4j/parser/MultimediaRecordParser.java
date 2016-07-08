@@ -79,13 +79,13 @@ class MultimediaRecordParser extends AbstractParser<Multimedia> {
      * Load a GEDCOM 5.5-style multimedia record (that could be referenced from another object) from a string tree node.
      * This corresponds to the MULTIMEDIA_RECORD structure in the GEDCOM 5.5 spec.
      * 
-     * @param st
+     * @param obje
      *            the OBJE node being loaded
      */
-    private void loadMultimediaRecord55(StringTree st) {
-        Multimedia m = getMultimedia(st.getId());
-        if (st.getChildren() != null) {
-            for (StringTree ch : st.getChildren()) {
+    private void loadMultimediaRecord55(StringTree obje) {
+        Multimedia m = getMultimedia(obje.getId());
+        if (obje.getChildren() != null) {
+            for (StringTree ch : obje.getChildren()) {
                 if (Tag.FORM.equalsText(ch.getTag())) {
                     m.setEmbeddedMediaFormat(new StringWithCustomTags(ch));
                 } else if (Tag.TITLE.equalsText(ch.getTag())) {
@@ -132,39 +132,17 @@ class MultimediaRecordParser extends AbstractParser<Multimedia> {
      * Load a GEDCOM 5.5.1-style multimedia record (that could be referenced from another object) from a string tree
      * node. This corresponds to the MULTIMEDIA_RECORD structure in the GEDCOM 5.5.1 spec.
      * 
-     * @param st
+     * @param obje
      *            the OBJE node being loaded
      */
-    private void loadMultimediaRecord551(StringTree st) {
-        Multimedia m = getMultimedia(st.getId());
-        if (st.getChildren() != null) {
-            for (StringTree ch : st.getChildren()) {
+    private void loadMultimediaRecord551(StringTree obje) {
+        Multimedia m = getMultimedia(obje.getId());
+        if (obje.getChildren() != null) {
+            for (StringTree ch : obje.getChildren()) {
                 if (Tag.FILE.equalsText(ch.getTag())) {
                     FileReference fr = new FileReference();
                     m.getFileReferences(true).add(fr);
-                    fr.setReferenceToFile(new StringWithCustomTags(ch));
-                    if (ch.getChildren() != null) {
-                        for (StringTree gch : ch.getChildren()) {
-                            if (Tag.FORM.equalsText(gch.getTag())) {
-                                fr.setFormat(new StringWithCustomTags(gch.getValue()));
-                                if (gch.getChildren() != null && ch.getChildren().size() == 1) {
-                                    StringTree ggch = gch.getChildren().get(0);
-                                    if (Tag.TYPE.equalsText(ggch.getTag())) {
-                                        fr.setMediaType(new StringWithCustomTags(ggch));
-                                    } else {
-                                        unknownTag(ggch, fr);
-                                    }
-                                }
-                            } else if (Tag.TITLE.equalsText(gch.getTag())) {
-                                fr.setTitle(new StringWithCustomTags(gch));
-                            } else {
-                                unknownTag(gch, fr);
-                            }
-                        }
-                    }
-                    if (fr.getFormat() == null) {
-                        addError("FORM tag not found under FILE reference on line " + st.getLineNum());
-                    }
+                    new FileReference551Parser(gedcomParser, ch, fr).parse();
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
                     List<Note> notes = m.getNotes(true);
                     new NoteListParser(gedcomParser, ch, notes).parse();

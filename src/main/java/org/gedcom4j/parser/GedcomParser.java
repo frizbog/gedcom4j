@@ -1618,13 +1618,13 @@ public class GedcomParser extends AbstractParser<Gedcom> {
     /**
      * Load a submitter from a string tree node into the gedcom global collection of submitters
      * 
-     * @param st
-     *            the node
+     * @param subm
+     *            the stringtree for the submitter node
      */
-    private void loadSubmitter(StringTree st) {
-        Submitter submitter = getSubmitter(st.getId());
-        if (st.getChildren() != null) {
-            for (StringTree ch : st.getChildren()) {
+    private void loadSubmitter(StringTree subm) {
+        Submitter submitter = getSubmitter(subm.getId());
+        if (subm.getChildren() != null) {
+            for (StringTree ch : subm.getChildren()) {
                 if (Tag.NAME.equalsText(ch.getTag())) {
                     submitter.setName(new StringWithCustomTags(ch));
                 } else if (Tag.ADDRESS.equalsText(ch.getTag())) {

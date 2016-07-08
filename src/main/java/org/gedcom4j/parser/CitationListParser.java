@@ -67,14 +67,14 @@ class CitationListParser extends AbstractParser<List<AbstractCitation>> {
     /**
      * Load a DATA structure in a source citation from a string tree node
      * 
-     * @param st
-     *            the node
+     * @param data
+     *            the DATA (source-citation data) node
      * @param d
      *            the CitationData structure
      */
-    private void loadCitationData(StringTree st, CitationData d) {
-        if (st.getChildren() != null) {
-            for (StringTree ch : st.getChildren()) {
+    private void loadCitationData(StringTree data, CitationData d) {
+        if (data.getChildren() != null) {
+            for (StringTree ch : data.getChildren()) {
                 if (Tag.DATE.equalsText(ch.getTag())) {
                     d.setEntryDate(new StringWithCustomTags(ch));
                 } else if (Tag.TEXT.equalsText(ch.getTag())) {
@@ -92,16 +92,16 @@ class CitationListParser extends AbstractParser<List<AbstractCitation>> {
     /**
      * Load the non-cross-referenced source citation from a string tree node
      * 
-     * @param st
-     *            the node
+     * @param sour
+     *            the SOUR (source-citation) node
      * @param citation
      *            the citation to load into
      */
-    private void loadCitationWithoutSource(StringTree st, AbstractCitation citation) {
+    private void loadCitationWithoutSource(StringTree sour, AbstractCitation citation) {
         CitationWithoutSource cws = (CitationWithoutSource) citation;
-        cws.getDescription(true).add(st.getValue());
-        if (st.getChildren() != null) {
-            for (StringTree ch : st.getChildren()) {
+        cws.getDescription(true).add(sour.getValue());
+        if (sour.getChildren() != null) {
+            for (StringTree ch : sour.getChildren()) {
                 if (Tag.CONTINUATION.equalsText(ch.getTag())) {
                     cws.getDescription(true).add(ch.getValue() == null ? "" : ch.getValue());
                 } else if (Tag.CONCATENATION.equalsText(ch.getTag())) {
@@ -127,20 +127,20 @@ class CitationListParser extends AbstractParser<List<AbstractCitation>> {
     /**
      * Load a cross-referenced source citation from a string tree node
      * 
-     * @param st
-     *            the node
+     * @param sour
+     *            the SOUR (source-citation) node
      * @param citation
      *            the citation to load into
      */
-    private void loadCitationWithSource(StringTree st, AbstractCitation citation) {
+    private void loadCitationWithSource(StringTree sour, AbstractCitation citation) {
         CitationWithSource cws = (CitationWithSource) citation;
         Source src = null;
-        if (referencesAnotherNode(st)) {
-            src = getSource(st.getValue());
+        if (referencesAnotherNode(sour)) {
+            src = getSource(sour.getValue());
         }
         cws.setSource(src);
-        if (st.getChildren() != null) {
-            for (StringTree ch : st.getChildren()) {
+        if (sour.getChildren() != null) {
+            for (StringTree ch : sour.getChildren()) {
                 if (Tag.PAGE.equalsText(ch.getTag())) {
                     cws.setWhereInSource(new StringWithCustomTags(ch));
                 } else if (Tag.EVENT.equalsText(ch.getTag())) {
