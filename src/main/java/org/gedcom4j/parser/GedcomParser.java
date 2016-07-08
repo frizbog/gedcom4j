@@ -600,7 +600,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
                 } else if (Tag.REFERENCE.equalsText(ch.getTag())) {
                     UserReference u = new UserReference();
                     f.getUserReferences(true).add(u);
-                    loadUserReference(ch, u);
+                    new UserReferenceParser(gedcomParser, ch, u).parse();
                 } else {
                     unknownTag(ch, f);
                 }
@@ -856,7 +856,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
                 } else if (Tag.REFERENCE.equalsText(ch.getTag())) {
                     UserReference u = new UserReference();
                     i.getUserReferences(true).add(u);
-                    loadUserReference(ch, u);
+                    new UserReferenceParser(gedcomParser, ch, u).parse();
                 } else if (Tag.SUBMITTER.equalsText(ch.getTag())) {
                     i.getSubmitters(true).add(getSubmitter(ch.getValue()));
                 } else {
@@ -1193,7 +1193,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
             } else if (Tag.REFERENCE.equalsText(ch.getTag())) {
                 UserReference u = new UserReference();
                 m.getUserReferences(true).add(u);
-                loadUserReference(ch, u);
+                new UserReferenceParser(gedcomParser, ch, u).parse();
             } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
                 m.setRecIdNumber(new StringWithCustomTags(ch));
             } else if (Tag.CHANGED_DATETIME.equalsText(ch.getTag())) {
@@ -1248,7 +1248,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
             } else if (Tag.REFERENCE.equalsText(ch.getTag())) {
                 UserReference u = new UserReference();
                 m.getUserReferences(true).add(u);
-                loadUserReference(ch, u);
+                new UserReferenceParser(gedcomParser, ch, u).parse();
             } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
                 m.setRecIdNumber(new StringWithCustomTags(ch));
             } else if (Tag.CHANGED_DATETIME.equalsText(ch.getTag())) {
@@ -1308,7 +1308,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
                 } else if (Tag.REFERENCE.equalsText(ch.getTag())) {
                     UserReference u = new UserReference();
                     note.getUserReferences(true).add(u);
-                    loadUserReference(ch, u);
+                    new UserReferenceParser(gedcomParser, ch, u).parse();
                 } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
                     note.setRecIdNumber(new StringWithCustomTags(ch));
                 } else if (Tag.CHANGED_DATETIME.equalsText(ch.getTag())) {
@@ -1522,7 +1522,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
                 } else if (Tag.REFERENCE.equalsText(ch.getTag())) {
                     UserReference u = new UserReference();
                     r.getUserReferences(true).add(u);
-                    loadUserReference(ch, u);
+                    new UserReferenceParser(gedcomParser, ch, u).parse();
                 } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
                     r.setRecIdNumber(new StringWithCustomTags(ch));
                 } else if (Tag.CHANGED_DATETIME.equalsText(ch.getTag())) {
@@ -1655,7 +1655,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
             } else if (Tag.REFERENCE.equalsText(ch.getTag())) {
                 UserReference u = new UserReference();
                 s.getUserReferences(true).add(u);
-                loadUserReference(ch, u);
+                new UserReferenceParser(gedcomParser, ch, u).parse();
             } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
                 s.setRecIdNumber(new StringWithCustomTags(ch));
             } else if (Tag.CHANGED_DATETIME.equalsText(ch.getTag())) {
@@ -1812,18 +1812,6 @@ public class GedcomParser extends AbstractParser<Gedcom> {
                 }
             }
         }
-    }
-
-    /**
-     * Load a user reference to from a string tree node
-     * 
-     * @param st
-     *            the string tree node
-     * @param u
-     *            the user reference object
-     */
-    private void loadUserReference(StringTree st, UserReference u) {
-
     }
 
     /**
