@@ -35,12 +35,12 @@ public class UserReference extends AbstractElement {
     /**
      * The reference number
      */
-    private String referenceNum;
+    private StringWithCustomTags referenceNum;
 
     /**
      * The type of reference
      */
-    private String type;
+    private StringWithCustomTags type;
 
     @Override
     public boolean equals(Object obj) {
@@ -76,7 +76,7 @@ public class UserReference extends AbstractElement {
      * 
      * @return the referenceNum
      */
-    public String getReferenceNum() {
+    public StringWithCustomTags getReferenceNum() {
         return referenceNum;
     }
 
@@ -85,7 +85,7 @@ public class UserReference extends AbstractElement {
      * 
      * @return the type
      */
-    public String getType() {
+    public StringWithCustomTags getType() {
         return type;
     }
 
@@ -104,7 +104,7 @@ public class UserReference extends AbstractElement {
      * @param referenceNum
      *            the referenceNum to set
      */
-    public void setReferenceNum(String referenceNum) {
+    public void setReferenceNum(StringWithCustomTags referenceNum) {
         this.referenceNum = referenceNum;
     }
 
@@ -114,7 +114,7 @@ public class UserReference extends AbstractElement {
      * @param type
      *            the type to set
      */
-    public void setType(String type) {
+    public void setType(StringWithCustomTags type) {
         this.type = type;
     }
 
