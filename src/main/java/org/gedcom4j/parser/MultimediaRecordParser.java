@@ -83,21 +83,20 @@ class MultimediaRecordParser extends AbstractParser<Multimedia> {
      *            the OBJE node being loaded
      */
     private void loadMultimediaRecord55(StringTree obje) {
-        Multimedia m = getMultimedia(obje.getId());
         if (obje.getChildren() != null) {
             for (StringTree ch : obje.getChildren()) {
                 if (Tag.FORM.equalsText(ch.getTag())) {
-                    m.setEmbeddedMediaFormat(new StringWithCustomTags(ch));
+                    loadInto.setEmbeddedMediaFormat(new StringWithCustomTags(ch));
                 } else if (Tag.TITLE.equalsText(ch.getTag())) {
-                    m.setEmbeddedTitle(new StringWithCustomTags(ch));
+                    loadInto.setEmbeddedTitle(new StringWithCustomTags(ch));
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = m.getNotes(true);
+                    List<Note> notes = loadInto.getNotes(true);
                     new NoteListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.SOURCE.equalsText(ch.getTag())) {
-                    List<AbstractCitation> citations = m.getCitations(true);
+                    List<AbstractCitation> citations = loadInto.getCitations(true);
                     new CitationListParser(gedcomParser, ch, citations).parse();
                 } else if (Tag.BLOB.equalsText(ch.getTag())) {
-                    loadMultiLinesOfText(ch, m.getBlob(true), m);
+                    loadMultiLinesOfText(ch, loadInto.getBlob(true), loadInto);
                     if (!g55()) {
                         addWarning("GEDCOM version is 5.5.1, but a BLOB tag was found at line " + ch.getLineNum() + ". "
                                 + "Data will be loaded but will not be writeable unless GEDCOM version is changed to 5.5.1");
@@ -105,25 +104,27 @@ class MultimediaRecordParser extends AbstractParser<Multimedia> {
                 } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
                     List<Multimedia> continuedObjects = new ArrayList<Multimedia>();
                     new MultimediaLinkParser(gedcomParser, ch, continuedObjects).parse();
-                    m.setContinuedObject(continuedObjects.get(0));
+                    loadInto.setContinuedObject(continuedObjects.get(0));
                     if (!g55()) {
                         addWarning("GEDCOM version is 5.5.1, but a chained OBJE tag was found at line " + ch.getLineNum() + ". "
                                 + "Data will be loaded but will not be writeable unless GEDCOM version is changed to 5.5.1");
                     }
                 } else if (Tag.REFERENCE.equalsText(ch.getTag())) {
                     UserReference u = new UserReference();
-                    m.getUserReferences(true).add(u);
+                    loadInto.getUserReferences(true).add(u);
                     new UserReferenceParser(gedcomParser, ch, u).parse();
                 } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
-                    m.setRecIdNumber(new StringWithCustomTags(ch));
+                    loadInto.setRecIdNumber(new StringWithCustomTags(ch));
                 } else if (Tag.CHANGED_DATETIME.equalsText(ch.getTag())) {
                     ChangeDate changeDate = new ChangeDate();
-                    m.setChangeDate(changeDate);
+                    loadInto.setChangeDate(changeDate);
                     new ChangeDateParser(gedcomParser, ch, changeDate).parse();
                 } else {
-                    unknownTag(ch, m);
+                    unknownTag(ch, loadInto);
                 }
             }
+        } else {
+            addError("Root level multimedia record at line " + obje.getLineNum() + " had no child records");
         }
 
     }
