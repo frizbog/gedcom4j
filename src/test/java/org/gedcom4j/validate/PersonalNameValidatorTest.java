@@ -61,7 +61,7 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
         gedcom.getIndividuals().put(ind.getXref(), ind);
 
         pn = new PersonalName();
-        ind.getNames().add(pn);
+        ind.getNames(true).add(pn);
         pn.setBasic("Joe /Schmo/");
         rootValidator.validate();
         assertNoIssues();
@@ -130,6 +130,8 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNotes() {
+        rootValidator.validate();
+        assertNoIssues();
         pn.getNotes(true);
         rootValidator.validate();
         assertNoIssues();

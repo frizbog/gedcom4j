@@ -21,6 +21,7 @@
  */
 package org.gedcom4j.validate;
 
+import org.gedcom4j.Options;
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.LdsSpouseSealing;
 
@@ -59,7 +60,7 @@ class LdsSpouseSealingValidator extends AbstractValidator {
             addError("LDS Spouse Sealing is null and cannot be validated");
             return;
         }
-        if (s.getCitations() == null) {
+        if (Options.isCollectionInitializationEnabled() && s.getCitations() == null) {
             if (rootValidator.isAutorepairEnabled()) {
                 s.getCitations(true).clear();
                 addInfo("citations collection for lds spouse sealing was null - rootValidator.autorepaired", s);
@@ -67,8 +68,10 @@ class LdsSpouseSealingValidator extends AbstractValidator {
                 addError("citations collection for lds spouse sealing is null", s);
             }
         } else {
-            for (AbstractCitation c : s.getCitations()) {
-                new CitationValidator(rootValidator, c).validate();
+            if (s.getCitations() != null) {
+                for (AbstractCitation c : s.getCitations()) {
+                    new CitationValidator(rootValidator, c).validate();
+                }
             }
         }
         checkCustomTags(s);

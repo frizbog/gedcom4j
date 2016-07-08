@@ -250,41 +250,49 @@ public class RelationshipCalculator {
         } else {
             lookedAt.add(personBeingExamined);
             /* Not our target, so check relatives, starting with parents */
-            for (FamilyChild fc : personBeingExamined.getFamiliesWhereChild()) {
-                Family family = fc.getFamily();
-                if (!lookedAt.contains(family.getHusband())) {
-                    examineFather(personBeingExamined, family.getHusband());
-                }
-                if (!lookedAt.contains(family.getWife())) {
-                    examineMother(personBeingExamined, family.getWife());
+            if (personBeingExamined.getFamiliesWhereChild() != null) {
+                for (FamilyChild fc : personBeingExamined.getFamiliesWhereChild()) {
+                    Family family = fc.getFamily();
+                    if (!lookedAt.contains(family.getHusband())) {
+                        examineFather(personBeingExamined, family.getHusband());
+                    }
+                    if (!lookedAt.contains(family.getWife())) {
+                        examineMother(personBeingExamined, family.getWife());
+                    }
                 }
             }
             /* Next check spouses */
-            for (FamilySpouse fs : personBeingExamined.getFamiliesWhereSpouse()) {
-                Family family = fs.getFamily();
-                if (family.getHusband() == personBeingExamined) {
-                    if (lookedAt.contains(family.getWife())) {
-                        continue;
+            if (personBeingExamined.getFamiliesWhereSpouse() != null) {
+                for (FamilySpouse fs : personBeingExamined.getFamiliesWhereSpouse()) {
+                    Family family = fs.getFamily();
+                    if (family.getHusband() == personBeingExamined) {
+                        if (lookedAt.contains(family.getWife())) {
+                            continue;
+                        }
+                        examineWife(personBeingExamined, fs);
+                    } else if (family.getWife() == personBeingExamined) {
+                        if (lookedAt.contains(family.getHusband())) {
+                            continue;
+                        }
+                        examineHusband(personBeingExamined, fs);
                     }
-                    examineWife(personBeingExamined, fs);
-                } else if (family.getWife() == personBeingExamined) {
-                    if (lookedAt.contains(family.getHusband())) {
-                        continue;
-                    }
-                    examineHusband(personBeingExamined, fs);
-                }
-                /* and check the children */
-                for (Individual c : family.getChildren()) {
-                    if (lookedAt.contains(c)) {
-                        continue;
-                    }
-                    if (family.getHusband() == personBeingExamined) { // NOPMD - deliberately using ==, want to check if
-                        // same instance
-                        examineChild(personBeingExamined, c, FATHER);
-                    } else if (family.getWife() == personBeingExamined) { // NOPMD - deliberately using ==, want to
-                                                                          // check
-                        // if same instance
-                        examineChild(personBeingExamined, c, MOTHER);
+                    /* and check the children */
+                    if (family.getChildren() != null) {
+                        for (Individual c : family.getChildren()) {
+                            if (lookedAt.contains(c)) {
+                                continue;
+                            }
+                            if (family.getHusband() == personBeingExamined) { // NOPMD - deliberately using ==, want to
+                                                                              // check if
+                                // same instance
+                                examineChild(personBeingExamined, c, FATHER);
+                            } else if (family.getWife() == personBeingExamined) { // NOPMD - deliberately using ==, want
+                                                                                  // to
+                                                                                  // check
+                                // if same instance
+                                examineChild(personBeingExamined, c, MOTHER);
+                            }
+                        }
                     }
                 }
             }

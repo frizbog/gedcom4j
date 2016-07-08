@@ -574,7 +574,8 @@ public class GedcomParser extends AbstractParser<Gedcom> {
                     List<AbstractCitation> citations = f.getCitations(true);
                     new CitationListParser(gedcomParser, ch, citations).parse();
                 } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
-                    loadMultimediaLink(ch, f.getMultimedia(true));
+                    List<Multimedia> multimedia = f.getMultimedia(true);
+                    new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
                 } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
                     f.setAutomatedRecordId(new StringWithCustomTags(ch));
                 } else if (Tag.CHANGED_DATETIME.equalsText(ch.getTag())) {
@@ -641,7 +642,8 @@ public class GedcomParser extends AbstractParser<Gedcom> {
                     e.setPlace(new Place());
                     loadPlace(ch, e.getPlace());
                 } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
-                    loadMultimediaLink(ch, e.getMultimedia(true));
+                    List<Multimedia> multimedia = e.getMultimedia(true);
+                    new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
                     loadNote(ch, e.getNotes(true));
                 } else if (Tag.SOURCE.equalsText(ch.getTag())) {
@@ -830,7 +832,8 @@ public class GedcomParser extends AbstractParser<Gedcom> {
                 } else if (Tag.REGISTRATION_FILE_NUMBER.equalsText(ch.getTag())) {
                     i.setPermanentRecFileNumber(new StringWithCustomTags(ch));
                 } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
-                    loadMultimediaLink(ch, i.getMultimedia(true));
+                    List<Multimedia> multimedia = i.getMultimedia(true);
+                    new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
                 } else if (Tag.RESTRICTION.equalsText(ch.getTag())) {
                     i.setRestrictionNotice(new StringWithCustomTags(ch));
                 } else if (Tag.SOURCE.equalsText(ch.getTag())) {
@@ -924,7 +927,8 @@ public class GedcomParser extends AbstractParser<Gedcom> {
                     a.setAddress(address);
                     new AddressParser(gedcomParser, ch, address).parse();
                 } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
-                    loadMultimediaLink(ch, a.getMultimedia(true));
+                    List<Multimedia> multimedia = a.getMultimedia(true);
+                    new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
                     loadNote(ch, a.getNotes(true));
                 } else if (Tag.CONCATENATION.equalsText(ch.getTag())) {
@@ -973,7 +977,8 @@ public class GedcomParser extends AbstractParser<Gedcom> {
                     e.setPlace(new Place());
                     loadPlace(ch, e.getPlace());
                 } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
-                    loadMultimediaLink(ch, e.getMultimedia(true));
+                    List<Multimedia> multimedia = e.getMultimedia(true);
+                    new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
                     loadNote(ch, e.getNotes(true));
                 } else if (Tag.SOURCE.equalsText(ch.getTag())) {
@@ -1124,19 +1129,6 @@ public class GedcomParser extends AbstractParser<Gedcom> {
     }
 
     /**
-     * Load a multimedia reference from a string tree node. This corresponds to the MULTIMEDIA_LINK structure in the
-     * GEDCOM specs.
-     * 
-     * @param st
-     *            the string tree node
-     * @param multimedia
-     *            the list of multimedia on the current object
-     */
-    private void loadMultimediaLink(StringTree st, List<Multimedia> multimedia) {
-
-    }
-
-    /**
      * Determine which style is being used here - GEDCOM 5.5 or 5.5.1 - and load appropriately. Warn if the structure is
      * inconsistent with the specified format.
      * 
@@ -1192,7 +1184,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
                 }
             } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
                 List<Multimedia> continuedObjects = new ArrayList<Multimedia>();
-                loadMultimediaLink(ch, continuedObjects);
+                new MultimediaLinkParser(gedcomParser, ch, continuedObjects).parse();
                 m.setContinuedObject(continuedObjects.get(0));
                 if (!g55()) {
                     addWarning("GEDCOM version is 5.5.1, but a chained OBJE tag was found at line " + ch.getLineNum() + ". "
@@ -1658,7 +1650,8 @@ public class GedcomParser extends AbstractParser<Gedcom> {
             } else if (Tag.NOTE.equalsText(ch.getTag())) {
                 loadNote(ch, s.getNotes(true));
             } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
-                loadMultimediaLink(ch, s.getMultimedia(true));
+                List<Multimedia> multimedia = s.getMultimedia(true);
+                new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
             } else if (Tag.REFERENCE.equalsText(ch.getTag())) {
                 UserReference u = new UserReference();
                 s.getUserReferences(true).add(u);
@@ -1806,7 +1799,8 @@ public class GedcomParser extends AbstractParser<Gedcom> {
                     submitter.setChangeDate(new ChangeDate());
                     loadChangeDate(ch, submitter.getChangeDate());
                 } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
-                    loadMultimediaLink(ch, submitter.getMultimedia(true));
+                    List<Multimedia> multimedia = submitter.getMultimedia(true);
+                    new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
                 } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
                     submitter.setRecIdNumber(new StringWithCustomTags(ch));
                 } else if (Tag.REGISTRATION_FILE_NUMBER.equalsText(ch.getTag())) {

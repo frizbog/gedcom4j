@@ -215,13 +215,13 @@ public class Relationship implements Comparable<Relationship> {
                 sb.append(", ");
             }
             first = false;
-            if (sr.getIndividual1().getNames().isEmpty()) {
+            if (sr.getIndividual1().getNames() == null || sr.getIndividual1().getNames().isEmpty()) {
                 sb.append("Unknown");
             } else {
                 sb.append(sr.getIndividual1().getNames().get(0));
             }
             sb.append("'s ").append(sr.getName()).append(" ");
-            if (sr.getIndividual2().getNames().isEmpty()) {
+            if (sr.getIndividual2().getNames() == null || sr.getIndividual2().getNames().isEmpty()) {
                 sb.append("Unknown");
             } else {
                 sb.append(sr.getIndividual2().getNames().get(0));

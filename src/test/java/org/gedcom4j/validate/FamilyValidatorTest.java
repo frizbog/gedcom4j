@@ -82,7 +82,7 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
         f.setXref("@F0001@");
         f.setHusband(dad);
         f.setWife(mom);
-        f.getChildren().add(jr);
+        f.getChildren(true).add(jr);
         gedcom.getFamilies().put(f.getXref(), f);
 
         rootValidator.validate();
@@ -128,7 +128,9 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoCustomTags() {
-        f.getCustomTags().clear();
+        rootValidator.validate();
+        assertNoIssues();
+        f.getCustomTags(true).clear();
         rootValidator.validate();
         assertNoIssues();
     }
@@ -153,7 +155,7 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
         rootValidator.validate();
         assertNoIssues();
 
-        f.getChildren().add(jr);
+        f.getChildren(true).add(jr);
         rootValidator.validate();
         assertNoIssues();
     }
@@ -174,7 +176,9 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoMultimedia() {
-        f.getMultimedia().clear();
+        rootValidator.validate();
+        assertNoIssues();
+        f.getMultimedia(true).clear();
         rootValidator.validate();
         assertNoIssues();
     }
@@ -186,7 +190,7 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
     public void testNoPeopleInFamily() {
         f.setHusband(null);
         f.setWife(null);
-        f.getChildren().clear();
+        f.getChildren(true).clear();
 
         rootValidator.validate();
         assertNoIssues();

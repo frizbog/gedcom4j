@@ -66,7 +66,7 @@ class NoteValidator extends AbstractValidator {
     @Override
     protected void validate() {
 
-        if (n.getLines() == null) {
+        if (Options.isCollectionInitializationEnabled() && n.getLines() == null) {
             if (rootValidator.isAutorepairEnabled()) {
                 n.getLines(true).clear();
                 addInfo("Lines of text collection on note was null - autorepaired");
@@ -76,7 +76,7 @@ class NoteValidator extends AbstractValidator {
             }
         }
 
-        if (n.getXref() == null && n.getLines().isEmpty()) {
+        if (n.getXref() == null && (n.getLines() == null || n.getLines().isEmpty())) {
             addError("Note " + i + " without xref has no lines", n);
         }
 

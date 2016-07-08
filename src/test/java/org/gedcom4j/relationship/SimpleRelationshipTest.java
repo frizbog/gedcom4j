@@ -61,16 +61,16 @@ public class SimpleRelationshipTest {
         sr2.setIndividual2(new Individual());
         PersonalName n = new PersonalName();
         n.setBasic("Bill");
-        sr1.getIndividual1().getNames().add(n);
+        sr1.getIndividual1().getNames(true).add(n);
         n = new PersonalName();
         n.setBasic("Sam");
-        sr1.getIndividual2().getNames().add(n);
+        sr1.getIndividual2().getNames(true).add(n);
         n = new PersonalName();
         n.setBasic("Bill");
-        sr2.getIndividual1().getNames().add(n);
+        sr2.getIndividual1().getNames(true).add(n);
         n = new PersonalName();
         n.setBasic("Sam");
-        sr2.getIndividual2().getNames().add(n);
+        sr2.getIndividual2().getNames(true).add(n);
 
         sr1.setName(RelationshipName.FATHER);
         sr1.setReverseName(RelationshipName.SON);

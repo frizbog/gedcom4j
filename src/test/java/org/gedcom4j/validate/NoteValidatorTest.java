@@ -56,7 +56,7 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "CitationWithSource", "non-null", "reference");
 
-        n.getUserReferences().clear();
+        n.getUserReferences(true).clear();
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "CitationWithSource", "non-null", "reference");
         n.getUserReferences().add(new UserReference());
@@ -76,12 +76,12 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
 
         Note n = new Note();
         n.setXref(null);
-        g.getHeader().getSubmitter().getNotes().add(n);
+        g.getHeader().getSubmitter().getNotes(true).add(n);
 
         // Notes without xrefs must have lines of text
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "note", "without xref", "lines");
-        n.getLines().add("Frying Pan");
+        n.getLines(true).add("Frying Pan");
         rootValidator.validate();
         assertNoIssues();
 
@@ -92,7 +92,7 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "CitationWithSource", "non-null", "reference");
 
-        n.getUserReferences().clear();
+        n.getUserReferences(true).clear();
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "CitationWithSource", "non-null", "reference");
         n.getUserReferences().add(new UserReference());

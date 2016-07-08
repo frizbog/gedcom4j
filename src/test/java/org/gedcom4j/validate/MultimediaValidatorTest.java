@@ -73,7 +73,7 @@ public class MultimediaValidatorTest extends AbstractValidatorTestCase {
         rootValidator.gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "blob", "empty");
-        mm.getBlob().add("foo");
+        mm.getBlob(true).add("foo");
         mm.setEmbeddedMediaFormat(new StringWithCustomTags("gif"));
         rootValidator.validate();
         assertNoIssues();
