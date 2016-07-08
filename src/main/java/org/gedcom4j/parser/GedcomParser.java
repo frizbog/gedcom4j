@@ -496,37 +496,6 @@ public class GedcomParser extends AbstractParser<Gedcom> {
     }
 
     /**
-     * Load an association between two individuals from a string tree node
-     * 
-     * @param st
-     *            the node
-     * @param associations
-     *            the list of associations to load into
-     */
-    private void loadAssociation(StringTree st, List<Association> associations) {
-        Association a = new Association();
-        associations.add(a);
-        a.setAssociatedEntityXref(st.getValue());
-        if (st.getChildren() != null) {
-            for (StringTree ch : st.getChildren()) {
-                if (Tag.RELATIONSHIP.equalsText(ch.getTag())) {
-                    a.setRelationship(new StringWithCustomTags(ch));
-                } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    loadNote(ch, a.getNotes(true));
-                } else if (Tag.SOURCE.equalsText(ch.getTag())) {
-                    List<AbstractCitation> citations = a.getCitations(true);
-                    new CitationListParser(gedcomParser, ch, citations).parse();
-                } else if (Tag.TYPE.equalsText(ch.getTag())) {
-                    a.setAssociatedEntityType(new StringWithCustomTags(ch));
-                } else {
-                    unknownTag(ch, a);
-                }
-            }
-        }
-
-    }
-
-    /**
      * Load a family structure from a stringtree node, and load it into the gedcom family collection
      * 
      * @param st
@@ -822,7 +791,9 @@ public class GedcomParser extends AbstractParser<Gedcom> {
                 } else if (Tag.FAMILY_WHERE_CHILD.equalsText(ch.getTag())) {
                     loadFamilyWhereChild(ch, i.getFamiliesWhereChild(true));
                 } else if (Tag.ASSOCIATION.equalsText(ch.getTag())) {
-                    loadAssociation(ch, i.getAssociations(true));
+                    Association a = new Association();
+                    i.getAssociations(true).add(a);
+                    new AssociationParser(gedcomParser, ch, a).parse();
                 } else if (Tag.ANCESTOR_INTEREST.equalsText(ch.getTag())) {
                     i.getAncestorInterest(true).add(getSubmitter(ch.getValue()));
                 } else if (Tag.DESCENDANT_INTEREST.equalsText(ch.getTag())) {
