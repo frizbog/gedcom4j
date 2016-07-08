@@ -66,14 +66,14 @@ class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
      * 
      * @param m
      *            The multimedia object to contain the new file reference
-     * @param children
+     * @param objeChildren
      *            the sub-tags of the OBJE tag
      */
-    private void loadFileReference55(Multimedia m, List<StringTree> children) {
+    private void loadFileReferences55(Multimedia m, List<StringTree> objeChildren) {
         FileReference currentFileRef = new FileReference();
         m.getFileReferences(true).add(currentFileRef);
-        if (children != null) {
-            for (StringTree ch : children) {
+        if (objeChildren != null) {
+            for (StringTree ch : objeChildren) {
                 if (Tag.FORM.equalsText(ch.getTag())) {
                     currentFileRef.setFormat(new StringWithCustomTags(ch));
                 } else if (Tag.TITLE.equalsText(ch.getTag())) {
@@ -92,19 +92,58 @@ class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
     }
 
     /**
+     * Load a single file reference, GEDCOM 5.5.1 style
+     * 
+     * @param m
+     *            the multimedia object we're loading into
+     * @param fileStringTree
+     *            the string tree with the FILE tag
+     */
+    private void loadFileReference551(Multimedia m, StringTree fileStringTree) {
+        FileReference fr = new FileReference();
+        m.getFileReferences(true).add(fr);
+        fr.setReferenceToFile(new StringWithCustomTags(fileStringTree));
+        List<StringTree> fileChildren = fileStringTree.getChildren();
+        if (fileChildren != null) {
+            int formCount = 0;
+            for (StringTree gch : fileChildren) {
+                if (Tag.FORM.equalsText(gch.getTag())) {
+                    formCount++;
+                    fr.setFormat(new StringWithCustomTags(gch.getValue()));
+                    List<StringTree> formChildren = gch.getChildren();
+                    if (formChildren != null) {
+                        for (StringTree ggch : formChildren) {
+                            if (Tag.MEDIA.equalsText(ggch.getTag())) {
+                                fr.setMediaType(new StringWithCustomTags(ggch));
+                            } else {
+                                unknownTag(ggch, fr);
+                            }
+                        }
+                    }
+                } else {
+                    unknownTag(gch, fr);
+                }
+            }
+            if (formCount != 1) {
+                addError("Missing or FORM nodes found under FILE node - GEDCOM 5.5.1 standard requires exactly 1 FORM node");
+            }
+        }
+    }
+
+    /**
      * Load all the file references in the current OBJE tag
      * 
      * @param m
      *            the multimedia object being with the reference
-     * @param st
+     * @param objeStringTree
      *            the OBJE node being parsed
      */
-    private void loadFileReferences(Multimedia m, StringTree st) {
+    private void loadFileReferences(Multimedia m, StringTree objeStringTree) {
         int fileTagCount = 0;
         int formTagCount = 0;
 
-        if (st.getChildren() != null) {
-            for (StringTree ch : st.getChildren()) {
+        if (objeStringTree.getChildren() != null) {
+            for (StringTree ch : objeStringTree.getChildren()) {
                 /*
                  * Count up the number of files referenced for this object - GEDCOM 5.5.1 allows multiple, 5.5 only
                  * allows 1
@@ -123,26 +162,26 @@ class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
         }
         if (g55()) {
             if (fileTagCount > 1) {
-                addWarning("GEDCOM version is 5.5, but multiple files referenced in multimedia reference on line " + st.getLineNum()
+                addWarning("GEDCOM version is 5.5, but multiple files referenced in multimedia reference on line " + objeStringTree.getLineNum()
                         + ", which is only allowed in 5.5.1. "
                         + "Data will be loaded, but cannot be written back out unless the GEDCOM version is changed to 5.5.1");
             }
             if (formTagCount == 0) {
-                addWarning("GEDCOM version is 5.5, but there is not a FORM tag in the multimedia link on line " + st.getLineNum()
+                addWarning("GEDCOM version is 5.5, but there is not a FORM tag in the multimedia link on line " + objeStringTree.getLineNum()
                         + ", a scenario which is only allowed in 5.5.1. "
                         + "Data will be loaded, but cannot be written back out unless the GEDCOM version is changed to 5.5.1");
             }
         }
         if (formTagCount > 1) {
-            addError("Multiple FORM tags were found for a multimedia file reference at line " + st.getLineNum()
+            addError("Multiple FORM tags were found for a multimedia file reference at line " + objeStringTree.getLineNum()
                     + " - this is not compliant with any GEDCOM standard - data not loaded");
             return;
         }
 
         if (fileTagCount > 1 || formTagCount < fileTagCount) {
-            loadFileReferences551(m, st.getChildren());
+            loadFileReferences551(m, objeStringTree.getChildren());
         } else {
-            loadFileReference55(m, st.getChildren());
+            loadFileReferences55(m, objeStringTree.getChildren());
         }
     }
 
@@ -152,35 +191,14 @@ class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
      * @param m
      *            the multimedia object to which we are adding the file references
      * 
-     * @param children
+     * @param objeChildren
      *            the sub-tags of the OBJE tag
      */
-    private void loadFileReferences551(Multimedia m, List<StringTree> children) {
-        if (children != null) {
-            for (StringTree ch : children) {
+    private void loadFileReferences551(Multimedia m, List<StringTree> objeChildren) {
+        if (objeChildren != null) {
+            for (StringTree ch : objeChildren) {
                 if (Tag.FILE.equalsText(ch.getTag())) {
-                    FileReference fr = new FileReference();
-                    m.getFileReferences(true).add(fr);
-                    fr.setReferenceToFile(new StringWithCustomTags(ch));
-                    if (ch.getChildren() != null) {
-                        if (ch.getChildren().size() != 1) {
-                            addError("Missing or multiple children nodes found under FILE node - GEDCOM 5.5.1 standard requires exactly 1 FORM node");
-                        }
-                        for (StringTree gch : ch.getChildren()) {
-                            if (Tag.FORM.equalsText(gch.getTag())) {
-                                fr.setFormat(new StringWithCustomTags(gch.getValue()));
-                                for (StringTree ggch : ch.getChildren()) {
-                                    if (Tag.MEDIA.equalsText(ggch.getTag())) {
-                                        fr.setMediaType(new StringWithCustomTags(ggch));
-                                    } else {
-                                        unknownTag(ggch, fr);
-                                    }
-                                }
-                            } else {
-                                unknownTag(gch, fr);
-                            }
-                        }
-                    }
+                    loadFileReference551(m, ch);
                 } else if (Tag.TITLE.equalsText(ch.getTag())) {
                     if (m.getFileReferences() != null) {
                         for (FileReference fr : m.getFileReferences()) {

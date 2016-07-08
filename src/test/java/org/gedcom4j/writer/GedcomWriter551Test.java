@@ -352,6 +352,7 @@ public class GedcomWriter551Test {
         fr = m2.getFileReferences().get(0);
         assertEquals("C:/foo.gif", fr.getReferenceToFile().getValue());
         assertEquals("gif", fr.getFormat().getValue());
+        assertNotNull(fr.getMediaType());
         assertEquals("disk", fr.getMediaType().getValue());
         assertEquals("Foo", fr.getTitle().getValue());
         fr = m2.getFileReferences().get(1);
