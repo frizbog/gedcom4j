@@ -733,7 +733,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
                 if (Tag.NAME.equalsText(ch.getTag())) {
                     PersonalName pn = new PersonalName();
                     i.getNames(true).add(pn);
-                    loadPersonalName(ch, pn);
+                    new PersonalNameParser(gedcomParser, ch, pn).parse();
                 } else if (Tag.SEX.equalsText(ch.getTag())) {
                     i.setSex(new StringWithCustomTags(ch));
                 } else if (Tag.ADDRESS.equalsText(ch.getTag())) {
@@ -1130,89 +1130,6 @@ public class GedcomParser extends AbstractParser<Gedcom> {
                     new ChangeDateParser(gedcomParser, ch, changeDate).parse();
                 } else {
                     unknownTag(ch, note);
-                }
-            }
-        }
-    }
-
-    /**
-     * Load a personal name structure from a string tree node
-     * 
-     * @param st
-     *            the node
-     * @param pn
-     *            the personal name structure to fill in
-     */
-    private void loadPersonalName(StringTree st, PersonalName pn) {
-        pn.setBasic(st.getValue());
-        if (st.getChildren() != null) {
-            for (StringTree ch : st.getChildren()) {
-                if (Tag.NAME_PREFIX.equalsText(ch.getTag())) {
-                    pn.setPrefix(new StringWithCustomTags(ch));
-                } else if (Tag.GIVEN_NAME.equalsText(ch.getTag())) {
-                    pn.setGivenName(new StringWithCustomTags(ch));
-                } else if (Tag.NICKNAME.equalsText(ch.getTag())) {
-                    pn.setNickname(new StringWithCustomTags(ch));
-                } else if (Tag.SURNAME_PREFIX.equalsText(ch.getTag())) {
-                    pn.setSurnamePrefix(new StringWithCustomTags(ch));
-                } else if (Tag.SURNAME.equalsText(ch.getTag())) {
-                    pn.setSurname(new StringWithCustomTags(ch));
-                } else if (Tag.NAME_SUFFIX.equalsText(ch.getTag())) {
-                    pn.setSuffix(new StringWithCustomTags(ch));
-                } else if (Tag.SOURCE.equalsText(ch.getTag())) {
-                    List<AbstractCitation> citations = pn.getCitations(true);
-                    new CitationListParser(gedcomParser, ch, citations).parse();
-                } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    loadNote(ch, pn.getNotes(true));
-                } else if (Tag.ROMANIZED.equalsText(ch.getTag())) {
-                    PersonalNameVariation pnv = new PersonalNameVariation();
-                    pn.getRomanized(true).add(pnv);
-                    loadPersonalNameVariation(ch, pnv);
-                } else if (Tag.PHONETIC.equalsText(ch.getTag())) {
-                    PersonalNameVariation pnv = new PersonalNameVariation();
-                    pn.getPhonetic(true).add(pnv);
-                    loadPersonalNameVariation(ch, pnv);
-                } else {
-                    unknownTag(ch, pn);
-                }
-            }
-        }
-
-    }
-
-    /**
-     * Load a personal name variation (romanization or phonetic version) from a string tree node
-     * 
-     * @param st
-     *            the string tree node to load from
-     * @param pnv
-     *            the personal name variation to fill in
-     */
-    private void loadPersonalNameVariation(StringTree st, PersonalNameVariation pnv) {
-        pnv.setVariation(st.getValue());
-        if (st.getChildren() != null) {
-            for (StringTree ch : st.getChildren()) {
-                if (Tag.NAME_PREFIX.equalsText(ch.getTag())) {
-                    pnv.setPrefix(new StringWithCustomTags(ch));
-                } else if (Tag.GIVEN_NAME.equalsText(ch.getTag())) {
-                    pnv.setGivenName(new StringWithCustomTags(ch));
-                } else if (Tag.NICKNAME.equalsText(ch.getTag())) {
-                    pnv.setNickname(new StringWithCustomTags(ch));
-                } else if (Tag.SURNAME_PREFIX.equalsText(ch.getTag())) {
-                    pnv.setSurnamePrefix(new StringWithCustomTags(ch));
-                } else if (Tag.SURNAME.equalsText(ch.getTag())) {
-                    pnv.setSurname(new StringWithCustomTags(ch));
-                } else if (Tag.NAME_SUFFIX.equalsText(ch.getTag())) {
-                    pnv.setSuffix(new StringWithCustomTags(ch));
-                } else if (Tag.SOURCE.equalsText(ch.getTag())) {
-                    List<AbstractCitation> citations = pnv.getCitations(true);
-                    new CitationListParser(gedcomParser, ch, citations).parse();
-                } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    loadNote(ch, pnv.getNotes(true));
-                } else if (Tag.TYPE.equalsText(ch.getTag())) {
-                    pnv.setVariationType(new StringWithCustomTags(ch));
-                } else {
-                    unknownTag(ch, pnv);
                 }
             }
         }
