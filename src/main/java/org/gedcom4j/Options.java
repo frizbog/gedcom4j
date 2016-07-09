@@ -34,13 +34,13 @@ package org.gedcom4j;
  */
 public final class Options {
 
-    /** Should collections in the object model be pre-initialized? */
+    /** Should collections in the object model be pre-initialized? NOT THREADSAFE. */
     private static boolean collectionInitializationEnabled = false;
 
     /**
-     * Get the collectionInitializationEnabled
+     * Get whether collections in the object model should be pre-initialized. NOT THREADSAFE.
      * 
-     * @return the collectionInitializationEnabled
+     * @return whether collections in the object model should be pre-initialized. NOT THREADSAFE.
      */
     public static boolean isCollectionInitializationEnabled() {
         return collectionInitializationEnabled;
@@ -54,10 +54,10 @@ public final class Options {
     }
 
     /**
-     * Set the collectionInitializationEnabled
+     * Set whether collections in the object model should be pre-initialized. NOT THREADSAFE.
      * 
      * @param collectionInitializationEnabled
-     *            the collectionInitializationEnabled to set
+     *            whether collections in the object model should be pre-initialized. NOT THREADSAFE.
      */
     public static void setCollectionInitializationEnabled(boolean collectionInitializationEnabled) {
         Options.collectionInitializationEnabled = collectionInitializationEnabled;

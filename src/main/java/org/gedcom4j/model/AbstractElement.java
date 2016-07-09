@@ -38,7 +38,7 @@ import org.gedcom4j.Options;
  * 
  * @author frizbog
  */
-public abstract class AbstractElement implements Serializable {
+public abstract class AbstractElement implements Serializable, IVisitable {
     /**
      * Serial Version UID
      */
@@ -48,6 +48,14 @@ public abstract class AbstractElement implements Serializable {
      * A list of custom tags on this item.
      */
     protected List<StringTree> customTags = getCustomTags(Options.isCollectionInitializationEnabled());
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void accept(IVisitor v) {
+        v.visit(this);
+    }
 
     @Override
     public boolean equals(Object obj) {
