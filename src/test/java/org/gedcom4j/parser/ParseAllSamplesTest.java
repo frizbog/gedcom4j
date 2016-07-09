@@ -60,9 +60,16 @@ public class ParseAllSamplesTest {
             }
         });
         for (String s : allFiles) {
-            System.out.println("Loading " + s);
-            gp.load("sample/" + s);
-            assertNotNull(gp.getGedcom());
+            try {
+                gp.load("sample/" + s);
+                assertNotNull(gp.getGedcom());
+            } catch (IOException e) {
+                System.out.println("Loading " + s);
+                throw e;
+            } catch (GedcomParserException e) {
+                System.out.println("Loading " + s);
+                throw e;
+            }
         }
 
     }

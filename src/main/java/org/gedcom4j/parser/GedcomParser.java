@@ -91,7 +91,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
     /**
      * The content of the gedcom file
      */
-    private Gedcom gedcom = new Gedcom();
+    private final Gedcom gedcom = new Gedcom();
 
     /**
      * Indicates whether handling of custom tags should be strict - that is, must an unrecognized tag begin with an
@@ -148,21 +148,33 @@ public class GedcomParser extends AbstractParser<Gedcom> {
     private int lineNum;
 
     /**
-     * 
+     * Default constructor
      */
     public GedcomParser() {
+        /*
+         * This is the root level parser, so there are no parent or other root nodes to hook up to (yet)
+         */
         super(null, null, null);
         gedcomParser = this;
     }
 
     /**
+     * Mandatory but unsupported implementation of
+     * {@link AbstractParser#AbstractParser(GedcomParser, StringTree, Object)} that throws
+     * {@link UnsupportedOperationException}.
+     * 
      * @param gedcomParser
+     *            ignored
      * @param stringTree
+     *            ignored
      * @param loadInto
+     *            ignored
+     * @deprecated Use the default constructor instead
      */
-    public GedcomParser(AbstractParser<Gedcom> gedcomParser, StringTree stringTree, Gedcom loadInto) {
+    @Deprecated
+    GedcomParser(GedcomParser gedcomParser, StringTree stringTree, Gedcom loadInto) {
         super(null, null, null);
-        this.gedcomParser = this;
+        throw new UnsupportedOperationException("Use the default constructor");
     }
 
     /**
@@ -197,15 +209,6 @@ public class GedcomParser extends AbstractParser<Gedcom> {
      */
     public Gedcom getGedcom() {
         return gedcom;
-    }
-
-    /**
-     * Get the line number we're reading
-     * 
-     * @return the line number we're reading
-     */
-    public int getLineNum() {
-        return lineNum;
     }
 
     /**
@@ -382,16 +385,6 @@ public class GedcomParser extends AbstractParser<Gedcom> {
     }
 
     /**
-     * Set the gedcom
-     * 
-     * @param gedcom
-     *            the gedcom to set
-     */
-    public void setGedcom(Gedcom gedcom) {
-        this.gedcom = gedcom;
-    }
-
-    /**
      * Set the parse notification rate (the number of items that get parsed between each notification, if listening)
      * 
      * @param parseNotificationRate
@@ -476,200 +469,18 @@ public class GedcomParser extends AbstractParser<Gedcom> {
         parseObservers.add(new WeakReference<ParseProgressListener>(observer));
     }
 
+    /**
+     * Get the line number we're reading
+     * 
+     * @return the line number we're reading
+     */
+    int getLineNum() {
+        return lineNum;
+    }
+
     @Override
     void parse() {
-    }
 
-    /**
-     * Load the flat file into a tree structure that reflects the heirarchy of its contents, using the default encoding
-     * for your JVM
-     * 
-     * @param filename
-     *            the file to load
-     * @throws IOException
-     *             if there is a problem reading the file
-     * @throws GedcomParserException
-     *             if there is a problem parsing the data in the file
-     */
-    void readFile(String filename) throws IOException, GedcomParserException {
-
-    }
-
-    /**
-     * Load a family event from a string tree node into a list of family events
-     * 
-     * @param st
-     *            the node
-     * @param events
-     *            the list of family events
-     */
-
-    /**
-     * Load a reference to a family where this individual was a spouse, from a string tree node
-     * 
-     * @param st
-     *            the string tree node
-     * @param familiesWhereSpouse
-     *            the list of families where the individual was a child
-     */
-    private void loadFamilyWhereSpouse(StringTree st, List<FamilySpouse> familiesWhereSpouse) {
-        Family f = getFamily(st.getValue());
-        FamilySpouse fs = new FamilySpouse();
-        fs.setFamily(f);
-        familiesWhereSpouse.add(fs);
-        if (st.getChildren() != null) {
-            if (st.getChildren() != null) {
-                for (StringTree ch : st.getChildren()) {
-                    if (Tag.NOTE.equalsText(ch.getTag())) {
-                        List<Note> notes = fs.getNotes(true);
-                        new NoteListParser(gedcomParser, ch, notes).parse();
-                    } else {
-                        unknownTag(ch, fs);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Load an individual from a string tree node
-     * 
-     * @param st
-     *            the node
-     */
-    private void loadIndividual(StringTree st) {
-        Individual i = getIndividual(st.getId());
-        if (st.getChildren() != null) {
-            for (StringTree ch : st.getChildren()) {
-                if (Tag.NAME.equalsText(ch.getTag())) {
-                    PersonalName pn = new PersonalName();
-                    i.getNames(true).add(pn);
-                    new PersonalNameParser(gedcomParser, ch, pn).parse();
-                } else if (Tag.SEX.equalsText(ch.getTag())) {
-                    i.setSex(new StringWithCustomTags(ch));
-                } else if (Tag.ADDRESS.equalsText(ch.getTag())) {
-                    Address address = new Address();
-                    i.setAddress(address);
-                    new AddressParser(gedcomParser, ch, address).parse();
-                } else if (Tag.PHONE.equalsText(ch.getTag())) {
-                    i.getPhoneNumbers(true).add(new StringWithCustomTags(ch));
-                } else if (Tag.WEB_ADDRESS.equalsText(ch.getTag())) {
-                    i.getWwwUrls(true).add(new StringWithCustomTags(ch));
-                    if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but WWW URL was specified for individual " + i.getXref() + " on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
-                    }
-                } else if (Tag.FAX.equalsText(ch.getTag())) {
-                    i.getFaxNumbers(true).add(new StringWithCustomTags(ch));
-                    if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but fax was specified for individual " + i.getXref() + "on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
-                    }
-                } else if (Tag.EMAIL.equalsText(ch.getTag())) {
-                    i.getEmails(true).add(new StringWithCustomTags(ch));
-                    if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but email was specified for individual " + i.getXref() + " on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
-                    }
-                } else if (IndividualEventType.isValidTag(ch.getTag())) {
-                    IndividualEvent event = new IndividualEvent();
-                    i.getEvents(true).add(event);
-                    new IndividualEventParser(gedcomParser, ch, event).parse();
-                } else if (IndividualAttributeType.isValidTag(ch.getTag())) {
-                    IndividualAttribute a = new IndividualAttribute();
-                    i.getAttributes(true).add(a);
-                    new IndividualAttributeParser(gedcomParser, ch, a).parse();
-                } else if (LdsIndividualOrdinanceType.isValidTag(ch.getTag())) {
-                    loadLdsIndividualOrdinance(ch, i.getLdsIndividualOrdinances(true));
-                } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = i.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
-                } else if (Tag.CHANGED_DATETIME.equalsText(ch.getTag())) {
-                    ChangeDate changeDate = new ChangeDate();
-                    i.setChangeDate(changeDate);
-                    new ChangeDateParser(gedcomParser, ch, changeDate).parse();
-                } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
-                    i.setRecIdNumber(new StringWithCustomTags(ch));
-                } else if (Tag.REGISTRATION_FILE_NUMBER.equalsText(ch.getTag())) {
-                    i.setPermanentRecFileNumber(new StringWithCustomTags(ch));
-                } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
-                    List<Multimedia> multimedia = i.getMultimedia(true);
-                    new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
-                } else if (Tag.RESTRICTION.equalsText(ch.getTag())) {
-                    i.setRestrictionNotice(new StringWithCustomTags(ch));
-                } else if (Tag.SOURCE.equalsText(ch.getTag())) {
-                    List<AbstractCitation> citations = i.getCitations(true);
-                    new CitationListParser(gedcomParser, ch, citations).parse();
-                } else if (Tag.ALIAS.equalsText(ch.getTag())) {
-                    i.getAliases(true).add(new StringWithCustomTags(ch));
-                } else if (Tag.FAMILY_WHERE_SPOUSE.equalsText(ch.getTag())) {
-                    loadFamilyWhereSpouse(ch, i.getFamiliesWhereSpouse(true));
-                } else if (Tag.FAMILY_WHERE_CHILD.equalsText(ch.getTag())) {
-                    FamilyChild fc = new FamilyChild();
-                    i.getFamiliesWhereChild(true).add(fc);
-                    new FamilyChildParser(gedcomParser, ch, fc).parse();
-                } else if (Tag.ASSOCIATION.equalsText(ch.getTag())) {
-                    Association a = new Association();
-                    i.getAssociations(true).add(a);
-                    new AssociationParser(gedcomParser, ch, a).parse();
-                } else if (Tag.ANCESTOR_INTEREST.equalsText(ch.getTag())) {
-                    i.getAncestorInterest(true).add(getSubmitter(ch.getValue()));
-                } else if (Tag.DESCENDANT_INTEREST.equalsText(ch.getTag())) {
-                    i.getDescendantInterest(true).add(getSubmitter(ch.getValue()));
-                } else if (Tag.ANCESTRAL_FILE_NUMBER.equalsText(ch.getTag())) {
-                    i.setAncestralFileNumber(new StringWithCustomTags(ch));
-                } else if (Tag.REFERENCE.equalsText(ch.getTag())) {
-                    UserReference u = new UserReference();
-                    i.getUserReferences(true).add(u);
-                    new UserReferenceParser(gedcomParser, ch, u).parse();
-                } else if (Tag.SUBMITTER.equalsText(ch.getTag())) {
-                    i.getSubmitters(true).add(getSubmitter(ch.getValue()));
-                } else {
-                    unknownTag(ch, i);
-                }
-            }
-        }
-
-    }
-
-    /**
-     * Load an LDS individual ordinance from a string tree node
-     * 
-     * @param st
-     *            the node
-     * @param ldsIndividualOrdinances
-     *            the list of LDS ordinances
-     */
-    private void loadLdsIndividualOrdinance(StringTree st, List<LdsIndividualOrdinance> ldsIndividualOrdinances) {
-        LdsIndividualOrdinance o = new LdsIndividualOrdinance();
-        ldsIndividualOrdinances.add(o);
-        o.setType(LdsIndividualOrdinanceType.getFromTag(st.getTag()));
-        o.setyNull(st.getValue());
-        if (st.getChildren() != null) {
-            for (StringTree ch : st.getChildren()) {
-                if (Tag.DATE.equalsText(ch.getTag())) {
-                    o.setDate(new StringWithCustomTags(ch));
-                } else if (Tag.PLACE.equalsText(ch.getTag())) {
-                    o.setPlace(new StringWithCustomTags(ch));
-                } else if (Tag.STATUS.equalsText(ch.getTag())) {
-                    o.setStatus(new StringWithCustomTags(ch));
-                } else if (Tag.TEMPLE.equalsText(ch.getTag())) {
-                    o.setTemple(new StringWithCustomTags(ch));
-                } else if (Tag.SOURCE.equalsText(ch.getTag())) {
-                    List<AbstractCitation> citations = o.getCitations(true);
-                    new CitationListParser(gedcomParser, ch, citations).parse();
-                } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = o.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
-                } else if (Tag.FAMILY_WHERE_CHILD.equalsText(ch.getTag())) {
-                    FamilyChild fc = new FamilyChild();
-                    o.setFamilyWhereChild(fc);
-                    new FamilyChildParser(gedcomParser, ch, fc).parse();
-                } else {
-                    unknownTag(ch, o);
-                }
-            }
-        }
     }
 
     /**
@@ -692,7 +503,8 @@ public class GedcomParser extends AbstractParser<Gedcom> {
             Submitter submitter = getSubmitter(rootLevelItem.getId());
             new SubmitterParser(this, rootLevelItem, submitter).parse();
         } else if (Tag.INDIVIDUAL.equalsText(rootLevelItem.getTag())) {
-            loadIndividual(rootLevelItem);
+            Individual i = getIndividual(rootLevelItem.getId());
+            new IndividualParser(this, rootLevelItem, i).parse();
         } else if (Tag.SUBMISSION.equalsText(rootLevelItem.getTag())) {
             Submission s = new Submission(rootLevelItem.getId());
             gedcom.setSubmission(s);
