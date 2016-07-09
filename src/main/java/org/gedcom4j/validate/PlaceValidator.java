@@ -80,7 +80,7 @@ class PlaceValidator extends AbstractValidator {
 
         checkOptionalString(place.getLatitude(), "latitude", place);
         checkOptionalString(place.getLongitude(), "longitude", place);
-        checkNotes(place.getNotes(), place);
+        new NotesValidator(rootValidator, place, place.getNotes()).validate();
         checkOptionalString(place.getPlaceFormat(), "place format", place);
         if (place.getPlaceName() == null) {
             if (rootValidator.isAutorepairEnabled()) {

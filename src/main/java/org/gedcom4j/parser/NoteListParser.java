@@ -107,4 +107,22 @@ class NoteListParser extends AbstractParser<List<Note>> {
         }
     }
 
+    /**
+     * Get a note by its xref, adding it to the gedcom collection of notes if needed.
+     * 
+     * @param xref
+     *            the xref of the note
+     * @return the note with the specified xref
+     */
+    private Note getNote(String xref) {
+        Note note;
+        note = gedcomParser.getGedcom().getNotes().get(xref);
+        if (note == null) {
+            note = new Note();
+            note.setXref(xref);
+            gedcomParser.getGedcom().getNotes().put(xref, note);
+        }
+        return note;
+    }
+
 }

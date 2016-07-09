@@ -178,7 +178,7 @@ public class GedcomValidator extends AbstractValidator {
         validateSources();
         validateSubmission(gedcom.getSubmission());
         validateTrailer();
-        checkNotes(new ArrayList<Note>(gedcom.getNotes().values()), gedcom);
+        new NotesValidator(rootValidator, gedcom, new ArrayList<Note>(gedcom.getNotes().values())).validate();
     }
 
     /**

@@ -133,7 +133,7 @@ class EventValidator extends AbstractValidator {
                 }
             }
         }
-        checkNotes(e.getNotes(), e);
+        new NotesValidator(rootValidator, e, e.getNotes()).validate();
         if (e.getPhoneNumbers() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 e.getPhoneNumbers(true).clear();

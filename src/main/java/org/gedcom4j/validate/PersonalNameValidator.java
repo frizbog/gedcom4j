@@ -88,7 +88,7 @@ class PersonalNameValidator extends AbstractValidator {
         checkOptionalString(pn.getSurname(), "surname", pn);
         checkOptionalString(pn.getSurnamePrefix(), "surname prefix", pn);
 
-        checkNotes(pn.getNotes(), pn);
+        new NotesValidator(rootValidator, pn, pn.getNotes()).validate();
         if (pn.getPhonetic() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 pn.getPhonetic(true).clear();

@@ -81,7 +81,7 @@ class LdsSpouseSealingValidator extends AbstractValidator {
         }
         checkCustomTags(s);
         checkOptionalString(s.getDate(), "date", s);
-        checkNotes(s.getNotes(), s);
+        new NotesValidator(rootValidator, s, s.getNotes()).validate();
         checkOptionalString(s.getPlace(), "place", s);
         checkOptionalString(s.getStatus(), "status", s);
         checkOptionalString(s.getTemple(), "temple", s);

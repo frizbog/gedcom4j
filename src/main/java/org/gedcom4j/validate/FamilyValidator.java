@@ -128,7 +128,7 @@ class FamilyValidator extends AbstractValidator {
                 }
             }
         }
-        checkNotes(f.getNotes(), f);
+        new NotesValidator(rootValidator, f, f.getNotes()).validate();
         checkOptionalString(f.getNumChildren(), "number of children", f);
         checkOptionalString(f.getRecFileNumber(), "record file number", f);
         checkOptionalString(f.getRestrictionNotice(), "restriction notice", f);

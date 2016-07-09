@@ -33,7 +33,6 @@ import java.util.List;
 import org.gedcom4j.Options;
 import org.gedcom4j.exception.GedcomValidationException;
 import org.gedcom4j.model.ChangeDate;
-import org.gedcom4j.model.Note;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.UserReference;
 
@@ -140,7 +139,7 @@ abstract class AbstractValidator {
                 addError("Notes collection is null on " + changeDate.getClass().getSimpleName());
             }
         } else {
-            checkNotes(changeDate.getNotes(), changeDate);
+            new NotesValidator(rootValidator, changeDate, changeDate.getNotes()).validate();
         }
 
     }
@@ -201,18 +200,6 @@ abstract class AbstractValidator {
                 rootValidator.addError("Custom tag collection is not a List", o);
             }
         }
-    }
-
-    /**
-     * Check a notes collection
-     * 
-     * @param notes
-     *            the notes collection
-     * @param objectWithNotes
-     *            the object that has notes
-     */
-    protected void checkNotes(List<Note> notes, Object objectWithNotes) {
-        new NotesValidator(rootValidator, objectWithNotes, notes).validate();
     }
 
     /**
@@ -434,25 +421,6 @@ abstract class AbstractValidator {
     }
 
     /**
-     * Is the string supplied non-null, and has something other than whitespace in it?
-     * 
-     * @param s
-     *            the strings
-     * @return true if the string supplied non-null, and has something other than whitespace in it
-     */
-    protected boolean isSpecified(String s) {
-        if (s == null || s.isEmpty()) {
-            return false;
-        }
-        for (int i = 0; i < s.length(); i++) {
-            if (!Character.isWhitespace(s.charAt(i))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Validate the gedcom file
      */
     protected abstract void validate();
@@ -474,5 +442,24 @@ abstract class AbstractValidator {
             addError("A string with custom tags object (" + fieldDescription + ") was defined with no value", swct);
         }
         checkCustomTags(swct);
+    }
+
+    /**
+     * Is the string supplied non-null, and has something other than whitespace in it?
+     * 
+     * @param s
+     *            the strings
+     * @return true if the string supplied non-null, and has something other than whitespace in it
+     */
+    private boolean isSpecified(String s) {
+        if (s == null || s.isEmpty()) {
+            return false;
+        }
+        for (int i = 0; i < s.length(); i++) {
+            if (!Character.isWhitespace(s.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -113,7 +113,7 @@ class CitationValidator extends AbstractValidator {
                 addError("Notes collection is null on " + citation.getClass().getSimpleName());
             }
         } else {
-            checkNotes(citation.getNotes(), citation);
+            new NotesValidator(rootValidator, citation, citation.getNotes()).validate();
         }
 
     }
