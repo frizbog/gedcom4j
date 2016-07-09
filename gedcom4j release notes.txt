@@ -6,17 +6,21 @@ GEDCOM4J RELEASE NOTES
 ====================
 v3.0.0 is a major release. Most existing code using earlier versions of gedcom4j will need significant modification, primarily around the object model.
 
-Issue #83 - The biggest change is that gedcom4j now uses the JavaBean spec for its object model and internal objects as well. Where you used to access public fields of the data model, you now need to use getters and setters.
+Issue #83 - The biggest change that users will see is that gedcom4j now uses the JavaBean spec for its object model and internal objects as well. Where you used to access public fields of the data model, you now need to use getters and setters.
 
 Issue #104 - The classes in the model now implement java.io.Serializable and defined serial version UIDs.
 
-Issue #109 - GedcomParser and StringTreeBuilder now only builds a single root-level StringTree node at a time before parsing and loading it into the object model, instead of loading the entire file into a StringTree in memory prior to parsing it. 
+Issue #109 - GedcomParser and StringTreeBuilder now only builds a single root-level StringTree node at a time before parsing and loading it into the object model, instead of loading the entire file into a StringTree in memory prior to parsing it.
 
-Other changes not related to Issues in the issue tracker (https://github.com/frizbog/gedcom4j/issues):
+Issue #85 - The GedcomParser class, which was a monster magic class almost 2,400 lines long, has been split up and there are a variety of parser classes that work in concert to parse input files 
+
+Issue #112 - The Maven pom.xml file now includes the ability to ensure that all java source files have the correct license and copyright statement header
+
+Other changes not in the Github issue tracker (https://github.com/frizbog/gedcom4j/issues) that might be visible or noticeable to calling code:
 - toString() implementations of most model objects have been rewritten  
 
 
-?? Jul 2016 - v2.3.1
+08 Jul 2016 - v2.3.1
 ====================
 Issue #106 - File parsing and loading into object model is now done line by line on-the-fly, rather than loading the entire file into memory, then parsing the lines of the file.
 
