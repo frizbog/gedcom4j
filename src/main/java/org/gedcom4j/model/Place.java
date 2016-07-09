@@ -66,7 +66,7 @@ public class Place extends AbstractElement {
     /**
      * Phonetic variations on the place name. New for GEDCOM 5.5.1.
      */
-    private List<NameVariation> phonetic = getPhonetic(Options.isCollectionInitializationEnabled());
+    private List<AbstractNameVariation> phonetic = getPhonetic(Options.isCollectionInitializationEnabled());
 
     /**
      * The place format (hierarchy)
@@ -81,7 +81,13 @@ public class Place extends AbstractElement {
     /**
      * Romanized variations on the place name. New for GEDCOM 5.5.1.
      */
-    private List<NameVariation> romanized = getRomanized(Options.isCollectionInitializationEnabled());
+    private List<AbstractNameVariation> romanized = getRomanized(Options.isCollectionInitializationEnabled());
+
+    @Override
+    public void accept(IVisitor v) {
+        v.visit(this);
+
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -225,7 +231,7 @@ public class Place extends AbstractElement {
      * 
      * @return the phonetic
      */
-    public List<NameVariation> getPhonetic() {
+    public List<AbstractNameVariation> getPhonetic() {
         return phonetic;
     }
 
@@ -236,9 +242,9 @@ public class Place extends AbstractElement {
      *            initilize the collection, if needed?
      * @return the phonetic
      */
-    public List<NameVariation> getPhonetic(boolean initializeIfNeeded) {
+    public List<AbstractNameVariation> getPhonetic(boolean initializeIfNeeded) {
         if (initializeIfNeeded && phonetic == null) {
-            phonetic = new ArrayList<NameVariation>(0);
+            phonetic = new ArrayList<AbstractNameVariation>(0);
         }
         return phonetic;
     }
@@ -266,7 +272,7 @@ public class Place extends AbstractElement {
      * 
      * @return the romanized
      */
-    public List<NameVariation> getRomanized() {
+    public List<AbstractNameVariation> getRomanized() {
         return romanized;
     }
 
@@ -277,9 +283,9 @@ public class Place extends AbstractElement {
      *            initilize the collection, if needed?
      * @return the romanized
      */
-    public List<NameVariation> getRomanized(boolean initializeIfNeeded) {
+    public List<AbstractNameVariation> getRomanized(boolean initializeIfNeeded) {
         if (initializeIfNeeded && romanized == null) {
-            romanized = new ArrayList<NameVariation>(0);
+            romanized = new ArrayList<AbstractNameVariation>(0);
         }
         return romanized;
     }

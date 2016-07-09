@@ -31,7 +31,6 @@ package org.gedcom4j.model;
  * Data Model Chart at the end of the GEDCOM spec.
  * 
  * @author frizbog1
- * 
  */
 public class EventRecorded extends AbstractElement {
     /**
@@ -53,6 +52,11 @@ public class EventRecorded extends AbstractElement {
      * The jurisdiction of the source. Corresponds to SOURCE_JURISDICTION_PLACE in the GEDCOM spec.
      */
     private StringWithCustomTags jurisdiction;
+
+    @Override
+    public void accept(IVisitor v) {
+        v.visit(this);
+    }
 
     @Override
     public boolean equals(Object obj) {

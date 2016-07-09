@@ -39,6 +39,7 @@ import org.gedcom4j.Options;
  * @author frizbog1
  */
 public class Individual extends AbstractElement {
+
     /**
      * Serial Version UID
      */
@@ -178,6 +179,14 @@ public class Individual extends AbstractElement {
      * The xref for this submitter
      */
     private String xref;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void accept(IVisitor v) {
+        v.visit(this);
+    }
 
     // CHECKSTYLE:OFF for method length
     /**

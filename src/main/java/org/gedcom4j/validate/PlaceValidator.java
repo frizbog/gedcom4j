@@ -28,7 +28,7 @@ package org.gedcom4j.validate;
 
 import org.gedcom4j.Options;
 import org.gedcom4j.model.AbstractCitation;
-import org.gedcom4j.model.NameVariation;
+import org.gedcom4j.model.AbstractNameVariation;
 import org.gedcom4j.model.Place;
 
 /**
@@ -99,7 +99,7 @@ class PlaceValidator extends AbstractValidator {
             }
         }
         if (place.getPhonetic() != null) {
-            for (NameVariation nv : place.getPhonetic()) {
+            for (AbstractNameVariation nv : place.getPhonetic()) {
                 new NameVariationValidator(rootValidator, nv).validate();
             }
         }
@@ -113,7 +113,7 @@ class PlaceValidator extends AbstractValidator {
             }
         }
         if (place.getRomanized() != null) {
-            for (NameVariation nv : place.getRomanized()) {
+            for (AbstractNameVariation nv : place.getRomanized()) {
                 new NameVariationValidator(rootValidator, nv).validate();
             }
         }

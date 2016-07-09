@@ -186,7 +186,7 @@ public class GedcomParser551Test {
         assertNotNull(pn);
         assertNotNull(pn.getPhonetic());
         assertEquals(1, pn.getPhonetic().size());
-        NameVariation pnv = pn.getPhonetic().get(0);
+        AbstractNameVariation pnv = pn.getPhonetic().get(0);
         assertEquals("Anonymus /Pinter/", pnv.getVariation());
         assertNull(pnv.getVariationType());
     }
@@ -219,7 +219,7 @@ public class GedcomParser551Test {
         assertEquals(1, p.getNotes().size());
         assertNotNull(p.getPhonetic());
         assertEquals(1, p.getPhonetic().size());
-        NameVariation nv = p.getPhonetic().get(0);
+        AbstractNameVariation nv = p.getPhonetic().get(0);
         assertNotNull(nv);
         assertEquals("Tarr-now, Krack-ow, Poh-land", nv.getVariation());
         assertEquals("guessing", nv.getVariationType().toString());
@@ -509,7 +509,7 @@ public class GedcomParser551Test {
         assertNotNull(pn);
         assertNotNull(pn.getRomanized());
         assertEquals(1, pn.getRomanized().size());
-        NameVariation pnv = pn.getRomanized().get(0);
+        AbstractNameVariation pnv = pn.getRomanized().get(0);
         assertEquals("Walter /Borgula/", pnv.getVariation());
         assertNull(pnv.getVariationType());
     }
@@ -542,7 +542,7 @@ public class GedcomParser551Test {
         assertEquals(1, p.getNotes().size());
         assertNotNull(p.getRomanized());
         assertEquals(1, p.getRomanized().size());
-        NameVariation nv = p.getRomanized().get(0);
+        AbstractNameVariation nv = p.getRomanized().get(0);
         assertNotNull(nv);
         assertEquals("Tarnow, Cracow, Poland", nv.getVariation());
         assertEquals("Google translate", nv.getVariationType().getValue());

@@ -30,7 +30,6 @@ package org.gedcom4j.model;
  * A file referred to in a Multimedia record or link
  * 
  * @author frizbog
- * 
  */
 public class FileReference extends AbstractElement {
 
@@ -58,6 +57,11 @@ public class FileReference extends AbstractElement {
      * The descriptive title for this file reference
      */
     private StringWithCustomTags title;
+
+    @Override
+    public void accept(IVisitor v) {
+        v.visit(this);
+    }
 
     @Override
     public boolean equals(Object obj) {

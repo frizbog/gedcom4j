@@ -76,6 +76,11 @@ public class StringWithCustomTags extends AbstractElement {
         }
     }
 
+    @Override
+    public void accept(IVisitor v) {
+        v.visit(this);
+    }
+
     /**
      * {@inheritDoc}
      */

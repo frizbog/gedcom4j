@@ -37,7 +37,7 @@ import org.gedcom4j.Options;
  * @author frizbog
  * 
  */
-public class PersonalNameVariation extends NameVariation {
+public class PersonalNameVariation extends AbstractNameVariation {
     /**
      * Serial Version UID
      */
@@ -82,6 +82,11 @@ public class PersonalNameVariation extends NameVariation {
      * Surname prefix
      */
     private StringWithCustomTags surnamePrefix;
+
+    @Override
+    public void accept(IVisitor v) {
+        v.visit(this);
+    }
 
     /**
      * Determine if this object is equal to another

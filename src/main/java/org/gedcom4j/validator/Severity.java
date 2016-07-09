@@ -24,48 +24,19 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.gedcom4j.validate;
-
-import org.gedcom4j.model.AbstractNameVariation;
+package org.gedcom4j.validator;
 
 /**
- * Validator for {@link AbstractNameVariation}
+ * The severity of a problem found during validation
  * 
  * @author frizbog1
  * 
  */
-class NameVariationValidator extends AbstractValidator {
-
-    /**
-     * The name variation being validated
-     */
-    protected AbstractNameVariation nv;
-
-    /**
-     * Constructor
-     * 
-     * @param rootValidator
-     *            the root {@link GedcomValidator} that contains all the findings and settings
-     * @param nv
-     *            the name variation being validated
-     */
-    public NameVariationValidator(GedcomValidator rootValidator, AbstractNameVariation nv) {
-        this.rootValidator = rootValidator;
-        this.nv = nv;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void validate() {
-        if (nv == null) {
-            addError("Name variation is null and cannot be validated");
-            return;
-        }
-        checkCustomTags(nv);
-        checkRequiredString(nv.getVariation(), "variation on a personal name", nv);
-        checkOptionalString(nv.getVariationType(), "type of variation on a personal name", nv);
-
-    }
+public enum Severity {
+    /** Informational */
+    INFO,
+    /** Warning */
+    WARNING,
+    /** Error */
+    ERROR;
 }

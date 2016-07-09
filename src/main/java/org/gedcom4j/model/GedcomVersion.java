@@ -30,7 +30,6 @@ package org.gedcom4j.model;
  * Information about the version of the GEDCOM spec used
  * 
  * @author frizbog1
- * 
  */
 public class GedcomVersion extends AbstractElement {
 
@@ -48,6 +47,11 @@ public class GedcomVersion extends AbstractElement {
      * The version number for this GEDCOM
      */
     private SupportedVersion versionNumber = SupportedVersion.V5_5_1;
+
+    @Override
+    public void accept(IVisitor v) {
+        v.visit(this);
+    }
 
     @Override
     public boolean equals(Object obj) {

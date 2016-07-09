@@ -28,7 +28,7 @@ package org.gedcom4j.validate;
 
 import org.gedcom4j.Options;
 import org.gedcom4j.model.AbstractCitation;
-import org.gedcom4j.model.NameVariation;
+import org.gedcom4j.model.AbstractNameVariation;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.PersonalNameVariation;
 
@@ -98,7 +98,7 @@ class PersonalNameValidator extends AbstractValidator {
             }
         } else {
             if (pn.getPhonetic() != null) {
-                for (NameVariation nv : pn.getPhonetic()) {
+                for (AbstractNameVariation nv : pn.getPhonetic()) {
                     PersonalNameVariation pnv = (PersonalNameVariation) nv;
                     new PersonalNameVariationValidator(rootValidator, pnv).validate();
                 }
@@ -114,7 +114,7 @@ class PersonalNameValidator extends AbstractValidator {
             }
         } else {
             if (pn.getRomanized() != null) {
-                for (NameVariation nv : pn.getRomanized()) {
+                for (AbstractNameVariation nv : pn.getRomanized()) {
                     PersonalNameVariation pnv = (PersonalNameVariation) nv;
                     new PersonalNameVariationValidator(rootValidator, pnv).validate();
                 }

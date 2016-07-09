@@ -32,7 +32,7 @@ package org.gedcom4j.model;
  * @author frizbog
  * 
  */
-public class NameVariation extends AbstractElement {
+public abstract class AbstractNameVariation extends AbstractElement {
 
     /**
      * Serial Version UID
@@ -61,7 +61,7 @@ public class NameVariation extends AbstractElement {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        NameVariation other = (NameVariation) obj;
+        AbstractNameVariation other = (AbstractNameVariation) obj;
         if (variation == null) {
             if (other.variation != null) {
                 return false;
@@ -132,7 +132,7 @@ public class NameVariation extends AbstractElement {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("NameVariation [");
+        builder.append("AbstractNameVariation [");
         if (variation != null) {
             builder.append("variation=");
             builder.append(variation);

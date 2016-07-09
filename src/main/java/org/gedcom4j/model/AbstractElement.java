@@ -49,14 +49,6 @@ public abstract class AbstractElement implements Serializable, IVisitable {
      */
     protected List<StringTree> customTags = getCustomTags(Options.isCollectionInitializationEnabled());
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

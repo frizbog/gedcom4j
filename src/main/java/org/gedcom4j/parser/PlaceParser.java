@@ -73,7 +73,7 @@ class PlaceParser extends AbstractParser<Place> {
                         addWarning("GEDCOM version is 5.5 but a romanized variation was specified on a place on line " + ch.getLineNum()
                                 + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
-                    NameVariation nv = new NameVariation();
+                    AbstractNameVariation nv = new PersonalNameVariation();
                     loadInto.getRomanized(true).add(nv);
                     nv.setVariation(ch.getValue());
                     if (ch.getChildren() != null) {
@@ -90,7 +90,7 @@ class PlaceParser extends AbstractParser<Place> {
                         addWarning("GEDCOM version is 5.5 but a phonetic variation was specified on a place on line " + ch.getLineNum()
                                 + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
-                    NameVariation nv = new NameVariation();
+                    AbstractNameVariation nv = new PersonalNameVariation();
                     loadInto.getPhonetic(true).add(nv);
                     nv.setVariation(ch.getValue());
                     if (ch.getChildren() != null) {

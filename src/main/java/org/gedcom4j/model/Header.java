@@ -38,6 +38,7 @@ import org.gedcom4j.Options;
  * 
  */
 public class Header extends AbstractElement {
+
     /**
      * Serial Version UID
      */
@@ -108,6 +109,14 @@ public class Header extends AbstractElement {
      * The time of the file
      */
     private StringWithCustomTags time;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void accept(IVisitor v) {
+        v.visit(this);
+    }
 
     /**
      * {@inheritDoc}

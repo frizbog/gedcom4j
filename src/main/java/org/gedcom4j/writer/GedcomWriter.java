@@ -1499,7 +1499,7 @@ public class GedcomWriter {
         emitSourceCitations(level + 1, p.getCitations());
         emitNotes(level + 1, p.getNotes());
         if (p.getRomanized() != null) {
-            for (NameVariation nv : p.getRomanized()) {
+            for (AbstractNameVariation nv : p.getRomanized()) {
                 if (g55()) {
                     throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but romanized variation was specified on place " + p
                             .getPlaceName() + ", which is only allowed in GEDCOM 5.5.1");
@@ -1509,7 +1509,7 @@ public class GedcomWriter {
             }
         }
         if (p.getPhonetic() != null) {
-            for (NameVariation nv : p.getPhonetic()) {
+            for (AbstractNameVariation nv : p.getPhonetic()) {
                 if (g55()) {
                     throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but phonetic variation was specified on place " + p
                             .getPlaceName() + ", which is only allowed in GEDCOM 5.5.1");
