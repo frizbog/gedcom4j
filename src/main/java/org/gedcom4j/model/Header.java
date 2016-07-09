@@ -113,14 +113,6 @@ public class Header extends AbstractElement {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @SuppressWarnings("PMD.ExcessiveMethodLength")
     @Override
     public boolean equals(Object obj) {

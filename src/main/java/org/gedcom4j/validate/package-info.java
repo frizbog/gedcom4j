@@ -21,7 +21,8 @@
  */
 
 /**
- * Classes in this package implement the prior validation framework
+ * Classes in this package perform validation of the model classes. They generally work using a decorator pattern, with
+ * a large number of validating decorator classes for the various model classes.
  * 
  * @author frizbog
  * @deprecated the org.gedcom4j.validator package is the new hotness

@@ -129,14 +129,6 @@ public class Gedcom extends AbstractElement {
      */
     private Trailer trailer = new Trailer();
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

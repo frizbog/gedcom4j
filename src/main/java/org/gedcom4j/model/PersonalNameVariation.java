@@ -83,11 +83,6 @@ public class PersonalNameVariation extends AbstractNameVariation {
      */
     private StringWithCustomTags surnamePrefix;
 
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
     /**
      * Determine if this object is equal to another
      * 

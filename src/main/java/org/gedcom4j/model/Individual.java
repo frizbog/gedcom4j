@@ -180,14 +180,6 @@ public class Individual extends AbstractElement {
      */
     private String xref;
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
     // CHECKSTYLE:OFF for method length
     /**
      * {@inheritDoc}

@@ -54,11 +54,6 @@ public class FamilyEvent extends AbstractEvent {
      */
     private StringWithCustomTags wifeAge;
 
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
     /**
      * {@inheritDoc}
      */

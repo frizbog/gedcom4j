@@ -82,11 +82,6 @@ public class CitationWithSource extends AbstractCitation {
     private StringWithCustomTags whereInSource;
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

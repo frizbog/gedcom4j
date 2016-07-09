@@ -74,11 +74,6 @@ public class Note extends AbstractElement {
     private String xref;
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
