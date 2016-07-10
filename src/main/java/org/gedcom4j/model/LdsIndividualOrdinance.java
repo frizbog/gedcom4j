@@ -54,6 +54,11 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
     private String yNull;
 
     @Override
+    public void accept(IVisitor v) {
+        v.visit(this);
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

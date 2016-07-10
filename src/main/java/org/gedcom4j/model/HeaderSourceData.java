@@ -60,6 +60,11 @@ public class HeaderSourceData extends AbstractElement {
     private StringWithCustomTags publishDate;
 
     @Override
+    public void accept(IVisitor v) {
+        v.visit(this);
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

@@ -81,6 +81,11 @@ public class Corporation extends AbstractElement {
     private List<StringWithCustomTags> wwwUrls = getWwwUrls(Options.isCollectionInitializationEnabled());
 
     @Override
+    public void accept(IVisitor v) {
+        v.visit(this);
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

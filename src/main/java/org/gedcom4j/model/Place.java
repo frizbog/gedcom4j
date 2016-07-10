@@ -84,6 +84,12 @@ public class Place extends AbstractElement {
     private List<AbstractNameVariation> romanized = getRomanized(Options.isCollectionInitializationEnabled());
 
     @Override
+    public void accept(IVisitor v) {
+        v.visit(this);
+
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

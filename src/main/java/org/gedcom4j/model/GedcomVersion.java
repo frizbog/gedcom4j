@@ -49,6 +49,11 @@ public class GedcomVersion extends AbstractElement {
     private SupportedVersion versionNumber = SupportedVersion.V5_5_1;
 
     @Override
+    public void accept(IVisitor v) {
+        v.visit(this);
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

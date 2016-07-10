@@ -38,7 +38,7 @@ import org.gedcom4j.Options;
  * 
  * @author frizbog
  */
-public abstract class AbstractElement implements Serializable {
+public abstract class AbstractElement implements Serializable, IVisitable {
     /**
      * Serial Version UID
      */

@@ -71,6 +71,11 @@ public class SourceSystem extends AbstractElement {
     private StringWithCustomTags versionNum;
 
     @Override
+    public void accept(IVisitor v) {
+        v.visit(this);
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

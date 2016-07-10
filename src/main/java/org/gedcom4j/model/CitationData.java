@@ -53,6 +53,11 @@ public class CitationData extends AbstractElement {
     private List<List<String>> sourceText = getSourceText(Options.isCollectionInitializationEnabled());
 
     @Override
+    public void accept(IVisitor v) {
+        v.visit(this);
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

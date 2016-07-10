@@ -20,10 +20,35 @@
  * SOFTWARE.
  */
 
+package org.gedcom4j.validator;
+
+import java.io.IOException;
+
+import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.parser.GedcomParser;
+import org.junit.Test;
+
 /**
- * Classes in this package implement the prior validation framework
+ * Test for {@link Validator}
  * 
  * @author frizbog
- * @deprecated the org.gedcom4j.validator package is the new hotness
  */
-package org.gedcom4j.validate;
+public class ValidatorTest {
+
+    /**
+     * Test method for {@link Validator#validate(org.gedcom4j.model.Gedcom)}
+     * 
+     * @throws GedcomParserException
+     *             if the file can't be parsed to completion
+     * @throws IOException
+     *             if the data cannot be read
+     */
+    @Test
+    public void testVisitGedcom() throws IOException, GedcomParserException {
+        GedcomParser gp = new GedcomParser();
+        gp.load("sample/willis.ged");
+        Validator v = new Validator();
+        v.validate(gp.getGedcom());
+    }
+
+}

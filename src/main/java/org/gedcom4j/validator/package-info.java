@@ -21,9 +21,11 @@
  */
 
 /**
- * Classes in this package implement the prior validation framework
+ * Classes in this package implement the new validation framework introduced in v3.0.0. It uses the visitor pattern, the
+ * interfaces for which are defined in the org.gedcom4j.model package: {@link org.gedcom4j.model.IVisitable} and
+ * {@link org.gedcom4j.model.IVisitor}. Classes in this package generally implement {@link org.gedcom4j.model.IVisitor}.
  * 
  * @author frizbog
- * @deprecated the org.gedcom4j.validator package is the new hotness
+ * @since 3.0.0
  */
-package org.gedcom4j.validate;
+package org.gedcom4j.validator;

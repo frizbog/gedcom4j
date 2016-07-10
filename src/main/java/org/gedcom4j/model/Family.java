@@ -123,6 +123,11 @@ public class Family extends AbstractElement {
      */
     private String xref;
 
+    @Override
+    public void accept(IVisitor v) {
+        v.visit(this);
+    }
+
     /**
      * {@inheritDoc}
      */
