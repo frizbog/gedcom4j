@@ -26,9 +26,7 @@
  */
 package org.gedcom4j.parser;
 
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.StringTree;
@@ -163,28 +161,6 @@ class StringTreeBuilder {
         } else {
             makeConcatenationOfPreviousNode();
         }
-    }
-
-    /**
-     * Construct a {@link StringTree} out of a flat {@link List} of Strings
-     * 
-     * @param lines
-     *            the lines of the file
-     * 
-     * @return the {@link StringTree} created from the contents of the input stream
-     * @throws IOException
-     *             if there is a problem reading the data from the reader
-     * @throws GedcomParserException
-     *             if there is an error with parsing the data from the stream
-     */
-    StringTree makeStringTreeFromFlatLines(List<String> lines) throws IOException, GedcomParserException {
-        getTree().setLevel(-1);
-        mostRecentlyAdded = null;
-        while (lineNum < lines.size()) {
-            String l = leftTrim(lines.get(lineNum));
-            appendLine(l);
-        }
-        return getTree();
     }
 
     /**

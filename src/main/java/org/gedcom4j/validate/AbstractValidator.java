@@ -95,28 +95,6 @@ abstract class AbstractValidator {
     }
 
     /**
-     * Add a new finding of severity WARNING
-     * 
-     * @param description
-     *            the description of the warning
-     */
-    protected void addWarning(String description) {
-        rootValidator.getFindings().add(new GedcomValidationFinding(description, Severity.WARNING, null));
-    }
-
-    /**
-     * Add a new finding of severity WARNING
-     * 
-     * @param description
-     *            the description of the warning
-     * @param o
-     *            the object in error
-     */
-    protected void addWarning(String description, Object o) {
-        rootValidator.getFindings().add(new GedcomValidationFinding(description, Severity.WARNING, o));
-    }
-
-    /**
      * Check a change date structure
      * 
      * @param changeDate

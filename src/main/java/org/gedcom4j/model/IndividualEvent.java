@@ -26,7 +26,6 @@
  */
 package org.gedcom4j.model;
 
-// TODO: Auto-generated Javadoc
 /**
  * Represents an individual event. Corresponds to the INDIVIDUAL_EVENT_STRUCTURE item in the GEDCOM specification.
  * 

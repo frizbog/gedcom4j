@@ -53,7 +53,7 @@ public class GedcomFileWriter {
     /**
      * The {@link GedcomWriter} this object is assisting
      */
-    protected GedcomWriter writer;
+    private final GedcomWriter writer;
 
     /**
      * The encoding-specific writer that was or will be used by this writer.

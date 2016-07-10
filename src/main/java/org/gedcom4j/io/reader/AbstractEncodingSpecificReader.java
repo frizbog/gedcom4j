@@ -50,11 +50,6 @@ abstract class AbstractEncodingSpecificReader {
     protected int linesRead = 0;
 
     /**
-     * Whether the file has been completely read
-     */
-    protected boolean complete = false;
-
-    /**
      * The {@link GedcomParser} we're reading files for
      */
     protected final GedcomParser parser;

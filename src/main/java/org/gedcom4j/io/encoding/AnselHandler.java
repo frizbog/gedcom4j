@@ -26,9 +26,6 @@
  */
 package org.gedcom4j.io.encoding;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * <p>
  * This is a helper class that deals with diacritical marks for ANSEL.
@@ -165,22 +162,6 @@ public class AnselHandler {
     }
 
     /**
-     * Converts a file (list) of UTF-16 lines into ANSEL lines. Note that some Unicode characters with diacritical marks
-     * can be split into multiple ANSEL characters.
-     *
-     * @param utf16Lines
-     *            a list of java UTF-16 strings, each character of which will be expanded/converted to ANSEL.
-     * @return a list of UTF16 strings
-     */
-    public List<String> toAnselLines(List<String> utf16Lines) {
-        List<String> result = new ArrayList<String>();
-        for (String utf16 : utf16Lines) {
-            result.add(toAnsel(utf16));
-        }
-        return result;
-    }
-
-    /**
      * Convert an string of ANSEL bytes to UTF-16
      *
      * @param ansel
@@ -242,65 +223,6 @@ public class AnselHandler {
             }
         }
         return new String(utf16).substring(0, utfIdx);
-    }
-
-    /**
-     * Converts a file (list) of ansel lines into utf16 lines
-     *
-     * @param anselLines
-     *            a list of strings, each character of which represents an unconverted ANSEL byte
-     * @return a list of UTF16 strings
-     */
-    public List<String> toUtf16Lines(List<String> anselLines) {
-        List<String> result = new ArrayList<String>();
-        String prevAnsel = null;
-        for (String ansel : anselLines) {
-            /*
-             * If concatenating from the previous line, need to see if the last character on previous line is a
-             * diacritical mark modifying the beginning of this line
-             */
-            if (prevAnsel != null && ansel.length() >= 6 && ansel.substring(2, 6).equals("CONC") && endsWithDiacritical(prevAnsel)) {
-                // Remove the last line we just added - need to adjust it and re-add it - not terribly efficient, but
-                // simpler to code
-                result.remove(result.size() - 1);
-
-                // Strip the leading combining diacritical off previous line
-                char d1 = prevAnsel.charAt(prevAnsel.length() - 1);
-                prevAnsel = prevAnsel.substring(0, prevAnsel.length() - 1);
-                char d2 = 0;
-                if (endsWithDiacritical(prevAnsel)) {
-                    // There was a second diacritical at the end of the line
-                    d2 = prevAnsel.charAt(prevAnsel.length() - 1);
-                    prevAnsel = prevAnsel.substring(0, prevAnsel.length() - 1);
-                }
-                // Re-add the line with the diacriticals removed
-                result.add(toUtf16(prevAnsel));
-                // Insert the diacriticals on the current line so they stay with the character being modified
-                if (d2 == 0) {
-                    ansel = ansel.substring(0, 7) + d1 + ansel.substring(7);
-                } else {
-                    ansel = ansel.substring(0, 7) + d2 + d1 + ansel.substring(7);
-                }
-                // And translate/add it
-                result.add(toUtf16(ansel));
-            } else {
-                // Simpler case - just translate current line
-                result.add(toUtf16(ansel));
-            }
-            prevAnsel = ansel;
-        }
-        return result;
-    }
-
-    /**
-     * Return true if ANSEL string ends in a combining diacritical
-     *
-     * @param s
-     *            the ANSEL string
-     * @return true if ANSEL string ends in a combining diacritical
-     */
-    private boolean endsWithDiacritical(String s) {
-        return s.charAt(s.length() - 1) >= ANSEL_DIACRITICS_BEGIN_AT;
     }
 
     /**

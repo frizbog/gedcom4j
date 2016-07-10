@@ -70,7 +70,7 @@ public class Relationship implements Comparable<Relationship> {
      * @param chain
      *            the chain of {@link SimpleRelationship}s that get you from person 1 to person 2
      */
-    public Relationship(Individual startingIndividual, Individual targetIndividual, List<SimpleRelationship> chain) {
+    Relationship(Individual startingIndividual, Individual targetIndividual, List<SimpleRelationship> chain) {
         individual1 = startingIndividual;
         individual2 = targetIndividual;
         this.chain.clear();

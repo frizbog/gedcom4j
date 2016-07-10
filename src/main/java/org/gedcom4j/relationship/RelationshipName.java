@@ -31,32 +31,106 @@ package org.gedcom4j.relationship;
  * Names of relationships between individuals, and the names of the inverse of the relationship (which depends on the
  * gender of the original person)
  * </p>
- * 
+ * .
+ *
  * @author frizbog1
  */
 public enum RelationshipName {
 
-    /* CHECKSTYLE:OFF */
-    FATHER(1), MOTHER(1), HUSBAND(1), WIFE(1), SON(1), DAUGHTER(1), CHILD(1), BROTHER(1), SISTER(1), SIBLING(1),
+    /** A father. */
+    FATHER(1),
+    /** A mother. */
+    MOTHER(1),
+    /** A husband. */
+    HUSBAND(1),
+    /** A wife. */
+    WIFE(1),
+    /** A son. */
+    SON(1),
+    /** A daughter. */
+    DAUGHTER(1),
+    /** A child. */
+    CHILD(1),
+    /** A brother. */
+    BROTHER(1),
+    /** A sister. */
+    SISTER(1),
+    /** A sibling. */
+    SIBLING(1),
 
-    GRANDFATHER(2), GRANDMOTHER(2), GRANDSON(2), GRANDDAUGHTER(2), GRANDCHILD(2),
+    /** A grandfather. */
+    GRANDFATHER(2),
+    /** A grandmother. */
+    GRANDMOTHER(2),
+    /** A grandson. */
+    GRANDSON(2),
+    /** A granddaughter. */
+    GRANDDAUGHTER(2),
+    /** A grandchild. */
+    GRANDCHILD(2),
 
-    GREAT_GRANDFATHER(3), GREAT_GRANDMOTHER(3), GREAT_GRANDSON(3), GREAT_GRANDDAUGHTER(3), GREAT_GRANDCHILD(3),
+    /** A great grandfather. */
+    GREAT_GRANDFATHER(3),
+    /** A great grandmother. */
+    GREAT_GRANDMOTHER(3),
+    /** A great grandson. */
+    GREAT_GRANDSON(3),
+    /** A great granddaughter. */
+    GREAT_GRANDDAUGHTER(3),
+    /** A great grandchild. */
+    GREAT_GRANDCHILD(3),
 
-    GREAT_GREAT_GRANDFATHER(4), GREAT_GREAT_GRANDMOTHER(4), GREAT_GREAT_GRANDSON(4), GREAT_GREAT_GRANDDAUGHTER(4), GREAT_GREAT_GRANDCHILD(4),
+    /** A great great grandfather. */
+    GREAT_GREAT_GRANDFATHER(4),
+    /** A great great grandmother. */
+    GREAT_GREAT_GRANDMOTHER(4),
+    /** A great great grandson. */
+    GREAT_GREAT_GRANDSON(4),
+    /** A great great granddaughter. */
+    GREAT_GREAT_GRANDDAUGHTER(4),
+    /** A great great grandchild. */
+    GREAT_GREAT_GRANDCHILD(4),
 
-    GREAT_GREAT_GREAT_GRANDCHILD(5), GREAT_GREAT_GREAT_GRANDSON(5), GREAT_GREAT_GREAT_GRANDDAUGHTER(5), GREAT_GREAT_GREAT_GRANDFATHER(
-            5), GREAT_GREAT_GREAT_GRANDMOTHER(5),
+    /** A great great great grandchild. */
+    GREAT_GREAT_GREAT_GRANDCHILD(5),
+    /** A great great great grandson. */
+    GREAT_GREAT_GREAT_GRANDSON(5),
+    /** A great great great granddaughter. */
+    GREAT_GREAT_GREAT_GRANDDAUGHTER(5),
+    /** A great great great grandfather. */
+    GREAT_GREAT_GREAT_GRANDFATHER(5),
+    /** A great great great grandmother. */
+    GREAT_GREAT_GREAT_GRANDMOTHER(5),
 
-    UNCLE(6), AUNT(6), NEPHEW(6), NIECE(6),
+    /** A uncle. */
+    UNCLE(6),
+    /** A aunt. */
+    AUNT(6),
+    /** A nephew. */
+    NEPHEW(6),
+    /** A niece. */
+    NIECE(6),
 
+    /** A first cousin. */
     FIRST_COUSIN(7),
 
-    GREAT_UNCLE(8), GREAT_AUNT(8), GREAT_NEPHEW(8), GREAT_NIECE(8),
+    /** A great uncle. */
+    GREAT_UNCLE(8),
+    /** A great aunt. */
+    GREAT_AUNT(8),
+    /** A great nephew. */
+    GREAT_NEPHEW(8),
+    /** A great niece. */
+    GREAT_NIECE(8),
 
-    GREAT_GREAT_UNCLE(9), GREAT_GREAT_AUNT(9), GREAT_GREAT_NEPHEW(9), GREAT_GREAT_NIECE(9);
-
-    /* CHECKSTYLE:ON */
+    /** A great great uncle. */
+    GREAT_GREAT_UNCLE(9),
+    /** A great great aunt. */
+    GREAT_GREAT_AUNT(9),
+    /** A great great nephew. */
+    GREAT_GREAT_NEPHEW(9),
+    /** A great great niece. */
+    GREAT_GREAT_NIECE(9);
 
     static {
         /* Load all the reverse relationships */
@@ -212,19 +286,13 @@ public enum RelationshipName {
      */
     private final int simplicity;
 
-    /**
-     * The reverse of this relationship for males
-     */
+    /** The reverse of this relationship for males. */
     RelationshipName reverseForMale;
 
-    /**
-     * The reverse of this relationship for females
-     */
+    /** The reverse of this relationship for females. */
     RelationshipName reverseForFemale;
 
-    /**
-     * The reverse of this relationship for unknown gender
-     */
+    /** The reverse of this relationship for unknown gender. */
     RelationshipName reverseForUnknown;
 
     /**
@@ -238,8 +306,8 @@ public enum RelationshipName {
     }
 
     /**
-     * Get the simplicity
-     * 
+     * Get the simplicity.
+     *
      * @return the simplicity
      */
     public int getSimplicity() {

@@ -61,7 +61,7 @@ class StringCanonicalizer {
          * @param str
          *            the string value
          */
-        public CanonicalizedString(String str) {
+        private CanonicalizedString(String str) {
             value = str;
             count = 0;
         }
@@ -108,12 +108,12 @@ class StringCanonicalizer {
     /**
      * The number of items evicted
      */
-    int numEvictedCumulative = 0;
+    private int numEvictedCumulative = 0;
 
     /**
      * A flag to indicate whether we've maxed out the pool to keep from thrashing
      */
-    boolean maxedOut = false;
+    private boolean maxedOut = false;
 
     /**
      * Default constructor
@@ -130,7 +130,7 @@ class StringCanonicalizer {
      * @param poolUsageThreshold
      *            the minimum number of uses to remain in the pool during an eviction
      */
-    public StringCanonicalizer(int maxPoolSize, int poolUsageThreshold) {
+    private StringCanonicalizer(int maxPoolSize, int poolUsageThreshold) {
         this.maxPoolSize = maxPoolSize;
         this.poolUsageThreshold = poolUsageThreshold;
     }

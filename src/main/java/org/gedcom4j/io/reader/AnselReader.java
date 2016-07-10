@@ -50,12 +50,12 @@ final class AnselReader extends AbstractEncodingSpecificReader {
     /**
      * Helper class
      */
-    AnselHandler anselHandler = new AnselHandler();
+    private final AnselHandler anselHandler = new AnselHandler();
 
     /**
      * Index into the line buffer
      */
-    int lineBufferIdx = 0;
+    private int lineBufferIdx = 0;
 
     /**
      * Current character

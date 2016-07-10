@@ -72,7 +72,7 @@ public class SimpleRelationship {
      * @param sr
      *            the other {@link SimpleRelationship} to copy
      */
-    public SimpleRelationship(SimpleRelationship sr) {
+    SimpleRelationship(SimpleRelationship sr) {
         individual1 = sr.individual1;
         individual2 = sr.individual2;
         name = sr.name;

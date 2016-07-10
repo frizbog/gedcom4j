@@ -26,7 +26,6 @@
  */
 package org.gedcom4j.model;
 
-// TODO: Auto-generated Javadoc
 /**
  * An event type that occurs for an individual. This enum lists the valid tags for individual events,
  * 
@@ -182,9 +181,9 @@ public enum IndividualEventType {
     }
 
     /**
-     * Gets the display.
+     * Gets the display value
      *
-     * @return the display
+     * @return the display value
      */
     public String getDisplay() {
         return display;
