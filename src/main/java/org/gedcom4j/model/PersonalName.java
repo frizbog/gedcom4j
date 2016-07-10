@@ -99,11 +99,6 @@ public class PersonalName extends AbstractElement {
     private StringWithCustomTags surnamePrefix;
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -196,17 +191,17 @@ public class PersonalName extends AbstractElement {
     }
 
     /**
-     * Get the basic
-     * 
-     * @return the basic
+     * Gets the basic name
+     *
+     * @return the basic name
      */
     public String getBasic() {
         return basic;
     }
 
     /**
-     * Get the citations
-     * 
+     * Gets the citations.
+     *
      * @return the citations
      */
     public List<AbstractCitation> getCitations() {
@@ -229,17 +224,17 @@ public class PersonalName extends AbstractElement {
     }
 
     /**
-     * Get the givenName
-     * 
-     * @return the givenName
+     * Gets the given name.
+     *
+     * @return the given name
      */
     public StringWithCustomTags getGivenName() {
         return givenName;
     }
 
     /**
-     * Get the nickname
-     * 
+     * Gets the nickname.
+     *
      * @return the nickname
      */
     public StringWithCustomTags getNickname() {
@@ -247,8 +242,8 @@ public class PersonalName extends AbstractElement {
     }
 
     /**
-     * Get the notes
-     * 
+     * Gets the notes.
+     *
      * @return the notes
      */
     public List<Note> getNotes() {
@@ -271,20 +266,20 @@ public class PersonalName extends AbstractElement {
     }
 
     /**
-     * Get the phonetic
-     * 
-     * @return the phonetic
+     * Gets the phonetic variation(s)
+     *
+     * @return the phonetic varation(s)
      */
     public List<PersonalNameVariation> getPhonetic() {
         return phonetic;
     }
 
     /**
-     * Get the phonetic
+     * Get the phonetic variation(s)
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
-     * @return the phonetic
+     * @return the phonetic variation(s)
      */
     public List<PersonalNameVariation> getPhonetic(boolean initializeIfNeeded) {
         if (initializeIfNeeded && phonetic == null) {
@@ -294,8 +289,8 @@ public class PersonalName extends AbstractElement {
     }
 
     /**
-     * Get the prefix
-     * 
+     * Gets the prefix.
+     *
      * @return the prefix
      */
     public StringWithCustomTags getPrefix() {
@@ -303,20 +298,20 @@ public class PersonalName extends AbstractElement {
     }
 
     /**
-     * Get the romanized
-     * 
-     * @return the romanized
+     * Gets the romanized variation(s)
+     *
+     * @return the romanized variation(s)
      */
     public List<PersonalNameVariation> getRomanized() {
         return romanized;
     }
 
     /**
-     * Get the romanized
+     * Get the romanized variation(s)
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
-     * @return the romanized
+     * @return the romanized variation(s)
      */
     public List<PersonalNameVariation> getRomanized(boolean initializeIfNeeded) {
         if (initializeIfNeeded && romanized == null) {
@@ -326,8 +321,8 @@ public class PersonalName extends AbstractElement {
     }
 
     /**
-     * Get the suffix
-     * 
+     * Gets the suffix.
+     *
      * @return the suffix
      */
     public StringWithCustomTags getSuffix() {
@@ -335,8 +330,8 @@ public class PersonalName extends AbstractElement {
     }
 
     /**
-     * Get the surname
-     * 
+     * Gets the surname.
+     *
      * @return the surname
      */
     public StringWithCustomTags getSurname() {
@@ -344,9 +339,9 @@ public class PersonalName extends AbstractElement {
     }
 
     /**
-     * Get the surnamePrefix
-     * 
-     * @return the surnamePrefix
+     * Gets the surname prefix.
+     *
+     * @return the surname prefix
      */
     public StringWithCustomTags getSurnamePrefix() {
         return surnamePrefix;
@@ -371,70 +366,70 @@ public class PersonalName extends AbstractElement {
     }
 
     /**
-     * Set the basic
-     * 
+     * Sets the basic.
+     *
      * @param basic
-     *            the basic to set
+     *            the new basic
      */
     public void setBasic(String basic) {
         this.basic = basic;
     }
 
     /**
-     * Set the givenName
-     * 
+     * Sets the given name.
+     *
      * @param givenName
-     *            the givenName to set
+     *            the new given name
      */
     public void setGivenName(StringWithCustomTags givenName) {
         this.givenName = givenName;
     }
 
     /**
-     * Set the nickname
-     * 
+     * Sets the nickname.
+     *
      * @param nickname
-     *            the nickname to set
+     *            the new nickname
      */
     public void setNickname(StringWithCustomTags nickname) {
         this.nickname = nickname;
     }
 
     /**
-     * Set the prefix
-     * 
+     * Sets the prefix.
+     *
      * @param prefix
-     *            the prefix to set
+     *            the new prefix
      */
     public void setPrefix(StringWithCustomTags prefix) {
         this.prefix = prefix;
     }
 
     /**
-     * Set the suffix
-     * 
+     * Sets the suffix.
+     *
      * @param suffix
-     *            the suffix to set
+     *            the new suffix
      */
     public void setSuffix(StringWithCustomTags suffix) {
         this.suffix = suffix;
     }
 
     /**
-     * Set the surname
-     * 
+     * Sets the surname.
+     *
      * @param surname
-     *            the surname to set
+     *            the new surname
      */
     public void setSurname(StringWithCustomTags surname) {
         this.surname = surname;
     }
 
     /**
-     * Set the surnamePrefix
-     * 
+     * Sets the surname prefix.
+     *
      * @param surnamePrefix
-     *            the surnamePrefix to set
+     *            the new surname prefix
      */
     public void setSurnamePrefix(StringWithCustomTags surnamePrefix) {
         this.surnamePrefix = surnamePrefix;

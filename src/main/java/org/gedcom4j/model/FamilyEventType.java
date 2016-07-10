@@ -129,8 +129,8 @@ public enum FamilyEventType {
     }
 
     /**
-     * Get the display
-     * 
+     * Gets the display.
+     *
      * @return the display
      */
     public String getDisplay() {
@@ -138,8 +138,8 @@ public enum FamilyEventType {
     }
 
     /**
-     * Get the tag
-     * 
+     * Gets the tag.
+     *
      * @return the tag
      */
     public String getTag() {

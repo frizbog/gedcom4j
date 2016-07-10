@@ -119,11 +119,6 @@ public class Source extends AbstractElement {
         }
     }
 
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -235,17 +230,17 @@ public class Source extends AbstractElement {
     }
 
     /**
-     * Get the changeDate
-     * 
-     * @return the changeDate
+     * Gets the change date.
+     *
+     * @return the change date
      */
     public ChangeDate getChangeDate() {
         return changeDate;
     }
 
     /**
-     * Get the data
-     * 
+     * Gets the data.
+     *
      * @return the data
      */
     public SourceData getData() {
@@ -253,8 +248,8 @@ public class Source extends AbstractElement {
     }
 
     /**
-     * Get the multimedia
-     * 
+     * Gets the multimedia.
+     *
      * @return the multimedia
      */
     public List<Multimedia> getMultimedia() {
@@ -276,8 +271,8 @@ public class Source extends AbstractElement {
     }
 
     /**
-     * Get the notes
-     * 
+     * Gets the notes.
+     *
      * @return the notes
      */
     public List<Note> getNotes() {
@@ -300,20 +295,20 @@ public class Source extends AbstractElement {
     }
 
     /**
-     * Get the originatorsAuthors
-     * 
-     * @return the originatorsAuthors
+     * Gets the originators authors.
+     *
+     * @return the originators authors
      */
     public List<String> getOriginatorsAuthors() {
         return originatorsAuthors;
     }
 
     /**
-     * Get the originatorsAuthors
+     * Get the originators authors
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
-     * @return the originatorsAuthors
+     * @return the originators authors
      */
     public List<String> getOriginatorsAuthors(boolean initializeIfNeeded) {
         if (initializeIfNeeded && originatorsAuthors == null) {
@@ -323,20 +318,20 @@ public class Source extends AbstractElement {
     }
 
     /**
-     * Get the publicationFacts
-     * 
-     * @return the publicationFacts
+     * Gets the publication facts.
+     *
+     * @return the publication facts
      */
     public List<String> getPublicationFacts() {
         return publicationFacts;
     }
 
     /**
-     * Get the publicationFacts
+     * Get the publication facts
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
-     * @return the publicationFacts
+     * @return the publication facts
      */
     public List<String> getPublicationFacts(boolean initializeIfNeeded) {
         if (initializeIfNeeded && publicationFacts == null) {
@@ -346,47 +341,47 @@ public class Source extends AbstractElement {
     }
 
     /**
-     * Get the recIdNumber
-     * 
-     * @return the recIdNumber
+     * Gets the rec id number.
+     *
+     * @return the rec id number
      */
     public StringWithCustomTags getRecIdNumber() {
         return recIdNumber;
     }
 
     /**
-     * Get the repositoryCitation
-     * 
-     * @return the repositoryCitation
+     * Gets the repository citation.
+     *
+     * @return the repository citation
      */
     public RepositoryCitation getRepositoryCitation() {
         return repositoryCitation;
     }
 
     /**
-     * Get the sourceFiledBy
-     * 
-     * @return the sourceFiledBy
+     * Gets the source filed by.
+     *
+     * @return the source filed by
      */
     public StringWithCustomTags getSourceFiledBy() {
         return sourceFiledBy;
     }
 
     /**
-     * Get the sourceText
-     * 
-     * @return the sourceText
+     * Gets the source text.
+     *
+     * @return the source text
      */
     public List<String> getSourceText() {
         return sourceText;
     }
 
     /**
-     * Get the sourceText
+     * Get the source text
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
-     * @return the sourceText
+     * @return the source text
      */
     public List<String> getSourceText(boolean initializeIfNeeded) {
         if (initializeIfNeeded && sourceText == null) {
@@ -396,8 +391,8 @@ public class Source extends AbstractElement {
     }
 
     /**
-     * Get the title
-     * 
+     * Gets the title.
+     *
      * @return the title
      */
     public List<String> getTitle() {
@@ -419,20 +414,20 @@ public class Source extends AbstractElement {
     }
 
     /**
-     * Get the userReferences
-     * 
-     * @return the userReferences
+     * Gets the user references.
+     *
+     * @return the user references
      */
     public List<UserReference> getUserReferences() {
         return userReferences;
     }
 
     /**
-     * Get the userReferences
+     * Get the user references
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
-     * @return the userReferences
+     * @return the user references
      */
     public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
         if (initializeIfNeeded && userReferences == null) {
@@ -442,8 +437,8 @@ public class Source extends AbstractElement {
     }
 
     /**
-     * Get the xref
-     * 
+     * Gets the xref.
+     *
      * @return the xref
      */
     public String getXref() {
@@ -474,60 +469,60 @@ public class Source extends AbstractElement {
     }
 
     /**
-     * Set the changeDate
-     * 
+     * Sets the change date.
+     *
      * @param changeDate
-     *            the changeDate to set
+     *            the new change date
      */
     public void setChangeDate(ChangeDate changeDate) {
         this.changeDate = changeDate;
     }
 
     /**
-     * Set the data
-     * 
+     * Sets the data.
+     *
      * @param data
-     *            the data to set
+     *            the new data
      */
     public void setData(SourceData data) {
         this.data = data;
     }
 
     /**
-     * Set the recIdNumber
-     * 
+     * Sets the rec id number.
+     *
      * @param recIdNumber
-     *            the recIdNumber to set
+     *            the new rec id number
      */
     public void setRecIdNumber(StringWithCustomTags recIdNumber) {
         this.recIdNumber = recIdNumber;
     }
 
     /**
-     * Set the repositoryCitation
-     * 
+     * Sets the repository citation.
+     *
      * @param repositoryCitation
-     *            the repositoryCitation to set
+     *            the new repository citation
      */
     public void setRepositoryCitation(RepositoryCitation repositoryCitation) {
         this.repositoryCitation = repositoryCitation;
     }
 
     /**
-     * Set the sourceFiledBy
-     * 
+     * Sets the source filed by.
+     *
      * @param sourceFiledBy
-     *            the sourceFiledBy to set
+     *            the new source filed by
      */
     public void setSourceFiledBy(StringWithCustomTags sourceFiledBy) {
         this.sourceFiledBy = sourceFiledBy;
     }
 
     /**
-     * Set the xref
-     * 
+     * Sets the xref.
+     *
      * @param xref
-     *            the xref to set
+     *            the new xref
      */
     public void setXref(String xref) {
         this.xref = xref;

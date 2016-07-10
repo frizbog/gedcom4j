@@ -48,11 +48,6 @@ public class UserReference extends AbstractElement {
     private StringWithCustomTags type;
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -82,17 +77,17 @@ public class UserReference extends AbstractElement {
     }
 
     /**
-     * Get the referenceNum
-     * 
-     * @return the referenceNum
+     * Gets the reference num.
+     *
+     * @return the reference num
      */
     public StringWithCustomTags getReferenceNum() {
         return referenceNum;
     }
 
     /**
-     * Get the type
-     * 
+     * Gets the type.
+     *
      * @return the type
      */
     public StringWithCustomTags getType() {
@@ -109,20 +104,20 @@ public class UserReference extends AbstractElement {
     }
 
     /**
-     * Set the referenceNum
-     * 
+     * Sets the reference num.
+     *
      * @param referenceNum
-     *            the referenceNum to set
+     *            the new reference num
      */
     public void setReferenceNum(StringWithCustomTags referenceNum) {
         this.referenceNum = referenceNum;
     }
 
     /**
-     * Set the type
-     * 
+     * Sets the type.
+     *
      * @param type
-     *            the type to set
+     *            the new type
      */
     public void setType(StringWithCustomTags type) {
         this.type = type;

@@ -132,8 +132,8 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
     }
 
     /**
-     * Get the citations
-     * 
+     * Gets the citations.
+     *
      * @return the citations
      */
     public List<AbstractCitation> getCitations() {
@@ -155,8 +155,8 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
     }
 
     /**
-     * Get the date
-     * 
+     * Gets the date.
+     *
      * @return the date
      */
     public StringWithCustomTags getDate() {
@@ -164,8 +164,8 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
     }
 
     /**
-     * Get the notes
-     * 
+     * Gets the notes.
+     *
      * @return the notes
      */
     public List<Note> getNotes() {
@@ -187,8 +187,8 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
     }
 
     /**
-     * Get the place
-     * 
+     * Gets the place.
+     *
      * @return the place
      */
     public StringWithCustomTags getPlace() {
@@ -196,8 +196,8 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
     }
 
     /**
-     * Get the status
-     * 
+     * Gets the status.
+     *
      * @return the status
      */
     public StringWithCustomTags getStatus() {
@@ -205,8 +205,8 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
     }
 
     /**
-     * Get the temple
-     * 
+     * Gets the temple.
+     *
      * @return the temple
      */
     public StringWithCustomTags getTemple() {
@@ -227,40 +227,40 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
     }
 
     /**
-     * Set the date
-     * 
+     * Sets the date.
+     *
      * @param date
-     *            the date to set
+     *            the new date
      */
     public void setDate(StringWithCustomTags date) {
         this.date = date;
     }
 
     /**
-     * Set the place
-     * 
+     * Sets the place.
+     *
      * @param place
-     *            the place to set
+     *            the new place
      */
     public void setPlace(StringWithCustomTags place) {
         this.place = place;
     }
 
     /**
-     * Set the status
-     * 
+     * Sets the status.
+     *
      * @param status
-     *            the status to set
+     *            the new status
      */
     public void setStatus(StringWithCustomTags status) {
         this.status = status;
     }
 
     /**
-     * Set the temple
-     * 
+     * Sets the temple.
+     *
      * @param temple
-     *            the temple to set
+     *            the new temple
      */
     public void setTemple(StringWithCustomTags temple) {
         this.temple = temple;

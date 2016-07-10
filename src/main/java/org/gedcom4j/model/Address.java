@@ -80,11 +80,6 @@ public class Address extends AbstractElement {
     private StringWithCustomTags stateProvince;
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -149,26 +144,26 @@ public class Address extends AbstractElement {
     }
 
     /**
-     * Get the addr1
-     * 
-     * @return the addr1
+     * Gets the addr line 1.
+     *
+     * @return the addr line 1
      */
     public StringWithCustomTags getAddr1() {
         return addr1;
     }
 
     /**
-     * Get the addr2
-     * 
-     * @return the addr2
+     * Gets the addr line 2.
+     *
+     * @return the addr line 2
      */
     public StringWithCustomTags getAddr2() {
         return addr2;
     }
 
     /**
-     * Get the city
-     * 
+     * Gets the city.
+     *
      * @return the city
      */
     public StringWithCustomTags getCity() {
@@ -176,8 +171,8 @@ public class Address extends AbstractElement {
     }
 
     /**
-     * Get the country
-     * 
+     * Gets the country.
+     *
      * @return the country
      */
     public StringWithCustomTags getCountry() {
@@ -185,8 +180,8 @@ public class Address extends AbstractElement {
     }
 
     /**
-     * Get the lines
-     * 
+     * Gets the lines.
+     *
      * @return the lines
      */
     public List<String> getLines() {
@@ -209,18 +204,18 @@ public class Address extends AbstractElement {
     }
 
     /**
-     * Get the postalCode
-     * 
-     * @return the postalCode
+     * Gets the postal code.
+     *
+     * @return the postal code
      */
     public StringWithCustomTags getPostalCode() {
         return postalCode;
     }
 
     /**
-     * Get the stateProvince
-     * 
-     * @return the stateProvince
+     * Gets the state province.
+     *
+     * @return the state province
      */
     public StringWithCustomTags getStateProvince() {
         return stateProvince;
@@ -241,60 +236,60 @@ public class Address extends AbstractElement {
     }
 
     /**
-     * Set the addr1
-     * 
+     * Sets the addr line 1.
+     *
      * @param addr1
-     *            the addr1 to set
+     *            the new addr line 1
      */
     public void setAddr1(StringWithCustomTags addr1) {
         this.addr1 = addr1;
     }
 
     /**
-     * Set the addr2
-     * 
+     * Sets the addr line 2.
+     *
      * @param addr2
-     *            the addr2 to set
+     *            the new addr line 2
      */
     public void setAddr2(StringWithCustomTags addr2) {
         this.addr2 = addr2;
     }
 
     /**
-     * Set the city
-     * 
+     * Sets the city.
+     *
      * @param city
-     *            the city to set
+     *            the new city
      */
     public void setCity(StringWithCustomTags city) {
         this.city = city;
     }
 
     /**
-     * Set the country
-     * 
+     * Sets the country.
+     *
      * @param country
-     *            the country to set
+     *            the new country
      */
     public void setCountry(StringWithCustomTags country) {
         this.country = country;
     }
 
     /**
-     * Set the postalCode
-     * 
+     * Sets the postal code.
+     *
      * @param postalCode
-     *            the postalCode to set
+     *            the new postal code
      */
     public void setPostalCode(StringWithCustomTags postalCode) {
         this.postalCode = postalCode;
     }
 
     /**
-     * Set the stateProvince
-     * 
+     * Sets the state province.
+     *
      * @param stateProvince
-     *            the stateProvince to set
+     *            the new state province
      */
     public void setStateProvince(StringWithCustomTags stateProvince) {
         this.stateProvince = stateProvince;

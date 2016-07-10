@@ -26,6 +26,7 @@
  */
 package org.gedcom4j.model;
 
+// TODO: Auto-generated Javadoc
 /**
  * Represents an individual event. Corresponds to the INDIVIDUAL_EVENT_STRUCTURE item in the GEDCOM specification.
  * 
@@ -46,11 +47,6 @@ public class IndividualEvent extends AbstractEvent {
      * The type of event this represents
      */
     private IndividualEventType type;
-
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -75,8 +71,8 @@ public class IndividualEvent extends AbstractEvent {
     }
 
     /**
-     * Get the family
-     * 
+     * Gets the family.
+     *
      * @return the family
      */
     public FamilyChild getFamily() {
@@ -84,8 +80,8 @@ public class IndividualEvent extends AbstractEvent {
     }
 
     /**
-     * Get the type
-     * 
+     * Gets the type.
+     *
      * @return the type
      */
     public IndividualEventType getType() {
@@ -102,20 +98,20 @@ public class IndividualEvent extends AbstractEvent {
     }
 
     /**
-     * Set the family
-     * 
+     * Sets the family.
+     *
      * @param family
-     *            the family to set
+     *            the new family
      */
     public void setFamily(FamilyChild family) {
         this.family = family;
     }
 
     /**
-     * Set the type
-     * 
+     * Sets the type.
+     *
      * @param type
-     *            the type to set
+     *            the new type
      */
     public void setType(IndividualEventType type) {
         this.type = type;

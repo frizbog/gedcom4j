@@ -66,7 +66,7 @@ public class StringWithCustomTags extends AbstractElement {
      * Constructor that takes a StringTree as a parameter
      * 
      * @param s
-     *            the stringtree with the value of the string, plus optional custom tags
+     *            the string tree with the value of the string, plus optional custom tags
      */
     public StringWithCustomTags(StringTree s) {
         value = s.getValue();
@@ -74,11 +74,6 @@ public class StringWithCustomTags extends AbstractElement {
         if (children != null && !children.isEmpty()) {
             getCustomTags(true).addAll(children);
         }
-    }
-
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
     }
 
     /**
@@ -107,8 +102,8 @@ public class StringWithCustomTags extends AbstractElement {
     }
 
     /**
-     * Get the value
-     * 
+     * Gets the value.
+     *
      * @return the value
      */
     public String getValue() {
@@ -127,10 +122,10 @@ public class StringWithCustomTags extends AbstractElement {
     }
 
     /**
-     * Set the value
-     * 
+     * Sets the value.
+     *
      * @param value
-     *            the value to set
+     *            the new value
      */
     public void setValue(String value) {
         this.value = value;

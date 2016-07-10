@@ -30,7 +30,6 @@ package org.gedcom4j.model;
  * A source call number, used in {@link RepositoryCitation} classes.
  * 
  * @author frizbog1
- * 
  */
 public class SourceCallNumber extends AbstractElement {
     /**
@@ -47,11 +46,6 @@ public class SourceCallNumber extends AbstractElement {
      * The media type, corresponds to SOURCE_MEDIA_TYPE in the Gedcom spec
      */
     private StringWithCustomTags mediaType;
-
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -83,18 +77,18 @@ public class SourceCallNumber extends AbstractElement {
     }
 
     /**
-     * Get the callNumber
-     * 
-     * @return the callNumber
+     * Gets the call number.
+     *
+     * @return the call number
      */
     public StringWithCustomTags getCallNumber() {
         return callNumber;
     }
 
     /**
-     * Get the mediaType
-     * 
-     * @return the mediaType
+     * Gets the media type.
+     *
+     * @return the media type
      */
     public StringWithCustomTags getMediaType() {
         return mediaType;
@@ -110,20 +104,20 @@ public class SourceCallNumber extends AbstractElement {
     }
 
     /**
-     * Set the callNumber
-     * 
+     * Sets the call number.
+     *
      * @param callNumber
-     *            the callNumber to set
+     *            the new call number
      */
     public void setCallNumber(StringWithCustomTags callNumber) {
         this.callNumber = callNumber;
     }
 
     /**
-     * Set the mediaType
-     * 
+     * Sets the media type.
+     *
      * @param mediaType
-     *            the mediaType to set
+     *            the new media type
      */
     public void setMediaType(StringWithCustomTags mediaType) {
         this.mediaType = mediaType;

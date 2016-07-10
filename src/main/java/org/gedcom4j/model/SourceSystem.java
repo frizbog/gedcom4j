@@ -71,11 +71,6 @@ public class SourceSystem extends AbstractElement {
     private StringWithCustomTags versionNum;
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -126,8 +121,8 @@ public class SourceSystem extends AbstractElement {
     }
 
     /**
-     * Get the corporation
-     * 
+     * Gets the corporation.
+     *
      * @return the corporation
      */
     public Corporation getCorporation() {
@@ -135,36 +130,36 @@ public class SourceSystem extends AbstractElement {
     }
 
     /**
-     * Get the productName
-     * 
-     * @return the productName
+     * Gets the product name.
+     *
+     * @return the product name
      */
     public StringWithCustomTags getProductName() {
         return productName;
     }
 
     /**
-     * Get the sourceData
-     * 
-     * @return the sourceData
+     * Gets the source data.
+     *
+     * @return the source data
      */
     public HeaderSourceData getSourceData() {
         return sourceData;
     }
 
     /**
-     * Get the systemId
-     * 
-     * @return the systemId
+     * Gets the system id.
+     *
+     * @return the system id
      */
     public String getSystemId() {
         return systemId;
     }
 
     /**
-     * Get the versionNum
-     * 
-     * @return the versionNum
+     * Gets the version num.
+     *
+     * @return the version num
      */
     public StringWithCustomTags getVersionNum() {
         return versionNum;
@@ -183,50 +178,50 @@ public class SourceSystem extends AbstractElement {
     }
 
     /**
-     * Set the corporation
-     * 
+     * Sets the corporation.
+     *
      * @param corporation
-     *            the corporation to set
+     *            the new corporation
      */
     public void setCorporation(Corporation corporation) {
         this.corporation = corporation;
     }
 
     /**
-     * Set the productName
-     * 
+     * Sets the product name.
+     *
      * @param productName
-     *            the productName to set
+     *            the new product name
      */
     public void setProductName(StringWithCustomTags productName) {
         this.productName = productName;
     }
 
     /**
-     * Set the sourceData
-     * 
+     * Sets the source data.
+     *
      * @param sourceData
-     *            the sourceData to set
+     *            the new source data
      */
     public void setSourceData(HeaderSourceData sourceData) {
         this.sourceData = sourceData;
     }
 
     /**
-     * Set the systemId
-     * 
+     * Sets the system id.
+     *
      * @param systemId
-     *            the systemId to set
+     *            the new system id
      */
     public void setSystemId(String systemId) {
         this.systemId = systemId;
     }
 
     /**
-     * Set the versionNum
-     * 
+     * Sets the version num.
+     *
      * @param versionNum
-     *            the versionNum to set
+     *            the new version num
      */
     public void setVersionNum(StringWithCustomTags versionNum) {
         this.versionNum = versionNum;

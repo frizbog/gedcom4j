@@ -180,14 +180,6 @@ public class Individual extends AbstractElement {
      */
     private String xref;
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
     // CHECKSTYLE:OFF for method length
     /**
      * {@inheritDoc}
@@ -401,8 +393,8 @@ public class Individual extends AbstractElement {
     // CHECKSTYLE:ON
 
     /**
-     * Get the address
-     * 
+     * Gets the address.
+     *
      * @return the address
      */
     public Address getAddress() {
@@ -410,8 +402,8 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the aliases
-     * 
+     * Gets the aliases.
+     *
      * @return the aliases
      */
     public List<StringWithCustomTags> getAliases() {
@@ -433,20 +425,20 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the ancestorInterest
-     * 
-     * @return the ancestorInterest
+     * Gets the ancestor interest.
+     *
+     * @return the ancestor interest
      */
     public List<Submitter> getAncestorInterest() {
         return ancestorInterest;
     }
 
     /**
-     * Get the ancestorInterest
+     * Get the ancestor interest
      * 
      * @param initializeIfNeeded
      *            initialize the collection if needed?
-     * @return the ancestorInterest
+     * @return the ancestor interest
      */
     public List<Submitter> getAncestorInterest(boolean initializeIfNeeded) {
         if (initializeIfNeeded && ancestorInterest == null) {
@@ -456,11 +448,9 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get a set of ALL the direct ancestors of the current individual, in all generations. Includes parents, and all
-     * their parents, and all <i>their</i> parents, and so on. Siblings, cousins, aunts/uncles, etc. are not included in
-     * the results, nor are alternate spouses for parents (unless this individual was also a child of that family).
-     * 
-     * @return a set of ancestors for the current individual.
+     * Gets the ancestors.
+     *
+     * @return the ancestors
      */
     public Set<Individual> getAncestors() {
         Set<Individual> result = new HashSet<Individual>();
@@ -480,17 +470,17 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the ancestralFileNumber
-     * 
-     * @return the ancestralFileNumber
+     * Gets the ancestral file number.
+     *
+     * @return the ancestral file number
      */
     public StringWithCustomTags getAncestralFileNumber() {
         return ancestralFileNumber;
     }
 
     /**
-     * Get the associations
-     * 
+     * Gets the associations.
+     *
      * @return the associations
      */
     public List<Association> getAssociations() {
@@ -512,8 +502,8 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the attributes
-     * 
+     * Gets the attributes.
+     *
      * @return the attributes
      */
     public List<IndividualAttribute> getAttributes() {
@@ -554,17 +544,17 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the changeDate
-     * 
-     * @return the changeDate
+     * Gets the change date.
+     *
+     * @return the change date
      */
     public ChangeDate getChangeDate() {
         return changeDate;
     }
 
     /**
-     * Get the citations
-     * 
+     * Gets the citations.
+     *
      * @return the citations
      */
     public List<AbstractCitation> getCitations() {
@@ -587,20 +577,20 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the descendantInterest
-     * 
-     * @return the descendantInterest
+     * Gets the descendant interest.
+     *
+     * @return the descendant interest
      */
     public List<Submitter> getDescendantInterest() {
         return descendantInterest;
     }
 
     /**
-     * Get the descendantInterest
+     * Get the descendant interest
      * 
      * @param initializeIfNeeded
      *            initialize the collection if needed?
-     * @return the descendantInterest
+     * @return the descendant interest
      */
     public List<Submitter> getDescendantInterest(boolean initializeIfNeeded) {
         if (initializeIfNeeded && descendantInterest == null) {
@@ -610,10 +600,9 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get all the direct blood-line descendants of the current individual, in all generations. Includes children, their
-     * children, <i>their</i> children, and so on. Spouses of descendants are not included in the results.
-     * 
-     * @return a set of descendants for the current individual
+     * Gets the descendants.
+     *
+     * @return the descendants
      */
     public Set<Individual> getDescendants() {
         Set<Individual> result = new HashSet<Individual>();
@@ -635,8 +624,8 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the emails
-     * 
+     * Gets the emails.
+     *
      * @return the emails
      */
     public List<StringWithCustomTags> getEmails() {
@@ -659,8 +648,8 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the events
-     * 
+     * Gets the events.
+     *
      * @return the events
      */
     public List<IndividualEvent> getEvents() {
@@ -701,20 +690,20 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the familiesWhereChild
-     * 
-     * @return the familiesWhereChild
+     * Gets the families where child.
+     *
+     * @return the families where child
      */
     public List<FamilyChild> getFamiliesWhereChild() {
         return familiesWhereChild;
     }
 
     /**
-     * Get the familiesWhereChild
-     * 
+     * Gets the families where child.
+     *
      * @param initializeIfNeeded
      *            initialize the collection if needed?
-     * @return the familiesWhereChild
+     * @return the families where child
      */
     public List<FamilyChild> getFamiliesWhereChild(boolean initializeIfNeeded) {
         if (initializeIfNeeded && familiesWhereChild == null) {
@@ -724,20 +713,20 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the familiesWhereSpouse
-     * 
-     * @return the familiesWhereSpouse
+     * Gets the families where spouse.
+     *
+     * @return the families where spouse
      */
     public List<FamilySpouse> getFamiliesWhereSpouse() {
         return familiesWhereSpouse;
     }
 
     /**
-     * Get the familiesWhereSpouse
+     * Gets the families where spouse.
      * 
      * @param initializeIfNeeded
      *            initialize the collection if needed?
-     * @return the familiesWhereSpouse
+     * @return the families where spouse
      */
     public List<FamilySpouse> getFamiliesWhereSpouse(boolean initializeIfNeeded) {
         if (initializeIfNeeded && familiesWhereSpouse == null) {
@@ -747,20 +736,20 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the faxNumbers
-     * 
-     * @return the faxNumbers
+     * Gets the fax numbers.
+     *
+     * @return the fax numbers
      */
     public List<StringWithCustomTags> getFaxNumbers() {
         return faxNumbers;
     }
 
     /**
-     * Get the faxNumbers
+     * Get the fax numbers
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
-     * @return the faxNumbers
+     * @return the fax numbers
      */
     public List<StringWithCustomTags> getFaxNumbers(boolean initializeIfNeeded) {
         if (initializeIfNeeded && faxNumbers == null) {
@@ -770,10 +759,9 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get all the individual's names formatted as a single string. Names after the first one found are shown with "aka"
-     * in between each.
-     * 
-     * @return a string with all the various names for the current individual
+     * Gets the formatted name.
+     *
+     * @return the formatted name
      */
     public String getFormattedName() {
         StringBuilder sb = new StringBuilder();
@@ -789,20 +777,20 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the ldsIndividualOrdinances
-     * 
-     * @return the ldsIndividualOrdinances
+     * Gets the LDS individual ordinances.
+     *
+     * @return the LDS individual ordinances
      */
     public List<LdsIndividualOrdinance> getLdsIndividualOrdinances() {
         return ldsIndividualOrdinances;
     }
 
     /**
-     * Get the ldsIndividualOrdinances
+     * Gets the LDS individual ordinances.
      * 
      * @param initializeIfNeeded
      *            initialize the collection if needed?
-     * @return the ldsIndividualOrdinances
+     * @return the LDS individual ordinances
      */
     public List<LdsIndividualOrdinance> getLdsIndividualOrdinances(boolean initializeIfNeeded) {
         if (initializeIfNeeded && ldsIndividualOrdinances == null) {
@@ -812,8 +800,8 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the multimedia
-     * 
+     * Gets the multimedia.
+     *
      * @return the multimedia
      */
     public List<Multimedia> getMultimedia() {
@@ -835,8 +823,8 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the names
-     * 
+     * Gets the names.
+     *
      * @return the names
      */
     public List<PersonalName> getNames() {
@@ -858,8 +846,8 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the notes
-     * 
+     * Gets the notes.
+     *
      * @return the notes
      */
     public List<Note> getNotes() {
@@ -882,29 +870,29 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the permanentRecFileNumber
-     * 
-     * @return the permanentRecFileNumber
+     * Gets the permanent rec file number.
+     *
+     * @return the permanent rec file number
      */
     public StringWithCustomTags getPermanentRecFileNumber() {
         return permanentRecFileNumber;
     }
 
     /**
-     * Get the phoneNumbers
-     * 
-     * @return the phoneNumbers
+     * Gets the phone numbers.
+     *
+     * @return the phone numbers
      */
     public List<StringWithCustomTags> getPhoneNumbers() {
         return phoneNumbers;
     }
 
     /**
-     * Get the phoneNumbers
+     * Get the phone numbers
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
-     * @return the phoneNumbers
+     * @return the phone numbers
      */
     public List<StringWithCustomTags> getPhoneNumbers(boolean initializeIfNeeded) {
         if (initializeIfNeeded && phoneNumbers == null) {
@@ -914,26 +902,26 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the recIdNumber
-     * 
-     * @return the recIdNumber
+     * Gets the rec id number.
+     *
+     * @return the rec id number
      */
     public StringWithCustomTags getRecIdNumber() {
         return recIdNumber;
     }
 
     /**
-     * Get the restrictionNotice
-     * 
-     * @return the restrictionNotice
+     * Gets the restriction notice.
+     *
+     * @return the restriction notice
      */
     public StringWithCustomTags getRestrictionNotice() {
         return restrictionNotice;
     }
 
     /**
-     * Get the sex
-     * 
+     * Gets the sex.
+     *
      * @return the sex
      */
     public StringWithCustomTags getSex() {
@@ -941,10 +929,9 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get a set of spouses for the current individual. Always returns a set, although it may be empty. The returned set
-     * is in no particular order.
-     * 
-     * @return a set of spouses for the current individual.
+     * Gets the spouses.
+     *
+     * @return the spouses
      */
     public Set<Individual> getSpouses() {
         Set<Individual> result = new HashSet<Individual>();
@@ -963,8 +950,8 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the submitters
-     * 
+     * Gets the submitters.
+     *
      * @return the submitters
      */
     public List<Submitter> getSubmitters() {
@@ -986,20 +973,20 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the userReferences
-     * 
-     * @return the userReferences
+     * Gets the user references.
+     *
+     * @return the user references
      */
     public List<UserReference> getUserReferences() {
         return userReferences;
     }
 
     /**
-     * Get the userReferences
+     * Get the user references
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
-     * @return the userReferences
+     * @return the user references
      */
     public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
         if (initializeIfNeeded && userReferences == null) {
@@ -1009,20 +996,20 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the wwwUrls
-     * 
-     * @return the wwwUrls
+     * Gets the www urls.
+     *
+     * @return the www urls
      */
     public List<StringWithCustomTags> getWwwUrls() {
         return wwwUrls;
     }
 
     /**
-     * Get the wwwUrls
+     * Get the www urls
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
-     * @return the wwwUrls
+     * @return the www Uurls
      */
     public List<StringWithCustomTags> getWwwUrls(boolean initializeIfNeeded) {
         if (initializeIfNeeded && wwwUrls == null) {
@@ -1032,8 +1019,8 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get the xref
-     * 
+     * Gets the xref.
+     *
      * @return the xref
      */
     public String getXref() {
@@ -1081,80 +1068,80 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Set the address
-     * 
+     * Sets the address.
+     *
      * @param address
-     *            the address to set
+     *            the new address
      */
     public void setAddress(Address address) {
         this.address = address;
     }
 
     /**
-     * Set the ancestralFileNumber
-     * 
+     * Sets the ancestral file number.
+     *
      * @param ancestralFileNumber
-     *            the ancestralFileNumber to set
+     *            the new ancestral file number
      */
     public void setAncestralFileNumber(StringWithCustomTags ancestralFileNumber) {
         this.ancestralFileNumber = ancestralFileNumber;
     }
 
     /**
-     * Set the changeDate
-     * 
+     * Sets the change date.
+     *
      * @param changeDate
-     *            the changeDate to set
+     *            the new change date
      */
     public void setChangeDate(ChangeDate changeDate) {
         this.changeDate = changeDate;
     }
 
     /**
-     * Set the permanentRecFileNumber
-     * 
+     * Sets the permanent rec file number.
+     *
      * @param permanentRecFileNumber
-     *            the permanentRecFileNumber to set
+     *            the new permanent rec file number
      */
     public void setPermanentRecFileNumber(StringWithCustomTags permanentRecFileNumber) {
         this.permanentRecFileNumber = permanentRecFileNumber;
     }
 
     /**
-     * Set the recIdNumber
-     * 
+     * Sets the rec id number.
+     *
      * @param recIdNumber
-     *            the recIdNumber to set
+     *            the new rec id number
      */
     public void setRecIdNumber(StringWithCustomTags recIdNumber) {
         this.recIdNumber = recIdNumber;
     }
 
     /**
-     * Set the restrictionNotice
-     * 
+     * Sets the restriction notice.
+     *
      * @param restrictionNotice
-     *            the restrictionNotice to set
+     *            the new restriction notice
      */
     public void setRestrictionNotice(StringWithCustomTags restrictionNotice) {
         this.restrictionNotice = restrictionNotice;
     }
 
     /**
-     * Set the sex
-     * 
+     * Sets the sex.
+     *
      * @param sex
-     *            the sex to set
+     *            the new sex
      */
     public void setSex(StringWithCustomTags sex) {
         this.sex = sex;
     }
 
     /**
-     * Set the xref
-     * 
+     * Sets the xref.
+     *
      * @param xref
-     *            the xref to set
+     *            the new xref
      */
     public void setXref(String xref) {
         this.xref = xref;

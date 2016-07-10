@@ -30,7 +30,6 @@ package org.gedcom4j.model;
  * A submission of a gedcom transmission. Corresponds to SUBMISSION_RECORD in the GEDCOM standard.
  * 
  * @author frizbog1
- * 
  */
 public class Submission extends AbstractElement {
     /**
@@ -86,11 +85,6 @@ public class Submission extends AbstractElement {
      */
     public Submission(String xref) {
         this.xref = xref;
-    }
-
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
     }
 
     @Override
@@ -165,53 +159,53 @@ public class Submission extends AbstractElement {
     }
 
     /**
-     * Get the ancestorsCount
-     * 
-     * @return the ancestorsCount
+     * Gets the ancestors count.
+     *
+     * @return the ancestors count
      */
     public StringWithCustomTags getAncestorsCount() {
         return ancestorsCount;
     }
 
     /**
-     * Get the descendantsCount
-     * 
-     * @return the descendantsCount
+     * Gets the descendants count.
+     *
+     * @return the descendants count
      */
     public StringWithCustomTags getDescendantsCount() {
         return descendantsCount;
     }
 
     /**
-     * Get the nameOfFamilyFile
-     * 
-     * @return the nameOfFamilyFile
+     * Gets the name of family file.
+     *
+     * @return the name of family file
      */
     public StringWithCustomTags getNameOfFamilyFile() {
         return nameOfFamilyFile;
     }
 
     /**
-     * Get the ordinanceProcessFlag
-     * 
-     * @return the ordinanceProcessFlag
+     * Gets the ordinance process flag.
+     *
+     * @return the ordinance process flag
      */
     public StringWithCustomTags getOrdinanceProcessFlag() {
         return ordinanceProcessFlag;
     }
 
     /**
-     * Get the recIdNumber
-     * 
-     * @return the recIdNumber
+     * Gets the rec id number.
+     *
+     * @return the rec id number
      */
     public StringWithCustomTags getRecIdNumber() {
         return recIdNumber;
     }
 
     /**
-     * Get the submitter
-     * 
+     * Gets the submitter.
+     *
      * @return the submitter
      */
     public Submitter getSubmitter() {
@@ -219,17 +213,17 @@ public class Submission extends AbstractElement {
     }
 
     /**
-     * Get the templeCode
-     * 
-     * @return the templeCode
+     * Gets the temple code.
+     *
+     * @return the temple code
      */
     public StringWithCustomTags getTempleCode() {
         return templeCode;
     }
 
     /**
-     * Get the xref
-     * 
+     * Gets the xref.
+     *
      * @return the xref
      */
     public String getXref() {
@@ -252,80 +246,80 @@ public class Submission extends AbstractElement {
     }
 
     /**
-     * Set the ancestorsCount
-     * 
+     * Sets the ancestors count.
+     *
      * @param ancestorsCount
-     *            the ancestorsCount to set
+     *            the new ancestors count
      */
     public void setAncestorsCount(StringWithCustomTags ancestorsCount) {
         this.ancestorsCount = ancestorsCount;
     }
 
     /**
-     * Set the descendantsCount
-     * 
+     * Sets the descendants count.
+     *
      * @param descendantsCount
-     *            the descendantsCount to set
+     *            the new descendants count
      */
     public void setDescendantsCount(StringWithCustomTags descendantsCount) {
         this.descendantsCount = descendantsCount;
     }
 
     /**
-     * Set the nameOfFamilyFile
-     * 
+     * Sets the name of family file.
+     *
      * @param nameOfFamilyFile
-     *            the nameOfFamilyFile to set
+     *            the new name of family file
      */
     public void setNameOfFamilyFile(StringWithCustomTags nameOfFamilyFile) {
         this.nameOfFamilyFile = nameOfFamilyFile;
     }
 
     /**
-     * Set the ordinanceProcessFlag
-     * 
+     * Sets the ordinance process flag.
+     *
      * @param ordinanceProcessFlag
-     *            the ordinanceProcessFlag to set
+     *            the new ordinance process flag
      */
     public void setOrdinanceProcessFlag(StringWithCustomTags ordinanceProcessFlag) {
         this.ordinanceProcessFlag = ordinanceProcessFlag;
     }
 
     /**
-     * Set the recIdNumber
-     * 
+     * Sets the rec id number.
+     *
      * @param recIdNumber
-     *            the recIdNumber to set
+     *            the new rec id number
      */
     public void setRecIdNumber(StringWithCustomTags recIdNumber) {
         this.recIdNumber = recIdNumber;
     }
 
     /**
-     * Set the submitter
-     * 
+     * Sets the submitter.
+     *
      * @param submitter
-     *            the submitter to set
+     *            the new submitter
      */
     public void setSubmitter(Submitter submitter) {
         this.submitter = submitter;
     }
 
     /**
-     * Set the templeCode
-     * 
+     * Sets the temple code.
+     *
      * @param templeCode
-     *            the templeCode to set
+     *            the new temple code
      */
     public void setTempleCode(StringWithCustomTags templeCode) {
         this.templeCode = templeCode;
     }
 
     /**
-     * Set the xref
-     * 
+     * Sets the xref.
+     *
      * @param xref
-     *            the xref to set
+     *            the new xref
      */
     public void setXref(String xref) {
         this.xref = xref;

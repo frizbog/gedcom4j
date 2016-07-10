@@ -53,11 +53,6 @@ public class CitationData extends AbstractElement {
     private List<List<String>> sourceText = getSourceText(Options.isCollectionInitializationEnabled());
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -87,29 +82,29 @@ public class CitationData extends AbstractElement {
     }
 
     /**
-     * Get the entryDate
-     * 
-     * @return the entryDate
+     * Gets the entry date.
+     *
+     * @return the entry date
      */
     public StringWithCustomTags getEntryDate() {
         return entryDate;
     }
 
     /**
-     * Get the sourceText
-     * 
-     * @return the sourceText
+     * Gets the source text.
+     *
+     * @return the source text
      */
     public List<List<String>> getSourceText() {
         return sourceText;
     }
 
     /**
-     * Get the sourceText
+     * Get the source text
      * 
      * @param initializeIfNeeded
      *            true if this collection should be created on-the-fly if it is currently null
-     * @return the sourceText
+     * @return the source text
      */
     public List<List<String>> getSourceText(boolean initializeIfNeeded) {
         if (initializeIfNeeded && sourceText == null) {
@@ -128,10 +123,10 @@ public class CitationData extends AbstractElement {
     }
 
     /**
-     * Set the entryDate
-     * 
+     * Sets the entry date.
+     *
      * @param entryDate
-     *            the entryDate to set
+     *            the new entry date
      */
     public void setEntryDate(StringWithCustomTags entryDate) {
         this.entryDate = entryDate;

@@ -81,11 +81,6 @@ public class Corporation extends AbstractElement {
     private List<StringWithCustomTags> wwwUrls = getWwwUrls(Options.isCollectionInitializationEnabled());
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -144,8 +139,8 @@ public class Corporation extends AbstractElement {
     }
 
     /**
-     * Get the address
-     * 
+     * Gets the address.
+     *
      * @return the address
      */
     public Address getAddress() {
@@ -153,17 +148,17 @@ public class Corporation extends AbstractElement {
     }
 
     /**
-     * Get the businessName
-     * 
-     * @return the businessName
+     * Gets the business name.
+     *
+     * @return the business name
      */
     public String getBusinessName() {
         return businessName;
     }
 
     /**
-     * Get the emails
-     * 
+     * Gets the emails.
+     *
      * @return the emails
      */
     public List<StringWithCustomTags> getEmails() {
@@ -186,9 +181,9 @@ public class Corporation extends AbstractElement {
     }
 
     /**
-     * Get the faxNumbers
-     * 
-     * @return the faxNumbers
+     * Gets the fax numbers.
+     *
+     * @return the fax numbers
      */
     public List<StringWithCustomTags> getFaxNumbers() {
         return faxNumbers;
@@ -209,9 +204,9 @@ public class Corporation extends AbstractElement {
     }
 
     /**
-     * Get the phoneNumbers
-     * 
-     * @return the phoneNumbers
+     * Gets the phone numbers.
+     *
+     * @return the phone numbers
      */
     public List<StringWithCustomTags> getPhoneNumbers() {
         return phoneNumbers;
@@ -232,9 +227,9 @@ public class Corporation extends AbstractElement {
     }
 
     /**
-     * Get the wwwUrls
-     * 
-     * @return the wwwUrls
+     * Gets the www urls.
+     *
+     * @return the www urls
      */
     public List<StringWithCustomTags> getWwwUrls() {
         return wwwUrls;
@@ -269,20 +264,20 @@ public class Corporation extends AbstractElement {
     }
 
     /**
-     * Set the address
-     * 
+     * Sets the address.
+     *
      * @param address
-     *            the address to set
+     *            the new address
      */
     public void setAddress(Address address) {
         this.address = address;
     }
 
     /**
-     * Set the businessName
-     * 
+     * Sets the business name.
+     *
      * @param businessName
-     *            the businessName to set
+     *            the new business name
      */
     public void setBusinessName(String businessName) {
         this.businessName = businessName;

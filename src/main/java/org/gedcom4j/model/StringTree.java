@@ -149,8 +149,8 @@ public class StringTree implements Serializable {
     }
 
     /**
-     * Get the children
-     * 
+     * Gets the children.
+     *
      * @return the children
      */
     public List<StringTree> getChildren() {
@@ -172,8 +172,8 @@ public class StringTree implements Serializable {
     }
 
     /**
-     * Get the id
-     * 
+     * Gets the id.
+     *
      * @return the id
      */
     public String getId() {
@@ -181,8 +181,8 @@ public class StringTree implements Serializable {
     }
 
     /**
-     * Get the level
-     * 
+     * Gets the level.
+     *
      * @return the level
      */
     public int getLevel() {
@@ -190,17 +190,17 @@ public class StringTree implements Serializable {
     }
 
     /**
-     * Get the lineNum
-     * 
-     * @return the lineNum
+     * Gets the line num.
+     *
+     * @return the line num
      */
     public int getLineNum() {
         return lineNum;
     }
 
     /**
-     * Get the parent
-     * 
+     * Gets the parent.
+     *
      * @return the parent
      */
     public StringTree getParent() {
@@ -208,8 +208,8 @@ public class StringTree implements Serializable {
     }
 
     /**
-     * Get the tag
-     * 
+     * Gets the tag.
+     *
      * @return the tag
      */
     public String getTag() {
@@ -217,8 +217,8 @@ public class StringTree implements Serializable {
     }
 
     /**
-     * Get the value
-     * 
+     * Gets the value.
+     *
      * @return the value
      */
     public String getValue() {
@@ -242,60 +242,60 @@ public class StringTree implements Serializable {
     }
 
     /**
-     * Set the id
-     * 
+     * Sets the id.
+     *
      * @param id
-     *            the id to set
+     *            the new id
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     * Set the level
-     * 
+     * Sets the level.
+     *
      * @param level
-     *            the level to set
+     *            the new level
      */
     public void setLevel(int level) {
         this.level = level;
     }
 
     /**
-     * Set the lineNum
-     * 
+     * Sets the line num.
+     *
      * @param lineNum
-     *            the lineNum to set
+     *            the new line num
      */
     public void setLineNum(int lineNum) {
         this.lineNum = lineNum;
     }
 
     /**
-     * Set the parent
-     * 
+     * Sets the parent.
+     *
      * @param parent
-     *            the parent to set
+     *            the new parent
      */
     public void setParent(StringTree parent) {
         this.parent = parent;
     }
 
     /**
-     * Set the tag
-     * 
+     * Sets the tag.
+     *
      * @param tag
-     *            the tag to set
+     *            the new tag
      */
     public void setTag(String tag) {
         this.tag = tag;
     }
 
     /**
-     * Set the value
-     * 
+     * Sets the value.
+     *
      * @param value
-     *            the value to set
+     *            the new value
      */
     public void setValue(String value) {
         this.value = value;

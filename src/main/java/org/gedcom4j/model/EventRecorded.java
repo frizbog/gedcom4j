@@ -54,11 +54,6 @@ public class EventRecorded extends AbstractElement {
     private StringWithCustomTags jurisdiction;
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -95,26 +90,26 @@ public class EventRecorded extends AbstractElement {
     }
 
     /**
-     * Get the datePeriod
-     * 
-     * @return the datePeriod
+     * Gets the date period.
+     *
+     * @return the date period
      */
     public StringWithCustomTags getDatePeriod() {
         return datePeriod;
     }
 
     /**
-     * Get the eventType
-     * 
-     * @return the eventType
+     * Gets the event type.
+     *
+     * @return the event type
      */
     public String getEventType() {
         return eventType;
     }
 
     /**
-     * Get the jurisdiction
-     * 
+     * Gets the jurisdiction.
+     *
      * @return the jurisdiction
      */
     public StringWithCustomTags getJurisdiction() {
@@ -132,30 +127,30 @@ public class EventRecorded extends AbstractElement {
     }
 
     /**
-     * Set the datePeriod
-     * 
+     * Sets the date period.
+     *
      * @param datePeriod
-     *            the datePeriod to set
+     *            the new date period
      */
     public void setDatePeriod(StringWithCustomTags datePeriod) {
         this.datePeriod = datePeriod;
     }
 
     /**
-     * Set the eventType
-     * 
+     * Sets the event type.
+     *
      * @param eventType
-     *            the eventType to set
+     *            the new event type
      */
     public void setEventType(String eventType) {
         this.eventType = eventType;
     }
 
     /**
-     * Set the jurisdiction
-     * 
+     * Sets the jurisdiction.
+     *
      * @param jurisdiction
-     *            the jurisdiction to set
+     *            the new jurisdiction
      */
     public void setJurisdiction(StringWithCustomTags jurisdiction) {
         this.jurisdiction = jurisdiction;

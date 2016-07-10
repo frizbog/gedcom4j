@@ -50,11 +50,6 @@ public class CharacterSet extends AbstractElement {
     private StringWithCustomTags versionNum;
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -84,18 +79,18 @@ public class CharacterSet extends AbstractElement {
     }
 
     /**
-     * Get the characterSetName
-     * 
-     * @return the characterSetName
+     * Gets the character set name.
+     *
+     * @return the character set name
      */
     public StringWithCustomTags getCharacterSetName() {
         return characterSetName;
     }
 
     /**
-     * Get the versionNum
-     * 
-     * @return the versionNum
+     * Gets the version num.
+     *
+     * @return the version num
      */
     public StringWithCustomTags getVersionNum() {
         return versionNum;
@@ -111,20 +106,20 @@ public class CharacterSet extends AbstractElement {
     }
 
     /**
-     * Set the characterSetName
-     * 
+     * Sets the character set name.
+     *
      * @param characterSetName
-     *            the characterSetName to set
+     *            the new character set name
      */
     public void setCharacterSetName(StringWithCustomTags characterSetName) {
         this.characterSetName = characterSetName;
     }
 
     /**
-     * Set the versionNum
-     * 
+     * Sets the version num.
+     *
      * @param versionNum
-     *            the versionNum to set
+     *            the new version num
      */
     public void setVersionNum(StringWithCustomTags versionNum) {
         this.versionNum = versionNum;

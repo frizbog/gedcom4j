@@ -129,14 +129,6 @@ public class Gedcom extends AbstractElement {
      */
     private Trailer trailer = new Trailer();
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -223,8 +215,8 @@ public class Gedcom extends AbstractElement {
     }
 
     /**
-     * Get the families
-     * 
+     * Gets the families.
+     *
      * @return the families
      */
     public Map<String, Family> getFamilies() {
@@ -232,8 +224,8 @@ public class Gedcom extends AbstractElement {
     }
 
     /**
-     * Get the header
-     * 
+     * Gets the header.
+     *
      * @return the header
      */
     public Header getHeader() {
@@ -241,8 +233,8 @@ public class Gedcom extends AbstractElement {
     }
 
     /**
-     * Get the individuals
-     * 
+     * Gets the individuals.
+     *
      * @return the individuals
      */
     public Map<String, Individual> getIndividuals() {
@@ -250,8 +242,8 @@ public class Gedcom extends AbstractElement {
     }
 
     /**
-     * Get the multimedia
-     * 
+     * Gets the multimedia.
+     *
      * @return the multimedia
      */
     public Map<String, Multimedia> getMultimedia() {
@@ -259,8 +251,8 @@ public class Gedcom extends AbstractElement {
     }
 
     /**
-     * Get the notes
-     * 
+     * Gets the notes.
+     *
      * @return the notes
      */
     public Map<String, Note> getNotes() {
@@ -268,8 +260,8 @@ public class Gedcom extends AbstractElement {
     }
 
     /**
-     * Get the repositories
-     * 
+     * Gets the repositories.
+     *
      * @return the repositories
      */
     public Map<String, Repository> getRepositories() {
@@ -277,8 +269,8 @@ public class Gedcom extends AbstractElement {
     }
 
     /**
-     * Get the sources
-     * 
+     * Gets the sources.
+     *
      * @return the sources
      */
     public Map<String, Source> getSources() {
@@ -286,8 +278,8 @@ public class Gedcom extends AbstractElement {
     }
 
     /**
-     * Get the submission
-     * 
+     * Gets the submission.
+     *
      * @return the submission
      */
     public Submission getSubmission() {
@@ -295,8 +287,8 @@ public class Gedcom extends AbstractElement {
     }
 
     /**
-     * Get the submitters
-     * 
+     * Gets the submitters.
+     *
      * @return the submitters
      */
     public Map<String, Submitter> getSubmitters() {
@@ -304,8 +296,8 @@ public class Gedcom extends AbstractElement {
     }
 
     /**
-     * Get the trailer
-     * 
+     * Gets the trailer.
+     *
      * @return the trailer
      */
     public Trailer getTrailer() {
@@ -330,30 +322,30 @@ public class Gedcom extends AbstractElement {
     }
 
     /**
-     * Set the header
-     * 
+     * Sets the header.
+     *
      * @param header
-     *            the header to set
+     *            the new header
      */
     public void setHeader(Header header) {
         this.header = header;
     }
 
     /**
-     * Set the submission
-     * 
+     * Sets the submission.
+     *
      * @param submission
-     *            the submission to set
+     *            the new submission
      */
     public void setSubmission(Submission submission) {
         this.submission = submission;
     }
 
     /**
-     * Set the trailer
-     * 
+     * Sets the trailer.
+     *
      * @param trailer
-     *            the trailer to set
+     *            the new trailer
      */
     public void setTrailer(Trailer trailer) {
         this.trailer = trailer;

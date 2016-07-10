@@ -116,11 +116,6 @@ public class Multimedia extends AbstractElement {
     private String xref;
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -213,8 +208,8 @@ public class Multimedia extends AbstractElement {
     }
 
     /**
-     * Get the blob
-     * 
+     * Gets the blob.
+     *
      * @return the blob
      */
     public List<String> getBlob() {
@@ -236,17 +231,17 @@ public class Multimedia extends AbstractElement {
     }
 
     /**
-     * Get the changeDate
-     * 
-     * @return the changeDate
+     * Gets the change date.
+     *
+     * @return the change date
      */
     public ChangeDate getChangeDate() {
         return changeDate;
     }
 
     /**
-     * Get the citations
-     * 
+     * Gets the citations.
+     *
      * @return the citations
      */
     public List<AbstractCitation> getCitations() {
@@ -269,47 +264,47 @@ public class Multimedia extends AbstractElement {
     }
 
     /**
-     * Get the continuedObject
-     * 
-     * @return the continuedObject
+     * Gets the continued object.
+     *
+     * @return the continued object
      */
     public Multimedia getContinuedObject() {
         return continuedObject;
     }
 
     /**
-     * Get the embeddedMediaFormat
-     * 
-     * @return the embeddedMediaFormat
+     * Gets the embedded media format.
+     *
+     * @return the embedded media format
      */
     public StringWithCustomTags getEmbeddedMediaFormat() {
         return embeddedMediaFormat;
     }
 
     /**
-     * Get the embeddedTitle
-     * 
-     * @return the embeddedTitle
+     * Gets the embedded title.
+     *
+     * @return the embedded title
      */
     public StringWithCustomTags getEmbeddedTitle() {
         return embeddedTitle;
     }
 
     /**
-     * Get the fileReferences
-     * 
-     * @return the fileReferences
+     * Gets the file references.
+     *
+     * @return the file references
      */
     public List<FileReference> getFileReferences() {
         return fileReferences;
     }
 
     /**
-     * Get the fileReferences
+     * Get the file references
      * 
      * @param initializeIfNeeded
      *            initialize the collection if needed
-     * @return the fileReferences
+     * @return the file references
      */
     public List<FileReference> getFileReferences(boolean initializeIfNeeded) {
         if (initializeIfNeeded && fileReferences == null) {
@@ -319,8 +314,8 @@ public class Multimedia extends AbstractElement {
     }
 
     /**
-     * Get the notes
-     * 
+     * Gets the notes.
+     *
      * @return the notes
      */
     public List<Note> getNotes() {
@@ -343,29 +338,29 @@ public class Multimedia extends AbstractElement {
     }
 
     /**
-     * Get the recIdNumber
-     * 
-     * @return the recIdNumber
+     * Gets the rec id number.
+     *
+     * @return the rec id number
      */
     public StringWithCustomTags getRecIdNumber() {
         return recIdNumber;
     }
 
     /**
-     * Get the userReferences
-     * 
-     * @return the userReferences
+     * Gets the user references.
+     *
+     * @return the user references
      */
     public List<UserReference> getUserReferences() {
         return userReferences;
     }
 
     /**
-     * Get the userReferences
+     * Get the user references
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
-     * @return the userReferences
+     * @return the user references
      */
     public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
         if (initializeIfNeeded && userReferences == null) {
@@ -375,8 +370,8 @@ public class Multimedia extends AbstractElement {
     }
 
     /**
-     * Get the xref
-     * 
+     * Gets the xref.
+     *
      * @return the xref
      */
     public String getXref() {
@@ -402,60 +397,60 @@ public class Multimedia extends AbstractElement {
     }
 
     /**
-     * Set the changeDate
-     * 
+     * Sets the change date.
+     *
      * @param changeDate
-     *            the changeDate to set
+     *            the new change date
      */
     public void setChangeDate(ChangeDate changeDate) {
         this.changeDate = changeDate;
     }
 
     /**
-     * Set the continuedObject
-     * 
+     * Sets the continued object.
+     *
      * @param continuedObject
-     *            the continuedObject to set
+     *            the new continued object
      */
     public void setContinuedObject(Multimedia continuedObject) {
         this.continuedObject = continuedObject;
     }
 
     /**
-     * Set the embeddedMediaFormat
-     * 
+     * Sets the embedded media format.
+     *
      * @param embeddedMediaFormat
-     *            the embeddedMediaFormat to set
+     *            the new embedded media format
      */
     public void setEmbeddedMediaFormat(StringWithCustomTags embeddedMediaFormat) {
         this.embeddedMediaFormat = embeddedMediaFormat;
     }
 
     /**
-     * Set the embeddedTitle
-     * 
+     * Sets the embedded title.
+     *
      * @param embeddedTitle
-     *            the embeddedTitle to set
+     *            the new embedded title
      */
     public void setEmbeddedTitle(StringWithCustomTags embeddedTitle) {
         this.embeddedTitle = embeddedTitle;
     }
 
     /**
-     * Set the recIdNumber
-     * 
+     * Sets the rec id number.
+     *
      * @param recIdNumber
-     *            the recIdNumber to set
+     *            the new rec id number
      */
     public void setRecIdNumber(StringWithCustomTags recIdNumber) {
         this.recIdNumber = recIdNumber;
     }
 
     /**
-     * Set the xref
-     * 
+     * Sets the xref.
+     *
      * @param xref
-     *            the xref to set
+     *            the new xref
      */
     public void setXref(String xref) {
         this.xref = xref;

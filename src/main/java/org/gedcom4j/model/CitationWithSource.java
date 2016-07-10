@@ -82,11 +82,6 @@ public class CitationWithSource extends AbstractCitation {
     private StringWithCustomTags whereInSource;
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -158,8 +153,8 @@ public class CitationWithSource extends AbstractCitation {
     }
 
     /**
-     * Get the certainty
-     * 
+     * Gets the certainty.
+     *
      * @return the certainty
      */
     public StringWithCustomTags getCertainty() {
@@ -167,8 +162,8 @@ public class CitationWithSource extends AbstractCitation {
     }
 
     /**
-     * Get the data
-     * 
+     * Gets the data.
+     *
      * @return the data
      */
     public List<CitationData> getData() {
@@ -190,17 +185,17 @@ public class CitationWithSource extends AbstractCitation {
     }
 
     /**
-     * Get the eventCited
-     * 
-     * @return the eventCited
+     * Gets the event cited.
+     *
+     * @return the event cited
      */
     public StringWithCustomTags getEventCited() {
         return eventCited;
     }
 
     /**
-     * Get the multimedia
-     * 
+     * Gets the multimedia.
+     *
      * @return the multimedia
      */
     public List<Multimedia> getMultimedia() {
@@ -222,17 +217,17 @@ public class CitationWithSource extends AbstractCitation {
     }
 
     /**
-     * Get the roleInEvent
-     * 
-     * @return the roleInEvent
+     * Gets the role in event.
+     *
+     * @return the role in event
      */
     public StringWithCustomTags getRoleInEvent() {
         return roleInEvent;
     }
 
     /**
-     * Get the source
-     * 
+     * Gets the source.
+     *
      * @return the source
      */
     public Source getSource() {
@@ -240,9 +235,9 @@ public class CitationWithSource extends AbstractCitation {
     }
 
     /**
-     * Get the whereInSource
-     * 
-     * @return the whereInSource
+     * Gets where in the source is being cited
+     *
+     * @return where in source
      */
     public StringWithCustomTags getWhereInSource() {
         return whereInSource;
@@ -264,50 +259,50 @@ public class CitationWithSource extends AbstractCitation {
     }
 
     /**
-     * Set the certainty
-     * 
+     * Sets the certainty.
+     *
      * @param certainty
-     *            the certainty to set
+     *            the new certainty
      */
     public void setCertainty(StringWithCustomTags certainty) {
         this.certainty = certainty;
     }
 
     /**
-     * Set the eventCited
-     * 
+     * Sets the event cited.
+     *
      * @param eventCited
-     *            the eventCited to set
+     *            the new event cited
      */
     public void setEventCited(StringWithCustomTags eventCited) {
         this.eventCited = eventCited;
     }
 
     /**
-     * Set the roleInEvent
-     * 
+     * Sets the role in event.
+     *
      * @param roleInEvent
-     *            the roleInEvent to set
+     *            the new role in event
      */
     public void setRoleInEvent(StringWithCustomTags roleInEvent) {
         this.roleInEvent = roleInEvent;
     }
 
     /**
-     * Set the source
-     * 
+     * Sets the source.
+     *
      * @param source
-     *            the source to set
+     *            the new source
      */
     public void setSource(Source source) {
         this.source = source;
     }
 
     /**
-     * Set the whereInSource
-     * 
+     * Sets where in the source is being cited
+     *
      * @param whereInSource
-     *            the whereInSource to set
+     *            where in the source is being cited
      */
     public void setWhereInSource(StringWithCustomTags whereInSource) {
         this.whereInSource = whereInSource;

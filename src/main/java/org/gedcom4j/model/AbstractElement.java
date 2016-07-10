@@ -38,7 +38,7 @@ import org.gedcom4j.Options;
  * 
  * @author frizbog
  */
-public abstract class AbstractElement implements Serializable, IVisitable {
+public abstract class AbstractElement implements Serializable {
     /**
      * Serial Version UID
      */
@@ -72,16 +72,16 @@ public abstract class AbstractElement implements Serializable, IVisitable {
     }
 
     /**
-     * Get the customTags
-     * 
-     * @return the customTags
+     * Gets the custom tags.
+     *
+     * @return the custom tags
      */
     public List<StringTree> getCustomTags() {
         return customTags;
     }
 
     /**
-     * Get the customTags
+     * Get the custom tags
      * 
      * @param initializeIfNeeded
      *            initialize the collection if needed

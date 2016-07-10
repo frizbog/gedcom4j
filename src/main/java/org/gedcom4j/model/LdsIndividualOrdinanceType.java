@@ -26,6 +26,7 @@
  */
 package org.gedcom4j.model;
 
+// TODO: Auto-generated Javadoc
 /**
  * An enumeration of the known LDS Individual Ordinance types.
  * 
@@ -101,8 +102,8 @@ public enum LdsIndividualOrdinanceType {
     }
 
     /**
-     * Get the display
-     * 
+     * Gets the display.
+     *
      * @return the display
      */
     public String getDisplay() {
@@ -110,8 +111,8 @@ public enum LdsIndividualOrdinanceType {
     }
 
     /**
-     * Get the tag
-     * 
+     * Gets the tag.
+     *
      * @return the tag
      */
     public String getTag() {

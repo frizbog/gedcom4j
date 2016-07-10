@@ -59,11 +59,6 @@ public class FileReference extends AbstractElement {
     private StringWithCustomTags title;
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -107,8 +102,8 @@ public class FileReference extends AbstractElement {
     }
 
     /**
-     * Get the format
-     * 
+     * Gets the format.
+     *
      * @return the format
      */
     public StringWithCustomTags getFormat() {
@@ -116,26 +111,26 @@ public class FileReference extends AbstractElement {
     }
 
     /**
-     * Get the mediaType
-     * 
-     * @return the mediaType
+     * Gets the media type.
+     *
+     * @return the media type
      */
     public StringWithCustomTags getMediaType() {
         return mediaType;
     }
 
     /**
-     * Get the referenceToFile
-     * 
-     * @return the referenceToFile
+     * Gets the reference to file.
+     *
+     * @return the reference to file
      */
     public StringWithCustomTags getReferenceToFile() {
         return referenceToFile;
     }
 
     /**
-     * Get the title
-     * 
+     * Gets the title.
+     *
      * @return the title
      */
     public StringWithCustomTags getTitle() {
@@ -154,40 +149,40 @@ public class FileReference extends AbstractElement {
     }
 
     /**
-     * Set the format
-     * 
+     * Sets the format.
+     *
      * @param format
-     *            the format to set
+     *            the new format
      */
     public void setFormat(StringWithCustomTags format) {
         this.format = format;
     }
 
     /**
-     * Set the mediaType
-     * 
+     * Sets the media type.
+     *
      * @param mediaType
-     *            the mediaType to set
+     *            the new media type
      */
     public void setMediaType(StringWithCustomTags mediaType) {
         this.mediaType = mediaType;
     }
 
     /**
-     * Set the referenceToFile
-     * 
+     * Sets the reference to file.
+     *
      * @param referenceToFile
-     *            the referenceToFile to set
+     *            the new reference to file
      */
     public void setReferenceToFile(StringWithCustomTags referenceToFile) {
         this.referenceToFile = referenceToFile;
     }
 
     /**
-     * Set the title
-     * 
+     * Sets the title.
+     *
      * @param title
-     *            the title to set
+     *            the new title
      */
     public void setTitle(StringWithCustomTags title) {
         this.title = title;

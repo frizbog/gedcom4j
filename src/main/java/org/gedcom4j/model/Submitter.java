@@ -117,11 +117,6 @@ public class Submitter extends AbstractElement {
      */
     private String xref;
 
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -240,8 +235,8 @@ public class Submitter extends AbstractElement {
     }
 
     /**
-     * Get the address
-     * 
+     * Gets the address.
+     *
      * @return the address
      */
     public Address getAddress() {
@@ -249,17 +244,17 @@ public class Submitter extends AbstractElement {
     }
 
     /**
-     * Get the changeDate
-     * 
-     * @return the changeDate
+     * Gets the change date.
+     *
+     * @return the change date
      */
     public ChangeDate getChangeDate() {
         return changeDate;
     }
 
     /**
-     * Get the emails
-     * 
+     * Gets the emails.
+     *
      * @return the emails
      */
     public List<StringWithCustomTags> getEmails() {
@@ -282,20 +277,20 @@ public class Submitter extends AbstractElement {
     }
 
     /**
-     * Get the faxNumbers
-     * 
-     * @return the faxNumbers
+     * Gets the fax numbers.
+     *
+     * @return the fax numbers
      */
     public List<StringWithCustomTags> getFaxNumbers() {
         return faxNumbers;
     }
 
     /**
-     * Get the faxNumbers
+     * Get the fax numbers
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
-     * @return the faxNumbers
+     * @return the fax numbers
      */
     public List<StringWithCustomTags> getFaxNumbers(boolean initializeIfNeeded) {
         if (initializeIfNeeded && faxNumbers == null) {
@@ -305,9 +300,9 @@ public class Submitter extends AbstractElement {
     }
 
     /**
-     * Get the languagePref
-     * 
-     * @return the languagePref
+     * Gets the language pref.
+     *
+     * @return the language pref
      */
     public List<StringWithCustomTags> getLanguagePref() {
         return languagePref;
@@ -328,8 +323,8 @@ public class Submitter extends AbstractElement {
     }
 
     /**
-     * Get the multimedia
-     * 
+     * Gets the multimedia.
+     *
      * @return the multimedia
      */
     public List<Multimedia> getMultimedia() {
@@ -351,8 +346,8 @@ public class Submitter extends AbstractElement {
     }
 
     /**
-     * Get the name
-     * 
+     * Gets the name.
+     *
      * @return the name
      */
     public StringWithCustomTags getName() {
@@ -360,8 +355,8 @@ public class Submitter extends AbstractElement {
     }
 
     /**
-     * Get the notes
-     * 
+     * Gets the notes.
+     *
      * @return the notes
      */
     public List<Note> getNotes() {
@@ -384,20 +379,20 @@ public class Submitter extends AbstractElement {
     }
 
     /**
-     * Get the phoneNumbers
-     * 
-     * @return the phoneNumbers
+     * Gets the phone numbers.
+     *
+     * @return the phone numbers
      */
     public List<StringWithCustomTags> getPhoneNumbers() {
         return phoneNumbers;
     }
 
     /**
-     * Get the phoneNumbers
+     * Get the phone numbers
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
-     * @return the phoneNumbers
+     * @return the phone numbers
      */
     public List<StringWithCustomTags> getPhoneNumbers(boolean initializeIfNeeded) {
         if (initializeIfNeeded && phoneNumbers == null) {
@@ -407,38 +402,38 @@ public class Submitter extends AbstractElement {
     }
 
     /**
-     * Get the recIdNumber
-     * 
-     * @return the recIdNumber
+     * Gets the rec id number.
+     *
+     * @return the rec id number
      */
     public StringWithCustomTags getRecIdNumber() {
         return recIdNumber;
     }
 
     /**
-     * Get the regFileNumber
-     * 
-     * @return the regFileNumber
+     * Gets the reg file number.
+     *
+     * @return the reg file number
      */
     public StringWithCustomTags getRegFileNumber() {
         return regFileNumber;
     }
 
     /**
-     * Get the userReferences
-     * 
-     * @return the userReferences
+     * Gets the user references.
+     *
+     * @return the user references
      */
     public List<UserReference> getUserReferences() {
         return userReferences;
     }
 
     /**
-     * Get the userReferences
+     * Get the user references
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
-     * @return the userReferences
+     * @return the user references
      */
     public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
         if (initializeIfNeeded && userReferences == null) {
@@ -448,20 +443,20 @@ public class Submitter extends AbstractElement {
     }
 
     /**
-     * Get the wwwUrls
-     * 
-     * @return the wwwUrls
+     * Gets the www urls.
+     *
+     * @return the www urls
      */
     public List<StringWithCustomTags> getWwwUrls() {
         return wwwUrls;
     }
 
     /**
-     * Get the wwwUrls
+     * Get the www urls
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
-     * @return the wwwUrls
+     * @return the www urls
      */
     public List<StringWithCustomTags> getWwwUrls(boolean initializeIfNeeded) {
         if (initializeIfNeeded && wwwUrls == null) {
@@ -471,8 +466,8 @@ public class Submitter extends AbstractElement {
     }
 
     /**
-     * Get the xref
-     * 
+     * Gets the xref.
+     *
      * @return the xref
      */
     public String getXref() {
@@ -504,60 +499,60 @@ public class Submitter extends AbstractElement {
     }
 
     /**
-     * Set the address
-     * 
+     * Sets the address.
+     *
      * @param address
-     *            the address to set
+     *            the new address
      */
     public void setAddress(Address address) {
         this.address = address;
     }
 
     /**
-     * Set the changeDate
-     * 
+     * Sets the change date.
+     *
      * @param changeDate
-     *            the changeDate to set
+     *            the new change date
      */
     public void setChangeDate(ChangeDate changeDate) {
         this.changeDate = changeDate;
     }
 
     /**
-     * Set the name
-     * 
+     * Sets the name.
+     *
      * @param name
-     *            the name to set
+     *            the new name
      */
     public void setName(StringWithCustomTags name) {
         this.name = name;
     }
 
     /**
-     * Set the recIdNumber
-     * 
+     * Sets the rec id number.
+     *
      * @param recIdNumber
-     *            the recIdNumber to set
+     *            the new rec id number
      */
     public void setRecIdNumber(StringWithCustomTags recIdNumber) {
         this.recIdNumber = recIdNumber;
     }
 
     /**
-     * Set the regFileNumber
-     * 
+     * Sets the reg file number.
+     *
      * @param regFileNumber
-     *            the regFileNumber to set
+     *            the new reg file number
      */
     public void setRegFileNumber(StringWithCustomTags regFileNumber) {
         this.regFileNumber = regFileNumber;
     }
 
     /**
-     * Set the xref
-     * 
+     * Sets the xref.
+     *
      * @param xref
-     *            the xref to set
+     *            the new xref
      */
     public void setXref(String xref) {
         this.xref = xref;

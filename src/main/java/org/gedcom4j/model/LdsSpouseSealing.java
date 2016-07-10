@@ -38,11 +38,6 @@ public class LdsSpouseSealing extends AbstractLdsOrdinance {
      */
     private static final long serialVersionUID = -6357595096472920377L;
 
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
     /**
      * {@inheritDoc}
      */

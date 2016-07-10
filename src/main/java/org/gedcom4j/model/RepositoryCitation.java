@@ -35,7 +35,6 @@ import org.gedcom4j.Options;
  * A citation to a repository
  * 
  * @author frizbog1
- * 
  */
 public class RepositoryCitation extends AbstractElement {
 
@@ -59,11 +58,6 @@ public class RepositoryCitation extends AbstractElement {
      * object graph (particularly, Note -&gt; Citation -&gt; Source -&gt; Repository -&gt; Note -&gt; Citation...)
      */
     private String repositoryXref;
-
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -102,20 +96,20 @@ public class RepositoryCitation extends AbstractElement {
     }
 
     /**
-     * Get the callNumbers
-     * 
-     * @return the callNumbers
+     * Gets the call numbers.
+     *
+     * @return the call numbers
      */
     public List<SourceCallNumber> getCallNumbers() {
         return callNumbers;
     }
 
     /**
-     * Get the callNumbers
+     * Get the call numbers
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
-     * @return the callNumbers
+     * @return the call numbers
      */
     public List<SourceCallNumber> getCallNumbers(boolean initializeIfNeeded) {
         if (initializeIfNeeded && callNumbers == null) {
@@ -125,8 +119,8 @@ public class RepositoryCitation extends AbstractElement {
     }
 
     /**
-     * Get the notes
-     * 
+     * Gets the notes.
+     *
      * @return the notes
      */
     public List<Note> getNotes() {
@@ -149,9 +143,9 @@ public class RepositoryCitation extends AbstractElement {
     }
 
     /**
-     * Get the repositoryXref
-     * 
-     * @return the repositoryXref
+     * Gets the repository xref.
+     *
+     * @return the repository xref
      */
     public String getRepositoryXref() {
         return repositoryXref;
@@ -168,10 +162,10 @@ public class RepositoryCitation extends AbstractElement {
     }
 
     /**
-     * Set the repositoryXref
-     * 
+     * Sets the repository xref.
+     *
      * @param repositoryXref
-     *            the repositoryXref to set
+     *            the new repository xref
      */
     public void setRepositoryXref(String repositoryXref) {
         this.repositoryXref = repositoryXref;

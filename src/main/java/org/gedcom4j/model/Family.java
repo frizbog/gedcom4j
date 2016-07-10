@@ -123,11 +123,6 @@ public class Family extends AbstractElement {
      */
     private String xref;
 
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -260,26 +255,26 @@ public class Family extends AbstractElement {
     }
 
     /**
-     * Get the automatedRecordId
-     * 
-     * @return the automatedRecordId
+     * Gets the automated record id.
+     *
+     * @return the automated record id
      */
     public StringWithCustomTags getAutomatedRecordId() {
         return automatedRecordId;
     }
 
     /**
-     * Get the changeDate
-     * 
-     * @return the changeDate
+     * Gets the change date.
+     *
+     * @return the change date
      */
     public ChangeDate getChangeDate() {
         return changeDate;
     }
 
     /**
-     * Get the children
-     * 
+     * Gets the children.
+     *
      * @return the children
      */
     public List<Individual> getChildren() {
@@ -301,8 +296,8 @@ public class Family extends AbstractElement {
     }
 
     /**
-     * Get the citations
-     * 
+     * Gets the citations.
+     *
      * @return the citations
      */
     public List<AbstractCitation> getCitations() {
@@ -325,8 +320,8 @@ public class Family extends AbstractElement {
     }
 
     /**
-     * Get the events
-     * 
+     * Gets the events.
+     *
      * @return the events
      */
     public List<FamilyEvent> getEvents() {
@@ -348,8 +343,8 @@ public class Family extends AbstractElement {
     }
 
     /**
-     * Get the husband
-     * 
+     * Gets the husband.
+     *
      * @return the husband
      */
     public Individual getHusband() {
@@ -357,16 +352,16 @@ public class Family extends AbstractElement {
     }
 
     /**
-     * Get the ldsSpouseSealings
-     * 
-     * @return the ldsSpouseSealings
+     * Gets the LDS spouse sealings.
+     *
+     * @return the LDS spouse sealings
      */
     public List<LdsSpouseSealing> getLdsSpouseSealings() {
         return ldsSpouseSealings;
     }
 
     /**
-     * Get the ldsSpouseSealings
+     * Gets the LDS spouse sealings.
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
@@ -380,8 +375,8 @@ public class Family extends AbstractElement {
     }
 
     /**
-     * Get the multimedia
-     * 
+     * Gets the multimedia.
+     *
      * @return the multimedia
      */
     public List<Multimedia> getMultimedia() {
@@ -403,8 +398,8 @@ public class Family extends AbstractElement {
     }
 
     /**
-     * Get the notes
-     * 
+     * Gets the notes.
+     *
      * @return the notes
      */
     public List<Note> getNotes() {
@@ -427,35 +422,35 @@ public class Family extends AbstractElement {
     }
 
     /**
-     * Get the numChildren
-     * 
-     * @return the numChildren
+     * Gets the number of children.
+     *
+     * @return the number of children
      */
     public StringWithCustomTags getNumChildren() {
         return numChildren;
     }
 
     /**
-     * Get the recFileNumber
-     * 
-     * @return the recFileNumber
+     * Gets the rec file number.
+     *
+     * @return the rec file number
      */
     public StringWithCustomTags getRecFileNumber() {
         return recFileNumber;
     }
 
     /**
-     * Get the restrictionNotice
-     * 
-     * @return the restrictionNotice
+     * Gets the restriction notice.
+     *
+     * @return the restriction notice
      */
     public StringWithCustomTags getRestrictionNotice() {
         return restrictionNotice;
     }
 
     /**
-     * Get the submitters
-     * 
+     * Gets the submitters.
+     *
      * @return the submitters
      */
     public List<Submitter> getSubmitters() {
@@ -477,16 +472,16 @@ public class Family extends AbstractElement {
     }
 
     /**
-     * Get the userReferences
-     * 
-     * @return the userReferences
+     * Gets the user references.
+     *
+     * @return the user references
      */
     public List<UserReference> getUserReferences() {
         return userReferences;
     }
 
     /**
-     * Get the userReferences
+     * Get the user references
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
@@ -500,8 +495,8 @@ public class Family extends AbstractElement {
     }
 
     /**
-     * Get the wife
-     * 
+     * Gets the wife.
+     *
      * @return the wife
      */
     public Individual getWife() {
@@ -509,8 +504,8 @@ public class Family extends AbstractElement {
     }
 
     /**
-     * Get the xref
-     * 
+     * Gets the xref.
+     *
      * @return the xref
      */
     public String getXref() {
@@ -544,80 +539,80 @@ public class Family extends AbstractElement {
     }
 
     /**
-     * Set the automatedRecordId
-     * 
+     * Sets the automated record id.
+     *
      * @param automatedRecordId
-     *            the automatedRecordId to set
+     *            the new automated record id
      */
     public void setAutomatedRecordId(StringWithCustomTags automatedRecordId) {
         this.automatedRecordId = automatedRecordId;
     }
 
     /**
-     * Set the changeDate
-     * 
+     * Sets the change date.
+     *
      * @param changeDate
-     *            the changeDate to set
+     *            the new change date
      */
     public void setChangeDate(ChangeDate changeDate) {
         this.changeDate = changeDate;
     }
 
     /**
-     * Set the husband
-     * 
+     * Sets the husband.
+     *
      * @param husband
-     *            the husband to set
+     *            the new husband
      */
     public void setHusband(Individual husband) {
         this.husband = husband;
     }
 
     /**
-     * Set the numChildren
-     * 
+     * Sets the number of children.
+     *
      * @param numChildren
-     *            the numChildren to set
+     *            the new number of children
      */
     public void setNumChildren(StringWithCustomTags numChildren) {
         this.numChildren = numChildren;
     }
 
     /**
-     * Set the recFileNumber
-     * 
+     * Sets the rec file number.
+     *
      * @param recFileNumber
-     *            the recFileNumber to set
+     *            the new rec file number
      */
     public void setRecFileNumber(StringWithCustomTags recFileNumber) {
         this.recFileNumber = recFileNumber;
     }
 
     /**
-     * Set the restrictionNotice
-     * 
+     * Sets the restriction notice.
+     *
      * @param restrictionNotice
-     *            the restrictionNotice to set
+     *            the new restriction notice
      */
     public void setRestrictionNotice(StringWithCustomTags restrictionNotice) {
         this.restrictionNotice = restrictionNotice;
     }
 
     /**
-     * Set the wife
-     * 
+     * Sets the wife.
+     *
      * @param wife
-     *            the wife to set
+     *            the new wife
      */
     public void setWife(Individual wife) {
         this.wife = wife;
     }
 
     /**
-     * Set the xref
-     * 
+     * Sets the xref.
+     *
      * @param xref
-     *            the xref to set
+     *            the new xref
      */
     public void setXref(String xref) {
         this.xref = xref;

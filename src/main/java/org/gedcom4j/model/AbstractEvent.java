@@ -281,8 +281,8 @@ public abstract class AbstractEvent extends AbstractElement {
     }
 
     /**
-     * Get the address
-     * 
+     * Gets the address.
+     *
      * @return the address
      */
     public Address getAddress() {
@@ -290,8 +290,8 @@ public abstract class AbstractEvent extends AbstractElement {
     }
 
     /**
-     * Get the age
-     * 
+     * Gets the age.
+     *
      * @return the age
      */
     public StringWithCustomTags getAge() {
@@ -299,8 +299,8 @@ public abstract class AbstractEvent extends AbstractElement {
     }
 
     /**
-     * Get the cause
-     * 
+     * Gets the cause.
+     *
      * @return the cause
      */
     public StringWithCustomTags getCause() {
@@ -308,8 +308,8 @@ public abstract class AbstractEvent extends AbstractElement {
     }
 
     /**
-     * Get the citations
-     * 
+     * Gets the citations.
+     *
      * @return the citations
      */
     public List<AbstractCitation> getCitations() {
@@ -332,8 +332,8 @@ public abstract class AbstractEvent extends AbstractElement {
     }
 
     /**
-     * Get the date
-     * 
+     * Gets the date.
+     *
      * @return the date
      */
     public StringWithCustomTags getDate() {
@@ -341,8 +341,8 @@ public abstract class AbstractEvent extends AbstractElement {
     }
 
     /**
-     * Get the description
-     * 
+     * Gets the description.
+     *
      * @return the description
      */
     public StringWithCustomTags getDescription() {
@@ -350,8 +350,8 @@ public abstract class AbstractEvent extends AbstractElement {
     }
 
     /**
-     * Get the emails
-     * 
+     * Gets the emails.
+     *
      * @return the emails
      */
     public List<StringWithCustomTags> getEmails() {
@@ -374,16 +374,16 @@ public abstract class AbstractEvent extends AbstractElement {
     }
 
     /**
-     * Get the faxNumbers
-     * 
-     * @return the faxNumbers
+     * Gets the fax numbers.
+     *
+     * @return the fax numbers
      */
     public List<StringWithCustomTags> getFaxNumbers() {
         return faxNumbers;
     }
 
     /**
-     * Get the faxNumbers
+     * Get the fax numbers
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
@@ -397,8 +397,8 @@ public abstract class AbstractEvent extends AbstractElement {
     }
 
     /**
-     * Get the multimedia
-     * 
+     * Gets the multimedia.
+     *
      * @return the multimedia
      */
     public List<Multimedia> getMultimedia() {
@@ -420,8 +420,8 @@ public abstract class AbstractEvent extends AbstractElement {
     }
 
     /**
-     * Get the notes
-     * 
+     * Gets the notes.
+     *
      * @return the notes
      */
     public List<Note> getNotes() {
@@ -444,16 +444,16 @@ public abstract class AbstractEvent extends AbstractElement {
     }
 
     /**
-     * Get the phoneNumbers
-     * 
-     * @return the phoneNumbers
+     * Gets the phone numbers.
+     *
+     * @return the phone numbers
      */
     public List<StringWithCustomTags> getPhoneNumbers() {
         return phoneNumbers;
     }
 
     /**
-     * Get the phoneNumbers
+     * Get the phone numbers
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
@@ -467,8 +467,8 @@ public abstract class AbstractEvent extends AbstractElement {
     }
 
     /**
-     * Get the place
-     * 
+     * Gets the place.
+     *
      * @return the place
      */
     public Place getPlace() {
@@ -476,52 +476,52 @@ public abstract class AbstractEvent extends AbstractElement {
     }
 
     /**
-     * Get the religiousAffiliation
-     * 
-     * @return the religiousAffiliation
+     * Gets the religious affiliation.
+     *
+     * @return the religious affiliation
      */
     public StringWithCustomTags getReligiousAffiliation() {
         return religiousAffiliation;
     }
 
     /**
-     * Get the respAgency
-     * 
-     * @return the respAgency
+     * Gets the resp agency.
+     *
+     * @return the resp agency
      */
     public StringWithCustomTags getRespAgency() {
         return respAgency;
     }
 
     /**
-     * Get the restrictionNotice
-     * 
-     * @return the restrictionNotice
+     * Gets the restriction notice.
+     *
+     * @return the restriction notice
      */
     public StringWithCustomTags getRestrictionNotice() {
         return restrictionNotice;
     }
 
     /**
-     * Get the subType
-     * 
-     * @return the subType
+     * Gets the sub type.
+     *
+     * @return the sub type
      */
     public StringWithCustomTags getSubType() {
         return subType;
     }
 
     /**
-     * Get the wwwUrls
-     * 
-     * @return the wwwUrls
+     * Gets the www urls.
+     *
+     * @return the www urls
      */
     public List<StringWithCustomTags> getWwwUrls() {
         return wwwUrls;
     }
 
     /**
-     * Get the wwwUrls
+     * Get the www urls
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
@@ -572,100 +572,100 @@ public abstract class AbstractEvent extends AbstractElement {
     }
 
     /**
-     * Set the address
-     * 
+     * Sets the address.
+     *
      * @param address
-     *            the address to set
+     *            the new address
      */
     public void setAddress(Address address) {
         this.address = address;
     }
 
     /**
-     * Set the age
-     * 
+     * Sets the age.
+     *
      * @param age
-     *            the age to set
+     *            the new age
      */
     public void setAge(StringWithCustomTags age) {
         this.age = age;
     }
 
     /**
-     * Set the cause
-     * 
+     * Sets the cause.
+     *
      * @param cause
-     *            the cause to set
+     *            the new cause
      */
     public void setCause(StringWithCustomTags cause) {
         this.cause = cause;
     }
 
     /**
-     * Set the date
-     * 
+     * Sets the date.
+     *
      * @param date
-     *            the date to set
+     *            the new date
      */
     public void setDate(StringWithCustomTags date) {
         this.date = date;
     }
 
     /**
-     * Set the description
-     * 
+     * Sets the description.
+     *
      * @param description
-     *            the description to set
+     *            the new description
      */
     public void setDescription(StringWithCustomTags description) {
         this.description = description;
     }
 
     /**
-     * Set the place
-     * 
+     * Sets the place.
+     *
      * @param place
-     *            the place to set
+     *            the new place
      */
     public void setPlace(Place place) {
         this.place = place;
     }
 
     /**
-     * Set the religiousAffiliation
-     * 
+     * Sets the religious affiliation.
+     *
      * @param religiousAffiliation
-     *            the religiousAffiliation to set
+     *            the new religious affiliation
      */
     public void setReligiousAffiliation(StringWithCustomTags religiousAffiliation) {
         this.religiousAffiliation = religiousAffiliation;
     }
 
     /**
-     * Set the respAgency
-     * 
+     * Sets the resp agency.
+     *
      * @param respAgency
-     *            the respAgency to set
+     *            the new resp agency
      */
     public void setRespAgency(StringWithCustomTags respAgency) {
         this.respAgency = respAgency;
     }
 
     /**
-     * Set the restrictionNotice
-     * 
+     * Sets the restriction notice.
+     *
      * @param restrictionNotice
-     *            the restrictionNotice to set
+     *            the new restriction notice
      */
     public void setRestrictionNotice(StringWithCustomTags restrictionNotice) {
         this.restrictionNotice = restrictionNotice;
     }
 
     /**
-     * Set the subType
-     * 
+     * Sets the sub type.
+     *
      * @param subType
-     *            the subType to set
+     *            the new sub type
      */
     public void setSubType(StringWithCustomTags subType) {
         this.subType = subType;

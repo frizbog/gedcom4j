@@ -54,11 +54,6 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
     private String yNull;
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -91,17 +86,17 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
     }
 
     /**
-     * Get the familyWhereChild
-     * 
-     * @return the familyWhereChild
+     * Gets the family where child.
+     *
+     * @return the family where child
      */
     public FamilyChild getFamilyWhereChild() {
         return familyWhereChild;
     }
 
     /**
-     * Get the type
-     * 
+     * Gets the type.
+     *
      * @return the type
      */
     public LdsIndividualOrdinanceType getType() {
@@ -128,20 +123,20 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
     }
 
     /**
-     * Set the familyWhereChild
-     * 
+     * Sets the family where child.
+     *
      * @param familyWhereChild
-     *            the familyWhereChild to set
+     *            the new family where child
      */
     public void setFamilyWhereChild(FamilyChild familyWhereChild) {
         this.familyWhereChild = familyWhereChild;
     }
 
     /**
-     * Set the type
-     * 
+     * Sets the type.
+     *
      * @param type
-     *            the type to set
+     *            the new type
      */
     public void setType(LdsIndividualOrdinanceType type) {
         this.type = type;

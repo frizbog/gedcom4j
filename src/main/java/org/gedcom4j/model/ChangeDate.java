@@ -58,11 +58,6 @@ public class ChangeDate extends AbstractElement {
     private StringWithCustomTags time;
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -99,8 +94,8 @@ public class ChangeDate extends AbstractElement {
     }
 
     /**
-     * Get the date
-     * 
+     * Gets the date.
+     *
      * @return the date
      */
     public StringWithCustomTags getDate() {
@@ -108,8 +103,8 @@ public class ChangeDate extends AbstractElement {
     }
 
     /**
-     * Get the notes
-     * 
+     * Gets the notes.
+     *
      * @return the notes
      */
     public List<Note> getNotes() {
@@ -132,8 +127,8 @@ public class ChangeDate extends AbstractElement {
     }
 
     /**
-     * Get the time
-     * 
+     * Gets the time.
+     *
      * @return the time
      */
     public StringWithCustomTags getTime() {
@@ -151,20 +146,20 @@ public class ChangeDate extends AbstractElement {
     }
 
     /**
-     * Set the date
-     * 
+     * Sets the date.
+     *
      * @param date
-     *            the date to set
+     *            the new date
      */
     public void setDate(StringWithCustomTags date) {
         this.date = date;
     }
 
     /**
-     * Set the time
-     * 
+     * Sets the time.
+     *
      * @param time
-     *            the time to set
+     *            the new time
      */
     public void setTime(StringWithCustomTags time) {
         this.time = time;

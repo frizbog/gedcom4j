@@ -69,11 +69,6 @@ public class FamilyChild extends AbstractElement {
     private StringWithCustomTags status;
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -135,17 +130,17 @@ public class FamilyChild extends AbstractElement {
     }
 
     /**
-     * Get the adoptedBy
-     * 
-     * @return the adoptedBy
+     * Gets the parent who did the adopting
+     *
+     * @return the parent who did the adopting
      */
     public AdoptedByWhichParent getAdoptedBy() {
         return adoptedBy;
     }
 
     /**
-     * Get the family
-     * 
+     * Gets the family.
+     *
      * @return the family
      */
     public Family getFamily() {
@@ -153,8 +148,8 @@ public class FamilyChild extends AbstractElement {
     }
 
     /**
-     * Get the notes
-     * 
+     * Gets the notes.
+     *
      * @return the notes
      */
     public List<Note> getNotes() {
@@ -177,8 +172,8 @@ public class FamilyChild extends AbstractElement {
     }
 
     /**
-     * Get the pedigree
-     * 
+     * Gets the pedigree.
+     *
      * @return the pedigree
      */
     public StringWithCustomTags getPedigree() {
@@ -186,8 +181,8 @@ public class FamilyChild extends AbstractElement {
     }
 
     /**
-     * Get the status
-     * 
+     * Gets the status.
+     *
      * @return the status
      */
     public StringWithCustomTags getStatus() {
@@ -207,40 +202,40 @@ public class FamilyChild extends AbstractElement {
     }
 
     /**
-     * Set the adoptedBy
-     * 
+     * Sets the adopted by.
+     *
      * @param adoptedBy
-     *            the adoptedBy to set
+     *            the new adopted by
      */
     public void setAdoptedBy(AdoptedByWhichParent adoptedBy) {
         this.adoptedBy = adoptedBy;
     }
 
     /**
-     * Set the family
-     * 
+     * Sets the family.
+     *
      * @param family
-     *            the family to set
+     *            the new family
      */
     public void setFamily(Family family) {
         this.family = family;
     }
 
     /**
-     * Set the pedigree
-     * 
+     * Sets the pedigree.
+     *
      * @param pedigree
-     *            the pedigree to set
+     *            the new pedigree
      */
     public void setPedigree(StringWithCustomTags pedigree) {
         this.pedigree = pedigree;
     }
 
     /**
-     * Set the status
-     * 
+     * Sets the status.
+     *
      * @param status
-     *            the status to set
+     *            the new status
      */
     public void setStatus(StringWithCustomTags status) {
         this.status = status;

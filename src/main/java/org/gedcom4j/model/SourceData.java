@@ -58,11 +58,6 @@ public class SourceData extends AbstractElement {
     private StringWithCustomTags respAgency;
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -99,20 +94,20 @@ public class SourceData extends AbstractElement {
     }
 
     /**
-     * Get the eventsRecorded
-     * 
-     * @return the eventsRecorded
+     * Gets the events recorded.
+     *
+     * @return the events recorded
      */
     public List<EventRecorded> getEventsRecorded() {
         return eventsRecorded;
     }
 
     /**
-     * Get the eventsRecorded
+     * Get the events recorded
      * 
      * @param initializeIfNeeded
      *            initialize the collection, if needed?
-     * @return the eventsRecorded
+     * @return the events recorded
      */
     public List<EventRecorded> getEventsRecorded(boolean initializeIfNeeded) {
         if (initializeIfNeeded && eventsRecorded == null) {
@@ -122,8 +117,8 @@ public class SourceData extends AbstractElement {
     }
 
     /**
-     * Get the notes
-     * 
+     * Gets the notes.
+     *
      * @return the notes
      */
     public List<Note> getNotes() {
@@ -146,9 +141,9 @@ public class SourceData extends AbstractElement {
     }
 
     /**
-     * Get the respAgency
-     * 
-     * @return the respAgency
+     * Gets the resp agency.
+     *
+     * @return the resp agency
      */
     public StringWithCustomTags getRespAgency() {
         return respAgency;
@@ -165,10 +160,10 @@ public class SourceData extends AbstractElement {
     }
 
     /**
-     * Set the respAgency
-     * 
+     * Sets the resp agency.
+     *
      * @param respAgency
-     *            the respAgency to set
+     *            the new resp agency
      */
     public void setRespAgency(StringWithCustomTags respAgency) {
         this.respAgency = respAgency;

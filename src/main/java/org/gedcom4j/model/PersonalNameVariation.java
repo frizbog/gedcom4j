@@ -35,7 +35,6 @@ import org.gedcom4j.Options;
  * A variation on a personal name - either a romanized version or a phonetic version. Introduced with GEDCOM 5.5.1.
  * 
  * @author frizbog
- * 
  */
 public class PersonalNameVariation extends AbstractNameVariation {
     /**
@@ -82,11 +81,6 @@ public class PersonalNameVariation extends AbstractNameVariation {
      * Surname prefix
      */
     private StringWithCustomTags surnamePrefix;
-
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
 
     /**
      * Determine if this object is equal to another
@@ -182,8 +176,8 @@ public class PersonalNameVariation extends AbstractNameVariation {
     }
 
     /**
-     * Get the citations
-     * 
+     * Gets the citations.
+     *
      * @return the citations
      */
     public List<AbstractCitation> getCitations() {
@@ -206,17 +200,17 @@ public class PersonalNameVariation extends AbstractNameVariation {
     }
 
     /**
-     * Get the givenName
-     * 
-     * @return the givenName
+     * Gets the given name.
+     *
+     * @return the given name
      */
     public StringWithCustomTags getGivenName() {
         return givenName;
     }
 
     /**
-     * Get the nickname
-     * 
+     * Gets the nickname.
+     *
      * @return the nickname
      */
     public StringWithCustomTags getNickname() {
@@ -224,8 +218,8 @@ public class PersonalNameVariation extends AbstractNameVariation {
     }
 
     /**
-     * Get the notes
-     * 
+     * Gets the notes.
+     *
      * @return the notes
      */
     public List<Note> getNotes() {
@@ -248,8 +242,8 @@ public class PersonalNameVariation extends AbstractNameVariation {
     }
 
     /**
-     * Get the prefix
-     * 
+     * Gets the prefix.
+     *
      * @return the prefix
      */
     public StringWithCustomTags getPrefix() {
@@ -257,8 +251,8 @@ public class PersonalNameVariation extends AbstractNameVariation {
     }
 
     /**
-     * Get the suffix
-     * 
+     * Gets the suffix.
+     *
      * @return the suffix
      */
     public StringWithCustomTags getSuffix() {
@@ -266,8 +260,8 @@ public class PersonalNameVariation extends AbstractNameVariation {
     }
 
     /**
-     * Get the surname
-     * 
+     * Gets the surname.
+     *
      * @return the surname
      */
     public StringWithCustomTags getSurname() {
@@ -275,9 +269,9 @@ public class PersonalNameVariation extends AbstractNameVariation {
     }
 
     /**
-     * Get the surnamePrefix
-     * 
-     * @return the surnamePrefix
+     * Gets the surname prefix.
+     *
+     * @return the surname prefix
      */
     public StringWithCustomTags getSurnamePrefix() {
         return surnamePrefix;
@@ -307,60 +301,60 @@ public class PersonalNameVariation extends AbstractNameVariation {
     }
 
     /**
-     * Set the givenName
-     * 
+     * Sets the given name.
+     *
      * @param givenName
-     *            the givenName to set
+     *            the new given name
      */
     public void setGivenName(StringWithCustomTags givenName) {
         this.givenName = givenName;
     }
 
     /**
-     * Set the nickname
-     * 
+     * Sets the nickname.
+     *
      * @param nickname
-     *            the nickname to set
+     *            the new nickname
      */
     public void setNickname(StringWithCustomTags nickname) {
         this.nickname = nickname;
     }
 
     /**
-     * Set the prefix
-     * 
+     * Sets the prefix.
+     *
      * @param prefix
-     *            the prefix to set
+     *            the new prefix
      */
     public void setPrefix(StringWithCustomTags prefix) {
         this.prefix = prefix;
     }
 
     /**
-     * Set the suffix
-     * 
+     * Sets the suffix.
+     *
      * @param suffix
-     *            the suffix to set
+     *            the new suffix
      */
     public void setSuffix(StringWithCustomTags suffix) {
         this.suffix = suffix;
     }
 
     /**
-     * Set the surname
-     * 
+     * Sets the surname.
+     *
      * @param surname
-     *            the surname to set
+     *            the new surname
      */
     public void setSurname(StringWithCustomTags surname) {
         this.surname = surname;
     }
 
     /**
-     * Set the surnamePrefix
-     * 
+     * Sets the surname prefix.
+     *
      * @param surnamePrefix
-     *            the surnamePrefix to set
+     *            the new surname prefix
      */
     public void setSurnamePrefix(StringWithCustomTags surnamePrefix) {
         this.surnamePrefix = surnamePrefix;

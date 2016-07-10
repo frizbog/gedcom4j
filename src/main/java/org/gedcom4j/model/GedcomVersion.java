@@ -49,11 +49,6 @@ public class GedcomVersion extends AbstractElement {
     private SupportedVersion versionNumber = SupportedVersion.V5_5_1;
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -83,18 +78,18 @@ public class GedcomVersion extends AbstractElement {
     }
 
     /**
-     * Get the gedcomForm
-     * 
-     * @return the gedcomForm
+     * Gets the gedcom form.
+     *
+     * @return the gedcom form
      */
     public StringWithCustomTags getGedcomForm() {
         return gedcomForm;
     }
 
     /**
-     * Get the versionNumber
-     * 
-     * @return the versionNumber
+     * Gets the version number.
+     *
+     * @return the version number
      */
     public SupportedVersion getVersionNumber() {
         return versionNumber;
@@ -110,20 +105,20 @@ public class GedcomVersion extends AbstractElement {
     }
 
     /**
-     * Set the gedcomForm
-     * 
+     * Sets the gedcom form.
+     *
      * @param gedcomForm
-     *            the gedcomForm to set
+     *            the new gedcom form
      */
     public void setGedcomForm(StringWithCustomTags gedcomForm) {
         this.gedcomForm = gedcomForm;
     }
 
     /**
-     * Set the versionNumber
-     * 
+     * Sets the version number.
+     *
      * @param versionNumber
-     *            the versionNumber to set
+     *            the new version number
      */
     public void setVersionNumber(SupportedVersion versionNumber) {
         this.versionNumber = versionNumber;

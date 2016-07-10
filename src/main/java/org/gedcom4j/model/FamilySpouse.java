@@ -54,12 +54,6 @@ public class FamilySpouse extends AbstractElement {
     private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -100,8 +94,8 @@ public class FamilySpouse extends AbstractElement {
     }
 
     /**
-     * Get the family
-     * 
+     * Gets the family.
+     *
      * @return the family
      */
     public Family getFamily() {
@@ -109,8 +103,8 @@ public class FamilySpouse extends AbstractElement {
     }
 
     /**
-     * Get the notes
-     * 
+     * Gets the notes.
+     *
      * @return the notes
      */
     public List<Note> getNotes() {
@@ -142,10 +136,10 @@ public class FamilySpouse extends AbstractElement {
     }
 
     /**
-     * Set the family
-     * 
+     * Sets the family.
+     *
      * @param family
-     *            the family to set
+     *            the new family
      */
     public void setFamily(Family family) {
         this.family = family;

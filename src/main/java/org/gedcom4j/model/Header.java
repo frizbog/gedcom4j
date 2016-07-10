@@ -113,14 +113,6 @@ public class Header extends AbstractElement {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @SuppressWarnings("PMD.ExcessiveMethodLength")
     @Override
     public boolean equals(Object obj) {
@@ -229,17 +221,17 @@ public class Header extends AbstractElement {
     }
 
     /**
-     * Get the characterSet
-     * 
-     * @return the characterSet
+     * Gets the character set.
+     *
+     * @return the character set
      */
     public CharacterSet getCharacterSet() {
         return characterSet;
     }
 
     /**
-     * Get the copyright data
-     * 
+     * Gets the copyright data.
+     *
      * @return the copyright data
      */
     public List<String> getCopyrightData() {
@@ -261,8 +253,8 @@ public class Header extends AbstractElement {
     }
 
     /**
-     * Get the date
-     * 
+     * Gets the date.
+     *
      * @return the date
      */
     public StringWithCustomTags getDate() {
@@ -270,35 +262,35 @@ public class Header extends AbstractElement {
     }
 
     /**
-     * Get the destinationSystem
-     * 
-     * @return the destinationSystem
+     * Gets the destination system.
+     *
+     * @return the destination system
      */
     public StringWithCustomTags getDestinationSystem() {
         return destinationSystem;
     }
 
     /**
-     * Get the fileName
-     * 
-     * @return the fileName
+     * Gets the file name.
+     *
+     * @return the file name
      */
     public StringWithCustomTags getFileName() {
         return fileName;
     }
 
     /**
-     * Get the gedcomVersion
-     * 
-     * @return the gedcomVersion
+     * Gets the gedcom version.
+     *
+     * @return the gedcom version
      */
     public GedcomVersion getGedcomVersion() {
         return gedcomVersion;
     }
 
     /**
-     * Get the language
-     * 
+     * Gets the language.
+     *
      * @return the language
      */
     public StringWithCustomTags getLanguage() {
@@ -306,8 +298,8 @@ public class Header extends AbstractElement {
     }
 
     /**
-     * Get the notes
-     * 
+     * Gets the notes.
+     *
      * @return the notes
      */
     public List<Note> getNotes() {
@@ -329,26 +321,26 @@ public class Header extends AbstractElement {
     }
 
     /**
-     * Get the placeHierarchy
-     * 
-     * @return the placeHierarchy
+     * Gets the place hierarchy.
+     *
+     * @return the place hierarchy
      */
     public StringWithCustomTags getPlaceHierarchy() {
         return placeHierarchy;
     }
 
     /**
-     * Get the sourceSystem
-     * 
-     * @return the sourceSystem
+     * Gets the source system.
+     *
+     * @return the source system
      */
     public SourceSystem getSourceSystem() {
         return sourceSystem;
     }
 
     /**
-     * Get the submission
-     * 
+     * Gets the submission.
+     *
      * @return the submission
      */
     public Submission getSubmission() {
@@ -356,8 +348,8 @@ public class Header extends AbstractElement {
     }
 
     /**
-     * Get the submitter
-     * 
+     * Gets the submitter.
+     *
      * @return the submitter
      */
     public Submitter getSubmitter() {
@@ -365,8 +357,8 @@ public class Header extends AbstractElement {
     }
 
     /**
-     * Get the time
-     * 
+     * Gets the time.
+     *
      * @return the time
      */
     public StringWithCustomTags getTime() {
@@ -395,110 +387,110 @@ public class Header extends AbstractElement {
     }
 
     /**
-     * Set the characterSet
-     * 
+     * Sets the character set.
+     *
      * @param characterSet
-     *            the characterSet to set
+     *            the new character set
      */
     public void setCharacterSet(CharacterSet characterSet) {
         this.characterSet = characterSet;
     }
 
     /**
-     * Set the date
-     * 
+     * Sets the date.
+     *
      * @param date
-     *            the date to set
+     *            the new date
      */
     public void setDate(StringWithCustomTags date) {
         this.date = date;
     }
 
     /**
-     * Set the destinationSystem
-     * 
+     * Sets the destination system.
+     *
      * @param destinationSystem
-     *            the destinationSystem to set
+     *            the new destination system
      */
     public void setDestinationSystem(StringWithCustomTags destinationSystem) {
         this.destinationSystem = destinationSystem;
     }
 
     /**
-     * Set the fileName
-     * 
+     * Sets the file name.
+     *
      * @param fileName
-     *            the fileName to set
+     *            the new file name
      */
     public void setFileName(StringWithCustomTags fileName) {
         this.fileName = fileName;
     }
 
     /**
-     * Set the gedcomVersion
-     * 
+     * Sets the gedcom version.
+     *
      * @param gedcomVersion
-     *            the gedcomVersion to set
+     *            the new gedcom version
      */
     public void setGedcomVersion(GedcomVersion gedcomVersion) {
         this.gedcomVersion = gedcomVersion;
     }
 
     /**
-     * Set the language
-     * 
+     * Sets the language.
+     *
      * @param language
-     *            the language to set
+     *            the new language
      */
     public void setLanguage(StringWithCustomTags language) {
         this.language = language;
     }
 
     /**
-     * Set the placeHierarchy
-     * 
+     * Sets the place hierarchy.
+     *
      * @param placeHierarchy
-     *            the placeHierarchy to set
+     *            the new place hierarchy
      */
     public void setPlaceHierarchy(StringWithCustomTags placeHierarchy) {
         this.placeHierarchy = placeHierarchy;
     }
 
     /**
-     * Set the sourceSystem
-     * 
+     * Sets the source system.
+     *
      * @param sourceSystem
-     *            the sourceSystem to set
+     *            the new source system
      */
     public void setSourceSystem(SourceSystem sourceSystem) {
         this.sourceSystem = sourceSystem;
     }
 
     /**
-     * Set the submission
-     * 
+     * Sets the submission.
+     *
      * @param submission
-     *            the submission to set
+     *            the new submission
      */
     public void setSubmission(Submission submission) {
         this.submission = submission;
     }
 
     /**
-     * Set the submitter
-     * 
+     * Sets the submitter.
+     *
      * @param submitter
-     *            the submitter to set
+     *            the new submitter
      */
     public void setSubmitter(Submitter submitter) {
         this.submitter = submitter;
     }
 
     /**
-     * Set the time
-     * 
+     * Sets the time.
+     *
      * @param time
-     *            the time to set
+     *            the new time
      */
     public void setTime(StringWithCustomTags time) {
         this.time = time;

@@ -35,7 +35,6 @@ import org.gedcom4j.Options;
  * A Place. Corresponds to PLACE_STRUCTURE in GEDCOM standard.
  * 
  * @author frizbog1
- * 
  */
 public class Place extends AbstractElement {
     /**
@@ -82,12 +81,6 @@ public class Place extends AbstractElement {
      * Romanized variations on the place name. New for GEDCOM 5.5.1.
      */
     private List<AbstractNameVariation> romanized = getRomanized(Options.isCollectionInitializationEnabled());
-
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -161,8 +154,8 @@ public class Place extends AbstractElement {
     }
 
     /**
-     * Get the citations
-     * 
+     * Gets the citations.
+     *
      * @return the citations
      */
     public List<AbstractCitation> getCitations() {
@@ -185,8 +178,8 @@ public class Place extends AbstractElement {
     }
 
     /**
-     * Get the latitude
-     * 
+     * Gets the latitude.
+     *
      * @return the latitude
      */
     public StringWithCustomTags getLatitude() {
@@ -194,8 +187,8 @@ public class Place extends AbstractElement {
     }
 
     /**
-     * Get the longitude
-     * 
+     * Gets the longitude.
+     *
      * @return the longitude
      */
     public StringWithCustomTags getLongitude() {
@@ -203,8 +196,8 @@ public class Place extends AbstractElement {
     }
 
     /**
-     * Get the notes
-     * 
+     * Gets the notes.
+     *
      * @return the notes
      */
     public List<Note> getNotes() {
@@ -227,20 +220,20 @@ public class Place extends AbstractElement {
     }
 
     /**
-     * Get the phonetic
-     * 
-     * @return the phonetic
+     * Gets the phonetic variation(s)
+     *
+     * @return the phonetic variation(s)
      */
     public List<AbstractNameVariation> getPhonetic() {
         return phonetic;
     }
 
     /**
-     * Get the phonetic
+     * Get the phonetic variation(s)
      * 
      * @param initializeIfNeeded
      *            initilize the collection, if needed?
-     * @return the phonetic
+     * @return the phonetic variation(s)
      */
     public List<AbstractNameVariation> getPhonetic(boolean initializeIfNeeded) {
         if (initializeIfNeeded && phonetic == null) {
@@ -250,38 +243,38 @@ public class Place extends AbstractElement {
     }
 
     /**
-     * Get the placeFormat
-     * 
-     * @return the placeFormat
+     * Gets the place format.
+     *
+     * @return the place format
      */
     public StringWithCustomTags getPlaceFormat() {
         return placeFormat;
     }
 
     /**
-     * Get the placeName
-     * 
-     * @return the placeName
+     * Gets the place name.
+     *
+     * @return the place name
      */
     public String getPlaceName() {
         return placeName;
     }
 
     /**
-     * Get the romanized
-     * 
-     * @return the romanized
+     * Gets the romanized variation(s)
+     *
+     * @return the romanized variation(s)
      */
     public List<AbstractNameVariation> getRomanized() {
         return romanized;
     }
 
     /**
-     * Get the romanized
+     * Get the romanized variation(s)
      * 
      * @param initializeIfNeeded
-     *            initilize the collection, if needed?
-     * @return the romanized
+     *            initialize the collection, if needed?
+     * @return the romanized variation(s)
      */
     public List<AbstractNameVariation> getRomanized(boolean initializeIfNeeded) {
         if (initializeIfNeeded && romanized == null) {
@@ -306,40 +299,40 @@ public class Place extends AbstractElement {
     }
 
     /**
-     * Set the latitude
-     * 
+     * Sets the latitude.
+     *
      * @param latitude
-     *            the latitude to set
+     *            the new latitude
      */
     public void setLatitude(StringWithCustomTags latitude) {
         this.latitude = latitude;
     }
 
     /**
-     * Set the longitude
-     * 
+     * Sets the longitude.
+     *
      * @param longitude
-     *            the longitude to set
+     *            the new longitude
      */
     public void setLongitude(StringWithCustomTags longitude) {
         this.longitude = longitude;
     }
 
     /**
-     * Set the placeFormat
-     * 
+     * Sets the place format.
+     *
      * @param placeFormat
-     *            the placeFormat to set
+     *            the new place format
      */
     public void setPlaceFormat(StringWithCustomTags placeFormat) {
         this.placeFormat = placeFormat;
     }
 
     /**
-     * Set the placeName
-     * 
+     * Sets the place name.
+     *
      * @param placeName
-     *            the placeName to set
+     *            the new place name
      */
     public void setPlaceName(String placeName) {
         this.placeName = placeName;

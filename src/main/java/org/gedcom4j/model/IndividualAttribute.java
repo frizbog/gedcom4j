@@ -44,11 +44,6 @@ public class IndividualAttribute extends AbstractEvent {
     private IndividualAttributeType type;
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -64,8 +59,8 @@ public class IndividualAttribute extends AbstractEvent {
     }
 
     /**
-     * Get the type
-     * 
+     * Gets the type.
+     *
      * @return the type
      */
     public IndividualAttributeType getType() {
@@ -81,10 +76,10 @@ public class IndividualAttribute extends AbstractEvent {
     }
 
     /**
-     * Set the type
-     * 
+     * Sets the type.
+     *
      * @param type
-     *            the type to set
+     *            the new type
      */
     public void setType(IndividualAttributeType type) {
         this.type = type;

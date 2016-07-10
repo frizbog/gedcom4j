@@ -60,11 +60,6 @@ public class HeaderSourceData extends AbstractElement {
     private StringWithCustomTags publishDate;
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -101,8 +96,8 @@ public class HeaderSourceData extends AbstractElement {
     }
 
     /**
-     * Get the copyright
-     * 
+     * Gets the copyright.
+     *
      * @return the copyright
      */
     public StringWithCustomTags getCopyright() {
@@ -110,8 +105,8 @@ public class HeaderSourceData extends AbstractElement {
     }
 
     /**
-     * Get the name
-     * 
+     * Gets the name.
+     *
      * @return the name
      */
     public String getName() {
@@ -119,9 +114,9 @@ public class HeaderSourceData extends AbstractElement {
     }
 
     /**
-     * Get the publishDate
-     * 
-     * @return the publishDate
+     * Gets the publish date.
+     *
+     * @return the publish date
      */
     public StringWithCustomTags getPublishDate() {
         return publishDate;
@@ -138,30 +133,30 @@ public class HeaderSourceData extends AbstractElement {
     }
 
     /**
-     * Set the copyright
-     * 
+     * Sets the copyright.
+     *
      * @param copyright
-     *            the copyright to set
+     *            the new copyright
      */
     public void setCopyright(StringWithCustomTags copyright) {
         this.copyright = copyright;
     }
 
     /**
-     * Set the name
-     * 
+     * Sets the name.
+     *
      * @param name
-     *            the name to set
+     *            the new name
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * Set the publishDate
-     * 
+     * Sets the publish date.
+     *
      * @param publishDate
-     *            the publishDate to set
+     *            the new publish date
      */
     public void setPublishDate(StringWithCustomTags publishDate) {
         this.publishDate = publishDate;

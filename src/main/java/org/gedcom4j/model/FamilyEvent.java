@@ -54,11 +54,6 @@ public class FamilyEvent extends AbstractEvent {
      */
     private StringWithCustomTags wifeAge;
 
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -95,17 +90,17 @@ public class FamilyEvent extends AbstractEvent {
     }
 
     /**
-     * Get the husbandAge
-     * 
-     * @return the husbandAge
+     * Gets the husband's age.
+     *
+     * @return the husband's age
      */
     public StringWithCustomTags getHusbandAge() {
         return husbandAge;
     }
 
     /**
-     * Get the type
-     * 
+     * Gets the type.
+     *
      * @return the type
      */
     public FamilyEventType getType() {
@@ -113,9 +108,9 @@ public class FamilyEvent extends AbstractEvent {
     }
 
     /**
-     * Get the wifeAge
-     * 
-     * @return the wifeAge
+     * Gets the wife's age.
+     *
+     * @return the wife's age
      */
     public StringWithCustomTags getWifeAge() {
         return wifeAge;
@@ -135,30 +130,30 @@ public class FamilyEvent extends AbstractEvent {
     }
 
     /**
-     * Set the husbandAge
-     * 
+     * Sets the husband's age.
+     *
      * @param husbandAge
-     *            the husbandAge to set
+     *            the new husband's age
      */
     public void setHusbandAge(StringWithCustomTags husbandAge) {
         this.husbandAge = husbandAge;
     }
 
     /**
-     * Set the type
-     * 
+     * Sets the type.
+     *
      * @param type
-     *            the type to set
+     *            the new type
      */
     public void setType(FamilyEventType type) {
         this.type = type;
     }
 
     /**
-     * Set the wifeAge
-     * 
+     * Sets the wife's age.
+     *
      * @param wifeAge
-     *            the wifeAge to set
+     *            the new wife's age
      */
     public void setWifeAge(StringWithCustomTags wifeAge) {
         this.wifeAge = wifeAge;

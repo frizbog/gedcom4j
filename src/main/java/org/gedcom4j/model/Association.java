@@ -68,11 +68,6 @@ public class Association extends AbstractElement {
     private StringWithCustomTags relationship;
 
     @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -123,26 +118,26 @@ public class Association extends AbstractElement {
     }
 
     /**
-     * Get the associatedEntityType
-     * 
-     * @return the associatedEntityType
+     * Gets the associated entity type.
+     *
+     * @return the associated entity type
      */
     public StringWithCustomTags getAssociatedEntityType() {
         return associatedEntityType;
     }
 
     /**
-     * Get the associatedEntityXref
-     * 
-     * @return the associatedEntityXref
+     * Gets the associated entity xref.
+     *
+     * @return the associated entity xref
      */
     public String getAssociatedEntityXref() {
         return associatedEntityXref;
     }
 
     /**
-     * Get the citations
-     * 
+     * Gets the citations.
+     *
      * @return the citations
      */
     public List<AbstractCitation> getCitations() {
@@ -165,8 +160,8 @@ public class Association extends AbstractElement {
     }
 
     /**
-     * Get the notes
-     * 
+     * Gets the notes.
+     *
      * @return the notes
      */
     public List<Note> getNotes() {
@@ -189,8 +184,8 @@ public class Association extends AbstractElement {
     }
 
     /**
-     * Get the relationship
-     * 
+     * Gets the relationship.
+     *
      * @return the relationship
      */
     public StringWithCustomTags getRelationship() {
@@ -210,30 +205,30 @@ public class Association extends AbstractElement {
     }
 
     /**
-     * Set the associatedEntityType
-     * 
+     * Sets the associated entity type.
+     *
      * @param associatedEntityType
-     *            the associatedEntityType to set
+     *            the new associated entity type
      */
     public void setAssociatedEntityType(StringWithCustomTags associatedEntityType) {
         this.associatedEntityType = associatedEntityType;
     }
 
     /**
-     * Set the associatedEntityXref
-     * 
+     * Sets the associated entity xref.
+     *
      * @param associatedEntityXref
-     *            the associatedEntityXref to set
+     *            the new associated entity xref
      */
     public void setAssociatedEntityXref(String associatedEntityXref) {
         this.associatedEntityXref = associatedEntityXref;
     }
 
     /**
-     * Set the relationship
-     * 
+     * Sets the relationship.
+     *
      * @param relationship
-     *            the relationship to set
+     *            the new relationship
      */
     public void setRelationship(StringWithCustomTags relationship) {
         this.relationship = relationship;

@@ -26,6 +26,7 @@
  */
 package org.gedcom4j.model;
 
+// TODO: Auto-generated Javadoc
 /**
  * A name variation - phonetic, or romanized. Used for personal names and place names.
  * 
@@ -80,8 +81,8 @@ public abstract class AbstractNameVariation extends AbstractElement {
     }
 
     /**
-     * Get the variation
-     * 
+     * Gets the variation.
+     *
      * @return the variation
      */
     public String getVariation() {
@@ -89,9 +90,9 @@ public abstract class AbstractNameVariation extends AbstractElement {
     }
 
     /**
-     * Get the variationType
-     * 
-     * @return the variationType
+     * Gets the variation type.
+     *
+     * @return the variation type
      */
     public StringWithCustomTags getVariationType() {
         return variationType;
@@ -107,20 +108,18 @@ public abstract class AbstractNameVariation extends AbstractElement {
     }
 
     /**
-     * Set the variation
-     * 
-     * @param variation
-     *            the variation to set
+     * Sets the variation.
+     *
+     * @param variation the new variation
      */
     public void setVariation(String variation) {
         this.variation = variation;
     }
 
     /**
-     * Set the variationType
-     * 
-     * @param variationType
-     *            the variationType to set
+     * Sets the variation type.
+     *
+     * @param variationType the new variation type
      */
     public void setVariationType(StringWithCustomTags variationType) {
         this.variationType = variationType;

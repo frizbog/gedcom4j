@@ -35,9 +35,7 @@ import org.gedcom4j.Options;
  * A citation without a source. Corresponds to the second form of the SOURCE_CITATION structure (which you'd do in
  * Pascal with a variant record, but here we use subclasses of a parent abstract class).
  * 
- * 
  * @author frizbog1
- * 
  */
 public class CitationWithoutSource extends AbstractCitation {
     /**
@@ -54,11 +52,6 @@ public class CitationWithoutSource extends AbstractCitation {
      * Lines of Lines of text from the source (yeah, really)
      */
     private List<List<String>> textFromSource = getTextFromSource(Options.isCollectionInitializationEnabled());
-
-    @Override
-    public void accept(IVisitor v) {
-        v.visit(this);
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -97,8 +90,8 @@ public class CitationWithoutSource extends AbstractCitation {
     }
 
     /**
-     * Get the description
-     * 
+     * Gets the description.
+     *
      * @return the description
      */
     public List<String> getDescription() {
@@ -120,20 +113,20 @@ public class CitationWithoutSource extends AbstractCitation {
     }
 
     /**
-     * Get the textFromSource
-     * 
-     * @return the textFromSource
+     * Gets the text from source.
+     *
+     * @return the text from source
      */
     public List<List<String>> getTextFromSource() {
         return textFromSource;
     }
 
     /**
-     * Get the textFromSource
+     * Gets the text from source.
      * 
      * @param initializeIfNeeded
      *            true if this collection should be created on-the-fly if it is currently null
-     * @return the textFromSource
+     * @return the text from source
      */
     public List<List<String>> getTextFromSource(boolean initializeIfNeeded) {
         if (initializeIfNeeded && textFromSource == null) {
