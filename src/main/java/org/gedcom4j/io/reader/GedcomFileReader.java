@@ -114,13 +114,9 @@ public final class GedcomFileReader {
             throw new ParserCancelledException("File load is cancelled");
         }
         String result = encodingSpecificReader.nextLine();
-        /*
-         * assert (result == null || result.length() > 0 && result.charAt(0) != ' ') : "nextLine() should either return
-         * null, or a non-empty left-trimmed string";
-         */
         linesProcessed++;
         if (linesProcessed % parser.getReadNotificationRate() == 0 || result == null) {
-            parser.notifyFileObservers(new FileProgressEvent(this, linesProcessed, result == null));
+            parser.notifyFileObservers(new FileProgressEvent(this, linesProcessed, encodingSpecificReader.bytesRead, result == null));
         }
         return result;
     }

@@ -38,7 +38,7 @@ public class AnselReaderListenerTest extends AbstractReaderListenerTest {
      * Constructor
      */
     public AnselReaderListenerTest() {
-        super("sample/willis-ansel.ged", 20036, 41);
+        super("sample/willis-ansel.ged", 20036, 587409, 41);
     }
 
 }

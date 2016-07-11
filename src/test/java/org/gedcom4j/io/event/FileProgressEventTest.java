@@ -43,9 +43,10 @@ public class FileProgressEventTest {
      */
     @Test
     public void testOne() {
-        FileProgressEvent e = new FileProgressEvent(this, -1, true);
+        FileProgressEvent e = new FileProgressEvent(this, -1, 5, true);
         assertNotNull(e);
         assertEquals(-1, e.getLinesProcessed());
+        assertEquals(5, e.getBytesProcessed());
         assertTrue(e.isComplete());
         assertSame(this, e.getSource());
     }
@@ -55,9 +56,10 @@ public class FileProgressEventTest {
      */
     @Test
     public void testTwo() {
-        FileProgressEvent e = new FileProgressEvent(this, 50, false);
+        FileProgressEvent e = new FileProgressEvent(this, 50, Integer.MIN_VALUE, false);
         assertNotNull(e);
         assertEquals(50, e.getLinesProcessed());
+        assertEquals(Integer.MIN_VALUE, e.getBytesProcessed());
         assertFalse(e.isComplete());
         assertSame(this, e.getSource());
     }

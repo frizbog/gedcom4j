@@ -38,7 +38,7 @@ public class Utf8ReaderListenerTest extends AbstractReaderListenerTest {
      * Constructor
      */
     public Utf8ReaderListenerTest() {
-        super("sample/willis.ged", 23553, 48);
+        super("sample/willis.ged", 23553, 686101, 48);
     }
 
 }

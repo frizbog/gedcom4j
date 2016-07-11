@@ -58,6 +58,7 @@ class UnicodeBigEndianWriter extends AbstractEncodingSpecificWriter {
             char c = line.charAt(i);
             out.write(c >> 8);
             out.write(c & 0x00FF);
+            bytesWritten += 2;
         }
         writeLineTerminator(out);
     }
@@ -71,22 +72,26 @@ class UnicodeBigEndianWriter extends AbstractEncodingSpecificWriter {
             case CR_ONLY:
                 out.write((byte) 0x00);
                 out.write((byte) 0x0D);
+                bytesWritten += 2;
                 break;
             case LF_ONLY:
                 out.write((byte) 0x00);
                 out.write((byte) 0x0A);
+                bytesWritten += 2;
                 break;
             case LFCR:
                 out.write((byte) 0x00);
                 out.write((byte) 0x0A);
                 out.write((byte) 0x00);
                 out.write((byte) 0x0D);
+                bytesWritten += 4;
                 break;
             case CRLF:
                 out.write((byte) 0x00);
                 out.write((byte) 0x0D);
                 out.write((byte) 0x00);
                 out.write((byte) 0x0A);
+                bytesWritten += 4;
                 break;
             default:
                 throw new IllegalStateException("Terminator selection of " + terminator + " is an unrecognized value");

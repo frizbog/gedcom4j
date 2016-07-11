@@ -38,7 +38,7 @@ public class AsciiReaderListenerTest extends AbstractReaderListenerTest {
      * Constructor
      */
     public AsciiReaderListenerTest() {
-        super("sample/willis-ascii.ged", 20036, 41);
+        super("sample/willis-ascii.ged", 20036, 587409, 41);
     }
 
 }

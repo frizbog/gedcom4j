@@ -75,17 +75,21 @@ class Utf8Writer extends AbstractEncodingSpecificWriter {
         }
 
         // Go ahead and use Java's built in UTF-8 encoder here
-        OutputStreamWriter osw = new OutputStreamWriter(out, Charset.forName("UTF-8"));
+        ProgressTrackingOutputStream outputStream = new ProgressTrackingOutputStream(out);
+        OutputStreamWriter osw = new OutputStreamWriter(outputStream, Charset.forName("UTF-8"));
         try {
             for (String line : gedcomLines) {
                 osw.write(line);
+                bytesWritten = outputStream.bytesWritten;
                 osw.write(lineTerminatorString);
+                bytesWritten = outputStream.bytesWritten;
                 if (writer.isCancelled()) {
                     throw new WriterCancelledException("Construction and writing of GEDCOM cancelled");
                 }
             }
         } finally {
             osw.flush();
+            bytesWritten = outputStream.bytesWritten;
             osw.close();
         }
     }

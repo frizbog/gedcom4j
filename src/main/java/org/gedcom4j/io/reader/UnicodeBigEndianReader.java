@@ -69,7 +69,13 @@ final class UnicodeBigEndianReader extends AbstractEncodingSpecificReader {
 
         while (!eof) {
             int currChar1 = byteStream.read();
+            if (currChar1 >= 0) {
+                bytesRead++;
+            }
             int currChar2 = byteStream.read();
+            if (currChar2 >= 0) {
+                bytesRead++;
+            }
 
             // Check for EOF
             if (currChar1 < 0 || currChar2 < 0) {

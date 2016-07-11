@@ -67,6 +67,9 @@ final class AsciiReader extends AbstractEncodingSpecificReader {
         String result = null;
         while (!eof) {
             int currChar = byteStream.read();
+            if (currChar >= 0) {
+                bytesRead++;
+            }
 
             // Check for EOF
             if (currChar < 0) {

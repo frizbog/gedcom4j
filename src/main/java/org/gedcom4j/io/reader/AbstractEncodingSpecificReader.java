@@ -45,9 +45,14 @@ abstract class AbstractEncodingSpecificReader {
     protected final InputStream byteStream;
 
     /**
-     * The number of lines read from the input file
+     * The number of lines read from the input file or stream
      */
     protected int linesRead = 0;
+
+    /**
+     * The number of bytes read from the input file or stream
+     */
+    protected int bytesRead = 0;
 
     /**
      * The {@link GedcomParser} we're reading files for

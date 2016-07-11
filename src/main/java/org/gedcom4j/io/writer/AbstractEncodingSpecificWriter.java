@@ -57,6 +57,11 @@ abstract class AbstractEncodingSpecificWriter {
     protected GedcomWriter writer;
 
     /**
+     * The number of bytes written
+     */
+    protected int bytesWritten;
+
+    /**
      * Constructor
      * 
      * @param writer
@@ -80,12 +85,12 @@ abstract class AbstractEncodingSpecificWriter {
         int lineCount = 0;
         for (String line : gedcomLines) {
             if (lineCount % writer.getFileNotificationRate() == 0) {
-                writer.notifyFileObservers(new FileProgressEvent(this, lineCount, false));
+                writer.notifyFileObservers(new FileProgressEvent(this, lineCount, bytesWritten, false));
             }
             writeLine(out, line);
             lineCount++;
         }
-        writer.notifyFileObservers(new FileProgressEvent(this, lineCount, true));
+        writer.notifyFileObservers(new FileProgressEvent(this, lineCount, bytesWritten, true));
     }
 
     /**

@@ -71,6 +71,8 @@ public abstract class AbstractReaderListenerTest implements FileProgressListener
      */
     private final int expectedNotifications;
 
+    private final int expectedBytes;
+
     /**
      * Constructor
      * 
@@ -81,9 +83,10 @@ public abstract class AbstractReaderListenerTest implements FileProgressListener
      * @param expectedNotifications
      *            the expected number of notification events
      */
-    public AbstractReaderListenerTest(String testFileName, int expectedLines, int expectedNotifications) {
+    public AbstractReaderListenerTest(String testFileName, int expectedLines, int expectedBytes, int expectedNotifications) {
         fileName = testFileName;
         this.expectedLines = expectedLines;
+        this.expectedBytes = expectedBytes;
         this.expectedNotifications = expectedNotifications;
     }
 
@@ -91,6 +94,7 @@ public abstract class AbstractReaderListenerTest implements FileProgressListener
     public void progressNotification(FileProgressEvent e) {
         eventCount++;
         lastEvent = e;
+        System.out.println(e);
     }
 
     /**
@@ -130,6 +134,7 @@ public abstract class AbstractReaderListenerTest implements FileProgressListener
         assertNotNull(lastEvent);
         assertTrue(lastEvent.isComplete());
         assertEquals(expectedLines, lastEvent.getLinesProcessed());
+        assertEquals(expectedBytes, lastEvent.getBytesProcessed());
     }
 
     /**

@@ -58,6 +58,11 @@ final class Utf8Reader extends AbstractEncodingSpecificReader {
     private final BufferedReader bufferedReader;
 
     /**
+     * The progress tracking input stream
+     */
+    private ProgressTrackingInputStream inputStream;
+
+    /**
      * Constructor
      * 
      * @param parser
@@ -71,11 +76,13 @@ final class Utf8Reader extends AbstractEncodingSpecificReader {
     Utf8Reader(GedcomParser parser, InputStream byteStream) throws IOException {
         super(parser, byteStream);
         try {
-            inputStreamReader = new InputStreamReader(byteStream, "UTF8");
+            inputStream = new ProgressTrackingInputStream(byteStream);
+            inputStreamReader = new InputStreamReader(inputStream, "UTF8");
 
             if (byteOrderMarkerRead) {
                 // discard the byte order marker if one was detected
                 inputStreamReader.read();
+                bytesRead = inputStream.getBytesRead();
             }
 
             bufferedReader = new BufferedReader(inputStreamReader);
@@ -89,6 +96,7 @@ final class Utf8Reader extends AbstractEncodingSpecificReader {
     public String nextLine() throws IOException, GedcomParserException {
         String result = null;
         String s = bufferedReader.readLine();
+        bytesRead = inputStream.getBytesRead();
 
         // Strip off Byte Order Mark if needed
         if (s != null && s.length() > 0 && s.charAt(0) == ((char) 0xFEFF)) {
@@ -103,7 +111,9 @@ final class Utf8Reader extends AbstractEncodingSpecificReader {
                 break;
             }
             s = bufferedReader.readLine();
+            bytesRead = inputStream.getBytesRead();
         }
+        bytesRead = inputStream.getBytesRead();
         return result;
     }
 

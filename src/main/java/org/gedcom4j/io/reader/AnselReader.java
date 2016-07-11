@@ -111,6 +111,9 @@ final class AnselReader extends AbstractEncodingSpecificReader {
             int twoCharsBack = oneCharBack;
             oneCharBack = currChar;
             currChar = byteStream.read();
+            if (currChar >= 0) {
+                bytesRead++;
+            }
 
             // Check for EOF
             if (currChar < 0) {

@@ -51,19 +51,36 @@ public class FileProgressEvent extends EventObject {
     private final int linesProcessed;
 
     /**
+     * The number of bytes read or written
+     */
+    private final int bytesProcessed;
+
+    /**
      * Constructor
      * 
      * @param source
      *            the source object
      * @param linesProcessed
      *            the number of lines processed
+     * @param bytesProcessed
+     *            the number of bytes processed
      * @param complete
      *            is the file complete
      */
-    public FileProgressEvent(Object source, int linesProcessed, boolean complete) {
+    public FileProgressEvent(Object source, int linesProcessed, int bytesProcessed, boolean complete) {
         super(source);
         this.linesProcessed = linesProcessed;
+        this.bytesProcessed = bytesProcessed;
         this.complete = complete;
+    }
+
+    /**
+     * Get the bytesProcessed
+     * 
+     * @return the bytesProcessed
+     */
+    public int getBytesProcessed() {
+        return bytesProcessed;
     }
 
     /**
@@ -84,9 +101,20 @@ public class FileProgressEvent extends EventObject {
         return complete;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "FileProgressEvent [complete=" + complete + ", linesProcessed=" + linesProcessed + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("FileProgressEvent [complete=");
+        builder.append(complete);
+        builder.append(", linesProcessed=");
+        builder.append(linesProcessed);
+        builder.append(", bytesProcessed=");
+        builder.append(bytesProcessed);
+        builder.append("]");
+        return builder.toString();
     }
 
 }

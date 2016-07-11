@@ -65,6 +65,7 @@ class AsciiWriter extends AbstractEncodingSpecificWriter {
                 c = "?".charAt(0);
             }
             out.write(c);
+            bytesWritten++;
         }
         writeLineTerminator(out);
     }
@@ -77,17 +78,21 @@ class AsciiWriter extends AbstractEncodingSpecificWriter {
         switch (terminator) {
             case CR_ONLY:
                 out.write((byte) 0x0D);
+                bytesWritten++;
                 break;
             case LF_ONLY:
                 out.write((byte) 0x0A);
+                bytesWritten++;
                 break;
             case LFCR:
                 out.write((byte) 0x0A);
                 out.write((byte) 0x0D);
+                bytesWritten += 2;
                 break;
             case CRLF:
                 out.write((byte) 0x0D);
                 out.write((byte) 0x0A);
+                bytesWritten += 2;
                 break;
             default:
                 throw new IllegalStateException("Terminator selection of " + terminator + " is an unrecognized value");
