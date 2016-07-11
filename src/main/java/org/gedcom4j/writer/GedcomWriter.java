@@ -600,28 +600,6 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     }
 
     /**
-     * Write an address
-     * 
-     * @param level
-     *            the level at which we are writing
-     * @param address
-     *            the address
-     */
-    private void emitAddress(int level, Address address) {
-        if (address == null) {
-            return;
-        }
-        emitLinesOfText(level, "ADDR", address.getLines());
-        emitTagIfValueNotNull(level + 1, "ADR1", address.getAddr1());
-        emitTagIfValueNotNull(level + 1, "ADR2", address.getAddr2());
-        emitTagIfValueNotNull(level + 1, "CITY", address.getCity());
-        emitTagIfValueNotNull(level + 1, "STAE", address.getStateProvince());
-        emitTagIfValueNotNull(level + 1, "POST", address.getPostalCode());
-        emitTagIfValueNotNull(level + 1, "CTRY", address.getCountry());
-        emitCustomTags(level + 1, address.getCustomTags());
-    }
-
-    /**
      * Emit the person-to-person associations an individual was in - see ASSOCIATION_STRUCTURE in the GEDCOM spec.
      * 
      * @param level
@@ -673,24 +651,6 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     }
 
     /**
-     * Emit a list of email addresses. New for GEDCOM 5.5.1
-     * 
-     * @param l
-     *            the level we are writing at
-     * @param emails
-     *            the list of email addresses
-     * @throws GedcomWriterException
-     *             if the data cannot be written
-     */
-    private void emitEmails(int l, List<StringWithCustomTags> emails) throws GedcomWriterException {
-        if (emails != null) {
-            for (StringWithCustomTags e : emails) {
-                emitTagWithRequiredValue(l, "EMAIL", e);
-            }
-        }
-    }
-
-    /**
      * Emit an event detail structure - see EVENT_DETAIL in the GEDCOM spec
      * 
      * @param level
@@ -707,14 +667,14 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
             Place p = e.getPlace();
             emitPlace(level, p);
         }
-        emitAddress(level, e.getAddress());
+        new AddressEmitter(baseWriter, level, e.getAddress()).emit();
         emitTagIfValueNotNull(level, "AGE", e.getAge());
         emitTagIfValueNotNull(level, "AGNC", e.getRespAgency());
         emitTagIfValueNotNull(level, "CAUS", e.getCause());
         emitTagIfValueNotNull(level, "RELI", e.getReligiousAffiliation());
         emitTagIfValueNotNull(level, "RESN", e.getRestrictionNotice());
         new SourceCitationEmitter(baseWriter, level, e.getCitations()).emit();
-        emitMultimediaLinks(level, e.getMultimedia());
+        new MultimediaLinksEmitter(baseWriter, level, e.getMultimedia()).emit();
         new NotesEmitter(baseWriter, level, e.getNotes()).emit();
         emitCustomTags(level, e.getCustomTags());
     }
@@ -757,7 +717,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
             }
             emitTagIfValueNotNull(1, "RESN", f.getRestrictionNotice());
             new SourceCitationEmitter(baseWriter, 1, f.getCitations()).emit();
-            emitMultimediaLinks(1, f.getMultimedia());
+            new MultimediaLinksEmitter(baseWriter, 1, f.getMultimedia()).emit();
             new NotesEmitter(baseWriter, 1, f.getNotes()).emit();
             if (f.getUserReferences() != null) {
                 for (UserReference u : f.getUserReferences()) {
@@ -795,24 +755,6 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
         if (e.getWifeAge() != null) {
             emitTag(level + 1, "WIFE");
             emitTagWithRequiredValue(level + 2, "AGE", e.getWifeAge());
-        }
-    }
-
-    /**
-     * Emit a list of Fax numbers. New for GEDCOM 5.5.1
-     * 
-     * @param l
-     *            the level to write at
-     * @param faxNumbers
-     *            the list of fax numbers to write
-     * @throws GedcomWriterException
-     *             if the data cannot be written
-     */
-    private void emitFaxNumbers(int l, List<StringWithCustomTags> faxNumbers) throws GedcomWriterException {
-        if (faxNumbers != null) {
-            for (StringWithCustomTags f : faxNumbers) {
-                emitTagWithRequiredValue(l, "FAX", f);
-            }
         }
     }
 
@@ -871,11 +813,11 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
             for (IndividualAttribute a : attributes) {
                 emitTagWithOptionalValueAndCustomSubtags(level, a.getType().getTag(), a.getDescription());
                 emitEventDetail(level + 1, a);
-                emitAddress(level + 1, a.getAddress());
-                emitPhoneNumbers(level + 1, a.getPhoneNumbers());
-                emitWwwUrls(level + 1, a.getWwwUrls());
-                emitFaxNumbers(level + 1, a.getFaxNumbers());
-                emitEmails(level + 1, a.getEmails());
+                new AddressEmitter(baseWriter, level + 1, a.getAddress()).emit();
+                emitStringsWithCustomTags(level + 1, a.getPhoneNumbers(), "PHON");
+                emitStringsWithCustomTags(level + 1, a.getWwwUrls(), "WWW");
+                emitStringsWithCustomTags(level + 1, a.getFaxNumbers(), "FAX");
+                emitStringsWithCustomTags(level + 1, a.getEmails(), "EMAIL");
             }
         }
     }
@@ -947,7 +889,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
                 }
             }
             new SourceCitationEmitter(baseWriter, 1, i.getCitations()).emit();
-            emitMultimediaLinks(1, i.getMultimedia());
+            new MultimediaLinksEmitter(baseWriter, 1, i.getMultimedia()).emit();
             new NotesEmitter(baseWriter, 1, i.getNotes()).emit();
             emitTagIfValueNotNull(1, "RFN", i.getPermanentRecFileNumber());
             emitTagIfValueNotNull(1, "AFN", i.getAncestralFileNumber());
@@ -1112,65 +1054,6 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     }
 
     /**
-     * Emit a list of multimedia links
-     * 
-     * @param level
-     *            the level in the hierarchy we are writing at
-     * @param multimedia
-     *            the {@link List} of {@link Multimedia} objects
-     * @throws GedcomWriterException
-     *             if the data is malformed and cannot be written
-     */
-    private void emitMultimediaLinks(int level, List<Multimedia> multimedia) throws GedcomWriterException {
-        if (multimedia == null) {
-            return;
-        }
-        for (Multimedia m : multimedia) {
-            if (m.getXref() == null) {
-                // Link to referenced form
-                if (g55()) {
-                    // GEDCOM 5.5 format
-                    emitTag(level, "OBJE");
-                    if (m.getFileReferences().size() > 1) {
-                        throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but multimedia link references "
-                                + "multiple files, which is only allowed in GEDCOM 5.5.1");
-                    }
-                    if (m.getFileReferences().size() == 1) {
-                        FileReference fr = m.getFileReferences().get(0);
-                        if (fr.getFormat() == null) {
-                            emitTagWithRequiredValue(level + 1, "FORM", m.getEmbeddedMediaFormat());
-                        } else {
-                            emitTagWithRequiredValue(level + 1, "FORM", fr.getFormat());
-                        }
-                        emitTagIfValueNotNull(level + 1, "TITL", m.getEmbeddedTitle());
-                        emitTagWithRequiredValue(level + 1, "FILE", fr.getReferenceToFile());
-                    } else {
-                        emitTagWithRequiredValue(level + 1, "FORM", m.getEmbeddedMediaFormat());
-                        emitTagIfValueNotNull(level + 1, "TITL", m.getEmbeddedTitle());
-                    }
-                    new NotesEmitter(baseWriter, level + 1, m.getNotes()).emit();
-                } else {
-                    // GEDCOM 5.5.1 format
-                    for (FileReference fr : m.getFileReferences()) {
-                        emitTagWithRequiredValue(level + 1, "FILE", fr.getReferenceToFile());
-                        emitTagIfValueNotNull(level + 2, "FORM", fr.getFormat());
-                        emitTagIfValueNotNull(level + 3, "MEDI", fr.getMediaType());
-                        emitTagIfValueNotNull(level + 1, "TITL", fr.getTitle());
-                    }
-                    if (!m.getNotes().isEmpty()) {
-                        throw new GedcomWriterVersionDataMismatchException(
-                                "GEDCOM version is 5.5.1, but multimedia link has notes which are no longer allowed in 5.5");
-                    }
-                }
-            } else {
-                // Link to the embedded form
-                emitTagWithRequiredValue(level, "OBJE", m.getXref());
-            }
-            emitCustomTags(level + 1, m.getCustomTags());
-        }
-    }
-
-    /**
      * Emit a list of personal names for an individual
      * 
      * @param level
@@ -1230,22 +1113,6 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
         new SourceCitationEmitter(baseWriter, level + 1, pnv.getCitations()).emit();
         new NotesEmitter(baseWriter, level + 1, pnv.getNotes()).emit();
         emitCustomTags(level + 1, pnv.getCustomTags());
-    }
-
-    /**
-     * Write out a list of phone numbers
-     * 
-     * @param level
-     *            the level in the hierarchy we are writing at
-     * @param phoneNumbers
-     *            a list of phone numbers
-     */
-    private void emitPhoneNumbers(int level, List<StringWithCustomTags> phoneNumbers) {
-        if (phoneNumbers != null) {
-            for (StringWithCustomTags ph : phoneNumbers) {
-                emitTagIfValueNotNull(level, "PHON", ph);
-            }
-        }
     }
 
     /**
@@ -1326,7 +1193,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
         for (Repository r : writeFrom.getRepositories().values()) {
             emitTag(0, r.getXref(), "REPO");
             emitTagIfValueNotNull(1, "NAME", r.getName());
-            emitAddress(1, r.getAddress());
+            new AddressEmitter(baseWriter, 1, r.getAddress()).emit();
             new NotesEmitter(baseWriter, 1, r.getNotes()).emit();
             if (r.getUserReferences() != null) {
                 for (UserReference u : r.getUserReferences()) {
@@ -1335,10 +1202,10 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
                 }
             }
             emitTagIfValueNotNull(1, "RIN", r.getRecIdNumber());
-            emitPhoneNumbers(1, r.getPhoneNumbers());
-            emitWwwUrls(1, r.getWwwUrls());
-            emitFaxNumbers(1, r.getFaxNumbers());
-            emitEmails(1, r.getEmails());
+            emitStringsWithCustomTags(1, r.getPhoneNumbers(), "PHON");
+            emitStringsWithCustomTags(1, r.getWwwUrls(), "WWW");
+            emitStringsWithCustomTags(1, r.getFaxNumbers(), "FAX");
+            emitStringsWithCustomTags(1, r.getEmails(), "EMAIL");
             new ChangeDateEmitter(baseWriter, 1, r.getChangeDate()).emit();
             emitCustomTags(1, r.getCustomTags());
             notifyConstructObserversIfNeeded();
@@ -1402,7 +1269,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
             emitLinesOfText(1, "PUBL", s.getPublicationFacts());
             emitLinesOfText(1, "TEXT", s.getSourceText());
             emitRepositoryCitation(1, s.getRepositoryCitation());
-            emitMultimediaLinks(1, s.getMultimedia());
+            new MultimediaLinksEmitter(baseWriter, 1, s.getMultimedia()).emit();
             new NotesEmitter(baseWriter, 1, s.getNotes()).emit();
             if (s.getUserReferences() != null) {
                 for (UserReference u : s.getUserReferences()) {
@@ -1438,11 +1305,11 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
         Corporation corporation = sourceSystem.getCorporation();
         if (corporation != null) {
             emitTagWithOptionalValue(2, "CORP", corporation.getBusinessName());
-            emitAddress(3, corporation.getAddress());
-            emitPhoneNumbers(3, corporation.getPhoneNumbers());
-            emitFaxNumbers(3, corporation.getFaxNumbers());
-            emitWwwUrls(3, corporation.getWwwUrls());
-            emitEmails(3, corporation.getEmails());
+            new AddressEmitter(baseWriter, 3, corporation.getAddress()).emit();
+            emitStringsWithCustomTags(3, corporation.getPhoneNumbers(), "PHON");
+            emitStringsWithCustomTags(3, corporation.getFaxNumbers(), "FAX");
+            emitStringsWithCustomTags(3, corporation.getWwwUrls(), "WWW");
+            emitStringsWithCustomTags(3, corporation.getEmails(), "EMAIL");
         }
         HeaderSourceData sourceData = sourceSystem.getSourceData();
         if (sourceData != null) {
@@ -1510,29 +1377,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
      *             if the data is malformed and cannot be written
      */
     private void emitSubmitter() throws GedcomWriterException {
-        for (Submitter s : writeFrom.getSubmitters().values()) {
-            emitTag(0, s.getXref(), "SUBM");
-            emitTagWithOptionalValueAndCustomSubtags(1, "NAME", s.getName());
-            emitAddress(1, s.getAddress());
-            emitMultimediaLinks(1, s.getMultimedia());
-            if (s.getLanguagePref() != null) {
-                for (StringWithCustomTags l : s.getLanguagePref()) {
-                    emitTagWithRequiredValue(1, "LANG", l);
-                }
-            }
-            emitPhoneNumbers(1, s.getPhoneNumbers());
-            emitWwwUrls(1, s.getWwwUrls());
-            emitFaxNumbers(1, s.getFaxNumbers());
-            emitEmails(1, s.getEmails());
-            emitTagIfValueNotNull(1, "RFN", s.getRegFileNumber());
-            emitTagIfValueNotNull(1, "RIN", s.getRecIdNumber());
-            new ChangeDateEmitter(baseWriter, 1, s.getChangeDate()).emit();
-            emitCustomTags(1, s.getCustomTags());
-            notifyConstructObserversIfNeeded();
-            if (cancelled) {
-                throw new WriterCancelledException("Construction and writing of GEDCOM cancelled");
-            }
-        }
+        new SubmittersEmitter(this, 0, writeFrom.getSubmitters().values()).emit();
     }
 
     /**
@@ -1541,24 +1386,6 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     private void emitTrailer() {
         lines.add("0 TRLR");
         notifyConstructObservers(new ConstructProgressEvent(this, lines.size(), true));
-    }
-
-    /**
-     * Emit a list of WWW URLs. New for GEDCOM 5.5.1
-     * 
-     * @param l
-     *            the level to write at
-     * @param wwwUrls
-     *            the list of URLs
-     * @throws GedcomWriterException
-     *             if the data cannot be written
-     */
-    private void emitWwwUrls(int l, List<StringWithCustomTags> wwwUrls) throws GedcomWriterException {
-        if (wwwUrls != null) {
-            for (StringWithCustomTags w : wwwUrls) {
-                emitTagWithRequiredValue(l, "WWW", w);
-            }
-        }
     }
 
     /**

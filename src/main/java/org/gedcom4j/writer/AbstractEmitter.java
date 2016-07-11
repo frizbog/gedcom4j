@@ -30,6 +30,8 @@ import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.SupportedVersion;
 
+import sun.security.krb5.internal.ccache.Tag;
+
 /**
  * A base class for type-specific writers, which "render" the object model as GEDCOM text.
  * 
@@ -132,6 +134,26 @@ abstract class AbstractEmitter<T> {
             }
             lineNum++;
             emitAndSplit(level, line.toString());
+        }
+    }
+
+    /**
+     * Emit a list of {@link StringWithCustomTags} objects, using a specific {@link Tag} value.
+     * 
+     * @param level
+     *            the level to write at
+     * @param strings
+     *            the list of strings to write (with custom tags)
+     * @param tag
+     *            the tag to use for each string value in the collection
+     * @throws GedcomWriterException
+     *             if the data cannot be written
+     */
+    protected void emitStringsWithCustomTags(int level, List<StringWithCustomTags> strings, String tagValue) throws GedcomWriterException {
+        if (strings != null) {
+            for (StringWithCustomTags f : strings) {
+                emitTagWithRequiredValue(level, tagValue, f);
+            }
         }
     }
 
