@@ -299,7 +299,7 @@ public class GedcomWriterTest {
      */
     @Test
     public void testSplitLines() {
-        GedcomWriter gw = new GedcomWriter(null);
+        AbstractEmitter<Gedcom> gw = new GedcomWriter(null);
         List<String> original = new ArrayList<String>();
         original.add("This is a test");
         List<String> result = gw.splitLinesOnBreakingCharacters(original);

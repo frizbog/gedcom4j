@@ -108,7 +108,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         gw = new GedcomWriter(gp.getGedcom());
         gw.registerConstructObserver(this);
         gw.write(new NullOutputStream());
-        assertEquals(38, notificationCount);
+        assertEquals(40, notificationCount);
     }
 
 }

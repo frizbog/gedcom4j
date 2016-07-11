@@ -84,16 +84,10 @@ import org.gedcom4j.writer.event.ConstructProgressListener;
  * 
  * @author frizbog1
  */
-public class GedcomWriter {
-
+public class GedcomWriter extends AbstractEmitter<Gedcom> {
     /**
-     * The maximum length of lines to be written out before splitting
-     */
-    private static final int MAX_LINE_LENGTH = 128;
-
-    /**
-     * The lines of the GEDCOM transmission, which will be written using a {@link GedcomFileWriter}. Deliberately
-     * package-private so tests can access it but others can't alter it.
+     * The text lines of the GEDCOM file we're writing, which will be written using a {@link GedcomFileWriter}.
+     * Deliberately package-private so tests can access it but others can't alter it.
      */
     List<String> lines = new ArrayList<String>();
 
@@ -134,11 +128,6 @@ public class GedcomWriter {
     private final List<WeakReference<FileProgressListener>> fileObservers = new CopyOnWriteArrayList<WeakReference<FileProgressListener>>();
 
     /**
-     * The Gedcom data to write
-     */
-    private final Gedcom gedcom;
-
-    /**
      * The number of lines constructed as last reported to the observers
      */
     private int lastLineCountNotified = 0;
@@ -161,7 +150,8 @@ public class GedcomWriter {
      *            the {@link Gedcom} structure to write out
      */
     public GedcomWriter(Gedcom gedcom) {
-        this.gedcom = gedcom;
+        super(null, 0, gedcom);
+        baseWriter = this;
     }
 
     /**
@@ -365,7 +355,7 @@ public class GedcomWriter {
      */
     public void write(File file) throws IOException, GedcomWriterException {
         // Automatically replace the contents of the filename in the header
-        gedcom.getHeader().setFileName(new StringWithCustomTags(file.getName()));
+        writeFrom.getHeader().setFileName(new StringWithCustomTags(file.getName()));
 
         // If the file doesn't exist yet, we have to create it, otherwise a FileNotFoundException will be thrown
         if (!file.exists() && !file.getCanonicalFile().getParentFile().exists() && !file.getCanonicalFile().getParentFile().mkdirs() && !file.createNewFile()) {
@@ -391,28 +381,7 @@ public class GedcomWriter {
      *             {@link GedcomWriter#validationSuppressed})
      */
     public void write(OutputStream out) throws GedcomWriterException {
-        if (!validationSuppressed) {
-            GedcomValidator gv = new GedcomValidator(gedcom);
-            gv.setAutorepairEnabled(autorepair);
-            gv.validate();
-            validationFindings = gv.getFindings();
-            int numErrorFindings = 0;
-            for (GedcomValidationFinding f : validationFindings) {
-                if (f.getSeverity() == Severity.ERROR) {
-                    numErrorFindings++;
-                }
-            }
-            if (numErrorFindings > 0) {
-                throw new GedcomWriterException("Cannot write file - " + numErrorFindings
-                        + " error(s) found during validation.  Review the validation findings to determine root cause.");
-            }
-        }
-        checkVersionCompatibility();
-        emitHeader();
-        emitSubmissionRecord();
-        emitRecords();
-        emitTrailer();
-        emitCustomTags(1, gedcom.getCustomTags());
+        emit();
         try {
             GedcomFileWriter gfw = new GedcomFileWriter(this, lines);
             gfw.setUseLittleEndianForUnicode(useLittleEndianForUnicode);
@@ -437,25 +406,66 @@ public class GedcomWriter {
         write(f);
     }
 
-    /**
-     * Split up an array of text lines to when line break characters appear. If any of the original line contains line
-     * split characters (newlines, line feeds, carriage returns), split the line up into multiple lines.
-     * 
-     * @param linesOfText
-     *            a single string that may or may not contain line breaks
-     * @return a list of Strings that reflect the line breaks in the original string
-     */
-    List<String> splitLinesOnBreakingCharacters(List<String> linesOfText) {
-        List<String> result = new ArrayList<String>();
-        if (linesOfText != null) {
-            for (String s : linesOfText) {
-                String[] pieces = s.split("(\r\n|\n\r|\r|\n)");
-                for (String piece : pieces) {
-                    result.add(piece);
+    @Override
+    protected void emit() throws GedcomWriterException {
+        if (!validationSuppressed) {
+            GedcomValidator gv = new GedcomValidator(writeFrom);
+            gv.setAutorepairEnabled(autorepair);
+            gv.validate();
+            validationFindings = gv.getFindings();
+            int numErrorFindings = 0;
+            for (GedcomValidationFinding f : validationFindings) {
+                if (f.getSeverity() == Severity.ERROR) {
+                    numErrorFindings++;
                 }
             }
+            if (numErrorFindings > 0) {
+                throw new GedcomWriterException("Cannot write file - " + numErrorFindings
+                        + " error(s) found during validation.  Review the validation findings to determine root cause.");
+            }
         }
-        return result;
+        checkVersionCompatibility();
+        emitHeader();
+        emitSubmissionRecord();
+        emitRecords();
+        emitTrailer();
+        emitCustomTags(1, writeFrom.getCustomTags());
+    }
+
+    /**
+     * Emit the custom tags
+     * 
+     * @param customTags
+     *            the custom tags
+     * @param level
+     *            the level at which the custom tags are to be written
+     */
+    @Override
+    void emitCustomTags(int level, List<StringTree> customTags) {
+        if (customTags != null) {
+            for (StringTree st : customTags) {
+                StringBuilder line = new StringBuilder(Integer.toString(level));
+                line.append(" ");
+                if (st.getId() != null && st.getId().trim().length() > 0) {
+                    line.append(st.getId()).append(" ");
+                }
+                line.append(st.getTag());
+                if (st.getValue() != null && st.getValue().trim().length() > 0) {
+                    line.append(" ").append(st.getValue());
+                }
+                lines.add(line.toString());
+                emitCustomTags(level + 1, st.getChildren());
+            }
+        }
+    }
+
+    /**
+     * Notify construct observers if more than 100 lines have been constructed since last time we notified them
+     */
+    void notifyConstructObserversIfNeeded() {
+        if ((lines.size() - lastLineCountNotified) > constructionNotificationRate) {
+            notifyConstructObservers(new ConstructProgressEvent(this, lines.size(), true));
+        }
     }
 
     /**
@@ -467,12 +477,12 @@ public class GedcomWriter {
      */
     private void checkVersionCompatibility() throws GedcomWriterException {
 
-        if (gedcom.getHeader().getGedcomVersion() == null) {
+        if (writeFrom.getHeader().getGedcomVersion() == null) {
             // If there's not one specified, set up a default one that specifies
             // 5.5.1
-            gedcom.getHeader().setGedcomVersion(new GedcomVersion());
+            writeFrom.getHeader().setGedcomVersion(new GedcomVersion());
         }
-        if (SupportedVersion.V5_5.equals(gedcom.getHeader().getGedcomVersion().getVersionNumber())) {
+        if (SupportedVersion.V5_5.equals(writeFrom.getHeader().getGedcomVersion().getVersionNumber())) {
             checkVersionCompatibility55();
         } else {
             checkVersionCompatibility551();
@@ -489,15 +499,15 @@ public class GedcomWriter {
     private void checkVersionCompatibility55() throws GedcomWriterVersionDataMismatchException {
         // Now that we know if we're working with a 5.5.1 file or not, let's
         // check some data points
-        if (gedcom.getHeader().getCopyrightData() != null && gedcom.getHeader().getCopyrightData().size() > 1) {
+        if (writeFrom.getHeader().getCopyrightData() != null && writeFrom.getHeader().getCopyrightData().size() > 1) {
             throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but has multi-line copyright data in header");
         }
-        if (gedcom.getHeader().getCharacterSet() != null && gedcom.getHeader().getCharacterSet().getCharacterSetName() != null && "UTF-8".equals(gedcom
+        if (writeFrom.getHeader().getCharacterSet() != null && writeFrom.getHeader().getCharacterSet().getCharacterSetName() != null && "UTF-8".equals(writeFrom
                 .getHeader().getCharacterSet().getCharacterSetName().getValue())) {
             throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but data is encoded using UTF-8");
         }
-        if (gedcom.getHeader().getSourceSystem() != null && gedcom.getHeader().getSourceSystem().getCorporation() != null) {
-            Corporation c = gedcom.getHeader().getSourceSystem().getCorporation();
+        if (writeFrom.getHeader().getSourceSystem() != null && writeFrom.getHeader().getSourceSystem().getCorporation() != null) {
+            Corporation c = writeFrom.getHeader().getSourceSystem().getCorporation();
             if (c.getWwwUrls() != null && !c.getWwwUrls().isEmpty()) {
                 throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but source system corporation has www urls");
             }
@@ -508,7 +518,7 @@ public class GedcomWriter {
                 throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but source system corporation has emails");
             }
         }
-        for (Individual i : gedcom.getIndividuals().values()) {
+        for (Individual i : writeFrom.getIndividuals().values()) {
             if (i.getWwwUrls() != null && !i.getWwwUrls().isEmpty()) {
                 throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref() + " has www urls");
             }
@@ -549,7 +559,7 @@ public class GedcomWriter {
                 }
             }
         }
-        for (Submitter s : gedcom.getSubmitters().values()) {
+        for (Submitter s : writeFrom.getSubmitters().values()) {
             if (s.getWwwUrls() != null && !s.getWwwUrls().isEmpty()) {
                 throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Submitter " + s.getXref() + " has www urls");
             }
@@ -560,7 +570,7 @@ public class GedcomWriter {
                 throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Submitter " + s.getXref() + " has emails");
             }
         }
-        for (Repository r : gedcom.getRepositories().values()) {
+        for (Repository r : writeFrom.getRepositories().values()) {
             if (r.getWwwUrls() != null && !r.getWwwUrls().isEmpty()) {
                 throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Repository " + r.getXref() + " has www urls");
             }
@@ -581,7 +591,7 @@ public class GedcomWriter {
      * 
      */
     private void checkVersionCompatibility551() throws GedcomWriterVersionDataMismatchException {
-        for (Multimedia m : gedcom.getMultimedia().values()) {
+        for (Multimedia m : writeFrom.getMultimedia().values()) {
             if (m.getBlob() != null && !m.getBlob().isEmpty()) {
                 throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5.1, but multimedia item " + m.getXref()
                         + " contains BLOB data which is unsupported in 5.5.1");
@@ -612,34 +622,6 @@ public class GedcomWriter {
     }
 
     /**
-     * Write a line out to the print writer, splitting due to length if needed with CONC lines
-     * 
-     * @param level
-     *            the level at which we are recording
-     * @param line
-     *            the line to be written, which may have line breaking characters (which will result in CONT lines)
-     */
-    private void emitAndSplit(int level, String line) {
-        if (line.length() <= MAX_LINE_LENGTH) {
-            lines.add(line);
-        } else {
-            // First part
-            lines.add(line.substring(0, MAX_LINE_LENGTH));
-            // Now a series of as many CONC lines as needed
-            String remainder = line.substring(MAX_LINE_LENGTH);
-            while (remainder.length() > 0) {
-                if (remainder.length() > MAX_LINE_LENGTH) {
-                    lines.add(level + 1 + " CONC " + remainder.substring(0, MAX_LINE_LENGTH));
-                    remainder = remainder.substring(MAX_LINE_LENGTH);
-                } else {
-                    lines.add(level + 1 + " CONC " + remainder);
-                    remainder = "";
-                }
-            }
-        }
-    }
-
-    /**
      * Emit the person-to-person associations an individual was in - see ASSOCIATION_STRUCTURE in the GEDCOM spec.
      * 
      * @param level
@@ -655,30 +637,10 @@ public class GedcomWriter {
                 emitTagWithRequiredValue(level, "ASSO", a.getAssociatedEntityXref());
                 emitTagWithRequiredValue(level + 1, "TYPE", a.getAssociatedEntityType());
                 emitTagWithRequiredValue(level + 1, "RELA", a.getRelationship());
-                emitNotes(level + 1, a.getNotes());
-                emitSourceCitations(level + 1, a.getCitations());
+                new NotesEmitter(baseWriter, level + 1, a.getNotes()).emit();
+                new SourceCitationEmitter(baseWriter, level + 1, a.getCitations()).emit();
                 emitCustomTags(level + 1, a.getCustomTags());
             }
-        }
-    }
-
-    /**
-     * Emit a change date
-     * 
-     * @param level
-     *            the level at which we are emitting data
-     * @param cd
-     *            the change date
-     * @throws GedcomWriterException
-     *             if the data is malformed and cannot be written
-     */
-    private void emitChangeDate(int level, ChangeDate cd) throws GedcomWriterException {
-        if (cd != null) {
-            emitTag(level, "CHAN");
-            emitTagWithRequiredValue(level + 1, "DATE", cd.getDate());
-            emitTagIfValueNotNull(level + 2, "TIME", cd.getTime());
-            emitNotes(level + 1, cd.getNotes());
-            emitCustomTags(level + 1, cd.getCustomTags());
         }
     }
 
@@ -704,90 +666,8 @@ public class GedcomWriter {
                 emitTagWithRequiredValue(level, "FAMC", familyChild.getFamily().getXref());
                 emitTagIfValueNotNull(level + 1, "PEDI", familyChild.getPedigree());
                 emitTagIfValueNotNull(level + 1, "STAT", familyChild.getStatus());
-                emitNotes(level + 1, familyChild.getNotes());
+                new NotesEmitter(baseWriter, level + 1, familyChild.getNotes()).emit();
                 emitCustomTags(level + 1, i.getCustomTags());
-            }
-        }
-    }
-
-    /**
-     * Emit a citation without a source
-     * 
-     * @param level
-     *            the level in the hierarchy at which we are emitting data
-     * @param c
-     *            the citation
-     * @throws GedcomWriterException
-     *             when the data is malformed and cannot be written
-     */
-    private void emitCitationWithoutSource(int level, AbstractCitation c) throws GedcomWriterException {
-        CitationWithoutSource cws = (CitationWithoutSource) c;
-        emitLinesOfText(level, "SOUR", cws.getDescription());
-        if (cws.getTextFromSource() != null) {
-            for (List<String> linesOfText : cws.getTextFromSource()) {
-                emitLinesOfText(level + 1, "TEXT", linesOfText);
-            }
-        }
-        emitNotes(level + 1, cws.getNotes());
-        emitCustomTags(level + 1, cws.getCustomTags());
-    }
-
-    /**
-     * Emit a citation with source
-     * 
-     * @param level
-     *            the level in the hierarchy at which we are emitting data
-     * @param cws
-     *            the citation with source
-     * @throws GedcomWriterException
-     *             when the data is malformed and cannot be written
-     */
-    private void emitCitationWithSource(int level, CitationWithSource cws) throws GedcomWriterException {
-        Source source = cws.getSource();
-        if (source == null || source.getXref() == null || source.getXref().length() == 0) {
-            throw new GedcomWriterException("Citation with source must have a source record with an xref/id");
-        }
-        emitTagWithRequiredValue(level, "SOUR", source.getXref());
-        emitTagIfValueNotNull(level + 1, "PAGE", cws.getWhereInSource());
-        emitTagIfValueNotNull(level + 1, "EVEN", cws.getEventCited());
-        emitTagIfValueNotNull(level + 2, "ROLE", cws.getRoleInEvent());
-        if (cws.getData() != null && !cws.getData().isEmpty()) {
-            emitTag(level + 1, "DATA");
-            for (CitationData cd : cws.getData()) {
-                emitTagIfValueNotNull(level + 2, "DATE", cd.getEntryDate());
-                for (List<String> linesOfText : cd.getSourceText()) {
-                    emitLinesOfText(level + 2, "TEXT", linesOfText);
-                }
-            }
-        }
-        emitTagIfValueNotNull(level + 1, "QUAY", cws.getCertainty());
-        emitMultimediaLinks(level + 1, cws.getMultimedia());
-        emitNotes(level + 1, cws.getNotes());
-        emitCustomTags(level + 1, cws.getCustomTags());
-    }
-
-    /**
-     * Emit the custom tags
-     * 
-     * @param customTags
-     *            the custom tags
-     * @param level
-     *            the level at which the custom tags are to be written
-     */
-    private void emitCustomTags(int level, List<StringTree> customTags) {
-        if (customTags != null) {
-            for (StringTree st : customTags) {
-                StringBuilder line = new StringBuilder(Integer.toString(level));
-                line.append(" ");
-                if (st.getId() != null && st.getId().trim().length() > 0) {
-                    line.append(st.getId()).append(" ");
-                }
-                line.append(st.getTag());
-                if (st.getValue() != null && st.getValue().trim().length() > 0) {
-                    line.append(" ").append(st.getValue());
-                }
-                lines.add(line.toString());
-                emitCustomTags(level + 1, st.getChildren());
             }
         }
     }
@@ -833,9 +713,9 @@ public class GedcomWriter {
         emitTagIfValueNotNull(level, "CAUS", e.getCause());
         emitTagIfValueNotNull(level, "RELI", e.getReligiousAffiliation());
         emitTagIfValueNotNull(level, "RESN", e.getRestrictionNotice());
-        emitSourceCitations(level, e.getCitations());
+        new SourceCitationEmitter(baseWriter, level, e.getCitations()).emit();
         emitMultimediaLinks(level, e.getMultimedia());
-        emitNotes(level, e.getNotes());
+        new NotesEmitter(baseWriter, level, e.getNotes()).emit();
         emitCustomTags(level, e.getCustomTags());
     }
 
@@ -846,7 +726,7 @@ public class GedcomWriter {
      *             if the data is malformed and cannot be written
      */
     private void emitFamilies() throws GedcomWriterException {
-        for (Family f : gedcom.getFamilies().values()) {
+        for (Family f : writeFrom.getFamilies().values()) {
             emitTag(0, f.getXref(), "FAM");
             if (f.getEvents() != null) {
                 for (FamilyEvent e : f.getEvents()) {
@@ -876,9 +756,9 @@ public class GedcomWriter {
                 }
             }
             emitTagIfValueNotNull(1, "RESN", f.getRestrictionNotice());
-            emitSourceCitations(1, f.getCitations());
+            new SourceCitationEmitter(baseWriter, 1, f.getCitations()).emit();
             emitMultimediaLinks(1, f.getMultimedia());
-            emitNotes(1, f.getNotes());
+            new NotesEmitter(baseWriter, 1, f.getNotes()).emit();
             if (f.getUserReferences() != null) {
                 for (UserReference u : f.getUserReferences()) {
                     emitTagWithRequiredValue(1, "REFN", u.getReferenceNum());
@@ -886,7 +766,7 @@ public class GedcomWriter {
                 }
             }
             emitTagIfValueNotNull(1, "RIN", f.getAutomatedRecordId());
-            emitChangeDate(1, f.getChangeDate());
+            new ChangeDateEmitter(baseWriter, 1, f.getChangeDate()).emit();
             emitCustomTags(1, f.getCustomTags());
             notifyConstructObserversIfNeeded();
             if (cancelled) {
@@ -943,7 +823,7 @@ public class GedcomWriter {
      *             if the data is malformed and cannot be written
      */
     private void emitHeader() throws GedcomWriterException {
-        Header header = gedcom.getHeader();
+        Header header = writeFrom.getHeader();
         if (header == null) {
             header = new Header();
         }
@@ -972,7 +852,7 @@ public class GedcomWriter {
             emitTag(1, "PLAC");
             emitTagWithRequiredValue(2, "FORM", header.getPlaceHierarchy());
         }
-        emitNotes(1, header.getNotes());
+        new NotesEmitter(baseWriter, 1, header.getNotes()).emit();
         emitCustomTags(1, header.getCustomTags());
     }
 
@@ -1035,7 +915,7 @@ public class GedcomWriter {
      *             if the data is malformed and cannot be written
      */
     private void emitIndividuals() throws GedcomWriterException {
-        for (Individual i : gedcom.getIndividuals().values()) {
+        for (Individual i : writeFrom.getIndividuals().values()) {
             emitTag(0, i.getXref(), "INDI");
             emitTagIfValueNotNull(1, "RESN", i.getRestrictionNotice());
             emitPersonalNames(1, i.getNames());
@@ -1066,9 +946,9 @@ public class GedcomWriter {
                     emitTagWithRequiredValue(1, "DESI", s.getXref());
                 }
             }
-            emitSourceCitations(1, i.getCitations());
+            new SourceCitationEmitter(baseWriter, 1, i.getCitations()).emit();
             emitMultimediaLinks(1, i.getMultimedia());
-            emitNotes(1, i.getNotes());
+            new NotesEmitter(baseWriter, 1, i.getNotes()).emit();
             emitTagIfValueNotNull(1, "RFN", i.getPermanentRecFileNumber());
             emitTagIfValueNotNull(1, "AFN", i.getAncestralFileNumber());
             if (i.getUserReferences() != null) {
@@ -1078,7 +958,7 @@ public class GedcomWriter {
                 }
             }
             emitTagIfValueNotNull(1, "RIN", i.getRecIdNumber());
-            emitChangeDate(1, i.getChangeDate());
+            new ChangeDateEmitter(baseWriter, 1, i.getChangeDate()).emit();
             emitCustomTags(1, i.getCustomTags());
             notifyConstructObserversIfNeeded();
             if (cancelled) {
@@ -1103,8 +983,8 @@ public class GedcomWriter {
         emitTagIfValueNotNull(level + 1, "DATE", sealings.getDate());
         emitTagIfValueNotNull(level + 1, "TEMP", sealings.getTemple());
         emitTagIfValueNotNull(level + 1, "PLAC", sealings.getPlace());
-        emitSourceCitations(level + 1, sealings.getCitations());
-        emitNotes(level + 1, sealings.getNotes());
+        new SourceCitationEmitter(baseWriter, level + 1, sealings.getCitations()).emit();
+        new NotesEmitter(baseWriter, level + 1, sealings.getNotes()).emit();
         emitCustomTags(level + 1, sealings.getCustomTags());
     }
 
@@ -1135,60 +1015,10 @@ public class GedcomWriter {
                     }
                     emitTagWithRequiredValue(level + 1, "FAMC", o.getFamilyWhereChild().getFamily().getXref());
                 }
-                emitSourceCitations(level + 1, o.getCitations());
-                emitNotes(level + 1, o.getNotes());
+                new SourceCitationEmitter(baseWriter, level + 1, o.getCitations()).emit();
+                new NotesEmitter(baseWriter, level + 1, o.getNotes()).emit();
                 emitCustomTags(level + 1, o.getCustomTags());
             }
-        }
-    }
-
-    /**
-     * Convenience method for emitting lines of text when there is no xref, so you don't have to pass null all the time
-     * 
-     * @param level
-     *            the level we are starting at. Continuation lines will be one level deeper than this value
-     * @param startingTag
-     *            the tag to use for the first line of the text. All subsequent lines will be "CONT" lines.
-     * @param linesOfText
-     *            the lines of text
-     */
-    private void emitLinesOfText(int level, String startingTag, List<String> linesOfText) {
-        emitLinesOfText(level, null, startingTag, linesOfText);
-    }
-
-    /**
-     * Emit a multi-line text value. If a line of text contains line breaks (newlines, line feeds, carriage returns),
-     * the parts on either side of the line break will be treated as separate lines.
-     * 
-     * @param level
-     *            the level we are starting at. Continuation lines will be one level deeper than this value
-     * @param startingTag
-     *            the tag to use for the first line of the text. All subsequent lines will be "CONT" lines.
-     * @param xref
-     *            the xref of the item with lines of text
-     * @param linesOfText
-     *            the lines of text to write
-     */
-    private void emitLinesOfText(int level, String xref, String startingTag, List<String> linesOfText) {
-        List<String> splitLinesOfText = splitLinesOnBreakingCharacters(linesOfText);
-        int lineNum = 0;
-        for (String l : splitLinesOfText) {
-            StringBuilder line = new StringBuilder();
-            if (lineNum == 0) {
-                line.append(level).append(" ");
-                if (xref != null && xref.length() > 0) {
-                    line.append(xref).append(" ");
-                }
-                line.append(startingTag).append(" ").append(l);
-            } else {
-                line.append(level + 1).append(" ");
-                if (xref != null && xref.length() > 0) {
-                    line.append(xref).append(" ");
-                }
-                line.append("CONT ").append(l);
-            }
-            lineNum++;
-            emitAndSplit(level, line.toString());
         }
     }
 
@@ -1199,11 +1029,11 @@ public class GedcomWriter {
      *             if the data is malformed and cannot be written
      */
     private void emitMultimedia55() throws GedcomWriterException {
-        for (Multimedia m : gedcom.getMultimedia().values()) {
+        for (Multimedia m : writeFrom.getMultimedia().values()) {
             emitTag(0, m.getXref(), "OBJE");
             emitTagWithRequiredValue(1, "FORM", m.getEmbeddedMediaFormat());
             emitTagIfValueNotNull(1, "TITL", m.getEmbeddedTitle());
-            emitNotes(1, m.getNotes());
+            new NotesEmitter(baseWriter, 1, m.getNotes()).emit();
             emitTag(1, "BLOB");
             for (String b : m.getBlob()) {
                 emitTagWithRequiredValue(2, "CONT", b);
@@ -1218,7 +1048,7 @@ public class GedcomWriter {
                 }
             }
             emitTagIfValueNotNull(1, "RIN", m.getRecIdNumber());
-            emitChangeDate(1, m.getChangeDate());
+            new ChangeDateEmitter(baseWriter, 1, m.getChangeDate()).emit();
             if (m.getFileReferences() != null && !m.getFileReferences().isEmpty()) {
                 throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but found file references in multimedia object " + m.getXref()
                         + " which are not allowed until GEDCOM 5.5.1");
@@ -1238,7 +1068,7 @@ public class GedcomWriter {
      *             if the data is malformed and cannot be written
      */
     private void emitMultimedia551() throws GedcomWriterException {
-        for (Multimedia m : gedcom.getMultimedia().values()) {
+        for (Multimedia m : writeFrom.getMultimedia().values()) {
             emitTag(0, m.getXref(), "OBJE");
             if (m.getFileReferences() != null) {
                 for (FileReference fr : m.getFileReferences()) {
@@ -1255,8 +1085,8 @@ public class GedcomWriter {
                 }
             }
             emitTagIfValueNotNull(1, "RIN", m.getRecIdNumber());
-            emitNotes(1, m.getNotes());
-            emitChangeDate(1, m.getChangeDate());
+            new NotesEmitter(baseWriter, 1, m.getNotes()).emit();
+            new ChangeDateEmitter(baseWriter, 1, m.getChangeDate()).emit();
             emitCustomTags(1, m.getCustomTags());
             if (m.getBlob() != null && !m.getBlob().isEmpty()) {
                 throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but BLOB data on multimedia item " + m.getXref()
@@ -1318,7 +1148,7 @@ public class GedcomWriter {
                         emitTagWithRequiredValue(level + 1, "FORM", m.getEmbeddedMediaFormat());
                         emitTagIfValueNotNull(level + 1, "TITL", m.getEmbeddedTitle());
                     }
-                    emitNotes(level + 1, m.getNotes());
+                    new NotesEmitter(baseWriter, level + 1, m.getNotes()).emit();
                 } else {
                     // GEDCOM 5.5.1 format
                     for (FileReference fr : m.getFileReferences()) {
@@ -1337,71 +1167,6 @@ public class GedcomWriter {
                 emitTagWithRequiredValue(level, "OBJE", m.getXref());
             }
             emitCustomTags(level + 1, m.getCustomTags());
-        }
-    }
-
-    /**
-     * Emit a note structure (possibly multi-line)
-     * 
-     * @param level
-     *            the level in the hierarchy we are writing at
-     * @param note
-     *            the note structure
-     * @throws GedcomWriterException
-     *             if the data is malformed and cannot be written
-     */
-    private void emitNote(int level, Note note) throws GedcomWriterException {
-        if (level > 0 && note.getXref() != null) {
-            emitTagWithRequiredValue(level, "NOTE", note.getXref());
-            return;
-        }
-        emitNoteLines(level, note.getXref(), note.getLines());
-        emitSourceCitations(level + 1, note.getCitations());
-        if (note.getUserReferences() != null) {
-            for (UserReference u : note.getUserReferences()) {
-                emitTagWithRequiredValue(level + 1, "REFN", u.getReferenceNum());
-                emitTagIfValueNotNull(level + 2, "TYPE", u.getType());
-            }
-        }
-        emitTagIfValueNotNull(level + 1, "RIN", note.getRecIdNumber());
-        emitChangeDate(level + 1, note.getChangeDate());
-        emitCustomTags(level + 1, note.getCustomTags());
-    }
-
-    /**
-     * Emit line(s) of a note
-     * 
-     * @param level
-     *            the level in the hierarchy we are writing at
-     * @param xref
-     *            the xref of the note being written
-     * @param noteLines
-     *            the Notes text
-     */
-    private void emitNoteLines(int level, String xref, List<String> noteLines) {
-        emitLinesOfText(level, xref, "NOTE", noteLines);
-    }
-
-    /**
-     * Emit a list of note structures
-     * 
-     * @param level
-     *            the level in the hierarchy we are writing at
-     * @param notes
-     *            a list of {@link Note} structures
-     * @throws GedcomWriterException
-     *             if the data is malformed and cannot be written
-     */
-    private void emitNotes(int level, List<Note> notes) throws GedcomWriterException {
-        if (notes != null) {
-            for (Note n : notes) {
-                emitNote(level, n);
-                emitCustomTags(level + 1, n.getCustomTags());
-                notifyConstructObserversIfNeeded();
-                if (cancelled) {
-                    throw new WriterCancelledException("Construction and writing of GEDCOM cancelled");
-                }
-            }
         }
     }
 
@@ -1435,8 +1200,8 @@ public class GedcomWriter {
                         emitPersonalNameVariation(level + 1, "FONE", pnv);
                     }
                 }
-                emitSourceCitations(level + 1, n.getCitations());
-                emitNotes(level + 1, n.getNotes());
+                new SourceCitationEmitter(baseWriter, level + 1, n.getCitations()).emit();
+                new NotesEmitter(baseWriter, level + 1, n.getNotes()).emit();
                 emitCustomTags(level + 1, n.getCustomTags());
             }
         }
@@ -1462,8 +1227,8 @@ public class GedcomWriter {
         emitTagIfValueNotNull(level + 1, "SPFX", pnv.getSurnamePrefix());
         emitTagIfValueNotNull(level + 1, "SURN", pnv.getSurname());
         emitTagIfValueNotNull(level + 1, "NSFX", pnv.getSuffix());
-        emitSourceCitations(level + 1, pnv.getCitations());
-        emitNotes(level + 1, pnv.getNotes());
+        new SourceCitationEmitter(baseWriter, level + 1, pnv.getCitations()).emit();
+        new NotesEmitter(baseWriter, level + 1, pnv.getNotes()).emit();
         emitCustomTags(level + 1, pnv.getCustomTags());
     }
 
@@ -1496,8 +1261,8 @@ public class GedcomWriter {
     private void emitPlace(int level, Place p) throws GedcomWriterException {
         emitTagWithOptionalValue(level, "PLAC", p.getPlaceName());
         emitTagIfValueNotNull(level + 1, "FORM", p.getPlaceFormat());
-        emitSourceCitations(level + 1, p.getCitations());
-        emitNotes(level + 1, p.getNotes());
+        new SourceCitationEmitter(baseWriter, level + 1, p.getCitations()).emit();
+        new NotesEmitter(baseWriter, level + 1, p.getNotes()).emit();
         if (p.getRomanized() != null) {
             for (AbstractNameVariation nv : p.getRomanized()) {
                 if (g55()) {
@@ -1545,7 +1310,7 @@ public class GedcomWriter {
         } else {
             emitMultimedia551();
         }
-        emitNotes(0, new ArrayList<Note>(gedcom.getNotes().values()));
+        new NotesEmitter(baseWriter, 0, new ArrayList<Note>(writeFrom.getNotes().values())).emit();
         emitRepositories();
         emitSources();
         emitSubmitter();
@@ -1558,11 +1323,11 @@ public class GedcomWriter {
      *             if the data being written is malformed
      */
     private void emitRepositories() throws GedcomWriterException {
-        for (Repository r : gedcom.getRepositories().values()) {
+        for (Repository r : writeFrom.getRepositories().values()) {
             emitTag(0, r.getXref(), "REPO");
             emitTagIfValueNotNull(1, "NAME", r.getName());
             emitAddress(1, r.getAddress());
-            emitNotes(1, r.getNotes());
+            new NotesEmitter(baseWriter, 1, r.getNotes()).emit();
             if (r.getUserReferences() != null) {
                 for (UserReference u : r.getUserReferences()) {
                     emitTagWithRequiredValue(1, "REFN", u.getReferenceNum());
@@ -1574,7 +1339,7 @@ public class GedcomWriter {
             emitWwwUrls(1, r.getWwwUrls());
             emitFaxNumbers(1, r.getFaxNumbers());
             emitEmails(1, r.getEmails());
-            emitChangeDate(1, r.getChangeDate());
+            new ChangeDateEmitter(baseWriter, 1, r.getChangeDate()).emit();
             emitCustomTags(1, r.getCustomTags());
             notifyConstructObserversIfNeeded();
             if (cancelled) {
@@ -1599,7 +1364,7 @@ public class GedcomWriter {
                 throw new GedcomWriterException("Repository Citation has null repository reference");
             }
             emitTagWithRequiredValue(level, "REPO", repositoryCitation.getRepositoryXref());
-            emitNotes(level + 1, repositoryCitation.getNotes());
+            new NotesEmitter(baseWriter, level + 1, repositoryCitation.getNotes()).emit();
             if (repositoryCitation.getCallNumbers() != null) {
                 for (SourceCallNumber scn : repositoryCitation.getCallNumbers()) {
                     emitTagWithRequiredValue(level + 1, "CALN", scn.getCallNumber());
@@ -1612,37 +1377,13 @@ public class GedcomWriter {
     }
 
     /**
-     * Write out a list of source citations
-     * 
-     * @param level
-     *            the level in the hierarchy we are writing at
-     * @param citations
-     *            the source citations
-     * @throws GedcomWriterException
-     *             if the data is malformed and cannot be written
-     */
-    private void emitSourceCitations(int level, List<AbstractCitation> citations) throws GedcomWriterException {
-        if (citations == null) {
-            return;
-        }
-        for (AbstractCitation c : citations) {
-            if (c instanceof CitationWithoutSource) {
-                emitCitationWithoutSource(level, c);
-            } else if (c instanceof CitationWithSource) {
-                emitCitationWithSource(level, (CitationWithSource) c);
-            }
-        }
-
-    }
-
-    /**
      * Write out all the sources (see SOURCE_RECORD in the Gedcom spec)
      * 
      * @throws GedcomWriterException
      *             if the data being written is malformed
      */
     private void emitSources() throws GedcomWriterException {
-        for (Source s : gedcom.getSources().values()) {
+        for (Source s : writeFrom.getSources().values()) {
             emitTag(0, s.getXref(), "SOUR");
             SourceData d = s.getData();
             if (d != null) {
@@ -1653,7 +1394,7 @@ public class GedcomWriter {
                     emitTagIfValueNotNull(3, "PLAC", e.getJurisdiction());
                 }
                 emitTagIfValueNotNull(2, "AGNC", d.getRespAgency());
-                emitNotes(2, d.getNotes());
+                new NotesEmitter(baseWriter, 2, d.getNotes()).emit();
             }
             emitLinesOfText(1, "AUTH", s.getOriginatorsAuthors());
             emitLinesOfText(1, "TITL", s.getTitle());
@@ -1662,7 +1403,7 @@ public class GedcomWriter {
             emitLinesOfText(1, "TEXT", s.getSourceText());
             emitRepositoryCitation(1, s.getRepositoryCitation());
             emitMultimediaLinks(1, s.getMultimedia());
-            emitNotes(1, s.getNotes());
+            new NotesEmitter(baseWriter, 1, s.getNotes()).emit();
             if (s.getUserReferences() != null) {
                 for (UserReference u : s.getUserReferences()) {
                     emitTagWithRequiredValue(1, "REFN", u.getReferenceNum());
@@ -1670,7 +1411,7 @@ public class GedcomWriter {
                 }
             }
             emitTagIfValueNotNull(1, "RIN", s.getRecIdNumber());
-            emitChangeDate(1, s.getChangeDate());
+            new ChangeDateEmitter(baseWriter, 1, s.getChangeDate()).emit();
             emitCustomTags(1, s.getCustomTags());
             notifyConstructObserversIfNeeded();
             if (cancelled) {
@@ -1732,7 +1473,7 @@ public class GedcomWriter {
                     throw new GedcomWriterException("Family in which " + i + " was a spouse had a null family reference");
                 }
                 emitTagWithRequiredValue(level, "FAMS", familySpouse.getFamily().getXref());
-                emitNotes(level + 1, familySpouse.getNotes());
+                new NotesEmitter(baseWriter, level + 1, familySpouse.getNotes()).emit();
                 emitCustomTags(level + 1, familySpouse.getCustomTags());
             }
         }
@@ -1745,7 +1486,7 @@ public class GedcomWriter {
      *             if the data is malformed and cannot be written
      */
     private void emitSubmissionRecord() throws GedcomWriterException {
-        Submission s = gedcom.getSubmission();
+        Submission s = writeFrom.getSubmission();
         if (s == null) {
             return;
         }
@@ -1769,7 +1510,7 @@ public class GedcomWriter {
      *             if the data is malformed and cannot be written
      */
     private void emitSubmitter() throws GedcomWriterException {
-        for (Submitter s : gedcom.getSubmitters().values()) {
+        for (Submitter s : writeFrom.getSubmitters().values()) {
             emitTag(0, s.getXref(), "SUBM");
             emitTagWithOptionalValueAndCustomSubtags(1, "NAME", s.getName());
             emitAddress(1, s.getAddress());
@@ -1785,261 +1526,13 @@ public class GedcomWriter {
             emitEmails(1, s.getEmails());
             emitTagIfValueNotNull(1, "RFN", s.getRegFileNumber());
             emitTagIfValueNotNull(1, "RIN", s.getRecIdNumber());
-            emitChangeDate(1, s.getChangeDate());
+            new ChangeDateEmitter(baseWriter, 1, s.getChangeDate()).emit();
             emitCustomTags(1, s.getCustomTags());
             notifyConstructObserversIfNeeded();
             if (cancelled) {
                 throw new WriterCancelledException("Construction and writing of GEDCOM cancelled");
             }
         }
-    }
-
-    /**
-     * Write a line with a tag, with no value following the tag
-     * 
-     * @param level
-     *            the level within the file hierarchy
-     * @param tag
-     *            the tag for the line of the file
-     */
-    private void emitTag(int level, String tag) {
-        lines.add(level + " " + tag);
-    }
-
-    /**
-     * Write a line with a tag, with no value following the tag
-     * 
-     * @param level
-     *            the level within the file hierarchy
-     * @param xref
-     *            the xref of the item being written, if any
-     * @param tag
-     *            the tag for the line of the file
-     */
-    private void emitTag(int level, String xref, String tag) {
-        StringBuilder line = new StringBuilder(Integer.toString(level));
-        if (xref != null && xref.length() > 0) {
-            line.append(" ").append(xref);
-        }
-        line.append(" ").append(tag);
-        lines.add(line.toString());
-    }
-
-    /**
-     * Write a line if the value is non-null
-     * 
-     * @param level
-     *            the level within the file hierarchy
-     * @param tag
-     *            the tag for the line of the file
-     * @param value
-     *            the value to write to the right of the tag
-     */
-    private void emitTagIfValueNotNull(int level, String tag, Object value) {
-        emitTagIfValueNotNull(level, null, tag, value);
-    }
-
-    /**
-     * Write a line if the value is non-null
-     * 
-     * @param level
-     *            the level within the file hierarchy
-     * @param xref
-     *            the xref for the item, if any
-     * @param tag
-     *            the tag for the line of the file
-     * @param value
-     *            the value to write to the right of the tag
-     */
-    private void emitTagIfValueNotNull(int level, String xref, String tag, Object value) {
-        if (value != null) {
-
-            List<String> temp = new ArrayList<String>();
-            temp.add(value.toString());
-            List<String> valueLines = splitLinesOnBreakingCharacters(temp);
-
-            boolean first = true;
-            for (String v : valueLines) {
-
-                StringBuilder line = new StringBuilder();
-                if (first) {
-                    line.append(level);
-                    if (xref != null && xref.length() > 0) {
-                        line.append(" ").append(xref);
-                    }
-                    line.append(" ").append(tag).append(" ").append(v);
-                    emitAndSplit(level, line.toString());
-                } else {
-                    line.append(level + 1);
-                    line.append(" CONT ").append(v);
-                    emitAndSplit(level + 1, line.toString());
-                }
-
-                first = false;
-            }
-        }
-    }
-
-    /**
-     * Write a line and tag, with an optional value for the tag
-     * 
-     * @param level
-     *            the level within the file hierarchy
-     * @param tag
-     *            the tag for the line of the file
-     * @param value
-     *            the value to write to the right of the tag
-     * @throws GedcomWriterException
-     *             if the value is null or blank (which never happens, because we check for it)
-     */
-    private void emitTagWithOptionalValue(int level, String tag, String value) throws GedcomWriterException {
-        if (value == null) {
-            StringBuilder line = new StringBuilder(Integer.toString(level));
-            line.append(" ").append(tag);
-            lines.add(line.toString());
-        } else {
-            List<String> temp = new ArrayList<String>();
-            temp.add(value);
-            List<String> valueLines = splitLinesOnBreakingCharacters(temp);
-
-            boolean first = true;
-            for (String v : valueLines) {
-
-                StringBuilder line = new StringBuilder();
-                if (first) {
-                    line.append(level);
-                    line.append(" ").append(tag).append(" ").append(v);
-                    emitAndSplit(level, line.toString());
-                } else {
-                    line.append(level + 1);
-                    line.append(" CONT ").append(v);
-                    emitAndSplit(level + 1, line.toString());
-                }
-
-                first = false;
-            }
-        }
-    }
-
-    /**
-     * Write a line and tag, with an optional value for the tag
-     * 
-     * @param level
-     *            the level within the file hierarchy
-     * @param tag
-     *            the tag for the line of the file
-     * @param valueToRightOfTag
-     *            the value to write to the right of the tag
-     * @throws GedcomWriterException
-     *             if the value is null or blank (which never happens, because we check for it)
-     */
-    private void emitTagWithOptionalValueAndCustomSubtags(int level, String tag, StringWithCustomTags valueToRightOfTag) throws GedcomWriterException {
-        if (valueToRightOfTag == null || valueToRightOfTag.getValue() == null) {
-            StringBuilder line = new StringBuilder(Integer.toString(level));
-            line.append(" ").append(tag);
-            lines.add(line.toString());
-            if (valueToRightOfTag != null) {
-                emitCustomTags(level + 1, valueToRightOfTag.getCustomTags());
-            }
-            return;
-        }
-
-        List<String> temp = new ArrayList<String>();
-        temp.add(valueToRightOfTag.getValue());
-        List<String> valueLines = splitLinesOnBreakingCharacters(temp);
-
-        boolean first = true;
-        for (String v : valueLines) {
-            StringBuilder line = new StringBuilder();
-            if (first) {
-                line.append(level);
-                line.append(" ").append(tag).append(" ").append(v);
-                emitAndSplit(level, line.toString());
-            } else {
-                line.append(level + 1);
-                line.append(" CONT ").append(v);
-                emitAndSplit(level + 1, line.toString());
-            }
-
-            first = false;
-        }
-        emitCustomTags(level + 1, valueToRightOfTag.getCustomTags());
-    }
-
-    /**
-     * Write a line and tag, with an optional value for the tag
-     * 
-     * @param level
-     *            the level within the file hierarchy
-     * @param tag
-     *            the tag for the line of the file
-     * @param value
-     *            the value to write to the right of the tag
-     * @throws GedcomWriterException
-     *             if the value is null or blank
-     */
-    private void emitTagWithRequiredValue(int level, String tag, String value) throws GedcomWriterException {
-        emitTagWithRequiredValue(level, null, tag, new StringWithCustomTags(value));
-    }
-
-    /**
-     * Write a line and tag, with an optional value for the tag
-     * 
-     * @param level
-     *            the level within the file hierarchy
-     * @param tag
-     *            the tag for the line of the file
-     * @param e
-     *            the value to write to the right of the tag
-     * @param xref
-     *            the xref of the item being emitted
-     * @throws GedcomWriterException
-     *             if the value is null or blank
-     */
-    private void emitTagWithRequiredValue(int level, String xref, String tag, StringWithCustomTags e) throws GedcomWriterException {
-        if (e == null || e.getValue() == null || e.getValue().trim().length() == 0) {
-            throw new GedcomWriterException("Required value for tag " + tag + " at level " + level + " was null or blank");
-        }
-        List<String> temp = new ArrayList<String>();
-        temp.add(e.getValue());
-        List<String> valueLines = splitLinesOnBreakingCharacters(temp);
-
-        boolean first = true;
-        for (String v : valueLines) {
-            StringBuilder line = new StringBuilder();
-            if (first) {
-                line.append(level);
-                if (xref != null && xref.length() > 0) {
-                    line.append(" ").append(xref);
-                }
-                line.append(" ").append(tag).append(" ").append(v);
-                emitAndSplit(level, line.toString());
-            } else {
-                line.append(level + 1);
-                line.append(" CONT ").append(v);
-                emitAndSplit(level + 1, line.toString());
-            }
-
-            first = false;
-        }
-
-        emitCustomTags(level + 1, e.getCustomTags());
-    }
-
-    /**
-     * Write a line and tag, with an optional value for the tag
-     * 
-     * @param level
-     *            the level within the file hierarchy
-     * @param tag
-     *            the tag for the line of the file
-     * @param value
-     *            the value to write to the right of the tag
-     * @throws GedcomWriterException
-     *             if the value is null or blank
-     */
-    private void emitTagWithRequiredValue(int level, String tag, StringWithCustomTags value) throws GedcomWriterException {
-        emitTagWithRequiredValue(level, null, tag, value);
     }
 
     /**
@@ -2069,16 +1562,6 @@ public class GedcomWriter {
     }
 
     /**
-     * Returns true if and only if the Gedcom data says it is for the 5.5 standard.
-     * 
-     * @return true if and only if the Gedcom data says it is for the 5.5 standard.
-     */
-    private boolean g55() {
-        return gedcom != null && gedcom.getHeader() != null && gedcom.getHeader().getGedcomVersion() != null && SupportedVersion.V5_5.equals(gedcom.getHeader()
-                .getGedcomVersion().getVersionNumber());
-    }
-
-    /**
      * Notify all listeners about the line being
      * 
      * @param e
@@ -2098,15 +1581,6 @@ public class GedcomWriter {
                 }
                 i++;
             }
-        }
-    }
-
-    /**
-     * Notify construct observers if more than 100 lines have been constructed since last time we notified them
-     */
-    private void notifyConstructObserversIfNeeded() {
-        if ((lines.size() - lastLineCountNotified) > constructionNotificationRate) {
-            notifyConstructObservers(new ConstructProgressEvent(this, lines.size(), true));
         }
     }
 }

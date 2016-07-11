@@ -160,7 +160,6 @@ class IndividualParser extends AbstractParser<Individual> {
         FamilySpouse fs = new FamilySpouse();
         fs.setFamily(f);
         familiesWhereSpouse.add(fs);
-        if (st.getChildren() != null) {
             if (st.getChildren() != null) {
                 for (StringTree ch : st.getChildren()) {
                     if (Tag.NOTE.equalsText(ch.getTag())) {
@@ -171,7 +170,6 @@ class IndividualParser extends AbstractParser<Individual> {
                     }
                 }
             }
-        }
     }
 
 }
