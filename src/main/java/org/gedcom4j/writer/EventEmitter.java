@@ -24,13 +24,15 @@ package org.gedcom4j.writer;
 
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
-import org.gedcom4j.model.ChangeDate;
+import org.gedcom4j.model.AbstractEvent;
 
 /**
+ * An emitter for {@link AbstractEvent}s and their subclasses
+ * 
  * @author frizbog
- *
  */
-class ChangeDateEmitter extends AbstractEmitter<ChangeDate> {
+class EventEmitter extends AbstractEmitter<AbstractEvent> {
+
     /**
      * Constructor
      * 
@@ -43,19 +45,28 @@ class ChangeDateEmitter extends AbstractEmitter<ChangeDate> {
      * @throws WriterCancelledException
      *             if cancellation was requested during the operation
      */
-    ChangeDateEmitter(GedcomWriter baseWriter, int startLevel, ChangeDate writeFrom) throws WriterCancelledException {
+    EventEmitter(GedcomWriter baseWriter, int startLevel, AbstractEvent writeFrom) throws WriterCancelledException {
         super(baseWriter, startLevel, writeFrom);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void emit() throws GedcomWriterException {
-        if (writeFrom != null) {
-            emitTag(startLevel, "CHAN");
-            emitTagWithRequiredValue(startLevel + 1, "DATE", writeFrom.getDate());
-            emitTagIfValueNotNull(startLevel + 2, "TIME", writeFrom.getTime());
-            new NotesEmitter(baseWriter, startLevel + 1, writeFrom.getNotes()).emit();
-            emitCustomTags(startLevel + 1, writeFrom.getCustomTags());
-        }
+        emitTagIfValueNotNull(startLevel, "TYPE", writeFrom.getSubType());
+        emitTagIfValueNotNull(startLevel, "DATE", writeFrom.getDate());
+        new PlaceEmitter(baseWriter, startLevel, writeFrom.getPlace()).emit();
+        new AddressEmitter(baseWriter, startLevel, writeFrom.getAddress()).emit();
+        emitTagIfValueNotNull(startLevel, "AGE", writeFrom.getAge());
+        emitTagIfValueNotNull(startLevel, "AGNC", writeFrom.getRespAgency());
+        emitTagIfValueNotNull(startLevel, "CAUS", writeFrom.getCause());
+        emitTagIfValueNotNull(startLevel, "RELI", writeFrom.getReligiousAffiliation());
+        emitTagIfValueNotNull(startLevel, "RESN", writeFrom.getRestrictionNotice());
+        new SourceCitationEmitter(baseWriter, startLevel, writeFrom.getCitations()).emit();
+        new MultimediaLinksEmitter(baseWriter, startLevel, writeFrom.getMultimedia()).emit();
+        new NotesEmitter(baseWriter, startLevel, writeFrom.getNotes()).emit();
+        emitCustomTags(startLevel, writeFrom.getCustomTags());
     }
 
 }

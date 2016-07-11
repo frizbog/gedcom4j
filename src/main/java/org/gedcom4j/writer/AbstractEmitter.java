@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.gedcom4j.exception.GedcomWriterException;
+import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.SupportedVersion;
@@ -69,13 +70,18 @@ abstract class AbstractEmitter<T> {
      *            write starting at this level
      * @param writeFrom
      *            object to write
+     * @throws WriterCancelledException
+     *             if cancellation was requested during the operation
      */
-    protected AbstractEmitter(GedcomWriter baseWriter, int startLevel, T writeFrom) {
+    protected AbstractEmitter(GedcomWriter baseWriter, int startLevel, T writeFrom) throws WriterCancelledException {
         this.baseWriter = baseWriter;
         this.startLevel = startLevel;
         this.writeFrom = writeFrom;
         if (baseWriter != null) {
             baseWriter.notifyConstructObserversIfNeeded();
+            if (baseWriter.isCancelled()) {
+                throw new WriterCancelledException("Construction of GEDCOM data cancelled");
+            }
         }
     }
 
@@ -144,8 +150,8 @@ abstract class AbstractEmitter<T> {
      *            the level to write at
      * @param strings
      *            the list of strings to write (with custom tags)
-     * @param tag
-     *            the tag to use for each string value in the collection
+     * @param tagValue
+     *            the string value of the tag to use for each value in the collection
      * @throws GedcomWriterException
      *             if the data cannot be written
      */

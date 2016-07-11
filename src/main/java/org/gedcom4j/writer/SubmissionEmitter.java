@@ -24,38 +24,45 @@ package org.gedcom4j.writer;
 
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
-import org.gedcom4j.model.ChangeDate;
+import org.gedcom4j.model.Submission;
 
 /**
+ * Emitter for {@link Submission} objects
+ * 
  * @author frizbog
  *
  */
-class ChangeDateEmitter extends AbstractEmitter<ChangeDate> {
+class SubmissionEmitter extends AbstractEmitter<Submission> {
+
     /**
-     * Constructor
-     * 
      * @param baseWriter
-     *            The base Gedcom writer class this Emitter is partnering with to emit the entire file
      * @param startLevel
-     *            write starting at this level
      * @param writeFrom
-     *            object to write
      * @throws WriterCancelledException
-     *             if cancellation was requested during the operation
      */
-    ChangeDateEmitter(GedcomWriter baseWriter, int startLevel, ChangeDate writeFrom) throws WriterCancelledException {
+    SubmissionEmitter(GedcomWriter baseWriter, int startLevel, Submission writeFrom) throws WriterCancelledException {
         super(baseWriter, startLevel, writeFrom);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void emit() throws GedcomWriterException {
-        if (writeFrom != null) {
-            emitTag(startLevel, "CHAN");
-            emitTagWithRequiredValue(startLevel + 1, "DATE", writeFrom.getDate());
-            emitTagIfValueNotNull(startLevel + 2, "TIME", writeFrom.getTime());
-            new NotesEmitter(baseWriter, startLevel + 1, writeFrom.getNotes()).emit();
-            emitCustomTags(startLevel + 1, writeFrom.getCustomTags());
+        if (writeFrom == null) {
+            return;
         }
+        emitTag(0, writeFrom.getXref(), "SUBN");
+        if (writeFrom.getSubmitter() != null) {
+            emitTagWithOptionalValue(1, "SUBM", writeFrom.getSubmitter().getXref());
+        }
+        emitTagIfValueNotNull(1, "FAMF", writeFrom.getNameOfFamilyFile());
+        emitTagIfValueNotNull(1, "TEMP", writeFrom.getTempleCode());
+        emitTagIfValueNotNull(1, "ANCE", writeFrom.getAncestorsCount());
+        emitTagIfValueNotNull(1, "DESC", writeFrom.getDescendantsCount());
+        emitTagIfValueNotNull(1, "ORDI", writeFrom.getOrdinanceProcessFlag());
+        emitTagIfValueNotNull(1, "RIN", writeFrom.getRecIdNumber());
+        emitCustomTags(1, writeFrom.getCustomTags());
     }
 
 }

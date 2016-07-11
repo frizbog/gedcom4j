@@ -23,6 +23,7 @@
 package org.gedcom4j.writer;
 
 import org.gedcom4j.exception.GedcomWriterException;
+import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.model.Corporation;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.HeaderSourceData;
@@ -44,8 +45,10 @@ class HeaderEmitter extends AbstractEmitter<Header> {
      *            write starting at this level
      * @param writeFrom
      *            object to write
+     * @throws WriterCancelledException
+     *             if cancellation was requested during the operation
      */
-    HeaderEmitter(GedcomWriter baseWriter, int startLevel, Header writeFrom) {
+    HeaderEmitter(GedcomWriter baseWriter, int startLevel, Header writeFrom) throws WriterCancelledException {
         super(baseWriter, startLevel, writeFrom);
     }
 

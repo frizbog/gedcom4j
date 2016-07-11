@@ -55,9 +55,12 @@ public class GedcomFileWriterTest {
 
     /**
      * Test when there is no data
+     * 
+     * @throws WriterCancelledException
+     *             if the writer operation is cancelled
      */
     @Test
-    public void testEmptyLines() {
+    public void testEmptyLines() throws WriterCancelledException {
         List<String> lines = new ArrayList<String>();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
         assertNotNull(gfw.getTerminator());

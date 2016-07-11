@@ -25,6 +25,7 @@ package org.gedcom4j.writer;
 import java.util.List;
 
 import org.gedcom4j.exception.GedcomWriterException;
+import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.model.*;
 
 /**
@@ -43,8 +44,10 @@ class SourceCitationEmitter extends AbstractEmitter<List<AbstractCitation>> {
      *            write starting at this level
      * @param writeFrom
      *            object to write
+     * @throws WriterCancelledException
+     *             if cancellation was requested during the operation
      */
-    protected SourceCitationEmitter(GedcomWriter baseWriter, int startLevel, List<AbstractCitation> writeFrom) {
+    protected SourceCitationEmitter(GedcomWriter baseWriter, int startLevel, List<AbstractCitation> writeFrom) throws WriterCancelledException {
         super(baseWriter, startLevel, writeFrom);
     }
 

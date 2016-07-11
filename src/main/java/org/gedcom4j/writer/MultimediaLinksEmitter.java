@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.GedcomWriterVersionDataMismatchException;
+import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.model.FileReference;
 import org.gedcom4j.model.Multimedia;
 
@@ -45,8 +46,10 @@ class MultimediaLinksEmitter extends AbstractEmitter<List<Multimedia>> {
      *            write starting at this level
      * @param writeFrom
      *            object to write
+     * @throws WriterCancelledException
+     *             if cancellation was requested during the operation
      */
-    MultimediaLinksEmitter(GedcomWriter baseWriter, int startLevel, List<Multimedia> writeFrom) {
+    MultimediaLinksEmitter(GedcomWriter baseWriter, int startLevel, List<Multimedia> writeFrom) throws WriterCancelledException {
         super(baseWriter, startLevel, writeFrom);
     }
 

@@ -22,7 +22,7 @@
 
 package org.gedcom4j.writer;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
@@ -35,7 +35,7 @@ import org.gedcom4j.model.UserReference;
  * @author frizbog
  *
  */
-class NotesEmitter extends AbstractEmitter<List<Note>> {
+class NotesEmitter extends AbstractEmitter<Collection<Note>> {
 
     /**
      * Constructor
@@ -44,11 +44,13 @@ class NotesEmitter extends AbstractEmitter<List<Note>> {
      *            The base Gedcom writer class this Emitter is partnering with to emit the entire file
      * @param startLevel
      *            write starting at this level
-     * @param writeFrom
+     * @param collection
      *            object to write
+     * @throws WriterCancelledException
+     *             if cancellation was requested during the operation
      */
-    NotesEmitter(GedcomWriter baseWriter, int startLevel, List<Note> writeFrom) {
-        super(baseWriter, startLevel, writeFrom);
+    NotesEmitter(GedcomWriter baseWriter, int startLevel, Collection<Note> collection) throws WriterCancelledException {
+        super(baseWriter, startLevel, collection);
     }
 
     @Override

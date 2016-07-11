@@ -22,16 +22,20 @@
 
 package org.gedcom4j.writer;
 
+import java.util.Collection;
+
 import org.gedcom4j.exception.GedcomWriterException;
+import org.gedcom4j.exception.GedcomWriterVersionDataMismatchException;
 import org.gedcom4j.exception.WriterCancelledException;
-import org.gedcom4j.model.Address;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.UserReference;
 
 /**
- * An emitter for {@link Address} objects
+ * Emitter for {@link Multimedia} objects when using GEDCOM 5.5
  * 
  * @author frizbog
  */
-class AddressEmitter extends AbstractEmitter<Address> {
+class Multimedia55Emitter extends AbstractEmitter<Collection<Multimedia>> {
 
     /**
      * Constructor
@@ -45,7 +49,7 @@ class AddressEmitter extends AbstractEmitter<Address> {
      * @throws WriterCancelledException
      *             if cancellation was requested during the operation
      */
-    AddressEmitter(GedcomWriter baseWriter, int startLevel, Address writeFrom) throws WriterCancelledException {
+    Multimedia55Emitter(GedcomWriter baseWriter, int startLevel, Collection<Multimedia> writeFrom) throws WriterCancelledException {
         super(baseWriter, startLevel, writeFrom);
     }
 
@@ -57,14 +61,32 @@ class AddressEmitter extends AbstractEmitter<Address> {
         if (writeFrom == null) {
             return;
         }
-        emitLinesOfText(startLevel, "ADDR", writeFrom.getLines());
-        emitTagIfValueNotNull(startLevel + 1, "ADR1", writeFrom.getAddr1());
-        emitTagIfValueNotNull(startLevel + 1, "ADR2", writeFrom.getAddr2());
-        emitTagIfValueNotNull(startLevel + 1, "CITY", writeFrom.getCity());
-        emitTagIfValueNotNull(startLevel + 1, "STAE", writeFrom.getStateProvince());
-        emitTagIfValueNotNull(startLevel + 1, "POST", writeFrom.getPostalCode());
-        emitTagIfValueNotNull(startLevel + 1, "CTRY", writeFrom.getCountry());
-        emitCustomTags(startLevel + 1, writeFrom.getCustomTags());
+        for (Multimedia m : writeFrom) {
+            emitTag(0, m.getXref(), "OBJE");
+            emitTagWithRequiredValue(1, "FORM", m.getEmbeddedMediaFormat());
+            emitTagIfValueNotNull(1, "TITL", m.getEmbeddedTitle());
+            new NotesEmitter(baseWriter, 1, m.getNotes()).emit();
+            emitTag(1, "BLOB");
+            for (String b : m.getBlob()) {
+                emitTagWithRequiredValue(2, "CONT", b);
+            }
+            if (m.getContinuedObject() != null && m.getContinuedObject().getXref() != null) {
+                emitTagWithRequiredValue(1, "OBJE", m.getContinuedObject().getXref());
+            }
+            if (m.getUserReferences() != null) {
+                for (UserReference u : m.getUserReferences()) {
+                    emitTagWithRequiredValue(1, "REFN", u.getReferenceNum());
+                    emitTagIfValueNotNull(2, "TYPE", u.getType());
+                }
+            }
+            emitTagIfValueNotNull(1, "RIN", m.getRecIdNumber());
+            new ChangeDateEmitter(baseWriter, 1, m.getChangeDate()).emit();
+            if (m.getFileReferences() != null && !m.getFileReferences().isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but found file references in multimedia object " + m.getXref()
+                        + " which are not allowed until GEDCOM 5.5.1");
+            }
+            emitCustomTags(1, m.getCustomTags());
+        }
     }
 
 }

@@ -42,6 +42,7 @@ import java.util.Map.Entry;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.GedcomWriterException;
+import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.io.reader.GedcomFileReader;
 import org.gedcom4j.model.*;
 import org.gedcom4j.parser.GedcomParser;
@@ -296,9 +297,12 @@ public class GedcomWriterTest {
 
     /**
      * Test for {@link GedcomWriter#splitLinesOnBreakingCharacters(List)}
+     * 
+     * @throws WriterCancelledException
+     *             if the writer operation is cancelled
      */
     @Test
-    public void testSplitLines() {
+    public void testSplitLines() throws WriterCancelledException {
         AbstractEmitter<Gedcom> gw = new GedcomWriter(null);
         List<String> original = new ArrayList<String>();
         original.add("This is a test");

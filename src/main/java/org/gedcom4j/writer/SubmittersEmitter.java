@@ -25,6 +25,7 @@ package org.gedcom4j.writer;
 import java.util.Collection;
 
 import org.gedcom4j.exception.GedcomWriterException;
+import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
 
@@ -43,8 +44,10 @@ class SubmittersEmitter extends AbstractEmitter<Collection<Submitter>> {
      *            write starting at this level
      * @param writeFrom
      *            object to write
+     * @throws WriterCancelledException
+     *             if cancellation was requested during the operation
      */
-    SubmittersEmitter(GedcomWriter baseWriter, int startLevel, Collection<Submitter> writeFrom) {
+    SubmittersEmitter(GedcomWriter baseWriter, int startLevel, Collection<Submitter> writeFrom) throws WriterCancelledException {
         super(baseWriter, startLevel, writeFrom);
     }
 

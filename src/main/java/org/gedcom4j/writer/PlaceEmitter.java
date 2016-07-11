@@ -24,6 +24,7 @@ package org.gedcom4j.writer;
 
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.GedcomWriterVersionDataMismatchException;
+import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.model.AbstractNameVariation;
 import org.gedcom4j.model.Place;
 
@@ -42,8 +43,10 @@ class PlaceEmitter extends AbstractEmitter<Place> {
      *            write starting at this level
      * @param writeFrom
      *            object to write
+     * @throws WriterCancelledException
+     *             if cancellation was requested during the operation
      */
-    PlaceEmitter(GedcomWriter baseWriter, int startLevel, Place writeFrom) {
+    PlaceEmitter(GedcomWriter baseWriter, int startLevel, Place writeFrom) throws WriterCancelledException {
         super(baseWriter, startLevel, writeFrom);
     }
 

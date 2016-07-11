@@ -22,15 +22,19 @@
 
 package org.gedcom4j.writer;
 
+import java.util.Collection;
+
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
-import org.gedcom4j.model.ChangeDate;
+import org.gedcom4j.model.Repository;
+import org.gedcom4j.model.UserReference;
 
 /**
  * @author frizbog
  *
  */
-class ChangeDateEmitter extends AbstractEmitter<ChangeDate> {
+class RepositoryEmitter extends AbstractEmitter<Collection<Repository>> {
+
     /**
      * Constructor
      * 
@@ -43,18 +47,33 @@ class ChangeDateEmitter extends AbstractEmitter<ChangeDate> {
      * @throws WriterCancelledException
      *             if cancellation was requested during the operation
      */
-    ChangeDateEmitter(GedcomWriter baseWriter, int startLevel, ChangeDate writeFrom) throws WriterCancelledException {
+    RepositoryEmitter(GedcomWriter baseWriter, int startLevel, Collection<Repository> writeFrom) throws WriterCancelledException {
         super(baseWriter, startLevel, writeFrom);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void emit() throws GedcomWriterException {
-        if (writeFrom != null) {
-            emitTag(startLevel, "CHAN");
-            emitTagWithRequiredValue(startLevel + 1, "DATE", writeFrom.getDate());
-            emitTagIfValueNotNull(startLevel + 2, "TIME", writeFrom.getTime());
-            new NotesEmitter(baseWriter, startLevel + 1, writeFrom.getNotes()).emit();
-            emitCustomTags(startLevel + 1, writeFrom.getCustomTags());
+        for (Repository r : writeFrom) {
+            emitTag(0, r.getXref(), "REPO");
+            emitTagIfValueNotNull(1, "NAME", r.getName());
+            new AddressEmitter(baseWriter, 1, r.getAddress()).emit();
+            new NotesEmitter(baseWriter, 1, r.getNotes()).emit();
+            if (r.getUserReferences() != null) {
+                for (UserReference u : r.getUserReferences()) {
+                    emitTagWithRequiredValue(1, "REFN", u.getReferenceNum());
+                    emitTagIfValueNotNull(2, "TYPE", u.getType());
+                }
+            }
+            emitTagIfValueNotNull(1, "RIN", r.getRecIdNumber());
+            emitStringsWithCustomTags(1, r.getPhoneNumbers(), "PHON");
+            emitStringsWithCustomTags(1, r.getWwwUrls(), "WWW");
+            emitStringsWithCustomTags(1, r.getFaxNumbers(), "FAX");
+            emitStringsWithCustomTags(1, r.getEmails(), "EMAIL");
+            new ChangeDateEmitter(baseWriter, 1, r.getChangeDate()).emit();
+            emitCustomTags(1, r.getCustomTags());
         }
     }
 
