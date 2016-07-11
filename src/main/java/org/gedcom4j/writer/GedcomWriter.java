@@ -425,7 +425,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
             }
         }
         checkVersionCompatibility();
-        emitHeader();
+        new HeaderEmitter(baseWriter, 0, writeFrom.getHeader()).emit();
         emitSubmissionRecord();
         emitRecords();
         emitTrailer();
@@ -453,7 +453,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
                 if (st.getValue() != null && st.getValue().trim().length() > 0) {
                     line.append(" ").append(st.getValue());
                 }
-                lines.add(line.toString());
+                baseWriter.lines.add(line.toString());
                 emitCustomTags(level + 1, st.getChildren());
             }
         }
@@ -663,10 +663,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     private void emitEventDetail(int level, AbstractEvent e) throws GedcomWriterException {
         emitTagIfValueNotNull(level, "TYPE", e.getSubType());
         emitTagIfValueNotNull(level, "DATE", e.getDate());
-        if (e.getPlace() != null) {
-            Place p = e.getPlace();
-            emitPlace(level, p);
-        }
+        new PlaceEmitter(baseWriter, level, e.getPlace()).emit();
         new AddressEmitter(baseWriter, level, e.getAddress()).emit();
         emitTagIfValueNotNull(level, "AGE", e.getAge());
         emitTagIfValueNotNull(level, "AGNC", e.getRespAgency());
@@ -756,46 +753,6 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
             emitTag(level + 1, "WIFE");
             emitTagWithRequiredValue(level + 2, "AGE", e.getWifeAge());
         }
-    }
-
-    /**
-     * Write the header record (see the HEADER structure in the GEDCOM standard)
-     * 
-     * @throws GedcomWriterException
-     *             if the data is malformed and cannot be written
-     */
-    private void emitHeader() throws GedcomWriterException {
-        Header header = writeFrom.getHeader();
-        if (header == null) {
-            header = new Header();
-        }
-        lines.add("0 HEAD");
-        emitSourceSystem(header.getSourceSystem());
-        emitTagIfValueNotNull(1, "DEST", header.getDestinationSystem());
-        if (header.getDate() != null) {
-            emitTagIfValueNotNull(1, "DATE", header.getDate());
-            emitTagIfValueNotNull(2, "TIME", header.getTime());
-        }
-        if (header.getSubmitter() != null) {
-            emitTagWithRequiredValue(1, "SUBM", header.getSubmitter().getXref());
-        }
-        if (header.getSubmission() != null) {
-            emitTagWithRequiredValue(1, "SUBN", header.getSubmission().getXref());
-        }
-        emitTagIfValueNotNull(1, "FILE", header.getFileName());
-        emitLinesOfText(1, "COPR", header.getCopyrightData());
-        emitTag(1, "GEDC");
-        emitTagWithRequiredValue(2, "VERS", header.getGedcomVersion().getVersionNumber().toString());
-        emitTagWithRequiredValue(2, "FORM", header.getGedcomVersion().getGedcomForm());
-        emitTagWithRequiredValue(1, "CHAR", header.getCharacterSet().getCharacterSetName());
-        emitTagIfValueNotNull(2, "VERS", header.getCharacterSet().getVersionNum());
-        emitTagIfValueNotNull(1, "LANG", header.getLanguage());
-        if (header.getPlaceHierarchy() != null && header.getPlaceHierarchy().getValue() != null && header.getPlaceHierarchy().getValue().length() > 0) {
-            emitTag(1, "PLAC");
-            emitTagWithRequiredValue(2, "FORM", header.getPlaceHierarchy());
-        }
-        new NotesEmitter(baseWriter, 1, header.getNotes()).emit();
-        emitCustomTags(1, header.getCustomTags());
     }
 
     /**
@@ -1116,53 +1073,6 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     }
 
     /**
-     * Emit a place.
-     * 
-     * @param level
-     *            the level at which we are emitting data
-     * @param p
-     *            the place being emitted
-     * @throws GedcomWriterException
-     *             if the data is malformed and cannot be written
-     */
-    private void emitPlace(int level, Place p) throws GedcomWriterException {
-        emitTagWithOptionalValue(level, "PLAC", p.getPlaceName());
-        emitTagIfValueNotNull(level + 1, "FORM", p.getPlaceFormat());
-        new SourceCitationEmitter(baseWriter, level + 1, p.getCitations()).emit();
-        new NotesEmitter(baseWriter, level + 1, p.getNotes()).emit();
-        if (p.getRomanized() != null) {
-            for (AbstractNameVariation nv : p.getRomanized()) {
-                if (g55()) {
-                    throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but romanized variation was specified on place " + p
-                            .getPlaceName() + ", which is only allowed in GEDCOM 5.5.1");
-                }
-                emitTagWithRequiredValue(level + 1, "ROMN", nv.getVariation());
-                emitTagIfValueNotNull(level + 2, "TYPE", nv.getVariationType());
-            }
-        }
-        if (p.getPhonetic() != null) {
-            for (AbstractNameVariation nv : p.getPhonetic()) {
-                if (g55()) {
-                    throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but phonetic variation was specified on place " + p
-                            .getPlaceName() + ", which is only allowed in GEDCOM 5.5.1");
-                }
-                emitTagWithRequiredValue(level + 1, "FONE", nv.getVariation());
-                emitTagIfValueNotNull(level + 2, "TYPE", nv.getVariationType());
-            }
-        }
-        if (p.getLatitude() != null || p.getLongitude() != null) {
-            emitTag(level + 1, "MAP");
-            emitTagWithRequiredValue(level + 2, "LATI", p.getLatitude());
-            emitTagWithRequiredValue(level + 2, "LONG", p.getLongitude());
-            if (g55()) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but map coordinates were specified on place " + p.getPlaceName()
-                        + ", which is only allowed in GEDCOM 5.5.1");
-            }
-        }
-        emitCustomTags(level + 1, p.getCustomTags());
-    }
-
-    /**
      * Write the records (see the RECORD structure in the GEDCOM standard)
      * 
      * @throws GedcomWriterException
@@ -1180,7 +1090,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
         new NotesEmitter(baseWriter, 0, new ArrayList<Note>(writeFrom.getNotes().values())).emit();
         emitRepositories();
         emitSources();
-        emitSubmitter();
+        new SubmittersEmitter(this, 0, writeFrom.getSubmitters().values()).emit();
     }
 
     /**
@@ -1288,39 +1198,6 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     }
 
     /**
-     * Write a source system structure (see APPROVED_SYSTEM_ID in the GEDCOM spec)
-     * 
-     * @param sourceSystem
-     *            the source system
-     * @throws GedcomWriterException
-     *             if data is malformed and cannot be written
-     */
-    private void emitSourceSystem(SourceSystem sourceSystem) throws GedcomWriterException {
-        if (sourceSystem == null) {
-            return;
-        }
-        emitTagWithRequiredValue(1, "SOUR", sourceSystem.getSystemId());
-        emitTagIfValueNotNull(2, "VERS", sourceSystem.getVersionNum());
-        emitTagIfValueNotNull(2, "NAME", sourceSystem.getProductName());
-        Corporation corporation = sourceSystem.getCorporation();
-        if (corporation != null) {
-            emitTagWithOptionalValue(2, "CORP", corporation.getBusinessName());
-            new AddressEmitter(baseWriter, 3, corporation.getAddress()).emit();
-            emitStringsWithCustomTags(3, corporation.getPhoneNumbers(), "PHON");
-            emitStringsWithCustomTags(3, corporation.getFaxNumbers(), "FAX");
-            emitStringsWithCustomTags(3, corporation.getWwwUrls(), "WWW");
-            emitStringsWithCustomTags(3, corporation.getEmails(), "EMAIL");
-        }
-        HeaderSourceData sourceData = sourceSystem.getSourceData();
-        if (sourceData != null) {
-            emitTagIfValueNotNull(2, "DATA", sourceData.getName());
-            emitTagIfValueNotNull(3, "DATE", sourceData.getPublishDate());
-            emitTagIfValueNotNull(3, "COPR", sourceData.getCopyright());
-        }
-        emitCustomTags(1, sourceSystem.getCustomTags());
-    }
-
-    /**
      * Emit links to all the families to which the supplied individual was a spouse
      * 
      * @param level
@@ -1368,16 +1245,6 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
         emitTagIfValueNotNull(1, "ORDI", s.getOrdinanceProcessFlag());
         emitTagIfValueNotNull(1, "RIN", s.getRecIdNumber());
         emitCustomTags(1, s.getCustomTags());
-    }
-
-    /**
-     * Write out the submitter record
-     * 
-     * @throws GedcomWriterException
-     *             if the data is malformed and cannot be written
-     */
-    private void emitSubmitter() throws GedcomWriterException {
-        new SubmittersEmitter(this, 0, writeFrom.getSubmitters().values()).emit();
     }
 
     /**

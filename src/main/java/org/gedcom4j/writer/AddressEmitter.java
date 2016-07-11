@@ -30,7 +30,7 @@ import org.gedcom4j.model.Address;
  * 
  * @author frizbog
  */
-public class AddressEmitter extends AbstractEmitter<Address> {
+class AddressEmitter extends AbstractEmitter<Address> {
 
     /**
      * Constructor
@@ -42,7 +42,7 @@ public class AddressEmitter extends AbstractEmitter<Address> {
      * @param writeFrom
      *            object to write
      */
-    public AddressEmitter(GedcomWriter baseWriter, int startLevel, Address writeFrom) {
+    AddressEmitter(GedcomWriter baseWriter, int startLevel, Address writeFrom) {
         super(baseWriter, startLevel, writeFrom);
     }
 

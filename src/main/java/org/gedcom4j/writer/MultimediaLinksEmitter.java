@@ -46,7 +46,7 @@ class MultimediaLinksEmitter extends AbstractEmitter<List<Multimedia>> {
      * @param writeFrom
      *            object to write
      */
-    public MultimediaLinksEmitter(GedcomWriter baseWriter, int startLevel, List<Multimedia> writeFrom) {
+    MultimediaLinksEmitter(GedcomWriter baseWriter, int startLevel, List<Multimedia> writeFrom) {
         super(baseWriter, startLevel, writeFrom);
     }
 

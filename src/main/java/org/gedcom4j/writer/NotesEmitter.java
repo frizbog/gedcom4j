@@ -35,7 +35,7 @@ import org.gedcom4j.model.UserReference;
  * @author frizbog
  *
  */
-public class NotesEmitter extends AbstractEmitter<List<Note>> {
+class NotesEmitter extends AbstractEmitter<List<Note>> {
 
     /**
      * Constructor
@@ -47,7 +47,7 @@ public class NotesEmitter extends AbstractEmitter<List<Note>> {
      * @param writeFrom
      *            object to write
      */
-    protected NotesEmitter(GedcomWriter baseWriter, int startLevel, List<Note> writeFrom) {
+    NotesEmitter(GedcomWriter baseWriter, int startLevel, List<Note> writeFrom) {
         super(baseWriter, startLevel, writeFrom);
     }
 

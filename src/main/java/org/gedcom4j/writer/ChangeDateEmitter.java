@@ -29,7 +29,7 @@ import org.gedcom4j.model.ChangeDate;
  * @author frizbog
  *
  */
-public class ChangeDateEmitter extends AbstractEmitter<ChangeDate> {
+class ChangeDateEmitter extends AbstractEmitter<ChangeDate> {
     /**
      * Constructor
      * 
@@ -40,7 +40,7 @@ public class ChangeDateEmitter extends AbstractEmitter<ChangeDate> {
      * @param writeFrom
      *            object to write
      */
-    protected ChangeDateEmitter(GedcomWriter baseWriter, int startLevel, ChangeDate writeFrom) {
+    ChangeDateEmitter(GedcomWriter baseWriter, int startLevel, ChangeDate writeFrom) {
         super(baseWriter, startLevel, writeFrom);
     }
 

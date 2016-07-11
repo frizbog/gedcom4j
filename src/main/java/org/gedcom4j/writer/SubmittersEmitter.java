@@ -32,7 +32,7 @@ import org.gedcom4j.model.Submitter;
  * @author frizbog
  *
  */
-public class SubmittersEmitter extends AbstractEmitter<Collection<Submitter>> {
+class SubmittersEmitter extends AbstractEmitter<Collection<Submitter>> {
 
     /**
      * Constructor
@@ -44,7 +44,7 @@ public class SubmittersEmitter extends AbstractEmitter<Collection<Submitter>> {
      * @param writeFrom
      *            object to write
      */
-    public SubmittersEmitter(GedcomWriter baseWriter, int startLevel, Collection<Submitter> writeFrom) {
+    SubmittersEmitter(GedcomWriter baseWriter, int startLevel, Collection<Submitter> writeFrom) {
         super(baseWriter, startLevel, writeFrom);
     }
 
