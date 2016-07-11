@@ -8,11 +8,13 @@ v3.0.0 is a major release. Most existing code using earlier versions of gedcom4j
 
 Issue #83 - The biggest change that users will see is that gedcom4j now uses the JavaBean spec for its object model and internal objects as well. Where you used to access public fields of the data model, you now need to use getters and setters.
 
+Issue #85 - The GedcomParser class, which was a monster magic class almost 2,400 lines long, has been split up and there are a variety of parser classes that work in concert to parse input files 
+
+Issue #86 - The GedcomWriter class was also another giant magic class, and it too has been split up into a variety of classes that work together to construct and write a GEDCOM file. 
+
 Issue #104 - The classes in the model now implement java.io.Serializable and defined serial version UIDs.
 
 Issue #109 - GedcomParser and StringTreeBuilder now only builds a single root-level StringTree node at a time before parsing and loading it into the object model, instead of loading the entire file into a StringTree in memory prior to parsing it.
-
-Issue #85 - The GedcomParser class, which was a monster magic class almost 2,400 lines long, has been split up and there are a variety of parser classes that work in concert to parse input files 
 
 Issue #112 - The Maven pom.xml file now includes the ability to ensure that all java source files have the correct license and copyright statement header
 
