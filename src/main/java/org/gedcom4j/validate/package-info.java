@@ -25,7 +25,8 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 /**
- * Classes in this package implement the prior validation framework
+ * Classes that can validate the data in the object model for a variety of problems, so that the data written by the
+ * Writer is compliant with the GEDCOM standard.
  * 
  * @author frizbog
  * @deprecated the org.gedcom4j.validator package is the new hotness
