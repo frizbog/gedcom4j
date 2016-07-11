@@ -61,7 +61,7 @@ class StringCanonicalizer {
          * @param str
          *            the string value
          */
-        private CanonicalizedString(String str) {
+        CanonicalizedString(String str) {
             value = str;
             count = 0;
         }

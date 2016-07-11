@@ -53,7 +53,9 @@ class FamilyParser extends AbstractParser<Family> {
 
     @Override
     void parse() {
-        if (stringTree.getChildren() != null) {
+        if (stringTree.getChildren() == null) {
+            addError("Family record on line " + stringTree.getLineNum() + " had no child records (that is, records at a lower hierarchical level)");
+        } else {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.HUSBAND.equalsText(ch.getTag())) {
                     loadInto.setHusband(getIndividual(ch.getValue()));
@@ -104,8 +106,6 @@ class FamilyParser extends AbstractParser<Family> {
                     unknownTag(ch, loadInto);
                 }
             }
-        } else {
-            addError("Family record on line " + stringTree.getLineNum() + " had no child records (that is, records at a lower hierarchical level)");
         }
     }
 

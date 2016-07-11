@@ -88,7 +88,9 @@ class MultimediaRecordParser extends AbstractParser<Multimedia> {
      *            the OBJE node being loaded
      */
     private void loadMultimediaRecord55(StringTree obje) {
-        if (obje.getChildren() != null) {
+        if (obje.getChildren() == null) {
+            addError("Root level multimedia record at line " + obje.getLineNum() + " had no child records");
+        } else {
             for (StringTree ch : obje.getChildren()) {
                 if (Tag.FORM.equalsText(ch.getTag())) {
                     loadInto.setEmbeddedMediaFormat(new StringWithCustomTags(ch));
@@ -128,8 +130,6 @@ class MultimediaRecordParser extends AbstractParser<Multimedia> {
                     unknownTag(ch, loadInto);
                 }
             }
-        } else {
-            addError("Root level multimedia record at line " + obje.getLineNum() + " had no child records");
         }
 
     }

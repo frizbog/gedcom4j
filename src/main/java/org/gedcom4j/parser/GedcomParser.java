@@ -164,25 +164,6 @@ public class GedcomParser extends AbstractParser<Gedcom> {
     }
 
     /**
-     * Mandatory but unsupported implementation of
-     * {@link AbstractParser#AbstractParser(GedcomParser, StringTree, Object)} that throws
-     * {@link UnsupportedOperationException}.
-     * 
-     * @param gedcomParser
-     *            ignored
-     * @param stringTree
-     *            ignored
-     * @param loadInto
-     *            ignored
-     * @deprecated Use the default constructor instead
-     */
-    @Deprecated
-    GedcomParser(GedcomParser gedcomParser, StringTree stringTree, Gedcom loadInto) {
-        super(null, null, null);
-        throw new UnsupportedOperationException("Use the default constructor");
-    }
-
-    /**
      * Indicate that file loading should be cancelled
      */
     public void cancel() {

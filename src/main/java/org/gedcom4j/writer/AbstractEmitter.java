@@ -337,34 +337,6 @@ abstract class AbstractEmitter<T> {
     }
 
     /**
-     * Write a line out to the print writer, splitting due to length if needed with CONC lines
-     * 
-     * @param level
-     *            the level at which we are recording
-     * @param line
-     *            the line to be written, which may have line breaking characters (which will result in CONT lines)
-     */
-    void emitAndSplit(int level, String line) {
-        if (line.length() <= MAX_LINE_LENGTH) {
-            baseWriter.lines.add(line);
-        } else {
-            // First part
-            baseWriter.lines.add(line.substring(0, MAX_LINE_LENGTH));
-            // Now a series of as many CONC lines as needed
-            String remainder = line.substring(MAX_LINE_LENGTH);
-            while (remainder.length() > 0) {
-                if (remainder.length() > MAX_LINE_LENGTH) {
-                    baseWriter.lines.add(level + 1 + " CONC " + remainder.substring(0, MAX_LINE_LENGTH));
-                    remainder = remainder.substring(MAX_LINE_LENGTH);
-                } else {
-                    baseWriter.lines.add(level + 1 + " CONC " + remainder);
-                    remainder = "";
-                }
-            }
-        }
-    }
-
-    /**
      * Emit the custom tags
      * 
      * @param customTags
@@ -409,6 +381,34 @@ abstract class AbstractEmitter<T> {
             }
         }
         return result;
+    }
+
+    /**
+     * Write a line out to the print writer, splitting due to length if needed with CONC lines
+     * 
+     * @param level
+     *            the level at which we are recording
+     * @param line
+     *            the line to be written, which may have line breaking characters (which will result in CONT lines)
+     */
+    private void emitAndSplit(int level, String line) {
+        if (line.length() <= MAX_LINE_LENGTH) {
+            baseWriter.lines.add(line);
+        } else {
+            // First part
+            baseWriter.lines.add(line.substring(0, MAX_LINE_LENGTH));
+            // Now a series of as many CONC lines as needed
+            String remainder = line.substring(MAX_LINE_LENGTH);
+            while (remainder.length() > 0) {
+                if (remainder.length() > MAX_LINE_LENGTH) {
+                    baseWriter.lines.add(level + 1 + " CONC " + remainder.substring(0, MAX_LINE_LENGTH));
+                    remainder = remainder.substring(MAX_LINE_LENGTH);
+                } else {
+                    baseWriter.lines.add(level + 1 + " CONC " + remainder);
+                    remainder = "";
+                }
+            }
+        }
     }
 
     /**
