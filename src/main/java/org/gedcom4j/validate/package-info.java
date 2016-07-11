@@ -29,6 +29,5 @@
  * Writer is compliant with the GEDCOM standard.
  * 
  * @author frizbog
- * @deprecated the org.gedcom4j.validator package is the new hotness
  */
 package org.gedcom4j.validate;
