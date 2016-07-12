@@ -18,6 +18,8 @@ Issue #109 - GedcomParser and StringTreeBuilder now only builds a single root-le
 
 Issue #112 - The Maven pom.xml file now includes the ability to ensure that all java source files have the correct license and copyright statement header
 
+Issue #113 - The FileProgressEvent notifications now include the number of bytes processed.  This would make it possible for calling code to calculate percents complete when the file size is known.
+
 Other changes not in the Github issue tracker (https://github.com/frizbog/gedcom4j/issues) that might be visible or noticeable to calling code:
 - toString() implementations of most model objects have been rewritten  
 
