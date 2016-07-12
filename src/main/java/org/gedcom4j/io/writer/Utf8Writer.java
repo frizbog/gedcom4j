@@ -42,6 +42,9 @@ import org.gedcom4j.writer.GedcomWriter;
  */
 class Utf8Writer extends AbstractEncodingSpecificWriter {
 
+    /**
+     * The number of lines written
+     */
     private int lineCount;
 
     /**

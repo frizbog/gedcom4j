@@ -71,6 +71,9 @@ public abstract class AbstractReaderListenerTest implements FileProgressListener
      */
     private final int expectedNotifications;
 
+    /**
+     * The expected number of bytes to be read
+     */
     private final int expectedBytes;
 
     /**
@@ -80,6 +83,8 @@ public abstract class AbstractReaderListenerTest implements FileProgressListener
      *            name of file to load for test
      * @param expectedLines
      *            the expected number of lines in the file
+     * @param expectedBytes
+     *            the exepected number of bytes to be read
      * @param expectedNotifications
      *            the expected number of notification events
      */
