@@ -32,6 +32,7 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 
 import org.gedcom4j.exception.WriterCancelledException;
+import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.writer.GedcomWriter;
 
 /**
@@ -40,6 +41,8 @@ import org.gedcom4j.writer.GedcomWriter;
  * @author frizbog
  */
 class Utf8Writer extends AbstractEncodingSpecificWriter {
+
+    private int lineCount;
 
     /**
      * Constructor
@@ -83,6 +86,12 @@ class Utf8Writer extends AbstractEncodingSpecificWriter {
                 bytesWritten = outputStream.bytesWritten;
                 osw.write(lineTerminatorString);
                 bytesWritten = outputStream.bytesWritten;
+                lineCount++;
+                if (lineCount >= notifyAfterThisManyLines) {
+                    writer.notifyFileObservers(new FileProgressEvent(this, lineCount, bytesWritten, false));
+                    notifyAfterThisManyLines += writer.getFileNotificationRate();
+                }
+
                 if (writer.isCancelled()) {
                     throw new WriterCancelledException("Construction and writing of GEDCOM cancelled");
                 }

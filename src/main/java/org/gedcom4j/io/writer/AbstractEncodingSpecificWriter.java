@@ -62,6 +62,11 @@ abstract class AbstractEncodingSpecificWriter {
     protected int bytesWritten;
 
     /**
+     * When we've exceeded this many line written, notify the listeners and update this value based on the rate
+     */
+    protected int notifyAfterThisManyLines = 0;
+
+    /**
      * Constructor
      * 
      * @param writer
@@ -84,8 +89,9 @@ abstract class AbstractEncodingSpecificWriter {
     public void write(OutputStream out) throws IOException, WriterCancelledException {
         int lineCount = 0;
         for (String line : gedcomLines) {
-            if (lineCount % writer.getFileNotificationRate() == 0) {
+            if (lineCount >= notifyAfterThisManyLines) {
                 writer.notifyFileObservers(new FileProgressEvent(this, lineCount, bytesWritten, false));
+                notifyAfterThisManyLines += writer.getFileNotificationRate();
             }
             writeLine(out, line);
             lineCount++;
