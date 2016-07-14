@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.validate;
 
+import java.util.List;
+
 import org.gedcom4j.Options;
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.AbstractEvent;
@@ -71,7 +73,8 @@ class EventValidator extends AbstractValidator {
         }
         checkOptionalString(e.getAge(), "age", e);
         checkOptionalString(e.getCause(), "cause", e);
-        if (e.getCitations() == null && Options.isCollectionInitializationEnabled()) {
+        List<AbstractCitation> citations = e.getCitations();
+        if (citations == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 e.getCitations(true).clear();
                 rootValidator.addInfo("Event had null list of citations - repaired", e);
@@ -80,8 +83,14 @@ class EventValidator extends AbstractValidator {
                 return;
             }
         } else {
-            if (e.getCitations() != null) {
-                for (AbstractCitation c : e.getCitations()) {
+            if (rootValidator.isAutorepairEnabled()) {
+                int dups = new DuplicateEliminator<AbstractCitation>(citations).process();
+                if (dups > 0) {
+                    rootValidator.addInfo(dups + " duplicate source citations found and removed", e);
+                }
+            }
+            if (citations != null) {
+                for (AbstractCitation c : citations) {
                     new CitationValidator(rootValidator, c).validate();
                 }
             }
@@ -91,7 +100,8 @@ class EventValidator extends AbstractValidator {
         if (e.getDescription() != null && e.getDescription().trim().length() != 0) {
             rootValidator.addError("Event has description, which is non-standard. Remove this value, or move it (perhaps to a Note).", e);
         }
-        if (e.getEmails() == null && Options.isCollectionInitializationEnabled()) {
+        List<StringWithCustomTags> emails = e.getEmails();
+        if (emails == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 e.getEmails(true).clear();
                 rootValidator.addInfo("Event had null list of emails - repaired", e);
@@ -99,13 +109,20 @@ class EventValidator extends AbstractValidator {
                 rootValidator.addError("Event has null list of emails", e);
             }
         } else {
-            if (e.getEmails() != null) {
-                for (StringWithCustomTags swct : e.getEmails()) {
+            if (rootValidator.isAutorepairEnabled()) {
+                int dups = new DuplicateEliminator<StringWithCustomTags>(emails).process();
+                if (dups > 0) {
+                    rootValidator.addInfo(dups + " duplicate emails found and removed", e);
+                }
+            }
+            if (emails != null) {
+                for (StringWithCustomTags swct : emails) {
                     checkRequiredString(swct, "email", e);
                 }
             }
         }
-        if (e.getFaxNumbers() == null && Options.isCollectionInitializationEnabled()) {
+        List<StringWithCustomTags> faxNumbers = e.getFaxNumbers();
+        if (faxNumbers == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 e.getFaxNumbers(true).clear();
                 rootValidator.addInfo("Event had null list of fax numbers - repaired", e);
@@ -113,13 +130,20 @@ class EventValidator extends AbstractValidator {
                 rootValidator.addError("Event has null list of fax numbers", e);
             }
         } else {
-            if (e.getFaxNumbers() != null) {
-                for (StringWithCustomTags swct : e.getFaxNumbers()) {
+            if (rootValidator.isAutorepairEnabled()) {
+                int dups = new DuplicateEliminator<StringWithCustomTags>(faxNumbers).process();
+                if (dups > 0) {
+                    rootValidator.addInfo(dups + " duplicate fax numbers found and removed", e);
+                }
+            }
+            if (faxNumbers != null) {
+                for (StringWithCustomTags swct : faxNumbers) {
                     checkRequiredString(swct, "fax number", e);
                 }
             }
         }
-        if (e.getMultimedia() == null && Options.isCollectionInitializationEnabled()) {
+        List<Multimedia> multimedia = e.getMultimedia();
+        if (multimedia == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 e.getMultimedia(true).clear();
                 rootValidator.addInfo("Event had null list of multimedia - repaired", e);
@@ -127,14 +151,21 @@ class EventValidator extends AbstractValidator {
                 rootValidator.addError("Event has null list of multimedia", e);
             }
         } else {
-            if (e.getMultimedia() != null) {
-                for (Multimedia m : e.getMultimedia()) {
+            if (rootValidator.isAutorepairEnabled()) {
+                int dups = new DuplicateEliminator<Multimedia>(multimedia).process();
+                if (dups > 0) {
+                    rootValidator.addInfo(dups + " duplicate multimedia found and removed", e);
+                }
+            }
+            if (multimedia != null) {
+                for (Multimedia m : multimedia) {
                     new MultimediaValidator(rootValidator, m).validate();
                 }
             }
         }
         new NotesValidator(rootValidator, e, e.getNotes()).validate();
-        if (e.getPhoneNumbers() == null && Options.isCollectionInitializationEnabled()) {
+        List<StringWithCustomTags> phoneNumbers = e.getPhoneNumbers();
+        if (phoneNumbers == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 e.getPhoneNumbers(true).clear();
                 rootValidator.addInfo("Event had null list of phone numbers - repaired", e);
@@ -142,8 +173,14 @@ class EventValidator extends AbstractValidator {
                 rootValidator.addError("Event has null list of phone numbers", e);
             }
         } else {
-            if (e.getPhoneNumbers() != null) {
-                for (StringWithCustomTags swct : e.getPhoneNumbers()) {
+            if (rootValidator.isAutorepairEnabled()) {
+                int dups = new DuplicateEliminator<StringWithCustomTags>(phoneNumbers).process();
+                if (dups > 0) {
+                    rootValidator.addInfo(dups + " duplicate phone numbers found and removed", e);
+                }
+            }
+            if (phoneNumbers != null) {
+                for (StringWithCustomTags swct : phoneNumbers) {
                     checkRequiredString(swct, "phone number", e);
                 }
             }
@@ -155,7 +192,8 @@ class EventValidator extends AbstractValidator {
         checkOptionalString(e.getRespAgency(), "responsible agency", e);
         checkOptionalString(e.getRestrictionNotice(), "restriction notice", e);
         checkOptionalString(e.getSubType(), "subtype", e);
-        if (e.getWwwUrls() == null && Options.isCollectionInitializationEnabled()) {
+        List<StringWithCustomTags> wwwUrls = e.getWwwUrls();
+        if (wwwUrls == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 e.getWwwUrls(true).clear();
                 rootValidator.addInfo("Event had null list of www urls - repaired", e);
@@ -163,8 +201,14 @@ class EventValidator extends AbstractValidator {
                 rootValidator.addError("Event has null list of www url", e);
             }
         } else {
-            if (e.getWwwUrls() != null) {
-                for (StringWithCustomTags swct : e.getWwwUrls()) {
+            if (rootValidator.isAutorepairEnabled()) {
+                int dups = new DuplicateEliminator<StringWithCustomTags>(wwwUrls).process();
+                if (dups > 0) {
+                    rootValidator.addInfo(dups + " duplicate web URLs found and removed", e);
+                }
+            }
+            if (wwwUrls != null) {
+                for (StringWithCustomTags swct : wwwUrls) {
                     checkRequiredString(swct, "www url", e);
                 }
             }

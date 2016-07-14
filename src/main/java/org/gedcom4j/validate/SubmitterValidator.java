@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.validate;
 
+import java.util.List;
+
 import org.gedcom4j.Options;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
@@ -77,11 +79,19 @@ class SubmitterValidator extends AbstractValidator {
      * Check the language preferences
      */
     private void checkLanguagePreferences() {
+        List<StringWithCustomTags> languagePref = submitter.getLanguagePref();
+        if (rootValidator.isAutorepairEnabled()) {
+            int dups = new DuplicateEliminator<StringWithCustomTags>(languagePref).process();
+            if (dups > 0) {
+                rootValidator.addInfo(dups + " duplicate language preferences found and removed", submitter);
+            }
+        }
+
         if (submitter.getLanguagePref(Options.isCollectionInitializationEnabled()) != null) {
-            if (submitter.getLanguagePref().size() > 3) {
+            if (languagePref.size() > 3) {
                 addError("Submitter exceeds limit on language preferences (3)", submitter);
             }
-            for (StringWithCustomTags s : submitter.getLanguagePref()) {
+            for (StringWithCustomTags s : languagePref) {
                 checkRequiredString(s, "language pref", submitter);
             }
         }

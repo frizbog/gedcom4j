@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.validate;
 
+import java.util.List;
+
 import org.gedcom4j.Options;
 import org.gedcom4j.model.*;
 
@@ -70,7 +72,8 @@ class SourceValidator extends AbstractValidator {
             SourceData sd = source.getData();
             new NotesValidator(rootValidator, sd, sd.getNotes()).validate();
             checkOptionalString(sd.getRespAgency(), "responsible agency", sd);
-            if (sd.getEventsRecorded() == null) {
+            List<EventRecorded> eventsRecorded = sd.getEventsRecorded();
+            if (eventsRecorded == null) {
                 if (rootValidator.isAutorepairEnabled()) {
                     sd.getEventsRecorded(true).clear();
                     addInfo("Collection of recorded events in source data structure was null - autorepaired", sd);
@@ -78,23 +81,38 @@ class SourceValidator extends AbstractValidator {
                     addError("Collection of recorded events in source data structure is null", sd);
                 }
             } else {
-                for (EventRecorded er : sd.getEventsRecorded()) {
+                if (rootValidator.isAutorepairEnabled()) {
+                    int dups = new DuplicateEliminator<EventRecorded>(eventsRecorded).process();
+                    if (dups > 0) {
+                        rootValidator.addInfo(dups + " duplicate recorded events found and removed", sd);
+                    }
+                }
+
+                for (EventRecorded er : eventsRecorded) {
                     checkOptionalString(er.getDatePeriod(), "date period", er);
                     checkOptionalString(er.getEventType(), "event type", er);
                     checkOptionalString(er.getJurisdiction(), "jurisdiction", er);
                 }
             }
         }
-        if (source.getMultimedia() == null && Options.isCollectionInitializationEnabled()) {
+        List<Multimedia> multimedia = source.getMultimedia();
+        if (multimedia == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 source.getMultimedia(true).clear();
                 addInfo("Multimedia collection on source was null - autorepaired", source);
             }
             addError("Multimedia collection on source is null", source);
         } else {
-            if (source.getMultimedia() != null) {
-                for (Multimedia multimedia : source.getMultimedia()) {
-                    new MultimediaValidator(rootValidator, multimedia).validate();
+            if (rootValidator.isAutorepairEnabled()) {
+                int dups = new DuplicateEliminator<Multimedia>(multimedia).process();
+                if (dups > 0) {
+                    rootValidator.addInfo(dups + " duplicate multimedia found and removed", source);
+                }
+            }
+
+            if (multimedia != null) {
+                for (Multimedia mm : multimedia) {
+                    new MultimediaValidator(rootValidator, mm).validate();
                 }
             }
         }
@@ -122,7 +140,8 @@ class SourceValidator extends AbstractValidator {
      *            the citation to check the call numbers on
      */
     private void checkCallNumbers(RepositoryCitation citation) {
-        if (citation.getCallNumbers() == null && Options.isCollectionInitializationEnabled()) {
+        List<SourceCallNumber> callNumbers = citation.getCallNumbers();
+        if (callNumbers == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 citation.getCallNumbers(true).clear();
                 addInfo("Call numbers collection on repository citation was null - autorepaired", citation);
@@ -130,8 +149,14 @@ class SourceValidator extends AbstractValidator {
                 addError("Call numbers collection on repository citation is null", citation);
             }
         } else {
-            if (citation.getCallNumbers() != null) {
-                for (SourceCallNumber scn : citation.getCallNumbers()) {
+            if (rootValidator.isAutorepairEnabled()) {
+                int dups = new DuplicateEliminator<SourceCallNumber>(callNumbers).process();
+                if (dups > 0) {
+                    rootValidator.addInfo(dups + " duplicate source call numbers found and removed", citation);
+                }
+            }
+            if (callNumbers != null) {
+                for (SourceCallNumber scn : callNumbers) {
                     checkOptionalString(scn.getCallNumber(), "call number", scn);
                     if (scn.getCallNumber() == null) {
                         if (scn.getMediaType() != null) {

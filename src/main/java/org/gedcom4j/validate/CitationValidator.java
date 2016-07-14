@@ -84,7 +84,8 @@ class CitationValidator extends AbstractValidator {
         } else if (citation instanceof CitationWithoutSource) {
             CitationWithoutSource c = (CitationWithoutSource) citation;
             checkStringList(c.getDescription(), "description on a citation without a source", true);
-            if (c.getTextFromSource() == null && Options.isCollectionInitializationEnabled()) {
+            List<List<String>> textFromSource = c.getTextFromSource();
+            if (textFromSource == null && Options.isCollectionInitializationEnabled()) {
                 if (rootValidator.isAutorepairEnabled()) {
                     c.getTextFromSource(true).clear();
                     addInfo("Text from source collection (the list of lists) was null in CitationWithoutSource - autorepaired", citation);
@@ -92,8 +93,14 @@ class CitationValidator extends AbstractValidator {
                     addError("Text from source collection (the list of lists) is null in CitationWithoutSource", citation);
                 }
             } else {
-                if (c.getTextFromSource() != null) {
-                    for (List<String> sl : c.getTextFromSource()) {
+                if (rootValidator.isAutorepairEnabled()) {
+                    int dups = new DuplicateEliminator<List<String>>(textFromSource).process();
+                    if (dups > 0) {
+                        rootValidator.addInfo(dups + " duplicate texts from source found and removed", citation);
+                    }
+                }
+                if (textFromSource != null) {
+                    for (List<String> sl : textFromSource) {
                         if (sl == null) {
                             addError("Text from source collection (the list of lists) in CitationWithoutSource contains a null", citation);
                         } else {

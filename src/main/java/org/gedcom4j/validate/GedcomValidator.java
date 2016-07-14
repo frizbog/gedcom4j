@@ -126,6 +126,20 @@ public class GedcomValidator extends AbstractValidator {
     }
 
     /**
+     * Are there any INFO level items in the findings (so far)?
+     * 
+     * @return true if there exists at least one finding with severity INFO
+     */
+    public boolean hasInfo() {
+        for (GedcomValidationFinding finding : rootValidator.findings) {
+            if (finding.getSeverity() == Severity.INFO) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Are there any warnings in the findings (so far)?
      * 
      * @return true if there exists at least one finding with severity WARNING

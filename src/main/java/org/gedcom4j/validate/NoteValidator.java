@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.validate;
 
+import java.util.List;
+
 import org.gedcom4j.Options;
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.Note;
@@ -85,7 +87,8 @@ class NoteValidator extends AbstractValidator {
         }
 
         checkOptionalString(n.getRecIdNumber(), "automated record id", n);
-        if (n.getCitations() == null && Options.isCollectionInitializationEnabled()) {
+        List<AbstractCitation> citations = n.getCitations();
+        if (citations == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 n.getCitations(true).clear();
                 addInfo("Source citations collection on note was null - autorepaired");
@@ -93,8 +96,14 @@ class NoteValidator extends AbstractValidator {
                 addError("Source citations collection on note is null", n);
             }
         } else {
-            if (n.getCitations() != null) {
-                for (AbstractCitation c : n.getCitations()) {
+            if (rootValidator.isAutorepairEnabled()) {
+                int dups = new DuplicateEliminator<AbstractCitation>(citations).process();
+                if (dups > 0) {
+                    rootValidator.addInfo(dups + " duplicate citations found and removed", n);
+                }
+            }
+            if (citations != null) {
+                for (AbstractCitation c : citations) {
                     new CitationValidator(rootValidator, c).validate();
                 }
             }

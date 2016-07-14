@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.validate;
 
+import java.util.List;
+
 import org.gedcom4j.Options;
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.AbstractNameVariation;
@@ -90,7 +92,8 @@ class PlaceValidator extends AbstractValidator {
             }
         }
 
-        if (place.getPhonetic() == null && Options.isCollectionInitializationEnabled()) {
+        List<AbstractNameVariation> phonetic = place.getPhonetic();
+        if (phonetic == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 place.getPhonetic(true).clear();
                 rootValidator.addInfo("Event had null list of phonetic name variations - repaired", place);
@@ -98,13 +101,21 @@ class PlaceValidator extends AbstractValidator {
                 rootValidator.addError("Event has null list of phonetic name variations", place);
             }
         }
-        if (place.getPhonetic() != null) {
-            for (AbstractNameVariation nv : place.getPhonetic()) {
+        if (phonetic != null) {
+            if (rootValidator.isAutorepairEnabled()) {
+                int dups = new DuplicateEliminator<AbstractNameVariation>(phonetic).process();
+                if (dups > 0) {
+                    rootValidator.addInfo(dups + " duplicate phonetic variations found and removed", place);
+                }
+            }
+
+            for (AbstractNameVariation nv : phonetic) {
                 new NameVariationValidator(rootValidator, nv).validate();
             }
         }
 
-        if (place.getRomanized() == null && Options.isCollectionInitializationEnabled()) {
+        List<AbstractNameVariation> romanized = place.getRomanized();
+        if (romanized == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 place.getRomanized(true).clear();
                 rootValidator.addInfo("Event had null list of romanized name variations - repaired", place);
@@ -112,8 +123,15 @@ class PlaceValidator extends AbstractValidator {
                 rootValidator.addError("Event has null list of romanized name variations", place);
             }
         }
-        if (place.getRomanized() != null) {
-            for (AbstractNameVariation nv : place.getRomanized()) {
+        if (rootValidator.isAutorepairEnabled()) {
+            int dups = new DuplicateEliminator<AbstractNameVariation>(romanized).process();
+            if (dups > 0) {
+                rootValidator.addInfo(dups + " duplicate romanized variations found and removed", place);
+            }
+        }
+
+        if (romanized != null) {
+            for (AbstractNameVariation nv : romanized) {
                 new NameVariationValidator(rootValidator, nv).validate();
             }
         }

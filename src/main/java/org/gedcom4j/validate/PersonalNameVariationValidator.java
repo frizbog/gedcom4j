@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.validate;
 
+import java.util.List;
+
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.PersonalNameVariation;
 
@@ -62,7 +64,8 @@ class PersonalNameVariationValidator extends NameVariationValidator {
             return;
         }
         PersonalNameVariation pnv = (PersonalNameVariation) nv;
-        if (pnv.getCitations() == null) {
+        List<AbstractCitation> citations = pnv.getCitations();
+        if (citations == null) {
             if (rootValidator.isAutorepairEnabled()) {
                 pnv.getCitations(true).clear();
                 addInfo("citations collection for personal name was null - autorepaired", pnv);
@@ -70,7 +73,14 @@ class PersonalNameVariationValidator extends NameVariationValidator {
                 addError("citations collection for personal name is null", pnv);
             }
         } else {
-            for (AbstractCitation c : pnv.getCitations()) {
+            if (rootValidator.isAutorepairEnabled()) {
+                int dups = new DuplicateEliminator<AbstractCitation>(citations).process();
+                if (dups > 0) {
+                    rootValidator.addInfo(dups + " duplicate citations found and removed", pnv);
+                }
+            }
+
+            for (AbstractCitation c : citations) {
                 new CitationValidator(rootValidator, c).validate();
             }
         }

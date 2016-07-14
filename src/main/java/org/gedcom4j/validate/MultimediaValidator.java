@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.validate;
 
+import java.util.List;
+
 import org.gedcom4j.Options;
 import org.gedcom4j.exception.GedcomValidationException;
 import org.gedcom4j.model.*;
@@ -114,7 +116,8 @@ class MultimediaValidator extends AbstractValidator {
      * Check user references
      */
     private void checkUserReferences() {
-        if (Options.isCollectionInitializationEnabled() && mm.getUserReferences() == null) {
+        List<UserReference> userReferences = mm.getUserReferences();
+        if (Options.isCollectionInitializationEnabled() && userReferences == null) {
             if (rootValidator.isAutorepairEnabled()) {
                 mm.getUserReferences(true).clear();
                 rootValidator.addInfo("List of user references on multimedia object was null - repaired", mm);
@@ -123,8 +126,14 @@ class MultimediaValidator extends AbstractValidator {
                 return;
             }
         }
-        if (mm.getUserReferences() != null) {
-            for (UserReference u : mm.getUserReferences()) {
+        if (rootValidator.isAutorepairEnabled()) {
+            int dups = new DuplicateEliminator<UserReference>(userReferences).process();
+            if (dups > 0) {
+                rootValidator.addInfo(dups + " duplicate user references found and removed", mm);
+            }
+        }
+        if (userReferences != null) {
+            for (UserReference u : userReferences) {
                 checkCustomTags(u);
                 if (u.getReferenceNum() == null) {
                     if (rootValidator.isAutorepairEnabled()) {

@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.validate;
 
+import java.util.List;
+
 import org.gedcom4j.Options;
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.LdsSpouseSealing;
@@ -65,7 +67,8 @@ class LdsSpouseSealingValidator extends AbstractValidator {
             addError("LDS Spouse Sealing is null and cannot be validated");
             return;
         }
-        if (Options.isCollectionInitializationEnabled() && s.getCitations() == null) {
+        List<AbstractCitation> citations = s.getCitations();
+        if (Options.isCollectionInitializationEnabled() && citations == null) {
             if (rootValidator.isAutorepairEnabled()) {
                 s.getCitations(true).clear();
                 addInfo("citations collection for lds spouse sealing was null - rootValidator.autorepaired", s);
@@ -73,8 +76,14 @@ class LdsSpouseSealingValidator extends AbstractValidator {
                 addError("citations collection for lds spouse sealing is null", s);
             }
         } else {
-            if (s.getCitations() != null) {
-                for (AbstractCitation c : s.getCitations()) {
+            if (rootValidator.isAutorepairEnabled()) {
+                int dups = new DuplicateEliminator<AbstractCitation>(citations).process();
+                if (dups > 0) {
+                    rootValidator.addInfo(dups + " duplicate citations found and removed", s);
+                }
+            }
+            if (citations != null) {
+                for (AbstractCitation c : citations) {
                     new CitationValidator(rootValidator, c).validate();
                 }
             }

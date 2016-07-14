@@ -179,8 +179,8 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         }
         assertEquals(40, constructNotificationCount);
         assertEquals(42, fileNotificationCount);
-        assertEquals(20038, linesConstructed);
-        assertEquals(602143, bytesWritten);
+        assertEquals(20022, linesConstructed);
+        assertEquals(601799, bytesWritten);
     }
 
     /**
@@ -213,8 +213,8 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         }
         assertEquals(40, constructNotificationCount);
         assertEquals(42, fileNotificationCount);
-        assertEquals(20038, linesConstructed);
-        assertEquals(602143, bytesWritten);
+        assertEquals(20022, linesConstructed);
+        assertEquals(601799, bytesWritten);
     }
 
     /**
@@ -247,8 +247,8 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         }
         assertEquals(40, constructNotificationCount);
         assertEquals(42, fileNotificationCount);
-        assertEquals(20038, linesConstructed);
-        assertEquals(1204314, bytesWritten);
+        assertEquals(20022, linesConstructed);
+        assertEquals(1203626, bytesWritten);
     }
 
     /**
@@ -281,8 +281,8 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         }
         assertEquals(40, constructNotificationCount);
         assertEquals(42, fileNotificationCount);
-        assertEquals(20038, linesConstructed);
-        assertEquals(1204320, bytesWritten);
+        assertEquals(20022, linesConstructed);
+        assertEquals(1203632, bytesWritten);
     }
 
     /**
@@ -315,7 +315,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         }
         assertEquals(40, constructNotificationCount);
         assertEquals(41, fileNotificationCount);
-        assertEquals(20035, linesConstructed);
+        assertEquals(20019, linesConstructed);
         assertEquals(581632, bytesWritten);
     }
 

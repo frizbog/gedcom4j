@@ -95,6 +95,28 @@ abstract class AbstractValidator {
     }
 
     /**
+     * Add a new finding of severity WARNING
+     * 
+     * @param description
+     *            the description of the finding
+     */
+    protected void addWarning(String description) {
+        rootValidator.getFindings().add(new GedcomValidationFinding(description, Severity.WARNING, null));
+    }
+
+    /**
+     * Add a new finding of severity WARNING
+     * 
+     * @param description
+     *            the description of the finding
+     * @param o
+     *            the object in error
+     */
+    protected void addWarning(String description, Object o) {
+        rootValidator.getFindings().add(new GedcomValidationFinding(description, Severity.WARNING, o));
+    }
+
+    /**
      * Check a change date structure
      * 
      * @param changeDate
@@ -299,6 +321,13 @@ abstract class AbstractValidator {
      */
     protected void checkStringTagList(List<StringWithCustomTags> stringList, String description, boolean blanksAllowed) {
         int i = 0;
+        if (rootValidator.isAutorepairEnabled()) {
+            int dups = new DuplicateEliminator<StringWithCustomTags>(stringList).process();
+            if (dups > 0) {
+                rootValidator.addInfo(dups + " duplicate tagged strings found and removed", stringList);
+            }
+        }
+
         if (stringList != null) {
             while (i < stringList.size()) {
                 StringWithCustomTags a = stringList.get(i);

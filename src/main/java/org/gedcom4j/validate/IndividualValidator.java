@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.validate;
 
+import java.util.List;
+
 import org.gedcom4j.Options;
 import org.gedcom4j.model.*;
 
@@ -62,7 +64,8 @@ class IndividualValidator extends AbstractValidator {
             return;
         }
         checkXref(individual);
-        if (individual.getNames() == null && Options.isCollectionInitializationEnabled()) {
+        List<PersonalName> names = individual.getNames();
+        if (names == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
                 individual.getNames(true).clear();
                 rootValidator.addInfo("Individual " + individual.getXref() + " had no list of names - repaired", individual);
@@ -70,12 +73,31 @@ class IndividualValidator extends AbstractValidator {
                 rootValidator.addError("Individual " + individual.getXref() + " has no list of names", individual);
             }
         } else {
-            if (individual.getNames() != null) {
-                for (PersonalName pn : individual.getNames()) {
+            if (rootValidator.isAutorepairEnabled()) {
+                int dups = new DuplicateEliminator<PersonalName>(names).process();
+                if (dups > 0) {
+                    rootValidator.addInfo(dups + " duplicate names found and removed", individual);
+                }
+            }
+            if (names != null) {
+                for (PersonalName pn : names) {
                     new PersonalNameValidator(rootValidator, pn).validate();
                 }
             }
         }
+        if (rootValidator.isAutorepairEnabled()) {
+            int dups = new DuplicateEliminator<FamilyChild>(individual.getFamiliesWhereChild()).process();
+            if (dups > 0) {
+                rootValidator.addInfo(dups + " duplicate families (where individual was a child) found and removed", individual);
+            }
+        }
+        if (rootValidator.isAutorepairEnabled()) {
+            int dups = new DuplicateEliminator<FamilySpouse>(individual.getFamiliesWhereSpouse()).process();
+            if (dups > 0) {
+                rootValidator.addInfo(dups + " duplicate families (where individual was a spouse) found and removed", individual);
+            }
+        }
+
         checkAliases();
         checkAssociations();
         checkCitations();
