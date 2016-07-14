@@ -16,6 +16,8 @@ Issue #104 - The classes in the model now implement java.io.Serializable and def
 
 Issue #109 - GedcomParser and StringTreeBuilder now only builds a single root-level StringTree node at a time before parsing and loading it into the object model, instead of loading the entire file into a StringTree in memory prior to parsing it.
 
+Issue #111 - GedcomValidator now removes duplicate items from most collections when autorepair is enabled.
+
 Issue #112 - The Maven pom.xml file now includes the ability to ensure that all java source files have the correct license and copyright statement header
 
 Issue #113 - The FileProgressEvent notifications now include the number of bytes processed.  This would make it possible for calling code to calculate percents complete when the file size is known.

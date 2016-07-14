@@ -31,8 +31,9 @@ import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submission;
 
 /**
+ * Parser for {@link Submission} objects
+ * 
  * @author frizbog
- *
  */
 class SubmissionParser extends AbstractParser<Submission> {
 
