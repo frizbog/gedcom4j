@@ -41,6 +41,7 @@ final class AnselMapping {
      *            the ANSEL byte (in int form)
      * @return the character (in UTF-16) represented by the byte
      */
+    @SuppressWarnings("PMD.ExcessiveMethodLength")
     public static char decode(int b) {
         if (b < 0x80) {
             return (char) b;
@@ -198,6 +199,7 @@ final class AnselMapping {
      *            the ANSEL byte (as a char)
      * @return the character (in UTF-16) represented by the byte
      */
+    @SuppressWarnings("PMD.ExcessiveMethodLength")
     public static char encode(char c) {
         switch (c) {
             case '\u0065': // midline e

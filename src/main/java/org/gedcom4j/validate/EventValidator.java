@@ -63,6 +63,7 @@ class EventValidator extends AbstractValidator {
      * {@inheritDoc}
      */
     @Override
+    @SuppressWarnings("PMD.ExcessiveMethodLength")
     protected void validate() {
         if (e == null) {
             addError("Event is null and cannot be validated or autorepaired");
@@ -73,6 +74,29 @@ class EventValidator extends AbstractValidator {
         }
         checkOptionalString(e.getAge(), "age", e);
         checkOptionalString(e.getCause(), "cause", e);
+        checkCitations();
+        checkCustomTags(e);
+        checkOptionalString(e.getDate(), "date", e);
+        if (e.getDescription() != null && e.getDescription().trim().length() != 0) {
+            rootValidator.addError("Event has description, which is non-standard. Remove this value, or move it (perhaps to a Note).", e);
+        }
+        checkEmails();
+        checkFaxNumbers();
+        checkMultimedia();
+        new NotesValidator(rootValidator, e, e.getNotes()).validate();
+        checkPhoneNumbers();
+        checkOptionalString(e.getReligiousAffiliation(), "religious affiliation", e);
+        checkOptionalString(e.getRespAgency(), "responsible agency", e);
+        checkOptionalString(e.getRestrictionNotice(), "restriction notice", e);
+        checkOptionalString(e.getSubType(), "subtype", e);
+        checkWwwUrls();
+
+    }
+
+    /**
+     * Check the citations
+     */
+    private void checkCitations() {
         List<AbstractCitation> citations = e.getCitations();
         if (citations == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
@@ -80,7 +104,6 @@ class EventValidator extends AbstractValidator {
                 rootValidator.addInfo("Event had null list of citations - repaired", e);
             } else {
                 rootValidator.addError("Event has null list of citations", e);
-                return;
             }
         } else {
             if (rootValidator.isAutorepairEnabled()) {
@@ -95,11 +118,12 @@ class EventValidator extends AbstractValidator {
                 }
             }
         }
-        checkCustomTags(e);
-        checkOptionalString(e.getDate(), "date", e);
-        if (e.getDescription() != null && e.getDescription().trim().length() != 0) {
-            rootValidator.addError("Event has description, which is non-standard. Remove this value, or move it (perhaps to a Note).", e);
-        }
+    }
+
+    /**
+     * Check the emails
+     */
+    private void checkEmails() {
         List<StringWithCustomTags> emails = e.getEmails();
         if (emails == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
@@ -121,6 +145,12 @@ class EventValidator extends AbstractValidator {
                 }
             }
         }
+    }
+
+    /**
+     * Check the fax numbers
+     */
+    private void checkFaxNumbers() {
         List<StringWithCustomTags> faxNumbers = e.getFaxNumbers();
         if (faxNumbers == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
@@ -142,6 +172,12 @@ class EventValidator extends AbstractValidator {
                 }
             }
         }
+    }
+
+    /**
+     * Check the multimedia
+     */
+    private void checkMultimedia() {
         List<Multimedia> multimedia = e.getMultimedia();
         if (multimedia == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
@@ -163,7 +199,12 @@ class EventValidator extends AbstractValidator {
                 }
             }
         }
-        new NotesValidator(rootValidator, e, e.getNotes()).validate();
+    }
+
+    /**
+     * Check the phone numbers
+     */
+    private void checkPhoneNumbers() {
         List<StringWithCustomTags> phoneNumbers = e.getPhoneNumbers();
         if (phoneNumbers == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
@@ -188,10 +229,12 @@ class EventValidator extends AbstractValidator {
         if (e.getPlace() != null) {
             new PlaceValidator(rootValidator, e.getPlace()).validate();
         }
-        checkOptionalString(e.getReligiousAffiliation(), "religious affiliation", e);
-        checkOptionalString(e.getRespAgency(), "responsible agency", e);
-        checkOptionalString(e.getRestrictionNotice(), "restriction notice", e);
-        checkOptionalString(e.getSubType(), "subtype", e);
+    }
+
+    /**
+     * Check the www urls
+     */
+    private void checkWwwUrls() {
         List<StringWithCustomTags> wwwUrls = e.getWwwUrls();
         if (wwwUrls == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
@@ -213,6 +256,5 @@ class EventValidator extends AbstractValidator {
                 }
             }
         }
-
     }
 }

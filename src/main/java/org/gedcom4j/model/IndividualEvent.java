@@ -120,6 +120,7 @@ public class IndividualEvent extends AbstractEvent {
      * {@inheritDoc}
      */
     @Override
+    @SuppressWarnings("PMD.ExcessiveMethodLength")
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("IndividualEvent [");

@@ -86,6 +86,7 @@ import org.gedcom4j.parser.event.ParseProgressListener;
  * @author frizbog1
  * 
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public class GedcomParser extends AbstractParser<Gedcom> {
 
     /**
@@ -464,9 +465,15 @@ public class GedcomParser extends AbstractParser<Gedcom> {
         return lineNum;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Note: Not implemented in this base {@link GedcomParser} class. Things in this class are handled by the
+     * {@link #load(BufferedInputStream)} method.
+     */
     @Override
     void parse() {
-
+        // Do nothing
     }
 
     /**

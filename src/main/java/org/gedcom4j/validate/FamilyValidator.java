@@ -56,10 +56,41 @@ class FamilyValidator extends AbstractValidator {
         this.f = f;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void validate() {
         checkOptionalString(f.getAutomatedRecordId(), "Automated record id", f);
         checkChangeDate(f.getChangeDate(), f);
+        checkChildren();
+        checkCitations();
+        checkCustomTags(f);
+        if (f.getEvents() != null) {
+            for (AbstractEvent ev : f.getEvents()) {
+                new EventValidator(rootValidator, ev).validate();
+            }
+        }
+        if (f.getHusband() != null) {
+            new IndividualValidator(rootValidator, f.getHusband()).validate();
+        }
+        if (f.getWife() != null) {
+            new IndividualValidator(rootValidator, f.getWife()).validate();
+        }
+        checkLdsSpouseSealings();
+        checkMultimedia();
+        new NotesValidator(rootValidator, f, f.getNotes()).validate();
+        checkOptionalString(f.getNumChildren(), "number of children", f);
+        checkOptionalString(f.getRecFileNumber(), "record file number", f);
+        checkOptionalString(f.getRestrictionNotice(), "restriction notice", f);
+        checkSubmitters();
+        checkUserReferences(f.getUserReferences(), f);
+    }
+
+    /**
+     * Check children.
+     */
+    private void checkChildren() {
         List<Individual> children = f.getChildren();
         if (children == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
@@ -83,6 +114,12 @@ class FamilyValidator extends AbstractValidator {
                 }
             }
         }
+    }
+
+    /**
+     * Check citations.
+     */
+    private void checkCitations() {
         List<AbstractCitation> citations = f.getCitations();
         if (citations == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
@@ -104,18 +141,12 @@ class FamilyValidator extends AbstractValidator {
                 }
             }
         }
-        checkCustomTags(f);
-        if (f.getEvents() != null) {
-            for (AbstractEvent ev : f.getEvents()) {
-                new EventValidator(rootValidator, ev).validate();
-            }
-        }
-        if (f.getHusband() != null) {
-            new IndividualValidator(rootValidator, f.getHusband()).validate();
-        }
-        if (f.getWife() != null) {
-            new IndividualValidator(rootValidator, f.getWife()).validate();
-        }
+    }
+
+    /**
+     * Check lds spouse sealings.
+     */
+    private void checkLdsSpouseSealings() {
         List<LdsSpouseSealing> ldsSpouseSealings = f.getLdsSpouseSealings();
         if (ldsSpouseSealings == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
@@ -137,6 +168,12 @@ class FamilyValidator extends AbstractValidator {
                 }
             }
         }
+    }
+
+    /**
+     * Check multimedia.
+     */
+    private void checkMultimedia() {
         List<Multimedia> multimedia = f.getMultimedia();
         if (multimedia == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
@@ -158,10 +195,12 @@ class FamilyValidator extends AbstractValidator {
                 }
             }
         }
-        new NotesValidator(rootValidator, f, f.getNotes()).validate();
-        checkOptionalString(f.getNumChildren(), "number of children", f);
-        checkOptionalString(f.getRecFileNumber(), "record file number", f);
-        checkOptionalString(f.getRestrictionNotice(), "restriction notice", f);
+    }
+
+    /**
+     * Check submitters.
+     */
+    private void checkSubmitters() {
         List<Submitter> submitters = f.getSubmitters();
         if (submitters == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {
@@ -169,7 +208,6 @@ class FamilyValidator extends AbstractValidator {
                 addInfo("Submitters collection was missing on family - repaired", f);
             } else {
                 addInfo("Submitters collection is missing on family", f);
-                return;
             }
         } else {
             if (rootValidator.isAutorepairEnabled()) {
@@ -184,7 +222,6 @@ class FamilyValidator extends AbstractValidator {
                 }
             }
         }
-        checkUserReferences(f.getUserReferences(), f);
     }
 
 }

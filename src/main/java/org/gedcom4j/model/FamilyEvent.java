@@ -162,6 +162,7 @@ public class FamilyEvent extends AbstractEvent {
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("PMD.ExcessiveMethodLength")
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

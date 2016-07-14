@@ -38,6 +38,7 @@ import org.gedcom4j.Options;
  * 
  * @author frizbog1
  */
+@SuppressWarnings("PMD.ExcessiveClassLength")
 public class Individual extends AbstractElement {
 
     /**

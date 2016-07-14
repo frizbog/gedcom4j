@@ -62,6 +62,7 @@ package org.gedcom4j.io.encoding;
  *
  * @author frizbog
  */
+@SuppressWarnings("PMD.ExcessiveClassLength")
 public class AnselHandler {
     /**
      * The byte value at which ANSEL extended characters begin
@@ -236,6 +237,7 @@ public class AnselHandler {
      *         first array element is the base character. The remaining two elements are combining diacritics. An
      *         element of 0x0000 means that that character is not part of the mapping.
      */
+    @SuppressWarnings("PMD.ExcessiveMethodLength")
     private char[] getBrokenDownGlyph(Character c) {
         switch (c) {
             case '\u1EA2': {
@@ -1876,6 +1878,7 @@ public class AnselHandler {
      *            diacritic 2 - pass zero if there is no second diacritic
      * @return a single character that combines the base and the diacritic(s), or a zero if no such character exists
      */
+    @SuppressWarnings("PMD.ExcessiveMethodLength")
     private char getCombinedGlyph(char baseChar, char modifier1, char modifier2) {
 
         if (baseChar == 'A') {

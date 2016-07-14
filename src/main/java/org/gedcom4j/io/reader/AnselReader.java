@@ -131,7 +131,6 @@ final class AnselReader extends AbstractEncodingSpecificReader {
             if ((currChar == 0x0D || currChar == 0x0A)) {
 
                 // Check for line breaks between combining diacritics and the base characters
-
                 if (oneCharBack >= ANSEL_DIACRITICS_BEGIN_AT) {
                     if (twoCharsBack >= ANSEL_DIACRITICS_BEGIN_AT) {
                         /*
