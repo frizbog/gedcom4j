@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
@@ -43,31 +48,31 @@ public class HeaderSourceDataTest {
         HeaderSourceData h2 = new HeaderSourceData();
         assertEquals(h1, h2);
 
-        h1.copyright = new StringWithCustomTags("Frying Pan");
+        h1.setCopyright(new StringWithCustomTags("Frying Pan"));
         assertFalse(h1.equals(h2));
-        h2.copyright = new StringWithCustomTags("Frying Pan");
+        h2.setCopyright(new StringWithCustomTags("Frying Pan"));
         assertEquals(h1, h2);
-        h1.copyright = null;
+        h1.setCopyright(null);
         assertFalse(h1.equals(h2));
-        h2.copyright = null;
-        assertEquals(h1, h2);
-
-        h1.name = "Frying Pan";
-        assertFalse(h1.equals(h2));
-        h2.name = "Frying Pan";
-        assertEquals(h1, h2);
-        h1.name = null;
-        assertFalse(h1.equals(h2));
-        h2.name = null;
+        h2.setCopyright(null);
         assertEquals(h1, h2);
 
-        h1.publishDate = new StringWithCustomTags("Frying Pan");
+        h1.setName("Frying Pan");
         assertFalse(h1.equals(h2));
-        h2.publishDate = new StringWithCustomTags("Frying Pan");
+        h2.setName("Frying Pan");
         assertEquals(h1, h2);
-        h1.publishDate = null;
+        h1.setName(null);
         assertFalse(h1.equals(h2));
-        h2.publishDate = null;
+        h2.setName(null);
+        assertEquals(h1, h2);
+
+        h1.setPublishDate(new StringWithCustomTags("Frying Pan"));
+        assertFalse(h1.equals(h2));
+        h2.setPublishDate(new StringWithCustomTags("Frying Pan"));
+        assertEquals(h1, h2);
+        h1.setPublishDate(null);
+        assertFalse(h1.equals(h2));
+        h2.setPublishDate(null);
         assertEquals(h1, h2);
 
         assertFalse(h1.equals(null));
@@ -83,31 +88,31 @@ public class HeaderSourceDataTest {
         HeaderSourceData h2 = new HeaderSourceData();
         assertEquals(h1.hashCode(), h2.hashCode());
 
-        h1.copyright = new StringWithCustomTags("Frying Pan");
+        h1.setCopyright(new StringWithCustomTags("Frying Pan"));
         assertFalse(h1.hashCode() == h2.hashCode());
-        h2.copyright = new StringWithCustomTags("Frying Pan");
+        h2.setCopyright(new StringWithCustomTags("Frying Pan"));
         assertEquals(h1.hashCode(), h2.hashCode());
-        h1.copyright = null;
+        h1.setCopyright(null);
         assertFalse(h1.hashCode() == h2.hashCode());
-        h2.copyright = null;
-        assertEquals(h1.hashCode(), h2.hashCode());
-
-        h1.name = "Frying Pan";
-        assertFalse(h1.hashCode() == h2.hashCode());
-        h2.name = "Frying Pan";
-        assertEquals(h1.hashCode(), h2.hashCode());
-        h1.name = null;
-        assertFalse(h1.hashCode() == h2.hashCode());
-        h2.name = null;
+        h2.setCopyright(null);
         assertEquals(h1.hashCode(), h2.hashCode());
 
-        h1.publishDate = new StringWithCustomTags("Frying Pan");
+        h1.setName("Frying Pan");
         assertFalse(h1.hashCode() == h2.hashCode());
-        h2.publishDate = new StringWithCustomTags("Frying Pan");
+        h2.setName("Frying Pan");
         assertEquals(h1.hashCode(), h2.hashCode());
-        h1.publishDate = null;
+        h1.setName(null);
         assertFalse(h1.hashCode() == h2.hashCode());
-        h2.publishDate = null;
+        h2.setName(null);
+        assertEquals(h1.hashCode(), h2.hashCode());
+
+        h1.setPublishDate(new StringWithCustomTags("Frying Pan"));
+        assertFalse(h1.hashCode() == h2.hashCode());
+        h2.setPublishDate(new StringWithCustomTags("Frying Pan"));
+        assertEquals(h1.hashCode(), h2.hashCode());
+        h1.setPublishDate(null);
+        assertFalse(h1.hashCode() == h2.hashCode());
+        h2.setPublishDate(null);
         assertEquals(h1.hashCode(), h2.hashCode());
     }
 

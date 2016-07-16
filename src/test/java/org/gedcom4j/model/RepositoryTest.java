@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
@@ -43,67 +48,67 @@ public class RepositoryTest {
         Repository r2 = new Repository();
         assertEquals(r1, r2);
 
-        r1.address = new Address();
+        r1.setAddress(new Address());
         assertFalse(r1.equals(r2));
-        r2.address = new Address();
+        r2.setAddress(new Address());
         assertEquals(r1, r2);
-        r1.address = null;
+        r1.setAddress(null);
         assertFalse(r1.equals(r2));
-        r2.address = null;
-        assertEquals(r1, r2);
-
-        r1.changeDate = new ChangeDate();
-        assertFalse(r1.equals(r2));
-        r2.changeDate = new ChangeDate();
-        assertEquals(r1, r2);
-        r1.changeDate = null;
-        assertFalse(r1.equals(r2));
-        r2.changeDate = null;
+        r2.setAddress(null);
         assertEquals(r1, r2);
 
-        r1.emails.add(new StringWithCustomTags("Frying Pan"));
+        r1.setChangeDate(new ChangeDate());
         assertFalse(r1.equals(r2));
-        r2.emails.add(new StringWithCustomTags("Frying Pan"));
+        r2.setChangeDate(new ChangeDate());
         assertEquals(r1, r2);
-        r1.emails = null;
+        r1.setChangeDate(null);
         assertFalse(r1.equals(r2));
-        r2.emails = null;
-        assertEquals(r1, r2);
-
-        r1.name = new StringWithCustomTags("Frying Pan");
-        assertFalse(r1.equals(r2));
-        r2.name = new StringWithCustomTags("Frying Pan");
-        assertEquals(r1, r2);
-        r1.name = null;
-        assertFalse(r1.equals(r2));
-        r2.name = null;
+        r2.setChangeDate(null);
         assertEquals(r1, r2);
 
-        r1.notes.add(new Note());
+        r1.getEmails(true).add(new StringWithCustomTags("Frying Pan"));
         assertFalse(r1.equals(r2));
-        r2.notes.add(new Note());
+        r2.getEmails(true).add(new StringWithCustomTags("Frying Pan"));
         assertEquals(r1, r2);
-        r1.notes = null;
+        r1.getEmails().clear();
         assertFalse(r1.equals(r2));
-        r2.notes = null;
-        assertEquals(r1, r2);
-
-        r1.phoneNumbers.add(new StringWithCustomTags("Frying Pan"));
-        assertFalse(r1.equals(r2));
-        r2.phoneNumbers.add(new StringWithCustomTags("Frying Pan"));
-        assertEquals(r1, r2);
-        r1.phoneNumbers = null;
-        assertFalse(r1.equals(r2));
-        r2.phoneNumbers = null;
+        r2.getEmails().clear();
         assertEquals(r1, r2);
 
-        r1.recIdNumber = new StringWithCustomTags("Frying Pan");
+        r1.setName(new StringWithCustomTags("Frying Pan"));
         assertFalse(r1.equals(r2));
-        r2.recIdNumber = new StringWithCustomTags("Frying Pan");
+        r2.setName(new StringWithCustomTags("Frying Pan"));
         assertEquals(r1, r2);
-        r1.recIdNumber = null;
+        r1.setName(null);
         assertFalse(r1.equals(r2));
-        r2.recIdNumber = null;
+        r2.setName(null);
+        assertEquals(r1, r2);
+
+        r1.getNotes(true).add(new Note());
+        assertFalse(r1.equals(r2));
+        r2.getNotes(true).add(new Note());
+        assertEquals(r1, r2);
+        r1.getNotes().clear();
+        assertFalse(r1.equals(r2));
+        r2.getNotes().clear();
+        assertEquals(r1, r2);
+
+        r1.getPhoneNumbers(true).add(new StringWithCustomTags("Frying Pan"));
+        assertFalse(r1.equals(r2));
+        r2.getPhoneNumbers(true).add(new StringWithCustomTags("Frying Pan"));
+        assertEquals(r1, r2);
+        r1.getPhoneNumbers().clear();
+        assertFalse(r1.equals(r2));
+        r2.getPhoneNumbers().clear();
+        assertEquals(r1, r2);
+
+        r1.setRecIdNumber(new StringWithCustomTags("Frying Pan"));
+        assertFalse(r1.equals(r2));
+        r2.setRecIdNumber(new StringWithCustomTags("Frying Pan"));
+        assertEquals(r1, r2);
+        r1.setRecIdNumber(null);
+        assertFalse(r1.equals(r2));
+        r2.setRecIdNumber(null);
         assertEquals(r1, r2);
 
         assertFalse(r1.equals(null));
@@ -119,67 +124,67 @@ public class RepositoryTest {
         Repository r2 = new Repository();
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1.address = new Address();
+        r1.setAddress(new Address());
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.address = new Address();
+        r2.setAddress(new Address());
         assertEquals(r1.hashCode(), r2.hashCode());
-        r1.address = null;
+        r1.setAddress(null);
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.address = null;
-        assertEquals(r1.hashCode(), r2.hashCode());
-
-        r1.changeDate = new ChangeDate();
-        assertFalse(r1.hashCode() == r2.hashCode());
-        r2.changeDate = new ChangeDate();
-        assertEquals(r1.hashCode(), r2.hashCode());
-        r1.changeDate = null;
-        assertFalse(r1.hashCode() == r2.hashCode());
-        r2.changeDate = null;
+        r2.setAddress(null);
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1.emails.add(new StringWithCustomTags("Frying Pan"));
+        r1.setChangeDate(new ChangeDate());
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.emails.add(new StringWithCustomTags("Frying Pan"));
+        r2.setChangeDate(new ChangeDate());
         assertEquals(r1.hashCode(), r2.hashCode());
-        r1.emails = null;
+        r1.setChangeDate(null);
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.emails = null;
-        assertEquals(r1.hashCode(), r2.hashCode());
-
-        r1.name = new StringWithCustomTags("Frying Pan");
-        assertFalse(r1.hashCode() == r2.hashCode());
-        r2.name = new StringWithCustomTags("Frying Pan");
-        assertEquals(r1.hashCode(), r2.hashCode());
-        r1.name = null;
-        assertFalse(r1.hashCode() == r2.hashCode());
-        r2.name = null;
+        r2.setChangeDate(null);
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1.notes.add(new Note());
+        r1.getEmails(true).add(new StringWithCustomTags("Frying Pan"));
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.notes.add(new Note());
+        r2.getEmails(true).add(new StringWithCustomTags("Frying Pan"));
         assertEquals(r1.hashCode(), r2.hashCode());
-        r1.notes = null;
+        r1.getEmails().clear();
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.notes = null;
-        assertEquals(r1.hashCode(), r2.hashCode());
-
-        r1.phoneNumbers.add(new StringWithCustomTags("Frying Pan"));
-        assertFalse(r1.hashCode() == r2.hashCode());
-        r2.phoneNumbers.add(new StringWithCustomTags("Frying Pan"));
-        assertEquals(r1.hashCode(), r2.hashCode());
-        r1.phoneNumbers = null;
-        assertFalse(r1.hashCode() == r2.hashCode());
-        r2.phoneNumbers = null;
+        r2.getEmails().clear();
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1.recIdNumber = new StringWithCustomTags("Frying Pan");
+        r1.setName(new StringWithCustomTags("Frying Pan"));
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.recIdNumber = new StringWithCustomTags("Frying Pan");
+        r2.setName(new StringWithCustomTags("Frying Pan"));
         assertEquals(r1.hashCode(), r2.hashCode());
-        r1.recIdNumber = null;
+        r1.setName(null);
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.recIdNumber = null;
+        r2.setName(null);
+        assertEquals(r1.hashCode(), r2.hashCode());
+
+        r1.getNotes(true).add(new Note());
+        assertFalse(r1.hashCode() == r2.hashCode());
+        r2.getNotes(true).add(new Note());
+        assertEquals(r1.hashCode(), r2.hashCode());
+        r1.getNotes().clear();
+        assertFalse(r1.hashCode() == r2.hashCode());
+        r2.getNotes().clear();
+        assertEquals(r1.hashCode(), r2.hashCode());
+
+        r1.getPhoneNumbers(true).add(new StringWithCustomTags("Frying Pan"));
+        assertFalse(r1.hashCode() == r2.hashCode());
+        r2.getPhoneNumbers(true).add(new StringWithCustomTags("Frying Pan"));
+        assertEquals(r1.hashCode(), r2.hashCode());
+        r1.getPhoneNumbers().clear();
+        assertFalse(r1.hashCode() == r2.hashCode());
+        r2.getPhoneNumbers().clear();
+        assertEquals(r1.hashCode(), r2.hashCode());
+
+        r1.setRecIdNumber(new StringWithCustomTags("Frying Pan"));
+        assertFalse(r1.hashCode() == r2.hashCode());
+        r2.setRecIdNumber(new StringWithCustomTags("Frying Pan"));
+        assertEquals(r1.hashCode(), r2.hashCode());
+        r1.setRecIdNumber(null);
+        assertFalse(r1.hashCode() == r2.hashCode());
+        r2.setRecIdNumber(null);
         assertEquals(r1.hashCode(), r2.hashCode());
 
         assertFalse(r1.equals(Integer.valueOf(hashCode())));

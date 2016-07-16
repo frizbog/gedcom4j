@@ -1,28 +1,35 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.gedcom4j.Options;
 
 /**
  * A family record. Corresponds to FAM_RECORD in the GEDCOM spec.
@@ -31,85 +38,90 @@ import java.util.List;
  */
 public class Family extends AbstractElement {
     /**
-     * The permanent record file number
+     * Serial Version UID
      */
-    public StringWithCustomTags recFileNumber;
+    private static final long serialVersionUID = -2614258744184662622L;
 
     /**
      * The automated record ID number
      */
-    public StringWithCustomTags automatedRecordId;
-
-    /**
-     * The wife in the family
-     */
-    public Individual wife;
-
-    /**
-     * The husband in the family
-     */
-    public Individual husband;
-
-    /**
-     * A list of the children in the family
-     */
-    public List<Individual> children = new ArrayList<Individual>(0);
-
-    /**
-     * The number of children
-     */
-    public StringWithCustomTags numChildren;
-
-    /**
-     * A list of the submitters for this family
-     */
-    public List<Submitter> submitters = new ArrayList<Submitter>(0);
-
-    /**
-     * The LDS Spouse Sealings for this family
-     */
-    public List<LdsSpouseSealing> ldsSpouseSealings = new ArrayList<LdsSpouseSealing>(0);
-
-    /**
-     * The source citations for this family
-     */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
-
-    /**
-     * The multimedia for this family
-     */
-    public List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
+    private StringWithCustomTags automatedRecordId;
 
     /**
      * The change date information for this family record
      */
-    public ChangeDate changeDate;
+    private ChangeDate changeDate;
+
+    /**
+     * A list of the children in the family
+     */
+    private List<Individual> children = getChildren(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The citations for this object
+     */
+    private List<AbstractCitation> citations = getCitations(Options.isCollectionInitializationEnabled());
 
     /**
      * All the family events
      */
-    public List<FamilyEvent> events = new ArrayList<FamilyEvent>(0);
+    private List<FamilyEvent> events = getEvents(Options.isCollectionInitializationEnabled());
 
     /**
-     * Notes on this family
+     * The husband in the family
      */
-    public List<Note> notes = new ArrayList<Note>(0);
+    private Individual husband;
 
     /**
-     * A cross reference id that things can use to identify this family
+     * The LDS Spouse Sealings for this family
      */
-    public String xref;
+    private List<LdsSpouseSealing> ldsSpouseSealings = getLdsSpouseSealings(Options.isCollectionInitializationEnabled());
 
     /**
-     * The user references
+     * Multimedia links for this source citation
      */
-    public List<UserReference> userReferences = new ArrayList<UserReference>(0);
+    private List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Notes about this object
+     */
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The number of children
+     */
+    private StringWithCustomTags numChildren;
+
+    /**
+     * The permanent record file number
+     */
+    private StringWithCustomTags recFileNumber;
 
     /**
      * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be
      * "confidential", "locked", or "privacy" but this implementation allows any value.
      */
-    public StringWithCustomTags restrictionNotice;
+    private StringWithCustomTags restrictionNotice;
+
+    /**
+     * A list of the submitters for this family
+     */
+    private List<Submitter> submitters = getSubmitters(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The user references for this submitter
+     */
+    private List<UserReference> userReferences = getUserReferences(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The wife in the family
+     */
+    private Individual wife;
+
+    /**
+     * The xref for this submitter
+     */
+    private String xref;
 
     /**
      * {@inheritDoc}
@@ -243,6 +255,264 @@ public class Family extends AbstractElement {
     }
 
     /**
+     * Gets the automated record id.
+     *
+     * @return the automated record id
+     */
+    public StringWithCustomTags getAutomatedRecordId() {
+        return automatedRecordId;
+    }
+
+    /**
+     * Gets the change date.
+     *
+     * @return the change date
+     */
+    public ChangeDate getChangeDate() {
+        return changeDate;
+    }
+
+    /**
+     * Gets the children.
+     *
+     * @return the children
+     */
+    public List<Individual> getChildren() {
+        return children;
+    }
+
+    /**
+     * Get the children
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the children
+     */
+    public List<Individual> getChildren(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && children == null) {
+            children = new ArrayList<Individual>(0);
+        }
+        return children;
+    }
+
+    /**
+     * Gets the citations.
+     *
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations() {
+        return citations;
+    }
+
+    /**
+     * Get the citations
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && citations == null) {
+            citations = new ArrayList<AbstractCitation>(0);
+        }
+        return citations;
+    }
+
+    /**
+     * Gets the events.
+     *
+     * @return the events
+     */
+    public List<FamilyEvent> getEvents() {
+        return events;
+    }
+
+    /**
+     * Get the events
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the events
+     */
+    public List<FamilyEvent> getEvents(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && events == null) {
+            events = new ArrayList<FamilyEvent>(0);
+        }
+        return events;
+    }
+
+    /**
+     * Gets the husband.
+     *
+     * @return the husband
+     */
+    public Individual getHusband() {
+        return husband;
+    }
+
+    /**
+     * Gets the LDS spouse sealings.
+     *
+     * @return the LDS spouse sealings
+     */
+    public List<LdsSpouseSealing> getLdsSpouseSealings() {
+        return ldsSpouseSealings;
+    }
+
+    /**
+     * Gets the LDS spouse sealings.
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the ldsSpouseSealings
+     */
+    public List<LdsSpouseSealing> getLdsSpouseSealings(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && ldsSpouseSealings == null) {
+            ldsSpouseSealings = new ArrayList<LdsSpouseSealing>(0);
+        }
+        return ldsSpouseSealings;
+    }
+
+    /**
+     * Gets the multimedia.
+     *
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia() {
+        return multimedia;
+    }
+
+    /**
+     * Get the multimedia
+     * 
+     * @param initializeIfNeeded
+     *            true if this collection should be created on-the-fly if it is currently null
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && multimedia == null) {
+            multimedia = new ArrayList<Multimedia>(0);
+        }
+        return multimedia;
+    }
+
+    /**
+     * Gets the notes.
+     *
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
+    /**
+     * Gets the number of children.
+     *
+     * @return the number of children
+     */
+    public StringWithCustomTags getNumChildren() {
+        return numChildren;
+    }
+
+    /**
+     * Gets the rec file number.
+     *
+     * @return the rec file number
+     */
+    public StringWithCustomTags getRecFileNumber() {
+        return recFileNumber;
+    }
+
+    /**
+     * Gets the restriction notice.
+     *
+     * @return the restriction notice
+     */
+    public StringWithCustomTags getRestrictionNotice() {
+        return restrictionNotice;
+    }
+
+    /**
+     * Gets the submitters.
+     *
+     * @return the submitters
+     */
+    public List<Submitter> getSubmitters() {
+        return submitters;
+    }
+
+    /**
+     * Get the submitters
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the submitters
+     */
+    public List<Submitter> getSubmitters(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && submitters == null) {
+            submitters = new ArrayList<Submitter>(0);
+        }
+        return submitters;
+    }
+
+    /**
+     * Gets the user references.
+     *
+     * @return the user references
+     */
+    public List<UserReference> getUserReferences() {
+        return userReferences;
+    }
+
+    /**
+     * Get the user references
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the userReferences
+     */
+    public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && userReferences == null) {
+            userReferences = new ArrayList<UserReference>(0);
+        }
+        return userReferences;
+    }
+
+    /**
+     * Gets the wife.
+     *
+     * @return the wife
+     */
+    public Individual getWife() {
+        return wife;
+    }
+
+    /**
+     * Gets the xref.
+     *
+     * @return the xref
+     */
+    public String getXref() {
+        return xref;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -268,19 +538,179 @@ public class Family extends AbstractElement {
         return result;
     }
 
+    /**
+     * Sets the automated record id.
+     *
+     * @param automatedRecordId
+     *            the new automated record id
+     */
+    public void setAutomatedRecordId(StringWithCustomTags automatedRecordId) {
+        this.automatedRecordId = automatedRecordId;
+    }
+
+    /**
+     * Sets the change date.
+     *
+     * @param changeDate
+     *            the new change date
+     */
+    public void setChangeDate(ChangeDate changeDate) {
+        this.changeDate = changeDate;
+    }
+
+    /**
+     * Sets the husband.
+     *
+     * @param husband
+     *            the new husband
+     */
+    public void setHusband(Individual husband) {
+        this.husband = husband;
+    }
+
+    /**
+     * Sets the number of children.
+     *
+     * @param numChildren
+     *            the new number of children
+     */
+    public void setNumChildren(StringWithCustomTags numChildren) {
+        this.numChildren = numChildren;
+    }
+
+    /**
+     * Sets the rec file number.
+     *
+     * @param recFileNumber
+     *            the new rec file number
+     */
+    public void setRecFileNumber(StringWithCustomTags recFileNumber) {
+        this.recFileNumber = recFileNumber;
+    }
+
+    /**
+     * Sets the restriction notice.
+     *
+     * @param restrictionNotice
+     *            the new restriction notice
+     */
+    public void setRestrictionNotice(StringWithCustomTags restrictionNotice) {
+        this.restrictionNotice = restrictionNotice;
+    }
+
+    /**
+     * Sets the wife.
+     *
+     * @param wife
+     *            the new wife
+     */
+    public void setWife(Individual wife) {
+        this.wife = wife;
+    }
+
+    /**
+     * Sets the xref.
+     *
+     * @param xref
+     *            the new xref
+     */
+    public void setXref(String xref) {
+        this.xref = xref;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "Family [" + (recFileNumber != null ? "recFileNumber=" + recFileNumber + ", " : "")
-                + (automatedRecordId != null ? "automatedRecordId=" + automatedRecordId + ", " : "") + (wife != null ? "wife=" + wife + ", " : "")
-                + (husband != null ? "husband=" + husband + ", " : "") + (children != null ? "children=" + children + ", " : "")
-                + (numChildren != null ? "numChildren=" + numChildren + ", " : "") + (submitters != null ? "submitters=" + submitters + ", " : "")
-                + (ldsSpouseSealings != null ? "ldsSpouseSealings=" + ldsSpouseSealings + ", " : "")
-                + (citations != null ? "citations=" + citations + ", " : "") + (multimedia != null ? "multimedia=" + multimedia + ", " : "")
-                + (changeDate != null ? "changeDate=" + changeDate + ", " : "") + (events != null ? "events=" + events + ", " : "")
-                + (notes != null ? "notes=" + notes + ", " : "") + (xref != null ? "xref=" + xref + ", " : "")
-                + (userReferences != null ? "userReferences=" + userReferences + ", " : "")
-                + (restrictionNotice != null ? "restrictionNotice=" + restrictionNotice + ", " : "") + (customTags != null ? "customTags=" + customTags : "")
-                + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("Family [");
+        if (automatedRecordId != null) {
+            builder.append("automatedRecordId=");
+            builder.append(automatedRecordId);
+            builder.append(", ");
+        }
+        if (changeDate != null) {
+            builder.append("changeDate=");
+            builder.append(changeDate);
+            builder.append(", ");
+        }
+        if (children != null) {
+            builder.append("children=");
+            builder.append(children);
+            builder.append(", ");
+        }
+        if (citations != null) {
+            builder.append("citations=");
+            builder.append(citations);
+            builder.append(", ");
+        }
+        if (events != null) {
+            builder.append("events=");
+            builder.append(events);
+            builder.append(", ");
+        }
+        if (husband != null) {
+            builder.append("husband=");
+            builder.append(husband);
+            builder.append(", ");
+        }
+        if (ldsSpouseSealings != null) {
+            builder.append("ldsSpouseSealings=");
+            builder.append(ldsSpouseSealings);
+            builder.append(", ");
+        }
+        if (multimedia != null) {
+            builder.append("multimedia=");
+            builder.append(multimedia);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (numChildren != null) {
+            builder.append("numChildren=");
+            builder.append(numChildren);
+            builder.append(", ");
+        }
+        if (recFileNumber != null) {
+            builder.append("recFileNumber=");
+            builder.append(recFileNumber);
+            builder.append(", ");
+        }
+        if (restrictionNotice != null) {
+            builder.append("restrictionNotice=");
+            builder.append(restrictionNotice);
+            builder.append(", ");
+        }
+        if (submitters != null) {
+            builder.append("submitters=");
+            builder.append(submitters);
+            builder.append(", ");
+        }
+        if (userReferences != null) {
+            builder.append("userReferences=");
+            builder.append(userReferences);
+            builder.append(", ");
+        }
+        if (wife != null) {
+            builder.append("wife=");
+            builder.append(wife);
+            builder.append(", ");
+        }
+        if (xref != null) {
+            builder.append("xref=");
+            builder.append(xref);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
 }

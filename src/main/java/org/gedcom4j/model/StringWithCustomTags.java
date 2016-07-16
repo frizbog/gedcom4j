@@ -1,25 +1,32 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
+
+import java.util.List;
 
 /**
  * Represents a string value from a tag, and allows for user-defined child tags
@@ -29,9 +36,14 @@ package org.gedcom4j.model;
 public class StringWithCustomTags extends AbstractElement {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -2479578654715820890L;
+
+    /**
      * The string value itself.
      */
-    public String value;
+    private String value;
 
     /**
      * Default constructor
@@ -54,11 +66,14 @@ public class StringWithCustomTags extends AbstractElement {
      * Constructor that takes a StringTree as a parameter
      * 
      * @param s
-     *            the stringtree with the value of the string, plus optional custom tags
+     *            the string tree with the value of the string, plus optional custom tags
      */
     public StringWithCustomTags(StringTree s) {
-        value = s.value;
-        customTags = s.children;
+        value = s.getValue();
+        List<StringTree> children = s.getChildren();
+        if (children != null && !children.isEmpty()) {
+            getCustomTags(true).addAll(children);
+        }
     }
 
     /**
@@ -87,22 +102,43 @@ public class StringWithCustomTags extends AbstractElement {
     }
 
     /**
+     * Gets the value.
+     *
+     * @return the value
+     */
+    public String getValue() {
+        return value;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((value == null) ? 0 : value.hashCode());
+        result = prime * result + (value == null ? 0 : value.hashCode());
         return result;
+    }
+
+    /**
+     * Sets the value.
+     *
+     * @param value
+     *            the new value
+     */
+    public void setValue(String value) {
+        this.value = value;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(value == null ? "null" : value);
-        for (StringTree ct : customTags) {
-            sb.append("\n");
-            sb.append(ct.level + (ct.id == null ? "" : " " + ct.id) + " " + ct.tag + " " + ct.value);
+        if (getCustomTags() != null) {
+            for (StringTree ct : getCustomTags()) {
+                sb.append("\n");
+                sb.append(ct.getLevel() + (ct.getId() == null ? "" : " " + ct.getId()) + " " + ct.getTag() + " " + ct.getValue());
+            }
         }
 
         return sb.toString();

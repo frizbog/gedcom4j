@@ -1,40 +1,38 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.validate;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import org.gedcom4j.model.AbstractCitation;
-import org.gedcom4j.model.Association;
-import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.IndividualAttribute;
-import org.gedcom4j.model.IndividualEvent;
-import org.gedcom4j.model.PersonalName;
-import org.gedcom4j.model.StringWithCustomTags;
-import org.gedcom4j.model.Submitter;
+import org.gedcom4j.Options;
+import org.gedcom4j.model.*;
 
 /**
- * A validator for an {@link Individual}. See {@link GedcomValidator} for usage
- * information.
+ * A validator for an {@link Individual}. See {@link GedcomValidator} for usage information.
  * 
  * @author frizbog1
  * 
@@ -66,18 +64,40 @@ class IndividualValidator extends AbstractValidator {
             return;
         }
         checkXref(individual);
-        if (individual.names == null) {
-            if (rootValidator.autorepair) {
-                individual.names = new ArrayList<PersonalName>();
-                rootValidator.addInfo("Individual " + individual.xref + " had no list of names - repaired", individual);
+        List<PersonalName> names = individual.getNames();
+        if (names == null && Options.isCollectionInitializationEnabled()) {
+            if (rootValidator.isAutorepairEnabled()) {
+                individual.getNames(true).clear();
+                rootValidator.addInfo("Individual " + individual.getXref() + " had no list of names - repaired", individual);
             } else {
-                rootValidator.addError("Individual " + individual.xref + " has no list of names", individual);
+                rootValidator.addError("Individual " + individual.getXref() + " has no list of names", individual);
             }
         } else {
-            for (PersonalName pn : individual.names) {
-                new PersonalNameValidator(rootValidator, pn).validate();
+            if (rootValidator.isAutorepairEnabled()) {
+                int dups = new DuplicateEliminator<PersonalName>(names).process();
+                if (dups > 0) {
+                    rootValidator.addInfo(dups + " duplicate names found and removed", individual);
+                }
+            }
+            if (names != null) {
+                for (PersonalName pn : names) {
+                    new PersonalNameValidator(rootValidator, pn).validate();
+                }
             }
         }
+        if (rootValidator.isAutorepairEnabled()) {
+            int dups = new DuplicateEliminator<FamilyChild>(individual.getFamiliesWhereChild()).process();
+            if (dups > 0) {
+                rootValidator.addInfo(dups + " duplicate families (where individual was a child) found and removed", individual);
+            }
+        }
+        if (rootValidator.isAutorepairEnabled()) {
+            int dups = new DuplicateEliminator<FamilySpouse>(individual.getFamiliesWhereSpouse()).process();
+            if (dups > 0) {
+                rootValidator.addInfo(dups + " duplicate families (where individual was a spouse) found and removed", individual);
+            }
+        }
+
         checkAliases();
         checkAssociations();
         checkCitations();
@@ -91,15 +111,15 @@ class IndividualValidator extends AbstractValidator {
      * 
      */
     private void checkAliases() {
-        if (individual.aliases == null) {
-            if (rootValidator.autorepair) {
-                individual.aliases = new ArrayList<StringWithCustomTags>();
+        if (individual.getAliases() == null && Options.isCollectionInitializationEnabled()) {
+            if (rootValidator.isAutorepairEnabled()) {
+                individual.getAliases(true).clear();
                 addInfo("aliases collection for individual was null - rootValidator.autorepaired", individual);
             } else {
                 addError("aliases collection for individual is null", individual);
             }
         } else {
-            checkStringTagList(individual.aliases, "aliases on individual", false);
+            checkStringTagList(individual.getAliases(), "aliases on individual", false);
         }
     }
 
@@ -107,20 +127,22 @@ class IndividualValidator extends AbstractValidator {
      * Validate the {@link Individual#associations} collection
      */
     private void checkAssociations() {
-        if (individual.associations == null) {
-            if (rootValidator.autorepair) {
-                individual.associations = new ArrayList<Association>();
+        if (individual.getAssociations() == null && Options.isCollectionInitializationEnabled()) {
+            if (rootValidator.isAutorepairEnabled()) {
+                individual.getAssociations(true).clear();
                 addInfo("associations collection for individual was null - rootValidator.autorepaired", individual);
             } else {
                 addError("associations collection for individual is null", individual);
             }
         } else {
-            for (Association a : individual.associations) {
-                if (a == null) {
-                    addError("associations collection for individual contains null entry", individual);
-                } else {
-                    checkRequiredString(a.associatedEntityType, "associated entity type", a);
-                    checkXref(a, "associatedEntityXref");
+            if (individual.getAssociations() != null) {
+                for (Association a : individual.getAssociations()) {
+                    if (a == null) {
+                        addError("associations collection for individual contains null entry", individual);
+                    } else {
+                        checkRequiredString(a.getAssociatedEntityType(), "associated entity type", a);
+                        checkXref(a, "associatedEntityXref");
+                    }
                 }
             }
         }
@@ -131,16 +153,18 @@ class IndividualValidator extends AbstractValidator {
      * Validate the {@link Individual#citations} collection
      */
     private void checkCitations() {
-        if (individual.citations == null) {
-            if (rootValidator.autorepair) {
-                individual.citations = new ArrayList<AbstractCitation>();
+        if (individual.getCitations() == null && Options.isCollectionInitializationEnabled()) {
+            if (rootValidator.isAutorepairEnabled()) {
+                individual.getCitations(true).clear();
                 addInfo("citations collection for individual was null - rootValidator.autorepaired", individual);
             } else {
                 addError("citations collection for individual is null", individual);
             }
         } else {
-            for (AbstractCitation c : individual.citations) {
-                new CitationValidator(rootValidator, c).validate();
+            if (individual.getCitations() != null) {
+                for (AbstractCitation c : individual.getCitations()) {
+                    new CitationValidator(rootValidator, c).validate();
+                }
             }
         }
     }
@@ -149,17 +173,19 @@ class IndividualValidator extends AbstractValidator {
      * Validate the {@link Individual#attributes} collection
      */
     private void checkIndividualAttributes() {
-        if (individual.attributes == null) {
-            if (rootValidator.autorepair) {
-                individual.attributes = new ArrayList<IndividualAttribute>();
+        if (individual.getAttributes() == null && Options.isCollectionInitializationEnabled()) {
+            if (rootValidator.isAutorepairEnabled()) {
+                individual.getAttributes(true).clear();
                 addInfo("attributes collection for individual was null - rootValidator.autorepaired", individual);
             } else {
                 addError("attributes collection for individual is null", individual);
             }
         } else {
-            for (IndividualAttribute a : individual.attributes) {
-                if (a.type == null) {
-                    addError("Individual attribute requires a type", a);
+            if (individual.getAttributes() != null) {
+                for (IndividualAttribute a : individual.getAttributes()) {
+                    if (a.getType() == null) {
+                        addError("Individual attribute requires a type", a);
+                    }
                 }
             }
         }
@@ -169,52 +195,56 @@ class IndividualValidator extends AbstractValidator {
      * Validate the {@link Individual#events} collection
      */
     private void checkIndividualEvents() {
-        if (individual.events == null) {
-            if (rootValidator.autorepair) {
-                individual.events = new ArrayList<IndividualEvent>();
+        if (individual.getEvents() == null && Options.isCollectionInitializationEnabled()) {
+            if (rootValidator.isAutorepairEnabled()) {
+                individual.getEvents(true).clear();
                 addInfo("events collection for individual was null - rootValidator.autorepaired", individual);
             } else {
                 addError("events collection for individual is null", individual);
             }
         } else {
-            for (IndividualEvent a : individual.events) {
-                if (a.type == null) {
-                    addError("Individual event requires a type", a);
+            if (individual.getEvents() != null) {
+                for (IndividualEvent a : individual.getEvents()) {
+                    if (a.getType() == null) {
+                        addError("Individual event requires a type", a);
+                    }
+                    new EventValidator(rootValidator, a).validate();
                 }
-                new EventValidator(rootValidator, a).validate();
             }
         }
     }
 
     /**
-     * Validate the two submitters collections:
-     * {@link Individual#ancestorInterest} and
+     * Validate the two submitters collections: {@link Individual#ancestorInterest} and
      * {@link Individual#descendantInterest}
      */
     private void checkSubmitters() {
-        if (individual.ancestorInterest == null) {
-            if (rootValidator.autorepair) {
-                individual.ancestorInterest = new ArrayList<Submitter>();
+        if (individual.getAncestorInterest() == null && Options.isCollectionInitializationEnabled()) {
+            if (rootValidator.isAutorepairEnabled()) {
+                individual.getAncestorInterest(true).clear();
                 addInfo("ancestorInterest collection for individual was null - rootValidator.autorepaired", individual);
             } else {
                 addError("ancestorInterest collection for individual is null", individual);
             }
         } else {
-            for (Submitter submitter : individual.ancestorInterest) {
-                new SubmitterValidator(rootValidator, submitter).validate();
+            if (individual.getAncestorInterest() != null) {
+                for (Submitter submitter : individual.getAncestorInterest()) {
+                    new SubmitterValidator(rootValidator, submitter).validate();
+                }
             }
         }
-        if (individual.descendantInterest == null) {
-            if (rootValidator.autorepair) {
-                individual.descendantInterest = new ArrayList<Submitter>();
-                addInfo("descendantInterest collection for individual was null - rootValidator.autorepaired",
-                        individual);
+        if (individual.getDescendantInterest() == null && Options.isCollectionInitializationEnabled()) {
+            if (rootValidator.isAutorepairEnabled()) {
+                individual.getDescendantInterest(true).clear();
+                addInfo("descendantInterest collection for individual was null - rootValidator.autorepaired", individual);
             } else {
                 addError("descendantInterest collection for individual is null", individual);
             }
         } else {
-            for (Submitter submitter : individual.descendantInterest) {
-                new SubmitterValidator(rootValidator, submitter).validate();
+            if (individual.getDescendantInterest() != null) {
+                for (Submitter submitter : individual.getDescendantInterest()) {
+                    new SubmitterValidator(rootValidator, submitter).validate();
+                }
             }
         }
 

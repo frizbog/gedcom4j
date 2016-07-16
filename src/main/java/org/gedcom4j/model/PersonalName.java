@@ -1,28 +1,35 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.gedcom4j.Options;
 
 /**
  * Name for an individual. Corresponds to PERSONAL_NAME_STRUCTURE in the GEDCOM standard.
@@ -32,59 +39,64 @@ import java.util.List;
  */
 public class PersonalName extends AbstractElement {
     /**
-     * The name in basic, unbroken-down format
+     * Serial Version UID
      */
-    public String basic;
+    private static final long serialVersionUID = -3038084172374523321L;
 
     /**
-     * The prefix for the name
+     * The name in basic, unbroken-down format
      */
-    public StringWithCustomTags prefix;
+    private String basic;
+
+    /**
+     * The citations for this object
+     */
+    private List<AbstractCitation> citations = getCitations(Options.isCollectionInitializationEnabled());
 
     /**
      * The given (aka "Christian" or "first") names
      */
-    public StringWithCustomTags givenName;
+    private StringWithCustomTags givenName;
 
     /**
      * Nickname
      */
-    public StringWithCustomTags nickname;
+    private StringWithCustomTags nickname;
 
     /**
-     * Surname prefix
+     * Notes about this object
      */
-    public StringWithCustomTags surnamePrefix;
-
-    /**
-     * The surname (aka "family" or "last" name)
-     */
-    public StringWithCustomTags surname;
-
-    /**
-     * The suffix
-     */
-    public StringWithCustomTags suffix;
-
-    /**
-     * Notes on this name
-     */
-    public List<Note> notes = new ArrayList<Note>(0);
-
-    /**
-     * Citations for this name
-     */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
-
-    /**
-     * Romanized variant. New for GEDCOM 5.5.1
-     */
-    public List<PersonalNameVariation> romanized = new ArrayList<PersonalNameVariation>(0);
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     /**
      * Phonetic spelling. New for GEDCOM 5.5.1
      */
-    public List<PersonalNameVariation> phonetic = new ArrayList<PersonalNameVariation>(0);
+    private List<PersonalNameVariation> phonetic = getPhonetic(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The prefix for the name
+     */
+    private StringWithCustomTags prefix;
+
+    /**
+     * Romanized variant. New for GEDCOM 5.5.1
+     */
+    private List<PersonalNameVariation> romanized = getRomanized(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The suffix
+     */
+    private StringWithCustomTags suffix;
+
+    /**
+     * The surname (aka "family" or "last" name)
+     */
+    private StringWithCustomTags surname;
+
+    /**
+     * Surname prefix
+     */
+    private StringWithCustomTags surnamePrefix;
 
     @Override
     public boolean equals(Object obj) {
@@ -178,6 +190,163 @@ public class PersonalName extends AbstractElement {
         return true;
     }
 
+    /**
+     * Gets the basic name
+     *
+     * @return the basic name
+     */
+    public String getBasic() {
+        return basic;
+    }
+
+    /**
+     * Gets the citations.
+     *
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations() {
+        return citations;
+    }
+
+    /**
+     * Get the citations
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && citations == null) {
+            citations = new ArrayList<AbstractCitation>(0);
+        }
+        return citations;
+    }
+
+    /**
+     * Gets the given name.
+     *
+     * @return the given name
+     */
+    public StringWithCustomTags getGivenName() {
+        return givenName;
+    }
+
+    /**
+     * Gets the nickname.
+     *
+     * @return the nickname
+     */
+    public StringWithCustomTags getNickname() {
+        return nickname;
+    }
+
+    /**
+     * Gets the notes.
+     *
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
+    /**
+     * Gets the phonetic variation(s)
+     *
+     * @return the phonetic varation(s)
+     */
+    public List<PersonalNameVariation> getPhonetic() {
+        return phonetic;
+    }
+
+    /**
+     * Get the phonetic variation(s)
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the phonetic variation(s)
+     */
+    public List<PersonalNameVariation> getPhonetic(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && phonetic == null) {
+            phonetic = new ArrayList<PersonalNameVariation>(0);
+        }
+        return phonetic;
+    }
+
+    /**
+     * Gets the prefix.
+     *
+     * @return the prefix
+     */
+    public StringWithCustomTags getPrefix() {
+        return prefix;
+    }
+
+    /**
+     * Gets the romanized variation(s)
+     *
+     * @return the romanized variation(s)
+     */
+    public List<PersonalNameVariation> getRomanized() {
+        return romanized;
+    }
+
+    /**
+     * Get the romanized variation(s)
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the romanized variation(s)
+     */
+    public List<PersonalNameVariation> getRomanized(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && romanized == null) {
+            romanized = new ArrayList<PersonalNameVariation>(0);
+        }
+        return romanized;
+    }
+
+    /**
+     * Gets the suffix.
+     *
+     * @return the suffix
+     */
+    public StringWithCustomTags getSuffix() {
+        return suffix;
+    }
+
+    /**
+     * Gets the surname.
+     *
+     * @return the surname
+     */
+    public StringWithCustomTags getSurname() {
+        return surname;
+    }
+
+    /**
+     * Gets the surname prefix.
+     *
+     * @return the surname prefix
+     */
+    public StringWithCustomTags getSurnamePrefix() {
+        return surnamePrefix;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -196,6 +365,79 @@ public class PersonalName extends AbstractElement {
         return result;
     }
 
+    /**
+     * Sets the basic.
+     *
+     * @param basic
+     *            the new basic
+     */
+    public void setBasic(String basic) {
+        this.basic = basic;
+    }
+
+    /**
+     * Sets the given name.
+     *
+     * @param givenName
+     *            the new given name
+     */
+    public void setGivenName(StringWithCustomTags givenName) {
+        this.givenName = givenName;
+    }
+
+    /**
+     * Sets the nickname.
+     *
+     * @param nickname
+     *            the new nickname
+     */
+    public void setNickname(StringWithCustomTags nickname) {
+        this.nickname = nickname;
+    }
+
+    /**
+     * Sets the prefix.
+     *
+     * @param prefix
+     *            the new prefix
+     */
+    public void setPrefix(StringWithCustomTags prefix) {
+        this.prefix = prefix;
+    }
+
+    /**
+     * Sets the suffix.
+     *
+     * @param suffix
+     *            the new suffix
+     */
+    public void setSuffix(StringWithCustomTags suffix) {
+        this.suffix = suffix;
+    }
+
+    /**
+     * Sets the surname.
+     *
+     * @param surname
+     *            the new surname
+     */
+    public void setSurname(StringWithCustomTags surname) {
+        this.surname = surname;
+    }
+
+    /**
+     * Sets the surname prefix.
+     *
+     * @param surnamePrefix
+     *            the new surname prefix
+     */
+    public void setSurnamePrefix(StringWithCustomTags surnamePrefix) {
+        this.surnamePrefix = surnamePrefix;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         if (surname != null || givenName != null) {

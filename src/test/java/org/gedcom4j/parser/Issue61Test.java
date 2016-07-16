@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.parser;
 
@@ -28,6 +33,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
+import org.gedcom4j.Options;
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
@@ -53,23 +59,23 @@ public class Issue61Test {
     @Test
     public void testIssue61Loose() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.strictCustomTags = false;
+        gp.setStrictCustomTags(false);
         gp.load("sample/Harry_Potter.ged");
-        Gedcom g = gp.gedcom;
+        Gedcom g = gp.getGedcom();
         assertNotNull(g);
-        assertTrue(gp.errors.isEmpty());
-        for (Individual i : g.individuals.values()) {
+        assertTrue(gp.getErrors().isEmpty());
+        for (Individual i : g.getIndividuals().values()) {
             assertNotNull(i);
-            assertNotNull(i.customTags);
-            assertFalse("Individual " + i + " has no custom tags", i.customTags.isEmpty());
-            for (StringTree ct : i.customTags) {
-                assertTrue("Custom tag should be WAND or MUGL, but is " + ct.value, "WAND".equals(ct.tag) || "MUGL".equals(ct.tag));
-                if ("WAND".equals(ct.tag)) {
-                    assertNotNull(ct.value);
-                    assertFalse(ct.value.trim().length() == 0);
+            assertNotNull(i.getCustomTags());
+            assertFalse("Individual " + i + " has no custom tags", i.getCustomTags().isEmpty());
+            for (StringTree ct : i.getCustomTags()) {
+                assertTrue("Custom tag should be WAND or MUGL, but is " + ct.getValue(), "WAND".equals(ct.getTag()) || "MUGL".equals(ct.getTag()));
+                if ("WAND".equals(ct.getTag())) {
+                    assertNotNull(ct.getValue());
+                    assertFalse(ct.getValue().trim().length() == 0);
                 }
-                if ("MUGL".equals(ct.tag)) {
-                    assertNull(ct.value);
+                if ("MUGL".equals(ct.getTag())) {
+                    assertNull(ct.getValue());
                 }
             }
         }
@@ -86,19 +92,23 @@ public class Issue61Test {
     @Test
     public void testIssue61Strict() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.strictCustomTags = true;
+        gp.setStrictCustomTags(true);
         gp.load("sample/Harry_Potter.ged");
-        Gedcom g = gp.gedcom;
+        Gedcom g = gp.getGedcom();
         assertNotNull(g);
-        assertTrue(!gp.errors.isEmpty());
-        for (String e : gp.errors) {
+        assertTrue(!gp.getErrors().isEmpty());
+        for (String e : gp.getErrors()) {
             // These are the bad tags that were deliberately introduced
             assertTrue(e.contains("WAND") || e.contains("MUGL"));
         }
-        for (Individual i : g.individuals.values()) {
+        for (Individual i : g.getIndividuals().values()) {
             assertNotNull(i);
-            assertNotNull(i.customTags);
-            assertTrue(i.customTags.isEmpty());
+            if (Options.isCollectionInitializationEnabled()) {
+                assertNotNull(i.getCustomTags());
+                assertTrue(i.getCustomTags().isEmpty());
+            } else {
+                assertNull(i.getCustomTags());
+            }
         }
     }
 }

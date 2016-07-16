@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
@@ -62,14 +67,14 @@ public class IndividualAttributeTest {
         i2.cause = new StringWithCustomTags("Two");
         assertEquals(i1, i2);
 
-        i1.citations.add(new CitationWithoutSource());
+        i1.getCitations(true).add(new CitationWithoutSource());
         assertFalse(i1.equals(i2));
-        i2.citations.add(new CitationWithoutSource());
+        i2.getCitations(true).add(new CitationWithoutSource());
         assertEquals(i1, i2);
 
-        i1.customTags.add(new StringTree());
+        i1.getCustomTags(true).add(new StringTree());
         assertFalse(i1.equals(i2));
-        i2.customTags.add(new StringTree());
+        i2.getCustomTags(true).add(new StringTree());
         assertEquals(i1, i2);
 
         i1.date = new StringWithCustomTags("Three");
@@ -82,29 +87,29 @@ public class IndividualAttributeTest {
         i2.description = new StringWithCustomTags("Four");
         assertEquals(i1, i2);
 
-        i1.emails.add(new StringWithCustomTags("Five"));
+        i1.getEmails(true).add(new StringWithCustomTags("Five"));
         assertFalse(i1.equals(i2));
-        i2.emails.add(new StringWithCustomTags("Five"));
+        i2.getEmails(true).add(new StringWithCustomTags("Five"));
         assertEquals(i1, i2);
 
-        i1.faxNumbers.add(new StringWithCustomTags("Six"));
+        i1.getFaxNumbers(true).add(new StringWithCustomTags("Six"));
         assertFalse(i1.equals(i2));
-        i2.faxNumbers.add(new StringWithCustomTags("Six"));
+        i2.getFaxNumbers(true).add(new StringWithCustomTags("Six"));
         assertEquals(i1, i2);
 
-        i1.multimedia.add(new Multimedia());
+        i1.getMultimedia(true).add(new Multimedia());
         assertFalse(i1.equals(i2));
-        i2.multimedia.add(new Multimedia());
+        i2.getMultimedia(true).add(new Multimedia());
         assertEquals(i1, i2);
 
-        i1.notes.add(new Note());
+        i1.getNotes(true).add(new Note());
         assertFalse(i1.equals(i2));
-        i2.notes.add(new Note());
+        i2.getNotes(true).add(new Note());
         assertEquals(i1, i2);
 
-        i1.phoneNumbers.add(new StringWithCustomTags("Seven"));
+        i1.getPhoneNumbers(true).add(new StringWithCustomTags("Seven"));
         assertFalse(i1.equals(i2));
-        i2.phoneNumbers.add(new StringWithCustomTags("Seven"));
+        i2.getPhoneNumbers(true).add(new StringWithCustomTags("Seven"));
         assertEquals(i1, i2);
 
         i1.place = new Place();
@@ -132,14 +137,14 @@ public class IndividualAttributeTest {
         i2.subType = new StringWithCustomTags("Eleven");
         assertEquals(i1, i2);
 
-        i1.type = IndividualAttributeType.FACT;
+        i1.setType(IndividualAttributeType.FACT);
         assertFalse(i1.equals(i2));
-        i2.type = IndividualAttributeType.FACT;
+        i2.setType(IndividualAttributeType.FACT);
         assertEquals(i1, i2);
 
-        i1.wwwUrls.add(new StringWithCustomTags("Twelve"));
+        i1.getWwwUrls(true).add(new StringWithCustomTags("Twelve"));
         assertFalse(i1.equals(i2));
-        i2.wwwUrls.add(new StringWithCustomTags("Twelve"));
+        i2.getWwwUrls(true).add(new StringWithCustomTags("Twelve"));
         assertEquals(i1, i2);
 
         i1.yNull = "Thirteen";
@@ -176,14 +181,14 @@ public class IndividualAttributeTest {
         i2.cause = new StringWithCustomTags("Two");
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.citations.add(new CitationWithoutSource());
+        i1.getCitations(true).add(new CitationWithoutSource());
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.citations.add(new CitationWithoutSource());
+        i2.getCitations(true).add(new CitationWithoutSource());
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.customTags.add(new StringTree());
+        i1.getCustomTags(true).add(new StringTree());
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.customTags.add(new StringTree());
+        i2.getCustomTags(true).add(new StringTree());
         assertEquals(i1.hashCode(), i2.hashCode());
 
         i1.date = new StringWithCustomTags("Three");
@@ -196,29 +201,29 @@ public class IndividualAttributeTest {
         i2.description = new StringWithCustomTags("Four");
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.emails.add(new StringWithCustomTags("Five"));
+        i1.getEmails(true).add(new StringWithCustomTags("Five"));
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.emails.add(new StringWithCustomTags("Five"));
+        i2.getEmails(true).add(new StringWithCustomTags("Five"));
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.faxNumbers.add(new StringWithCustomTags("Six"));
+        i1.getFaxNumbers(true).add(new StringWithCustomTags("Six"));
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.faxNumbers.add(new StringWithCustomTags("Six"));
+        i2.getFaxNumbers(true).add(new StringWithCustomTags("Six"));
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.multimedia.add(new Multimedia());
+        i1.getMultimedia(true).add(new Multimedia());
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.multimedia.add(new Multimedia());
+        i2.getMultimedia(true).add(new Multimedia());
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.notes.add(new Note());
+        i1.getNotes(true).add(new Note());
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.notes.add(new Note());
+        i2.getNotes(true).add(new Note());
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.phoneNumbers.add(new StringWithCustomTags("Seven"));
+        i1.getPhoneNumbers(true).add(new StringWithCustomTags("Seven"));
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.phoneNumbers.add(new StringWithCustomTags("Seven"));
+        i2.getPhoneNumbers(true).add(new StringWithCustomTags("Seven"));
         assertEquals(i1.hashCode(), i2.hashCode());
 
         i1.place = new Place();
@@ -246,14 +251,14 @@ public class IndividualAttributeTest {
         i2.subType = new StringWithCustomTags("Eleven");
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.type = IndividualAttributeType.FACT;
+        i1.setType(IndividualAttributeType.FACT);
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.type = IndividualAttributeType.FACT;
+        i2.setType(IndividualAttributeType.FACT);
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.wwwUrls.add(new StringWithCustomTags("Twelve"));
+        i1.getWwwUrls(true).add(new StringWithCustomTags("Twelve"));
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.wwwUrls.add(new StringWithCustomTags("Twelve"));
+        i2.getWwwUrls(true).add(new StringWithCustomTags("Twelve"));
         assertEquals(i1.hashCode(), i2.hashCode());
 
         i1.yNull = "Thirteen";
@@ -269,31 +274,33 @@ public class IndividualAttributeTest {
     @Test
     public void testToString() {
         IndividualAttribute i = new IndividualAttribute();
-        assertEquals("IndividualAttribute [type=null]", i.toString());
+        assertEquals("IndividualAttribute []", i.toString());
 
         i.address = new Address();
         i.age = new StringWithCustomTags("One");
         i.cause = new StringWithCustomTags("Two");
-        i.citations.add(new CitationWithoutSource());
-        i.customTags.add(new StringTree());
+        i.getCitations(true).add(new CitationWithoutSource());
+        i.getCustomTags(true).add(new StringTree());
         i.date = new StringWithCustomTags("Three");
         i.description = new StringWithCustomTags("Four");
-        i.emails.add(new StringWithCustomTags("Five"));
-        i.faxNumbers.add(new StringWithCustomTags("Six"));
-        i.multimedia.add(new Multimedia());
-        i.notes.add(new Note());
-        i.phoneNumbers.add(new StringWithCustomTags("Seven"));
+        i.getEmails(true).add(new StringWithCustomTags("Five"));
+        i.getFaxNumbers(true).add(new StringWithCustomTags("Six"));
+        i.getMultimedia(true).add(new Multimedia());
+        i.getNotes(true).add(new Note());
+        i.getPhoneNumbers(true).add(new StringWithCustomTags("Seven"));
         i.place = new Place();
         i.religiousAffiliation = new StringWithCustomTags("Eight");
         i.respAgency = new StringWithCustomTags("Nine");
         i.restrictionNotice = new StringWithCustomTags("Ten");
         i.subType = new StringWithCustomTags("Eleven");
-        i.type = IndividualAttributeType.FACT;
-        i.wwwUrls.add(new StringWithCustomTags("Twelve"));
+        i.setType(IndividualAttributeType.FACT);
+        i.getWwwUrls(true).add(new StringWithCustomTags("Twelve"));
         i.yNull = "Thirteen";
 
-        assertEquals("IndividualAttribute [type=FACT, address=Address [lines=[], customTags=[]], age=One, cause=Two, date=Three, description=Four, "
-                + "place=Place [citations=[], notes=[], phonetic=[], romanized=[], customTags=[]], subType=Eleven]", i.toString());
+        assertEquals("IndividualAttribute [type=Fact, address=Address [], age=One, cause=Two, citations=[CitationWithoutSource []], "
+                + "date=Three, description=Four, emails=[Five], faxNumbers=[Six], multimedia=[Multimedia []], notes=[Note []], "
+                + "phoneNumbers=[Seven], place=Place [], religiousAffiliation=Eight, respAgency=Nine, restrictionNotice=Ten, "
+                + "subType=Eleven, wwwUrls=[Twelve], yNull=Thirteen, customTags=[Line 0: 0 (null tag) (null value)]]", i.toString());
     }
 
 }

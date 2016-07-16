@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.relationship;
 
@@ -25,10 +30,7 @@ import static org.gedcom4j.relationship.RelationshipName.*;
 
 import java.util.*;
 
-import org.gedcom4j.model.FamilyChild;
-import org.gedcom4j.model.FamilySpouse;
-import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.*;
 
 /**
  * <p>
@@ -72,7 +74,7 @@ public class RelationshipCalculator {
     /**
      * The list of relationships we've found that matched
      */
-    public List<Relationship> relationshipsFound;
+    private List<Relationship> relationshipsFound;
 
     /**
      * The current chain of relationships between individuals we're considering as we traverse the tree. Stated
@@ -139,9 +141,9 @@ public class RelationshipCalculator {
             Collections.sort(relationshipsFound);
 
             // Of the unique chains, the shortest ones are preferred
-            int shortestLength = relationshipsFound.get(0).chain.size();
+            int shortestLength = relationshipsFound.get(0).getChain().size();
             for (int i = relationshipsFound.size() - 1; i >= 0; i--) {
-                if (relationshipsFound.get(i).chain.size() > shortestLength) {
+                if (relationshipsFound.get(i).getChain().size() > shortestLength) {
                     relationshipsFound.remove(i);
                 }
             }
@@ -163,6 +165,15 @@ public class RelationshipCalculator {
             relationshipsFound = keepers;
         }
 
+    }
+
+    /**
+     * Get the relationshipsFound
+     * 
+     * @return the relationshipsFound
+     */
+    public List<Relationship> getRelationshipsFound() {
+        return relationshipsFound;
     }
 
     /**
@@ -196,15 +207,15 @@ public class RelationshipCalculator {
             SimpleRelationship s1 = chain.get(i);
             SimpleRelationship s2 = chain.get(i + 1);
 
-            if (s1.name == rel1 && s2.name == rel2 && s1.individual2 == s2.individual1) {
+            if (s1.getName() == rel1 && s2.getName() == rel2 && s1.getIndividual2() == s2.getIndividual1()) {
                 // Get the reverse relationship
-                RelationshipName rr = getReverseRelationship(newRel, s1.individual1.sex);
+                RelationshipName rr = getReverseRelationship(newRel, s1.getIndividual1().getSex());
                 if (rr != null) {
                     // Only collapse if we actually could derive a reverse
                     // relationship
-                    s1.individual2 = s2.individual2;
-                    s1.name = newRel;
-                    s1.reverseName = rr;
+                    s1.setIndividual2(s2.getIndividual2());
+                    s1.setName(newRel);
+                    s1.setReverseName(rr);
                     chain.remove(i + 1);
                 }
             }
@@ -244,38 +255,49 @@ public class RelationshipCalculator {
         } else {
             lookedAt.add(personBeingExamined);
             /* Not our target, so check relatives, starting with parents */
-            for (FamilyChild fc : personBeingExamined.familiesWhereChild) {
-                if (!lookedAt.contains(fc.family.husband)) {
-                    examineFather(personBeingExamined, fc.family.husband);
-                }
-                if (!lookedAt.contains(fc.family.wife)) {
-                    examineMother(personBeingExamined, fc.family.wife);
+            if (personBeingExamined.getFamiliesWhereChild() != null) {
+                for (FamilyChild fc : personBeingExamined.getFamiliesWhereChild()) {
+                    Family family = fc.getFamily();
+                    if (!lookedAt.contains(family.getHusband())) {
+                        examineFather(personBeingExamined, family.getHusband());
+                    }
+                    if (!lookedAt.contains(family.getWife())) {
+                        examineMother(personBeingExamined, family.getWife());
+                    }
                 }
             }
             /* Next check spouses */
-            for (FamilySpouse fs : personBeingExamined.familiesWhereSpouse) {
-                if (fs.family.husband == personBeingExamined) {
-                    if (lookedAt.contains(fs.family.wife)) {
-                        continue;
+            if (personBeingExamined.getFamiliesWhereSpouse() != null) {
+                for (FamilySpouse fs : personBeingExamined.getFamiliesWhereSpouse()) {
+                    Family family = fs.getFamily();
+                    if (family.getHusband() == personBeingExamined) {
+                        if (lookedAt.contains(family.getWife())) {
+                            continue;
+                        }
+                        examineWife(personBeingExamined, fs);
+                    } else if (family.getWife() == personBeingExamined) {
+                        if (lookedAt.contains(family.getHusband())) {
+                            continue;
+                        }
+                        examineHusband(personBeingExamined, fs);
                     }
-                    examineWife(personBeingExamined, fs);
-                } else if (fs.family.wife == personBeingExamined) {
-                    if (lookedAt.contains(fs.family.husband)) {
-                        continue;
-                    }
-                    examineHusband(personBeingExamined, fs);
-                }
-                /* and check the children */
-                for (Individual c : fs.family.children) {
-                    if (lookedAt.contains(c)) {
-                        continue;
-                    }
-                    if (fs.family.husband == personBeingExamined) { // NOPMD - deliberately using ==, want to check if
-                        // same instance
-                        examineChild(personBeingExamined, c, FATHER);
-                    } else if (fs.family.wife == personBeingExamined) { // NOPMD - deliberately using ==, want to check
-                        // if same instance
-                        examineChild(personBeingExamined, c, MOTHER);
+                    /* and check the children */
+                    if (family.getChildren() != null) {
+                        for (Individual c : family.getChildren()) {
+                            if (lookedAt.contains(c)) {
+                                continue;
+                            }
+                            if (family.getHusband() == personBeingExamined) { // NOPMD - deliberately using ==, want to
+                                                                              // check if
+                                // same instance
+                                examineChild(personBeingExamined, c, FATHER);
+                            } else if (family.getWife() == personBeingExamined) { // NOPMD - deliberately using ==, want
+                                                                                  // to
+                                                                                  // check
+                                // if same instance
+                                examineChild(personBeingExamined, c, MOTHER);
+                            }
+                        }
                     }
                 }
             }
@@ -294,18 +316,18 @@ public class RelationshipCalculator {
      */
     private void examineChild(Individual personBeingExamined, Individual child, RelationshipName reverseRelationship) {
         SimpleRelationship r = new SimpleRelationship();
-        r.individual1 = personBeingExamined;
-        r.individual2 = child;
-        if ("M".equals(child.sex.value)) {
-            r.name = SON;
-        } else if ("F".equals(child.sex.value)) {
-            r.name = DAUGHTER;
+        r.setIndividual1(personBeingExamined);
+        r.setIndividual2(child);
+        if ("M".equals(child.getSex().getValue())) {
+            r.setName(SON);
+        } else if ("F".equals(child.getSex().getValue())) {
+            r.setName(DAUGHTER);
         } else {
-            r.name = CHILD;
+            r.setName(CHILD);
         }
-        r.reverseName = reverseRelationship;
+        r.setReverseName(reverseRelationship);
         currentChain.add(r);
-        examine(r.individual2);
+        examine(r.getIndividual2());
         currentChain.remove(currentChain.size() - 1);
     }
 
@@ -319,18 +341,18 @@ public class RelationshipCalculator {
      */
     private void examineFather(Individual personBeingExamined, Individual father) {
         SimpleRelationship r = new SimpleRelationship();
-        r.individual1 = personBeingExamined;
-        r.individual2 = father;
-        if ("M".equals(personBeingExamined.sex.value)) {
-            r.reverseName = SON;
-        } else if ("F".equals(personBeingExamined.sex.value)) {
-            r.reverseName = DAUGHTER;
+        r.setIndividual1(personBeingExamined);
+        r.setIndividual2(father);
+        if ("M".equals(personBeingExamined.getSex().getValue())) {
+            r.setReverseName(SON);
+        } else if ("F".equals(personBeingExamined.getSex().getValue())) {
+            r.setReverseName(DAUGHTER);
         } else {
-            r.reverseName = CHILD;
+            r.setReverseName(CHILD);
         }
-        r.name = FATHER;
+        r.setName(FATHER);
         currentChain.add(r);
-        examine(r.individual2);
+        examine(r.getIndividual2());
         currentChain.remove(currentChain.size() - 1);
     }
 
@@ -344,11 +366,11 @@ public class RelationshipCalculator {
      */
     private void examineHusband(Individual personBeingExamined, FamilySpouse fs) {
         SimpleRelationship r = new SimpleRelationship();
-        r.individual1 = personBeingExamined;
-        r.individual2 = fs.family.husband;
-        r.name = RelationshipName.HUSBAND;
+        r.setIndividual1(personBeingExamined);
+        r.setIndividual2(fs.getFamily().getHusband());
+        r.setName(RelationshipName.HUSBAND);
         currentChain.add(r);
-        examine(r.individual2);
+        examine(r.getIndividual2());
         currentChain.remove(currentChain.size() - 1);
     }
 
@@ -362,18 +384,18 @@ public class RelationshipCalculator {
      */
     private void examineMother(Individual personBeingExamined, Individual mother) {
         SimpleRelationship r = new SimpleRelationship();
-        r.individual1 = personBeingExamined;
-        r.individual2 = mother;
-        if ("M".equals(personBeingExamined.sex.value)) {
-            r.reverseName = SON;
-        } else if ("F".equals(personBeingExamined.sex.value)) {
-            r.reverseName = DAUGHTER;
+        r.setIndividual1(personBeingExamined);
+        r.setIndividual2(mother);
+        if ("M".equals(personBeingExamined.getSex().getValue())) {
+            r.setReverseName(SON);
+        } else if ("F".equals(personBeingExamined.getSex().getValue())) {
+            r.setReverseName(DAUGHTER);
         } else {
-            r.reverseName = CHILD;
+            r.setReverseName(CHILD);
         }
-        r.name = MOTHER;
+        r.setName(MOTHER);
         currentChain.add(r);
-        examine(r.individual2);
+        examine(r.getIndividual2());
         currentChain.remove(currentChain.size() - 1);
     }
 
@@ -387,11 +409,11 @@ public class RelationshipCalculator {
      */
     private void examineWife(Individual personBeingExamined, FamilySpouse fs) {
         SimpleRelationship r = new SimpleRelationship();
-        r.individual1 = personBeingExamined;
-        r.individual2 = fs.family.wife;
-        r.name = RelationshipName.WIFE;
+        r.setIndividual1(personBeingExamined);
+        r.setIndividual2(fs.getFamily().getWife());
+        r.setName(RelationshipName.WIFE);
         currentChain.add(r);
-        examine(r.individual2);
+        examine(r.getIndividual2());
         currentChain.remove(currentChain.size() - 1);
     }
 
@@ -407,10 +429,10 @@ public class RelationshipCalculator {
      * @return what the relationship would be back to the original person
      */
     private RelationshipName getReverseRelationship(RelationshipName relationship, StringWithCustomTags sex) {
-        if ("M".equals(sex.value)) {
+        if ("M".equals(sex.getValue())) {
             return relationship.reverseForMale;
         }
-        if ("F".equals(sex.value)) {
+        if ("F".equals(sex.getValue())) {
             return relationship.reverseForFemale;
         }
         return relationship.reverseForUnknown;
@@ -427,18 +449,18 @@ public class RelationshipCalculator {
 
         int previousLength = Integer.MAX_VALUE;
         // You can only simplify a chain that's two or more steps!
-        while (relationship.chain.size() > 1) {
-            if (relationship.chain.size() >= previousLength) {
+        while (relationship.getChain().size() > 1) {
+            if (relationship.getChain().size() >= previousLength) {
                 // Didn't make any improvement, so we're done simplifying this
                 // relationship
                 return;
             }
             // Save how long the chain is now, so we can see if we made an
             // improvement.
-            previousLength = relationship.chain.size();
+            previousLength = relationship.getChain().size();
 
             for (RelationshipName[] rule : SimplificationRules.rules) {
-                collapse(relationship.chain, rule[0], rule[1], rule[2]);
+                collapse(relationship.getChain(), rule[0], rule[1], rule[2]);
             }
         }
     }

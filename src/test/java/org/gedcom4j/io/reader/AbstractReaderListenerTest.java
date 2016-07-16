@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND 
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.io.reader;
 
@@ -67,18 +72,26 @@ public abstract class AbstractReaderListenerTest implements FileProgressListener
     private final int expectedNotifications;
 
     /**
+     * The expected number of bytes to be read
+     */
+    private final int expectedBytes;
+
+    /**
      * Constructor
      * 
      * @param testFileName
      *            name of file to load for test
      * @param expectedLines
      *            the expected number of lines in the file
+     * @param expectedBytes
+     *            the exepected number of bytes to be read
      * @param expectedNotifications
      *            the expected number of notification events
      */
-    public AbstractReaderListenerTest(String testFileName, int expectedLines, int expectedNotifications) {
+    public AbstractReaderListenerTest(String testFileName, int expectedLines, int expectedBytes, int expectedNotifications) {
         fileName = testFileName;
         this.expectedLines = expectedLines;
+        this.expectedBytes = expectedBytes;
         this.expectedNotifications = expectedNotifications;
     }
 
@@ -86,6 +99,7 @@ public abstract class AbstractReaderListenerTest implements FileProgressListener
     public void progressNotification(FileProgressEvent e) {
         eventCount++;
         lastEvent = e;
+        System.out.println(e);
     }
 
     /**
@@ -101,7 +115,7 @@ public abstract class AbstractReaderListenerTest implements FileProgressListener
         eventCount = 0;
         GedcomParser gp = new GedcomParser();
         gp.load(fileName);
-        assertNotNull(gp.gedcom);
+        assertNotNull(gp.getGedcom());
         assertEquals(0, eventCount);
         assertNull(lastEvent);
     }
@@ -120,11 +134,12 @@ public abstract class AbstractReaderListenerTest implements FileProgressListener
         GedcomParser gp = new GedcomParser();
         gp.registerFileObserver(this);
         gp.load(fileName);
-        assertNotNull(gp.gedcom);
+        assertNotNull(gp.getGedcom());
         assertEquals(expectedNotifications, eventCount);
         assertNotNull(lastEvent);
         assertTrue(lastEvent.isComplete());
         assertEquals(expectedLines, lastEvent.getLinesProcessed());
+        assertEquals(expectedBytes, lastEvent.getBytesProcessed());
     }
 
     /**
@@ -140,7 +155,7 @@ public abstract class AbstractReaderListenerTest implements FileProgressListener
         eventCount = 0;
         GedcomParser gp = new GedcomParser();
         gp.load(fileName);
-        assertNotNull(gp.gedcom);
+        assertNotNull(gp.getGedcom());
         assertEquals(0, eventCount);
         assertNull(lastEvent);
     }

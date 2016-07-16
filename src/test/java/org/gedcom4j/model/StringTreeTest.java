@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
@@ -47,29 +52,29 @@ public class StringTreeTest {
         assertNotSame(st1, st2);
         assertEquals(st1, st2);
 
-        st1.children.add(new StringTree());
+        st1.getChildren(true).add(new StringTree());
         assertFalse(st1.equals(st2));
-        st2.children.add(new StringTree());
+        st2.getChildren(true).add(new StringTree());
         assertEquals(st1, st2);
 
-        st1.level = 1;
+        st1.setLevel(1);
         assertFalse(st1.equals(st2));
-        st2.level = 1;
+        st2.setLevel(1);
         assertEquals(st1, st2);
 
-        st1.id = "Frying Pan";
+        st1.setId("Frying Pan");
         assertFalse(st1.equals(st2));
-        st2.id = "Frying Pan";
+        st2.setId("Frying Pan");
         assertEquals(st1, st2);
 
-        st1.lineNum = 2;
+        st1.setLineNum(2);
         assertFalse(st1.equals(st2));
-        st2.lineNum = 2;
+        st2.setLineNum(2);
         assertEquals(st1, st2);
 
-        st1.value = "Test";
+        st1.setValue("Test");
         assertFalse(st1.equals(st2));
-        st2.value = "Test";
+        st2.setValue("Test");
         assertEquals(st1, st2);
     }
 
@@ -84,29 +89,29 @@ public class StringTreeTest {
         assertNotSame(st1, st2);
         assertEquals(st1.hashCode(), st2.hashCode());
 
-        st1.children.add(new StringTree());
+        st1.getChildren(true).add(new StringTree());
         assertTrue(st1.hashCode() != st2.hashCode());
-        st2.children.add(new StringTree());
+        st2.getChildren(true).add(new StringTree());
         assertEquals(st1.hashCode(), st2.hashCode());
 
-        st1.level = 1;
+        st1.setLevel(1);
         assertTrue(st1.hashCode() != st2.hashCode());
-        st2.level = 1;
+        st2.setLevel(1);
         assertEquals(st1.hashCode(), st2.hashCode());
 
-        st1.id = "Frying Pan";
+        st1.setId("Frying Pan");
         assertTrue(st1.hashCode() != st2.hashCode());
-        st2.id = "Frying Pan";
+        st2.setId("Frying Pan");
         assertEquals(st1.hashCode(), st2.hashCode());
 
-        st1.lineNum = 2;
+        st1.setLineNum(2);
         assertTrue(st1.hashCode() != st2.hashCode());
-        st2.lineNum = 2;
+        st2.setLineNum(2);
         assertEquals(st1.hashCode(), st2.hashCode());
 
-        st1.value = "Test";
+        st1.setValue("Test");
         assertTrue(st1.hashCode() != st2.hashCode());
-        st2.value = "Test";
+        st2.setValue("Test");
         assertEquals(st1.hashCode(), st2.hashCode());
     }
 
@@ -116,14 +121,14 @@ public class StringTreeTest {
     @Test
     public void testToString() {
         StringTree st = new StringTree();
-        assertEquals("Line 0: 0 null null", st.toString());
+        assertEquals("Line 0: 0 (null tag) (null value)", st.toString());
 
-        st.children.add(new StringTree());
-        st.level = 1;
-        st.id = "Frying Pan";
-        st.lineNum = 2;
-        st.value = "Test";
-        assertEquals("Line 2: 1 Frying Pan null Test\nLine 0: 0 null null", st.toString());
+        st.getChildren(true).add(new StringTree());
+        st.setLevel(1);
+        st.setId("Frying Pan");
+        st.setLineNum(2);
+        st.setValue("Test");
+        assertEquals("Line 2: 1 Frying Pan (null tag) Test\nLine 0: 0 (null tag) (null value)", st.toString());
     }
 
     /**
@@ -137,32 +142,32 @@ public class StringTreeTest {
     public void testToStringBigFile() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/5.5.1 sample 1.ged");
-        Gedcom g = gp.gedcom;
+        Gedcom g = gp.getGedcom();
 
-        for (Family f : g.families.values()) {
-            assertNotNull(f.customTags.toString());
-            assertFalse(0 == f.customTags.hashCode());
+        for (Family f : g.getFamilies().values()) {
+            assertNotNull(f.getCustomTags(true).toString());
+            assertFalse(0 == f.getCustomTags().hashCode());
 
             assertNotNull(f.toString());
             assertFalse(0 == f.hashCode());
         }
-        for (Individual i : g.individuals.values()) {
-            assertNotNull(i.customTags.toString());
-            assertFalse(0 == i.customTags.hashCode());
+        for (Individual i : g.getIndividuals().values()) {
+            assertNotNull(i.getCustomTags(true).toString());
+            assertFalse(0 == i.getCustomTags().hashCode());
 
             assertNotNull(i.toString());
             assertFalse(0 == i.hashCode());
         }
-        for (Multimedia m : g.multimedia.values()) {
-            assertNotNull(m.customTags.toString());
-            assertFalse(0 == m.customTags.hashCode());
+        for (Multimedia m : g.getMultimedia().values()) {
+            assertNotNull(m.getCustomTags(true).toString());
+            assertFalse(0 == m.getCustomTags().hashCode());
 
             assertNotNull(m.toString());
             assertFalse(0 == m.hashCode());
         }
-        for (Note n : g.notes.values()) {
-            assertNotNull(n.customTags.toString());
-            assertFalse(0 == n.customTags.hashCode());
+        for (Note n : g.getNotes().values()) {
+            assertNotNull(n.getCustomTags(true).toString());
+            assertFalse(0 == n.getCustomTags().hashCode());
 
             assertNotNull(n.toString());
             assertFalse(0 == n.hashCode());

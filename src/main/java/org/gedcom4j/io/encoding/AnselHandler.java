@@ -1,28 +1,30 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.io.encoding;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * <p>
@@ -60,6 +62,7 @@ import java.util.List;
  *
  * @author frizbog
  */
+@SuppressWarnings("PMD.ExcessiveClassLength")
 public class AnselHandler {
     /**
      * The byte value at which ANSEL extended characters begin
@@ -97,9 +100,7 @@ public class AnselHandler {
                     // It's a diacritic - check one more character ahead, combining diacritics can come in pairs
                     if (i + 2 < utf16.length()) {
                         twoCharAhead = utf16.charAt(i + 2);
-                        if (AnselMapping.isUnicodeCombiningDiacritic(twoCharAhead)) {
-                            // It's another diacritic
-                        } else {
+                        if (!AnselMapping.isUnicodeCombiningDiacritic(twoCharAhead)) {
                             twoCharAhead = 0; // Wipe out to zero - indicates only one combining diacritic
                         }
                     }
@@ -141,7 +142,10 @@ public class AnselHandler {
              * combining diacritic
              */
             char[] breakdown = getBrokenDownGlyph(c);
-            if (breakdown != null) {
+            if (breakdown == null) {
+                // Some leftover combining diacritic?
+                ansel[anselIdx++] = AnselMapping.encode(c);
+            } else {
                 // Precomposed diacritic - write down decomposed character - base character last for ANSEL
                 if (breakdown.length > 1 && breakdown[1] > (char) 0x0000) {
                     // Already encoded to ANSEL
@@ -152,30 +156,10 @@ public class AnselHandler {
                     ansel[anselIdx++] = breakdown[2];
                 }
                 ansel[anselIdx++] = breakdown[0];
-            } else {
-                // Some leftover combining diacritic?
-                ansel[anselIdx++] = AnselMapping.encode(c);
             }
 
         }
-        String s = new String(ansel).substring(0, anselIdx);
-        return s;
-    }
-
-    /**
-     * Converts a file (list) of UTF-16 lines into ANSEL lines. Note that some Unicode characters with diacritical marks
-     * can be split into multiple ANSEL characters.
-     *
-     * @param utf16Lines
-     *            a list of java UTF-16 strings, each character of which will be expanded/converted to ANSEL.
-     * @return a list of UTF16 strings
-     */
-    public List<String> toAnselLines(List<String> utf16Lines) {
-        List<String> result = new ArrayList<String>();
-        for (String utf16 : utf16Lines) {
-            result.add(toAnsel(utf16));
-        }
-        return result;
+        return new String(ansel).substring(0, anselIdx);
     }
 
     /**
@@ -227,79 +211,19 @@ public class AnselHandler {
 
             // See if there's a combined glyph for the base+the diacritics
             char combined = getCombinedGlyph(c, diacritic1, diacritic2);
-            if (combined != 0) {
-                // A combined glyph was available!
-                utf16[utfIdx++] = combined;
-            } else {
+            if (combined == 0) {
                 // no combined glyph available - continue to use a composite
                 utf16[utfIdx++] = AnselMapping.decode(c);
                 utf16[utfIdx++] = AnselMapping.decode(diacritic1);
                 if (diacritic2 != 0) {
                     utf16[utfIdx++] = AnselMapping.decode(diacritic1);
                 }
-            }
-        }
-        String s = new String(utf16).substring(0, utfIdx);
-        return s;
-    }
-
-    /**
-     * Converts a file (list) of ansel lines into utf16 lines
-     *
-     * @param anselLines
-     *            a list of strings, each character of which represents an unconverted ANSEL byte
-     * @return a list of UTF16 strings
-     */
-    public List<String> toUtf16Lines(List<String> anselLines) {
-        List<String> result = new ArrayList<String>();
-        String prevAnsel = null;
-        for (String ansel : anselLines) {
-            /*
-             * If concatenating from the previous line, need to see if the last character on previous line is a
-             * diacritical mark modifying the beginning of this line
-             */
-            if (prevAnsel != null && ansel.length() >= 6 && ansel.substring(2, 6).equals("CONC") && endsWithDiacritical(prevAnsel)) {
-                // Remove the last line we just added - need to adjust it and re-add it - not terribly efficient, but
-                // simpler to code
-                result.remove(result.size() - 1);
-
-                // Strip the leading combining diacritical off previous line
-                char d1 = prevAnsel.charAt(prevAnsel.length() - 1);
-                prevAnsel = prevAnsel.substring(0, prevAnsel.length() - 1);
-                char d2 = 0;
-                if (endsWithDiacritical(prevAnsel)) {
-                    // There was a second diacritical at the end of the line
-                    d2 = prevAnsel.charAt(prevAnsel.length() - 1);
-                    prevAnsel = prevAnsel.substring(0, prevAnsel.length() - 1);
-                }
-                // Re-add the line with the diacriticals removed
-                result.add(toUtf16(prevAnsel));
-                // Insert the diacriticals on the current line so they stay with the character being modified
-                if (d2 == 0) {
-                    ansel = ansel.substring(0, 7) + d1 + ansel.substring(7);
-                } else {
-                    ansel = ansel.substring(0, 7) + d2 + d1 + ansel.substring(7);
-                }
-                // And translate/add it
-                result.add(toUtf16(ansel));
             } else {
-                // Simpler case - just translate current line
-                result.add(toUtf16(ansel));
+                // A combined glyph was available!
+                utf16[utfIdx++] = combined;
             }
-            prevAnsel = ansel;
         }
-        return result;
-    }
-
-    /**
-     * Return true if ANSEL string ends in a combining diacritical
-     *
-     * @param s
-     *            the ANSEL string
-     * @return true if ANSEL string ends in a combining diacritical
-     */
-    private boolean endsWithDiacritical(String s) {
-        return s.charAt(s.length() - 1) >= ANSEL_DIACRITICS_BEGIN_AT;
+        return new String(utf16).substring(0, utfIdx);
     }
 
     /**
@@ -313,6 +237,7 @@ public class AnselHandler {
      *         first array element is the base character. The remaining two elements are combining diacritics. An
      *         element of 0x0000 means that that character is not part of the mapping.
      */
+    @SuppressWarnings("PMD.ExcessiveMethodLength")
     private char[] getBrokenDownGlyph(Character c) {
         switch (c) {
             case '\u1EA2': {
@@ -1953,6 +1878,7 @@ public class AnselHandler {
      *            diacritic 2 - pass zero if there is no second diacritic
      * @return a single character that combines the base and the diacritic(s), or a zero if no such character exists
      */
+    @SuppressWarnings("PMD.ExcessiveMethodLength")
     private char getCombinedGlyph(char baseChar, char modifier1, char modifier2) {
 
         if (baseChar == 'A') {
@@ -2625,8 +2551,6 @@ public class AnselHandler {
                 return '\u1E56';
             }
 
-        }
-        if (baseChar == 'Q') {
         }
         if (baseChar == 'R') {
             if (modifier1 == '\u00E2' /* ACUTE */) {
@@ -3633,8 +3557,6 @@ public class AnselHandler {
                 return '\u1E57';
             }
 
-        }
-        if (baseChar == 'q') {
         }
         if (baseChar == 'r') {
             if (modifier1 == '\u00E2' /* ACUTE */) {

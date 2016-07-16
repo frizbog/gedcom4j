@@ -2,8 +2,38 @@
 GEDCOM4J RELEASE NOTES
 ==============================
 
-1 Jul 2016 - v2.3.0
-===================
+15 Jul 2016 - v3.0.0
+====================
+v3.0.0 is a major release. Most existing code using earlier versions of gedcom4j will need significant modification, primarily around the object model.
+
+Issue #83 - The biggest change that users will see is that gedcom4j now uses the JavaBean spec for its object model and internal objects as well. Where you used to access public fields of the data model, you now need to use getters and setters.
+
+Issue #85 - The GedcomParser class, which was a monster magic class almost 2,400 lines long, has been split up and there are a variety of parser classes that work in concert to parse input files 
+
+Issue #86 - The GedcomWriter class was also another giant magic class, and it too has been split up into a variety of classes that work together to construct and write a GEDCOM file. 
+
+Issue #104 - The classes in the model now implement java.io.Serializable and have defined serial version UIDs.
+
+Issue #109 - GedcomParser and StringTreeBuilder now only builds a single root-level StringTree node at a time before parsing and loading it into the object model, instead of loading the entire file into a StringTree in memory prior to parsing it.
+
+Issue #111 - GedcomValidator now removes duplicate items from most collections when autorepair is enabled.
+
+Issue #112 - The Maven pom.xml file now includes the ability to ensure that all java source files have the correct license and copyright statement header.
+
+Issue #113 - The FileProgressEvent notifications now include the number of bytes processed.  This makes it possible for calling code to calculate percents complete when the file size is known.
+
+Not related to an issue in GitHub, users should know that the toString() implementations of most model objects have been rewritten.  
+
+
+08 Jul 2016 - v2.3.1
+====================
+Issue #106 - File parsing and loading into object model is now done line by line on-the-fly, rather than loading the entire file into memory, then parsing the lines of the file.
+
+Issue #108 - There is now a global options class named Options, in which you can choose whether collections in the object model should be automatically initialized (thus saving you from having to do null checks) or left null (thus saving memory).  The getter for each of these collections is overloaded with a getter that takes a boolean argument; when true, the getter will initialize the collection if needed before returning a reference. 
+
+
+01 Jul 2016 - v2.3.0
+====================
 v2.3.0 of gedcom4j was primarily focused on improving performance for installations with smaller heap sizes and less CPU power available (for whatever reason), including the ability to get progress notification on file load/parse and construct/write operations, as well as introducing the ability to cancel these operations while in progress.
 
 Internally, there was also a change to the AnselReader so that files with lines that exceed the 255 character limit mentioned in the GEDCOM spec continue to be read like they did before, despite the optimizations introduced for this release. AnselReader now uses a fixed-size char array to buffer data rather than a StringBuilder (for performance reasons), but the fixed size of the array introduced problems for lines that exceeded the length of the array.  To get around this, the class now internally introduces synthetic CONC tags in long lines during the file read process (as if they had been split properly according to spec), which in most cases get removed during the parse process as strings are concatenated back together (as the CONC tag indicates).  Most users won't notice anything has happened, but in case it comes up, there it is.

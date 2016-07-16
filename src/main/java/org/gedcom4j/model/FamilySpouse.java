@@ -1,28 +1,35 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.gedcom4j.Options;
 
 /**
  * Indicates an individual's membership, as a spouse, in a family
@@ -32,14 +39,19 @@ import java.util.List;
  */
 public class FamilySpouse extends AbstractElement {
     /**
-     * The family in which the person was one of the spouses
+     * Serial Version UID
      */
-    public Family family;
+    private static final long serialVersionUID = -2986477725062735490L;
 
     /**
-     * Notes on the membership
+     * The family in which the person was one of the spouses
      */
-    public List<Note> notes = new ArrayList<Note>(0);
+    private Family family;
+
+    /**
+     * Notes about this object
+     */
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     @Override
     public boolean equals(Object obj) {
@@ -61,12 +73,12 @@ public class FamilySpouse extends AbstractElement {
             if (other.family == null) {
                 return false;
             }
-            if (family.xref == null) {
-                if (other.family.xref != null) {
+            if (family.getXref() == null) {
+                if (other.family.getXref() != null) {
                     return false;
                 }
             } else {
-                if (!family.xref.equals(other.family.xref)) {
+                if (!family.getXref().equals(other.family.getXref())) {
                     return false;
                 }
             }
@@ -81,18 +93,80 @@ public class FamilySpouse extends AbstractElement {
         return true;
     }
 
+    /**
+     * Gets the family.
+     *
+     * @return the family
+     */
+    public Family getFamily() {
+        return family;
+    }
+
+    /**
+     * Gets the notes.
+     *
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + (family == null || family.xref == null ? 0 : family.xref.hashCode());
+        result = prime * result + (family == null || family.getXref() == null ? 0 : family.getXref().hashCode());
         result = prime * result + (notes == null ? 0 : notes.hashCode());
         return result;
     }
 
+    /**
+     * Sets the family.
+     *
+     * @param family
+     *            the new family
+     */
+    public void setFamily(Family family) {
+        this.family = family;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "FamilySpouse [" + (family != null ? "family=" + family + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
-                + (customTags != null ? "customTags=" + customTags : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("FamilySpouse [");
+        if (family != null) {
+            builder.append("family=");
+            builder.append(family);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

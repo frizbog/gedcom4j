@@ -1,19 +1,44 @@
+/*
+ * Copyright (c) 2009-2016 Matthew R. Harrah
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ */
 package org.gedcom4j.parser;
 
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.StringTree;
 
 /**
- * Class for building the big StringTree representing the input file, so it can be parsed and loaded into the object
- * model
+ * Class for building {@link StringTree} objects for each root-level node in the input file. This class used to build a
+ * big StringTree for the entire file, but since v3.0.0 it only builds a root-level node (plus a wrapper/container node)
+ * at a time before it's discarded.
  * 
  * @author frizbog
  */
-public class StringTreeBuilder {
+class StringTreeBuilder {
 
     /**
      * Trim all whitespace off the left side (only) of the supplied string.
@@ -60,9 +85,9 @@ public class StringTreeBuilder {
     private StringTree treeForCurrentLine;
 
     /**
-     * The tree that represents the entire file. Will be returned at the end of the StringTree construction process.
+     * A base {@link StringTree} to hold a single root-level node
      */
-    private final StringTree treeForWholeFile = new StringTree();
+    private final StringTree wrapperNode = new StringTree();
 
     /**
      * The most recently added node
@@ -96,21 +121,21 @@ public class StringTreeBuilder {
      *            the {@link GedcomParser} this object will be assisting with making a {@link StringTree} for
      * 
      */
-    public StringTreeBuilder(GedcomParser parser) {
+    StringTreeBuilder(GedcomParser parser) {
         this.parser = parser;
-        getTree().level = -1;
+        getTree().setLevel(-1);
         mostRecentlyAdded = null;
-        lineNum = 0; // Haven't read any lines yet
+        lineNum = parser.getLineNum();
     }
 
     /**
-     * Get the string tree representing the entire file - the string tree that this {@link StringTreeBuilder} object was
-     * created to build
+     * Get the string tree representing the root-level node, plus a container - the string tree that this
+     * {@link StringTreeBuilder} object was created to build
      * 
-     * @return the string tree representing the entire file
+     * @return the string tree representing the root level node, plus a wrapper node around it
      */
     public StringTree getTree() {
-        return treeForWholeFile;
+        return wrapperNode;
     }
 
     /**
@@ -126,7 +151,7 @@ public class StringTreeBuilder {
         line = l;
         lineNum++;
         treeForCurrentLine = new StringTree();
-        treeForCurrentLine.lineNum = lineNum;
+        treeForCurrentLine.setLineNum(lineNum);
 
         checkIfNewLevelLine();
 
@@ -139,28 +164,6 @@ public class StringTreeBuilder {
     }
 
     /**
-     * Construct a {@link StringTree} out of a flat {@link List} of Strings
-     * 
-     * @param lines
-     *            the lines of the file
-     * 
-     * @return the {@link StringTree} created from the contents of the input stream
-     * @throws IOException
-     *             if there is a problem reading the data from the reader
-     * @throws GedcomParserException
-     *             if there is an error with parsing the data from the stream
-     */
-    StringTree makeStringTreeFromFlatLines(List<String> lines) throws IOException, GedcomParserException {
-        getTree().level = -1;
-        mostRecentlyAdded = null;
-        while (lineNum < lines.size()) {
-            String l = leftTrim(lines.get(lineNum));
-            appendLine(l);
-        }
-        return getTree();
-    }
-
-    /**
      * Add a new node to the correct parent node in the StringTree
      * 
      * @throws GedcomParserException
@@ -168,27 +171,27 @@ public class StringTreeBuilder {
      */
     private void addNewNode() throws GedcomParserException {
         LinePieces lp = new LinePieces(line, lineNum);
-        treeForCurrentLine.level = lp.level;
-        treeForCurrentLine.id = lp.id;
-        treeForCurrentLine.tag = lp.tag.intern();
-        treeForCurrentLine.value = canonizer.getCanonicalVersion(lp.remainder);
+        treeForCurrentLine.setLevel(lp.level);
+        treeForCurrentLine.setId(lp.id);
+        treeForCurrentLine.setTag(lp.tag.intern());
+        treeForCurrentLine.setValue(canonizer.getCanonicalVersion(lp.remainder));
         lp = null;
 
         StringTree addTo = null;
-        if (treeForCurrentLine.level == 0) {
+        if (treeForCurrentLine.getLevel() == 0) {
             addTo = getTree();
         } else {
-            addTo = lastNodeAtLevel[treeForCurrentLine.level - 1];
+            addTo = lastNodeAtLevel[treeForCurrentLine.getLevel() - 1];
         }
         if (addTo == null) {
-            parser.errors.add(treeForCurrentLine.tag + " tag at line " + treeForCurrentLine.lineNum + ": Unable to find suitable parent node at level "
-                    + (treeForCurrentLine.level - 1));
+            parser.getErrors().add(treeForCurrentLine.getTag() + " tag at line " + treeForCurrentLine.getLineNum()
+                    + ": Unable to find suitable parent node at level " + (treeForCurrentLine.getLevel() - 1));
         } else {
-            addTo.children.add(treeForCurrentLine);
-            treeForCurrentLine.parent = addTo;
-            lastNodeAtLevel[treeForCurrentLine.level] = treeForCurrentLine;
+            addTo.getChildren(true).add(treeForCurrentLine);
+            treeForCurrentLine.setParent(addTo);
+            lastNodeAtLevel[treeForCurrentLine.getLevel()] = treeForCurrentLine;
         }
-        Arrays.fill(lastNodeAtLevel, treeForCurrentLine.level + 1, 100, null);
+        Arrays.fill(lastNodeAtLevel, treeForCurrentLine.getLevel() + 1, 100, null);
     }
 
     /**
@@ -206,7 +209,7 @@ public class StringTreeBuilder {
             // Probably sets it to true, but might not for a non-standard file - see Issue 100
             beginsWithLevelAndSpace = startsWithLevelAndSpace();
         } catch (GedcomParserException e) {
-            if (parser.strictLineBreaks) {
+            if (parser.isStrictLineBreaks()) {
                 throw e;
             }
         }
@@ -218,17 +221,17 @@ public class StringTreeBuilder {
     private void makeConcatenationOfPreviousNode() {
         // Doesn't begin with a level number followed by a space, and we don't have strictLineBreaks
         // required, so it's probably meant to be a continuation of the previous text value.
-        if (mostRecentlyAdded != null) {
-            // Try to add as a CONT line to previous node, as if the file had been properly escaped
-            treeForCurrentLine.level = mostRecentlyAdded.level + 1;
-            treeForCurrentLine.tag = Tag.CONTINUATION.tagText;
-            treeForCurrentLine.value = line;
-            treeForCurrentLine.parent = mostRecentlyAdded;
-            mostRecentlyAdded.children.add(treeForCurrentLine);
-            parser.warnings.add("Line " + lineNum + " did not begin with a level and tag, so it was treated as a "
-                    + "non-standard continuation of the previous line.");
+        if (mostRecentlyAdded == null) {
+            parser.getWarnings().add("Line " + lineNum + " did not begin with a level and tag, so it was discarded.");
         } else {
-            parser.warnings.add("Line " + lineNum + " did not begin with a level and tag, so it was discarded.");
+            // Try to add as a CONT line to previous node, as if the file had been properly escaped
+            treeForCurrentLine.setLevel(mostRecentlyAdded.getLevel() + 1);
+            treeForCurrentLine.setTag(Tag.CONTINUATION.tagText);
+            treeForCurrentLine.setValue(line);
+            treeForCurrentLine.setParent(mostRecentlyAdded);
+            mostRecentlyAdded.getChildren(true).add(treeForCurrentLine);
+            parser.getWarnings().add("Line " + lineNum + " did not begin with a level and tag, so it was treated as a "
+                    + "non-standard continuation of the previous line.");
         }
     }
 

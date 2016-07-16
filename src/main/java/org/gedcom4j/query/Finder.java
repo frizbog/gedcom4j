@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.query;
 
@@ -78,28 +83,31 @@ public class Finder {
      */
     public List<Individual> findByName(String prefix, String surname, String given, String suffix) {
         List<Individual> result = new ArrayList<Individual>();
-        for (Individual i : g.individuals.values()) {
-            for (PersonalName n : i.names) {
-                // Sometimes the name is broken up into separate fields in the
-                // GEDCOM
-                if ((surname == null || (n.surname != null && surname.equalsIgnoreCase(n.surname.value)))
-                        && (given == null || (n.givenName != null && given.equalsIgnoreCase(n.givenName.value)))) {
-                    result.add(i);
-                    continue;
-                }
-                // Other times they are concatenated with slashes around the
-                // surname
-                String lookingFor = given + " /" + surname + "/";
-                if (prefix != null) {
-                    lookingFor = prefix + " " + lookingFor;
-                }
-                if (suffix != null) {
-                    lookingFor = lookingFor + " " + suffix;
-                }
+        for (Individual i : g.getIndividuals().values()) {
+            if (i.getNames() != null) {
+                for (PersonalName n : i.getNames()) {
+                    // Sometimes the name is broken up into separate fields in the
+                    // GEDCOM
+                    if ((surname == null || (n.getSurname() != null && surname.equalsIgnoreCase(n.getSurname().getValue()))) && (given == null || (n
+                            .getGivenName() != null && given.equalsIgnoreCase(n.getGivenName().getValue())))) {
+                        result.add(i);
+                        continue;
+                    }
+                    // Other times they are concatenated with slashes around the
+                    // surname
+                    StringBuffer lookingFor = new StringBuffer();
+                    lookingFor.append(given).append(" /").append(surname).append("/");
+                    if (prefix != null) {
+                        lookingFor.insert(0, " ").insert(0, prefix);
+                    }
+                    if (suffix != null) {
+                        lookingFor.append(" ").append(suffix);
+                    }
 
-                if (n.basic != null && n.basic.equalsIgnoreCase(lookingFor)) {
-                    result.add(i);
-                    continue;
+                    if (n.getBasic() != null && n.getBasic().equalsIgnoreCase(lookingFor.toString())) {
+                        result.add(i);
+                        continue;
+                    }
                 }
             }
         }

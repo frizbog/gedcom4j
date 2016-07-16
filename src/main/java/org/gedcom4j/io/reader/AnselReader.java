@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.io.reader;
 
@@ -35,7 +40,7 @@ import org.gedcom4j.parser.GedcomParser;
  * 
  * @author frizbog
  */
-class AnselReader extends AbstractEncodingSpecificReader {
+final class AnselReader extends AbstractEncodingSpecificReader {
 
     /**
      * The byte value at which combining diacritics begin in ANSEL encoding
@@ -45,12 +50,12 @@ class AnselReader extends AbstractEncodingSpecificReader {
     /**
      * Helper class
      */
-    AnselHandler anselHandler = new AnselHandler();
+    private final AnselHandler anselHandler = new AnselHandler();
 
     /**
      * Index into the line buffer
      */
-    int lineBufferIdx = 0;
+    private int lineBufferIdx = 0;
 
     /**
      * Current character
@@ -71,12 +76,6 @@ class AnselReader extends AbstractEncodingSpecificReader {
      * Prior character read
      */
     private int oneCharBack = -1;
-
-    /**
-     * Character prior to the last character read before the current character - need this because sometimes there are
-     * two combining diactrical characters
-     */
-    private int twoCharsBack = -1;
 
     /**
      * Index into {@link #holdingBin} array
@@ -109,9 +108,12 @@ class AnselReader extends AbstractEncodingSpecificReader {
         }
         String result = null;
         while (!eof) {
-            twoCharsBack = oneCharBack;
+            int twoCharsBack = oneCharBack;
             oneCharBack = currChar;
             currChar = byteStream.read();
+            if (currChar >= 0) {
+                bytesRead++;
+            }
 
             // Check for EOF
             if (currChar < 0) {
@@ -129,7 +131,6 @@ class AnselReader extends AbstractEncodingSpecificReader {
             if ((currChar == 0x0D || currChar == 0x0A)) {
 
                 // Check for line breaks between combining diacritics and the base characters
-
                 if (oneCharBack >= ANSEL_DIACRITICS_BEGIN_AT) {
                     if (twoCharsBack >= ANSEL_DIACRITICS_BEGIN_AT) {
                         /*
@@ -184,6 +185,11 @@ class AnselReader extends AbstractEncodingSpecificReader {
         }
         return result;
 
+    }
+
+    @Override
+    void cleanUp() throws IOException {
+        // do nothing
     }
 
     /**
@@ -261,7 +267,7 @@ class AnselReader extends AbstractEncodingSpecificReader {
     private void insertSyntheticConcTag(String previousLine) throws GedcomParserException {
         int level = getLevelFromLine(previousLine);
 
-        parser.warnings.add("Line " + linesRead + " exceeds max length - introducing synthetic CONC tag to split line");
+        parser.getWarnings().add("Line " + linesRead + " exceeds max length - introducing synthetic CONC tag to split line");
         level++;
         if (level > 9) {
             lineBuffer[lineBufferIdx++] = Character.forDigit(level / 10, 10);

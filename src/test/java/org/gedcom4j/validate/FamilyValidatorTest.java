@@ -1,29 +1,35 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.validate;
 
-import java.util.ArrayList;
-
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Family;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.TestHelper;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -63,26 +69,26 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
         super.setUp();
         gedcom = TestHelper.getMinimalGedcom();
         rootValidator.gedcom = gedcom;
-        rootValidator.autorepair = false;
+        rootValidator.setAutorepairEnabled(false);
 
         dad = new Individual();
-        dad.xref = "@I00001@";
-        gedcom.individuals.put(dad.xref, dad);
+        dad.setXref("@I00001@");
+        gedcom.getIndividuals().put(dad.getXref(), dad);
 
         mom = new Individual();
-        mom.xref = "@I00002@";
-        gedcom.individuals.put(mom.xref, mom);
+        mom.setXref("@I00002@");
+        gedcom.getIndividuals().put(mom.getXref(), mom);
 
         jr = new Individual();
-        jr.xref = "@I00003@";
-        gedcom.individuals.put(jr.xref, jr);
+        jr.setXref("@I00003@");
+        gedcom.getIndividuals().put(jr.getXref(), jr);
 
         f = new Family();
-        f.xref = "@F0001@";
-        f.husband = dad;
-        f.wife = mom;
-        f.children.add(jr);
-        gedcom.families.put(f.xref, f);
+        f.setXref("@F0001@");
+        f.setHusband(dad);
+        f.setWife(mom);
+        f.getChildren(true).add(jr);
+        gedcom.getFamilies().put(f.getXref(), f);
 
         rootValidator.validate();
         assertNoIssues();
@@ -93,21 +99,21 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testAutomatedRecordId() {
-        f.automatedRecordId = new StringWithCustomTags((String) null);
+        f.setAutomatedRecordId(new StringWithCustomTags((String) null));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "automated", "record", "id", "no value");
 
-        f.automatedRecordId = new StringWithCustomTags("");
+        f.setAutomatedRecordId(new StringWithCustomTags(""));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "automated", "record", "id", "blank");
         assertFindingsContain(Severity.ERROR, "automated", "record", "id", "custom tags", "no value");
 
-        f.automatedRecordId = new StringWithCustomTags("     ");
+        f.setAutomatedRecordId(new StringWithCustomTags("     "));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "automated", "record", "id", "blank");
         assertFindingsContain(Severity.ERROR, "automated", "record", "id", "custom tags", "no value");
 
-        f.automatedRecordId = new StringWithCustomTags("Frying Pan");
+        f.setAutomatedRecordId(new StringWithCustomTags("Frying Pan"));
         rootValidator.validate();
         assertNoIssues();
     }
@@ -117,11 +123,7 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoCitations() {
-        f.citations = null;
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "citations", "null");
-
-        f.citations = new ArrayList<AbstractCitation>();
+        f.getCitations(true).clear();
         rootValidator.validate();
         assertNoIssues();
     }
@@ -131,11 +133,9 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoCustomTags() {
-        f.customTags = null;
         rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "custom", "tag");
-
-        f.customTags = new ArrayList<StringTree>();
+        assertNoIssues();
+        f.getCustomTags(true).clear();
         rootValidator.validate();
         assertNoIssues();
     }
@@ -145,7 +145,7 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoDadInFamily() {
-        f.husband = null;
+        f.setHusband(null);
 
         rootValidator.validate();
         assertNoIssues();
@@ -156,15 +156,11 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoKidsInFamily() {
-        f.children = null;
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "children", "null", "family");
-
-        f.children = new ArrayList<Individual>();
+        f.getChildren(true).clear();
         rootValidator.validate();
         assertNoIssues();
 
-        f.children.add(jr);
+        f.getChildren(true).add(jr);
         rootValidator.validate();
         assertNoIssues();
     }
@@ -174,7 +170,7 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoMomInFamily() {
-        f.wife = null;
+        f.setWife(null);
 
         rootValidator.validate();
         assertNoIssues();
@@ -185,11 +181,9 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoMultimedia() {
-        f.multimedia = null;
         rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "multimedia", "null");
-
-        f.multimedia = new ArrayList<Multimedia>();
+        assertNoIssues();
+        f.getMultimedia(true).clear();
         rootValidator.validate();
         assertNoIssues();
     }
@@ -199,9 +193,9 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoPeopleInFamily() {
-        f.husband = null;
-        f.wife = null;
-        f.children.clear();
+        f.setHusband(null);
+        f.setWife(null);
+        f.getChildren(true).clear();
 
         rootValidator.validate();
         assertNoIssues();

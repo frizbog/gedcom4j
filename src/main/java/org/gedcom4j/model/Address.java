@@ -1,28 +1,35 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.gedcom4j.Options;
 
 /**
  * Represents an address. Corresponds to part of the ADDRESS_STRUCTURE element in the GEDCOM specification. The other
@@ -33,39 +40,44 @@ import java.util.List;
  */
 public class Address extends AbstractElement {
     /**
-     * The lines of the address
+     * Serial Version UID
      */
-    public List<String> lines = new ArrayList<String>(0);
+    private static final long serialVersionUID = 8172155175015540119L;
 
     /**
      * Line one of the address
      */
-    public StringWithCustomTags addr1;
+    private StringWithCustomTags addr1;
 
     /**
      * Line two of the address
      */
-    public StringWithCustomTags addr2;
+    private StringWithCustomTags addr2;
 
     /**
      * City
      */
-    public StringWithCustomTags city;
-
-    /**
-     * State/province
-     */
-    public StringWithCustomTags stateProvince;
-
-    /**
-     * Postal code
-     */
-    public StringWithCustomTags postalCode;
+    private StringWithCustomTags city;
 
     /**
      * Country
      */
-    public StringWithCustomTags country;
+    private StringWithCustomTags country;
+
+    /**
+     * The lines of the address
+     */
+    private List<String> lines = getLines(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Postal code
+     */
+    private StringWithCustomTags postalCode;
+
+    /**
+     * State/province
+     */
+    private StringWithCustomTags stateProvince;
 
     @Override
     public boolean equals(Object obj) {
@@ -131,6 +143,84 @@ public class Address extends AbstractElement {
         return true;
     }
 
+    /**
+     * Gets the addr line 1.
+     *
+     * @return the addr line 1
+     */
+    public StringWithCustomTags getAddr1() {
+        return addr1;
+    }
+
+    /**
+     * Gets the addr line 2.
+     *
+     * @return the addr line 2
+     */
+    public StringWithCustomTags getAddr2() {
+        return addr2;
+    }
+
+    /**
+     * Gets the city.
+     *
+     * @return the city
+     */
+    public StringWithCustomTags getCity() {
+        return city;
+    }
+
+    /**
+     * Gets the country.
+     *
+     * @return the country
+     */
+    public StringWithCustomTags getCountry() {
+        return country;
+    }
+
+    /**
+     * Gets the lines.
+     *
+     * @return the lines
+     */
+    public List<String> getLines() {
+        return lines;
+    }
+
+    /**
+     * Get the lines
+     * 
+     * @param initializeIfNeeded
+     *            initialize the lines collection if needed
+     * 
+     * @return the lines
+     */
+    public List<String> getLines(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && lines == null) {
+            lines = new ArrayList<String>(0);
+        }
+        return lines;
+    }
+
+    /**
+     * Gets the postal code.
+     *
+     * @return the postal code
+     */
+    public StringWithCustomTags getPostalCode() {
+        return postalCode;
+    }
+
+    /**
+     * Gets the state province.
+     *
+     * @return the state province
+     */
+    public StringWithCustomTags getStateProvince() {
+        return stateProvince;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -145,11 +235,113 @@ public class Address extends AbstractElement {
         return result;
     }
 
+    /**
+     * Sets the addr line 1.
+     *
+     * @param addr1
+     *            the new addr line 1
+     */
+    public void setAddr1(StringWithCustomTags addr1) {
+        this.addr1 = addr1;
+    }
+
+    /**
+     * Sets the addr line 2.
+     *
+     * @param addr2
+     *            the new addr line 2
+     */
+    public void setAddr2(StringWithCustomTags addr2) {
+        this.addr2 = addr2;
+    }
+
+    /**
+     * Sets the city.
+     *
+     * @param city
+     *            the new city
+     */
+    public void setCity(StringWithCustomTags city) {
+        this.city = city;
+    }
+
+    /**
+     * Sets the country.
+     *
+     * @param country
+     *            the new country
+     */
+    public void setCountry(StringWithCustomTags country) {
+        this.country = country;
+    }
+
+    /**
+     * Sets the postal code.
+     *
+     * @param postalCode
+     *            the new postal code
+     */
+    public void setPostalCode(StringWithCustomTags postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    /**
+     * Sets the state province.
+     *
+     * @param stateProvince
+     *            the new state province
+     */
+    public void setStateProvince(StringWithCustomTags stateProvince) {
+        this.stateProvince = stateProvince;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "Address [" + (lines != null ? "lines=" + lines + ", " : "") + (addr1 != null ? "addr1=" + addr1 + ", " : "")
-                + (addr2 != null ? "addr2=" + addr2 + ", " : "") + (city != null ? "city=" + city + ", " : "")
-                + (stateProvince != null ? "stateProvince=" + stateProvince + ", " : "") + (postalCode != null ? "postalCode=" + postalCode + ", " : "")
-                + (country != null ? "country=" + country + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("Address [");
+        if (addr1 != null) {
+            builder.append("addr1=");
+            builder.append(addr1);
+            builder.append(", ");
+        }
+        if (addr2 != null) {
+            builder.append("addr2=");
+            builder.append(addr2);
+            builder.append(", ");
+        }
+        if (city != null) {
+            builder.append("city=");
+            builder.append(city);
+            builder.append(", ");
+        }
+        if (country != null) {
+            builder.append("country=");
+            builder.append(country);
+            builder.append(", ");
+        }
+        if (lines != null) {
+            builder.append("lines=");
+            builder.append(lines);
+            builder.append(", ");
+        }
+        if (postalCode != null) {
+            builder.append("postalCode=");
+            builder.append(postalCode);
+            builder.append(", ");
+        }
+        if (stateProvince != null) {
+            builder.append("stateProvince=");
+            builder.append(stateProvince);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

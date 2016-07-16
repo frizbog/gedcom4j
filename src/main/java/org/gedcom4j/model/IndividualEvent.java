@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
@@ -26,16 +31,21 @@ package org.gedcom4j.model;
  * 
  * @author frizbog1
  */
-public class IndividualEvent extends Event {
+public class IndividualEvent extends AbstractEvent {
     /**
-     * The type of event this represents
+     * Serial Version UID
      */
-    public IndividualEventType type;
+    private static final long serialVersionUID = 6290302687051916574L;
 
     /**
      * The family to which this individual adopted was adopted
      */
-    public FamilyChild family;
+    private FamilyChild family;
+
+    /**
+     * The type of event this represents
+     */
+    private IndividualEventType type;
 
     @Override
     public boolean equals(Object obj) {
@@ -56,10 +66,25 @@ public class IndividualEvent extends Event {
         } else if (!family.equals(other.family)) {
             return false;
         }
-        if (type != other.type) {
-            return false;
-        }
-        return true;
+        return (type == other.type);
+    }
+
+    /**
+     * Gets the family.
+     *
+     * @return the family
+     */
+    public FamilyChild getFamily() {
+        return family;
+    }
+
+    /**
+     * Gets the type.
+     *
+     * @return the type
+     */
+    public IndividualEventType getType() {
+        return type;
     }
 
     @Override
@@ -71,15 +96,140 @@ public class IndividualEvent extends Event {
         return result;
     }
 
+    /**
+     * Sets the family.
+     *
+     * @param family
+     *            the new family
+     */
+    public void setFamily(FamilyChild family) {
+        this.family = family;
+    }
+
+    /**
+     * Sets the type.
+     *
+     * @param type
+     *            the new type
+     */
+    public void setType(IndividualEventType type) {
+        this.type = type;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
+    @SuppressWarnings("PMD.ExcessiveMethodLength")
     public String toString() {
-        return "IndividualEvent [type=" + type + ", family=" + family + ", address=" + address + ", phoneNumbers="
-                + phoneNumbers + ", wwwUrls=" + wwwUrls + ", faxNumbers=" + faxNumbers + ", emails=" + emails
-                + ", age=" + age + ", cause=" + cause + ", citations=" + citations + ", date=" + date
-                + ", description=" + description + ", multimedia=" + multimedia + ", notes=" + notes + ", place="
-                + place + ", respAgency=" + respAgency + ", yNull=" + yNull + ", subType=" + subType
-                + ", religiousAffiliation=" + religiousAffiliation + ", restrictionNotice=" + restrictionNotice
-                + ", customTags=" + customTags + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("IndividualEvent [");
+        if (family != null) {
+            builder.append("family=");
+            builder.append(family);
+            builder.append(", ");
+        }
+        if (type != null) {
+            builder.append("type=");
+            builder.append(type);
+            builder.append(", ");
+        }
+        if (address != null) {
+            builder.append("address=");
+            builder.append(address);
+            builder.append(", ");
+        }
+        if (age != null) {
+            builder.append("age=");
+            builder.append(age);
+            builder.append(", ");
+        }
+        if (cause != null) {
+            builder.append("cause=");
+            builder.append(cause);
+            builder.append(", ");
+        }
+        if (citations != null) {
+            builder.append("citations=");
+            builder.append(citations);
+            builder.append(", ");
+        }
+        if (date != null) {
+            builder.append("date=");
+            builder.append(date);
+            builder.append(", ");
+        }
+        if (description != null) {
+            builder.append("description=");
+            builder.append(description);
+            builder.append(", ");
+        }
+        if (emails != null) {
+            builder.append("emails=");
+            builder.append(emails);
+            builder.append(", ");
+        }
+        if (faxNumbers != null) {
+            builder.append("faxNumbers=");
+            builder.append(faxNumbers);
+            builder.append(", ");
+        }
+        if (multimedia != null) {
+            builder.append("multimedia=");
+            builder.append(multimedia);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (phoneNumbers != null) {
+            builder.append("phoneNumbers=");
+            builder.append(phoneNumbers);
+            builder.append(", ");
+        }
+        if (place != null) {
+            builder.append("place=");
+            builder.append(place);
+            builder.append(", ");
+        }
+        if (religiousAffiliation != null) {
+            builder.append("religiousAffiliation=");
+            builder.append(religiousAffiliation);
+            builder.append(", ");
+        }
+        if (respAgency != null) {
+            builder.append("respAgency=");
+            builder.append(respAgency);
+            builder.append(", ");
+        }
+        if (restrictionNotice != null) {
+            builder.append("restrictionNotice=");
+            builder.append(restrictionNotice);
+            builder.append(", ");
+        }
+        if (subType != null) {
+            builder.append("subType=");
+            builder.append(subType);
+            builder.append(", ");
+        }
+        if (wwwUrls != null) {
+            builder.append("wwwUrls=");
+            builder.append(wwwUrls);
+            builder.append(", ");
+        }
+        if (yNull != null) {
+            builder.append("yNull=");
+            builder.append(yNull);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
 }

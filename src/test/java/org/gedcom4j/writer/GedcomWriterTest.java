@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.writer;
 
@@ -37,6 +42,7 @@ import java.util.Map.Entry;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.GedcomWriterException;
+import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.io.reader.GedcomFileReader;
 import org.gedcom4j.model.*;
 import org.gedcom4j.parser.GedcomParser;
@@ -94,8 +100,8 @@ public class GedcomWriterTest {
         // Load a file
         GedcomParser p = new GedcomParser();
         p.load(SAMPLE_STRESS_TEST_FILENAME);
-        assertTrue(p.errors.isEmpty());
-        gedcomOrig = p.gedcom;
+        assertTrue(p.getErrors().isEmpty());
+        gedcomOrig = p.getGedcom();
 
         GedcomWriter gw = new GedcomWriter(gedcomOrig);
         gw.validationSuppressed = true;
@@ -105,9 +111,11 @@ public class GedcomWriterTest {
         gw.write(tempFile);
 
         FileInputStream byteStream = null;
+        BufferedInputStream bufferedInputStream = null;
         try {
             byteStream = new FileInputStream(tempFile);
-            GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(), new BufferedInputStream(byteStream));
+            bufferedInputStream = new BufferedInputStream(byteStream);
+            GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(), bufferedInputStream);
             readbackLines = new ArrayList<String>();
             String s = gfr.nextLine();
             while (s != null) {
@@ -115,6 +123,9 @@ public class GedcomWriterTest {
                 s = gfr.nextLine();
             }
         } finally {
+            if (bufferedInputStream != null) {
+                bufferedInputStream.close();
+            }
             if (byteStream != null) {
                 byteStream.close();
             }
@@ -123,16 +134,16 @@ public class GedcomWriterTest {
         // Reload the file we just wrote
         p = new GedcomParser();
         p.load(tempFile.getAbsolutePath());
-        for (String s : p.errors) {
+        for (String s : p.getErrors()) {
             System.err.println(s);
         }
-        assertTrue(p.errors.isEmpty());
-        assertTrue(p.warnings.isEmpty());
-        gedcomReadback = p.gedcom;
-        for (String e : p.errors) {
+        assertTrue(p.getErrors().isEmpty());
+        assertTrue(p.getWarnings().isEmpty());
+        gedcomReadback = p.getGedcom();
+        for (String e : p.getErrors()) {
             System.err.println(e);
         }
-        assertTrue(p.errors.isEmpty());
+        assertTrue(p.getErrors().isEmpty());
     }
 
     /**
@@ -155,14 +166,14 @@ public class GedcomWriterTest {
      */
     @Test
     public void testFamilies() {
-        Map<String, Family> fm1 = gedcomOrig.families;
-        Map<String, Family> fm2 = gedcomReadback.families;
+        Map<String, Family> fm1 = gedcomOrig.getFamilies();
+        Map<String, Family> fm2 = gedcomReadback.getFamilies();
         assertNotSame(fm1, fm2);
         assertEquals(fm1.keySet(), fm2.keySet());
         for (Entry<String, Family> e : fm1.entrySet()) {
             Family f1 = e.getValue();
             Family f2 = fm2.get(e.getKey());
-            assertEquals("Family " + f1.xref + " should be the same but isn't", f1, f2);
+            assertEquals("Family " + f1.getXref() + " should be the same but isn't", f1, f2);
         }
     }
 
@@ -171,8 +182,8 @@ public class GedcomWriterTest {
      */
     @Test
     public void testHeader() {
-        Header h1 = gedcomOrig.header;
-        Header h2 = gedcomReadback.header;
+        Header h1 = gedcomOrig.getHeader();
+        Header h2 = gedcomReadback.getHeader();
         assertNotSame(h1, h2);
         assertNotNull(h1);
 
@@ -197,8 +208,8 @@ public class GedcomWriterTest {
      */
     @Test
     public void testIndividuals() {
-        Map<String, Individual> f1 = gedcomOrig.individuals;
-        Map<String, Individual> f2 = gedcomReadback.individuals;
+        Map<String, Individual> f1 = gedcomOrig.getIndividuals();
+        Map<String, Individual> f2 = gedcomReadback.getIndividuals();
         assertNotSame(f1, f2);
         assertEquals(f1.keySet().size(), f2.keySet().size());
     }
@@ -208,7 +219,7 @@ public class GedcomWriterTest {
      */
     @Test
     public void testMultimedia() {
-        assertNotSame(gedcomOrig.multimedia, gedcomReadback.multimedia);
+        assertNotSame(gedcomOrig.getMultimedia(), gedcomReadback.getMultimedia());
         assertLineSequence("Multimedia via reference not found as expected", readbackLines, "2 FORM PICT", "2 TITL Macintosh PICT file", "2 FILE ImgFile.PIC",
                 "1 OBJE", "2 FORM PNTG", "2 TITL Macintosh MacPaint file", "2 FILE ImgFile.MAC", "1 OBJE");
         assertLineSequence("Embedded and encoded multimedia not found as expected", readbackLines, "0 @M1@ OBJE", "1 FORM PICT",
@@ -220,7 +231,7 @@ public class GedcomWriterTest {
                 "2 CONT /Dw/.Tvz.E5zzUE9/kHz.Tw2/DzzzEEA.kE2zk5yzk2/zzs21.U2/Dw/.Tw/.Tzy",
                 "2 CONT /.fy/.HzzkHzzzo21Ds00.E2.UE2.U62/.k./Ds0.UE0/Do0..E8/UE2.U62.U9w", "2 CONT /.Tx/.20.jg2/jo2..9u/.0U.6A.zk",
                 "1 REFN User Reference Number", "2 TYPE User Reference Type", "1 RIN 1", "1 CHAN", "2 DATE 14 Jan 2001", "3 TIME 14:10:31");
-        assertEquals(gedcomOrig.multimedia, gedcomReadback.multimedia);
+        assertEquals(gedcomOrig.getMultimedia(), gedcomReadback.getMultimedia());
     }
 
     /**
@@ -228,18 +239,18 @@ public class GedcomWriterTest {
      */
     @Test
     public void testNotes() {
-        assertNotSame(gedcomOrig.notes, gedcomReadback.notes);
+        assertNotSame(gedcomOrig.getNotes(), gedcomReadback.getNotes());
         assertLineSequence("Note with xref and text on same line not found as expected", readbackLines,
                 "0 @N19@ NOTE A note about this LDS spouse sealing source.", "1 CHAN", "2 DATE 12 Mar 2000", "3 TIME 12:32:13");
-        assertEquals(gedcomOrig.notes.keySet(), gedcomReadback.notes.keySet());
-        for (String xref : gedcomOrig.notes.keySet()) {
-            Note n1 = gedcomOrig.notes.get(xref);
-            Note n2 = gedcomReadback.notes.get(xref);
-            assertEquals(n1.lines.size(), n2.lines.size());
+        assertEquals(gedcomOrig.getNotes().keySet(), gedcomReadback.getNotes().keySet());
+        for (String xref : gedcomOrig.getNotes().keySet()) {
+            Note n1 = gedcomOrig.getNotes().get(xref);
+            Note n2 = gedcomReadback.getNotes().get(xref);
+            assertEquals(n1.getLines().size(), n2.getLines().size());
             String prevLine = null;
-            for (int i = 0; i < n1.lines.size(); i++) {
-                String l1 = n1.lines.get(i);
-                String l2 = n2.lines.get(i);
+            for (int i = 0; i < n1.getLines().size(); i++) {
+                String l1 = n1.getLines().get(i);
+                String l2 = n2.getLines().get(i);
                 if (!l1.equals(l2)) {
                     System.out.println("On line following \"" + prevLine + "\":");
                     System.out.println("Should be " + l1);
@@ -269,7 +280,7 @@ public class GedcomWriterTest {
                 "2 ADR2 Across the street from Temple Square", "2 CITY Salt Lake City", "2 STAE Utah", "2 POST 84111", "2 CTRY USA", "1 NOTE @N2@",
                 "1 REFN User Ref Number", "2 TYPE Sample", "1 RIN 1", "1 PHON +1-801-240-2331 (information)", "1 PHON +1-801-240-1278 (gifts & donations)",
                 "1 PHON +1-801-240-2584 (support)", "1 CHAN", "2 DATE 12 Mar 2000", "3 TIME 10:36:02");
-        assertEquals("Lists of repositories should be equal", gedcomOrig.repositories, gedcomReadback.repositories);
+        assertEquals("Lists of repositories should be equal", gedcomOrig.getRepositories(), gedcomReadback.getRepositories());
     }
 
     /**
@@ -277,19 +288,22 @@ public class GedcomWriterTest {
      */
     @Test
     public void testSources() {
-        assertNotSame(gedcomOrig.sources, gedcomReadback.sources);
+        assertNotSame(gedcomOrig.getSources(), gedcomReadback.getSources());
         assertLineSequence("Source @SR2@ not read back as expected", readbackLines, "0 @SR2@ SOUR", "1 AUTH Second Source Author",
                 "1 TITL All I Know About GEDCOM, I Learned on the Internet", "1 ABBR What I Know About GEDCOM", "1 NOTE @N16@", "1 RIN 2", "1 CHAN",
                 "2 DATE 11 Jan 2001", "3 TIME 16:21:39");
-        assertEquals(gedcomOrig.sources, gedcomReadback.sources);
+        assertEquals(gedcomOrig.getSources(), gedcomReadback.getSources());
     }
 
     /**
      * Test for {@link GedcomWriter#splitLinesOnBreakingCharacters(List)}
+     * 
+     * @throws WriterCancelledException
+     *             if the writer operation is cancelled
      */
     @Test
-    public void testSplitLines() {
-        GedcomWriter gw = new GedcomWriter(null);
+    public void testSplitLines() throws WriterCancelledException {
+        AbstractEmitter<Gedcom> gw = new GedcomWriter(null);
         List<String> original = new ArrayList<String>();
         original.add("This is a test");
         List<String> result = gw.splitLinesOnBreakingCharacters(original);
@@ -325,8 +339,8 @@ public class GedcomWriterTest {
      */
     @Test
     public void testSubmitterSubmissions() {
-        assertEquals(gedcomOrig.submission, gedcomReadback.submission);
-        assertEquals(gedcomOrig.submitters, gedcomReadback.submitters);
+        assertEquals(gedcomOrig.getSubmission(), gedcomReadback.getSubmission());
+        assertEquals(gedcomOrig.getSubmitters(), gedcomReadback.getSubmitters());
         assertLineSequence("Submission @SUBMISSION@ not read back as expected", readbackLines, "0 @SUBMISSION@ SUBN", "1 SUBM @SUBMITTER@",
                 "1 FAMF NameOfFamilyFile", "1 TEMP Abbreviated Temple Code", "1 ANCE 1", "1 DESC 1", "1 ORDI yes", "1 RIN 1");
         assertLineSequence("Primary submitter @SUBMITTER@ not read back as expected", readbackLines, "0 @SUBMITTER@ SUBM", "1 NAME John A. Nairn",

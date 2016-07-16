@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.io.writer;
 
@@ -46,14 +51,9 @@ import org.gedcom4j.writer.GedcomWriter;
 public class GedcomFileWriter {
 
     /**
-     * The line terminator character to use - defaults to JVM settings but can be overridden
+     * The {@link GedcomWriter} this object is assisting
      */
-    public LineTerminator terminator;
-
-    /**
-     * Should this writer use little-endian ordering when writing unicode data? Defaults to true.
-     */
-    public boolean useLittleEndianForUnicode = true;
+    private final GedcomWriter writer;
 
     /**
      * The encoding-specific writer that was or will be used by this writer.
@@ -66,9 +66,14 @@ public class GedcomFileWriter {
     private final List<String> gedcomLines;
 
     /**
-     * The {@link GedcomWriter} this object is assisting
+     * The line terminator character to use - defaults to JVM settings but can be overridden
      */
-    protected GedcomWriter writer;
+    private LineTerminator terminator;
+
+    /**
+     * Should this writer use little-endian ordering when writing unicode data? Defaults to true.
+     */
+    private boolean useLittleEndianForUnicode = true;
 
     /**
      * Constructor
@@ -82,6 +87,44 @@ public class GedcomFileWriter {
         this.writer = writer;
         this.gedcomLines = gedcomLines;
         setDefaultLineTerminator();
+    }
+
+    /**
+     * Get the terminator
+     * 
+     * @return the terminator
+     */
+    public LineTerminator getTerminator() {
+        return terminator;
+    }
+
+    /**
+     * Get the useLittleEndianForUnicode
+     * 
+     * @return the useLittleEndianForUnicode
+     */
+    public boolean isUseLittleEndianForUnicode() {
+        return useLittleEndianForUnicode;
+    }
+
+    /**
+     * Set the terminator
+     * 
+     * @param terminator
+     *            the terminator to set
+     */
+    public void setTerminator(LineTerminator terminator) {
+        this.terminator = terminator;
+    }
+
+    /**
+     * Set the useLittleEndianForUnicode
+     * 
+     * @param useLittleEndianForUnicode
+     *            the useLittleEndianForUnicode to set
+     */
+    public void setUseLittleEndianForUnicode(boolean useLittleEndianForUnicode) {
+        this.useLittleEndianForUnicode = useLittleEndianForUnicode;
     }
 
     /**

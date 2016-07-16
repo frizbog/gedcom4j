@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
@@ -49,22 +54,22 @@ public class IndividualTest {
         Individual i1 = new Individual();
         Individual i2 = new Individual();
         assertTrue(i1.equals(i2));
-        i1.address = new Address();
+        i1.setAddress(new Address());
         assertFalse(i1.equals(i2));
-        i2.address = new Address();
+        i2.setAddress(new Address());
         assertTrue(i1.equals(i2));
     }
 
     /**
-     * Test method for {@link org.gedcom4j.model.Individual#formattedName()}.
+     * Test method for {@link org.gedcom4j.model.Individual#getFormattedName()}.
      */
     @Test
     public void testFormattedName() {
         Individual i = new Individual();
         addBasicName(i, "Bob /Dylan/");
-        assertEquals("Bob /Dylan/", i.formattedName());
+        assertEquals("Bob /Dylan/", i.getFormattedName());
         addBasicName(i, "Robert Allen /Zimmerman/");
-        assertEquals("Bob /Dylan/ aka Robert Allen /Zimmerman/", i.formattedName());
+        assertEquals("Bob /Dylan/ aka Robert Allen /Zimmerman/", i.getFormattedName());
     }
 
     /**
@@ -79,12 +84,12 @@ public class IndividualTest {
     public void testGetAncestors() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/RelationshipTest.ged");
-        assertTrue(gp.errors.isEmpty());
-        assertTrue(gp.warnings.isEmpty());
-        Gedcom g = gp.gedcom;
+        assertTrue(gp.getErrors().isEmpty());
+        assertTrue(gp.getWarnings().isEmpty());
+        Gedcom g = gp.getGedcom();
         assertNotNull(g);
-        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g.individuals.size());
-        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?", 18, g.families.size());
+        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g.getIndividuals().size());
+        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?", 18, g.getFamilies().size());
 
         Individual robert = getPerson(g, "Andrews", "Robert");
         Set<Individual> ancestors = robert.getAncestors();
@@ -131,12 +136,12 @@ public class IndividualTest {
     public void testGetDescendants() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/RelationshipTest.ged");
-        assertTrue(gp.errors.isEmpty());
-        assertTrue(gp.warnings.isEmpty());
-        Gedcom g = gp.gedcom;
+        assertTrue(gp.getErrors().isEmpty());
+        assertTrue(gp.getWarnings().isEmpty());
+        Gedcom g = gp.getGedcom();
         assertNotNull(g);
-        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g.individuals.size());
-        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?", 18, g.families.size());
+        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g.getIndividuals().size());
+        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?", 18, g.getFamilies().size());
 
         Individual alex = getPerson(g, "Zucco", "Alex");
         Set<Individual> descendants = alex.getDescendants();
@@ -178,26 +183,26 @@ public class IndividualTest {
         assertNotNull(i.getSpouses());
         assertTrue(i.getSpouses().isEmpty());
         FamilySpouse f = new FamilySpouse();
-        f.family = new Family();
-        f.family.husband = i;
-        i.familiesWhereSpouse.add(f);
+        f.setFamily(new Family());
+        f.getFamily().setHusband(i);
+        i.getFamiliesWhereSpouse(true).add(f);
         assertNotNull(i.getSpouses());
         assertTrue("Should still be empty because there is no wife in the family that this guy's a spouse in", i.getSpouses().isEmpty());
-        f.family.wife = new Individual();
-        addBasicName(f.family.wife, "Anna //");
+        f.getFamily().setWife(new Individual());
+        addBasicName(f.getFamily().getWife(), "Anna //");
         assertNotNull(i.getSpouses());
         assertEquals("Ok, now there's a wife, should be exactly one spouse", 1, i.getSpouses().size());
 
         // Add a second family and spouse
         f = new FamilySpouse();
-        f.family = new Family();
-        f.family.husband = i;
-        i.familiesWhereSpouse.add(f);
+        f.setFamily(new Family());
+        f.getFamily().setHusband(i);
+        i.getFamiliesWhereSpouse(true).add(f);
         assertNotNull(i.getSpouses());
         assertEquals("Should still be just one spouse because there is no wife in the 2nd family that this guy's a spouse in", 1, i.getSpouses().size());
 
-        f.family.wife = new Individual();
-        addBasicName(f.family.wife, "Elizabeth /Hofstadt/");
+        f.getFamily().setWife(new Individual());
+        addBasicName(f.getFamily().getWife(), "Elizabeth /Hofstadt/");
         assertNotNull(i.getSpouses());
         assertEquals("Ok, now there's a wife in the 2nd family, should be exactly two spouses", 2, i.getSpouses().size());
     }
@@ -210,9 +215,9 @@ public class IndividualTest {
         Individual i1 = new Individual();
         Individual i2 = new Individual();
         assertTrue(i1.hashCode() == i2.hashCode());
-        i1.address = new Address();
+        i1.setAddress(new Address());
         assertFalse(i1.hashCode() == i2.hashCode());
-        i2.address = new Address();
+        i2.setAddress(new Address());
         assertTrue(i1.hashCode() == i2.hashCode());
     }
 
@@ -232,7 +237,7 @@ public class IndividualTest {
     public void testToString2() {
         Individual i = new Individual();
         addBasicName(i, "Bob /Dylan/");
-        assertEquals("Bob /Dylan/", i.formattedName());
+        assertEquals("Bob /Dylan/", i.getFormattedName());
         addBasicName(i, "Robert Allen /Zimmerman/");
         assertEquals("Bob /Dylan/ aka Robert Allen /Zimmerman/", i.toString());
     }
@@ -245,19 +250,19 @@ public class IndividualTest {
         Individual i = new Individual();
         addBasicName(i, "Donald /Draper/");
         FamilySpouse f = new FamilySpouse();
-        f.family = new Family();
-        f.family.husband = i;
-        i.familiesWhereSpouse.add(f);
-        f.family.wife = new Individual();
-        addBasicName(f.family.wife, "Anna //");
+        f.setFamily(new Family());
+        f.getFamily().setHusband(i);
+        i.getFamiliesWhereSpouse(true).add(f);
+        f.getFamily().setWife(new Individual());
+        addBasicName(f.getFamily().getWife(), "Anna //");
         // Add a second family and spouse
         f = new FamilySpouse();
-        f.family = new Family();
-        f.family.husband = i;
-        i.familiesWhereSpouse.add(f);
+        f.setFamily(new Family());
+        f.getFamily().setHusband(i);
+        i.getFamiliesWhereSpouse(true).add(f);
 
-        f.family.wife = new Individual();
-        addBasicName(f.family.wife, "Elizabeth /Hofstadt/");
+        f.getFamily().setWife(new Individual());
+        addBasicName(f.getFamily().getWife(), "Elizabeth /Hofstadt/");
         assertEquals("Donald /Draper/, spouse of Anna //, spouse of Elizabeth /Hofstadt/", i.toString());
     }
 
@@ -271,9 +276,9 @@ public class IndividualTest {
      */
     private void addAttributeOfType(Individual i, IndividualAttributeType t) {
         IndividualAttribute e = new IndividualAttribute();
-        e.type = t;
+        e.setType(t);
         e.description = new StringWithCustomTags("Random text for uniqueness " + Math.random());
-        i.attributes.add(e);
+        i.getAttributes(true).add(e);
     }
 
     /**
@@ -286,8 +291,8 @@ public class IndividualTest {
      */
     private void addBasicName(Individual i, String string) {
         PersonalName pn = new PersonalName();
-        pn.basic = string;
-        i.names.add(pn);
+        pn.setBasic(string);
+        i.getNames(true).add(pn);
 
     }
 
@@ -301,9 +306,9 @@ public class IndividualTest {
      */
     private void addEventOfType(Individual i, IndividualEventType t) {
         IndividualEvent e = new IndividualEvent();
-        e.type = t;
+        e.setType(t);
         e.description = new StringWithCustomTags("Random text for uniqueness " + Math.random());
-        i.events.add(e);
+        i.getEvents(true).add(e);
     }
 
     /**

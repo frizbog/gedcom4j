@@ -1,28 +1,35 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.gedcom4j.Options;
 
 /**
  * A note. Corresponds to NOTE_STRUCTURE in the GEDCOM standard.
@@ -32,34 +39,39 @@ import java.util.List;
  */
 public class Note extends AbstractElement {
     /**
-     * The xref for this note
+     * Serial Version UID
      */
-    public String xref;
-
-    /**
-     * The lines of text of this note
-     */
-    public List<String> lines = new ArrayList<String>(0);
-
-    /**
-     * The citations for this note
-     */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
-
-    /**
-     * The user references for this note
-     */
-    public List<UserReference> userReferences = new ArrayList<UserReference>(0);
+    private static final long serialVersionUID = 8355989906882622025L;
 
     /**
      * The change date for this note
      */
-    public ChangeDate changeDate;
+    private ChangeDate changeDate;
 
     /**
-     * The record ID for this note
+     * The citations for this object
      */
-    public StringWithCustomTags recIdNumber;
+    private List<AbstractCitation> citations = getCitations(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The lines of text of this note
+     */
+    private List<String> lines = getLines(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The record ID number
+     */
+    private StringWithCustomTags recIdNumber;
+
+    /**
+     * The user references for this submitter
+     */
+    private List<UserReference> userReferences = getUserReferences(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The xref for this submitter
+     */
+    private String xref;
 
     @Override
     public boolean equals(Object obj) {
@@ -118,6 +130,103 @@ public class Note extends AbstractElement {
         return true;
     }
 
+    /**
+     * Gets the change date.
+     *
+     * @return the change date
+     */
+    public ChangeDate getChangeDate() {
+        return changeDate;
+    }
+
+    /**
+     * Gets the citations.
+     *
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations() {
+        return citations;
+    }
+
+    /**
+     * Get the citations
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && citations == null) {
+            citations = new ArrayList<AbstractCitation>(0);
+        }
+        return citations;
+    }
+
+    /**
+     * Gets the lines.
+     *
+     * @return the lines
+     */
+    public List<String> getLines() {
+        return lines;
+    }
+
+    /**
+     * Get the lines
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the lines
+     */
+    public List<String> getLines(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && lines == null) {
+            lines = new ArrayList<String>(0);
+        }
+        return lines;
+    }
+
+    /**
+     * Gets the rec id number.
+     *
+     * @return the rec id number
+     */
+    public StringWithCustomTags getRecIdNumber() {
+        return recIdNumber;
+    }
+
+    /**
+     * Gets the user references.
+     *
+     * @return the user references
+     */
+    public List<UserReference> getUserReferences() {
+        return userReferences;
+    }
+
+    /**
+     * Get the user references
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the user references
+     */
+    public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && userReferences == null) {
+            userReferences = new ArrayList<UserReference>(0);
+        }
+        return userReferences;
+    }
+
+    /**
+     * Gets the xref.
+     *
+     * @return the xref
+     */
+    public String getXref() {
+        return xref;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -131,11 +240,78 @@ public class Note extends AbstractElement {
         return result;
     }
 
+    /**
+     * Sets the change date.
+     *
+     * @param changeDate
+     *            the new change date
+     */
+    public void setChangeDate(ChangeDate changeDate) {
+        this.changeDate = changeDate;
+    }
+
+    /**
+     * Sets the rec id number.
+     *
+     * @param recIdNumber
+     *            the new rec id number
+     */
+    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+        this.recIdNumber = recIdNumber;
+    }
+
+    /**
+     * Sets the xref.
+     *
+     * @param xref
+     *            the new xref
+     */
+    public void setXref(String xref) {
+        this.xref = xref;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "Note [" + (xref != null ? "xref=" + xref + ", " : "") + (lines != null ? "lines=" + lines + ", " : "")
-                + (citations != null ? "citations=" + citations + ", " : "") + (userReferences != null ? "userReferences=" + userReferences + ", " : "")
-                + (changeDate != null ? "changeDate=" + changeDate + ", " : "") + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "")
-                + (customTags != null ? "customTags=" + customTags : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("Note [");
+        if (changeDate != null) {
+            builder.append("changeDate=");
+            builder.append(changeDate);
+            builder.append(", ");
+        }
+        if (citations != null) {
+            builder.append("citations=");
+            builder.append(citations);
+            builder.append(", ");
+        }
+        if (lines != null) {
+            builder.append("lines=");
+            builder.append(lines);
+            builder.append(", ");
+        }
+        if (recIdNumber != null) {
+            builder.append("recIdNumber=");
+            builder.append(recIdNumber);
+            builder.append(", ");
+        }
+        if (userReferences != null) {
+            builder.append("userReferences=");
+            builder.append(userReferences);
+            builder.append(", ");
+        }
+        if (xref != null) {
+            builder.append("xref=");
+            builder.append(xref);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

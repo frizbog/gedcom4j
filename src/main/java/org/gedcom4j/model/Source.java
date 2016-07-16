@@ -1,28 +1,35 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.gedcom4j.Options;
 
 /**
  * A source for citations.
@@ -31,69 +38,74 @@ import java.util.List;
  */
 public class Source extends AbstractElement {
     /**
-     * The record id number
+     * Serial Version UID
      */
-    public StringWithCustomTags recIdNumber;
-
-    /**
-     * Who filed the source
-     */
-    public StringWithCustomTags sourceFiledBy;
-
-    /**
-     * The title text
-     */
-    public List<String> title = new ArrayList<String>(0);
-
-    /**
-     * Notes on this source
-     */
-    public List<Note> notes = new ArrayList<Note>(0);
-
-    /**
-     * Publication facts on this source
-     */
-    public List<String> publicationFacts = new ArrayList<String>(0);
-
-    /**
-     * The originators/authors
-     */
-    public List<String> originatorsAuthors = new ArrayList<String>(0);
-
-    /**
-     * Multimedia for this source
-     */
-    public List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
+    private static final long serialVersionUID = 5580720679037154352L;
 
     /**
      * The change date for this source
      */
-    public ChangeDate changeDate;
-
-    /**
-     * User references for this source
-     */
-    public List<UserReference> userReferences = new ArrayList<UserReference>(0);
+    private ChangeDate changeDate;
 
     /**
      * Source data
      */
-    public SourceData data;
+    private SourceData data;
 
     /**
-     * Text from the source
+     * Multimedia links for this source citation
      */
-    public List<String> sourceText = new ArrayList<String>(0);
+    private List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Notes about this object
+     */
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The originators/authors
+     */
+    private List<String> originatorsAuthors = getOriginatorsAuthors(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Publication facts on this source
+     */
+    private List<String> publicationFacts = getPublicationFacts(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The record ID number
+     */
+    private StringWithCustomTags recIdNumber;
 
     /**
      * A repository Citation
      */
-    public RepositoryCitation repositoryCitation;
+    private RepositoryCitation repositoryCitation;
 
     /**
-     * The xref of this source
+     * Who filed the source
      */
-    public String xref;
+    private StringWithCustomTags sourceFiledBy;
+
+    /**
+     * Text from the source
+     */
+    private List<String> sourceText = getSourceText(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The title text
+     */
+    private List<String> title = getTitle(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The user references for this submitter
+     */
+    private List<UserReference> userReferences = getUserReferences(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The xref for this submitter
+     */
+    private String xref;
 
     /**
      * Constructor, takes required xref value
@@ -218,6 +230,222 @@ public class Source extends AbstractElement {
     }
 
     /**
+     * Gets the change date.
+     *
+     * @return the change date
+     */
+    public ChangeDate getChangeDate() {
+        return changeDate;
+    }
+
+    /**
+     * Gets the data.
+     *
+     * @return the data
+     */
+    public SourceData getData() {
+        return data;
+    }
+
+    /**
+     * Gets the multimedia.
+     *
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia() {
+        return multimedia;
+    }
+
+    /**
+     * Get the multimedia
+     * 
+     * @param initializeIfNeeded
+     *            true if this collection should be created on-the-fly if it is currently null
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && multimedia == null) {
+            multimedia = new ArrayList<Multimedia>(0);
+        }
+        return multimedia;
+    }
+
+    /**
+     * Gets the notes.
+     *
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
+    /**
+     * Gets the originators authors.
+     *
+     * @return the originators authors
+     */
+    public List<String> getOriginatorsAuthors() {
+        return originatorsAuthors;
+    }
+
+    /**
+     * Get the originators authors
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the originators authors
+     */
+    public List<String> getOriginatorsAuthors(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && originatorsAuthors == null) {
+            originatorsAuthors = new ArrayList<String>(0);
+        }
+        return originatorsAuthors;
+    }
+
+    /**
+     * Gets the publication facts.
+     *
+     * @return the publication facts
+     */
+    public List<String> getPublicationFacts() {
+        return publicationFacts;
+    }
+
+    /**
+     * Get the publication facts
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the publication facts
+     */
+    public List<String> getPublicationFacts(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && publicationFacts == null) {
+            publicationFacts = new ArrayList<String>(0);
+        }
+        return publicationFacts;
+    }
+
+    /**
+     * Gets the rec id number.
+     *
+     * @return the rec id number
+     */
+    public StringWithCustomTags getRecIdNumber() {
+        return recIdNumber;
+    }
+
+    /**
+     * Gets the repository citation.
+     *
+     * @return the repository citation
+     */
+    public RepositoryCitation getRepositoryCitation() {
+        return repositoryCitation;
+    }
+
+    /**
+     * Gets the source filed by.
+     *
+     * @return the source filed by
+     */
+    public StringWithCustomTags getSourceFiledBy() {
+        return sourceFiledBy;
+    }
+
+    /**
+     * Gets the source text.
+     *
+     * @return the source text
+     */
+    public List<String> getSourceText() {
+        return sourceText;
+    }
+
+    /**
+     * Get the source text
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the source text
+     */
+    public List<String> getSourceText(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && sourceText == null) {
+            sourceText = new ArrayList<String>(0);
+        }
+        return sourceText;
+    }
+
+    /**
+     * Gets the title.
+     *
+     * @return the title
+     */
+    public List<String> getTitle() {
+        return title;
+    }
+
+    /**
+     * Get the title
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the title
+     */
+    public List<String> getTitle(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && title == null) {
+            title = new ArrayList<String>(0);
+        }
+        return title;
+    }
+
+    /**
+     * Gets the user references.
+     *
+     * @return the user references
+     */
+    public List<UserReference> getUserReferences() {
+        return userReferences;
+    }
+
+    /**
+     * Get the user references
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the user references
+     */
+    public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && userReferences == null) {
+            userReferences = new ArrayList<UserReference>(0);
+        }
+        return userReferences;
+    }
+
+    /**
+     * Gets the xref.
+     *
+     * @return the xref
+     */
+    public String getXref() {
+        return xref;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -240,16 +468,143 @@ public class Source extends AbstractElement {
         return result;
     }
 
+    /**
+     * Sets the change date.
+     *
+     * @param changeDate
+     *            the new change date
+     */
+    public void setChangeDate(ChangeDate changeDate) {
+        this.changeDate = changeDate;
+    }
+
+    /**
+     * Sets the data.
+     *
+     * @param data
+     *            the new data
+     */
+    public void setData(SourceData data) {
+        this.data = data;
+    }
+
+    /**
+     * Sets the rec id number.
+     *
+     * @param recIdNumber
+     *            the new rec id number
+     */
+    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+        this.recIdNumber = recIdNumber;
+    }
+
+    /**
+     * Sets the repository citation.
+     *
+     * @param repositoryCitation
+     *            the new repository citation
+     */
+    public void setRepositoryCitation(RepositoryCitation repositoryCitation) {
+        this.repositoryCitation = repositoryCitation;
+    }
+
+    /**
+     * Sets the source filed by.
+     *
+     * @param sourceFiledBy
+     *            the new source filed by
+     */
+    public void setSourceFiledBy(StringWithCustomTags sourceFiledBy) {
+        this.sourceFiledBy = sourceFiledBy;
+    }
+
+    /**
+     * Sets the xref.
+     *
+     * @param xref
+     *            the new xref
+     */
+    public void setXref(String xref) {
+        this.xref = xref;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "Source [" + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "")
-                + (sourceFiledBy != null ? "sourceFiledBy=" + sourceFiledBy + ", " : "") + (title != null ? "title=" + title + ", " : "")
-                + (notes != null ? "notes=" + notes + ", " : "") + (publicationFacts != null ? "publicationFacts=" + publicationFacts + ", " : "")
-                + (originatorsAuthors != null ? "originatorsAuthors=" + originatorsAuthors + ", " : "")
-                + (multimedia != null ? "multimedia=" + multimedia + ", " : "") + (changeDate != null ? "changeDate=" + changeDate + ", " : "")
-                + (userReferences != null ? "userReferences=" + userReferences + ", " : "") + (data != null ? "data=" + data + ", " : "")
-                + (sourceText != null ? "sourceText=" + sourceText + ", " : "")
-                + (repositoryCitation != null ? "repositoryCitation=" + repositoryCitation + ", " : "") + (xref != null ? "xref=" + xref + ", " : "")
-                + (customTags != null ? "customTags=" + customTags : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("Source [");
+        if (changeDate != null) {
+            builder.append("changeDate=");
+            builder.append(changeDate);
+            builder.append(", ");
+        }
+        if (data != null) {
+            builder.append("data=");
+            builder.append(data);
+            builder.append(", ");
+        }
+        if (multimedia != null) {
+            builder.append("multimedia=");
+            builder.append(multimedia);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (originatorsAuthors != null) {
+            builder.append("originatorsAuthors=");
+            builder.append(originatorsAuthors);
+            builder.append(", ");
+        }
+        if (publicationFacts != null) {
+            builder.append("publicationFacts=");
+            builder.append(publicationFacts);
+            builder.append(", ");
+        }
+        if (recIdNumber != null) {
+            builder.append("recIdNumber=");
+            builder.append(recIdNumber);
+            builder.append(", ");
+        }
+        if (repositoryCitation != null) {
+            builder.append("repositoryCitation=");
+            builder.append(repositoryCitation);
+            builder.append(", ");
+        }
+        if (sourceFiledBy != null) {
+            builder.append("sourceFiledBy=");
+            builder.append(sourceFiledBy);
+            builder.append(", ");
+        }
+        if (sourceText != null) {
+            builder.append("sourceText=");
+            builder.append(sourceText);
+            builder.append(", ");
+        }
+        if (title != null) {
+            builder.append("title=");
+            builder.append(title);
+            builder.append(", ");
+        }
+        if (userReferences != null) {
+            builder.append("userReferences=");
+            builder.append(userReferences);
+            builder.append(", ");
+        }
+        if (xref != null) {
+            builder.append("xref=");
+            builder.append(xref);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

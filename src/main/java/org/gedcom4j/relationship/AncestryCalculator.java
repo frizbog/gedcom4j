@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.relationship;
 
@@ -73,35 +78,10 @@ public class AncestryCalculator {
         Set<Individual> result = new HashSet<Individual>();
 
         // Get every family this individual was a child of
-        for (FamilyChild fc : individual.familiesWhereChild) {
-            // Add father and all his wives
-            Individual dad = fc.family.husband;
-            if (dad != null && !result.contains(dad)) {
-                result.add(dad);
-                for (FamilySpouse fs : dad.familiesWhereSpouse) {
-                    Individual dadsWife = fs.family.wife;
-                    if (dadsWife != null) {
-                        result.add(dadsWife);
-                        result.addAll(getExtendedAncestry(dadsWife));
-                    }
-                }
-                // And include his extended ancestry as well (recursively)
-                result.addAll(getExtendedAncestry(dad));
-            }
-
-            // Add mother and all her husbands
-            Individual mom = fc.family.wife;
-            if (mom != null && !result.contains(mom)) {
-                result.add(mom);
-                for (FamilySpouse fs : mom.familiesWhereSpouse) {
-                    Individual momsHusband = fs.family.husband;
-                    if (momsHusband != null) {
-                        result.add(momsHusband);
-                        result.addAll(getExtendedAncestry(momsHusband));
-                    }
-                }
-                // And include her extended ancestry as well (recursively)
-                result.addAll(getExtendedAncestry(mom));
+        if (individual.getFamiliesWhereChild() != null) {
+            for (FamilyChild fc : individual.getFamiliesWhereChild()) {
+                addFatherAndAllHisWives(result, fc);
+                addMotherAndAllHerHusbands(result, fc);
             }
         }
 
@@ -150,6 +130,32 @@ public class AncestryCalculator {
     }
 
     /**
+     * Add father and all his wives
+     * 
+     * @param result
+     *            the result we are adding to
+     * @param fc
+     *            the family/child object we're working from
+     */
+    private void addFatherAndAllHisWives(Set<Individual> result, FamilyChild fc) {
+        Individual dad = fc.getFamily().getHusband();
+        if (dad != null && !result.contains(dad)) {
+            result.add(dad);
+            if (dad.getFamiliesWhereSpouse() != null) {
+                for (FamilySpouse fs : dad.getFamiliesWhereSpouse()) {
+                    Individual dadsWife = fs.getFamily().getWife();
+                    if (dadsWife != null) {
+                        result.add(dadsWife);
+                        result.addAll(getExtendedAncestry(dadsWife));
+                    }
+                }
+            }
+            // And include his extended ancestry as well (recursively)
+            result.addAll(getExtendedAncestry(dad));
+        }
+    }
+
+    /**
      * <p>
      * Get a set of common ancestors between a specific individual and a person who we checked earlier.
      * </p>
@@ -185,26 +191,27 @@ public class AncestryCalculator {
 
         // Go through all the individuals parents and their spouses to see
         // if they are in the other person's set of ancestors
-        for (FamilyChild fc : individual.familiesWhereChild) {
-            // First check dad
-            if (!checkedAlready.contains(fc.family.husband)) {
-                checkParent(level, set, fc.family.husband);
-            }
-            // Now check mom
-            if (!checkedAlready.contains(fc.family.wife)) {
-                checkParent(level, set, fc.family.wife);
+        if (individual.getFamiliesWhereChild() != null) {
+            for (FamilyChild fc : individual.getFamiliesWhereChild()) {
+                // First check dad
+                if (!checkedAlready.contains(fc.getFamily().getHusband())) {
+                    checkParent(level, set, fc.getFamily().getHusband());
+                }
+                // Now check mom
+                if (!checkedAlready.contains(fc.getFamily().getWife())) {
+                    checkParent(level, set, fc.getFamily().getWife());
+                }
             }
         }
 
-        if (!addedAnyCommonAncestors) {
-            // we didn't find any common ancestors, so recurse up this
-            // individual's parents
-            for (FamilyChild fc : individual.familiesWhereChild) {
-                Individual dad = fc.family.husband;
+        // If we didn't find any common ancestors, recurse up this individual's parents
+        if (!addedAnyCommonAncestors && individual.getFamiliesWhereChild() != null) {
+            for (FamilyChild fc : individual.getFamiliesWhereChild()) {
+                Individual dad = fc.getFamily().getHusband();
                 if (dad != null && !checkedAlready.contains(dad)) {
                     addLowestCommonAncestorsToSet(dad, set, level + 1);
                 }
-                Individual mom = fc.family.wife;
+                Individual mom = fc.getFamily().getWife();
                 if (mom != null && !checkedAlready.contains(mom)) {
                     addLowestCommonAncestorsToSet(mom, set, level + 1);
                 }
@@ -213,7 +220,33 @@ public class AncestryCalculator {
     }
 
     /**
-     * Check the father in a family to see if he's a common ancestor
+     * Add mother and all her husbands
+     * 
+     * @param result
+     *            the result we are adding to
+     * @param fc
+     *            the family/child object we're working from
+     */
+    private void addMotherAndAllHerHusbands(Set<Individual> result, FamilyChild fc) {
+        Individual mom = fc.getFamily().getWife();
+        if (mom != null && !result.contains(mom)) {
+            result.add(mom);
+            if (mom.getFamiliesWhereSpouse() != null) {
+                for (FamilySpouse fs : mom.getFamiliesWhereSpouse()) {
+                    Individual momsHusband = fs.getFamily().getHusband();
+                    if (momsHusband != null) {
+                        result.add(momsHusband);
+                        result.addAll(getExtendedAncestry(momsHusband));
+                    }
+                }
+            }
+            // And include her extended ancestry as well (recursively)
+            result.addAll(getExtendedAncestry(mom));
+        }
+    }
+
+    /**
+     * Check the parent in a family to see if he's a common ancestor
      * 
      * @param level
      *            the level we're recursing at
@@ -230,30 +263,32 @@ public class AncestryCalculator {
         }
 
         if (targetList.contains(parent)) {
-            // Dad is in common, add to result set
+            // Parents is in common, add to result set
             set.add(parent);
             addedAnyCommonAncestors = true;
             return;
         }
-        // Dad isn't in common, check his spouses
-        for (FamilySpouse fs : parent.familiesWhereSpouse) {
-            Individual spouse = getSpouse(fs, parent);
-            if (spouse == null) {
-                continue;
-            }
-            if (targetList.contains(spouse)) {
-                // Dad's wife is in common, add to result set
-                set.add(spouse);
-                addedAnyCommonAncestors = true;
-            } else if (!checkedAlready.contains(spouse) && !spouse.familiesWhereChild.isEmpty()) {
-                Set<Individual> s = new HashSet<Individual>();
-                addLowestCommonAncestorsToSet(spouse, s, level + 1);
-                if (!s.isEmpty()) {
-                    /*
-                     * Parent's spouse or the spouse's ancestors in the target list, so add them to the result set
-                     */
-                    set.addAll(s);
+        // Parent isn't in common, check their spouses
+        if (parent.getFamiliesWhereSpouse() != null) {
+            for (FamilySpouse fs : parent.getFamiliesWhereSpouse()) {
+                Individual spouse = getSpouse(fs, parent);
+                if (spouse == null) {
+                    continue;
+                }
+                if (targetList.contains(spouse)) {
+                    // Parent's spouse is in common, add to result set
+                    set.add(spouse);
                     addedAnyCommonAncestors = true;
+                } else if (!checkedAlready.contains(spouse) && spouse.getFamiliesWhereChild() != null && !spouse.getFamiliesWhereChild().isEmpty()) {
+                    Set<Individual> s = new HashSet<Individual>();
+                    addLowestCommonAncestorsToSet(spouse, s, level + 1);
+                    if (!s.isEmpty()) {
+                        /*
+                         * Parent's spouse or the spouse's ancestors in the target list, so add them to the result set
+                         */
+                        set.addAll(s);
+                        addedAnyCommonAncestors = true;
+                    }
                 }
             }
         }
@@ -269,11 +304,12 @@ public class AncestryCalculator {
      * @return the spouse of the individual passed in
      */
     private Individual getSpouse(FamilySpouse fs, Individual i) {
-        if (fs.family.husband == i) {
-            return fs.family.wife;
+        Family fam = fs.getFamily();
+        if (fam.getHusband() == i) {
+            return fam.getWife();
         }
-        if (fs.family.wife == i) {
-            return fs.family.husband;
+        if (fam.getWife() == i) {
+            return fam.getHusband();
         }
         return null;
     }
@@ -302,16 +338,16 @@ public class AncestryCalculator {
      * @return true if and only if the ancestor has been found for person
      */
     private boolean lookForAncestor(Individual person, Individual ancestor) {
-        if (person != null && person.familiesWhereChild != null) {
-            for (FamilyChild fc : person.familiesWhereChild) {
-                Family f = fc.family;
-                if (ancestor.equals(f.husband) || ancestor.equals(f.wife)) {
+        if (person != null && person.getFamiliesWhereChild() != null) {
+            for (FamilyChild fc : person.getFamiliesWhereChild()) {
+                Family f = fc.getFamily();
+                if (ancestor.equals(f.getHusband()) || ancestor.equals(f.getWife())) {
                     genCount = 1;
                     return true;
-                } else if (lookForAncestor(f.husband, ancestor)) {
+                } else if (lookForAncestor(f.getHusband(), ancestor)) {
                     genCount++;
                     return true;
-                } else if (lookForAncestor(f.wife, ancestor)) {
+                } else if (lookForAncestor(f.getWife(), ancestor)) {
                     genCount++;
                     return true;
                 } else {

@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.comparators;
 
@@ -52,20 +57,6 @@ public class IndividualByLastNameFirstNameComparatorTest {
     Individual i2;
 
     /**
-     * Helper method for readability, that adds a basic name to an individual
-     * 
-     * @param i
-     *            the individual who is getting their name added
-     * @param string
-     *            the basic name to add to the individual
-     */
-    private void addBasicName(Individual i, String string) {
-        PersonalName n = new PersonalName();
-        n.basic = string;
-        i.names.add(n);
-    }
-
-    /**
      * Set up test fixtures
      */
     @Before
@@ -86,10 +77,8 @@ public class IndividualByLastNameFirstNameComparatorTest {
         addBasicName(i2, "Bob /Marley/");
         addBasicName(i2, "Ziggy /Zoots/");
 
-        assertTrue("Bob Martin comes after Bob Marley, and Ziggy Zoots and Aaron Aardvark get ignored",
-                c.compare(i1, i2) > 0);
-        assertTrue("Bob Marley comes before Bob Martin, and Ziggy Zoots and Aaron Aardvark get ignored",
-                c.compare(i2, i1) < 0);
+        assertTrue("Bob Martin comes after Bob Marley, and Ziggy Zoots and Aaron Aardvark get ignored", c.compare(i1, i2) > 0);
+        assertTrue("Bob Marley comes before Bob Martin, and Ziggy Zoots and Aaron Aardvark get ignored", c.compare(i2, i1) < 0);
     }
 
     /**
@@ -124,10 +113,8 @@ public class IndividualByLastNameFirstNameComparatorTest {
     public void testOneHasNoName() {
         addBasicName(i1, "Bob /Marley/");
 
-        assertTrue("The individual with a name should always come after the individual with no names",
-                c.compare(i1, i2) > 0);
-        assertTrue("The individual with a name should always come after the individual with no names",
-                c.compare(i2, i1) < 0);
+        assertTrue("The individual with a name should always come after the individual with no names", c.compare(i1, i2) > 0);
+        assertTrue("The individual with a name should always come after the individual with no names", c.compare(i2, i1) < 0);
     }
 
     /**
@@ -154,6 +141,20 @@ public class IndividualByLastNameFirstNameComparatorTest {
 
         assertTrue("Ziggy Marley comes after Bob Marley", c.compare(i1, i2) > 0);
         assertTrue("Bob Marley comes before Ziggy Marley", c.compare(i2, i1) < 0);
+    }
+
+    /**
+     * Helper method for readability, that adds a basic name to an individual
+     * 
+     * @param i
+     *            the individual who is getting their name added
+     * @param string
+     *            the basic name to add to the individual
+     */
+    private void addBasicName(Individual i, String string) {
+        PersonalName n = new PersonalName();
+        n.setBasic(string);
+        i.getNames(true).add(n);
     }
 
 }

@@ -1,28 +1,35 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.gedcom4j.Options;
 
 /**
  * <p>
@@ -36,74 +43,79 @@ import java.util.List;
  */
 public class Submitter extends AbstractElement {
     /**
-     * The xref for this submitter
+     * Serial Version UID
      */
-    public String xref;
-
-    /**
-     * The registration file number for this submitter
-     */
-    public StringWithCustomTags regFileNumber;
-
-    /**
-     * The name of this submitter
-     */
-    public StringWithCustomTags name;
-
-    /**
-     * The record ID number
-     */
-    public StringWithCustomTags recIdNumber;
-
-    /**
-     * The language preferences
-     */
-    public List<StringWithCustomTags> languagePref = new ArrayList<StringWithCustomTags>(0);
+    private static final long serialVersionUID = 964849855689332389L;
 
     /**
      * The address of this submitter
      */
-    public Address address;
-
-    /**
-     * The phone numbers for this submitter
-     */
-    public List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * Web URL's. New for GEDCOM 5.5.1.
-     */
-    public List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * Fax numbers. New for GEDCOM 5.5.1.
-     */
-    public List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * The emails for this submitter. New for GEDCOM 5.5.1
-     */
-    public List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
-
-    /**
-     * The multimedia for this submitter
-     */
-    public List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
+    private Address address;
 
     /**
      * The change date for this submitter
      */
-    public ChangeDate changeDate;
+    private ChangeDate changeDate;
+
+    /**
+     * The emails for this submitter. New for GEDCOM 5.5.1
+     */
+    private List<StringWithCustomTags> emails = getEmails(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Fax numbers. New for GEDCOM 5.5.1.
+     */
+    private List<StringWithCustomTags> faxNumbers = getFaxNumbers(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The language preferences
+     */
+    private List<StringWithCustomTags> languagePref = getLanguagePref(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The multimedia for this submitter
+     */
+    private List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The name of this submitter
+     */
+    private StringWithCustomTags name;
+
+    /**
+     * Notes about this object
+     */
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The phone numbers for this submitter
+     */
+    private List<StringWithCustomTags> phoneNumbers = getPhoneNumbers(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The record ID number
+     */
+    private StringWithCustomTags recIdNumber;
+
+    /**
+     * The registration file number for this submitter
+     */
+    private StringWithCustomTags regFileNumber;
 
     /**
      * The user references for this submitter
      */
-    public List<UserReference> userReferences = new ArrayList<UserReference>(0);
+    private List<UserReference> userReferences = getUserReferences(Options.isCollectionInitializationEnabled());
 
     /**
-     * The notes for this submitter
+     * Web URL's. New for GEDCOM 5.5.1.
      */
-    public List<Note> notes = new ArrayList<Note>(0);
+    private List<StringWithCustomTags> wwwUrls = getWwwUrls(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The xref for this submitter
+     */
+    private String xref;
 
     /**
      * {@inheritDoc}
@@ -223,6 +235,246 @@ public class Submitter extends AbstractElement {
     }
 
     /**
+     * Gets the address.
+     *
+     * @return the address
+     */
+    public Address getAddress() {
+        return address;
+    }
+
+    /**
+     * Gets the change date.
+     *
+     * @return the change date
+     */
+    public ChangeDate getChangeDate() {
+        return changeDate;
+    }
+
+    /**
+     * Gets the emails.
+     *
+     * @return the emails
+     */
+    public List<StringWithCustomTags> getEmails() {
+        return emails;
+    }
+
+    /**
+     * Get the emails
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the emails
+     */
+    public List<StringWithCustomTags> getEmails(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && emails == null) {
+            emails = new ArrayList<StringWithCustomTags>(0);
+        }
+
+        return emails;
+    }
+
+    /**
+     * Gets the fax numbers.
+     *
+     * @return the fax numbers
+     */
+    public List<StringWithCustomTags> getFaxNumbers() {
+        return faxNumbers;
+    }
+
+    /**
+     * Get the fax numbers
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the fax numbers
+     */
+    public List<StringWithCustomTags> getFaxNumbers(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && faxNumbers == null) {
+            faxNumbers = new ArrayList<StringWithCustomTags>(0);
+        }
+        return faxNumbers;
+    }
+
+    /**
+     * Gets the language pref.
+     *
+     * @return the language pref
+     */
+    public List<StringWithCustomTags> getLanguagePref() {
+        return languagePref;
+    }
+
+    /**
+     * Get the languagePref
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the languagePref
+     */
+    public List<StringWithCustomTags> getLanguagePref(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && languagePref == null) {
+            languagePref = new ArrayList<StringWithCustomTags>(0);
+        }
+        return languagePref;
+    }
+
+    /**
+     * Gets the multimedia.
+     *
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia() {
+        return multimedia;
+    }
+
+    /**
+     * Get the multimedia
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && multimedia == null) {
+            multimedia = new ArrayList<Multimedia>(0);
+        }
+        return multimedia;
+    }
+
+    /**
+     * Gets the name.
+     *
+     * @return the name
+     */
+    public StringWithCustomTags getName() {
+        return name;
+    }
+
+    /**
+     * Gets the notes.
+     *
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
+    /**
+     * Gets the phone numbers.
+     *
+     * @return the phone numbers
+     */
+    public List<StringWithCustomTags> getPhoneNumbers() {
+        return phoneNumbers;
+    }
+
+    /**
+     * Get the phone numbers
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the phone numbers
+     */
+    public List<StringWithCustomTags> getPhoneNumbers(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && phoneNumbers == null) {
+            phoneNumbers = new ArrayList<StringWithCustomTags>(0);
+        }
+        return phoneNumbers;
+    }
+
+    /**
+     * Gets the rec id number.
+     *
+     * @return the rec id number
+     */
+    public StringWithCustomTags getRecIdNumber() {
+        return recIdNumber;
+    }
+
+    /**
+     * Gets the reg file number.
+     *
+     * @return the reg file number
+     */
+    public StringWithCustomTags getRegFileNumber() {
+        return regFileNumber;
+    }
+
+    /**
+     * Gets the user references.
+     *
+     * @return the user references
+     */
+    public List<UserReference> getUserReferences() {
+        return userReferences;
+    }
+
+    /**
+     * Get the user references
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the user references
+     */
+    public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && userReferences == null) {
+            userReferences = new ArrayList<UserReference>(0);
+        }
+        return userReferences;
+    }
+
+    /**
+     * Gets the www urls.
+     *
+     * @return the www urls
+     */
+    public List<StringWithCustomTags> getWwwUrls() {
+        return wwwUrls;
+    }
+
+    /**
+     * Get the www urls
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the www urls
+     */
+    public List<StringWithCustomTags> getWwwUrls(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && wwwUrls == null) {
+            wwwUrls = new ArrayList<StringWithCustomTags>(0);
+        }
+        return wwwUrls;
+    }
+
+    /**
+     * Gets the xref.
+     *
+     * @return the xref
+     */
+    public String getXref() {
+        return xref;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -246,15 +498,148 @@ public class Submitter extends AbstractElement {
         return result;
     }
 
+    /**
+     * Sets the address.
+     *
+     * @param address
+     *            the new address
+     */
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    /**
+     * Sets the change date.
+     *
+     * @param changeDate
+     *            the new change date
+     */
+    public void setChangeDate(ChangeDate changeDate) {
+        this.changeDate = changeDate;
+    }
+
+    /**
+     * Sets the name.
+     *
+     * @param name
+     *            the new name
+     */
+    public void setName(StringWithCustomTags name) {
+        this.name = name;
+    }
+
+    /**
+     * Sets the rec id number.
+     *
+     * @param recIdNumber
+     *            the new rec id number
+     */
+    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+        this.recIdNumber = recIdNumber;
+    }
+
+    /**
+     * Sets the reg file number.
+     *
+     * @param regFileNumber
+     *            the new reg file number
+     */
+    public void setRegFileNumber(StringWithCustomTags regFileNumber) {
+        this.regFileNumber = regFileNumber;
+    }
+
+    /**
+     * Sets the xref.
+     *
+     * @param xref
+     *            the new xref
+     */
+    public void setXref(String xref) {
+        this.xref = xref;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "Submitter [" + (xref != null ? "xref=" + xref + ", " : "") + (regFileNumber != null ? "regFileNumber=" + regFileNumber + ", " : "")
-                + (name != null ? "name=" + name + ", " : "") + (recIdNumber != null ? "recIdNumber=" + recIdNumber + ", " : "")
-                + (languagePref != null ? "languagePref=" + languagePref + ", " : "") + (address != null ? "address=" + address + ", " : "")
-                + (phoneNumbers != null ? "phoneNumbers=" + phoneNumbers + ", " : "") + (wwwUrls != null ? "wwwUrls=" + wwwUrls + ", " : "")
-                + (faxNumbers != null ? "faxNumbers=" + faxNumbers + ", " : "") + (emails != null ? "emails=" + emails + ", " : "")
-                + (multimedia != null ? "multimedia=" + multimedia + ", " : "") + (changeDate != null ? "changeDate=" + changeDate + ", " : "")
-                + (userReferences != null ? "userReferences=" + userReferences + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
-                + (customTags != null ? "customTags=" + customTags : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("Submitter [");
+        if (address != null) {
+            builder.append("address=");
+            builder.append(address);
+            builder.append(", ");
+        }
+        if (changeDate != null) {
+            builder.append("changeDate=");
+            builder.append(changeDate);
+            builder.append(", ");
+        }
+        if (emails != null) {
+            builder.append("emails=");
+            builder.append(emails);
+            builder.append(", ");
+        }
+        if (faxNumbers != null) {
+            builder.append("faxNumbers=");
+            builder.append(faxNumbers);
+            builder.append(", ");
+        }
+        if (languagePref != null) {
+            builder.append("languagePref=");
+            builder.append(languagePref);
+            builder.append(", ");
+        }
+        if (multimedia != null) {
+            builder.append("multimedia=");
+            builder.append(multimedia);
+            builder.append(", ");
+        }
+        if (name != null) {
+            builder.append("name=");
+            builder.append(name);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (phoneNumbers != null) {
+            builder.append("phoneNumbers=");
+            builder.append(phoneNumbers);
+            builder.append(", ");
+        }
+        if (recIdNumber != null) {
+            builder.append("recIdNumber=");
+            builder.append(recIdNumber);
+            builder.append(", ");
+        }
+        if (regFileNumber != null) {
+            builder.append("regFileNumber=");
+            builder.append(regFileNumber);
+            builder.append(", ");
+        }
+        if (userReferences != null) {
+            builder.append("userReferences=");
+            builder.append(userReferences);
+            builder.append(", ");
+        }
+        if (wwwUrls != null) {
+            builder.append("wwwUrls=");
+            builder.append(wwwUrls);
+            builder.append(", ");
+        }
+        if (xref != null) {
+            builder.append("xref=");
+            builder.append(xref);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
@@ -28,20 +33,25 @@ package org.gedcom4j.model;
  */
 public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -6448687737594960394L;
+
+    /**
      * The family in which the individual was a child - used for SLGC types
      */
-    public FamilyChild familyWhereChild;
+    private FamilyChild familyWhereChild;
 
     /**
      * The type
      */
-    public LdsIndividualOrdinanceType type;
+    private LdsIndividualOrdinanceType type;
 
     /**
      * Allows for a Y or null to be processed after the type. Not strictly part of the GEDCOM, but allows for
      * flexibility
      */
-    public String yNull;
+    private String yNull;
 
     @Override
     public boolean equals(Object obj) {
@@ -75,6 +85,33 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
         return true;
     }
 
+    /**
+     * Gets the family where child.
+     *
+     * @return the family where child
+     */
+    public FamilyChild getFamilyWhereChild() {
+        return familyWhereChild;
+    }
+
+    /**
+     * Gets the type.
+     *
+     * @return the type
+     */
+    public LdsIndividualOrdinanceType getType() {
+        return type;
+    }
+
+    /**
+     * Get the yNull
+     * 
+     * @return the yNull
+     */
+    public String getyNull() {
+        return yNull;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -85,10 +122,93 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
         return result;
     }
 
+    /**
+     * Sets the family where child.
+     *
+     * @param familyWhereChild
+     *            the new family where child
+     */
+    public void setFamilyWhereChild(FamilyChild familyWhereChild) {
+        this.familyWhereChild = familyWhereChild;
+    }
+
+    /**
+     * Sets the type.
+     *
+     * @param type
+     *            the new type
+     */
+    public void setType(LdsIndividualOrdinanceType type) {
+        this.type = type;
+    }
+
+    /**
+     * Set the yNull
+     * 
+     * @param yNull
+     *            the yNull to set
+     */
+    public void setyNull(String yNull) {
+        this.yNull = yNull;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "LdsIndividualOrdinance [familyWhereChild=" + familyWhereChild + ", type=" + type + ", yNull=" + yNull
-                + ", status=" + status + ", date=" + date + ", temple=" + temple + ", place=" + place + ", citations="
-                + citations + ", notes=" + notes + ", customTags=" + customTags + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("LdsIndividualOrdinance [");
+        if (familyWhereChild != null) {
+            builder.append("familyWhereChild=");
+            builder.append(familyWhereChild);
+            builder.append(", ");
+        }
+        if (type != null) {
+            builder.append("type=");
+            builder.append(type);
+            builder.append(", ");
+        }
+        if (yNull != null) {
+            builder.append("yNull=");
+            builder.append(yNull);
+            builder.append(", ");
+        }
+        if (citations != null) {
+            builder.append("citations=");
+            builder.append(citations);
+            builder.append(", ");
+        }
+        if (date != null) {
+            builder.append("date=");
+            builder.append(date);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (place != null) {
+            builder.append("place=");
+            builder.append(place);
+            builder.append(", ");
+        }
+        if (status != null) {
+            builder.append("status=");
+            builder.append(status);
+            builder.append(", ");
+        }
+        if (temple != null) {
+            builder.append("temple=");
+            builder.append(temple);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

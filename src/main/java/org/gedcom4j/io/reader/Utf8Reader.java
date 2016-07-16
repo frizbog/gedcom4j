@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.io.reader;
 
@@ -35,22 +40,27 @@ import org.gedcom4j.parser.GedcomParser;
  * 
  * @author frizbog
  */
-class Utf8Reader extends AbstractEncodingSpecificReader {
+final class Utf8Reader extends AbstractEncodingSpecificReader {
 
     /**
      * Was a byte order marker read when inspecting the file to detect encoding?
      */
-    private boolean byteOrderMarkerRead;
+    private boolean byteOrderMarkerRead = false;
 
     /**
      * Input stream reader for internal use over the byte stream
      */
-    private InputStreamReader inputStreamReader;
+    private final InputStreamReader inputStreamReader;
 
     /**
-     * Buffered reader over the input stream reader, for interanl use
+     * Buffered reader over the input stream reader, for internal use
      */
-    private BufferedReader bufferedReader;
+    private final BufferedReader bufferedReader;
+
+    /**
+     * The progress tracking input stream
+     */
+    private ProgressTrackingInputStream inputStream;
 
     /**
      * Constructor
@@ -65,19 +75,19 @@ class Utf8Reader extends AbstractEncodingSpecificReader {
      */
     Utf8Reader(GedcomParser parser, InputStream byteStream) throws IOException {
         super(parser, byteStream);
-        inputStreamReader = null;
-        bufferedReader = null;
         try {
-            inputStreamReader = new InputStreamReader(byteStream, "UTF8");
+            inputStream = new ProgressTrackingInputStream(byteStream);
+            inputStreamReader = new InputStreamReader(inputStream, "UTF8");
 
             if (byteOrderMarkerRead) {
                 // discard the byte order marker if one was detected
                 inputStreamReader.read();
+                bytesRead = inputStream.getBytesRead();
             }
 
             bufferedReader = new BufferedReader(inputStreamReader);
         } catch (IOException e) {
-            cleanUp();
+            closeReaders();
             throw e;
         }
     }
@@ -86,6 +96,7 @@ class Utf8Reader extends AbstractEncodingSpecificReader {
     public String nextLine() throws IOException, GedcomParserException {
         String result = null;
         String s = bufferedReader.readLine();
+        bytesRead = inputStream.getBytesRead();
 
         // Strip off Byte Order Mark if needed
         if (s != null && s.length() > 0 && s.charAt(0) == ((char) 0xFEFF)) {
@@ -100,7 +111,9 @@ class Utf8Reader extends AbstractEncodingSpecificReader {
                 break;
             }
             s = bufferedReader.readLine();
+            bytesRead = inputStream.getBytesRead();
         }
+        bytesRead = inputStream.getBytesRead();
         return result;
     }
 
@@ -116,6 +129,17 @@ class Utf8Reader extends AbstractEncodingSpecificReader {
 
     @Override
     void cleanUp() throws IOException {
+        closeReaders();
+    }
+
+    /**
+     * Close the readers created in this class. Private so it can't be overridden (like {@link #cleanUp()} can be),
+     * which makes it safe to call from the constructor.
+     * 
+     * @throws IOException
+     *             if the readers can't be closed
+     */
+    private void closeReaders() throws IOException {
         if (bufferedReader != null) {
             bufferedReader.close();
         }

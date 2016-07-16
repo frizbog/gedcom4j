@@ -1,29 +1,35 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.validate;
 
-import java.util.ArrayList;
-
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.PersonalName;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.TestHelper;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -53,15 +59,15 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
         super.setUp();
         gedcom = TestHelper.getMinimalGedcom();
         rootValidator.gedcom = gedcom;
-        rootValidator.autorepair = false;
+        rootValidator.setAutorepairEnabled(false);
 
         ind = new Individual();
-        ind.xref = "@I00001@";
-        gedcom.individuals.put(ind.xref, ind);
+        ind.setXref("@I00001@");
+        gedcom.getIndividuals().put(ind.getXref(), ind);
 
         pn = new PersonalName();
-        ind.names.add(pn);
-        pn.basic = "Joe /Schmo/";
+        ind.getNames(true).add(pn);
+        pn.setBasic("Joe /Schmo/");
         rootValidator.validate();
         assertNoIssues();
     }
@@ -71,19 +77,19 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testBasic() {
-        pn.basic = null;
+        pn.setBasic(null);
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "basic", "name", "required");
 
-        pn.basic = "";
+        pn.setBasic("");
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "basic", "name", "required");
 
-        pn.basic = "       "; // whitespace gets trimmed
+        pn.setBasic("       "); // whitespace gets trimmed
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "basic", "name", "required");
 
-        pn.basic = "Joe /Schmo/";
+        pn.setBasic("Joe /Schmo/");
         rootValidator.validate();
         assertNoIssues();
     }
@@ -93,15 +99,15 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testGivenName() {
-        pn.givenName = new StringWithCustomTags((String) null);
+        pn.setGivenName(new StringWithCustomTags((String) null));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "given name", "no value");
 
-        pn.givenName = new StringWithCustomTags("");
+        pn.setGivenName(new StringWithCustomTags(""));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "given name", "no value");
 
-        pn.givenName = new StringWithCustomTags("Fred");
+        pn.setGivenName(new StringWithCustomTags("Fred"));
         rootValidator.validate();
         assertNoIssues();
     }
@@ -111,15 +117,15 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNickname() {
-        pn.nickname = new StringWithCustomTags((String) null);
+        pn.setNickname(new StringWithCustomTags((String) null));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "nickname", "no value");
 
-        pn.nickname = new StringWithCustomTags("");
+        pn.setNickname(new StringWithCustomTags(""));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "nickname", "no value");
 
-        pn.nickname = new StringWithCustomTags("Bubba");
+        pn.setNickname(new StringWithCustomTags("Bubba"));
         rootValidator.validate();
         assertNoIssues();
     }
@@ -129,11 +135,9 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNotes() {
-        pn.notes = null;
         rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "notes", "null");
-
-        pn.notes = new ArrayList<Note>();
+        assertNoIssues();
+        pn.getNotes(true);
         rootValidator.validate();
         assertNoIssues();
     }
@@ -144,7 +148,7 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testNullNameObject() {
 
-        ind.names.add(null);
+        ind.getNames(true).add(null);
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "name", "null");
     }
@@ -154,15 +158,15 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testPrefix() {
-        pn.prefix = new StringWithCustomTags((String) null);
+        pn.setPrefix(new StringWithCustomTags((String) null));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "prefix", "no value");
 
-        pn.prefix = new StringWithCustomTags("");
+        pn.setPrefix(new StringWithCustomTags(""));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "prefix", "no value");
 
-        pn.prefix = new StringWithCustomTags("Mr.");
+        pn.setPrefix(new StringWithCustomTags("Mr."));
         rootValidator.validate();
         assertNoIssues();
     }
@@ -172,15 +176,15 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testSuffix() {
-        pn.suffix = new StringWithCustomTags((String) null);
+        pn.setSuffix(new StringWithCustomTags((String) null));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "suffix", "no value");
 
-        pn.suffix = new StringWithCustomTags("");
+        pn.setSuffix(new StringWithCustomTags(""));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "suffix", "no value");
 
-        pn.suffix = new StringWithCustomTags("Jr.");
+        pn.setSuffix(new StringWithCustomTags("Jr."));
         rootValidator.validate();
         assertNoIssues();
     }
@@ -190,15 +194,15 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testSurname() {
-        pn.surname = new StringWithCustomTags((String) null);
+        pn.setSurname(new StringWithCustomTags((String) null));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "surname", "no value");
 
-        pn.surname = new StringWithCustomTags("");
+        pn.setSurname(new StringWithCustomTags(""));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "surname", "no value");
 
-        pn.surname = new StringWithCustomTags("Johnson");
+        pn.setSurname(new StringWithCustomTags("Johnson"));
         rootValidator.validate();
         assertNoIssues();
     }
@@ -208,15 +212,15 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testSurnamePrefix() {
-        pn.surnamePrefix = new StringWithCustomTags((String) null);
+        pn.setSurnamePrefix(new StringWithCustomTags((String) null));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "surname prefix", "no value");
 
-        pn.surnamePrefix = new StringWithCustomTags("");
+        pn.setSurnamePrefix(new StringWithCustomTags(""));
         rootValidator.validate();
         assertFindingsContain(Severity.ERROR, "surname prefix", "no value");
 
-        pn.surnamePrefix = new StringWithCustomTags("van");
+        pn.setSurnamePrefix(new StringWithCustomTags("van"));
         rootValidator.validate();
         assertNoIssues();
     }

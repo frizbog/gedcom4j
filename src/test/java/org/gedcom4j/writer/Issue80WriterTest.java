@@ -1,25 +1,29 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
-
 package org.gedcom4j.writer;
 
 import static org.junit.Assert.assertEquals;
@@ -48,32 +52,32 @@ public class Issue80WriterTest {
 
         // Set up a place with a lat and long
         Place p = new Place();
-        p.placeName = "Walla Walla, Washington";
-        p.latitude = new StringWithCustomTags("123");
-        p.longitude = new StringWithCustomTags("3.14159");
+        p.setPlaceName("Walla Walla, Washington");
+        p.setLatitude(new StringWithCustomTags("123"));
+        p.setLongitude(new StringWithCustomTags("3.14159"));
 
         IndividualEvent b = new IndividualEvent();
-        b.type = IndividualEventType.BIRTH;
-        b.place = p;
+        b.setType(IndividualEventType.BIRTH);
+        b.setPlace(p);
 
         Individual i = new Individual();
-        i.xref = "@I001@";
-        i.events.add(b);
+        i.setXref("@I001@");
+        i.getEvents(true).add(b);
 
         Gedcom g = new Gedcom();
-        g.individuals.put("@I001@", i);
+        g.getIndividuals().put("@I001@", i);
 
         // Gedcoms require a submitter
         Submitter s = new Submitter();
-        s.xref = "@SUBM@"; // Some unique xref for a submitter
-        s.name = new StringWithCustomTags("Matt /Harrah/");
-        g.header.submitter = s;
-        g.submitters.put(s.xref, s); // Use the xref as the map key
+        s.setXref("@SUBM@"); // Some unique xref for a submitter
+        s.setName(new StringWithCustomTags("Matt /Harrah/"));
+        g.getHeader().setSubmitter(s);
+        g.getSubmitters().put(s.getXref(), s); // Use the xref as the map key
 
         // Write to sysout
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
-        gw.useLittleEndianForUnicode = false;
+        gw.setUseLittleEndianForUnicode(false);
         gw.write(System.out);
 
         // Now that we've written the gedcom, let's examine what we wrote

@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
@@ -36,13 +41,17 @@ public enum IndividualAttributeType {
      */
     CASTE_NAME("CAST", "Caste Type"),
     /**
-     * Physical description
+     * Count of children
      */
-    PHYSICAL_DESCRIPTION("DSCR", "Physical Description"),
+    COUNT_OF_CHILDREN("NCHI", "Number of Children"),
     /**
-     * Scholastic achievement
+     * Count of marriages
      */
-    SCHOLASTIC_ACHIEVEMENT("EDUC", "Scholastic Achievement"),
+    COUNT_OF_MARRIAGES("NMR", "Number of Marriages"),
+    /**
+     * Generic fact. New for GEDCOM 5.5.1.
+     */
+    FACT("FACT", "Fact"),
     /**
      * National ID number
      */
@@ -52,17 +61,17 @@ public enum IndividualAttributeType {
      */
     NATIONAL_OR_TRIBAL_ORIGIN("NATI", "National or Tribal Origin"),
     /**
-     * Count of children
+     * Nobility type title
      */
-    COUNT_OF_CHILDREN("NCHI", "Number of Children"),
-    /**
-     * Count of marriages
-     */
-    COUNT_OF_MARRIAGES("NMR", "Number of Marriages"),
+    NOBILITY_TYPE_TITLE("TITL", "Title"),
     /**
      * Occupation
      */
     OCCUPATION("OCCU", "Occupation"),
+    /**
+     * Physical description
+     */
+    PHYSICAL_DESCRIPTION("DSCR", "Physical Description"),
     /**
      * Possessions
      */
@@ -76,17 +85,13 @@ public enum IndividualAttributeType {
      */
     RESIDENCE("RESI", "Residence"),
     /**
+     * Scholastic achievement
+     */
+    SCHOLASTIC_ACHIEVEMENT("EDUC", "Scholastic Achievement"),
+    /**
      * Social Security Number
      */
-    SOCIAL_SECURITY_NUMBER("SSN", "Social Security Number"),
-    /**
-     * Nobility type title
-     */
-    NOBILITY_TYPE_TITLE("TITL", "Title"),
-    /**
-     * Generic fact. New for GEDCOM 5.5.1.
-     */
-    FACT("FACT", "Fact");
+    SOCIAL_SECURITY_NUMBER("SSN", "Social Security Number");
 
     /**
      * Get an enum constant from its tag value
@@ -116,14 +121,14 @@ public enum IndividualAttributeType {
     }
 
     /**
-     * The tag
-     */
-    public final String tag;
-
-    /**
      * The display value for the type
      */
-    public final String display;
+    private final String display;
+
+    /**
+     * The tag
+     */
+    private final String tag;
 
     /**
      * Constructor
@@ -136,5 +141,28 @@ public enum IndividualAttributeType {
     private IndividualAttributeType(String tag, String display) {
         this.tag = tag.intern();
         this.display = display.intern();
+    }
+
+    /**
+     * Gets the display.
+     *
+     * @return the display
+     */
+    public String getDisplay() {
+        return display;
+    }
+
+    /**
+     * Gets the tag.
+     *
+     * @return the tag
+     */
+    public String getTag() {
+        return tag;
+    }
+
+    @Override
+    public String toString() {
+        return getDisplay();
     }
 }

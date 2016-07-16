@@ -1,75 +1,86 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.Options;
+
 /**
  * A variation on a personal name - either a romanized version or a phonetic version. Introduced with GEDCOM 5.5.1.
  * 
  * @author frizbog
- * 
  */
-public class PersonalNameVariation extends NameVariation {
+public class PersonalNameVariation extends AbstractNameVariation {
     /**
-     * The prefix for the name
+     * Serial Version UID
      */
-    public StringWithCustomTags prefix;
+    private static final long serialVersionUID = 1262477720634081355L;
+
+    /**
+     * The citations for this object
+     */
+    private List<AbstractCitation> citations = getCitations(Options.isCollectionInitializationEnabled());
 
     /**
      * The given (aka "Christian" or "first") names
      */
-    public StringWithCustomTags givenName;
+    private StringWithCustomTags givenName;
 
     /**
      * Nickname
      */
-    public StringWithCustomTags nickname;
+    private StringWithCustomTags nickname;
 
     /**
-     * Surname prefix
+     * Notes about this object
      */
-    public StringWithCustomTags surnamePrefix;
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     /**
-     * The surname (aka "family" or "last" name)
+     * The prefix for the name
      */
-    public StringWithCustomTags surname;
+    private StringWithCustomTags prefix;
 
     /**
      * The suffix
      */
-    public StringWithCustomTags suffix;
+    private StringWithCustomTags suffix;
 
     /**
-     * Notes on this name
+     * The surname (aka "family" or "last" name)
      */
-    public List<Note> notes = new ArrayList<Note>(0);
+    private StringWithCustomTags surname;
 
     /**
-     * Citations for this name
+     * Surname prefix
      */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
+    private StringWithCustomTags surnamePrefix;
 
     /**
      * Determine if this object is equal to another
@@ -165,6 +176,108 @@ public class PersonalNameVariation extends NameVariation {
     }
 
     /**
+     * Gets the citations.
+     *
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations() {
+        return citations;
+    }
+
+    /**
+     * Get the citations
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && citations == null) {
+            citations = new ArrayList<AbstractCitation>(0);
+        }
+        return citations;
+    }
+
+    /**
+     * Gets the given name.
+     *
+     * @return the given name
+     */
+    public StringWithCustomTags getGivenName() {
+        return givenName;
+    }
+
+    /**
+     * Gets the nickname.
+     *
+     * @return the nickname
+     */
+    public StringWithCustomTags getNickname() {
+        return nickname;
+    }
+
+    /**
+     * Gets the notes.
+     *
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
+    /**
+     * Gets the prefix.
+     *
+     * @return the prefix
+     */
+    public StringWithCustomTags getPrefix() {
+        return prefix;
+    }
+
+    /**
+     * Gets the suffix.
+     *
+     * @return the suffix
+     */
+    public StringWithCustomTags getSuffix() {
+        return suffix;
+    }
+
+    /**
+     * Gets the surname.
+     *
+     * @return the surname
+     */
+    public StringWithCustomTags getSurname() {
+        return surname;
+    }
+
+    /**
+     * Gets the surname prefix.
+     *
+     * @return the surname prefix
+     */
+    public StringWithCustomTags getSurnamePrefix() {
+        return surnamePrefix;
+    }
+
+    /**
      * Calculate a hashcode for this object
      * 
      * @see java.lang.Object#hashCode()
@@ -187,14 +300,129 @@ public class PersonalNameVariation extends NameVariation {
         return result;
     }
 
+    /**
+     * Sets the given name.
+     *
+     * @param givenName
+     *            the new given name
+     */
+    public void setGivenName(StringWithCustomTags givenName) {
+        this.givenName = givenName;
+    }
+
+    /**
+     * Sets the nickname.
+     *
+     * @param nickname
+     *            the new nickname
+     */
+    public void setNickname(StringWithCustomTags nickname) {
+        this.nickname = nickname;
+    }
+
+    /**
+     * Sets the prefix.
+     *
+     * @param prefix
+     *            the new prefix
+     */
+    public void setPrefix(StringWithCustomTags prefix) {
+        this.prefix = prefix;
+    }
+
+    /**
+     * Sets the suffix.
+     *
+     * @param suffix
+     *            the new suffix
+     */
+    public void setSuffix(StringWithCustomTags suffix) {
+        this.suffix = suffix;
+    }
+
+    /**
+     * Sets the surname.
+     *
+     * @param surname
+     *            the new surname
+     */
+    public void setSurname(StringWithCustomTags surname) {
+        this.surname = surname;
+    }
+
+    /**
+     * Sets the surname prefix.
+     *
+     * @param surnamePrefix
+     *            the new surname prefix
+     */
+    public void setSurnamePrefix(StringWithCustomTags surnamePrefix) {
+        this.surnamePrefix = surnamePrefix;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "PersonalNameVariation [" + (prefix != null ? "prefix=" + prefix + ", " : "") + (givenName != null ? "givenName=" + givenName + ", " : "")
-                + (nickname != null ? "nickname=" + nickname + ", " : "") + (surnamePrefix != null ? "surnamePrefix=" + surnamePrefix + ", " : "")
-                + (surname != null ? "surname=" + surname + ", " : "") + (suffix != null ? "suffix=" + suffix + ", " : "")
-                + (notes != null ? "notes=" + notes + ", " : "") + (citations != null ? "citations=" + citations + ", " : "")
-                + (variationType != null ? "variationType=" + variationType + ", " : "") + (variation != null ? "variation=" + variation + ", " : "")
-                + (customTags != null ? "customTags=" + customTags : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("PersonalNameVariation [");
+        if (citations != null) {
+            builder.append("citations=");
+            builder.append(citations);
+            builder.append(", ");
+        }
+        if (givenName != null) {
+            builder.append("givenName=");
+            builder.append(givenName);
+            builder.append(", ");
+        }
+        if (nickname != null) {
+            builder.append("nickname=");
+            builder.append(nickname);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (prefix != null) {
+            builder.append("prefix=");
+            builder.append(prefix);
+            builder.append(", ");
+        }
+        if (suffix != null) {
+            builder.append("suffix=");
+            builder.append(suffix);
+            builder.append(", ");
+        }
+        if (surname != null) {
+            builder.append("surname=");
+            builder.append(surname);
+            builder.append(", ");
+        }
+        if (surnamePrefix != null) {
+            builder.append("surnamePrefix=");
+            builder.append(surnamePrefix);
+            builder.append(", ");
+        }
+        if (variation != null) {
+            builder.append("variation=");
+            builder.append(variation);
+            builder.append(", ");
+        }
+        if (variationType != null) {
+            builder.append("variationType=");
+            builder.append(variationType);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
 }

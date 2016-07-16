@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
@@ -43,49 +48,49 @@ public class AssociationTest {
         Association a2 = new Association();
         assertEquals(a1, a2);
 
-        a1.associatedEntityType = new StringWithCustomTags("Frying Pan");
+        a1.setAssociatedEntityType(new StringWithCustomTags("Frying Pan"));
         assertFalse(a1.equals(a2));
-        a2.associatedEntityType = new StringWithCustomTags("Frying Pan");
+        a2.setAssociatedEntityType(new StringWithCustomTags("Frying Pan"));
         assertEquals(a1, a2);
-        a1.associatedEntityType = null;
+        a1.setAssociatedEntityType(null);
         assertFalse(a1.equals(a2));
-        a2.associatedEntityType = null;
-        assertEquals(a1, a2);
-
-        a1.associatedEntityXref = "Frying Pan";
-        assertFalse(a1.equals(a2));
-        a2.associatedEntityXref = "Frying Pan";
-        assertEquals(a1, a2);
-        a1.associatedEntityXref = null;
-        assertFalse(a1.equals(a2));
-        a2.associatedEntityXref = null;
+        a2.setAssociatedEntityType(null);
         assertEquals(a1, a2);
 
-        a1.relationship = new StringWithCustomTags("Frying Pan");
+        a1.setAssociatedEntityXref("Frying Pan");
         assertFalse(a1.equals(a2));
-        a2.relationship = new StringWithCustomTags("Frying Pan");
+        a2.setAssociatedEntityXref("Frying Pan");
         assertEquals(a1, a2);
-        a1.relationship = null;
+        a1.setAssociatedEntityXref(null);
         assertFalse(a1.equals(a2));
-        a2.relationship = null;
-        assertEquals(a1, a2);
-
-        a1.citations.add(new CitationWithSource());
-        assertFalse(a1.equals(a2));
-        a2.citations.add(new CitationWithSource());
-        assertEquals(a1, a2);
-        a1.citations = null;
-        assertFalse(a1.equals(a2));
-        a2.citations = null;
+        a2.setAssociatedEntityXref(null);
         assertEquals(a1, a2);
 
-        a1.notes.add(new Note());
+        a1.setRelationship(new StringWithCustomTags("Frying Pan"));
         assertFalse(a1.equals(a2));
-        a2.notes.add(new Note());
+        a2.setRelationship(new StringWithCustomTags("Frying Pan"));
         assertEquals(a1, a2);
-        a1.notes = null;
+        a1.setRelationship(null);
         assertFalse(a1.equals(a2));
-        a2.notes = null;
+        a2.setRelationship(null);
+        assertEquals(a1, a2);
+
+        a1.getCitations(true).add(new CitationWithSource());
+        assertFalse(a1.equals(a2));
+        a2.getCitations(true).add(new CitationWithSource());
+        assertEquals(a1, a2);
+        a1.getCitations().clear();
+        assertFalse(a1.equals(a2));
+        a2.getCitations().clear();
+        assertEquals(a1, a2);
+
+        a1.getNotes(true).add(new Note());
+        assertFalse(a1.equals(a2));
+        a2.getNotes(true).add(new Note());
+        assertEquals(a1, a2);
+        a1.getNotes().clear();
+        assertFalse(a1.equals(a2));
+        a2.getNotes().clear();
         assertEquals(a1, a2);
 
         assertFalse(a1.equals(null));
@@ -102,49 +107,49 @@ public class AssociationTest {
         Association a2 = new Association();
         assertEquals(a1, a2);
 
-        a1.associatedEntityType = new StringWithCustomTags("Frying Pan");
+        a1.setAssociatedEntityType(new StringWithCustomTags("Frying Pan"));
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.associatedEntityType = new StringWithCustomTags("Frying Pan");
+        a2.setAssociatedEntityType(new StringWithCustomTags("Frying Pan"));
         assertEquals(a1.hashCode(), a2.hashCode());
-        a1.associatedEntityType = null;
+        a1.setAssociatedEntityType(null);
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.associatedEntityType = null;
-        assertEquals(a1.hashCode(), a2.hashCode());
-
-        a1.associatedEntityXref = "Frying Pan";
-        assertFalse(a1.hashCode() == a2.hashCode());
-        a2.associatedEntityXref = "Frying Pan";
-        assertEquals(a1.hashCode(), a2.hashCode());
-        a1.associatedEntityXref = null;
-        assertFalse(a1.hashCode() == a2.hashCode());
-        a2.associatedEntityXref = null;
+        a2.setAssociatedEntityType(null);
         assertEquals(a1.hashCode(), a2.hashCode());
 
-        a1.relationship = new StringWithCustomTags("Frying Pan");
+        a1.setAssociatedEntityXref("Frying Pan");
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.relationship = new StringWithCustomTags("Frying Pan");
+        a2.setAssociatedEntityXref("Frying Pan");
         assertEquals(a1.hashCode(), a2.hashCode());
-        a1.relationship = null;
+        a1.setAssociatedEntityXref(null);
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.relationship = null;
-        assertEquals(a1.hashCode(), a2.hashCode());
-
-        a1.citations.add(new CitationWithSource());
-        assertFalse(a1.hashCode() == a2.hashCode());
-        a2.citations.add(new CitationWithSource());
-        assertEquals(a1.hashCode(), a2.hashCode());
-        a1.citations = null;
-        assertFalse(a1.hashCode() == a2.hashCode());
-        a2.citations = null;
+        a2.setAssociatedEntityXref(null);
         assertEquals(a1.hashCode(), a2.hashCode());
 
-        a1.notes.add(new Note());
+        a1.setRelationship(new StringWithCustomTags("Frying Pan"));
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.notes.add(new Note());
+        a2.setRelationship(new StringWithCustomTags("Frying Pan"));
         assertEquals(a1.hashCode(), a2.hashCode());
-        a1.notes = null;
+        a1.setRelationship(null);
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.notes = null;
+        a2.setRelationship(null);
+        assertEquals(a1.hashCode(), a2.hashCode());
+
+        a1.getCitations(true).add(new CitationWithSource());
+        assertFalse(a1.hashCode() == a2.hashCode());
+        a2.getCitations(true).add(new CitationWithSource());
+        assertEquals(a1.hashCode(), a2.hashCode());
+        a1.getCitations().clear();
+        assertFalse(a1.hashCode() == a2.hashCode());
+        a2.getCitations().clear();
+        assertEquals(a1.hashCode(), a2.hashCode());
+
+        a1.getNotes(true).add(new Note());
+        assertFalse(a1.hashCode() == a2.hashCode());
+        a2.getNotes(true).add(new Note());
+        assertEquals(a1.hashCode(), a2.hashCode());
+        a1.getNotes().clear();
+        assertFalse(a1.hashCode() == a2.hashCode());
+        a2.getNotes().clear();
         assertEquals(a1.hashCode(), a2.hashCode());
 
         assertFalse(a1.hashCode() == hashCode());

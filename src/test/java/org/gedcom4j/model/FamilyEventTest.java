@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
@@ -89,10 +94,10 @@ public class FamilyEventTest {
         FamilyEvent e1 = new FamilyEvent();
         FamilyEvent e2 = new FamilyEvent();
 
-        e1.citations = null;
+        e1.getCitations(true);
         assertFalse(e1.equals(e2));
         assertFalse(e1.hashCode() == e2.hashCode());
-        e2.citations = null;
+        e2.getCitations(true);
         assertTrue(e1.equals(e2));
         assertTrue(e1.hashCode() == e2.hashCode());
     }
@@ -137,10 +142,10 @@ public class FamilyEventTest {
         FamilyEvent e1 = new FamilyEvent();
         FamilyEvent e2 = new FamilyEvent();
 
-        e1.husbandAge = new StringWithCustomTags("Foo");
+        e1.setHusbandAge(new StringWithCustomTags("Foo"));
         assertFalse(e1.equals(e2));
         assertFalse(e1.hashCode() == e2.hashCode());
-        e2.husbandAge = new StringWithCustomTags("Foo");
+        e2.setHusbandAge(new StringWithCustomTags("Foo"));
         assertTrue(e1.equals(e2));
         assertTrue(e1.hashCode() == e2.hashCode());
     }
@@ -153,10 +158,10 @@ public class FamilyEventTest {
         FamilyEvent e1 = new FamilyEvent();
         FamilyEvent e2 = new FamilyEvent();
 
-        e1.multimedia = null;
+        e1.getMultimedia(true);
         assertFalse(e1.equals(e2));
         assertFalse(e1.hashCode() == e2.hashCode());
-        e2.multimedia = null;
+        e2.getMultimedia(true);
         assertTrue(e1.equals(e2));
         assertTrue(e1.hashCode() == e2.hashCode());
     }
@@ -169,10 +174,10 @@ public class FamilyEventTest {
         FamilyEvent e1 = new FamilyEvent();
         FamilyEvent e2 = new FamilyEvent();
 
-        e1.notes = null;
+        e1.getNotes(true);
         assertFalse(e1.equals(e2));
         assertFalse(e1.hashCode() == e2.hashCode());
-        e2.notes = null;
+        e2.getNotes(true);
         assertTrue(e1.equals(e2));
         assertTrue(e1.hashCode() == e2.hashCode());
     }
@@ -185,10 +190,10 @@ public class FamilyEventTest {
         FamilyEvent e1 = new FamilyEvent();
         FamilyEvent e2 = new FamilyEvent();
 
-        e1.phoneNumbers = null;
+        e1.getPhoneNumbers(true);
         assertFalse(e1.equals(e2));
         assertFalse(e1.hashCode() == e2.hashCode());
-        e2.phoneNumbers = null;
+        e2.getPhoneNumbers(true);
         assertTrue(e1.equals(e2));
         assertTrue(e1.hashCode() == e2.hashCode());
     }
@@ -260,10 +265,10 @@ public class FamilyEventTest {
         FamilyEvent e1 = new FamilyEvent();
         FamilyEvent e2 = new FamilyEvent();
 
-        e1.type = FamilyEventType.EVENT;
+        e1.setType(FamilyEventType.EVENT);
         assertFalse(e1.equals(e2));
         assertFalse(e1.hashCode() == e2.hashCode());
-        e2.type = FamilyEventType.EVENT;
+        e2.setType(FamilyEventType.EVENT);
         assertTrue(e1.equals(e2));
         assertTrue(e1.hashCode() == e2.hashCode());
     }
@@ -276,10 +281,10 @@ public class FamilyEventTest {
         FamilyEvent e1 = new FamilyEvent();
         FamilyEvent e2 = new FamilyEvent();
 
-        e1.wifeAge = new StringWithCustomTags("Foo");
+        e1.setWifeAge(new StringWithCustomTags("Foo"));
         assertFalse(e1.equals(e2));
         assertFalse(e1.hashCode() == e2.hashCode());
-        e2.wifeAge = new StringWithCustomTags("Foo");
+        e2.setWifeAge(new StringWithCustomTags("Foo"));
         assertTrue(e1.equals(e2));
         assertTrue(e1.hashCode() == e2.hashCode());
     }

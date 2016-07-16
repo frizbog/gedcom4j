@@ -1,29 +1,34 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.validate;
 
-import junit.framework.TestCase;
-
 import org.gedcom4j.model.Gedcom;
+
+import junit.framework.TestCase;
 
 /**
  * A base class for validator tests with handy helper methods
@@ -66,6 +71,16 @@ public abstract class AbstractValidatorTestCase extends TestCase {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        gedcom = new Gedcom();
+        rootValidator = new GedcomValidator(gedcom);
+    }
+
+    /**
      * Assert that the findings collection on the root validator contains at least one finding of the specified severity
      * with a given substring
      * 
@@ -75,11 +90,11 @@ public abstract class AbstractValidatorTestCase extends TestCase {
      *            substring to look for in the finding's description
      */
     protected void assertFindingsContain(Severity severity, String... substringOfDescription) {
-        for (GedcomValidationFinding f : rootValidator.findings) {
-            if (f.severity == severity) {
+        for (GedcomValidationFinding f : rootValidator.getFindings()) {
+            if (f.getSeverity() == severity) {
                 boolean matchAllSoFar = true;
                 for (String substring : substringOfDescription) {
-                    if (!f.problemDescription.toLowerCase().contains(substring.toLowerCase())) {
+                    if (!f.getProblemDescription().toLowerCase().contains(substring.toLowerCase())) {
                         matchAllSoFar = false;
                     }
                 }
@@ -122,24 +137,14 @@ public abstract class AbstractValidatorTestCase extends TestCase {
      * Write all the findings out to stdout
      */
     protected void dumpFindings() {
-        if (rootValidator.findings.isEmpty()) {
+        if (rootValidator.getFindings().isEmpty()) {
             return;
         }
-        if (rootValidator.findings.size() > 0) {
-            System.out.println(rootValidator.findings.size() + " finding(s) from validation");
+        if (rootValidator.getFindings().size() > 0) {
+            System.out.println(rootValidator.getFindings().size() + " finding(s) from validation");
         }
-        for (GedcomValidationFinding f : rootValidator.findings) {
+        for (GedcomValidationFinding f : rootValidator.getFindings()) {
             System.out.println("  " + f);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        gedcom = new Gedcom();
-        rootValidator = new GedcomValidator(gedcom);
     }
 }

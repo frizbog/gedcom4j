@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.parser;
 
@@ -75,22 +80,22 @@ public class Issue62Test {
     public void setUp() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/Event Tag Test.ged");
-        Gedcom g = gp.gedcom;
+        Gedcom g = gp.getGedcom();
         assertNotNull(g);
-        assertTrue(gp.errors.isEmpty());
-        assertEquals("Two tags had descriptions where [Y|<NULL>] belonged", 2, gp.warnings.size());
-        assertFalse(g.individuals.isEmpty());
-        assertEquals(1, g.individuals.size());
-        Individual i = g.individuals.values().iterator().next();
+        assertTrue(gp.getErrors().isEmpty());
+        assertEquals("Two tags had descriptions where [Y|<NULL>] belonged", 2, gp.getWarnings().size());
+        assertFalse(g.getIndividuals().isEmpty());
+        assertEquals(1, g.getIndividuals().size());
+        Individual i = g.getIndividuals().values().iterator().next();
         assertNotNull(i);
-        assertEquals(4, i.events.size());
-        birth = i.events.get(0);
+        assertEquals(4, i.getEvents().size());
+        birth = i.getEvents().get(0);
         assertNotNull(birth);
-        cremation = i.events.get(1);
+        cremation = i.getEvents().get(1);
         assertNotNull(cremation);
-        burial = i.events.get(2);
+        burial = i.getEvents().get(2);
         assertNotNull(burial);
-        death = i.events.get(3);
+        death = i.getEvents().get(3);
         assertNotNull(death);
     }
 
@@ -99,11 +104,11 @@ public class Issue62Test {
      */
     @Test
     public void testBirthDescription() {
-        assertNotNull(birth.description);
-        assertNotNull(birth.description.value);
-        assertTrue(birth.description.value.startsWith("This was entered"));
-        assertTrue(birth.description.value.endsWith("laborum."));
-        assertEquals(552, birth.description.value.length());
+        assertNotNull(birth.getDescription());
+        assertNotNull(birth.getDescription().getValue());
+        assertTrue(birth.getDescription().getValue().startsWith("This was entered"));
+        assertTrue(birth.getDescription().getValue().endsWith("laborum."));
+        assertEquals(552, birth.getDescription().getValue().length());
     }
 
     /**
@@ -113,7 +118,7 @@ public class Issue62Test {
      */
     @Test
     public void testBirthYNull() {
-        assertNull("", birth.yNull);
+        assertNull("", birth.getyNull());
     }
 
     /**
@@ -121,8 +126,8 @@ public class Issue62Test {
      */
     @Test
     public void testBurialDescription() {
-        assertNotNull(burial.description);
-        assertEquals("Unmarked grave", burial.description.value);
+        assertNotNull(burial.getDescription());
+        assertEquals("Unmarked grave", burial.getDescription().getValue());
     }
 
     /**
@@ -131,7 +136,7 @@ public class Issue62Test {
      */
     @Test
     public void testBurialYNull() {
-        assertNull(burial.yNull);
+        assertNull(burial.getyNull());
     }
 
     /**
@@ -139,7 +144,7 @@ public class Issue62Test {
      */
     @Test
     public void testCremationDescription() {
-        assertNull(cremation.description);
+        assertNull(cremation.getDescription());
     }
 
     /**
@@ -148,7 +153,7 @@ public class Issue62Test {
      */
     @Test
     public void testCremationYNull() {
-        assertEquals("Y", cremation.yNull);
+        assertEquals("Y", cremation.getyNull());
     }
 
     /**
@@ -156,7 +161,7 @@ public class Issue62Test {
      */
     @Test
     public void testDeathDescription() {
-        assertNull(death.description);
+        assertNull(death.getDescription());
     }
 
     /**
@@ -166,6 +171,6 @@ public class Issue62Test {
      */
     @Test
     public void testDeathYNull() {
-        assertNull(death.yNull);
+        assertNull(death.getyNull());
     }
 }

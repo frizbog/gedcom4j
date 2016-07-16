@@ -1,31 +1,36 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.validate;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.gedcom4j.Options;
 import org.gedcom4j.model.*;
 
 /**
@@ -45,7 +50,7 @@ import org.gedcom4j.model.*;
  * <ol>
  * <li>Instantiate a {@link GedcomValidator}, passing the {@link Gedcom} structure to be validated as the argument to
  * the constructor</li>
- * <li>If desired, turn off automatic repairs during validation by setting {@link GedcomValidator#autorepair} to
+ * <li>If desired, turn off automatic repairs during validation by setting {@link GedcomValidator#autorepairEnabled} to
  * <tt>false</tt>.
  * <li>Call the {@link GedcomValidator#validate()} method.</li>
  * <li>Inspect the {@link GedcomValidator#findings} list, which contains {@link GedcomValidationFinding} objects
@@ -61,18 +66,10 @@ import org.gedcom4j.model.*;
  * <p>
  * The validation framework, by default and unless disabled, will attempt to automatically repair ("autorepair")
  * problems it finds in the object graph, so that if written as a GEDCOM file, the file written will conform to the
- * GEDCOM spec, as well as to help the developer avoid NullPointerExceptions due to certain items not being
- * instantiated.
+ * GEDCOM spec, as well as to help the developer avoid NullPointerExceptions due to certain items not being instantiated
+ * (if they have so selected in the {@link Options} class.
  * </p>
- * <p>
- * This section lists a number of the actions taken automatically when autorepair is enabled.
- * </p>
- * <ul>
- * <li>Collection fields (e.g., the language preferences collection on a submitter, or custom tags on those
- * fields/object that support them) are initialized to empty collections if they are null.</li>
- * <li>Certain mandatory fields are given default values. N.B. The values chosen as defaults may not be suitable, so the
- * user is urged to</li>
- * </ul>
+ * 
  * 
  * @author frizbog1
  */
@@ -82,12 +79,12 @@ public class GedcomValidator extends AbstractValidator {
      * Will the most simple, obvious, non-destructive errors be automatically fixed? This includes things like creating
      * empty collections where one is expected but only a null reference exists.
      */
-    public boolean autorepair = true;
+    private boolean autorepairEnabled = true;
 
     /**
      * The findings from validation
      */
-    public List<GedcomValidationFinding> findings = new ArrayList<GedcomValidationFinding>();
+    private final List<GedcomValidationFinding> findings = new ArrayList<GedcomValidationFinding>();
 
     /**
      * The gedcom structure being validated
@@ -106,13 +103,36 @@ public class GedcomValidator extends AbstractValidator {
     }
 
     /**
+     * Get the findings
+     * 
+     * @return the findings
+     */
+    public List<GedcomValidationFinding> getFindings() {
+        return findings;
+    }
+
+    /**
      * Are there any errors in the findings (so far)?
      * 
      * @return true if there exists at least one finding with severity ERROR
      */
     public boolean hasErrors() {
         for (GedcomValidationFinding finding : rootValidator.findings) {
-            if (finding.severity == Severity.ERROR) {
+            if (finding.getSeverity() == Severity.ERROR) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Are there any INFO level items in the findings (so far)?
+     * 
+     * @return true if there exists at least one finding with severity INFO
+     */
+    public boolean hasInfo() {
+        for (GedcomValidationFinding finding : rootValidator.findings) {
+            if (finding.getSeverity() == Severity.INFO) {
                 return true;
             }
         }
@@ -126,11 +146,30 @@ public class GedcomValidator extends AbstractValidator {
      */
     public boolean hasWarnings() {
         for (GedcomValidationFinding finding : rootValidator.findings) {
-            if (finding.severity == Severity.WARNING) {
+            if (finding.getSeverity() == Severity.WARNING) {
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * Get the autorepair
+     * 
+     * @return the autorepair
+     */
+    public boolean isAutorepairEnabled() {
+        return autorepairEnabled;
+    }
+
+    /**
+     * Set the autorepair
+     * 
+     * @param autorepair
+     *            the autorepair to set
+     */
+    public void setAutorepairEnabled(boolean autorepair) {
+        autorepairEnabled = autorepair;
     }
 
     /**
@@ -151,9 +190,9 @@ public class GedcomValidator extends AbstractValidator {
         validateMultimedia();
         validateNotes();
         validateSources();
-        validateSubmission(gedcom.submission);
+        validateSubmission(gedcom.getSubmission());
         validateTrailer();
-        checkNotes(new ArrayList<Note>(gedcom.notes.values()), gedcom);
+        new NotesValidator(rootValidator, gedcom, new ArrayList<Note>(gedcom.getNotes().values())).validate();
     }
 
     /**
@@ -169,30 +208,21 @@ public class GedcomValidator extends AbstractValidator {
             return;
         }
         checkXref(s);
-        checkOptionalString(s.ancestorsCount, "Ancestor count", s);
-        checkOptionalString(s.descendantsCount, "Descendant count", s);
-        checkOptionalString(s.nameOfFamilyFile, "Name of family file", s);
-        checkOptionalString(s.ordinanceProcessFlag, "Ordinance process flag", s);
-        checkOptionalString(s.recIdNumber, "Automated record id", s);
-        checkOptionalString(s.templeCode, "Temple code", s);
+        checkOptionalString(s.getAncestorsCount(), "Ancestor count", s);
+        checkOptionalString(s.getDescendantsCount(), "Descendant count", s);
+        checkOptionalString(s.getNameOfFamilyFile(), "Name of family file", s);
+        checkOptionalString(s.getOrdinanceProcessFlag(), "Ordinance process flag", s);
+        checkOptionalString(s.getRecIdNumber(), "Automated record id", s);
+        checkOptionalString(s.getTempleCode(), "Temple code", s);
     }
 
     /**
      * Validate the families map
      */
     private void validateFamilies() {
-        if (gedcom.families == null) {
-            if (rootValidator.autorepair) {
-                gedcom.families = new HashMap<String, Family>();
-                rootValidator.addInfo("Map of families in gedcom was null - repaired", gedcom);
-            } else {
-                rootValidator.addError("Map of families in gedcom is null", gedcom);
-                return;
-            }
-        }
-        for (Entry<String, Family> e : gedcom.families.entrySet()) {
+        for (Entry<String, Family> e : gedcom.getFamilies().entrySet()) {
             if (e.getKey() == null) {
-                if (rootValidator.autorepair) {
+                if (rootValidator.autorepairEnabled) {
                     rootValidator.addError("Family in map but has null key - cannot repair", e.getValue());
                 } else {
                     rootValidator.addError("Family in map but has null key", e.getValue());
@@ -200,11 +230,11 @@ public class GedcomValidator extends AbstractValidator {
                 continue;
             }
             Family f = e.getValue();
-            if (!e.getKey().equals(f.xref)) {
-                if (rootValidator.autorepair) {
-                    rootValidator.addError("Family in map not keyed by its xref - cannot repair", f.xref);
+            if (!e.getKey().equals(f.getXref())) {
+                if (rootValidator.autorepairEnabled) {
+                    rootValidator.addError("Family in map not keyed by its xref - cannot repair", f.getXref());
                 } else {
-                    rootValidator.addError("Family in map not keyed by its xref", f.xref);
+                    rootValidator.addError("Family in map not keyed by its xref", f.getXref());
                 }
                 continue;
             }
@@ -216,32 +246,23 @@ public class GedcomValidator extends AbstractValidator {
      * Validate the {@link Gedcom#header} object
      */
     private void validateHeader() {
-        if (gedcom.header == null) {
-            if (autorepair) {
-                gedcom.header = new Header();
+        if (gedcom.getHeader() == null) {
+            if (autorepairEnabled) {
+                gedcom.setHeader(new Header());
                 addInfo("Header was null - autorepaired");
             } else {
                 addError("GEDCOM Header is null");
                 return;
             }
         }
-        new HeaderValidator(rootValidator, gedcom.header).validate();
+        new HeaderValidator(rootValidator, gedcom.getHeader()).validate();
     }
 
     /**
      * Validate the {@link Gedcom#individuals} collection
      */
     private void validateIndividuals() {
-        if (gedcom.individuals == null) {
-            if (autorepair) {
-                gedcom.individuals = new HashMap<String, Individual>();
-                addInfo("Individuals collection was null - autorepaired", gedcom);
-            } else {
-                addError("Individuals collection is null", gedcom);
-                return;
-            }
-        }
-        for (Entry<String, Individual> e : gedcom.individuals.entrySet()) {
+        for (Entry<String, Individual> e : gedcom.getIndividuals().entrySet()) {
             if (e.getKey() == null) {
                 addError("Entry in individuals collection has null key", e);
                 return;
@@ -250,7 +271,7 @@ public class GedcomValidator extends AbstractValidator {
                 addError("Entry in individuals collection has null value", e);
                 return;
             }
-            if (!e.getKey().equals(e.getValue().xref)) {
+            if (!e.getKey().equals(e.getValue().getXref())) {
                 addError("Entry in individuals collection is not keyed by the individual's xref", e);
                 return;
             }
@@ -262,9 +283,11 @@ public class GedcomValidator extends AbstractValidator {
      * Validate the collection of {@link Multimedia} objects
      */
     private void validateMultimedia() {
-        for (Multimedia m : gedcom.multimedia.values()) {
-            MultimediaValidator mv = new MultimediaValidator(this, m);
-            mv.validate();
+        if (gedcom.getMultimedia() != null) {
+            for (Multimedia m : gedcom.getMultimedia().values()) {
+                MultimediaValidator mv = new MultimediaValidator(this, m);
+                mv.validate();
+            }
         }
     }
 
@@ -273,7 +296,7 @@ public class GedcomValidator extends AbstractValidator {
      */
     private void validateNotes() {
         int i = 0;
-        for (Note n : gedcom.notes.values()) {
+        for (Note n : gedcom.getNotes().values()) {
             i++;
             new NoteValidator(rootValidator, i, n).validate();
         }
@@ -283,16 +306,7 @@ public class GedcomValidator extends AbstractValidator {
      * Validate the repositories collection
      */
     private void validateRepositories() {
-        if (gedcom.repositories == null) {
-            if (autorepair) {
-                gedcom.repositories = new HashMap<String, Repository>();
-                addInfo("Repositories collection on root gedcom was null - autorepaired", gedcom);
-                return;
-            }
-            addError("Repositories collection on root gedcom is null", gedcom);
-            return;
-        }
-        for (Entry<String, Repository> e : gedcom.repositories.entrySet()) {
+        for (Entry<String, Repository> e : gedcom.getRepositories().entrySet()) {
             if (e.getKey() == null) {
                 addError("Entry in repositories collection has null key", e);
                 return;
@@ -301,7 +315,7 @@ public class GedcomValidator extends AbstractValidator {
                 addError("Entry in repositories collection has null value", e);
                 return;
             }
-            if (!e.getKey().equals(e.getValue().xref)) {
+            if (!e.getKey().equals(e.getValue().getXref())) {
                 addError("Entry in repositories collection is not keyed by the Repository's xref", e);
                 return;
             }
@@ -314,16 +328,7 @@ public class GedcomValidator extends AbstractValidator {
      * Validate the {@link Gedcom#sources} collection
      */
     private void validateSources() {
-        if (gedcom.sources == null) {
-            if (autorepair) {
-                gedcom.sources = new HashMap<String, Source>();
-                addInfo("Sources collection was null - autorepaired", gedcom);
-            } else {
-                addError("Sources collection is null", gedcom);
-                return;
-            }
-        }
-        for (Entry<String, Source> e : gedcom.sources.entrySet()) {
+        for (Entry<String, Source> e : gedcom.getSources().entrySet()) {
             if (e.getKey() == null) {
                 addError("Entry in sources collection has null key", e);
                 return;
@@ -332,7 +337,7 @@ public class GedcomValidator extends AbstractValidator {
                 addError("Entry in sources collection has null value", e);
                 return;
             }
-            if (!e.getKey().equals(e.getValue().xref)) {
+            if (!e.getKey().equals(e.getValue().getXref())) {
                 addError("Entry in sources collection is not keyed by the individual's xref", e);
                 return;
             }
@@ -344,27 +349,18 @@ public class GedcomValidator extends AbstractValidator {
      * Validate the submitters collection
      */
     private void validateSubmitters() {
-        if (gedcom.submitters == null) {
-            if (autorepair) {
-                gedcom.submitters = new HashMap<String, Submitter>();
-                addInfo("Submitters collection was missing on gedcom - repaired", gedcom);
-            } else {
-                addInfo("Submitters collection is missing on gedcom", gedcom);
-                return;
-            }
-        }
-        if (gedcom.submitters.isEmpty()) {
-            if (autorepair) {
+        if (gedcom.getSubmitters().isEmpty()) {
+            if (autorepairEnabled) {
                 Submitter s = new Submitter();
-                s.xref = "@SUBM0000@";
-                s.name = new StringWithCustomTags("UNSPECIFIED");
-                gedcom.submitters.put(s.xref, s);
+                s.setXref("@SUBM0000@");
+                s.setName(new StringWithCustomTags("UNSPECIFIED"));
+                gedcom.getSubmitters().put(s.getXref(), s);
                 addInfo("Submitters collection was empty - repaired", gedcom);
             } else {
                 addError("Submitters collection is empty", gedcom);
             }
         }
-        for (Submitter s : gedcom.submitters.values()) {
+        for (Submitter s : gedcom.getSubmitters().values()) {
             new SubmitterValidator(rootValidator, s).validate();
         }
     }
@@ -373,9 +369,9 @@ public class GedcomValidator extends AbstractValidator {
      * Validate the trailer
      */
     private void validateTrailer() {
-        if (gedcom.trailer == null) {
-            if (rootValidator.autorepair) {
-                gedcom.trailer = new Trailer();
+        if (gedcom.getTrailer() == null) {
+            if (rootValidator.autorepairEnabled) {
+                gedcom.setTrailer(new Trailer());
                 rootValidator.addInfo("Gedcom had no trailer - repaired", gedcom);
             } else {
                 rootValidator.addError("Gedcom has no trailer", gedcom);

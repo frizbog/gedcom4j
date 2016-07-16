@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
@@ -26,146 +31,155 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.gedcom4j.Options;
+
 /**
  * An individual person. Corresponds to the INDIVIDUAL_RECORD structure in the GEDCOM specification.
  * 
  * @author frizbog1
  */
+@SuppressWarnings("PMD.ExcessiveClassLength")
 public class Individual extends AbstractElement {
-    /**
-     * Aliases for the current individual.
-     */
-    public List<StringWithCustomTags> aliases = new ArrayList<StringWithCustomTags>(0);
 
     /**
-     * A list of submitter(s) who are interested in the ancestry of this individual.
+     * Serial Version UID
      */
-    public List<Submitter> ancestorInterest = new ArrayList<Submitter>(0);
-
-    /**
-     * The Ancestral File Number of this individual.
-     */
-    public StringWithCustomTags ancestralFileNumber;
-
-    /**
-     * A list of associations to which this individual belongs/belonged.
-     */
-    public List<Association> associations = new ArrayList<Association>(0);
-
-    /**
-     * A list of individual attributes about this individual.
-     */
-    public List<IndividualAttribute> attributes = new ArrayList<IndividualAttribute>(0);
-
-    /**
-     * The change date for this individual
-     */
-    public ChangeDate changeDate;
-
-    /**
-     * A list of citations of sources about this individual
-     */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
-
-    /**
-     * A list of submitters who are interested in the descendants of this individual.
-     */
-    public List<Submitter> descendantInterest = new ArrayList<Submitter>(0);
-
-    /**
-     * A list of events for this individual.
-     */
-    public List<IndividualEvent> events = new ArrayList<IndividualEvent>(0);
-
-    /**
-     * A list of families to which this individual was a child
-     */
-    public List<FamilyChild> familiesWhereChild = new ArrayList<FamilyChild>(0);
-
-    /**
-     * A list of families to which this individual was either the husband or wife
-     */
-    public List<FamilySpouse> familiesWhereSpouse = new ArrayList<FamilySpouse>(0);
-
-    /**
-     * A list of LDS individual ordinances for this individual
-     */
-    public List<LdsIndividualOrdinance> ldsIndividualOrdinances = new ArrayList<LdsIndividualOrdinance>(0);
-
-    /**
-     * A list of multimedia items for this individual
-     */
-    public List<Multimedia> multimedia = new ArrayList<Multimedia>(0);
-
-    /**
-     * A list of names for this individual
-     */
-    public List<PersonalName> names = new ArrayList<PersonalName>(0);
-
-    /**
-     * A list of notes for this individual
-     */
-    public List<Note> notes = new ArrayList<Note>(0);
-
-    /**
-     * The permanent record file number for this individual
-     */
-    public StringWithCustomTags permanentRecFileNumber;
-
-    /**
-     * The record ID number for this individual
-     */
-    public StringWithCustomTags recIdNumber;
-
-    /**
-     * The restriction notice (if any) for this individual
-     */
-    public StringWithCustomTags restrictionNotice;
-
-    /**
-     * The sex of this individual
-     */
-    public StringWithCustomTags sex;
-
-    /**
-     * A list of submitter(s) of this individual
-     */
-    public List<Submitter> submitters = new ArrayList<Submitter>(0);
-
-    /**
-     * A list of user references for this individual
-     */
-    public List<UserReference> userReferences = new ArrayList<UserReference>(0);
-
-    /**
-     * The cross-reference ID for this individual
-     */
-    public String xref;
+    private static final long serialVersionUID = -3542679192972351102L;
 
     /**
      * The address of this individual
      */
-    public Address address;
+    private Address address;
 
     /**
-     * The phone numbers for the individual
+     * Aliases for the current individual.
      */
-    public List<StringWithCustomTags> phoneNumbers = new ArrayList<StringWithCustomTags>(0);
+    private List<StringWithCustomTags> aliases = getAliases(Options.isCollectionInitializationEnabled());
 
     /**
-     * Web URL's. New for GEDCOM 5.5.1.
+     * A list of submitter(s) who are interested in the ancestry of this individual.
      */
-    public List<StringWithCustomTags> wwwUrls = new ArrayList<StringWithCustomTags>(0);
+    private List<Submitter> ancestorInterest = getAncestorInterest(Options.isCollectionInitializationEnabled());
 
     /**
-     * Fax numbers. New for GEDCOM 5.5.1.
+     * The Ancestral File Number of this individual.
      */
-    public List<StringWithCustomTags> faxNumbers = new ArrayList<StringWithCustomTags>(0);
+    private StringWithCustomTags ancestralFileNumber;
+
+    /**
+     * A list of associations to which this individual belongs/belonged.
+     */
+    private List<Association> associations = getAssociations(Options.isCollectionInitializationEnabled());
+
+    /**
+     * A list of individual attributes about this individual.
+     */
+    private List<IndividualAttribute> attributes = getAttributes(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The change date for this individual
+     */
+    private ChangeDate changeDate;
+
+    /**
+     * The citations for this object
+     */
+    private List<AbstractCitation> citations = getCitations(Options.isCollectionInitializationEnabled());
+
+    /**
+     * A list of submitters who are interested in the descendants of this individual.
+     */
+    private List<Submitter> descendantInterest = getDescendantInterest(Options.isCollectionInitializationEnabled());
 
     /**
      * The emails for this submitter. New for GEDCOM 5.5.1
      */
-    public List<StringWithCustomTags> emails = new ArrayList<StringWithCustomTags>(0);
+    private List<StringWithCustomTags> emails = getEmails(Options.isCollectionInitializationEnabled());
+
+    /**
+     * A list of events for this individual.
+     */
+    private List<IndividualEvent> events = getEvents(Options.isCollectionInitializationEnabled());
+
+    /**
+     * A list of families to which this individual was a child
+     */
+    private List<FamilyChild> familiesWhereChild = getFamiliesWhereChild(Options.isCollectionInitializationEnabled());
+
+    /**
+     * A list of families to which this individual was either the husband or wife
+     */
+    private List<FamilySpouse> familiesWhereSpouse = getFamiliesWhereSpouse(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Fax numbers. New for GEDCOM 5.5.1.
+     */
+    private List<StringWithCustomTags> faxNumbers = getFaxNumbers(Options.isCollectionInitializationEnabled());
+
+    /**
+     * A list of LDS individual ordinances for this individual
+     */
+    private List<LdsIndividualOrdinance> ldsIndividualOrdinances = getLdsIndividualOrdinances(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Multimedia links for this source citation
+     */
+    private List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
+
+    /**
+     * A list of names for this individual
+     */
+    private List<PersonalName> names = getNames(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Notes about this object
+     */
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The permanent record file number for this individual
+     */
+    private StringWithCustomTags permanentRecFileNumber;
+
+    /**
+     * The phone numbers for this submitter
+     */
+    private List<StringWithCustomTags> phoneNumbers = getPhoneNumbers(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The record ID number
+     */
+    private StringWithCustomTags recIdNumber;
+
+    /**
+     * The restriction notice (if any) for this individual
+     */
+    private StringWithCustomTags restrictionNotice;
+
+    /**
+     * The sex of this individual
+     */
+    private StringWithCustomTags sex;
+
+    /**
+     * A list of submitter(s) of this individual
+     */
+    private List<Submitter> submitters = getSubmitters(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The user references for this submitter
+     */
+    private List<UserReference> userReferences = getUserReferences(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Web URL's. New for GEDCOM 5.5.1.
+     */
+    private List<StringWithCustomTags> wwwUrls = getWwwUrls(Options.isCollectionInitializationEnabled());
+
+    /**
+     * The xref for this submitter
+     */
+    private String xref;
 
     // CHECKSTYLE:OFF for method length
     /**
@@ -380,42 +394,135 @@ public class Individual extends AbstractElement {
     // CHECKSTYLE:ON
 
     /**
-     * Get all the individual's names formatted as a single string. Names after the first one found are shown with "aka"
-     * in between each.
-     * 
-     * @return a string with all the various names for the current individual
+     * Gets the address.
+     *
+     * @return the address
      */
-    public String formattedName() {
-        StringBuilder sb = new StringBuilder();
-        for (PersonalName n : names) {
-            if (sb.length() > 0) {
-                sb.append(" aka ");
-            }
-            sb.append(n);
-        }
-        return sb.toString();
+    public Address getAddress() {
+        return address;
     }
 
     /**
-     * Get a set of ALL the direct ancestors of the current individual, in all generations. Includes parents, and all
-     * their parents, and all <i>their</i> parents, and so on. Siblings, cousins, aunts/uncles, etc. are not included in
-     * the results, nor are alternate spouses for parents (unless this individual was also a child of that family).
+     * Gets the aliases.
+     *
+     * @return the aliases
+     */
+    public List<StringWithCustomTags> getAliases() {
+        return aliases;
+    }
+
+    /**
+     * Get the aliases
      * 
-     * @return a set of ancestors for the current individual.
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the aliases
+     */
+    public List<StringWithCustomTags> getAliases(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && aliases == null) {
+            aliases = new ArrayList<StringWithCustomTags>(0);
+        }
+        return aliases;
+    }
+
+    /**
+     * Gets the ancestor interest.
+     *
+     * @return the ancestor interest
+     */
+    public List<Submitter> getAncestorInterest() {
+        return ancestorInterest;
+    }
+
+    /**
+     * Get the ancestor interest
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the ancestor interest
+     */
+    public List<Submitter> getAncestorInterest(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && ancestorInterest == null) {
+            ancestorInterest = new ArrayList<Submitter>(0);
+        }
+        return ancestorInterest;
+    }
+
+    /**
+     * Gets the ancestors.
+     *
+     * @return the ancestors
      */
     public Set<Individual> getAncestors() {
         Set<Individual> result = new HashSet<Individual>();
-        for (FamilyChild f : familiesWhereChild) {
-            if (f.family.husband != null && !result.contains(f.family.husband)) {
-                result.add(f.family.husband);
-                result.addAll(f.family.husband.getAncestors());
-            }
-            if (f.family.wife != null && !result.contains(f.family.wife)) {
-                result.add(f.family.wife);
-                result.addAll(f.family.wife.getAncestors());
+        if (familiesWhereChild != null) {
+            for (FamilyChild f : familiesWhereChild) {
+                if (f.getFamily().getHusband() != null && !result.contains(f.getFamily().getHusband())) {
+                    result.add(f.getFamily().getHusband());
+                    result.addAll(f.getFamily().getHusband().getAncestors());
+                }
+                if (f.getFamily().getWife() != null && !result.contains(f.getFamily().getWife())) {
+                    result.add(f.getFamily().getWife());
+                    result.addAll(f.getFamily().getWife().getAncestors());
+                }
             }
         }
         return result;
+    }
+
+    /**
+     * Gets the ancestral file number.
+     *
+     * @return the ancestral file number
+     */
+    public StringWithCustomTags getAncestralFileNumber() {
+        return ancestralFileNumber;
+    }
+
+    /**
+     * Gets the associations.
+     *
+     * @return the associations
+     */
+    public List<Association> getAssociations() {
+        return associations;
+    }
+
+    /**
+     * Get the associations
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the associations
+     */
+    public List<Association> getAssociations(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && associations == null) {
+            associations = new ArrayList<Association>(0);
+        }
+        return associations;
+    }
+
+    /**
+     * Gets the attributes.
+     *
+     * @return the attributes
+     */
+    public List<IndividualAttribute> getAttributes() {
+        return attributes;
+    }
+
+    /**
+     * Get the attributes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the attributes
+     */
+    public List<IndividualAttribute> getAttributes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && attributes == null) {
+            attributes = new ArrayList<IndividualAttribute>(0);
+        }
+        return attributes;
     }
 
     /**
@@ -430,7 +537,7 @@ public class Individual extends AbstractElement {
     public List<IndividualAttribute> getAttributesOfType(IndividualAttributeType type) {
         List<IndividualAttribute> result = new ArrayList<IndividualAttribute>(0);
         for (IndividualAttribute ir : attributes) {
-            if (ir.type == type) {
+            if (ir.getType() == type) {
                 result.add(ir);
             }
         }
@@ -438,24 +545,130 @@ public class Individual extends AbstractElement {
     }
 
     /**
-     * Get all the direct blood-line descendants of the current individual, in all generations. Includes children, their
-     * children, <i>their</i> children, and so on. Spouses of descendants are not included in the results.
+     * Gets the change date.
+     *
+     * @return the change date
+     */
+    public ChangeDate getChangeDate() {
+        return changeDate;
+    }
+
+    /**
+     * Gets the citations.
+     *
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations() {
+        return citations;
+    }
+
+    /**
+     * Get the citations
      * 
-     * @return a set of descendants for the current individual
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && citations == null) {
+            citations = new ArrayList<AbstractCitation>(0);
+        }
+        return citations;
+    }
+
+    /**
+     * Gets the descendant interest.
+     *
+     * @return the descendant interest
+     */
+    public List<Submitter> getDescendantInterest() {
+        return descendantInterest;
+    }
+
+    /**
+     * Get the descendant interest
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the descendant interest
+     */
+    public List<Submitter> getDescendantInterest(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && descendantInterest == null) {
+            descendantInterest = new ArrayList<Submitter>(0);
+        }
+        return descendantInterest;
+    }
+
+    /**
+     * Gets the descendants.
+     *
+     * @return the descendants
      */
     public Set<Individual> getDescendants() {
         Set<Individual> result = new HashSet<Individual>();
-        for (FamilySpouse f : familiesWhereSpouse) {
-            for (Individual i : f.family.children) {
-                // Recurse if we have not seen this person before in the results already
-                if (i != this && !result.contains(i) && !i.familiesWhereSpouse.isEmpty()) {
-                    Set<Individual> d = i.getDescendants();
-                    result.addAll(d);
+        if (familiesWhereSpouse != null) {
+            for (FamilySpouse f : familiesWhereSpouse) {
+                if (f.getFamily().getChildren() != null) {
+                    for (Individual i : f.getFamily().getChildren()) {
+                        // Recurse if we have not seen this person before in the results already
+                        if (i != this && !result.contains(i) && (i.familiesWhereSpouse == null || !i.familiesWhereSpouse.isEmpty())) {
+                            Set<Individual> d = i.getDescendants();
+                            result.addAll(d);
+                        }
+                        result.add(i);
+                    }
                 }
-                result.add(i);
             }
         }
         return result;
+    }
+
+    /**
+     * Gets the emails.
+     *
+     * @return the emails
+     */
+    public List<StringWithCustomTags> getEmails() {
+        return emails;
+    }
+
+    /**
+     * Get the emails
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the emails
+     */
+    public List<StringWithCustomTags> getEmails(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && emails == null) {
+            emails = new ArrayList<StringWithCustomTags>(0);
+        }
+
+        return emails;
+    }
+
+    /**
+     * Gets the events.
+     *
+     * @return the events
+     */
+    public List<IndividualEvent> getEvents() {
+        return events;
+    }
+
+    /**
+     * Get the events
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the events
+     */
+    public List<IndividualEvent> getEvents(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && events == null) {
+            events = new ArrayList<IndividualEvent>(0);
+        }
+        return events;
     }
 
     /**
@@ -467,31 +680,352 @@ public class Individual extends AbstractElement {
      */
     public List<IndividualEvent> getEventsOfType(IndividualEventType type) {
         List<IndividualEvent> result = new ArrayList<IndividualEvent>(0);
-        for (IndividualEvent ie : events) {
-            if (ie.type == type) {
-                result.add(ie);
+        if (events != null) {
+            for (IndividualEvent ie : events) {
+                if (ie.getType() == type) {
+                    result.add(ie);
+                }
             }
         }
         return result;
     }
 
     /**
-     * Get a set of spouses for the current individual. Always returns a set, although it may be empty. The returned set
-     * is in no particular order.
+     * Gets the families where child.
+     *
+     * @return the families where child
+     */
+    public List<FamilyChild> getFamiliesWhereChild() {
+        return familiesWhereChild;
+    }
+
+    /**
+     * Gets the families where child.
+     *
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the families where child
+     */
+    public List<FamilyChild> getFamiliesWhereChild(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && familiesWhereChild == null) {
+            familiesWhereChild = new ArrayList<FamilyChild>(0);
+        }
+        return familiesWhereChild;
+    }
+
+    /**
+     * Gets the families where spouse.
+     *
+     * @return the families where spouse
+     */
+    public List<FamilySpouse> getFamiliesWhereSpouse() {
+        return familiesWhereSpouse;
+    }
+
+    /**
+     * Gets the families where spouse.
      * 
-     * @return a set of spouses for the current individual.
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the families where spouse
+     */
+    public List<FamilySpouse> getFamiliesWhereSpouse(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && familiesWhereSpouse == null) {
+            familiesWhereSpouse = new ArrayList<FamilySpouse>(0);
+        }
+        return familiesWhereSpouse;
+    }
+
+    /**
+     * Gets the fax numbers.
+     *
+     * @return the fax numbers
+     */
+    public List<StringWithCustomTags> getFaxNumbers() {
+        return faxNumbers;
+    }
+
+    /**
+     * Get the fax numbers
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the fax numbers
+     */
+    public List<StringWithCustomTags> getFaxNumbers(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && faxNumbers == null) {
+            faxNumbers = new ArrayList<StringWithCustomTags>(0);
+        }
+        return faxNumbers;
+    }
+
+    /**
+     * Gets the formatted name.
+     *
+     * @return the formatted name
+     */
+    public String getFormattedName() {
+        StringBuilder sb = new StringBuilder();
+        if (names != null) {
+            for (PersonalName n : names) {
+                if (sb.length() > 0) {
+                    sb.append(" aka ");
+                }
+                sb.append(n);
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Gets the LDS individual ordinances.
+     *
+     * @return the LDS individual ordinances
+     */
+    public List<LdsIndividualOrdinance> getLdsIndividualOrdinances() {
+        return ldsIndividualOrdinances;
+    }
+
+    /**
+     * Gets the LDS individual ordinances.
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the LDS individual ordinances
+     */
+    public List<LdsIndividualOrdinance> getLdsIndividualOrdinances(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && ldsIndividualOrdinances == null) {
+            ldsIndividualOrdinances = new ArrayList<LdsIndividualOrdinance>(0);
+        }
+        return ldsIndividualOrdinances;
+    }
+
+    /**
+     * Gets the multimedia.
+     *
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia() {
+        return multimedia;
+    }
+
+    /**
+     * Get the multimedia
+     * 
+     * @param initializeIfNeeded
+     *            true if this collection should be created on-the-fly if it is currently null
+     * @return the multimedia
+     */
+    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && multimedia == null) {
+            multimedia = new ArrayList<Multimedia>(0);
+        }
+        return multimedia;
+    }
+
+    /**
+     * Gets the names.
+     *
+     * @return the names
+     */
+    public List<PersonalName> getNames() {
+        return names;
+    }
+
+    /**
+     * Get the names
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the names
+     */
+    public List<PersonalName> getNames(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && names == null) {
+            names = new ArrayList<PersonalName>(0);
+        }
+        return names;
+    }
+
+    /**
+     * Gets the notes.
+     *
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
+    /**
+     * Gets the permanent rec file number.
+     *
+     * @return the permanent rec file number
+     */
+    public StringWithCustomTags getPermanentRecFileNumber() {
+        return permanentRecFileNumber;
+    }
+
+    /**
+     * Gets the phone numbers.
+     *
+     * @return the phone numbers
+     */
+    public List<StringWithCustomTags> getPhoneNumbers() {
+        return phoneNumbers;
+    }
+
+    /**
+     * Get the phone numbers
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the phone numbers
+     */
+    public List<StringWithCustomTags> getPhoneNumbers(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && phoneNumbers == null) {
+            phoneNumbers = new ArrayList<StringWithCustomTags>(0);
+        }
+        return phoneNumbers;
+    }
+
+    /**
+     * Gets the rec id number.
+     *
+     * @return the rec id number
+     */
+    public StringWithCustomTags getRecIdNumber() {
+        return recIdNumber;
+    }
+
+    /**
+     * Gets the restriction notice.
+     *
+     * @return the restriction notice
+     */
+    public StringWithCustomTags getRestrictionNotice() {
+        return restrictionNotice;
+    }
+
+    /**
+     * Gets the sex.
+     *
+     * @return the sex
+     */
+    public StringWithCustomTags getSex() {
+        return sex;
+    }
+
+    /**
+     * Gets the spouses.
+     *
+     * @return the spouses
      */
     public Set<Individual> getSpouses() {
         Set<Individual> result = new HashSet<Individual>();
-        for (FamilySpouse f : familiesWhereSpouse) {
-            if (this != f.family.husband && f.family.husband != null) {
-                result.add(f.family.husband);
-            }
-            if (this != f.family.wife && f.family.wife != null) {
-                result.add(f.family.wife);
+        if (familiesWhereSpouse != null) {
+            for (FamilySpouse f : familiesWhereSpouse) {
+                Family fam = f.getFamily();
+                if (this != fam.getHusband() && fam.getHusband() != null) {
+                    result.add(fam.getHusband());
+                }
+                if (this != fam.getWife() && fam.getWife() != null) {
+                    result.add(fam.getWife());
+                }
             }
         }
         return result;
+    }
+
+    /**
+     * Gets the submitters.
+     *
+     * @return the submitters
+     */
+    public List<Submitter> getSubmitters() {
+        return submitters;
+    }
+
+    /**
+     * Get the submitters
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * @return the submitters
+     */
+    public List<Submitter> getSubmitters(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && submitters == null) {
+            submitters = new ArrayList<Submitter>(0);
+        }
+        return submitters;
+    }
+
+    /**
+     * Gets the user references.
+     *
+     * @return the user references
+     */
+    public List<UserReference> getUserReferences() {
+        return userReferences;
+    }
+
+    /**
+     * Get the user references
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the user references
+     */
+    public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && userReferences == null) {
+            userReferences = new ArrayList<UserReference>(0);
+        }
+        return userReferences;
+    }
+
+    /**
+     * Gets the www urls.
+     *
+     * @return the www urls
+     */
+    public List<StringWithCustomTags> getWwwUrls() {
+        return wwwUrls;
+    }
+
+    /**
+     * Get the www urls
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection, if needed?
+     * @return the www Uurls
+     */
+    public List<StringWithCustomTags> getWwwUrls(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && wwwUrls == null) {
+            wwwUrls = new ArrayList<StringWithCustomTags>(0);
+        }
+        return wwwUrls;
+    }
+
+    /**
+     * Gets the xref.
+     *
+     * @return the xref
+     */
+    public String getXref() {
+        return xref;
     }
 
     /**
@@ -535,70 +1069,164 @@ public class Individual extends AbstractElement {
     }
 
     /**
+     * Sets the address.
+     *
+     * @param address
+     *            the new address
+     */
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    /**
+     * Sets the ancestral file number.
+     *
+     * @param ancestralFileNumber
+     *            the new ancestral file number
+     */
+    public void setAncestralFileNumber(StringWithCustomTags ancestralFileNumber) {
+        this.ancestralFileNumber = ancestralFileNumber;
+    }
+
+    /**
+     * Sets the change date.
+     *
+     * @param changeDate
+     *            the new change date
+     */
+    public void setChangeDate(ChangeDate changeDate) {
+        this.changeDate = changeDate;
+    }
+
+    /**
+     * Sets the permanent rec file number.
+     *
+     * @param permanentRecFileNumber
+     *            the new permanent rec file number
+     */
+    public void setPermanentRecFileNumber(StringWithCustomTags permanentRecFileNumber) {
+        this.permanentRecFileNumber = permanentRecFileNumber;
+    }
+
+    /**
+     * Sets the rec id number.
+     *
+     * @param recIdNumber
+     *            the new rec id number
+     */
+    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+        this.recIdNumber = recIdNumber;
+    }
+
+    /**
+     * Sets the restriction notice.
+     *
+     * @param restrictionNotice
+     *            the new restriction notice
+     */
+    public void setRestrictionNotice(StringWithCustomTags restrictionNotice) {
+        this.restrictionNotice = restrictionNotice;
+    }
+
+    /**
+     * Sets the sex.
+     *
+     * @param sex
+     *            the new sex
+     */
+    public void setSex(StringWithCustomTags sex) {
+        this.sex = sex;
+    }
+
+    /**
+     * Sets the xref.
+     *
+     * @param xref
+     *            the new xref
+     */
+    public void setXref(String xref) {
+        this.xref = xref;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(64); // Initial size - we know we're going to be appending more than 16
         // chars in most cases
-        sb.append(formattedName());
-        for (StringWithCustomTags n : aliases) {
-            if (sb.length() > 0) {
-                sb.append(" aka ");
+        sb.append(getFormattedName());
+        if (aliases != null) {
+            for (StringWithCustomTags n : aliases) {
+                if (sb.length() > 0) {
+                    sb.append(" aka ");
+                }
+                sb.append(n);
             }
-            sb.append(n);
         }
         if (sb.length() == 0) {
             sb.append("Unknown name");
         }
-        for (FamilySpouse f : familiesWhereSpouse) {
-            sb.append(", spouse of ");
-            if (f.family.husband == this) {
-                if (f.family.wife == null) {
-                    sb.append("unknown");
+        if (familiesWhereSpouse != null) {
+            for (FamilySpouse f : familiesWhereSpouse) {
+                sb.append(", spouse of ");
+                Family fam = f.getFamily();
+                if (fam.getHusband() == this) {
+                    if (fam.getWife() == null) {
+                        sb.append("unknown");
+                    } else {
+                        sb.append(fam.getWife().getFormattedName());
+                    }
                 } else {
-                    sb.append(f.family.wife.formattedName());
-                }
-            } else {
-                if (f.family.husband == null) {
-                    sb.append("unknown");
-                } else {
-                    sb.append(f.family.husband.formattedName());
+                    if (fam.getHusband() == null) {
+                        sb.append("unknown");
+                    } else {
+                        sb.append(fam.getHusband().getFormattedName());
+                    }
                 }
             }
         }
-        for (FamilyChild f : familiesWhereChild) {
-            sb.append(", child of ");
-            if (f.family.wife != null) {
-                sb.append(f.family.wife.formattedName());
-                sb.append(" and ");
-            }
-            if (f.family.husband == null) {
-                sb.append("unknown");
-            } else {
-                sb.append(f.family.husband.formattedName());
+        if (familiesWhereChild != null) {
+            for (FamilyChild f : familiesWhereChild) {
+                sb.append(", child of ");
+                if (f.getFamily().getWife() != null) {
+                    sb.append(f.getFamily().getWife().getFormattedName());
+                    sb.append(" and ");
+                }
+                if (f.getFamily().getHusband() == null) {
+                    sb.append("unknown");
+                } else {
+                    sb.append(f.getFamily().getHusband().getFormattedName());
+                }
             }
         }
         boolean found = false;
-        for (IndividualEvent b : getEventsOfType(IndividualEventType.BIRTH)) {
-            if (found) {
-                sb.append(" / ");
-            } else {
-                sb.append(", b.");
+        List<IndividualEvent> births = getEventsOfType(IndividualEventType.BIRTH);
+        if (births != null) {
+            for (IndividualEvent b : births) {
+                if (found) {
+                    sb.append(" / ");
+                } else {
+                    sb.append(", b.");
+                }
+                sb.append(b.date);
+                found = true;
             }
-            sb.append(b.date);
-            found = true;
         }
         found = false;
-        for (IndividualEvent d : getEventsOfType(IndividualEventType.DEATH)) {
-            if (found) {
-                sb.append(" / ");
-            } else {
-                sb.append(", d.");
+        List<IndividualEvent> deaths = getEventsOfType(IndividualEventType.DEATH);
+        if (deaths != null) {
+            for (IndividualEvent d : deaths) {
+                if (found) {
+                    sb.append(" / ");
+                } else {
+                    sb.append(", d.");
+                }
+                sb.append(d.date);
+                found = true;
             }
-            sb.append(d.date);
-            found = true;
         }
         return sb.toString();
     }
+
 }

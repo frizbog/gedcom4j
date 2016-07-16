@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
@@ -46,49 +51,55 @@ public class PersonalNameVariationTest {
         assertNotSame(pnv1, pnv2);
         assertEquals(pnv1, pnv2);
 
-        pnv1.citations.add(new CitationWithoutSource());
+        pnv1.getCitations(true).add(new CitationWithoutSource());
         assertFalse(pnv1.equals(pnv2));
-        pnv1.citations.clear();
+        pnv1.getCitations().clear();
+        assertFalse(pnv1.equals(pnv2));
+        pnv2.getCitations(true).clear();
         assertEquals(pnv1, pnv2);
 
-        pnv1.customTags.add(new StringTree());
+        pnv1.getCustomTags(true).add(new StringTree());
         assertFalse(pnv1.equals(pnv2));
-        pnv1.customTags.clear();
+        pnv1.getCustomTags().clear();
+        assertFalse(pnv1.equals(pnv2));
+        pnv2.getCustomTags(true).clear();
         assertEquals(pnv1, pnv2);
 
-        pnv1.givenName = new StringWithCustomTags("Yo");
+        pnv1.setGivenName(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.equals(pnv2));
-        pnv1.givenName = null;
+        pnv1.setGivenName(null);
         assertEquals(pnv1, pnv2);
 
-        pnv1.nickname = new StringWithCustomTags("Yo");
+        pnv1.setNickname(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.equals(pnv2));
-        pnv1.nickname = null;
+        pnv1.setNickname(null);
         assertEquals(pnv1, pnv2);
 
-        pnv1.notes.add(new Note());
+        pnv1.getNotes(true).add(new Note());
         assertFalse(pnv1.equals(pnv2));
-        pnv1.notes.clear();
+        pnv1.getNotes().clear();
+        assertFalse(pnv1.equals(pnv2));
+        pnv2.getNotes(true).clear();
         assertEquals(pnv1, pnv2);
 
-        pnv1.prefix = new StringWithCustomTags("Yo");
+        pnv1.setPrefix(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.equals(pnv2));
-        pnv1.prefix = null;
+        pnv1.setPrefix(null);
         assertEquals(pnv1, pnv2);
 
-        pnv1.suffix = new StringWithCustomTags("Yo");
+        pnv1.setSuffix(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.equals(pnv2));
-        pnv1.suffix = null;
+        pnv1.setSuffix(null);
         assertEquals(pnv1, pnv2);
 
-        pnv1.surname = new StringWithCustomTags("Yo");
+        pnv1.setSurname(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.equals(pnv2));
-        pnv1.surname = null;
+        pnv1.setSurname(null);
         assertEquals(pnv1, pnv2);
 
-        pnv1.surnamePrefix = new StringWithCustomTags("Yo");
+        pnv1.setSurnamePrefix(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.equals(pnv2));
-        pnv1.surnamePrefix = null;
+        pnv1.setSurnamePrefix(null);
         assertEquals(pnv1, pnv2);
 
         pnv1.variation = "Yo";
@@ -114,49 +125,55 @@ public class PersonalNameVariationTest {
         assertNotSame(pnv1, pnv2);
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
-        pnv1.citations.add(new CitationWithoutSource());
+        pnv1.getCitations(true).add(new CitationWithoutSource());
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
-        pnv1.citations.clear();
+        pnv1.getCitations().clear();
+        assertFalse(pnv1.hashCode() == pnv2.hashCode());
+        pnv2.getCitations(true).clear();
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
-        pnv1.customTags.add(new StringTree());
+        pnv1.getCustomTags(true).add(new StringTree());
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
-        pnv1.customTags.clear();
+        pnv1.getCustomTags().clear();
+        assertFalse(pnv1.hashCode() == pnv2.hashCode());
+        pnv2.getCustomTags(true).clear();
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
-        pnv1.givenName = new StringWithCustomTags("Yo");
+        pnv1.setGivenName(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
-        pnv1.givenName = null;
+        pnv1.setGivenName(null);
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
-        pnv1.nickname = new StringWithCustomTags("Yo");
+        pnv1.setNickname(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
-        pnv1.nickname = null;
+        pnv1.setNickname(null);
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
-        pnv1.notes.add(new Note());
+        pnv1.getNotes(true).add(new Note());
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
-        pnv1.notes.clear();
+        pnv1.getNotes().clear();
+        assertFalse(pnv1.hashCode() == pnv2.hashCode());
+        pnv2.getNotes(true).clear();
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
-        pnv1.prefix = new StringWithCustomTags("Yo");
+        pnv1.setPrefix(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
-        pnv1.prefix = null;
+        pnv1.setPrefix(null);
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
-        pnv1.suffix = new StringWithCustomTags("Yo");
+        pnv1.setSuffix(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
-        pnv1.suffix = null;
+        pnv1.setSuffix(null);
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
-        pnv1.surname = new StringWithCustomTags("Yo");
+        pnv1.setSurname(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
-        pnv1.surname = null;
+        pnv1.setSurname(null);
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
-        pnv1.surnamePrefix = new StringWithCustomTags("Yo");
+        pnv1.setSurnamePrefix(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
-        pnv1.surnamePrefix = null;
+        pnv1.setSurnamePrefix(null);
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
         pnv1.variation = "Yo";
@@ -177,20 +194,19 @@ public class PersonalNameVariationTest {
     @Test
     public void testToString() {
         PersonalNameVariation pnv = new PersonalNameVariation();
-        assertEquals("PersonalNameVariation [notes=[], citations=[], customTags=[]]", pnv.toString());
+        assertEquals("PersonalNameVariation []", pnv.toString());
 
         pnv.variation = "Frying Pan";
-        pnv.customTags.add(new StringTree());
-        pnv.givenName = new StringWithCustomTags("Now");
-        pnv.nickname = new StringWithCustomTags("Is");
-        pnv.notes.add(new Note());
-        pnv.suffix = new StringWithCustomTags("The");
-        pnv.surname = new StringWithCustomTags("Time");
-        pnv.surnamePrefix = new StringWithCustomTags("For");
+        pnv.getCustomTags(true).add(new StringTree());
+        pnv.setGivenName(new StringWithCustomTags("Now"));
+        pnv.setNickname(new StringWithCustomTags("Is"));
+        pnv.getNotes(true).add(new Note());
+        pnv.setSuffix(new StringWithCustomTags("The"));
+        pnv.setSurname(new StringWithCustomTags("Time"));
+        pnv.setSurnamePrefix(new StringWithCustomTags("For"));
         pnv.variationType = new StringWithCustomTags("All");
-        assertEquals("PersonalNameVariation [givenName=Now, nickname=Is, surnamePrefix=For, surname=Time, suffix=The, "
-                + "notes=[Note [lines=[], citations=[], userReferences=[], customTags=[]]], citations=[], variationType=All, "
-                + "variation=Frying Pan, customTags=[Line 0: 0 null null]]", pnv.toString());
+        assertEquals("PersonalNameVariation [givenName=Now, nickname=Is, notes=[Note []], suffix=The, surname=Time, surnamePrefix=For, "
+                + "variation=Frying Pan, variationType=All, customTags=[Line 0: 0 (null tag) (null value)]]", pnv.toString());
 
     }
 }

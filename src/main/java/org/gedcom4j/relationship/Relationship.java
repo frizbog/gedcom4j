@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.relationship;
 
@@ -36,17 +41,17 @@ public class Relationship implements Comparable<Relationship> {
     /**
      * The chain of relationships from person 1 to person 2
      */
-    public List<SimpleRelationship> chain = new ArrayList<SimpleRelationship>();
+    private final List<SimpleRelationship> chain = new ArrayList<SimpleRelationship>();
 
     /**
      * Person 1
      */
-    public Individual individual1;
+    private Individual individual1;
 
     /**
      * Person 2
      */
-    public Individual individual2;
+    private Individual individual2;
 
     /**
      * Default constructor
@@ -65,7 +70,7 @@ public class Relationship implements Comparable<Relationship> {
      * @param chain
      *            the chain of {@link SimpleRelationship}s that get you from person 1 to person 2
      */
-    public Relationship(Individual startingIndividual, Individual targetIndividual, List<SimpleRelationship> chain) {
+    Relationship(Individual startingIndividual, Individual targetIndividual, List<SimpleRelationship> chain) {
         individual1 = startingIndividual;
         individual2 = targetIndividual;
         this.chain.clear();
@@ -87,7 +92,7 @@ public class Relationship implements Comparable<Relationship> {
         if (other == null) {
             return 1;
         }
-        return Math.round(Math.signum((float)chain.size() - other.chain.size()));
+        return Math.round(Math.signum((float) chain.size() - other.chain.size()));
     }
 
     @Override
@@ -127,6 +132,33 @@ public class Relationship implements Comparable<Relationship> {
     }
 
     /**
+     * Get the chain
+     * 
+     * @return the chain
+     */
+    public List<SimpleRelationship> getChain() {
+        return chain;
+    }
+
+    /**
+     * Get the individual1
+     * 
+     * @return the individual1
+     */
+    public Individual getIndividual1() {
+        return individual1;
+    }
+
+    /**
+     * Get the individual2
+     * 
+     * @return the individual2
+     */
+    public Individual getIndividual2() {
+        return individual2;
+    }
+
+    /**
      * Total up all the simplicity ratings of the relationships in the chain
      * 
      * @return the sum of all the simplicity ratings of the relationships that make up the chain
@@ -134,7 +166,7 @@ public class Relationship implements Comparable<Relationship> {
     public int getTotalSimplicity() {
         int result = 0;
         for (SimpleRelationship sr : chain) {
-            result += sr.name.simplicity;
+            result += sr.getName().getSimplicity();
         }
         return result;
     }
@@ -153,6 +185,26 @@ public class Relationship implements Comparable<Relationship> {
     }
 
     /**
+     * Set the individual1
+     * 
+     * @param individual1
+     *            the individual1 to set
+     */
+    public void setIndividual1(Individual individual1) {
+        this.individual1 = individual1;
+    }
+
+    /**
+     * Set the individual2
+     * 
+     * @param individual2
+     *            the individual2 to set
+     */
+    public void setIndividual2(Individual individual2) {
+        this.individual2 = individual2;
+    }
+
+    /**
      * Represent this object as a string
      * 
      * @return this object as a string
@@ -168,16 +220,16 @@ public class Relationship implements Comparable<Relationship> {
                 sb.append(", ");
             }
             first = false;
-            if (sr.individual1.names.isEmpty()) {
+            if (sr.getIndividual1().getNames() == null || sr.getIndividual1().getNames().isEmpty()) {
                 sb.append("Unknown");
             } else {
-                sb.append(sr.individual1.names.get(0));
+                sb.append(sr.getIndividual1().getNames().get(0));
             }
-            sb.append("'s ").append(sr.name).append(" ");
-            if (sr.individual2.names.isEmpty()) {
+            sb.append("'s ").append(sr.getName()).append(" ");
+            if (sr.getIndividual2().getNames() == null || sr.getIndividual2().getNames().isEmpty()) {
                 sb.append("Unknown");
             } else {
-                sb.append(sr.individual2.names.get(0));
+                sb.append(sr.getIndividual2().getNames().get(0));
             }
         }
         sb.append(">, ").append(chain.size()).append(" step(s)");

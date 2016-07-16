@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
@@ -35,30 +40,35 @@ package org.gedcom4j.model;
  */
 public class SourceSystem extends AbstractElement {
     /**
-     * The system ID for this source system. This field must be valued to pass validation, so the default value is
-     * "UNSPECIFIED".
+     * Serial Version UID
      */
-    public String systemId = "UNSPECIFIED";
-
-    /**
-     * The version number of this source system
-     */
-    public StringWithCustomTags versionNum;
-
-    /**
-     * The product name for this source system
-     */
-    public StringWithCustomTags productName;
+    private static final long serialVersionUID = -1121533380857695596L;
 
     /**
      * The corporation that owns this source system
      */
-    public Corporation corporation;
+    private Corporation corporation;
+
+    /**
+     * The product name for this source system
+     */
+    private StringWithCustomTags productName;
 
     /**
      * Header source data for this source system.
      */
-    public HeaderSourceData sourceData;
+    private HeaderSourceData sourceData;
+
+    /**
+     * The system ID for this source system. This field must be valued to pass validation, so the default value is
+     * "UNSPECIFIED".
+     */
+    private String systemId = "UNSPECIFIED";
+
+    /**
+     * The version number of this source system
+     */
+    private StringWithCustomTags versionNum;
 
     @Override
     public boolean equals(Object obj) {
@@ -110,6 +120,51 @@ public class SourceSystem extends AbstractElement {
         return true;
     }
 
+    /**
+     * Gets the corporation.
+     *
+     * @return the corporation
+     */
+    public Corporation getCorporation() {
+        return corporation;
+    }
+
+    /**
+     * Gets the product name.
+     *
+     * @return the product name
+     */
+    public StringWithCustomTags getProductName() {
+        return productName;
+    }
+
+    /**
+     * Gets the source data.
+     *
+     * @return the source data
+     */
+    public HeaderSourceData getSourceData() {
+        return sourceData;
+    }
+
+    /**
+     * Gets the system id.
+     *
+     * @return the system id
+     */
+    public String getSystemId() {
+        return systemId;
+    }
+
+    /**
+     * Gets the version num.
+     *
+     * @return the version num
+     */
+    public StringWithCustomTags getVersionNum() {
+        return versionNum;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -122,10 +177,93 @@ public class SourceSystem extends AbstractElement {
         return result;
     }
 
+    /**
+     * Sets the corporation.
+     *
+     * @param corporation
+     *            the new corporation
+     */
+    public void setCorporation(Corporation corporation) {
+        this.corporation = corporation;
+    }
+
+    /**
+     * Sets the product name.
+     *
+     * @param productName
+     *            the new product name
+     */
+    public void setProductName(StringWithCustomTags productName) {
+        this.productName = productName;
+    }
+
+    /**
+     * Sets the source data.
+     *
+     * @param sourceData
+     *            the new source data
+     */
+    public void setSourceData(HeaderSourceData sourceData) {
+        this.sourceData = sourceData;
+    }
+
+    /**
+     * Sets the system id.
+     *
+     * @param systemId
+     *            the new system id
+     */
+    public void setSystemId(String systemId) {
+        this.systemId = systemId;
+    }
+
+    /**
+     * Sets the version num.
+     *
+     * @param versionNum
+     *            the new version num
+     */
+    public void setVersionNum(StringWithCustomTags versionNum) {
+        this.versionNum = versionNum;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "SourceSystem [" + (systemId != null ? "systemId=" + systemId + ", " : "") + (versionNum != null ? "versionNum=" + versionNum + ", " : "")
-                + (productName != null ? "productName=" + productName + ", " : "") + (corporation != null ? "corporation=" + corporation + ", " : "")
-                + (sourceData != null ? "sourceData=" + sourceData + ", " : "") + (customTags != null ? "customTags=" + customTags : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("SourceSystem [");
+        if (corporation != null) {
+            builder.append("corporation=");
+            builder.append(corporation);
+            builder.append(", ");
+        }
+        if (productName != null) {
+            builder.append("productName=");
+            builder.append(productName);
+            builder.append(", ");
+        }
+        if (sourceData != null) {
+            builder.append("sourceData=");
+            builder.append(sourceData);
+            builder.append(", ");
+        }
+        if (systemId != null) {
+            builder.append("systemId=");
+            builder.append(systemId);
+            builder.append(", ");
+        }
+        if (versionNum != null) {
+            builder.append("versionNum=");
+            builder.append(versionNum);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

@@ -1,23 +1,28 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.parser;
 
@@ -53,24 +58,24 @@ public class Issue32Test {
     public void test() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/issue32.ged");
-        assertTrue(gp.errors.isEmpty());
-        assertNotNull(gp.gedcom);
-        assertNotNull(gp.gedcom.individuals);
-        assertEquals("There are ten individuals in the test gedcom", 10, gp.gedcom.individuals.size());
+        assertTrue(gp.getErrors().isEmpty());
+        assertNotNull(gp.getGedcom());
+        assertNotNull(gp.getGedcom().getIndividuals());
+        assertEquals("There are ten individuals in the test gedcom", 10, gp.getGedcom().getIndividuals().size());
         boolean foundJohn = false;
         boolean foundMary = false;
-        for (Entry<String, Individual> i : gp.gedcom.individuals.entrySet()) {
+        for (Entry<String, Individual> i : gp.getGedcom().getIndividuals().entrySet()) {
             if (i.getKey().equalsIgnoreCase("@I1@")) {
                 foundJohn = true;
                 Individual john = i.getValue();
                 assertNotNull(john);
-                checkJohn(john.notes);
+                checkJohn(john.getNotes());
             }
             if (i.getKey().equalsIgnoreCase("@I2@")) {
                 foundMary = true;
                 Individual mary = i.getValue();
                 assertNotNull(mary);
-                checkMary(mary.notes);
+                checkMary(mary.getNotes());
             }
         }
         assertTrue("Didn't find john", foundJohn);
@@ -88,15 +93,13 @@ public class Issue32Test {
         assertEquals(1, notes.size());
         Note note = notes.get(0);
         assertNotNull(note);
-        assertNotNull(note.lines);
-        assertEquals(1, note.lines.size());
-        assertEquals("Lorem ipsum dolor sit amet, consectetur adipisicing elit, "
-                + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
-                + "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris "
-                + "nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in "
+        assertNotNull(note.getLines());
+        assertEquals(1, note.getLines().size());
+        assertEquals("Lorem ipsum dolor sit amet, consectetur adipisicing elit, " + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+                + "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris " + "nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in "
                 + "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla "
-                + "pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa "
-                + "qui officia deserunt mollit anim id est laborum.", note.lines.get(0));
+                + "pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa " + "qui officia deserunt mollit anim id est laborum.", note
+                        .getLines().get(0));
     }
 
     /**
@@ -109,16 +112,15 @@ public class Issue32Test {
         assertEquals(1, notes.size());
         Note note = notes.get(0);
         assertNotNull(note);
-        assertNotNull(note.lines);
-        assertEquals(3, note.lines.size());
-        assertEquals("Lorem ipsum dolor sit amet, consectetur adipisicing elit, "
-                + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", note.lines.get(0));
+        assertNotNull(note.getLines());
+        assertEquals(3, note.getLines().size());
+        assertEquals("Lorem ipsum dolor sit amet, consectetur adipisicing elit, " + "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", note
+                .getLines().get(0));
         assertEquals("Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris "
-                + "nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in "
-                + "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla " + "pariatur. ",
-                note.lines.get(1));
-        assertEquals("Excepteur sint occaecat cupidatat non proident, sunt in culpa "
-                + "qui officia deserunt mollit anim id est laborum.", note.lines.get(2));
+                + "nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in " + "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla "
+                + "pariatur. ", note.getLines().get(1));
+        assertEquals("Excepteur sint occaecat cupidatat non proident, sunt in culpa " + "qui officia deserunt mollit anim id est laborum.", note.getLines().get(
+                2));
 
     }
 }

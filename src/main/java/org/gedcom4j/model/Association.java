@@ -1,28 +1,35 @@
 /*
  * Copyright (c) 2009-2016 Matthew R. Harrah
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.gedcom4j.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.gedcom4j.Options;
 
 /**
  * Represents an Association between two individuals. Corresponds to ASSOCIATION_STRUCTURE in the GEDCOM spec.
@@ -31,29 +38,34 @@ import java.util.List;
  */
 public class Association extends AbstractElement {
     /**
-     * Relationship description
+     * Serial Version UID
      */
-    public StringWithCustomTags relationship;
-
-    /**
-     * The XREF to the associated entity
-     */
-    public String associatedEntityXref;
+    private static final long serialVersionUID = -4189651960132766112L;
 
     /**
      * The type of the associated entity
      */
-    public StringWithCustomTags associatedEntityType;
+    private StringWithCustomTags associatedEntityType;
 
     /**
-     * The citations for this association
+     * The XREF to the associated entity
      */
-    public List<AbstractCitation> citations = new ArrayList<AbstractCitation>(0);
+    private String associatedEntityXref;
 
     /**
-     * Notes about this association
+     * The citations for this object
      */
-    public List<Note> notes = new ArrayList<Note>(0);
+    private List<AbstractCitation> citations = getCitations(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Notes about this object
+     */
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Relationship description
+     */
+    private StringWithCustomTags relationship;
 
     @Override
     public boolean equals(Object obj) {
@@ -105,6 +117,81 @@ public class Association extends AbstractElement {
         return true;
     }
 
+    /**
+     * Gets the associated entity type.
+     *
+     * @return the associated entity type
+     */
+    public StringWithCustomTags getAssociatedEntityType() {
+        return associatedEntityType;
+    }
+
+    /**
+     * Gets the associated entity xref.
+     *
+     * @return the associated entity xref
+     */
+    public String getAssociatedEntityXref() {
+        return associatedEntityXref;
+    }
+
+    /**
+     * Gets the citations.
+     *
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations() {
+        return citations;
+    }
+
+    /**
+     * Get the citations
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the citations
+     */
+    public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && citations == null) {
+            citations = new ArrayList<AbstractCitation>(0);
+        }
+        return citations;
+    }
+
+    /**
+     * Gets the notes.
+     *
+     * @return the notes
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the notes
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed?
+     * 
+     * @return the notes
+     */
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
+        }
+        return notes;
+    }
+
+    /**
+     * Gets the relationship.
+     *
+     * @return the relationship
+     */
+    public StringWithCustomTags getRelationship() {
+        return relationship;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -117,12 +204,73 @@ public class Association extends AbstractElement {
         return result;
     }
 
+    /**
+     * Sets the associated entity type.
+     *
+     * @param associatedEntityType
+     *            the new associated entity type
+     */
+    public void setAssociatedEntityType(StringWithCustomTags associatedEntityType) {
+        this.associatedEntityType = associatedEntityType;
+    }
+
+    /**
+     * Sets the associated entity xref.
+     *
+     * @param associatedEntityXref
+     *            the new associated entity xref
+     */
+    public void setAssociatedEntityXref(String associatedEntityXref) {
+        this.associatedEntityXref = associatedEntityXref;
+    }
+
+    /**
+     * Sets the relationship.
+     *
+     * @param relationship
+     *            the new relationship
+     */
+    public void setRelationship(StringWithCustomTags relationship) {
+        this.relationship = relationship;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "Association [" + (relationship != null ? "relationship=" + relationship + ", " : "")
-                + (associatedEntityXref != null ? "associatedEntityXref=" + associatedEntityXref + ", " : "")
-                + (associatedEntityType != null ? "associatedEntityType=" + associatedEntityType + ", " : "")
-                + (citations != null ? "citations=" + citations + ", " : "") + (notes != null ? "notes=" + notes + ", " : "")
-                + (customTags != null ? "customTags=" + customTags : "") + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("Association [");
+        if (associatedEntityType != null) {
+            builder.append("associatedEntityType=");
+            builder.append(associatedEntityType);
+            builder.append(", ");
+        }
+        if (associatedEntityXref != null) {
+            builder.append("associatedEntityXref=");
+            builder.append(associatedEntityXref);
+            builder.append(", ");
+        }
+        if (citations != null) {
+            builder.append("citations=");
+            builder.append(citations);
+            builder.append(", ");
+        }
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (relationship != null) {
+            builder.append("relationship=");
+            builder.append(relationship);
+            builder.append(", ");
+        }
+        if (customTags != null) {
+            builder.append("customTags=");
+            builder.append(customTags);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }
