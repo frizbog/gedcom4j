@@ -2,7 +2,7 @@
 GEDCOM4J RELEASE NOTES
 ==============================
 
-?? ??? 2016 - v3.0.0
+15 Jul 2016 - v3.0.0
 ====================
 v3.0.0 is a major release. Most existing code using earlier versions of gedcom4j will need significant modification, primarily around the object model.
 
