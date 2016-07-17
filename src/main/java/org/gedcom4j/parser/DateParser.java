@@ -115,20 +115,17 @@ public class DateParser {
             switch (pref) {
                 case FAVOR_EARLIEST:
                     // First day of year
-                    c.set(Calendar.DAY_OF_MONTH, 1);
-                    c.set(Calendar.MONTH, 1);
+                    c.set(Calendar.DAY_OF_YEAR, 1);
                     return c.getTime();
                 case FAVOR_LATEST:
                     // Last day of year
-                    c.set(Calendar.DAY_OF_MONTH, 1);
-                    c.set(Calendar.MONTH, 1);
-                    c.add(Calendar.YEAR, 1);
-                    c.add(Calendar.DAY_OF_YEAR, -1);
+                    c.set(Calendar.MONTH, Calendar.DECEMBER);
+                    c.set(Calendar.DAY_OF_MONTH, 31);
                     return c.getTime();
                 case FAVOR_MIDPOINT:
-                    // Middle day of year - go with July 1
+                    // Middle day of year - go with July 1. Not precisely midpoint but feels midpointy.
+                    c.set(Calendar.MONTH, Calendar.JULY);
                     c.set(Calendar.DAY_OF_MONTH, 1);
-                    c.set(Calendar.JULY, 1);
                     return c.getTime();
                 case PRECISE:
                     return d;

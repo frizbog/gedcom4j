@@ -116,6 +116,54 @@ public class DateParserGregorianTest {
     }
 
     /**
+     * Test parsing a single date with month and year but no day, using precise preference
+     */
+    @Test
+    public void testParseSingleDateYearOnlyPrecise() {
+        DateParser dp = new DateParser();
+        assertDate(dp.parse("2016"), 2016, Calendar.JANUARY, 1);
+        assertDate(dp.parse("932"), 932, Calendar.JANUARY, 1);
+        assertDate(dp.parse("2016"), 2016, Calendar.JANUARY, 1);
+        assertDate(dp.parse("1900"), 1900, Calendar.JANUARY, 1);
+    }
+
+    /**
+     * Test parsing a single date with month and year but no day, using precise preference
+     */
+    @Test
+    public void testParseSingleDateYearOnlyPreferEarliest() {
+        DateParser dp = new DateParser();
+        assertDate(dp.parse("2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JANUARY, 1);
+        assertDate(dp.parse("932", ImpreciseDatePreference.FAVOR_EARLIEST), 932, Calendar.JANUARY, 1);
+        assertDate(dp.parse("2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JANUARY, 1);
+        assertDate(dp.parse("1900", ImpreciseDatePreference.FAVOR_EARLIEST), 1900, Calendar.JANUARY, 1);
+    }
+
+    /**
+     * Test parsing a single date with month and year but no day, using precise preference
+     */
+    @Test
+    public void testParseSingleDateYearOnlyPreferLatest() {
+        DateParser dp = new DateParser();
+        assertDate(dp.parse("2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.DECEMBER, 31);
+        assertDate(dp.parse("932", ImpreciseDatePreference.FAVOR_LATEST), 932, Calendar.DECEMBER, 31);
+        assertDate(dp.parse("2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.DECEMBER, 31);
+        assertDate(dp.parse("1900", ImpreciseDatePreference.FAVOR_LATEST), 1900, Calendar.DECEMBER, 31);
+    }
+
+    /**
+     * Test parsing a single date with month and year but no day, using precise preference
+     */
+    @Test
+    public void testParseSingleDateYearOnlyPreferMidpoint() {
+        DateParser dp = new DateParser();
+        assertDate(dp.parse("2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 1);
+        assertDate(dp.parse("932", ImpreciseDatePreference.FAVOR_MIDPOINT), 932, Calendar.JULY, 1);
+        assertDate(dp.parse("2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 1);
+        assertDate(dp.parse("1900", ImpreciseDatePreference.FAVOR_MIDPOINT), 1900, Calendar.JULY, 1);
+    }
+
+    /**
      * Test handling for dates that are not compliant with the GEDCOM spec in their format
      */
     @Test
