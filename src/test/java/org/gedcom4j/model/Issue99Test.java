@@ -39,8 +39,8 @@ import org.gedcom4j.query.Finder;
 import org.junit.Test;
 
 /**
- * Test for Issue 99, where {@link Individual#getDescendants()} was returning only one generation of descendants and was
- * not recursing properly.
+ * Test for Issue 99, where {@link Individual#getDescendants()} was returning only one generation of descendants and was not
+ * recursing properly.
  * 
  * @author frizbog
  *
@@ -67,7 +67,7 @@ public class Issue99Test {
         Individual i = matches.get(0);
         Set<Individual> d = i.getDescendants();
         assertNotNull(d);
-        assertEquals(54, d.size());
+        assertEquals(51, d.size());
     }
 
 }

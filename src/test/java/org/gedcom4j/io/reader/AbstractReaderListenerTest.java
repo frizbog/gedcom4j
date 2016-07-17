@@ -99,7 +99,6 @@ public abstract class AbstractReaderListenerTest implements FileProgressListener
     public void progressNotification(FileProgressEvent e) {
         eventCount++;
         lastEvent = e;
-        System.out.println(e);
     }
 
     /**

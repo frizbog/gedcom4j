@@ -48,8 +48,8 @@ public abstract class AbstractValidatorTestCase extends TestCase {
     protected Gedcom gedcom;
 
     /**
-     * Determines whether to write noise out to System.out. Should ALWAYS default to false, and be turned to true for
-     * specific tests, if needed.
+     * Determines whether to write noise out to System.out. Should ALWAYS default to false, and be turned to true for specific
+     * tests, if needed.
      */
     protected boolean verbose = false;
 
@@ -81,8 +81,8 @@ public abstract class AbstractValidatorTestCase extends TestCase {
     }
 
     /**
-     * Assert that the findings collection on the root validator contains at least one finding of the specified severity
-     * with a given substring
+     * Assert that the findings collection on the root validator contains at least one finding of the specified severity with a
+     * given substring
      * 
      * @param severity
      *            the expected severity
@@ -115,7 +115,6 @@ public abstract class AbstractValidatorTestCase extends TestCase {
                 sb.append(substringOfDescription[i]).append("'");
             }
         }
-        dumpFindings();
         fail(sb.toString());
     }
 
@@ -127,24 +126,8 @@ public abstract class AbstractValidatorTestCase extends TestCase {
         if (rootValidator.hasErrors() || rootValidator.hasWarnings()) {
             boolean saveVerbose = verbose;
             verbose = true;
-            dumpFindings();
             verbose = saveVerbose;
             fail("There should not be any warnings or errors");
-        }
-    }
-
-    /**
-     * Write all the findings out to stdout
-     */
-    protected void dumpFindings() {
-        if (rootValidator.getFindings().isEmpty()) {
-            return;
-        }
-        if (rootValidator.getFindings().size() > 0) {
-            System.out.println(rootValidator.getFindings().size() + " finding(s) from validation");
-        }
-        for (GedcomValidationFinding f : rootValidator.getFindings()) {
-            System.out.println("  " + f);
         }
     }
 }

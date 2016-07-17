@@ -89,16 +89,21 @@ public class Issue89Test extends TestCase {
         try {
             gw.write(baos);
         } catch (GedcomWriterException e) {
-            for (GedcomValidationFinding f : gw.getValidationFindings()) {
-                System.out.println(f);
+            if (!gw.getValidationFindings().isEmpty()) {
+                System.out.println(this.getClass().getName() + " found " + gw.getValidationFindings().size()
+                        + " validation findings:");
+                for (GedcomValidationFinding f : gw.getValidationFindings()) {
+                    System.out.println(f);
+                }
             }
             throw e;
         }
         String output = baos.toString();
-        assertEquals("0 HEAD\n" + "1 SOUR UNSPECIFIED\n" + "1 SUBM @SUBM0001@\n" + "1 SUBN @SUBN0001@\n" + "1 GEDC\n" + "2 VERS 5.5.1\n"
-                + "2 FORM LINEAGE-LINKED\n" + "1 CHAR ANSEL\n" + "1 @CT003@ _CUSTHD Custom Header Tag\n"
-                + "2 @CT004@ _CUSTHD2 Custom Inner Tag inside Custom Header Tag\n" + "0 @SUBN0001@ SUBN\n" + "0 @SUBM0001@ SUBM\n" + "1 NAME Joe Tester\n"
-                + "2 _CUSTNM Custom Name Tag\n" + "1 @CT001@ _CUSTSB Custom Submitter Tag\n" + "0 TRLR\n", output);
+        assertEquals("0 HEAD\n" + "1 SOUR UNSPECIFIED\n" + "1 SUBM @SUBM0001@\n" + "1 SUBN @SUBN0001@\n" + "1 GEDC\n"
+                + "2 VERS 5.5.1\n" + "2 FORM LINEAGE-LINKED\n" + "1 CHAR ANSEL\n" + "1 @CT003@ _CUSTHD Custom Header Tag\n"
+                + "2 @CT004@ _CUSTHD2 Custom Inner Tag inside Custom Header Tag\n" + "0 @SUBN0001@ SUBN\n" + "0 @SUBM0001@ SUBM\n"
+                + "1 NAME Joe Tester\n" + "2 _CUSTNM Custom Name Tag\n" + "1 @CT001@ _CUSTSB Custom Submitter Tag\n" + "0 TRLR\n",
+                output);
     }
 
 }

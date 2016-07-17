@@ -69,8 +69,12 @@ public class GedcomWriter551Test {
         m.getBlob(true).add("Blob data only allowed with 5.5");
         try {
             gw.write("tmp/delete-me.ged");
-            for (GedcomValidationFinding f : gw.getValidationFindings()) {
-                System.out.println(f);
+            if (!gw.getValidationFindings().isEmpty()) {
+                System.out.println(this.getClass().getName() + " found " + gw.getValidationFindings().size()
+                        + " validation findings:");
+                for (GedcomValidationFinding f : gw.getValidationFindings()) {
+                    System.out.println(f);
+                }
             }
             fail("Should have gotten a GedcomException about the blob data");
         } catch (@SuppressWarnings("unused") GedcomWriterException expectedAndIgnored) {

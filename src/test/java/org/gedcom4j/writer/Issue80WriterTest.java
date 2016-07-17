@@ -30,6 +30,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.gedcom4j.exception.GedcomWriterException;
+import org.gedcom4j.io.writer.NullOutputStream;
 import org.gedcom4j.model.*;
 import org.junit.Test;
 
@@ -47,6 +48,7 @@ public class Issue80WriterTest {
      * @throws GedcomWriterException
      *             if the GEDCOM cannot be written to stdout
      */
+    @SuppressWarnings("resource")
     @Test
     public void testIssue80() throws GedcomWriterException {
 
@@ -74,11 +76,11 @@ public class Issue80WriterTest {
         g.getHeader().setSubmitter(s);
         g.getSubmitters().put(s.getXref(), s); // Use the xref as the map key
 
-        // Write to sysout
+        // Write to null output stream
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
         gw.setUseLittleEndianForUnicode(false);
-        gw.write(System.out);
+        gw.write(new NullOutputStream());
 
         // Now that we've written the gedcom, let's examine what we wrote
         assertEquals("Should have written 17 lines", 17, gw.lines.size());

@@ -72,7 +72,9 @@ class FileReference551Parser extends AbstractParser<FileReference> {
             }
         }
         if (loadInto.getFormat() == null) {
-            addError("FORM tag not found under FILE reference on line " + stringTree.getParent().getLineNum());
+            // Issue 117 - relaxing this
+            addWarning("FORM tag not found under FILE reference on line " + stringTree.getParent().getLineNum()
+                    + " - technically required by spec");
         }
     }
 

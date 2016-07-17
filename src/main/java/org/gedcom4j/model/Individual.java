@@ -119,7 +119,8 @@ public class Individual extends AbstractElement {
     /**
      * A list of LDS individual ordinances for this individual
      */
-    private List<LdsIndividualOrdinance> ldsIndividualOrdinances = getLdsIndividualOrdinances(Options.isCollectionInitializationEnabled());
+    private List<LdsIndividualOrdinance> ldsIndividualOrdinances = getLdsIndividualOrdinances(Options
+            .isCollectionInitializationEnabled());
 
     /**
      * Multimedia links for this source citation
@@ -455,18 +456,7 @@ public class Individual extends AbstractElement {
      */
     public Set<Individual> getAncestors() {
         Set<Individual> result = new HashSet<Individual>();
-        if (familiesWhereChild != null) {
-            for (FamilyChild f : familiesWhereChild) {
-                if (f.getFamily().getHusband() != null && !result.contains(f.getFamily().getHusband())) {
-                    result.add(f.getFamily().getHusband());
-                    result.addAll(f.getFamily().getHusband().getAncestors());
-                }
-                if (f.getFamily().getWife() != null && !result.contains(f.getFamily().getWife())) {
-                    result.add(f.getFamily().getWife());
-                    result.addAll(f.getFamily().getWife().getAncestors());
-                }
-            }
-        }
+        addGenerationOfAncestors(result);
         return result;
     }
 
@@ -527,8 +517,7 @@ public class Individual extends AbstractElement {
 
     /**
      * Get a list of attributes of the supplied type for this individual. For example, calling this method passing
-     * <code>IndividualAttributeType.OCCUPATION</code> will return a list of all the occupations recorded for this
-     * individual.
+     * <code>IndividualAttributeType.OCCUPATION</code> will return a list of all the occupations recorded for this individual.
      * 
      * @param type
      *            the type of attribute to get
@@ -607,20 +596,7 @@ public class Individual extends AbstractElement {
      */
     public Set<Individual> getDescendants() {
         Set<Individual> result = new HashSet<Individual>();
-        if (familiesWhereSpouse != null) {
-            for (FamilySpouse f : familiesWhereSpouse) {
-                if (f.getFamily().getChildren() != null) {
-                    for (Individual i : f.getFamily().getChildren()) {
-                        // Recurse if we have not seen this person before in the results already
-                        if (i != this && !result.contains(i) && (i.familiesWhereSpouse == null || !i.familiesWhereSpouse.isEmpty())) {
-                            Set<Individual> d = i.getDescendants();
-                            result.addAll(d);
-                        }
-                        result.add(i);
-                    }
-                }
-            }
-        }
+        addGenerationOfDescendants(result);
         return result;
     }
 
@@ -1227,6 +1203,76 @@ public class Individual extends AbstractElement {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * Recursive method for adding the ancestors of this individual to a running set of individuals. This running set is used to
+     * track who we've seen so far, so we don't infinitely recurse.
+     * 
+     * @param seenSoFar
+     *            the running set of people we've seen so far in adding ancestors
+     * @return the people in another generation of ancestors, to be added to the running list
+     */
+    private Set<Individual> addGenerationOfAncestors(Set<Individual> seenSoFar) {
+        Set<Individual> result = new HashSet<Individual>();
+        if (familiesWhereChild != null) {
+            for (FamilyChild f : familiesWhereChild) {
+                if (f == null) {
+                    continue;
+                }
+                Individual husband = f.getFamily().getHusband();
+                if (husband != null && !seenSoFar.contains(husband)) {
+                    result.add(husband);
+                    seenSoFar.add(husband);
+                    Set<Individual> husbandsAncestors = husband.addGenerationOfAncestors(seenSoFar);
+                    result.addAll(husbandsAncestors);
+                    seenSoFar.addAll(husbandsAncestors);
+                }
+                Individual wife = f.getFamily().getWife();
+                if (wife != null && !seenSoFar.contains(wife)) {
+                    result.add(wife);
+                    seenSoFar.add(wife);
+                    Set<Individual> wifesAncestors = wife.addGenerationOfAncestors(seenSoFar);
+                    result.addAll(wifesAncestors);
+                    seenSoFar.addAll(wifesAncestors);
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Recursive method for adding the descendants of this individual to a running set of individuals. This running set is used to
+     * track who we've seen so far, so we don't infinitely recurse.
+     * 
+     * @param seenSoFar
+     *            the running set of people we've seen so far in adding descendants
+     * @return the people in another generation of ancestors, to be added to the running list
+     */
+    private Set<Individual> addGenerationOfDescendants(Set<Individual> seenSoFar) {
+        Set<Individual> result = new HashSet<Individual>();
+        if (familiesWhereSpouse != null) {
+            for (FamilySpouse f : familiesWhereSpouse) {
+                if (f.getFamily().getChildren() != null) {
+                    for (Individual i : f.getFamily().getChildren()) {
+                        if (i == null) {
+                            continue;
+                        }
+                        // Recurse if we have not seen this person before in the results already, and they have spouses
+                        boolean notSeenAlready = i != this && !seenSoFar.contains(i);
+                        boolean hasSpouses = i.familiesWhereSpouse != null && !i.familiesWhereSpouse.isEmpty();
+                        if (notSeenAlready && hasSpouses) {
+                            seenSoFar.add(i);
+                            Set<Individual> d = i.addGenerationOfDescendants(seenSoFar);
+                            result.addAll(d);
+                            seenSoFar.addAll(d);
+                        }
+                        result.add(i);
+                    }
+                }
+            }
+        }
+        return result;
     }
 
 }

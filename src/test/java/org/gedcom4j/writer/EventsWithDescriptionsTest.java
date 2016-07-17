@@ -40,20 +40,19 @@ import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.IndividualEventType;
 import org.gedcom4j.parser.GedcomParser;
-import org.gedcom4j.validate.GedcomValidationFinding;
 import org.junit.Test;
 
 /**
- * Test how things are written when there are individual events with descriptions, which are allowed by the parser
- * (despite being non-standard), but which are not written by the writer. See Issue 62 at github.
+ * Test how things are written when there are individual events with descriptions, which are allowed by the parser (despite being
+ * non-standard), but which are not written by the writer. See Issue 62 at github.
  * 
  * @author frizbog
  */
 public class EventsWithDescriptionsTest {
 
     /**
-     * Test that if we load a file with non-standard event tags, and write it back out, the non-standard descriptions
-     * after the event tags should not be there any more.
+     * Test that if we load a file with non-standard event tags, and write it back out, the non-standard descriptions after the
+     * event tags should not be there any more.
      * 
      * @throws IOException
      *             if there's a problem reading/writing files
@@ -111,8 +110,8 @@ public class EventsWithDescriptionsTest {
     }
 
     /**
-     * Test that if we load a file with non-standard event tags, and write it back out with validation enabled, the
-     * writer will barf on the non-standard descriptions on the events.
+     * Test that if we load a file with non-standard event tags, and write it back out with validation enabled, the writer will barf
+     * on the non-standard descriptions on the events.
      * 
      * @throws IOException
      *             if there's a problem reading/writing files
@@ -149,9 +148,6 @@ public class EventsWithDescriptionsTest {
             fail("Expected a writer exception due to validation failures");
         } catch (@SuppressWarnings("unused") GedcomWriterException expected) {
             assertEquals(2, gw.getValidationFindings().size());
-            for (GedcomValidationFinding vf : gw.getValidationFindings()) {
-                System.out.println(vf);
-            }
         }
     }
 }

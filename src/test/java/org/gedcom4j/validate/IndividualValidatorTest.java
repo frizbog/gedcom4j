@@ -56,8 +56,8 @@ public class IndividualValidatorTest extends AbstractValidatorTestCase {
     }
 
     /**
-     * Test for {@link GedcomValidator#validateIndividuals()} with a malformed xref on an individual, which does not
-     * match its key in the individuals map
+     * Test for {@link GedcomValidator#validateIndividuals()} with a malformed xref on an individual, which does not match its key
+     * in the individuals map
      */
     public void testValidateIndividuals2() {
         Gedcom g = TestHelper.getMinimalGedcom();
@@ -73,7 +73,6 @@ public class IndividualValidatorTest extends AbstractValidatorTestCase {
         rootValidator.validate();
 
         // Assert stuff
-        dumpFindings();
         int errorsCount = 0;
         for (GedcomValidationFinding f : rootValidator.getFindings()) {
             assertNotNull(f);

@@ -63,8 +63,8 @@ public class StringCanonicalizerTest {
     }
 
     /**
-     * Test with a larger population that should exceed the pool size, but some of the entries should be below the usage
-     * threshold, which means eviction should get triggered
+     * Test with a larger population that should exceed the pool size, but some of the entries should be below the usage threshold,
+     * which means eviction should get triggered
      */
     @Test
     public void testLargerPopulation() {
@@ -84,13 +84,6 @@ public class StringCanonicalizerTest {
         assertNotNull(c);
         assertEquals("498", c.value);
         assertEquals(25, c.count);
-
-        /* Next bit is helpful for finding new values for the above assertions, if things change. */
-        // for (int i = 0; i < classUnderTest.getMaxPoolSize(); i++) {
-        // String s = "" + i;
-        // CanonicalizedString cv = classUnderTest.stringPool.get(s);
-        // System.out.println(i + ": " + cv);
-        // }
 
         // Make sure we get canonical versions
         for (int values = 0; values < numValues; values++) {
@@ -157,8 +150,8 @@ public class StringCanonicalizerTest {
     }
 
     /**
-     * Test with a larger population that should exceed the pool size, but some of the entries should be below the usage
-     * threshold, which means eviction should get triggered
+     * Test with a larger population that should exceed the pool size, but some of the entries should be below the usage threshold,
+     * which means eviction should get triggered
      */
     @Test
     public void testVeryLargePopulation() {
@@ -174,21 +167,14 @@ public class StringCanonicalizerTest {
 
         assertEquals(8, classUnderTest.numEvictions);
         /*
-         * Because we used a java.util.Random with a fixed seed, which items remain in the pool should be predictable,
-         * so these asserts should be safe
+         * Because we used a java.util.Random with a fixed seed, which items remain in the pool should be predictable, so these
+         * asserts should be safe
          */
         assertNull(classUnderTest.stringPool.get("499"));
         CanonicalizedString c = classUnderTest.stringPool.get("498");
         assertNotNull(c);
         assertEquals("498", c.value);
         assertEquals(25, c.count);
-
-        /* Next bit is helpful for finding new values for the above assertions, if things change. */
-        // for (int i = 0; i < classUnderTest.getMaxPoolSize(); i++) {
-        // String s = "" + i;
-        // CanonicalizedString cv = classUnderTest.stringPool.get(s);
-        // System.out.println(i + ": " + cv);
-        // }
 
         // Make sure we get canonical versions
         for (int values = 0; values < numValues; values++) {

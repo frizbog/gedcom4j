@@ -55,7 +55,6 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
         submitter.setXref("@nobody@");
         AbstractValidator sv = new SubmitterValidator(rootValidator, submitter);
         sv.validate();
-        dumpFindings();
         assertTrue(rootValidator.getFindings().isEmpty());
     }
 

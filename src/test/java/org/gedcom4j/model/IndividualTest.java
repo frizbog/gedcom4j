@@ -88,8 +88,10 @@ public class IndividualTest {
         assertTrue(gp.getWarnings().isEmpty());
         Gedcom g = gp.getGedcom();
         assertNotNull(g);
-        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g.getIndividuals().size());
-        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?", 18, g.getFamilies().size());
+        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g
+                .getIndividuals().size());
+        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?", 18, g
+                .getFamilies().size());
 
         Individual robert = getPerson(g, "Andrews", "Robert");
         Set<Individual> ancestors = robert.getAncestors();
@@ -103,8 +105,7 @@ public class IndividualTest {
     }
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.model.Individual#getAttributesOfType(org.gedcom4j.model.IndividualAttributeType)} .
+     * Test method for {@link org.gedcom4j.model.Individual#getAttributesOfType(org.gedcom4j.model.IndividualAttributeType)} .
      */
     @Test
     public void testGetAttributesOfType() {
@@ -140,8 +141,10 @@ public class IndividualTest {
         assertTrue(gp.getWarnings().isEmpty());
         Gedcom g = gp.getGedcom();
         assertNotNull(g);
-        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g.getIndividuals().size());
-        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?", 18, g.getFamilies().size());
+        assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g
+                .getIndividuals().size());
+        assertEquals("There are supposed to be 18 families in the gedcom - are you using the right file/file version?", 18, g
+                .getFamilies().size());
 
         Individual alex = getPerson(g, "Zucco", "Alex");
         Set<Individual> descendants = alex.getDescendants();
@@ -150,7 +153,10 @@ public class IndividualTest {
         Individual steven = getPerson(g, "Struthers", "Steven");
         descendants = steven.getDescendants();
         assertNotNull(descendants);
-        assertEquals(8, descendants.size());
+        for (Individual d : descendants) {
+            System.out.println(d);
+        }
+        assertEquals(7, descendants.size());
     }
 
     /**
@@ -187,7 +193,8 @@ public class IndividualTest {
         f.getFamily().setHusband(i);
         i.getFamiliesWhereSpouse(true).add(f);
         assertNotNull(i.getSpouses());
-        assertTrue("Should still be empty because there is no wife in the family that this guy's a spouse in", i.getSpouses().isEmpty());
+        assertTrue("Should still be empty because there is no wife in the family that this guy's a spouse in", i.getSpouses()
+                .isEmpty());
         f.getFamily().setWife(new Individual());
         addBasicName(f.getFamily().getWife(), "Anna //");
         assertNotNull(i.getSpouses());
@@ -199,7 +206,8 @@ public class IndividualTest {
         f.getFamily().setHusband(i);
         i.getFamiliesWhereSpouse(true).add(f);
         assertNotNull(i.getSpouses());
-        assertEquals("Should still be just one spouse because there is no wife in the 2nd family that this guy's a spouse in", 1, i.getSpouses().size());
+        assertEquals("Should still be just one spouse because there is no wife in the 2nd family that this guy's a spouse in", 1, i
+                .getSpouses().size());
 
         f.getFamily().setWife(new Individual());
         addBasicName(f.getFamily().getWife(), "Elizabeth /Hofstadt/");

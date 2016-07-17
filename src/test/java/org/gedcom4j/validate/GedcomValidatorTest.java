@@ -99,12 +99,12 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
         rootValidator = new GedcomValidator(g);
         verbose = true;
         rootValidator.validate();
-        dumpFindings();
-        assertTrue("A new gedcom structure run through the validator with autorepair on should always have at least one finding", rootValidator.getFindings()
-                .size() > 0);
+        assertTrue("A new gedcom structure run through the validator with autorepair on should always have at least one finding",
+                rootValidator.getFindings().size() > 0);
         for (GedcomValidationFinding f : rootValidator.getFindings()) {
-            assertEquals("All findings on a new gedcom structure run through the validator with autorepair on should be at level of INFO", Severity.INFO, f
-                    .getSeverity());
+            assertEquals(
+                    "All findings on a new gedcom structure run through the validator with autorepair on should be at level of INFO",
+                    Severity.INFO, f.getSeverity());
         }
     }
 
@@ -123,10 +123,9 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
         assertTrue(p.getErrors().isEmpty());
         rootValidator = new GedcomValidator(p.getGedcom());
         rootValidator.validate();
-        dumpFindings();
         /*
-         * The stress test file has an error in it - it says it's a 5.5 file, but uses a file-reference type multimedia
-         * object, rather than an embedded media file
+         * The stress test file has an error in it - it says it's a 5.5 file, but uses a file-reference type multimedia object,
+         * rather than an embedded media file
          */
         assertFindingsContain(Severity.ERROR, "format", "embedded", "media");
     }

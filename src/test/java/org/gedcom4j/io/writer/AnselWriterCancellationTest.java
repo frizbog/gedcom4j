@@ -86,8 +86,12 @@ public class AnselWriterCancellationTest implements FileProgressListener {
         try {
             gw.write(new NullOutputStream());
         } catch (GedcomWriterException e) {
-            for (GedcomValidationFinding f : gw.getValidationFindings()) {
-                System.out.println(f);
+            if (!gw.getValidationFindings().isEmpty()) {
+                System.out.println(this.getClass().getName() + " found " + gw.getValidationFindings().size()
+                        + " validation findings:");
+                for (GedcomValidationFinding f : gw.getValidationFindings()) {
+                    System.out.println(f);
+                }
             }
             throw e;
         }

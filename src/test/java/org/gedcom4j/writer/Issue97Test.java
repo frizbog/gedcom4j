@@ -66,10 +66,9 @@ public class Issue97Test {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         gw.write(baos);
         String output = baos.toString();
-        System.out.println(output);
-        assertEquals("0 HEAD\n" + "1 SOUR UNSPECIFIED\n" + "1 SUBM @SUBM0001@\n" + "1 SUBN @SUBN0001@\n" + "1 GEDC\n" + "2 VERS 5.5.1\n"
-                + "2 FORM LINEAGE-LINKED\n" + "1 CHAR ANSEL\n" + "0 @SUBN0001@ SUBN\n" + "0 @SUBM0001@ SUBM\n" + "1 NAME Line break in middle of a wo\n"
-                + "2 CONT rd\n" + "0 TRLR\n", output);
+        assertEquals("0 HEAD\n" + "1 SOUR UNSPECIFIED\n" + "1 SUBM @SUBM0001@\n" + "1 SUBN @SUBN0001@\n" + "1 GEDC\n"
+                + "2 VERS 5.5.1\n" + "2 FORM LINEAGE-LINKED\n" + "1 CHAR ANSEL\n" + "0 @SUBN0001@ SUBN\n" + "0 @SUBM0001@ SUBM\n"
+                + "1 NAME Line break in middle of a wo\n" + "2 CONT rd\n" + "0 TRLR\n", output);
     }
 
 }
