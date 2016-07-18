@@ -46,40 +46,78 @@ public class DateParser {
      */
     public enum ImpreciseDatePreference {
         /**
-         * We only want precise dates. Ignore others.
+         * Return as precise a date as possible. For ranges and periods where more than one date is supplied (e.g., FROM 17 JUL 2016
+         * TO 31 JUL 2016), use the first of the two dates.
          */
         PRECISE,
 
         /**
-         * Return the earliest possible value for the interpreted date or range
+         * Return the earliest reasonable value for the interpreted date or range.
          */
         FAVOR_EARLIEST,
 
         /**
-         * Return the latest possible value for the interpreted date or range
+         * Return the latest reasonable value for the interpreted date or range.
          */
         FAVOR_LATEST,
 
         /**
-         * Return the midpoint between the earliest and latest possible vlues for the interpreted date or range
+         * Return the midpoint between the earliest and latest possible values for the interpreted date or range. For example, if a
+         * value of "1900" is supplied, the value returned is 1900-07-01 (July 1, 1900). "JUL 1900" is supplied, the value returned
+         * is 1900-07-15 (July 15). If the supplied value is not a range (i.e., there is only one date), return as precise a value
+         * as possible.
          */
         FAVOR_MIDPOINT
-    };
+    }
+
+    /**
+     * Miscellaneous date characters, for ignoring sections of dates - alphanumeric, spaces, and periods
+     */
+    private static final String FORMAT_DATE_MISC = "[A-Za-z0-9. ]*";
+
+    /**
+     * The regex string for a year
+     */
+    private static final String FORMAT_YEAR = "\\d{3,4}(\\/\\d{2})?";
+
+    /**
+     * Regex string for a day value
+     */
+    private static final String FORMAT_DAY = "(0?[1-9]|[12]\\d|3[01])";
+
+    /**
+     * Regex string for a month value
+     */
+    private static final String FORMAT_MONTH = "(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)";
+
+    /**
+     * Regex string for case insensitivity
+     */
+    private static final String FORMAT_CASE_INSENSITIVE = "(?i)";
 
     /**
      * The regex pattern that identifies a single, full date, with year, month, and day
      */
-    private static final Pattern REGEX_SINGLE_DATE_FULL = Pattern.compile("[012]{0,1}[0-9]{1} [A-Za-z]{3} \\d{3,4}");
+    private static final Pattern PATTERN_SINGLE_DATE_FULL = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_DAY + " "
+            + FORMAT_MONTH + " " + FORMAT_YEAR);
 
     /**
      * The regex pattern that identifies a single date, with year, month, but no day
      */
-    private static final Pattern REGEX_SINGLE_DATE_MONTH_YEAR = Pattern.compile("[A-Za-z]{3} \\d{3,4}");
+    private static final Pattern PATTERN_SINGLE_DATE_MONTH_YEAR = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_MONTH + " "
+            + FORMAT_YEAR);
 
     /**
      * The regex pattern that identifies a single date, year only (no month or day)
      */
-    private static final Pattern REGEX_SINGLE_DATE_YEAR_ONLY = Pattern.compile("\\d{3,4}");
+    private static final Pattern PATTERN_SINGLE_DATE_YEAR_ONLY = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_YEAR);
+
+    /**
+     * The regex pattern that identifies two-date range or period
+     */
+    private static final Pattern PATTERN_TWO_DATES = Pattern.compile(FORMAT_CASE_INSENSITIVE
+            + "(FROM|BEF|BEF\\.|BTW|BTW\\.|BETWEEN) " + FORMAT_DATE_MISC + " " + FORMAT_YEAR + " (AND|TO) " + FORMAT_DATE_MISC + " "
+            + FORMAT_YEAR);
 
     /**
      * Parse the string as date, with the default imprecise date handling preference of {@link ImpreciseDatePreference#PRECISE}.
@@ -98,43 +136,67 @@ public class DateParser {
      * @param dateString
      *            the date string
      * @param pref
-     *            the preference for handling an imprecise date
+     *            the preference for handling an imprecise date.
      * @return the date, if one can be derived from the string
      */
     public Date parse(String dateString, ImpreciseDatePreference pref) {
-        String ds = removeApproximations(dateString);
-        if (REGEX_SINGLE_DATE_FULL.matcher(ds).matches()) {
+        String ds = removeApproximations(dateString.toUpperCase());
+        ds = removeOpenEndedRangesAndPeriods(ds);
+        if (PATTERN_SINGLE_DATE_FULL.matcher(ds).matches()) {
             return getDateWithFormatString(ds, "dd MMM yyyy");
         }
-        if (REGEX_SINGLE_DATE_MONTH_YEAR.matcher(ds).matches()) {
+        if (PATTERN_SINGLE_DATE_MONTH_YEAR.matcher(ds).matches()) {
             return getYearMonthNoDay(ds, pref);
         }
-        if (REGEX_SINGLE_DATE_YEAR_ONLY.matcher(ds).matches()) {
-            Date d = getDateWithFormatString(ds, "yyyy");
-            Calendar c = Calendar.getInstance();
-            c.setTime(d);
-            switch (pref) {
-                case FAVOR_EARLIEST:
-                    // First day of year
-                    c.set(Calendar.DAY_OF_YEAR, 1);
-                    return c.getTime();
-                case FAVOR_LATEST:
-                    // Last day of year
-                    c.set(Calendar.MONTH, Calendar.DECEMBER);
-                    c.set(Calendar.DAY_OF_MONTH, 31);
-                    return c.getTime();
-                case FAVOR_MIDPOINT:
-                    // Middle day of year - go with July 1. Not precisely midpoint but feels midpointy.
-                    c.set(Calendar.MONTH, Calendar.JULY);
-                    c.set(Calendar.DAY_OF_MONTH, 1);
-                    return c.getTime();
-                case PRECISE:
-                    return d;
-                default:
-                    throw new IllegalArgumentException("Unknown value for date handling preference: " + pref);
-            }
+        if (PATTERN_SINGLE_DATE_YEAR_ONLY.matcher(ds).matches()) {
+            return getYearOnly(ds, pref);
         }
         return null;
+    }
+
+    /**
+     * Return a version of the string with approximation prefixes removed, including handling for interpreted dates
+     * 
+     * @param dateString
+     *            the date string
+     * @return a version of the string with approximation prefixes removed
+     */
+    String removeApproximations(String dateString) {
+        String ds = removePrefixes(dateString, new String[] { "ABT", "ABOUT", "APPX", "APPROX", "CAL", "CALC", "EST" });
+
+        // Interpreted dates - require terms in parentheses after the date
+        if (ds.startsWith("INT ") && ds.indexOf('(') > 8) {
+            return ds.substring(4, ds.indexOf('(')).trim();
+        }
+        if (ds.startsWith("INT. ") && ds.indexOf('(') > 9) {
+            return ds.substring(4, ds.indexOf('(')).trim();
+        }
+
+        return ds;
+    }
+
+    /**
+     * Remove any of a set of prefixes from a date string. The prefixes will be removed if they begin the string, followed by an
+     * optional period, then a space. For example, if "BEF" is one of the prefixes passed in, and the date string passed in is
+     * either "BEF 1900" or "BEF. 1900", the result will be "1900".
+     * 
+     * @param dateString
+     *            the date string
+     * @param prefixes
+     *            the prefixes
+     * @return the string with the prefixes removed
+     */
+    String removePrefixes(String dateString, String[] prefixes) {
+
+        for (String pfx : prefixes) {
+            if (dateString.startsWith(pfx + " ") && dateString.length() > pfx.length() + 1) {
+                return dateString.substring(pfx.length() + 1).trim();
+            }
+            if (dateString.startsWith(pfx + ". ") && dateString.length() > pfx.length() + 2) {
+                return dateString.substring(pfx.length() + 2).trim();
+            }
+        }
+        return dateString;
     }
 
     /**
@@ -197,34 +259,52 @@ public class DateParser {
     }
 
     /**
-     * Return a version of the string with approximation prefixes removed, including handling for interpreted dates
+     * Get the date from a date string when the string is formatted with a year but no month or day
      * 
      * @param dateString
      *            the date string
-     * @return a version of the string with approximation prefixes removed
+     * @param pref
+     *            preference on how to handle imprecise dates, like this one - return the earliest day of the month, the latest, the
+     *            midpoint?
+     * @return the date found, if any, or null if no date could be extracted
      */
-    private String removeApproximations(String dateString) {
-        String[] prefixes = new String[] { "ABT", "ABOUT", "APPX", "APPROX", "CAL", "CALC", "EST" };
-        String ds = dateString.toUpperCase();
-
-        // Approximate dates
-        for (String pfx : prefixes) {
-            if (ds.startsWith(pfx + " ") && ds.length() > pfx.length() + 1) {
-                return dateString.substring(pfx.length() + 1).trim();
-            }
-            if (ds.startsWith(pfx + ". ") && ds.length() > pfx.length() + 2) {
-                return dateString.substring(pfx.length() + 2).trim();
-            }
+    private Date getYearOnly(String dateString, ImpreciseDatePreference pref) {
+        Date d = getDateWithFormatString(dateString, "yyyy");
+        Calendar c = Calendar.getInstance();
+        c.setTime(d);
+        switch (pref) {
+            case FAVOR_EARLIEST:
+                // First day of year
+                c.set(Calendar.DAY_OF_YEAR, 1);
+                return c.getTime();
+            case FAVOR_LATEST:
+                // Last day of year
+                c.set(Calendar.MONTH, Calendar.DECEMBER);
+                c.set(Calendar.DAY_OF_MONTH, 31);
+                return c.getTime();
+            case FAVOR_MIDPOINT:
+                // Middle day of year - go with July 1. Not precisely midpoint but feels midpointy.
+                c.set(Calendar.MONTH, Calendar.JULY);
+                c.set(Calendar.DAY_OF_MONTH, 1);
+                return c.getTime();
+            case PRECISE:
+                return d;
+            default:
+                throw new IllegalArgumentException("Unknown value for date handling preference: " + pref);
         }
+    }
 
-        // Interpreted dates
-        if (ds.startsWith("INT ") && ds.indexOf('(') > 8) {
-            return dateString.substring(4, ds.indexOf('(')).trim();
+    /**
+     * Remove the prefixes for open ended date ranges with only one date (e.g., "BEF 1900", "FROM 1756", "AFT 2000")
+     * 
+     * @param dateString
+     *            the date string
+     * @return the same date string with range/period prefixes removed, but only if it's an open-ended period or range
+     */
+    private String removeOpenEndedRangesAndPeriods(String dateString) {
+        if (!PATTERN_TWO_DATES.matcher(dateString).matches()) {
+            return removePrefixes(dateString, new String[] { "FROM", "BEF", "BEFORE", "AFT", "AFTER", "TO" });
         }
-        if (ds.startsWith("INT. ") && ds.indexOf('(') > 9) {
-            return dateString.substring(4, ds.indexOf('(')).trim();
-        }
-
         return dateString;
     }
 

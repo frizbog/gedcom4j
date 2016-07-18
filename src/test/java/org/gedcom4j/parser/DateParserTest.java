@@ -27,7 +27,9 @@
 package org.gedcom4j.parser;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -40,15 +42,60 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class DateParserGregorianTest {
+public class DateParserTest {
+
+    /**
+     * Class under test
+     */
+    private final DateParser dp = new DateParser();
+
+    /**
+     * Test BC Dates
+     */
+    @Test
+    public void testBC() {
+        fail("Not implemented yet");
+    }
+
+    /**
+     * Test French Republican calendar
+     */
+    @Test
+    public void testFrenchRepublican() {
+        fail("Not implemented yet");
+    }
+
+    /**
+     * Test dates around the Gregorian cutover
+     */
+    @Test
+    public void testGregorianCutover() {
+        fail("Not implemented yet");
+    }
+
+    /**
+     * Test Hebrew calendar
+     */
+    @Test
+    public void testHebrew() {
+        fail("Not implemented yet");
+    }
+
+    /**
+     * Test Julian calendar
+     */
+    @Test
+    public void testJulian() {
+        fail("Not implemented yet");
+    }
 
     /**
      * Test parsing a single date with month, day, and year
      */
     @Test
     public void testParseApproximateSingleDateFull() {
-        DateParser dp = new DateParser();
         assertDate(dp.parse("ABT 17 JUL 2016"), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("ABT 31 JUL 2016"), 2016, Calendar.JULY, 31);
         assertDate(dp.parse("ABT 1 JUL 932"), 932, Calendar.JULY, 1);
         // 2016 was a leap year
         assertDate(dp.parse("ABT 29 FEB 2016"), 2016, Calendar.FEBRUARY, 29);
@@ -67,6 +114,7 @@ public class DateParserGregorianTest {
         assertDate(dp.parse("ABT. 29 FEB 1900"), 1900, Calendar.MARCH, 1);
 
         assertDate(dp.parse("CAL 17 JUL 2016"), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("CAL 31 JUL 2016"), 2016, Calendar.JULY, 31);
         assertDate(dp.parse("CAL 1 JUL 932"), 932, Calendar.JULY, 1);
         // 2016 was a leap year
         assertDate(dp.parse("CAL 29 FEB 2016"), 2016, Calendar.FEBRUARY, 29);
@@ -74,6 +122,7 @@ public class DateParserGregorianTest {
         assertDate(dp.parse("CAL 29 FEB 1900"), 1900, Calendar.MARCH, 1);
 
         assertDate(dp.parse("CAL. 17 JUL 2016"), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("CAL. 31 JUL 2016"), 2016, Calendar.JULY, 31);
         assertDate(dp.parse("CAL. 1 JUL 932"), 932, Calendar.JULY, 1);
         // 2016 was a leap year
         assertDate(dp.parse("CAL. 29 FEB 2016"), 2016, Calendar.FEBRUARY, 29);
@@ -101,7 +150,6 @@ public class DateParserGregorianTest {
      */
     @Test
     public void testParseApproximateSingleDateNoDayPreferEarliest() {
-        DateParser dp = new DateParser();
         assertDate(dp.parse("ABT JUL 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 1);
         assertDate(dp.parse("Abt. JUL 932", ImpreciseDatePreference.FAVOR_EARLIEST), 932, Calendar.JULY, 1);
         assertDate(dp.parse("Appx. JUL 932", ImpreciseDatePreference.FAVOR_EARLIEST), 932, Calendar.JULY, 1);
@@ -119,7 +167,6 @@ public class DateParserGregorianTest {
      */
     @Test
     public void testParseApproximateSingleDateNoDayPreferLatest() {
-        DateParser dp = new DateParser();
         assertDate(dp.parse("About JUL 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 31);
         assertDate(dp.parse("Appx jul 932", ImpreciseDatePreference.FAVOR_LATEST), 932, Calendar.JULY, 31);
         // 2016 was a leap year
@@ -134,7 +181,6 @@ public class DateParserGregorianTest {
      */
     @Test
     public void testParseApproximateSingleDateNoDayPreferMidpoint() {
-        DateParser dp = new DateParser();
         assertDate(dp.parse("Appx JUL 2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 15);
         assertDate(dp.parse("APPROX JUL 932", ImpreciseDatePreference.FAVOR_MIDPOINT), 932, Calendar.JULY, 15);
         // 2016 was a leap year
@@ -149,7 +195,6 @@ public class DateParserGregorianTest {
      */
     @Test
     public void testParseApproximateSingleDateNoDayPreferPRECISE() {
-        DateParser dp = new DateParser();
         assertDate(dp.parse("ABT JUL 2016", ImpreciseDatePreference.PRECISE), 2016, Calendar.JULY, 1);
         assertDate(dp.parse("Abt. JUL 932", ImpreciseDatePreference.PRECISE), 932, Calendar.JULY, 1);
         assertDate(dp.parse("Appx. JUL 932", ImpreciseDatePreference.PRECISE), 932, Calendar.JULY, 1);
@@ -167,7 +212,6 @@ public class DateParserGregorianTest {
      */
     @Test
     public void testParseApproximateSingleDateYearOnlyPrecise() {
-        DateParser dp = new DateParser();
         assertDate(dp.parse("abt 2016"), 2016, Calendar.JANUARY, 1);
         assertDate(dp.parse("Appx 932"), 932, Calendar.JANUARY, 1);
         assertDate(dp.parse("Est 2016"), 2016, Calendar.JANUARY, 1);
@@ -179,7 +223,6 @@ public class DateParserGregorianTest {
      */
     @Test
     public void testParseApproximateSingleDateYearOnlyPreferEarliest() {
-        DateParser dp = new DateParser();
         assertDate(dp.parse("Calc 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JANUARY, 1);
         assertDate(dp.parse("Est 932", ImpreciseDatePreference.FAVOR_EARLIEST), 932, Calendar.JANUARY, 1);
         assertDate(dp.parse("appx 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JANUARY, 1);
@@ -191,7 +234,6 @@ public class DateParserGregorianTest {
      */
     @Test
     public void testParseApproximateSingleDateYearOnlyPreferLatest() {
-        DateParser dp = new DateParser();
         assertDate(dp.parse("About 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.DECEMBER, 31);
         assertDate(dp.parse("Calc. 932", ImpreciseDatePreference.FAVOR_LATEST), 932, Calendar.DECEMBER, 31);
         assertDate(dp.parse("appx 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.DECEMBER, 31);
@@ -203,7 +245,6 @@ public class DateParserGregorianTest {
      */
     @Test
     public void testParseApproximateSingleDateYearOnlyPreferMidpoint() {
-        DateParser dp = new DateParser();
         assertDate(dp.parse("Est. 2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 1);
         assertDate(dp.parse("Est 932", ImpreciseDatePreference.FAVOR_MIDPOINT), 932, Calendar.JULY, 1);
         assertDate(dp.parse("est 2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 1);
@@ -215,8 +256,8 @@ public class DateParserGregorianTest {
      */
     @Test
     public void testParseInterpretedDates() {
-        DateParser dp = new DateParser();
         assertDate(dp.parse("INT 17 JUL 2016 (\"today\")"), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("INT 31 JUL 2016 (\"today\")"), 2016, Calendar.JULY, 31);
         assertDate(dp.parse("INT 17 JUL 932 (\"today\")"), 932, Calendar.JULY, 17);
         assertDate(dp.parse("INT FEB 2016 (\"today\")"), 2016, Calendar.FEBRUARY, 1);
         assertDate(dp.parse("INT 1900 (\"today\")"), 1900, Calendar.JANUARY, 1);
@@ -248,8 +289,8 @@ public class DateParserGregorianTest {
      */
     @Test
     public void testParseSingleDateFull() {
-        DateParser dp = new DateParser();
         assertDate(dp.parse("17 JUL 2016"), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("31 DEC 2016"), 2016, Calendar.DECEMBER, 31);
         assertDate(dp.parse("1 JUL 932"), 932, Calendar.JULY, 1);
         // 2016 was a leap year
         assertDate(dp.parse("29 FEB 2016"), 2016, Calendar.FEBRUARY, 29);
@@ -264,7 +305,6 @@ public class DateParserGregorianTest {
      */
     @Test
     public void testParseSingleDateNoDayPrecise() {
-        DateParser dp = new DateParser();
         assertDate(dp.parse("JUL 2016"), 2016, Calendar.JULY, 1);
         assertDate(dp.parse("JUL 932"), 932, Calendar.JULY, 1);
         // 2016 was a leap year
@@ -280,7 +320,6 @@ public class DateParserGregorianTest {
      */
     @Test
     public void testParseSingleDateNoDayPreferEarliest() {
-        DateParser dp = new DateParser();
         assertDate(dp.parse("JUL 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 1);
         assertDate(dp.parse("JUL 932", ImpreciseDatePreference.FAVOR_EARLIEST), 932, Calendar.JULY, 1);
         // 2016 was a leap year
@@ -297,7 +336,6 @@ public class DateParserGregorianTest {
      */
     @Test
     public void testParseSingleDateNoDayPreferLatest() {
-        DateParser dp = new DateParser();
         assertDate(dp.parse("JUL 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 31);
         assertDate(dp.parse("JUL 932", ImpreciseDatePreference.FAVOR_LATEST), 932, Calendar.JULY, 31);
         // 2016 was a leap year
@@ -314,7 +352,6 @@ public class DateParserGregorianTest {
      */
     @Test
     public void testParseSingleDateNoDayPreferMidpoint() {
-        DateParser dp = new DateParser();
         assertDate(dp.parse("JUL 2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 15);
         assertDate(dp.parse("JUL 932", ImpreciseDatePreference.FAVOR_MIDPOINT), 932, Calendar.JULY, 15);
         // 2016 was a leap year
@@ -331,7 +368,6 @@ public class DateParserGregorianTest {
      */
     @Test
     public void testParseSingleDateYearOnlyPrecise() {
-        DateParser dp = new DateParser();
         assertDate(dp.parse("2016"), 2016, Calendar.JANUARY, 1);
         assertDate(dp.parse("932"), 932, Calendar.JANUARY, 1);
         assertDate(dp.parse("2016"), 2016, Calendar.JANUARY, 1);
@@ -343,7 +379,6 @@ public class DateParserGregorianTest {
      */
     @Test
     public void testParseSingleDateYearOnlyPreferEarliest() {
-        DateParser dp = new DateParser();
         assertDate(dp.parse("2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JANUARY, 1);
         assertDate(dp.parse("932", ImpreciseDatePreference.FAVOR_EARLIEST), 932, Calendar.JANUARY, 1);
         assertDate(dp.parse("2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JANUARY, 1);
@@ -355,7 +390,6 @@ public class DateParserGregorianTest {
      */
     @Test
     public void testParseSingleDateYearOnlyPreferLatest() {
-        DateParser dp = new DateParser();
         assertDate(dp.parse("2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.DECEMBER, 31);
         assertDate(dp.parse("932", ImpreciseDatePreference.FAVOR_LATEST), 932, Calendar.DECEMBER, 31);
         assertDate(dp.parse("2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.DECEMBER, 31);
@@ -367,7 +401,6 @@ public class DateParserGregorianTest {
      */
     @Test
     public void testParseSingleDateYearOnlyPreferMidpoint() {
-        DateParser dp = new DateParser();
         assertDate(dp.parse("2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 1);
         assertDate(dp.parse("932", ImpreciseDatePreference.FAVOR_MIDPOINT), 932, Calendar.JULY, 1);
         assertDate(dp.parse("2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 1);
@@ -379,12 +412,141 @@ public class DateParserGregorianTest {
      */
     @Test
     public void testParseUnsupportedFormats() {
-        DateParser dp = new DateParser();
         assertNull("Slashes not supported", dp.parse("07/17/2016"));
         assertNull("Hyphens not supported", dp.parse("2016-07-17"));
         assertNull("Field order not correct", dp.parse("2016 JUL 17"));
         assertNull("No month has 41 days", dp.parse("41 JUL 2016"));
         assertNull("Two digit years not supported", dp.parse("5 JUL 15"));
+    }
+
+    /**
+     * Test periods of full dates
+     */
+    @Test
+    public void testPeriodFullDates() {
+        fail("Not implemented yet");
+    }
+
+    /**
+     * Test periods of dates with a variety of mixed specificity (some dates with year/month/day, some with just year/month, some
+     * with just year)
+     */
+    @Test
+    public void testPeriodMixed() {
+        fail("Not implemented yet");
+    }
+
+    /**
+     * Test periods of month and year dates without days
+     */
+    @Test
+    public void testPeriodMonthYear() {
+        fail("Not implemented yet");
+    }
+
+    /**
+     * Test periods of dates with only years, no months or days
+     */
+    @Test
+    public void testPeriodYearOnly() {
+        fail("Not implemented yet");
+    }
+
+    /**
+     * Test ranges with only one date
+     */
+    @Test
+    public void testRangeFullDates() {
+        fail("Not implemented yet");
+    }
+
+    /**
+     * Test ranges of dates with a variety of mixed specificity (some dates with year/month/day, some with just year/month, some
+     * with just year)
+     */
+    @Test
+    public void testRangeMixed() {
+        fail("Not implemented yet");
+    }
+
+    /**
+     * Test ranges of month and year dates without days
+     */
+    @Test
+    public void testRangeMonthYear() {
+        fail("Not implemented yet");
+    }
+
+    /**
+     * Test ranges with only one date
+     */
+    @Test
+    public void testRangeOpenEnded() {
+        assertDate(dp.parse("BEF 17 JUL 2016", ImpreciseDatePreference.PRECISE), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("BEF. 17 JUL 2016", ImpreciseDatePreference.PRECISE), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("BEFORE 17 JUL 2016", ImpreciseDatePreference.PRECISE), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("AFT 17 JUL 2016", ImpreciseDatePreference.PRECISE), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("AFT. 17 JUL 2016", ImpreciseDatePreference.PRECISE), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("AFTER 17 JUL 2016", ImpreciseDatePreference.PRECISE), 2016, Calendar.JULY, 17);
+
+        assertDate(dp.parse("BEF 17 JUL 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("BEF. 17 JUL 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("BEFORE 17 JUL 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("AFT 17 JUL 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("AFT. 17 JUL 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("AFTER 17 JUL 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 17);
+
+        assertDate(dp.parse("BEF 17 JUL 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("BEF. 17 JUL 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("BEFORE 17 JUL 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("AFT 17 JUL 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("AFT. 17 JUL 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("AFTER 17 JUL 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 17);
+
+        assertDate(dp.parse("BEF 17 JUL 2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("BEF. 17 JUL 2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("BEFORE 17 JUL 2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("AFT 17 JUL 2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("AFT. 17 JUL 2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("AFTER 17 JUL 2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 17);
+    }
+
+    /**
+     * Test ranges of dates with only years, no months or days
+     */
+    @Test
+    public void testRangeYearOnly() {
+        fail("Not implemented yet");
+    }
+
+    /**
+     * Test {@link DateParser#removeApproximations(String)}
+     */
+    @Test
+    public void testRemoveAppoximations() {
+        assertEquals("31 DEC 1900", dp.removeApproximations("31 DEC 1900"));
+        assertEquals("31 DEC 1900", dp.removeApproximations("APPX 31 DEC 1900"));
+        assertEquals("31 DEC 1900", dp.removeApproximations("APPROX 31 DEC 1900"));
+        assertEquals("31 DEC 1900", dp.removeApproximations("APPX. 31 DEC 1900"));
+        assertEquals("31 DEC 1900", dp.removeApproximations("APPROX. 31 DEC 1900"));
+        assertEquals("31 DEC 1900", dp.removeApproximations("ABT 31 DEC 1900"));
+        assertEquals("31 DEC 1900", dp.removeApproximations("ABT. 31 DEC 1900"));
+        assertEquals("31 DEC 1900", dp.removeApproximations("ABOUT 31 DEC 1900"));
+        assertEquals("31 DEC 1900", dp.removeApproximations("EST 31 DEC 1900"));
+        assertEquals("31 DEC 1900", dp.removeApproximations("EST. 31 DEC 1900"));
+    }
+
+    /**
+     * Test {@link DateParser#removePrefixes(String, String[])}
+     */
+    @Test
+    public void testRemovePrefixes() {
+        assertEquals("FOO", dp.removePrefixes("FOO", new String[] {}));
+        assertEquals("FOO BAR BAZ BAT", dp.removePrefixes("FOO BAR BAZ BAT", new String[] {}));
+        assertEquals("BAR BAZ BAT", dp.removePrefixes("FOO BAR BAZ BAT", new String[] { "FOO" }));
+        assertEquals("BAR BAZ BAT", dp.removePrefixes("FOO. BAR BAZ BAT", new String[] { "FOO" }));
+        assertEquals("BAR BAZ BAT", dp.removePrefixes("FOO BAR BAZ BAT", new String[] { "BAR", "BAZ", "BAT", "FOO" }));
+        assertEquals("BAR BAZ BAT", dp.removePrefixes("FOO. BAR BAZ BAT", new String[] { "BAR", "BAZ", "BAT", "FOO" }));
     }
 
     /**
@@ -400,6 +562,7 @@ public class DateParserGregorianTest {
      *            the expected day
      */
     private void assertDate(Date d, int year, int month, int day) {
+        assertNotNull("Expected date of " + (month + 1) + "/" + day + "/" + year + " but got null", d);
         Calendar c = Calendar.getInstance();
         c.setTime(d);
         int y = c.get(Calendar.YEAR);
