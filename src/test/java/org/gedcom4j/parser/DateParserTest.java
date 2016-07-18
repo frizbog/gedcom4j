@@ -28,6 +28,7 @@ package org.gedcom4j.parser;
 
 import static org.junit.Assert.*;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -51,7 +52,111 @@ public class DateParserTest {
      */
     @Test
     public void testBC() {
-        fail("Not implemented yet");
+        SimpleDateFormat sdf = new SimpleDateFormat("y G");
+        Date d;
+
+        d = dp.parse("1905 BC");
+        assertNotNull(d);
+        assertEquals("1905 BC", sdf.format(d));
+
+        d = dp.parse("1905");
+        assertNotNull(d);
+        assertEquals("1905 AD", sdf.format(d));
+
+        d = dp.parse("500 BC");
+        assertNotNull(d);
+        assertEquals("500 BC", sdf.format(d));
+
+        d = dp.parse("500");
+        assertNotNull(d);
+        assertEquals("500 AD", sdf.format(d));
+
+        d = dp.parse("50 BC");
+        assertNotNull(d);
+        assertEquals("50 BC", sdf.format(d));
+
+        d = dp.parse("50");
+        assertNotNull(d);
+        assertEquals("50 AD", sdf.format(d));
+
+        d = dp.parse("5 BC");
+        assertNotNull(d);
+        assertEquals("5 BC", sdf.format(d));
+
+        d = dp.parse("5");
+        assertNotNull(d);
+        assertEquals("5 AD", sdf.format(d));
+
+        d = dp.parse("1");
+        assertNotNull(d);
+        assertEquals("1 AD", sdf.format(d));
+
+        d = dp.parse("1 BC");
+        assertNotNull(d);
+        assertEquals("1 BC", sdf.format(d));
+
+    }
+
+    /**
+     * Test for {@link DateParser#formatBC(String)}
+     */
+    @Test
+    public void testFormatBC() {
+        assertEquals("14 DEC -2049", dp.formatBC("14 DEC 2050BC"));
+        assertEquals("DEC -2049", dp.formatBC("DEC 2050BC"));
+        assertEquals("-2049", dp.formatBC("2050BC"));
+        assertEquals("14 DEC -649", dp.formatBC("14 DEC 650BC"));
+        assertEquals("DEC -649", dp.formatBC("DEC 650BC"));
+        assertEquals("-649", dp.formatBC("650BC"));
+        assertEquals("14 DEC -49", dp.formatBC("14 DEC 50BC"));
+        assertEquals("DEC -49", dp.formatBC("DEC 50BC"));
+        assertEquals("-49", dp.formatBC("50BC"));
+
+        assertEquals("14 DEC -2049", dp.formatBC("14 DEC 2050 BC"));
+        assertEquals("DEC -2049", dp.formatBC("DEC 2050 BC"));
+        assertEquals("-2049", dp.formatBC("2050 BC"));
+        assertEquals("14 DEC -649", dp.formatBC("14 DEC 650 BC"));
+        assertEquals("DEC -649", dp.formatBC("DEC 650 BC"));
+        assertEquals("-649", dp.formatBC("650 BC"));
+        assertEquals("14 DEC -49", dp.formatBC("14 DEC 50 BC"));
+        assertEquals("DEC -49", dp.formatBC("DEC 50 BC"));
+        assertEquals("-49", dp.formatBC("50 BC"));
+
+        assertEquals("14 DEC -2049", dp.formatBC("14 DEC 2050 B.C."));
+        assertEquals("DEC -2049", dp.formatBC("DEC 2050 B.C."));
+        assertEquals("-2049", dp.formatBC("2050 B.C."));
+        assertEquals("14 DEC -649", dp.formatBC("14 DEC 650 B.C."));
+        assertEquals("DEC -649", dp.formatBC("DEC 650 B.C."));
+        assertEquals("-649", dp.formatBC("650 B.C."));
+        assertEquals("14 DEC -49", dp.formatBC("14 DEC 50 B.C."));
+        assertEquals("DEC -49", dp.formatBC("DEC 50 B.C."));
+        assertEquals("-49", dp.formatBC("50 B.C."));
+
+        assertEquals("14 DEC -2049", dp.formatBC("14 DEC 2050 BCE"));
+        assertEquals("DEC -2049", dp.formatBC("DEC 2050 BCE"));
+        assertEquals("-2049", dp.formatBC("2050 BCE"));
+        assertEquals("14 DEC -649", dp.formatBC("14 DEC 650 BCE"));
+        assertEquals("DEC -649", dp.formatBC("DEC 650 BCE"));
+        assertEquals("-649", dp.formatBC("650 BCE"));
+        assertEquals("14 DEC -49", dp.formatBC("14 DEC 50 BCE"));
+        assertEquals("DEC -49", dp.formatBC("DEC 50 BCE"));
+        assertEquals("-49", dp.formatBC("50 BCE"));
+
+        assertEquals("14 DEC -2049", dp.formatBC("14 DEC 2050 B.C.E."));
+        assertEquals("DEC -2049", dp.formatBC("DEC 2050 B.C.E."));
+        assertEquals("-2049", dp.formatBC("2050 B.C.E."));
+        assertEquals("14 DEC -649", dp.formatBC("14 DEC 650 B.C.E."));
+        assertEquals("DEC -649", dp.formatBC("DEC 650 B.C.E."));
+        assertEquals("-649", dp.formatBC("650 B.C.E."));
+        assertEquals("14 DEC -49", dp.formatBC("14 DEC 50 B.C.E."));
+        assertEquals("DEC -49", dp.formatBC("DEC 50 B.C.E."));
+        assertEquals("-49", dp.formatBC("50 B.C.E."));
+
+        assertEquals("50", dp.formatBC("50"));
+        assertEquals("650", dp.formatBC("650"));
+        assertEquals("1950", dp.formatBC("1950"));
+        assertEquals("JUN 1950", dp.formatBC("JUN 1950"));
+        assertEquals("14 JUN 1950", dp.formatBC("14 JUN 1950"));
     }
 
     /**
@@ -413,7 +518,6 @@ public class DateParserTest {
         assertNull("Hyphens not supported", dp.parse("2016-07-17"));
         assertNull("Field order not correct", dp.parse("2016 JUL 17"));
         assertNull("No month has 41 days", dp.parse("41 JUL 2016"));
-        assertNull("Two digit years not supported", dp.parse("5 JUL 15"));
     }
 
     /**

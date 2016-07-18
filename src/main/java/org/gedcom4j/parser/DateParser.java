@@ -78,7 +78,7 @@ public class DateParser {
     /**
      * The regex string for a year
      */
-    private static final String FORMAT_YEAR = "\\d{3,4}(\\/\\d{2})?";
+    private static final String FORMAT_YEAR = "\\d{1,4}(\\/\\d{2})? ?(BC|B.C.|BCE)?";
 
     /**
      * Regex string for a day value
@@ -143,7 +143,7 @@ public class DateParser {
         String ds = removeApproximations(dateString.toUpperCase());
         ds = removeOpenEndedRangesAndPeriods(ds);
         if (PATTERN_SINGLE_DATE_FULL.matcher(ds).matches()) {
-            return getDateWithFormatString(ds, "dd MMM yyyy");
+            return getYearMonthDay(ds);
         }
         if (PATTERN_SINGLE_DATE_MONTH_YEAR.matcher(ds).matches()) {
             return getYearMonthNoDay(ds, pref);
@@ -155,6 +155,33 @@ public class DateParser {
             return getPreferredDateFromRangeOrPeriod(ds, pref);
         }
         return null;
+    }
+
+    /**
+     * Format a string so BC dates are turned into negative years, for parsing by {@link SimpleDateFormat}
+     * 
+     * @param dateString
+     *            the date string, which may or may not have a BC suffix
+     * @return the date formatted so BC dates have negative years
+     */
+    String formatBC(String dateString) {
+        String d = dateString;
+        if (d.endsWith("BC") || d.endsWith("BCE") || d.endsWith("B.C.") || d.endsWith("B.C.E.")) {
+            String ds = d.substring(0, d.lastIndexOf('B')).trim();
+            String yyyy = null;
+            if (ds.lastIndexOf(' ') > -1) {
+                yyyy = ds.substring(ds.lastIndexOf(' ')).trim();
+                int i = Integer.parseInt(yyyy);
+                int bc = 1 - i;
+                String ddMMM = ds.substring(0, ds.lastIndexOf(' '));
+                d = ddMMM + " " + bc;
+            } else {
+                yyyy = ds.trim();
+                int i = Integer.parseInt(yyyy);
+                d = "" + (1 - i);
+            }
+        }
+        return d;
     }
 
     /**
@@ -288,13 +315,24 @@ public class DateParser {
      * 
      * @param dateString
      *            the date string
+     * @return the date found, if any, or null if no date could be extracted
+     */
+    private Date getYearMonthDay(String dateString) {
+        return getDateWithFormatString(formatBC(dateString), "dd MMM yyyy");
+    }
+
+    /**
+     * Get the date from a date string when the string is formatted with a month and year but no day
+     * 
+     * @param dateString
+     *            the date string
      * @param pref
      *            preference on how to handle imprecise dates, like this one - return the earliest day of the month, the latest, the
      *            midpoint?
      * @return the date found, if any, or null if no date could be extracted
      */
     private Date getYearMonthNoDay(String dateString, ImpreciseDatePreference pref) {
-        Date d = getDateWithFormatString(dateString, "MMM yyyy");
+        Date d = getDateWithFormatString(formatBC(dateString), "MMM yyyy");
         Calendar c = Calendar.getInstance();
         c.setTime(d);
         switch (pref) {
@@ -334,7 +372,7 @@ public class DateParser {
      * @return the date found, if any, or null if no date could be extracted
      */
     private Date getYearOnly(String dateString, ImpreciseDatePreference pref) {
-        Date d = getDateWithFormatString(dateString, "yyyy");
+        Date d = getDateWithFormatString(formatBC(dateString), "yyyy");
         Calendar c = Calendar.getInstance();
         c.setTime(d);
         switch (pref) {
