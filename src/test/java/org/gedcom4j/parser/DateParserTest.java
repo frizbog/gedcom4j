@@ -97,6 +97,14 @@ public class DateParserTest {
 
     }
 
+    // /**
+    // * Test dates around the English calendar change of 1752
+    // */
+    // @Test
+    // public void testEnglishCalendarChange() {
+    // fail("Not implemented yet");
+    // }
+
     /**
      * Test for {@link DateParser#formatBC(String)}
      */
@@ -159,38 +167,22 @@ public class DateParserTest {
         assertEquals("14 JUN 1950", dp.formatBC("14 JUN 1950"));
     }
 
-    /**
-     * Test French Republican calendar
-     */
-    @Test
-    public void testFrenchRepublican() {
-        fail("Not implemented yet");
-    }
-
-    /**
-     * Test dates around the Gregorian cutover
-     */
-    @Test
-    public void testGregorianCutover() {
-        fail("Not implemented yet");
-    }
-
-    /**
-     * Test Hebrew calendar
-     */
-    @Test
-    public void testHebrew() {
-        fail("Not implemented yet");
-    }
-
-    /**
-     * Test Julian calendar
-     */
-    @Test
-    public void testJulian() {
-        fail("Not implemented yet");
-    }
-
+    // /**
+    // * Test French Republican calendar
+    // */
+    // @Test
+    // public void testFrenchRepublican() {
+    // fail("Not implemented yet");
+    // }
+    //
+    // /**
+    // * Test Hebrew calendar
+    // */
+    // @Test
+    // public void testHebrew() {
+    // fail("Not implemented yet");
+    // }
+    //
     /**
      * Test parsing a single date with month, day, and year
      */
