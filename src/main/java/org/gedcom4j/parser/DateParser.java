@@ -30,11 +30,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 /**
- * A class for parsing dates from strings. Tries a whole lot of formats, growing increasingly imprecise. Also attempts to work with
- * ranges.
+ * A class for parsing dates from strings. Slightly more relaxed than the GEDCOM spec allows.
  * 
  * @author frizbog
  * @since v3.0.1
@@ -98,25 +98,25 @@ public class DateParser {
     /**
      * The regex pattern that identifies a single, full date, with year, month, and day
      */
-    private static final Pattern PATTERN_SINGLE_DATE_FULL = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_DAY + " "
-            + FORMAT_MONTH + " " + FORMAT_YEAR);
+    static final Pattern PATTERN_SINGLE_DATE_FULL = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_DAY + " " + FORMAT_MONTH + " "
+            + FORMAT_YEAR);
 
     /**
      * The regex pattern that identifies a single date, with year, month, but no day
      */
-    private static final Pattern PATTERN_SINGLE_DATE_MONTH_YEAR = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_MONTH + " "
+    static final Pattern PATTERN_SINGLE_DATE_MONTH_YEAR = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_MONTH + " "
             + FORMAT_YEAR);
 
     /**
      * The regex pattern that identifies a single date, year only (no month or day)
      */
-    private static final Pattern PATTERN_SINGLE_DATE_YEAR_ONLY = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_YEAR);
+    static final Pattern PATTERN_SINGLE_DATE_YEAR_ONLY = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_YEAR);
 
     /**
      * The regex pattern that identifies two-date range or period
      */
-    private static final Pattern PATTERN_TWO_DATES = Pattern.compile(FORMAT_CASE_INSENSITIVE
-            + "(FROM|BEF|BEF\\.|BTW|BTW\\.|BETWEEN) " + FORMAT_DATE_MISC + " " + FORMAT_YEAR + " (AND|TO) " + FORMAT_DATE_MISC + " "
+    static final Pattern PATTERN_TWO_DATES = Pattern.compile(FORMAT_CASE_INSENSITIVE
+            + "(FROM|BEF|BEF\\.|BET|BET\\.|BTW|BTW\\.|BETWEEN) " + FORMAT_DATE_MISC + FORMAT_YEAR + " (AND|TO) " + FORMAT_DATE_MISC
             + FORMAT_YEAR);
 
     /**
@@ -150,6 +150,9 @@ public class DateParser {
         }
         if (PATTERN_SINGLE_DATE_YEAR_ONLY.matcher(ds).matches()) {
             return getYearOnly(ds, pref);
+        }
+        if (PATTERN_TWO_DATES.matcher(ds).matches()) {
+            return getPreferredDateFromRangeOrPeriod(ds, pref);
         }
         return null;
     }
@@ -200,6 +203,27 @@ public class DateParser {
     }
 
     /**
+     * Split a two-date string, removing prefixes, and return an array of two date strings
+     * 
+     * @param dateString
+     *            the date string containing two dates
+     * @param splitOn
+     *            the delimiting phrase or character between the two dates
+     * @return an array of two strings, or null if the supplied <code>dateString</code> value does not contain the
+     *         <code>splitOn</code> delimiter value
+     */
+    String[] splitTwoDateString(String dateString, String splitOn) {
+        if (dateString.contains(splitOn)) {
+            String[] dateStrings = new String[2];
+            dateStrings[0] = removePrefixes(dateString.substring(0, dateString.indexOf(splitOn)).trim(), new String[] { "BETWEEN",
+                    "BET", "BTW", "FROM" });
+            dateStrings[1] = dateString.substring(dateString.indexOf(splitOn) + splitOn.length()).trim();
+            return dateStrings;
+        }
+        return null;
+    }
+
+    /**
      * Attempt to parse <code>dateString</code> using date format <code>fmt</code>. If successful, return the date. Otherwise return
      * null.
      * 
@@ -215,6 +239,47 @@ public class DateParser {
             return sdf.parse(dateString);
         } catch (@SuppressWarnings("unused") ParseException ignored) {
             return null;
+        }
+    }
+
+    /**
+     * Get the preferred date from a range or period
+     * 
+     * @param dateString
+     *            the date string
+     * @param pref
+     *            the preferred method of handling the range
+     * @return the date, or null if no date could be parsed from the data
+     */
+    private Date getPreferredDateFromRangeOrPeriod(String dateString, ImpreciseDatePreference pref) {
+        // Split the string into two dates
+        String[] dateStrings = splitTwoDateString(dateString, " AND ");
+        if (dateStrings == null) {
+            dateStrings = splitTwoDateString(dateString, " TO ");
+        }
+        if (dateStrings == null) {
+            return null;
+        }
+
+        // Calculate the dates from the two strings, based on what's preferred
+        switch (pref) {
+            case FAVOR_EARLIEST:
+                return parse(dateStrings[0], pref);
+            case FAVOR_LATEST:
+                return parse(dateStrings[1], pref);
+            case FAVOR_MIDPOINT:
+                Date d1 = parse(dateStrings[0], ImpreciseDatePreference.FAVOR_EARLIEST);
+                Date d2 = parse(dateStrings[1], ImpreciseDatePreference.FAVOR_LATEST);
+                long daysBetween = TimeUnit.DAYS.convert(d2.getTime() - d1.getTime(), TimeUnit.MILLISECONDS);
+                Calendar c = Calendar.getInstance();
+                c.setTime(d1);
+                c.add(Calendar.DAY_OF_YEAR, (int) daysBetween / 2);
+                Date result = c.getTime();
+                return result;
+            case PRECISE:
+                return parse(dateStrings[0], pref);
+            default:
+                throw new IllegalArgumentException("Unexpected value for imprecise date preference: " + pref);
         }
     }
 
@@ -305,6 +370,7 @@ public class DateParser {
         if (!PATTERN_TWO_DATES.matcher(dateString).matches()) {
             return removePrefixes(dateString, new String[] { "FROM", "BEF", "BEFORE", "AFT", "AFTER", "TO" });
         }
+
         return dateString;
     }
 

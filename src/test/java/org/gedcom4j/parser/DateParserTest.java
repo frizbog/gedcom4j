@@ -26,10 +26,7 @@
  */
 package org.gedcom4j.parser;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -420,28 +417,96 @@ public class DateParserTest {
     }
 
     /**
-     * Test periods of full dates
+     * Test pattern for two dates
      */
     @Test
-    public void testPeriodFullDates() {
-        fail("Not implemented yet");
+    public void testPatternTwoDates() {
+        assertTrue(DateParser.PATTERN_TWO_DATES.matcher("FROM 17 JUL 1900 TO 31 DEC 2000").matches());
+        assertTrue(DateParser.PATTERN_TWO_DATES.matcher("FROM JUL 1900 TO DEC 2000").matches());
+        assertTrue(DateParser.PATTERN_TWO_DATES.matcher("FROM 1900 TO 2000").matches());
+
+        assertTrue(DateParser.PATTERN_TWO_DATES.matcher("BET 17 JUL 1900 AND 31 DEC 2000").matches());
+        assertTrue(DateParser.PATTERN_TWO_DATES.matcher("BET JUL 1900 AND DEC 2000").matches());
+        assertTrue(DateParser.PATTERN_TWO_DATES.matcher("BET 1900 AND 2000").matches());
+
+        assertTrue(DateParser.PATTERN_TWO_DATES.matcher("BTW 17 JUL 1900 AND 31 DEC 2000").matches());
+        assertTrue(DateParser.PATTERN_TWO_DATES.matcher("BTW JUL 1900 AND DEC 2000").matches());
+        assertTrue(DateParser.PATTERN_TWO_DATES.matcher("BTW 1900 AND 2000").matches());
+
+        assertTrue(DateParser.PATTERN_TWO_DATES.matcher("BETWEEN 17 JUL 1900 AND 31 DEC 2000").matches());
+        assertTrue(DateParser.PATTERN_TWO_DATES.matcher("BETWEEN JUL 1900 AND DEC 2000").matches());
+        assertTrue(DateParser.PATTERN_TWO_DATES.matcher("BETWEEN 1900 AND 2000").matches());
+
+        /*
+         * The next three are strictly speaking not ok - BET should not have a period, and should not be paired with AND - but we'll
+         * allow it.
+         */
+        assertTrue(DateParser.PATTERN_TWO_DATES.matcher("BET. 17 JUL 1900 TO 31 DEC 2000").matches());
+        assertTrue(DateParser.PATTERN_TWO_DATES.matcher("BET. JUL 1900 TO DEC 2000").matches());
+        assertTrue(DateParser.PATTERN_TWO_DATES.matcher("BET. 1900 TO 2000").matches());
+
     }
 
     /**
-     * Test periods of dates with a variety of mixed specificity (some dates with year/month/day, some with just year/month, some
+     * Test ranges
+     */
+    @Test
+    public void testPeriodFullDates() {
+        assertDate(dp.parse("FROM 1 DEC 2017 TO 31 DEC 2017"), 2017, Calendar.DECEMBER, 1);
+        assertDate(dp.parse("FROM 1 DEC 2017 TO 31 DEC 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2017, Calendar.DECEMBER, 1);
+        assertDate(dp.parse("FROM 1 DEC 2017 TO 31 DEC 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 31);
+        assertDate(dp.parse("FROM 1 DEC 2017 TO 31 DEC 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2017, Calendar.DECEMBER, 16);
+
+        assertDate(dp.parse("FROM 28 DEC 2017 TO 31 DEC 2017"), 2017, Calendar.DECEMBER, 28);
+        assertDate(dp.parse("FROM 28 DEC 2017 TO 31 DEC 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2017, Calendar.DECEMBER,
+                28);
+        assertDate(dp.parse("FROM 28 DEC 2017 TO 31 DEC 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 31);
+        assertDate(dp.parse("FROM 28 DEC 2017 TO 31 DEC 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2017, Calendar.DECEMBER,
+                29);
+
+    }
+
+    /**
+     * Test ranges of dates with a variety of mixed specificity (some dates with year/month/day, some with just year/month, some
      * with just year)
      */
     @Test
     public void testPeriodMixed() {
-        fail("Not implemented yet");
+        assertDate(dp.parse("FROM 2014 TO 1 DEC 2017"), 2014, Calendar.JANUARY, 1);
+        assertDate(dp.parse("FROM 2014 TO 1 DEC 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.JANUARY, 1);
+        assertDate(dp.parse("FROM 2014 TO 1 DEC 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 1);
+        assertDate(dp.parse("FROM 2014 TO 1 DEC 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.DECEMBER, 17);
+
+        assertDate(dp.parse("FROM 1 FEB 2014 TO 2017"), 2014, Calendar.FEBRUARY, 1);
+        assertDate(dp.parse("FROM 1 FEB 2014 TO 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 1);
+        assertDate(dp.parse("FROM 1 FEB 2014 TO 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 31);
+        assertDate(dp.parse("FROM 1 FEB 2014 TO 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JANUARY, 16);
+
+        assertDate(dp.parse("FROM 1 FEB 2014 TO OCT 2017"), 2014, Calendar.FEBRUARY, 1);
+        assertDate(dp.parse("FROM 1 FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 1);
+        assertDate(dp.parse("FROM 1 FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.OCTOBER, 31);
+        assertDate(dp.parse("FROM 1 FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.DECEMBER, 16);
+
+        assertDate(dp.parse("FROM 28 FEB 2014 TO OCT 2017"), 2014, Calendar.FEBRUARY, 28);
+        assertDate(dp.parse("FROM 28 FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 28);
+        assertDate(dp.parse("FROM 28 FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.OCTOBER, 31);
+        assertDate(dp.parse("FROM 28 FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.DECEMBER, 30);
     }
 
     /**
-     * Test periods of month and year dates without days
+     * Test ranges of month and year dates without days
      */
     @Test
     public void testPeriodMonthYear() {
-        fail("Not implemented yet");
+        assertDate(dp.parse("FROM JAN 2017 TO DEC 2017"), 2017, Calendar.JANUARY, 1);
+        assertDate(dp.parse("FROM JAN 2017 TO DEC 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2017, Calendar.JANUARY, 1);
+        assertDate(dp.parse("FROM JAN 2017 TO DEC 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 31);
+        assertDate(dp.parse("FROM JAN 2017 TO DEC 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2017, Calendar.JULY, 2);
+
+        assertDate(dp.parse("FROM FEB 2014 TO OCT 2017"), 2014, Calendar.FEBRUARY, 1);
+        assertDate(dp.parse("FROM FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 1);
+        assertDate(dp.parse("FROM FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.OCTOBER, 31);
+        assertDate(dp.parse("FROM FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.DECEMBER, 16);
     }
 
     /**
@@ -487,19 +552,34 @@ public class DateParserTest {
     }
 
     /**
-     * Test periods of dates with only years, no months or days
+     * Test ranges of dates with only years, no months or days
      */
     @Test
     public void testPeriodYearOnly() {
-        fail("Not implemented yet");
+        assertDate(dp.parse("FROM 2014 TO 2017"), 2014, Calendar.JANUARY, 1);
+        assertDate(dp.parse("FROM 2014 TO 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.JANUARY, 1);
+        assertDate(dp.parse("FROM 2014 TO 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 31);
+        assertDate(dp.parse("FROM 2014 TO 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JANUARY, 1);
+        assertDate(dp.parse("FROM 2013 TO 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.JULY, 2);
     }
 
     /**
-     * Test ranges with only one date
+     * Test ranges
      */
     @Test
     public void testRangeFullDates() {
-        fail("Not implemented yet");
+        assertDate(dp.parse("BET 1 DEC 2017 AND 31 DEC 2017"), 2017, Calendar.DECEMBER, 1);
+        assertDate(dp.parse("BET 1 DEC 2017 AND 31 DEC 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2017, Calendar.DECEMBER, 1);
+        assertDate(dp.parse("BET 1 DEC 2017 AND 31 DEC 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 31);
+        assertDate(dp.parse("BET 1 DEC 2017 AND 31 DEC 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2017, Calendar.DECEMBER, 16);
+
+        assertDate(dp.parse("BET 28 DEC 2017 AND 31 DEC 2017"), 2017, Calendar.DECEMBER, 28);
+        assertDate(dp.parse("BET 28 DEC 2017 AND 31 DEC 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2017, Calendar.DECEMBER,
+                28);
+        assertDate(dp.parse("BET 28 DEC 2017 AND 31 DEC 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 31);
+        assertDate(dp.parse("BET 28 DEC 2017 AND 31 DEC 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2017, Calendar.DECEMBER,
+                29);
+
     }
 
     /**
@@ -508,7 +588,25 @@ public class DateParserTest {
      */
     @Test
     public void testRangeMixed() {
-        fail("Not implemented yet");
+        assertDate(dp.parse("BET 2014 AND 1 DEC 2017"), 2014, Calendar.JANUARY, 1);
+        assertDate(dp.parse("BET 2014 AND 1 DEC 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.JANUARY, 1);
+        assertDate(dp.parse("BET 2014 AND 1 DEC 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 1);
+        assertDate(dp.parse("BET 2014 AND 1 DEC 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.DECEMBER, 17);
+
+        assertDate(dp.parse("BET 1 FEB 2014 AND 2017"), 2014, Calendar.FEBRUARY, 1);
+        assertDate(dp.parse("BET 1 FEB 2014 AND 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 1);
+        assertDate(dp.parse("BET 1 FEB 2014 AND 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 31);
+        assertDate(dp.parse("BET 1 FEB 2014 AND 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JANUARY, 16);
+
+        assertDate(dp.parse("BET 1 FEB 2014 AND OCT 2017"), 2014, Calendar.FEBRUARY, 1);
+        assertDate(dp.parse("BET 1 FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 1);
+        assertDate(dp.parse("BET 1 FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.OCTOBER, 31);
+        assertDate(dp.parse("BET 1 FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.DECEMBER, 16);
+
+        assertDate(dp.parse("BET 28 FEB 2014 AND OCT 2017"), 2014, Calendar.FEBRUARY, 28);
+        assertDate(dp.parse("BET 28 FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 28);
+        assertDate(dp.parse("BET 28 FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.OCTOBER, 31);
+        assertDate(dp.parse("BET 28 FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.DECEMBER, 30);
     }
 
     /**
@@ -516,7 +614,15 @@ public class DateParserTest {
      */
     @Test
     public void testRangeMonthYear() {
-        fail("Not implemented yet");
+        assertDate(dp.parse("BTW JAN 2017 AND DEC 2017"), 2017, Calendar.JANUARY, 1);
+        assertDate(dp.parse("BTW JAN 2017 AND DEC 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2017, Calendar.JANUARY, 1);
+        assertDate(dp.parse("BTW JAN 2017 AND DEC 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 31);
+        assertDate(dp.parse("BTW JAN 2017 AND DEC 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2017, Calendar.JULY, 2);
+
+        assertDate(dp.parse("BTW FEB 2014 AND OCT 2017"), 2014, Calendar.FEBRUARY, 1);
+        assertDate(dp.parse("BTW FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 1);
+        assertDate(dp.parse("BTW FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.OCTOBER, 31);
+        assertDate(dp.parse("BTW FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.DECEMBER, 16);
     }
 
     /**
@@ -566,7 +672,11 @@ public class DateParserTest {
      */
     @Test
     public void testRangeYearOnly() {
-        fail("Not implemented yet");
+        assertDate(dp.parse("BET 2014 AND 2017"), 2014, Calendar.JANUARY, 1);
+        assertDate(dp.parse("BET 2014 AND 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.JANUARY, 1);
+        assertDate(dp.parse("BET 2014 AND 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 31);
+        assertDate(dp.parse("BET 2014 AND 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JANUARY, 1);
+        assertDate(dp.parse("BET 2013 AND 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.JULY, 2);
     }
 
     /**
@@ -597,6 +707,36 @@ public class DateParserTest {
         assertEquals("BAR BAZ BAT", dp.removePrefixes("FOO. BAR BAZ BAT", new String[] { "FOO" }));
         assertEquals("BAR BAZ BAT", dp.removePrefixes("FOO BAR BAZ BAT", new String[] { "BAR", "BAZ", "BAT", "FOO" }));
         assertEquals("BAR BAZ BAT", dp.removePrefixes("FOO. BAR BAZ BAT", new String[] { "BAR", "BAZ", "BAT", "FOO" }));
+    }
+
+    /**
+     * Test for {@link DateParser#splitTwoDateString(String, String)}
+     */
+    @Test
+    public void testSplitTwoDateString() {
+        assertArrayEquals(new String[] { "FOO", "BAR" }, dp.splitTwoDateString("FROM FOO TO BAR", " TO "));
+        assertArrayEquals(new String[] { "1 JAN 2016", "31 DEC 2016" }, dp.splitTwoDateString("FROM 1 JAN 2016 TO 31 DEC 2016",
+                " TO "));
+        assertArrayEquals(new String[] { "1 JAN 2016", "31 DEC 2016" }, dp.splitTwoDateString("BTW 1 JAN 2016 AND 31 DEC 2016",
+                " AND "));
+        assertArrayEquals(new String[] { "JAN 2016", "31 DEC 2016" }, dp.splitTwoDateString("BTW JAN 2016 AND 31 DEC 2016",
+                " AND "));
+        assertArrayEquals(new String[] { "2016", "DEC 2016" }, dp.splitTwoDateString("BTW 2016 AND DEC 2016", " AND "));
+        assertArrayEquals(new String[] { "1 JAN 2016", "31 DEC 2016" }, dp.splitTwoDateString("BTW. 1 JAN 2016 AND 31 DEC 2016",
+                " AND "));
+        assertArrayEquals(new String[] { "JAN 2016", "31 DEC 2016" }, dp.splitTwoDateString("BTW. JAN 2016 AND 31 DEC 2016",
+                " AND "));
+        assertArrayEquals(new String[] { "2016", "DEC 2016" }, dp.splitTwoDateString("BTW. 2016 AND DEC 2016", " AND "));
+        assertArrayEquals(new String[] { "1 JAN 2016", "31 DEC 2016" }, dp.splitTwoDateString("BET 1 JAN 2016 AND 31 DEC 2016",
+                " AND "));
+        assertArrayEquals(new String[] { "JAN 2016", "31 DEC 2016" }, dp.splitTwoDateString("BET JAN 2016 AND 31 DEC 2016",
+                " AND "));
+        assertArrayEquals(new String[] { "2016", "DEC 2016" }, dp.splitTwoDateString("BET 2016 AND DEC 2016", " AND "));
+        assertArrayEquals(new String[] { "1 JAN 2016", "31 DEC 2016" }, dp.splitTwoDateString("BET. 1 JAN 2016 AND 31 DEC 2016",
+                " AND "));
+        assertArrayEquals(new String[] { "JAN 2016", "31 DEC 2016" }, dp.splitTwoDateString("BET. JAN 2016 AND 31 DEC 2016",
+                " AND "));
+        assertArrayEquals(new String[] { "2016", "DEC 2016" }, dp.splitTwoDateString("BET. 2016 AND DEC 2016", " AND "));
     }
 
     /**
