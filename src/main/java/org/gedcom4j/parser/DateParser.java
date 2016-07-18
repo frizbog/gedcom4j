@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -112,6 +113,12 @@ public class DateParser {
      * The regex pattern that identifies a single date, year only (no month or day)
      */
     static final Pattern PATTERN_SINGLE_DATE_YEAR_ONLY = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_YEAR);
+
+    /**
+     * The regex pattern that matches a string ending in a double-entry year
+     */
+    static final Pattern PATTERN_ENDS_IN_DOUBLE_ENTRY_YEAR = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_DATE_MISC
+            + "\\d{4}\\/\\d{2}$");
 
     /**
      * The regex pattern that identifies two-date range or period
@@ -231,6 +238,50 @@ public class DateParser {
     }
 
     /**
+     * <p>
+     * Resolve a date in double-dated format, for the old/new dates preceding the English calendar switch of 1752.
+     * </p>
+     * <p>
+     * Because of the switch to the Gregorian Calendar in 1752 in England and its colonies, and the corresponding change of the
+     * first day of the year, it's not uncommon for dates in the range between 1582 and 1752 to be written using a double-dated
+     * format, showing the old and new dates simultaneously. For example, today we would render George Washington's birthday in
+     * GEDCOM format as <code>22 FEB 1732</code>. However, in 1760 or so, one might have written it as Feb 22 1731/32, thus be
+     * entered into a GEDCOM field as <code>22 FEB 1731/32</code>.
+     * </p>
+     * 
+     * @param dateString
+     *            the date string. Assumed to have had any BC (or similar) era suffix removed already, so the string is assumed to
+     *            end in a year.
+     * @return the date, resolved to a gregorian date
+     */
+    String resolveEnglishCalendarSwitch(String dateString) {
+        if (!PATTERN_ENDS_IN_DOUBLE_ENTRY_YEAR.matcher(dateString).matches()) {
+            return dateString;
+        }
+
+        int l = dateString.length();
+        String newYY = dateString.substring(l - 2);
+        String oldYYYY = dateString.substring(l - 7, l - 3);
+        int yyyy = Integer.parseInt(oldYYYY);
+        if (yyyy > 1752 || yyyy < 1582) {
+            return dateString;
+        }
+        int yy = Integer.parseInt(newYY);
+
+        // Handle century boundary
+        if (yy == 0 && yyyy % 100 == 99) {
+            yyyy++;
+        }
+
+        String upToYYYY = dateString.substring(0, l - 7);
+        System.out.println(upToYYYY + oldYYYY + " / " + newYY);
+        StringBuilder ds = new StringBuilder(upToYYYY);
+        ds.append(yyyy / 100);
+        ds.append(newYY);
+        return ds.toString();
+    }
+
+    /**
      * Split a two-date string, removing prefixes, and return an array of two date strings
      * 
      * @param dateString
@@ -263,6 +314,7 @@ public class DateParser {
      */
     private Date getDateWithFormatString(String dateString, String pattern) {
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         try {
             return sdf.parse(dateString);
         } catch (@SuppressWarnings("unused") ParseException ignored) {
@@ -300,6 +352,7 @@ public class DateParser {
                 Date d2 = parse(dateStrings[1], ImpreciseDatePreference.FAVOR_LATEST);
                 long daysBetween = TimeUnit.DAYS.convert(d2.getTime() - d1.getTime(), TimeUnit.MILLISECONDS);
                 Calendar c = Calendar.getInstance(Locale.US);
+                c.setTimeZone(TimeZone.getTimeZone("UTC"));
                 c.setTime(d1);
                 c.add(Calendar.DAY_OF_YEAR, (int) daysBetween / 2);
                 Date result = c.getTime();
@@ -319,7 +372,9 @@ public class DateParser {
      * @return the date found, if any, or null if no date could be extracted
      */
     private Date getYearMonthDay(String dateString) {
-        return getDateWithFormatString(formatBC(dateString), "dd MMM yyyy");
+        String bc = formatBC(dateString);
+        String e = resolveEnglishCalendarSwitch(bc);
+        return getDateWithFormatString(e, "dd MMM yyyy");
     }
 
     /**
@@ -333,8 +388,11 @@ public class DateParser {
      * @return the date found, if any, or null if no date could be extracted
      */
     private Date getYearMonthNoDay(String dateString, ImpreciseDatePreference pref) {
-        Date d = getDateWithFormatString(formatBC(dateString), "MMM yyyy");
+        String bc = formatBC(dateString);
+        String e = resolveEnglishCalendarSwitch(bc);
+        Date d = getDateWithFormatString(e, "MMM yyyy");
         Calendar c = Calendar.getInstance(Locale.US);
+        c.setTimeZone(TimeZone.getTimeZone("UTC"));
         c.setTime(d);
         switch (pref) {
             case FAVOR_EARLIEST:
@@ -373,8 +431,11 @@ public class DateParser {
      * @return the date found, if any, or null if no date could be extracted
      */
     private Date getYearOnly(String dateString, ImpreciseDatePreference pref) {
-        Date d = getDateWithFormatString(formatBC(dateString), "yyyy");
+        String bc = formatBC(dateString);
+        String e = resolveEnglishCalendarSwitch(bc);
+        Date d = getDateWithFormatString(e, "yyyy");
         Calendar c = Calendar.getInstance(Locale.US);
+        c.setTimeZone(TimeZone.getTimeZone("UTC"));
         c.setTime(d);
         switch (pref) {
             case FAVOR_EARLIEST:

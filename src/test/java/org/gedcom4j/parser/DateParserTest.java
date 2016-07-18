@@ -32,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import org.gedcom4j.parser.DateParser.ImpreciseDatePreference;
 import org.junit.Test;
@@ -54,6 +55,7 @@ public class DateParserTest {
     @Test
     public void testBC() {
         SimpleDateFormat sdf = new SimpleDateFormat("y G");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date d;
 
         d = dp.parse("1905 BC");
@@ -582,7 +584,7 @@ public class DateParserTest {
         assertDate(dp.parse("FROM 1 FEB 2014 TO OCT 2017"), 2014, Calendar.FEBRUARY, 1);
         assertDate(dp.parse("FROM 1 FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 1);
         assertDate(dp.parse("FROM 1 FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.OCTOBER, 31);
-        assertDate(dp.parse("FROM 1 FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.DECEMBER, 16);
+        assertDate(dp.parse("FROM 1 FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.DECEMBER, 17);
 
         assertDate(dp.parse("FROM 28 FEB 2014 TO OCT 2017"), 2014, Calendar.FEBRUARY, 28);
         assertDate(dp.parse("FROM 28 FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 28);
@@ -603,7 +605,7 @@ public class DateParserTest {
         assertDate(dp.parse("FROM FEB 2014 TO OCT 2017"), 2014, Calendar.FEBRUARY, 1);
         assertDate(dp.parse("FROM FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 1);
         assertDate(dp.parse("FROM FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.OCTOBER, 31);
-        assertDate(dp.parse("FROM FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.DECEMBER, 16);
+        assertDate(dp.parse("FROM FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.DECEMBER, 17);
     }
 
     /**
@@ -698,7 +700,7 @@ public class DateParserTest {
         assertDate(dp.parse("BET 1 FEB 2014 AND OCT 2017"), 2014, Calendar.FEBRUARY, 1);
         assertDate(dp.parse("BET 1 FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 1);
         assertDate(dp.parse("BET 1 FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.OCTOBER, 31);
-        assertDate(dp.parse("BET 1 FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.DECEMBER, 16);
+        assertDate(dp.parse("BET 1 FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.DECEMBER, 17);
 
         assertDate(dp.parse("BET 28 FEB 2014 AND OCT 2017"), 2014, Calendar.FEBRUARY, 28);
         assertDate(dp.parse("BET 28 FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 28);
@@ -719,7 +721,7 @@ public class DateParserTest {
         assertDate(dp.parse("BTW FEB 2014 AND OCT 2017"), 2014, Calendar.FEBRUARY, 1);
         assertDate(dp.parse("BTW FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 1);
         assertDate(dp.parse("BTW FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.OCTOBER, 31);
-        assertDate(dp.parse("BTW FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.DECEMBER, 16);
+        assertDate(dp.parse("BTW FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.DECEMBER, 17);
     }
 
     /**
@@ -807,6 +809,33 @@ public class DateParserTest {
     }
 
     /**
+     * Test for {@link DateParser#resolveEnglishCalendarSwitch(String)}
+     */
+    @Test
+    public void testResolveEnglishCalendarSwitch() {
+        assertEquals("22 FEB 1732", dp.resolveEnglishCalendarSwitch("22 FEB 1732"));
+        assertEquals("22 FEB 1732", dp.resolveEnglishCalendarSwitch("22 FEB 1731/32"));
+        assertEquals("FEB 1732", dp.resolveEnglishCalendarSwitch("FEB 1731/32"));
+        assertEquals("1732", dp.resolveEnglishCalendarSwitch("1731/32"));
+
+        // Boundary condition for centuries
+        assertEquals("22 FEB 1700", dp.resolveEnglishCalendarSwitch("22 FEB 1700"));
+        assertEquals("22 FEB 1700", dp.resolveEnglishCalendarSwitch("22 FEB 1699/00"));
+        assertEquals("FEB 1700", dp.resolveEnglishCalendarSwitch("FEB 1699/00"));
+        assertEquals("1700", dp.resolveEnglishCalendarSwitch("1699/00"));
+
+        assertEquals("22 FEB 1532", dp.resolveEnglishCalendarSwitch("22 FEB 1532"));
+        assertEquals("22 FEB 1531/32", dp.resolveEnglishCalendarSwitch("22 FEB 1531/32"));
+        assertEquals("FEB 1531/32", dp.resolveEnglishCalendarSwitch("FEB 1531/32"));
+        assertEquals("1531/32", dp.resolveEnglishCalendarSwitch("1531/32"));
+
+        assertEquals("22 FEB 1762", dp.resolveEnglishCalendarSwitch("22 FEB 1762"));
+        assertEquals("22 FEB 1761/62", dp.resolveEnglishCalendarSwitch("22 FEB 1761/62"));
+        assertEquals("FEB 1761/62", dp.resolveEnglishCalendarSwitch("FEB 1761/62"));
+        assertEquals("1761/62", dp.resolveEnglishCalendarSwitch("1761/62"));
+    }
+
+    /**
      * Test for {@link DateParser#splitTwoDateString(String, String)}
      */
     @Test
@@ -851,6 +880,7 @@ public class DateParserTest {
     private void assertDate(Date d, int year, int month, int day) {
         assertNotNull("Expected date of " + (month + 1) + "/" + day + "/" + year + " but got null", d);
         Calendar c = Calendar.getInstance(Locale.US);
+        c.setTimeZone(TimeZone.getTimeZone("UTC"));
         c.setTime(d);
         int y = c.get(Calendar.YEAR);
         assertEquals("Expected year of " + year + " but found " + y + " in date " + d, year, y);
