@@ -102,14 +102,15 @@ public class DateParser {
      * @return the date, if one can be derived from the string
      */
     public Date parse(String dateString, ImpreciseDatePreference pref) {
-        if (REGEX_SINGLE_DATE_FULL.matcher(dateString).matches()) {
-            return getDateWithFormatString(dateString, "dd MMM yyyy");
+        String ds = removeApproximations(dateString);
+        if (REGEX_SINGLE_DATE_FULL.matcher(ds).matches()) {
+            return getDateWithFormatString(ds, "dd MMM yyyy");
         }
-        if (REGEX_SINGLE_DATE_MONTH_YEAR.matcher(dateString).matches()) {
-            return getYearMonthNoDay(dateString, pref);
+        if (REGEX_SINGLE_DATE_MONTH_YEAR.matcher(ds).matches()) {
+            return getYearMonthNoDay(ds, pref);
         }
-        if (REGEX_SINGLE_DATE_YEAR_ONLY.matcher(dateString).matches()) {
-            Date d = getDateWithFormatString(dateString, "yyyy");
+        if (REGEX_SINGLE_DATE_YEAR_ONLY.matcher(ds).matches()) {
+            Date d = getDateWithFormatString(ds, "yyyy");
             Calendar c = Calendar.getInstance();
             c.setTime(d);
             switch (pref) {
@@ -156,9 +157,14 @@ public class DateParser {
     }
 
     /**
+     * Get the date from a date string when the string is formatted with a month and year but no day
+     * 
      * @param dateString
+     *            the date string
      * @param pref
-     * @return
+     *            preference on how to handle imprecise dates, like this one - return the earliest day of the month, the latest, the
+     *            midpoint?
+     * @return the date found, if any, or null if no date could be extracted
      */
     private Date getYearMonthNoDay(String dateString, ImpreciseDatePreference pref) {
         Date d = getDateWithFormatString(dateString, "MMM yyyy");
@@ -188,6 +194,28 @@ public class DateParser {
             default:
                 throw new IllegalArgumentException("Unknown value for date handling preference: " + pref);
         }
+    }
+
+    /**
+     * Return a version of the string with approximation prefixes removed
+     * 
+     * @param dateString
+     *            the date string
+     * @return a version of the string with approximation prefixes removed
+     */
+    private String removeApproximations(String dateString) {
+        String[] prefixes = new String[] { "ABT", "ABOUT", "APPX", "APPROX", "CAL", "CALC", "EST", "INT" };
+        String ds = dateString.toUpperCase();
+
+        for (String pfx : prefixes) {
+            if (ds.startsWith(pfx + " ") && ds.length() > pfx.length() + 1) {
+                return dateString.substring(pfx.length() + 1);
+            }
+            if (ds.startsWith(pfx + ". ") && ds.length() > pfx.length() + 2) {
+                return dateString.substring(pfx.length() + 2);
+            }
+        }
+        return dateString;
     }
 
 }
