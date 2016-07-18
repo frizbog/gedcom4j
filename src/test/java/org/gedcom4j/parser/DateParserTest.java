@@ -31,6 +31,7 @@ import static org.junit.Assert.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import org.gedcom4j.parser.DateParser.ImpreciseDatePreference;
 import org.junit.Test;
@@ -849,7 +850,7 @@ public class DateParserTest {
      */
     private void assertDate(Date d, int year, int month, int day) {
         assertNotNull("Expected date of " + (month + 1) + "/" + day + "/" + year + " but got null", d);
-        Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance(Locale.US);
         c.setTime(d);
         int y = c.get(Calendar.YEAR);
         assertEquals("Expected year of " + year + " but found " + y + " in date " + d, year, y);

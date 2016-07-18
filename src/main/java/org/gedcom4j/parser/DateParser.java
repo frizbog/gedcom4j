@@ -30,6 +30,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -298,7 +299,7 @@ public class DateParser {
                 Date d1 = parse(dateStrings[0], ImpreciseDatePreference.FAVOR_EARLIEST);
                 Date d2 = parse(dateStrings[1], ImpreciseDatePreference.FAVOR_LATEST);
                 long daysBetween = TimeUnit.DAYS.convert(d2.getTime() - d1.getTime(), TimeUnit.MILLISECONDS);
-                Calendar c = Calendar.getInstance();
+                Calendar c = Calendar.getInstance(Locale.US);
                 c.setTime(d1);
                 c.add(Calendar.DAY_OF_YEAR, (int) daysBetween / 2);
                 Date result = c.getTime();
@@ -333,7 +334,7 @@ public class DateParser {
      */
     private Date getYearMonthNoDay(String dateString, ImpreciseDatePreference pref) {
         Date d = getDateWithFormatString(formatBC(dateString), "MMM yyyy");
-        Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance(Locale.US);
         c.setTime(d);
         switch (pref) {
             case FAVOR_EARLIEST:
@@ -373,7 +374,7 @@ public class DateParser {
      */
     private Date getYearOnly(String dateString, ImpreciseDatePreference pref) {
         Date d = getDateWithFormatString(formatBC(dateString), "yyyy");
-        Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance(Locale.US);
         c.setTime(d);
         switch (pref) {
             case FAVOR_EARLIEST:
