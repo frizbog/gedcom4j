@@ -216,31 +216,31 @@ public class DateParserGregorianTest {
     @Test
     public void testParseInterpretedDates() {
         DateParser dp = new DateParser();
-        assertDate(dp.parse("INT 17 JUL 2016"), 2016, Calendar.JULY, 17);
-        assertDate(dp.parse("INT 17 JUL 932"), 932, Calendar.JULY, 17);
-        assertDate(dp.parse("INT FEB 2016"), 2016, Calendar.FEBRUARY, 1);
-        assertDate(dp.parse("INT 1900"), 1900, Calendar.JANUARY, 1);
+        assertDate(dp.parse("INT 17 JUL 2016 (\"today\")"), 2016, Calendar.JULY, 17);
+        assertDate(dp.parse("INT 17 JUL 932 (\"today\")"), 932, Calendar.JULY, 17);
+        assertDate(dp.parse("INT FEB 2016 (\"today\")"), 2016, Calendar.FEBRUARY, 1);
+        assertDate(dp.parse("INT 1900 (\"today\")"), 1900, Calendar.JANUARY, 1);
 
-        assertDate(dp.parse("Int. JUL 2016"), 2016, Calendar.JULY, 1);
-        assertDate(dp.parse("Int. JUL 932"), 932, Calendar.JULY, 1);
-        assertDate(dp.parse("Int. FEB 2016"), 2016, Calendar.FEBRUARY, 1);
-        assertDate(dp.parse("Int. 1900"), 1900, Calendar.JANUARY, 1);
+        assertDate(dp.parse("Int. JUL 2016 (\"today\")"), 2016, Calendar.JULY, 1);
+        assertDate(dp.parse("Int. JUL 932 (\"today\")"), 932, Calendar.JULY, 1);
+        assertDate(dp.parse("Int. FEB 2016 (\"today\")"), 2016, Calendar.FEBRUARY, 1);
+        assertDate(dp.parse("Int. 1900 (\"today\")"), 1900, Calendar.JANUARY, 1);
 
-        assertDate(dp.parse("Int. JUL 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 1);
-        assertDate(dp.parse("Int. JUL 932", ImpreciseDatePreference.FAVOR_EARLIEST), 932, Calendar.JULY, 1);
-        assertDate(dp.parse("Int. FEB 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.FEBRUARY, 1);
-        assertDate(dp.parse("Int. 1900", ImpreciseDatePreference.FAVOR_EARLIEST), 1900, Calendar.JANUARY, 1);
+        assertDate(dp.parse("Int. JUL 2016 (\"today\")", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 1);
+        assertDate(dp.parse("Int. JUL 932 (\"today\")", ImpreciseDatePreference.FAVOR_EARLIEST), 932, Calendar.JULY, 1);
+        assertDate(dp.parse("Int. FEB 2016 (\"today\")", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.FEBRUARY, 1);
+        assertDate(dp.parse("Int. 1900 (\"today\")", ImpreciseDatePreference.FAVOR_EARLIEST), 1900, Calendar.JANUARY, 1);
 
-        assertDate(dp.parse("Int. JUL 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 31);
-        assertDate(dp.parse("Int. JUL 932", ImpreciseDatePreference.FAVOR_LATEST), 932, Calendar.JULY, 31);
+        assertDate(dp.parse("Int. JUL 2016 (\"today\")", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 31);
+        assertDate(dp.parse("Int. JUL 932 (\"today\")", ImpreciseDatePreference.FAVOR_LATEST), 932, Calendar.JULY, 31);
         // 2016 was a leap year
-        assertDate(dp.parse("Int. FEB 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.FEBRUARY, 29);
-        assertDate(dp.parse("Int. 1900", ImpreciseDatePreference.FAVOR_LATEST), 1900, Calendar.DECEMBER, 31);
+        assertDate(dp.parse("Int. FEB 2016 (\"today\")", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.FEBRUARY, 29);
+        assertDate(dp.parse("Int. 1900 (\"today\")", ImpreciseDatePreference.FAVOR_LATEST), 1900, Calendar.DECEMBER, 31);
 
-        assertDate(dp.parse("Int. JUL 2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 15);
-        assertDate(dp.parse("Int. JUL 932", ImpreciseDatePreference.FAVOR_MIDPOINT), 932, Calendar.JULY, 15);
-        assertDate(dp.parse("Int. FEB 2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.FEBRUARY, 14);
-        assertDate(dp.parse("Int. 1900", ImpreciseDatePreference.FAVOR_MIDPOINT), 1900, Calendar.JULY, 1);
+        assertDate(dp.parse("Int. JUL 2016 (\"today\")", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 15);
+        assertDate(dp.parse("Int. JUL 932 (\"today\")", ImpreciseDatePreference.FAVOR_MIDPOINT), 932, Calendar.JULY, 15);
+        assertDate(dp.parse("Int. FEB 2016 (\"today\")", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.FEBRUARY, 14);
+        assertDate(dp.parse("Int. 1900 (\"today\")", ImpreciseDatePreference.FAVOR_MIDPOINT), 1900, Calendar.JULY, 1);
     }
 
     /**

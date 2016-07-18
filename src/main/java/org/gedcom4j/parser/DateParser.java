@@ -197,24 +197,34 @@ public class DateParser {
     }
 
     /**
-     * Return a version of the string with approximation prefixes removed
+     * Return a version of the string with approximation prefixes removed, including handling for interpreted dates
      * 
      * @param dateString
      *            the date string
      * @return a version of the string with approximation prefixes removed
      */
     private String removeApproximations(String dateString) {
-        String[] prefixes = new String[] { "ABT", "ABOUT", "APPX", "APPROX", "CAL", "CALC", "EST", "INT" };
+        String[] prefixes = new String[] { "ABT", "ABOUT", "APPX", "APPROX", "CAL", "CALC", "EST" };
         String ds = dateString.toUpperCase();
 
+        // Approximate dates
         for (String pfx : prefixes) {
             if (ds.startsWith(pfx + " ") && ds.length() > pfx.length() + 1) {
-                return dateString.substring(pfx.length() + 1);
+                return dateString.substring(pfx.length() + 1).trim();
             }
             if (ds.startsWith(pfx + ". ") && ds.length() > pfx.length() + 2) {
-                return dateString.substring(pfx.length() + 2);
+                return dateString.substring(pfx.length() + 2).trim();
             }
         }
+
+        // Interpreted dates
+        if (ds.startsWith("INT ") && ds.indexOf('(') > 8) {
+            return dateString.substring(4, ds.indexOf('(')).trim();
+        }
+        if (ds.startsWith("INT. ") && ds.indexOf('(') > 9) {
+            return dateString.substring(4, ds.indexOf('(')).trim();
+        }
+
         return dateString;
     }
 
