@@ -100,14 +100,6 @@ public class DateParserTest {
 
     }
 
-    // /**
-    // * Test dates around the English calendar change of 1752
-    // */
-    // @Test
-    // public void testEnglishCalendarChange() {
-    // fail("Not implemented yet");
-    // }
-
     /**
      * Test for {@link DateParser#formatBC(String)}
      */
