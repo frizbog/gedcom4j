@@ -178,14 +178,17 @@ public class DateParserTest {
     // fail("Not implemented yet");
     // }
     //
-    // /**
-    // * Test Hebrew calendar
-    // */
-    // @Test
-    // public void testHebrew() {
-    // fail("Not implemented yet");
-    // }
-    //
+
+    /**
+     * Test Hebrew calendar
+     */
+    @Test
+    public void testHebrewToGregorian() {
+        assertDate(dp.parse("@#DHEBREW@ 12 TMZ 5776"), 2016, Calendar.JULY, 18);
+        assertDate(dp.parse("@#DHEBREW@ TMZ 5776"), 2016, Calendar.JULY, 7);
+        assertDate(dp.parse("@#DHEBREW@ 5776"), 2015, Calendar.SEPTEMBER, 14);
+    }
+
     /**
      * Test parsing a single date with month, day, and year
      */

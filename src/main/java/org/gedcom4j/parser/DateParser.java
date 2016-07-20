@@ -73,6 +73,16 @@ public class DateParser {
     }
 
     /**
+     * The CALENDAR_ESCAPE value indicating a Hebrew calendar date
+     */
+    private static final String CALENDAR_ESCAPE_HEBREW = "\\@\\#DHEBREW\\@ ";
+
+    /**
+     * The CALENDAR_ESCAPE value indicating a Gregorian calendar date. Always optional, since it's the default.
+     */
+    private static final String CALENDAR_ESCAPE_GREGORIAN = "(\\@\\#DGREGORIAN\\@ )?";
+
+    /**
      * Miscellaneous date characters, for ignoring sections of dates - alphanumeric, spaces, and periods
      */
     private static final String FORMAT_DATE_MISC = "[A-Za-z0-9. ]*";
@@ -100,19 +110,20 @@ public class DateParser {
     /**
      * The regex pattern that identifies a single, full date, with year, month, and day
      */
-    static final Pattern PATTERN_SINGLE_DATE_FULL = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_DAY + " " + FORMAT_MONTH + " "
-            + FORMAT_YEAR);
+    static final Pattern PATTERN_SINGLE_DATE_FULL = Pattern.compile(FORMAT_CASE_INSENSITIVE + CALENDAR_ESCAPE_GREGORIAN + FORMAT_DAY
+            + " " + FORMAT_MONTH + " " + FORMAT_YEAR);
 
     /**
      * The regex pattern that identifies a single date, with year, month, but no day
      */
-    static final Pattern PATTERN_SINGLE_DATE_MONTH_YEAR = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_MONTH + " "
-            + FORMAT_YEAR);
+    static final Pattern PATTERN_SINGLE_DATE_MONTH_YEAR = Pattern.compile(FORMAT_CASE_INSENSITIVE + CALENDAR_ESCAPE_GREGORIAN
+            + FORMAT_MONTH + " " + FORMAT_YEAR);
 
     /**
      * The regex pattern that identifies a single date, year only (no month or day)
      */
-    static final Pattern PATTERN_SINGLE_DATE_YEAR_ONLY = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_YEAR);
+    static final Pattern PATTERN_SINGLE_DATE_YEAR_ONLY = Pattern.compile(FORMAT_CASE_INSENSITIVE + CALENDAR_ESCAPE_GREGORIAN
+            + FORMAT_YEAR);
 
     /**
      * The regex pattern that matches a string ending in a double-entry year
@@ -126,6 +137,17 @@ public class DateParser {
     static final Pattern PATTERN_TWO_DATES = Pattern.compile(FORMAT_CASE_INSENSITIVE
             + "(FROM|BEF|BEF\\.|BET|BET\\.|BTW|BTW\\.|BETWEEN) " + FORMAT_DATE_MISC + FORMAT_YEAR + " (AND|TO) " + FORMAT_DATE_MISC
             + FORMAT_YEAR);
+
+    /**
+     * The regex format for matching a hebrew month (per GEDCOM spec)
+     */
+    private static final String FORMAT_MONTH_HEBREW = "(TSH|CSH|KSL|TVT|SHV|ADR|ADS|NSN|IYR|SVN|TMZ|AAV|ELL)";
+
+    /**
+     * Pattern for matching a hebrew date in GEDCOM format
+     */
+    static final Pattern PATTERN_HEBREW_DATE = Pattern.compile(FORMAT_CASE_INSENSITIVE + CALENDAR_ESCAPE_HEBREW + FORMAT_DAY + "? ?"
+            + FORMAT_MONTH_HEBREW + "? ?\\d{4}");
 
     /**
      * Parse the string as date, with the default imprecise date handling preference of {@link ImpreciseDatePreference#PRECISE}.
@@ -148,7 +170,11 @@ public class DateParser {
      * @return the date, if one can be derived from the string
      */
     public Date parse(String dateString, ImpreciseDatePreference pref) {
-        String ds = removeApproximations(dateString.toUpperCase());
+        String ds = dateString.toUpperCase();
+        if (PATTERN_HEBREW_DATE.matcher(ds).matches()) {
+            return hebrewToGregorian(ds, pref);
+        }
+        ds = removeApproximations(dateString.toUpperCase());
         ds = removeOpenEndedRangesAndPeriods(ds);
         if (PATTERN_SINGLE_DATE_FULL.matcher(ds).matches()) {
             return getYearMonthDay(ds);
@@ -190,6 +216,56 @@ public class DateParser {
             }
         }
         return d;
+    }
+
+    /**
+     * Convert a Hebrew date string (in proper GEDCOM format) to a (gregorian) java.util.Date.
+     * 
+     * @param hebrewDateString
+     *            the hebrew date in GEDCOM spec format - see DATE_HEBR and MONTH_HEBR in the spec.
+     * @param pref
+     * @return the gregorian date that represents the hebrew date supplied
+     */
+    Date hebrewToGregorian(String hebrewDateString, ImpreciseDatePreference pref) {
+        if (!PATTERN_HEBREW_DATE.matcher(hebrewDateString).matches()) {
+            return null;
+        }
+        // Strip off the CALENDAR_ESCAPE prefix and space
+        String ds = hebrewDateString.substring("@#DHEBREW@ ".length());
+
+        String[] datePieces = ds.split(" ");
+        if (datePieces == null) {
+            return null;
+        }
+
+        int hebrewDay;
+        int hebrewMonth = 0;
+        int hebrewYear;
+
+        if (datePieces.length == 3) {
+            hebrewDay = Integer.parseInt(datePieces[0]);
+            hebrewMonth = HebrewMonth.getFromAbbreviation(datePieces[1]).ordinal() + 1;
+            hebrewYear = Integer.parseInt(datePieces[2]);
+        } else if (datePieces.length == 2) {
+            hebrewDay = 1;
+            hebrewMonth = HebrewMonth.getFromAbbreviation(datePieces[0]).ordinal() + 1;
+            hebrewYear = Integer.parseInt(datePieces[1]);
+
+        } else if (datePieces.length == 1) {
+            hebrewDay = 1;
+            hebrewMonth = 1;
+            hebrewYear = Integer.parseInt(datePieces[0]);
+        } else {
+            return null;
+        }
+
+        if (hebrewMonth == 0) {
+            // Didn't find a matching month abbreviation
+            return null;
+        }
+        HebrewCalendar hc = new HebrewCalendar();
+        return hc.convertHebrewDateToGregorian(hebrewYear, HebrewMonth.getFrom1BasedNumber(hebrewMonth).getGedcomAbbrev(),
+                hebrewDay);
     }
 
     /**
@@ -274,7 +350,6 @@ public class DateParser {
         }
 
         String upToYYYY = dateString.substring(0, l - 7);
-        System.out.println(upToYYYY + oldYYYY + " / " + newYY);
         StringBuilder ds = new StringBuilder(upToYYYY);
         ds.append(yyyy / 100);
         ds.append(newYY);
