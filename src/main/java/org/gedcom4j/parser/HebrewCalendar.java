@@ -69,6 +69,41 @@ class HebrewCalendar {
     }
 
     /**
+     * Get the number of days in the month and year requeted
+     * 
+     * @param hebrewYear
+     *            the hebrew year
+     * @param hebrewMonthNum
+     * @return the number of days in the month on the specified year
+     */
+    int getMonthLength(int hebrewYear, int hebrewMonthNum) {
+        boolean leapYear = isLeapYear(hebrewYear);
+        int lenHebrewYear = getLengthOfYear(hebrewYear);
+        /*
+         * The regular length of a non-leap Hebrew year is 354 days. The regular length of a Hebrew leap year is 384 days.
+         * 
+         * If the year is shorter by one less day, it is called a haser year. Kislev on a haser year has 29 days. If the year is
+         * longer by one day, it is called a shalem year. Cheshvan on a shalem year is 30 days.
+         */
+        boolean haserYear = (lenHebrewYear == 353 || lenHebrewYear == 383);
+        boolean shalemYear = (lenHebrewYear == 355 || lenHebrewYear == 385);
+        int monthLength = 0;
+        if (hebrewMonthNum == 1 || hebrewMonthNum == 5 || hebrewMonthNum == 8 || hebrewMonthNum == 10 || hebrewMonthNum == 12) {
+            monthLength = 30;
+        } else if (hebrewMonthNum == 4 || hebrewMonthNum == 7 || hebrewMonthNum == 9 || hebrewMonthNum == 11
+                || hebrewMonthNum == 13) {
+            monthLength = 29;
+        } else if (hebrewMonthNum == 6) {
+            monthLength = (leapYear ? 30 : 0);
+        } else if (hebrewMonthNum == 2) {
+            monthLength = (shalemYear ? 30 : 29);
+        } else if (hebrewMonthNum == 3) {
+            monthLength = (haserYear ? 29 : 30);
+        }
+        return monthLength;
+    }
+
+    /**
      * Get the Gregorian Date corresponding to the first day of a given Hebrew year (1 Tishrei)
      * 
      * @param hebrewYear
@@ -182,41 +217,6 @@ class HebrewCalendar {
         Date nextNewYear = getFirstDayOfHebrewYear(hebrewYear + 1);
         long diff = TimeUnit.DAYS.convert(nextNewYear.getTime() - thisNewYear.getTime(), TimeUnit.MILLISECONDS);
         return (int) diff;
-    }
-
-    /**
-     * Get the number of days in the month and year requeted
-     * 
-     * @param hebrewYear
-     *            the hebrew year
-     * @param hebrewMonthNum
-     * @return the number of days in the month on the specified year
-     */
-    private int getMonthLength(int hebrewYear, int hebrewMonthNum) {
-        boolean leapYear = isLeapYear(hebrewYear);
-        int lenHebrewYear = getLengthOfYear(hebrewYear);
-        /*
-         * The regular length of a non-leap Hebrew year is 354 days. The regular length of a Hebrew leap year is 384 days.
-         * 
-         * If the year is shorter by one less day, it is called a haser year. Kislev on a haser year has 29 days. If the year is
-         * longer by one day, it is called a shalem year. Cheshvan on a shalem year is 30 days.
-         */
-        boolean haserYear = (lenHebrewYear == 353 || lenHebrewYear == 383);
-        boolean shalemYear = (lenHebrewYear == 355 || lenHebrewYear == 385);
-        int monthLength = 0;
-        if (hebrewMonthNum == 1 || hebrewMonthNum == 5 || hebrewMonthNum == 8 || hebrewMonthNum == 10 || hebrewMonthNum == 12) {
-            monthLength = 30;
-        } else if (hebrewMonthNum == 4 || hebrewMonthNum == 7 || hebrewMonthNum == 9 || hebrewMonthNum == 11
-                || hebrewMonthNum == 13) {
-            monthLength = 29;
-        } else if (hebrewMonthNum == 6) {
-            monthLength = (leapYear ? 30 : 0);
-        } else if (hebrewMonthNum == 2) {
-            monthLength = (shalemYear ? 30 : 29);
-        } else if (hebrewMonthNum == 3) {
-            monthLength = (haserYear ? 29 : 30);
-        }
-        return monthLength;
     }
 
     /**

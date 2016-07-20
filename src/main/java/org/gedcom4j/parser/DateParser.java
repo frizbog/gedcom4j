@@ -73,14 +73,9 @@ public class DateParser {
     }
 
     /**
-     * The CALENDAR_ESCAPE value indicating a Hebrew calendar date
+     * Range and period prefixes
      */
-    private static final String CALENDAR_ESCAPE_HEBREW = "\\@\\#DHEBREW\\@ ";
-
-    /**
-     * The CALENDAR_ESCAPE value indicating a Gregorian calendar date. Always optional, since it's the default.
-     */
-    private static final String CALENDAR_ESCAPE_GREGORIAN = "(\\@\\#DGREGORIAN\\@ )?";
+    private static final String FORMAT_RANGE_PERIOD_PREFIX = "(FROM|BEF|BEF\\.|BET|BET\\.|BTW|BTW\\.|AFT|AFT\\.|TO|BETWEEN) ";
 
     /**
      * Miscellaneous date characters, for ignoring sections of dates - alphanumeric, spaces, and periods
@@ -100,7 +95,7 @@ public class DateParser {
     /**
      * Regex string for a month value
      */
-    private static final String FORMAT_MONTH = "(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)";
+    private static final String FORMAT_MONTH_GREGORIAN_JULIAN = "(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)";
 
     /**
      * Regex string for case insensitivity
@@ -108,22 +103,21 @@ public class DateParser {
     private static final String FORMAT_CASE_INSENSITIVE = "(?i)";
 
     /**
-     * The regex pattern that identifies a single, full date, with year, month, and day
+     * The regex pattern that identifies a single, full gregorian/julian date, with year, month, and day
      */
-    static final Pattern PATTERN_SINGLE_DATE_FULL = Pattern.compile(FORMAT_CASE_INSENSITIVE + CALENDAR_ESCAPE_GREGORIAN + FORMAT_DAY
-            + " " + FORMAT_MONTH + " " + FORMAT_YEAR);
+    static final Pattern PATTERN_SINGLE_DATE_FULL_GREGORIAN_JULIAN = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_DAY + " "
+            + FORMAT_MONTH_GREGORIAN_JULIAN + " " + FORMAT_YEAR);
 
     /**
      * The regex pattern that identifies a single date, with year, month, but no day
      */
-    static final Pattern PATTERN_SINGLE_DATE_MONTH_YEAR = Pattern.compile(FORMAT_CASE_INSENSITIVE + CALENDAR_ESCAPE_GREGORIAN
-            + FORMAT_MONTH + " " + FORMAT_YEAR);
+    static final Pattern PATTERN_SINGLE_DATE_MONTH_YEAR_GREGORIAN_JULIAN = Pattern.compile(FORMAT_CASE_INSENSITIVE
+            + FORMAT_MONTH_GREGORIAN_JULIAN + " " + FORMAT_YEAR);
 
     /**
      * The regex pattern that identifies a single date, year only (no month or day)
      */
-    static final Pattern PATTERN_SINGLE_DATE_YEAR_ONLY = Pattern.compile(FORMAT_CASE_INSENSITIVE + CALENDAR_ESCAPE_GREGORIAN
-            + FORMAT_YEAR);
+    static final Pattern PATTERN_SINGLE_DATE_YEAR_ONLY = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_YEAR);
 
     /**
      * The regex pattern that matches a string ending in a double-entry year
@@ -132,11 +126,10 @@ public class DateParser {
             + "\\d{4}\\/\\d{2}$");
 
     /**
-     * The regex pattern that identifies two-date range or period
+     * The regex pattern that identifies two-date range or period. Works for Gregorian, Julian, and Hebrew years.
      */
-    static final Pattern PATTERN_TWO_DATES = Pattern.compile(FORMAT_CASE_INSENSITIVE
-            + "(FROM|BEF|BEF\\.|BET|BET\\.|BTW|BTW\\.|BETWEEN) " + FORMAT_DATE_MISC + FORMAT_YEAR + " (AND|TO) " + FORMAT_DATE_MISC
-            + FORMAT_YEAR);
+    static final Pattern PATTERN_TWO_DATES = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_RANGE_PERIOD_PREFIX + FORMAT_DATE_MISC
+            + FORMAT_YEAR + " (AND|TO) " + FORMAT_DATE_MISC + FORMAT_YEAR);
 
     /**
      * The regex format for matching a hebrew month (per GEDCOM spec)
@@ -144,9 +137,9 @@ public class DateParser {
     private static final String FORMAT_MONTH_HEBREW = "(TSH|CSH|KSL|TVT|SHV|ADR|ADS|NSN|IYR|SVN|TMZ|AAV|ELL)";
 
     /**
-     * Pattern for matching a hebrew date in GEDCOM format
+     * Pattern for matching a single hebrew date in GEDCOM format
      */
-    static final Pattern PATTERN_HEBREW_DATE = Pattern.compile(FORMAT_CASE_INSENSITIVE + CALENDAR_ESCAPE_HEBREW + FORMAT_DAY + "? ?"
+    static final Pattern PATTERN_SINGLE_HEBREW_DATE = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_DAY + "? ?"
             + FORMAT_MONTH_HEBREW + "? ?\\d{4}");
 
     /**
@@ -161,7 +154,7 @@ public class DateParser {
     }
 
     /**
-     * Parse the string as date
+     * Parse the string as date.
      * 
      * @param dateString
      *            the date string
@@ -171,24 +164,16 @@ public class DateParser {
      */
     public Date parse(String dateString, ImpreciseDatePreference pref) {
         String ds = dateString.toUpperCase();
-        if (PATTERN_HEBREW_DATE.matcher(ds).matches()) {
-            return hebrewToGregorian(ds, pref);
+        if (ds.startsWith("@#DHEBREW@ ")) {
+            return parseHebrew(ds.substring("@#DHEBREW@ ".length()), pref);
         }
-        ds = removeApproximations(dateString.toUpperCase());
-        ds = removeOpenEndedRangesAndPeriods(ds);
-        if (PATTERN_SINGLE_DATE_FULL.matcher(ds).matches()) {
-            return getYearMonthDay(ds);
+        if (ds.startsWith("@#DGREGORIAN@ ")) {
+            return parseGregorianJulian(ds.substring("@#DGREGORIAN@ ".length()), pref);
         }
-        if (PATTERN_SINGLE_DATE_MONTH_YEAR.matcher(ds).matches()) {
-            return getYearMonthNoDay(ds, pref);
+        if (ds.startsWith("@#DJULIAN@ ")) {
+            return parseGregorianJulian(ds.substring("@#DJULIAN@ ".length()), pref);
         }
-        if (PATTERN_SINGLE_DATE_YEAR_ONLY.matcher(ds).matches()) {
-            return getYearOnly(ds, pref);
-        }
-        if (PATTERN_TWO_DATES.matcher(ds).matches()) {
-            return getPreferredDateFromRangeOrPeriod(ds, pref);
-        }
-        return null;
+        return parseGregorianJulian(ds, pref);
     }
 
     /**
@@ -226,17 +211,19 @@ public class DateParser {
      * @param pref
      * @return the gregorian date that represents the hebrew date supplied
      */
-    Date hebrewToGregorian(String hebrewDateString, ImpreciseDatePreference pref) {
-        if (!PATTERN_HEBREW_DATE.matcher(hebrewDateString).matches()) {
+    Date parseHebrewSingleDate(String hebrewDateString, ImpreciseDatePreference pref) {
+        String hds = removeApproximations(hebrewDateString.toUpperCase());
+        hds = removeOpenEndedRangesAndPeriods(hds);
+
+        if (!PATTERN_SINGLE_HEBREW_DATE.matcher(hds).matches()) {
             return null;
         }
-        // Strip off the CALENDAR_ESCAPE prefix and space
-        String ds = hebrewDateString.substring("@#DHEBREW@ ".length());
 
-        String[] datePieces = ds.split(" ");
+        String[] datePieces = hds.split(" ");
         if (datePieces == null) {
             return null;
         }
+        HebrewCalendar hc = new HebrewCalendar();
 
         int hebrewDay;
         int hebrewMonth = 0;
@@ -247,14 +234,46 @@ public class DateParser {
             hebrewMonth = HebrewMonth.getFromAbbreviation(datePieces[1]).ordinal() + 1;
             hebrewYear = Integer.parseInt(datePieces[2]);
         } else if (datePieces.length == 2) {
-            hebrewDay = 1;
             hebrewMonth = HebrewMonth.getFromAbbreviation(datePieces[0]).ordinal() + 1;
             hebrewYear = Integer.parseInt(datePieces[1]);
-
+            switch (pref) {
+                case FAVOR_EARLIEST:
+                    hebrewDay = 1;
+                    break;
+                case FAVOR_LATEST:
+                    hebrewDay = hc.getMonthLength(hebrewYear, hebrewMonth);
+                    break;
+                case FAVOR_MIDPOINT:
+                    hebrewDay = hc.getMonthLength(hebrewYear, hebrewMonth) / 2;
+                    break;
+                case PRECISE:
+                    hebrewDay = 1;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unexpected value for imprecise date preference: " + pref);
+            }
         } else if (datePieces.length == 1) {
-            hebrewDay = 1;
-            hebrewMonth = 1;
             hebrewYear = Integer.parseInt(datePieces[0]);
+            switch (pref) {
+                case FAVOR_EARLIEST:
+                    hebrewMonth = 1;
+                    hebrewDay = 1;
+                    break;
+                case FAVOR_LATEST:
+                    hebrewMonth = HebrewMonth.values().length;
+                    hebrewDay = hc.getMonthLength(hebrewYear, hebrewMonth);
+                    break;
+                case FAVOR_MIDPOINT:
+                    hebrewMonth = HebrewMonth.values().length / 2;
+                    hebrewDay = hc.getMonthLength(hebrewYear, hebrewMonth) / 2;
+                    break;
+                case PRECISE:
+                    hebrewMonth = 1;
+                    hebrewDay = 1;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unexpected value for imprecise date preference: " + pref);
+            }
         } else {
             return null;
         }
@@ -263,7 +282,6 @@ public class DateParser {
             // Didn't find a matching month abbreviation
             return null;
         }
-        HebrewCalendar hc = new HebrewCalendar();
         return hc.convertHebrewDateToGregorian(hebrewYear, HebrewMonth.getFrom1BasedNumber(hebrewMonth).getGedcomAbbrev(),
                 hebrewDay);
     }
@@ -398,7 +416,52 @@ public class DateParser {
     }
 
     /**
-     * Get the preferred date from a range or period
+     * Get the preferred date from a range or period, for Hebrew dates
+     * 
+     * @param hebrewDateString
+     *            the Hebrew date string
+     * @param pref
+     *            the preferred method of handling the range
+     * @return the date, or null if no date could be parsed from the data
+     */
+    private Date getPreferredDateFromHebrewRangeOrPeriod(String hebrewDateString, ImpreciseDatePreference pref) {
+        // Split the string into two dates
+        String[] dateStrings = splitTwoDateString(hebrewDateString, " AND ");
+        if (dateStrings == null) {
+            dateStrings = splitTwoDateString(hebrewDateString, " TO ");
+        }
+        if (dateStrings == null) {
+            return null;
+        }
+
+        // Calculate the dates from the two strings, based on what's preferred
+        switch (pref) {
+            case FAVOR_EARLIEST:
+                return parseHebrewSingleDate(dateStrings[0], pref);
+            case FAVOR_LATEST:
+                return parseHebrewSingleDate(dateStrings[1], pref);
+            case FAVOR_MIDPOINT:
+                Date d1 = parseHebrewSingleDate(dateStrings[0], ImpreciseDatePreference.FAVOR_EARLIEST);
+                Date d2 = parseHebrewSingleDate(dateStrings[1], ImpreciseDatePreference.FAVOR_LATEST);
+                if (d1 == null || d2 == null) {
+                    return null;
+                }
+                long daysBetween = TimeUnit.DAYS.convert(d2.getTime() - d1.getTime(), TimeUnit.MILLISECONDS);
+                Calendar c = Calendar.getInstance(Locale.US);
+                c.setTimeZone(TimeZone.getTimeZone("UTC"));
+                c.setTime(d1);
+                c.add(Calendar.DAY_OF_YEAR, (int) daysBetween / 2);
+                Date result = c.getTime();
+                return result;
+            case PRECISE:
+                return parseHebrewSingleDate(dateStrings[0], pref);
+            default:
+                throw new IllegalArgumentException("Unexpected value for imprecise date preference: " + pref);
+        }
+    }
+
+    /**
+     * Get the preferred date from a range or period, for Gregorian/Julian dates
      * 
      * @param dateString
      *            the date string
@@ -425,6 +488,9 @@ public class DateParser {
             case FAVOR_MIDPOINT:
                 Date d1 = parse(dateStrings[0], ImpreciseDatePreference.FAVOR_EARLIEST);
                 Date d2 = parse(dateStrings[1], ImpreciseDatePreference.FAVOR_LATEST);
+                if (d1 == null || d2 == null) {
+                    return null;
+                }
                 long daysBetween = TimeUnit.DAYS.convert(d2.getTime() - d1.getTime(), TimeUnit.MILLISECONDS);
                 Calendar c = Calendar.getInstance(Locale.US);
                 c.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -532,6 +598,50 @@ public class DateParser {
             default:
                 throw new IllegalArgumentException("Unknown value for date handling preference: " + pref);
         }
+    }
+
+    /**
+     * Parse a Gregorian or Julian date string
+     * 
+     * @param dateString
+     *            the date string to parse
+     * @param pref
+     *            the preference for handling an imprecise date.
+     * @return the date, if one can be derived from the string
+     */
+    private Date parseGregorianJulian(String dateString, ImpreciseDatePreference pref) {
+        String ds;
+        ds = removeApproximations(dateString.toUpperCase());
+        ds = removeOpenEndedRangesAndPeriods(ds);
+        if (PATTERN_SINGLE_DATE_FULL_GREGORIAN_JULIAN.matcher(ds).matches()) {
+            return getYearMonthDay(ds);
+        }
+        if (PATTERN_SINGLE_DATE_MONTH_YEAR_GREGORIAN_JULIAN.matcher(ds).matches()) {
+            return getYearMonthNoDay(ds, pref);
+        }
+        if (PATTERN_SINGLE_DATE_YEAR_ONLY.matcher(ds).matches()) {
+            return getYearOnly(ds, pref);
+        }
+        if (PATTERN_TWO_DATES.matcher(ds).matches()) {
+            return getPreferredDateFromRangeOrPeriod(ds, pref);
+        }
+        return null;
+    }
+
+    /**
+     * Convert a Hebrew date string (in proper GEDCOM format) to a (gregorian) java.util.Date.
+     * 
+     * @param hebrewDateString
+     *            the hebrew date in GEDCOM spec format - see DATE_HEBR and MONTH_HEBR in the spec. Could be a single date, an
+     *            approximate date, a date range, or a date period.
+     * @param pref
+     * @return the gregorian date that represents the hebrew date supplied
+     */
+    private Date parseHebrew(String hebrewDateString, ImpreciseDatePreference pref) {
+        if (PATTERN_TWO_DATES.matcher(hebrewDateString).matches()) {
+            return getPreferredDateFromHebrewRangeOrPeriod(hebrewDateString, pref);
+        }
+        return parseHebrewSingleDate(hebrewDateString, pref);
     }
 
     /**
