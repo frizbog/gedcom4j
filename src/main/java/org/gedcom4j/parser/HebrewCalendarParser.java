@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
- * A class for converting Hebrew dates into Gregorian dates. No ability is provided for the reverse. ALL dates processed as if
+ * A class for converting Hebrew dates into Gregorian dates. No ability is provided for the reverse. All dates processed as if
  * before sunset.
  * </p>
  * 
@@ -218,8 +218,7 @@ class HebrewCalendarParser {
         // subtract the date of this year from the date of next year
         Date thisNewYear = getFirstDayOfHebrewYear(hebrewYear);
         Date nextNewYear = getFirstDayOfHebrewYear(hebrewYear + 1);
-        long diff = TimeUnit.DAYS.convert(nextNewYear.getTime() - thisNewYear.getTime(), TimeUnit.MILLISECONDS);
-        return (int) diff;
+        return (int) TimeUnit.DAYS.convert(nextNewYear.getTime() - thisNewYear.getTime(), TimeUnit.MILLISECONDS);
     }
 
     /**

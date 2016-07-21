@@ -174,7 +174,7 @@ public class DateParser {
      * @return the date, if one can be derived from the string
      */
     public Date parse(String dateString, ImpreciseDatePreference pref) {
-        String ds = dateString.toUpperCase();
+        String ds = dateString.toUpperCase(Locale.US);
         if (ds.startsWith("@#DHEBREW@ ")) {
             return parseHebrew(ds.substring("@#DHEBREW@ ".length()), pref);
         }
@@ -211,7 +211,7 @@ public class DateParser {
             } else {
                 yyyy = ds.trim();
                 int i = Integer.parseInt(yyyy);
-                d = "" + (1 - i);
+                d = Integer.toString(1 - i);
             }
         }
         return d;
@@ -227,7 +227,7 @@ public class DateParser {
      * @return the Gregorian date that represents the French Republican date supplied
      */
     Date parseFrenchRepublicanSingleDate(String frenchRepublicanDateString, ImpreciseDatePreference pref) {
-        String frds = removeApproximations(frenchRepublicanDateString.toUpperCase());
+        String frds = removeApproximations(frenchRepublicanDateString.toUpperCase(Locale.US));
         frds = removeOpenEndedRangesAndPeriods(frds);
 
         if (!PATTERN_SINGLE_FRENCH_REPUBLICAN_DATE.matcher(frds).matches()) {
@@ -261,7 +261,7 @@ public class DateParser {
      * @return the Gregorian date that represents the Hebrew date supplied
      */
     Date parseHebrewSingleDate(String hebrewDateString, ImpreciseDatePreference pref) {
-        String hds = removeApproximations(hebrewDateString.toUpperCase());
+        String hds = removeApproximations(hebrewDateString.toUpperCase(Locale.US));
         hds = removeOpenEndedRangesAndPeriods(hds);
 
         if (!PATTERN_SINGLE_HEBREW_DATE.matcher(hds).matches()) {
@@ -317,7 +317,7 @@ public class DateParser {
      *            the prefixes
      * @return the string with the prefixes removed
      */
-    String removePrefixes(String dateString, String[] prefixes) {
+    String removePrefixes(String dateString, String... prefixes) {
 
         for (String pfx : prefixes) {
             if (dateString.startsWith(pfx + " ") && dateString.length() > pfx.length() + 1) {
@@ -353,12 +353,13 @@ public class DateParser {
         }
 
         int l = dateString.length();
-        String newYY = dateString.substring(l - 2);
         String oldYYYY = dateString.substring(l - 7, l - 3);
         int yyyy = Integer.parseInt(oldYYYY);
         if (yyyy > 1752 || yyyy < 1582) {
             return dateString;
         }
+
+        String newYY = dateString.substring(l - 2);
         int yy = Integer.parseInt(newYY);
 
         // Handle century boundary
@@ -380,8 +381,8 @@ public class DateParser {
      *            the date string containing two dates
      * @param splitOn
      *            the delimiting phrase or character between the two dates
-     * @return an array of two strings, or null if the supplied <code>dateString</code> value does not contain the
-     *         <code>splitOn</code> delimiter value
+     * @return an array of two strings, or an empty array if the supplied <code>dateString</code> value does not contain the
+     *         <code>splitOn</code> delimiter value. Never returns null.
      */
     String[] splitTwoDateString(String dateString, String splitOn) {
         if (dateString.contains(splitOn)) {
@@ -391,7 +392,7 @@ public class DateParser {
             dateStrings[1] = dateString.substring(dateString.indexOf(splitOn) + splitOn.length()).trim();
             return dateStrings;
         }
-        return null;
+        return new String[] {};
     }
 
     /**
@@ -405,7 +406,7 @@ public class DateParser {
      * @return the date if successful, or null if the date cannot be parsed using the format supplied
      */
     private Date getDateWithFormatString(String dateString, String pattern) {
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.US);
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         try {
             return sdf.parse(dateString);
@@ -428,10 +429,10 @@ public class DateParser {
             ImpreciseDatePreference pref) {
         // Split the string into two dates
         String[] dateStrings = splitTwoDateString(frenchRepublicanDateString, " AND ");
-        if (dateStrings == null) {
+        if (dateStrings.length == 0) {
             dateStrings = splitTwoDateString(frenchRepublicanDateString, " TO ");
         }
-        if (dateStrings == null) {
+        if (dateStrings.length == 0) {
             return null;
         }
 
@@ -452,8 +453,7 @@ public class DateParser {
                 c.setTimeZone(TimeZone.getTimeZone("UTC"));
                 c.setTime(d1);
                 c.add(Calendar.DAY_OF_YEAR, (int) daysBetween / 2);
-                Date result = c.getTime();
-                return result;
+                return c.getTime();
             case PRECISE:
                 return parseFrenchRepublicanSingleDate(dateStrings[0], pref);
             default:
@@ -475,10 +475,10 @@ public class DateParser {
     private Date getPreferredDateFromHebrewRangeOrPeriod(String hebrewDateString, ImpreciseDatePreference pref) {
         // Split the string into two dates
         String[] dateStrings = splitTwoDateString(hebrewDateString, " AND ");
-        if (dateStrings == null) {
+        if (dateStrings.length == 0) {
             dateStrings = splitTwoDateString(hebrewDateString, " TO ");
         }
-        if (dateStrings == null) {
+        if (dateStrings.length == 0) {
             return null;
         }
 
@@ -499,8 +499,7 @@ public class DateParser {
                 c.setTimeZone(TimeZone.getTimeZone("UTC"));
                 c.setTime(d1);
                 c.add(Calendar.DAY_OF_YEAR, (int) daysBetween / 2);
-                Date result = c.getTime();
-                return result;
+                return c.getTime();
             case PRECISE:
                 return parseHebrewSingleDate(dateStrings[0], pref);
             default:
@@ -520,10 +519,10 @@ public class DateParser {
     private Date getPreferredDateFromRangeOrPeriod(String dateString, ImpreciseDatePreference pref) {
         // Split the string into two dates
         String[] dateStrings = splitTwoDateString(dateString, " AND ");
-        if (dateStrings == null) {
+        if (dateStrings.length == 0) {
             dateStrings = splitTwoDateString(dateString, " TO ");
         }
-        if (dateStrings == null) {
+        if (dateStrings.length == 0) {
             return null;
         }
 
@@ -544,8 +543,7 @@ public class DateParser {
                 c.setTimeZone(TimeZone.getTimeZone("UTC"));
                 c.setTime(d1);
                 c.add(Calendar.DAY_OF_YEAR, (int) daysBetween / 2);
-                Date result = c.getTime();
-                return result;
+                return c.getTime();
             case PRECISE:
                 return parse(dateStrings[0], pref);
             default:
@@ -672,13 +670,13 @@ public class DateParser {
      * 
      * @return the date found, if any, or null if no date could be extracted
      */
-    private Date parseFrenchRepublicanDayMonthYear(String[] datePieces) {
-        FrenchRepublicanCalendarParser frc = new FrenchRepublicanCalendarParser();
-        int frYear = Integer.parseInt(datePieces[2]);
+    private Date parseFrenchRepublicanDayMonthYear(String... datePieces) {
         FrenchRepublicanMonth frMonth = FrenchRepublicanMonth.getFromGedcomAbbrev(datePieces[1]);
         if (frMonth == null) {
             return null;
         }
+        FrenchRepublicanCalendarParser frc = new FrenchRepublicanCalendarParser();
+        int frYear = Integer.parseInt(datePieces[2]);
         int frDay = Integer.parseInt(datePieces[0]);
 
         return frc.convertFrenchRepublicanDateToGregorian(frYear, frMonth.getGedcomAbbrev(), frDay);
@@ -695,12 +693,12 @@ public class DateParser {
      * @return the date found, if any, or null if no date could be extracted
      */
     private Date parseFrenchRepublicanMonthYear(String[] datePieces, ImpreciseDatePreference pref) {
-        FrenchRepublicanCalendarParser frc = new FrenchRepublicanCalendarParser();
-        int frYear = Integer.parseInt(datePieces[1]);
         FrenchRepublicanMonth frMonth = FrenchRepublicanMonth.getFromGedcomAbbrev(datePieces[0]);
         if (frMonth == null) {
             return null;
         }
+        FrenchRepublicanCalendarParser frc = new FrenchRepublicanCalendarParser();
+        int frYear = Integer.parseInt(datePieces[1]);
         int frDay;
         switch (pref) {
             case FAVOR_EARLIEST:
@@ -791,7 +789,7 @@ public class DateParser {
      */
     private Date parseGregorianJulian(String dateString, ImpreciseDatePreference pref) {
         String ds;
-        ds = removeApproximations(dateString.toUpperCase());
+        ds = removeApproximations(dateString.toUpperCase(Locale.US));
         ds = removeOpenEndedRangesAndPeriods(ds);
         if (PATTERN_SINGLE_DATE_FULL_GREGORIAN_JULIAN.matcher(ds).matches()) {
             return getYearMonthDay(ds);
@@ -832,17 +830,16 @@ public class DateParser {
      * 
      * @return the date found, if any, or null if no date could be extracted
      */
-    private Date parseHebrewDayMonthYear(String[] datePieces) {
+    private Date parseHebrewDayMonthYear(String... datePieces) {
         {
-            HebrewCalendarParser hc = new HebrewCalendarParser();
-
-            int hebrewDay = Integer.parseInt(datePieces[0]);
             HebrewMonth hebrewMonth = HebrewMonth.getFromAbbreviation(datePieces[1]);
-            int hebrewYear = Integer.parseInt(datePieces[2]);
             if (hebrewMonth == null) {
                 // Didn't find a matching month abbreviation
                 return null;
             }
+            HebrewCalendarParser hc = new HebrewCalendarParser();
+            int hebrewDay = Integer.parseInt(datePieces[0]);
+            int hebrewYear = Integer.parseInt(datePieces[2]);
             return hc.convertHebrewDateToGregorian(hebrewYear, hebrewMonth.getGedcomAbbrev(), hebrewDay);
         }
     }
@@ -857,14 +854,14 @@ public class DateParser {
      *            midpoint?
      * @return the date found, if any, or null if no date could be extracted
      */
-    private Date parseHebrewMonthYear(ImpreciseDatePreference pref, String[] datePieces) {
+    private Date parseHebrewMonthYear(ImpreciseDatePreference pref, String... datePieces) {
         {
-            HebrewCalendarParser hc = new HebrewCalendarParser();
-            int hebrewYear = Integer.parseInt(datePieces[1]);
             HebrewMonth hebrewMonth = HebrewMonth.getFromAbbreviation(datePieces[0]);
             if (hebrewMonth == null) {
                 return null;
             }
+            HebrewCalendarParser hc = new HebrewCalendarParser();
+            int hebrewYear = Integer.parseInt(datePieces[1]);
             int hebrewDay;
             switch (pref) {
                 case FAVOR_EARLIEST:
@@ -896,7 +893,7 @@ public class DateParser {
      *            midpoint?
      * @return the date found, if any, or null if no date could be extracted
      */
-    private Date parseHebrewYearOnly(ImpreciseDatePreference pref, String[] datePieces) {
+    private Date parseHebrewYearOnly(ImpreciseDatePreference pref, String... datePieces) {
         {
             HebrewCalendarParser hc = new HebrewCalendarParser();
             int hebrewYear = Integer.parseInt(datePieces[0]);
