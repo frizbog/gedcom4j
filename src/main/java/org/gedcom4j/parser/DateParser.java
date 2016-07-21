@@ -151,7 +151,7 @@ public class DateParser {
      * Pattern for matching a single French Republican date in GEDCOM format
      */
     static final Pattern PATTERN_SINGLE_FRENCH_REPUBLICAN_DATE = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_DAY + "? ?"
-            + FORMAT_MONTH_FRENCH_REPUBLICAN + "? ?\\d{4}");
+            + FORMAT_MONTH_FRENCH_REPUBLICAN + "? ?\\d{1,4}");
 
     /**
      * Parse the string as date, with the default imprecise date handling preference of {@link ImpreciseDatePreference#PRECISE}.
@@ -296,10 +296,10 @@ public class DateParser {
         String ds = removePrefixes(dateString, new String[] { "ABT", "ABOUT", "APPX", "APPROX", "CAL", "CALC", "EST" });
 
         // Interpreted dates - require terms in parentheses after the date
-        if (ds.startsWith("INT ") && ds.indexOf('(') > 8) {
+        if (ds.startsWith("INT ") && ds.indexOf('(') > 6) {
             return ds.substring(4, ds.indexOf('(')).trim();
         }
-        if (ds.startsWith("INT. ") && ds.indexOf('(') > 9) {
+        if (ds.startsWith("INT. ") && ds.indexOf('(') > 7) {
             return ds.substring(4, ds.indexOf('(')).trim();
         }
 
