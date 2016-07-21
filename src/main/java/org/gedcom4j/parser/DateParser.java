@@ -105,24 +105,24 @@ public class DateParser {
     /**
      * The regex pattern that identifies a single, full Gregorian/Julian date, with year, month, and day
      */
-    static final Pattern PATTERN_SINGLE_DATE_FULL_GREGORIAN_JULIAN = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_DAY + " "
-            + FORMAT_MONTH_GREGORIAN_JULIAN + " " + FORMAT_YEAR);
+    private static final Pattern PATTERN_SINGLE_DATE_FULL_GREGORIAN_JULIAN = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_DAY
+            + " " + FORMAT_MONTH_GREGORIAN_JULIAN + " " + FORMAT_YEAR);
 
     /**
      * The regex pattern that identifies a single date, with year, month, but no day
      */
-    static final Pattern PATTERN_SINGLE_DATE_MONTH_YEAR_GREGORIAN_JULIAN = Pattern.compile(FORMAT_CASE_INSENSITIVE
+    private static final Pattern PATTERN_SINGLE_DATE_MONTH_YEAR_GREGORIAN_JULIAN = Pattern.compile(FORMAT_CASE_INSENSITIVE
             + FORMAT_MONTH_GREGORIAN_JULIAN + " " + FORMAT_YEAR);
 
     /**
      * The regex pattern that identifies a single date, year only (no month or day)
      */
-    static final Pattern PATTERN_SINGLE_DATE_YEAR_ONLY = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_YEAR);
+    private static final Pattern PATTERN_SINGLE_DATE_YEAR_ONLY = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_YEAR);
 
     /**
      * The regex pattern that matches a string ending in a double-entry year
      */
-    static final Pattern PATTERN_ENDS_IN_DOUBLE_ENTRY_YEAR = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_DATE_MISC
+    private static final Pattern PATTERN_ENDS_IN_DOUBLE_ENTRY_YEAR = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_DATE_MISC
             + "\\d{4}\\/\\d{2}$");
 
     /**
@@ -144,14 +144,14 @@ public class DateParser {
     /**
      * Pattern for matching a single Hebrew date in GEDCOM format
      */
-    static final Pattern PATTERN_SINGLE_HEBREW_DATE = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_DAY + "? ?"
+    private static final Pattern PATTERN_SINGLE_HEBREW_DATE = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_DAY + "? ?"
             + FORMAT_MONTH_HEBREW + "? ?\\d{4}");
 
     /**
      * Pattern for matching a single French Republican date in GEDCOM format
      */
-    static final Pattern PATTERN_SINGLE_FRENCH_REPUBLICAN_DATE = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_DAY + "? ?"
-            + FORMAT_MONTH_FRENCH_REPUBLICAN + "? ?\\d{1,4}");
+    private static final Pattern PATTERN_SINGLE_FRENCH_REPUBLICAN_DATE = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_DAY
+            + "? ?" + FORMAT_MONTH_FRENCH_REPUBLICAN + "? ?\\d{1,4}");
 
     /**
      * Parse the string as date, with the default imprecise date handling preference of {@link ImpreciseDatePreference#PRECISE}.

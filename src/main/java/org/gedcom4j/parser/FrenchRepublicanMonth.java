@@ -5,7 +5,7 @@ package org.gedcom4j.parser;
  * 
  * @author frizbog
  */
-public enum FrenchRepublicanMonth {
+enum FrenchRepublicanMonth {
 
     /** Vendemiaire */
     VENDEMIAIRE("VEND"),
@@ -41,6 +41,7 @@ public enum FrenchRepublicanMonth {
      *            the gedcom-spec abbreviation for the month
      * @return the enumerated constant value with the supplied abbreviation, or null if no match is found
      */
+    @SuppressWarnings("ucd")
     public static FrenchRepublicanMonth getFromGedcomAbbrev(String gedcomAbbrev) {
         for (FrenchRepublicanMonth frm : values()) {
             if (gedcomAbbrev.equalsIgnoreCase(frm.getGedcomAbbrev())) {

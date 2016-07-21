@@ -30,7 +30,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import org.gedcom4j.exception.GedcomWriterVersionDataMismatchException;
 import org.junit.Test;
 
 /**
