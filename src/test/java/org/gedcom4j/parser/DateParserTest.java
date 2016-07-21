@@ -35,6 +35,8 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import org.gedcom4j.parser.DateParser.ImpreciseDatePreference;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -43,6 +45,28 @@ import org.junit.Test;
  * @author frizbog
  */
 public class DateParserTest {
+
+    /**
+     * Save the Time Zone used on this machine - we're going to tinker during the test
+     */
+    private static TimeZone saveTimeZone;
+
+    /**
+     * Restore the TimeZone
+     */
+    @AfterClass
+    public static void afterClass() {
+        TimeZone.setDefault(saveTimeZone);
+    }
+
+    /**
+     * Save a copy of the TimeZone
+     */
+    @BeforeClass
+    public static void beforeClass() {
+        saveTimeZone = TimeZone.getDefault();
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    }
 
     /**
      * Class under test
@@ -161,15 +185,6 @@ public class DateParserTest {
         assertEquals("JUN 1950", dp.formatBC("JUN 1950"));
         assertEquals("14 JUN 1950", dp.formatBC("14 JUN 1950"));
     }
-
-    // /**
-    // * Test French Republican calendar
-    // */
-    // @Test
-    // public void testFrenchRepublican() {
-    // fail("Not implemented yet");
-    // }
-    //
 
     /**
      * Test parsing a single date with month, day, and year
@@ -331,6 +346,43 @@ public class DateParserTest {
         assertDate(dp.parse("Est 932", ImpreciseDatePreference.FAVOR_MIDPOINT), 932, Calendar.JULY, 1);
         assertDate(dp.parse("est 2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 1);
         assertDate(dp.parse("EST 1900", ImpreciseDatePreference.FAVOR_MIDPOINT), 1900, Calendar.JULY, 1);
+    }
+
+    /**
+     * Test French Republican calendar
+     */
+    @Test
+    public void testParseFrenchRepublicanSingleDateNoPref() {
+        assertDate(dp.parse("@#DFRENCH R@ 1 THER 224"), 2016, Calendar.JULY, 18);
+        assertDate(dp.parse("@#DFRENCH R@ TMZ 5776"), 2016, Calendar.JULY, 7);
+        assertDate(dp.parse("@#DFRENCH R@ 5776"), 2015, Calendar.SEPTEMBER, 14);
+
+        assertDate(dp.parse("@#DFRENCH R@ ABT 1 THER CCXXIV"), 2016, Calendar.JULY, 18);
+        assertDate(dp.parse("@#DFRENCH R@ EST 1 THER CCXXIV"), 2016, Calendar.JULY, 18);
+        assertDate(dp.parse("@#DFRENCH R@ CAL 1 THER CCXXIV"), 2016, Calendar.JULY, 18);
+        assertDate(dp.parse("@#DFRENCH R@ BEF 1 THER CCXXIV"), 2016, Calendar.JULY, 18);
+        assertDate(dp.parse("@#DFRENCH R@ AFT 1 THER CCXXIV"), 2016, Calendar.JULY, 18);
+        assertDate(dp.parse("@#DFRENCH R@ FROM 1 THER CCXXIV"), 2016, Calendar.JULY, 18);
+        assertDate(dp.parse("@#DFRENCH R@ TO 1 THER CCXXIV"), 2016, Calendar.JULY, 18);
+        assertDate(dp.parse("@#DFRENCH R@ INT 1 THER CCXXIV (Because)"), 2016, Calendar.JULY, 18);
+
+        assertDate(dp.parse("@#DFRENCH R@ ABT TMZ 5776"), 2016, Calendar.JULY, 7);
+        assertDate(dp.parse("@#DFRENCH R@ EST TMZ 5776"), 2016, Calendar.JULY, 7);
+        assertDate(dp.parse("@#DFRENCH R@ CAL TMZ 5776"), 2016, Calendar.JULY, 7);
+        assertDate(dp.parse("@#DFRENCH R@ BEF TMZ 5776"), 2016, Calendar.JULY, 7);
+        assertDate(dp.parse("@#DFRENCH R@ AFT TMZ 5776"), 2016, Calendar.JULY, 7);
+        assertDate(dp.parse("@#DFRENCH R@ FROM TMZ 5776"), 2016, Calendar.JULY, 7);
+        assertDate(dp.parse("@#DFRENCH R@ TO TMZ 5776"), 2016, Calendar.JULY, 7);
+        assertDate(dp.parse("@#DFRENCH R@ INT TMZ 5776 (Because)"), 2016, Calendar.JULY, 7);
+
+        assertDate(dp.parse("@#DFRENCH R@ ABT 5776"), 2015, Calendar.SEPTEMBER, 14);
+        assertDate(dp.parse("@#DFRENCH R@ EST 5776"), 2015, Calendar.SEPTEMBER, 14);
+        assertDate(dp.parse("@#DFRENCH R@ CAL 5776"), 2015, Calendar.SEPTEMBER, 14);
+        assertDate(dp.parse("@#DFRENCH R@ BEF 5776"), 2015, Calendar.SEPTEMBER, 14);
+        assertDate(dp.parse("@#DFRENCH R@ AFT 5776"), 2015, Calendar.SEPTEMBER, 14);
+        assertDate(dp.parse("@#DFRENCH R@ FROM 5776"), 2015, Calendar.SEPTEMBER, 14);
+        assertDate(dp.parse("@#DFRENCH R@ TO 5776"), 2015, Calendar.SEPTEMBER, 14);
+        assertDate(dp.parse("@#DFRENCH R@ INT 5776 (Because)"), 2015, Calendar.SEPTEMBER, 14);
     }
 
     /**

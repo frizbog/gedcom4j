@@ -32,20 +32,46 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
+ * Test for {@link HebrewCalendarParser}
+ * 
  * @author frizbog
  */
-public class HebrewCalendarTest {
+public class HebrewCalendarParserTest {
+
+    /**
+     * Save the Time Zone used on this machine - we're going to tinker during the test
+     */
+    private static TimeZone saveTimeZone;
+
+    /**
+     * Restore the TimeZone
+     */
+    @AfterClass
+    public static void afterClass() {
+        TimeZone.setDefault(saveTimeZone);
+    }
+
+    /**
+     * Save a copy of the TimeZone
+     */
+    @BeforeClass
+    public static void beforeClass() {
+        saveTimeZone = TimeZone.getDefault();
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    }
 
     /**
      * Class under test
      */
-    private final HebrewCalendar classUnderTest = new HebrewCalendar();
+    private final HebrewCalendarParser classUnderTest = new HebrewCalendarParser();
 
     /**
-     * Test method for {@link org.gedcom4j.parser.HebrewCalendar#convertHebrewDateToGregorian(int, java.lang.String, int)}.
+     * Test method for {@link org.gedcom4j.parser.HebrewCalendarParser#convertHebrewDateToGregorian(int, java.lang.String, int)}.
      */
     @Test
     public void testConvertHebrewDateToGregorian() {

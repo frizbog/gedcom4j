@@ -223,7 +223,7 @@ public class DateParser {
         if (datePieces == null) {
             return null;
         }
-        HebrewCalendar hc = new HebrewCalendar();
+        HebrewCalendarParser hc = new HebrewCalendarParser();
 
         int hebrewDay;
         int hebrewMonth = 0;

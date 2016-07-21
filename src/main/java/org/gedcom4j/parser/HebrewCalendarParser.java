@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit;
  * 
  * @author frizbog
  */
-class HebrewCalendar {
+class HebrewCalendarParser {
 
     /**
      * This function converts a Hebrew date into the Gregorian date
