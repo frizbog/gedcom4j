@@ -415,19 +415,56 @@ public class DateParser {
     }
 
     /**
+     * Get a Gregorian date from a French Republican date string consisting of two dates separated by either "AND" or "TO", and with
+     * a prefix like "FROM" or "BET", using the supplied method of resolving a single date from the range
+     * 
      * @param frenchRepublicanDateString
+     *            a French Republican date string
      * @param pref
      *            preference on how to handle imprecise dates - return the earliest day of the month, the latest, the midpoint?
      * @return the preferred date based on the string supplied, or null if no date could be determined
      */
     private Date getPreferredDateFromFrenchRepublicanRangeOrPeriod(String frenchRepublicanDateString,
             ImpreciseDatePreference pref) {
-        // TODO Auto-generated method stub
-        return null;
+        // Split the string into two dates
+        String[] dateStrings = splitTwoDateString(frenchRepublicanDateString, " AND ");
+        if (dateStrings == null) {
+            dateStrings = splitTwoDateString(frenchRepublicanDateString, " TO ");
+        }
+        if (dateStrings == null) {
+            return null;
+        }
+
+        // Calculate the dates from the two strings, based on what's preferred
+        switch (pref) {
+            case FAVOR_EARLIEST:
+                return parseFrenchRepublicanSingleDate(dateStrings[0], pref);
+            case FAVOR_LATEST:
+                return parseFrenchRepublicanSingleDate(dateStrings[1], pref);
+            case FAVOR_MIDPOINT:
+                Date d1 = parseFrenchRepublicanSingleDate(dateStrings[0], ImpreciseDatePreference.FAVOR_EARLIEST);
+                Date d2 = parseFrenchRepublicanSingleDate(dateStrings[1], ImpreciseDatePreference.FAVOR_LATEST);
+                if (d1 == null || d2 == null) {
+                    return null;
+                }
+                long daysBetween = TimeUnit.DAYS.convert(d2.getTime() - d1.getTime(), TimeUnit.MILLISECONDS);
+                Calendar c = Calendar.getInstance(Locale.US);
+                c.setTimeZone(TimeZone.getTimeZone("UTC"));
+                c.setTime(d1);
+                c.add(Calendar.DAY_OF_YEAR, (int) daysBetween / 2);
+                Date result = c.getTime();
+                return result;
+            case PRECISE:
+                return parseFrenchRepublicanSingleDate(dateStrings[0], pref);
+            default:
+                throw new IllegalArgumentException("Unexpected value for imprecise date preference: " + pref);
+        }
     }
 
     /**
-     * Get the preferred date from a range or period, for Hebrew dates
+     * Get a Gregorian date from a Hebrew date string consisting of two dates separated by either "AND" or "TO", and with a prefix
+     * like "FROM" or "BET", using the supplied method of resolving a single date from the range
+     * 
      * 
      * @param hebrewDateString
      *            the Hebrew date string

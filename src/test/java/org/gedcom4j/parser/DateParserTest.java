@@ -353,7 +353,21 @@ public class DateParserTest {
      */
     @Test
     public void testParseFrenchRepublicanDatePeriod() {
-        // TODO - do something here
+        assertDate(dp.parse("@#DFRENCH R@ FROM 5 THER 224 TO 11 THER 224", ImpreciseDatePreference.FAVOR_EARLIEST), 2016,
+                Calendar.JULY, 22);
+        assertDate(dp.parse("@#DFRENCH R@ FROM 5 THER 224 TO 11 THER 224", ImpreciseDatePreference.FAVOR_LATEST), 2016,
+                Calendar.JULY, 28);
+        assertDate(dp.parse("@#DFRENCH R@ FROM 5 THER 224 TO 11 THER 224", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016,
+                Calendar.JULY, 25);
+
+        assertDate(dp.parse("@#DFRENCH R@ FROM VEND 4 TO THER 4", ImpreciseDatePreference.FAVOR_EARLIEST), 1795, Calendar.SEPTEMBER,
+                23);
+        assertDate(dp.parse("@#DFRENCH R@ FROM VEND 4 TO THER 4", ImpreciseDatePreference.FAVOR_LATEST), 1796, Calendar.AUGUST, 17);
+        assertDate(dp.parse("@#DFRENCH R@ FROM VEND 4 TO THER 4", ImpreciseDatePreference.FAVOR_MIDPOINT), 1796, Calendar.MARCH, 5);
+
+        assertDate(dp.parse("@#DFRENCH R@ FROM 1 TO 5", ImpreciseDatePreference.FAVOR_EARLIEST), 1792, Calendar.SEPTEMBER, 22);
+        assertDate(dp.parse("@#DFRENCH R@ FROM 1 TO 5", ImpreciseDatePreference.FAVOR_LATEST), 1797, Calendar.SEPTEMBER, 21);
+        assertDate(dp.parse("@#DFRENCH R@ FROM 1 TO 5", ImpreciseDatePreference.FAVOR_MIDPOINT), 1795, Calendar.MARCH, 23);
     }
 
     /**
@@ -361,11 +375,25 @@ public class DateParserTest {
      */
     @Test
     public void testParseFrenchRepublicanDateRange() {
-        // TODO - do something here
+        assertDate(dp.parse("@#DFRENCH R@ BET 5 THER 224 AND 11 THER 224", ImpreciseDatePreference.FAVOR_EARLIEST), 2016,
+                Calendar.JULY, 22);
+        assertDate(dp.parse("@#DFRENCH R@ BET 5 THER 224 AND 11 THER 224", ImpreciseDatePreference.FAVOR_LATEST), 2016,
+                Calendar.JULY, 28);
+        assertDate(dp.parse("@#DFRENCH R@ BET 5 THER 224 AND 11 THER 224", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016,
+                Calendar.JULY, 25);
+
+        assertDate(dp.parse("@#DFRENCH R@ BET VEND 4 AND THER 4", ImpreciseDatePreference.FAVOR_EARLIEST), 1795, Calendar.SEPTEMBER,
+                23);
+        assertDate(dp.parse("@#DFRENCH R@ BET VEND 4 AND THER 4", ImpreciseDatePreference.FAVOR_LATEST), 1796, Calendar.AUGUST, 17);
+        assertDate(dp.parse("@#DFRENCH R@ BET VEND 4 AND THER 4", ImpreciseDatePreference.FAVOR_MIDPOINT), 1796, Calendar.MARCH, 5);
+
+        assertDate(dp.parse("@#DFRENCH R@ BET 1 AND 5", ImpreciseDatePreference.FAVOR_EARLIEST), 1792, Calendar.SEPTEMBER, 22);
+        assertDate(dp.parse("@#DFRENCH R@ BET 1 AND 5", ImpreciseDatePreference.FAVOR_LATEST), 1797, Calendar.SEPTEMBER, 21);
+        assertDate(dp.parse("@#DFRENCH R@ BET 1 AND 5", ImpreciseDatePreference.FAVOR_MIDPOINT), 1795, Calendar.MARCH, 23);
     }
 
     /**
-     * Test French Republican calendar, with preference to earliest possible date intepreteation
+     * Test French Republican calendar, with preference to earliest possible date intepretation
      */
     @Test
     public void testParseFrenchRepublicanSingleDateFavorEarliest() {
