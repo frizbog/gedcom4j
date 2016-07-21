@@ -37,11 +37,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Test for {@link FrenchRepublicanParser}
+ * Test for {@link FrenchRepublicanCalendarParser}
  * 
  * @author frizbog
  */
-public class FrenchRepublicanParserTest {
+public class FrenchRepublicanCalendarParserTest {
 
     /**
      * Save the Time Zone used on this machine - we're going to tinker during the test
@@ -68,10 +68,10 @@ public class FrenchRepublicanParserTest {
     /**
      * The class being tested
      */
-    private final FrenchRepublicanParser classUnderTest = new FrenchRepublicanParser();
+    private final FrenchRepublicanCalendarParser classUnderTest = new FrenchRepublicanCalendarParser();
 
     /**
-     * Test {@link FrenchRepublicanParser#convertFrenchRepublicanDateToGregorian(int, String, int)}
+     * Test {@link FrenchRepublicanCalendarParser#convertFrenchRepublicanDateToGregorian(int, String, int)}
      */
     @Test
     public void testConvertFrenchRepublicanDateToGregorian() {
@@ -114,7 +114,7 @@ public class FrenchRepublicanParserTest {
     }
 
     /**
-     * Test {@link FrenchRepublicanParser#convertFrenchRepublicanDateToGregorian(int, String, int)}
+     * Test {@link FrenchRepublicanCalendarParser#convertFrenchRepublicanDateToGregorian(int, String, int)}
      */
     @Test
     public void testConvertFrenchRepublicanDateToGregorian2() {

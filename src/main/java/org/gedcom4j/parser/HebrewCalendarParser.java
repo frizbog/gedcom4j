@@ -61,7 +61,7 @@ class HebrewCalendarParser {
 
         // Now count up days within the year
         for (int m = 1; m <= hebrewMonthNum - 1; m++) {
-            int monthLength = getMonthLength(hebrewYear, m);
+            int monthLength = getMonthLength(hebrewYear, HebrewMonth.getFrom1BasedNumber(m));
             c.add(Calendar.DAY_OF_YEAR, +monthLength);
         }
         c.add(Calendar.DAY_OF_YEAR, dayOfMonth - 1);
@@ -73,10 +73,13 @@ class HebrewCalendarParser {
      * 
      * @param hebrewYear
      *            the hebrew year
-     * @param hebrewMonthNum
+     * @param hebrewMonth
+     *            the Hebrew month
      * @return the number of days in the month on the specified year
      */
-    int getMonthLength(int hebrewYear, int hebrewMonthNum) {
+    int getMonthLength(int hebrewYear, HebrewMonth hebrewMonth) {
+
+        int hebrewMonthNum = hebrewMonth.ordinal() + 1;
         boolean leapYear = isLeapYear(hebrewYear);
         int lenHebrewYear = getLengthOfYear(hebrewYear);
         /*

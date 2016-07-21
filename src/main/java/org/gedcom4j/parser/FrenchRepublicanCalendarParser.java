@@ -36,7 +36,7 @@ import java.util.TimeZone;
  * 
  * @author frizbog
  */
-class FrenchRepublicanParser {
+class FrenchRepublicanCalendarParser {
 
     /**
      * This function converts a French Republican date into the Gregorian date.
@@ -107,7 +107,7 @@ class FrenchRepublicanParser {
      *            the French Republican Year
      * @return true if it's a French Leap Year.
      */
-    private boolean isFrenchLeapYearRomme(int frenchRepublicanYear) {
+    boolean isFrenchLeapYearRomme(int frenchRepublicanYear) {
         if (frenchRepublicanYear == 3 || frenchRepublicanYear == 7 || frenchRepublicanYear == 11 || frenchRepublicanYear == 15) {
             return true;
         }

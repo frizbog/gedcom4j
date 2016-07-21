@@ -103,7 +103,7 @@ public class DateParser {
     private static final String FORMAT_CASE_INSENSITIVE = "(?i)";
 
     /**
-     * The regex pattern that identifies a single, full gregorian/julian date, with year, month, and day
+     * The regex pattern that identifies a single, full Gregorian/Julian date, with year, month, and day
      */
     static final Pattern PATTERN_SINGLE_DATE_FULL_GREGORIAN_JULIAN = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_DAY + " "
             + FORMAT_MONTH_GREGORIAN_JULIAN + " " + FORMAT_YEAR);
@@ -132,15 +132,26 @@ public class DateParser {
             + FORMAT_YEAR + " (AND|TO) " + FORMAT_DATE_MISC + FORMAT_YEAR);
 
     /**
-     * The regex format for matching a hebrew month (per GEDCOM spec)
+     * The regex format for matching a Hebrew month (per GEDCOM spec)
      */
     private static final String FORMAT_MONTH_HEBREW = "(TSH|CSH|KSL|TVT|SHV|ADR|ADS|NSN|IYR|SVN|TMZ|AAV|ELL)";
 
     /**
-     * Pattern for matching a single hebrew date in GEDCOM format
+     * The regex format for matching a French Republican month (per GEDCOM spec)
+     */
+    private static final String FORMAT_MONTH_FRENCH_REPUBLICAN = "(VEND|BRUM|FRIM|NIVO|PLUV|VENT|GERM|FLOR|PRAI|MESS|THER|FRUC|COMP)";
+
+    /**
+     * Pattern for matching a single Hebrew date in GEDCOM format
      */
     static final Pattern PATTERN_SINGLE_HEBREW_DATE = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_DAY + "? ?"
             + FORMAT_MONTH_HEBREW + "? ?\\d{4}");
+
+    /**
+     * Pattern for matching a single French Republican date in GEDCOM format
+     */
+    static final Pattern PATTERN_SINGLE_FRENCH_REPUBLICAN_DATE = Pattern.compile(FORMAT_CASE_INSENSITIVE + FORMAT_DAY + "? ?"
+            + FORMAT_MONTH_FRENCH_REPUBLICAN + "? ?\\d{4}");
 
     /**
      * Parse the string as date, with the default imprecise date handling preference of {@link ImpreciseDatePreference#PRECISE}.
@@ -166,6 +177,9 @@ public class DateParser {
         String ds = dateString.toUpperCase();
         if (ds.startsWith("@#DHEBREW@ ")) {
             return parseHebrew(ds.substring("@#DHEBREW@ ".length()), pref);
+        }
+        if (ds.startsWith("@#DFRENCH R@ ")) {
+            return parseFrenchRepublican(ds.substring("@#DFRENCH R@ ".length()), pref);
         }
         if (ds.startsWith("@#DGREGORIAN@ ")) {
             return parseGregorianJulian(ds.substring("@#DGREGORIAN@ ".length()), pref);
@@ -204,12 +218,47 @@ public class DateParser {
     }
 
     /**
-     * Convert a Hebrew date string (in proper GEDCOM format) to a (gregorian) java.util.Date.
+     * Convert a French Republican date string (in proper GEDCOM format) to a (Gregorian) java.util.Date.
+     * 
+     * @param frenchRepublicanDateString
+     *            the French Republican date in GEDCOM spec format - see DATE_HEBR and MONTH_HEBR in the spec.
+     * @param pref
+     *            preference on how to handle imprecise dates - return the earliest day of the month, the latest, the midpoint?
+     * @return the Gregorian date that represents the French Republican date supplied
+     */
+    Date parseFrenchRepublicanSingleDate(String frenchRepublicanDateString, ImpreciseDatePreference pref) {
+        String frds = removeApproximations(frenchRepublicanDateString.toUpperCase());
+        frds = removeOpenEndedRangesAndPeriods(frds);
+
+        if (!PATTERN_SINGLE_FRENCH_REPUBLICAN_DATE.matcher(frds).matches()) {
+            return null;
+        }
+
+        String[] datePieces = frds.split(" ");
+        if (datePieces == null) {
+            return null;
+        }
+
+        if (datePieces.length == 3) {
+            return parseFrenchRepublicanDayMonthYear(datePieces);
+        } else if (datePieces.length == 2) {
+            return parseFrenchRepublicanMonthYear(datePieces, pref);
+        } else if (datePieces.length == 1) {
+            return parseFrenchRepublicanYearOnly(datePieces, pref);
+        } else {
+            return null;
+        }
+
+    }
+
+    /**
+     * Convert a Hebrew date string (in proper GEDCOM format) to a (Gregorian) java.util.Date.
      * 
      * @param hebrewDateString
-     *            the hebrew date in GEDCOM spec format - see DATE_HEBR and MONTH_HEBR in the spec.
+     *            the Hebrew date in GEDCOM spec format - see DATE_HEBR and MONTH_HEBR in the spec.
      * @param pref
-     * @return the gregorian date that represents the hebrew date supplied
+     *            preference on how to handle imprecise dates - return the earliest day of the month, the latest, the midpoint?
+     * @return the Gregorian date that represents the Hebrew date supplied
      */
     Date parseHebrewSingleDate(String hebrewDateString, ImpreciseDatePreference pref) {
         String hds = removeApproximations(hebrewDateString.toUpperCase());
@@ -223,67 +272,17 @@ public class DateParser {
         if (datePieces == null) {
             return null;
         }
-        HebrewCalendarParser hc = new HebrewCalendarParser();
-
-        int hebrewDay;
-        int hebrewMonth = 0;
-        int hebrewYear;
 
         if (datePieces.length == 3) {
-            hebrewDay = Integer.parseInt(datePieces[0]);
-            hebrewMonth = HebrewMonth.getFromAbbreviation(datePieces[1]).ordinal() + 1;
-            hebrewYear = Integer.parseInt(datePieces[2]);
+            return parseHebrewDayMonthYear(datePieces);
         } else if (datePieces.length == 2) {
-            hebrewMonth = HebrewMonth.getFromAbbreviation(datePieces[0]).ordinal() + 1;
-            hebrewYear = Integer.parseInt(datePieces[1]);
-            switch (pref) {
-                case FAVOR_EARLIEST:
-                    hebrewDay = 1;
-                    break;
-                case FAVOR_LATEST:
-                    hebrewDay = hc.getMonthLength(hebrewYear, hebrewMonth);
-                    break;
-                case FAVOR_MIDPOINT:
-                    hebrewDay = hc.getMonthLength(hebrewYear, hebrewMonth) / 2;
-                    break;
-                case PRECISE:
-                    hebrewDay = 1;
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unexpected value for imprecise date preference: " + pref);
-            }
+            return parseHebrewMonthYear(pref, datePieces);
         } else if (datePieces.length == 1) {
-            hebrewYear = Integer.parseInt(datePieces[0]);
-            switch (pref) {
-                case FAVOR_EARLIEST:
-                    hebrewMonth = 1;
-                    hebrewDay = 1;
-                    break;
-                case FAVOR_LATEST:
-                    hebrewMonth = HebrewMonth.values().length;
-                    hebrewDay = hc.getMonthLength(hebrewYear, hebrewMonth);
-                    break;
-                case FAVOR_MIDPOINT:
-                    hebrewMonth = HebrewMonth.values().length / 2;
-                    hebrewDay = hc.getMonthLength(hebrewYear, hebrewMonth) / 2;
-                    break;
-                case PRECISE:
-                    hebrewMonth = 1;
-                    hebrewDay = 1;
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unexpected value for imprecise date preference: " + pref);
-            }
+            return parseHebrewYearOnly(pref, datePieces);
         } else {
             return null;
         }
 
-        if (hebrewMonth == 0) {
-            // Didn't find a matching month abbreviation
-            return null;
-        }
-        return hc.convertHebrewDateToGregorian(hebrewYear, HebrewMonth.getFrom1BasedNumber(hebrewMonth).getGedcomAbbrev(),
-                hebrewDay);
     }
 
     /**
@@ -346,7 +345,7 @@ public class DateParser {
      * @param dateString
      *            the date string. Assumed to have had any BC (or similar) era suffix removed already, so the string is assumed to
      *            end in a year.
-     * @return the date, resolved to a gregorian date
+     * @return the date, resolved to a Gregorian date
      */
     String resolveEnglishCalendarSwitch(String dateString) {
         if (!PATTERN_ENDS_IN_DOUBLE_ENTRY_YEAR.matcher(dateString).matches()) {
@@ -416,12 +415,24 @@ public class DateParser {
     }
 
     /**
+     * @param frenchRepublicanDateString
+     * @param pref
+     *            preference on how to handle imprecise dates - return the earliest day of the month, the latest, the midpoint?
+     * @return the preferred date based on the string supplied, or null if no date could be determined
+     */
+    private Date getPreferredDateFromFrenchRepublicanRangeOrPeriod(String frenchRepublicanDateString,
+            ImpreciseDatePreference pref) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
      * Get the preferred date from a range or period, for Hebrew dates
      * 
      * @param hebrewDateString
      *            the Hebrew date string
      * @param pref
-     *            the preferred method of handling the range
+     *            preference on how to handle imprecise dates - return the earliest day of the month, the latest, the midpoint?
      * @return the date, or null if no date could be parsed from the data
      */
     private Date getPreferredDateFromHebrewRangeOrPeriod(String hebrewDateString, ImpreciseDatePreference pref) {
@@ -601,6 +612,138 @@ public class DateParser {
     }
 
     /**
+     * Convert a French Republican date string (in proper GEDCOM format) to a (Gregorian) java.util.Date.
+     * 
+     * @param frenchRepublicanDateString
+     *            the French Republican date in GEDCOM spec format - see DATE_FREN and MONTH_FREN in the spec. Could be a single
+     *            date, an approximate date, a date range, or a date period.
+     * @param pref
+     * @return the Gregorian date that represents the French Republican date supplied
+     */
+    private Date parseFrenchRepublican(String frenchRepublicanDateString, ImpreciseDatePreference pref) {
+        if (PATTERN_TWO_DATES.matcher(frenchRepublicanDateString).matches()) {
+            return getPreferredDateFromFrenchRepublicanRangeOrPeriod(frenchRepublicanDateString, pref);
+        }
+        return parseFrenchRepublicanSingleDate(frenchRepublicanDateString, pref);
+    }
+
+    /**
+     * Get the date from a French Republican date string when the string is formatted with a year, month, and day
+     * 
+     * @param datePieces
+     *            3-element array with the day, month, and year (in that order).
+     * 
+     * @return the date found, if any, or null if no date could be extracted
+     */
+    private Date parseFrenchRepublicanDayMonthYear(String[] datePieces) {
+        FrenchRepublicanCalendarParser frc = new FrenchRepublicanCalendarParser();
+        int frYear = Integer.parseInt(datePieces[2]);
+        FrenchRepublicanMonth frMonth = FrenchRepublicanMonth.getFromGedcomAbbrev(datePieces[1]);
+        if (frMonth == null) {
+            return null;
+        }
+        int frDay = Integer.parseInt(datePieces[0]);
+
+        return frc.convertFrenchRepublicanDateToGregorian(frYear, frMonth.getGedcomAbbrev(), frDay);
+    }
+
+    /**
+     * Get the date from a French Republican date string when the string is formatted with a year and month but no day
+     * 
+     * @param datePieces
+     *            2-element array with month and year (in that order)
+     * @param pref
+     *            preference on how to handle imprecise dates, like this one - return the earliest day of the month, the latest, the
+     *            midpoint?
+     * @return the date found, if any, or null if no date could be extracted
+     */
+    private Date parseFrenchRepublicanMonthYear(String[] datePieces, ImpreciseDatePreference pref) {
+        FrenchRepublicanCalendarParser frc = new FrenchRepublicanCalendarParser();
+        int frYear = Integer.parseInt(datePieces[1]);
+        FrenchRepublicanMonth frMonth = FrenchRepublicanMonth.getFromGedcomAbbrev(datePieces[0]);
+        if (frMonth == null) {
+            return null;
+        }
+        int frDay;
+        switch (pref) {
+            case FAVOR_EARLIEST:
+                frDay = 1;
+                break;
+            case FAVOR_LATEST:
+                if (frMonth == FrenchRepublicanMonth.JOUR_COMPLEMENTAIRS) {
+                    if (frc.isFrenchLeapYearRomme(frYear)) {
+                        frDay = 6;
+                    } else {
+                        frDay = 5;
+                    }
+                } else {
+                    frDay = 30;
+                }
+                break;
+            case FAVOR_MIDPOINT:
+                if (frMonth == FrenchRepublicanMonth.JOUR_COMPLEMENTAIRS) {
+                    if (frc.isFrenchLeapYearRomme(frYear)) {
+                        frDay = 3;
+                    } else {
+                        frDay = 2;
+                    }
+                } else {
+                    frDay = 15;
+                }
+                break;
+            case PRECISE:
+                frDay = 1;
+                break;
+            default:
+                throw new IllegalArgumentException("Unexpected value for imprecise date preference: " + pref);
+        }
+
+        return frc.convertFrenchRepublicanDateToGregorian(frYear, frMonth.getGedcomAbbrev(), frDay);
+    }
+
+    /**
+     * Get the date from a French Republican date string when the string is formatted with a year but no month or day
+     * 
+     * @param datePieces
+     *            1-element array containing the year
+     * @param pref
+     *            preference on how to handle imprecise dates, like this one - return the earliest day of the month, the latest, the
+     *            midpoint?
+     * @return the date found, if any, or null if no date could be extracted
+     */
+    private Date parseFrenchRepublicanYearOnly(String[] datePieces, ImpreciseDatePreference pref) {
+        FrenchRepublicanCalendarParser frc = new FrenchRepublicanCalendarParser();
+        int frYear = Integer.parseInt(datePieces[0]);
+        int frDay;
+        FrenchRepublicanMonth frMonth = null;
+        switch (pref) {
+            case FAVOR_EARLIEST:
+                frMonth = FrenchRepublicanMonth.VENDEMIAIRE;
+                frDay = 1;
+                break;
+            case FAVOR_LATEST:
+                frMonth = FrenchRepublicanMonth.JOUR_COMPLEMENTAIRS;
+                if (frc.isFrenchLeapYearRomme(frYear)) {
+                    frDay = 6;
+                } else {
+                    frDay = 5;
+                }
+                break;
+            case FAVOR_MIDPOINT:
+                frMonth = FrenchRepublicanMonth.GERMINAL;
+                frDay = 1;
+                break;
+            case PRECISE:
+                frMonth = FrenchRepublicanMonth.VENDEMIAIRE;
+                frDay = 1;
+                break;
+            default:
+                throw new IllegalArgumentException("Unexpected value for imprecise date preference: " + pref);
+        }
+        return frc.convertFrenchRepublicanDateToGregorian(frYear, frMonth.getGedcomAbbrev(), frDay);
+    }
+
+    /**
      * Parse a Gregorian or Julian date string
      * 
      * @param dateString
@@ -629,19 +772,121 @@ public class DateParser {
     }
 
     /**
-     * Convert a Hebrew date string (in proper GEDCOM format) to a (gregorian) java.util.Date.
+     * Convert a Hebrew date string (in proper GEDCOM format) to a (Gregorian) java.util.Date.
      * 
      * @param hebrewDateString
-     *            the hebrew date in GEDCOM spec format - see DATE_HEBR and MONTH_HEBR in the spec. Could be a single date, an
+     *            the Hebrew date in GEDCOM spec format - see DATE_HEBR and MONTH_HEBR in the spec. Could be a single date, an
      *            approximate date, a date range, or a date period.
      * @param pref
-     * @return the gregorian date that represents the hebrew date supplied
+     * @return the Gregorian date that represents the Hebrew date supplied
      */
     private Date parseHebrew(String hebrewDateString, ImpreciseDatePreference pref) {
         if (PATTERN_TWO_DATES.matcher(hebrewDateString).matches()) {
             return getPreferredDateFromHebrewRangeOrPeriod(hebrewDateString, pref);
         }
         return parseHebrewSingleDate(hebrewDateString, pref);
+    }
+
+    /**
+     * Get the date from a Hebrew date string when the string is formatted with a year, month, and day
+     * 
+     * @param datePieces
+     *            3-element array with the day, month, and year (in that order).
+     * 
+     * @return the date found, if any, or null if no date could be extracted
+     */
+    private Date parseHebrewDayMonthYear(String[] datePieces) {
+        {
+            HebrewCalendarParser hc = new HebrewCalendarParser();
+
+            int hebrewDay = Integer.parseInt(datePieces[0]);
+            HebrewMonth hebrewMonth = HebrewMonth.getFromAbbreviation(datePieces[1]);
+            int hebrewYear = Integer.parseInt(datePieces[2]);
+            if (hebrewMonth == null) {
+                // Didn't find a matching month abbreviation
+                return null;
+            }
+            return hc.convertHebrewDateToGregorian(hebrewYear, hebrewMonth.getGedcomAbbrev(), hebrewDay);
+        }
+    }
+
+    /**
+     * Get the date from a Hebrew date string when the string is formatted with a year and month but no day
+     * 
+     * @param datePieces
+     *            2-element array with month and year (in that order)
+     * @param pref
+     *            preference on how to handle imprecise dates, like this one - return the earliest day of the month, the latest, the
+     *            midpoint?
+     * @return the date found, if any, or null if no date could be extracted
+     */
+    private Date parseHebrewMonthYear(ImpreciseDatePreference pref, String[] datePieces) {
+        {
+            HebrewCalendarParser hc = new HebrewCalendarParser();
+            int hebrewYear = Integer.parseInt(datePieces[1]);
+            HebrewMonth hebrewMonth = HebrewMonth.getFromAbbreviation(datePieces[0]);
+            if (hebrewMonth == null) {
+                return null;
+            }
+            int hebrewDay;
+            switch (pref) {
+                case FAVOR_EARLIEST:
+                    hebrewDay = 1;
+                    break;
+                case FAVOR_LATEST:
+                    hebrewDay = hc.getMonthLength(hebrewYear, hebrewMonth);
+                    break;
+                case FAVOR_MIDPOINT:
+                    hebrewDay = hc.getMonthLength(hebrewYear, hebrewMonth) / 2;
+                    break;
+                case PRECISE:
+                    hebrewDay = 1;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unexpected value for imprecise date preference: " + pref);
+            }
+            return hc.convertHebrewDateToGregorian(hebrewYear, hebrewMonth.getGedcomAbbrev(), hebrewDay);
+        }
+    }
+
+    /**
+     * Get the date from a Hebrew date string when the string is formatted with a year but no month or day
+     * 
+     * @param datePieces
+     *            1-element array containing the year
+     * @param pref
+     *            preference on how to handle imprecise dates, like this one - return the earliest day of the month, the latest, the
+     *            midpoint?
+     * @return the date found, if any, or null if no date could be extracted
+     */
+    private Date parseHebrewYearOnly(ImpreciseDatePreference pref, String[] datePieces) {
+        {
+            HebrewCalendarParser hc = new HebrewCalendarParser();
+            int hebrewYear = Integer.parseInt(datePieces[0]);
+            HebrewMonth hebrewMonth;
+            int hebrewDay;
+            switch (pref) {
+                case FAVOR_EARLIEST:
+                    hebrewMonth = HebrewMonth.TISHREI;
+                    hebrewDay = 1;
+                    break;
+                case FAVOR_LATEST:
+                    hebrewMonth = HebrewMonth.ELUL;
+                    hebrewDay = hc.getMonthLength(hebrewYear, hebrewMonth);
+                    break;
+                case FAVOR_MIDPOINT:
+                    hebrewMonth = HebrewMonth.ADAR;
+                    hebrewDay = hc.getMonthLength(hebrewYear, hebrewMonth) / 2;
+                    break;
+                case PRECISE:
+                    hebrewMonth = HebrewMonth.TISHREI;
+                    hebrewDay = 1;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unexpected value for imprecise date preference: " + pref);
+            }
+            return hc.convertHebrewDateToGregorian(hebrewYear, hebrewMonth.getGedcomAbbrev(), hebrewDay);
+        }
     }
 
     /**
