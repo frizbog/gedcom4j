@@ -2,6 +2,19 @@
 GEDCOM4J RELEASE NOTES
 ==============================
 
+22 Jul 2016 - v3.0.1
+====================
+v3.0.1 addresses a few bugs and adds date string parsing.
+
+Issue #114 - An enhancement providing parsing support for textual date strings, including ranges, periods, amd imprecise dates from the Gregorian, Julian, Hebrew, and French Republican calendars.
+
+Issue #115 - Fixed a bug where Individual.getAncestors() and Individual.getDescendants() could infinitely recurse if cyclical relationships exist in the model (e.g. people being their own ancestors).
+
+Issue #116 - FamilyParser was creating an validation finding if a Family record has no children.
+
+Issue #117 - The validation framework was creating an ERROR level finding when multimedia objects referencing FILEs did not also include a FORMat tag.  These are often omitted and implied by filename conventions, so the ERROR was relaxed to a WARNING. 
+
+
 15 Jul 2016 - v3.0.0
 ====================
 v3.0.0 is a major release. Most existing code using earlier versions of gedcom4j will need significant modification, primarily around the object model.
