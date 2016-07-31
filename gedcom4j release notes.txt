@@ -2,6 +2,13 @@
 GEDCOM4J RELEASE NOTES
 ==============================
 
+30 Jul 2016 - v3.0.2
+====================
+v3.0.2 is a minor fix release
+
+Issue #118 - RelationshipCalculator was prone to NullPointerExceptions for Individuals with a null value for their sex property.
+
+
 22 Jul 2016 - v3.0.1
 ====================
 v3.0.1 addresses a few bugs and adds date string parsing.
