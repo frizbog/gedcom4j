@@ -84,8 +84,7 @@ public class Relationship implements Comparable<Relationship> {
      * 
      * @param other
      *            the Relationship we are comparing this one to
-     * @return -1 if this relationship is simpler than the other, 0 if equally complex, and 1 if the other one is longer
-     *         (or null)
+     * @return -1 if this relationship is simpler than the other, 0 if equally complex, and 1 if the other one is longer (or null)
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(Relationship other) {
@@ -213,7 +212,7 @@ public class Relationship implements Comparable<Relationship> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(64);
-        sb.append("<");
+        sb.append("[");
         boolean first = true;
         for (SimpleRelationship sr : chain) {
             if (!first) {
@@ -232,7 +231,7 @@ public class Relationship implements Comparable<Relationship> {
                 sb.append(sr.getIndividual2().getNames().get(0));
             }
         }
-        sb.append(">, ").append(chain.size()).append(" step(s)");
+        sb.append("], ").append(chain.size()).append(" step(s)");
         return sb.toString();
     }
 

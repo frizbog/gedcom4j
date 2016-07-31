@@ -37,24 +37,23 @@ import org.gedcom4j.model.*;
  * A class for calculating relationships between individuals.
  * </p>
  * <p>
- * Note that the idea of relationships between individuals can be a complex one. Sometimes people can have more than one
- * possible relationship between them, and the relationships between intermediates can be through marriage or blood or
- * adoption.
+ * Note that the idea of relationships between individuals can be a complex one. Sometimes people can have more than one possible
+ * relationship between them, and the relationships between intermediates can be through marriage or blood or adoption.
  * </p>
  * <p>
  * The relationships returned from this class do not have String names like "Father" or "Mother" for several reasons:
  * </p>
  * <ol>
- * <li>The String descriptions would need to be in a language, and I only know English and a <i>very</i> little German,
- * and I don't have the resources or knowledge to do a full internationalization into many languages.</li>
- * <li>There are matters of preference in string descriptions. For example, is my brother's grandson my "great-nephew"
- * or my "grand-nephew?" Does it include a space, a hyphen, or is it all rammed together?</li>
- * <li>Some users may care about step- relationships or adoptive relationships for their purposes, and others may not. A
- * string description could not serve both purposes simultaneously.</li>
+ * <li>The String descriptions would need to be in a language, and I only know English and a <i>very</i> little German, and I don't
+ * have the resources or knowledge to do a full internationalization into many languages.</li>
+ * <li>There are matters of preference in string descriptions. For example, is my brother's grandson my "great-nephew" or my
+ * "grand-nephew?" Does it include a space, a hyphen, or is it all rammed together?</li>
+ * <li>Some users may care about step- relationships or adoptive relationships for their purposes, and others may not. A string
+ * description could not serve both purposes simultaneously.</li>
  * </ol>
  * <p>
- * Ultimately, how the relationship is described is a presentation-layer concern, and as gedcom4j is a library with no
- * presentation layer, the descriptions are left to the consumer of the library.
+ * Ultimately, how the relationship is described is a presentation-layer concern, and as gedcom4j is a library with no presentation
+ * layer, the descriptions are left to the consumer of the library.
  * </p>
  * 
  * @author frizbog1
@@ -77,8 +76,8 @@ public class RelationshipCalculator {
     private List<Relationship> relationshipsFound;
 
     /**
-     * The current chain of relationships between individuals we're considering as we traverse the tree. Stated
-     * differently, how did we get from individual 1 to the person we're currently working with as we recurse?
+     * The current chain of relationships between individuals we're considering as we traverse the tree. Stated differently, how did
+     * we get from individual 1 to the person we're currently working with as we recurse?
      */
     private List<SimpleRelationship> currentChain;
 
@@ -89,16 +88,15 @@ public class RelationshipCalculator {
 
     /**
      * <p>
-     * Calculate the relationship(s) between two individuals, based on common ancestors (people with no common
-     * ancestors, either by blood, marriage, or adoption are considered unrelated). The relationships are then sorted by
-     * the number of "hops" between people, and the shortest relationship is found. Then, any relationship longer than
-     * that shortest one is removed from the result set, <code>relationshipsFound</code>.
+     * Calculate the relationship(s) between two individuals, based on common ancestors (people with no common ancestors, either by
+     * blood, marriage, or adoption are considered unrelated). The relationships are then sorted by the number of "hops" between
+     * people, and the shortest relationship is found. Then, any relationship longer than that shortest one is removed from the
+     * result set, <code>relationshipsFound</code>.
      * </p>
      * <p>
-     * Typical usage would be to instantiate a <code>RelationshipCalculator</code> object, call this method with the two
-     * people of interest, and then check the <code>relationshipsFound</code> collection to find the most direct
-     * relationship(s) between the individuals. If that collection is empty, either the people are not related or the
-     * two individuals are the same person.
+     * Typical usage would be to instantiate a <code>RelationshipCalculator</code> object, call this method with the two people of
+     * interest, and then check the <code>relationshipsFound</code> collection to find the most direct relationship(s) between the
+     * individuals. If that collection is empty, either the people are not related or the two individuals are the same person.
      * </p>
      * 
      * @param individual1
@@ -106,8 +104,7 @@ public class RelationshipCalculator {
      * @param individual2
      *            the second individual
      * @param simplified
-     *            should the list be reduced to a simplified form (for example, should Father of Father be collapsed to
-     *            Grandfather)
+     *            should the list be reduced to a simplified form (for example, should Father of Father be collapsed to Grandfather)
      */
     public void calculateRelationships(Individual individual1, Individual individual2, boolean simplified) {
 
@@ -181,19 +178,17 @@ public class RelationshipCalculator {
      * Collapse down two steps in a chain to a simpler form of it (for example, the son of a father is a brother).
      * </p>
      * <p>
-     * Algorithm: Look for two steps in a row with relationships <code>rel1</code> and <code>rel2</code>, describing 3
-     * people (A, B, and C). If person A is the <code>rel1</code> of person B, and person B is the <code>rel2</code> of
-     * person C, then A is the <code>newRel</code> C, C is the <code>newReverseRel</code> of A), and B drops out
-     * entirely.
+     * Algorithm: Look for two steps in a row with relationships <code>rel1</code> and <code>rel2</code>, describing 3 people (A, B,
+     * and C). If person A is the <code>rel1</code> of person B, and person B is the <code>rel2</code> of person C, then A is the
+     * <code>newRel</code> C, C is the <code>newReverseRel</code> of A), and B drops out entirely.
      * </p>
      * <p>
-     * Note that this method stops collapsing after the first collapse, or once the end of the chain is reached. This
-     * method should be called repeatedly to completely collapse the chain until no shortening is achieved.
+     * Note that this method stops collapsing after the first collapse, or once the end of the chain is reached. This method should
+     * be called repeatedly to completely collapse the chain until no shortening is achieved.
      * </p>
      * 
      * @param chain
-     *            the chain being collapsed. Assumed to already be of length 2 or greater. Will fail if shorter than
-     *            that.
+     *            the chain being collapsed. Assumed to already be of length 2 or greater. Will fail if shorter than that.
      * @param rel1
      *            relationship to look for between the first two people
      * @param rel2
@@ -224,8 +219,7 @@ public class RelationshipCalculator {
     }
 
     /**
-     * Check if the person being examined is the target person. If not, start looking through everyone that person is
-     * related to.
+     * Check if the person being examined is the target person. If not, start looking through everyone that person is related to.
      * 
      * @param personBeingExamined
      *            the person who is currently being examined
@@ -239,16 +233,14 @@ public class RelationshipCalculator {
             return;
         }
         /*
-         * Here I am deliberately using == and not equals(). Rationale: 1) In a given gedcom, there won't be two
-         * individuals who are exactly equal without being the same instance...the XREF's would ensure this. 2) Doing an
-         * equals() compare is a deep compare, including all its subcollections (notes, etc.), which aren't really what
-         * we're trying to do. We aren't looking for someone who evaluates the same as the person - we are looking FOR
-         * that exact person. == is a better fit.
+         * Here I am deliberately using == and not equals(). Rationale: 1) In a given gedcom, there won't be two individuals who are
+         * exactly equal without being the same instance...the XREF's would ensure this. 2) Doing an equals() compare is a deep
+         * compare, including all its subcollections (notes, etc.), which aren't really what we're trying to do. We aren't looking
+         * for someone who evaluates the same as the person - we are looking FOR that exact person. == is a better fit.
          */
         if (personBeingExamined == targetIndividual) { // NOPMD - deliberate use of ==
             /*
-             * We've found our target, so make a Relationship object out of the current chain and add it to our result
-             * set.
+             * We've found our target, so make a Relationship object out of the current chain and add it to our result set.
              */
             Relationship r = new Relationship(startingIndividual, targetIndividual, currentChain);
             relationshipsFound.add(r);
@@ -318,7 +310,9 @@ public class RelationshipCalculator {
         SimpleRelationship r = new SimpleRelationship();
         r.setIndividual1(personBeingExamined);
         r.setIndividual2(child);
-        if ("M".equals(child.getSex().getValue())) {
+        if (child.getSex() == null) {
+            r.setName(CHILD);
+        } else if ("M".equals(child.getSex().getValue())) {
             r.setName(SON);
         } else if ("F".equals(child.getSex().getValue())) {
             r.setName(DAUGHTER);
@@ -343,7 +337,9 @@ public class RelationshipCalculator {
         SimpleRelationship r = new SimpleRelationship();
         r.setIndividual1(personBeingExamined);
         r.setIndividual2(father);
-        if ("M".equals(personBeingExamined.getSex().getValue())) {
+        if (personBeingExamined.getSex() == null) {
+            r.setReverseName(CHILD);
+        } else if ("M".equals(personBeingExamined.getSex().getValue())) {
             r.setReverseName(SON);
         } else if ("F".equals(personBeingExamined.getSex().getValue())) {
             r.setReverseName(DAUGHTER);
@@ -386,7 +382,9 @@ public class RelationshipCalculator {
         SimpleRelationship r = new SimpleRelationship();
         r.setIndividual1(personBeingExamined);
         r.setIndividual2(mother);
-        if ("M".equals(personBeingExamined.getSex().getValue())) {
+        if (personBeingExamined.getSex() == null) {
+            r.setName(CHILD);
+        } else if ("M".equals(personBeingExamined.getSex().getValue())) {
             r.setReverseName(SON);
         } else if ("F".equals(personBeingExamined.getSex().getValue())) {
             r.setReverseName(DAUGHTER);
@@ -418,9 +416,9 @@ public class RelationshipCalculator {
     }
 
     /**
-     * Get the reverse of a given relationship, based on the gender of the original person. For example, if person A has
-     * a brother, the brother's relationship back to person A is either brother (if A is male), sister (if A is female),
-     * or sibling (if A's gender is unknown).
+     * Get the reverse of a given relationship, based on the gender of the original person. For example, if person A has a brother,
+     * the brother's relationship back to person A is either brother (if A is male), sister (if A is female), or sibling (if A's
+     * gender is unknown).
      * 
      * @param relationship
      *            original relationship from person to someone else
@@ -429,6 +427,9 @@ public class RelationshipCalculator {
      * @return what the relationship would be back to the original person
      */
     private RelationshipName getReverseRelationship(RelationshipName relationship, StringWithCustomTags sex) {
+        if (sex == null) {
+            return relationship.reverseForUnknown;
+        }
         if ("M".equals(sex.getValue())) {
             return relationship.reverseForMale;
         }
@@ -439,8 +440,8 @@ public class RelationshipCalculator {
     }
 
     /**
-     * Go through pairs of steps in the chain, seeing if they can be collapsed. Only basic, immediate family
-     * relationships are collapsed (like, "my father's son" is "my brother").
+     * Go through pairs of steps in the chain, seeing if they can be collapsed. Only basic, immediate family relationships are
+     * collapsed (like, "my father's son" is "my brother").
      * 
      * @param relationship
      *            the relationship being simplified

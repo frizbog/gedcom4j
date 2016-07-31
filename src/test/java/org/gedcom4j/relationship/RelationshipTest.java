@@ -103,7 +103,7 @@ public class RelationshipTest {
     @Test
     public void testToString() {
         Relationship r = new Relationship();
-        assertEquals("<>, 0 step(s)", r.toString());
+        assertEquals("[], 0 step(s)", r.toString());
 
         r.setIndividual1(new Individual());
         r.setIndividual2(new Individual());
@@ -114,7 +114,7 @@ public class RelationshipTest {
         sr.setIndividual2(r.getIndividual2());
         r.getChain().add(sr);
 
-        assertEquals("<Unknown's FATHER Unknown>, 1 step(s)", r.toString());
+        assertEquals("[Unknown's FATHER Unknown], 1 step(s)", r.toString());
     }
 
 }
