@@ -75,7 +75,6 @@ public class AncestryCalculator {
      * @return the set of all ancestors for the individual, and all their spouses
      */
     public Set<Individual> getExtendedAncestry(Individual individual) {
-        System.out.println(">getExtendedAncestry(" + individual + ")");
         Set<Individual> result = new HashSet<Individual>();
 
         addIndividualAndFamilies(result, individual);

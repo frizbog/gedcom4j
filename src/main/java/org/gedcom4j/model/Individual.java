@@ -1145,18 +1145,15 @@ public class Individual extends AbstractElement {
         }
         if (familiesWhereSpouse != null) {
             for (FamilySpouse f : familiesWhereSpouse) {
-                sb.append(", spouse of ");
                 Family fam = f.getFamily();
                 if (fam.getHusband() == this) {
-                    if (fam.getWife() == null) {
-                        sb.append("unknown");
-                    } else {
+                    if (fam.getWife() != null) {
+                        sb.append(", spouse of ");
                         sb.append(fam.getWife().getFormattedName());
                     }
                 } else {
-                    if (fam.getHusband() == null) {
-                        sb.append("unknown");
-                    } else {
+                    if (fam.getHusband() != null) {
+                        sb.append(", spouse of ");
                         sb.append(fam.getHusband().getFormattedName());
                     }
                 }
