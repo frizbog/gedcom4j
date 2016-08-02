@@ -43,21 +43,21 @@ import org.gedcom4j.model.Individual;
 public class AncestryCalculator {
 
     /**
-     * A flag for internal use to track whether the lowest common ancestor routine added any common ancestors to the
-     * result set while it was recursing around
+     * A flag for internal use to track whether the lowest common ancestor routine added any common ancestors to the result set
+     * while it was recursing around
      */
     private boolean addedAnyCommonAncestors;
 
     /**
-     * The set of people who have been checked already to see if they are an ancestor of the first individual. This is
-     * to keep things efficient and to prevent infinite recursion and looping.
+     * The set of people who have been checked already to see if they are an ancestor of the first individual. This is to keep
+     * things efficient and to prevent infinite recursion and looping.
      */
     private Set<Individual> checkedAlready;
 
     /**
-     * The "target list", or set of ancestors for the first individual. As we traverse the tree up through the second
-     * individual's ancestors, we will check each one against this set (hence, "target set") for a match. The first
-     * ancestor we find of individual 2 that is also some ancestor of individual 1 is our lowest common ancestor.
+     * The "target list", or set of ancestors for the first individual. As we traverse the tree up through the second individual's
+     * ancestors, we will check each one against this set (hence, "target set") for a match. The first ancestor we find of
+     * individual 2 that is also some ancestor of individual 1 is our lowest common ancestor.
      */
     private Set<Individual> targetList;
 
@@ -67,23 +67,19 @@ public class AncestryCalculator {
     private int genCount;
 
     /**
-     * Get the "extended ancestry" of an individual. This is defined (for this method's purposes) as the individual's
-     * parents (and step-parents), recursively.
+     * Get the "extended ancestry" of an individual. This is defined (for this method's purposes) as the individual's parents (and
+     * step-parents), recursively. Should not include the individual themselves.
      * 
      * @param individual
      *            the individual whose extended ancestry is desired
      * @return the set of all ancestors for the individual, and all their spouses
      */
     public Set<Individual> getExtendedAncestry(Individual individual) {
+        System.out.println(">getExtendedAncestry(" + individual + ")");
         Set<Individual> result = new HashSet<Individual>();
 
-        // Get every family this individual was a child of
-        if (individual.getFamiliesWhereChild() != null) {
-            for (FamilyChild fc : individual.getFamiliesWhereChild()) {
-                addFatherAndAllHisWives(result, fc);
-                addMotherAndAllHerHusbands(result, fc);
-            }
-        }
+        addIndividualAndFamilies(result, individual);
+        result.remove(individual);
 
         return result;
     }
@@ -96,8 +92,8 @@ public class AncestryCalculator {
      * @param ancestor
      *            the ancestor of the descendant
      * @return the number of generations separating descendant from ancestor. A parent-child relationship would be 1; a
-     *         grandparent-child relationship would be 2. This method should always return a positive integer, or throw
-     *         an exception.
+     *         grandparent-child relationship would be 2. This method should always return a positive integer, or throw an
+     *         exception.
      */
     public int getGenerationCount(Individual descendant, Individual ancestor) {
         genCount = 0;
@@ -139,19 +135,33 @@ public class AncestryCalculator {
      */
     private void addFatherAndAllHisWives(Set<Individual> result, FamilyChild fc) {
         Individual dad = fc.getFamily().getHusband();
-        if (dad != null && !result.contains(dad)) {
-            result.add(dad);
+        if (dad != null) {
             if (dad.getFamiliesWhereSpouse() != null) {
                 for (FamilySpouse fs : dad.getFamiliesWhereSpouse()) {
                     Individual dadsWife = fs.getFamily().getWife();
-                    if (dadsWife != null) {
-                        result.add(dadsWife);
-                        result.addAll(getExtendedAncestry(dadsWife));
-                    }
+                    addIndividualAndFamilies(result, dadsWife);
                 }
             }
-            // And include his extended ancestry as well (recursively)
-            result.addAll(getExtendedAncestry(dad));
+        }
+        // And include his extended ancestry as well (recursively)
+        addIndividualAndFamilies(result, dad);
+    }
+
+    /**
+     * @param result
+     * @param individual
+     */
+    private void addIndividualAndFamilies(Set<Individual> result, Individual individual) {
+        // Get every family this individual was a child of
+        if (individual == null || result.contains(individual)) {
+            return;
+        }
+        result.add(individual);
+        if (individual.getFamiliesWhereChild() != null) {
+            for (FamilyChild fc : individual.getFamiliesWhereChild()) {
+                addFatherAndAllHisWives(result, fc);
+                addMotherAndAllHerHusbands(result, fc);
+            }
         }
     }
 
@@ -160,14 +170,13 @@ public class AncestryCalculator {
      * Get a set of common ancestors between a specific individual and a person who we checked earlier.
      * </p>
      * <p>
-     * The other person's ancestry is assumed to be in the field <code>ancestorsOfIndividual1</code>, which should be
-     * populated prior to the first call to this recursive method.
+     * The other person's ancestry is assumed to be in the field <code>ancestorsOfIndividual1</code>, which should be populated
+     * prior to the first call to this recursive method.
      * </p>
      * <p>
-     * As this method executes and recurses, it tracks who has already been checked in the field
-     * <code>checkedAlready</code>. As people are checked, they are added to this set to prevent them from being checked
-     * multiple times and causing infinite recursion and looping. This Set should be cleared and/or pre-populated prior
-     * to the first call to this recursive method.
+     * As this method executes and recurses, it tracks who has already been checked in the field <code>checkedAlready</code>. As
+     * people are checked, they are added to this set to prevent them from being checked multiple times and causing infinite
+     * recursion and looping. This Set should be cleared and/or pre-populated prior to the first call to this recursive method.
      * </p>
      * 
      * @param individual
@@ -229,20 +238,18 @@ public class AncestryCalculator {
      */
     private void addMotherAndAllHerHusbands(Set<Individual> result, FamilyChild fc) {
         Individual mom = fc.getFamily().getWife();
-        if (mom != null && !result.contains(mom)) {
-            result.add(mom);
+        if (mom != null) {
             if (mom.getFamiliesWhereSpouse() != null) {
                 for (FamilySpouse fs : mom.getFamiliesWhereSpouse()) {
                     Individual momsHusband = fs.getFamily().getHusband();
                     if (momsHusband != null) {
-                        result.add(momsHusband);
-                        result.addAll(getExtendedAncestry(momsHusband));
+                        addIndividualAndFamilies(result, momsHusband);
                     }
                 }
             }
-            // And include her extended ancestry as well (recursively)
-            result.addAll(getExtendedAncestry(mom));
         }
+        // And include her extended ancestry as well (recursively)
+        addIndividualAndFamilies(result, mom);
     }
 
     /**
@@ -279,7 +286,8 @@ public class AncestryCalculator {
                     // Parent's spouse is in common, add to result set
                     set.add(spouse);
                     addedAnyCommonAncestors = true;
-                } else if (!checkedAlready.contains(spouse) && spouse.getFamiliesWhereChild() != null && !spouse.getFamiliesWhereChild().isEmpty()) {
+                } else if (!checkedAlready.contains(spouse) && spouse.getFamiliesWhereChild() != null && !spouse
+                        .getFamiliesWhereChild().isEmpty()) {
                     Set<Individual> s = new HashSet<Individual>();
                     addLowestCommonAncestorsToSet(spouse, s, level + 1);
                     if (!s.isEmpty()) {
@@ -328,8 +336,8 @@ public class AncestryCalculator {
 
     /**
      * A recursive method for counting generations between a specific person and an ancestor. Used as the workhorse for
-     * {@link #getGenerationCount(Individual, Individual)}. Upon return, {@link #genCount} will equal the number of
-     * generations between <code>person</code> and <code>ancestor</code>
+     * {@link #getGenerationCount(Individual, Individual)}. Upon return, {@link #genCount} will equal the number of generations
+     * between <code>person</code> and <code>ancestor</code>
      * 
      * @param person
      *            the person currently being examined
