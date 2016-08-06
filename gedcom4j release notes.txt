@@ -2,6 +2,15 @@
 GEDCOM4J RELEASE NOTES
 ==============================
 
+06 Aug 2016 - v3.0.3
+====================
+v3.0.3 is a minor fix release
+
+Issue #120 - AncestryCalculator class was susceptible to StackOverflowErrors and infinite recursion when the gedcom file contained a cyclical ancestral relationship.
+
+Issue #121 - Individual.toString() showed "spouse of unknown" where there may not be a spouse.  It now shows nothing when there is no spouse to show.
+
+
 30 Jul 2016 - v3.0.2
 ====================
 v3.0.2 is a minor fix release
