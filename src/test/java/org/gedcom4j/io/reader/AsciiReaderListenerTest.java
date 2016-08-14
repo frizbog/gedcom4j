@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.io.reader;
 
+import org.gedcom4j.io.writer.LineTerminator;
+
 /**
  * Test getting listener notifications from {@link AsciiReader}. See {@link AbstractReaderListenerTest} for the real
  * code that does the testing.
@@ -38,7 +40,7 @@ public class AsciiReaderListenerTest extends AbstractReaderListenerTest {
      * Constructor
      */
     public AsciiReaderListenerTest() {
-        super("sample/willis-ascii.ged", 20036, 587409, 41);
+        super("sample/willis-ascii.ged", 20036, LineTerminator.getDefaultLineTerminator() == LineTerminator.CRLF ? 607444 :587409, 41);
     }
 
 }

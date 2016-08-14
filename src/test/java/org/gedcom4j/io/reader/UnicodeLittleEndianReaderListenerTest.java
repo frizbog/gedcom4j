@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.io.reader;
 
+import org.gedcom4j.io.writer.LineTerminator;
+
 /**
  * Test getting listener notifications from {@link UnicodeLittleEndianReader}. See {@link AbstractReaderListenerTest}
  * for the real code that does the testing.
@@ -38,7 +40,7 @@ public class UnicodeLittleEndianReaderListenerTest extends AbstractReaderListene
      * Constructor
      */
     public UnicodeLittleEndianReaderListenerTest() {
-        super("sample/willis-unicode-littleendian.ged", 20036, 1174856, 41);
+        super("sample/willis-unicode-littleendian.ged", 20036, LineTerminator.getDefaultLineTerminator() == LineTerminator.CRLF ? 1174856 : 1174856, 41);
     }
 
 }

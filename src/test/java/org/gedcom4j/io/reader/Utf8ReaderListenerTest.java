@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.io.reader;
 
+import org.gedcom4j.io.writer.LineTerminator;
+
 /**
  * Test getting listener notifications from {@link Utf8Reader}. See {@link AbstractReaderListenerTest} for the real code
  * that does the testing.
@@ -38,7 +40,7 @@ public class Utf8ReaderListenerTest extends AbstractReaderListenerTest {
      * Constructor
      */
     public Utf8ReaderListenerTest() {
-        super("sample/willis.ged", 23553, 686101, 48);
+        super("sample/willis.ged", 23553, LineTerminator.getDefaultLineTerminator() == LineTerminator.CRLF ? 686101 : 686101, 48);
     }
 
 }
