@@ -74,8 +74,8 @@ public class Issue81ReaderTest {
     }
 
     /**
-     * Test for proper concatenation of strings in CONC tags when the diacritic appears at end of line. The word in
-     * question is &quot;arrêté&quot;, which is on the fourth line (third CONC line) of the note.
+     * Test for proper concatenation of strings in CONC tags when the diacritic appears at end of line. The word in question is
+     * &quot;arr\u00EAt\u00E9&quot;, which is on the fourth line (third CONC line) of the note.
      */
     @Test
     public void testConcDiacriticAtEndOfLine() {
@@ -87,40 +87,45 @@ public class Issue81ReaderTest {
         Note note = e.getNotes().get(0);
         assertEquals(6, note.getLines().size());
 
-        assertEquals("Sa grand-mère l'a nourrie car sa mère était placée nourrice dans une famille de riches. "
-                + "Son oncle ( une tante en réalité Agueda), allaité avec elle, est décédé ( voir acte). "
-                + "Elle croyait qu'il était mort à cause d'elle, en lui prenant son lait. "
-                + "Pendant la Révolution espagnole du 18/7/1936 au 1/4/1939, elle a fuit le village, par le seul pont, "
-                + "surveillé par les Franquistes, elle a traversé l'Espagne, avec \"Juliette tenue par la main et "
-                + "Victoire dans les bras ou au sein\" je crois ( en Espagne les enfants étaient allaités 3 ans d'après "
-                + "la fille d'Ascension) jusqu'à la frontière française. Elle a été \" bien accueillie \" par les "
-                + "Français à la descente du train et placée dans les camps des réfugiés espagnols, à Verdelais "
-                + "le 3/2/1939 pendant 10 mois, Oloron, 2 mois,Gurs 1 mois, Agde, 4 mois, puis à Noé près de "
-                + "Toulouse du 17/2/1941 à septembre 1944 ( lettre écrite par mémé pour Victoire), elle y retrouve " + "son mari qui est "
+        assertEquals("Sa grand-m\u00E8re l'a nourrie car sa m\u00E8re \u00E9tait plac\u00E9e nourrice dans une famille de riches. "
+                + "Son oncle ( une tante en r\u00E9alit\u00E9 Agueda), allait\u00E9 avec elle, est d\u00E9c\u00E9d\u00E9 ( voir acte). "
+                + "Elle croyait qu'il \u00E9tait mort \u00E0 cause d'elle, en lui prenant son lait. "
+                + "Pendant la R\u00E9volution espagnole du 18/7/1936 au 1/4/1939, elle a fuit le village, par le seul pont, "
+                + "surveill\u00E9 par les Franquistes, elle a travers\u00E9 l'Espagne, avec \"Juliette tenue par la main et "
+                + "Victoire dans les bras ou au sein\" je crois ( en Espagne les enfants \u00E9taient allait\u00E9s 3 ans d'apr\u00E8s "
+                + "la fille d'Ascension) jusqu'\u00E0 la fronti\u00E8re fran\u00E7aise. Elle a \u00E9t\u00E9 \" bien accueillie \" par les "
+                + "Fran\u00E7ais \u00E0 la descente du train et plac\u00E9e dans les camps des r\u00E9fugi\u00E9s espagnols, \u00E0 Verdelais "
+                + "le 3/2/1939 pendant 10 mois, Oloron, 2 mois,Gurs 1 mois, Agde, 4 mois, puis \u00E0 No\u00E9 pr\u00E8s de "
+                + "Toulouse du 17/2/1941 \u00E0 septembre 1944 ( lettre \u00E9crite par m\u00E9m\u00E9 pour Victoire), elle y retrouve "
+                + "son mari qui est "
                 /*
                  * This word below is the one that was split between a diacritical and the letter it modifies
                  */
-                + "arrêté "
+                + "arr\u00EAt\u00E9 "
                 /*
                  * This word above is the one that was split between a diacritical and the letter it modifies
                  */
-                + "et déporté. Les femmes juives étaient déportées aussi. Alexandre naît, "
-                + "son prénom vient du bar placé près du camp, elle va travailler dans les fermes voisines, "
-                + "Alexandre et ses sœurs sont gardés au camp, par les infirmières françaises. De là, ils iront "
-                + "à Boucau rejoindre d'autres Espagnols à \"la Petite Espagne\" près du Pont Sémard. Sa cousine, "
-                + "venue du village, restera à Fonsorbes avec son mari, copain de guerre de Téofilo. A Boucau, elle "
-                + "retrouvera Ascencion. Vincent naîtra après le retour de son père prisonnier à Dachau. Daniel sera "
-                + "conçu au retour  du sanatorium, dans lequel son père avait été soigné. ", note.getLines().get(0));
+                + "et d\u00E9port\u00E9. Les femmes juives \u00E9taient d\u00E9port\u00E9es aussi. Alexandre na\u00EEt, "
+                + "son pr\u00E9nom vient du bar plac\u00E9 pr\u00E8s du camp, elle va travailler dans les fermes voisines, "
+                + "Alexandre et ses s\u0153urs sont gard\u00E9s au camp, par les infirmi\u00E8res fran\u00E7aises. De l\u00E0, ils iront "
+                + "\u00E0 Boucau rejoindre d'autres Espagnols \u00E0 \"la Petite Espagne\" pr\u00E8s du Pont S\u00E9mard. Sa cousine, "
+                + "venue du village, restera \u00E0 Fonsorbes avec son mari, copain de guerre de T\u00E9ofilo. A Boucau, elle "
+                + "retrouvera Ascencion. Vincent na\u00EEtra apr\u00E8s le retour de son p\u00E8re prisonnier \u00E0 Dachau. Daniel sera "
+                + "con\u00E7u au retour  du sanatorium, dans lequel son p\u00E8re avait \u00E9t\u00E9 soign\u00E9. ", note
+                        .getLines().get(0));
 
-        assertEquals("Mémé m'a raconté son histoire, le soir en faisant la vaisselle. Il ne faut pas oublier. "
-                + "C'est l'histoire de la famille Martin, mais aussi celle de toutes les révolutions, car des "
-                + "gens ont voulu, que leurs enfants vivent mieux, qu'ils échappent à la misère. On doit les "
-                + "respecter et les aimer pour cela, malgré leurs défauts et leurs différences. Nicole", note.getLines().get(1));
+        assertEquals("M\u00E9m\u00E9 m'a racont\u00E9 son histoire, le soir en faisant la vaisselle. Il ne faut pas oublier. "
+                + "C'est l'histoire de la famille Martin, mais aussi celle de toutes les r\u00E9volutions, car des "
+                + "gens ont voulu, que leurs enfants vivent mieux, qu'ils \u00E9chappent \u00E0 la mis\u00E8re. On doit les "
+                + "respecter et les aimer pour cela, malgr\u00E9 leurs d\u00E9fauts et leurs diff\u00E9rences. Nicole", note
+                        .getLines().get(1));
 
         assertEquals("", note.getLines().get(2));
 
-        assertEquals("J'ai photographié la calle de soportales car c'est la rue où est née et a vécue mémé. Quand "
-                + "elle est née, ses parents n'étaient pas mariés et elle vivait chez les parents de sa mère. Corinne", note.getLines().get(3));
+        assertEquals(
+                "J'ai photographi\u00E9 la calle de soportales car c'est la rue o\u00F9 est n\u00E9e et a v\u00E9cue m\u00E9m\u00E9. Quand "
+                        + "elle est n\u00E9e, ses parents n'\u00E9taient pas mari\u00E9s et elle vivait chez les parents de sa m\u00E8re. Corinne",
+                note.getLines().get(3));
 
         assertEquals("", note.getLines().get(4));
 
@@ -140,13 +145,12 @@ public class Issue81ReaderTest {
     }
 
     /**
-     * Test the corporation name in the source system of the header - not a diacritical but still a special ANSEL
-     * character
+     * Test the corporation name in the source system of the header - not a diacritical but still a special ANSEL character
      */
     @Test
     public void testHeaderCorporation() {
         assertEquals("BSD Concept \u00A9", g.getHeader().getSourceSystem().getCorporation().getBusinessName());
-        assertEquals("BSD Concept ©", g.getHeader().getSourceSystem().getCorporation().getBusinessName());
+        assertEquals("BSD Concept \u00A9", g.getHeader().getSourceSystem().getCorporation().getBusinessName());
     }
 
     /**

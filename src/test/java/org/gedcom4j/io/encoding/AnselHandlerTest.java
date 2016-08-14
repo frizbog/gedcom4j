@@ -28,7 +28,6 @@ package org.gedcom4j.io.encoding;
 
 import static org.junit.Assert.assertEquals;
 
-import org.gedcom4j.io.encoding.AnselHandler;
 import org.junit.Test;
 
 /**
@@ -48,12 +47,14 @@ public class AnselHandlerTest {
      */
     @Test
     public void testReadDiacriticalsLong() {
-        assertEquals("Sa grand-mère l'a nourrie car sa mère était placée nourrice dans une famille de riches. "
-                + "Son oncle ( une tante en réalité Agueda), allaité avec elle, est décédé ( voir acte). "
-                + "Elle croyait qu'il était mort \u00E0 cause d'elle, en lui pre",
-                classUnderTest.toUtf16("Sa grand-máere l'a nourrie car sa máere âetait placâee nourrice dans une famille de riches. "
-                        + "Son oncle ( une tante en râealitâe Agueda), allaitâe avec elle, est dâecâedâe ( voir acte). "
-                        + "Elle croyait qu'il âetait mort áa cause d'elle, en lui pre"));
+        String actual = classUnderTest.toUtf16(
+                "Sa grand-m\u00E1ere l'a nourrie car sa m\u00E1ere \u00E2etait plac\u00E2ee nourrice dans une famille de riches. "
+                        + "Son oncle ( une tante en r\u00E2ealit\u00E2e Agueda), allait\u00E2e avec elle, est d\u00E2ec\u00E2ed\u00E2e ( voir acte). "
+                        + "Elle croyait qu'il \u00E2etait mort \u00E1a cause d'elle, en lui pre");
+        String expected = "Sa grand-m\u00E8re l'a nourrie car sa m\u00E8re \u00E9tait plac\u00E9e nourrice dans une famille de riches. "
+                + "Son oncle ( une tante en r\u00E9alit\u00E9 Agueda), allait\u00E9 avec elle, est d\u00E9c\u00E9d\u00E9 ( voir acte). "
+                + "Elle croyait qu'il \u00E9tait mort \u00E0 cause d'elle, en lui pre";
+        assertEquals(expected, actual);
     }
 
     /**
@@ -61,7 +62,7 @@ public class AnselHandlerTest {
      */
     @Test
     public void testReadDiacriticalsShort() {
-        assertEquals("2 GIVN Dolor\u00E8s", classUnderTest.toUtf16("2 GIVN Doloráes"));
+        assertEquals("2 GIVN Dolor\u00E8s", classUnderTest.toUtf16("2 GIVN Dolor\u00E1es"));
     }
 
     /**
@@ -74,12 +75,13 @@ public class AnselHandlerTest {
      */
     @Test
     public void testWriteDiacriticalsLong() {
-        assertEquals("Sa grand-máere l'a nourrie car sa máere âetait placâee nourrice dans une famille de riches. "
-                + "Son oncle ( une tante en râealitâe Agueda), allaitâe avec elle, est dâecâedâe ( voir acte). "
-                + "Elle croyait qu'il âetait mort áa cause d'elle, en lui pre",
-                classUnderTest.toAnsel("Sa grand-mère l'a nourrie car sa mère était placée nourrice dans une famille de riches. "
-                        + "Son oncle ( une tante en réalité Agueda), allaité avec elle, est décédé ( voir acte). "
-                        + "Elle croyait qu'il était mort \u00E0 cause d'elle, en lui pre"));
+        assertEquals(
+                "Sa grand-m\u00E1ere l'a nourrie car sa m\u00E1ere \u00E2etait plac\u00E2ee nourrice dans une famille de riches. "
+                        + "Son oncle ( une tante en r\u00E2ealit\u00E2e Agueda), allait\u00E2e avec elle, est d\u00E2ec\u00E2ed\u00E2e ( voir acte). "
+                        + "Elle croyait qu'il \u00E2etait mort \u00E1a cause d'elle, en lui pre", classUnderTest.toAnsel(
+                                "Sa grand-m\u00E8re l'a nourrie car sa m\u00E8re \u00E9tait plac\u00E9e nourrice dans une famille de riches. "
+                                        + "Son oncle ( une tante en r\u00E9alit\u00E9 Agueda), allait\u00E9 avec elle, est d\u00E9c\u00E9d\u00E9 ( voir acte). "
+                                        + "Elle croyait qu'il \u00E9tait mort \u00E0 cause d'elle, en lui pre"));
     }
 
     /**
@@ -92,8 +94,8 @@ public class AnselHandlerTest {
      */
     @Test
     public void testWriteDiacriticsShort1() {
-        assertEquals("\u00E0A\u00E0B\u00E0C\u00E0D\u00E0E\u00E0F\u00E0G\u00E0H\u00E0I\u00E0J\u00E0K\u00E0L\u00E0M",
-                classUnderTest.toAnsel("ẢB\u0309C\u0309D\u0309ẺF\u0309G\u0309H\u0309ỈJ\u0309K\u0309L\u0309M\u0309"));
+        assertEquals("\u00E0A\u00E0B\u00E0C\u00E0D\u00E0E\u00E0F\u00E0G\u00E0H\u00E0I\u00E0J\u00E0K\u00E0L\u00E0M", classUnderTest
+                .toAnsel("\u1EA2B\u0309C\u0309D\u0309\u1EBAF\u0309G\u0309H\u0309\u1EC8J\u0309K\u0309L\u0309M\u0309"));
     }
 
     /**
@@ -106,7 +108,8 @@ public class AnselHandlerTest {
      */
     @Test
     public void testWriteDiacriticsShort2() {
-        assertEquals("áAáBáCáDáEáFáGáHáIáJáKáLáM", classUnderTest.toAnsel("ÀB\u0300C\u0300D\u0300ÈF\u0300G\u0300H\u0300ÌJ\u0300K\u0300L\u0300M\u0300"));
+        assertEquals("\u00E1A\u00E1B\u00E1C\u00E1D\u00E1E\u00E1F\u00E1G\u00E1H\u00E1I\u00E1J\u00E1K\u00E1L\u00E1M", classUnderTest
+                .toAnsel("\u00C0B\u0300C\u0300D\u0300\u00C8F\u0300G\u0300H\u0300\u00CCJ\u0300K\u0300L\u0300M\u0300"));
     }
 
     /**
@@ -114,6 +117,6 @@ public class AnselHandlerTest {
      */
     @Test
     public void testWriteExtendedShort() {
-        assertEquals("4 LATI +50\u00C0 3' 1.49\"", classUnderTest.toAnsel("4 LATI +50° 3' 1.49\""));
+        assertEquals("4 LATI +50\u00C0 3' 1.49\"", classUnderTest.toAnsel("4 LATI +50\u00B0 3' 1.49\""));
     }
 }
