@@ -40,7 +40,7 @@ public class Utf8ReaderListenerTest extends AbstractReaderListenerTest {
      * Constructor
      */
     public Utf8ReaderListenerTest() {
-        super("sample/willis.ged", 23553, LineTerminator.getDefaultLineTerminator() == LineTerminator.CRLF ? 686101 : 686101, 48);
+        super("sample/willis.ged", 23553, 686101, 48);
     }
 
 }
