@@ -2,6 +2,16 @@
 GEDCOM4J RELEASE NOTES
 ==============================
 
+
+
+06 Aug 2016 - v3.0.3
+====================
+v3.1.0 is a minor release with some new backward-compatible API changes.
+
+Issue #126 - A number of problems were fixed regarding interoperability between Windows and Mac/Unix, predominantly around line terminators and encodings. A new property is available on GedcomWriter to set which line terminator you want to use if it is different than the default for your JVM and system.
+
+
+
 06 Aug 2016 - v3.0.3
 ====================
 v3.0.3 is a minor fix release

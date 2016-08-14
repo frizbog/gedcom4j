@@ -35,14 +35,13 @@ import org.gedcom4j.writer.GedcomWriter;
 
 /**
  * <p>
- * A class for writing staged gedcom file lines out to a file. The {@link org.gedcom4j.writer.GedcomWriter} class
- * prepares a buffer of gedcom lines (a {@link List} of String) that this class writes out to a file, a stream, etc.,
- * after encoding the data into ANSEL, ASCII, or UNICODE, as needed. A separate class is needed because GEDCOM requires
- * ANSEL support which Java doesn't have, and also limits the encodings to the three choices mentioned.
+ * A class for writing staged gedcom file lines out to a file. The {@link org.gedcom4j.writer.GedcomWriter} class prepares a buffer
+ * of gedcom lines (a {@link List} of String) that this class writes out to a file, a stream, etc., after encoding the data into
+ * ANSEL, ASCII, or UNICODE, as needed. A separate class is needed because GEDCOM requires ANSEL support which Java doesn't have,
+ * and also limits the encodings to the three choices mentioned.
  * </p>
  * <p>
- * Note that GEDCOM standard does not allow for BOM's or other preambles for encodings, so none is created by this
- * class.
+ * Note that GEDCOM standard does not allow for BOM's or other preambles for encodings, so none is created by this class.
  * </p>
  * 
  * @author frizbog1
@@ -68,7 +67,7 @@ public class GedcomFileWriter {
     /**
      * The line terminator character to use - defaults to JVM settings but can be overridden
      */
-    private LineTerminator terminator;
+    private LineTerminator terminator = LineTerminator.getDefaultLineTerminator();
 
     /**
      * Should this writer use little-endian ordering when writing unicode data? Defaults to true.
@@ -86,7 +85,6 @@ public class GedcomFileWriter {
     public GedcomFileWriter(GedcomWriter writer, List<String> gedcomLines) {
         this.writer = writer;
         this.gedcomLines = gedcomLines;
-        setDefaultLineTerminator();
     }
 
     /**
@@ -165,23 +163,4 @@ public class GedcomFileWriter {
         encodingSpecificWriter.write(out);
     }
 
-    /**
-     * Set default line terminator based on JVM settings
-     */
-    private void setDefaultLineTerminator() {
-        // Default setting is CRLF - a good, safe choice
-        terminator = LineTerminator.CRLF;
-        String jvmLineTerm = System.getProperty("line.separator");
-
-        if (Character.toString((char) 0x0D).equals(jvmLineTerm)) {
-            terminator = LineTerminator.CR_ONLY;
-        } else if (Character.toString((char) 0x0A).equals(jvmLineTerm)) {
-            terminator = LineTerminator.LF_ONLY;
-        } else if ((Character.toString((char) 0x0D) + Character.toString((char) 0x0A)).equals(jvmLineTerm)) {
-            terminator = LineTerminator.CRLF;
-        } else if ((Character.toString((char) 0x0A) + Character.toString((char) 0x0D)).equals(jvmLineTerm)) {
-            // Who does this?!
-            terminator = LineTerminator.LFCR;
-        }
-    }
 }

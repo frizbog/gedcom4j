@@ -31,7 +31,7 @@ package org.gedcom4j.io.writer;
  * 
  * @author frizbog1
  */
-enum LineTerminator {
+public enum LineTerminator {
     /**
      * CR only - used mostly by old Macs
      */
@@ -47,5 +47,27 @@ enum LineTerminator {
     /**
      * LF+CR - not commonly used, but GEDCOM supports it
      */
-    LFCR
+    LFCR;
+
+    /**
+     * Set default line terminator based on JVM settings
+     * 
+     * @return the line terminator that is the default for the platform currently being used
+     */
+    public static LineTerminator getDefaultLineTerminator() {
+        String jvmLineTerm = System.getProperty("line.separator");
+
+        if (Character.toString((char) 0x0D).equals(jvmLineTerm)) {
+            return LineTerminator.CR_ONLY;
+        } else if (Character.toString((char) 0x0A).equals(jvmLineTerm)) {
+            return LineTerminator.LF_ONLY;
+        } else if ((Character.toString((char) 0x0D) + Character.toString((char) 0x0A)).equals(jvmLineTerm)) {
+            return LineTerminator.CRLF;
+        } else if ((Character.toString((char) 0x0A) + Character.toString((char) 0x0D)).equals(jvmLineTerm)) {
+            // Who does this?!
+            return LineTerminator.LFCR;
+        }
+        return LineTerminator.CRLF;
+    }
+
 }

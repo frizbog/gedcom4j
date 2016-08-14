@@ -49,7 +49,7 @@ abstract class AbstractEncodingSpecificWriter {
     /**
      * The line terminator character to use - defaults to JVM settings but can be overridden
      */
-    protected LineTerminator terminator;
+    protected LineTerminator terminator = LineTerminator.getDefaultLineTerminator();
 
     /**
      * The {@link GedcomWriter} this object is assisting
