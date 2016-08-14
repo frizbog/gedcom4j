@@ -56,8 +56,10 @@ public class AnselWriterTest {
         AnselWriter anselWriter = new AnselWriter(new GedcomWriter(new Gedcom()));
         anselWriter.terminator = LineTerminator.CRLF;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
         // Mix of precomposed and combined diacritics
-        String utf16 = "ẢB\u0309C\u0309D\u0309ẺF\u0309G\u0309H\u0309ỈJ\u0309K\u0309L\u0309M\u0309";
+        String utf16 = "\u1EA2B\u0309C\u0309D\u0309\u1EBAF\u0309G\u0309H\u0309\u1EC8J\u0309K\u0309L\u0309M\u0309";
+
         anselWriter.writeLine(baos, utf16);
         String ansel = baos.toString();
         String expected = "\uFFFD\u0041\uFFFD\u0042\uFFFD\u0043\uFFFD\u0044\uFFFD\u0045\uFFFD\u0046"
