@@ -81,12 +81,12 @@ final class AsciiReader extends AbstractEncodingSpecificReader {
                 break;
             }
 
-            // Ignore leading spaces
-            if (currChar == ' ' && lineBuffer.length() == 0) {
+            // Ignore leading whitespace
+            if (Character.isWhitespace(currChar) && lineBuffer.length() == 0) {
                 continue;
             }
 
-            // Check for carriage returns or line feeds - signify EOL
+            // Check for carriage returns or line feeds after some data - signify EOL
             if ((currChar == 0x0D || currChar == 0x0A) && lineBuffer.length() > 0) {
                 result = lineBuffer.toString();
                 lineBuffer.setLength(0);

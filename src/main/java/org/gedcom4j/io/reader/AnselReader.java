@@ -122,13 +122,13 @@ final class AnselReader extends AbstractEncodingSpecificReader {
                 break;
             }
 
-            // Ignore leading spaces
-            if (currChar == ' ' && lineBufferIdx == 0) {
+            // Ignore leading whitespace
+            if (Character.isWhitespace(currChar) && lineBufferIdx == 0) {
                 continue;
             }
 
-            // Check for carriage returns or line feeds - signify EOL
-            if ((currChar == 0x0D || currChar == 0x0A)) {
+            // Check for carriage returns or line feeds after some data - signify EOL
+            if ((currChar == 0x0D || currChar == 0x0A) && lineBufferIdx > 0) {
 
                 // Check for line breaks between combining diacritics and the base characters
                 if (oneCharBack >= ANSEL_DIACRITICS_BEGIN_AT) {

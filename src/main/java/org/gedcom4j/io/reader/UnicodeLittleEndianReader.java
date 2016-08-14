@@ -98,8 +98,16 @@ final class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
 
             beginningOfFile = false;
 
+            // Do bit shifting stuff to make the character from the bytes
+            int unicodeChar = currChar2 << 8 | currChar1;
+            Character unicode = Character.valueOf((char) unicodeChar);
+            if (Character.isWhitespace(unicode) && lineBuffer.length()==0) {
+            	continue;
+            }
+            
+            
             // Check for carriage returns or line feeds - signify EOL
-            if ((currChar1 == 0x0D && currChar2 == 0x00) || (currChar1 == 0x0A && currChar2 == 0x00)) {
+            if (lineBuffer.length()>0 && ((currChar1 == 0x0D && currChar2 == 0x00) || (currChar1 == 0x0A && currChar2 == 0x00))) {
                 if (lineBuffer.length() > 0) {
                     result = lineBuffer.toString();
                     lineBuffer.setLength(0);
@@ -108,7 +116,6 @@ final class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
                 continue;
             }
 
-            int unicodeChar = currChar2 << 8 | currChar1;
             lineBuffer.append(Character.valueOf((char) unicodeChar));
         }
         return result;
