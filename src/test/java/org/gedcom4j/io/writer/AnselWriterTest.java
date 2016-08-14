@@ -61,7 +61,7 @@ public class AnselWriterTest {
         String utf16 = "\u1EA2B\u0309C\u0309D\u0309\u1EBAF\u0309G\u0309H\u0309\u1EC8J\u0309K\u0309L\u0309M\u0309";
 
         anselWriter.writeLine(baos, utf16);
-        String ansel = baos.toString();
+        String ansel = baos.toString("UTF-8");
         String expected = "\uFFFD\u0041\uFFFD\u0042\uFFFD\u0043\uFFFD\u0044\uFFFD\u0045\uFFFD\u0046"
                 + "\uFFFD\u0047\uFFFD\u0048\uFFFD\u0049\uFFFD\u004A\uFFFD\u004B\uFFFD\u004C\uFFFD\u004D\r\n";
         for (int i = 0; i < ansel.length(); i++) {
