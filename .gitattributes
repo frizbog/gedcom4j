@@ -1,0 +1,57 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+
+# Explicitly declare text files you want to always be normalized and converted
+# to native line endings on checkout.
+*.java text
+*.css text
+*.xml text
+*.yml text
+*.txt text
+*.properties text
+*.md text
+*.project text
+*.classpath text
+
+
+# Denote all files that are truly binary and should not be modified.
+*.aif binary
+*.AIF binary
+*.bmp binary
+*.BMP binary
+*.png binary
+*.PNG binary
+*.jpg binary
+*.JPG binary
+*.gif binary
+*.GIF binary
+*.ged binary
+*.GED binary
+*.psd binary
+*.PSD binary
+*.tif binary
+*.TIF binary
+*.tga binary
+*.TGA binary
+*.wav binary
+*.WAV binary
+*.rtf binary
+*.RTF binary
+*.doc binary
+*.DOC binary
+*.mac binary
+*.MAC binary
+*.pcx binary
+*.PCX binary
+*.pic binary
+*.PIC binary
+*.tex binary
+*.TEX binary
+*.pdf binary
+*.PDF binary
+*.mpg binary
+*.MPG binary
+*.mov binary
+*.MOV binary
+*.psd binary
+*.PSD binary
