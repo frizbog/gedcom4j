@@ -26,8 +26,6 @@
  */
 package org.gedcom4j.io.reader;
 
-import org.gedcom4j.io.writer.LineTerminator;
-
 /**
  * Test getting listener notifications from {@link UnicodeBigEndianReader}. See {@link AbstractReaderListenerTest} for
  * the real code that does the testing.

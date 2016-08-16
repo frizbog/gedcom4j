@@ -26,8 +26,6 @@
  */
 package org.gedcom4j.io.reader;
 
-import org.gedcom4j.io.writer.LineTerminator;
-
 /**
  * Test getting listener notifications from {@link Utf8Reader}. See {@link AbstractReaderListenerTest} for the real code
  * that does the testing.
