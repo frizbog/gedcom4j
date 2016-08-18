@@ -39,13 +39,13 @@ import org.gedcom4j.parser.DateParser;
 import org.gedcom4j.parser.DateParser.ImpreciseDatePreference;
 
 /**
- * Comparator for sorting individuals by bidth date, then last name (surname), then first (given) name. When there are multiple
- * values for any of these three fields, only the preferred (first) value is considered.
+ * Comparator for sorting individuals by an event date (usually birth), then last name (surname), then first (given) name. When
+ * there are multiple values for any of these three fields, only the preferred (first) value is considered.
  * 
  * @author frizbog1
  * 
  */
-public class IndividualsByBirthDateLastNameFirstNameComparator implements Serializable, Comparator<Individual> {
+public class IndividualsByEventDateLastNameFirstNameComparator implements Serializable, Comparator<Individual> {
 
     /**
      * Serial Version UID
@@ -53,9 +53,33 @@ public class IndividualsByBirthDateLastNameFirstNameComparator implements Serial
     private static final long serialVersionUID = -8121061183483337581L;
 
     /**
+     * The event type we're sorting by
+     */
+    private final IndividualEventType eventType;
+
+    /**
      * Date parser
      */
     private final DateParser dp = new DateParser();
+
+    /**
+     * The imprecise date handling preference
+     */
+    private final ImpreciseDatePreference impreciseDatePreference;
+
+    /**
+     * Constructor
+     * 
+     * @param eventType
+     *            the event type to sort by
+     * @param impreciseDatePreference
+     *            how you want imprecise dates (like ranges, or years without months or days) interpreted
+     */
+    public IndividualsByEventDateLastNameFirstNameComparator(IndividualEventType eventType,
+            ImpreciseDatePreference impreciseDatePreference) {
+        this.eventType = eventType;
+        this.impreciseDatePreference = impreciseDatePreference;
+    }
 
     /**
      * Compare two individuals
@@ -134,11 +158,11 @@ public class IndividualsByBirthDateLastNameFirstNameComparator implements Serial
      */
     private Date getEarliestValueForPreferredBirthDate(Individual i) {
         Date result = null;
-        List<IndividualEvent> birthDates = i.getEventsOfType(IndividualEventType.BIRTH);
+        List<IndividualEvent> birthDates = i.getEventsOfType(eventType);
         if (birthDates != null && !birthDates.isEmpty()) {
             IndividualEvent bd = birthDates.get(0);
             if (bd != null && bd.getDate() != null && bd.getDate().getValue() != null) {
-                result = dp.parse(bd.getDate().getValue(), ImpreciseDatePreference.FAVOR_EARLIEST);
+                result = dp.parse(bd.getDate().getValue(), impreciseDatePreference);
             }
         }
         return result;

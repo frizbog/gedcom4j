@@ -29,21 +29,22 @@ package org.gedcom4j.comparators;
 import static org.junit.Assert.assertTrue;
 
 import org.gedcom4j.model.*;
+import org.gedcom4j.parser.DateParser.ImpreciseDatePreference;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test for {@link IndividualByLastNameFirstNameComparator}
+ * Test for {@link IndividualsByEventDateLastNameFirstNameComparator}
  * 
  * @author frizbog1
  * 
  */
-public class IndividualByBirthDateLastNameFirstNameComparatorTest {
+public class IndividualByEventDateLastNameFirstNameComparatorTest {
 
     /**
      * The comparator being tested
      */
-    IndividualsByBirthDateLastNameFirstNameComparator c;
+    IndividualsByEventDateLastNameFirstNameComparator c;
 
     /**
      * Test fixture - one individual
@@ -60,7 +61,8 @@ public class IndividualByBirthDateLastNameFirstNameComparatorTest {
      */
     @Before
     public void setUp() {
-        c = new IndividualsByBirthDateLastNameFirstNameComparator();
+        c = new IndividualsByEventDateLastNameFirstNameComparator(IndividualEventType.BIRTH,
+                ImpreciseDatePreference.FAVOR_EARLIEST);
         i1 = new Individual();
         i2 = new Individual();
     }
