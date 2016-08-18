@@ -67,8 +67,8 @@ public class IndividualByLastNameFirstNameComparatorTest {
     }
 
     /**
-     * Test for {@link IndividualByLastNameFirstNameComparator#compare(Individual, Individual)} . Tests when both
-     * individuals have multiple names.
+     * Test for {@link IndividualByLastNameFirstNameComparator#compare(Individual, Individual)} . Tests when both individuals have
+     * multiple names...only the first name matters.
      */
     @Test
     public void testBothHaveMultipleNames() {
@@ -82,8 +82,8 @@ public class IndividualByLastNameFirstNameComparatorTest {
     }
 
     /**
-     * Test for {@link IndividualByLastNameFirstNameComparator#compare(Individual, Individual)} . Tests when neither
-     * individual has any names.
+     * Test for {@link IndividualByLastNameFirstNameComparator#compare(Individual, Individual)} . Tests when neither individual has
+     * any names.
      */
     @Test
     public void testNobodyHasNames() {
@@ -92,8 +92,8 @@ public class IndividualByLastNameFirstNameComparatorTest {
     }
 
     /**
-     * Test for {@link IndividualByLastNameFirstNameComparator#compare(Individual, Individual)} . Tests when one
-     * individual has multiple names.
+     * Test for {@link IndividualByLastNameFirstNameComparator#compare(Individual, Individual)} . Tests when one individual has
+     * multiple names.
      */
     @Test
     public void testOneHasMultipleNames() {
@@ -106,8 +106,8 @@ public class IndividualByLastNameFirstNameComparatorTest {
     }
 
     /**
-     * Test for {@link IndividualByLastNameFirstNameComparator#compare(Individual, Individual)} . Tests when one
-     * individual has no names and the other does
+     * Test for {@link IndividualByLastNameFirstNameComparator#compare(Individual, Individual)} . Tests when one individual has no
+     * names and the other does
      */
     @Test
     public void testOneHasNoName() {
@@ -118,8 +118,7 @@ public class IndividualByLastNameFirstNameComparatorTest {
     }
 
     /**
-     * Test for {@link IndividualByLastNameFirstNameComparator#compare(Individual, Individual)} . Tests when last names
-     * differ.
+     * Test for {@link IndividualByLastNameFirstNameComparator#compare(Individual, Individual)} . Tests when last names differ.
      */
     @Test
     public void testSurnamesDiffer() {
@@ -131,8 +130,7 @@ public class IndividualByLastNameFirstNameComparatorTest {
     }
 
     /**
-     * Test for {@link IndividualByLastNameFirstNameComparator#compare(Individual, Individual)} . Tests when last names
-     * differ.
+     * Test for {@link IndividualByLastNameFirstNameComparator#compare(Individual, Individual)} . Tests when last names differ.
      */
     @Test
     public void testSurnamesSame() {
