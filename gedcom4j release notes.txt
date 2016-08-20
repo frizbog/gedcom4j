@@ -4,7 +4,7 @@ GEDCOM4J RELEASE NOTES
 
 
 
-06 Aug 2016 - v3.0.3
+20 Aug 2016 - v3.1.0
 ====================
 v3.1.0 is a minor release with some new backward-compatible API changes for bug fixes and enhancements.
 
