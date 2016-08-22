@@ -653,6 +653,7 @@ public class DateParser {
      *            the French Republican date in GEDCOM spec format - see DATE_FREN and MONTH_FREN in the spec. Could be a single
      *            date, an approximate date, a date range, or a date period.
      * @param pref
+     *            preference on how to handle imprecise dates - return the earliest day of the month, the latest, the midpoint?
      * @return the Gregorian date that represents the French Republican date supplied
      */
     private Date parseFrenchRepublican(String frenchRepublicanDateString, ImpreciseDatePreference pref) {
@@ -813,6 +814,8 @@ public class DateParser {
      *            the Hebrew date in GEDCOM spec format - see DATE_HEBR and MONTH_HEBR in the spec. Could be a single date, an
      *            approximate date, a date range, or a date period.
      * @param pref
+     *            preference on how to handle imprecise dates - return the earliest day of the month, the latest, the midpoint?
+     * 
      * @return the Gregorian date that represents the Hebrew date supplied
      */
     private Date parseHebrew(String hebrewDateString, ImpreciseDatePreference pref) {

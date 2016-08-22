@@ -43,6 +43,35 @@ import org.junit.Test;
 public class IndividualByEventDateLastNameFirstNameComparatorTest {
 
     /**
+     * Helper method for readability, that adds a basic name to an individual
+     * 
+     * @param i
+     *            the individual who is getting their name added
+     * @param string
+     *            the basic name to add to the individual
+     */
+    private static void addBasicName(Individual i, String string) {
+        PersonalName n = new PersonalName();
+        n.setBasic(string);
+        i.getNames(true).add(n);
+    }
+
+    /**
+     * Helper method for readability, that adds a birth date to an individual
+     * 
+     * @param i
+     *            the individual that we're adding a birth date to
+     * @param birthDateString
+     *            the string value to use for the birth date
+     */
+    private static void addBirthDate(Individual i, String birthDateString) {
+        IndividualEvent bd = new IndividualEvent();
+        bd.setType(IndividualEventType.BIRTH);
+        bd.setDate(new StringWithCustomTags(birthDateString));
+        i.getEvents(true).add(bd);
+    }
+
+    /**
      * The comparator being tested
      */
     IndividualsByEventDateLastNameFirstNameComparator c;
@@ -608,33 +637,6 @@ public class IndividualByEventDateLastNameFirstNameComparatorTest {
 
         assertTrue("Bob Martin born before Bob Marley, names don't matter", c.compare(i1, i2) < 0);
         assertTrue("Bob Martin born before Bob Marley, names don't matter", c.compare(i2, i1) > 0);
-    }
-
-    /**
-     * Helper method for readability, that adds a basic name to an individual
-     * 
-     * @param i
-     *            the individual who is getting their name added
-     * @param string
-     *            the basic name to add to the individual
-     */
-    private static void addBasicName(Individual i, String string) {
-        PersonalName n = new PersonalName();
-        n.setBasic(string);
-        i.getNames(true).add(n);
-    }
-
-    /**
-     * Helper method for readability, that adds a birth date to an individual
-     * 
-     * @param i
-     * @param string
-     */
-    private static void addBirthDate(Individual i, String string) {
-        IndividualEvent bd = new IndividualEvent();
-        bd.setType(IndividualEventType.BIRTH);
-        bd.setDate(new StringWithCustomTags(string));
-        i.getEvents(true).add(bd);
     }
 
 }

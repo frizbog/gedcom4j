@@ -35,8 +35,8 @@ import org.gedcom4j.io.encoding.AnselHandler;
 import org.gedcom4j.parser.GedcomParser;
 
 /**
- * A reader that reads a single line from an ANSEL-encoded file. This implementation handles ANSEL encoding (1 byte per
- * character, some extended character support).
+ * A reader that reads a single line from an ANSEL-encoded file. This implementation handles ANSEL encoding (1 byte per character,
+ * some extended character support).
  * 
  * @author frizbog
  */
@@ -83,8 +83,8 @@ final class AnselReader extends AbstractEncodingSpecificReader {
     private int holdingBinIdx = 0;
 
     /**
-     * A holding bin for combining diacritics that are separated from the base character by a line break. This makes it
-     * possible for us to keep the diacritics and the base character together.
+     * A holding bin for combining diacritics that are separated from the base character by a line break. This makes it possible for
+     * us to keep the diacritics and the base character together.
      */
     private final char[] holdingBin = new char[2];
 
@@ -134,15 +134,15 @@ final class AnselReader extends AbstractEncodingSpecificReader {
                 if (oneCharBack >= ANSEL_DIACRITICS_BEGIN_AT) {
                     if (twoCharsBack >= ANSEL_DIACRITICS_BEGIN_AT) {
                         /*
-                         * Two diacritics at end of line, already in the lineBuffer, and presumably the base character
-                         * is at the beginning of the next line (after a CONC tag) - store in holding bin
+                         * Two diacritics at end of line, already in the lineBuffer, and presumably the base character is at the
+                         * beginning of the next line (after a CONC tag) - store in holding bin
                          */
                         holdingBin[holdingBinIdx++] = (char) twoCharsBack;
                         twoCharsBack = -1; // Keeps from holding characters in reserve repeatedly
                     }
                     /*
-                     * One diacritic at end of line, already in the lineBuffer, and presumably the base character is at
-                     * the beginning of the next line (after a CONC tag) - store in holding bin
+                     * One diacritic at end of line, already in the lineBuffer, and presumably the base character is at the
+                     * beginning of the next line (after a CONC tag) - store in holding bin
                      */
                     holdingBin[holdingBinIdx++] = (char) oneCharBack;
                     oneCharBack = -1; // Keeps from holding characters in reserve repeatedly
@@ -200,8 +200,8 @@ final class AnselReader extends AbstractEncodingSpecificReader {
      * 
      * @return what level the supplied line was
      * @throws GedcomParserException
-     *             if the line level can't be determined, because the file doesn't begin with a 1 or 2 digit number
-     *             followed by a space.
+     *             if the line level can't be determined, because the file doesn't begin with a 1 or 2 digit number followed by a
+     *             space.
      */
     private int getLevelFromLine(String line) throws GedcomParserException {
         int level = -1;
@@ -213,28 +213,31 @@ final class AnselReader extends AbstractEncodingSpecificReader {
 
                 } else {
                     /*
-                     * Line is too long and doesn't begin with a 1 or 2 digit number followed by a space, so we can't
-                     * put in CONC's on the fly (because we don't know what level we're at)
+                     * Line is too long and doesn't begin with a 1 or 2 digit number followed by a space, so we can't put in CONC's
+                     * on the fly (because we don't know what level we're at)
                      */
-                    throw new GedcomParserException("Line " + linesRead + " does not begin with a 1 or 2 digit number. " + "Can't split automatically.");
+                    throw new GedcomParserException("Line " + linesRead + " does not begin with a 1 or 2 digit number. "
+                            + "Can't split automatically.");
                 }
             } else {
                 if (lineChars[1] == ' ') {
                     level = Character.getNumericValue(lineChars[0]);
                 } else {
                     /*
-                     * Line is too long and doesn't begin with a 1 or 2 digit number followed by a space, so we can't
-                     * put in CONC's on the fly (because we don't know what level we're at)
+                     * Line is too long and doesn't begin with a 1 or 2 digit number followed by a space, so we can't put in CONC's
+                     * on the fly (because we don't know what level we're at)
                      */
-                    throw new GedcomParserException("Line " + linesRead + " does not begin with a 1 or 2 digit number. " + "Can't split automatically.");
+                    throw new GedcomParserException("Line " + linesRead + " does not begin with a 1 or 2 digit number. "
+                            + "Can't split automatically.");
                 }
             }
         } else {
             /*
-             * Line is too long and doesn't begin with a 1 or 2 digit number followed by a space, so we can't put in
-             * CONC's on the fly (because we don't know what level we're at)
+             * Line is too long and doesn't begin with a 1 or 2 digit number followed by a space, so we can't put in CONC's on the
+             * fly (because we don't know what level we're at)
              */
-            throw new GedcomParserException("Line " + linesRead + " does not begin with a 1 or 2 digit number. Can't split automatically.");
+            throw new GedcomParserException("Line " + linesRead
+                    + " does not begin with a 1 or 2 digit number. Can't split automatically.");
         }
         return level;
     }
@@ -263,6 +266,7 @@ final class AnselReader extends AbstractEncodingSpecificReader {
      *            the previous line
      * 
      * @throws GedcomParserException
+     *             if the gedcom file cannot be parsed for any reason
      */
     private void insertSyntheticConcTag(String previousLine) throws GedcomParserException {
         int level = getLevelFromLine(previousLine);
@@ -285,15 +289,15 @@ final class AnselReader extends AbstractEncodingSpecificReader {
     }
 
     /**
-     * Are we at the beginning of the text portion of a CONC line? If so, now would be the time to insert any held-over
-     * characters from the previous line
+     * Are we at the beginning of the text portion of a CONC line? If so, now would be the time to insert any held-over characters
+     * from the previous line
      * 
      * @return true iff we at the beginning of the text portion of a CONC line
      */
     private boolean isStartOfConcLine() {
-        return (lineBufferIdx >= 7 && Character.isDigit(lineBuffer[lineBufferIdx - 7]) && lineBuffer[lineBufferIdx - 6] == ' ' && lineBuffer[lineBufferIdx
-                - 5] == 'C' && lineBuffer[lineBufferIdx - 4] == 'O' && lineBuffer[lineBufferIdx - 3] == 'N' && lineBuffer[lineBufferIdx - 2] == 'C'
-                && lineBuffer[lineBufferIdx - 1] == ' ');
+        return (lineBufferIdx >= 7 && Character.isDigit(lineBuffer[lineBufferIdx - 7]) && lineBuffer[lineBufferIdx - 6] == ' '
+                && lineBuffer[lineBufferIdx - 5] == 'C' && lineBuffer[lineBufferIdx - 4] == 'O' && lineBuffer[lineBufferIdx
+                        - 3] == 'N' && lineBuffer[lineBufferIdx - 2] == 'C' && lineBuffer[lineBufferIdx - 1] == ' ');
     }
 
 }

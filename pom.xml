@@ -203,6 +203,14 @@
 						<include>src/test/java/**</include>
 						<include>src/main/java/**</include>
 					</includes>
+					<excludes>
+						<exclude>src/main/java/org/gedcom4j/model/AbstractNotesElement.java</exclude>
+						<exclude>src/main/java/org/gedcom4j/model/HasCitations.java</exclude>
+						<exclude>src/main/java/org/gedcom4j/model/HasCustomTags.java</exclude>
+						<exclude>src/main/java/org/gedcom4j/model/HasNotes.java</exclude>
+						<exclude>src/main/java/org/gedcom4j/model/HasXref.java</exclude>
+						<exclude>src/main/java/org/gedcom4j/model/ModelElement.java</exclude>
+					</excludes>
 					<mapping>
 						<java>SLASHSTAR_STYLE</java>
 					</mapping>

@@ -108,6 +108,7 @@ public abstract class AbstractNotesElement extends AbstractElement implements Ha
      * Set the notes
      * 
      * @param theNotes
+     *            the notes to set
      */
     public void setNotes(List<Note> theNotes) {
         getNotes(true).clear();

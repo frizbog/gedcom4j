@@ -49,6 +49,7 @@ class HebrewCalendarParser {
      * @param hebrewMonthAbbrev
      *            the hebrew month abbreviation in GEDCOM format
      * @param dayOfMonth
+     *            the day within the month
      * @return the date in Gregorian form
      */
     Date convertHebrewDateToGregorian(int hebrewYear, String hebrewMonthAbbrev, int dayOfMonth) {

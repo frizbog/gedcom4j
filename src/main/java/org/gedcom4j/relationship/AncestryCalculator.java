@@ -135,18 +135,22 @@ public class AncestryCalculator {
     private void addFatherAndAllHisWives(Set<Individual> result, FamilyChild fc) {
         Individual dad = fc.getFamily().getHusband();
         if (dad != null && dad.getFamiliesWhereSpouse() != null) {
-		    for (FamilySpouse fs : dad.getFamiliesWhereSpouse()) {
-		        Individual dadsWife = fs.getFamily().getWife();
-		        addIndividualAndFamilies(result, dadsWife);
-		    }
-		}
+            for (FamilySpouse fs : dad.getFamiliesWhereSpouse()) {
+                Individual dadsWife = fs.getFamily().getWife();
+                addIndividualAndFamilies(result, dadsWife);
+            }
+        }
         // And include his extended ancestry as well (recursively)
         addIndividualAndFamilies(result, dad);
     }
 
     /**
+     * Add an individual and the families to which he/she was a child to the result set
+     * 
      * @param result
+     *            the result set being built
      * @param individual
+     *            the individual who we are adding to the results, along with all his/her family members
      */
     private void addIndividualAndFamilies(Set<Individual> result, Individual individual) {
         // Get every family this individual was a child of
@@ -236,13 +240,13 @@ public class AncestryCalculator {
     private void addMotherAndAllHerHusbands(Set<Individual> result, FamilyChild fc) {
         Individual mom = fc.getFamily().getWife();
         if (mom != null && mom.getFamiliesWhereSpouse() != null) {
-		    for (FamilySpouse fs : mom.getFamiliesWhereSpouse()) {
-		        Individual momsHusband = fs.getFamily().getHusband();
-		        if (momsHusband != null) {
-		            addIndividualAndFamilies(result, momsHusband);
-		        }
-		    }
-		}
+            for (FamilySpouse fs : mom.getFamiliesWhereSpouse()) {
+                Individual momsHusband = fs.getFamily().getHusband();
+                if (momsHusband != null) {
+                    addIndividualAndFamilies(result, momsHusband);
+                }
+            }
+        }
         // And include her extended ancestry as well (recursively)
         addIndividualAndFamilies(result, mom);
     }

@@ -40,6 +40,7 @@ import org.gedcom4j.model.SupportedVersion;
  * 
  * @author frizbog
  * @param <T>
+ *            the type of object being emitted
  */
 abstract class AbstractEmitter<T> {
 
@@ -146,7 +147,7 @@ abstract class AbstractEmitter<T> {
     }
 
     /**
-     * Emit a list of {@link StringWithCustomTags} objects, using a specific {@link org.gedcom4j.parser.Tag} value.
+     * Emit a list of {@link StringWithCustomTags} objects, using a specific tag value.
      * 
      * @param level
      *            the level to write at

@@ -47,11 +47,13 @@ import org.junit.Test;
 public class Issue87Test {
 
     /**
-     * Test the scenario for issue 87 where a level number was skipped (a level 3 line immediately following a level 1
-     * line, which is technically malformed).
+     * Test the scenario for issue 87 where a level number was skipped (a level 3 line immediately following a level 1 line, which
+     * is technically malformed).
      * 
      * @throws IOException
+     *             if the data cannot be written
      * @throws GedcomParserException
+     *             if the data cannot be parsed
      */
     @Test
     public void testIssue87() throws IOException, GedcomParserException {

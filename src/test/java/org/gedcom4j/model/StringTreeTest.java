@@ -132,11 +132,13 @@ public class StringTreeTest {
     }
 
     /**
-     * Test to try and replicate reported <a href="https://github.com/frizbog/gedcom4j/issues/60">issue 60</a>. Loads a
-     * large GEDCOM file, and invokes toString() and hashCode() on loads of StringTree objects in it.
+     * Test to try and replicate reported <a href="https://github.com/frizbog/gedcom4j/issues/60">issue 60</a>. Loads a large GEDCOM
+     * file, and invokes toString() and hashCode() on loads of StringTree objects in it.
      * 
      * @throws GedcomParserException
+     *             if the data cannot be parsed
      * @throws IOException
+     *             if the data cannot be written
      */
     @Test
     public void testToStringBigFile() throws IOException, GedcomParserException {

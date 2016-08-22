@@ -88,6 +88,7 @@ abstract class AbstractEncodingSpecificReader {
      * Close resources that might have been opened in the concrete class
      * 
      * @throws IOException
+     *             if the file cannot be read
      */
     abstract void cleanUp() throws IOException;
 

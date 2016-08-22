@@ -170,7 +170,9 @@ public class GedcomParserTest extends TestCase {
      * See issue 57.
      * 
      * @throws IOException
+     *             if the data cannot be written
      * @throws GedcomParserException
+     *             if the data cannot be parsed
      */
     public void testLoadIndentedMinimal55File() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
@@ -194,7 +196,9 @@ public class GedcomParserTest extends TestCase {
      * Test loading a minimal GEDCOM 5.5 file that only has a submitter.
      * 
      * @throws IOException
+     *             if the data cannot be written
      * @throws GedcomParserException
+     *             if the data cannot be parsed
      */
     public void testLoadMinimal55File() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();

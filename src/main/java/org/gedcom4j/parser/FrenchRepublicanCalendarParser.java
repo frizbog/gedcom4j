@@ -46,6 +46,7 @@ class FrenchRepublicanCalendarParser {
      * @param frenchRepublicanMonthAbbrev
      *            the French Republican month abbreviation in GEDCOM format
      * @param dayOfMonth
+     *            the day within the month
      * @return the date in Gregorian form
      */
     Date convertFrenchRepublicanDateToGregorian(int frenchRepublicanYear, String frenchRepublicanMonthAbbrev, int dayOfMonth) {

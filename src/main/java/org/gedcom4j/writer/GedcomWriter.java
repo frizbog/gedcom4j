@@ -149,7 +149,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     private LineTerminator lineTerminator = LineTerminator.getDefaultLineTerminator();
 
     /**
-     * Are we allowing automatic repair of the data, if possible, prior to writing the data?
+     * Whether or not we will automatically repair errors in the data model, if possible, prior to writing
      */
     private boolean autorepair;
 
@@ -381,7 +381,8 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
                 && !file.createNewFile()) {
             throw new IOException("Unable to create file " + file.getName());
         }
-        try (OutputStream o = new FileOutputStream(file)) {
+
+        try (OutputStream o = new FileOutputStream(file);) {
             write(o);
             o.flush();
         }
