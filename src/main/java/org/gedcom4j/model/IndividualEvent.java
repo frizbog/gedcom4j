@@ -47,6 +47,9 @@ public class IndividualEvent extends AbstractEvent {
      */
     private IndividualEventType type;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -87,6 +90,9 @@ public class IndividualEvent extends AbstractEvent {
         return type;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

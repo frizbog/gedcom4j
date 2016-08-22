@@ -69,7 +69,6 @@ public abstract class AbstractDateParserTest {
     /**
      * Class under test
      */
-    @SuppressWarnings("PMD.FieldDeclarationsShouldBeAtStartOfClass")
     protected final DateParser dp = new DateParser();
 
     /**

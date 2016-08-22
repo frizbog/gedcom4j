@@ -49,6 +49,9 @@ public abstract class AbstractNameVariation extends AbstractElement {
      */
     protected StringWithCustomTags variationType;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -96,6 +99,9 @@ public abstract class AbstractNameVariation extends AbstractElement {
         return variationType;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

@@ -49,6 +49,9 @@ public abstract class AbstractElement implements Serializable, HasCustomTags {
      */
     private List<StringTree> customTags = getCustomTags(Options.isCollectionInitializationEnabled());
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -94,6 +97,9 @@ public abstract class AbstractElement implements Serializable, HasCustomTags {
         return customTags;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

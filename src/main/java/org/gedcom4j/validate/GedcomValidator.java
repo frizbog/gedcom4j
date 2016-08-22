@@ -83,6 +83,7 @@ import org.gedcom4j.model.Trailer;
  * 
  * @author frizbog1
  */
+@SuppressWarnings({ "PMD.GodClass", "PMD.TooManyMethods" })
 public class GedcomValidator extends AbstractValidator {
 
     /**

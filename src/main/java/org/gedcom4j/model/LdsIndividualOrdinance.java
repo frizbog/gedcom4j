@@ -52,6 +52,9 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
      */
     private String yNull;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -111,6 +114,9 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
         return yNull;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

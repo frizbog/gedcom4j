@@ -52,6 +52,9 @@ public class CitationData extends AbstractElement {
      */
     private List<List<String>> sourceText = getSourceText(Options.isCollectionInitializationEnabled());
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -113,6 +116,9 @@ public class CitationData extends AbstractElement {
         return sourceText;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

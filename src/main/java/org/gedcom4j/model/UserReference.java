@@ -47,6 +47,9 @@ public class UserReference extends AbstractElement {
      */
     private StringWithCustomTags type;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -94,6 +97,9 @@ public class UserReference extends AbstractElement {
         return type;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

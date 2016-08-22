@@ -58,6 +58,9 @@ public class ParserProgressAndCancellationTest implements ParseProgressListener 
      */
     private int cancelAfter = 0;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void progressNotification(ParseProgressEvent e) {
         notificationCount++;

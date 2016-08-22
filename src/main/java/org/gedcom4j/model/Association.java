@@ -67,6 +67,9 @@ public class Association extends AbstractElement implements HasXref {
      */
     private StringWithCustomTags relationship;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -135,11 +138,6 @@ public class Association extends AbstractElement implements HasXref {
         return associatedEntityXref;
     }
 
-    @Override
-    public String getXref() {
-        return getAssociatedEntityXref();
-    }
-
     /**
      * Gets the citations.
      *
@@ -197,6 +195,17 @@ public class Association extends AbstractElement implements HasXref {
         return relationship;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getXref() {
+        return getAssociatedEntityXref();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

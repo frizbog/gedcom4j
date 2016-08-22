@@ -118,6 +118,9 @@ public enum LdsIndividualOrdinanceType {
         return tag;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return getDisplay();

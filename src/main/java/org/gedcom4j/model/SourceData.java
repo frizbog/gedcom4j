@@ -52,6 +52,9 @@ public class SourceData extends AbstractNotesElement {
      */
     private StringWithCustomTags respAgency;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -113,6 +116,9 @@ public class SourceData extends AbstractNotesElement {
         return respAgency;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

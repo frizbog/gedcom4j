@@ -59,6 +59,9 @@ public class HeaderSourceData extends AbstractElement {
      */
     private StringWithCustomTags publishDate;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -122,6 +125,9 @@ public class HeaderSourceData extends AbstractElement {
         return publishDate;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

@@ -78,6 +78,9 @@ public class Address extends AbstractElement {
      */
     private StringWithCustomTags stateProvince;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -220,6 +223,9 @@ public class Address extends AbstractElement {
         return stateProvince;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

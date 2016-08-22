@@ -37,6 +37,7 @@ import org.gedcom4j.Options;
  * @author frizbog1
  * 
  */
+@SuppressWarnings("PMD.GodClass")
 public abstract class AbstractEvent extends AbstractNotesElement implements HasCitations {
     /**
      * Serial Version UID

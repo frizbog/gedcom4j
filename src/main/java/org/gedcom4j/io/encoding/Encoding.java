@@ -91,7 +91,6 @@ public enum Encoding {
      * The character set name found in the GEDCOM that represents a character set encoding. Note that multiple instances of this
      * enum can share the same value for this field.
      */
-    @SuppressWarnings("PMD.FieldDeclarationsShouldBeAtStartOfClass")
     private final String characterSetName;
 
     /**

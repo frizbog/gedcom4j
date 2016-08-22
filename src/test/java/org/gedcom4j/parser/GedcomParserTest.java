@@ -26,6 +26,12 @@
  */
 package org.gedcom4j.parser;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -47,15 +53,14 @@ import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
 import org.junit.Test;
 
-import junit.framework.TestCase;
-
 /**
  * Tests for the {@link GedcomParser} class
  * 
  * @author frizbog1
  * 
  */
-public class GedcomParserTest extends TestCase {
+@SuppressWarnings("PMD.TooManyMethods")
+public class GedcomParserTest {
 
     /**
      * Test for a bad custom tag
@@ -85,6 +90,7 @@ public class GedcomParserTest extends TestCase {
      * @throws GedcomParserException
      *             if there's a problem parsing the data
      */
+    @Test
     public void testLoad1() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/TGC551.ged");
@@ -100,6 +106,7 @@ public class GedcomParserTest extends TestCase {
      * @throws GedcomParserException
      *             if there's a problem parsing the data
      */
+    @Test
     public void testLoad2() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         assertTrue(gp.getErrors().isEmpty());
@@ -123,6 +130,7 @@ public class GedcomParserTest extends TestCase {
      * @throws GedcomParserException
      *             if there's a problem parsing the data
      */
+    @Test
     public void testLoad3() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/a31486.ged");
@@ -168,6 +176,7 @@ public class GedcomParserTest extends TestCase {
      * @throws GedcomParserException
      *             if there's a problem parsing the data
      */
+    @Test
     public void testLoad4() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         // Different line end char seq than the other file
@@ -185,6 +194,7 @@ public class GedcomParserTest extends TestCase {
      * @throws GedcomParserException
      *             if the data cannot be parsed
      */
+    @Test
     public void testLoadIndentedMinimal55File() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/minimal55indented.ged");
@@ -211,6 +221,7 @@ public class GedcomParserTest extends TestCase {
      * @throws GedcomParserException
      *             if the data cannot be parsed
      */
+    @Test
     public void testLoadMinimal55File() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/minimal55.ged");
@@ -237,6 +248,7 @@ public class GedcomParserTest extends TestCase {
      * @throws GedcomParserException
      *             if the parsing goes wrong
      */
+    @Test
     public void testLoadStream() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         try (InputStream stream = new FileInputStream("sample/TGC551LF.ged");
@@ -254,6 +266,7 @@ public class GedcomParserTest extends TestCase {
      * @throws GedcomParserException
      *             if there's a problem parsing the data
      */
+    @Test
     public void testLoadTGC55C() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/TGC55C.ged");
@@ -268,6 +281,7 @@ public class GedcomParserTest extends TestCase {
      * @throws GedcomParserException
      *             if there's a problem parsing the data
      */
+    @Test
     public void testLoadTGC55CLF() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/TGC55CLF.ged");
@@ -304,7 +318,7 @@ public class GedcomParserTest extends TestCase {
      * @param gp
      *            the {@link GedcomParser}
      */
-    @SuppressWarnings("checkstyle:methodlength")
+    @SuppressWarnings({ "checkstyle:methodlength", "PMD.NcssMethodCount", "PMD.ExcessiveMethodLength" })
     private void checkTGC55C(GedcomParser gp) {
         Individual indi;
         PersonalName name;

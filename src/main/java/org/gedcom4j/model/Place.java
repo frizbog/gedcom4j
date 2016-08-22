@@ -77,6 +77,9 @@ public class Place extends AbstractNotesElement implements HasCitations {
      */
     private List<AbstractNameVariation> romanized = getRomanized(Options.isCollectionInitializationEnabled());
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -247,6 +250,9 @@ public class Place extends AbstractNotesElement implements HasCitations {
         return romanized;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

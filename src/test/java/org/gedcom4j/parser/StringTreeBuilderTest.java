@@ -26,18 +26,22 @@
  */
 package org.gedcom4j.parser;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
+import org.junit.Test;
 
 /**
  * Test for {@link StringTreeBuilder}
  * 
  * @author frizbog
  */
-public class StringTreeBuilderTest extends TestCase {
+public class StringTreeBuilderTest {
 
     /**
      * Test case for {@link StringTreeBuilder#leftTrim(String)}
      */
+    @Test
     public void testLeftTrim() {
         assertNull(StringTreeBuilder.leftTrim(null));
         assertEquals("This is a test", StringTreeBuilder.leftTrim("            This is a test"));

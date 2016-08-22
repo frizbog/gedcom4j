@@ -94,6 +94,9 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      */
     private StringWithCustomTags surnamePrefix;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -312,6 +315,9 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
         return surnamePrefix;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

@@ -69,6 +69,9 @@ public abstract class AbstractLdsOrdinance extends AbstractNotesElement implemen
      */
     protected StringWithCustomTags temple;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -178,6 +181,9 @@ public abstract class AbstractLdsOrdinance extends AbstractNotesElement implemen
         return temple;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

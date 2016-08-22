@@ -60,6 +60,9 @@ class CitationValidator extends AbstractValidator {
         this.citation = citation;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void validate() {
         if (citation == null) {

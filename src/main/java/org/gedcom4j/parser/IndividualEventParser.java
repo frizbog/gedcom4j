@@ -60,7 +60,11 @@ class IndividualEventParser extends AbstractParser<IndividualEvent> {
         super(gedcomParser, stringTree, loadInto);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
+    @SuppressWarnings("PMD.ExcessiveMethodLength")
     void parse() {
         loadInto.setType(IndividualEventType.getFromTag(stringTree.getTag()));
         if ("Y".equals(stringTree.getValue())) {

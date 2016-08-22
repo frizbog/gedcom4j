@@ -37,6 +37,7 @@ import org.gedcom4j.Options;
  * @author frizbog1
  * 
  */
+@SuppressWarnings("PMD.GodClass")
 public class Header extends AbstractNotesElement {
     /**
      * Notes on this header. Technically, the spec does not allow multiple notes or multiline notes in headers, but it happens so
@@ -333,6 +334,9 @@ public class Header extends AbstractNotesElement {
         return time;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

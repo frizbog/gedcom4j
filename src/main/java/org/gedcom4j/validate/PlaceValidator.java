@@ -59,6 +59,9 @@ class PlaceValidator extends AbstractValidator {
         this.place = place;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void validate() {
         if (place == null) {

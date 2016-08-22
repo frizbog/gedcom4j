@@ -60,6 +60,7 @@ class FamilyEventParser extends AbstractParser<FamilyEvent> {
     }
 
     @Override
+    @SuppressWarnings({ "PMD.ExcessiveMethodLength", "PMD.NcssMethodCount" })
     void parse() {
         loadInto.setType(FamilyEventType.getFromTag(stringTree.getTag()));
         if ("Y".equals(stringTree.getValue())) {

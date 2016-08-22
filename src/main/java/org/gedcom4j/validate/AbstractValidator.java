@@ -42,6 +42,7 @@ import org.gedcom4j.model.UserReference;
  * @author frizbog1
  * 
  */
+@SuppressWarnings({ "PMD.TooManyMethods", "PMD.GodClass" })
 abstract class AbstractValidator {
 
     /**

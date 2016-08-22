@@ -70,7 +70,11 @@ class IndividualParser extends AbstractParser<Individual> {
         super(gedcomParser, stringTree, loadInto);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
+    @SuppressWarnings("PMD.NcssMethodCount")
     void parse() {
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {

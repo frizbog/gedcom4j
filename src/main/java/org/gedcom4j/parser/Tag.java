@@ -249,6 +249,9 @@ enum Tag {
         return tagText.equals(s);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return tagText;

@@ -53,6 +53,9 @@ public class CitationWithoutSource extends AbstractCitation {
      */
     private List<List<String>> textFromSource = getTextFromSource(Options.isCollectionInitializationEnabled());
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -135,6 +138,9 @@ public class CitationWithoutSource extends AbstractCitation {
         return textFromSource;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

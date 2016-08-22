@@ -114,14 +114,6 @@ public class FrenchRepublicanCalendarParserTest {
     }
 
     /**
-     * Test {@link FrenchRepublicanCalendarParser#convertFrenchRepublicanDateToGregorian(int, String, int)}
-     */
-    @Test
-    public void testConvertFrenchRepublicanDateToGregorian2() {
-
-    }
-
-    /**
      * Helper method to get a gregorian date based on year, month, and day
      * 
      * @param y

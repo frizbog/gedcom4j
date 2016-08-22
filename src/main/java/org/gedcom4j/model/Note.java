@@ -73,6 +73,9 @@ public class Note extends AbstractElement implements HasCitations {
      */
     private String xref;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -227,6 +230,9 @@ public class Note extends AbstractElement implements HasCitations {
         return xref;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

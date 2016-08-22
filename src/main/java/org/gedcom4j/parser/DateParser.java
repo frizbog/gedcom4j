@@ -42,6 +42,7 @@ import java.util.regex.Pattern;
  * @author frizbog
  * @since v3.0.1
  */
+@SuppressWarnings({ "PMD.GodClass", "PMD.TooManyMethods" })
 public class DateParser implements Serializable {
 
     /**

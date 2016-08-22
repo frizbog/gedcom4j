@@ -51,6 +51,7 @@ public class ParseAllSamplesTest {
      *             if a file can't be read
      */
     @Test
+    @SuppressWarnings("PMD.SystemPrintln")
     public void testLoadAllSamples() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.setStrictCustomTags(false);
@@ -58,6 +59,9 @@ public class ParseAllSamplesTest {
         File sampleFolder = new File("sample");
         String[] allFiles = sampleFolder.list(new FilenameFilter() {
 
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public boolean accept(File dir, String name) {
                 // Return the names of the good files

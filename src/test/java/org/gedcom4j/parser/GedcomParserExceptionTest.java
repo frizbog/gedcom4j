@@ -71,10 +71,10 @@ public class GedcomParserExceptionTest {
     @Test
     public void testGedcomWriterExceptionStringThrowable() {
         try {
-            throw new GedcomParserException(new RuntimeException());
+            throw new GedcomParserException(new IllegalArgumentException());
         } catch (GedcomParserException e) {
             Assert.assertNotNull(e);
-            Assert.assertEquals("java.lang.RuntimeException", e.getMessage());
+            Assert.assertEquals("java.lang.IllegalArgumentException", e.getMessage());
             Assert.assertNotNull(e.getCause());
         }
     }
@@ -85,7 +85,7 @@ public class GedcomParserExceptionTest {
     @Test
     public void testGedcomWriterExceptionThrowable() {
         try {
-            throw new GedcomParserException("Yo", new RuntimeException());
+            throw new GedcomParserException("Yo", new IllegalArgumentException());
         } catch (GedcomParserException e) {
             Assert.assertNotNull(e);
             Assert.assertEquals("Yo", e.getMessage());

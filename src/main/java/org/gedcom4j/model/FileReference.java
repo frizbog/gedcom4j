@@ -58,6 +58,9 @@ public class FileReference extends AbstractElement {
      */
     private StringWithCustomTags title;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -137,6 +140,9 @@ public class FileReference extends AbstractElement {
         return title;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

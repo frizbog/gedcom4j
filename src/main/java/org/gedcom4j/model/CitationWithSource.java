@@ -80,6 +80,9 @@ public class CitationWithSource extends AbstractCitation {
      */
     private StringWithCustomTags whereInSource;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -242,6 +245,9 @@ public class CitationWithSource extends AbstractCitation {
         return whereInSource;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

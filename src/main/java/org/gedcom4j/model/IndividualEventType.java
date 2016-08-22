@@ -198,6 +198,9 @@ public enum IndividualEventType {
         return tag;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return getDisplay();

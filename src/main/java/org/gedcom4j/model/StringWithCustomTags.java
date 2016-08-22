@@ -131,6 +131,9 @@ public class StringWithCustomTags extends AbstractElement {
         this.value = value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(value == null ? "null" : value);

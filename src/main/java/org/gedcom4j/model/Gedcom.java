@@ -65,6 +65,7 @@ import java.util.Map;
  * 
  * @author frizbog1
  */
+@SuppressWarnings("PMD.GodClass")
 public class Gedcom extends AbstractElement {
     /**
      * Serial Version UID
@@ -152,6 +153,9 @@ public class Gedcom extends AbstractElement {
      */
     private Trailer trailer = new Trailer();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -327,6 +331,9 @@ public class Gedcom extends AbstractElement {
         return trailer;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

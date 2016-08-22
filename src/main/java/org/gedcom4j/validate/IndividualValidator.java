@@ -63,6 +63,9 @@ class IndividualValidator extends AbstractValidator {
         this.individual = individual;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void validate() {
         if (individual == null) {

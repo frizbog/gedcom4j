@@ -68,6 +68,9 @@ public class FamilyChild extends AbstractElement {
      */
     private StringWithCustomTags status;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -189,6 +192,9 @@ public class FamilyChild extends AbstractElement {
         return status;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

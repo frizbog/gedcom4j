@@ -54,6 +54,9 @@ public class RepositoryCitation extends AbstractNotesElement {
      */
     private String repositoryXref;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -115,6 +118,9 @@ public class RepositoryCitation extends AbstractNotesElement {
         return repositoryXref;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

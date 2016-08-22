@@ -47,6 +47,9 @@ public class SourceCallNumber extends AbstractElement {
      */
     private StringWithCustomTags mediaType;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -94,6 +97,9 @@ public class SourceCallNumber extends AbstractElement {
         return mediaType;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

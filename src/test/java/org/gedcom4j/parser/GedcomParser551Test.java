@@ -62,6 +62,7 @@ import org.junit.Test;
  * @author frizbog
  * 
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public class GedcomParser551Test {
 
     /**
@@ -455,6 +456,7 @@ public class GedcomParser551Test {
      * 
      */
     @Test
+    @SuppressWarnings("PMD.SystemPrintln")
     public void testRestrictionOnEvent() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/5.5.1 sample 3.ged");

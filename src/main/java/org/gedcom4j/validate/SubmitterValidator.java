@@ -58,6 +58,9 @@ class SubmitterValidator extends AbstractValidator {
         this.submitter = submitter;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void validate() {
         if (submitter == null) {

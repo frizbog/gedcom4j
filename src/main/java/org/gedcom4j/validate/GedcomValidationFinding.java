@@ -121,6 +121,9 @@ public class GedcomValidationFinding {
         this.severity = severity;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

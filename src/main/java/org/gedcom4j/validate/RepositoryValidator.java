@@ -53,6 +53,9 @@ class RepositoryValidator extends AbstractValidator {
         this.repository = repository;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void validate() {
         if (repository == null) {

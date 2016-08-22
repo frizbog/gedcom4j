@@ -69,6 +69,9 @@ public class SourceSystem extends AbstractElement {
      */
     private StringWithCustomTags versionNum;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -164,6 +167,9 @@ public class SourceSystem extends AbstractElement {
         return versionNum;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

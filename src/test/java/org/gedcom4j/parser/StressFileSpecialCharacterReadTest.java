@@ -35,7 +35,7 @@ import java.io.IOException;
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Note;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -43,12 +43,13 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public class StressFileSpecialCharacterReadTest {
 
     /**
      * The GEDCOM file loaded from the stress test
      */
-    private Gedcom g;
+    private static Gedcom g;
 
     /**
      * Load the stress test file
@@ -58,8 +59,8 @@ public class StressFileSpecialCharacterReadTest {
      * @throws GedcomParserException
      *             if the file cannot be parsed
      */
-    @Before
-    public void setUp() throws IOException, GedcomParserException {
+    @BeforeClass
+    public static void setUpClass() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/TGC551.ged");
         assertTrue(gp.getErrors().isEmpty());
@@ -75,12 +76,10 @@ public class StressFileSpecialCharacterReadTest {
     }
 
     /**
-     * Check diacritics. In the source code, diacritics are shown as unicode characters embedded in the string when using combining
-     * diacritics. When using pre-composed (single) glyphs, those are shown already composed.
+     * Check diacritics for ANSEL E0.
      */
     @Test
-    @SuppressWarnings("checkstyle:methodlength")
-    public void testDiacritics() {
+    public void testDiacriticsE0() {
         Note note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
@@ -94,6 +93,16 @@ public class StressFileSpecialCharacterReadTest {
         assertEqualsCharByChar("     n\u0309\u1ECFp\u0309q\u0309r\u0309s\u0309t\u0309\u1EE7v\u0309w\u0309x\u0309\u1EF7z\u0309", note
                 .getLines().get(10));
 
+    }
+
+    /**
+     * Check diacritics for ANSEL E1.
+     */
+    @Test
+    public void testDiacriticsE1() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
+
         // E1 (Unicode: grave, 0300) grave accent
         assertEqualsCharByChar("     \u00C0B\u0300C\u0300D\u0300\u00C8F\u0300G\u0300H\u0300\u00CCJ\u0300K\u0300L\u0300M\u0300", note
                 .getLines().get(13));
@@ -103,6 +112,16 @@ public class StressFileSpecialCharacterReadTest {
                 .getLines().get(15));
         assertEqualsCharByChar("     \u01F9\u00F2p\u0300q\u0300r\u0300s\u0300t\u0300\u00F9v\u0300\u1E81x\u0300\u1EF3z\u0300", note
                 .getLines().get(16));
+
+    }
+
+    /**
+     * Check diacritics for ANSEL E2.
+     */
+    @Test
+    public void testDiacriticsE2() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
 
         // E2 (Unicode: acute, 0301) acute accent
         assertEqualsCharByChar("     \u00C1B\u0301\u0106D\u0301\u00C9F\u0301\u01F4H\u0301\u00CDJ\u0301\u1E30\u0139\u1E3E", note
@@ -114,6 +133,15 @@ public class StressFileSpecialCharacterReadTest {
         assertEqualsCharByChar("     \u0144\u00F3\u1E55q\u0301\u0155\u015Bt\u0301\u00FAv\u0301\u1E83x\u0301\u00FD\u017A", note
                 .getLines().get(22));
 
+    }
+
+    /**
+     * Check diacritics for ANSEL E3.
+     */
+    @Test
+    public void testDiacriticsE3() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
         // E3 (Unicode: circumflex, 0302) circumflex accent
         assertEqualsCharByChar("     \u00C2B\u0302\u0108D\u0302\u00CAF\u0302\u011C\u0124\u00CE\u0134K\u0302L\u0302M\u0302", note
                 .getLines().get(25));
@@ -123,6 +151,16 @@ public class StressFileSpecialCharacterReadTest {
                 .getLines().get(27));
         assertEqualsCharByChar("     n\u0302\u00F4p\u0302q\u0302r\u0302\u015Dt\u0302\u00FBv\u0302\u0175x\u0302\u0177\u1E91", note
                 .getLines().get(28));
+
+    }
+
+    /**
+     * Check diacritics for ANSEL E4.
+     */
+    @Test
+    public void testDiacriticsE4() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
 
         // E4 (Unicode: tilde, 0303) tilde
         assertEqualsCharByChar("     \u00C3B\u0303C\u0303D\u0303\u1EBCF\u0303G\u0303H\u0303\u0128J\u0303K\u0303L\u0303M\u0303", note
@@ -134,6 +172,16 @@ public class StressFileSpecialCharacterReadTest {
         assertEqualsCharByChar("     \u00F1\u00F5p\u0303q\u0303r\u0303s\u0303t\u0303\u0169\u1E7Dw\u0303x\u0303\u1EF9z\u0303", note
                 .getLines().get(34));
 
+    }
+
+    /**
+     * Check diacritics for ANSEL E5.
+     */
+    @Test
+    public void testDiacriticsE5() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
+
         // E5 (Unicode: macron, 0304) macron
         assertEqualsCharByChar("     \u0100B\u0304C\u0304D\u0304\u0112F\u0304\u1E20H\u0304\u012AJ\u0304K\u0304L\u0304M\u0304", note
                 .getLines().get(37));
@@ -143,6 +191,16 @@ public class StressFileSpecialCharacterReadTest {
                 .getLines().get(39));
         assertEqualsCharByChar("     n\u0304\u014Dp\u0304q\u0304r\u0304s\u0304t\u0304\u016Bv\u0304w\u0304x\u0304\u0233z\u0304", note
                 .getLines().get(40));
+
+    }
+
+    /**
+     * Check diacritics for ANSEL E6.
+     */
+    @Test
+    public void testDiacriticsE6() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
 
         // E6 (Unicode: breve, 0306) breve
         assertEqualsCharByChar("     \u0102B\u0306C\u0306D\u0306\u0114F\u0306\u011EH\u0306\u012CJ\u0306K\u0306L\u0306M\u0306", note
@@ -154,6 +212,16 @@ public class StressFileSpecialCharacterReadTest {
         assertEqualsCharByChar("     n\u0306\u014Fp\u0306q\u0306r\u0306s\u0306t\u0306\u016Dv\u0306w\u0306x\u0306y\u0306z\u0306",
                 note.getLines().get(46));
 
+    }
+
+    /**
+     * Check diacritics for ANSEL E7.
+     */
+    @Test
+    public void testDiacriticsE7() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
+
         // E7 (Unicode: dot above, 0307) dot above
         assertEqualsCharByChar("     \u0226\u1E02\u010A\u1E0A\u0116\u1E1E\u0120\u1E22\u0130J\u0307K\u0307L\u0307\u1E40", note
                 .getLines().get(49));
@@ -164,6 +232,16 @@ public class StressFileSpecialCharacterReadTest {
         assertEqualsCharByChar("     \u1E45\u022F\u1E57q\u0307\u1E59\u1E61\u1E6Bu\u0307v\u0307\u1E87\u1E8B\u1E8F\u017C", note
                 .getLines().get(52));
 
+    }
+
+    /**
+     * Check diacritics for ANSEL E8.
+     */
+    @Test
+    public void testDiacriticsE8() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
+
         // E8 (Unicode: diaeresis, 0308) umlaut (dieresis)
         assertEqualsCharByChar("     \u00C4B\u0308C\u0308D\u0308\u00CBF\u0308G\u0308\u1E26\u00CFJ\u0308K\u0308L\u0308M\u0308", note
                 .getLines().get(55));
@@ -173,6 +251,16 @@ public class StressFileSpecialCharacterReadTest {
                 .getLines().get(57));
         assertEqualsCharByChar("     n\u0308\u00F6p\u0308q\u0308r\u0308s\u0308\u1E97\u00FCv\u0308\u1E85\u1E8D\u00FFz\u0308", note
                 .getLines().get(58));
+
+    }
+
+    /**
+     * Check diacritics for ANSEL E9.
+     */
+    @Test
+    public void testDiacriticsE9() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
 
         // E9 (Unicode: caron, 030C) hacek - some fonts render this like an upper right apostrophe instead of a normal
         // caron
@@ -185,6 +273,16 @@ public class StressFileSpecialCharacterReadTest {
         assertEqualsCharByChar("     \u0148\u01D2p\u030cq\u030c\u0159\u0161\u0165\u01D4v\u030cw\u030cx\u030cy\u030c\u017E", note
                 .getLines().get(64));
 
+    }
+
+    /**
+     * Check diacritics for ANSEL EA.
+     */
+    @Test
+    public void testDiacriticsEA() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
+
         // EA (Unicode: ring above, 030A) circle above (angstrom)
         assertEqualsCharByChar("     \u00C5B\u030AC\u030AD\u030AE\u030AF\u030AG\u030AH\u030AI\u030AJ\u030AK\u030AL\u030AM\u030A",
                 note.getLines().get(67));
@@ -194,6 +292,16 @@ public class StressFileSpecialCharacterReadTest {
                 note.getLines().get(69));
         assertEqualsCharByChar("     n\u030Ao\u030Ap\u030Aq\u030Ar\u030As\u030At\u030A\u016Fv\u030A\u1E98x\u030A\u1E99z\u030A", note
                 .getLines().get(70));
+
+    }
+
+    /**
+     * Check diacritics for ANSEL EB.
+     */
+    @Test
+    public void testDiacriticsEB() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
 
         // EB (Unicode: ligature left half, FE20) ligature, left half
         assertEqualsCharByChar("     A\uFE20B\uFE20C\uFE20D\uFE20E\uFE20F\uFE20G\uFE20H\uFE20I\uFE20J\uFE20K\uFE20L\uFE20M\uFE20",
@@ -205,6 +313,16 @@ public class StressFileSpecialCharacterReadTest {
         assertEqualsCharByChar("     n\uFE20o\uFE20p\uFE20q\uFE20r\uFE20s\uFE20t\uFE20u\uFE20v\uFE20w\uFE20x\uFE20y\uFE20z\uFE20",
                 note.getLines().get(76));
 
+    }
+
+    /**
+     * Check diacritics for ANSEL EC.
+     */
+    @Test
+    public void testDiacriticsEC() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
+
         // EC (Unicode: ligature right half, FE21) ligature, right half
         assertEqualsCharByChar("     A\uFE21B\uFE21C\uFE21D\uFE21E\uFE21F\uFE21G\uFE21H\uFE21I\uFE21J\uFE21K\uFE21L\uFE21M\uFE21",
                 note.getLines().get(79));
@@ -214,6 +332,16 @@ public class StressFileSpecialCharacterReadTest {
                 note.getLines().get(81));
         assertEqualsCharByChar("     n\uFE21o\uFE21p\uFE21q\uFE21r\uFE21s\uFE21t\uFE21u\uFE21v\uFE21w\uFE21x\uFE21y\uFE21z\uFE21",
                 note.getLines().get(82));
+
+    }
+
+    /**
+     * Check diacritics for ENSEL ED.
+     */
+    @Test
+    public void testDiacriticsED() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
 
         // ED (Unicode: comma above right, 0315) high comma, off center
         assertEqualsCharByChar("     A\u0315B\u0315C\u0315D\u0315E\u0315F\u0315G\u0315H\u0315I\u0315J\u0315K\u0315L\u0315M\u0315",
@@ -225,6 +353,16 @@ public class StressFileSpecialCharacterReadTest {
         assertEqualsCharByChar("     n\u0315o\u0315p\u0315q\u0315r\u0315s\u0315t\u0315u\u0315v\u0315w\u0315x\u0315y\u0315z\u0315",
                 note.getLines().get(88));
 
+    }
+
+    /**
+     * Check diacritics for ANSEL EE.
+     */
+    @Test
+    public void testDiacriticsEE() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
+
         // EE (Unicode: double acute, 030B) double acute accent
         assertEqualsCharByChar("     A\u030BB\u030BC\u030BD\u030BE\u030BF\u030BG\u030BH\u030BI\u030BJ\u030BK\u030BL\u030BM\u030B",
                 note.getLines().get(91));
@@ -234,6 +372,16 @@ public class StressFileSpecialCharacterReadTest {
                 note.getLines().get(93));
         assertEqualsCharByChar("     n\u030B\u0151p\u030Bq\u030Br\u030Bs\u030Bt\u030B\u0171v\u030Bw\u030Bx\u030By\u030Bz\u030B",
                 note.getLines().get(94));
+
+    }
+
+    /**
+     * Check diacritics for ANSEL EF.
+     */
+    @Test
+    public void testDiacriticsEF() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
 
         // EF (Unicode: candrabindu, 0310) candrabindu
         assertEqualsCharByChar("     A\u0310B\u0310C\u0310D\u0310E\u0310F\u0310G\u0310H\u0310I\u0310J\u0310K\u0310L\u0310M\u0310",
@@ -245,6 +393,16 @@ public class StressFileSpecialCharacterReadTest {
         assertEqualsCharByChar("     n\u0310o\u0310p\u0310q\u0310r\u0310s\u0310t\u0310u\u0310v\u0310w\u0310x\u0310y\u0310z\u0310",
                 note.getLines().get(100));
 
+    }
+
+    /**
+     * Check diacritics for ANSEL F0.
+     */
+    @Test
+    public void testDiacriticsF0() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
+
         // F0 (Unicode: cedilla, 0327) cedilla
         assertEqualsCharByChar("     A\u0327B\u0327\u00C7\u1E10\u0228F\u0327\u0122\u1E28I\u0327J\u0327\u0136\u013BM\u0327", note
                 .getLines().get(103));
@@ -254,6 +412,16 @@ public class StressFileSpecialCharacterReadTest {
                 .getLines().get(105));
         assertEqualsCharByChar("     \u0146o\u0327p\u0327q\u0327\u0157\u015F\u0163u\u0327v\u0327w\u0327x\u0327y\u0327z\u0327", note
                 .getLines().get(106));
+
+    }
+
+    /**
+     * Check diacritics for ANSEL F1.
+     */
+    @Test
+    public void testDiacriticsF1() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
 
         // F1 (Unicode: ogonek, 0328) right hook
         assertEqualsCharByChar("     \u0104B\u0328C\u0328D\u0328\u0118F\u0328G\u0328H\u0328\u012EJ\u0328K\u0328L\u0328M\u0328", note
@@ -265,6 +433,16 @@ public class StressFileSpecialCharacterReadTest {
         assertEqualsCharByChar("     n\u0328\u01EBp\u0328q\u0328r\u0328s\u0328t\u0328\u0173v\u0328w\u0328x\u0328y\u0328z\u0328",
                 note.getLines().get(112));
 
+    }
+
+    /**
+     * Check diacritics for ANSEL F2.
+     */
+    @Test
+    public void testDiacriticsF2() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
+
         // F2 (Unicode: dot below, 0323) dot below
         assertEqualsCharByChar("     \u1EA0\u1E04C\u0323\u1E0C\u1EB8F\u0323G\u0323\u1E24\u1ECAJ\u0323\u1E32\u1E36\u1E42", note
                 .getLines().get(115));
@@ -274,6 +452,16 @@ public class StressFileSpecialCharacterReadTest {
                 .getLines().get(117));
         assertEqualsCharByChar("     \u1E47\u1ECDp\u0323q\u0323\u1E5B\u1E63\u1E6D\u1EE5\u1E7F\u1E89x\u0323\u1EF5\u1E93", note
                 .getLines().get(118));
+
+    }
+
+    /**
+     * Check diacritics for ANSEL F3.
+     */
+    @Test
+    public void testDiacriticsF3() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
 
         // F3 (Unicode: diaeresis below, 0324) double dot below
         assertEqualsCharByChar("     A\u0324B\u0324C\u0324D\u0324E\u0324F\u0324G\u0324H\u0324I\u0324J\u0324K\u0324L\u0324M\u0324",
@@ -285,6 +473,16 @@ public class StressFileSpecialCharacterReadTest {
         assertEqualsCharByChar("     n\u0324o\u0324p\u0324q\u0324r\u0324s\u0324t\u0324\u1E73v\u0324w\u0324x\u0324y\u0324z\u0324",
                 note.getLines().get(124));
 
+    }
+
+    /**
+     * Check diacritics for ANSEL F4.
+     */
+    @Test
+    public void testDiacriticsF4() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
+
         // F4 (Unicode: ring below, 0325) circle below
         assertEqualsCharByChar("     \u1E00B\u0325C\u0325D\u0325E\u0325F\u0325G\u0325H\u0325I\u0325J\u0325K\u0325L\u0325M\u0325",
                 note.getLines().get(127));
@@ -294,6 +492,16 @@ public class StressFileSpecialCharacterReadTest {
                 note.getLines().get(129));
         assertEqualsCharByChar("     n\u0325o\u0325p\u0325q\u0325r\u0325s\u0325t\u0325u\u0325v\u0325w\u0325x\u0325y\u0325z\u0325",
                 note.getLines().get(130));
+
+    }
+
+    /**
+     * Check diacritics for ANSEL F5.
+     */
+    @Test
+    public void testDiacriticsF5() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
 
         // F5 (Unicode: double low line, 0333) double underscore
         assertEqualsCharByChar("     A\u0333B\u0333C\u0333D\u0333E\u0333F\u0333G\u0333H\u0333I\u0333J\u0333K\u0333L\u0333M\u0333",
@@ -305,6 +513,16 @@ public class StressFileSpecialCharacterReadTest {
         assertEqualsCharByChar("     n\u0333o\u0333p\u0333q\u0333r\u0333s\u0333t\u0333u\u0333v\u0333w\u0333x\u0333y\u0333z\u0333",
                 note.getLines().get(136));
 
+    }
+
+    /**
+     * Check diacritics for ANSEL F6.
+     */
+    @Test
+    public void testDiacriticsF6() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
+
         // F6 (Unicode: line below, 0332) underscore
         assertEqualsCharByChar("     A\u0332B\u0332C\u0332D\u0332E\u0332F\u0332G\u0332H\u0332I\u0332J\u0332K\u0332L\u0332M\u0332",
                 note.getLines().get(139));
@@ -314,6 +532,16 @@ public class StressFileSpecialCharacterReadTest {
                 note.getLines().get(141));
         assertEqualsCharByChar("     n\u0332o\u0332p\u0332q\u0332r\u0332s\u0332t\u0332u\u0332v\u0332w\u0332x\u0332y\u0332z\u0332",
                 note.getLines().get(142));
+
+    }
+
+    /**
+     * Check diacritics for ANSEL F7.
+     */
+    @Test
+    public void testDiacriticsF7() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
 
         // F7 (Unicode: comma below, 0326) left hook
         assertEqualsCharByChar("     A\u0326B\u0326C\u0326D\u0326E\u0326F\u0326G\u0326H\u0326I\u0326J\u0326K\u0326L\u0326M\u0326",
@@ -325,6 +553,16 @@ public class StressFileSpecialCharacterReadTest {
         assertEqualsCharByChar("     n\u0326o\u0326p\u0326q\u0326r\u0326\u0219\u021Bu\u0326v\u0326w\u0326x\u0326y\u0326z\u0326",
                 note.getLines().get(148));
 
+    }
+
+    /**
+     * Check diacritics for ANSEL F8.
+     */
+    @Test
+    public void testDiacriticsF8() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
+
         // F8 (Unicode: left half ring below, 031C) right cedilla
         assertEqualsCharByChar("     A\u031CB\u031CC\u031CD\u031CE\u031CF\u031CG\u031CH\u031CI\u031CJ\u031CK\u031CL\u031CM\u031C",
                 note.getLines().get(151));
@@ -334,6 +572,16 @@ public class StressFileSpecialCharacterReadTest {
                 note.getLines().get(153));
         assertEqualsCharByChar("     n\u031Co\u031Cp\u031Cq\u031Cr\u031Cs\u031Ct\u031Cu\u031Cv\u031Cw\u031Cx\u031Cy\u031Cz\u031C",
                 note.getLines().get(154));
+
+    }
+
+    /**
+     * Check diacritics for ANSEL F9.
+     */
+    @Test
+    public void testDiacriticsF9() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
 
         // F9 (Unicode: breve below, 032E) half circle below
         assertEqualsCharByChar("     A\u032EB\u032EC\u032ED\u032EE\u032EF\u032EG\u032E\u1E2AI\u032EJ\u032EK\u032EL\u032EM\u032E",
@@ -345,6 +593,16 @@ public class StressFileSpecialCharacterReadTest {
         assertEqualsCharByChar("     n\u032Eo\u032Ep\u032Eq\u032Er\u032Es\u032Et\u032Eu\u032Ev\u032Ew\u032Ex\u032Ey\u032Ez\u032E",
                 note.getLines().get(160));
 
+    }
+
+    /**
+     * Check diacritics for ANSEL FA.
+     */
+    @Test
+    public void testDiacriticsFA() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
+
         // FA (Unicode: double tilde left half, FE22) double tilde, left half
         assertEqualsCharByChar("     A\uFE22B\uFE22C\uFE22D\uFE22E\uFE22F\uFE22G\uFE22H\uFE22I\uFE22J\uFE22K\uFE22L\uFE22M\uFE22",
                 note.getLines().get(163));
@@ -355,6 +613,16 @@ public class StressFileSpecialCharacterReadTest {
         assertEqualsCharByChar("     n\uFE22o\uFE22p\uFE22q\uFE22r\uFE22s\uFE22t\uFE22u\uFE22v\uFE22w\uFE22x\uFE22y\uFE22z\uFE22",
                 note.getLines().get(166));
 
+    }
+
+    /**
+     * Check diacritics for ANSEL FB.
+     */
+    @Test
+    public void testDiacriticsFB() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
+
         // FB (Unicode: double tilde right half, FE23) double tilde, right half
         assertEqualsCharByChar("     A\uFE23B\uFE23C\uFE23D\uFE23E\uFE23F\uFE23G\uFE23H\uFE23I\uFE23J\uFE23K\uFE23L\uFE23M\uFE23",
                 note.getLines().get(169));
@@ -364,6 +632,16 @@ public class StressFileSpecialCharacterReadTest {
                 note.getLines().get(171));
         assertEqualsCharByChar("     n\uFE23o\uFE23p\uFE23q\uFE23r\uFE23s\uFE23t\uFE23u\uFE23v\uFE23w\uFE23x\uFE23y\uFE23z\uFE23",
                 note.getLines().get(172));
+
+    }
+
+    /**
+     * Check diacritics for ANSEL FE.
+     */
+    @Test
+    public void testDiacriticsFE() {
+        Note note = g.getNotes().get("@N24@");
+        assertEquals(179, note.getLines().size());
 
         // FE (Unicode: comma above, 0313) high comma, centered
         assertEqualsCharByChar("     A\u0313B\u0313C\u0313D\u0313E\u0313F\u0313G\u0313H\u0313I\u0313J\u0313K\u0313L\u0313M\u0313",

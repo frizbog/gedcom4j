@@ -109,6 +109,9 @@ public class Multimedia extends AbstractNotesElement implements HasCitations {
      */
     private String xref;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -341,6 +344,9 @@ public class Multimedia extends AbstractNotesElement implements HasCitations {
         return xref;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;

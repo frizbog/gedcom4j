@@ -93,6 +93,9 @@ public class Repository extends AbstractNotesElement implements HasXref {
      */
     private String xref;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -339,6 +342,9 @@ public class Repository extends AbstractNotesElement implements HasXref {
         return xref;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
