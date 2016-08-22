@@ -26,6 +26,7 @@
  */
 package org.gedcom4j.parser;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -41,7 +42,7 @@ import java.util.regex.Pattern;
  * @author frizbog
  * @since v3.0.1
  */
-public class DateParser {
+public class DateParser implements Serializable {
 
     /**
      * When a range or imprecise date value is found, what is the preference for handling it?
@@ -71,6 +72,11 @@ public class DateParser {
          */
         FAVOR_MIDPOINT
     }
+
+    /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 8700681252079486414L;
 
     /**
      * Range and period prefixes

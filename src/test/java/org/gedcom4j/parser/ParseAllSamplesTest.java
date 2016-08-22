@@ -64,16 +64,18 @@ public class ParseAllSamplesTest {
                 return name.endsWith(".ged");
             }
         });
-        for (String s : allFiles) {
-            try {
-                gp.load("sample/" + s);
-                assertNotNull(gp.getGedcom());
-            } catch (IOException e) {
-                System.out.println("Loading " + s);
-                throw e;
-            } catch (GedcomParserException e) {
-                System.out.println("Loading " + s);
-                throw e;
+        if (allFiles != null) {
+            for (String s : allFiles) {
+                try {
+                    gp.load("sample/" + s);
+                    assertNotNull(gp.getGedcom());
+                } catch (IOException e) {
+                    System.out.println("Loading " + s);
+                    throw e;
+                } catch (GedcomParserException e) {
+                    System.out.println("Loading " + s);
+                    throw e;
+                }
             }
         }
 
