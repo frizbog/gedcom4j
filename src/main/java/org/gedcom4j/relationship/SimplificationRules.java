@@ -39,7 +39,7 @@ final class SimplificationRules {
     /**
      * The rules for simplification
      */
-    static List<RelationshipName[]> rules = new ArrayList<RelationshipName[]>();
+    static List<RelationshipName[]> rules = new ArrayList<>();
 
     /**
      * <p>

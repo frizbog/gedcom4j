@@ -57,30 +57,29 @@ import org.gedcom4j.parser.event.ParseProgressListener;
  * </ol>
  * <p>
  * It is <b>highly recommended</b> that after calling the <code>GedcomParser.load()</code> method, the user check the
- * {@link GedcomParser#errors} and {@link GedcomParser#warnings} collections to see if anything problematic was
- * encountered in the data while parsing. Most commonly, the <code>warnings</code> collection will have information
- * about tags from GEDCOM 5.5.1 that were specified in a file that was designated as a GEDCOM 5.5 file. When this
- * occurs, the data is loaded, but will not be able to be written by {@link org.gedcom4j.writer.GedcomWriter} until the
- * version number in the <code>gedcomVersion</code> field of {@link Gedcom#header} is updated to
- * {@link SupportedVersion#V5_5_1}, or the 5.5.1-specific data is cleared from the data.
+ * {@link GedcomParser#errors} and {@link GedcomParser#warnings} collections to see if anything problematic was encountered in the
+ * data while parsing. Most commonly, the <code>warnings</code> collection will have information about tags from GEDCOM 5.5.1 that
+ * were specified in a file that was designated as a GEDCOM 5.5 file. When this occurs, the data is loaded, but will not be able to
+ * be written by {@link org.gedcom4j.writer.GedcomWriter} until the version number in the <code>gedcomVersion</code> field of
+ * {@link Gedcom#header} is updated to {@link SupportedVersion#V5_5_1}, or the 5.5.1-specific data is cleared from the data.
  * </p>
  * <p>
- * The parser takes a "forgiving" approach where it tries to load as much data as possible, including 5.5.1 data in a
- * file that says it's in 5.5 format, and vice-versa. However, when it finds inconsistencies, it will add messages to
- * the warnings and errors collections. Most of these messages indicate that the data was loaded, even though it was
- * incorrect, and the data will need to be corrected before it can be written.
- * </p>
- * 
- * <p>
- * The parser makes the assumption that if the version of GEDCOM used is explicitly specified in the file header, that
- * the rest of the data in the file should conform to that spec. For example, if the file header says the file is in 5.5
- * format (i.e., has a VERS 5.5 tag), then it will generate warnings if the new 5.5.1 tags (e.g., EMAIL) are encountered
- * elsewhere, but will load the data anyway. If no version is specified, the 5.5.1 format is assumed as a default.
+ * The parser takes a "forgiving" approach where it tries to load as much data as possible, including 5.5.1 data in a file that says
+ * it's in 5.5 format, and vice-versa. However, when it finds inconsistencies, it will add messages to the warnings and errors
+ * collections. Most of these messages indicate that the data was loaded, even though it was incorrect, and the data will need to be
+ * corrected before it can be written.
  * </p>
  * 
  * <p>
- * This approach was selected based on the presumption that most of the uses of GEDCOM4J will be to read GEDCOM files
- * rather than to write them, so this provides that use case with the lowest friction.
+ * The parser makes the assumption that if the version of GEDCOM used is explicitly specified in the file header, that the rest of
+ * the data in the file should conform to that spec. For example, if the file header says the file is in 5.5 format (i.e., has a
+ * VERS 5.5 tag), then it will generate warnings if the new 5.5.1 tags (e.g., EMAIL) are encountered elsewhere, but will load the
+ * data anyway. If no version is specified, the 5.5.1 format is assumed as a default.
+ * </p>
+ * 
+ * <p>
+ * This approach was selected based on the presumption that most of the uses of GEDCOM4J will be to read GEDCOM files rather than to
+ * write them, so this provides that use case with the lowest friction.
  * </p>
  * 
  * @author frizbog1
@@ -92,7 +91,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
     /**
      * The things that went wrong while parsing the gedcom file
      */
-    private final List<String> errors = new ArrayList<String>();
+    private final List<String> errors = new ArrayList<>();
 
     /**
      * The content of the gedcom file
@@ -100,23 +99,23 @@ public class GedcomParser extends AbstractParser<Gedcom> {
     private final Gedcom gedcom = new Gedcom();
 
     /**
-     * Indicates whether handling of custom tags should be strict - that is, must an unrecognized tag begin with an
-     * underscore to be loaded into the custom tags collection? If false, unrecognized tags will be treated as custom
-     * tags even if they don't begin with underscores, and no errors will be issued. If true, unrecognized tags that do
-     * not begin with underscores will be discarded, with errors added to the errors collection.
+     * Indicates whether handling of custom tags should be strict - that is, must an unrecognized tag begin with an underscore to be
+     * loaded into the custom tags collection? If false, unrecognized tags will be treated as custom tags even if they don't begin
+     * with underscores, and no errors will be issued. If true, unrecognized tags that do not begin with underscores will be
+     * discarded, with errors added to the errors collection.
      */
     private boolean strictCustomTags = true;
 
     /**
-     * Indicates whether non-compliant GEDCOM files with actual line breaks in text values (rather than CONT tags)
-     * should be parsed (with some loss of data) rather than fail with an exception.
+     * Indicates whether non-compliant GEDCOM files with actual line breaks in text values (rather than CONT tags) should be parsed
+     * (with some loss of data) rather than fail with an exception.
      */
     private boolean strictLineBreaks = true;
 
     /**
      * The warnings issued during the parsing of the gedcom file
      */
-    private final List<String> warnings = new ArrayList<String>();
+    private final List<String> warnings = new ArrayList<>();
 
     /**
      * Is the load/parse process being cancelled
@@ -131,12 +130,12 @@ public class GedcomParser extends AbstractParser<Gedcom> {
     /**
      * The list of observers on file operations
      */
-    private final List<WeakReference<FileProgressListener>> fileObservers = new CopyOnWriteArrayList<WeakReference<FileProgressListener>>();
+    private final List<WeakReference<FileProgressListener>> fileObservers = new CopyOnWriteArrayList<>();
 
     /**
      * The list of observers on parsing
      */
-    private final List<WeakReference<ParseProgressListener>> parseObservers = new CopyOnWriteArrayList<WeakReference<ParseProgressListener>>();
+    private final List<WeakReference<ParseProgressListener>> parseObservers = new CopyOnWriteArrayList<>();
 
     /**
      * Get a notification whenever this many items (or more) have been parsed
@@ -161,7 +160,6 @@ public class GedcomParser extends AbstractParser<Gedcom> {
          * This is the root level parser, so there are no parent or other root nodes to hook up to (yet)
          */
         super(null, null, null);
-        gedcomParser = this;
     }
 
     /**
@@ -358,7 +356,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
      *            the observer you want notified
      */
     public void registerFileObserver(FileProgressListener observer) {
-        fileObservers.add(new WeakReference<FileProgressListener>(observer));
+        fileObservers.add(new WeakReference<>(observer));
     }
 
     /**
@@ -368,15 +366,15 @@ public class GedcomParser extends AbstractParser<Gedcom> {
      *            the observer you want notified
      */
     public void registerParseObserver(ParseProgressListener observer) {
-        parseObservers.add(new WeakReference<ParseProgressListener>(observer));
+        parseObservers.add(new WeakReference<>(observer));
     }
 
     /**
      * Set the parse notification rate (the number of items that get parsed between each notification, if listening)
      * 
      * @param parseNotificationRate
-     *            the parse notification rate (the number of items that get parsed between each notification, if
-     *            listening). Must be at least 1.
+     *            the parse notification rate (the number of items that get parsed between each notification, if listening). Must be
+     *            at least 1.
      */
     public void setParseNotificationRate(int parseNotificationRate) {
         if (parseNotificationRate < 1) {
@@ -434,7 +432,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
                 i++;
             }
         }
-        fileObservers.add(new WeakReference<FileProgressListener>(observer));
+        fileObservers.add(new WeakReference<>(observer));
     }
 
     /**
@@ -453,7 +451,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
                 i++;
             }
         }
-        parseObservers.add(new WeakReference<ParseProgressListener>(observer));
+        parseObservers.add(new WeakReference<>(observer));
     }
 
     /**
@@ -506,14 +504,14 @@ public class GedcomParser extends AbstractParser<Gedcom> {
             }
             if (gedcom.getHeader().getSubmission() == null) {
                 /*
-                 * The GEDCOM spec puts a cross reference to the root-level SUBN element in the HEAD structure. Now that
-                 * we have a submission object, represent that cross reference in the header object
+                 * The GEDCOM spec puts a cross reference to the root-level SUBN element in the HEAD structure. Now that we have a
+                 * submission object, represent that cross reference in the header object
                  */
                 gedcom.getHeader().setSubmission(s);
             }
             new SubmissionParser(this, rootLevelItem, s).parse();
         } else if (Tag.NOTE.equalsText(rootLevelItem.getTag())) {
-            List<Note> dummyList = new ArrayList<Note>();
+            List<Note> dummyList = new ArrayList<>();
             new NoteListParser(this, rootLevelItem, dummyList).parse();
             if (!dummyList.isEmpty()) {
                 throw new GedcomParserException("At root level NOTE structures should have @ID@'s");
@@ -560,8 +558,8 @@ public class GedcomParser extends AbstractParser<Gedcom> {
     }
 
     /**
-     * Parse the {@link StringTreeBuilder}'s string tree in memory, load it into the object model, then discard that
-     * string tree buffer
+     * Parse the {@link StringTreeBuilder}'s string tree in memory, load it into the object model, then discard that string tree
+     * buffer
      * 
      * @throws GedcomParserException
      *             if the string tree contents cannot be parsed, or parsing was cancelled
@@ -572,8 +570,8 @@ public class GedcomParser extends AbstractParser<Gedcom> {
             // We've still got the prior root node in memory - parse it and add to object model
             StringTree rootLevelItem = stringTreeBuilder.getTree().getChildren().get(0);
             if (rootLevelItem.getLevel() != 0) {
-                throw new GedcomParserException("Expected a root level item in the buffer, but found " + rootLevelItem.getLevel() + " " + rootLevelItem.getTag()
-                        + " from line " + lineNum);
+                throw new GedcomParserException("Expected a root level item in the buffer, but found " + rootLevelItem.getLevel()
+                        + " " + rootLevelItem.getTag() + " from line " + lineNum);
             }
             loadRootItem(rootLevelItem);
             // And discard it, now that it's loaded

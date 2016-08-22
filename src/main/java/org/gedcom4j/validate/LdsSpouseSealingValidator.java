@@ -77,7 +77,7 @@ class LdsSpouseSealingValidator extends AbstractValidator {
             }
         } else {
             if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<AbstractCitation>(citations).process();
+                int dups = new DuplicateEliminator<>(citations).process();
                 if (dups > 0) {
                     rootValidator.addInfo(dups + " duplicate citations found and removed", s);
                 }

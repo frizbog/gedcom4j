@@ -214,7 +214,7 @@ public class Repository extends AbstractNotesElement implements HasXref {
      */
     public List<StringWithCustomTags> getEmails(boolean initializeIfNeeded) {
         if (initializeIfNeeded && emails == null) {
-            emails = new ArrayList<StringWithCustomTags>(0);
+            emails = new ArrayList<>(0);
         }
 
         return emails;
@@ -238,7 +238,7 @@ public class Repository extends AbstractNotesElement implements HasXref {
      */
     public List<StringWithCustomTags> getFaxNumbers(boolean initializeIfNeeded) {
         if (initializeIfNeeded && faxNumbers == null) {
-            faxNumbers = new ArrayList<StringWithCustomTags>(0);
+            faxNumbers = new ArrayList<>(0);
         }
         return faxNumbers;
     }
@@ -270,7 +270,7 @@ public class Repository extends AbstractNotesElement implements HasXref {
      */
     public List<StringWithCustomTags> getPhoneNumbers(boolean initializeIfNeeded) {
         if (initializeIfNeeded && phoneNumbers == null) {
-            phoneNumbers = new ArrayList<StringWithCustomTags>(0);
+            phoneNumbers = new ArrayList<>(0);
         }
         return phoneNumbers;
     }
@@ -302,7 +302,7 @@ public class Repository extends AbstractNotesElement implements HasXref {
      */
     public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
         if (initializeIfNeeded && userReferences == null) {
-            userReferences = new ArrayList<UserReference>(0);
+            userReferences = new ArrayList<>(0);
         }
         return userReferences;
     }
@@ -325,7 +325,7 @@ public class Repository extends AbstractNotesElement implements HasXref {
      */
     public List<StringWithCustomTags> getWwwUrls(boolean initializeIfNeeded) {
         if (initializeIfNeeded && wwwUrls == null) {
-            wwwUrls = new ArrayList<StringWithCustomTags>(0);
+            wwwUrls = new ArrayList<>(0);
         }
         return wwwUrls;
     }

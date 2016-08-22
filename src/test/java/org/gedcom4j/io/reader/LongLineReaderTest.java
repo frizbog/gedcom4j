@@ -65,7 +65,7 @@ public class LongLineReaderTest {
             GedcomParser gp = new GedcomParser();
             AnselReader ar = new AnselReader(gp, fis);
 
-            List<String> strings = new ArrayList<String>();
+            List<String> strings = new ArrayList<>();
             String s = ar.nextLine();
             while (s != null) {
                 strings.add(s);

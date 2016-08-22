@@ -64,7 +64,7 @@ public enum Encoding {
      * @return an alphabetically sorted set of supported character set names
      */
     public static Set<String> getSupportedCharacterSetNames() {
-        Set<String> result = new TreeSet<String>();
+        Set<String> result = new TreeSet<>();
         for (Encoding e : values()) {
             result.add(e.characterSetName);
         }

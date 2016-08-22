@@ -29,9 +29,24 @@ package org.gedcom4j.model;
 import java.util.List;
 
 /**
+ * Marks an object that has citations to sources.
+ * 
  * @author Mark A Sikes
  */
-public interface HasCitations extends ValidatedElement {
-	List<AbstractCitation> getCitations();
-	List<AbstractCitation> getCitations(boolean initializeIfNeeded);
+public interface HasCitations extends ModelElement {
+    /**
+     * Get the citations on this object
+     * 
+     * @return the citations on this object
+     */
+    List<AbstractCitation> getCitations();
+
+    /**
+     * Get the citations on this object, initializing the collection if needed
+     * 
+     * @param initializeIfNeeded
+     *            set to true if you want the backing collection to be instantiated/initialized if it is currently null
+     * @return the citations on this object, or null if there are none and <tt>initializeIfNeeded</tt> is false
+     */
+    List<AbstractCitation> getCitations(boolean initializeIfNeeded);
 }

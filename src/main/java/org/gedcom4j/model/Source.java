@@ -254,7 +254,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      */
     public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
         if (initializeIfNeeded && multimedia == null) {
-            multimedia = new ArrayList<Multimedia>(0);
+            multimedia = new ArrayList<>(0);
         }
         return multimedia;
     }
@@ -277,7 +277,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      */
     public List<String> getOriginatorsAuthors(boolean initializeIfNeeded) {
         if (initializeIfNeeded && originatorsAuthors == null) {
-            originatorsAuthors = new ArrayList<String>(0);
+            originatorsAuthors = new ArrayList<>(0);
         }
         return originatorsAuthors;
     }
@@ -300,7 +300,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      */
     public List<String> getPublicationFacts(boolean initializeIfNeeded) {
         if (initializeIfNeeded && publicationFacts == null) {
-            publicationFacts = new ArrayList<String>(0);
+            publicationFacts = new ArrayList<>(0);
         }
         return publicationFacts;
     }
@@ -350,7 +350,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      */
     public List<String> getSourceText(boolean initializeIfNeeded) {
         if (initializeIfNeeded && sourceText == null) {
-            sourceText = new ArrayList<String>(0);
+            sourceText = new ArrayList<>(0);
         }
         return sourceText;
     }
@@ -373,7 +373,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      */
     public List<String> getTitle(boolean initializeIfNeeded) {
         if (initializeIfNeeded && title == null) {
-            title = new ArrayList<String>(0);
+            title = new ArrayList<>(0);
         }
         return title;
     }
@@ -396,7 +396,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      */
     public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
         if (initializeIfNeeded && userReferences == null) {
-            userReferences = new ArrayList<UserReference>(0);
+            userReferences = new ArrayList<>(0);
         }
         return userReferences;
     }

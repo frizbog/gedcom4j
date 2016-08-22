@@ -101,7 +101,7 @@ public class RepositoryCitation extends AbstractNotesElement {
      */
     public List<SourceCallNumber> getCallNumbers(boolean initializeIfNeeded) {
         if (initializeIfNeeded && callNumbers == null) {
-            callNumbers = new ArrayList<SourceCallNumber>(0);
+            callNumbers = new ArrayList<>(0);
         }
         return callNumbers;
     }

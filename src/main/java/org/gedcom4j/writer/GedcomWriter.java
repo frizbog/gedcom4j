@@ -77,30 +77,30 @@ import org.gedcom4j.writer.event.ConstructProgressListener;
  * 
  * <p>
  * Although validation is automatically performed, autorepair is turned off by default (see
- * {@link org.gedcom4j.validate.GedcomValidator#setAutorepairEnabled(boolean)})...this way your data is not altered. Validation can
+ * {@link org.gedcom4j.validate.GedcomValidator#setAutoRepairEnabled(boolean)})...this way your data is not altered. Validation can
  * be suppressed if you want by setting {@link #validationSuppressed} to true, but this is not recommended. You can also force
  * autorepair on if you want.
  * </p>
  * 
  * @author frizbog1
  */
+/**
+ * @author Mark A Sikes
+ *
+ */
+@SuppressWarnings({ "PMD.GodClass", "PMD.TooManyMethods" })
 public class GedcomWriter extends AbstractEmitter<Gedcom> {
     /**
      * The text lines of the GEDCOM file we're writing, which will be written using a {@link GedcomFileWriter}. Deliberately
      * package-private so tests can access it but others can't alter it.
      */
-    List<String> lines = new ArrayList<String>();
+    List<String> lines = new ArrayList<>();
 
     /**
      * Are we suppressing the call to the validator? Deliberately package-private so unit tests can fiddle with it to make testing
      * easy.
      */
     boolean validationSuppressed = false;
-
-    /**
-     * Whether or not to use autorepair in the validation step
-     */
-    private boolean autorepair = false;
 
     /**
      * Has this writer been cancelled?
@@ -115,7 +115,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     /**
      * The list of observers on string construction
      */
-    private final List<WeakReference<ConstructProgressListener>> constructObservers = new CopyOnWriteArrayList<WeakReference<ConstructProgressListener>>();
+    private final List<WeakReference<ConstructProgressListener>> constructObservers = new CopyOnWriteArrayList<>();
 
     /**
      * Send a notification whenever more than this many lines are written to a file
@@ -125,7 +125,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     /**
      * The list of observers on file operations
      */
-    private final List<WeakReference<FileProgressListener>> fileObservers = new CopyOnWriteArrayList<WeakReference<FileProgressListener>>();
+    private final List<WeakReference<FileProgressListener>> fileObservers = new CopyOnWriteArrayList<>();
 
     /**
      * The number of lines constructed as last reported to the observers
@@ -147,6 +147,11 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
      * The line terminator to use
      */
     private LineTerminator lineTerminator = LineTerminator.getDefaultLineTerminator();
+
+    /**
+     * Are we allowing automatic repair of the data, if possible, prior to writing the data?
+     */
+    private boolean autorepair;
 
     /**
      * Constructor
@@ -205,15 +210,6 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     }
 
     /**
-     * Get the auto-repair flag value
-     * 
-     * @return the auto-repair flag value
-     */
-    public boolean isAutorepair() {
-        return autorepair;
-    }
-
-    /**
      * Has this writer been cancelled?
      * 
      * @return true if this writer has been cancelled
@@ -260,7 +256,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
      *            the observer you want notified
      */
     public void registerConstructObserver(ConstructProgressListener observer) {
-        constructObservers.add(new WeakReference<ConstructProgressListener>(observer));
+        constructObservers.add(new WeakReference<>(observer));
     }
 
     /**
@@ -270,14 +266,12 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
      *            the observer you want notified
      */
     public void registerFileObserver(FileProgressListener observer) {
-        fileObservers.add(new WeakReference<FileProgressListener>(observer));
+        fileObservers.add(new WeakReference<>(observer));
     }
 
     /**
-     * Set the autorepair
-     * 
      * @param autorepair
-     *            the autorepair to set
+     *            whether to auto-repair before writing or not.
      */
     public void setAutorepair(boolean autorepair) {
         this.autorepair = autorepair;
@@ -346,7 +340,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
                 i++;
             }
         }
-        constructObservers.add(new WeakReference<ConstructProgressListener>(observer));
+        constructObservers.add(new WeakReference<>(observer));
     }
 
     /**
@@ -365,7 +359,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
                 i++;
             }
         }
-        fileObservers.add(new WeakReference<FileProgressListener>(observer));
+        fileObservers.add(new WeakReference<>(observer));
     }
 
     /**
@@ -387,12 +381,9 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
                 && !file.createNewFile()) {
             throw new IOException("Unable to create file " + file.getName());
         }
-        OutputStream o = new FileOutputStream(file);
-        try {
+        try (OutputStream o = new FileOutputStream(file)) {
             write(o);
             o.flush();
-        } finally {
-            o.close();
         }
     }
 

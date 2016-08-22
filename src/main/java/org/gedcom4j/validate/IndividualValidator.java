@@ -74,7 +74,7 @@ class IndividualValidator extends AbstractValidator {
             }
         } else {
             if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<PersonalName>(names).process();
+                int dups = new DuplicateEliminator<>(names).process();
                 if (dups > 0) {
                     rootValidator.addInfo(dups + " duplicate names found and removed", individual);
                 }
@@ -86,13 +86,13 @@ class IndividualValidator extends AbstractValidator {
             }
         }
         if (rootValidator.isAutorepairEnabled()) {
-            int dups = new DuplicateEliminator<FamilyChild>(individual.getFamiliesWhereChild()).process();
+            int dups = new DuplicateEliminator<>(individual.getFamiliesWhereChild()).process();
             if (dups > 0) {
                 rootValidator.addInfo(dups + " duplicate families (where individual was a child) found and removed", individual);
             }
         }
         if (rootValidator.isAutorepairEnabled()) {
-            int dups = new DuplicateEliminator<FamilySpouse>(individual.getFamiliesWhereSpouse()).process();
+            int dups = new DuplicateEliminator<>(individual.getFamiliesWhereSpouse()).process();
             if (dups > 0) {
                 rootValidator.addInfo(dups + " duplicate families (where individual was a spouse) found and removed", individual);
             }

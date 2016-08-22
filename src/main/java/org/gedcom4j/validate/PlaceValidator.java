@@ -103,7 +103,7 @@ class PlaceValidator extends AbstractValidator {
         }
         if (phonetic != null) {
             if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<AbstractNameVariation>(phonetic).process();
+                int dups = new DuplicateEliminator<>(phonetic).process();
                 if (dups > 0) {
                     rootValidator.addInfo(dups + " duplicate phonetic variations found and removed", place);
                 }
@@ -124,7 +124,7 @@ class PlaceValidator extends AbstractValidator {
             }
         }
         if (rootValidator.isAutorepairEnabled()) {
-            int dups = new DuplicateEliminator<AbstractNameVariation>(romanized).process();
+            int dups = new DuplicateEliminator<>(romanized).process();
             if (dups > 0) {
                 rootValidator.addInfo(dups + " duplicate romanized variations found and removed", place);
             }

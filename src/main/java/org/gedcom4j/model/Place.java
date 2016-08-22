@@ -160,7 +160,7 @@ public class Place extends AbstractNotesElement implements HasCitations {
      */
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
-            citations = new ArrayList<AbstractCitation>(0);
+            citations = new ArrayList<>(0);
         }
         return citations;
     }
@@ -201,7 +201,7 @@ public class Place extends AbstractNotesElement implements HasCitations {
      */
     public List<AbstractNameVariation> getPhonetic(boolean initializeIfNeeded) {
         if (initializeIfNeeded && phonetic == null) {
-            phonetic = new ArrayList<AbstractNameVariation>(0);
+            phonetic = new ArrayList<>(0);
         }
         return phonetic;
     }
@@ -242,7 +242,7 @@ public class Place extends AbstractNotesElement implements HasCitations {
      */
     public List<AbstractNameVariation> getRomanized(boolean initializeIfNeeded) {
         if (initializeIfNeeded && romanized == null) {
-            romanized = new ArrayList<AbstractNameVariation>(0);
+            romanized = new ArrayList<>(0);
         }
         return romanized;
     }

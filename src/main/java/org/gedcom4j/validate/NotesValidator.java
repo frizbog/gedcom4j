@@ -95,7 +95,7 @@ class NotesValidator extends AbstractValidator {
             int i = 0;
             if (notes != null) {
                 if (rootValidator.isAutorepairEnabled()) {
-                    int dups = new DuplicateEliminator<Note>(notes).process();
+                    int dups = new DuplicateEliminator<>(notes).process();
                     if (dups > 0) {
                         rootValidator.addInfo(dups + " duplicate notes found and removed", notes);
                     }

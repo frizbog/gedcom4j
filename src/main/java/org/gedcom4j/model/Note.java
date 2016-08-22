@@ -158,7 +158,7 @@ public class Note extends AbstractElement implements HasCitations {
      */
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
-            citations = new ArrayList<AbstractCitation>(0);
+            citations = new ArrayList<>(0);
         }
         return citations;
     }
@@ -181,7 +181,7 @@ public class Note extends AbstractElement implements HasCitations {
      */
     public List<String> getLines(boolean initializeIfNeeded) {
         if (initializeIfNeeded && lines == null) {
-            lines = new ArrayList<String>(0);
+            lines = new ArrayList<>(0);
         }
         return lines;
     }
@@ -213,7 +213,7 @@ public class Note extends AbstractElement implements HasCitations {
      */
     public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
         if (initializeIfNeeded && userReferences == null) {
-            userReferences = new ArrayList<UserReference>(0);
+            userReferences = new ArrayList<>(0);
         }
         return userReferences;
     }

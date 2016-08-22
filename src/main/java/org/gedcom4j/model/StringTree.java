@@ -166,7 +166,7 @@ public class StringTree implements Serializable {
      */
     public List<StringTree> getChildren(boolean initializeIfNeeded) {
         if (initializeIfNeeded && children == null) {
-            children = new ArrayList<StringTree>(0);
+            children = new ArrayList<>(0);
         }
         return children;
     }

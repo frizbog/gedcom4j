@@ -82,7 +82,7 @@ class SourceValidator extends AbstractValidator {
                 }
             } else {
                 if (rootValidator.isAutorepairEnabled()) {
-                    int dups = new DuplicateEliminator<EventRecorded>(eventsRecorded).process();
+                    int dups = new DuplicateEliminator<>(eventsRecorded).process();
                     if (dups > 0) {
                         rootValidator.addInfo(dups + " duplicate recorded events found and removed", sd);
                     }
@@ -104,7 +104,7 @@ class SourceValidator extends AbstractValidator {
             addError("Multimedia collection on source is null", source);
         } else {
             if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<Multimedia>(multimedia).process();
+                int dups = new DuplicateEliminator<>(multimedia).process();
                 if (dups > 0) {
                     rootValidator.addInfo(dups + " duplicate multimedia found and removed", source);
                 }
@@ -150,7 +150,7 @@ class SourceValidator extends AbstractValidator {
             }
         } else {
             if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<SourceCallNumber>(callNumbers).process();
+                int dups = new DuplicateEliminator<>(callNumbers).process();
                 if (dups > 0) {
                     rootValidator.addInfo(dups + " duplicate source call numbers found and removed", citation);
                 }

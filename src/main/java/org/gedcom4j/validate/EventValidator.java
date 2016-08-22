@@ -107,7 +107,7 @@ class EventValidator extends AbstractValidator {
             }
         } else {
             if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<AbstractCitation>(citations).process();
+                int dups = new DuplicateEliminator<>(citations).process();
                 if (dups > 0) {
                     rootValidator.addInfo(dups + " duplicate source citations found and removed", e);
                 }
@@ -134,7 +134,7 @@ class EventValidator extends AbstractValidator {
             }
         } else {
             if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<StringWithCustomTags>(emails).process();
+                int dups = new DuplicateEliminator<>(emails).process();
                 if (dups > 0) {
                     rootValidator.addInfo(dups + " duplicate emails found and removed", e);
                 }
@@ -161,7 +161,7 @@ class EventValidator extends AbstractValidator {
             }
         } else {
             if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<StringWithCustomTags>(faxNumbers).process();
+                int dups = new DuplicateEliminator<>(faxNumbers).process();
                 if (dups > 0) {
                     rootValidator.addInfo(dups + " duplicate fax numbers found and removed", e);
                 }
@@ -188,7 +188,7 @@ class EventValidator extends AbstractValidator {
             }
         } else {
             if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<Multimedia>(multimedia).process();
+                int dups = new DuplicateEliminator<>(multimedia).process();
                 if (dups > 0) {
                     rootValidator.addInfo(dups + " duplicate multimedia found and removed", e);
                 }
@@ -215,7 +215,7 @@ class EventValidator extends AbstractValidator {
             }
         } else {
             if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<StringWithCustomTags>(phoneNumbers).process();
+                int dups = new DuplicateEliminator<>(phoneNumbers).process();
                 if (dups > 0) {
                     rootValidator.addInfo(dups + " duplicate phone numbers found and removed", e);
                 }
@@ -245,7 +245,7 @@ class EventValidator extends AbstractValidator {
             }
         } else {
             if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<StringWithCustomTags>(wwwUrls).process();
+                int dups = new DuplicateEliminator<>(wwwUrls).process();
                 if (dups > 0) {
                     rootValidator.addInfo(dups + " duplicate web URLs found and removed", e);
                 }

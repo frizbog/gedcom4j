@@ -26,11 +26,25 @@
  */
 package org.gedcom4j.relationship;
 
-import static org.gedcom4j.relationship.RelationshipName.*;
+import static org.gedcom4j.relationship.RelationshipName.CHILD;
+import static org.gedcom4j.relationship.RelationshipName.DAUGHTER;
+import static org.gedcom4j.relationship.RelationshipName.FATHER;
+import static org.gedcom4j.relationship.RelationshipName.HUSBAND;
+import static org.gedcom4j.relationship.RelationshipName.MOTHER;
+import static org.gedcom4j.relationship.RelationshipName.SON;
+import static org.gedcom4j.relationship.RelationshipName.WIFE;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Family;
+import org.gedcom4j.model.FamilyChild;
+import org.gedcom4j.model.FamilySpouse;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * <p>
@@ -84,7 +98,7 @@ public class RelationshipCalculator {
     /**
      * People we have looked at already
      */
-    private Set<Individual> lookedAt = new HashSet<Individual>();
+    private Set<Individual> lookedAt = new HashSet<>();
 
     /**
      * <p>
@@ -109,7 +123,7 @@ public class RelationshipCalculator {
     public void calculateRelationships(Individual individual1, Individual individual2, boolean simplified) {
 
         // Clear out the results from last time
-        relationshipsFound = new ArrayList<Relationship>();
+        relationshipsFound = new ArrayList<>();
 
         // We are starting with the first individual
         startingIndividual = individual1;
@@ -118,9 +132,9 @@ public class RelationshipCalculator {
         targetIndividual = individual2;
 
         // We currently have taken no steps away from individual 1
-        currentChain = new ArrayList<SimpleRelationship>();
+        currentChain = new ArrayList<>();
 
-        lookedAt = new HashSet<Individual>();
+        lookedAt = new HashSet<>();
 
         // Start with individual 1 and recurse
         if (individual1 != individual2) { // NOPMD - Deliberately comparing with !=
@@ -134,7 +148,7 @@ public class RelationshipCalculator {
         }
         if (relationshipsFound.size() > 1) {
             // Remove duplicates
-            relationshipsFound = new ArrayList<Relationship>(new HashSet<Relationship>(relationshipsFound));
+            relationshipsFound = new ArrayList<>(new HashSet<>(relationshipsFound));
             Collections.sort(relationshipsFound);
 
             // Of the unique chains, the shortest ones are preferred
@@ -147,7 +161,7 @@ public class RelationshipCalculator {
 
             // Of chains of equal lengths, the simplest ones are preferred
             int simplestSimplicity = Integer.MAX_VALUE;
-            List<Relationship> keepers = new ArrayList<Relationship>();
+            List<Relationship> keepers = new ArrayList<>();
             for (int i = relationshipsFound.size() - 1; i >= 0; i--) {
                 Relationship r = relationshipsFound.get(i);
                 int totalSimplicity = r.getTotalSimplicity();
@@ -364,7 +378,7 @@ public class RelationshipCalculator {
         SimpleRelationship r = new SimpleRelationship();
         r.setIndividual1(personBeingExamined);
         r.setIndividual2(fs.getFamily().getHusband());
-        r.setName(RelationshipName.HUSBAND);
+        r.setName(HUSBAND);
         currentChain.add(r);
         examine(r.getIndividual2());
         currentChain.remove(currentChain.size() - 1);
@@ -409,7 +423,7 @@ public class RelationshipCalculator {
         SimpleRelationship r = new SimpleRelationship();
         r.setIndividual1(personBeingExamined);
         r.setIndividual2(fs.getFamily().getWife());
-        r.setName(RelationshipName.WIFE);
+        r.setName(WIFE);
         currentChain.add(r);
         examine(r.getIndividual2());
         currentChain.remove(currentChain.size() - 1);

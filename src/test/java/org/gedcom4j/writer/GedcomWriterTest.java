@@ -116,7 +116,7 @@ public class GedcomWriterTest {
             byteStream = new FileInputStream(tempFile);
             bufferedInputStream = new BufferedInputStream(byteStream);
             GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(), bufferedInputStream);
-            readbackLines = new ArrayList<String>();
+            readbackLines = new ArrayList<>();
             String s = gfr.nextLine();
             while (s != null) {
                 readbackLines.add(s);
@@ -304,7 +304,7 @@ public class GedcomWriterTest {
     @Test
     public void testSplitLines() throws WriterCancelledException {
         AbstractEmitter<Gedcom> gw = new GedcomWriter(null);
-        List<String> original = new ArrayList<String>();
+        List<String> original = new ArrayList<>();
         original.add("This is a test");
         List<String> result = gw.splitLinesOnBreakingCharacters(original);
         assertNotNull(result);
@@ -452,7 +452,7 @@ public class GedcomWriterTest {
             fis = new FileInputStream(fileToRead);
             bis = new BufferedInputStream(fis);
             GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(), bis);
-            List<String> result = new ArrayList<String>();
+            List<String> result = new ArrayList<>();
             String s = gfr.nextLine();
             while (s != null) {
                 result.add(s);

@@ -37,9 +37,10 @@ import org.gedcom4j.Options;
  */
 public abstract class AbstractNotesElement extends AbstractElement implements HasNotes {
 
-	private static final long serialVersionUID = 2539148787102235445L;
-	
-	/**
+    /** Serial version uid */
+    private static final long serialVersionUID = 2539148787102235445L;
+
+    /**
      * Notes on this element
      */
     private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
@@ -87,21 +88,11 @@ public abstract class AbstractNotesElement extends AbstractElement implements Ha
      */
     public List<Note> getNotes(boolean initializeIfNeeded) {
         if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<Note>(0);
+            notes = new ArrayList<>(0);
         }
         return notes;
     }
 
-    /**
-     * Set the notes
-     * 
-     * @param theNotes
-     */
-    public void setNotes(List<Note> theNotes) {
-    	getNotes(true).clear();
-    	notes.addAll(theNotes);
-    }
-    
     /**
      * {@inheritDoc}
      */
@@ -111,6 +102,16 @@ public abstract class AbstractNotesElement extends AbstractElement implements Ha
         int result = super.hashCode();
         result = prime * result + ((notes == null) ? 0 : notes.hashCode());
         return result;
+    }
+
+    /**
+     * Set the notes
+     * 
+     * @param theNotes
+     */
+    public void setNotes(List<Note> theNotes) {
+        getNotes(true).clear();
+        notes.addAll(theNotes);
     }
 
     /**

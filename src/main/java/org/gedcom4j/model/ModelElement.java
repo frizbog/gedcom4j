@@ -27,8 +27,9 @@
 package org.gedcom4j.model;
 
 /**
+ * Marks an object in the Gedcom4j object model
+ * 
  * @author Mark A Sikes
  */
-public interface ValidatedElement {
-	// Marker interface to identify a Gedcom model object
+public interface ModelElement {
 }

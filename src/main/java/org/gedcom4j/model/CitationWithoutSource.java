@@ -107,7 +107,7 @@ public class CitationWithoutSource extends AbstractCitation {
      */
     public List<String> getDescription(boolean initializeIfNeeded) {
         if (initializeIfNeeded && description == null) {
-            description = new ArrayList<String>(0);
+            description = new ArrayList<>(0);
         }
         return description;
     }
@@ -130,7 +130,7 @@ public class CitationWithoutSource extends AbstractCitation {
      */
     public List<List<String>> getTextFromSource(boolean initializeIfNeeded) {
         if (initializeIfNeeded && textFromSource == null) {
-            textFromSource = new ArrayList<List<String>>(0);
+            textFromSource = new ArrayList<>(0);
         }
         return textFromSource;
     }

@@ -66,7 +66,7 @@ public class DuplicateEliminator<T> {
             return 0;
         }
         int result = 0;
-        HashSet<T> unique = new HashSet<T>();
+        HashSet<T> unique = new HashSet<>();
         int i = 0;
         while (i < items.size()) {
             T item = items.get(i);

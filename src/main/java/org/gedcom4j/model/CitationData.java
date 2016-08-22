@@ -108,7 +108,7 @@ public class CitationData extends AbstractElement {
      */
     public List<List<String>> getSourceText(boolean initializeIfNeeded) {
         if (initializeIfNeeded && sourceText == null) {
-            sourceText = new ArrayList<List<String>>(0);
+            sourceText = new ArrayList<>(0);
         }
         return sourceText;
     }

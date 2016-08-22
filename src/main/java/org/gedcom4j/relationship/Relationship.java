@@ -41,7 +41,7 @@ public class Relationship implements Comparable<Relationship> {
     /**
      * The chain of relationships from person 1 to person 2
      */
-    private final List<SimpleRelationship> chain = new ArrayList<SimpleRelationship>();
+    private final List<SimpleRelationship> chain = new ArrayList<>();
 
     /**
      * Person 1

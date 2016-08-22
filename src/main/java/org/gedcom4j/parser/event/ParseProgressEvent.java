@@ -202,7 +202,7 @@ public class ParseProgressEvent extends EventObject {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(256);
         builder.append("ParseProgressEvent [complete=");
         builder.append(complete);
         builder.append(", linesParsed=");

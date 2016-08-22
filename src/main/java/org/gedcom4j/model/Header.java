@@ -239,7 +239,7 @@ public class Header extends AbstractNotesElement {
      */
     public List<String> getCopyrightData(boolean initializeIfNeeded) {
         if (initializeIfNeeded && copyrightData == null) {
-            copyrightData = new ArrayList<String>(0);
+            copyrightData = new ArrayList<>(0);
         }
         return copyrightData;
     }

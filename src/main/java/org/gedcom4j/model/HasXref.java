@@ -27,8 +27,15 @@
 package org.gedcom4j.model;
 
 /**
+ * Marks an object that has an xref element, so it can be pointed to by other elements.
+ * 
  * @author Mark A Sikes
  */
-public interface HasXref extends ValidatedElement {
-	String getXref();
+public interface HasXref extends ModelElement {
+    /**
+     * Get the xref on this object
+     * 
+     * @return the xref on this object
+     */
+    String getXref();
 }

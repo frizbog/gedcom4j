@@ -89,7 +89,7 @@ public abstract class AbstractElement implements Serializable, HasCustomTags {
      */
     public List<StringTree> getCustomTags(boolean initializeIfNeeded) {
         if (initializeIfNeeded && customTags == null) {
-            customTags = new ArrayList<StringTree>(0);
+            customTags = new ArrayList<>(0);
         }
         return customTags;
     }

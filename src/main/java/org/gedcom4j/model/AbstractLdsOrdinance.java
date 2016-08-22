@@ -137,7 +137,7 @@ public abstract class AbstractLdsOrdinance extends AbstractNotesElement implemen
      */
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
-            citations = new ArrayList<AbstractCitation>();
+            citations = new ArrayList<>();
         }
         return citations;
     }

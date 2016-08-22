@@ -29,9 +29,24 @@ package org.gedcom4j.model;
 import java.util.List;
 
 /**
+ * Marks an object that has custom tags.
+ * 
  * @author Mark A Sikes
  */
-public interface HasCustomTags extends ValidatedElement {
-	List<StringTree> getCustomTags();
-	List<StringTree> getCustomTags(boolean initialize);
+public interface HasCustomTags extends ModelElement {
+    /**
+     * Geth the custom tags on this object
+     * 
+     * @return the custom tags on this object
+     */
+    List<StringTree> getCustomTags();
+
+    /**
+     * Get the custom tags on this object, initializing the collection if needed
+     * 
+     * @param initializeIfNeeded
+     *            set to true if you want the backing collection to be instantiated/initialized if it is currently null
+     * @return the custom tags on this object, or null if there are none and <tt>initializeIfNeeded</tt> is false
+     */
+    List<StringTree> getCustomTags(boolean initializeIfNeeded);
 }

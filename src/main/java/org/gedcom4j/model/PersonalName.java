@@ -207,7 +207,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      */
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
-            citations = new ArrayList<AbstractCitation>(0);
+            citations = new ArrayList<>(0);
         }
         return citations;
     }
@@ -248,7 +248,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      */
     public List<PersonalNameVariation> getPhonetic(boolean initializeIfNeeded) {
         if (initializeIfNeeded && phonetic == null) {
-            phonetic = new ArrayList<PersonalNameVariation>(0);
+            phonetic = new ArrayList<>(0);
         }
         return phonetic;
     }
@@ -280,7 +280,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      */
     public List<PersonalNameVariation> getRomanized(boolean initializeIfNeeded) {
         if (initializeIfNeeded && romanized == null) {
-            romanized = new ArrayList<PersonalNameVariation>(0);
+            romanized = new ArrayList<>(0);
         }
         return romanized;
     }

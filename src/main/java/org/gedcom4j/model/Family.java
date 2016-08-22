@@ -279,7 +279,7 @@ public class Family extends AbstractNotesElement implements HasCitations {
      */
     public List<Individual> getChildren(boolean initializeIfNeeded) {
         if (initializeIfNeeded && children == null) {
-            children = new ArrayList<Individual>(0);
+            children = new ArrayList<>(0);
         }
         return children;
     }
@@ -303,7 +303,7 @@ public class Family extends AbstractNotesElement implements HasCitations {
      */
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
-            citations = new ArrayList<AbstractCitation>(0);
+            citations = new ArrayList<>(0);
         }
         return citations;
     }
@@ -326,7 +326,7 @@ public class Family extends AbstractNotesElement implements HasCitations {
      */
     public List<FamilyEvent> getEvents(boolean initializeIfNeeded) {
         if (initializeIfNeeded && events == null) {
-            events = new ArrayList<FamilyEvent>(0);
+            events = new ArrayList<>(0);
         }
         return events;
     }
@@ -358,7 +358,7 @@ public class Family extends AbstractNotesElement implements HasCitations {
      */
     public List<LdsSpouseSealing> getLdsSpouseSealings(boolean initializeIfNeeded) {
         if (initializeIfNeeded && ldsSpouseSealings == null) {
-            ldsSpouseSealings = new ArrayList<LdsSpouseSealing>(0);
+            ldsSpouseSealings = new ArrayList<>(0);
         }
         return ldsSpouseSealings;
     }
@@ -381,7 +381,7 @@ public class Family extends AbstractNotesElement implements HasCitations {
      */
     public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
         if (initializeIfNeeded && multimedia == null) {
-            multimedia = new ArrayList<Multimedia>(0);
+            multimedia = new ArrayList<>(0);
         }
         return multimedia;
     }
@@ -431,7 +431,7 @@ public class Family extends AbstractNotesElement implements HasCitations {
      */
     public List<Submitter> getSubmitters(boolean initializeIfNeeded) {
         if (initializeIfNeeded && submitters == null) {
-            submitters = new ArrayList<Submitter>(0);
+            submitters = new ArrayList<>(0);
         }
         return submitters;
     }
@@ -454,7 +454,7 @@ public class Family extends AbstractNotesElement implements HasCitations {
      */
     public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
         if (initializeIfNeeded && userReferences == null) {
-            userReferences = new ArrayList<UserReference>(0);
+            userReferences = new ArrayList<>(0);
         }
         return userReferences;
     }

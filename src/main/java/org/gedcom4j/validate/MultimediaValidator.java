@@ -127,7 +127,7 @@ class MultimediaValidator extends AbstractValidator {
             }
         }
         if (rootValidator.isAutorepairEnabled()) {
-            int dups = new DuplicateEliminator<UserReference>(userReferences).process();
+            int dups = new DuplicateEliminator<>(userReferences).process();
             if (dups > 0) {
                 rootValidator.addInfo(dups + " duplicate user references found and removed", mm);
             }

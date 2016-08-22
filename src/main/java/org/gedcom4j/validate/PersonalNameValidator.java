@@ -101,7 +101,7 @@ class PersonalNameValidator extends AbstractValidator {
             }
         } else {
             if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<PersonalNameVariation>(phonetic).process();
+                int dups = new DuplicateEliminator<>(phonetic).process();
                 if (dups > 0) {
                     rootValidator.addInfo(dups + " duplicate phonetic found and removed", pn);
                 }
@@ -125,7 +125,7 @@ class PersonalNameValidator extends AbstractValidator {
             }
         } else {
             if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<PersonalNameVariation>(romanized).process();
+                int dups = new DuplicateEliminator<>(romanized).process();
                 if (dups > 0) {
                     rootValidator.addInfo(dups + " duplicate romanized variations found and removed", pn);
                 }

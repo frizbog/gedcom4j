@@ -94,7 +94,7 @@ class CitationValidator extends AbstractValidator {
                 }
             } else {
                 if (rootValidator.isAutorepairEnabled()) {
-                    int dups = new DuplicateEliminator<List<String>>(textFromSource).process();
+                    int dups = new DuplicateEliminator<>(textFromSource).process();
                     if (dups > 0) {
                         rootValidator.addInfo(dups + " duplicate texts from source found and removed", citation);
                     }

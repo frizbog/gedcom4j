@@ -99,7 +99,7 @@ public class SourceData extends AbstractNotesElement {
      */
     public List<EventRecorded> getEventsRecorded(boolean initializeIfNeeded) {
         if (initializeIfNeeded && eventsRecorded == null) {
-            eventsRecorded = new ArrayList<EventRecorded>(0);
+            eventsRecorded = new ArrayList<>(0);
         }
         return eventsRecorded;
     }

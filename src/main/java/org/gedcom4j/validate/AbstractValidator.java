@@ -322,7 +322,7 @@ abstract class AbstractValidator {
     protected void checkStringTagList(List<StringWithCustomTags> stringList, String description, boolean blanksAllowed) {
         int i = 0;
         if (rootValidator.isAutorepairEnabled()) {
-            int dups = new DuplicateEliminator<StringWithCustomTags>(stringList).process();
+            int dups = new DuplicateEliminator<>(stringList).process();
             if (dups > 0) {
                 rootValidator.addInfo(dups + " duplicate tagged strings found and removed", stringList);
             }

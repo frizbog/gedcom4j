@@ -198,7 +198,7 @@ public class Address extends AbstractElement {
      */
     public List<String> getLines(boolean initializeIfNeeded) {
         if (initializeIfNeeded && lines == null) {
-            lines = new ArrayList<String>(0);
+            lines = new ArrayList<>(0);
         }
         return lines;
     }

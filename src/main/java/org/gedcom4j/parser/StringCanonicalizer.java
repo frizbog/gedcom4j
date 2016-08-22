@@ -88,7 +88,7 @@ class StringCanonicalizer {
     /**
      * The string pool
      */
-    final ConcurrentMap<String, CanonicalizedString> stringPool = new ConcurrentHashMap<String, CanonicalizedString>(100);
+    final ConcurrentMap<String, CanonicalizedString> stringPool = new ConcurrentHashMap<>(100);
 
     /**
      * The minimum number of usages that a canonicalized string has to have to remain in the pool during cleanup

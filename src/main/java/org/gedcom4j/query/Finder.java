@@ -82,7 +82,7 @@ public class Finder {
      * @return a {@link List} of {@link Individual}s that have both the surname and given name supplied.
      */
     public List<Individual> findByName(String prefix, String surname, String given, String suffix) {
-        List<Individual> result = new ArrayList<Individual>();
+        List<Individual> result = new ArrayList<>();
         for (Individual i : g.getIndividuals().values()) {
             if (i.getNames() != null) {
                 for (PersonalName n : i.getNames()) {

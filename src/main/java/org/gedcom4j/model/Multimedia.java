@@ -213,7 +213,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations {
      */
     public List<String> getBlob(boolean initializeIfNeeded) {
         if (initializeIfNeeded && blob == null) {
-            blob = new ArrayList<String>(0);
+            blob = new ArrayList<>(0);
         }
         return blob;
     }
@@ -246,7 +246,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations {
      */
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
-            citations = new ArrayList<AbstractCitation>(0);
+            citations = new ArrayList<>(0);
         }
         return citations;
     }
@@ -296,7 +296,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations {
      */
     public List<FileReference> getFileReferences(boolean initializeIfNeeded) {
         if (initializeIfNeeded && fileReferences == null) {
-            fileReferences = new ArrayList<FileReference>(0);
+            fileReferences = new ArrayList<>(0);
         }
         return fileReferences;
     }
@@ -328,7 +328,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations {
      */
     public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
         if (initializeIfNeeded && userReferences == null) {
-            userReferences = new ArrayList<UserReference>(0);
+            userReferences = new ArrayList<>(0);
         }
         return userReferences;
     }

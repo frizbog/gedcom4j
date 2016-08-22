@@ -314,7 +314,7 @@ public abstract class AbstractEvent extends AbstractNotesElement implements HasC
      */
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
-            citations = new ArrayList<AbstractCitation>(0);
+            citations = new ArrayList<>(0);
         }
         return citations;
     }
@@ -355,7 +355,7 @@ public abstract class AbstractEvent extends AbstractNotesElement implements HasC
      */
     public List<StringWithCustomTags> getEmails(boolean initializeIfNeeded) {
         if (initializeIfNeeded && emails == null) {
-            emails = new ArrayList<StringWithCustomTags>(0);
+            emails = new ArrayList<>(0);
         }
 
         return emails;
@@ -379,7 +379,7 @@ public abstract class AbstractEvent extends AbstractNotesElement implements HasC
      */
     public List<StringWithCustomTags> getFaxNumbers(boolean initializeIfNeeded) {
         if (initializeIfNeeded && faxNumbers == null) {
-            faxNumbers = new ArrayList<StringWithCustomTags>(0);
+            faxNumbers = new ArrayList<>(0);
         }
         return faxNumbers;
     }
@@ -402,7 +402,7 @@ public abstract class AbstractEvent extends AbstractNotesElement implements HasC
      */
     public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
         if (initializeIfNeeded && multimedia == null) {
-            multimedia = new ArrayList<Multimedia>(0);
+            multimedia = new ArrayList<>(0);
         }
         return multimedia;
     }
@@ -425,7 +425,7 @@ public abstract class AbstractEvent extends AbstractNotesElement implements HasC
      */
     public List<StringWithCustomTags> getPhoneNumbers(boolean initializeIfNeeded) {
         if (initializeIfNeeded && phoneNumbers == null) {
-            phoneNumbers = new ArrayList<StringWithCustomTags>(0);
+            phoneNumbers = new ArrayList<>(0);
         }
         return phoneNumbers;
     }
@@ -493,7 +493,7 @@ public abstract class AbstractEvent extends AbstractNotesElement implements HasC
      */
     public List<StringWithCustomTags> getWwwUrls(boolean initializeIfNeeded) {
         if (initializeIfNeeded && wwwUrls == null) {
-            wwwUrls = new ArrayList<StringWithCustomTags>(0);
+            wwwUrls = new ArrayList<>(0);
         }
         return wwwUrls;
     }

@@ -101,7 +101,7 @@ class FamilyValidator extends AbstractValidator {
             }
         } else {
             if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<Individual>(children).process();
+                int dups = new DuplicateEliminator<>(children).process();
                 if (dups > 0) {
                     rootValidator.addInfo(dups + " duplicate children found and removed", f);
                 }
@@ -130,7 +130,7 @@ class FamilyValidator extends AbstractValidator {
             }
         } else {
             if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<AbstractCitation>(citations).process();
+                int dups = new DuplicateEliminator<>(citations).process();
                 if (dups > 0) {
                     rootValidator.addInfo(dups + " duplicate source citations found and removed", f);
                 }
@@ -157,7 +157,7 @@ class FamilyValidator extends AbstractValidator {
             }
         } else {
             if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<LdsSpouseSealing>(ldsSpouseSealings).process();
+                int dups = new DuplicateEliminator<>(ldsSpouseSealings).process();
                 if (dups > 0) {
                     rootValidator.addInfo(dups + " duplicate LDS spouse sealings found and removed", f);
                 }
@@ -184,7 +184,7 @@ class FamilyValidator extends AbstractValidator {
             }
         } else {
             if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<Multimedia>(multimedia).process();
+                int dups = new DuplicateEliminator<>(multimedia).process();
                 if (dups > 0) {
                     rootValidator.addInfo(dups + " duplicate multimedia found and removed", f);
                 }
@@ -211,7 +211,7 @@ class FamilyValidator extends AbstractValidator {
             }
         } else {
             if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<Submitter>(submitters).process();
+                int dups = new DuplicateEliminator<>(submitters).process();
                 if (dups > 0) {
                     rootValidator.addInfo(dups + " duplicate submitters found and removed", f);
                 }

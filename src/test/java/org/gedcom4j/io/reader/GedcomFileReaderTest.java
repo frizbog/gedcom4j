@@ -452,7 +452,7 @@ public class GedcomFileReaderTest {
      *             if the file cannot be parsed or the load was cancelled
      */
     private static List<String> getLines(GedcomFileReader gr) throws IOException, GedcomParserException {
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
         String s = gr.nextLine();
         while (s != null) {
             result.add(s);

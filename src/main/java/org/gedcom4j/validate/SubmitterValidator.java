@@ -81,7 +81,7 @@ class SubmitterValidator extends AbstractValidator {
     private void checkLanguagePreferences() {
         List<StringWithCustomTags> languagePref = submitter.getLanguagePref();
         if (rootValidator.isAutorepairEnabled()) {
-            int dups = new DuplicateEliminator<StringWithCustomTags>(languagePref).process();
+            int dups = new DuplicateEliminator<>(languagePref).process();
             if (dups > 0) {
                 rootValidator.addInfo(dups + " duplicate language preferences found and removed", submitter);
             }

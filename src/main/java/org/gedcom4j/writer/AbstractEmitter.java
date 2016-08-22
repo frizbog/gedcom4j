@@ -35,8 +35,6 @@ import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.SupportedVersion;
 
-import sun.security.krb5.internal.ccache.Tag;
-
 /**
  * A base class for type-specific writers, which "render" the object model as GEDCOM text.
  * 
@@ -112,8 +110,8 @@ abstract class AbstractEmitter<T> {
     }
 
     /**
-     * Emit a multi-line text value. If a line of text contains line breaks (newlines, line feeds, carriage returns),
-     * the parts on either side of the line break will be treated as separate lines.
+     * Emit a multi-line text value. If a line of text contains line breaks (newlines, line feeds, carriage returns), the parts on
+     * either side of the line break will be treated as separate lines.
      * 
      * @param level
      *            the level we are starting at. Continuation lines will be one level deeper than this value
@@ -148,7 +146,7 @@ abstract class AbstractEmitter<T> {
     }
 
     /**
-     * Emit a list of {@link StringWithCustomTags} objects, using a specific {@link Tag} value.
+     * Emit a list of {@link StringWithCustomTags} objects, using a specific {@link org.gedcom4j.parser.Tag} value.
      * 
      * @param level
      *            the level to write at
@@ -159,7 +157,8 @@ abstract class AbstractEmitter<T> {
      * @throws GedcomWriterException
      *             if the data cannot be written
      */
-    protected void emitStringsWithCustomTags(int level, List<StringWithCustomTags> strings, String tagValue) throws GedcomWriterException {
+    protected void emitStringsWithCustomTags(int level, List<StringWithCustomTags> strings, String tagValue)
+            throws GedcomWriterException {
         if (strings != null) {
             for (StringWithCustomTags f : strings) {
                 emitTagWithRequiredValue(level, tagValue, f);
@@ -230,7 +229,7 @@ abstract class AbstractEmitter<T> {
             line.append(" ").append(tag);
             baseWriter.lines.add(line.toString());
         } else {
-            List<String> temp = new ArrayList<String>();
+            List<String> temp = new ArrayList<>();
             temp.add(value);
             List<String> valueLines = splitLinesOnBreakingCharacters(temp);
 
@@ -265,7 +264,8 @@ abstract class AbstractEmitter<T> {
      * @throws GedcomWriterException
      *             if the value is null or blank (which never happens, because we check for it)
      */
-    protected void emitTagWithOptionalValueAndCustomSubtags(int level, String tag, StringWithCustomTags valueToRightOfTag) throws GedcomWriterException {
+    protected void emitTagWithOptionalValueAndCustomSubtags(int level, String tag, StringWithCustomTags valueToRightOfTag)
+            throws GedcomWriterException {
         if (valueToRightOfTag == null || valueToRightOfTag.getValue() == null) {
             StringBuilder line = new StringBuilder(Integer.toString(level));
             line.append(" ").append(tag);
@@ -276,7 +276,7 @@ abstract class AbstractEmitter<T> {
             return;
         }
 
-        List<String> temp = new ArrayList<String>();
+        List<String> temp = new ArrayList<>();
         temp.add(valueToRightOfTag.getValue());
         List<String> valueLines = splitLinesOnBreakingCharacters(temp);
 
@@ -336,8 +336,9 @@ abstract class AbstractEmitter<T> {
      * @return true if and only if the Gedcom data says it is for the 5.5 standard.
      */
     protected boolean g55() {
-        return baseWriter != null && baseWriter.writeFrom.getHeader() != null && baseWriter.writeFrom.getHeader().getGedcomVersion() != null
-                && SupportedVersion.V5_5.equals(baseWriter.writeFrom.getHeader().getGedcomVersion().getVersionNumber());
+        return baseWriter != null && baseWriter.writeFrom.getHeader() != null && baseWriter.writeFrom.getHeader()
+                .getGedcomVersion() != null && SupportedVersion.V5_5.equals(baseWriter.writeFrom.getHeader().getGedcomVersion()
+                        .getVersionNumber());
     }
 
     /**
@@ -367,15 +368,15 @@ abstract class AbstractEmitter<T> {
     }
 
     /**
-     * Split up an array of text lines to when line break characters appear. If any of the original line contains line
-     * split characters (newlines, line feeds, carriage returns), split the line up into multiple lines.
+     * Split up an array of text lines to when line break characters appear. If any of the original line contains line split
+     * characters (newlines, line feeds, carriage returns), split the line up into multiple lines.
      * 
      * @param linesOfText
      *            a single string that may or may not contain line breaks
      * @return a list of Strings that reflect the line breaks in the original string
      */
     List<String> splitLinesOnBreakingCharacters(List<String> linesOfText) {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         if (linesOfText != null) {
             for (String s : linesOfText) {
                 String[] pieces = s.split("(\r\n|\n\r|\r|\n)");
@@ -430,7 +431,7 @@ abstract class AbstractEmitter<T> {
     private void emitTagIfValueNotNull(int level, String xref, String tag, Object value) {
         if (value != null) {
 
-            List<String> temp = new ArrayList<String>();
+            List<String> temp = new ArrayList<>();
             temp.add(value.toString());
             List<String> valueLines = splitLinesOnBreakingCharacters(temp);
 
@@ -474,7 +475,7 @@ abstract class AbstractEmitter<T> {
         if (e == null || e.getValue() == null || e.getValue().trim().length() == 0) {
             throw new GedcomWriterException("Required value for tag " + tag + " at level " + level + " was null or blank");
         }
-        List<String> temp = new ArrayList<String>();
+        List<String> temp = new ArrayList<>();
         temp.add(e.getValue());
         List<String> valueLines = splitLinesOnBreakingCharacters(temp);
 

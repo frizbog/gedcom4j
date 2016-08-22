@@ -76,7 +76,7 @@ public class Gedcom extends AbstractElement {
      * A map of all the families in the GEDCOM file. The map is keyed on family cross-reference numbers, and the
      * families themselves are in the value set.
      */
-    private final Map<String, Family> families = new HashMap<String, Family>();
+    private final Map<String, Family> families = new HashMap<>();
 
     /**
      * Header information about the GEDCOM
@@ -87,31 +87,31 @@ public class Gedcom extends AbstractElement {
      * A map of all the individuals in the GEDCOM file. The map is keyed on the individual cross-reference numbers and
      * the individuals themselves are in the value set.
      */
-    private final Map<String, Individual> individuals = new HashMap<String, Individual>(0);
+    private final Map<String, Individual> individuals = new HashMap<>(0);
 
     /**
      * A map of all the multimedia items in the GEDCOM file. The map is keyed by the multimedia cross-reference numbers,
      * and the multimedia items themselves (well, the metadata about them for 5.5.1) are in the value set. Remember,
      * GEDCOM 5.5.1 multimedia is not embedded in the GEDCOM, but the GEDCOM contains metadata about the multimedia.
      */
-    private final Map<String, Multimedia> multimedia = new HashMap<String, Multimedia>(0);
+    private final Map<String, Multimedia> multimedia = new HashMap<>(0);
 
     /**
      * A map of notes. The map is keyed with cross-reference numbers and the notes themselves are the values.
      */
-    private final Map<String, Note> notes = new HashMap<String, Note>(0);
+    private final Map<String, Note> notes = new HashMap<>(0);
 
     /**
      * A map of all the source repositories in the GEDCOM file. The map is keyed on the repository cross-reference
      * numbers, and the repositories themselves are in the value set.
      */
-    private final Map<String, Repository> repositories = new HashMap<String, Repository>(0);
+    private final Map<String, Repository> repositories = new HashMap<>(0);
 
     /**
      * A map of all the sources in the GEDCOM file. The map is keyed on source cross-reference numbers, and the sources
      * themselves are in the value set.
      */
-    private final Map<String, Source> sources = new HashMap<String, Source>(0);
+    private final Map<String, Source> sources = new HashMap<>(0);
 
     /**
      * Information about the GEDCOM submission. There is only one and it is required, so the xref ID has a default.
@@ -122,7 +122,7 @@ public class Gedcom extends AbstractElement {
      * A map of the submitters in the GEDCOM file. The map is keyed on submitter cross-reference numbers, and the
      * submitters themselves are in the value set
      */
-    private final Map<String, Submitter> submitters = new HashMap<String, Submitter>(0);
+    private final Map<String, Submitter> submitters = new HashMap<>(0);
 
     /**
      * The trailer of the file

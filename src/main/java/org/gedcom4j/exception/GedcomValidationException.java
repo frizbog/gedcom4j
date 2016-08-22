@@ -27,9 +27,8 @@
 package org.gedcom4j.exception;
 
 /**
- * An exception indicating that the process of validation failed. Does not mean
- * that there is a problem with the data -- those are found in the
- * {@link GedcomValidator#findings} collection.
+ * An exception indicating that the process of validation failed. Does not mean that there is a problem with the data -- those are
+ * found in the {@link org.gedcom4j.validate.GedcomValidator#findings} collection.
  * 
  * @author frizbog1
  * 

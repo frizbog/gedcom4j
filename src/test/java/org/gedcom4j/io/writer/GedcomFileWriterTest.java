@@ -62,7 +62,7 @@ public class GedcomFileWriterTest {
      */
     @Test
     public void testEmptyLines() throws WriterCancelledException {
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
         assertNotNull(gfw.getTerminator());
     }
@@ -77,7 +77,7 @@ public class GedcomFileWriterTest {
      */
 	@Test
     public void testEncodingDetectionAnselExplicit() throws IOException, WriterCancelledException {
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         lines.add("0 HEAD");
         lines.add("1 CHAR ANSEL");
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
@@ -95,7 +95,7 @@ public class GedcomFileWriterTest {
      */
     @Test
     public void testEncodingDetectionAscii() throws IOException, WriterCancelledException {
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         lines.add("0 HEAD");
         lines.add("1 CHAR ASCII");
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
@@ -117,7 +117,7 @@ public class GedcomFileWriterTest {
      */
     @Test
     public void testEncodingDetectionDefault() throws IOException, WriterCancelledException {
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         lines.add("0 HEAD");
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
         gfw.write(new NullOutputStream());
@@ -137,7 +137,7 @@ public class GedcomFileWriterTest {
      */
     @Test
     public void testEncodingDetectionUnicode() throws IOException, WriterCancelledException {
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         lines.add("0 HEAD");
         lines.add("1 CHAR UNICODE");
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
@@ -157,7 +157,7 @@ public class GedcomFileWriterTest {
      */
     @Test
     public void testEncodingDetectionUtf8() throws IOException, WriterCancelledException {
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         lines.add("0 HEAD");
         lines.add("1 CHAR UTF-8");
         GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
@@ -874,7 +874,7 @@ public class GedcomFileWriterTest {
      * @return a list of strings representing GEDCOM text for a ANSEL-encoded file
      */
     private static List<String> getAnselGedcomLines() {
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         lines.add("0 HEAD");
         lines.add("1 CHAR ANSEL");
         lines.add("\u0140 unmappable in ansel");
@@ -890,7 +890,7 @@ public class GedcomFileWriterTest {
      * @return a list of strings representing GEDCOM text for an ASCII-encoded file
      */
     private static List<String> getAsciiGedcomLines() {
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         lines.add("0 HEAD");
         lines.add("1 CHAR ASCII");
         lines.add("\u0141 is unmappable in ascii");
@@ -905,7 +905,7 @@ public class GedcomFileWriterTest {
      * @return a list of strings representing GEDCOM text for a Unicode-encoded file
      */
     private static List<String> getUnicodeGedcomLines() {
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         lines.add("0 HEAD");
         lines.add("1 CHAR UNICODE");
         lines.add("A\u00C4a\u00E4"); // Capital A, capital A-umlaut, lowercase a, lowercase a-umlaut
@@ -920,7 +920,7 @@ public class GedcomFileWriterTest {
      * @return a list of strings representing GEDCOM text for a UTF-8-encoded file
      */
     private static List<String> getUtf8GedcomLines() {
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         lines.add("0 HEAD");
         lines.add("1 CHAR UTF-8");
         lines.add("A\u00C4a\u00E4"); // Capital A, capital A-umlaut, lowercase a, lowercase a-umlaut

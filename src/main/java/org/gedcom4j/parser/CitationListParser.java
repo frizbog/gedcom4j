@@ -82,7 +82,7 @@ class CitationListParser extends AbstractParser<List<AbstractCitation>> {
                 if (Tag.DATE.equalsText(ch.getTag())) {
                     d.setEntryDate(new StringWithCustomTags(ch));
                 } else if (Tag.TEXT.equalsText(ch.getTag())) {
-                    List<String> ls = new ArrayList<String>();
+                    List<String> ls = new ArrayList<>();
                     d.getSourceText(true).add(ls);
                     loadMultiLinesOfText(ch, ls, d);
                 } else {
@@ -116,7 +116,7 @@ class CitationListParser extends AbstractParser<List<AbstractCitation>> {
                         cws.getDescription().set(cws.getDescription().size() - 1, cws.getDescription().get(cws.getDescription().size() - 1) + ch.getValue());
                     }
                 } else if (Tag.TEXT.equalsText(ch.getTag())) {
-                    List<String> ls = new ArrayList<String>();
+                    List<String> ls = new ArrayList<>();
                     cws.getTextFromSource(true).add(ls);
                     loadMultiLinesOfText(ch, ls, cws);
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {

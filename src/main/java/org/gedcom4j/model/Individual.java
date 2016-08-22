@@ -421,7 +421,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      */
     public List<StringWithCustomTags> getAliases(boolean initializeIfNeeded) {
         if (initializeIfNeeded && aliases == null) {
-            aliases = new ArrayList<StringWithCustomTags>(0);
+            aliases = new ArrayList<>(0);
         }
         return aliases;
     }
@@ -444,7 +444,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      */
     public List<Submitter> getAncestorInterest(boolean initializeIfNeeded) {
         if (initializeIfNeeded && ancestorInterest == null) {
-            ancestorInterest = new ArrayList<Submitter>(0);
+            ancestorInterest = new ArrayList<>(0);
         }
         return ancestorInterest;
     }
@@ -455,7 +455,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      * @return the ancestors
      */
     public Set<Individual> getAncestors() {
-        Set<Individual> result = new HashSet<Individual>();
+        Set<Individual> result = new HashSet<>();
         addGenerationOfAncestors(result);
         return result;
     }
@@ -487,7 +487,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      */
     public List<Association> getAssociations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && associations == null) {
-            associations = new ArrayList<Association>(0);
+            associations = new ArrayList<>(0);
         }
         return associations;
     }
@@ -510,7 +510,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      */
     public List<IndividualAttribute> getAttributes(boolean initializeIfNeeded) {
         if (initializeIfNeeded && attributes == null) {
-            attributes = new ArrayList<IndividualAttribute>(0);
+            attributes = new ArrayList<>(0);
         }
         return attributes;
     }
@@ -524,7 +524,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      * @return a list of attributes of the specified type
      */
     public List<IndividualAttribute> getAttributesOfType(IndividualAttributeType type) {
-        List<IndividualAttribute> result = new ArrayList<IndividualAttribute>(0);
+        List<IndividualAttribute> result = new ArrayList<>(0);
         for (IndividualAttribute ir : attributes) {
             if (ir.getType() == type) {
                 result.add(ir);
@@ -561,7 +561,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      */
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
-            citations = new ArrayList<AbstractCitation>(0);
+            citations = new ArrayList<>(0);
         }
         return citations;
     }
@@ -584,7 +584,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      */
     public List<Submitter> getDescendantInterest(boolean initializeIfNeeded) {
         if (initializeIfNeeded && descendantInterest == null) {
-            descendantInterest = new ArrayList<Submitter>(0);
+            descendantInterest = new ArrayList<>(0);
         }
         return descendantInterest;
     }
@@ -595,7 +595,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      * @return the descendants
      */
     public Set<Individual> getDescendants() {
-        Set<Individual> result = new HashSet<Individual>();
+        Set<Individual> result = new HashSet<>();
         addGenerationOfDescendants(result);
         return result;
     }
@@ -618,7 +618,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      */
     public List<StringWithCustomTags> getEmails(boolean initializeIfNeeded) {
         if (initializeIfNeeded && emails == null) {
-            emails = new ArrayList<StringWithCustomTags>(0);
+            emails = new ArrayList<>(0);
         }
 
         return emails;
@@ -642,7 +642,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      */
     public List<IndividualEvent> getEvents(boolean initializeIfNeeded) {
         if (initializeIfNeeded && events == null) {
-            events = new ArrayList<IndividualEvent>(0);
+            events = new ArrayList<>(0);
         }
         return events;
     }
@@ -655,7 +655,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      * @return a list of events of the specified type
      */
     public List<IndividualEvent> getEventsOfType(IndividualEventType type) {
-        List<IndividualEvent> result = new ArrayList<IndividualEvent>(0);
+        List<IndividualEvent> result = new ArrayList<>(0);
         if (events != null) {
             for (IndividualEvent ie : events) {
                 if (ie.getType() == type) {
@@ -684,7 +684,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      */
     public List<FamilyChild> getFamiliesWhereChild(boolean initializeIfNeeded) {
         if (initializeIfNeeded && familiesWhereChild == null) {
-            familiesWhereChild = new ArrayList<FamilyChild>(0);
+            familiesWhereChild = new ArrayList<>(0);
         }
         return familiesWhereChild;
     }
@@ -707,7 +707,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      */
     public List<FamilySpouse> getFamiliesWhereSpouse(boolean initializeIfNeeded) {
         if (initializeIfNeeded && familiesWhereSpouse == null) {
-            familiesWhereSpouse = new ArrayList<FamilySpouse>(0);
+            familiesWhereSpouse = new ArrayList<>(0);
         }
         return familiesWhereSpouse;
     }
@@ -730,7 +730,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      */
     public List<StringWithCustomTags> getFaxNumbers(boolean initializeIfNeeded) {
         if (initializeIfNeeded && faxNumbers == null) {
-            faxNumbers = new ArrayList<StringWithCustomTags>(0);
+            faxNumbers = new ArrayList<>(0);
         }
         return faxNumbers;
     }
@@ -771,7 +771,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      */
     public List<LdsIndividualOrdinance> getLdsIndividualOrdinances(boolean initializeIfNeeded) {
         if (initializeIfNeeded && ldsIndividualOrdinances == null) {
-            ldsIndividualOrdinances = new ArrayList<LdsIndividualOrdinance>(0);
+            ldsIndividualOrdinances = new ArrayList<>(0);
         }
         return ldsIndividualOrdinances;
     }
@@ -794,7 +794,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      */
     public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
         if (initializeIfNeeded && multimedia == null) {
-            multimedia = new ArrayList<Multimedia>(0);
+            multimedia = new ArrayList<>(0);
         }
         return multimedia;
     }
@@ -817,7 +817,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      */
     public List<PersonalName> getNames(boolean initializeIfNeeded) {
         if (initializeIfNeeded && names == null) {
-            names = new ArrayList<PersonalName>(0);
+            names = new ArrayList<>(0);
         }
         return names;
     }
@@ -841,7 +841,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      */
     public List<Note> getNotes(boolean initializeIfNeeded) {
         if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<Note>(0);
+            notes = new ArrayList<>(0);
         }
         return notes;
     }
@@ -873,7 +873,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      */
     public List<StringWithCustomTags> getPhoneNumbers(boolean initializeIfNeeded) {
         if (initializeIfNeeded && phoneNumbers == null) {
-            phoneNumbers = new ArrayList<StringWithCustomTags>(0);
+            phoneNumbers = new ArrayList<>(0);
         }
         return phoneNumbers;
     }
@@ -911,7 +911,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      * @return the spouses
      */
     public Set<Individual> getSpouses() {
-        Set<Individual> result = new HashSet<Individual>();
+        Set<Individual> result = new HashSet<>();
         if (familiesWhereSpouse != null) {
             for (FamilySpouse f : familiesWhereSpouse) {
                 Family fam = f.getFamily();
@@ -944,7 +944,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      */
     public List<Submitter> getSubmitters(boolean initializeIfNeeded) {
         if (initializeIfNeeded && submitters == null) {
-            submitters = new ArrayList<Submitter>(0);
+            submitters = new ArrayList<>(0);
         }
         return submitters;
     }
@@ -967,7 +967,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      */
     public List<UserReference> getUserReferences(boolean initializeIfNeeded) {
         if (initializeIfNeeded && userReferences == null) {
-            userReferences = new ArrayList<UserReference>(0);
+            userReferences = new ArrayList<>(0);
         }
         return userReferences;
     }
@@ -990,7 +990,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      */
     public List<StringWithCustomTags> getWwwUrls(boolean initializeIfNeeded) {
         if (initializeIfNeeded && wwwUrls == null) {
-            wwwUrls = new ArrayList<StringWithCustomTags>(0);
+            wwwUrls = new ArrayList<>(0);
         }
         return wwwUrls;
     }
@@ -1210,7 +1210,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      * @return the people in another generation of ancestors, to be added to the running list
      */
     private Set<Individual> addGenerationOfAncestors(Set<Individual> seenSoFar) {
-        Set<Individual> result = new HashSet<Individual>();
+        Set<Individual> result = new HashSet<>();
         if (familiesWhereChild != null) {
             for (FamilyChild f : familiesWhereChild) {
                 if (f == null) {
@@ -1246,7 +1246,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      * @return the people in another generation of ancestors, to be added to the running list
      */
     private Set<Individual> addGenerationOfDescendants(Set<Individual> seenSoFar) {
-        Set<Individual> result = new HashSet<Individual>();
+        Set<Individual> result = new HashSet<>();
         if (familiesWhereSpouse != null) {
             for (FamilySpouse f : familiesWhereSpouse) {
                 if (f.getFamily().getChildren() != null) {

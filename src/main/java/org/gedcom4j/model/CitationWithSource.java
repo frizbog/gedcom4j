@@ -179,7 +179,7 @@ public class CitationWithSource extends AbstractCitation {
      */
     public List<CitationData> getData(boolean initializeIfNeeded) {
         if (initializeIfNeeded && data == null) {
-            data = new ArrayList<CitationData>(0);
+            data = new ArrayList<>(0);
         }
         return data;
     }
@@ -211,7 +211,7 @@ public class CitationWithSource extends AbstractCitation {
      */
     public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
         if (initializeIfNeeded && multimedia == null) {
-            multimedia = new ArrayList<Multimedia>(0);
+            multimedia = new ArrayList<>(0);
         }
         return multimedia;
     }
