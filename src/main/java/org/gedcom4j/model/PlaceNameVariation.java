@@ -33,4 +33,9 @@ package org.gedcom4j.model;
  */
 public class PlaceNameVariation extends AbstractNameVariation {
 
+    /**
+     * Serial version uid
+     */
+    private static final long serialVersionUID = -3017908016142199411L;
+
 }
