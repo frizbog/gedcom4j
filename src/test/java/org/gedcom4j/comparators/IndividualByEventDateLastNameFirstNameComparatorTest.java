@@ -78,16 +78,19 @@ public class IndividualByEventDateLastNameFirstNameComparatorTest {
     /**
      * The comparator being tested
      */
+    @SuppressWarnings("PMD.FieldDeclarationsShouldBeAtStartOfClass")
     IndividualsByEventDateLastNameFirstNameComparator c;
 
     /**
      * Test fixture - one individual
      */
+    @SuppressWarnings("PMD.FieldDeclarationsShouldBeAtStartOfClass")
     Individual i1;
 
     /**
      * Test fixture - second individual
      */
+    @SuppressWarnings("PMD.FieldDeclarationsShouldBeAtStartOfClass")
     Individual i2;
 
     /**

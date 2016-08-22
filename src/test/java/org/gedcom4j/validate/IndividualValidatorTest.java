@@ -26,11 +26,16 @@
  */
 package org.gedcom4j.validate;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Map;
 
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.TestHelper;
+import org.junit.Test;
 
 /**
  * Tests for {@link IndividualValidator}
@@ -40,14 +45,10 @@ import org.gedcom4j.model.TestHelper;
  */
 public class IndividualValidatorTest extends AbstractValidatorTestCase {
 
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-    }
-
     /**
      * Test for a default individual (no xref)
      */
+    @Test
     public void testValidateIndividual() {
         Individual i = new Individual();
         AbstractValidator v = new IndividualValidator(rootValidator, i);
@@ -59,6 +60,7 @@ public class IndividualValidatorTest extends AbstractValidatorTestCase {
      * Test for {@link GedcomValidator#validateIndividuals()} with a malformed xref on an individual, which does not match its key
      * in the individuals map
      */
+    @Test
     public void testValidateIndividuals2() {
         Gedcom g = TestHelper.getMinimalGedcom();
 

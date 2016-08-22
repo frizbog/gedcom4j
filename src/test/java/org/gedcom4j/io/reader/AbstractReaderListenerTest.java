@@ -95,6 +95,9 @@ public abstract class AbstractReaderListenerTest implements FileProgressListener
         this.expectedNotifications = expectedNotifications;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void progressNotification(FileProgressEvent e) {
         eventCount++;

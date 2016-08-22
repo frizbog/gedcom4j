@@ -51,12 +51,10 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     private Individual ind;
 
     /**
-     * {@inheritDoc}
+     * Set up the test
      */
-    @Override
     @Before
-    public void setUp() throws Exception {
-        super.setUp();
+    public void setUp() {
         gedcom = TestHelper.getMinimalGedcom();
         rootValidator.gedcom = gedcom;
         rootValidator.setAutorepairEnabled(false);

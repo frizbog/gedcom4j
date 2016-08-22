@@ -52,6 +52,9 @@ public class AsciiReaderCancellationTest implements FileProgressListener {
      */
     private final GedcomParser gp = new GedcomParser();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void progressNotification(FileProgressEvent e) {
         eventCount++;

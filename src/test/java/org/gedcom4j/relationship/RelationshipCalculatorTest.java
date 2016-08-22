@@ -65,11 +65,6 @@ public class RelationshipCalculatorTest {
     private static final boolean VERBOSE = false;
 
     /**
-     * The gedcom to work with for testing
-     */
-    private Gedcom g;
-
-    /**
      * A finder test fixture for the test
      */
     private Finder finder;
@@ -94,7 +89,7 @@ public class RelationshipCalculatorTest {
         assertTrue(gp.getErrors().isEmpty());
         assertTrue(gp.getWarnings().isEmpty());
 
-        g = gp.getGedcom();
+        final Gedcom g = gp.getGedcom();
         assertNotNull(g);
         assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g
                 .getIndividuals().size());
@@ -106,6 +101,8 @@ public class RelationshipCalculatorTest {
     /**
      * Test for {@link RelationshipCalculator}, for aunts/uncles
      */
+    @Test
+    @SuppressWarnings("PMD.SystemPrintln")
     public void testAuntsUncles() {
         Individual alex = getPerson("Zucco", "Alex");
         Individual theresa = getPerson("Andrews", "Theresa");
@@ -134,6 +131,7 @@ public class RelationshipCalculatorTest {
      * .
      */
     @Test
+    @SuppressWarnings("PMD.SystemPrintln")
     public void testCalculateRelationshipGrandparents() {
         Individual robert = getPerson("Andrews", "Robert");
         Individual steven = getPerson("Struthers", "Steven");
@@ -178,6 +176,7 @@ public class RelationshipCalculatorTest {
      * .
      */
     @Test
+    @SuppressWarnings("PMD.SystemPrintln")
     public void testCalculateRelationshipGreatGrandparents() {
         Individual nancy = getPerson("Andrews", "Nancy");
         Individual steven = getPerson("Struthers", "Steven");
@@ -225,6 +224,7 @@ public class RelationshipCalculatorTest {
      * .
      */
     @Test
+    @SuppressWarnings("PMD.SystemPrintln")
     public void testCalculateRelationshipGreatGreatGrandparents() {
         Individual alex = getPerson("Zucco", "Alex");
         Individual steven = getPerson("Struthers", "Steven");
@@ -272,6 +272,7 @@ public class RelationshipCalculatorTest {
      * .
      */
     @Test
+    @SuppressWarnings("PMD.SystemPrintln")
     public void testCalculateRelationshipGreatGreatGreatGrandparents() {
         Individual alex = getPerson("Zucco", "Alex");
         Individual kenneth = getPerson("Struthers", "Kenneth");
@@ -319,6 +320,7 @@ public class RelationshipCalculatorTest {
      * .
      */
     @Test
+    @SuppressWarnings("PMD.SystemPrintln")
     public void testCalculateRelationshipManyGenerations() {
         Individual alex = getPerson("Zucco", "Alex");
         Individual abigail = getPerson("Wood", "Abigail");
@@ -367,6 +369,7 @@ public class RelationshipCalculatorTest {
      * .
      */
     @Test
+    @SuppressWarnings("PMD.SystemPrintln")
     public void testCalculateRelationshipSelf() {
         Individual alex = getPerson("Zucco", "Alex");
 
@@ -388,6 +391,7 @@ public class RelationshipCalculatorTest {
      * .
      */
     @Test
+    @SuppressWarnings("PMD.SystemPrintln")
     public void testCalculateRelationshipSiblings() {
         Individual alex = getPerson("Zucco", "Alex");
         Individual betsy = getPerson("Zucco", "Betsy");
@@ -416,6 +420,7 @@ public class RelationshipCalculatorTest {
      * .
      */
     @Test
+    @SuppressWarnings("PMD.SystemPrintln")
     public void testCalculateRelationshipSonFather() {
         Individual james = getPerson("Andrews", "James");
         Individual robert = getPerson("Andrews", "Robert");

@@ -62,6 +62,7 @@ import org.junit.Test;
  * @author frizbog1
  * 
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public class GedcomWriterTest {
 
     /**
@@ -100,6 +101,7 @@ public class GedcomWriterTest {
      * @throws GedcomWriterException
      *             if a gedcom data structure can't be written (usually due to invalid data, shouldn't happen)
      */
+    @SuppressWarnings("PMD.SystemPrintln")
     public GedcomWriterTest() throws IOException, GedcomParserException, GedcomWriterException {
         // Load a file
         GedcomParser p = new GedcomParser();
@@ -240,6 +242,7 @@ public class GedcomWriterTest {
      * Check that the notes are written out and readback equivalently.
      */
     @Test
+    @SuppressWarnings("PMD.SystemPrintln")
     public void testNotes() {
         assertNotSame(gedcomOrig.getNotes(), gedcomReadback.getNotes());
         assertLineSequence("Note with xref and text on same line not found as expected", readbackLines,
@@ -403,17 +406,16 @@ public class GedcomWriterTest {
      * @param lookFor
      *            the strings to find in <code>lookIn</code>
      */
+    @SuppressWarnings("PMD.SystemPrintln")
     private void assertLineSequence(String failureMessage, List<String> lookIn, String... lookFor) {
         int indexOf = lookIn.indexOf(lookFor[0]);
-        if (verbose) {
-            if (indexOf < 0) {
-                System.out.println("\n====");
-                System.out.println("Looking for: ");
-                System.out.println(lookFor[0]);
-                System.out.println("Looking in:");
-                for (String l : lookIn) {
-                    System.out.println(l);
-                }
+        if (verbose && indexOf < 0) {
+            System.out.println("\n====");
+            System.out.println("Looking for: ");
+            System.out.println(lookFor[0]);
+            System.out.println("Looking in:");
+            for (String l : lookIn) {
+                System.out.println(l);
             }
         }
         assertTrue(failureMessage + ": first string being looked for (\"" + lookFor[0]

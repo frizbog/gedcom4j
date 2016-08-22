@@ -26,8 +26,11 @@
  */
 package org.gedcom4j.validate;
 
+import static org.junit.Assert.assertTrue;
+
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
+import org.junit.Test;
 
 /**
  * Test cas for {@link SubmitterValidator}
@@ -40,6 +43,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     /**
      * Test method for {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
      */
+    @Test
     public void testValidateNullSubmitter() {
         AbstractValidator sv = new SubmitterValidator(rootValidator, null);
         sv.validate();
@@ -49,6 +53,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     /**
      * Test method for {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
      */
+    @Test
     public void testValidateSubmitterHappyPath() {
         Submitter submitter = new Submitter();
         submitter.setName(new StringWithCustomTags("somebody"));
@@ -61,6 +66,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     /**
      * Test method for {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
      */
+    @Test
     public void testValidateSubmitterHasBlankName() {
         Submitter submitter = new Submitter();
         submitter.setXref("@SOMEVALUE@");
@@ -73,6 +79,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     /**
      * Test method for {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
      */
+    @Test
     public void testValidateSubmitterHasBlankXref() {
         Submitter submitter = new Submitter();
         submitter.setName(new StringWithCustomTags("somebody"));
@@ -87,6 +94,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     /**
      * Test method for {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
      */
+    @Test
     public void testValidateSubmitterHasNoName() {
         Submitter submitter = new Submitter();
         submitter.setXref("@SOMEVALUE@");
@@ -98,6 +106,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     /**
      * Test method for {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
      */
+    @Test
     public void testValidateSubmitterHasNoXref() {
         Submitter submitter = new Submitter();
         submitter.setName(new StringWithCustomTags("somebody"));

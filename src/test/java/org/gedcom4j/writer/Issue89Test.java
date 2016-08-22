@@ -53,6 +53,7 @@ public class Issue89Test extends TestCase {
      *             if the data cannot be written
      */
     @Test
+    @SuppressWarnings("PMD.SystemPrintln")
     public void testIssue89() throws GedcomWriterException {
         Gedcom g = new Gedcom();
         g.setSubmission(new Submission("@SUBN0001@"));

@@ -57,6 +57,9 @@ public class AnselWriterCancellationTest implements FileProgressListener {
      */
     private GedcomWriter gw;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void progressNotification(FileProgressEvent e) {
         eventCount++;

@@ -61,6 +61,9 @@ public class GedcomWriterConstructionProgressAndCancellationTest implements Cons
      */
     private GedcomWriter gw;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void progressNotification(ConstructProgressEvent e) {
         notificationCount++;

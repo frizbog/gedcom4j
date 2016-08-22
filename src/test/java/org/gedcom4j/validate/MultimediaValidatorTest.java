@@ -48,10 +48,11 @@ public class MultimediaValidatorTest extends AbstractValidatorTestCase {
      */
     private Multimedia mm;
 
-    @Override
+    /**
+     * Set up the test
+     */
     @Before
-    public void setUp() throws Exception {
-        super.setUp();
+    public void setUp() {
         Gedcom g = new Gedcom();
         rootValidator.gedcom = g;
         rootValidator.setAutorepairEnabled(false);

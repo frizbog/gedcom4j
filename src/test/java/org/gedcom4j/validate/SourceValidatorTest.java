@@ -30,6 +30,7 @@ import org.gedcom4j.model.EventRecorded;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.SourceData;
 import org.gedcom4j.model.StringWithCustomTags;
+import org.junit.Test;
 
 /**
  * @author frizbog1
@@ -40,6 +41,7 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
     /**
      * Test when source has some bad values
      */
+    @Test
     public void testBadSource1() {
         Source src = new Source("bad xref");
         src.setRecIdNumber(new StringWithCustomTags(""));
@@ -53,6 +55,7 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
     /**
      * Test when source has some bad values
      */
+    @Test
     public void testBadSource2() {
         Source src = new Source("@Test@");
         src.setData(new SourceData());
@@ -67,6 +70,7 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
     /**
      * Test for a new {@link Source}
      */
+    @Test
     public void testDefault() {
         Source src = new Source(null);
         AbstractValidator av = new SourceValidator(rootValidator, src);
@@ -77,6 +81,7 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
     /**
      * Test when source is null
      */
+    @Test
     public void testNullSource() {
         AbstractValidator av = new SourceValidator(rootValidator, null);
         av.validate();

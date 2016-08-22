@@ -41,45 +41,28 @@ import org.junit.Test;
  */
 public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     /**
-     * The father in the family
-     */
-    private Individual dad;
-
-    /**
-     * The mother in the family
-     */
-    private Individual mom;
-
-    /**
-     * The child in the family
-     */
-    private Individual jr;
-
-    /**
      * The family being validated
      */
     private Family f;
 
     /**
-     * {@inheritDoc}
+     * set up before the test
      */
-    @Override
     @Before
-    public void setUp() throws Exception {
-        super.setUp();
+    public void setUp() {
         gedcom = TestHelper.getMinimalGedcom();
         rootValidator.gedcom = gedcom;
         rootValidator.setAutorepairEnabled(false);
 
-        dad = new Individual();
+        final Individual dad = new Individual();
         dad.setXref("@I00001@");
         gedcom.getIndividuals().put(dad.getXref(), dad);
 
-        mom = new Individual();
+        final Individual mom = new Individual();
         mom.setXref("@I00002@");
         gedcom.getIndividuals().put(mom.getXref(), mom);
 
-        jr = new Individual();
+        final Individual jr = new Individual();
         jr.setXref("@I00003@");
         gedcom.getIndividuals().put(jr.getXref(), jr);
 

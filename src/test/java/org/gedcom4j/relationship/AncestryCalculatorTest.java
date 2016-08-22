@@ -30,7 +30,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.Set;
@@ -48,6 +47,7 @@ import org.junit.Test;
  * 
  * @author frizbog1
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public class AncestryCalculatorTest {
 
     /**
@@ -55,11 +55,6 @@ public class AncestryCalculatorTest {
      * be always set to false when checked into repository.
      */
     private static final boolean VERBOSE = false;
-
-    /**
-     * The gedcom to work with for testing
-     */
-    private Gedcom g;
 
     /**
      * A finder test fixture for the test
@@ -86,7 +81,7 @@ public class AncestryCalculatorTest {
         gp.load("sample/RelationshipTest.ged");
         assertTrue(gp.getErrors().isEmpty());
         assertTrue(gp.getWarnings().isEmpty());
-        g = gp.getGedcom();
+        final Gedcom g = gp.getGedcom();
         assertNotNull(g);
         assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g
                 .getIndividuals().size());
@@ -152,6 +147,7 @@ public class AncestryCalculatorTest {
      * ancestors are the parent's
      */
     @Test
+    @SuppressWarnings("PMD.SystemPrintln")
     public void testExtendedAncestors4() {
         Individual robert = getPerson("Andrews", "Robert");
         Individual theresa = getPerson("Andrews", "Theresa");
@@ -175,49 +171,46 @@ public class AncestryCalculatorTest {
     /**
      * Test when people are siblings.
      */
-    @Test
-    public void testGenerationCount0() {
+    @Test(expected = IllegalArgumentException.class)
+    public void testGenerationCount0Part1() {
         Individual sally = getPerson("Struthers", "Sally");
         // Sammy is Sally's brother
         Individual sammy = getPerson("Struthers", "Sammy");
         assertNotNull(sally);
         assertNotNull(sammy);
-        try {
-            anc.getGenerationCount(sammy, sally);
-            fail("Expected an IllegalArgumentException since sally is not an ancestor of sammy - they are brother and sister");
-        } catch (@SuppressWarnings("unused") IllegalArgumentException desired) {
-            // Yay! It worked!
-        }
-        try {
-            anc.getGenerationCount(sally, sammy);
-            fail("Expected an IllegalArgumentException since sammy is not an ancestor of sally - they are brother and sister");
-        } catch (@SuppressWarnings("unused") IllegalArgumentException desired) {
-            // Yay! It worked!
-        }
+        anc.getGenerationCount(sammy, sally);
+    }
+
+    /**
+     * Test when people are siblings.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testGenerationCount0Part2() {
+        Individual sally = getPerson("Struthers", "Sally");
+        // Sammy is Sally's brother
+        Individual sammy = getPerson("Struthers", "Sammy");
+        assertNotNull(sally);
+        assertNotNull(sammy);
+        anc.getGenerationCount(sally, sammy);
     }
 
     /**
      * Test when people are 1 generation apart. Includes negative test where the ancestor/descendant are swapped.
      */
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testGenerationCount1() {
         Individual sally = getPerson("Struthers", "Sally");
         Individual steven = getPerson("Struthers", "Steven");
         assertNotNull(sally);
         assertNotNull(steven);
         assertEquals(1, anc.getGenerationCount(sally, steven));
-        try {
-            anc.getGenerationCount(steven, sally);
-            fail("Expected an IllegalArgumentException since sally is a descendant of steven, not an ancestor");
-        } catch (@SuppressWarnings("unused") IllegalArgumentException desired) {
-            // Yay! It worked!
-        }
+        anc.getGenerationCount(steven, sally);
     }
 
     /**
      * Test when people are 2 generations apart. Includes negative test where the ancestor/descendant are swapped.
      */
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testGenerationCount2() {
         Individual robert = getPerson("Andrews", "Robert");
         // Steven is Robert's grandfather
@@ -225,18 +218,13 @@ public class AncestryCalculatorTest {
         assertNotNull(robert);
         assertNotNull(steven);
         assertEquals(2, anc.getGenerationCount(robert, steven));
-        try {
-            anc.getGenerationCount(steven, robert);
-            fail("Expected an IllegalArgumentException since robert is a descendant of steven, not an ancestor");
-        } catch (@SuppressWarnings("unused") IllegalArgumentException desired) {
-            // Yay! It worked!
-        }
+        anc.getGenerationCount(steven, robert);
     }
 
     /**
      * Test when people are several generations apart. Includes negative test where the ancestor/descendant are swapped.
      */
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testGenerationCount3() {
         Individual alex = getPerson("Zucco", "Alex");
         // Kenneth is Alex's great-great-great-grandfather
@@ -244,12 +232,7 @@ public class AncestryCalculatorTest {
         assertNotNull(alex);
         assertNotNull(kenneth);
         assertEquals(5, anc.getGenerationCount(alex, kenneth));
-        try {
-            anc.getGenerationCount(kenneth, alex);
-            fail("Expected an IllegalArgumentException since alex is a descendant of kenneth, not an ancestor");
-        } catch (@SuppressWarnings("unused") IllegalArgumentException desired) {
-            // Yay! It worked!
-        }
+        anc.getGenerationCount(kenneth, alex);
     }
 
     /**
@@ -305,6 +288,7 @@ public class AncestryCalculatorTest {
      * ancestors.
      */
     @Test
+    @SuppressWarnings("PMD.SystemPrintln")
     public void testLowestCommonAncestor4() {
         Individual robert = getPerson("Andrews", "Robert");
         Individual theresa = getPerson("Andrews", "Theresa");
@@ -334,6 +318,7 @@ public class AncestryCalculatorTest {
      * @param people
      *            the set of {@link Individual}s to dump out
      */
+    @SuppressWarnings("PMD.SystemPrintln")
     private void dumpIndividuals(Set<Individual> people) {
         if (!VERBOSE) {
             return;

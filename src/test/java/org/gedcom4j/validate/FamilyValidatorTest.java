@@ -41,16 +41,6 @@ import org.junit.Test;
 public class FamilyValidatorTest extends AbstractValidatorTestCase {
 
     /**
-     * The father in the family
-     */
-    private Individual dad;
-
-    /**
-     * The mother in the family
-     */
-    private Individual mom;
-
-    /**
      * The child in the family
      */
     private Individual jr;
@@ -61,21 +51,19 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
     private Family f;
 
     /**
-     * {@inheritDoc}
+     * Set up the test
      */
-    @Override
     @Before
-    public void setUp() throws Exception {
-        super.setUp();
+    public void setUp() {
         gedcom = TestHelper.getMinimalGedcom();
         rootValidator.gedcom = gedcom;
         rootValidator.setAutorepairEnabled(false);
 
-        dad = new Individual();
+        final Individual dad = new Individual();
         dad.setXref("@I00001@");
         gedcom.getIndividuals().put(dad.getXref(), dad);
 
-        mom = new Individual();
+        final Individual mom = new Individual();
         mom.setXref("@I00002@");
         gedcom.getIndividuals().put(mom.getXref(), mom);
 

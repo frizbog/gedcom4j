@@ -36,7 +36,6 @@ import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.GedcomWriterException;
-import org.gedcom4j.model.Corporation;
 import org.gedcom4j.model.FileReference;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
@@ -46,10 +45,7 @@ import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.PersonalNameVariation;
 import org.gedcom4j.model.Place;
-import org.gedcom4j.model.Repository;
-import org.gedcom4j.model.SourceSystem;
 import org.gedcom4j.model.StringWithCustomTags;
-import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.SupportedVersion;
 import org.gedcom4j.model.TestHelper;
 import org.gedcom4j.parser.GedcomParser;
@@ -58,7 +54,7 @@ import org.gedcom4j.validate.Severity;
 import org.junit.Test;
 
 /**
- * Test some specific stuff for GEDCOM 5.5.1
+ * Test some miscellaneous spec-specific stuff for GEDCOM 5.5.1 vs GEDCOM 5.5.
  * 
  * @author frizbog
  * 
@@ -74,6 +70,7 @@ public class GedcomWriter551Test {
      *             if the data is malformed - should never happen, because the code under test is checking for this
      */
     @Test
+    @SuppressWarnings("PMD.SystemPrintln")
     public void testBlobWith551() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
         GedcomWriter gw = new GedcomWriter(g);
@@ -117,120 +114,6 @@ public class GedcomWriter551Test {
         m.setEmbeddedMediaFormat(null);
         gw.write("tmp/delete-me.ged");
 
-    }
-
-    /**
-     * Test compatibility check with the corporation data with 5.5 vs 5.5.1
-     * 
-     * @throws IOException
-     *             if the data can't be written to the tmp dir
-     * @throws GedcomWriterException
-     *             if the data is malformed - should never happen, because the code under test is checking for this
-     */
-    @Test
-    public void testCorpInSourceSystemWith55Email() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
-
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        g.getHeader().setSourceSystem(new SourceSystem());
-        Corporation c = new Corporation();
-        g.getHeader().getSourceSystem().setCorporation(c);
-        GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
-        assertTrue(gw.lines.isEmpty());
-
-        // Email addresses
-        c.getEmails(true).add(new StringWithCustomTags("Not allowed under 5.5"));
-        try {
-            gw.write("tmp/delete-me.ged");
-            fail("Should have gotten a GedcomException about the corporation having an email");
-        } catch (@SuppressWarnings("unused") GedcomWriterException expectedAndIgnored) {
-            ; // Good!
-        }
-
-        // Switch to 5.5.1, all should be fine
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
-        gw.write("tmp/delete-me.ged");
-
-        // clear emails and switch back to 5.5, all should be fine
-        c.getEmails().clear();
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        gw.write("tmp/delete-me.ged");
-    }
-
-    /**
-     * Test compatibility check with the corporation data with 5.5 vs 5.5.1
-     * 
-     * @throws IOException
-     *             if the data can't be written to the tmp dir
-     * @throws GedcomWriterException
-     *             if the data is malformed - should never happen, because the code under test is checking for this
-     */
-    @Test
-    public void testCorpInSourceSystemWith55Fax() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        g.getHeader().setSourceSystem(new SourceSystem());
-        Corporation c = new Corporation();
-        g.getHeader().getSourceSystem().setCorporation(c);
-        GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
-        assertTrue(gw.lines.isEmpty());
-        // Fax numbers
-        c.getFaxNumbers(true).add(new StringWithCustomTags("Not allowed under 5.5"));
-        try {
-            gw.write("tmp/delete-me.ged");
-            fail("Should have gotten a GedcomException about the corporation having a fax number");
-        } catch (@SuppressWarnings("unused") GedcomWriterException expectedAndIgnored) {
-            ; // Good!
-        }
-
-        // Switch to 5.5.1, all should be fine
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
-        gw.write("tmp/delete-me.ged");
-
-        // clear fax numbers and switch back to 5.5, all should be fine
-        c.getFaxNumbers().clear();
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        gw.write("tmp/delete-me.ged");
-    }
-
-    /**
-     * Test compatibility check with the corporation data with 5.5 vs 5.5.1
-     * 
-     * @throws IOException
-     *             if the data can't be written to the tmp dir
-     * @throws GedcomWriterException
-     *             if the data is malformed - should never happen, because the code under test is checking for this
-     */
-    @Test
-    public void testCorpInSourceSystemWith55Www() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        g.getHeader().setSourceSystem(new SourceSystem());
-        Corporation c = new Corporation();
-        g.getHeader().getSourceSystem().setCorporation(c);
-        GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
-        assertTrue(gw.lines.isEmpty());
-
-        // WWW urls
-        c.getWwwUrls(true).add(new StringWithCustomTags("Not allowed under 5.5"));
-        try {
-            gw.write("tmp/delete-me.ged");
-            fail("Should have gotten a GedcomException about the corporation having a www url");
-        } catch (@SuppressWarnings("unused") GedcomWriterException expectedAndIgnored) {
-            ; // Good!
-        }
-
-        // Switch to 5.5.1, all should be fine
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
-        gw.write("tmp/delete-me.ged");
-
-        // clear URLs and switch back to 5.5, all should be fine
-        c.getWwwUrls().clear();
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        gw.write("tmp/delete-me.ged");
     }
 
     /**
@@ -302,7 +185,7 @@ public class GedcomWriter551Test {
      *             if the data is malformed - should never happen, because the code under test is checking for this
      */
     @Test
-    public void testMultilineCopyrightWith55() throws IOException, GedcomWriterException {
+    public void testMultilineCopyrightWith551Good() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().getCopyrightData(true).add("One line is ok");
@@ -310,19 +193,52 @@ public class GedcomWriter551Test {
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
         assertTrue(gw.lines.isEmpty());
-        try {
-            gw.write("tmp/delete-me.ged");
-            fail("Should have gotten a GedcomException about multi-line copyright data not being compatible with 5.5");
-        } catch (@SuppressWarnings("unused") GedcomWriterException expectedAndIgnored) {
-            ; // Good!
-        }
 
         // Switch to 5.5.1, all should be fine
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         gw.write("tmp/delete-me.ged");
 
-        // Switch back to 5.5, remove the extra line, all should be fine
-        g.getHeader().getCopyrightData().remove(1);
+    }
+
+    /**
+     * Test compatibility check with multi-line copyright and 5.5/5.5.1 data
+     * 
+     * @throws IOException
+     *             if the data can't be written to the tmp dir
+     * @throws GedcomWriterException
+     *             if the data is malformed - should never happen, because the code under test is checking for this
+     */
+    @Test(expected = GedcomWriterException.class)
+    public void testMultilineCopyrightWith55Bad() throws IOException, GedcomWriterException {
+        Gedcom g = TestHelper.getMinimalGedcom();
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
+        g.getHeader().getCopyrightData(true).add("One line is ok");
+        g.getHeader().getCopyrightData(true).add("Two lines is bad");
+        GedcomWriter gw = new GedcomWriter(g);
+        gw.validationSuppressed = false;
+        assertTrue(gw.lines.isEmpty());
+        gw.write("tmp/delete-me.ged");
+
+    }
+
+    /**
+     * Test compatibility check with multi-line copyright and 5.5/5.5.1 data
+     * 
+     * @throws IOException
+     *             if the data can't be written to the tmp dir
+     * @throws GedcomWriterException
+     *             if the data is malformed - should never happen, because the code under test is checking for this
+     */
+    @Test
+    public void testMultilineCopyrightWith55Good() throws IOException, GedcomWriterException {
+        Gedcom g = TestHelper.getMinimalGedcom();
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
+        g.getHeader().getCopyrightData(true).add("One line is ok");
+        GedcomWriter gw = new GedcomWriter(g);
+        gw.validationSuppressed = false;
+        assertTrue(gw.lines.isEmpty());
+
+        // Only one line of copyright data, should be fine
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         gw.write("tmp/delete-me.ged");
 
@@ -450,7 +366,7 @@ public class GedcomWriter551Test {
     }
 
     /**
-     * Test compatibility check with the repository data with 5.5 vs 5.5.1
+     * Test compatibility check with UTF-8 encoding and 5.5/5.5.1 data
      * 
      * @throws IOException
      *             if the data can't be written to the tmp dir
@@ -458,213 +374,35 @@ public class GedcomWriter551Test {
      *             if the data is malformed - should never happen, because the code under test is checking for this
      */
     @Test
-    public void testRepositoryWith55Email() throws IOException, GedcomWriterException {
+    public void testUtf8With551() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        Repository r = new Repository();
-        r.setXref("@R1@");
-        g.getRepositories().put(r.getXref(), r);
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
+        g.getHeader().getCharacterSet().setCharacterSetName(new StringWithCustomTags("UTF-8"));
         assertTrue(gw.lines.isEmpty());
-
-        // Email addresses
-        r.getEmails(true).add(new StringWithCustomTags("Not allowed under 5.5"));
-        try {
-            gw.write("tmp/delete-me.ged");
-            fail("Should have gotten a GedcomException about the repository having an email");
-        } catch (@SuppressWarnings("unused") GedcomWriterException expectedAndIgnored) {
-            ; // Good!
-        }
 
         // Switch to 5.5.1, all should be fine
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
-        gw.write("tmp/delete-me.ged");
-        r.getEmails().clear();
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         gw.write("tmp/delete-me.ged");
     }
 
     /**
-     * Test compatibility check with the repository data with 5.5 vs 5.5.1
+     * Test compatibility check with UTF-8 encoding and 5.5/5.5.1 data
      * 
      * @throws IOException
      *             if the data can't be written to the tmp dir
      * @throws GedcomWriterException
      *             if the data is malformed - should never happen, because the code under test is checking for this
      */
-    @Test
-    public void testRepositoryWith55Fax() throws IOException, GedcomWriterException {
+    @Test(expected = GedcomWriterException.class)
+    public void testUtf8With55Bad() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        Repository r = new Repository();
-        r.setXref("@R1@");
-        g.getRepositories().put(r.getXref(), r);
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
+        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
+        g.getHeader().getCharacterSet().setCharacterSetName(new StringWithCustomTags("UTF-8"));
         assertTrue(gw.lines.isEmpty());
-
-        // Fax numbers
-        r.getFaxNumbers(true).add(new StringWithCustomTags("Not allowed under 5.5"));
-        try {
-            gw.write("tmp/delete-me.ged");
-            fail("Should have gotten a GedcomException about the repository having a fax number");
-        } catch (@SuppressWarnings("unused") GedcomWriterException expectedAndIgnored) {
-            ; // Good!
-        }
-
-        // Switch to 5.5.1, all should be fine
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
-        gw.write("tmp/delete-me.ged");
-        r.getFaxNumbers().clear();
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        gw.write("tmp/delete-me.ged");
-    }
-
-    /**
-     * Test compatibility check with the repository data with 5.5 vs 5.5.1
-     * 
-     * @throws IOException
-     *             if the data can't be written to the tmp dir
-     * @throws GedcomWriterException
-     *             if the data is malformed - should never happen, because the code under test is checking for this
-     */
-    @Test
-    public void testRepositoryWith55Www() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        Repository r = new Repository();
-        r.setXref("@R1@");
-        g.getRepositories().put(r.getXref(), r);
-        GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
-        assertTrue(gw.lines.isEmpty());
-
-        // WWW urls
-        r.getWwwUrls(true).add(new StringWithCustomTags("Not allowed under 5.5"));
-        try {
-            gw.write("tmp/delete-me.ged");
-            fail("Should have gotten a GedcomException about the repository having a www url");
-        } catch (@SuppressWarnings("unused") GedcomWriterException expectedAndIgnored) {
-            ; // Good!
-        }
-
-        // Switch to 5.5.1, all should be fine
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
-        gw.write("tmp/delete-me.ged");
-        r.getWwwUrls().clear();
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        gw.write("tmp/delete-me.ged");
-    }
-
-    /**
-     * Test compatibility check with the submitter data with 5.5 vs 5.5.1
-     * 
-     * @throws IOException
-     *             if the data can't be written to the tmp dir
-     * @throws GedcomWriterException
-     *             if the data is malformed - should never happen, because the code under test is checking for this
-     */
-    @Test
-    public void testSubmitterWith55Email() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        Submitter s = new Submitter();
-        s.setName(new StringWithCustomTags("test"));
-        s.setXref("@S1@");
-        g.getSubmitters().put(s.getXref(), s);
-        GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
-        assertTrue(gw.lines.isEmpty());
-
-        // Email addresses
-        s.getEmails(true).add(new StringWithCustomTags("Not allowed under 5.5"));
-        try {
-            gw.write("tmp/delete-me.ged");
-            fail("Should have gotten a GedcomException about the submitter having an email");
-        } catch (@SuppressWarnings("unused") GedcomWriterException expectedAndIgnored) {
-            ; // Good!
-        }
-
-        // Switch to 5.5.1, all should be fine
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
-        gw.write("tmp/delete-me.ged");
-        s.getEmails().clear();
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        gw.write("tmp/delete-me.ged");
-    }
-
-    /**
-     * Test compatibility check with the submitter data with 5.5 vs 5.5.1
-     * 
-     * @throws IOException
-     *             if the data can't be written to the tmp dir
-     * @throws GedcomWriterException
-     *             if the data is malformed - should never happen, because the code under test is checking for this
-     */
-    @Test
-    public void testSubmitterWith55Fax() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        Submitter s = new Submitter();
-        s.setName(new StringWithCustomTags("test"));
-        s.setXref("@S1@");
-        g.getSubmitters().put(s.getXref(), s);
-        GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
-        assertTrue(gw.lines.isEmpty());
-
-        // Fax numbers
-        s.getFaxNumbers(true).add(new StringWithCustomTags("Not allowed under 5.5"));
-        try {
-            gw.write("tmp/delete-me.ged");
-            fail("Should have gotten a GedcomException about the submitter having a fax number");
-        } catch (@SuppressWarnings("unused") GedcomWriterException expectedAndIgnored) {
-            ; // Good!
-        }
-
-        // Switch to 5.5.1, all should be fine
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
-        gw.write("tmp/delete-me.ged");
-        s.getFaxNumbers().clear();
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        gw.write("tmp/delete-me.ged");
-    }
-
-    /**
-     * Test compatibility check with the submitter data with 5.5 vs 5.5.1
-     * 
-     * @throws IOException
-     *             if the data can't be written to the tmp dir
-     * @throws GedcomWriterException
-     *             if the data is malformed - should never happen, because the code under test is checking for this
-     */
-    @Test
-    public void testSubmitterWith55Www() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        Submitter s = new Submitter();
-        s.setName(new StringWithCustomTags("test"));
-        s.setXref("@S1@");
-        g.getSubmitters().put(s.getXref(), s);
-        GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
-        assertTrue(gw.lines.isEmpty());
-
-        // WWW urls
-        s.getWwwUrls(true).add(new StringWithCustomTags("Not allowed under 5.5"));
-        try {
-            gw.write("tmp/delete-me.ged");
-            fail("Should have gotten a GedcomException about the submitter having a www url");
-        } catch (@SuppressWarnings("unused") GedcomWriterException expectedAndIgnored) {
-            ; // Good!
-        }
-
-        // Switch to 5.5.1, all should be fine
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
-        gw.write("tmp/delete-me.ged");
-        s.getWwwUrls().clear();
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         gw.write("tmp/delete-me.ged");
     }
 
@@ -677,22 +415,14 @@ public class GedcomWriter551Test {
      *             if the data is malformed - should never happen, because the code under test is checking for this
      */
     @Test
-    public void testUtf8With55() throws IOException, GedcomWriterException {
+    public void testUtf8With55Good() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        g.getHeader().getCharacterSet().setCharacterSetName(new StringWithCustomTags("UTF-8"));
         assertTrue(gw.lines.isEmpty());
-        try {
-            gw.write("tmp/delete-me.ged");
-            fail("Should have gotten a GedcomException about UTF-8 not being compatible with 5.5");
-        } catch (@SuppressWarnings("unused") GedcomWriterException expectedAndIgnored) {
-            ; // Good!
-        }
 
-        // Switch to 5.5.1, all should be fine
-        g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
+        // Character set is default, should be good
         gw.write("tmp/delete-me.ged");
     }
 

@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.validate;
 
+import org.junit.Test;
+
 /**
  * @author frizbog1
  */
@@ -34,6 +36,7 @@ public class CitationValidatorTest extends AbstractValidatorTestCase {
     /**
      * Test method for {@link org.gedcom4j.validate.CitationValidator#validate()}.
      */
+    @Test
     public void testValidate() {
         CitationValidator cv = new CitationValidator(rootValidator, null);
         cv.validate();

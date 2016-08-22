@@ -26,16 +26,18 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.model.Gedcom;
+import static org.junit.Assert.fail;
 
-import junit.framework.TestCase;
+import java.util.Locale;
+
+import org.gedcom4j.model.Gedcom;
 
 /**
  * A base class for validator tests with handy helper methods
  * 
  * @author frizbog1
  */
-public abstract class AbstractValidatorTestCase extends TestCase {
+public abstract class AbstractValidatorTestCase {
 
     /**
      * Root validator - test fixture
@@ -45,7 +47,7 @@ public abstract class AbstractValidatorTestCase extends TestCase {
     /**
      * The test fixture gedcom structure
      */
-    protected Gedcom gedcom;
+    protected Gedcom gedcom = new Gedcom();
 
     /**
      * Determines whether to write noise out to System.out. Should ALWAYS default to false, and be turned to true for specific
@@ -57,25 +59,6 @@ public abstract class AbstractValidatorTestCase extends TestCase {
      * Default constructor
      */
     public AbstractValidatorTestCase() {
-        super();
-    }
-
-    /**
-     * Constructor that takes a test name
-     * 
-     * @param name
-     *            the test name
-     */
-    public AbstractValidatorTestCase(String name) {
-        super(name);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
         gedcom = new Gedcom();
         rootValidator = new GedcomValidator(gedcom);
     }
@@ -94,7 +77,7 @@ public abstract class AbstractValidatorTestCase extends TestCase {
             if (f.getSeverity() == severity) {
                 boolean matchAllSoFar = true;
                 for (String substring : substringOfDescription) {
-                    if (!f.getProblemDescription().toLowerCase().contains(substring.toLowerCase())) {
+                    if (!f.getProblemDescription().toLowerCase().contains(substring.toLowerCase(Locale.US))) {
                         matchAllSoFar = false;
                     }
                 }
@@ -104,7 +87,7 @@ public abstract class AbstractValidatorTestCase extends TestCase {
                 }
             }
         }
-        StringBuilder sb = new StringBuilder("Expected to find at least one finding at severity " + severity);
+        StringBuilder sb = new StringBuilder("Expected to find at least one finding at severity ").append(severity);
         if (substringOfDescription != null && substringOfDescription.length > 0) {
             for (int i = 0; i < substringOfDescription.length; i++) {
                 if (i == 0) {
