@@ -42,7 +42,7 @@ public class RepositoryTest {
      */
     @Test
     @SuppressWarnings("PMD.EqualsNull")
-	public void testEqualsObject() {
+    public void testEqualsObject() {
         Repository r1 = new Repository();
         assertEquals(r1, r1);
 

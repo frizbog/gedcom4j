@@ -54,7 +54,8 @@ class Multimedia551Emitter extends AbstractEmitter<Collection<Multimedia>> {
      * @throws WriterCancelledException
      *             if cancellation was requested during the operation
      */
-    Multimedia551Emitter(GedcomWriter baseWriter, int startLevel, Collection<Multimedia> writeFrom) throws WriterCancelledException {
+    Multimedia551Emitter(GedcomWriter baseWriter, int startLevel, Collection<Multimedia> writeFrom)
+            throws WriterCancelledException {
         super(baseWriter, startLevel, writeFrom);
     }
 
@@ -87,20 +88,21 @@ class Multimedia551Emitter extends AbstractEmitter<Collection<Multimedia>> {
             new ChangeDateEmitter(baseWriter, 1, m.getChangeDate()).emit();
             emitCustomTags(1, m.getCustomTags());
             if (m.getBlob() != null && !m.getBlob().isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but BLOB data on multimedia item " + m.getXref()
-                        + " was found.  This is only allowed in GEDCOM 5.5");
+                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but BLOB data on multimedia item " + m
+                        .getXref() + " was found.  This is only allowed in GEDCOM 5.5");
             }
             if (m.getContinuedObject() != null) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but BLOB continuation data on multimedia item " + m.getXref()
-                        + " was found.  This is only allowed in GEDCOM 5.5");
+                throw new GedcomWriterVersionDataMismatchException(
+                        "GEDCOM version is 5.5.1, but BLOB continuation data on multimedia item " + m.getXref()
+                                + " was found.  This is only allowed in GEDCOM 5.5");
             }
             if (m.getEmbeddedMediaFormat() != null) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but format on multimedia item " + m.getXref()
-                        + " was found.  This is only allowed in GEDCOM 5.5");
+                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but format on multimedia item " + m
+                        .getXref() + " was found.  This is only allowed in GEDCOM 5.5");
             }
             if (m.getEmbeddedTitle() != null) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but title on multimedia item " + m.getXref()
-                        + " was found.  This is only allowed in GEDCOM 5.5");
+                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but title on multimedia item " + m
+                        .getXref() + " was found.  This is only allowed in GEDCOM 5.5");
             }
         }
     }

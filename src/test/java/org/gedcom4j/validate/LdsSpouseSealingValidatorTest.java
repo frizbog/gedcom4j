@@ -26,7 +26,11 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Family;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.LdsSpouseSealing;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.TestHelper;
 import org.junit.Before;
 import org.junit.Test;
 

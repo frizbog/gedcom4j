@@ -56,6 +56,9 @@ class ProgressTrackingInputStream extends InputStream {
         in = byteStream;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int read() throws IOException {
         int r = in.read();
@@ -65,6 +68,9 @@ class ProgressTrackingInputStream extends InputStream {
         return r;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int read(byte[] b) throws IOException {
         int r = in.read(b);
@@ -74,6 +80,9 @@ class ProgressTrackingInputStream extends InputStream {
         return r;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int read(byte[] b, int off, int len) throws IOException {
         int r = in.read(b, off, len);

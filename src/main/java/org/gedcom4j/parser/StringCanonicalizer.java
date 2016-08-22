@@ -30,9 +30,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * A class to handle canonical strings, to reduce memory consumption by repeated instances of frequently used string
- * values. Unlike string.intern(), this implementation does not put things in permgen (or does it)? It also has a max
- * size, only canonicalizes strings repeated more than a certain number of times.
+ * A class to handle canonical strings, to reduce memory consumption by repeated instances of frequently used string values. Unlike
+ * string.intern(), this implementation does not put things in permgen (or does it)? It also has a max size, only canonicalizes
+ * strings repeated more than a certain number of times.
  * 
  * @author frizbog
  *
@@ -118,7 +118,7 @@ class StringCanonicalizer {
     /**
      * Default constructor
      */
-    public StringCanonicalizer() {
+    StringCanonicalizer() {
         this(500, 25);
     }
 

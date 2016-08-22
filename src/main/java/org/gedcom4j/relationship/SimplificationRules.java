@@ -26,7 +26,49 @@
  */
 package org.gedcom4j.relationship;
 
-import static org.gedcom4j.relationship.RelationshipName.*;
+import static org.gedcom4j.relationship.RelationshipName.AUNT;
+import static org.gedcom4j.relationship.RelationshipName.BROTHER;
+import static org.gedcom4j.relationship.RelationshipName.CHILD;
+import static org.gedcom4j.relationship.RelationshipName.DAUGHTER;
+import static org.gedcom4j.relationship.RelationshipName.FATHER;
+import static org.gedcom4j.relationship.RelationshipName.FIRST_COUSIN;
+import static org.gedcom4j.relationship.RelationshipName.GRANDCHILD;
+import static org.gedcom4j.relationship.RelationshipName.GRANDDAUGHTER;
+import static org.gedcom4j.relationship.RelationshipName.GRANDFATHER;
+import static org.gedcom4j.relationship.RelationshipName.GRANDMOTHER;
+import static org.gedcom4j.relationship.RelationshipName.GRANDSON;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_AUNT;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_GRANDCHILD;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_GRANDDAUGHTER;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_GRANDFATHER;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_GRANDMOTHER;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_GRANDSON;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_GREAT_AUNT;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_GREAT_GRANDCHILD;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_GREAT_GRANDDAUGHTER;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_GREAT_GRANDFATHER;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_GREAT_GRANDMOTHER;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_GREAT_GRANDSON;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_GREAT_GREAT_GRANDCHILD;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_GREAT_GREAT_GRANDDAUGHTER;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_GREAT_GREAT_GRANDFATHER;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_GREAT_GREAT_GRANDMOTHER;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_GREAT_GREAT_GRANDSON;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_GREAT_NEPHEW;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_GREAT_NIECE;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_GREAT_UNCLE;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_NEPHEW;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_NIECE;
+import static org.gedcom4j.relationship.RelationshipName.GREAT_UNCLE;
+import static org.gedcom4j.relationship.RelationshipName.HUSBAND;
+import static org.gedcom4j.relationship.RelationshipName.MOTHER;
+import static org.gedcom4j.relationship.RelationshipName.NEPHEW;
+import static org.gedcom4j.relationship.RelationshipName.NIECE;
+import static org.gedcom4j.relationship.RelationshipName.SIBLING;
+import static org.gedcom4j.relationship.RelationshipName.SISTER;
+import static org.gedcom4j.relationship.RelationshipName.SON;
+import static org.gedcom4j.relationship.RelationshipName.UNCLE;
+import static org.gedcom4j.relationship.RelationshipName.WIFE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +76,7 @@ import java.util.List;
 /**
  * A class that holds rules for simplifying complex relationships into shorter ones
  */
+@SuppressWarnings({ "PMD.TooManyMethods", "PMD.ExcessiveImports" })
 final class SimplificationRules {
 
     /**
@@ -43,18 +86,16 @@ final class SimplificationRules {
 
     /**
      * <p>
-     * A list of 3-element arrays, containing rules on how to collapse complicated relationships down into simpler
-     * forms. Each row is an array of three {@link RelationshipName}s; let's call them r1, r2, and r3. Let's also assume
-     * there are three people: A, B, and C. If A is related to B by r1, and B is related to C by r2, then A is related
-     * to C as r3 and B can be removed.
+     * A list of 3-element arrays, containing rules on how to collapse complicated relationships down into simpler forms. Each row
+     * is an array of three {@link RelationshipName}s; let's call them r1, r2, and r3. Let's also assume there are three people: A,
+     * B, and C. If A is related to B by r1, and B is related to C by r2, then A is related to C as r3 and B can be removed.
      * </p>
      * <p>
-     * Example: Rule= <code>[FATHER, SON, BROTHER]</code>. Bob's FATHER is Jim; Jim's SON is Fred; therefore Bob's
-     * BROTHER is Fred.
+     * Example: Rule= <code>[FATHER, SON, BROTHER]</code>. Bob's FATHER is Jim; Jim's SON is Fred; therefore Bob's BROTHER is Fred.
      * </p>
      * <p>
-     * The order that these triplets appear in the list is the order in which the rules are applied. Rules that build on
-     * previous relationship simplifications should appear later in the list.
+     * The order that these triplets appear in the list is the order in which the rules are applied. Rules that build on previous
+     * relationship simplifications should appear later in the list.
      * </p>
      */
 

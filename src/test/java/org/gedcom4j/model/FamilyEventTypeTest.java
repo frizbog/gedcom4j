@@ -40,7 +40,7 @@ public class FamilyEventTypeTest extends TestCase {
     /**
      * Test for {@link FamilyEventType#getFromTag(String)}
      */
-	@Test
+    @Test
     public void testGetFromTag() {
         assertSame(FamilyEventType.ANNULMENT, FamilyEventType.getFromTag("ANUL"));
         assertSame(FamilyEventType.CENSUS, FamilyEventType.getFromTag("CENS"));
@@ -61,7 +61,7 @@ public class FamilyEventTypeTest extends TestCase {
     /**
      * Test for {@link FamilyEventType#isValidTag(String)}
      */
-	@Test
+    @Test
     public void testIsValidTag() {
         assertTrue(FamilyEventType.isValidTag("ANUL"));
         assertTrue(FamilyEventType.isValidTag("CENS"));

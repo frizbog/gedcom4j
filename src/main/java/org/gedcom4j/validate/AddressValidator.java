@@ -50,7 +50,7 @@ class AddressValidator extends AbstractValidator {
      *            the address being validated
      * 
      */
-    public AddressValidator(GedcomValidator rootValidator, Address address) {
+    AddressValidator(GedcomValidator rootValidator, Address address) {
         this.rootValidator = rootValidator;
         this.address = address;
     }

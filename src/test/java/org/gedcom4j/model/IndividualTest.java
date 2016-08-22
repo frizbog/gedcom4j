@@ -135,7 +135,7 @@ public class IndividualTest {
      *             if the sample file can't be read
      */
     @Test
-	public void testGetDescendants() throws IOException, GedcomParserException {
+    public void testGetDescendants() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/RelationshipTest.ged");
         assertTrue(gp.getErrors().isEmpty());

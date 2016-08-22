@@ -27,8 +27,8 @@
 package org.gedcom4j.exception;
 
 /**
- * Represents a mismatch between the data being written and the GEDCOM version under which it's supposed to be written... in other words, the code is
- * trying to write 5.5.1 data as a 5.5 file or vice-versa.
+ * Represents a mismatch between the data being written and the GEDCOM version under which it's supposed to be written... in other
+ * words, the code is trying to write 5.5.1 data as a 5.5 file or vice-versa.
  * 
  * @author frizbog
  * 

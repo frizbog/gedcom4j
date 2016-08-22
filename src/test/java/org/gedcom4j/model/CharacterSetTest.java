@@ -42,7 +42,7 @@ public class CharacterSetTest {
      */
     @Test
     @SuppressWarnings("PMD.EqualsNull")
-	public void testEqualsObject() {
+    public void testEqualsObject() {
         CharacterSet cs1 = new CharacterSet();
         assertEquals(cs1, cs1);
 

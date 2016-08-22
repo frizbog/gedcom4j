@@ -42,7 +42,7 @@ public class AssociationTest {
      */
     @Test
     @SuppressWarnings("PMD.EqualsNull")
-	public void testEqualsObject() {
+    public void testEqualsObject() {
         Association a1 = new Association();
         assertEquals(a1, a1);
 

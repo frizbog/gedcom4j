@@ -54,7 +54,7 @@ class PlaceValidator extends AbstractValidator {
      * @param place
      *            the {@link Place} begin validated
      */
-    public PlaceValidator(GedcomValidator rootValidator, Place place) {
+    PlaceValidator(GedcomValidator rootValidator, Place place) {
         this.rootValidator = rootValidator;
         this.place = place;
     }

@@ -50,8 +50,7 @@ public class GedcomValidationFindingTest {
     }
 
     /**
-     * Test for {@link GedcomValidationFinding#GedcomValidationFinding(String, Severity, Object)} - values for
-     * parameters
+     * Test for {@link GedcomValidationFinding#GedcomValidationFinding(String, Severity, Object)} - values for parameters
      */
     @Test
     public void testGedcomValidationFinding2() {

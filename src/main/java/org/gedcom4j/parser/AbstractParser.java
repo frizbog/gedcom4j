@@ -28,7 +28,17 @@ package org.gedcom4j.parser;
 
 import java.util.List;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.AbstractElement;
+import org.gedcom4j.model.Family;
+import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.Repository;
+import org.gedcom4j.model.Source;
+import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.SupportedVersion;
 
 /**
  * A base class for all Parser subclasses.
@@ -90,8 +100,8 @@ abstract class AbstractParser<T> {
      */
     protected final boolean g55() {
         Gedcom g = gedcomParser.getGedcom();
-        return g != null && g.getHeader() != null && g.getHeader().getGedcomVersion() != null && SupportedVersion.V5_5.equals(g.getHeader().getGedcomVersion()
-                .getVersionNumber());
+        return g != null && g.getHeader() != null && g.getHeader().getGedcomVersion() != null && SupportedVersion.V5_5.equals(g
+                .getHeader().getGedcomVersion().getVersionNumber());
     }
 
     /**
@@ -262,19 +272,19 @@ abstract class AbstractParser<T> {
      * Default handler for a tag that the parser was not expecting to see.
      * </p>
      * <ul>
-     * <li>If the tag begins with an underscore, it is a user-defined tag, which is stored in the customTags collection
-     * of the passed in element, and returns.</li>
-     * <li>If {@link GedcomParser#isStrictCustomTags()} parsing is turned off (i.e., == false), it is treated as a
-     * user-defined tag (despite the lack of beginning underscore) and treated like any other user-defined tag.</li>
-     * <li>If {@link GedcomParser#isStrictCustomTags()} parsing is turned on (i.e., == true), it is treated as bad tag
-     * and an error is logged in the {@link GedcomParser#getErrors()} collection.</li>
+     * <li>If the tag begins with an underscore, it is a user-defined tag, which is stored in the customTags collection of the
+     * passed in element, and returns.</li>
+     * <li>If {@link GedcomParser#isStrictCustomTags()} parsing is turned off (i.e., == false), it is treated as a user-defined tag
+     * (despite the lack of beginning underscore) and treated like any other user-defined tag.</li>
+     * <li>If {@link GedcomParser#isStrictCustomTags()} parsing is turned on (i.e., == true), it is treated as bad tag and an error
+     * is logged in the {@link GedcomParser#getErrors()} collection.</li>
      * </ul>
      * 
      * @param node
      *            the node containing the unknown tag.
      * @param element
-     *            the element that the node is part of, so if it's a custom tag, this unknown tag can be added to this
-     *            node's collection of custom tags
+     *            the element that the node is part of, so if it's a custom tag, this unknown tag can be added to this node's
+     *            collection of custom tags
      */
     protected void unknownTag(StringTree node, AbstractElement element) {
         if (node.getTag().length() > 0 && (node.getTag().charAt(0) == '_') || !gedcomParser.isStrictCustomTags()) {

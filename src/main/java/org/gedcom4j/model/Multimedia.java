@@ -36,16 +36,16 @@ import org.gedcom4j.Options;
  * A class for representing multimedia items. Corresponds to MULTIMEDIA_RECORD in the GEDCOM standard.
  * </p>
  * <p>
- * Please note that when gedcom4j v1.1.0 was released to include GEDCOM 5.5.1 support, the data model got a bit more
- * complicated. The changes to the multimedia specs were among the most drastic and most difficult to deal with. Not
- * only did version 5.5 do away with embedded multimedia support (i.e., the `BLOB` tag), it also changed cardinalities
- * (multiple file references per MULTIMEDIA_RECORD in 5.5.1, where 5.5 only allowed one), and moved tags to become
- * children of other tags (i.e., the `FORM` tag is now a child of the new `FILE` tag in 5.5.1).
+ * Please note that when gedcom4j v1.1.0 was released to include GEDCOM 5.5.1 support, the data model got a bit more complicated.
+ * The changes to the multimedia specs were among the most drastic and most difficult to deal with. Not only did version 5.5 do away
+ * with embedded multimedia support (i.e., the `BLOB` tag), it also changed cardinalities (multiple file references per
+ * MULTIMEDIA_RECORD in 5.5.1, where 5.5 only allowed one), and moved tags to become children of other tags (i.e., the `FORM` tag is
+ * now a child of the new `FILE` tag in 5.5.1).
  * </p>
  * <p>
- * Users who plan to read files produced by other systems and rewrite them with gedcom4j should pay special attention to
- * the multimedia section and ensure that the data in the model is compliant with the version of GEDCOM being used, and
- * making adjustments as needed.
+ * Users who plan to read files produced by other systems and rewrite them with gedcom4j should pay special attention to the
+ * multimedia section and ensure that the data in the model is compliant with the version of GEDCOM being used, and making
+ * adjustments as needed.
  * </p>
  * 
  * @author frizbog1
@@ -58,8 +58,8 @@ public class Multimedia extends AbstractNotesElement implements HasCitations {
     private static final long serialVersionUID = 9046705221369603960L;
 
     /**
-     * The binary (blob) for this multimedia item. Encoded as string data. This field should always be an empty list for
-     * 5.5.1 files.
+     * The binary (blob) for this multimedia item. Encoded as string data. This field should always be an empty list for 5.5.1
+     * files.
      */
     private List<String> blob = getBlob(Options.isCollectionInitializationEnabled());
 
@@ -74,8 +74,8 @@ public class Multimedia extends AbstractNotesElement implements HasCitations {
     private List<AbstractCitation> citations = getCitations(Options.isCollectionInitializationEnabled());
 
     /**
-     * The next object in the chain holding binary data if it needs to be continued due to size. This field should
-     * always be null for 5.5.1 files.
+     * The next object in the chain holding binary data if it needs to be continued due to size. This field should always be null
+     * for 5.5.1 files.
      */
     private Multimedia continuedObject;
 
@@ -85,8 +85,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations {
     private StringWithCustomTags embeddedMediaFormat;
 
     /**
-     * The title of this multimedia item. This field should ONLY be used when the spec is 5.5 and should be null for
-     * 5.5.1 files.
+     * The title of this multimedia item. This field should ONLY be used when the spec is 5.5 and should be null for 5.5.1 files.
      */
     private StringWithCustomTags embeddedTitle;
 

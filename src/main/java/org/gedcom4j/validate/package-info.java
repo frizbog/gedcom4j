@@ -25,8 +25,8 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 /**
- * Classes that can validate the data in the object model for a variety of problems, so that the data written by the
- * Writer is compliant with the GEDCOM standard.
+ * Classes that can validate the data in the object model for a variety of problems, so that the data written by the Writer is
+ * compliant with the GEDCOM standard.
  * 
  * @author frizbog
  */

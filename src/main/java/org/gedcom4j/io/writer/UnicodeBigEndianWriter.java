@@ -45,7 +45,7 @@ class UnicodeBigEndianWriter extends AbstractEncodingSpecificWriter {
      * @param writer
      *            The {@link GedcomWriter} this object is assisting
      */
-    public UnicodeBigEndianWriter(GedcomWriter writer) {
+    UnicodeBigEndianWriter(GedcomWriter writer) {
         super(writer);
     }
 

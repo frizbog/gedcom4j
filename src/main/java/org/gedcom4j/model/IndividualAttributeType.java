@@ -28,8 +28,8 @@ package org.gedcom4j.model;
 
 /**
  * <p>
- * The types of attributes that can be recorded for an individual. This enum covers the valid tags for an individual
- * attribute. Corresponds to ATTRIBUTE_TYPE in the GEDCOM spec.
+ * The types of attributes that can be recorded for an individual. This enum covers the valid tags for an individual attribute.
+ * Corresponds to ATTRIBUTE_TYPE in the GEDCOM spec.
  * </p>
  * 
  * @author frizbog1
@@ -138,7 +138,7 @@ public enum IndividualAttributeType {
      * @param display
      *            the display value
      */
-    private IndividualAttributeType(String tag, String display) {
+    IndividualAttributeType(String tag, String display) {
         this.tag = tag.intern();
         this.display = display.intern();
     }

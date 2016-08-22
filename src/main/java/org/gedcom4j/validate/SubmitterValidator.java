@@ -53,7 +53,7 @@ class SubmitterValidator extends AbstractValidator {
      * @param submitter
      *            the submitter being validated
      */
-    public SubmitterValidator(GedcomValidator rootValidator, Submitter submitter) {
+    SubmitterValidator(GedcomValidator rootValidator, Submitter submitter) {
         this.rootValidator = rootValidator;
         this.submitter = submitter;
     }

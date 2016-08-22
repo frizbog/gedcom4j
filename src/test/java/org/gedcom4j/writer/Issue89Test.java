@@ -29,7 +29,11 @@ package org.gedcom4j.writer;
 import java.io.ByteArrayOutputStream;
 
 import org.gedcom4j.exception.GedcomWriterException;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.Submission;
+import org.gedcom4j.model.Submitter;
 import org.gedcom4j.validate.GedcomValidationFinding;
 import org.junit.Test;
 

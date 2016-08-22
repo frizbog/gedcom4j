@@ -123,7 +123,7 @@ public class FamilyTest {
      */
     @Test
     @SuppressWarnings("PMD.PositionLiteralsFirstInComparisons")
-	public void testEqualsOtherObjectTypes() {
+    public void testEqualsOtherObjectTypes() {
         Family f1 = new Family();
         assertFalse(f1.equals("Test"));
         assertFalse(f1.equals(new Individual()));
@@ -164,7 +164,8 @@ public class FamilyTest {
      */
     @Test
     public void testToString() {
-        assertEquals("Family [husband=Fred /Astaire/, spouse of Ginger /Rogers/, wife=Ginger /Rogers/, spouse of Fred /Astaire/, ]", family1.toString());
+        assertEquals("Family [husband=Fred /Astaire/, spouse of Ginger /Rogers/, wife=Ginger /Rogers/, spouse of Fred /Astaire/, ]",
+                family1.toString());
     }
 
     /**

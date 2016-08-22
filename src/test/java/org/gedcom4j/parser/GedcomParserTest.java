@@ -33,7 +33,18 @@ import java.io.InputStream;
 
 import org.gedcom4j.Options;
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.CitationWithSource;
+import org.gedcom4j.model.CitationWithoutSource;
+import org.gedcom4j.model.Family;
+import org.gedcom4j.model.FileReference;
+import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.Note;
+import org.gedcom4j.model.PersonalName;
+import org.gedcom4j.model.Source;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.Submitter;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -293,6 +304,7 @@ public class GedcomParserTest extends TestCase {
      * @param gp
      *            the {@link GedcomParser}
      */
+    @SuppressWarnings("checkstyle:methodlength")
     private void checkTGC55C(GedcomParser gp) {
         Individual indi;
         PersonalName name;
@@ -405,16 +417,15 @@ public class GedcomParserTest extends TestCase {
         assertNotNull(note);
         assertNotNull(note.getLines());
         assertEquals(3, note.getLines().size());
-        assertEquals(
-                "This source citation has all fields possible in a source citation to a separate SOURCE record. Besides the link to the SOURCE record there are possible fields about this citation (e.g., PAGE, TEXT, etc.)",
+        assertEquals("This source citation has all fields possible in a source citation to a separate SOURCE record. "
+                + "Besides the link to the SOURCE record there are possible fields about this citation (e.g., PAGE, TEXT, etc.)",
                 note.getLines().get(0));
 
         // Name 1 - Note 0
         note = name.getNotes().get(0);
         assertEquals(3, note.getLines().size());
-        assertEquals(
-                "This is a second personal NAME structure in a single INDIVIDUAL record which is allowed in GEDCOM. This second NAME structure has all possible fields for a NAME structure.",
-                note.getLines().get(0));
+        assertEquals("This is a second personal NAME structure in a single INDIVIDUAL record which is allowed in GEDCOM. "
+                + "This second NAME structure has all possible fields for a NAME structure.", note.getLines().get(0));
 
         // Note 0
         note = indi.getNotes().get(0);
@@ -424,9 +435,8 @@ public class GedcomParserTest extends TestCase {
         // Note 1
         note = indi.getNotes().get(1);
         assertEquals(3, note.getLines().size());
-        assertEquals(
-                "This is a second set of notes for this single individual record. It is embedded in the INDIVIDUAL record instead of being in a separate NOTE record.",
-                note.getLines().get(0));
+        assertEquals("This is a second set of notes for this single individual record. "
+                + "It is embedded in the INDIVIDUAL record instead of being in a separate NOTE record.", note.getLines().get(0));
 
         // Citation 0
         assertTrue(indi.getCitations().get(0) instanceof CitationWithSource);
@@ -470,7 +480,7 @@ public class GedcomParserTest extends TestCase {
         note = citWithoutSource.getNotes().get(0);
         assertEquals(1, note.getLines().size());
         assertEquals(
-                "How does software handle embedded SOURCE records on import? Such source citations are common in old GEDCOM files. More modern GEDCOM files should use source citations to SOURCE records.",
-                note.getLines().get(0));
+                "How does software handle embedded SOURCE records on import? Such source citations are common in old GEDCOM files. "
+                        + "More modern GEDCOM files should use source citations to SOURCE records.", note.getLines().get(0));
     }
 }

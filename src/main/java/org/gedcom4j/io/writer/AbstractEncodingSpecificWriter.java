@@ -72,7 +72,7 @@ abstract class AbstractEncodingSpecificWriter {
      * @param writer
      *            The {@link GedcomWriter} this object is assisting
      */
-    public AbstractEncodingSpecificWriter(GedcomWriter writer) {
+    AbstractEncodingSpecificWriter(GedcomWriter writer) {
         this.writer = writer;
     }
 

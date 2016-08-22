@@ -44,8 +44,7 @@ public class UnsupportedGedcomCharsetExceptionTest {
     @Test
     public void testCauseAndMessage() {
         try {
-            throw new UnsupportedGedcomCharsetException("Foo", new Exception(
-                    "Foo"));
+            throw new UnsupportedGedcomCharsetException("Foo", new Exception("Foo"));
         } catch (UnsupportedGedcomCharsetException e) {
             assertNotNull(e);
             assertEquals("Foo", e.getMessage());

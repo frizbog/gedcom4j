@@ -31,7 +31,13 @@ import static org.junit.Assert.assertTrue;
 
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.io.writer.NullOutputStream;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.IndividualEventType;
+import org.gedcom4j.model.Place;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.Submitter;
 import org.junit.Test;
 
 /**

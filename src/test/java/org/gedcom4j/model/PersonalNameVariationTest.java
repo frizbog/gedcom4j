@@ -205,8 +205,10 @@ public class PersonalNameVariationTest {
         pnv.setSurname(new StringWithCustomTags("Time"));
         pnv.setSurnamePrefix(new StringWithCustomTags("For"));
         pnv.variationType = new StringWithCustomTags("All");
-        assertEquals("PersonalNameVariation [givenName=Now, nickname=Is, notes=[Note []], suffix=The, surname=Time, surnamePrefix=For, "
-                + "variation=Frying Pan, variationType=All, customTags=[Line 0: 0 (null tag) (null value)]]", pnv.toString());
+        assertEquals(
+                "PersonalNameVariation [givenName=Now, nickname=Is, notes=[Note []], suffix=The, surname=Time, surnamePrefix=For, "
+                        + "variation=Frying Pan, variationType=All, customTags=[Line 0: 0 (null tag) (null value)]]", pnv
+                                .toString());
 
     }
 }

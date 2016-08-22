@@ -51,7 +51,7 @@ class AnselWriter extends AbstractEncodingSpecificWriter {
      * @param writer
      *            The {@link GedcomWriter} this object is assisting
      */
-    public AnselWriter(GedcomWriter writer) {
+    AnselWriter(GedcomWriter writer) {
         super(writer);
     }
 

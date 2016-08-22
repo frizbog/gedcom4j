@@ -92,6 +92,9 @@ final class Utf8Reader extends AbstractEncodingSpecificReader {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String nextLine() throws IOException, GedcomParserException {
         String result = null;
@@ -103,9 +106,7 @@ final class Utf8Reader extends AbstractEncodingSpecificReader {
             s = s.substring(1);
         }
 
-        while (s != null)
-
-        {
+        while (s != null) {
             if (s.length() != 0) {
                 result = s;
                 break;
@@ -127,14 +128,17 @@ final class Utf8Reader extends AbstractEncodingSpecificReader {
         byteOrderMarkerRead = wasByteOrderMarkerRead;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     void cleanUp() throws IOException {
         closeReaders();
     }
 
     /**
-     * Close the readers created in this class. Private so it can't be overridden (like {@link #cleanUp()} can be),
-     * which makes it safe to call from the constructor.
+     * Close the readers created in this class. Private so it can't be overridden (like {@link #cleanUp()} can be), which makes it
+     * safe to call from the constructor.
      * 
      * @throws IOException
      *             if the readers can't be closed

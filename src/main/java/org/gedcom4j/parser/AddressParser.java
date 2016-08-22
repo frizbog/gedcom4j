@@ -78,7 +78,8 @@ class AddressParser extends AbstractParser<Address> {
                     if (loadInto.getLines(true).isEmpty()) {
                         loadInto.getLines().add(ch.getValue());
                     } else {
-                        loadInto.getLines().set(loadInto.getLines().size() - 1, loadInto.getLines().get(loadInto.getLines().size() - 1) + ch.getValue());
+                        loadInto.getLines().set(loadInto.getLines().size() - 1, loadInto.getLines().get(loadInto.getLines().size()
+                                - 1) + ch.getValue());
                     }
                 } else if (Tag.CONTINUATION.equalsText(ch.getTag())) {
                     loadInto.getLines(true).add(ch.getValue() == null ? "" : ch.getValue());

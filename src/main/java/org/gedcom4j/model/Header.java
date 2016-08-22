@@ -39,10 +39,9 @@ import org.gedcom4j.Options;
  */
 public class Header extends AbstractNotesElement {
     /**
-     * Notes on this header. Technically, the spec does not allow multiple notes or multiline notes in headers, but it
-     * happens so often it's better to allow it than to stop people from being able to parse files.
+     * Notes on this header. Technically, the spec does not allow multiple notes or multiline notes in headers, but it happens so
+     * often it's better to allow it than to stop people from being able to parse files.
      */
-
 
     /**
      * Serial Version UID

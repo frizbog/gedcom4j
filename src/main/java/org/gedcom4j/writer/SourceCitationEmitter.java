@@ -30,7 +30,11 @@ import java.util.List;
 
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.AbstractCitation;
+import org.gedcom4j.model.CitationData;
+import org.gedcom4j.model.CitationWithSource;
+import org.gedcom4j.model.CitationWithoutSource;
+import org.gedcom4j.model.Source;
 
 /**
  * Emitter for source citations
@@ -51,10 +55,14 @@ class SourceCitationEmitter extends AbstractEmitter<List<AbstractCitation>> {
      * @throws WriterCancelledException
      *             if cancellation was requested during the operation
      */
-    protected SourceCitationEmitter(GedcomWriter baseWriter, int startLevel, List<AbstractCitation> writeFrom) throws WriterCancelledException {
+    protected SourceCitationEmitter(GedcomWriter baseWriter, int startLevel, List<AbstractCitation> writeFrom)
+            throws WriterCancelledException {
         super(baseWriter, startLevel, writeFrom);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void emit() throws GedcomWriterException {
         if (writeFrom == null) {

@@ -30,7 +30,12 @@ import java.util.Collection;
 
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Family;
+import org.gedcom4j.model.FamilyEvent;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.LdsSpouseSealing;
+import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.UserReference;
 
 /**
  * Emitter for {@link Family} objects

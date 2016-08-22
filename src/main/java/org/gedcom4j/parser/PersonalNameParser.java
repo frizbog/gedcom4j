@@ -28,7 +28,12 @@ package org.gedcom4j.parser;
 
 import java.util.List;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.AbstractCitation;
+import org.gedcom4j.model.Note;
+import org.gedcom4j.model.PersonalName;
+import org.gedcom4j.model.PersonalNameVariation;
+import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * @author frizbog

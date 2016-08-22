@@ -840,17 +840,15 @@ public class DateParser implements Serializable {
      * @return the date found, if any, or null if no date could be extracted
      */
     private Date parseHebrewDayMonthYear(String... datePieces) {
-        {
-            HebrewMonth hebrewMonth = HebrewMonth.getFromAbbreviation(datePieces[1]);
-            if (hebrewMonth == null) {
-                // Didn't find a matching month abbreviation
-                return null;
-            }
-            HebrewCalendarParser hc = new HebrewCalendarParser();
-            int hebrewDay = Integer.parseInt(datePieces[0]);
-            int hebrewYear = Integer.parseInt(datePieces[2]);
-            return hc.convertHebrewDateToGregorian(hebrewYear, hebrewMonth.getGedcomAbbrev(), hebrewDay);
+        HebrewMonth hebrewMonth = HebrewMonth.getFromAbbreviation(datePieces[1]);
+        if (hebrewMonth == null) {
+            // Didn't find a matching month abbreviation
+            return null;
         }
+        HebrewCalendarParser hc = new HebrewCalendarParser();
+        int hebrewDay = Integer.parseInt(datePieces[0]);
+        int hebrewYear = Integer.parseInt(datePieces[2]);
+        return hc.convertHebrewDateToGregorian(hebrewYear, hebrewMonth.getGedcomAbbrev(), hebrewDay);
     }
 
     /**
@@ -864,32 +862,30 @@ public class DateParser implements Serializable {
      * @return the date found, if any, or null if no date could be extracted
      */
     private Date parseHebrewMonthYear(ImpreciseDatePreference pref, String... datePieces) {
-        {
-            HebrewMonth hebrewMonth = HebrewMonth.getFromAbbreviation(datePieces[0]);
-            if (hebrewMonth == null) {
-                return null;
-            }
-            HebrewCalendarParser hc = new HebrewCalendarParser();
-            int hebrewYear = Integer.parseInt(datePieces[1]);
-            int hebrewDay;
-            switch (pref) {
-                case FAVOR_EARLIEST:
-                    hebrewDay = 1;
-                    break;
-                case FAVOR_LATEST:
-                    hebrewDay = hc.getMonthLength(hebrewYear, hebrewMonth);
-                    break;
-                case FAVOR_MIDPOINT:
-                    hebrewDay = hc.getMonthLength(hebrewYear, hebrewMonth) / 2;
-                    break;
-                case PRECISE:
-                    hebrewDay = 1;
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unexpected value for imprecise date preference: " + pref);
-            }
-            return hc.convertHebrewDateToGregorian(hebrewYear, hebrewMonth.getGedcomAbbrev(), hebrewDay);
+        HebrewMonth hebrewMonth = HebrewMonth.getFromAbbreviation(datePieces[0]);
+        if (hebrewMonth == null) {
+            return null;
         }
+        HebrewCalendarParser hc = new HebrewCalendarParser();
+        int hebrewYear = Integer.parseInt(datePieces[1]);
+        int hebrewDay;
+        switch (pref) {
+            case FAVOR_EARLIEST:
+                hebrewDay = 1;
+                break;
+            case FAVOR_LATEST:
+                hebrewDay = hc.getMonthLength(hebrewYear, hebrewMonth);
+                break;
+            case FAVOR_MIDPOINT:
+                hebrewDay = hc.getMonthLength(hebrewYear, hebrewMonth) / 2;
+                break;
+            case PRECISE:
+                hebrewDay = 1;
+                break;
+            default:
+                throw new IllegalArgumentException("Unexpected value for imprecise date preference: " + pref);
+        }
+        return hc.convertHebrewDateToGregorian(hebrewYear, hebrewMonth.getGedcomAbbrev(), hebrewDay);
     }
 
     /**
@@ -903,33 +899,31 @@ public class DateParser implements Serializable {
      * @return the date found, if any, or null if no date could be extracted
      */
     private Date parseHebrewYearOnly(ImpreciseDatePreference pref, String... datePieces) {
-        {
-            HebrewCalendarParser hc = new HebrewCalendarParser();
-            int hebrewYear = Integer.parseInt(datePieces[0]);
-            HebrewMonth hebrewMonth;
-            int hebrewDay;
-            switch (pref) {
-                case FAVOR_EARLIEST:
-                    hebrewMonth = HebrewMonth.TISHREI;
-                    hebrewDay = 1;
-                    break;
-                case FAVOR_LATEST:
-                    hebrewMonth = HebrewMonth.ELUL;
-                    hebrewDay = hc.getMonthLength(hebrewYear, hebrewMonth);
-                    break;
-                case FAVOR_MIDPOINT:
-                    hebrewMonth = HebrewMonth.ADAR;
-                    hebrewDay = hc.getMonthLength(hebrewYear, hebrewMonth) / 2;
-                    break;
-                case PRECISE:
-                    hebrewMonth = HebrewMonth.TISHREI;
-                    hebrewDay = 1;
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unexpected value for imprecise date preference: " + pref);
-            }
-            return hc.convertHebrewDateToGregorian(hebrewYear, hebrewMonth.getGedcomAbbrev(), hebrewDay);
+        HebrewCalendarParser hc = new HebrewCalendarParser();
+        int hebrewYear = Integer.parseInt(datePieces[0]);
+        HebrewMonth hebrewMonth;
+        int hebrewDay;
+        switch (pref) {
+            case FAVOR_EARLIEST:
+                hebrewMonth = HebrewMonth.TISHREI;
+                hebrewDay = 1;
+                break;
+            case FAVOR_LATEST:
+                hebrewMonth = HebrewMonth.ELUL;
+                hebrewDay = hc.getMonthLength(hebrewYear, hebrewMonth);
+                break;
+            case FAVOR_MIDPOINT:
+                hebrewMonth = HebrewMonth.ADAR;
+                hebrewDay = hc.getMonthLength(hebrewYear, hebrewMonth) / 2;
+                break;
+            case PRECISE:
+                hebrewMonth = HebrewMonth.TISHREI;
+                hebrewDay = 1;
+                break;
+            default:
+                throw new IllegalArgumentException("Unexpected value for imprecise date preference: " + pref);
         }
+        return hc.convertHebrewDateToGregorian(hebrewYear, hebrewMonth.getGedcomAbbrev(), hebrewDay);
     }
 
     /**

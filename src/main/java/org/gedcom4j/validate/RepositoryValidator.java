@@ -48,7 +48,7 @@ class RepositoryValidator extends AbstractValidator {
      * @param repository
      *            the repository being validated
      */
-    public RepositoryValidator(GedcomValidator gedcomValidator, Repository repository) {
+    RepositoryValidator(GedcomValidator gedcomValidator, Repository repository) {
         rootValidator = gedcomValidator;
         this.repository = repository;
     }

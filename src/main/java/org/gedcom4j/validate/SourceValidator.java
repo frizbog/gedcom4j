@@ -29,7 +29,12 @@ package org.gedcom4j.validate;
 import java.util.List;
 
 import org.gedcom4j.Options;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.EventRecorded;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.RepositoryCitation;
+import org.gedcom4j.model.Source;
+import org.gedcom4j.model.SourceCallNumber;
+import org.gedcom4j.model.SourceData;
 
 /**
  * A validator for {@link Source} objects. See {@link GedcomValidator} for usage information.
@@ -52,7 +57,7 @@ class SourceValidator extends AbstractValidator {
      * @param source
      *            the source being validated
      */
-    public SourceValidator(GedcomValidator rootValidator, Source source) {
+    SourceValidator(GedcomValidator rootValidator, Source source) {
         this.rootValidator = rootValidator;
         this.source = source;
     }

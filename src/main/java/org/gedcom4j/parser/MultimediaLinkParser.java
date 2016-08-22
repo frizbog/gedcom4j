@@ -28,7 +28,11 @@ package org.gedcom4j.parser;
 
 import java.util.List;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.FileReference;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.Note;
+import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * @author frizbog
@@ -46,7 +50,7 @@ class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
      * @param loadInto
      *            the object we are loading data into
      */
-    public MultimediaLinkParser(GedcomParser gedcomParser, StringTree stringTree, List<Multimedia> loadInto) {
+    MultimediaLinkParser(GedcomParser gedcomParser, StringTree stringTree, List<Multimedia> loadInto) {
         super(gedcomParser, stringTree, loadInto);
     }
 
@@ -65,7 +69,6 @@ class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
         loadInto.add(m);
     }
 
-  
     /**
      * Load all the file references in the current OBJE tag
      * 
@@ -81,15 +84,14 @@ class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
         if (obje.getChildren() != null) {
             for (StringTree ch : obje.getChildren()) {
                 /*
-                 * Count up the number of files referenced for this object - GEDCOM 5.5.1 allows multiple, 5.5 only
-                 * allows 1
+                 * Count up the number of files referenced for this object - GEDCOM 5.5.1 allows multiple, 5.5 only allows 1
                  */
                 if (Tag.FILE.equalsText(ch.getTag())) {
                     fileTagCount++;
                 }
                 /*
-                 * Count the number of formats referenced per file - GEDCOM 5.5.1 has them as children of FILEs (so
-                 * should be zero), 5.5 pairs them with the single FILE tag (so should be one)
+                 * Count the number of formats referenced per file - GEDCOM 5.5.1 has them as children of FILEs (so should be zero),
+                 * 5.5 pairs them with the single FILE tag (so should be one)
                  */
                 if (Tag.FORM.equalsText(ch.getTag())) {
                     formTagCount++;
@@ -98,8 +100,8 @@ class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
         }
         if (g55()) {
             if (fileTagCount > 1) {
-                addWarning("GEDCOM version is 5.5, but multiple files referenced in multimedia reference on line " + obje.getLineNum()
-                        + ", which is only allowed in 5.5.1. "
+                addWarning("GEDCOM version is 5.5, but multiple files referenced in multimedia reference on line " + obje
+                        .getLineNum() + ", which is only allowed in 5.5.1. "
                         + "Data will be loaded, but cannot be written back out unless the GEDCOM version is changed to 5.5.1");
             }
             if (formTagCount == 0) {

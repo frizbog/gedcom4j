@@ -51,6 +51,9 @@ class ChangeDateEmitter extends AbstractEmitter<ChangeDate> {
         super(baseWriter, startLevel, writeFrom);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void emit() throws GedcomWriterException {
         if (writeFrom != null) {

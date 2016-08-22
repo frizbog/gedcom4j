@@ -57,6 +57,9 @@ class NotesEmitter extends AbstractEmitter<Collection<Note>> {
         super(baseWriter, startLevel, collection);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void emit() throws GedcomWriterException {
         if (writeFrom != null) {

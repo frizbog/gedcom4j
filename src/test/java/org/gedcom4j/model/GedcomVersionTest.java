@@ -42,7 +42,7 @@ public class GedcomVersionTest {
      */
     @Test
     @SuppressWarnings("PMD.EqualsNull")
-	public void testEqualsObject() {
+    public void testEqualsObject() {
         GedcomVersion gv1 = new GedcomVersion();
         assertEquals(gv1, gv1);
         GedcomVersion gv2 = new GedcomVersion();

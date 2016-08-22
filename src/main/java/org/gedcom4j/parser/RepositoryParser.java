@@ -28,7 +28,13 @@ package org.gedcom4j.parser;
 
 import java.util.List;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Address;
+import org.gedcom4j.model.ChangeDate;
+import org.gedcom4j.model.Note;
+import org.gedcom4j.model.Repository;
+import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.UserReference;
 
 /**
  * Parser for {@link Repository} objects
@@ -66,20 +72,23 @@ class RepositoryParser extends AbstractParser<Repository> {
                 } else if (Tag.WEB_ADDRESS.equalsText(ch.getTag())) {
                     loadInto.getWwwUrls(true).add(new StringWithCustomTags(ch));
                     if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but WWW URL was specified on repository " + loadInto.getXref() + " on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                        addWarning("GEDCOM version is 5.5 but WWW URL was specified on repository " + loadInto.getXref()
+                                + " on line " + ch.getLineNum() + ", which is a GEDCOM 5.5.1 feature."
+                                + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.FAX.equalsText(ch.getTag())) {
                     loadInto.getFaxNumbers(true).add(new StringWithCustomTags(ch));
                     if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but fax was specified on repository " + loadInto.getXref() + " on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                        addWarning("GEDCOM version is 5.5 but fax was specified on repository " + loadInto.getXref() + " on line "
+                                + ch.getLineNum() + ", which is a GEDCOM 5.5.1 feature."
+                                + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.EMAIL.equalsText(ch.getTag())) {
                     loadInto.getEmails(true).add(new StringWithCustomTags(ch));
                     if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but email was specified on repository " + loadInto.getXref() + " on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                        addWarning("GEDCOM version is 5.5 but email was specified on repository " + loadInto.getXref() + " on line "
+                                + ch.getLineNum() + ", which is a GEDCOM 5.5.1 feature."
+                                + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
                     List<Note> notes = loadInto.getNotes(true);

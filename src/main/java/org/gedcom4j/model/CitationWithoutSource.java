@@ -32,8 +32,8 @@ import java.util.List;
 import org.gedcom4j.Options;
 
 /**
- * A citation without a source. Corresponds to the second form of the SOURCE_CITATION structure (which you'd do in
- * Pascal with a variant record, but here we use subclasses of a parent abstract class).
+ * A citation without a source. Corresponds to the second form of the SOURCE_CITATION structure (which you'd do in Pascal with a
+ * variant record, but here we use subclasses of a parent abstract class).
  * 
  * @author frizbog1
  */

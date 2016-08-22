@@ -36,7 +36,11 @@ import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.GedcomWriterException;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.IndividualEventType;
+import org.gedcom4j.model.StringTree;
 import org.gedcom4j.parser.GedcomParser;
 import org.junit.Test;
 
@@ -49,9 +53,8 @@ import org.junit.Test;
 public class Issue95Test {
 
     /**
-     * Test for Issue 95, in which {@link GedcomWriter} was writing custom event tags twice. Reads a file with a single
-     * custom individual event tag, rewrites it to a string, and counts the number of individual event tags in the
-     * output file.
+     * Test for Issue 95, in which {@link GedcomWriter} was writing custom event tags twice. Reads a file with a single custom
+     * individual event tag, rewrites it to a string, and counts the number of individual event tags in the output file.
      * 
      * @throws IOException
      *             if the file cannot be read

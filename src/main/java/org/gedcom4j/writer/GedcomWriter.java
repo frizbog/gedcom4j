@@ -42,7 +42,20 @@ import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.io.event.FileProgressListener;
 import org.gedcom4j.io.writer.GedcomFileWriter;
 import org.gedcom4j.io.writer.LineTerminator;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.AbstractEvent;
+import org.gedcom4j.model.Corporation;
+import org.gedcom4j.model.FamilyChild;
+import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.GedcomVersion;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualAttribute;
+import org.gedcom4j.model.IndividualAttributeType;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.Repository;
+import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.SupportedVersion;
 import org.gedcom4j.validate.GedcomValidationFinding;
 import org.gedcom4j.validate.GedcomValidator;
 import org.gedcom4j.validate.Severity;
@@ -88,7 +101,7 @@ import org.gedcom4j.writer.event.ConstructProgressListener;
  * @author Mark A Sikes
  *
  */
-@SuppressWarnings({ "PMD.GodClass", "PMD.TooManyMethods" })
+@SuppressWarnings({ "PMD.GodClass", "PMD.TooManyMethods", "PMD.ExcessiveImports" })
 public class GedcomWriter extends AbstractEmitter<Gedcom> {
     /**
      * The text lines of the GEDCOM file we're writing, which will be written using a {@link GedcomFileWriter}. Deliberately
@@ -424,6 +437,9 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
         write(f);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void emit() throws GedcomWriterException {
         if (!validationSuppressed) {
@@ -549,6 +565,60 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
                         "Gedcom version is 5.5, but source system corporation has emails");
             }
         }
+        checkVersionCompatibility55Individuals();
+        for (Submitter s : writeFrom.getSubmitters().values()) {
+            if (s.getWwwUrls() != null && !s.getWwwUrls().isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Submitter " + s.getXref()
+                        + " has www urls");
+            }
+            if (s.getFaxNumbers() != null && !s.getFaxNumbers().isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Submitter " + s.getXref()
+                        + " has fax numbers");
+            }
+            if (s.getEmails() != null && !s.getEmails().isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Submitter " + s.getXref()
+                        + " has emails");
+            }
+        }
+        for (Repository r : writeFrom.getRepositories().values()) {
+            if (r.getWwwUrls() != null && !r.getWwwUrls().isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Repository " + r.getXref()
+                        + " has www urls");
+            }
+            if (r.getFaxNumbers() != null && !r.getFaxNumbers().isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Repository " + r.getXref()
+                        + " has fax numbers");
+            }
+            if (r.getEmails() != null && !r.getEmails().isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Repository " + r.getXref()
+                        + " has emails");
+            }
+        }
+    }
+
+    /**
+     * Check that the data is compatible with 5.5.1 style Gedcom files
+     * 
+     * @throws GedcomWriterVersionDataMismatchException
+     *             if a data point is detected that is incompatible with the 5.5.1 standard
+     * 
+     */
+    private void checkVersionCompatibility551() throws GedcomWriterVersionDataMismatchException {
+        for (Multimedia m : writeFrom.getMultimedia().values()) {
+            if (m.getBlob() != null && !m.getBlob().isEmpty()) {
+                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5.1, but multimedia item " + m.getXref()
+                        + " contains BLOB data which is unsupported in 5.5.1");
+            }
+        }
+    }
+
+    /**
+     * Check that the data on individuals is compatible with 5.5 style Gedcom files
+     * 
+     * @throws GedcomWriterVersionDataMismatchException
+     *             if a data point is detected that is incompatible with the 5.5 standard
+     */
+    private void checkVersionCompatibility55Individuals() throws GedcomWriterVersionDataMismatchException {
         for (Individual i : writeFrom.getIndividuals().values()) {
             if (i.getWwwUrls() != null && !i.getWwwUrls().isEmpty()) {
                 throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref()
@@ -593,50 +663,6 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
                                 + " is in a family with a status specified (a Gedcom 5.5.1 only feature)");
                     }
                 }
-            }
-        }
-        for (Submitter s : writeFrom.getSubmitters().values()) {
-            if (s.getWwwUrls() != null && !s.getWwwUrls().isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Submitter " + s.getXref()
-                        + " has www urls");
-            }
-            if (s.getFaxNumbers() != null && !s.getFaxNumbers().isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Submitter " + s.getXref()
-                        + " has fax numbers");
-            }
-            if (s.getEmails() != null && !s.getEmails().isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Submitter " + s.getXref()
-                        + " has emails");
-            }
-        }
-        for (Repository r : writeFrom.getRepositories().values()) {
-            if (r.getWwwUrls() != null && !r.getWwwUrls().isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Repository " + r.getXref()
-                        + " has www urls");
-            }
-            if (r.getFaxNumbers() != null && !r.getFaxNumbers().isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Repository " + r.getXref()
-                        + " has fax numbers");
-            }
-            if (r.getEmails() != null && !r.getEmails().isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Repository " + r.getXref()
-                        + " has emails");
-            }
-        }
-    }
-
-    /**
-     * Check that the data is compatible with 5.5.1 style Gedcom files
-     * 
-     * @throws GedcomWriterVersionDataMismatchException
-     *             if a data point is detected that is incompatible with the 5.5.1 standard
-     * 
-     */
-    private void checkVersionCompatibility551() throws GedcomWriterVersionDataMismatchException {
-        for (Multimedia m : writeFrom.getMultimedia().values()) {
-            if (m.getBlob() != null && !m.getBlob().isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5.1, but multimedia item " + m.getXref()
-                        + " contains BLOB data which is unsupported in 5.5.1");
             }
         }
     }

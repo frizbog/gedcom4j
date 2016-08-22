@@ -26,7 +26,13 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Address;
+import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.IndividualEventType;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.TestHelper;
 import org.junit.Test;
 
 /**

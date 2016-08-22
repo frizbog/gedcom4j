@@ -45,14 +45,14 @@ class AsciiWriter extends AbstractEncodingSpecificWriter {
      * @param writer
      *            The {@link GedcomWriter} this object is assisting
      */
-    public AsciiWriter(GedcomWriter writer) {
+    AsciiWriter(GedcomWriter writer) {
         super(writer);
     }
 
     /**
      * <p>
-     * ASCII-specific file writer. Any characters in the line that are outside the 0x00-0x7F range allowed by ASCII are
-     * written out as question marks.
+     * ASCII-specific file writer. Any characters in the line that are outside the 0x00-0x7F range allowed by ASCII are written out
+     * as question marks.
      * </p>
      * 
      * {@inheritDoc}

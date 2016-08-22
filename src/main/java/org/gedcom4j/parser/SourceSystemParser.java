@@ -26,7 +26,11 @@
  */
 package org.gedcom4j.parser;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Corporation;
+import org.gedcom4j.model.HeaderSourceData;
+import org.gedcom4j.model.SourceSystem;
+import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * A parser for {@link SourceSystem} objects

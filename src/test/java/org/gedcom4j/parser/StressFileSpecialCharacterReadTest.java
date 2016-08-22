@@ -79,6 +79,7 @@ public class StressFileSpecialCharacterReadTest {
      * diacritics. When using pre-composed (single) glyphs, those are shown already composed.
      */
     @Test
+    @SuppressWarnings("checkstyle:methodlength")
     public void testDiacritics() {
         Note note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());

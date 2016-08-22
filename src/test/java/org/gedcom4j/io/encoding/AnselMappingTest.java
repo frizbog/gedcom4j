@@ -45,7 +45,8 @@ public class AnselMappingTest {
         assertEquals("Lowercase z is ASCII/ANSEL 0x7A", 'z', AnselMapping.decode((char) 0x7A));
         assertEquals("The unicode character for a capital L with a slash through it (U+0141, or \u0141) is ANSEL A1", '\u0141',
                 AnselMapping.decode((char) 0xA1));
-        assertEquals("The unicode character for a musical flat (U+266D, or \u266D) is ANSEL A9", '\u266D', AnselMapping.decode((char) 0xA9));
+        assertEquals("The unicode character for a musical flat (U+266D, or \u266D) is ANSEL A9", '\u266D', AnselMapping.decode(
+                (char) 0xA9));
     }
 
     /**
@@ -55,7 +56,9 @@ public class AnselMappingTest {
     public void testEncode() {
         assertEquals("Capital A is ASCII/ANSEL 0x41", 0x41, AnselMapping.encode('A'));
         assertEquals("Lowercase z is ASCII/ANSEL 0x7A", 0x7A, AnselMapping.encode('z'));
-        assertEquals("The unicode character for a capital L with a slash through it (U+0141, or \u0141) is ANSEL A1", 0xA1, AnselMapping.encode('\u0141'));
-        assertEquals("The unicode character for a musical flat (U+266D, or \u266D) is ANSEL A9", 0xA9, AnselMapping.encode('\u266D'));
+        assertEquals("The unicode character for a capital L with a slash through it (U+0141, or \u0141) is ANSEL A1", 0xA1,
+                AnselMapping.encode('\u0141'));
+        assertEquals("The unicode character for a musical flat (U+266D, or \u266D) is ANSEL A9", 0xA9, AnselMapping.encode(
+                '\u266D'));
     }
 }

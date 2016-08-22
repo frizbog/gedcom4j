@@ -37,29 +37,28 @@ import java.util.Map;
  * </p>
  * 
  * <p>
- * Note that if you are creating a Gedcom object graph programmatically from scratch (as opposed to by parsing a GEDCOM
- * file), you will (probably) want to do the following things...some are required for the structure to pass validation,
- * and the results of autorepair (if enabled) may not be what you want (see
- * {@link org.gedcom4j.validate.GedcomValidator}).
+ * Note that if you are creating a Gedcom object graph programmatically from scratch (as opposed to by parsing a GEDCOM file), you
+ * will (probably) want to do the following things...some are required for the structure to pass validation, and the results of
+ * autorepair (if enabled) may not be what you want (see {@link org.gedcom4j.validate.GedcomValidator}).
  * </p>
  * <ol type="1">
- * <li>Define a {@link Submitter} and add it to the {@link Gedcom#submitters} map. Autorepair will make a fake submitter
- * record with a name of "UNSPECIFIED" and add it to the map during validation if validation is turned on, but this
- * submitter record may not be what you want.</li>
- * <li>Specify which Submitter in the submitters map is the primary submitter and set the {@link Header#submitter}
- * reference to that instance. If no primary submitter is specified in the header, auto-repair will select the first
- * value in the submitters map and use that.</li>
+ * <li>Define a {@link Submitter} and add it to the {@link Gedcom#submitters} map. Autorepair will make a fake submitter record with
+ * a name of "UNSPECIFIED" and add it to the map during validation if validation is turned on, but this submitter record may not be
+ * what you want.</li>
+ * <li>Specify which Submitter in the submitters map is the primary submitter and set the {@link Header#submitter} reference to that
+ * instance. If no primary submitter is specified in the header, auto-repair will select the first value in the submitters map and
+ * use that.</li>
  * <li>Override default values for the Source System and its components in {@link Header#sourceSystem}
  * <ol type="a">
- * <li>Specify, or override the default value of the {@link SourceSystem#systemId} field to an application-specific
- * value. If it is missing or blank, autorepair during validation will set it to the default value of "UNSPECIFIED"
- * which is probably not desirable.</li>
- * <li>If specifying a corporation, specify, or override the default value of the {@link Corporation#businessName} field
- * to an application-specific value (probably your company/org name). If it is missing or blank, autorepair during
- * validation will set it to the default value of "UNSPECIFIED" which is probably not desirable.</li>
+ * <li>Specify, or override the default value of the {@link SourceSystem#systemId} field to an application-specific value. If it is
+ * missing or blank, autorepair during validation will set it to the default value of "UNSPECIFIED" which is probably not
+ * desirable.</li>
+ * <li>If specifying a corporation, specify, or override the default value of the {@link Corporation#businessName} field to an
+ * application-specific value (probably your company/org name). If it is missing or blank, autorepair during validation will set it
+ * to the default value of "UNSPECIFIED" which is probably not desirable.</li>
  * <li>If specifying the source data for the source system, specify, or override the default value of the
- * {@link HeaderSourceData#name} field to an application-specific value. If it is missing or blank, autorepair during
- * validation will set it to the default value of "UNSPECIFIED" which is probably not desirable.</li>
+ * {@link HeaderSourceData#name} field to an application-specific value. If it is missing or blank, autorepair during validation
+ * will set it to the default value of "UNSPECIFIED" which is probably not desirable.</li>
  * </ol>
  * </li>
  * </ol>
@@ -73,8 +72,32 @@ public class Gedcom extends AbstractElement {
     private static final long serialVersionUID = -2972879346299316334L;
 
     /**
-     * A map of all the families in the GEDCOM file. The map is keyed on family cross-reference numbers, and the
-     * families themselves are in the value set.
+     * A helper class to limit the number of items shown from a collection
+     * 
+     * @param collection
+     *            the collection
+     * @param maxLen
+     *            the max number of items to show from the collection
+     * @return a String representation of the first <tt>maxLen</tt> items in the collection
+     */
+    protected static String toStringLimitCollection(@SuppressWarnings("rawtypes") Collection collection, int maxLen) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("[");
+        int i = 0;
+        for (@SuppressWarnings("rawtypes")
+        Iterator iterator = collection.iterator(); iterator.hasNext() && i < maxLen; i++) {
+            if (i > 0) {
+                builder.append(", ");
+            }
+            builder.append(iterator.next());
+        }
+        builder.append("]");
+        return builder.toString();
+    }
+
+    /**
+     * A map of all the families in the GEDCOM file. The map is keyed on family cross-reference numbers, and the families themselves
+     * are in the value set.
      */
     private final Map<String, Family> families = new HashMap<>();
 
@@ -84,15 +107,15 @@ public class Gedcom extends AbstractElement {
     private Header header = new Header();
 
     /**
-     * A map of all the individuals in the GEDCOM file. The map is keyed on the individual cross-reference numbers and
-     * the individuals themselves are in the value set.
+     * A map of all the individuals in the GEDCOM file. The map is keyed on the individual cross-reference numbers and the
+     * individuals themselves are in the value set.
      */
     private final Map<String, Individual> individuals = new HashMap<>(0);
 
     /**
-     * A map of all the multimedia items in the GEDCOM file. The map is keyed by the multimedia cross-reference numbers,
-     * and the multimedia items themselves (well, the metadata about them for 5.5.1) are in the value set. Remember,
-     * GEDCOM 5.5.1 multimedia is not embedded in the GEDCOM, but the GEDCOM contains metadata about the multimedia.
+     * A map of all the multimedia items in the GEDCOM file. The map is keyed by the multimedia cross-reference numbers, and the
+     * multimedia items themselves (well, the metadata about them for 5.5.1) are in the value set. Remember, GEDCOM 5.5.1 multimedia
+     * is not embedded in the GEDCOM, but the GEDCOM contains metadata about the multimedia.
      */
     private final Map<String, Multimedia> multimedia = new HashMap<>(0);
 
@@ -102,14 +125,14 @@ public class Gedcom extends AbstractElement {
     private final Map<String, Note> notes = new HashMap<>(0);
 
     /**
-     * A map of all the source repositories in the GEDCOM file. The map is keyed on the repository cross-reference
-     * numbers, and the repositories themselves are in the value set.
+     * A map of all the source repositories in the GEDCOM file. The map is keyed on the repository cross-reference numbers, and the
+     * repositories themselves are in the value set.
      */
     private final Map<String, Repository> repositories = new HashMap<>(0);
 
     /**
-     * A map of all the sources in the GEDCOM file. The map is keyed on source cross-reference numbers, and the sources
-     * themselves are in the value set.
+     * A map of all the sources in the GEDCOM file. The map is keyed on source cross-reference numbers, and the sources themselves
+     * are in the value set.
      */
     private final Map<String, Source> sources = new HashMap<>(0);
 
@@ -119,8 +142,8 @@ public class Gedcom extends AbstractElement {
     private Submission submission = new Submission("@SUBMISSION@");
 
     /**
-     * A map of the submitters in the GEDCOM file. The map is keyed on submitter cross-reference numbers, and the
-     * submitters themselves are in the value set
+     * A map of the submitters in the GEDCOM file. The map is keyed on submitter cross-reference numbers, and the submitters
+     * themselves are in the value set
      */
     private final Map<String, Submitter> submitters = new HashMap<>(0);
 
@@ -407,29 +430,6 @@ public class Gedcom extends AbstractElement {
         if (trailer != null) {
             builder.append("trailer=");
             builder.append(trailer);
-        }
-        builder.append("]");
-        return builder.toString();
-    }
-
-    /**
-     * A helper class to limit the number of items shown from a collection
-     * 
-     * @param collection
-     *            the collection
-     * @param maxLen
-     *            the max number of items to show from the collection
-     * @return a String representation of the first <tt>maxLen</tt> items in the collection
-     */
-    protected static String toStringLimitCollection(Collection<?> collection, int maxLen) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("[");
-        int i = 0;
-        for (Iterator<?> iterator = collection.iterator(); iterator.hasNext() && i < maxLen; i++) {
-            if (i > 0) {
-                builder.append(", ");
-            }
-            builder.append(iterator.next());
         }
         builder.append("]");
         return builder.toString();

@@ -28,7 +28,13 @@ package org.gedcom4j.parser;
 
 import java.util.List;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Address;
+import org.gedcom4j.model.ChangeDate;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.Note;
+import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.Submitter;
 
 /**
  * Parser for {@link Submitter} objects
@@ -67,19 +73,22 @@ class SubmitterParser extends AbstractParser<Submitter> {
                     loadInto.getWwwUrls(true).add(new StringWithCustomTags(ch));
                     if (g55()) {
                         addWarning("GEDCOM version is 5.5 but WWW URL number was specified on submitter on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                                + ", which is a GEDCOM 5.5.1 feature."
+                                + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.FAX.equalsText(ch.getTag())) {
                     loadInto.getFaxNumbers(true).add(new StringWithCustomTags(ch));
                     if (g55()) {
                         addWarning("GEDCOM version is 5.5 but fax number was specified on submitter on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                                + ", which is a GEDCOM 5.5.1 feature."
+                                + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.EMAIL.equalsText(ch.getTag())) {
                     loadInto.getEmails(true).add(new StringWithCustomTags(ch));
                     if (g55()) {
                         addWarning("GEDCOM version is 5.5 but email was specified on submitter on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                                + ", which is a GEDCOM 5.5.1 feature."
+                                + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.LANGUAGE.equalsText(ch.getTag())) {
                     loadInto.getLanguagePref(true).add(new StringWithCustomTags(ch));

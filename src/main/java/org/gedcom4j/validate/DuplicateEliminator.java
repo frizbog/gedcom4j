@@ -30,9 +30,9 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * A class to eliminate duplicate items from a {@link List}, while preserving the order of the List items. If the list
- * contains two or more references to equivalent objects, only the first of these is retained. Assumes that the List of
- * items passed into the constructor is mutable.
+ * A class to eliminate duplicate items from a {@link List}, while preserving the order of the List items. If the list contains two
+ * or more references to equivalent objects, only the first of these is retained. Assumes that the List of items passed into the
+ * constructor is mutable.
  * 
  * 
  * @author frizbog

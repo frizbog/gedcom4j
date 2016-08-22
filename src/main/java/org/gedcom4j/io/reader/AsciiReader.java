@@ -47,6 +47,7 @@ final class AsciiReader extends AbstractEncodingSpecificReader {
     /**
      * The line buffer for the current line
      */
+    @SuppressWarnings("PMD.AvoidStringBufferField")
     private final StringBuilder lineBuffer = new StringBuilder();
 
     /**
@@ -62,6 +63,9 @@ final class AsciiReader extends AbstractEncodingSpecificReader {
         super(parser, byteStream);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String nextLine() throws IOException, GedcomParserException {
         String result = null;

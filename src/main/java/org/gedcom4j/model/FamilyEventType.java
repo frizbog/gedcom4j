@@ -123,7 +123,7 @@ public enum FamilyEventType {
      * @param display
      *            the display value for the enum constant
      */
-    private FamilyEventType(String tag, String display) {
+    FamilyEventType(String tag, String display) {
         this.tag = tag.intern();
         this.display = display.intern();
     }

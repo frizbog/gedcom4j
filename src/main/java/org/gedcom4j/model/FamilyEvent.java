@@ -27,8 +27,8 @@
 package org.gedcom4j.model;
 
 /**
- * Represents a family event. Corresponds to the FAMILY_EVENT_STRUCTURE from the GEDCOM standard along with the two
- * child elements of the wife and husband ages.
+ * Represents a family event. Corresponds to the FAMILY_EVENT_STRUCTURE from the GEDCOM standard along with the two child elements
+ * of the wife and husband ages.
  * 
  * @author frizbog1
  * 

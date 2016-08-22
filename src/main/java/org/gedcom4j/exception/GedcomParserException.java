@@ -27,8 +27,7 @@
 package org.gedcom4j.exception;
 
 /**
- * An exception thrown by the parser indicating inability to deal with the input
- * file
+ * An exception thrown by the parser indicating inability to deal with the input file
  * 
  * @author frizbog1
  */

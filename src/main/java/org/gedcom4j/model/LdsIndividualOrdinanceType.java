@@ -95,7 +95,7 @@ public enum LdsIndividualOrdinanceType {
      * @param display
      *            the display value
      */
-    private LdsIndividualOrdinanceType(String tag, String display) {
+    LdsIndividualOrdinanceType(String tag, String display) {
         this.tag = tag.intern();
         this.display = display.intern();
     }

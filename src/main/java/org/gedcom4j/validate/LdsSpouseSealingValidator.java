@@ -53,7 +53,7 @@ class LdsSpouseSealingValidator extends AbstractValidator {
      * @param s
      *            the sealing being validated
      */
-    public LdsSpouseSealingValidator(GedcomValidator rootValidator, LdsSpouseSealing s) {
+    LdsSpouseSealingValidator(GedcomValidator rootValidator, LdsSpouseSealing s) {
         this.rootValidator = rootValidator;
         this.s = s;
     }

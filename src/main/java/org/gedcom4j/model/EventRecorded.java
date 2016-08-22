@@ -27,8 +27,8 @@
 package org.gedcom4j.model;
 
 /**
- * A event that was recorded in a source. Corresponds to a single instance of the Events Recorded multi-block in the
- * Data Model Chart at the end of the GEDCOM spec.
+ * A event that was recorded in a source. Corresponds to a single instance of the Events Recorded multi-block in the Data Model
+ * Chart at the end of the GEDCOM spec.
  * 
  * @author frizbog1
  */

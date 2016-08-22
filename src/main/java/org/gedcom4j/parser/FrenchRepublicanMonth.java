@@ -88,7 +88,7 @@ enum FrenchRepublicanMonth {
      * @param gedcomAbbrev
      *            The gedcom abbreviation
      */
-    private FrenchRepublicanMonth(String gedcomAbbrev) {
+    FrenchRepublicanMonth(String gedcomAbbrev) {
         this.gedcomAbbrev = gedcomAbbrev;
     }
 

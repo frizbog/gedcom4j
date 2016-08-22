@@ -86,8 +86,9 @@ class Multimedia55Emitter extends AbstractEmitter<Collection<Multimedia>> {
             emitTagIfValueNotNull(1, "RIN", m.getRecIdNumber());
             new ChangeDateEmitter(baseWriter, 1, m.getChangeDate()).emit();
             if (m.getFileReferences() != null && !m.getFileReferences().isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but found file references in multimedia object " + m.getXref()
-                        + " which are not allowed until GEDCOM 5.5.1");
+                throw new GedcomWriterVersionDataMismatchException(
+                        "GEDCOM version is 5.5, but found file references in multimedia object " + m.getXref()
+                                + " which are not allowed until GEDCOM 5.5.1");
             }
             emitCustomTags(1, m.getCustomTags());
         }

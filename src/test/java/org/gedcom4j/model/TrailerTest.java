@@ -42,7 +42,7 @@ public class TrailerTest {
      */
     @Test
     @SuppressWarnings("PMD.EqualsNull")
-	public void testEqualsObject() {
+    public void testEqualsObject() {
         Trailer t1 = new Trailer();
         assertEquals(t1, t1);
 

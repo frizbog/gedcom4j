@@ -34,8 +34,8 @@ import org.gedcom4j.model.CitationWithSource;
 import org.gedcom4j.model.CitationWithoutSource;
 
 /**
- * A validator for source citations - both {@link CitationWithoutSource} and {@link CitationWithSource}. See
- * {@link GedcomValidator} for usage information.
+ * A validator for source citations - both {@link CitationWithoutSource} and {@link CitationWithSource}. See {@link GedcomValidator}
+ * for usage information.
  * 
  * @author frizbog1
  * 
@@ -55,7 +55,7 @@ class CitationValidator extends AbstractValidator {
      * @param citation
      *            the citation being validated
      */
-    public CitationValidator(GedcomValidator rootValidator, AbstractCitation citation) {
+    CitationValidator(GedcomValidator rootValidator, AbstractCitation citation) {
         this.rootValidator = rootValidator;
         this.citation = citation;
     }
@@ -88,7 +88,8 @@ class CitationValidator extends AbstractValidator {
             if (textFromSource == null && Options.isCollectionInitializationEnabled()) {
                 if (rootValidator.isAutorepairEnabled()) {
                     c.getTextFromSource(true).clear();
-                    addInfo("Text from source collection (the list of lists) was null in CitationWithoutSource - autorepaired", citation);
+                    addInfo("Text from source collection (the list of lists) was null in CitationWithoutSource - autorepaired",
+                            citation);
                 } else {
                     addError("Text from source collection (the list of lists) is null in CitationWithoutSource", citation);
                 }
@@ -102,7 +103,8 @@ class CitationValidator extends AbstractValidator {
                 if (textFromSource != null) {
                     for (List<String> sl : textFromSource) {
                         if (sl == null) {
-                            addError("Text from source collection (the list of lists) in CitationWithoutSource contains a null", citation);
+                            addError("Text from source collection (the list of lists) in CitationWithoutSource contains a null",
+                                    citation);
                         } else {
                             checkStringList(sl, "one of the sublists in the textFromSource collection on a source citation", true);
                         }
@@ -110,7 +112,8 @@ class CitationValidator extends AbstractValidator {
                 }
             }
         } else {
-            throw new IllegalStateException("AbstractCitation references must be either CitationWithSource" + " instances or CitationWithoutSource instances");
+            throw new IllegalStateException("AbstractCitation references must be either CitationWithSource"
+                    + " instances or CitationWithoutSource instances");
         }
         if (citation.getNotes() == null && Options.isCollectionInitializationEnabled()) {
             if (rootValidator.isAutorepairEnabled()) {

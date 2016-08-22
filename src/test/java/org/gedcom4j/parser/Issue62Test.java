@@ -26,7 +26,11 @@
  */
 package org.gedcom4j.parser;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
@@ -38,16 +42,16 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test case for Issue 62, where events have descriptions and continuation lines like FTM exports, even though the spec
- * doesn't allow them.
+ * Test case for Issue 62, where events have descriptions and continuation lines like FTM exports, even though the spec doesn't
+ * allow them.
  * 
  * @author frizbog
  */
 public class Issue62Test {
 
     /**
-     * The birth event from the GEDCOM file. In the test file, this tag has lengthy text with concatenation lines in
-     * violation of the spec.
+     * The birth event from the GEDCOM file. In the test file, this tag has lengthy text with concatenation lines in violation of
+     * the spec.
      */
     private IndividualEvent birth;
 
@@ -57,14 +61,13 @@ public class Issue62Test {
     private IndividualEvent cremation;
 
     /**
-     * The burial event from the test GEDCOM file. In the file, this tag has nothing (i.e., "null") in the
-     * [Y|&lt;NULL&gt;] field.
+     * The burial event from the test GEDCOM file. In the file, this tag has nothing (i.e., "null") in the [Y|&lt;NULL&gt;] field.
      */
     private IndividualEvent burial;
 
     /**
-     * The death event from the test GEDCOM file. In the file, this tag has a single line of descriptive text, in
-     * violation of the spec.
+     * The death event from the test GEDCOM file. In the file, this tag has a single line of descriptive text, in violation of the
+     * spec.
      */
     private IndividualEvent death;
 
@@ -112,9 +115,9 @@ public class Issue62Test {
     }
 
     /**
-     * yNull should always be Y or "null" (not necessarily Java's idea of null, but just empty/missing in the GEDCOM).
-     * In the test file, there was a lengthy description following the BIRT tag (with a bunch of CONC lines), so Y was
-     * not specified, so this should have been treated as a "null" in the GEDCOM.
+     * yNull should always be Y or "null" (not necessarily Java's idea of null, but just empty/missing in the GEDCOM). In the test
+     * file, there was a lengthy description following the BIRT tag (with a bunch of CONC lines), so Y was not specified, so this
+     * should have been treated as a "null" in the GEDCOM.
      */
     @Test
     public void testBirthYNull() {
@@ -131,8 +134,8 @@ public class Issue62Test {
     }
 
     /**
-     * yNull should always be Y or "null" (not necessarily Java's idea of null, but just empty/missing in the GEDCOM).
-     * In the test file, the BURI tag had nothing after it
+     * yNull should always be Y or "null" (not necessarily Java's idea of null, but just empty/missing in the GEDCOM). In the test
+     * file, the BURI tag had nothing after it
      */
     @Test
     public void testBurialYNull() {
@@ -148,8 +151,8 @@ public class Issue62Test {
     }
 
     /**
-     * yNull should always be Y or "null" (not necessarily Java's idea of null, but just empty/missing in the GEDCOM).
-     * In the test file, the CREM tag had a Y.
+     * yNull should always be Y or "null" (not necessarily Java's idea of null, but just empty/missing in the GEDCOM). In the test
+     * file, the CREM tag had a Y.
      */
     @Test
     public void testCremationYNull() {
@@ -165,9 +168,9 @@ public class Issue62Test {
     }
 
     /**
-     * yNull should always be Y or "null" (not necessarily Java's idea of null, but just empty/missing in the GEDCOM).
-     * In the test file, there was a description following the DEAT tag, so Y was not specified, so this should have
-     * been treated as a "null" in the GEDCOM.
+     * yNull should always be Y or "null" (not necessarily Java's idea of null, but just empty/missing in the GEDCOM). In the test
+     * file, there was a description following the DEAT tag, so Y was not specified, so this should have been treated as a "null" in
+     * the GEDCOM.
      */
     @Test
     public void testDeathYNull() {

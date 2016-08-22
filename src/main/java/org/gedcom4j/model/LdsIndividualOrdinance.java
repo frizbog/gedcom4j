@@ -48,8 +48,7 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
     private LdsIndividualOrdinanceType type;
 
     /**
-     * Allows for a Y or null to be processed after the type. Not strictly part of the GEDCOM, but allows for
-     * flexibility
+     * Allows for a Y or null to be processed after the type. Not strictly part of the GEDCOM, but allows for flexibility
      */
     private String yNull;
 

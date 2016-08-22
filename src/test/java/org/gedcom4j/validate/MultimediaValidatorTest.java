@@ -26,7 +26,13 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.Header;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.Submission;
+import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.SupportedVersion;
 import org.junit.Before;
 import org.junit.Test;
 

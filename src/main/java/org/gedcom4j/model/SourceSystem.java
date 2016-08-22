@@ -31,8 +31,8 @@ package org.gedcom4j.model;
  * A source system. Corresponds to the SOUR structure in HEADER in the GEDCOM file.
  * </p>
  * <p>
- * If instantiating one of these programmatically rather than through parsing an existing GEDCOM file, you will probably
- * want to change the value of the {@link SourceSystem#systemId} field.
+ * If instantiating one of these programmatically rather than through parsing an existing GEDCOM file, you will probably want to
+ * change the value of the {@link SourceSystem#systemId} field.
  * </p>
  * 
  * @author frizbog1
@@ -60,8 +60,7 @@ public class SourceSystem extends AbstractElement {
     private HeaderSourceData sourceData;
 
     /**
-     * The system ID for this source system. This field must be valued to pass validation, so the default value is
-     * "UNSPECIFIED".
+     * The system ID for this source system. This field must be valued to pass validation, so the default value is "UNSPECIFIED".
      */
     private String systemId = "UNSPECIFIED";
 

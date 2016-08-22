@@ -26,7 +26,12 @@
  */
 package org.gedcom4j.parser;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.CharacterSet;
+import org.gedcom4j.model.GedcomVersion;
+import org.gedcom4j.model.Header;
+import org.gedcom4j.model.SourceSystem;
+import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * A parser for {@link Header} objects
@@ -90,9 +95,9 @@ class HeaderParser extends AbstractParser<Header> {
                 } else if (Tag.SUBMISSION.equalsText(ch.getTag())) {
                     if (loadInto.getSubmission() == null) {
                         /*
-                         * There can only be one SUBMISSION record per GEDCOM, and it's found at the root level, but the
-                         * HEAD structure has a cross-reference to that root-level structure, so we're setting it here
-                         * (if it hasn't already been loaded, which it probably isn't yet)
+                         * There can only be one SUBMISSION record per GEDCOM, and it's found at the root level, but the HEAD
+                         * structure has a cross-reference to that root-level structure, so we're setting it here (if it hasn't
+                         * already been loaded, which it probably isn't yet)
                          */
                         loadInto.setSubmission(gedcomParser.getGedcom().getSubmission());
                     }

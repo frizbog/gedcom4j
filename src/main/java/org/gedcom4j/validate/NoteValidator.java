@@ -60,7 +60,7 @@ class NoteValidator extends AbstractValidator {
      * @param n
      *            the note being validated
      */
-    public NoteValidator(GedcomValidator rootValidator, int i, Note n) {
+    NoteValidator(GedcomValidator rootValidator, int i, Note n) {
         this.rootValidator = rootValidator;
         this.i = i;
         this.n = n;

@@ -31,38 +31,38 @@ package org.gedcom4j.io.encoding;
  * This is a helper class that deals with diacritical marks for ANSEL.
  * </p>
  * <p>
- * In ANSEL, diacriticals are separate characters from the ones they modify/decorate. The base character is preceded by
- * zero, one, or two diacritical characters. These diacriticals are in the 0xE0 to 0xFE range, and when rendered do not
- * take up any horizontal space -- that being left to the base character being decorated.
+ * In ANSEL, diacriticals are separate characters from the ones they modify/decorate. The base character is preceded by zero, one,
+ * or two diacritical characters. These diacriticals are in the 0xE0 to 0xFE range, and when rendered do not take up any horizontal
+ * space -- that being left to the base character being decorated.
  * </p>
  * <p>
- * In Java strings, which are UTF-16 (which, in the characters we are using, is essentially the same as unicode), these
- * diacritical marks, when used, come <em>after</em> the character being modified. This means that ANSEL order and Java
- * order are reversed, so something needs to be done.
+ * In Java strings, which are UTF-16 (which, in the characters we are using, is essentially the same as unicode), these diacritical
+ * marks, when used, come <em>after</em> the character being modified. This means that ANSEL order and Java order are reversed, so
+ * something needs to be done.
  * </p>
  * <p>
- * The solution selected here, however, is not just to change the order of the bytes, but to combine the bytes, whenever
- * possible, into pre-combined unicode characters when reading, and to reverse the process for writing.
+ * The solution selected here, however, is not just to change the order of the bytes, but to combine the bytes, whenever possible,
+ * into pre-combined unicode characters when reading, and to reverse the process for writing.
  * </p>
  * <p>
  * For example - consider the lowercase a with an acute accent: <tt>&#x00E1;</tt>.
  * </p>
  * <ul>
- * <li>ANSEL should render this as 0xE2 0x61. 0xE2 is the acute accent, and 0x61 is the lowercase a. The two characters
- * combine when rendered to look like the desired glyph, but is actually two characters that overlap.</li>
- * <li>UTF-16 (i.e., a Java string) could/should render this as 0x0061 0x0301. 0x0061 is the lowercase a, and 0x0301 is
- * the unicode version of the combining acute accent. The two characters combine as in the ANSEL scenario.</li>
- * <li>UTF-16 ideally would render this as the 0x00E1 character, which is a combined lowercase a with the acute accent
- * already part of the glyph. This is now a single character in the Java string to represent the desired glyph.</li>
+ * <li>ANSEL should render this as 0xE2 0x61. 0xE2 is the acute accent, and 0x61 is the lowercase a. The two characters combine when
+ * rendered to look like the desired glyph, but is actually two characters that overlap.</li>
+ * <li>UTF-16 (i.e., a Java string) could/should render this as 0x0061 0x0301. 0x0061 is the lowercase a, and 0x0301 is the unicode
+ * version of the combining acute accent. The two characters combine as in the ANSEL scenario.</li>
+ * <li>UTF-16 ideally would render this as the 0x00E1 character, which is a combined lowercase a with the acute accent already part
+ * of the glyph. This is now a single character in the Java string to represent the desired glyph.</li>
  * </ul>
  * <p>
- * Special care has to be taken on CONC tag lines because the line split could occur between the diacritical at the end
- * of a line, and the letter being modified at the beginning of the next one
+ * Special care has to be taken on CONC tag lines because the line split could occur between the diacritical at the end of a line,
+ * and the letter being modified at the beginning of the next one
  * </p>
  *
  * @author frizbog
  */
-@SuppressWarnings("PMD.ExcessiveClassLength")
+@SuppressWarnings({ "PMD.ExcessiveClassLength", "PMD.NcssTypeCount", "checkstyle:filelength" })
 public class AnselHandler {
     /**
      * The byte value at which ANSEL extended characters begin
@@ -81,6 +81,7 @@ public class AnselHandler {
      *            a run-of-the mill java string in UTF-16 encoding, containing special characters if desired
      * @return a string, each character of which corresponds to a single byte that should be written to ANSEL stream
      */
+    @SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
     public String toAnsel(String utf16) {
         char[] ansel = new char[512];
         int anselIdx = 0;
@@ -89,8 +90,8 @@ public class AnselHandler {
 
             char c = utf16.charAt(i);
             /*
-             * Look ahead for combining diacritics after this character - if we find some, they need to be appended
-             * prior to the base character
+             * Look ahead for combining diacritics after this character - if we find some, they need to be appended prior to the
+             * base character
              */
             char oneCharAhead = 0;
             char twoCharAhead = 0;
@@ -138,8 +139,8 @@ public class AnselHandler {
             }
 
             /*
-             * Not a simple basic character, not a simple extended character, could be a pre-combined diacritic or a
-             * combining diacritic
+             * Not a simple basic character, not a simple extended character, could be a pre-combined diacritic or a combining
+             * diacritic
              */
             char[] breakdown = getBrokenDownGlyph(c);
             if (breakdown == null) {
@@ -166,8 +167,8 @@ public class AnselHandler {
      * Convert an string of ANSEL bytes to UTF-16
      *
      * @param ansel
-     *            A string of ANSEL data. Each byte of ANSEL data should be represented as a single character in the
-     *            string, unconverted to any unicode and without changing the order of characters.
+     *            A string of ANSEL data. Each byte of ANSEL data should be represented as a single character in the string,
+     *            unconverted to any unicode and without changing the order of characters.
      * @return the UTF16 string representation of the ANSEL data, after translation
      */
     public String toUtf16(String ansel) {
@@ -227,17 +228,17 @@ public class AnselHandler {
     }
 
     /**
-     * Some unicode characters are represented in ANSEL as a combination of characters. This method returns an array of
-     * those characters if such a breakdown exists, or null otherwise. All results are already encoded to ANSEL and
-     * should not be encoded again.
+     * Some unicode characters are represented in ANSEL as a combination of characters. This method returns an array of those
+     * characters if such a breakdown exists, or null otherwise. All results are already encoded to ANSEL and should not be encoded
+     * again.
      *
      * @param c
      *            the unicode character to be represented
-     * @return the array of characters that represent that character, or null if there is no special breakdown. The
-     *         first array element is the base character. The remaining two elements are combining diacritics. An
-     *         element of 0x0000 means that that character is not part of the mapping.
+     * @return the array of characters that represent that character, or null if there is no special breakdown. The first array
+     *         element is the base character. The remaining two elements are combining diacritics. An element of 0x0000 means that
+     *         that character is not part of the mapping.
      */
-    @SuppressWarnings("PMD.ExcessiveMethodLength")
+    @SuppressWarnings({ "PMD.ExcessiveMethodLength", "PMD.NcssMethodCount", "checkstyle:methodlength" })
     private char[] getBrokenDownGlyph(Character c) {
         switch (c) {
             case '\u1EA2': {
@@ -1867,8 +1868,8 @@ public class AnselHandler {
     }
 
     /**
-     * Get a unicode character that represents the precombined base character plus up to two diacritic modifiers.
-     * Results are already decoded from ANSEL and should not be decoded again.
+     * Get a unicode character that represents the precombined base character plus up to two diacritic modifiers. Results are
+     * already decoded from ANSEL and should not be decoded again.
      *
      * @param baseChar
      *            the base character
@@ -1878,7 +1879,7 @@ public class AnselHandler {
      *            diacritic 2 - pass zero if there is no second diacritic
      * @return a single character that combines the base and the diacritic(s), or a zero if no such character exists
      */
-    @SuppressWarnings("PMD.ExcessiveMethodLength")
+    @SuppressWarnings({ "PMD.ExcessiveMethodLength", "PMD.NcssMethodCount", "checkstyle:methodlength" })
     private char getCombinedGlyph(char baseChar, char modifier1, char modifier2) {
 
         if (baseChar == 'A') {

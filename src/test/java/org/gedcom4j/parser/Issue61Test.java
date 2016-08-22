@@ -41,8 +41,8 @@ import org.gedcom4j.model.StringTree;
 import org.junit.Test;
 
 /**
- * Test for <a href="https://github.com/frizbog/gedcom4j/issues/61">issue 61</a> which allows unknown tags to be treated
- * as custom tags, as an option.
+ * Test for <a href="https://github.com/frizbog/gedcom4j/issues/61">issue 61</a> which allows unknown tags to be treated as custom
+ * tags, as an option.
  * 
  * @author frizbog
  */
@@ -69,7 +69,8 @@ public class Issue61Test {
             assertNotNull(i.getCustomTags());
             assertFalse("Individual " + i + " has no custom tags", i.getCustomTags().isEmpty());
             for (StringTree ct : i.getCustomTags()) {
-                assertTrue("Custom tag should be WAND or MUGL, but is " + ct.getValue(), "WAND".equals(ct.getTag()) || "MUGL".equals(ct.getTag()));
+                assertTrue("Custom tag should be WAND or MUGL, but is " + ct.getValue(), "WAND".equals(ct.getTag()) || "MUGL"
+                        .equals(ct.getTag()));
                 if ("WAND".equals(ct.getTag())) {
                     assertNotNull(ct.getValue());
                     assertFalse(ct.getValue().trim().length() == 0);

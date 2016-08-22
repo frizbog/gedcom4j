@@ -94,6 +94,9 @@ public class Relationship implements Comparable<Relationship> {
         return Math.round(Math.signum((float) chain.size() - other.chain.size()));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

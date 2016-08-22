@@ -46,7 +46,7 @@ class PersonalNameVariationValidator extends NameVariationValidator {
      * @param pnv
      *            the personal name variation to be validated
      */
-    public PersonalNameVariationValidator(GedcomValidator rootValidator, PersonalNameVariation pnv) {
+    PersonalNameVariationValidator(GedcomValidator rootValidator, PersonalNameVariation pnv) {
         super(rootValidator, pnv);
     }
 

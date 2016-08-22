@@ -88,8 +88,9 @@ public class Finder {
                 for (PersonalName n : i.getNames()) {
                     // Sometimes the name is broken up into separate fields in the
                     // GEDCOM
-                    if ((surname == null || (n.getSurname() != null && surname.equalsIgnoreCase(n.getSurname().getValue()))) && (given == null || (n
-                            .getGivenName() != null && given.equalsIgnoreCase(n.getGivenName().getValue())))) {
+                    if ((surname == null || (n.getSurname() != null && surname.equalsIgnoreCase(n.getSurname().getValue())))
+                            && (given == null || (n.getGivenName() != null && given.equalsIgnoreCase(n.getGivenName()
+                                    .getValue())))) {
                         result.add(i);
                         continue;
                     }

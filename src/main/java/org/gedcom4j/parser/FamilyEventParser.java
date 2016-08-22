@@ -28,7 +28,15 @@ package org.gedcom4j.parser;
 
 import java.util.List;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.AbstractCitation;
+import org.gedcom4j.model.Address;
+import org.gedcom4j.model.FamilyEvent;
+import org.gedcom4j.model.FamilyEventType;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.Note;
+import org.gedcom4j.model.Place;
+import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * Parser for {@link FamilyEvent} records
@@ -87,14 +95,16 @@ class FamilyEventParser extends AbstractParser<FamilyEvent> {
                 } else if (Tag.RESTRICTION.equalsText(ch.getTag())) {
                     loadInto.setRestrictionNotice(new StringWithCustomTags(ch));
                     if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but restriction notice was specified for family event on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                        addWarning("GEDCOM version is 5.5 but restriction notice was specified for family event on line " + ch
+                                .getLineNum() + ", which is a GEDCOM 5.5.1 feature."
+                                + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.RELIGION.equalsText(ch.getTag())) {
                     loadInto.setReligiousAffiliation(new StringWithCustomTags(ch));
                     if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but religious affiliation was specified for family event on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                        addWarning("GEDCOM version is 5.5 but religious affiliation was specified for family event on line " + ch
+                                .getLineNum() + ", which is a GEDCOM 5.5.1 feature."
+                                + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.AGE.equalsText(ch.getTag())) {
                     loadInto.setAge(new StringWithCustomTags(ch));
@@ -111,20 +121,23 @@ class FamilyEventParser extends AbstractParser<FamilyEvent> {
                 } else if (Tag.WEB_ADDRESS.equalsText(ch.getTag())) {
                     loadInto.getWwwUrls(true).add(new StringWithCustomTags(ch));
                     if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but WWW URL was specified for " + loadInto.getType() + " family event on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                        addWarning("GEDCOM version is 5.5 but WWW URL was specified for " + loadInto.getType()
+                                + " family event on line " + ch.getLineNum() + ", which is a GEDCOM 5.5.1 feature."
+                                + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.FAX.equalsText(ch.getTag())) {
                     loadInto.getFaxNumbers(true).add(new StringWithCustomTags(ch));
                     if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but fax number was specified for " + loadInto.getType() + " family event on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                        addWarning("GEDCOM version is 5.5 but fax number was specified for " + loadInto.getType()
+                                + " family event on line " + ch.getLineNum() + ", which is a GEDCOM 5.5.1 feature."
+                                + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.EMAIL.equalsText(ch.getTag())) {
                     loadInto.getEmails(true).add(new StringWithCustomTags(ch));
                     if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but email was specified for " + loadInto.getType() + " family event on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                        addWarning("GEDCOM version is 5.5 but email was specified for " + loadInto.getType()
+                                + " family event on line " + ch.getLineNum() + ", which is a GEDCOM 5.5.1 feature."
+                                + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.HUSBAND.equalsText(ch.getTag())) {
                     loadInto.setHusbandAge(new StringWithCustomTags(ch.getChildren().get(0)));

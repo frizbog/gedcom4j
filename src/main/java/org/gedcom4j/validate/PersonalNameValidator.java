@@ -54,7 +54,7 @@ class PersonalNameValidator extends AbstractValidator {
      * @param pn
      *            the personal name being validated
      */
-    public PersonalNameValidator(GedcomValidator rootValidator, PersonalName pn) {
+    PersonalNameValidator(GedcomValidator rootValidator, PersonalName pn) {
         this.rootValidator = rootValidator;
         this.pn = pn;
     }

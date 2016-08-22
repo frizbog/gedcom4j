@@ -66,20 +66,26 @@ class CorporationParser extends AbstractParser<Corporation> {
                 } else if (Tag.WEB_ADDRESS.equalsText(ch.getTag())) {
                     loadInto.getWwwUrls(true).add(new StringWithCustomTags(ch));
                     if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but WWW URL was specified for the corporation in the source system on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                        addWarning(
+                                "GEDCOM version is 5.5 but WWW URL was specified for the corporation in the source system on line "
+                                        + ch.getLineNum() + ", which is a GEDCOM 5.5.1 feature."
+                                        + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.FAX.equalsText(ch.getTag())) {
                     loadInto.getFaxNumbers(true).add(new StringWithCustomTags(ch));
                     if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but fax number was specified for the corporation in the source system on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                        addWarning(
+                                "GEDCOM version is 5.5 but fax number was specified for the corporation in the source system on line "
+                                        + ch.getLineNum() + ", which is a GEDCOM 5.5.1 feature."
+                                        + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.EMAIL.equalsText(ch.getTag())) {
                     loadInto.getEmails(true).add(new StringWithCustomTags(ch));
                     if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but emails was specified for the corporation in the source system on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                        addWarning(
+                                "GEDCOM version is 5.5 but emails was specified for the corporation in the source system on line "
+                                        + ch.getLineNum() + ", which is a GEDCOM 5.5.1 feature."
+                                        + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else {
                     unknownTag(ch, loadInto);

@@ -44,7 +44,7 @@ class UnicodeLittleEndianWriter extends AbstractEncodingSpecificWriter {
      * @param writer
      *            The {@link GedcomWriter} this object is assisting
      */
-    public UnicodeLittleEndianWriter(GedcomWriter writer) {
+    UnicodeLittleEndianWriter(GedcomWriter writer) {
         super(writer);
     }
 

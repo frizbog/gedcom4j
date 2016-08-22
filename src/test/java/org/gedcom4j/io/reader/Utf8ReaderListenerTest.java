@@ -27,8 +27,8 @@
 package org.gedcom4j.io.reader;
 
 /**
- * Test getting listener notifications from {@link Utf8Reader}. See {@link AbstractReaderListenerTest} for the real code
- * that does the testing.
+ * Test getting listener notifications from {@link Utf8Reader}. See {@link AbstractReaderListenerTest} for the real code that does
+ * the testing.
  * 
  * @author frizbog
  */

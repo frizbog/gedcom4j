@@ -26,13 +26,32 @@
  */
 package org.gedcom4j.writer;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.GedcomWriterException;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Corporation;
+import org.gedcom4j.model.FileReference;
+import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.IndividualEventType;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.PersonalName;
+import org.gedcom4j.model.PersonalNameVariation;
+import org.gedcom4j.model.Place;
+import org.gedcom4j.model.Repository;
+import org.gedcom4j.model.SourceSystem;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.SupportedVersion;
+import org.gedcom4j.model.TestHelper;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.validate.GedcomValidationFinding;
 import org.gedcom4j.validate.Severity;

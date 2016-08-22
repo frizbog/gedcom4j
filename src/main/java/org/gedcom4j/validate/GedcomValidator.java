@@ -31,43 +31,53 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.gedcom4j.Options;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Family;
+import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.Header;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.Note;
+import org.gedcom4j.model.Repository;
+import org.gedcom4j.model.Source;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.Submission;
+import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.Trailer;
 
 /**
  * <p>
- * A class to validate the contents of a {@link Gedcom} structure. It is used primarily for those users who wish to
- * create and write GEDCOM files, and is of little importance or use to those who wish only to read/parse GEDCOM files
- * and use their data. Validation is performed automatically prior to writing a GEDCOM file by default (although this
- * can be disabled), and there is support for automatically repairing ("autorepair") issues found.
+ * A class to validate the contents of a {@link Gedcom} structure. It is used primarily for those users who wish to create and write
+ * GEDCOM files, and is of little importance or use to those who wish only to read/parse GEDCOM files and use their data. Validation
+ * is performed automatically prior to writing a GEDCOM file by default (although this can be disabled), and there is support for
+ * automatically repairing ("autorepair") issues found.
  * </p>
  * <p>
- * <b>Note that the validation framework is a work in progress and as such, is incompletely implemented at this
- * time.</b>
+ * <b>Note that the validation framework is a work in progress and as such, is incompletely implemented at this time.</b>
  * </p>
  * <p>
  * General usage is as follows:
  * </p>
  * <ol>
- * <li>Instantiate a {@link GedcomValidator}, passing the {@link Gedcom} structure to be validated as the argument to
- * the constructor</li>
+ * <li>Instantiate a {@link GedcomValidator}, passing the {@link Gedcom} structure to be validated as the argument to the
+ * constructor</li>
  * <li>If desired, turn off automatic repairs during validation by setting {@link GedcomValidator#autorepairEnabled} to
  * <tt>false</tt>.
  * <li>Call the {@link GedcomValidator#validate()} method.</li>
- * <li>Inspect the {@link GedcomValidator#findings} list, which contains {@link GedcomValidationFinding} objects
- * describing the problems that were found. These will include errors that were fixed by autorepair (with severity of
- * INFO), and those that could not be autorepaired (with severity of ERROR or WARNING).</li>
+ * <li>Inspect the {@link GedcomValidator#findings} list, which contains {@link GedcomValidationFinding} objects describing the
+ * problems that were found. These will include errors that were fixed by autorepair (with severity of INFO), and those that could
+ * not be autorepaired (with severity of ERROR or WARNING).</li>
  * </ol>
  * <p>
- * Note again that by default, validation is performed automatically by the {@link org.gedcom4j.writer.GedcomWriter}
- * class when writing a GEDCOM file out.
+ * Note again that by default, validation is performed automatically by the {@link org.gedcom4j.writer.GedcomWriter} class when
+ * writing a GEDCOM file out.
  * </p>
  * 
  * <h2>Autorepair</h2>
  * <p>
- * The validation framework, by default and unless disabled, will attempt to automatically repair ("autorepair")
- * problems it finds in the object graph, so that if written as a GEDCOM file, the file written will conform to the
- * GEDCOM spec, as well as to help the developer avoid NullPointerExceptions due to certain items not being instantiated
- * (if they have so selected in the {@link Options} class.
+ * The validation framework, by default and unless disabled, will attempt to automatically repair ("autorepair") problems it finds
+ * in the object graph, so that if written as a GEDCOM file, the file written will conform to the GEDCOM spec, as well as to help
+ * the developer avoid NullPointerExceptions due to certain items not being instantiated (if they have so selected in the
+ * {@link Options} class.
  * </p>
  * 
  * 
@@ -76,8 +86,8 @@ import org.gedcom4j.model.*;
 public class GedcomValidator extends AbstractValidator {
 
     /**
-     * Will the most simple, obvious, non-destructive errors be automatically fixed? This includes things like creating
-     * empty collections where one is expected but only a null reference exists.
+     * Will the most simple, obvious, non-destructive errors be automatically fixed? This includes things like creating empty
+     * collections where one is expected but only a null reference exists.
      */
     private boolean autorepairEnabled = true;
 

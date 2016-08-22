@@ -42,7 +42,7 @@ public class CorporationTest {
      */
     @Test
     @SuppressWarnings("PMD.EqualsNull")
-	public void testEqualsObject() {
+    public void testEqualsObject() {
         Corporation c1 = new Corporation();
         assertEquals(c1, c1);
         Corporation c2 = new Corporation();

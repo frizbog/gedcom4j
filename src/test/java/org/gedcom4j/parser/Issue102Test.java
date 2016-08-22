@@ -40,8 +40,8 @@ import org.gedcom4j.model.Submitter;
 import org.junit.Test;
 
 /**
- * Test for issue 102, where it was reported that gedcom4j only supported single-digit line levels, and the spec allows
- * for numbers up to 99.
+ * Test for issue 102, where it was reported that gedcom4j only supported single-digit line levels, and the spec allows for numbers
+ * up to 99.
  * 
  * @author frizbog
  *
@@ -49,15 +49,14 @@ import org.junit.Test;
 public class Issue102Test {
 
     /**
-     * The maximum number of levels of custom tags. Since the custom tags start at level 2, and the spec allows 99
-     * levels, the max depth we can have here is 97
+     * The maximum number of levels of custom tags. Since the custom tags start at level 2, and the spec allows 99 levels, the max
+     * depth we can have here is 97
      */
     private static final int MAX_DEPTH = 97;
 
     /**
-     * Test for a file with 100 levels (non-compliant with spec) and with strict line breaks turned off. In this case,
-     * the line beginning with the three digit number should be treated as a continuation of the previous line, and a
-     * warning issued.
+     * Test for a file with 100 levels (non-compliant with spec) and with strict line breaks turned off. In this case, the line
+     * beginning with the three digit number should be treated as a continuation of the previous line, and a warning issued.
      * 
      * @throws IOException
      *             if the file cannot be read
@@ -72,8 +71,9 @@ public class Issue102Test {
         gp.load("sample/issue102_100levels.ged");
         assertEquals(0, gp.getErrors().size());
         assertEquals(1, gp.getWarnings().size());
-        assertEquals("Line 108 did not begin with a level and tag, so it was treated as a non-standard continuation of the previous line.", gp.getWarnings()
-                .get(0));
+        assertEquals(
+                "Line 108 did not begin with a level and tag, so it was treated as a non-standard continuation of the previous line.",
+                gp.getWarnings().get(0));
     }
 
     /**
@@ -138,7 +138,8 @@ public class Issue102Test {
         }
         assertNotNull("With " + remaining + " levels remaining, customTags was null", customTags);
         assertNotNull("With " + remaining + " levels remaining, customTags had no children", customTags.getChildren());
-        assertEquals("With " + remaining + " levels remaining, customTags did not have exactly one child. ", 1, customTags.getChildren().size());
+        assertEquals("With " + remaining + " levels remaining, customTags did not have exactly one child. ", 1, customTags
+                .getChildren().size());
         StringTree newCustomTags = customTags.getChildren().get(0);
         assertNotNull(newCustomTags);
         assertCustomTagRecursively(newCustomTags, remaining - 1);

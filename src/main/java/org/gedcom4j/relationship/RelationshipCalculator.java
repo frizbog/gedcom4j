@@ -72,6 +72,7 @@ import org.gedcom4j.model.StringWithCustomTags;
  * 
  * @author frizbog1
  */
+@SuppressWarnings("PMD.GodClass")
 public class RelationshipCalculator {
 
     /**

@@ -31,8 +31,8 @@ package org.gedcom4j.model;
  * Information about the header source data.
  * </p>
  * <p>
- * If instantiating one of these programmatically rather than through parsing an existing GEDCOM file, you will probably
- * want to change the value of the {@link HeaderSourceData#name} field.
+ * If instantiating one of these programmatically rather than through parsing an existing GEDCOM file, you will probably want to
+ * change the value of the {@link HeaderSourceData#name} field.
  * </p>
  * 
  * @author frizbog1

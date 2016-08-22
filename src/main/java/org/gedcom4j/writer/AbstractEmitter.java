@@ -42,6 +42,7 @@ import org.gedcom4j.model.SupportedVersion;
  * @param <T>
  *            the type of object being emitted
  */
+@SuppressWarnings({ "PMD.GodClass", "PMD.TooManyMethods" })
 abstract class AbstractEmitter<T> {
 
     /**

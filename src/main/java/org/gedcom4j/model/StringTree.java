@@ -34,16 +34,16 @@ import org.gedcom4j.Options;
 
 /**
  * <p>
- * A structure to hold an element (as string data) from a GEDCOM file in such a way as to preserve and recognize the
- * hierarchical structure of GEDCOMs (based on the level field of each line)
+ * A structure to hold an element (as string data) from a GEDCOM file in such a way as to preserve and recognize the hierarchical
+ * structure of GEDCOMs (based on the level field of each line)
  * </p>
  * <p>
- * This is tree structure represents the parsed fields from a single line of text from the gedcom file, and all the
- * parsed fields of all the child structures as well.
+ * This is tree structure represents the parsed fields from a single line of text from the gedcom file, and all the parsed fields of
+ * all the child structures as well.
  * </p>
  * <p>
- * This class is used by the parser for temporary storage of the text of the gedcom. The class and its members are
- * deliberately package private so only the parser will reference it.
+ * This class is used by the parser for temporary storage of the text of the gedcom. The class and its members are deliberately
+ * package private so only the parser will reference it.
  * </p>
  * 
  * @author frizbog1
@@ -80,8 +80,8 @@ public class StringTree implements Serializable {
      * The element to which this element is a child.
      * </p>
      * <p>
-     * <em>Note:</em> Should not be incuded in {@link #equals(Object)} or {@link #hashCode()} implementations because
-     * that leads to infinite recursion. See Issue #60.
+     * <em>Note:</em> Should not be incuded in {@link #equals(Object)} or {@link #hashCode()} implementations because that leads to
+     * infinite recursion. See Issue #60.
      * </p>
      */
     private StringTree parent = null;
@@ -306,8 +306,8 @@ public class StringTree implements Serializable {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Line " + lineNum + ": " + level + (id == null ? "" : " " + id) + " " + (tag == null ? "(null tag)" : tag) + " "
-                + (value == null ? "(null value)" : value));
+        StringBuilder sb = new StringBuilder("Line " + lineNum + ": " + level + (id == null ? "" : " " + id) + " " + (tag == null
+                ? "(null tag)" : tag) + " " + (value == null ? "(null value)" : value));
         if (children != null) {
             for (StringTree ch : children) {
                 sb.append("\n").append(ch);

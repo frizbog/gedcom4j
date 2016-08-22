@@ -29,7 +29,14 @@ package org.gedcom4j.parser;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.AbstractCitation;
+import org.gedcom4j.model.ChangeDate;
+import org.gedcom4j.model.FileReference;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.Note;
+import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.UserReference;
 
 /**
  * @author frizbog
@@ -66,13 +73,15 @@ class MultimediaRecordParser extends AbstractParser<Multimedia> {
         }
         if (fileTagCount > 0) {
             if (g55()) {
-                addWarning("GEDCOM version was 5.5, but a 5.5.1-style multimedia record was found at line " + stringTree.getLineNum() + ". "
+                addWarning("GEDCOM version was 5.5, but a 5.5.1-style multimedia record was found at line " + stringTree
+                        .getLineNum() + ". "
                         + "Data will be loaded, but might have problems being written until the version is for the data is changed to 5.5.1");
             }
             loadMultimediaRecord551(stringTree);
         } else {
             if (!g55()) {
-                addWarning("GEDCOM version is 5.5.1, but a 5.5-style multimedia record was found at line " + stringTree.getLineNum() + ". "
+                addWarning("GEDCOM version is 5.5.1, but a 5.5-style multimedia record was found at line " + stringTree.getLineNum()
+                        + ". "
                         + "Data will be loaded, but might have problems being written until the version is for the data is changed to 5.5.1");
             }
             loadMultimediaRecord55(stringTree);
@@ -81,8 +90,8 @@ class MultimediaRecordParser extends AbstractParser<Multimedia> {
     }
 
     /**
-     * Load a GEDCOM 5.5-style multimedia record (that could be referenced from another object) from a string tree node.
-     * This corresponds to the MULTIMEDIA_RECORD structure in the GEDCOM 5.5 spec.
+     * Load a GEDCOM 5.5-style multimedia record (that could be referenced from another object) from a string tree node. This
+     * corresponds to the MULTIMEDIA_RECORD structure in the GEDCOM 5.5 spec.
      * 
      * @param obje
      *            the OBJE node being loaded
@@ -135,8 +144,8 @@ class MultimediaRecordParser extends AbstractParser<Multimedia> {
     }
 
     /**
-     * Load a GEDCOM 5.5.1-style multimedia record (that could be referenced from another object) from a string tree
-     * node. This corresponds to the MULTIMEDIA_RECORD structure in the GEDCOM 5.5.1 spec.
+     * Load a GEDCOM 5.5.1-style multimedia record (that could be referenced from another object) from a string tree node. This
+     * corresponds to the MULTIMEDIA_RECORD structure in the GEDCOM 5.5.1 spec.
      * 
      * @param obje
      *            the OBJE node being loaded

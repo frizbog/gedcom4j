@@ -27,7 +27,15 @@
 package org.gedcom4j.validate;
 
 import org.gedcom4j.io.encoding.Encoding;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.CharacterSet;
+import org.gedcom4j.model.Corporation;
+import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.GedcomVersion;
+import org.gedcom4j.model.Header;
+import org.gedcom4j.model.SourceSystem;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.Submission;
+import org.gedcom4j.model.Submitter;
 import org.junit.Test;
 
 /**

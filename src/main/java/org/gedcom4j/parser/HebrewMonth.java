@@ -98,7 +98,7 @@ enum HebrewMonth {
      * @param gedcomAbbrev
      *            The GEDCOM spec abbreviation for this month
      */
-    private HebrewMonth(String gedcomAbbrev) {
+    HebrewMonth(String gedcomAbbrev) {
         this.gedcomAbbrev = gedcomAbbrev;
     }
 

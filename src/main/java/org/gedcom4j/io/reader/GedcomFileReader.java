@@ -26,7 +26,11 @@
  */
 package org.gedcom4j.io.reader;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
@@ -36,10 +40,10 @@ import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.parser.GedcomParser;
 
 /**
- * An encoding-agnostic class for reading the GEDCOM files and handling ASCII, ANSEL, and UNICODE coding as needed. It's
- * basic job is to turn the bytes from the file into a buffer (a {@link List} of Strings) that the
- * {@link org.gedcom4j.parser.GedcomParser} can work with. This class is needed because the built-in character encodings
- * in Java don't support ANSEL encoding, which is the default encoding for gedcom files in v5.5 standard.
+ * An encoding-agnostic class for reading the GEDCOM files and handling ASCII, ANSEL, and UNICODE coding as needed. It's basic job
+ * is to turn the bytes from the file into a buffer (a {@link List} of Strings) that the {@link org.gedcom4j.parser.GedcomParser}
+ * can work with. This class is needed because the built-in character encodings in Java don't support ANSEL encoding, which is the
+ * default encoding for gedcom files in v5.5 standard.
  * 
  * @author frizbog1
  */
@@ -93,7 +97,8 @@ public final class GedcomFileReader {
      * @throws UnsupportedGedcomCharsetException
      *             if the file is using an unsupported character encoding
      */
-    public GedcomFileReader(GedcomParser parser, BufferedInputStream bufferedInputStream) throws IOException, UnsupportedGedcomCharsetException {
+    public GedcomFileReader(GedcomParser parser, BufferedInputStream bufferedInputStream) throws IOException,
+            UnsupportedGedcomCharsetException {
         this.parser = parser;
         byteStream = bufferedInputStream;
         saveFirstChunk();
@@ -116,7 +121,8 @@ public final class GedcomFileReader {
         String result = encodingSpecificReader.nextLine();
         linesProcessed++;
         if (linesProcessed % parser.getReadNotificationRate() == 0 || result == null) {
-            parser.notifyFileObservers(new FileProgressEvent(this, linesProcessed, encodingSpecificReader.bytesRead, result == null));
+            parser.notifyFileObservers(new FileProgressEvent(this, linesProcessed, encodingSpecificReader.bytesRead,
+                    result == null));
         }
         return result;
     }
@@ -138,15 +144,14 @@ public final class GedcomFileReader {
     }
 
     /**
-     * Tries to determined from examining the first 1000 lines/2k of the file if the file is ASCII, ANSEL, or UTF-8
-     * encoded using a variety of means.
+     * Tries to determined from examining the first 1000 lines/2k of the file if the file is ASCII, ANSEL, or UTF-8 encoded using a
+     * variety of means.
      * 
      * @return which encoding we think it is
      * @throws IOException
      *             if we have trouble previewing the first 2k of the file
      * @throws UnsupportedGedcomCharsetException
-     *             if the encoding cannot be narrowed down to Ansel, ASCII, or UTF-8. This could be caused by a number
-     *             of things:
+     *             if the encoding cannot be narrowed down to Ansel, ASCII, or UTF-8. This could be caused by a number of things:
      *             <ul>
      *             <li>Illegal value for the CHAR tag</li>
      *             <li>No CHAR tag was found within the first 2k or so of the file</li>
@@ -154,8 +159,7 @@ public final class GedcomFileReader {
      */
     private AbstractEncodingSpecificReader anselAsciiOrUtf8() throws IOException, UnsupportedGedcomCharsetException {
         /*
-         * Try reading as UTF-8. Most likely to successfully read and be useful for figuring out what the encoding
-         * really is
+         * Try reading as UTF-8. Most likely to successfully read and be useful for figuring out what the encoding really is
          */
         BufferedReader r = null;
         try {
@@ -174,12 +178,13 @@ public final class GedcomFileReader {
                         return new AsciiReader(parser, byteStream);
                     } else if ("ANSI".equalsIgnoreCase(e)) {
                         /*
-                         * Technically, this is illegal, but UTF_8 is the most-likely-to-work scenario, so let's try it
-                         * and be a bit forgiving
+                         * Technically, this is illegal, but UTF_8 is the most-likely-to-work scenario, so let's try it and be a bit
+                         * forgiving
                          */
                         return new Utf8Reader(parser, byteStream);
                     } else {
-                        throw new UnsupportedGedcomCharsetException("Specified charset " + e + " is not a supported charset encoding for GEDCOMs");
+                        throw new UnsupportedGedcomCharsetException("Specified charset " + e
+                                + " is not a supported charset encoding for GEDCOMs");
                     }
                 }
                 s = r.readLine();
@@ -196,8 +201,8 @@ public final class GedcomFileReader {
 
     /**
      * <p>
-     * Inspect the first few bytes of the file to determine which encoding is in play, and return an encoding-specific
-     * reader to read that data.
+     * Inspect the first few bytes of the file to determine which encoding is in play, and return an encoding-specific reader to
+     * read that data.
      * </p>
      * 
      * @return an {@link AbstractEncodingSpecificReader} that should work with the data in the byte stream
@@ -211,8 +216,8 @@ public final class GedcomFileReader {
 
         if (firstNBytes(3) == UTF8_BYTE_ORDER_MARKER) {
             /*
-             * Special byte order marker to indicate UTF-8 encoding. Not every program does this, but if it does, we
-             * KNOW it's UTF-8 and should discard the BOM
+             * Special byte order marker to indicate UTF-8 encoding. Not every program does this, but if it does, we KNOW it's UTF-8
+             * and should discard the BOM
              */
             AbstractEncodingSpecificReader result = new Utf8Reader(parser, byteStream);
             ((Utf8Reader) result).setByteOrderMarkerRead(true);
@@ -239,15 +244,15 @@ public final class GedcomFileReader {
                  */
                 return anselAsciiOrUtf8();
             }
-            throw new IOException("Does not appear to be a valid gedcom file - " + "doesn't begin with a zero or newline in any supported encoding, "
+            throw new IOException("Does not appear to be a valid gedcom file - "
+                    + "doesn't begin with a zero or newline in any supported encoding, "
                     + "and does not begin with a BOM marker for UTF-8 encoding. ");
         }
 
     }
 
     /**
-     * Save off a chunk of the beginning of the input stream to memory for easy inspection. The data is loaded into the
-     * field
+     * Save off a chunk of the beginning of the input stream to memory for easy inspection. The data is loaded into the field
      * 
      * @throws IOException
      *             if the stream of bytes cannot be read.

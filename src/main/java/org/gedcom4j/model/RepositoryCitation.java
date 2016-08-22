@@ -49,8 +49,8 @@ public class RepositoryCitation extends AbstractNotesElement {
     private List<SourceCallNumber> callNumbers = getCallNumbers(Options.isCollectionInitializationEnabled());
 
     /**
-     * The xref of the repository. Kept as a string copy of the xref deliberately to avoid circular references in the
-     * object graph (particularly, Note -&gt; Citation -&gt; Source -&gt; Repository -&gt; Note -&gt; Citation...)
+     * The xref of the repository. Kept as a string copy of the xref deliberately to avoid circular references in the object graph
+     * (particularly, Note -&gt; Citation -&gt; Source -&gt; Repository -&gt; Note -&gt; Citation...)
      */
     private String repositoryXref;
 

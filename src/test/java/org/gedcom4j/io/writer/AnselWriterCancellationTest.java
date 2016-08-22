@@ -77,7 +77,7 @@ public class AnselWriterCancellationTest implements FileProgressListener {
      */
     @Test(expected = WriterCancelledException.class)
     @SuppressWarnings({ "resource", "PMD.SystemPrintln" })
-	public void testRegistered() throws IOException, GedcomParserException, GedcomWriterException {
+    public void testRegistered() throws IOException, GedcomParserException, GedcomWriterException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-ansel.ged");
         eventCount = 0;
@@ -87,8 +87,7 @@ public class AnselWriterCancellationTest implements FileProgressListener {
             gw.write(new NullOutputStream());
         } catch (GedcomWriterException e) {
             if (!gw.getValidationFindings().isEmpty()) {
-                System.out.println(getClass().getName() + " found " + gw.getValidationFindings().size()
-                        + " validation findings:");
+                System.out.println(getClass().getName() + " found " + gw.getValidationFindings().size() + " validation findings:");
                 for (GedcomValidationFinding f : gw.getValidationFindings()) {
                     System.out.println(f);
                 }

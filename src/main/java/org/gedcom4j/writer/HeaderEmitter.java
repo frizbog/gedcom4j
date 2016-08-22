@@ -86,7 +86,8 @@ class HeaderEmitter extends AbstractEmitter<Header> {
         emitTagWithRequiredValue(1, "CHAR", header.getCharacterSet().getCharacterSetName());
         emitTagIfValueNotNull(2, "VERS", header.getCharacterSet().getVersionNum());
         emitTagIfValueNotNull(1, "LANG", header.getLanguage());
-        if (header.getPlaceHierarchy() != null && header.getPlaceHierarchy().getValue() != null && header.getPlaceHierarchy().getValue().length() > 0) {
+        if (header.getPlaceHierarchy() != null && header.getPlaceHierarchy().getValue() != null && header.getPlaceHierarchy()
+                .getValue().length() > 0) {
             emitTag(1, "PLAC");
             emitTagWithRequiredValue(2, "FORM", header.getPlaceHierarchy());
         }

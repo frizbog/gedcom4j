@@ -27,8 +27,8 @@
 package org.gedcom4j.io.encoding;
 
 /**
- * A class that supports the encoding of extended ANSEL characters to/from arrays of bytes. Technically, supports ANSEL,
- * GEDCOM's extensions, and the MARC 21 Extended Latin character set.
+ * A class that supports the encoding of extended ANSEL characters to/from arrays of bytes. Technically, supports ANSEL, GEDCOM's
+ * extensions, and the MARC 21 Extended Latin character set.
  * 
  * @author frizbog1
  */
@@ -41,7 +41,7 @@ final class AnselMapping {
      *            the ANSEL byte (in int form)
      * @return the character (in UTF-16) represented by the byte
      */
-    @SuppressWarnings("PMD.ExcessiveMethodLength")
+    @SuppressWarnings({ "PMD.ExcessiveMethodLength", "PMD.NcssMethodCount" })
     public static char decode(int b) {
         if (b < 0x80) {
             return (char) b;
@@ -199,7 +199,7 @@ final class AnselMapping {
      *            the ANSEL byte (as a char)
      * @return the character (in UTF-16) represented by the byte
      */
-    @SuppressWarnings("PMD.ExcessiveMethodLength")
+    @SuppressWarnings({ "PMD.ExcessiveMethodLength", "PMD.NcssMethodCount" })
     public static char encode(char c) {
         switch (c) {
             case '\u0065': // midline e

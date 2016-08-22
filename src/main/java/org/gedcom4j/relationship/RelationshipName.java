@@ -28,8 +28,8 @@ package org.gedcom4j.relationship;
 
 /**
  * <p>
- * Names of relationships between individuals, and the names of the inverse of the relationship (which depends on the
- * gender of the original person)
+ * Names of relationships between individuals, and the names of the inverse of the relationship (which depends on the gender of the
+ * original person)
  * </p>
  * .
  *
@@ -280,9 +280,8 @@ public enum RelationshipName {
     }
 
     /**
-     * The simplicity or directness of the relationship. This value is used for evaluating the more preferred/simpler
-     * way of expressing relationship chains of equal lengths...all other things being equal, smaller numbers are
-     * preferred.
+     * The simplicity or directness of the relationship. This value is used for evaluating the more preferred/simpler way of
+     * expressing relationship chains of equal lengths...all other things being equal, smaller numbers are preferred.
      */
     private final int simplicity;
 
@@ -301,7 +300,7 @@ public enum RelationshipName {
      * @param simplicity
      *            the simplicity level for the relationship being constructed
      */
-    private RelationshipName(int simplicity) {
+    RelationshipName(int simplicity) {
         this.simplicity = simplicity;
     }
 

@@ -48,6 +48,7 @@ final class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
     /**
      * The line buffer for the current line
      */
+    @SuppressWarnings("PMD.AvoidStringBufferField")
     private final StringBuilder lineBuffer = new StringBuilder();
 
     /**
@@ -59,10 +60,13 @@ final class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
      * @param byteStream
      *            the stream of data to be read
      */
-    public UnicodeLittleEndianReader(GedcomParser parser, InputStream byteStream) {
+    UnicodeLittleEndianReader(GedcomParser parser, InputStream byteStream) {
         super(parser, byteStream);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String nextLine() throws IOException, GedcomParserException {
         String result = null;
@@ -101,13 +105,12 @@ final class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
             // Do bit shifting stuff to make the character from the bytes
             int unicodeChar = currChar2 << 8 | currChar1;
             Character unicode = Character.valueOf((char) unicodeChar);
-            if (Character.isWhitespace(unicode) && lineBuffer.length()==0) {
-            	continue;
+            if (Character.isWhitespace(unicode) && lineBuffer.length() == 0) {
+                continue;
             }
-            
-            
+
             // Check for carriage returns or line feeds - signify EOL
-            if (lineBuffer.length()>0 && ((currChar1 == 0x0D && currChar2 == 0x00) || (currChar1 == 0x0A && currChar2 == 0x00))) {
+            if (lineBuffer.length() > 0 && ((currChar1 == 0x0D && currChar2 == 0x00) || (currChar1 == 0x0A && currChar2 == 0x00))) {
                 if (lineBuffer.length() > 0) {
                     result = lineBuffer.toString();
                     lineBuffer.setLength(0);
@@ -121,6 +124,9 @@ final class UnicodeLittleEndianReader extends AbstractEncodingSpecificReader {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     void cleanUp() throws IOException {
         // do nothing

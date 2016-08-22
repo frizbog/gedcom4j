@@ -63,8 +63,8 @@ public class FamilyChild extends AbstractElement {
     private StringWithCustomTags pedigree;
 
     /**
-     * The status of this Family/Child relationship. New for GEDCOM 5.5.1. Supposed to be "challenged", "disproven", or
-     * "proven", but this implementation allows any value.
+     * The status of this Family/Child relationship. New for GEDCOM 5.5.1. Supposed to be "challenged", "disproven", or "proven",
+     * but this implementation allows any value.
      */
     private StringWithCustomTags status;
 

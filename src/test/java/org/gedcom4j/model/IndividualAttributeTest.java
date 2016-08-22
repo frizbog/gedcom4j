@@ -46,7 +46,7 @@ public class IndividualAttributeTest {
      * Test for {@link IndividualAttribute#equals(Object)}
      */
     @Test
-	public void testEqualsObject() {
+    public void testEqualsObject() {
         IndividualAttribute i1 = new IndividualAttribute();
         IndividualAttribute i2 = new IndividualAttribute();
 
@@ -160,7 +160,7 @@ public class IndividualAttributeTest {
      * 
      */
     @Test
-	public void testHashCode() {
+    public void testHashCode() {
         IndividualAttribute i1 = new IndividualAttribute();
         IndividualAttribute i2 = new IndividualAttribute();
 
@@ -298,10 +298,12 @@ public class IndividualAttributeTest {
         i.getWwwUrls(true).add(new StringWithCustomTags("Twelve"));
         i.setyNull("Thirteen");
 
-        assertEquals("IndividualAttribute [type=Fact, address=Address [], age=One, cause=Two, citations=[CitationWithoutSource []], "
-                + "date=Three, description=Four, emails=[Five], faxNumbers=[Six], multimedia=[Multimedia []], notes=[Note []], "
-                + "phoneNumbers=[Seven], place=Place [], religiousAffiliation=Eight, respAgency=Nine, restrictionNotice=Ten, "
-                + "subType=Eleven, wwwUrls=[Twelve], yNull=Thirteen, customTags=[Line 0: 0 (null tag) (null value)]]", i.toString());
+        assertEquals(
+                "IndividualAttribute [type=Fact, address=Address [], age=One, cause=Two, citations=[CitationWithoutSource []], "
+                        + "date=Three, description=Four, emails=[Five], faxNumbers=[Six], multimedia=[Multimedia []], notes=[Note []], "
+                        + "phoneNumbers=[Seven], place=Place [], religiousAffiliation=Eight, respAgency=Nine, restrictionNotice=Ten, "
+                        + "subType=Eleven, wwwUrls=[Twelve], yNull=Thirteen, customTags=[Line 0: 0 (null tag) (null value)]]", i
+                                .toString());
     }
 
 }

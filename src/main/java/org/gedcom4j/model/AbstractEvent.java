@@ -109,8 +109,8 @@ public abstract class AbstractEvent extends AbstractNotesElement implements HasC
     private StringWithCustomTags respAgency;
 
     /**
-     * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be
-     * "confidential", "locked", or "privacy" but this implementation allows any value.
+     * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be "confidential",
+     * "locked", or "privacy" but this implementation allows any value.
      */
     private StringWithCustomTags restrictionNotice;
 
@@ -659,7 +659,8 @@ public abstract class AbstractEvent extends AbstractNotesElement implements HasC
     /**
      * Converts only the field members into the toString() representation, for easy sub-classing.
      * 
-     * @param builder the StringBuilder to output into.
+     * @param builder
+     *            the StringBuilder to output into.
      * 
      * @return the StringBuilder that was passed in.
      */
@@ -758,6 +759,6 @@ public abstract class AbstractEvent extends AbstractNotesElement implements HasC
             builder.append("customTags=");
             builder.append(getCustomTags());
         }
-    	return builder;
+        return builder;
     }
 }

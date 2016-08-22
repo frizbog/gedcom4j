@@ -69,7 +69,7 @@
 	<rule ref="rulesets/java/design.xml/OptimizableToArrayCall" />
 	<rule ref="rulesets/java/design.xml/BadComparison" />
 	<rule ref="rulesets/java/design.xml/EqualsNull" />
-	<!-- rule ref="rulesets/java/design.xml/ConfusingTernary" /-->
+ 	<!-- <rule ref="rulesets/java/design.xml/ConfusingTernary" /> -->
 	<rule ref="rulesets/java/design.xml/InstantiationToGetClass" />
 	<rule ref="rulesets/java/design.xml/IdempotentOperations" />
 	<rule ref="rulesets/java/design.xml/SimpleDateFormatNeedsLocale" />
@@ -88,7 +88,7 @@
 	<rule ref="rulesets/java/design.xml/PositionLiteralsFirstInComparisons" />
 	<rule ref="rulesets/java/design.xml/UnnecessaryLocalBeforeReturn" />
 	<rule ref="rulesets/java/design.xml/NonThreadSafeSingleton" />
-	<rule ref="rulesets/java/design.xml/UncommentedEmptyMethod" />
+	<rule ref="rulesets/java/design.xml/UncommentedEmptyMethodBody" />
 	<rule ref="rulesets/java/design.xml/UncommentedEmptyConstructor" />
 	<rule ref="rulesets/java/design.xml/AvoidConstantsInterface" />
 	<rule ref="rulesets/java/design.xml/UnsynchronizedStaticDateFormatter" />
@@ -209,9 +209,10 @@
 	<rule ref="rulesets/java/unnecessary.xml/UselessOverridingMethod" />
 	<rule ref="rulesets/java/unnecessary.xml/UselessOperationOnImmutable" />
 	<rule ref="rulesets/java/unnecessary.xml/UnusedNullCheckInEquals" />
+<!-- 	<rule ref="rulesets/java/unnecessary.xml/UselessParentheses" /> -->
 	<rule ref="rulesets/java/unusedcode.xml/UnusedPrivateField" />
 	<rule ref="rulesets/java/unusedcode.xml/UnusedLocalVariable" />
 	<rule ref="rulesets/java/unusedcode.xml/UnusedPrivateMethod" />
 	<rule ref="rulesets/java/unusedcode.xml/UnusedFormalParameter" />
-	<rule ref="rulesets/java/unusedcode.xml/UnusedModifier" />
+	<rule ref="rulesets/java/unusedcode.xml/UnusedModifier" /> 
 </ruleset>

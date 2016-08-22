@@ -40,6 +40,7 @@ import org.gedcom4j.model.Individual;
  * @author frizbog1
  * 
  */
+@SuppressWarnings("PMD.GodClass")
 public class AncestryCalculator {
 
     /**
@@ -252,6 +253,24 @@ public class AncestryCalculator {
     }
 
     /**
+     * Add some common ancestors to the result set
+     * 
+     * @param set
+     *            the result set we are building
+     * @param s
+     *            the set of common ancestors we are adding
+     */
+    private void addToResultSet(Set<Individual> set, Set<Individual> s) {
+        if (!s.isEmpty()) {
+            /*
+             * Parent's spouse or the spouse's ancestors in the target list, so add them to the result set
+             */
+            set.addAll(s);
+            addedAnyCommonAncestors = true;
+        }
+    }
+
+    /**
      * Check the parent in a family to see if he's a common ancestor
      * 
      * @param level
@@ -289,13 +308,7 @@ public class AncestryCalculator {
                         .getFamiliesWhereChild().isEmpty()) {
                     Set<Individual> s = new HashSet<>();
                     addLowestCommonAncestorsToSet(spouse, s, level + 1);
-                    if (!s.isEmpty()) {
-                        /*
-                         * Parent's spouse or the spouse's ancestors in the target list, so add them to the result set
-                         */
-                        set.addAll(s);
-                        addedAnyCommonAncestors = true;
-                    }
+                    addToResultSet(set, s);
                 }
             }
         }

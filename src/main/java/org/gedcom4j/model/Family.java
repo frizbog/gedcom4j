@@ -94,8 +94,8 @@ public class Family extends AbstractNotesElement implements HasCitations {
     private StringWithCustomTags recFileNumber;
 
     /**
-     * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be
-     * "confidential", "locked", or "privacy" but this implementation allows any value.
+     * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be "confidential",
+     * "locked", or "privacy" but this implementation allows any value.
      */
     private StringWithCustomTags restrictionNotice;
 

@@ -32,9 +32,9 @@ import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.StringTree;
 
 /**
- * Class for building {@link StringTree} objects for each root-level node in the input file. This class used to build a
- * big StringTree for the entire file, but since v3.0.0 it only builds a root-level node (plus a wrapper/container node)
- * at a time before it's discarded.
+ * Class for building {@link StringTree} objects for each root-level node in the input file. This class used to build a big
+ * StringTree for the entire file, but since v3.0.0 it only builds a root-level node (plus a wrapper/container node) at a time
+ * before it's discarded.
  * 
  * @author frizbog
  */
@@ -45,8 +45,8 @@ class StringTreeBuilder {
      * 
      * @param line
      *            the string to trim left leading whitespace from
-     * @return the line passed in with the leading whitespace removed. If the original string passed in was null, null
-     *         is returned here.
+     * @return the line passed in with the leading whitespace removed. If the original string passed in was null, null is returned
+     *         here.
      */
     static String leftTrim(String line) {
         if (line == null) {
@@ -67,15 +67,14 @@ class StringTreeBuilder {
     }
 
     /**
-     * An array of references to the most recently added node for each given level. Works as a fast index to the nodes
-     * so we can find parents quickly. Whenever a new node is added, set, or removed for level N, all entries in this
-     * index &gt; N (i.e., all the child levels) need to be cleared.
+     * An array of references to the most recently added node for each given level. Works as a fast index to the nodes so we can
+     * find parents quickly. Whenever a new node is added, set, or removed for level N, all entries in this index &gt; N (i.e., all
+     * the child levels) need to be cleared.
      */
     private final StringTree[] lastNodeAtLevel = new StringTree[100];
 
     /**
-     * A flag indicating whether the current line from the input file begins with a 1-2 digit level number followed by a
-     * space
+     * A flag indicating whether the current line from the input file begins with a 1-2 digit level number followed by a space
      */
     private boolean beginsWithLevelAndSpace;
 
@@ -129,8 +128,8 @@ class StringTreeBuilder {
     }
 
     /**
-     * Get the string tree representing the root-level node, plus a container - the string tree that this
-     * {@link StringTreeBuilder} object was created to build
+     * Get the string tree representing the root-level node, plus a container - the string tree that this {@link StringTreeBuilder}
+     * object was created to build
      * 
      * @return the string tree representing the root level node, plus a wrapper node around it
      */
@@ -195,13 +194,11 @@ class StringTreeBuilder {
     }
 
     /**
-     * Check that the line has a level number so we can know whether it's a new line or a continuation of the previous
-     * one
+     * Check that the line has a level number so we can know whether it's a new line or a continuation of the previous one
      * 
      * @throws GedcomParserException
-     *             if we can't determine whether the current line is a new leveled line in the file or not when strict
-     *             line breaks are off, or that the line does not begin with a level number when strict line breaks are
-     *             enabled.
+     *             if we can't determine whether the current line is a new leveled line in the file or not when strict line breaks
+     *             are off, or that the line does not begin with a level number when strict line breaks are enabled.
      */
     private void checkIfNewLevelLine() throws GedcomParserException {
         beginsWithLevelAndSpace = false;
@@ -255,13 +252,15 @@ class StringTreeBuilder {
                 } else if (Character.isDigit(c2) && ' ' == c3) {
                     return true;
                 } else {
-                    throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: "
-                            + line);
+                    throw new GedcomParserException("Line " + lineNum
+                            + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
                 }
             }
-            throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
+            throw new GedcomParserException("Line " + lineNum
+                    + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line);
         } catch (IndexOutOfBoundsException e) {
-            throw new GedcomParserException("Line " + lineNum + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line, e);
+            throw new GedcomParserException("Line " + lineNum
+                    + " does not begin with a 1 or 2 digit number for the level followed by a space: " + line, e);
         }
 
     }

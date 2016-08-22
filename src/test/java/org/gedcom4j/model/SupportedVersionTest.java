@@ -48,7 +48,7 @@ public class SupportedVersionTest {
      */
     @Test
     @SuppressWarnings("PMD.EmptyStatementNotInLoop")
-	public void test() throws UnsupportedVersionException {
+    public void test() throws UnsupportedVersionException {
         assertNotNull(SupportedVersion.forString("5.5"));
         assertNotNull(SupportedVersion.forString("5.5.1"));
 

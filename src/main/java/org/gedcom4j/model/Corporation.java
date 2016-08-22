@@ -37,8 +37,8 @@ import org.gedcom4j.Options;
  * </p>
  * 
  * <p>
- * If instantiating one of these programmatically rather than through parsing an existing GEDCOM file, you will probably
- * want to change the value of the {@link Corporation#businessName} field.
+ * If instantiating one of these programmatically rather than through parsing an existing GEDCOM file, you will probably want to
+ * change the value of the {@link Corporation#businessName} field.
  * </p>
  * 
  * @author frizbog1

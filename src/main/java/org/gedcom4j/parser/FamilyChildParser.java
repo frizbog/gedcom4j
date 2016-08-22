@@ -28,7 +28,12 @@ package org.gedcom4j.parser;
 
 import java.util.List;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.AdoptedByWhichParent;
+import org.gedcom4j.model.Family;
+import org.gedcom4j.model.FamilyChild;
+import org.gedcom4j.model.Note;
+import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * Parser for {@link FamilyChild} objects
@@ -67,8 +72,9 @@ class FamilyChildParser extends AbstractParser<FamilyChild> {
                 } else if (Tag.STATUS.equalsText(ch.getTag())) {
                     loadInto.setStatus(new StringWithCustomTags(ch));
                     if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but status was specified for child-to-family link on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                        addWarning("GEDCOM version is 5.5 but status was specified for child-to-family link on line " + ch
+                                .getLineNum() + ", which is a GEDCOM 5.5.1 feature."
+                                + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else {
                     unknownTag(ch, loadInto);

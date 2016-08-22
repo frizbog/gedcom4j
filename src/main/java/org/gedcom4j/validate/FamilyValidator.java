@@ -29,7 +29,13 @@ package org.gedcom4j.validate;
 import java.util.List;
 
 import org.gedcom4j.Options;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.AbstractCitation;
+import org.gedcom4j.model.AbstractEvent;
+import org.gedcom4j.model.Family;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.LdsSpouseSealing;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.Submitter;
 
 /**
  * Validator for {@link Family} objects
@@ -51,7 +57,7 @@ class FamilyValidator extends AbstractValidator {
      * @param f
      *            the family being validated
      */
-    public FamilyValidator(GedcomValidator gedcomValidator, Family f) {
+    FamilyValidator(GedcomValidator gedcomValidator, Family f) {
         rootValidator = gedcomValidator;
         this.f = f;
     }

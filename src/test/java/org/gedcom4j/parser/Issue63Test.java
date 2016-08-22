@@ -37,8 +37,8 @@ import org.gedcom4j.model.Gedcom;
 import org.junit.Test;
 
 /**
- * Test for Issue 63, where the parser failed to associate individuals with families if they are not listed in a
- * specific order in the GEDCOM file.
+ * Test for Issue 63, where the parser failed to associate individuals with families if they are not listed in a specific order in
+ * the GEDCOM file.
  * 
  * @author frizbog
  */

@@ -26,8 +26,7 @@
  */
 /**
  * <p>
- * Classes for supporting Observer pattern during construction of string data for write operations (which can be
- * lengthy).
+ * Classes for supporting Observer pattern during construction of string data for write operations (which can be lengthy).
  * </p>
  * 
  * @author frizbog

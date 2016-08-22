@@ -30,7 +30,11 @@ import java.util.List;
 
 import org.gedcom4j.Options;
 import org.gedcom4j.exception.GedcomValidationException;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.AbstractCitation;
+import org.gedcom4j.model.FileReference;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.SupportedVersion;
+import org.gedcom4j.model.UserReference;
 
 /**
  * A validator for {@link Multimedia} objects. See {@link GedcomValidator} for usage instructions.
@@ -46,8 +50,7 @@ class MultimediaValidator extends AbstractValidator {
     private final Multimedia mm;
 
     /**
-     * The gedcom version to validate against. There are numerous differences in multimedia records between 5.5 and
-     * 5.5.1.
+     * The gedcom version to validate against. There are numerous differences in multimedia records between 5.5 and 5.5.1.
      */
     private SupportedVersion gedcomVersion;
 
@@ -59,19 +62,20 @@ class MultimediaValidator extends AbstractValidator {
      * @param multimedia
      *            the multimedia object being validated
      */
-    public MultimediaValidator(GedcomValidator rootValidator, Multimedia multimedia) {
+    MultimediaValidator(GedcomValidator rootValidator, Multimedia multimedia) {
         this.rootValidator = rootValidator;
         if (rootValidator == null) {
             throw new GedcomValidationException("Root validator passed in to MultimediaValidator constructor was null");
         }
         mm = multimedia;
-        if (rootValidator.gedcom == null || rootValidator.gedcom.getHeader() == null || rootValidator.gedcom.getHeader().getGedcomVersion() == null
-                || rootValidator.gedcom.getHeader().getGedcomVersion().getVersionNumber() == null) {
+        if (rootValidator.gedcom == null || rootValidator.gedcom.getHeader() == null || rootValidator.gedcom.getHeader()
+                .getGedcomVersion() == null || rootValidator.gedcom.getHeader().getGedcomVersion().getVersionNumber() == null) {
             if (rootValidator.isAutorepairEnabled()) {
                 gedcomVersion = SupportedVersion.V5_5_1;
                 rootValidator.addInfo("Was not able to determine GEDCOM version - assuming 5.5.1", rootValidator.gedcom);
             } else {
-                rootValidator.addError("Was not able to determine GEDCOM version - cannot validate multimedia objects", rootValidator.gedcom);
+                rootValidator.addError("Was not able to determine GEDCOM version - cannot validate multimedia objects",
+                        rootValidator.gedcom);
             }
         } else {
             gedcomVersion = rootValidator.gedcom.getHeader().getGedcomVersion().getVersionNumber();
@@ -199,7 +203,8 @@ class MultimediaValidator extends AbstractValidator {
         if (mm.getCitations() != null && !mm.getCitations().isEmpty()) {
             if (rootValidator.isAutorepairEnabled()) {
                 mm.getCitations(true).clear();
-                rootValidator.addInfo("Citations collection was populated, but not allowed in " + "v5.5 of gedcom - repaired (cleared)", mm);
+                rootValidator.addInfo("Citations collection was populated, but not allowed in "
+                        + "v5.5 of gedcom - repaired (cleared)", mm);
             } else {
                 rootValidator.addError("Citations collection is populated, but not allowed in " + "v5.5 of gedcom", mm);
             }
@@ -231,7 +236,8 @@ class MultimediaValidator extends AbstractValidator {
         if (mm.getBlob() != null && !mm.getBlob().isEmpty()) {
             if (rootValidator.isAutorepairEnabled()) {
                 mm.getBlob().clear();
-                addInfo("Embedded media object had a populated blob object, " + "which is not allowed in GEDCOM 5.5.1 - repaired (cleared)", mm);
+                addInfo("Embedded media object had a populated blob object, "
+                        + "which is not allowed in GEDCOM 5.5.1 - repaired (cleared)", mm);
             } else {
                 addError("Embedded media object has a populated blob object, which is not allowed in GEDCOM 5.5.1", mm);
             }
@@ -241,9 +247,11 @@ class MultimediaValidator extends AbstractValidator {
         if (mm.getEmbeddedMediaFormat() != null) {
             if (rootValidator.isAutorepairEnabled()) {
                 mm.setEmbeddedMediaFormat(null);
-                rootValidator.addInfo("Multimedia object had a format for embedded media, " + "which is not allowed in GEDCOM 5.5.1 - repaired (cleared)", mm);
+                rootValidator.addInfo("Multimedia object had a format for embedded media, "
+                        + "which is not allowed in GEDCOM 5.5.1 - repaired (cleared)", mm);
             } else {
-                rootValidator.addError("Multimedia object has a format for embedded media, " + "which is not allowed in GEDCOM 5.5.1", mm);
+                rootValidator.addError("Multimedia object has a format for embedded media, "
+                        + "which is not allowed in GEDCOM 5.5.1", mm);
             }
 
         }

@@ -187,8 +187,8 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      * {@inheritDoc}
      */
     @Override
-    @SuppressWarnings({ "PMD.NcssMethodCount", "PMD.ExcessiveMethodLength" })
-	public boolean equals(Object obj) {
+    @SuppressWarnings({ "PMD.NcssMethodCount", "PMD.ExcessiveMethodLength", "checkstyle:methodlength" })
+    public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
@@ -827,6 +827,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      *
      * @return the notes
      */
+    @Override
     public List<Note> getNotes() {
         return notes;
     }
@@ -839,6 +840,7 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      * 
      * @return the notes
      */
+    @Override
     public List<Note> getNotes(boolean initializeIfNeeded) {
         if (initializeIfNeeded && notes == null) {
             notes = new ArrayList<>(0);

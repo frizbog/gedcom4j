@@ -35,8 +35,8 @@ package org.gedcom4j.model;
 public final class TestHelper {
 
     /**
-     * Factory method to get a minimally populated Gedcom structure for use in tests. Creates a bogus submission and
-     * submitter record and makes sure the references that are needed are there.
+     * Factory method to get a minimally populated Gedcom structure for use in tests. Creates a bogus submission and submitter
+     * record and makes sure the references that are needed are there.
      * 
      * @return a minimally populated Gedcom with fake data
      */

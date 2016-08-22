@@ -53,7 +53,7 @@ class Utf8Writer extends AbstractEncodingSpecificWriter {
      * @param writer
      *            The {@link GedcomWriter} this object is assisting
      */
-    public Utf8Writer(GedcomWriter writer) {
+    Utf8Writer(GedcomWriter writer) {
         super(writer);
     }
 

@@ -30,7 +30,12 @@ import java.util.Collection;
 
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.EventRecorded;
+import org.gedcom4j.model.RepositoryCitation;
+import org.gedcom4j.model.Source;
+import org.gedcom4j.model.SourceCallNumber;
+import org.gedcom4j.model.SourceData;
+import org.gedcom4j.model.UserReference;
 
 /**
  * Emitter for {@link Source} objects

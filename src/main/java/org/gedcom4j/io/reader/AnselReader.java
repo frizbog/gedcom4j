@@ -101,7 +101,11 @@ final class AnselReader extends AbstractEncodingSpecificReader {
         super(parser, byteStream);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
+    @SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
     public String nextLine() throws IOException, GedcomParserException {
         if (eof) {
             return null;

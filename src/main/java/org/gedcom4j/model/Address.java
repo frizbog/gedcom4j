@@ -32,9 +32,8 @@ import java.util.List;
 import org.gedcom4j.Options;
 
 /**
- * Represents an address. Corresponds to part of the ADDRESS_STRUCTURE element in the GEDCOM specification. The other
- * parts of the structure containing phone numbers, faxes, urls, and emails are kept in in the objects that have those
- * attributes.
+ * Represents an address. Corresponds to part of the ADDRESS_STRUCTURE element in the GEDCOM specification. The other parts of the
+ * structure containing phone numbers, faxes, urls, and emails are kept in in the objects that have those attributes.
  * 
  * @author frizbog1
  */

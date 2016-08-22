@@ -31,12 +31,26 @@ import java.util.List;
 
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Association;
+import org.gedcom4j.model.FamilyChild;
+import org.gedcom4j.model.FamilySpouse;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualAttribute;
+import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.IndividualEventType;
+import org.gedcom4j.model.LdsIndividualOrdinance;
+import org.gedcom4j.model.LdsIndividualOrdinanceType;
+import org.gedcom4j.model.PersonalName;
+import org.gedcom4j.model.PersonalNameVariation;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.UserReference;
 
 /**
  * @author frizbog
  *
  */
+@SuppressWarnings("PMD.GodClass")
 class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
 
     /**
@@ -206,8 +220,8 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                     if (e.getFamily() != null && e.getFamily().getFamily() != null && e.getFamily().getFamily().getXref() != null) {
                         emitTagWithRequiredValue(level + 1, "FAMC", e.getFamily().getFamily().getXref());
                     }
-                } else if (e.getType() == IndividualEventType.ADOPTION && e.getFamily() != null && e.getFamily().getFamily() != null && e.getFamily()
-                        .getFamily().getXref() != null) {
+                } else if (e.getType() == IndividualEventType.ADOPTION && e.getFamily() != null && e.getFamily().getFamily() != null
+                        && e.getFamily().getFamily().getXref() != null) {
                     emitTagWithRequiredValue(level + 1, "FAMC", e.getFamily().getFamily().getXref());
                     emitTagIfValueNotNull(level + 2, "ADOP", e.getFamily().getAdoptedBy());
                 }
@@ -225,7 +239,8 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    private void emitLdsIndividualOrdinances(int level, List<LdsIndividualOrdinance> ldsIndividualOrdinances) throws GedcomWriterException {
+    private void emitLdsIndividualOrdinances(int level, List<LdsIndividualOrdinance> ldsIndividualOrdinances)
+            throws GedcomWriterException {
         if (ldsIndividualOrdinances != null) {
             for (LdsIndividualOrdinance o : ldsIndividualOrdinances) {
                 emitTagWithOptionalValue(level, o.getType().getTag(), o.getyNull());
@@ -238,7 +253,8 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                         throw new GedcomWriterException("LDS Ordinance info for a child sealing had no reference to a family");
                     }
                     if (o.getFamilyWhereChild().getFamily() == null) {
-                        throw new GedcomWriterException("LDS Ordinance info for a child sealing had familyChild object with a null reference to a family");
+                        throw new GedcomWriterException(
+                                "LDS Ordinance info for a child sealing had familyChild object with a null reference to a family");
                     }
                     emitTagWithRequiredValue(level + 1, "FAMC", o.getFamilyWhereChild().getFamily().getXref());
                 }

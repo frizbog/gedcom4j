@@ -136,11 +136,11 @@ public class Association extends AbstractElement implements HasXref {
     }
 
     @Override
-	public String getXref() {
-		return getAssociatedEntityXref();
-	}
+    public String getXref() {
+        return getAssociatedEntityXref();
+    }
 
-	/**
+    /**
      * Gets the citations.
      *
      * @return the citations
@@ -277,4 +277,5 @@ public class Association extends AbstractElement implements HasXref {
         }
         builder.append("]");
         return builder.toString();
-    }}
+    }
+}

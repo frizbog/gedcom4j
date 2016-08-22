@@ -28,7 +28,11 @@ package org.gedcom4j.parser;
 
 import java.util.List;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.AbstractCitation;
+import org.gedcom4j.model.LdsSpouseSealing;
+import org.gedcom4j.model.Note;
+import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * Parser for {@link LdsSpouseSealing} records

@@ -62,7 +62,7 @@ public class GedcomTest {
      */
     @Test
     @SuppressWarnings("PMD.EqualsNull")
-	public void testEqualsObject() {
+    public void testEqualsObject() {
         Gedcom g1 = new Gedcom();
         assertEquals(g1, g1);
         Gedcom g2 = new Gedcom();

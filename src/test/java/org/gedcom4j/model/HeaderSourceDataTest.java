@@ -42,7 +42,7 @@ public class HeaderSourceDataTest {
      */
     @Test
     @SuppressWarnings("PMD.EqualsNull")
-	public void testEqualsObject() {
+    public void testEqualsObject() {
         HeaderSourceData h1 = new HeaderSourceData();
         assertEquals(h1, h1);
 

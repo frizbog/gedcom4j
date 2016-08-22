@@ -42,7 +42,7 @@ public class SourceSystemTest {
      */
     @Test
     @SuppressWarnings("PMD.EqualsNull")
-	public void testEqualsObject() {
+    public void testEqualsObject() {
         SourceSystem ss1 = new SourceSystem();
         assertEquals(ss1, ss1);
         SourceSystem ss2 = new SourceSystem();

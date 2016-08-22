@@ -29,7 +29,15 @@ package org.gedcom4j.parser;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.AbstractCitation;
+import org.gedcom4j.model.CitationData;
+import org.gedcom4j.model.CitationWithSource;
+import org.gedcom4j.model.CitationWithoutSource;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.Note;
+import org.gedcom4j.model.Source;
+import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * @author frizbog
@@ -113,7 +121,8 @@ class CitationListParser extends AbstractParser<List<AbstractCitation>> {
                         cws.getDescription(true).add(ch.getValue());
                     } else {
                         // Append to last value in string list
-                        cws.getDescription().set(cws.getDescription().size() - 1, cws.getDescription().get(cws.getDescription().size() - 1) + ch.getValue());
+                        cws.getDescription().set(cws.getDescription().size() - 1, cws.getDescription().get(cws.getDescription()
+                                .size() - 1) + ch.getValue());
                     }
                 } else if (Tag.TEXT.equalsText(ch.getTag())) {
                     List<String> ls = new ArrayList<>();

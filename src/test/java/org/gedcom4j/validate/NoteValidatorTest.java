@@ -26,7 +26,11 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.CitationWithSource;
+import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.Note;
+import org.gedcom4j.model.TestHelper;
+import org.gedcom4j.model.UserReference;
 import org.junit.Test;
 
 /**

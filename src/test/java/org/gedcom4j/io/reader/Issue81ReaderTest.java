@@ -32,7 +32,11 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.Note;
+import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.parser.GedcomParser;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,7 +63,7 @@ public class Issue81ReaderTest {
      */
     @Before
     @SuppressWarnings("PMD.SystemPrintln")
-	public void setUp() throws IOException, GedcomParserException {
+    public void setUp() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/issue81.ged");
         for (String e : gp.getErrors()) {

@@ -38,8 +38,7 @@ import org.gedcom4j.model.Note;
 import org.junit.Test;
 
 /**
- * Test situation where a NOTE structure has both an ID definition and cross-reference, which is technically not
- * allowed.
+ * Test situation where a NOTE structure has both an ID definition and cross-reference, which is technically not allowed.
  * 
  * @author frizbog
  */

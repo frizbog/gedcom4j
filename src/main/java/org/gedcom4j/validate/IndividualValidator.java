@@ -29,7 +29,13 @@ package org.gedcom4j.validate;
 import java.util.List;
 
 import org.gedcom4j.Options;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.AbstractCitation;
+import org.gedcom4j.model.Association;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualAttribute;
+import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.PersonalName;
+import org.gedcom4j.model.Submitter;
 
 /**
  * A validator for an {@link Individual}. See {@link GedcomValidator} for usage information.
@@ -52,7 +58,7 @@ class IndividualValidator extends AbstractValidator {
      * @param individual
      *            the individual being validated
      */
-    public IndividualValidator(GedcomValidator gedcomValidator, Individual individual) {
+    IndividualValidator(GedcomValidator gedcomValidator, Individual individual) {
         rootValidator = gedcomValidator;
         this.individual = individual;
     }
@@ -215,8 +221,7 @@ class IndividualValidator extends AbstractValidator {
     }
 
     /**
-     * Validate the two submitters collections: {@link Individual#ancestorInterest} and
-     * {@link Individual#descendantInterest}
+     * Validate the two submitters collections: {@link Individual#ancestorInterest} and {@link Individual#descendantInterest}
      */
     private void checkSubmitters() {
         if (individual.getAncestorInterest() == null && Options.isCollectionInitializationEnabled()) {

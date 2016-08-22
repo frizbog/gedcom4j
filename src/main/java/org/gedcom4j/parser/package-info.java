@@ -25,8 +25,8 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 /**
- * Classes for parsing GEDCOM-format data and constructing an object graph from it, using objects in the
- * org.gedcom4j.model package. The actual file I/O is done in the org.gedcom4j.io package.
+ * Classes for parsing GEDCOM-format data and constructing an object graph from it, using objects in the org.gedcom4j.model package.
+ * The actual file I/O is done in the org.gedcom4j.io package.
  * 
  * @author frizbog
  * @since 3.0.0

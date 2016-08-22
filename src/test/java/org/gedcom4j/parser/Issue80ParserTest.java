@@ -33,7 +33,11 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.AbstractEvent;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.IndividualEventType;
+import org.gedcom4j.model.Place;
 import org.junit.Test;
 
 /**

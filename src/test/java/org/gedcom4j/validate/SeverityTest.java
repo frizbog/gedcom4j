@@ -26,7 +26,6 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.validate.Severity;
 import org.junit.Assert;
 import org.junit.Test;
 

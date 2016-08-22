@@ -28,13 +28,12 @@ package org.gedcom4j.parser;
 
 /**
  * <p>
- * An enumeration of many - not all - of the tags supported by GEDCOM 5.5 and 5.5.1. Some noted omissions include
- * Individual Event Type tags and Family Event Type tags.
+ * An enumeration of many - not all - of the tags supported by GEDCOM 5.5 and 5.5.1. Some noted omissions include Individual Event
+ * Type tags and Family Event Type tags.
  * </p>
  * <p>
  * <b>Note:</b> There are multiple tags that have the same tag text. This represents the different uses of the same
- * three-to-five-character tag string in different contexts. As such, there is no function for deriving a tag from its
- * text.
+ * three-to-five-character tag string in different contexts. As such, there is no function for deriving a tag from its text.
  * 
  * @author frizbog
  */
@@ -235,7 +234,7 @@ enum Tag {
      * @param tagText
      *            the text string for the tag
      */
-    private Tag(String tagText) {
+    Tag(String tagText) {
         this.tagText = tagText.intern();
     }
 

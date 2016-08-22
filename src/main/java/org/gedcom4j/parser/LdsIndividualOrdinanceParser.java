@@ -28,7 +28,13 @@ package org.gedcom4j.parser;
 
 import java.util.List;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.AbstractCitation;
+import org.gedcom4j.model.FamilyChild;
+import org.gedcom4j.model.LdsIndividualOrdinance;
+import org.gedcom4j.model.LdsIndividualOrdinanceType;
+import org.gedcom4j.model.Note;
+import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * Parser for {@link LdsIndividualOrdinance} records

@@ -54,7 +54,7 @@ class EventValidator extends AbstractValidator {
      * @param e
      *            the event beign validated
      */
-    public EventValidator(GedcomValidator rootValidator, AbstractEvent e) {
+    EventValidator(GedcomValidator rootValidator, AbstractEvent e) {
         this.rootValidator = rootValidator;
         this.e = e;
     }
@@ -78,7 +78,8 @@ class EventValidator extends AbstractValidator {
         checkCustomTags(e);
         checkOptionalString(e.getDate(), "date", e);
         if (e.getDescription() != null && e.getDescription().trim().length() != 0) {
-            rootValidator.addError("Event has description, which is non-standard. Remove this value, or move it (perhaps to a Note).", e);
+            rootValidator.addError(
+                    "Event has description, which is non-standard. Remove this value, or move it (perhaps to a Note).", e);
         }
         checkEmails();
         checkFaxNumbers();

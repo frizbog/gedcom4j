@@ -32,8 +32,8 @@ import java.util.List;
 import org.gedcom4j.Options;
 
 /**
- * A citation with a source. Corresponds to the first (preferred) form of the SOURCE_CITATION structure (which you'd do
- * in Pascal with a variant record, but here we use subclasses of a parent abstract class).
+ * A citation with a source. Corresponds to the first (preferred) form of the SOURCE_CITATION structure (which you'd do in Pascal
+ * with a variant record, but here we use subclasses of a parent abstract class).
  * 
  * @author frizbog1
  * 
@@ -45,8 +45,7 @@ public class CitationWithSource extends AbstractCitation {
     private static final long serialVersionUID = 1886846774727359828L;
 
     /**
-     * The quality of this citation. Supposed to be 0, 1, 2, or 3, but stored as a string since we're not doing math on
-     * it.
+     * The quality of this citation. Supposed to be 0, 1, 2, or 3, but stored as a string since we're not doing math on it.
      */
     private StringWithCustomTags certainty;
 

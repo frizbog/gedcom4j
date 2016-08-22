@@ -175,7 +175,7 @@ public enum IndividualEventType {
      * @param display
      *            the display value
      */
-    private IndividualEventType(String tag, String display) {
+    IndividualEventType(String tag, String display) {
         this.tag = tag.intern();
         this.display = display.intern();
     }

@@ -53,16 +53,22 @@ class ProgressTrackingOutputStream extends OutputStream {
      * @param out
      *            the output stream to be decorated
      */
-    public ProgressTrackingOutputStream(OutputStream out) {
+    ProgressTrackingOutputStream(OutputStream out) {
         this.out = out;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void write(byte[] b) throws IOException {
         out.write(b);
         bytesWritten += b.length;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void write(byte[] b, int off, int len) throws IOException {
         out.write(b, off, len);

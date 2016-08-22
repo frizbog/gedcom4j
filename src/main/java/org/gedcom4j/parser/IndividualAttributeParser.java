@@ -28,7 +28,15 @@ package org.gedcom4j.parser;
 
 import java.util.List;
 
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.AbstractCitation;
+import org.gedcom4j.model.Address;
+import org.gedcom4j.model.IndividualAttribute;
+import org.gedcom4j.model.IndividualAttributeType;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.Note;
+import org.gedcom4j.model.Place;
+import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * Parser for {@link IndividualAttribute} objects
@@ -55,7 +63,8 @@ class IndividualAttributeParser extends AbstractParser<IndividualAttribute> {
     void parse() {
         loadInto.setType(IndividualAttributeType.getFromTag(stringTree.getTag()));
         if (IndividualAttributeType.FACT.equals(loadInto.getType()) && g55()) {
-            addWarning("FACT tag specified on a GEDCOM 5.5 file at line " + stringTree.getLineNum() + ", but FACT was not added until 5.5.1."
+            addWarning("FACT tag specified on a GEDCOM 5.5 file at line " + stringTree.getLineNum()
+                    + ", but FACT was not added until 5.5.1."
                     + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
         }
         loadInto.setDescription(new StringWithCustomTags(stringTree.getValue()));
@@ -83,20 +92,23 @@ class IndividualAttributeParser extends AbstractParser<IndividualAttribute> {
                 } else if (Tag.WEB_ADDRESS.equalsText(ch.getTag())) {
                     loadInto.getWwwUrls(true).add(new StringWithCustomTags(ch));
                     if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but WWW URL was specified for " + loadInto.getType() + " attribute on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                        addWarning("GEDCOM version is 5.5 but WWW URL was specified for " + loadInto.getType()
+                                + " attribute on line " + ch.getLineNum() + ", which is a GEDCOM 5.5.1 feature."
+                                + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.FAX.equalsText(ch.getTag())) {
                     loadInto.getFaxNumbers(true).add(new StringWithCustomTags(ch));
                     if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but fax was specified for " + loadInto.getType() + " attribute on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                        addWarning("GEDCOM version is 5.5 but fax was specified for " + loadInto.getType() + " attribute on line "
+                                + ch.getLineNum() + ", which is a GEDCOM 5.5.1 feature."
+                                + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.EMAIL.equalsText(ch.getTag())) {
                     loadInto.getEmails(true).add(new StringWithCustomTags(ch));
                     if (g55()) {
-                        addWarning("GEDCOM version is 5.5 but email was specified for " + loadInto.getType() + " attribute on line " + ch.getLineNum()
-                                + ", which is a GEDCOM 5.5.1 feature." + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
+                        addWarning("GEDCOM version is 5.5 but email was specified for " + loadInto.getType() + " attribute on line "
+                                + ch.getLineNum() + ", which is a GEDCOM 5.5.1 feature."
+                                + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.ADDRESS.equalsText(ch.getTag())) {
                     Address address = new Address();

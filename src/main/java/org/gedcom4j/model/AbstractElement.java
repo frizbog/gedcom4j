@@ -33,8 +33,8 @@ import java.util.List;
 import org.gedcom4j.Options;
 
 /**
- * An abstract class from which most other items in the data model extend. Exists to hold custom tag information, which
- * by definition cannot be known in advance.
+ * An abstract class from which most other items in the data model extend. Exists to hold custom tag information, which by
+ * definition cannot be known in advance.
  * 
  * @author frizbog
  */
@@ -120,9 +120,10 @@ public abstract class AbstractElement implements Serializable, HasCustomTags {
     /**
      * Set the custom tags
      * 
-     * @param theCustomTags the custom tags
+     * @param theCustomTags
+     *            the custom tags
      */
     protected void setCustomTags(List<StringTree> theCustomTags) {
-    	customTags = theCustomTags;
+        customTags = theCustomTags;
     }
 }
