@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.gedcom4j.Options;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Header;
@@ -77,7 +76,7 @@ import org.gedcom4j.model.Trailer;
  * The validation framework, by default and unless disabled, will attempt to automatically repair ("autorepair") problems it finds
  * in the object graph, so that if written as a GEDCOM file, the file written will conform to the GEDCOM spec, as well as to help
  * the developer avoid NullPointerExceptions due to certain items not being instantiated (if they have so selected in the
- * {@link Options} class.
+ * {@link org.gedcom4j.Options} class.
  * </p>
  * 
  * 

@@ -31,7 +31,6 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.ParserCancelledException;
@@ -41,9 +40,9 @@ import org.gedcom4j.parser.GedcomParser;
 
 /**
  * An encoding-agnostic class for reading the GEDCOM files and handling ASCII, ANSEL, and UNICODE coding as needed. It's basic job
- * is to turn the bytes from the file into a buffer (a {@link List} of Strings) that the {@link org.gedcom4j.parser.GedcomParser}
- * can work with. This class is needed because the built-in character encodings in Java don't support ANSEL encoding, which is the
- * default encoding for gedcom files in v5.5 standard.
+ * is to turn the bytes from the file into a buffer (a {@link java.util.List} of Strings) that the
+ * {@link org.gedcom4j.parser.GedcomParser} can work with. This class is needed because the built-in character encodings in Java
+ * don't support ANSEL encoding, which is the default encoding for gedcom files in v5.5 standard.
  * 
  * @author frizbog1
  */
