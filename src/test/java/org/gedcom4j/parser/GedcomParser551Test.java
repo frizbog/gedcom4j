@@ -36,7 +36,22 @@ import java.util.List;
 
 import org.gedcom4j.Options;
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.*;
+import org.gedcom4j.model.AbstractNameVariation;
+import org.gedcom4j.model.Corporation;
+import org.gedcom4j.model.Family;
+import org.gedcom4j.model.FamilyChild;
+import org.gedcom4j.model.FamilyEvent;
+import org.gedcom4j.model.FamilyEventType;
+import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualAttribute;
+import org.gedcom4j.model.IndividualAttributeType;
+import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.IndividualEventType;
+import org.gedcom4j.model.PersonalName;
+import org.gedcom4j.model.Place;
+import org.gedcom4j.model.PlaceNameVariation;
+import org.gedcom4j.model.Submitter;
 import org.gedcom4j.query.Finder;
 import org.junit.Test;
 
@@ -62,7 +77,8 @@ public class GedcomParser551Test {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/john_of_sea_20101009.ged");
         assertTrue(gp.getErrors().isEmpty());
-        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.getWarnings().isEmpty());
+        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.getWarnings()
+                .isEmpty());
         Gedcom g = gp.getGedcom();
         assertNotNull(g);
         assertNotNull(g.getHeader());
@@ -110,7 +126,8 @@ public class GedcomParser551Test {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/john_of_sea_20101009.ged");
         assertTrue(gp.getErrors().isEmpty());
-        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.getWarnings().isEmpty());
+        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.getWarnings()
+                .isEmpty());
         Gedcom g = gp.getGedcom();
         Finder f = new Finder(g);
         List<Individual> found = f.findByName("Moor", "Mary");
@@ -173,7 +190,8 @@ public class GedcomParser551Test {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/5.5.1 sample 2.ged");
         assertTrue(gp.getErrors().isEmpty());
-        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.getWarnings().isEmpty());
+        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.getWarnings()
+                .isEmpty());
         Gedcom g = gp.getGedcom();
         Finder f = new Finder(g);
         List<Individual> found = f.findByName("Pinter", "Anonymus" /* sic */);
@@ -204,7 +222,8 @@ public class GedcomParser551Test {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/5.5.1 sample 4.ged");
         assertTrue(gp.getErrors().isEmpty());
-        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.getWarnings().isEmpty());
+        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.getWarnings()
+                .isEmpty());
         Gedcom g = gp.getGedcom();
         assertNotNull(g);
         assertEquals(1, g.getIndividuals().size());
@@ -221,6 +240,7 @@ public class GedcomParser551Test {
         assertEquals(1, p.getPhonetic().size());
         AbstractNameVariation nv = p.getPhonetic().get(0);
         assertNotNull(nv);
+        assertTrue(nv instanceof PlaceNameVariation);
         assertEquals("Tarr-now, Krack-ow, Poh-land", nv.getVariation());
         assertEquals("guessing", nv.getVariationType().toString());
     }
@@ -238,7 +258,8 @@ public class GedcomParser551Test {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/5.5.1 sample 4.ged");
         assertTrue(gp.getErrors().isEmpty());
-        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.getWarnings().isEmpty());
+        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.getWarnings()
+                .isEmpty());
         Gedcom g = gp.getGedcom();
         assertNotNull(g);
         assertEquals(1, g.getIndividuals().size());
@@ -441,7 +462,8 @@ public class GedcomParser551Test {
             System.err.println(s);
         }
         assertTrue(gp.getErrors().isEmpty());
-        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.getWarnings().isEmpty());
+        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.getWarnings()
+                .isEmpty());
         Gedcom g = gp.getGedcom();
         assertNotNull(g);
         assertNotNull(g.getFamilies());
@@ -474,7 +496,8 @@ public class GedcomParser551Test {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/5.5.1 sample 3.ged");
         assertTrue(gp.getErrors().isEmpty());
-        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.getWarnings().isEmpty());
+        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.getWarnings()
+                .isEmpty());
         Gedcom g = gp.getGedcom();
         assertNotNull(g);
         assertNotNull(g.getFamilies());
@@ -500,7 +523,8 @@ public class GedcomParser551Test {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/5.5.1 sample 3.ged");
         assertTrue(gp.getErrors().isEmpty());
-        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.getWarnings().isEmpty());
+        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.getWarnings()
+                .isEmpty());
         Gedcom g = gp.getGedcom();
         Individual ladislaus = g.getIndividuals().get("@I2797@");
         assertNotNull(ladislaus);
@@ -527,7 +551,8 @@ public class GedcomParser551Test {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/5.5.1 sample 4.ged");
         assertTrue(gp.getErrors().isEmpty());
-        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.getWarnings().isEmpty());
+        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.getWarnings()
+                .isEmpty());
         Gedcom g = gp.getGedcom();
         assertNotNull(g);
         assertEquals(1, g.getIndividuals().size());
@@ -599,7 +624,8 @@ public class GedcomParser551Test {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/5.5.1 sample 3.ged");
         assertTrue(gp.getErrors().isEmpty());
-        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.getWarnings().isEmpty());
+        assertTrue("There should be a warning because the file says it's 5.5 but has 5.5.1 tags in it", !gp.getWarnings()
+                .isEmpty());
         Gedcom g = gp.getGedcom();
         assertNotNull(g);
         assertNotNull(g.getSubmitters());
