@@ -82,8 +82,7 @@ class Utf8Writer extends AbstractEncodingSpecificWriter {
 
         // Go ahead and use Java's built in UTF-8 encoder here
         ProgressTrackingOutputStream outputStream = new ProgressTrackingOutputStream(out);
-        OutputStreamWriter osw = new OutputStreamWriter(outputStream, Charset.forName("UTF-8"));
-        try {
+        try (OutputStreamWriter osw = new OutputStreamWriter(outputStream, Charset.forName("UTF-8"))) {
             for (String line : gedcomLines) {
                 osw.write(line);
                 bytesWritten = outputStream.bytesWritten;
@@ -99,10 +98,8 @@ class Utf8Writer extends AbstractEncodingSpecificWriter {
                     throw new WriterCancelledException("Construction and writing of GEDCOM cancelled");
                 }
             }
-        } finally {
             osw.flush();
             bytesWritten = outputStream.bytesWritten;
-            osw.close();
         }
     }
 
@@ -127,7 +124,8 @@ class Utf8Writer extends AbstractEncodingSpecificWriter {
     @Override
     protected void writeLineTerminator(OutputStream out) throws IOException {
         // Not used
-        throw new UnsupportedOperationException(this.getClass().getName() + " does not use the abstract writeLineTerminator method");
+        throw new UnsupportedOperationException(this.getClass().getName()
+                + " does not use the abstract writeLineTerminator method");
     }
 
 }

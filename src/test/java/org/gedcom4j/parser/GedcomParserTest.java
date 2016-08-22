@@ -133,7 +133,8 @@ public class GedcomParserTest extends TestCase {
         // shown
         assertEquals(2, g.getSources().size());
         for (Source s : g.getSources().values()) {
-            assertTrue(s.getTitle().get(0).equals("William Barnett Family.FTW") || s.getTitle().get(0).equals("Warrick County, IN WPA Indexes"));
+            assertTrue(s.getTitle().get(0).equals("William Barnett Family.FTW") || s.getTitle().get(0).equals(
+                    "Warrick County, IN WPA Indexes"));
         }
 
         assertEquals(17, g.getFamilies().size());
@@ -164,9 +165,9 @@ public class GedcomParserTest extends TestCase {
     }
 
     /**
-     * Test loading a minimal GEDCOM 5.5 file that only has a submitter. This test uses a file which indents lines by
-     * their tag level, even though the spec says not to. However, the spec also says to ignore leading spaces on lines,
-     * so we're doing that. See issue 57.
+     * Test loading a minimal GEDCOM 5.5 file that only has a submitter. This test uses a file which indents lines by their tag
+     * level, even though the spec says not to. However, the spec also says to ignore leading spaces on lines, so we're doing that.
+     * See issue 57.
      * 
      * @throws IOException
      * @throws GedcomParserException
@@ -223,21 +224,10 @@ public class GedcomParserTest extends TestCase {
      */
     public void testLoadStream() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        InputStream stream = null;
-        BufferedInputStream bis = null;
-        try {
-            stream = new FileInputStream("sample/TGC551LF.ged");
-            bis = new BufferedInputStream(stream);
+        try (InputStream stream = new FileInputStream("sample/TGC551LF.ged");
+                BufferedInputStream bis = new BufferedInputStream(stream)) {
             gp.load(bis);
             checkTGC551LF(gp);
-
-        } finally {
-            if (bis != null) {
-                bis.close();
-            }
-            if (stream != null) {
-                stream.close();
-            }
         }
     }
 
@@ -270,8 +260,8 @@ public class GedcomParserTest extends TestCase {
     }
 
     /**
-     * The same sample file is used several times, this helper method ensures consistent assertions for all tests using
-     * the same file
+     * The same sample file is used several times, this helper method ensures consistent assertions for all tests using the same
+     * file
      * 
      * @param gp
      *            the {@link GedcomParser}
@@ -293,8 +283,8 @@ public class GedcomParserTest extends TestCase {
     }
 
     /**
-     * The same sample file is used several times, this helper method ensures consistent assertions for all tests using
-     * the same file
+     * The same sample file is used several times, this helper method ensures consistent assertions for all tests using the same
+     * file
      * 
      * @param gp
      *            the {@link GedcomParser}
@@ -361,8 +351,9 @@ public class GedcomParserTest extends TestCase {
         // Name 0 - Note 0
         note = name.getNotes().get(0);
         assertEquals(5, note.getLines().size());
-        assertEquals("These are notes about the first NAME structure in this record. These notes are embedded in the INDIVIDUAL record itself.", note.getLines()
-                .get(0));
+        assertEquals(
+                "These are notes about the first NAME structure in this record. These notes are embedded in the INDIVIDUAL record itself.",
+                note.getLines().get(0));
 
         // Name 1
         name = indi.getNames().get(1);

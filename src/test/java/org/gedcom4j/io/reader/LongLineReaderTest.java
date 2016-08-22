@@ -41,9 +41,8 @@ import org.gedcom4j.parser.GedcomParser;
 import org.junit.Test;
 
 /**
- * Test the {@link AnselReader} to ensure it properly splits long input lines on the fly with CONC tags. Only the
- * AnselReader needs to do this, since it's the only reader that works with a fixed character array instead of a
- * StringBuilder.
+ * Test the {@link AnselReader} to ensure it properly splits long input lines on the fly with CONC tags. Only the AnselReader needs
+ * to do this, since it's the only reader that works with a fixed character array instead of a StringBuilder.
  * 
  * @author frizbog
  */
@@ -59,9 +58,7 @@ public class LongLineReaderTest {
      */
     @Test
     public void testAnsel() throws IOException, GedcomParserException {
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream("sample/superlongline-ansel.ged");
+        try (FileInputStream fis = new FileInputStream("sample/superlongline-ansel.ged");) {
             GedcomParser gp = new GedcomParser();
             AnselReader ar = new AnselReader(gp, fis);
 
@@ -73,10 +70,12 @@ public class LongLineReaderTest {
             }
             assertNotNull(strings);
             assertEquals("Should say there were 12 lines even though the file only has 11", 12, strings.size());
-            assertEquals("0 @N1@ NOTE This is an ridiculously long line that exceeds the GEDCOM maximum line length of 255 characters "
-                    + "so that we can test whether the readers can properly introduce CONC tags on the fly and keep going as if "
-                    + "everything was ok when the file has l", strings.get(9));
-            assertEquals("1 CONC ines that are way too long like this one is, even though there are lots of programs that write non-standard GEDCOM files.",
+            assertEquals(
+                    "0 @N1@ NOTE This is an ridiculously long line that exceeds the GEDCOM maximum line length of 255 characters "
+                            + "so that we can test whether the readers can properly introduce CONC tags on the fly and keep going as if "
+                            + "everything was ok when the file has l", strings.get(9));
+            assertEquals(
+                    "1 CONC ines that are way too long like this one is, even though there are lots of programs that write non-standard GEDCOM files.",
                     strings.get(10));
 
             gp = new GedcomParser();
@@ -88,10 +87,6 @@ public class LongLineReaderTest {
                     + "so that we can test whether the readers can properly introduce CONC tags on the fly and keep "
                     + "going as if everything was ok when the file has lines that are way too long like this one is, "
                     + "even though there are lots of programs that write non-standard GEDCOM files.", n.getLines().get(0));
-        } finally {
-            if (fis != null) {
-                fis.close();
-            }
         }
     }
 

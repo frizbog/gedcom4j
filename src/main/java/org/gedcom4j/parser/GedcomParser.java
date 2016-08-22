@@ -314,16 +314,9 @@ public class GedcomParser extends AbstractParser<Gedcom> {
      *             if the file cannot be parsed
      */
     public void load(String filename) throws IOException, GedcomParserException {
-        FileInputStream fis = new FileInputStream(filename);
-        BufferedInputStream bis = null;
-        try {
-            bis = new BufferedInputStream(fis);
+
+        try (FileInputStream fis = new FileInputStream(filename); BufferedInputStream bis = new BufferedInputStream(fis);) {
             load(bis);
-        } finally {
-            if (bis != null) {
-                bis.close();
-            }
-            fis.close();
         }
     }
 
