@@ -42,6 +42,8 @@ import org.gedcom4j.query.Finder;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Tests for the {@link AncestryCalculator} class
  * 
@@ -319,6 +321,7 @@ public class AncestryCalculatorTest {
      *            the set of {@link Individual}s to dump out
      */
     @SuppressWarnings("PMD.SystemPrintln")
+    @SuppressFBWarnings(value = "UC_USELESS_VOID_METHOD", justification = "In case it's needed")
     private void dumpIndividuals(Set<Individual> people) {
         if (!VERBOSE) {
             return;

@@ -251,7 +251,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
         while (i < fileObservers.size()) {
             WeakReference<FileProgressListener> observerRef = fileObservers.get(i);
             if (observerRef == null) {
-                fileObservers.remove(observerRef);
+                fileObservers.remove(i);
             } else {
                 FileProgressListener l = observerRef.get();
                 if (l != null) {
@@ -687,7 +687,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
         while (i < constructObservers.size()) {
             WeakReference<ConstructProgressListener> observerRef = constructObservers.get(i);
             if (observerRef == null) {
-                constructObservers.remove(observerRef);
+                constructObservers.remove(i);
             } else {
                 ConstructProgressListener l = observerRef.get();
                 if (l != null) {

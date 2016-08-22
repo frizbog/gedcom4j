@@ -126,14 +126,14 @@ class HebrewCalendarParser {
         int chalakim = 793 * monthsSinceFirstMolad;
         chalakim += 204;
         // carry the excess Chalakim over to the hours
-        int hours = (int) Math.floor(chalakim / 1080);
+        int hours = (int) Math.floor(chalakim / 1080.0);
         chalakim = chalakim % 1080;
 
         hours += monthsSinceFirstMolad * 12;
         hours += 5;
 
         // carry the excess hours over to the days
-        int days = (int) Math.floor(hours / 24);
+        int days = (int) Math.floor(hours / 24.0);
         hours = hours % 24;
 
         days += 29 * monthsSinceFirstMolad;
@@ -234,7 +234,7 @@ class HebrewCalendarParser {
         int y = hebrewYear - 1;
 
         // Get how many 19 year cycles there has been and multiply it by 235 (which is the number of months in a 19-year cycle)
-        int result = (int) (Math.floor(y / 19) * 235);
+        int result = (int) (Math.floor(y / 19.0) * 235.0);
 
         // Get the remaining years after the last complete 19 year cycle.
         y = yearInLeapCycle(y);

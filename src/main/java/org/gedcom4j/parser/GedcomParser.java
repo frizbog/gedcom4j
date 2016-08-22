@@ -343,7 +343,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
         while (i < fileObservers.size()) {
             WeakReference<FileProgressListener> observerRef = fileObservers.get(i);
             if (observerRef == null) {
-                fileObservers.remove(observerRef);
+                fileObservers.remove(i);
             } else {
                 FileProgressListener l = observerRef.get();
                 if (l != null) {
@@ -551,7 +551,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
         while (i < parseObservers.size()) {
             WeakReference<ParseProgressListener> observerRef = parseObservers.get(i);
             if (observerRef == null) {
-                parseObservers.remove(observerRef);
+                parseObservers.remove(i);
             } else {
                 ParseProgressListener l = observerRef.get();
                 if (l != null) {

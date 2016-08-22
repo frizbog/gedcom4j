@@ -44,7 +44,7 @@ class StringCanonicalizer {
      * 
      * @author frizbog
      */
-    class CanonicalizedString {
+    static class CanonicalizedString {
         /**
          * The number of times this entry is used
          */

@@ -242,7 +242,7 @@ public class DateParser implements Serializable {
         }
 
         String[] datePieces = frds.split(" ");
-        if (datePieces == null) {
+        if (datePieces == null || datePieces.length < 1) {
             return null;
         }
 
@@ -276,7 +276,7 @@ public class DateParser implements Serializable {
         }
 
         String[] datePieces = hds.split(" ");
-        if (datePieces == null) {
+        if (datePieces == null || datePieces.length < 1) {
             return null;
         }
 
