@@ -61,7 +61,8 @@ public class GedcomTest {
      * Test method for {@link org.gedcom4j.model.Gedcom#equals(java.lang.Object)}.
      */
     @Test
-    public void testEqualsObject() {
+    @SuppressWarnings("PMD.EqualsNull")
+	public void testEqualsObject() {
         Gedcom g1 = new Gedcom();
         assertEquals(g1, g1);
         Gedcom g2 = new Gedcom();

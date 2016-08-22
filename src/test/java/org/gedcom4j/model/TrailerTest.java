@@ -41,7 +41,8 @@ public class TrailerTest {
      * Test method for {@link org.gedcom4j.model.Trailer#equals(java.lang.Object)}.
      */
     @Test
-    public void testEqualsObject() {
+    @SuppressWarnings("PMD.EqualsNull")
+	public void testEqualsObject() {
         Trailer t1 = new Trailer();
         assertEquals(t1, t1);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016 Matthew R. Harrah
+ * Copyright (c) 2016 Mark A. Sikes
  *
  * MIT License
  *
@@ -26,15 +26,12 @@
  */
 package org.gedcom4j.model;
 
-/**
- * An abstract base class for other source citations (both with and without source)
- * 
- * @author frizbog1
- */
-public abstract class AbstractCitation extends AbstractNotesElement {
+import java.util.List;
 
-    /**
-     * Serial Version UID
-     */
-    private static final long serialVersionUID = 5842672179681957413L;
+/**
+ * @author Mark A Sikes
+ */
+public interface HasNotes extends ValidatedElement {
+	List<Note> getNotes();
+	List<Note> getNotes(boolean initializeIfNeeded);
 }

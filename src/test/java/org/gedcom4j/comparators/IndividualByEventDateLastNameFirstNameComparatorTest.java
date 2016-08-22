@@ -39,6 +39,7 @@ import org.junit.Test;
  * @author frizbog1
  * 
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public class IndividualByEventDateLastNameFirstNameComparatorTest {
 
     /**
@@ -617,7 +618,7 @@ public class IndividualByEventDateLastNameFirstNameComparatorTest {
      * @param string
      *            the basic name to add to the individual
      */
-    private void addBasicName(Individual i, String string) {
+    private static void addBasicName(Individual i, String string) {
         PersonalName n = new PersonalName();
         n.setBasic(string);
         i.getNames(true).add(n);
@@ -629,7 +630,7 @@ public class IndividualByEventDateLastNameFirstNameComparatorTest {
      * @param i
      * @param string
      */
-    private void addBirthDate(Individual i, String string) {
+    private static void addBirthDate(Individual i, String string) {
         IndividualEvent bd = new IndividualEvent();
         bd.setType(IndividualEventType.BIRTH);
         bd.setDate(new StringWithCustomTags(string));

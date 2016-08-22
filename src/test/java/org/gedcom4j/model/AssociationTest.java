@@ -41,7 +41,8 @@ public class AssociationTest {
      * Test method for {@link org.gedcom4j.model.Association#equals(java.lang.Object)} .
      */
     @Test
-    public void testEqualsObject() {
+    @SuppressWarnings("PMD.EqualsNull")
+	public void testEqualsObject() {
         Association a1 = new Association();
         assertEquals(a1, a1);
 

@@ -44,6 +44,7 @@ import org.junit.Test;
  * @author frizbog1
  * 
  */
+@SuppressWarnings({ "PMD.TooManyMethods", "PMD.SystemPrintln" })
 public class IndividualTest {
 
     /**
@@ -134,7 +135,7 @@ public class IndividualTest {
      *             if the sample file can't be read
      */
     @Test
-    public void testGetDescendants() throws IOException, GedcomParserException {
+	public void testGetDescendants() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/RelationshipTest.ged");
         assertTrue(gp.getErrors().isEmpty());
@@ -282,10 +283,10 @@ public class IndividualTest {
      * @param t
      *            the type of attribute
      */
-    private void addAttributeOfType(Individual i, IndividualAttributeType t) {
+    private static void addAttributeOfType(Individual i, IndividualAttributeType t) {
         IndividualAttribute e = new IndividualAttribute();
         e.setType(t);
-        e.description = new StringWithCustomTags("Random text for uniqueness " + Math.random());
+        e.setDescription(new StringWithCustomTags("Random text for uniqueness " + Math.random()));
         i.getAttributes(true).add(e);
     }
 
@@ -297,7 +298,7 @@ public class IndividualTest {
      * @param string
      *            the name
      */
-    private void addBasicName(Individual i, String string) {
+    private static void addBasicName(Individual i, String string) {
         PersonalName pn = new PersonalName();
         pn.setBasic(string);
         i.getNames(true).add(pn);
@@ -312,10 +313,10 @@ public class IndividualTest {
      * @param t
      *            the type of event
      */
-    private void addEventOfType(Individual i, IndividualEventType t) {
+    private static void addEventOfType(Individual i, IndividualEventType t) {
         IndividualEvent e = new IndividualEvent();
         e.setType(t);
-        e.description = new StringWithCustomTags("Random text for uniqueness " + Math.random());
+        e.setDescription(new StringWithCustomTags("Random text for uniqueness " + Math.random()));
         i.getEvents(true).add(e);
     }
 
@@ -330,7 +331,7 @@ public class IndividualTest {
      *            the given name of the person we want
      * @return the person
      */
-    private Individual getPerson(Gedcom gedcom, String surname, String givenName) {
+    private static Individual getPerson(Gedcom gedcom, String surname, String givenName) {
         Individual result = new Finder(gedcom).findByName(surname, givenName).get(0);
         assertNotNull("Couldn't find " + givenName + " " + surname + " by name in the gedcom", result);
         return result;

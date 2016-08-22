@@ -50,7 +50,7 @@ public class Issue88Test {
         i.getNames(true).add(name);
         IndividualEvent birth = new IndividualEvent();
         birth.setType(IndividualEventType.BIRTH);
-        birth.date = new StringWithCustomTags("1/1/1950");
+        birth.setDate(new StringWithCustomTags("1/1/1950"));
         assertNull(i.getEvents());
         i.getEvents(true).add(birth);
 
@@ -71,12 +71,12 @@ public class Issue88Test {
         i.getNames(true).add(name);
         IndividualEvent birth = new IndividualEvent();
         birth.setType(IndividualEventType.BIRTH);
-        birth.date = new StringWithCustomTags("1/1/1950");
+        birth.setDate(new StringWithCustomTags("1/1/1950"));
         assertNull(i.getEvents());
         i.getEvents(true).add(birth);
         IndividualEvent death = new IndividualEvent();
         death.setType(IndividualEventType.DEATH);
-        death.date = new StringWithCustomTags("12/31/1999");
+        death.setDate(new StringWithCustomTags("12/31/1999"));
         i.getEvents(true).add(death);
 
         assertEquals("Bob /ROBERTS/, b.1/1/1950, d.12/31/1999", i.toString());
@@ -96,7 +96,7 @@ public class Issue88Test {
         i.getNames(true).add(name);
         IndividualEvent death = new IndividualEvent();
         death.setType(IndividualEventType.DEATH);
-        death.date = new StringWithCustomTags("12/31/1999");
+        death.setDate(new StringWithCustomTags("12/31/1999"));
         assertNull(i.getEvents());
         i.getEvents(true).add(death);
 

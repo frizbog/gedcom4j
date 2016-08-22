@@ -36,7 +36,7 @@ import org.gedcom4j.Options;
  * 
  * @author frizbog
  */
-public class PersonalNameVariation extends AbstractNameVariation {
+public class PersonalNameVariation extends AbstractNameVariation implements HasNotes, HasCitations {
     /**
      * Serial Version UID
      */
@@ -241,7 +241,7 @@ public class PersonalNameVariation extends AbstractNameVariation {
         return notes;
     }
 
-    /**
+	/**
      * Gets the prefix.
      *
      * @return the prefix
@@ -365,7 +365,7 @@ public class PersonalNameVariation extends AbstractNameVariation {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(64);
         builder.append("PersonalNameVariation [");
         if (citations != null) {
             builder.append("citations=");
@@ -417,9 +417,9 @@ public class PersonalNameVariation extends AbstractNameVariation {
             builder.append(variationType);
             builder.append(", ");
         }
-        if (customTags != null) {
+        if (getCustomTags() != null) {
             builder.append("customTags=");
-            builder.append(customTags);
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();

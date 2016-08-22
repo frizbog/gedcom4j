@@ -357,7 +357,7 @@ public class Gedcom extends AbstractElement {
     @Override
     public String toString() {
         final int maxLen = 3;
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(128);
         builder.append("Gedcom [");
         if (families != null) {
             builder.append("families=");
@@ -421,7 +421,7 @@ public class Gedcom extends AbstractElement {
      *            the max number of items to show from the collection
      * @return a String representation of the first <tt>maxLen</tt> items in the collection
      */
-    private String toStringLimitCollection(Collection<?> collection, int maxLen) {
+    protected static String toStringLimitCollection(Collection<?> collection, int maxLen) {
         StringBuilder builder = new StringBuilder();
         builder.append("[");
         int i = 0;

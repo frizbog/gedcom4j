@@ -41,7 +41,8 @@ public class SourceSystemTest {
      * Test method for {@link org.gedcom4j.model.SourceSystem#equals(java.lang.Object)} .
      */
     @Test
-    public void testEqualsObject() {
+    @SuppressWarnings("PMD.EqualsNull")
+	public void testEqualsObject() {
         SourceSystem ss1 = new SourceSystem();
         assertEquals(ss1, ss1);
         SourceSystem ss2 = new SourceSystem();

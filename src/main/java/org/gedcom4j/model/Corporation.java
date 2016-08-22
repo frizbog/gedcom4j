@@ -288,7 +288,7 @@ public class Corporation extends AbstractElement {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(64);
         builder.append("Corporation [");
         if (address != null) {
             builder.append("address=");

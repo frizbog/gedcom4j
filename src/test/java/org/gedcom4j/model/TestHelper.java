@@ -56,6 +56,5 @@ public final class TestHelper {
      * Private constructor to prevent instantiation and subclassing
      */
     private TestHelper() {
-        ; // nothing to do
     }
 }

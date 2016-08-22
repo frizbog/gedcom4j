@@ -41,7 +41,8 @@ public class CharacterSetTest {
      * Test method for {@link org.gedcom4j.model.CharacterSet#equals(java.lang.Object)} .
      */
     @Test
-    public void testEqualsObject() {
+    @SuppressWarnings("PMD.EqualsNull")
+	public void testEqualsObject() {
         CharacterSet cs1 = new CharacterSet();
         assertEquals(cs1, cs1);
 

@@ -37,7 +37,7 @@ import org.gedcom4j.Options;
  * @author frizbog1
  * 
  */
-public class Repository extends AbstractElement {
+public class Repository extends AbstractNotesElement implements HasXref {
     /**
      * Serial Version UID
      */
@@ -67,11 +67,6 @@ public class Repository extends AbstractElement {
      * The name of this repository
      */
     private StringWithCustomTags name;
-
-    /**
-     * Notes about this object
-     */
-    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     /**
      * The phone numbers for this submitter
@@ -150,13 +145,6 @@ public class Repository extends AbstractElement {
                 return false;
             }
         } else if (!name.equals(other.name)) {
-            return false;
-        }
-        if (notes == null) {
-            if (other.notes != null) {
-                return false;
-            }
-        } else if (!notes.equals(other.notes)) {
             return false;
         }
         if (phoneNumbers == null) {
@@ -265,30 +253,6 @@ public class Repository extends AbstractElement {
     }
 
     /**
-     * Gets the notes.
-     *
-     * @return the notes
-     */
-    public List<Note> getNotes() {
-        return notes;
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection if needed?
-     * 
-     * @return the notes
-     */
-    public List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<Note>(0);
-        }
-        return notes;
-    }
-
-    /**
      * Gets the phone numbers.
      *
      * @return the phone numbers
@@ -385,7 +349,6 @@ public class Repository extends AbstractElement {
         result = prime * result + (wwwUrls == null ? 0 : wwwUrls.hashCode());
         result = prime * result + (emails == null ? 0 : emails.hashCode());
         result = prime * result + (name == null ? 0 : name.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
         result = prime * result + (phoneNumbers == null ? 0 : phoneNumbers.hashCode());
         result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
         result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
@@ -448,7 +411,7 @@ public class Repository extends AbstractElement {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(64);
         builder.append("Repository [");
         if (address != null) {
             builder.append("address=");
@@ -475,9 +438,9 @@ public class Repository extends AbstractElement {
             builder.append(name);
             builder.append(", ");
         }
-        if (notes != null) {
+        if (getNotes() != null) {
             builder.append("notes=");
-            builder.append(notes);
+            builder.append(getNotes());
             builder.append(", ");
         }
         if (phoneNumbers != null) {
@@ -505,9 +468,9 @@ public class Repository extends AbstractElement {
             builder.append(xref);
             builder.append(", ");
         }
-        if (customTags != null) {
+        if (getCustomTags() != null) {
             builder.append("customTags=");
-            builder.append(customTags);
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();

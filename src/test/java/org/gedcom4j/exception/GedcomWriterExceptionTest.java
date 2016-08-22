@@ -31,8 +31,8 @@ import org.junit.Test;
 
 /**
  * @author frizbog1
- * 
  */
+@SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
 public class GedcomWriterExceptionTest {
 
     /**

@@ -232,7 +232,7 @@ public class SourceSystem extends AbstractElement {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(64);
         builder.append("SourceSystem [");
         if (corporation != null) {
             builder.append("corporation=");
@@ -259,9 +259,9 @@ public class SourceSystem extends AbstractElement {
             builder.append(versionNum);
             builder.append(", ");
         }
-        if (customTags != null) {
+        if (getCustomTags() != null) {
             builder.append("customTags=");
-            builder.append(customTags);
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();

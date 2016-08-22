@@ -28,7 +28,6 @@ package org.gedcom4j.io.encoding;
 
 import static org.junit.Assert.assertEquals;
 
-import org.gedcom4j.io.encoding.AnselMapping;
 import org.junit.Test;
 
 /**

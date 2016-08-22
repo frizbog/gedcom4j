@@ -313,7 +313,7 @@ public class CitationWithSource extends AbstractCitation {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(64);
         builder.append("CitationWithSource [");
         if (certainty != null) {
             builder.append("certainty=");
@@ -350,14 +350,14 @@ public class CitationWithSource extends AbstractCitation {
             builder.append(whereInSource);
             builder.append(", ");
         }
-        if (notes != null) {
+        if (getNotes() != null) {
             builder.append("notes=");
-            builder.append(notes);
+            builder.append(getNotes());
             builder.append(", ");
         }
-        if (customTags != null) {
+        if (getCustomTags() != null) {
             builder.append("customTags=");
-            builder.append(customTags);
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();

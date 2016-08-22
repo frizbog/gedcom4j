@@ -41,7 +41,8 @@ public class CorporationTest {
      * Test method for {@link org.gedcom4j.model.Corporation#equals(java.lang.Object)} .
      */
     @Test
-    public void testEqualsObject() {
+    @SuppressWarnings("PMD.EqualsNull")
+	public void testEqualsObject() {
         Corporation c1 = new Corporation();
         assertEquals(c1, c1);
         Corporation c2 = new Corporation();

@@ -37,7 +37,7 @@ import org.gedcom4j.Options;
  * @author frizbog1
  * 
  */
-public abstract class AbstractLdsOrdinance extends AbstractElement {
+public abstract class AbstractLdsOrdinance extends AbstractNotesElement implements HasCitations {
 
     /**
      * Serial Version UID
@@ -53,11 +53,6 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
      * The date
      */
     protected StringWithCustomTags date;
-
-    /**
-     * The notes for this ordinance
-     */
-    protected List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     /**
      * The place
@@ -98,13 +93,6 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
                 return false;
             }
         } else if (!date.equals(other.date)) {
-            return false;
-        }
-        if (notes == null) {
-            if (other.notes != null) {
-                return false;
-            }
-        } else if (!notes.equals(other.notes)) {
             return false;
         }
         if (place == null) {
@@ -164,29 +152,6 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
     }
 
     /**
-     * Gets the notes.
-     *
-     * @return the notes
-     */
-    public List<Note> getNotes() {
-        return notes;
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @param initializeIfNeeded
-     *            true if this collection should be created on-the-fly if it is currently null
-     * @return the notes
-     */
-    public List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<Note>(0);
-        }
-        return notes;
-    }
-
-    /**
      * Gets the place.
      *
      * @return the place
@@ -219,7 +184,6 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
         int result = super.hashCode();
         result = prime * result + (getCitations() == null ? 0 : getCitations().hashCode());
         result = prime * result + (date == null ? 0 : date.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
         result = prime * result + (place == null ? 0 : place.hashCode());
         result = prime * result + (status == null ? 0 : status.hashCode());
         result = prime * result + (temple == null ? 0 : temple.hashCode());
@@ -271,7 +235,7 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(64);
         builder.append("AbstractLdsOrdinance [");
         if (citations != null) {
             builder.append("citations=");
@@ -283,9 +247,9 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
             builder.append(date);
             builder.append(", ");
         }
-        if (notes != null) {
+        if (getNotes() != null) {
             builder.append("notes=");
-            builder.append(notes);
+            builder.append(getNotes());
             builder.append(", ");
         }
         if (place != null) {
@@ -303,9 +267,9 @@ public abstract class AbstractLdsOrdinance extends AbstractElement {
             builder.append(temple);
             builder.append(", ");
         }
-        if (customTags != null) {
+        if (getCustomTags() != null) {
             builder.append("customTags=");
-            builder.append(customTags);
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();

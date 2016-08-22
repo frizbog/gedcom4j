@@ -150,7 +150,7 @@ public class FamilySpouse extends AbstractElement {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(24);
         builder.append("FamilySpouse [");
         if (family != null) {
             builder.append("family=");
@@ -162,9 +162,9 @@ public class FamilySpouse extends AbstractElement {
             builder.append(notes);
             builder.append(", ");
         }
-        if (customTags != null) {
+        if (getCustomTags() != null) {
             builder.append("customTags=");
-            builder.append(customTags);
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();

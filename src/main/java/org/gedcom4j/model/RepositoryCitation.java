@@ -36,7 +36,7 @@ import org.gedcom4j.Options;
  * 
  * @author frizbog1
  */
-public class RepositoryCitation extends AbstractElement {
+public class RepositoryCitation extends AbstractNotesElement {
 
     /**
      * Serial Version UID
@@ -47,11 +47,6 @@ public class RepositoryCitation extends AbstractElement {
      * Call numbers
      */
     private List<SourceCallNumber> callNumbers = getCallNumbers(Options.isCollectionInitializationEnabled());
-
-    /**
-     * Notes about this object
-     */
-    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     /**
      * The xref of the repository. Kept as a string copy of the xref deliberately to avoid circular references in the
@@ -76,13 +71,6 @@ public class RepositoryCitation extends AbstractElement {
                 return false;
             }
         } else if (!callNumbers.equals(other.callNumbers)) {
-            return false;
-        }
-        if (notes == null) {
-            if (other.notes != null) {
-                return false;
-            }
-        } else if (!notes.equals(other.notes)) {
             return false;
         }
         if (repositoryXref == null) {
@@ -119,30 +107,6 @@ public class RepositoryCitation extends AbstractElement {
     }
 
     /**
-     * Gets the notes.
-     *
-     * @return the notes
-     */
-    public List<Note> getNotes() {
-        return notes;
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection if needed?
-     * 
-     * @return the notes
-     */
-    public List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<Note>(0);
-        }
-        return notes;
-    }
-
-    /**
      * Gets the repository xref.
      *
      * @return the repository xref
@@ -156,7 +120,6 @@ public class RepositoryCitation extends AbstractElement {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + (callNumbers == null ? 0 : callNumbers.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
         result = prime * result + (repositoryXref == null ? 0 : repositoryXref.hashCode());
         return result;
     }
@@ -176,16 +139,16 @@ public class RepositoryCitation extends AbstractElement {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(64);
         builder.append("RepositoryCitation [");
         if (callNumbers != null) {
             builder.append("callNumbers=");
             builder.append(callNumbers);
             builder.append(", ");
         }
-        if (notes != null) {
+        if (getNotes() != null) {
             builder.append("notes=");
-            builder.append(notes);
+            builder.append(getNotes());
             builder.append(", ");
         }
         if (repositoryXref != null) {
@@ -193,9 +156,9 @@ public class RepositoryCitation extends AbstractElement {
             builder.append(repositoryXref);
             builder.append(", ");
         }
-        if (customTags != null) {
+        if (getCustomTags() != null) {
             builder.append("customTags=");
-            builder.append(customTags);
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();

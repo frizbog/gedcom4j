@@ -26,17 +26,12 @@
  */
 package org.gedcom4j.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.gedcom4j.Options;
-
 /**
  * A date/time that a change was made.
  * 
  * @author frizbog1
  */
-public class ChangeDate extends AbstractElement {
+public class ChangeDate extends AbstractNotesElement {
     /**
      * Serial Version UID
      */
@@ -46,11 +41,6 @@ public class ChangeDate extends AbstractElement {
      * The date (as a string)
      */
     private StringWithCustomTags date;
-
-    /**
-     * Notes about this object
-     */
-    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     /**
      * The time (as a string)
@@ -76,13 +66,6 @@ public class ChangeDate extends AbstractElement {
         } else if (!date.equals(other.date)) {
             return false;
         }
-        if (notes == null) {
-            if (other.notes != null) {
-                return false;
-            }
-        } else if (!notes.equals(other.notes)) {
-            return false;
-        }
         if (time == null) {
             if (other.time != null) {
                 return false;
@@ -103,30 +86,6 @@ public class ChangeDate extends AbstractElement {
     }
 
     /**
-     * Gets the notes.
-     *
-     * @return the notes
-     */
-    public List<Note> getNotes() {
-        return notes;
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection if needed?
-     * 
-     * @return the notes
-     */
-    public List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<Note>(0);
-        }
-        return notes;
-    }
-
-    /**
      * Gets the time.
      *
      * @return the time
@@ -140,7 +99,6 @@ public class ChangeDate extends AbstractElement {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + (date == null ? 0 : date.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
         result = prime * result + (time == null ? 0 : time.hashCode());
         return result;
     }
@@ -170,16 +128,16 @@ public class ChangeDate extends AbstractElement {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(32);
         builder.append("ChangeDate [");
         if (date != null) {
             builder.append("date=");
             builder.append(date);
             builder.append(", ");
         }
-        if (notes != null) {
+        if (getNotes() != null) {
             builder.append("notes=");
-            builder.append(notes);
+            builder.append(getNotes());
             builder.append(", ");
         }
         if (time != null) {
@@ -187,9 +145,9 @@ public class ChangeDate extends AbstractElement {
             builder.append(time);
             builder.append(", ");
         }
-        if (customTags != null) {
+        if (getCustomTags() != null) {
             builder.append("customTags=");
-            builder.append(customTags);
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();

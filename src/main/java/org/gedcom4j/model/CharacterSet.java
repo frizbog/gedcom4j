@@ -130,7 +130,7 @@ public class CharacterSet extends AbstractElement {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(32);
         builder.append("CharacterSet [");
         if (characterSetName != null) {
             builder.append("characterSetName=");
@@ -142,9 +142,9 @@ public class CharacterSet extends AbstractElement {
             builder.append(versionNum);
             builder.append(", ");
         }
-        if (customTags != null) {
+        if (getCustomTags() != null) {
             builder.append("customTags=");
-            builder.append(customTags);
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();

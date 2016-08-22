@@ -43,6 +43,7 @@ import org.junit.Test;
  * @author frizbog1
  * 
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public class GedcomFileReaderTest {
 
     /**
@@ -98,7 +99,6 @@ public class GedcomFileReaderTest {
         try {
             s = new BufferedInputStream(new ByteArrayInputStream(anselData));
             GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), s);
-            ;
             List<String> lines = getLines(gr);
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -163,7 +163,6 @@ public class GedcomFileReaderTest {
         try {
             s = new BufferedInputStream(new ByteArrayInputStream(anselData));
             GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), s);
-            ;
             List<String> lines = getLines(gr);
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -216,7 +215,6 @@ public class GedcomFileReaderTest {
         try {
             s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
             GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), s);
-            ;
             List<String> lines = getLines(gr);
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -249,7 +247,6 @@ public class GedcomFileReaderTest {
         try {
             s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
             GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), s);
-            ;
             List<String> lines = getLines(gr);
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -282,7 +279,6 @@ public class GedcomFileReaderTest {
         try {
             s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
             GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), s);
-            ;
             List<String> lines = getLines(gr);
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -315,7 +311,6 @@ public class GedcomFileReaderTest {
         try {
             s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
             GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), s);
-            ;
             List<String> lines = getLines(gr);
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -348,7 +343,6 @@ public class GedcomFileReaderTest {
         try {
             s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
             GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), s);
-            ;
             List<String> lines = getLines(gr);
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -381,7 +375,6 @@ public class GedcomFileReaderTest {
         try {
             s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));
             GedcomFileReader gr = new GedcomFileReader(new GedcomParser(), s);
-            ;
             List<String> lines = getLines(gr);
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -458,7 +451,7 @@ public class GedcomFileReaderTest {
      * @throws GedcomParserException
      *             if the file cannot be parsed or the load was cancelled
      */
-    private List<String> getLines(GedcomFileReader gr) throws IOException, GedcomParserException {
+    private static List<String> getLines(GedcomFileReader gr) throws IOException, GedcomParserException {
         ArrayList<String> result = new ArrayList<String>();
         String s = gr.nextLine();
         while (s != null) {
@@ -480,7 +473,7 @@ public class GedcomFileReaderTest {
      * @throws GedcomParserException
      *             if the file load was cancelled or had malformed data
      */
-    private void testUtf8File(String fileName) throws IOException, FileNotFoundException, GedcomParserException {
+    private static void testUtf8File(String fileName) throws IOException, FileNotFoundException, GedcomParserException {
         FileInputStream fileInputStream = null;
         BufferedInputStream bufferedInputStream = null;
         try {

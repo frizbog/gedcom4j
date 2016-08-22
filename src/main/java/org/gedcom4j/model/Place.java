@@ -36,7 +36,7 @@ import org.gedcom4j.Options;
  * 
  * @author frizbog1
  */
-public class Place extends AbstractElement {
+public class Place extends AbstractNotesElement implements HasCitations {
     /**
      * Serial Version UID
      */
@@ -56,11 +56,6 @@ public class Place extends AbstractElement {
      * Longitude. New for GEDCOM 5.5.1.
      */
     private StringWithCustomTags longitude;
-
-    /**
-     * Notes about this object
-     */
-    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     /**
      * Phonetic variations on the place name. New for GEDCOM 5.5.1.
@@ -113,13 +108,6 @@ public class Place extends AbstractElement {
                 return false;
             }
         } else if (!longitude.equals(other.longitude)) {
-            return false;
-        }
-        if (notes == null) {
-            if (other.notes != null) {
-                return false;
-            }
-        } else if (!notes.equals(other.notes)) {
             return false;
         }
         if (phonetic == null) {
@@ -196,30 +184,6 @@ public class Place extends AbstractElement {
     }
 
     /**
-     * Gets the notes.
-     *
-     * @return the notes
-     */
-    public List<Note> getNotes() {
-        return notes;
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection if needed?
-     * 
-     * @return the notes
-     */
-    public List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<Note>(0);
-        }
-        return notes;
-    }
-
-    /**
      * Gets the phonetic variation(s)
      *
      * @return the phonetic variation(s)
@@ -290,7 +254,6 @@ public class Place extends AbstractElement {
         result = prime * result + (citations == null ? 0 : citations.hashCode());
         result = prime * result + (latitude == null ? 0 : latitude.hashCode());
         result = prime * result + (longitude == null ? 0 : longitude.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
         result = prime * result + (phonetic == null ? 0 : phonetic.hashCode());
         result = prime * result + (placeFormat == null ? 0 : placeFormat.hashCode());
         result = prime * result + (placeName == null ? 0 : placeName.hashCode());
@@ -343,7 +306,7 @@ public class Place extends AbstractElement {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(64);
         builder.append("Place [");
         if (citations != null) {
             builder.append("citations=");
@@ -360,9 +323,9 @@ public class Place extends AbstractElement {
             builder.append(longitude);
             builder.append(", ");
         }
-        if (notes != null) {
+        if (getNotes() != null) {
             builder.append("notes=");
-            builder.append(notes);
+            builder.append(getNotes());
             builder.append(", ");
         }
         if (phonetic != null) {
@@ -385,9 +348,9 @@ public class Place extends AbstractElement {
             builder.append(romanized);
             builder.append(", ");
         }
-        if (customTags != null) {
+        if (getCustomTags() != null) {
             builder.append("customTags=");
-            builder.append(customTags);
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();

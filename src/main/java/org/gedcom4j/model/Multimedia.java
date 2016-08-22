@@ -51,7 +51,7 @@ import org.gedcom4j.Options;
  * @author frizbog1
  * 
  */
-public class Multimedia extends AbstractElement {
+public class Multimedia extends AbstractNotesElement implements HasCitations {
     /**
      * Serial Version UID
      */
@@ -94,11 +94,6 @@ public class Multimedia extends AbstractElement {
      * The file reference for this multimedia item
      */
     private List<FileReference> fileReferences = getFileReferences(Options.isCollectionInitializationEnabled());
-
-    /**
-     * Notes about this object
-     */
-    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     /**
      * The record ID number
@@ -167,13 +162,6 @@ public class Multimedia extends AbstractElement {
                 return false;
             }
         } else if (!fileReferences.equals(other.fileReferences)) {
-            return false;
-        }
-        if (notes == null) {
-            if (other.notes != null) {
-                return false;
-            }
-        } else if (!notes.equals(other.notes)) {
             return false;
         }
         if (recIdNumber == null) {
@@ -314,30 +302,6 @@ public class Multimedia extends AbstractElement {
     }
 
     /**
-     * Gets the notes.
-     *
-     * @return the notes
-     */
-    public List<Note> getNotes() {
-        return notes;
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection if needed?
-     * 
-     * @return the notes
-     */
-    public List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<Note>(0);
-        }
-        return notes;
-    }
-
-    /**
      * Gets the rec id number.
      *
      * @return the rec id number
@@ -388,7 +352,6 @@ public class Multimedia extends AbstractElement {
         result = prime * result + (citations == null ? 0 : citations.hashCode());
         result = prime * result + (continuedObject == null ? 0 : continuedObject.hashCode());
         result = prime * result + (fileReferences == null ? 0 : fileReferences.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
         result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
         result = prime * result + (embeddedTitle == null ? 0 : embeddedTitle.hashCode());
         result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
@@ -461,7 +424,7 @@ public class Multimedia extends AbstractElement {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(64);
         builder.append("Multimedia [");
         if (blob != null) {
             builder.append("blob=");
@@ -498,9 +461,9 @@ public class Multimedia extends AbstractElement {
             builder.append(fileReferences);
             builder.append(", ");
         }
-        if (notes != null) {
+        if (getNotes() != null) {
             builder.append("notes=");
-            builder.append(notes);
+            builder.append(getNotes());
             builder.append(", ");
         }
         if (recIdNumber != null) {
@@ -518,9 +481,9 @@ public class Multimedia extends AbstractElement {
             builder.append(xref);
             builder.append(", ");
         }
-        if (customTags != null) {
+        if (getCustomTags() != null) {
             builder.append("customTags=");
-            builder.append(customTags);
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();

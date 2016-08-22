@@ -58,7 +58,8 @@ public class Issue81ReaderTest {
      *             if the file can't be parsed
      */
     @Before
-    public void setUp() throws IOException, GedcomParserException {
+    @SuppressWarnings("PMD.SystemPrintln")
+	public void setUp() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/issue81.ged");
         for (String e : gp.getErrors()) {

@@ -41,7 +41,8 @@ public class RepositoryTest {
      * Test method for {@link org.gedcom4j.model.Repository#equals(java.lang.Object)} .
      */
     @Test
-    public void testEqualsObject() {
+    @SuppressWarnings("PMD.EqualsNull")
+	public void testEqualsObject() {
         Repository r1 = new Repository();
         assertEquals(r1, r1);
 

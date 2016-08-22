@@ -37,6 +37,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
+@SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
 public class UnsupportedVersionExceptionTest {
 
     /**

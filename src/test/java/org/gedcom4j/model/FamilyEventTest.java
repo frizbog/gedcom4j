@@ -36,6 +36,7 @@ import org.junit.Test;
  * @author frizbog1
  * 
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public class FamilyEventTest {
 
     /**
@@ -46,10 +47,10 @@ public class FamilyEventTest {
         FamilyEvent e1 = new FamilyEvent();
         FamilyEvent e2 = new FamilyEvent();
 
-        e1.address = new Address();
+        e1.setAddress(new Address());
         assertFalse(e1.equals(e2));
         assertFalse(e1.hashCode() == e2.hashCode());
-        e2.address = new Address();
+        e2.setAddress(new Address());
         assertTrue(e1.equals(e2));
         assertTrue(e1.hashCode() == e2.hashCode());
     }
@@ -62,10 +63,10 @@ public class FamilyEventTest {
         FamilyEvent e1 = new FamilyEvent();
         FamilyEvent e2 = new FamilyEvent();
 
-        e1.age = new StringWithCustomTags("Foo");
+        e1.setAge(new StringWithCustomTags("Foo"));
         assertFalse(e1.equals(e2));
         assertFalse(e1.hashCode() == e2.hashCode());
-        e2.age = new StringWithCustomTags("Foo");
+        e2.setAge(new StringWithCustomTags("Foo"));
         assertTrue(e1.equals(e2));
         assertTrue(e1.hashCode() == e2.hashCode());
     }
@@ -78,10 +79,10 @@ public class FamilyEventTest {
         FamilyEvent e1 = new FamilyEvent();
         FamilyEvent e2 = new FamilyEvent();
 
-        e1.cause = new StringWithCustomTags("Foo");
+        e1.setCause(new StringWithCustomTags("Foo"));
         assertFalse(e1.equals(e2));
         assertFalse(e1.hashCode() == e2.hashCode());
-        e2.cause = new StringWithCustomTags("Foo");
+        e2.setCause(new StringWithCustomTags("Foo"));
         assertTrue(e1.equals(e2));
         assertTrue(e1.hashCode() == e2.hashCode());
     }
@@ -110,10 +111,10 @@ public class FamilyEventTest {
         FamilyEvent e1 = new FamilyEvent();
         FamilyEvent e2 = new FamilyEvent();
 
-        e1.date = new StringWithCustomTags("Foo");
+        e1.setDate(new StringWithCustomTags("Foo"));
         assertFalse(e1.equals(e2));
         assertFalse(e1.hashCode() == e2.hashCode());
-        e2.date = new StringWithCustomTags("Foo");
+        e2.setDate(new StringWithCustomTags("Foo"));
         assertTrue(e1.equals(e2));
         assertTrue(e1.hashCode() == e2.hashCode());
     }
@@ -126,10 +127,10 @@ public class FamilyEventTest {
         FamilyEvent e1 = new FamilyEvent();
         FamilyEvent e2 = new FamilyEvent();
 
-        e1.description = new StringWithCustomTags("Foo");
+        e1.setDescription(new StringWithCustomTags("Foo"));
         assertFalse(e1.equals(e2));
         assertFalse(e1.hashCode() == e2.hashCode());
-        e2.description = new StringWithCustomTags("Foo");
+        e2.setDescription(new StringWithCustomTags("Foo"));
         assertTrue(e1.equals(e2));
         assertTrue(e1.hashCode() == e2.hashCode());
     }
@@ -206,10 +207,10 @@ public class FamilyEventTest {
         FamilyEvent e1 = new FamilyEvent();
         FamilyEvent e2 = new FamilyEvent();
 
-        e1.place = new Place();
+        e1.setPlace(new Place());
         assertFalse(e1.equals(e2));
         assertFalse(e1.hashCode() == e2.hashCode());
-        e2.place = new Place();
+        e2.setPlace(new Place());
         assertTrue(e1.equals(e2));
         assertTrue(e1.hashCode() == e2.hashCode());
     }
@@ -233,10 +234,10 @@ public class FamilyEventTest {
         FamilyEvent e1 = new FamilyEvent();
         FamilyEvent e2 = new FamilyEvent();
 
-        e1.respAgency = new StringWithCustomTags("Foo");
+        e1.setRespAgency(new StringWithCustomTags("Foo"));
         assertFalse(e1.equals(e2));
         assertFalse(e1.hashCode() == e2.hashCode());
-        e2.respAgency = new StringWithCustomTags("Foo");
+        e2.setRespAgency(new StringWithCustomTags("Foo"));
         assertTrue(e1.equals(e2));
         assertTrue(e1.hashCode() == e2.hashCode());
     }
@@ -249,10 +250,10 @@ public class FamilyEventTest {
         FamilyEvent e1 = new FamilyEvent();
         FamilyEvent e2 = new FamilyEvent();
 
-        e1.subType = new StringWithCustomTags("Foo");
+        e1.setSubType(new StringWithCustomTags("Foo"));
         assertFalse(e1.equals(e2));
         assertFalse(e1.hashCode() == e2.hashCode());
-        e2.subType = new StringWithCustomTags("Foo");
+        e2.setSubType(new StringWithCustomTags("Foo"));
         assertTrue(e1.equals(e2));
         assertTrue(e1.hashCode() == e2.hashCode());
     }
@@ -297,10 +298,10 @@ public class FamilyEventTest {
         FamilyEvent e1 = new FamilyEvent();
         FamilyEvent e2 = new FamilyEvent();
 
-        e1.yNull = "Foo";
+        e1.setyNull("Foo");
         assertFalse(e1.equals(e2));
         assertFalse(e1.hashCode() == e2.hashCode());
-        e2.yNull = "Foo";
+        e2.setyNull("Foo");
         assertTrue(e1.equals(e2));
         assertTrue(e1.hashCode() == e2.hashCode());
     }

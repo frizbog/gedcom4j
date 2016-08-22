@@ -122,7 +122,8 @@ public class FamilyTest {
      * Test method for {@link Family#equals(Object)}.
      */
     @Test
-    public void testEqualsOtherObjectTypes() {
+    @SuppressWarnings("PMD.PositionLiteralsFirstInComparisons")
+	public void testEqualsOtherObjectTypes() {
         Family f1 = new Family();
         assertFalse(f1.equals("Test"));
         assertFalse(f1.equals(new Individual()));

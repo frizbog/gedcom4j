@@ -36,7 +36,7 @@ import org.gedcom4j.Options;
  * 
  * @author frizbog1
  */
-public class SourceData extends AbstractElement {
+public class SourceData extends AbstractNotesElement {
     /**
      * Serial Version UID
      */
@@ -46,11 +46,6 @@ public class SourceData extends AbstractElement {
      * The events recorded.
      */
     private List<EventRecorded> eventsRecorded = getEventsRecorded(Options.isCollectionInitializationEnabled());
-
-    /**
-     * Notes about this object
-     */
-    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     /**
      * The responsible agency.
@@ -74,13 +69,6 @@ public class SourceData extends AbstractElement {
                 return false;
             }
         } else if (!eventsRecorded.equals(other.eventsRecorded)) {
-            return false;
-        }
-        if (notes == null) {
-            if (other.notes != null) {
-                return false;
-            }
-        } else if (!notes.equals(other.notes)) {
             return false;
         }
         if (respAgency == null) {
@@ -117,30 +105,6 @@ public class SourceData extends AbstractElement {
     }
 
     /**
-     * Gets the notes.
-     *
-     * @return the notes
-     */
-    public List<Note> getNotes() {
-        return notes;
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection if needed?
-     * 
-     * @return the notes
-     */
-    public List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<Note>(0);
-        }
-        return notes;
-    }
-
-    /**
      * Gets the resp agency.
      *
      * @return the resp agency
@@ -154,7 +118,6 @@ public class SourceData extends AbstractElement {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + (eventsRecorded == null ? 0 : eventsRecorded.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
         result = prime * result + (respAgency == null ? 0 : respAgency.hashCode());
         return result;
     }
@@ -174,16 +137,16 @@ public class SourceData extends AbstractElement {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(32);
         builder.append("SourceData [");
         if (eventsRecorded != null) {
             builder.append("eventsRecorded=");
             builder.append(eventsRecorded);
             builder.append(", ");
         }
-        if (notes != null) {
+        if (getNotes() != null) {
             builder.append("notes=");
-            builder.append(notes);
+            builder.append(getNotes());
             builder.append(", ");
         }
         if (respAgency != null) {
@@ -191,9 +154,9 @@ public class SourceData extends AbstractElement {
             builder.append(respAgency);
             builder.append(", ");
         }
-        if (customTags != null) {
+        if (getCustomTags() != null) {
             builder.append("customTags=");
-            builder.append(customTags);
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();

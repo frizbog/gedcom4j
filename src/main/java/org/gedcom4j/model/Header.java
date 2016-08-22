@@ -37,7 +37,12 @@ import org.gedcom4j.Options;
  * @author frizbog1
  * 
  */
-public class Header extends AbstractElement {
+public class Header extends AbstractNotesElement {
+    /**
+     * Notes on this header. Technically, the spec does not allow multiple notes or multiline notes in headers, but it
+     * happens so often it's better to allow it than to stop people from being able to parse files.
+     */
+
 
     /**
      * Serial Version UID
@@ -78,12 +83,6 @@ public class Header extends AbstractElement {
      * The language for the file
      */
     private StringWithCustomTags language;
-
-    /**
-     * Notes on this header. Technically, the spec does not allow multiple notes or multiline notes in headers, but it
-     * happens so often it's better to allow it than to stop people from being able to parse files.
-     */
-    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     /**
      * The place structure for the file
@@ -173,13 +172,6 @@ public class Header extends AbstractElement {
                 return false;
             }
         } else if (!language.equals(other.language)) {
-            return false;
-        }
-        if (notes == null) {
-            if (other.notes != null) {
-                return false;
-            }
-        } else if (!notes.equals(other.notes)) {
             return false;
         }
         if (placeHierarchy == null) {
@@ -298,29 +290,6 @@ public class Header extends AbstractElement {
     }
 
     /**
-     * Gets the notes.
-     *
-     * @return the notes
-     */
-    public List<Note> getNotes() {
-        return notes;
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @param initializeIfNeeded
-     *            true if this collection should be created on-the-fly if it is currently null
-     * @return the notes
-     */
-    public List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<Note>(0);
-        }
-        return notes;
-    }
-
-    /**
      * Gets the place hierarchy.
      *
      * @return the place hierarchy
@@ -376,7 +345,6 @@ public class Header extends AbstractElement {
         result = prime * result + (fileName == null ? 0 : fileName.hashCode());
         result = prime * result + (gedcomVersion == null ? 0 : gedcomVersion.hashCode());
         result = prime * result + (language == null ? 0 : language.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
         result = prime * result + (placeHierarchy == null ? 0 : placeHierarchy.hashCode());
         result = prime * result + (sourceSystem == null ? 0 : sourceSystem.hashCode());
         result = prime * result + (submission == null ? 0 : submission.hashCode());
@@ -501,7 +469,7 @@ public class Header extends AbstractElement {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(64);
         builder.append("Header [");
         if (characterSet != null) {
             builder.append("characterSet=");
@@ -538,9 +506,9 @@ public class Header extends AbstractElement {
             builder.append(language);
             builder.append(", ");
         }
-        if (notes != null) {
+        if (getNotes() != null) {
             builder.append("notes=");
-            builder.append(notes);
+            builder.append(getNotes());
             builder.append(", ");
         }
         if (placeHierarchy != null) {
@@ -568,9 +536,9 @@ public class Header extends AbstractElement {
             builder.append(time);
             builder.append(", ");
         }
-        if (customTags != null) {
+        if (getCustomTags() != null) {
             builder.append("customTags=");
-            builder.append(customTags);
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();

@@ -37,7 +37,7 @@ import org.gedcom4j.Options;
  * @author frizbog1
  * 
  */
-public class Note extends AbstractElement {
+public class Note extends AbstractElement implements HasCitations {
     /**
      * Serial Version UID
      */
@@ -275,7 +275,7 @@ public class Note extends AbstractElement {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(32);
         builder.append("Note [");
         if (changeDate != null) {
             builder.append("changeDate=");
@@ -307,9 +307,9 @@ public class Note extends AbstractElement {
             builder.append(xref);
             builder.append(", ");
         }
-        if (customTags != null) {
+        if (getCustomTags() != null) {
             builder.append("customTags=");
-            builder.append(customTags);
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();

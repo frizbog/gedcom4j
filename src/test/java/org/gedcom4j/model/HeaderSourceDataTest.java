@@ -41,7 +41,8 @@ public class HeaderSourceDataTest {
      * Test method for {@link org.gedcom4j.model.HeaderSourceData#equals(java.lang.Object)} .
      */
     @Test
-    public void testEqualsObject() {
+    @SuppressWarnings("PMD.EqualsNull")
+	public void testEqualsObject() {
         HeaderSourceData h1 = new HeaderSourceData();
         assertEquals(h1, h1);
 

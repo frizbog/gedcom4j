@@ -43,7 +43,7 @@ public class LdsSpouseSealing extends AbstractLdsOrdinance {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(64);
         builder.append("LdsSpouseSealing [");
         if (citations != null) {
             builder.append("citations=");
@@ -55,9 +55,9 @@ public class LdsSpouseSealing extends AbstractLdsOrdinance {
             builder.append(date);
             builder.append(", ");
         }
-        if (notes != null) {
+        if (getNotes() != null) {
             builder.append("notes=");
-            builder.append(notes);
+            builder.append(getNotes());
             builder.append(", ");
         }
         if (place != null) {
@@ -75,9 +75,9 @@ public class LdsSpouseSealing extends AbstractLdsOrdinance {
             builder.append(temple);
             builder.append(", ");
         }
-        if (customTags != null) {
+        if (getCustomTags() != null) {
             builder.append("customTags=");
-            builder.append(customTags);
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();

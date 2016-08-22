@@ -128,7 +128,7 @@ public class SourceCallNumber extends AbstractElement {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(32);
         builder.append("SourceCallNumber [");
         if (callNumber != null) {
             builder.append("callNumber=");
@@ -140,9 +140,9 @@ public class SourceCallNumber extends AbstractElement {
             builder.append(mediaType);
             builder.append(", ");
         }
-        if (customTags != null) {
+        if (getCustomTags() != null) {
             builder.append("customTags=");
-            builder.append(customTags);
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();

@@ -137,7 +137,7 @@ public class CitationData extends AbstractElement {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(32);
         builder.append("CitationData [");
         if (entryDate != null) {
             builder.append("entryDate=");
@@ -149,9 +149,9 @@ public class CitationData extends AbstractElement {
             builder.append(sourceText);
             builder.append(", ");
         }
-        if (customTags != null) {
+        if (getCustomTags() != null) {
             builder.append("customTags=");
-            builder.append(customTags);
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();

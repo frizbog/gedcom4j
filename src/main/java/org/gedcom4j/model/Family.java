@@ -36,7 +36,8 @@ import org.gedcom4j.Options;
  * 
  * @author frizbog1
  */
-public class Family extends AbstractElement {
+@SuppressWarnings("PMD.GodClass")
+public class Family extends AbstractNotesElement implements HasCitations {
     /**
      * Serial Version UID
      */
@@ -81,11 +82,6 @@ public class Family extends AbstractElement {
      * Multimedia links for this source citation
      */
     private List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
-
-    /**
-     * Notes about this object
-     */
-    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     /**
      * The number of children
@@ -193,13 +189,6 @@ public class Family extends AbstractElement {
                 return false;
             }
         } else if (!multimedia.equals(other.multimedia)) {
-            return false;
-        }
-        if (notes == null) {
-            if (other.notes != null) {
-                return false;
-            }
-        } else if (!notes.equals(other.notes)) {
             return false;
         }
         if (numChildren == null) {
@@ -398,30 +387,6 @@ public class Family extends AbstractElement {
     }
 
     /**
-     * Gets the notes.
-     *
-     * @return the notes
-     */
-    public List<Note> getNotes() {
-        return notes;
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection if needed?
-     * 
-     * @return the notes
-     */
-    public List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<Note>(0);
-        }
-        return notes;
-    }
-
-    /**
      * Gets the number of children.
      *
      * @return the number of children
@@ -527,7 +492,6 @@ public class Family extends AbstractElement {
         result = prime * result + (husband == null ? 0 : husband.hashCode());
         result = prime * result + (ldsSpouseSealings == null ? 0 : ldsSpouseSealings.hashCode());
         result = prime * result + (multimedia == null ? 0 : multimedia.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
         result = prime * result + (numChildren == null ? 0 : numChildren.hashCode());
         result = prime * result + (recFileNumber == null ? 0 : recFileNumber.hashCode());
         result = prime * result + (submitters == null ? 0 : submitters.hashCode());
@@ -623,7 +587,7 @@ public class Family extends AbstractElement {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(64);
         builder.append("Family [");
         if (automatedRecordId != null) {
             builder.append("automatedRecordId=");
@@ -665,9 +629,9 @@ public class Family extends AbstractElement {
             builder.append(multimedia);
             builder.append(", ");
         }
-        if (notes != null) {
+        if (getNotes() != null) {
             builder.append("notes=");
-            builder.append(notes);
+            builder.append(getNotes());
             builder.append(", ");
         }
         if (numChildren != null) {
@@ -705,9 +669,9 @@ public class Family extends AbstractElement {
             builder.append(xref);
             builder.append(", ");
         }
-        if (customTags != null) {
+        if (getCustomTags() != null) {
             builder.append("customTags=");
-            builder.append(customTags);
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();

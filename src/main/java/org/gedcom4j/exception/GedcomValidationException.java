@@ -26,8 +26,6 @@
  */
 package org.gedcom4j.exception;
 
-import org.gedcom4j.validate.GedcomValidator;
-
 /**
  * An exception indicating that the process of validation failed. Does not mean
  * that there is a problem with the data -- those are found in the

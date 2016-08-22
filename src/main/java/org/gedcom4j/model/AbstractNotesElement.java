@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016 Matthew R. Harrah
+ * Copyright (c) 2016 Mark A. Sikes
  *
  * MIT License
  *
@@ -26,79 +26,90 @@
  */
 package org.gedcom4j.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.gedcom4j.Options;
 
 /**
- * An abstract class from which most other items in the data model extend. Exists to hold custom tag information, which
- * by definition cannot be known in advance.
- * 
- * @author frizbog
+ * @author Mark A Sikes
+ *
  */
-public abstract class AbstractElement implements Serializable, HasCustomTags {
-    /**
-     * Serial Version UID
+public abstract class AbstractNotesElement extends AbstractElement implements HasNotes {
+
+	private static final long serialVersionUID = 2539148787102235445L;
+	
+	/**
+     * Notes on this element
      */
-    private static final long serialVersionUID = -983667065483378388L;
+    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
     /**
-     * A list of custom tags on this item.
+     * {@inheritDoc}
      */
-    private List<StringTree> customTags = getCustomTags(Options.isCollectionInitializationEnabled());
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
             return false;
         }
-        AbstractElement other = (AbstractElement) obj;
-        if (getCustomTags() == null) {
-            if (other.getCustomTags() != null) {
+        AbstractNotesElement other = (AbstractNotesElement) obj;
+        if (notes == null) {
+            if (other.notes != null) {
                 return false;
             }
-        } else if (!getCustomTags().equals(other.getCustomTags())) {
+        } else if (!notes.equals(other.notes)) {
             return false;
         }
         return true;
     }
 
     /**
-     * Gets the custom tags.
+     * Gets the notes.
      *
-     * @return the custom tags
+     * @return the notes
      */
-    public List<StringTree> getCustomTags() {
-        return customTags;
+    public List<Note> getNotes() {
+        return notes;
     }
 
     /**
-     * Get the custom tags
+     * Get the notes
      * 
      * @param initializeIfNeeded
-     *            initialize the collection if needed
-     * @return the customTags
+     *            true if this collection should be created on-the-fly if it is currently null
+     * @return the notes
      */
-    public List<StringTree> getCustomTags(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && customTags == null) {
-            customTags = new ArrayList<StringTree>(0);
+    public List<Note> getNotes(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && notes == null) {
+            notes = new ArrayList<Note>(0);
         }
-        return customTags;
+        return notes;
     }
 
+    /**
+     * Set the notes
+     * 
+     * @param theNotes
+     */
+    public void setNotes(List<Note> theNotes) {
+    	getNotes(true).clear();
+    	notes.addAll(theNotes);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime * result + (getCustomTags() == null ? 0 : getCustomTags().hashCode());
+        int result = super.hashCode();
+        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
         return result;
     }
 
@@ -107,22 +118,18 @@ public abstract class AbstractElement implements Serializable, HasCustomTags {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(32);
-        builder.append("AbstractElement [");
-        if (customTags != null) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(getClass().getSimpleName()).append(" [");
+        if (notes != null) {
+            builder.append("notes=");
+            builder.append(notes);
+            builder.append(", ");
+        }
+        if (getCustomTags() != null) {
             builder.append("customTags=");
-            builder.append(customTags);
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();
-    }
-
-    /**
-     * Set the custom tags
-     * 
-     * @param theCustomTags the custom tags
-     */
-    protected void setCustomTags(List<StringTree> theCustomTags) {
-    	customTags = theCustomTags;
     }
 }

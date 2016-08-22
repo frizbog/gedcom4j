@@ -47,7 +47,8 @@ public class SupportedVersionTest {
      *             should never happen unless the {@link SupportedVersion#forString(String)} method is broken
      */
     @Test
-    public void test() throws UnsupportedVersionException {
+    @SuppressWarnings("PMD.EmptyStatementNotInLoop")
+	public void test() throws UnsupportedVersionException {
         assertNotNull(SupportedVersion.forString("5.5"));
         assertNotNull(SupportedVersion.forString("5.5.1"));
 

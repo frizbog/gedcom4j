@@ -246,7 +246,7 @@ public class FamilyChild extends AbstractElement {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(32);
         builder.append("FamilyChild [");
         if (adoptedBy != null) {
             builder.append("adoptedBy=");
@@ -273,9 +273,9 @@ public class FamilyChild extends AbstractElement {
             builder.append(status);
             builder.append(", ");
         }
-        if (customTags != null) {
+        if (getCustomTags() != null) {
             builder.append("customTags=");
-            builder.append(customTags);
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();

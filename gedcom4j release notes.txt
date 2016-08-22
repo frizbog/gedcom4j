@@ -3,6 +3,14 @@ GEDCOM4J RELEASE NOTES
 ==============================
 
 
+?? ??? 2016 - v3.2.0
+====================
+v3.2.0 is a minor release with a number of backward-compatible API changes for bug fixes and enhancements.
+
+No issue numbers, but changed:
+- Much refactoring to use getters/setters throughout code (including tests) now that javabeans are the norm since 3.0.0
+- Merging in work from contributor Mark Sikes to introduce some new mix-in classes into the model and pull up common methods into the intermediate classes, to reduce repeated code and position for better validation
+
 
 20 Aug 2016 - v3.1.0
 ====================

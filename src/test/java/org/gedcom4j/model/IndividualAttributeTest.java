@@ -39,32 +39,33 @@ import org.junit.Test;
  * @author frizbog
  * 
  */
+@SuppressWarnings("PMD.ExcessiveMethodLength")
 public class IndividualAttributeTest {
 
     /**
      * Test for {@link IndividualAttribute#equals(Object)}
      */
     @Test
-    public void testEqualsObject() {
+	public void testEqualsObject() {
         IndividualAttribute i1 = new IndividualAttribute();
         IndividualAttribute i2 = new IndividualAttribute();
 
         assertNotSame(i1, i2);
         assertEquals(i1, i2);
 
-        i1.address = new Address();
+        i1.setAddress(new Address());
         assertFalse(i1.equals(i2));
-        i2.address = new Address();
+        i2.setAddress(new Address());
         assertEquals(i1, i2);
 
-        i1.age = new StringWithCustomTags("One");
+        i1.setAge(new StringWithCustomTags("One"));
         assertFalse(i1.equals(i2));
-        i2.age = new StringWithCustomTags("One");
+        i2.setAge(new StringWithCustomTags("One"));
         assertEquals(i1, i2);
 
-        i1.cause = new StringWithCustomTags("Two");
+        i1.setCause(new StringWithCustomTags("Two"));
         assertFalse(i1.equals(i2));
-        i2.cause = new StringWithCustomTags("Two");
+        i2.setCause(new StringWithCustomTags("Two"));
         assertEquals(i1, i2);
 
         i1.getCitations(true).add(new CitationWithoutSource());
@@ -77,14 +78,14 @@ public class IndividualAttributeTest {
         i2.getCustomTags(true).add(new StringTree());
         assertEquals(i1, i2);
 
-        i1.date = new StringWithCustomTags("Three");
+        i1.setDate(new StringWithCustomTags("Three"));
         assertFalse(i1.equals(i2));
-        i2.date = new StringWithCustomTags("Three");
+        i2.setDate(new StringWithCustomTags("Three"));
         assertEquals(i1, i2);
 
-        i1.description = new StringWithCustomTags("Four");
+        i1.setDescription(new StringWithCustomTags("Four"));
         assertFalse(i1.equals(i2));
-        i2.description = new StringWithCustomTags("Four");
+        i2.setDescription(new StringWithCustomTags("Four"));
         assertEquals(i1, i2);
 
         i1.getEmails(true).add(new StringWithCustomTags("Five"));
@@ -112,29 +113,29 @@ public class IndividualAttributeTest {
         i2.getPhoneNumbers(true).add(new StringWithCustomTags("Seven"));
         assertEquals(i1, i2);
 
-        i1.place = new Place();
+        i1.setPlace(new Place());
         assertFalse(i1.equals(i2));
-        i2.place = new Place();
+        i2.setPlace(new Place());
         assertEquals(i1, i2);
 
-        i1.religiousAffiliation = new StringWithCustomTags("Eight");
+        i1.setReligiousAffiliation(new StringWithCustomTags("Eight"));
         assertFalse(i1.equals(i2));
-        i2.religiousAffiliation = new StringWithCustomTags("Eight");
+        i2.setReligiousAffiliation(new StringWithCustomTags("Eight"));
         assertEquals(i1, i2);
 
-        i1.respAgency = new StringWithCustomTags("Nine");
+        i1.setRespAgency(new StringWithCustomTags("Nine"));
         assertFalse(i1.equals(i2));
-        i2.respAgency = new StringWithCustomTags("Nine");
+        i2.setRespAgency(new StringWithCustomTags("Nine"));
         assertEquals(i1, i2);
 
-        i1.restrictionNotice = new StringWithCustomTags("Ten");
+        i1.setRestrictionNotice(new StringWithCustomTags("Ten"));
         assertFalse(i1.equals(i2));
-        i2.restrictionNotice = new StringWithCustomTags("Ten");
+        i2.setRestrictionNotice(new StringWithCustomTags("Ten"));
         assertEquals(i1, i2);
 
-        i1.subType = new StringWithCustomTags("Eleven");
+        i1.setSubType(new StringWithCustomTags("Eleven"));
         assertFalse(i1.equals(i2));
-        i2.subType = new StringWithCustomTags("Eleven");
+        i2.setSubType(new StringWithCustomTags("Eleven"));
         assertEquals(i1, i2);
 
         i1.setType(IndividualAttributeType.FACT);
@@ -147,9 +148,9 @@ public class IndividualAttributeTest {
         i2.getWwwUrls(true).add(new StringWithCustomTags("Twelve"));
         assertEquals(i1, i2);
 
-        i1.yNull = "Thirteen";
+        i1.setyNull("Thirteen");
         assertFalse(i1.equals(i2));
-        i2.yNull = "Thirteen";
+        i2.setyNull("Thirteen");
         assertEquals(i1, i2);
 
     }
@@ -159,26 +160,26 @@ public class IndividualAttributeTest {
      * 
      */
     @Test
-    public void testHashCode() {
+	public void testHashCode() {
         IndividualAttribute i1 = new IndividualAttribute();
         IndividualAttribute i2 = new IndividualAttribute();
 
         assertNotSame(i1, i2);
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.address = new Address();
+        i1.setAddress(new Address());
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.address = new Address();
+        i2.setAddress(new Address());
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.age = new StringWithCustomTags("One");
+        i1.setAge(new StringWithCustomTags("One"));
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.age = new StringWithCustomTags("One");
+        i2.setAge(new StringWithCustomTags("One"));
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.cause = new StringWithCustomTags("Two");
+        i1.setCause(new StringWithCustomTags("Two"));
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.cause = new StringWithCustomTags("Two");
+        i2.setCause(new StringWithCustomTags("Two"));
         assertEquals(i1.hashCode(), i2.hashCode());
 
         i1.getCitations(true).add(new CitationWithoutSource());
@@ -191,14 +192,14 @@ public class IndividualAttributeTest {
         i2.getCustomTags(true).add(new StringTree());
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.date = new StringWithCustomTags("Three");
+        i1.setDate(new StringWithCustomTags("Three"));
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.date = new StringWithCustomTags("Three");
+        i2.setDate(new StringWithCustomTags("Three"));
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.description = new StringWithCustomTags("Four");
+        i1.setDescription(new StringWithCustomTags("Four"));
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.description = new StringWithCustomTags("Four");
+        i2.setDescription(new StringWithCustomTags("Four"));
         assertEquals(i1.hashCode(), i2.hashCode());
 
         i1.getEmails(true).add(new StringWithCustomTags("Five"));
@@ -226,29 +227,29 @@ public class IndividualAttributeTest {
         i2.getPhoneNumbers(true).add(new StringWithCustomTags("Seven"));
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.place = new Place();
+        i1.setPlace(new Place());
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.place = new Place();
+        i2.setPlace(new Place());
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.religiousAffiliation = new StringWithCustomTags("Eight");
+        i1.setReligiousAffiliation(new StringWithCustomTags("Eight"));
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.religiousAffiliation = new StringWithCustomTags("Eight");
+        i2.setReligiousAffiliation(new StringWithCustomTags("Eight"));
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.respAgency = new StringWithCustomTags("Nine");
+        i1.setRespAgency(new StringWithCustomTags("Nine"));
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.respAgency = new StringWithCustomTags("Nine");
+        i2.setRespAgency(new StringWithCustomTags("Nine"));
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.restrictionNotice = new StringWithCustomTags("Ten");
+        i1.setRestrictionNotice(new StringWithCustomTags("Ten"));
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.restrictionNotice = new StringWithCustomTags("Ten");
+        i2.setRestrictionNotice(new StringWithCustomTags("Ten"));
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.subType = new StringWithCustomTags("Eleven");
+        i1.setSubType(new StringWithCustomTags("Eleven"));
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.subType = new StringWithCustomTags("Eleven");
+        i2.setSubType(new StringWithCustomTags("Eleven"));
         assertEquals(i1.hashCode(), i2.hashCode());
 
         i1.setType(IndividualAttributeType.FACT);
@@ -261,9 +262,9 @@ public class IndividualAttributeTest {
         i2.getWwwUrls(true).add(new StringWithCustomTags("Twelve"));
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.yNull = "Thirteen";
+        i1.setyNull("Thirteen");
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.yNull = "Thirteen";
+        i2.setyNull("Thirteen");
         assertEquals(i1.hashCode(), i2.hashCode());
 
     }
@@ -276,26 +277,26 @@ public class IndividualAttributeTest {
         IndividualAttribute i = new IndividualAttribute();
         assertEquals("IndividualAttribute []", i.toString());
 
-        i.address = new Address();
-        i.age = new StringWithCustomTags("One");
-        i.cause = new StringWithCustomTags("Two");
+        i.setAddress(new Address());
+        i.setAge(new StringWithCustomTags("One"));
+        i.setCause(new StringWithCustomTags("Two"));
         i.getCitations(true).add(new CitationWithoutSource());
         i.getCustomTags(true).add(new StringTree());
-        i.date = new StringWithCustomTags("Three");
-        i.description = new StringWithCustomTags("Four");
+        i.setDate(new StringWithCustomTags("Three"));
+        i.setDescription(new StringWithCustomTags("Four"));
         i.getEmails(true).add(new StringWithCustomTags("Five"));
         i.getFaxNumbers(true).add(new StringWithCustomTags("Six"));
         i.getMultimedia(true).add(new Multimedia());
         i.getNotes(true).add(new Note());
         i.getPhoneNumbers(true).add(new StringWithCustomTags("Seven"));
-        i.place = new Place();
-        i.religiousAffiliation = new StringWithCustomTags("Eight");
-        i.respAgency = new StringWithCustomTags("Nine");
-        i.restrictionNotice = new StringWithCustomTags("Ten");
-        i.subType = new StringWithCustomTags("Eleven");
+        i.setPlace(new Place());
+        i.setReligiousAffiliation(new StringWithCustomTags("Eight"));
+        i.setRespAgency(new StringWithCustomTags("Nine"));
+        i.setRestrictionNotice(new StringWithCustomTags("Ten"));
+        i.setSubType(new StringWithCustomTags("Eleven"));
         i.setType(IndividualAttributeType.FACT);
         i.getWwwUrls(true).add(new StringWithCustomTags("Twelve"));
-        i.yNull = "Thirteen";
+        i.setyNull("Thirteen");
 
         assertEquals("IndividualAttribute [type=Fact, address=Address [], age=One, cause=Two, citations=[CitationWithoutSource []], "
                 + "date=Three, description=Four, emails=[Five], faxNumbers=[Six], multimedia=[Multimedia []], notes=[Note []], "

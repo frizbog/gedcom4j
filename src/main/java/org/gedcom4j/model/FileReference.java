@@ -193,7 +193,7 @@ public class FileReference extends AbstractElement {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(64);
         builder.append("FileReference [");
         if (format != null) {
             builder.append("format=");
@@ -215,9 +215,9 @@ public class FileReference extends AbstractElement {
             builder.append(title);
             builder.append(", ");
         }
-        if (customTags != null) {
+        if (getCustomTags() != null) {
             builder.append("customTags=");
-            builder.append(customTags);
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();

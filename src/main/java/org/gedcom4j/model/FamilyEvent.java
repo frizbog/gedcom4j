@@ -162,10 +162,9 @@ public class FamilyEvent extends AbstractEvent {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("PMD.ExcessiveMethodLength")
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(128);
         builder.append("FamilyEvent [");
         if (husbandAge != null) {
             builder.append("husbandAge=");
@@ -182,102 +181,8 @@ public class FamilyEvent extends AbstractEvent {
             builder.append(wifeAge);
             builder.append(", ");
         }
-        if (address != null) {
-            builder.append("address=");
-            builder.append(address);
-            builder.append(", ");
-        }
-        if (age != null) {
-            builder.append("age=");
-            builder.append(age);
-            builder.append(", ");
-        }
-        if (cause != null) {
-            builder.append("cause=");
-            builder.append(cause);
-            builder.append(", ");
-        }
-        if (citations != null) {
-            builder.append("citations=");
-            builder.append(citations);
-            builder.append(", ");
-        }
-        if (date != null) {
-            builder.append("date=");
-            builder.append(date);
-            builder.append(", ");
-        }
-        if (description != null) {
-            builder.append("description=");
-            builder.append(description);
-            builder.append(", ");
-        }
-        if (emails != null) {
-            builder.append("emails=");
-            builder.append(emails);
-            builder.append(", ");
-        }
-        if (faxNumbers != null) {
-            builder.append("faxNumbers=");
-            builder.append(faxNumbers);
-            builder.append(", ");
-        }
-        if (multimedia != null) {
-            builder.append("multimedia=");
-            builder.append(multimedia);
-            builder.append(", ");
-        }
-        if (notes != null) {
-            builder.append("notes=");
-            builder.append(notes);
-            builder.append(", ");
-        }
-        if (phoneNumbers != null) {
-            builder.append("phoneNumbers=");
-            builder.append(phoneNumbers);
-            builder.append(", ");
-        }
-        if (place != null) {
-            builder.append("place=");
-            builder.append(place);
-            builder.append(", ");
-        }
-        if (religiousAffiliation != null) {
-            builder.append("religiousAffiliation=");
-            builder.append(religiousAffiliation);
-            builder.append(", ");
-        }
-        if (respAgency != null) {
-            builder.append("respAgency=");
-            builder.append(respAgency);
-            builder.append(", ");
-        }
-        if (restrictionNotice != null) {
-            builder.append("restrictionNotice=");
-            builder.append(restrictionNotice);
-            builder.append(", ");
-        }
-        if (subType != null) {
-            builder.append("subType=");
-            builder.append(subType);
-            builder.append(", ");
-        }
-        if (wwwUrls != null) {
-            builder.append("wwwUrls=");
-            builder.append(wwwUrls);
-            builder.append(", ");
-        }
-        if (yNull != null) {
-            builder.append("yNull=");
-            builder.append(yNull);
-            builder.append(", ");
-        }
-        if (customTags != null) {
-            builder.append("customTags=");
-            builder.append(customTags);
-        }
+        buildAbstractEventToString(builder);
         builder.append("]");
         return builder.toString();
     }
-
 }

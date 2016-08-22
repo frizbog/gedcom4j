@@ -106,7 +106,7 @@ public class FileProgressEvent extends EventObject {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(128);
         builder.append("FileProgressEvent [complete=");
         builder.append(complete);
         builder.append(", linesProcessed=");

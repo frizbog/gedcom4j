@@ -41,7 +41,8 @@ public class GedcomVersionTest {
      * Test method for {@link org.gedcom4j.model.GedcomVersion#equals(java.lang.Object)} .
      */
     @Test
-    public void testEqualsObject() {
+    @SuppressWarnings("PMD.EqualsNull")
+	public void testEqualsObject() {
         GedcomVersion gv1 = new GedcomVersion();
         assertEquals(gv1, gv1);
         GedcomVersion gv2 = new GedcomVersion();

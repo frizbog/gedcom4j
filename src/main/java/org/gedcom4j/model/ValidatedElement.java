@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016 Matthew R. Harrah
+ * Copyright (c) 2016 Mark A. Sikes
  *
  * MIT License
  *
@@ -27,14 +27,8 @@
 package org.gedcom4j.model;
 
 /**
- * An abstract base class for other source citations (both with and without source)
- * 
- * @author frizbog1
+ * @author Mark A Sikes
  */
-public abstract class AbstractCitation extends AbstractNotesElement {
-
-    /**
-     * Serial Version UID
-     */
-    private static final long serialVersionUID = 5842672179681957413L;
+public interface ValidatedElement {
+	// Marker interface to identify a Gedcom model object
 }
