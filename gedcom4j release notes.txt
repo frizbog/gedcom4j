@@ -11,7 +11,8 @@ No issue numbers, but changed:
 - Minimum language level is now Java 7.  Much code has been refactored to reflect this and to begin using Java 7 idioms.
 - Much refactoring to use getters/setters throughout code (including tests) now that javabeans are the norm since 3.0.0
 - Merging in work from contributor Mark Sikes to introduce some new mix-in classes into the model and pull up common methods into the intermediate classes, to reduce repeated code and position for better validation
-- Fixed usage of AbstractNameVariation and created the PlaceNameVariation class for romanized/phonetic variants of place names.
+
+Issue #130 - Fixed usage of AbstractNameVariation and created the PlaceNameVariation class for romanized/phonetic variants of place names.
 
 
 20 Aug 2016 - v3.1.0
