@@ -37,7 +37,7 @@ import org.gedcom4j.Options;
  * @author frizbog1
  */
 @SuppressWarnings("PMD.GodClass")
-public class Family extends AbstractNotesElement implements HasCitations {
+public class Family extends AbstractNotesElement implements HasCitations, HasXref {
     /**
      * Serial Version UID
      */

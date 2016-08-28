@@ -42,31 +42,16 @@ import org.gedcom4j.Options;
  * @author frizbog1
  */
 @SuppressWarnings("PMD.GodClass")
-public class Submitter extends AbstractNotesElement implements HasXref {
+public class Submitter extends AbstractAddressableElement implements HasXref {
     /**
      * Serial Version UID
      */
     private static final long serialVersionUID = 964849855689332389L;
 
     /**
-     * The address of this submitter
-     */
-    private Address address;
-
-    /**
      * The change date for this submitter
      */
     private ChangeDate changeDate;
-
-    /**
-     * The emails for this submitter. New for GEDCOM 5.5.1
-     */
-    private List<StringWithCustomTags> emails = getEmails(Options.isCollectionInitializationEnabled());
-
-    /**
-     * Fax numbers. New for GEDCOM 5.5.1.
-     */
-    private List<StringWithCustomTags> faxNumbers = getFaxNumbers(Options.isCollectionInitializationEnabled());
 
     /**
      * The language preferences
@@ -84,11 +69,6 @@ public class Submitter extends AbstractNotesElement implements HasXref {
     private StringWithCustomTags name;
 
     /**
-     * The phone numbers for this submitter
-     */
-    private List<StringWithCustomTags> phoneNumbers = getPhoneNumbers(Options.isCollectionInitializationEnabled());
-
-    /**
      * The record ID number
      */
     private StringWithCustomTags recIdNumber;
@@ -104,11 +84,6 @@ public class Submitter extends AbstractNotesElement implements HasXref {
     private List<UserReference> userReferences = getUserReferences(Options.isCollectionInitializationEnabled());
 
     /**
-     * Web URL's. New for GEDCOM 5.5.1.
-     */
-    private List<StringWithCustomTags> wwwUrls = getWwwUrls(Options.isCollectionInitializationEnabled());
-
-    /**
      * The xref for this submitter
      */
     private String xref;
@@ -116,7 +91,6 @@ public class Submitter extends AbstractNotesElement implements HasXref {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("PMD.ExcessiveMethodLength")
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -125,17 +99,10 @@ public class Submitter extends AbstractNotesElement implements HasXref {
         if (!super.equals(obj)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof Submitter)) {
             return false;
         }
         Submitter other = (Submitter) obj;
-        if (address == null) {
-            if (other.address != null) {
-                return false;
-            }
-        } else if (!address.equals(other.address)) {
-            return false;
-        }
         if (changeDate == null) {
             if (other.changeDate != null) {
                 return false;
@@ -162,34 +129,6 @@ public class Submitter extends AbstractNotesElement implements HasXref {
                 return false;
             }
         } else if (!name.equals(other.name)) {
-            return false;
-        }
-        if (phoneNumbers == null) {
-            if (other.phoneNumbers != null) {
-                return false;
-            }
-        } else if (!phoneNumbers.equals(other.phoneNumbers)) {
-            return false;
-        }
-        if (wwwUrls == null) {
-            if (other.wwwUrls != null) {
-                return false;
-            }
-        } else if (!wwwUrls.equals(other.wwwUrls)) {
-            return false;
-        }
-        if (faxNumbers == null) {
-            if (other.faxNumbers != null) {
-                return false;
-            }
-        } else if (!faxNumbers.equals(other.faxNumbers)) {
-            return false;
-        }
-        if (emails == null) {
-            if (other.emails != null) {
-                return false;
-            }
-        } else if (!emails.equals(other.emails)) {
             return false;
         }
         if (recIdNumber == null) {
@@ -224,68 +163,12 @@ public class Submitter extends AbstractNotesElement implements HasXref {
     }
 
     /**
-     * Gets the address.
-     *
-     * @return the address
-     */
-    public Address getAddress() {
-        return address;
-    }
-
-    /**
      * Gets the change date.
      *
      * @return the change date
      */
     public ChangeDate getChangeDate() {
         return changeDate;
-    }
-
-    /**
-     * Gets the emails.
-     *
-     * @return the emails
-     */
-    public List<StringWithCustomTags> getEmails() {
-        return emails;
-    }
-
-    /**
-     * Get the emails
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the emails
-     */
-    public List<StringWithCustomTags> getEmails(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && emails == null) {
-            emails = new ArrayList<>(0);
-        }
-
-        return emails;
-    }
-
-    /**
-     * Gets the fax numbers.
-     *
-     * @return the fax numbers
-     */
-    public List<StringWithCustomTags> getFaxNumbers() {
-        return faxNumbers;
-    }
-
-    /**
-     * Get the fax numbers
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the fax numbers
-     */
-    public List<StringWithCustomTags> getFaxNumbers(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && faxNumbers == null) {
-            faxNumbers = new ArrayList<>(0);
-        }
-        return faxNumbers;
     }
 
     /**
@@ -344,29 +227,6 @@ public class Submitter extends AbstractNotesElement implements HasXref {
     }
 
     /**
-     * Gets the phone numbers.
-     *
-     * @return the phone numbers
-     */
-    public List<StringWithCustomTags> getPhoneNumbers() {
-        return phoneNumbers;
-    }
-
-    /**
-     * Get the phone numbers
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the phone numbers
-     */
-    public List<StringWithCustomTags> getPhoneNumbers(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && phoneNumbers == null) {
-            phoneNumbers = new ArrayList<>(0);
-        }
-        return phoneNumbers;
-    }
-
-    /**
      * Gets the rec id number.
      *
      * @return the rec id number
@@ -408,29 +268,6 @@ public class Submitter extends AbstractNotesElement implements HasXref {
     }
 
     /**
-     * Gets the www urls.
-     *
-     * @return the www urls
-     */
-    public List<StringWithCustomTags> getWwwUrls() {
-        return wwwUrls;
-    }
-
-    /**
-     * Get the www urls
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the www urls
-     */
-    public List<StringWithCustomTags> getWwwUrls(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && wwwUrls == null) {
-            wwwUrls = new ArrayList<>(0);
-        }
-        return wwwUrls;
-    }
-
-    /**
      * Gets the xref.
      *
      * @return the xref
@@ -446,30 +283,15 @@ public class Submitter extends AbstractNotesElement implements HasXref {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + (address == null ? 0 : address.hashCode());
-        result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
-        result = prime * result + (languagePref == null ? 0 : languagePref.hashCode());
-        result = prime * result + (multimedia == null ? 0 : multimedia.hashCode());
-        result = prime * result + (name == null ? 0 : name.hashCode());
-        result = prime * result + (phoneNumbers == null ? 0 : phoneNumbers.hashCode());
-        result = prime * result + (faxNumbers == null ? 0 : faxNumbers.hashCode());
-        result = prime * result + (wwwUrls == null ? 0 : wwwUrls.hashCode());
-        result = prime * result + (emails == null ? 0 : emails.hashCode());
-        result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
-        result = prime * result + (regFileNumber == null ? 0 : regFileNumber.hashCode());
-        result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
-        result = prime * result + (xref == null ? 0 : xref.hashCode());
+        result = prime * result + ((changeDate == null) ? 0 : changeDate.hashCode());
+        result = prime * result + ((languagePref == null) ? 0 : languagePref.hashCode());
+        result = prime * result + ((multimedia == null) ? 0 : multimedia.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((recIdNumber == null) ? 0 : recIdNumber.hashCode());
+        result = prime * result + ((regFileNumber == null) ? 0 : regFileNumber.hashCode());
+        result = prime * result + ((userReferences == null) ? 0 : userReferences.hashCode());
+        result = prime * result + ((xref == null) ? 0 : xref.hashCode());
         return result;
-    }
-
-    /**
-     * Sets the address.
-     *
-     * @param address
-     *            the new address
-     */
-    public void setAddress(Address address) {
-        this.address = address;
     }
 
     /**
@@ -527,26 +349,11 @@ public class Submitter extends AbstractNotesElement implements HasXref {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(64);
+        StringBuilder builder = new StringBuilder(48);
         builder.append("Submitter [");
-        if (address != null) {
-            builder.append("address=");
-            builder.append(address);
-            builder.append(", ");
-        }
         if (changeDate != null) {
             builder.append("changeDate=");
             builder.append(changeDate);
-            builder.append(", ");
-        }
-        if (emails != null) {
-            builder.append("emails=");
-            builder.append(emails);
-            builder.append(", ");
-        }
-        if (faxNumbers != null) {
-            builder.append("faxNumbers=");
-            builder.append(faxNumbers);
             builder.append(", ");
         }
         if (languagePref != null) {
@@ -564,16 +371,6 @@ public class Submitter extends AbstractNotesElement implements HasXref {
             builder.append(name);
             builder.append(", ");
         }
-        if (getNotes() != null) {
-            builder.append("notes=");
-            builder.append(getNotes());
-            builder.append(", ");
-        }
-        if (phoneNumbers != null) {
-            builder.append("phoneNumbers=");
-            builder.append(phoneNumbers);
-            builder.append(", ");
-        }
         if (recIdNumber != null) {
             builder.append("recIdNumber=");
             builder.append(recIdNumber);
@@ -589,19 +386,34 @@ public class Submitter extends AbstractNotesElement implements HasXref {
             builder.append(userReferences);
             builder.append(", ");
         }
-        if (wwwUrls != null) {
-            builder.append("wwwUrls=");
-            builder.append(wwwUrls);
-            builder.append(", ");
-        }
         if (xref != null) {
             builder.append("xref=");
             builder.append(xref);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (address != null) {
+            builder.append("address=");
+            builder.append(address);
+            builder.append(", ");
+        }
+        if (emails != null) {
+            builder.append("emails=");
+            builder.append(emails);
+            builder.append(", ");
+        }
+        if (faxNumbers != null) {
+            builder.append("faxNumbers=");
+            builder.append(faxNumbers);
+            builder.append(", ");
+        }
+        if (phoneNumbers != null) {
+            builder.append("phoneNumbers=");
+            builder.append(phoneNumbers);
+            builder.append(", ");
+        }
+        if (wwwUrls != null) {
+            builder.append("wwwUrls=");
+            builder.append(wwwUrls);
         }
         builder.append("]");
         return builder.toString();

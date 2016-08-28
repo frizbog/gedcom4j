@@ -51,7 +51,7 @@ import org.gedcom4j.Options;
  * @author frizbog1
  * 
  */
-public class Multimedia extends AbstractNotesElement implements HasCitations {
+public class Multimedia extends AbstractNotesElement implements HasCitations, HasXref {
     /**
      * Serial Version UID
      */

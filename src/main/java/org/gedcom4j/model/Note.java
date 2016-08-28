@@ -37,7 +37,7 @@ import org.gedcom4j.Options;
  * @author frizbog1
  * 
  */
-public class Note extends AbstractElement implements HasCitations {
+public class Note extends AbstractElement implements HasCitations, HasXref {
     /**
      * Serial Version UID
      */

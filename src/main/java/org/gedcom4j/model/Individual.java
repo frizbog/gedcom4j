@@ -39,17 +39,12 @@ import org.gedcom4j.Options;
  * @author frizbog1
  */
 @SuppressWarnings({ "PMD.ExcessiveClassLength", "PMD.ExcessivePublicCount", "PMD.GodClass" })
-public class Individual extends AbstractNotesElement implements HasCitations, HasXref {
+public class Individual extends AbstractAddressableElement implements HasCitations, HasXref {
 
     /**
      * Serial Version UID
      */
     private static final long serialVersionUID = -3542679192972351102L;
-
-    /**
-     * The address of this individual
-     */
-    private Address address;
 
     /**
      * Aliases for the current individual.
@@ -92,11 +87,6 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
     private List<Submitter> descendantInterest = getDescendantInterest(Options.isCollectionInitializationEnabled());
 
     /**
-     * The emails for this submitter. New for GEDCOM 5.5.1
-     */
-    private List<StringWithCustomTags> emails = getEmails(Options.isCollectionInitializationEnabled());
-
-    /**
      * A list of events for this individual.
      */
     private List<IndividualEvent> events = getEvents(Options.isCollectionInitializationEnabled());
@@ -110,11 +100,6 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
      * A list of families to which this individual was either the husband or wife
      */
     private List<FamilySpouse> familiesWhereSpouse = getFamiliesWhereSpouse(Options.isCollectionInitializationEnabled());
-
-    /**
-     * Fax numbers. New for GEDCOM 5.5.1.
-     */
-    private List<StringWithCustomTags> faxNumbers = getFaxNumbers(Options.isCollectionInitializationEnabled());
 
     /**
      * A list of LDS individual ordinances for this individual
@@ -143,11 +128,6 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
     private StringWithCustomTags permanentRecFileNumber;
 
     /**
-     * The phone numbers for this submitter
-     */
-    private List<StringWithCustomTags> phoneNumbers = getPhoneNumbers(Options.isCollectionInitializationEnabled());
-
-    /**
      * The record ID number
      */
     private StringWithCustomTags recIdNumber;
@@ -173,11 +153,6 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
     private List<UserReference> userReferences = getUserReferences(Options.isCollectionInitializationEnabled());
 
     /**
-     * Web URL's. New for GEDCOM 5.5.1.
-     */
-    private List<StringWithCustomTags> wwwUrls = getWwwUrls(Options.isCollectionInitializationEnabled());
-
-    /**
      * The xref for this submitter
      */
     private String xref;
@@ -199,13 +174,6 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
             return false;
         }
         Individual other = (Individual) obj;
-        if (address == null) {
-            if (other.address != null) {
-                return false;
-            }
-        } else if (!address.equals(other.address)) {
-            return false;
-        }
         if (aliases == null) {
             if (other.aliases != null) {
                 return false;
@@ -318,34 +286,6 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
         } else if (!permanentRecFileNumber.equals(other.permanentRecFileNumber)) {
             return false;
         }
-        if (phoneNumbers == null) {
-            if (other.phoneNumbers != null) {
-                return false;
-            }
-        } else if (!phoneNumbers.equals(other.phoneNumbers)) {
-            return false;
-        }
-        if (wwwUrls == null) {
-            if (other.wwwUrls != null) {
-                return false;
-            }
-        } else if (!wwwUrls.equals(other.wwwUrls)) {
-            return false;
-        }
-        if (faxNumbers == null) {
-            if (other.faxNumbers != null) {
-                return false;
-            }
-        } else if (!faxNumbers.equals(other.faxNumbers)) {
-            return false;
-        }
-        if (emails == null) {
-            if (other.emails != null) {
-                return false;
-            }
-        } else if (!emails.equals(other.emails)) {
-            return false;
-        }
         if (recIdNumber == null) {
             if (other.recIdNumber != null) {
                 return false;
@@ -393,15 +333,6 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
     }
 
     // CHECKSTYLE:ON
-
-    /**
-     * Gets the address.
-     *
-     * @return the address
-     */
-    public Address getAddress() {
-        return address;
-    }
 
     /**
      * Gets the aliases.
@@ -601,30 +532,6 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
     }
 
     /**
-     * Gets the emails.
-     *
-     * @return the emails
-     */
-    public List<StringWithCustomTags> getEmails() {
-        return emails;
-    }
-
-    /**
-     * Get the emails
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the emails
-     */
-    public List<StringWithCustomTags> getEmails(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && emails == null) {
-            emails = new ArrayList<>(0);
-        }
-
-        return emails;
-    }
-
-    /**
      * Gets the events.
      *
      * @return the events
@@ -710,29 +617,6 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
             familiesWhereSpouse = new ArrayList<>(0);
         }
         return familiesWhereSpouse;
-    }
-
-    /**
-     * Gets the fax numbers.
-     *
-     * @return the fax numbers
-     */
-    public List<StringWithCustomTags> getFaxNumbers() {
-        return faxNumbers;
-    }
-
-    /**
-     * Get the fax numbers
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the fax numbers
-     */
-    public List<StringWithCustomTags> getFaxNumbers(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && faxNumbers == null) {
-            faxNumbers = new ArrayList<>(0);
-        }
-        return faxNumbers;
     }
 
     /**
@@ -858,29 +742,6 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
     }
 
     /**
-     * Gets the phone numbers.
-     *
-     * @return the phone numbers
-     */
-    public List<StringWithCustomTags> getPhoneNumbers() {
-        return phoneNumbers;
-    }
-
-    /**
-     * Get the phone numbers
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the phone numbers
-     */
-    public List<StringWithCustomTags> getPhoneNumbers(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && phoneNumbers == null) {
-            phoneNumbers = new ArrayList<>(0);
-        }
-        return phoneNumbers;
-    }
-
-    /**
      * Gets the rec id number.
      *
      * @return the rec id number
@@ -975,29 +836,6 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
     }
 
     /**
-     * Gets the www urls.
-     *
-     * @return the www urls
-     */
-    public List<StringWithCustomTags> getWwwUrls() {
-        return wwwUrls;
-    }
-
-    /**
-     * Get the www urls
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the www Uurls
-     */
-    public List<StringWithCustomTags> getWwwUrls(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && wwwUrls == null) {
-            wwwUrls = new ArrayList<>(0);
-        }
-        return wwwUrls;
-    }
-
-    /**
      * Gets the xref.
      *
      * @return the xref
@@ -1017,7 +855,6 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
             return prime * result + xref.hashCode();
         }
         result = prime * result;
-        result = prime * result + (address == null ? 0 : address.hashCode());
         result = prime * result + (aliases == null ? 0 : aliases.hashCode());
         result = prime * result + (ancestorInterest == null ? 0 : ancestorInterest.hashCode());
         result = prime * result + (ancestralFileNumber == null ? 0 : ancestralFileNumber.hashCode());
@@ -1034,26 +871,12 @@ public class Individual extends AbstractNotesElement implements HasCitations, Ha
         result = prime * result + (names == null ? 0 : names.hashCode());
         result = prime * result + (notes == null ? 0 : notes.hashCode());
         result = prime * result + (permanentRecFileNumber == null ? 0 : permanentRecFileNumber.hashCode());
-        result = prime * result + (phoneNumbers == null ? 0 : phoneNumbers.hashCode());
-        result = prime * result + (faxNumbers == null ? 0 : faxNumbers.hashCode());
-        result = prime * result + (wwwUrls == null ? 0 : wwwUrls.hashCode());
-        result = prime * result + (emails == null ? 0 : emails.hashCode());
         result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
         result = prime * result + (restrictionNotice == null ? 0 : restrictionNotice.hashCode());
         result = prime * result + (sex == null ? 0 : sex.hashCode());
         result = prime * result + (submitters == null ? 0 : submitters.hashCode());
         result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
         return result;
-    }
-
-    /**
-     * Sets the address.
-     *
-     * @param address
-     *            the new address
-     */
-    public void setAddress(Address address) {
-        this.address = address;
     }
 
     /**

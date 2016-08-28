@@ -38,16 +38,11 @@ import org.gedcom4j.Options;
  * 
  */
 @SuppressWarnings("PMD.GodClass")
-public abstract class AbstractEvent extends AbstractNotesElement implements HasCitations {
+public abstract class AbstractEvent extends AbstractAddressableElement implements HasCitations {
     /**
      * Serial Version UID
      */
     private static final long serialVersionUID = 2745411202618610785L;
-
-    /**
-     * The address where this event took place
-     */
-    private Address address;
 
     /**
      * The age of the person to whom this event is attached at the time it occurred
@@ -75,24 +70,9 @@ public abstract class AbstractEvent extends AbstractNotesElement implements HasC
     private StringWithCustomTags description;
 
     /**
-     * The emails for this submitter. New for GEDCOM 5.5.1
-     */
-    private List<StringWithCustomTags> emails = getEmails(Options.isCollectionInitializationEnabled());
-
-    /**
-     * Fax numbers. New for GEDCOM 5.5.1.
-     */
-    private List<StringWithCustomTags> faxNumbers = getFaxNumbers(Options.isCollectionInitializationEnabled());
-
-    /**
      * Multimedia links for this source citation
      */
     private List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
-
-    /**
-     * The phone numbers for this submitter
-     */
-    private List<StringWithCustomTags> phoneNumbers = getPhoneNumbers(Options.isCollectionInitializationEnabled());
 
     /**
      * The place where this event occurred
@@ -119,11 +99,6 @@ public abstract class AbstractEvent extends AbstractNotesElement implements HasC
      * A subtype that further qualifies the type
      */
     private StringWithCustomTags subType;
-
-    /**
-     * Web URL's. New for GEDCOM 5.5.1.
-     */
-    private List<StringWithCustomTags> wwwUrls = getWwwUrls(Options.isCollectionInitializationEnabled());
 
     /**
      * Either a Y or a null after the event type;
@@ -270,15 +245,6 @@ public abstract class AbstractEvent extends AbstractNotesElement implements HasC
     }
 
     /**
-     * Gets the address.
-     *
-     * @return the address
-     */
-    public Address getAddress() {
-        return address;
-    }
-
-    /**
      * Gets the age.
      *
      * @return the age
@@ -339,53 +305,6 @@ public abstract class AbstractEvent extends AbstractNotesElement implements HasC
     }
 
     /**
-     * Gets the emails.
-     *
-     * @return the emails
-     */
-    public List<StringWithCustomTags> getEmails() {
-        return emails;
-    }
-
-    /**
-     * Get the emails
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the emails
-     */
-    public List<StringWithCustomTags> getEmails(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && emails == null) {
-            emails = new ArrayList<>(0);
-        }
-
-        return emails;
-    }
-
-    /**
-     * Gets the fax numbers.
-     *
-     * @return the fax numbers
-     */
-    public List<StringWithCustomTags> getFaxNumbers() {
-        return faxNumbers;
-    }
-
-    /**
-     * Get the fax numbers
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the faxNumbers
-     */
-    public List<StringWithCustomTags> getFaxNumbers(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && faxNumbers == null) {
-            faxNumbers = new ArrayList<>(0);
-        }
-        return faxNumbers;
-    }
-
-    /**
      * Gets the multimedia.
      *
      * @return the multimedia
@@ -406,29 +325,6 @@ public abstract class AbstractEvent extends AbstractNotesElement implements HasC
             multimedia = new ArrayList<>(0);
         }
         return multimedia;
-    }
-
-    /**
-     * Gets the phone numbers.
-     *
-     * @return the phone numbers
-     */
-    public List<StringWithCustomTags> getPhoneNumbers() {
-        return phoneNumbers;
-    }
-
-    /**
-     * Get the phone numbers
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the phoneNumbers
-     */
-    public List<StringWithCustomTags> getPhoneNumbers(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && phoneNumbers == null) {
-            phoneNumbers = new ArrayList<>(0);
-        }
-        return phoneNumbers;
     }
 
     /**
@@ -477,29 +373,6 @@ public abstract class AbstractEvent extends AbstractNotesElement implements HasC
     }
 
     /**
-     * Gets the www urls.
-     *
-     * @return the www urls
-     */
-    public List<StringWithCustomTags> getWwwUrls() {
-        return wwwUrls;
-    }
-
-    /**
-     * Get the www urls
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the wwwUrls
-     */
-    public List<StringWithCustomTags> getWwwUrls(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && wwwUrls == null) {
-            wwwUrls = new ArrayList<>(0);
-        }
-        return wwwUrls;
-    }
-
-    /**
      * Get the yNull
      * 
      * @return the yNull
@@ -533,16 +406,6 @@ public abstract class AbstractEvent extends AbstractNotesElement implements HasC
         result = prime * result + (wwwUrls == null ? 0 : wwwUrls.hashCode());
         result = prime * result + (emails == null ? 0 : emails.hashCode());
         return result;
-    }
-
-    /**
-     * Sets the address.
-     *
-     * @param address
-     *            the new address
-     */
-    public void setAddress(Address address) {
-        this.address = address;
     }
 
     /**

@@ -36,7 +36,7 @@ import org.gedcom4j.Options;
  * 
  * @author frizbog1
  */
-public class Association extends AbstractElement implements HasXref {
+public class Association extends AbstractElement {
     /**
      * Serial Version UID
      */
@@ -193,14 +193,6 @@ public class Association extends AbstractElement implements HasXref {
      */
     public StringWithCustomTags getRelationship() {
         return relationship;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getXref() {
-        return getAssociatedEntityXref();
     }
 
     /**
