@@ -43,7 +43,7 @@ import org.gedcom4j.model.StringWithCustomTags;
  * 
  * @author frizbog
  */
-class FamilyEventParser extends AbstractParser<FamilyEvent> {
+class FamilyEventParser extends AbstractEventParser<FamilyEvent> {
 
     /**
      * Constructor
@@ -63,17 +63,7 @@ class FamilyEventParser extends AbstractParser<FamilyEvent> {
     @SuppressWarnings({ "PMD.ExcessiveMethodLength", "PMD.NcssMethodCount" })
     void parse() {
         loadInto.setType(FamilyEventType.getFromTag(stringTree.getTag()));
-        if ("Y".equals(stringTree.getValue())) {
-            loadInto.setyNull(stringTree.getValue());
-            loadInto.setDescription(null);
-        } else if (stringTree.getValue() == null || stringTree.getValue().trim().length() == 0) {
-            loadInto.setyNull(null);
-            loadInto.setDescription(null);
-        } else {
-            loadInto.setyNull(null);
-            loadInto.setDescription(new StringWithCustomTags(stringTree.getValue()));
-            addWarning(stringTree.getTag() + " tag had description rather than [Y|<NULL>] - violates standard");
-        }
+        parseYNull();
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.TYPE.equalsText(ch.getTag())) {

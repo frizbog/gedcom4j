@@ -44,7 +44,7 @@ import org.gedcom4j.model.StringWithCustomTags;
  * 
  * @author frizbog
  */
-class IndividualEventParser extends AbstractParser<IndividualEvent> {
+class IndividualEventParser extends AbstractEventParser<IndividualEvent> {
 
     /**
      * Constructor
@@ -67,17 +67,7 @@ class IndividualEventParser extends AbstractParser<IndividualEvent> {
     @SuppressWarnings("PMD.ExcessiveMethodLength")
     void parse() {
         loadInto.setType(IndividualEventType.getFromTag(stringTree.getTag()));
-        if ("Y".equals(stringTree.getValue())) {
-            loadInto.setyNull(stringTree.getValue());
-            loadInto.setDescription(null);
-        } else if (stringTree.getValue() == null || stringTree.getValue().trim().length() == 0) {
-            loadInto.setyNull(null);
-            loadInto.setDescription(null);
-        } else {
-            loadInto.setyNull(null);
-            loadInto.setDescription(new StringWithCustomTags(stringTree.getValue()));
-            addWarning(stringTree.getTag() + " tag had description rather than [Y|<NULL>] - violates standard");
-        }
+        parseYNull();
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.TYPE.equalsText(ch.getTag())) {
