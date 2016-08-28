@@ -27,11 +27,18 @@
 package org.gedcom4j.query;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.IndividualEventType;
 import org.gedcom4j.model.PersonalName;
+import org.gedcom4j.parser.DateParser;
+import org.gedcom4j.parser.DateParser.ImpreciseDatePreference;
 
 /**
  * A class for finding specific data in a GEDCOM object graph
@@ -52,6 +59,89 @@ public class Finder {
      */
     public Finder(Gedcom gedcom) {
         g = gedcom;
+    }
+
+    /**
+     * Find individuals that have an event of a specific type, with a date that in any way overlaps the date range provided
+     * 
+     * @param eventType
+     *            the type of event to look for
+     * @param dateRangeStart
+     *            the start of the date range during which the event has to overlap. A null value indicates that there's no limit on
+     *            how early the event might have occurred to match.
+     * @param dateRangeEnd
+     *            the end of the date range during which the event has to overlap. A null value indicates that there's no limit on
+     *            how late the event might have occurred to match.
+     * @return a List of the individuals that match the criteria, if any. Returns an empty list on no matches.
+     */
+    public Set<Individual> findByEvent(IndividualEventType eventType, Date dateRangeStart, Date dateRangeEnd) {
+        DateParser dp = new DateParser();
+        Set<Individual> result = new HashSet<>();
+        nextPerson: for (Individual i : g.getIndividuals().values()) {
+            List<IndividualEvent> eventsOfType = i.getEventsOfType(eventType);
+            nextEvent: for (IndividualEvent ie : eventsOfType) {
+                if (dateRangeStart == null && dateRangeEnd == null) {
+                    result.add(i);
+                    continue nextPerson;
+                }
+
+                if (ie.getDate() == null || ie.getDate().getValue() == null) {
+                    // No dates to parse, can't compare to range
+                    continue nextEvent;
+                }
+
+                Date eventStart = dp.parse(ie.getDate().getValue(), ImpreciseDatePreference.FAVOR_EARLIEST);
+                Date eventEnd = dp.parse(ie.getDate().getValue(), ImpreciseDatePreference.FAVOR_LATEST);
+
+                if (dateRangeStart == null && eventStart != null && !eventStart.after(dateRangeEnd)) {
+                    result.add(i);
+                    continue nextPerson;
+                }
+                if (dateRangeEnd == null && eventEnd != null && !eventEnd.before(dateRangeStart)) {
+                    result.add(i);
+                    continue nextPerson;
+                }
+                if (dateRangeStart != null && dateRangeEnd != null && eventStart != null && eventEnd != null && !eventStart.after(
+                        dateRangeEnd) && !eventEnd.before(dateRangeStart)) {
+                    result.add(i);
+                    continue nextPerson;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Find individuals that have an event of a specific type, with a date that in any way overlaps the date range provided
+     * 
+     * @param eventType
+     *            the type of event to look for
+     * @param dateRangeStartAsString
+     *            a GEDCOM format string representing the start of the date range during which the event has to overlap. A null
+     *            value indicates that there's no limit on how early the event might have occurred to match.
+     * @param dateRangeEndAsString
+     *            a GEDCOM format string representing the end of the date range during which the event has to overlap. A null value
+     *            indicates that there's no limit on how late the event might have occurred to match.
+     * @return a List of the individuals that match the critaria, if any. Returns an empty list on no matches.
+     */
+    public Set<Individual> findByEvent(IndividualEventType eventType, String dateRangeStartAsString, String dateRangeEndAsString) {
+        DateParser dp = new DateParser();
+        Date dateRangeStart = null;
+        if (dateRangeStartAsString != null) {
+            dateRangeStart = dp.parse(dateRangeStartAsString, ImpreciseDatePreference.FAVOR_EARLIEST);
+            if (dateRangeStart == null) {
+                throw new IllegalArgumentException(dateRangeStartAsString + " could not be parsed as a date");
+            }
+        }
+        Date dateRangeEnd = null;
+        if (dateRangeEndAsString != null) {
+            dateRangeEnd = dp.parse(dateRangeEndAsString, ImpreciseDatePreference.FAVOR_LATEST);
+            if (dateRangeEnd == null) {
+                throw new IllegalArgumentException(dateRangeEndAsString + " could not be parsed as a date");
+            }
+        }
+        return findByEvent(eventType, dateRangeStart, dateRangeEnd);
     }
 
     /**
