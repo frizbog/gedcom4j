@@ -233,7 +233,8 @@ abstract class AbstractEmitter<T> {
         } else {
             List<String> temp = new ArrayList<>();
             temp.add(value);
-            emitValueLines(level, tag, temp);
+            List<String> valueLines = splitLinesOnBreakingCharacters(temp);
+            emitValueLines(level, null, tag, valueLines);
         }
     }
 
@@ -263,7 +264,10 @@ abstract class AbstractEmitter<T> {
 
         List<String> temp = new ArrayList<>();
         temp.add(valueToRightOfTag.getValue());
-        emitValueLines(level, tag, temp);
+        List<String> valueLines = splitLinesOnBreakingCharacters(temp);
+
+        emitValueLines(level, null, tag, valueLines);
+
         emitCustomTags(level + 1, valueToRightOfTag.getCustomTags());
     }
 
@@ -404,25 +408,7 @@ abstract class AbstractEmitter<T> {
             temp.add(value.toString());
             List<String> valueLines = splitLinesOnBreakingCharacters(temp);
 
-            boolean first = true;
-            for (String v : valueLines) {
-
-                StringBuilder line = new StringBuilder();
-                if (first) {
-                    line.append(level);
-                    if (xref != null && xref.length() > 0) {
-                        line.append(" ").append(xref);
-                    }
-                    line.append(" ").append(tag).append(" ").append(v);
-                    emitAndSplit(level, line.toString());
-                } else {
-                    line.append(level + 1);
-                    line.append(" CONT ").append(v);
-                    emitAndSplit(level + 1, line.toString());
-                }
-
-                first = false;
-            }
+            emitValueLines(level, xref, tag, valueLines);
         }
     }
 
@@ -448,6 +434,24 @@ abstract class AbstractEmitter<T> {
         temp.add(e.getValue());
         List<String> valueLines = splitLinesOnBreakingCharacters(temp);
 
+        emitValueLines(level, xref, tag, valueLines);
+
+        emitCustomTags(level + 1, e.getCustomTags());
+    }
+
+    /**
+     * Emit the value lines that have been split on line breaks
+     * 
+     * @param level
+     *            the level within the file hierarchy
+     * @param xref
+     *            the xref for the item, if any
+     * @param tag
+     *            the tag for the line of the file
+     * @param valueLines
+     *            the value to write to the right of the tag
+     */
+    private void emitValueLines(int level, String xref, String tag, List<String> valueLines) {
         boolean first = true;
         for (String v : valueLines) {
             StringBuilder line = new StringBuilder();
@@ -456,39 +460,6 @@ abstract class AbstractEmitter<T> {
                 if (xref != null && xref.length() > 0) {
                     line.append(" ").append(xref);
                 }
-                line.append(" ").append(tag).append(" ").append(v);
-                emitAndSplit(level, line.toString());
-            } else {
-                line.append(level + 1);
-                line.append(" CONT ").append(v);
-                emitAndSplit(level + 1, line.toString());
-            }
-
-            first = false;
-        }
-
-        emitCustomTags(level + 1, e.getCustomTags());
-    }
-
-    /**
-     * Emit the value lines, splitting on breaking characters
-     * 
-     * @param level
-     *            the level we're emitting at
-     * @param tag
-     *            the tag we're emitting
-     * @param temp
-     *            the temporary list of lines we're splitting on breaking characters
-     */
-    private void emitValueLines(int level, String tag, List<String> temp) {
-        List<String> valueLines = splitLinesOnBreakingCharacters(temp);
-
-        boolean first = true;
-        for (String v : valueLines) {
-
-            StringBuilder line = new StringBuilder();
-            if (first) {
-                line.append(level);
                 line.append(" ").append(tag).append(" ").append(v);
                 emitAndSplit(level, line.toString());
             } else {

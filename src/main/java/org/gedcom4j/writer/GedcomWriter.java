@@ -52,7 +52,6 @@ import org.gedcom4j.model.IndividualAttribute;
 import org.gedcom4j.model.IndividualAttributeType;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Repository;
-import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.SupportedVersion;
@@ -474,33 +473,6 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
         new SubmittersEmitter(this, 0, writeFrom.getSubmitters().values()).emit();
         emitTrailer();
         emitCustomTags(1, writeFrom.getCustomTags());
-    }
-
-    /**
-     * Emit the custom tags
-     * 
-     * @param customTags
-     *            the custom tags
-     * @param level
-     *            the level at which the custom tags are to be written
-     */
-    @Override
-    void emitCustomTags(int level, List<StringTree> customTags) {
-        if (customTags != null) {
-            for (StringTree st : customTags) {
-                StringBuilder line = new StringBuilder(Integer.toString(level));
-                line.append(" ");
-                if (st.getId() != null && st.getId().trim().length() > 0) {
-                    line.append(st.getId()).append(" ");
-                }
-                line.append(st.getTag());
-                if (st.getValue() != null && st.getValue().trim().length() > 0) {
-                    line.append(" ").append(st.getValue());
-                }
-                baseWriter.lines.add(line.toString());
-                emitCustomTags(level + 1, st.getChildren());
-            }
-        }
     }
 
     /**

@@ -38,7 +38,7 @@ import org.gedcom4j.writer.GedcomWriter;
  * 
  * @author frizbog
  */
-class AnselWriter extends AbstractEncodingSpecificWriter {
+class AnselWriter extends AbstractSingleByteWriter {
 
     /**
      * The helper class that converts UTF-16 strings to ANSEL encoded data
@@ -67,38 +67,6 @@ class AnselWriter extends AbstractEncodingSpecificWriter {
             bytesWritten++;
         }
         writeLineTerminator(out);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void writeLineTerminator(OutputStream out) throws IOException, WriterCancelledException {
-        switch (terminator) {
-            case CR_ONLY:
-                out.write((byte) 0x0D);
-                bytesWritten++;
-                break;
-            case LF_ONLY:
-                out.write((byte) 0x0A);
-                bytesWritten++;
-                break;
-            case LFCR:
-                out.write((byte) 0x0A);
-                out.write((byte) 0x0D);
-                bytesWritten += 2;
-                break;
-            case CRLF:
-                out.write((byte) 0x0D);
-                out.write((byte) 0x0A);
-                bytesWritten += 2;
-                break;
-            default:
-                throw new IllegalStateException("Terminator selection of " + terminator + " is an unrecognized value");
-        }
-        if (writer.isCancelled()) {
-            throw new WriterCancelledException("Construction and writing of GEDCOM cancelled");
-        }
     }
 
 }

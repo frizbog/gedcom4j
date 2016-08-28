@@ -423,6 +423,27 @@ public class DateParser implements Serializable {
     }
 
     /**
+     * Get the midpoint between two dates
+     * 
+     * @param d1
+     *            first date
+     * @param d2
+     *            second date
+     * @return the midpoint between the two dates
+     */
+    private Date getMidpointOfDateRange(Date d1, Date d2) {
+        if (d1 == null || d2 == null) {
+            return null;
+        }
+        long daysBetween = TimeUnit.DAYS.convert(d2.getTime() - d1.getTime(), TimeUnit.MILLISECONDS);
+        Calendar c = Calendar.getInstance(Locale.US);
+        c.setTimeZone(TimeZone.getTimeZone("UTC"));
+        c.setTime(d1);
+        c.add(Calendar.DAY_OF_YEAR, (int) daysBetween / 2);
+        return c.getTime();
+    }
+
+    /**
      * Get a Gregorian date from a French Republican date string consisting of two dates separated by either "AND" or "TO", and with
      * a prefix like "FROM" or "BET", using the supplied method of resolving a single date from the range
      * 
@@ -452,15 +473,7 @@ public class DateParser implements Serializable {
             case FAVOR_MIDPOINT:
                 Date d1 = parseFrenchRepublicanSingleDate(dateStrings[0], ImpreciseDatePreference.FAVOR_EARLIEST);
                 Date d2 = parseFrenchRepublicanSingleDate(dateStrings[1], ImpreciseDatePreference.FAVOR_LATEST);
-                if (d1 == null || d2 == null) {
-                    return null;
-                }
-                long daysBetween = TimeUnit.DAYS.convert(d2.getTime() - d1.getTime(), TimeUnit.MILLISECONDS);
-                Calendar c = Calendar.getInstance(Locale.US);
-                c.setTimeZone(TimeZone.getTimeZone("UTC"));
-                c.setTime(d1);
-                c.add(Calendar.DAY_OF_YEAR, (int) daysBetween / 2);
-                return c.getTime();
+                return getMidpointOfDateRange(d1, d2);
             case PRECISE:
                 return parseFrenchRepublicanSingleDate(dateStrings[0], pref);
             default:
@@ -498,15 +511,7 @@ public class DateParser implements Serializable {
             case FAVOR_MIDPOINT:
                 Date d1 = parseHebrewSingleDate(dateStrings[0], ImpreciseDatePreference.FAVOR_EARLIEST);
                 Date d2 = parseHebrewSingleDate(dateStrings[1], ImpreciseDatePreference.FAVOR_LATEST);
-                if (d1 == null || d2 == null) {
-                    return null;
-                }
-                long daysBetween = TimeUnit.DAYS.convert(d2.getTime() - d1.getTime(), TimeUnit.MILLISECONDS);
-                Calendar c = Calendar.getInstance(Locale.US);
-                c.setTimeZone(TimeZone.getTimeZone("UTC"));
-                c.setTime(d1);
-                c.add(Calendar.DAY_OF_YEAR, (int) daysBetween / 2);
-                return c.getTime();
+                return getMidpointOfDateRange(d1, d2);
             case PRECISE:
                 return parseHebrewSingleDate(dateStrings[0], pref);
             default:
@@ -542,15 +547,7 @@ public class DateParser implements Serializable {
             case FAVOR_MIDPOINT:
                 Date d1 = parse(dateStrings[0], ImpreciseDatePreference.FAVOR_EARLIEST);
                 Date d2 = parse(dateStrings[1], ImpreciseDatePreference.FAVOR_LATEST);
-                if (d1 == null || d2 == null) {
-                    return null;
-                }
-                long daysBetween = TimeUnit.DAYS.convert(d2.getTime() - d1.getTime(), TimeUnit.MILLISECONDS);
-                Calendar c = Calendar.getInstance(Locale.US);
-                c.setTimeZone(TimeZone.getTimeZone("UTC"));
-                c.setTime(d1);
-                c.add(Calendar.DAY_OF_YEAR, (int) daysBetween / 2);
-                return c.getTime();
+                return getMidpointOfDateRange(d1, d2);
             case PRECISE:
                 return parse(dateStrings[0], pref);
             default:
