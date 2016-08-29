@@ -299,11 +299,10 @@ public class IndividualAttributeTest {
         i.setyNull("Thirteen");
 
         assertEquals(
-                "IndividualAttribute [type=Fact, address=Address [], age=One, cause=Two, citations=[CitationWithoutSource []], "
-                        + "date=Three, description=Four, emails=[Five], faxNumbers=[Six], multimedia=[Multimedia []], notes=[Note []], "
-                        + "phoneNumbers=[Seven], place=Place [], religiousAffiliation=Eight, respAgency=Nine, restrictionNotice=Ten, "
-                        + "subType=Eleven, wwwUrls=[Twelve], yNull=Thirteen, customTags=[Line 0: 0 (null tag) (null value)]]", i
-                                .toString());
+                "IndividualAttribute [type=Fact, age=One, cause=Two, citations=[CitationWithoutSource []], date=Three, description=Four, "
+                        + "multimedia=[Multimedia []], notes=[Note []], place=Place [], religiousAffiliation=Eight, respAgency=Nine, restrictionNotice=Ten, "
+                        + "subType=Eleven, yNull=Thirteen, address=Address [], emails=[Five], faxNumbers=[Six], phoneNumbers=[Seven], wwwUrls=[Twelve], "
+                        + "customTags=[Line 0: 0 (null tag) (null value)]]", i.toString());
     }
 
 }

@@ -229,4 +229,42 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
         this.address = address;
     }
 
+    /**
+     * Append the address-like fields to the string builder, to assist toString() implementations
+     * 
+     * @param builder
+     *            the string builder
+     * @param moreFieldsAfterThis
+     *            are there more fields coming after this? This way we know whether to put in a trailing comma.
+     */
+    protected void appendAddressFields(StringBuilder builder, boolean moreFieldsAfterThis) {
+        if (address != null) {
+            builder.append("address=");
+            builder.append(address);
+            builder.append(", ");
+        }
+        if (emails != null) {
+            builder.append("emails=");
+            builder.append(emails);
+            builder.append(", ");
+        }
+        if (faxNumbers != null) {
+            builder.append("faxNumbers=");
+            builder.append(faxNumbers);
+            builder.append(", ");
+        }
+        if (phoneNumbers != null) {
+            builder.append("phoneNumbers=");
+            builder.append(phoneNumbers);
+            builder.append(", ");
+        }
+        if (wwwUrls != null) {
+            builder.append("wwwUrls=");
+            builder.append(wwwUrls);
+            if (moreFieldsAfterThis) {
+                builder.append(", ");
+            }
+        }
+    }
+
 }

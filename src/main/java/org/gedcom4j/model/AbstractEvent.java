@@ -529,11 +529,6 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      * @return the StringBuilder that was passed in.
      */
     protected StringBuilder buildAbstractEventToString(StringBuilder builder) {
-        if (address != null) {
-            builder.append("address=");
-            builder.append(address);
-            builder.append(", ");
-        }
         if (age != null) {
             builder.append("age=");
             builder.append(age);
@@ -559,16 +554,6 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
             builder.append(description);
             builder.append(", ");
         }
-        if (emails != null) {
-            builder.append("emails=");
-            builder.append(emails);
-            builder.append(", ");
-        }
-        if (faxNumbers != null) {
-            builder.append("faxNumbers=");
-            builder.append(faxNumbers);
-            builder.append(", ");
-        }
         if (multimedia != null) {
             builder.append("multimedia=");
             builder.append(multimedia);
@@ -577,11 +562,6 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
         if (getNotes() != null) {
             builder.append("notes=");
             builder.append(getNotes());
-            builder.append(", ");
-        }
-        if (phoneNumbers != null) {
-            builder.append("phoneNumbers=");
-            builder.append(phoneNumbers);
             builder.append(", ");
         }
         if (place != null) {
@@ -609,16 +589,12 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
             builder.append(subType);
             builder.append(", ");
         }
-        if (wwwUrls != null) {
-            builder.append("wwwUrls=");
-            builder.append(wwwUrls);
-            builder.append(", ");
-        }
         if (yNull != null) {
             builder.append("yNull=");
             builder.append(yNull);
             builder.append(", ");
         }
+        appendAddressFields(builder, true);
         if (getCustomTags() != null) {
             builder.append("customTags=");
             builder.append(getCustomTags());

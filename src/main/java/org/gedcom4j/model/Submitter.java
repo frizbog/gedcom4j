@@ -391,30 +391,7 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
             builder.append(xref);
             builder.append(", ");
         }
-        if (address != null) {
-            builder.append("address=");
-            builder.append(address);
-            builder.append(", ");
-        }
-        if (emails != null) {
-            builder.append("emails=");
-            builder.append(emails);
-            builder.append(", ");
-        }
-        if (faxNumbers != null) {
-            builder.append("faxNumbers=");
-            builder.append(faxNumbers);
-            builder.append(", ");
-        }
-        if (phoneNumbers != null) {
-            builder.append("phoneNumbers=");
-            builder.append(phoneNumbers);
-            builder.append(", ");
-        }
-        if (wwwUrls != null) {
-            builder.append("wwwUrls=");
-            builder.append(wwwUrls);
-        }
+        appendAddressFields(builder, false);
         builder.append("]");
         return builder.toString();
     }

@@ -42,8 +42,8 @@ import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.io.event.FileProgressListener;
 import org.gedcom4j.io.writer.GedcomFileWriter;
 import org.gedcom4j.io.writer.LineTerminator;
+import org.gedcom4j.model.AbstractAddressableElement;
 import org.gedcom4j.model.AbstractEvent;
-import org.gedcom4j.model.Corporation;
 import org.gedcom4j.model.FamilyChild;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.GedcomVersion;
@@ -523,7 +523,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
             throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but data is encoded using UTF-8");
         }
         if (writeFrom.getHeader().getSourceSystem() != null && writeFrom.getHeader().getSourceSystem().getCorporation() != null) {
-            Corporation c = writeFrom.getHeader().getSourceSystem().getCorporation();
+            AbstractAddressableElement c = writeFrom.getHeader().getSourceSystem().getCorporation();
             if (c.getWwwUrls() != null && !c.getWwwUrls().isEmpty()) {
                 throw new GedcomWriterVersionDataMismatchException(
                         "Gedcom version is 5.5, but source system corporation has www urls");
