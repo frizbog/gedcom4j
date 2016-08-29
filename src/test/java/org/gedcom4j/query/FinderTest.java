@@ -117,10 +117,16 @@ public class FinderTest {
         List<Individual> matches = classUnderTest.findByName("Walley", "Richard Pedley");
         assertNotNull(matches);
         assertEquals(2, matches.size());
-        assertNotNull(matches.get(0).getNames());
-        assertEquals(1, matches.get(0).getNames().size());
-        assertNotNull(matches.get(0).getNames().get(0));
-        assertEquals("Richard Pedley /Walley/", matches.get(0).getNames().get(0).getBasic());
+        Individual m = matches.get(0);
+        assertNotNull(m.getNames());
+        assertEquals(1, m.getNames().size());
+        assertNotNull(m.getNames().get(0));
+        if ("@I64@".equals(m.getXref())) {
+            assertEquals("Richard Pedley /Walley/", m.getNames().get(0).getBasic());
+        }
+        if ("@I48@".equals(m.getXref())) {
+            assertEquals("Richard Pedley /Walley/, Jp", m.getNames().get(0).getBasic());
+        }
     }
 
     /**
@@ -141,10 +147,23 @@ public class FinderTest {
         List<Individual> matches = classUnderTest.findByName(", Jd", "Walley", "Richard Pedley", "");
         assertNotNull(matches);
         assertEquals(2, matches.size());
-        assertNotNull(matches.get(0));
-        assertEquals("Richard Pedley /Walley/", matches.get(0).getNames().get(0).getBasic());
-        assertNotNull(matches.get(1));
-        assertEquals("Richard Pedley /Walley/, Jp", matches.get(1).getNames().get(0).getBasic());
+        Individual m1 = matches.get(0);
+        assertNotNull(m1);
+        if ("@I64@".equals(m1.getXref())) {
+            assertEquals("Richard Pedley /Walley/", m1.getNames().get(0).getBasic());
+        }
+        if ("@I48@".equals(m1.getXref())) {
+            assertEquals("Richard Pedley /Walley/, Jp", m1.getNames().get(0).getBasic());
+        }
+
+        Individual m2 = matches.get(1);
+        assertNotNull(m2);
+        if ("@I64@".equals(m2.getXref())) {
+            assertEquals("Richard Pedley /Walley/", m2.getNames().get(0).getBasic());
+        }
+        if ("@I48@".equals(m2.getXref())) {
+            assertEquals("Richard Pedley /Walley/, Jp", m2.getNames().get(0).getBasic());
+        }
     }
 
     /**
