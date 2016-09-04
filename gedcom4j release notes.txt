@@ -12,6 +12,10 @@ No issue numbers, but changed:
 - Much refactoring to use getters/setters throughout code (including tests) instead of direct field access, now that javabeans are the norm since 3.0.0
 - Merging in work from contributor Mark Sikes to introduce some new mix-in-like classes into the model, and to pull up common methods into the intermediate classes, to reduce repeated code and position for better validation
 
+Issue #122 - Created IndividualFactory class to make creation of Individuals easy
+
+Issue #123 - Created FamilyFactory class to make creation of Families easy and ensuring proper relationship connections between model objects
+
 Issue #127 - Enhanced the Finder class to allow searching for individuals by events in a date range
 
 Issue #130 - Fixed usage of AbstractNameVariation and created the PlaceNameVariation class for romanized/phonetic variants of place names.
@@ -19,7 +23,6 @@ Issue #130 - Fixed usage of AbstractNameVariation and created the PlaceNameVaria
 Issue #132 - Introduced a number of superclasses and refactored cut-and-pasted code into them to reduce redundancy.
 
 Issue #134 - Implemented Soundex algorithm and added to Finder so you can find people with names that sound like another name without needing exact spelling
-
 
 20 Aug 2016 - v3.1.0
 ====================
