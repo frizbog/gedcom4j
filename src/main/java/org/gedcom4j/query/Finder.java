@@ -31,6 +31,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
@@ -45,7 +47,11 @@ import org.gedcom4j.parser.DateParser.ImpreciseDatePreference;
  * 
  * @author frizbog1
  */
+@SuppressWarnings("PMD.GodClass")
 public class Finder {
+    /** A regex pattern for finding the surname from a basic name */
+    private static final Pattern BASIC_NAME_PATTERN = Pattern.compile("\\/[^\\/]*\\/");
+
     /**
      * The gedcom object graph being searched
      */
@@ -204,4 +210,98 @@ public class Finder {
         }
         return result;
     }
+
+    /**
+     * Find individuals whose surname and given names sound like the parameters supplied, using {@link Soundex} matching
+     * 
+     * @param surname
+     *            the surname of the individual(s) you wish to find. Required, must match Soundex exactly.
+     * @param given
+     *            the given name of the individual(s) you wish to find. Required, must match Soundex exactly.
+     * @return a {@link List} of {@link Individual}s that have both the surname and given name supplied.
+     */
+    @SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
+    public List<Individual> findByNameSoundsLike(String surname, String given) {
+        if (surname == null) {
+            throw new IllegalArgumentException("surname is required");
+        }
+        if (given == null) {
+            throw new IllegalArgumentException("given name is required");
+        }
+
+        List<Individual> result = new ArrayList<>();
+        for (Individual i : g.getIndividuals().values()) {
+            if (i.getNames() != null && namesSoundAlike(surname, given, i)) {
+                result.add(i);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Return true if the names supplied sound like the names on the individual supplied
+     * 
+     * @param surname
+     *            the surname we're looking for
+     * @param given
+     *            the given name we're looking for
+     * @param i
+     *            the individual we are checking
+     * @return true if the names supplied sound like the names on the individual supplied
+     */
+    private boolean namesSoundAlike(String surname, String given, Individual i) {
+        for (PersonalName n : i.getNames()) {
+            if (n.getSurname() != null || n.getGivenName() != null) {
+                // Sometimes the name is broken up into separate fields
+                boolean surnamesSoundAlike = n.getSurname() != null && soundsLike(surname, n.getSurname().getValue());
+                boolean givenNamesSoundAlike = n.getGivenName() != null && soundsLike(given, n.getGivenName().getValue());
+                if (surnamesSoundAlike && givenNamesSoundAlike) {
+                    return true;
+                }
+            }
+            // Other times they are concatenated with slashes around the
+            // surname
+            if (n.getBasic() == null) {
+                continue;
+            }
+
+            Matcher matcher = BASIC_NAME_PATTERN.matcher(n.getBasic());
+            boolean matched = matcher.find();
+            if (matched) {
+                String extractedGiven = n.getBasic().substring(0, matcher.start());
+                if (extractedGiven.length() > 4 && (extractedGiven.startsWith("Mr. ") || extractedGiven.startsWith("Dr. ")
+                        || extractedGiven.startsWith("Ms. "))) {
+                    extractedGiven = extractedGiven.substring(4);
+                }
+                if (extractedGiven.length() > 5 && (extractedGiven.startsWith("Mr. ") || extractedGiven.startsWith("Dr. ")
+                        || extractedGiven.startsWith("Mrs. "))) {
+                    extractedGiven = extractedGiven.substring(5);
+                }
+                String extractedSurname = n.getBasic().substring(matcher.start() + 1, matcher.end() - 1);
+                if (soundsLike(surname, extractedSurname) && soundsLike(given, extractedGiven)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Return true if the two strings supplied have the same Soundex mapping
+     * 
+     * @param s1
+     *            string 1
+     * @param s2
+     *            string 2
+     * @return true iff the two strings supplied have the same Soundex mapping
+     */
+    private boolean soundsLike(String s1, String s2) {
+        if (s1 == null && s2 == null) {
+            return true;
+        }
+        String sdx1 = Soundex.soundex(s1);
+        String sdx2 = Soundex.soundex(s2);
+        return (((sdx1 == null && sdx2 == null) || (sdx1 != null && sdx1.equals(sdx2))));
+    }
+
 }

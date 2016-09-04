@@ -3,20 +3,22 @@ GEDCOM4J RELEASE NOTES
 ==============================
 
 
-?? ??? 2016 - v3.2.0
+04 SEP 2016 - v3.2.0
 ====================
 v3.2.0 is a minor release with a number of backward-compatible API changes for bug fixes and enhancements.
 
 No issue numbers, but changed:
 - Minimum language level is now Java 7.  Much code has been refactored to reflect this and to begin using Java 7 idioms.
-- Much refactoring to use getters/setters throughout code (including tests) now that javabeans are the norm since 3.0.0
-- Merging in work from contributor Mark Sikes to introduce some new mix-in classes into the model and pull up common methods into the intermediate classes, to reduce repeated code and position for better validation
+- Much refactoring to use getters/setters throughout code (including tests) instead of direct field access, now that javabeans are the norm since 3.0.0
+- Merging in work from contributor Mark Sikes to introduce some new mix-in-like classes into the model, and to pull up common methods into the intermediate classes, to reduce repeated code and position for better validation
 
 Issue #127 - Enhanced the Finder class to allow searching for individuals by events in a date range
 
 Issue #130 - Fixed usage of AbstractNameVariation and created the PlaceNameVariation class for romanized/phonetic variants of place names.
 
 Issue #132 - Introduced a number of superclasses and refactored cut-and-pasted code into them to reduce redundancy.
+
+Issue #134 - Implemented Soundex algorithm and added to Finder so you can find people with names that sound like another name without needing exact spelling
 
 
 20 Aug 2016 - v3.1.0
