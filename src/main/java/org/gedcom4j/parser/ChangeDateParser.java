@@ -62,7 +62,7 @@ class ChangeDateParser extends AbstractParser<ChangeDate> {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.DATE.equalsText(ch.getTag())) {
                     loadInto.setDate(new StringWithCustomTags(ch.getValue()));
-                    if (!ch.getChildren().isEmpty()) {
+                    if (ch.getChildren() != null && !ch.getChildren().isEmpty()) {
                         loadInto.setTime(new StringWithCustomTags(ch.getChildren().get(0)));
                     }
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
