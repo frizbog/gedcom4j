@@ -153,6 +153,49 @@ public class Gedcom extends AbstractElement {
      */
     private Trailer trailer = new Trailer();
 
+    /** Default constructor */
+    public Gedcom() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public Gedcom(Gedcom other) {
+        super(other);
+        for (Family f : other.families.values()) {
+            families.put(f.getXref(), new Family(f));
+        }
+        if (other.header != null) {
+            header = new Header(other.header);
+        }
+        for (Individual i : other.individuals.values()) {
+            individuals.put(i.getXref(), new Individual(i));
+        }
+        for (Multimedia m : other.multimedia.values()) {
+            multimedia.put(m.getXref(), new Multimedia(m));
+        }
+        for (Note n : other.notes.values()) {
+            notes.put(n.getXref(), new Note(n));
+        }
+        for (Repository r : other.repositories.values()) {
+            repositories.put(r.getXref(), new Repository(r));
+        }
+        for (Source r : other.sources.values()) {
+            sources.put(r.getXref(), new Source(r));
+        }
+        if (other.submission != null) {
+            submission = new Submission(other.submission);
+        }
+        for (Submitter s : other.submitters.values()) {
+            submitters.put(s.getXref(), new Submitter(s));
+        }
+        // All trailers are the same, and it's already initialized
+    }
+
     /**
      * {@inheritDoc}
      */
