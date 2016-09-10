@@ -36,7 +36,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class CitationWithSourceCopyTest {
+public class CitationWithSourceCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link CitationWithSource}, which should never work

@@ -36,7 +36,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class FileReferenceCopyTest {
+public class FileReferenceCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link FileReference}, which should never work

@@ -36,7 +36,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class SourceSystemCopyTest {
+public class SourceSystemCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link SourceSystem}, which should never work

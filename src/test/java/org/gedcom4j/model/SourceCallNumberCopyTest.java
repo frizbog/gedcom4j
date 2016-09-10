@@ -36,7 +36,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class SourceCallNumberCopyTest {
+public class SourceCallNumberCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link SourceCallNumber}, which should never work

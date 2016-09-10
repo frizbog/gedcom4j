@@ -27,7 +27,9 @@
 package org.gedcom4j.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -36,7 +38,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class LdsSpouseSealingCopyTest {
+public class LdsSpouseSealingCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link LdsSpouseSealing}, which should never work
@@ -57,6 +59,31 @@ public class LdsSpouseSealingCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values to copy
+     */
+    @Test
+    public void testValues() {
+        LdsSpouseSealing orig = new LdsSpouseSealing();
+        orig.setDate(new StringWithCustomTags("A"));
+        orig.setPlace(new StringWithCustomTags("B"));
+        orig.setStatus(new StringWithCustomTags("C"));
+        orig.setStatus(new StringWithCustomTags("D"));
+        orig.getNotes(true);
+        orig.setCustomTags(null);
+
+        LdsSpouseSealing copy = new LdsSpouseSealing(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+
+        assertEquals(orig.toString(), copy.toString());
+        assertNotNull(orig.getNotes());
+        assertNotNull(copy.getNotes());
+        assertNull(orig.getCustomTags());
+        assertNull(copy.getCustomTags());
+
+        assertEquals(orig.toString(), copy.toString());
+    }
 
 }

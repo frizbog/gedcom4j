@@ -36,7 +36,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class FamilyCopyTest {
+public class FamilyCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link Family}, which should never work

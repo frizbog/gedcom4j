@@ -36,7 +36,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class NoteCopyTest {
+public class NoteCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link Note}, which should never work
@@ -57,6 +57,35 @@ public class NoteCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
 
+    /**
+     * Test with values
+     */
+    @Test
+    public void testValues() {
+        Note orig = new Note();
+        ChangeDate changeDate = new ChangeDate();
+        changeDate.setDate(new StringWithCustomTags("01 JAN 1970"));
+        orig.setChangeDate(changeDate);
+        orig.setRecIdNumber(new StringWithCustomTags("A"));
+        orig.setXref("B");
+        orig.getLines(true).add("Line 1");
+        orig.getLines(true).add("Line 2");
+        orig.getLines(true).add("Line 3");
+
+        orig.getCustomTags(true).add(getTestCustomTags());
+
+        // Copy and compare
+        Note copy = new Note(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+
+        assertEquals(orig.toString(), copy.toString());
+
+        orig.getLines().set(0, "0th Line");
+        assertEquals("Copy should not change when original does", "Line 1", copy.getLines().get(0));
+
+        orig.getCustomTags().clear();
+        assertEquals("Copy should not change when original does", "_HOWDY", copy.getCustomTags().get(0).getTag());
+    }
 }

@@ -36,7 +36,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class SubmissionCopyTest {
+public class SubmissionCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link Submission}, which should never work

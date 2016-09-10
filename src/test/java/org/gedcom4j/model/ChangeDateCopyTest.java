@@ -29,6 +29,9 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 /**
@@ -36,7 +39,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class ChangeDateCopyTest {
+public class ChangeDateCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link ChangeDate}, which should never work
@@ -57,6 +60,36 @@ public class ChangeDateCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with some values
+     */
+    @Test
+    public void testValues() {
+        ChangeDate orig = new ChangeDate();
+        orig.setDate(new StringWithCustomTags("5 MAY 1905"));
+        orig.setTime(new StringWithCustomTags("12:00:00 Eastern"));
+        List<Note> notes = new ArrayList<>();
+        Note n = new Note();
+        notes.add(n);
+        n.getLines(true).add("Frying Pan");
+        n.getLines().add("Tomato sauce");
+        orig.setNotes(notes);
+
+        ChangeDate copy = new ChangeDate(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+
+        assertEquals(1, copy.getNotes().size());
+        assertEquals(2, copy.getNotes().get(0).getLines().size());
+
+        assertEquals(orig.toString(), copy.toString());
+
+        orig.getDate().setValue("31 DEC 2001");
+        assertEquals("Copy should not change when original does", "5 MAY 1905", copy.getDate().getValue());
+
+        orig.getNotes().get(0).getLines().add(0, "Inserted line in original");
+        assertEquals("Copy should not change when original does", "Frying Pan", copy.getNotes().get(0).getLines().get(0));
+    }
 
 }

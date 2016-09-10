@@ -36,7 +36,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class CharacterSetCopyTest {
+public class CharacterSetCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link CharacterSet}, which should never work
@@ -57,6 +57,22 @@ public class CharacterSetCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        CharacterSet orig = new CharacterSet();
+        orig.setCharacterSetName(new StringWithCustomTags("AAA"));
+        orig.setVersionNum(new StringWithCustomTags("BBB"));
+
+        orig.getCustomTags(true).add(getTestCustomTags());
+
+        CharacterSet copy = new CharacterSet(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+    }
 
 }

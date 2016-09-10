@@ -36,7 +36,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class StringWithCustomTagsCopyTest {
+public class StringWithCustomTagsCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link StringWithCustomTags}, which should never work
@@ -57,6 +57,43 @@ public class StringWithCustomTagsCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values and custom tags in play
+     */
+    @Test
+    public void testWithCustomTags() {
+        StringWithCustomTags orig = new StringWithCustomTags("FryingPan");
+        StringTree ct = getTestCustomTags();
+        orig.getCustomTags(true).add(ct);
+
+        StringWithCustomTags copy = new StringWithCustomTags(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+
+        assertEquals("FryingPan", copy.getValue());
+        orig.setValue("Not a Frying Pan anymore");
+        assertEquals("FryingPan", copy.getValue());
+
+        assertEquals(orig.getCustomTags().get(0), copy.getCustomTags().get(0));
+        assertEquals("_HOWDY", copy.getCustomTags().get(0).getTag());
+        ct.setTag("_CHANGED");
+        assertEquals("Copy should not change when original does", "_HOWDY", copy.getCustomTags().get(0).getTag());
+
+    }
+
+    /**
+     * Test with values in play
+     */
+    @Test
+    public void testWithValues() {
+        StringWithCustomTags orig = new StringWithCustomTags("FryingPan");
+        StringWithCustomTags copy = new StringWithCustomTags(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals("FryingPan", copy.getValue());
+        orig.setValue("Not a Frying Pan anymore");
+        assertEquals("FryingPan", copy.getValue());
+    }
 
 }

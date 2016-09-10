@@ -27,6 +27,7 @@
 package org.gedcom4j.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 
 import org.junit.Test;
@@ -36,7 +37,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class LdsIndividualOrdinanceCopyTest {
+public class LdsIndividualOrdinanceCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link LdsIndividualOrdinance}, which should never work
@@ -57,6 +58,29 @@ public class LdsIndividualOrdinanceCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testValues() {
+        LdsIndividualOrdinance orig = new LdsIndividualOrdinance();
+        orig.setDate(new StringWithCustomTags("A"));
+        FamilyChild fc = new FamilyChild();
+        fc.setStatus(new StringWithCustomTags("B"));
+        fc.setPedigree(new StringWithCustomTags("C"));
+        fc.setAdoptedBy(AdoptedByWhichParent.HUSBAND);
+        Family f = new Family();
+        fc.setFamily(f);
+        orig.setFamilyWhereChild(fc);
+
+        LdsIndividualOrdinance copy = new LdsIndividualOrdinance(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+
+        orig.getFamilyWhereChild().setAdoptedBy(null);
+        assertFalse("Copy shoul not match if original is changed", orig.equals(copy));
+    }
 
 }

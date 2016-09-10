@@ -36,7 +36,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class UserReferenceCopyTest {
+public class UserReferenceCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link UserReference}, which should never work
@@ -57,6 +57,28 @@ public class UserReferenceCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
 
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        UserReference orig = new UserReference();
+        orig.setReferenceNum(new StringWithCustomTags("PPP"));
+        orig.setType(new StringWithCustomTags("QQQ"));
+        StringTree ct = new StringTree();
+        ct.setTag("_RRR");
+        ct.setValue("SSS");
+        ct.setLevel(1);
+        ct.setId("@TTT@");
+        orig.getCustomTags(true).add(ct);
+
+        UserReference copy = new UserReference(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+
+        orig.getReferenceNum().setValue("UUU");
+        assertEquals("Copy should not change if original does", "PPP", copy.getReferenceNum().getValue());
+    }
 }

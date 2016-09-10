@@ -27,6 +27,7 @@
 package org.gedcom4j.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 
 import org.junit.Test;
@@ -36,7 +37,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class AssociationCopyTest {
+public class AssociationCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link Association}, which should never work
@@ -57,6 +58,29 @@ public class AssociationCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
 
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        Association orig = new Association();
+        orig.setAssociatedEntityType(new StringWithCustomTags("AAA"));
+        orig.setAssociatedEntityXref("BBB");
+        orig.setRelationship(new StringWithCustomTags("CCC"));
+        AbstractCitation c = new CitationWithoutSource();
+        Note n = new Note();
+        n.getLines(true).add("DDD");
+        c.getNotes(true).add(n);
+        orig.getCitations(true).add(c);
+
+        Association copy = new Association(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+
+        c.getNotes().get(0).getLines().set(0, "EEE");
+        assertFalse("Copy shouldn't match when original gets changed", orig.equals(copy));
+        assertEquals("DDD", copy.getCitations().get(0).getNotes().get(0).getLines().get(0));
+    }
 }

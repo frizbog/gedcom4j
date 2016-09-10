@@ -36,7 +36,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class CitationDataCopyTest {
+public class CitationDataCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link CitationData}, which should never work

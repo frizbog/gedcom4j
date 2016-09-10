@@ -27,7 +27,9 @@
 package org.gedcom4j.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -36,7 +38,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class StringTreeCopyTest {
+public class StringTreeCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link StringTree}, which should never work
@@ -45,6 +47,75 @@ public class StringTreeCopyTest {
     @Test(expected = NullPointerException.class)
     public void testCopyNull() {
         new StringTree(null);
+    }
+
+    /**
+     * Test with multiple levels of data
+     */
+    @Test
+    public void testFilledInMultiLevels() {
+        StringTree orig = new StringTree();
+        orig.setLevel(0);
+        orig.setId("A");
+        orig.setLineNum(1);
+        orig.setTag("B");
+        orig.setValue("C");
+
+        StringTree l1 = new StringTree();
+        orig.getChildren(true).add(l1);
+        l1.setLevel(1);
+        l1.setLineNum(2);
+        l1.setTag("D");
+        l1.setParent(orig);
+        l1.setValue("E");
+
+        StringTree l2 = new StringTree();
+        l1.getChildren(true).add(l2);
+        l2.setLevel(2);
+        l2.setLevel(3);
+        l2.setTag("F");
+        l2.setValue("G");
+        l2.setParent(l1);
+
+        StringTree copy = new StringTree(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.getChildren().get(0), copy.getChildren().get(0));
+        assertNotSame(orig.getChildren().get(0).getChildren().get(0), copy.getChildren().get(0).getChildren().get(0));
+        assertEquals(orig.getChildren().get(0), copy.getChildren().get(0));
+        assertNotSame(orig.getChildren().get(0).getChildren().get(0), copy.getChildren().get(0).getChildren().get(0));
+
+        assertEquals(orig.toString(), copy.toString());
+
+        // Parent of root of copy is null, but children of copy should have parent references to copies
+        assertNull(copy.getParent());
+        assertEquals(copy, copy.getChildren().get(0).getParent());
+        assertEquals(copy.getChildren().get(0), copy.getChildren().get(0).getChildren().get(0).getParent());
+    }
+
+    /**
+     * Test with one level of data filled in
+     */
+    @Test
+    public void testFilledInOneLevel() {
+        StringTree orig = new StringTree();
+        orig.setId("Foo");
+        orig.setLevel(3);
+        orig.setLineNum(-50);
+        orig.setParent(orig);
+        orig.setTag("FRyingPan");
+        orig.setValue("Cheese");
+
+        StringTree copy = new StringTree(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+
+        assertEquals(orig.toString(), copy.toString());
+
+        /* Note that parents aren't copied, and don't factor into equals() */
+        assertNull(copy.getParent());
+        assertNotNull(orig.getParent());
+
     }
 
     /**
@@ -57,6 +128,5 @@ public class StringTreeCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
 
 }

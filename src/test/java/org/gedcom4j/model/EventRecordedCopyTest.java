@@ -27,6 +27,7 @@
 package org.gedcom4j.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 
 import org.junit.Test;
@@ -36,7 +37,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class EventRecordedCopyTest {
+public class EventRecordedCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link EventRecorded}, which should never work
@@ -57,6 +58,28 @@ public class EventRecordedCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        EventRecorded orig = new EventRecorded();
+        orig.setDatePeriod(new StringWithCustomTags("AAA"));
+        orig.setEventType("BBB");
+        orig.setJurisdiction(new StringWithCustomTags("CCC"));
+        orig.getCustomTags(true).add(getTestCustomTags());
+
+        EventRecorded copy = new EventRecorded(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+
+        orig.setDatePeriod(null);
+        orig.getJurisdiction().setValue("DDD");
+        assertNotNull("Copy should not change when original does", copy.getDatePeriod());
+        assertEquals("CCC", copy.getJurisdiction().getValue());
+
+    }
 
 }

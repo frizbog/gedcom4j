@@ -36,7 +36,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class HeaderSourceDataCopyTest {
+public class HeaderSourceDataCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link HeaderSourceData}, which should never work

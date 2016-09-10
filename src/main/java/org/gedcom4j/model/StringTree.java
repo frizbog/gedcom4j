@@ -104,7 +104,7 @@ public class StringTree implements Serializable {
     }
 
     /**
-     * Copy constructor
+     * Copy constructor. Note that the {@link #parent} field is not copied, and must be set by the caller after construction.
      * 
      * @param other
      *            the other StringTree to copy
@@ -175,6 +175,7 @@ public class StringTree implements Serializable {
         } else if (!value.equals(other.value)) {
             return false;
         }
+        // Parent is excluded to prevent infinite recursion
         return true;
     }
 
@@ -268,6 +269,7 @@ public class StringTree implements Serializable {
         result = prime * result + lineNum;
         result = prime * result + (tag == null ? 0 : tag.hashCode());
         result = prime * result + (value == null ? 0 : value.hashCode());
+        // Note that parent is not included, to provent infinite recursion
         return result;
     }
 

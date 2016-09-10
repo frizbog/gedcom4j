@@ -36,7 +36,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class GedcomVersionCopyTest {
+public class GedcomVersionCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link GedcomVersion}, which should never work

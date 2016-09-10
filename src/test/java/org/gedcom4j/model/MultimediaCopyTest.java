@@ -36,7 +36,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class MultimediaCopyTest {
+public class MultimediaCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link Multimedia}, which should never work

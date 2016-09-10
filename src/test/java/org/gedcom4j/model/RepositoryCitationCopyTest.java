@@ -27,6 +27,7 @@
 package org.gedcom4j.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 
 import org.junit.Test;
@@ -36,7 +37,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class RepositoryCitationCopyTest {
+public class RepositoryCitationCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link RepositoryCitation}, which should never work
@@ -57,6 +58,30 @@ public class RepositoryCitationCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        RepositoryCitation orig = new RepositoryCitation();
+        orig.setRepositoryXref("ABC");
+        Note n = new Note();
+        n.getLines(true).add("Frying Pan");
+        UserReference u = new UserReference();
+        u.setReferenceNum(new StringWithCustomTags("XYZ"));
+        u.setType(new StringWithCustomTags("123"));
+        n.getUserReferences(true).add(u);
+        orig.getNotes(true).add(n);
+
+        RepositoryCitation copy = new RepositoryCitation(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+
+        assertEquals(orig.toString(), copy.toString());
+
+        orig.getNotes().clear();
+        assertFalse("Copy should not change when original changes", copy.getNotes().isEmpty());
+    }
 
 }

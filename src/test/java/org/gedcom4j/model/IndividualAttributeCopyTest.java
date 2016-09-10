@@ -36,7 +36,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class IndividualAttributeCopyTest {
+public class IndividualAttributeCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link IndividualAttribute}, which should never work
