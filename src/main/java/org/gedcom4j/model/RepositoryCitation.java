@@ -54,6 +54,29 @@ public class RepositoryCitation extends AbstractNotesElement {
      */
     private String repositoryXref;
 
+    /** Default constructor */
+    public RepositoryCitation() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public RepositoryCitation(RepositoryCitation other) {
+        super(other);
+        if (other.callNumbers != null) {
+            callNumbers = new ArrayList<>();
+            for (SourceCallNumber cn : other.callNumbers) {
+                callNumbers.add(new SourceCallNumber(cn));
+            }
+        }
+        repositoryXref = other.repositoryXref;
+
+    }
+
     /**
      * {@inheritDoc}
      */

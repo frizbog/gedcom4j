@@ -80,6 +80,48 @@ public class CitationWithSource extends AbstractCitation {
      */
     private StringWithCustomTags whereInSource;
 
+    /** Default constructor */
+    public CitationWithSource() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public CitationWithSource(CitationWithSource other) {
+        super(other);
+        if (other.certainty != null) {
+            certainty = new StringWithCustomTags(other.certainty);
+        }
+        if (other.data != null) {
+            data = new ArrayList<>();
+            for (CitationData d : other.data) {
+                data.add(new CitationData(d));
+            }
+        }
+        if (other.eventCited != null) {
+            eventCited = new StringWithCustomTags(other.eventCited);
+        }
+        if (other.multimedia != null) {
+            multimedia = new ArrayList<>();
+            for (Multimedia m : other.multimedia) {
+                multimedia.add(new Multimedia(m));
+            }
+        }
+        if (other.roleInEvent != null) {
+            roleInEvent = new StringWithCustomTags(other.roleInEvent);
+        }
+        if (other.source != null) {
+            source = new Source(other.source);
+        }
+        if (other.whereInSource != null) {
+            whereInSource = new StringWithCustomTags(other.whereInSource);
+        }
+    }
+
     /**
      * {@inheritDoc}
      */

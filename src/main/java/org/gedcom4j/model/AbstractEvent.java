@@ -105,6 +105,66 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      */
     private String yNull;
 
+    /** Default constructor */
+    public AbstractEvent() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public AbstractEvent(AbstractEvent other) {
+        super(other);
+
+        if (other.age != null) {
+            age = new StringWithCustomTags(other.age);
+        }
+        if (other.cause != null) {
+            cause = new StringWithCustomTags(other.cause);
+        }
+        if (other.citations != null) {
+            citations = new ArrayList<>();
+            for (AbstractCitation ac : other.citations) {
+                if (ac instanceof CitationWithoutSource) {
+                    citations.add(new CitationWithoutSource((CitationWithoutSource) ac));
+                } else if (ac instanceof CitationWithSource) {
+                    citations.add(new CitationWithSource((CitationWithSource) ac));
+                }
+            }
+        }
+        if (other.date != null) {
+            date = new StringWithCustomTags(other.date);
+        }
+        if (other.description != null) {
+            description = new StringWithCustomTags(other.description);
+        }
+        if (other.multimedia != null) {
+            multimedia = new ArrayList<>();
+            for (Multimedia m : other.multimedia) {
+                multimedia.add(new Multimedia(m));
+            }
+        }
+        if (other.place != null) {
+            place = new Place(other.place);
+        }
+        if (other.religiousAffiliation != null) {
+            religiousAffiliation = new StringWithCustomTags(other.religiousAffiliation);
+        }
+        if (other.respAgency != null) {
+            respAgency = new StringWithCustomTags(other.respAgency);
+        }
+        if (other.restrictionNotice != null) {
+            restrictionNotice = new StringWithCustomTags(other.restrictionNotice);
+        }
+        if (other.subType != null) {
+            subType = new StringWithCustomTags(other.subType);
+        }
+        yNull = other.yNull;
+    }
+
     /**
      * {@inheritDoc}
      */

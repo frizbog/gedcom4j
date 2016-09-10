@@ -138,6 +138,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
         if (other.getChangeDate() != null) {
             changeDate = new ChangeDate(other.getChangeDate());
         }
+        // TODO finish this copy constructor
         children = children;
         citations = citations;
         events = events;
@@ -154,9 +155,14 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
             restrictionNotice = new StringWithCustomTags(other.restrictionNotice);
         }
         submitters = submitters;
-        userReferences = userReferences;
+        if (other.userReferences != null) {
+            userReferences = new ArrayList<>();
+            for (UserReference ur : other.userReferences) {
+                userReferences.add(new UserReference(ur));
+            }
+        }
         wife = wife;
-        xref = xref;
+        xref = other.xref;
     }
 
     /**

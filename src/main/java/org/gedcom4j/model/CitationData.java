@@ -52,6 +52,30 @@ public class CitationData extends AbstractElement {
      */
     private List<List<String>> sourceText = getSourceText(Options.isCollectionInitializationEnabled());
 
+    /** Default constructor */
+    public CitationData() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public CitationData(CitationData other) {
+        super(other);
+        if (other.entryDate != null) {
+            entryDate = new StringWithCustomTags(other.entryDate);
+        }
+        if (other.sourceText != null) {
+            sourceText = new ArrayList<>();
+            for (List<String> st : other.sourceText) {
+                sourceText.add(new ArrayList<>(st));
+            }
+        }
+    }
+
     /**
      * {@inheritDoc}
      */

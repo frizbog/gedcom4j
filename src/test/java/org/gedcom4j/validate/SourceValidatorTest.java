@@ -72,7 +72,7 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testDefault() {
-        Source src = new Source(null);
+        Source src = new Source((String) null);
         AbstractValidator av = new SourceValidator(rootValidator, src);
         av.validate();
         assertFindingsContain(Severity.ERROR, "xref", "required", "null", "blank");

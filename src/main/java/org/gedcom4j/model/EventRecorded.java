@@ -53,6 +53,28 @@ public class EventRecorded extends AbstractElement {
      */
     private StringWithCustomTags jurisdiction;
 
+    /** Default constructor */
+    public EventRecorded() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public EventRecorded(EventRecorded other) {
+        super(other);
+        if (other.datePeriod != null) {
+            datePeriod = new StringWithCustomTags(other.datePeriod);
+        }
+        eventType = other.eventType;
+        if (other.jurisdiction != null) {
+            jurisdiction = new StringWithCustomTags(other.jurisdiction);
+        }
+    }
+
     /**
      * {@inheritDoc}
      */

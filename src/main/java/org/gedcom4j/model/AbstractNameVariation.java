@@ -49,6 +49,25 @@ public abstract class AbstractNameVariation extends AbstractElement {
      */
     protected StringWithCustomTags variationType;
 
+    /** Default constructor */
+    public AbstractNameVariation() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public AbstractNameVariation(AbstractNameVariation other) {
+        super(other);
+        variation = other.variation;
+        if (other.variationType != null) {
+            variationType = new StringWithCustomTags(other.variationType);
+        }
+    }
+
     /**
      * {@inheritDoc}
      */

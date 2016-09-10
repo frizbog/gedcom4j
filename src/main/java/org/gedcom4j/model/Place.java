@@ -77,6 +77,54 @@ public class Place extends AbstractNotesElement implements HasCitations {
      */
     private List<AbstractNameVariation> romanized = getRomanized(Options.isCollectionInitializationEnabled());
 
+    /** Default constructor */
+    public Place() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public Place(Place other) {
+        super(other);
+        if (other.citations != null) {
+            citations = new ArrayList<>();
+            for (AbstractCitation ac : other.citations) {
+                if (ac instanceof CitationWithoutSource) {
+                    citations.add(new CitationWithoutSource((CitationWithoutSource) ac));
+                } else if (ac instanceof CitationWithSource) {
+                    citations.add(new CitationWithSource((CitationWithSource) ac));
+                }
+            }
+        }
+        if (other.latitude != null) {
+            latitude = new StringWithCustomTags(other.latitude);
+        }
+        if (other.longitude != null) {
+            longitude = new StringWithCustomTags(other.longitude);
+        }
+        if (other.phonetic != null) {
+            phonetic = new ArrayList<>();
+            for (AbstractNameVariation ph : other.phonetic) {
+                phonetic.add(new PlaceNameVariation((PlaceNameVariation) ph));
+            }
+        }
+        if (other.placeFormat != null) {
+            placeFormat = new StringWithCustomTags(other.placeFormat);
+        }
+        placeName = other.placeName;
+        if (other.romanized != null) {
+            romanized = new ArrayList<>();
+            for (AbstractNameVariation ph : other.romanized) {
+                romanized.add(new PlaceNameVariation((PlaceNameVariation) ph));
+            }
+        }
+
+    }
+
     /**
      * {@inheritDoc}
      */

@@ -47,6 +47,27 @@ public class SourceCallNumber extends AbstractElement {
      */
     private StringWithCustomTags mediaType;
 
+    /** Default constructor */
+    public SourceCallNumber() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public SourceCallNumber(SourceCallNumber other) {
+        super(other);
+        if (other.callNumber != null) {
+            callNumber = new StringWithCustomTags(other.callNumber);
+        }
+        if (other.mediaType != null) {
+            mediaType = new StringWithCustomTags(other.mediaType);
+        }
+    }
+
     /**
      * {@inheritDoc}
      */

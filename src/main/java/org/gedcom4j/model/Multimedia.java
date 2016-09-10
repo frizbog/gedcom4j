@@ -109,6 +109,22 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      */
     private String xref;
 
+    /** Default constructor */
+    public Multimedia() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public Multimedia(Multimedia other) {
+        super(other);
+        // TODO complete copy constructor
+    }
+
     /**
      * {@inheritDoc}
      */

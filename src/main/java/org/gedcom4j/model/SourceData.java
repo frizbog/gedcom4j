@@ -52,6 +52,31 @@ public class SourceData extends AbstractNotesElement {
      */
     private StringWithCustomTags respAgency;
 
+    /** Default constructor */
+    public SourceData() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public SourceData(SourceData other) {
+        super(other);
+        if (other.eventsRecorded != null) {
+            eventsRecorded = new ArrayList<>();
+            for (EventRecorded e : other.eventsRecorded) {
+                eventsRecorded.add(new EventRecorded(e));
+            }
+        }
+        if (other.respAgency != null) {
+            respAgency = new StringWithCustomTags(other.respAgency);
+        }
+
+    }
+
     /**
      * {@inheritDoc}
      */

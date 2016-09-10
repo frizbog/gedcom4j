@@ -103,6 +103,63 @@ public class Source extends AbstractNotesElement implements HasXref {
      */
     private String xref;
 
+    /** Default constructor */
+    public Source() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public Source(Source other) {
+        super(other);
+        if (other.changeDate != null) {
+            changeDate = new ChangeDate(other.changeDate);
+        }
+        if (other.data != null) {
+            data = new SourceData(other.data);
+        }
+        if (other.multimedia != null) {
+            multimedia = new ArrayList<>();
+            for (Multimedia m : other.multimedia) {
+                multimedia.add(new Multimedia(m));
+            }
+        }
+        if (other.originatorsAuthors != null) {
+            originatorsAuthors = new ArrayList<>(other.originatorsAuthors);
+        }
+        if (other.publicationFacts != null) {
+            publicationFacts = new ArrayList<>(other.publicationFacts);
+        }
+
+        if (other.recIdNumber != null) {
+            recIdNumber = new StringWithCustomTags(other.recIdNumber);
+        }
+        if (other.repositoryCitation != null) {
+            repositoryCitation = new RepositoryCitation(other.repositoryCitation);
+        }
+        if (other.sourceFiledBy != null) {
+            sourceFiledBy = new StringWithCustomTags(other.sourceFiledBy);
+        }
+        if (other.sourceText != null) {
+            sourceText = new ArrayList<>(other.sourceText);
+        }
+
+        if (other.title != null) {
+            title = new ArrayList<>(other.title);
+        }
+        if (other.userReferences != null) {
+            userReferences = new ArrayList<>();
+            for (UserReference ur : other.userReferences) {
+                userReferences.add(new UserReference(ur));
+            }
+        }
+        xref = other.xref;
+    }
+
     /**
      * Constructor, takes required xref value
      * 

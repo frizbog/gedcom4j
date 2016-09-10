@@ -53,6 +53,30 @@ public class CitationWithoutSource extends AbstractCitation {
      */
     private List<List<String>> textFromSource = getTextFromSource(Options.isCollectionInitializationEnabled());
 
+    /** Default constructor */
+    public CitationWithoutSource() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public CitationWithoutSource(CitationWithoutSource other) {
+        super(other);
+        if (other.description != null) {
+            description = new ArrayList<>(other.description);
+        }
+        if (other.textFromSource != null) {
+            textFromSource = new ArrayList<>();
+            for (List<String> t : other.textFromSource) {
+                textFromSource.add(new ArrayList<>(t));
+            }
+        }
+    }
+
     /**
      * {@inheritDoc}
      */
