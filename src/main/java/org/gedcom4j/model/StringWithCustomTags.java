@@ -49,7 +49,7 @@ public class StringWithCustomTags extends AbstractElement {
      * Default constructor
      */
     public StringWithCustomTags() {
-        super();
+        // Default constructor does nothing
     }
 
     /**
@@ -74,6 +74,17 @@ public class StringWithCustomTags extends AbstractElement {
         if (children != null && !children.isEmpty()) {
             getCustomTags(true).addAll(children);
         }
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            the other object to copy
+     */
+    public StringWithCustomTags(StringWithCustomTags other) {
+        super(other);
+        value = other.value;
     }
 
     /**

@@ -47,6 +47,27 @@ public class ChangeDate extends AbstractNotesElement {
      */
     private StringWithCustomTags time;
 
+    /** Default constructor */
+    public ChangeDate() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            the other object to copy
+     */
+    public ChangeDate(ChangeDate other) {
+        super(other);
+        if (other.getDate() != null) {
+            date = new StringWithCustomTags(other.date);
+        }
+        if (other.getTime() != null) {
+            time = new StringWithCustomTags(other.time);
+        }
+    }
+
     /**
      * {@inheritDoc}
      */

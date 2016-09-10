@@ -48,6 +48,29 @@ public class UserReference extends AbstractElement {
     private StringWithCustomTags type;
 
     /**
+     * Default constructor
+     */
+    public UserReference() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            the other object to copy
+     */
+    public UserReference(UserReference other) {
+        super(other);
+        if (other.referenceNum != null) {
+            referenceNum = new StringWithCustomTags(other.referenceNum);
+        }
+        if (other.type != null) {
+            type = new StringWithCustomTags(other.type);
+        }
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

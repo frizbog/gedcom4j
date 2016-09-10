@@ -119,6 +119,46 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      */
     private String xref;
 
+    /** Default Constructor */
+    public Family() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            the other object to copy
+     */
+    public Family(Family other) {
+        super(other);
+        if (other.automatedRecordId != null) {
+            automatedRecordId = new StringWithCustomTags(other.automatedRecordId);
+        }
+        if (other.getChangeDate() != null) {
+            changeDate = new ChangeDate(other.getChangeDate());
+        }
+        children = children;
+        citations = citations;
+        events = events;
+        husband = husband;
+        ldsSpouseSealings = ldsSpouseSealings;
+        multimedia = multimedia;
+        if (other.numChildren != null) {
+            numChildren = new StringWithCustomTags(other.numChildren);
+        }
+        if (other.recFileNumber != null) {
+            recFileNumber = new StringWithCustomTags(other.recFileNumber);
+        }
+        if (other.restrictionNotice != null) {
+            restrictionNotice = new StringWithCustomTags(other.restrictionNotice);
+        }
+        submitters = submitters;
+        userReferences = userReferences;
+        wife = wife;
+        xref = xref;
+    }
+
     /**
      * {@inheritDoc}
      */

@@ -50,6 +50,30 @@ public abstract class AbstractElement implements Serializable, HasCustomTags {
     private List<StringTree> customTags = getCustomTags(Options.isCollectionInitializationEnabled());
 
     /**
+     * Default constructor
+     */
+    public AbstractElement() {
+        super();
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            the other object to copy
+     */
+    public AbstractElement(AbstractElement other) {
+        super();
+        if (other.customTags != null) {
+            customTags = new ArrayList<>();
+            for (StringTree st : other.customTags) {
+                StringTree newSt = new StringTree(st);
+                customTags.add(newSt);
+            }
+        }
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -132,4 +156,5 @@ public abstract class AbstractElement implements Serializable, HasCustomTags {
     protected void setCustomTags(List<StringTree> theCustomTags) {
         customTags = theCustomTags;
     }
+
 }

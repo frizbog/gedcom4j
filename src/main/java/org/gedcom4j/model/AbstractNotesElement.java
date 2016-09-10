@@ -45,6 +45,27 @@ public abstract class AbstractNotesElement extends AbstractElement implements Ha
      */
     private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
 
+    /** Default constructor */
+    public AbstractNotesElement() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            the other object being copeied
+     */
+    public AbstractNotesElement(AbstractNotesElement other) {
+        super(other);
+        if (other.getNotes() != null) {
+            notes = new ArrayList<>();
+            for (Note n : other.getNotes()) {
+                notes.add(new Note(n));
+            }
+        }
+    }
+
     /**
      * {@inheritDoc}
      */

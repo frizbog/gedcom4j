@@ -37,4 +37,19 @@ public abstract class AbstractCitation extends AbstractNotesElement {
      * Serial Version UID
      */
     private static final long serialVersionUID = 5842672179681957413L;
+
+    /** Default constructor */
+    public AbstractCitation() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public AbstractCitation(AbstractCitation other) {
+        super(other);
+    }
 }

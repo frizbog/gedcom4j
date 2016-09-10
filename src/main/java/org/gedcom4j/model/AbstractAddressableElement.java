@@ -68,6 +68,50 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
      */
     protected List<StringWithCustomTags> wwwUrls = getWwwUrls(Options.isCollectionInitializationEnabled());
 
+    /** Default constructor */
+    public AbstractAddressableElement() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public AbstractAddressableElement(AbstractAddressableElement other) {
+        super(other);
+
+        if (other.address != null) {
+            address = new Address(other.address);
+        }
+        if (other.emails != null) {
+            emails = new ArrayList<>();
+            for (StringWithCustomTags e : other.emails) {
+                emails.add(new StringWithCustomTags(e));
+            }
+        }
+        if (other.faxNumbers != null) {
+            faxNumbers = new ArrayList<>();
+            for (StringWithCustomTags swct : other.faxNumbers) {
+                faxNumbers.add(new StringWithCustomTags(swct));
+            }
+        }
+        if (other.phoneNumbers != null) {
+            phoneNumbers = new ArrayList<>();
+            for (StringWithCustomTags swct : other.phoneNumbers) {
+                phoneNumbers.add(new StringWithCustomTags(swct));
+            }
+        }
+        if (other.wwwUrls != null) {
+            wwwUrls = new ArrayList<>();
+            for (StringWithCustomTags swct : other.wwwUrls) {
+                wwwUrls.add(new StringWithCustomTags(swct));
+            }
+        }
+
+    }
+
     /**
      * {@inheritDoc}
      */

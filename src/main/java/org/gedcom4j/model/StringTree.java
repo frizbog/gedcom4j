@@ -97,6 +97,36 @@ public class StringTree implements Serializable {
     private String value;
 
     /**
+     * Default constructor
+     */
+    public StringTree() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            the other StringTree to copy
+     */
+    public StringTree(StringTree other) {
+        id = other.id;
+        level = other.level;
+        lineNum = other.lineNum;
+        tag = other.tag;
+        value = other.value;
+        parent = null; // Can't copy from other - up to caller to populate
+        if (other.getChildren() != null) {
+            children = new ArrayList<>();
+            for (StringTree ch : other.children) {
+                StringTree newCh = new StringTree(ch);
+                newCh.setParent(this);
+                children.add(newCh);
+            }
+        }
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

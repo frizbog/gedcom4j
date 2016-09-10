@@ -73,6 +73,24 @@ public class Note extends AbstractElement implements HasCitations, HasXref {
      */
     private String xref;
 
+    /** Default constructor */
+    public Note() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            the other object to copy
+     */
+    public Note(Note other) {
+        super(other);
+        if (other.getChangeDate() != null) {
+            changeDate = new ChangeDate(other.changeDate);
+        }
+    }
+
     /**
      * {@inheritDoc}
      */

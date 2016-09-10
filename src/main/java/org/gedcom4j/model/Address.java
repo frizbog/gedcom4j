@@ -78,6 +78,42 @@ public class Address extends AbstractElement {
      */
     private StringWithCustomTags stateProvince;
 
+    /** Default constructor */
+    public Address() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public Address(Address other) {
+        super(other);
+        if (other.addr1 != null) {
+            addr1 = new StringWithCustomTags(other.addr1);
+        }
+        if (other.addr2 != null) {
+            addr2 = new StringWithCustomTags(other.addr2);
+        }
+        if (other.city != null) {
+            city = new StringWithCustomTags(other.city);
+        }
+        if (other.country != null) {
+            country = new StringWithCustomTags(other.country);
+        }
+        if (other.lines != null) {
+            lines = new ArrayList<>(other.lines);
+        }
+        if (other.postalCode != null) {
+            postalCode = new StringWithCustomTags(other.postalCode);
+        }
+        if (other.stateProvince != null) {
+            stateProvince = new StringWithCustomTags(other.stateProvince);
+        }
+    }
+
     /**
      * {@inheritDoc}
      */
