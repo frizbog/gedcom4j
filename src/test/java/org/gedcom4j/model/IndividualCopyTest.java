@@ -57,6 +57,75 @@ public class IndividualCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        Individual orig = new Individual();
+        orig.setAddress(getTestAddress());
+        ChangeDate cd = new ChangeDate();
+        cd.setDate(new StringWithCustomTags("06 JUN 1906"));
+        orig.setChangeDate(cd);
+        orig.setRecIdNumber(new StringWithCustomTags("321"));
+        orig.setXref("@I1@");
+        orig.getNotes(true).add(getTestNote());
+        orig.getFaxNumbers(true).add(new StringWithCustomTags("555-1212"));
+        orig.getPhoneNumbers(true).add(new StringWithCustomTags("555-1313"));
+        orig.getWwwUrls(true).add(new StringWithCustomTags("www.nowhere.net"));
+        orig.getEmails(true).add(new StringWithCustomTags("nobody@nowwhere.net"));
+        orig.setAncestralFileNumber(new StringWithCustomTags("LLL"));
+        orig.setPermanentRecFileNumber(new StringWithCustomTags("MMM"));
+        orig.setRestrictionNotice(new StringWithCustomTags("RESTRICTED"));
+        orig.setSex(new StringWithCustomTags("M"));
+        orig.getAliases(true).add(new StringWithCustomTags("Grace"));
+        Submitter s = new Submitter();
+        s.setName(new StringWithCustomTags("Harry"));
+        orig.getAncestorInterest(true).add(s);
+        Association a = new Association();
+        a.setAssociatedEntityType(new StringWithCustomTags("Fraternal"));
+        orig.getAssociations(true).add(a);
+        IndividualAttribute ia = new IndividualAttribute();
+        ia.setType(IndividualAttributeType.FACT);
+        ia.setSubType(new StringWithCustomTags("Favorite color"));
+        ia.setDescription(new StringWithCustomTags("Green"));
+        orig.getAttributes(true).add(ia);
+        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getCitations(true).add(getTestCitation());
+        orig.getDescendantInterest(true).add(s);
+        IndividualEvent e = new IndividualEvent();
+        e.setType(IndividualEventType.EVENT);
+        e.setSubType(new StringWithCustomTags("Stubbed toe"));
+        e.setDate(new StringWithCustomTags("8 AUG 1908"));
+        orig.getEvents(true).add(e);
+        FamilyChild fc = new FamilyChild();
+        orig.getFamiliesWhereChild(true).add(fc);
+        fc.setFamily(new Family());
+        FamilySpouse fs = new FamilySpouse();
+        fs.setFamily(new Family());
+        orig.getFamiliesWhereSpouse(true).add(fs);
+        LdsIndividualOrdinance lio = new LdsIndividualOrdinance();
+        lio.setDate(new StringWithCustomTags("09 SEP 1909"));
+        orig.getLdsIndividualOrdinances(true).add(lio);
+        Multimedia m = new Multimedia();
+        m.setXref("@M1@");
+        orig.getMultimedia(true).add(m);
+        PersonalName pn = new PersonalName();
+        pn.setBasic("Gloria /Gleeson/");
+        orig.getNames(true).add(pn);
+        orig.getNotes(true).add(getTestNote());
+        Submitter sbm = new Submitter();
+        sbm.setName(new StringWithCustomTags("Paul /Paulson/"));
+        orig.getSubmitters(true).add(sbm);
+        UserReference u = new UserReference();
+        u.setReferenceNum(new StringWithCustomTags("12345"));
+        orig.getUserReferences(true).add(u);
+
+        Individual copy = new Individual(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+    }
 
 }

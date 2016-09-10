@@ -61,7 +61,7 @@ public class IndividualEvent extends AbstractEvent {
     public IndividualEvent(IndividualEvent other) {
         super(other);
         if (other.family != null) {
-            family = new FamilyChild(other.family);
+            family = new FamilyChild(other.family, false);
         }
         type = other.type;
     }

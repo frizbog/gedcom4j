@@ -29,6 +29,12 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 
+import java.util.Date;
+
+import org.gedcom4j.factory.FamilyFactory;
+import org.gedcom4j.factory.IndividualFactory;
+import org.gedcom4j.factory.Sex;
+import org.gedcom4j.parser.DateParser;
 import org.junit.Test;
 
 /**
@@ -58,5 +64,58 @@ public class GedcomCopyTest extends AbstractCopyTest {
         assertNotSame(orig, copy);
     }
 
-    // TODO - add more complex tests
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        Gedcom orig = new Gedcom();
+        Header hdr = new Header();
+        hdr.setLanguage(new StringWithCustomTags("Pig Latin"));
+        orig.setHeader(hdr);
+        Submission s = new Submission();
+        s.setXref("@SBM1@");
+        s.setRecIdNumber(new StringWithCustomTags("40404040"));
+        orig.setSubmission(s);
+        orig.setTrailer(new Trailer());
+        orig.getCustomTags(true).add(getTestCustomTags());
+
+        DateParser dp = new DateParser();
+        IndividualFactory ifact = new IndividualFactory();
+        FamilyFactory ffact = new FamilyFactory();
+
+        Individual h = ifact.create(orig, "Fred", "Frederickson", Sex.MALE, dp.parse("01 JAN 1980"), "New Mexico", new Date(),
+                "Antarctica");
+        Individual w = ifact.create(orig, "Gladys", "Gladstone", Sex.FEMALE, dp.parse("11 NOV 1979"), "Arizona", null, null);
+        Individual k = ifact.create(orig, "Frank", "Frederickson", Sex.MALE, dp.parse("6 JUN 2010"), "Wyoming", null, null);
+        ffact.create(orig, h, w, k);
+
+        Multimedia m = new Multimedia();
+        m.getBlob(true).add("wpeoirpweoirpwoirpwoeirpwoeirpwoeirwe");
+        orig.getMultimedia().put(m.getXref(), m);
+
+        Source src = new Source();
+        src.setXref("@SRC1@");
+        src.setRecIdNumber(new StringWithCustomTags("987"));
+        orig.getSources().put(src.getXref(), src);
+
+        Note n = getTestNote();
+        n.setXref("@N1@");
+        orig.getNotes().put(n.getXref(), n);
+
+        Repository r = new Repository();
+        r.setXref("@R1@");
+        r.setName(new StringWithCustomTags("Repository of all truth and wisdom"));
+        orig.getRepositories().put(r.getXref(), r);
+
+        Submitter sbr = new Submitter();
+        sbr.setXref("@SBR1@");
+        sbr.setName(new StringWithCustomTags("Steve /Submitter/"));
+        orig.getSubmitters().put(sbr.getXref(), sbr);
+
+        Gedcom copy = new Gedcom(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+    }
+
 }

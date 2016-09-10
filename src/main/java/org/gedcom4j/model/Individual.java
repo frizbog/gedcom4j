@@ -164,6 +164,20 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *            object being copied
      */
     public Individual(Individual other) {
+        this(other, true);
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     * @param deep
+     *            pass in true if a full, deep copy should be made for any families the individual is in. If false, the families
+     *            will be copied but will not contain back-references to the individuals in it (husband, wife, children). This
+     *            allows preventing infinite recursion.
+     */
+    public Individual(Individual other, boolean deep) {
         super(other);
         if (other.aliases != null) {
             aliases = new ArrayList<>();
@@ -171,7 +185,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
                 aliases.add(new StringWithCustomTags(swct));
             }
         }
-        if (ancestorInterest != null) {
+        if (other.ancestorInterest != null) {
             ancestorInterest = new ArrayList<>();
             for (Submitter ai : other.ancestorInterest) {
                 ancestorInterest.add(new Submitter(ai));
@@ -205,7 +219,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
                 }
             }
         }
-        if (descendantInterest != null) {
+        if (other.descendantInterest != null) {
             descendantInterest = new ArrayList<>();
             for (Submitter ai : other.descendantInterest) {
                 descendantInterest.add(new Submitter(ai));
@@ -220,13 +234,13 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
         if (other.familiesWhereChild != null) {
             familiesWhereChild = new ArrayList<>();
             for (FamilyChild fc : other.familiesWhereChild) {
-                familiesWhereChild.add(new FamilyChild(fc));
+                familiesWhereChild.add(new FamilyChild(fc, deep));
             }
         }
         if (other.familiesWhereSpouse != null) {
             familiesWhereSpouse = new ArrayList<>();
             for (FamilySpouse fs : other.familiesWhereSpouse) {
-                familiesWhereSpouse.add(new FamilySpouse(fs));
+                familiesWhereSpouse.add(new FamilySpouse(fs, deep));
             }
         }
         if (other.ldsIndividualOrdinances != null) {

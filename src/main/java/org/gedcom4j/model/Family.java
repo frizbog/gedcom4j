@@ -131,6 +131,19 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *            the other object to copy
      */
     public Family(Family other) {
+        this(other, true);
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            the other object to copy
+     * @param deep
+     *            pass in true if a full, deep copy of the family should be created. If false, the family is copied without
+     *            references to the individuals in it (the husband, wife, and children).
+     */
+    public Family(Family other, boolean deep) {
         super(other);
         if (other.automatedRecordId != null) {
             automatedRecordId = new StringWithCustomTags(other.automatedRecordId);
@@ -138,10 +151,10 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
         if (other.changeDate != null) {
             changeDate = new ChangeDate(other.changeDate);
         }
-        if (other.children != null) {
+        if (deep && other.children != null) {
             children = new ArrayList<>();
             for (Individual c : other.children) {
-                children.add(new Individual(c));
+                children.add(new Individual(c, false));
             }
         }
         if (other.citations != null) {
@@ -160,8 +173,8 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
                 events.add(new FamilyEvent(e));
             }
         }
-        if (other.husband != null) {
-            husband = new Individual(other.husband);
+        if (deep && other.husband != null) {
+            husband = new Individual(other.husband, false);
         }
         if (other.ldsSpouseSealings != null) {
             ldsSpouseSealings = new ArrayList<>();
@@ -196,8 +209,8 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
                 userReferences.add(new UserReference(ur));
             }
         }
-        if (other.wife != null) {
-            wife = new Individual(other.wife);
+        if (deep && other.wife != null) {
+            wife = new Individual(other.wife, false);
         }
         xref = other.xref;
     }

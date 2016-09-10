@@ -55,9 +55,23 @@ public class FamilySpouse extends AbstractNotesElement {
      *            object being copied
      */
     public FamilySpouse(FamilySpouse other) {
+        this(other, true);
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     * @param deep
+     *            pass in true if a full, deep copy of the family should be created. If false, the family will be copied but will
+     *            not contain back-references to the individuals in it (husband, wife, children). This allows preventing infinite
+     *            recursion.
+     */
+    public FamilySpouse(FamilySpouse other, boolean deep) {
         super(other);
         if (other.family != null) {
-            family = new Family(other.family);
+            family = new Family(other.family, deep);
         }
     }
 
