@@ -135,16 +135,46 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
         if (other.automatedRecordId != null) {
             automatedRecordId = new StringWithCustomTags(other.automatedRecordId);
         }
-        if (other.getChangeDate() != null) {
-            changeDate = new ChangeDate(other.getChangeDate());
+        if (other.changeDate != null) {
+            changeDate = new ChangeDate(other.changeDate);
         }
-        // TODO finish this copy constructor
-        children = children;
-        citations = citations;
-        events = events;
-        husband = husband;
-        ldsSpouseSealings = ldsSpouseSealings;
-        multimedia = multimedia;
+        if (other.children != null) {
+            children = new ArrayList<>();
+            for (Individual c : other.children) {
+                children.add(new Individual(c));
+            }
+        }
+        if (other.citations != null) {
+            citations = new ArrayList<>();
+            for (AbstractCitation ac : other.citations) {
+                if (ac instanceof CitationWithoutSource) {
+                    citations.add(new CitationWithoutSource((CitationWithoutSource) ac));
+                } else if (ac instanceof CitationWithSource) {
+                    citations.add(new CitationWithSource((CitationWithSource) ac));
+                }
+            }
+        }
+        if (other.events != null) {
+            events = new ArrayList<>();
+            for (FamilyEvent e : other.events) {
+                events.add(new FamilyEvent(e));
+            }
+        }
+        if (other.husband != null) {
+            husband = new Individual(other.husband);
+        }
+        if (other.ldsSpouseSealings != null) {
+            ldsSpouseSealings = new ArrayList<>();
+            for (LdsSpouseSealing lss : other.ldsSpouseSealings) {
+                ldsSpouseSealings.add(new LdsSpouseSealing(lss));
+            }
+        }
+        if (other.multimedia != null) {
+            multimedia = new ArrayList<>();
+            for (Multimedia m : other.multimedia) {
+                multimedia.add(new Multimedia(m));
+            }
+        }
         if (other.numChildren != null) {
             numChildren = new StringWithCustomTags(other.numChildren);
         }
@@ -154,14 +184,21 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
         if (other.restrictionNotice != null) {
             restrictionNotice = new StringWithCustomTags(other.restrictionNotice);
         }
-        submitters = submitters;
+        if (other.submitters != null) {
+            submitters = new ArrayList<>();
+            for (Submitter s : other.submitters) {
+                submitters.add(new Submitter(s));
+            }
+        }
         if (other.userReferences != null) {
             userReferences = new ArrayList<>();
             for (UserReference ur : other.userReferences) {
                 userReferences.add(new UserReference(ur));
             }
         }
-        wife = wife;
+        if (other.wife != null) {
+            wife = new Individual(other.wife);
+        }
         xref = other.xref;
     }
 

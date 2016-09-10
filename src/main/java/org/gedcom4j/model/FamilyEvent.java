@@ -54,6 +54,28 @@ public class FamilyEvent extends AbstractEvent {
      */
     private StringWithCustomTags wifeAge;
 
+    /** Default constructor */
+    public FamilyEvent() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public FamilyEvent(FamilyEvent other) {
+        super(other);
+        if (other.husbandAge != null) {
+            husbandAge = new StringWithCustomTags(other.husbandAge);
+        }
+        type = other.type;
+        if (other.wifeAge != null) {
+            wifeAge = new StringWithCustomTags(other.wifeAge);
+        }
+    }
+
     /**
      * {@inheritDoc}
      */

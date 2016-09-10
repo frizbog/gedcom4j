@@ -82,6 +82,55 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      */
     private StringWithCustomTags surnamePrefix;
 
+    /** Default constructor */
+    public PersonalNameVariation() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public PersonalNameVariation(PersonalNameVariation other) {
+        super(other);
+        if (other.citations != null) {
+            citations = new ArrayList<>();
+            for (AbstractCitation ac : other.citations) {
+                if (ac instanceof CitationWithoutSource) {
+                    citations.add(new CitationWithoutSource((CitationWithoutSource) ac));
+                } else if (ac instanceof CitationWithSource) {
+                    citations.add(new CitationWithSource((CitationWithSource) ac));
+                }
+            }
+        }
+        if (other.givenName != null) {
+            givenName = new StringWithCustomTags(other.givenName);
+        }
+        if (other.nickname != null) {
+            nickname = new StringWithCustomTags(other.nickname);
+        }
+        if (other.getNotes() != null) {
+            notes = new ArrayList<>();
+            for (Note n : other.getNotes()) {
+                notes.add(new Note(n));
+            }
+        }
+        if (other.prefix != null) {
+            prefix = new StringWithCustomTags(other.prefix);
+        }
+        if (other.suffix != null) {
+            suffix = new StringWithCustomTags(other.suffix);
+        }
+        if (other.surname != null) {
+            surname = new StringWithCustomTags(other.surname);
+        }
+        if (other.surnamePrefix != null) {
+            surnamePrefix = new StringWithCustomTags(other.surnamePrefix);
+        }
+    }
+
     /**
      * Determine if this object is equal to another
      * 

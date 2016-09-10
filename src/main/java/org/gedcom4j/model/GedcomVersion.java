@@ -48,6 +48,25 @@ public class GedcomVersion extends AbstractElement {
      */
     private SupportedVersion versionNumber = SupportedVersion.V5_5_1;
 
+    /** Default constructor */
+    public GedcomVersion() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public GedcomVersion(GedcomVersion other) {
+        super(other);
+        if (other.gedcomForm != null) {
+            gedcomForm = new StringWithCustomTags(other.gedcomForm);
+        }
+        versionNumber = other.versionNumber;
+    }
+
     /**
      * {@inheritDoc}
      */

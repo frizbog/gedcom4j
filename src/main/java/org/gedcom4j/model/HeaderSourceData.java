@@ -59,6 +59,28 @@ public class HeaderSourceData extends AbstractElement {
      */
     private StringWithCustomTags publishDate;
 
+    /** Default constructor */
+    public HeaderSourceData() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public HeaderSourceData(HeaderSourceData other) {
+        super(other);
+        if (other.copyright != null) {
+            copyright = new StringWithCustomTags(other.copyright);
+        }
+        name = other.name;
+        if (other.publishDate != null) {
+            publishDate = new StringWithCustomTags(other.publishDate);
+        }
+    }
+
     /**
      * {@inheritDoc}
      */

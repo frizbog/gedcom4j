@@ -58,6 +58,33 @@ public class FileReference extends AbstractElement {
      */
     private StringWithCustomTags title;
 
+    /** Default constructor */
+    public FileReference() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public FileReference(FileReference other) {
+        super(other);
+        if (other.format != null) {
+            format = new StringWithCustomTags(other.format);
+        }
+        if (other.mediaType != null) {
+            mediaType = new StringWithCustomTags(other.mediaType);
+        }
+        if (other.referenceToFile != null) {
+            referenceToFile = new StringWithCustomTags(other.referenceToFile);
+        }
+        if (other.title != null) {
+            title = new StringWithCustomTags(other.title);
+        }
+    }
+
     /**
      * {@inheritDoc}
      */

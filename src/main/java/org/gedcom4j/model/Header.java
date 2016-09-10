@@ -109,6 +109,57 @@ public class Header extends AbstractNotesElement {
      */
     private StringWithCustomTags time;
 
+    /** Default constructor */
+    public Header() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public Header(Header other) {
+        super(other);
+        if (other.characterSet != null) {
+            characterSet = new CharacterSet(other.characterSet);
+        }
+        if (other.copyrightData != null) {
+            copyrightData = new ArrayList<>(other.copyrightData);
+        }
+        if (other.date != null) {
+            date = new StringWithCustomTags(other.date);
+        }
+        if (other.destinationSystem != null) {
+            destinationSystem = new StringWithCustomTags(other.destinationSystem);
+        }
+        if (other.fileName != null) {
+            fileName = new StringWithCustomTags(other.fileName);
+        }
+        if (other.gedcomVersion != null) {
+            gedcomVersion = new GedcomVersion(other.gedcomVersion);
+        }
+        if (other.language != null) {
+            language = new StringWithCustomTags(other.language);
+        }
+        if (other.placeHierarchy != null) {
+            placeHierarchy = new StringWithCustomTags(other.placeHierarchy);
+        }
+        if (other.sourceSystem != null) {
+            sourceSystem = new SourceSystem(other.sourceSystem);
+        }
+        if (other.submission != null) {
+            submission = new Submission(other.submission);
+        }
+        if (other.submitter != null) {
+            submitter = new Submitter(other.submitter);
+        }
+        if (other.time != null) {
+            time = new StringWithCustomTags(other.time);
+        }
+    }
+
     /**
      * {@inheritDoc}
      */

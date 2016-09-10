@@ -77,6 +77,11 @@ public class Submission extends AbstractElement implements HasXref {
      */
     private String xref;
 
+    /** Default constructor */
+    public Submission() {
+        // Default constructor does nothing
+    }
+
     /**
      * Constructor, takes required xref value
      * 
@@ -85,6 +90,39 @@ public class Submission extends AbstractElement implements HasXref {
      */
     public Submission(String xref) {
         this.xref = xref;
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public Submission(Submission other) {
+        super(other);
+        if (other.ancestorsCount != null) {
+            ancestorsCount = new StringWithCustomTags(other.ancestorsCount);
+        }
+        if (other.descendantsCount != null) {
+            descendantsCount = new StringWithCustomTags(other.descendantsCount);
+        }
+        if (other.nameOfFamilyFile != null) {
+            nameOfFamilyFile = new StringWithCustomTags(other.nameOfFamilyFile);
+        }
+        if (other.ordinanceProcessFlag != null) {
+            ordinanceProcessFlag = new StringWithCustomTags(other.ordinanceProcessFlag);
+        }
+        if (other.recIdNumber != null) {
+            recIdNumber = new StringWithCustomTags(other.recIdNumber);
+        }
+        if (other.submitter != null) {
+            submitter = new Submitter(other.submitter);
+        }
+        if (other.templeCode != null) {
+            templeCode = new StringWithCustomTags(other.templeCode);
+        }
+        xref = other.xref;
+
     }
 
     /**

@@ -94,6 +94,62 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      */
     private StringWithCustomTags surnamePrefix;
 
+    /** Default constructor */
+    public PersonalName() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public PersonalName(PersonalName other) {
+        super(other);
+        basic = other.basic;
+        if (other.citations != null) {
+            citations = new ArrayList<>();
+            for (AbstractCitation ac : other.citations) {
+                if (ac instanceof CitationWithoutSource) {
+                    citations.add(new CitationWithoutSource((CitationWithoutSource) ac));
+                } else if (ac instanceof CitationWithSource) {
+                    citations.add(new CitationWithSource((CitationWithSource) ac));
+                }
+            }
+        }
+        if (other.givenName != null) {
+            givenName = new StringWithCustomTags(other.givenName);
+        }
+        if (other.nickname != null) {
+            nickname = new StringWithCustomTags(other.nickname);
+        }
+        if (other.phonetic != null) {
+            phonetic = new ArrayList<>();
+            for (AbstractNameVariation ph : other.phonetic) {
+                phonetic.add(new PersonalNameVariation((PersonalNameVariation) ph));
+            }
+        }
+        if (other.prefix != null) {
+            prefix = new StringWithCustomTags(other.prefix);
+        }
+        if (other.romanized != null) {
+            romanized = new ArrayList<>();
+            for (AbstractNameVariation ph : other.romanized) {
+                romanized.add(new PersonalNameVariation((PersonalNameVariation) ph));
+            }
+        }
+        if (other.suffix != null) {
+            suffix = new StringWithCustomTags(other.suffix);
+        }
+        if (other.surname != null) {
+            surname = new StringWithCustomTags(other.surname);
+        }
+        if (other.surnamePrefix != null) {
+            surnamePrefix = new StringWithCustomTags(other.surnamePrefix);
+        }
+    }
+
     /**
      * {@inheritDoc}
      */

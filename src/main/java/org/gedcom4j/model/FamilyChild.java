@@ -26,17 +26,12 @@
  */
 package org.gedcom4j.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.gedcom4j.Options;
-
 /**
  * Represent's an individuals membership, as a child, in a family
  * 
  * @author frizbog1
  */
-public class FamilyChild extends AbstractElement {
+public class FamilyChild extends AbstractNotesElement {
     /**
      * Serial Version UID
      */
@@ -53,11 +48,6 @@ public class FamilyChild extends AbstractElement {
     private Family family;
 
     /**
-     * Notes about this object
-     */
-    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
-
-    /**
      * Pedigree information
      */
     private StringWithCustomTags pedigree;
@@ -67,6 +57,33 @@ public class FamilyChild extends AbstractElement {
      * but this implementation allows any value.
      */
     private StringWithCustomTags status;
+
+    /** Default constructor */
+    public FamilyChild() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public FamilyChild(FamilyChild other) {
+        super(other);
+        if (other.adoptedBy != null) {
+            adoptedBy = other.adoptedBy;
+        }
+        if (other.family != null) {
+            family = new Family(other.family);
+        }
+        if (other.pedigree != null) {
+            pedigree = new StringWithCustomTags(other.pedigree);
+        }
+        if (other.status != null) {
+            status = new StringWithCustomTags(other.status);
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -108,13 +125,6 @@ public class FamilyChild extends AbstractElement {
                 }
             }
         }
-        if (notes == null) {
-            if (other.notes != null) {
-                return false;
-            }
-        } else if (!notes.equals(other.notes)) {
-            return false;
-        }
         if (pedigree == null) {
             if (other.pedigree != null) {
                 return false;
@@ -151,30 +161,6 @@ public class FamilyChild extends AbstractElement {
     }
 
     /**
-     * Gets the notes.
-     *
-     * @return the notes
-     */
-    public List<Note> getNotes() {
-        return notes;
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection if needed?
-     * 
-     * @return the notes
-     */
-    public List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<>(0);
-        }
-        return notes;
-    }
-
-    /**
      * Gets the pedigree.
      *
      * @return the pedigree
@@ -201,7 +187,6 @@ public class FamilyChild extends AbstractElement {
         int result = super.hashCode();
         result = prime * result + (adoptedBy == null ? 0 : adoptedBy.hashCode());
         result = prime * result + (family == null || family.getXref() == null ? 0 : family.getXref().hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
         result = prime * result + (pedigree == null ? 0 : pedigree.hashCode());
         result = prime * result + (status == null ? 0 : status.hashCode());
         return result;
@@ -262,11 +247,6 @@ public class FamilyChild extends AbstractElement {
         if (family != null) {
             builder.append("family=");
             builder.append(family);
-            builder.append(", ");
-        }
-        if (notes != null) {
-            builder.append("notes=");
-            builder.append(notes);
             builder.append(", ");
         }
         if (pedigree != null) {

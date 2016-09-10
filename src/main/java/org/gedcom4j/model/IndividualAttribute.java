@@ -43,6 +43,22 @@ public class IndividualAttribute extends AbstractEvent {
      */
     private IndividualAttributeType type;
 
+    /** Default constructor */
+    public IndividualAttribute() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public IndividualAttribute(IndividualAttribute other) {
+        super(other);
+        type = other.type;
+    }
+
     /**
      * {@inheritDoc}
      */

@@ -89,6 +89,29 @@ public class Note extends AbstractElement implements HasCitations, HasXref {
         if (other.getChangeDate() != null) {
             changeDate = new ChangeDate(other.changeDate);
         }
+        if (other.citations != null) {
+            citations = new ArrayList<>();
+            for (AbstractCitation ac : other.citations) {
+                if (ac instanceof CitationWithoutSource) {
+                    citations.add(new CitationWithoutSource((CitationWithoutSource) ac));
+                } else if (ac instanceof CitationWithSource) {
+                    citations.add(new CitationWithSource((CitationWithSource) ac));
+                }
+            }
+        }
+        if (other.lines != null) {
+            lines = new ArrayList<>(other.lines);
+        }
+        if (other.recIdNumber != null) {
+            recIdNumber = new StringWithCustomTags(other.recIdNumber);
+        }
+        if (other.userReferences != null) {
+            userReferences = new ArrayList<>();
+            for (UserReference ur : other.userReferences) {
+                userReferences.add(new UserReference(ur));
+            }
+        }
+        xref = other.xref;
     }
 
     /**

@@ -63,9 +63,7 @@ public abstract class AbstractNameVariation extends AbstractElement {
     public AbstractNameVariation(AbstractNameVariation other) {
         super(other);
         variation = other.variation;
-        if (other.variationType != null) {
-            variationType = new StringWithCustomTags(other.variationType);
-        }
+        variationType = new StringWithCustomTags(other.variationType);
     }
 
     /**

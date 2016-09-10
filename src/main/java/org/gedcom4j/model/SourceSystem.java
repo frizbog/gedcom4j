@@ -69,6 +69,34 @@ public class SourceSystem extends AbstractElement {
      */
     private StringWithCustomTags versionNum;
 
+    /** Default constructor */
+    public SourceSystem() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public SourceSystem(SourceSystem other) {
+        super(other);
+        if (other.corporation != null) {
+            corporation = new Corporation(other.corporation);
+        }
+        if (other.productName != null) {
+            productName = new StringWithCustomTags(other.productName);
+        }
+        if (other.sourceData != null) {
+            sourceData = new HeaderSourceData(other.sourceData);
+        }
+        systemId = other.systemId;
+        if (other.versionNum != null) {
+            versionNum = new StringWithCustomTags(other.versionNum);
+        }
+    }
+
     /**
      * {@inheritDoc}
      */

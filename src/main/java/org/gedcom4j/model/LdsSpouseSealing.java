@@ -38,6 +38,21 @@ public class LdsSpouseSealing extends AbstractLdsOrdinance {
      */
     private static final long serialVersionUID = -6357595096472920377L;
 
+    /** Default constructor */
+    public LdsSpouseSealing() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public LdsSpouseSealing(LdsSpouseSealing other) {
+        super(other);
+    }
+
     /**
      * {@inheritDoc}
      */

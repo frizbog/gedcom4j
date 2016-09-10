@@ -118,11 +118,6 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
     private List<PersonalName> names = getNames(Options.isCollectionInitializationEnabled());
 
     /**
-     * Notes about this object
-     */
-    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
-
-    /**
      * The permanent record file number for this individual
      */
     private StringWithCustomTags permanentRecFileNumber;
@@ -157,7 +152,128 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      */
     private String xref;
 
-    // CHECKSTYLE:OFF for method length
+    /** Default constructor */
+    public Individual() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public Individual(Individual other) {
+        super(other);
+        if (other.aliases != null) {
+            aliases = new ArrayList<>();
+            for (StringWithCustomTags swct : other.aliases) {
+                aliases.add(new StringWithCustomTags(swct));
+            }
+        }
+        if (ancestorInterest != null) {
+            ancestorInterest = new ArrayList<>();
+            for (Submitter ai : other.ancestorInterest) {
+                ancestorInterest.add(new Submitter(ai));
+            }
+        }
+        if (other.ancestralFileNumber != null) {
+            ancestralFileNumber = new StringWithCustomTags(other.ancestralFileNumber);
+        }
+        if (other.associations != null) {
+            associations = new ArrayList<>();
+            for (Association a : other.associations) {
+                associations.add(new Association(a));
+            }
+        }
+        if (other.attributes != null) {
+            attributes = new ArrayList<>();
+            for (IndividualAttribute ia : other.attributes) {
+                attributes.add(new IndividualAttribute(ia));
+            }
+        }
+        if (other.changeDate != null) {
+            changeDate = new ChangeDate(other.changeDate);
+        }
+        if (other.citations != null) {
+            citations = new ArrayList<>();
+            for (AbstractCitation ac : other.citations) {
+                if (ac instanceof CitationWithoutSource) {
+                    citations.add(new CitationWithoutSource((CitationWithoutSource) ac));
+                } else if (ac instanceof CitationWithSource) {
+                    citations.add(new CitationWithSource((CitationWithSource) ac));
+                }
+            }
+        }
+        if (descendantInterest != null) {
+            descendantInterest = new ArrayList<>();
+            for (Submitter ai : other.descendantInterest) {
+                descendantInterest.add(new Submitter(ai));
+            }
+        }
+        if (other.events != null) {
+            events = new ArrayList<>();
+            for (IndividualEvent e : other.events) {
+                events.add(new IndividualEvent(e));
+            }
+        }
+        if (other.familiesWhereChild != null) {
+            familiesWhereChild = new ArrayList<>();
+            for (FamilyChild fc : other.familiesWhereChild) {
+                familiesWhereChild.add(new FamilyChild(fc));
+            }
+        }
+        if (other.familiesWhereSpouse != null) {
+            familiesWhereSpouse = new ArrayList<>();
+            for (FamilySpouse fs : other.familiesWhereSpouse) {
+                familiesWhereSpouse.add(new FamilySpouse(fs));
+            }
+        }
+        if (other.ldsIndividualOrdinances != null) {
+            ldsIndividualOrdinances = new ArrayList<>();
+            for (LdsIndividualOrdinance lio : other.ldsIndividualOrdinances) {
+                ldsIndividualOrdinances.add(new LdsIndividualOrdinance(lio));
+            }
+        }
+        if (other.multimedia != null) {
+            multimedia = new ArrayList<>();
+            for (Multimedia m : other.multimedia) {
+                multimedia.add(new Multimedia(m));
+            }
+        }
+        if (other.names != null) {
+            names = new ArrayList<>();
+            for (PersonalName pn : other.names) {
+                names.add(new PersonalName(pn));
+            }
+        }
+        if (other.permanentRecFileNumber != null) {
+            permanentRecFileNumber = new StringWithCustomTags(other.permanentRecFileNumber);
+        }
+        if (other.recIdNumber != null) {
+            recIdNumber = new StringWithCustomTags(other.recIdNumber);
+        }
+        if (other.restrictionNotice != null) {
+            restrictionNotice = new StringWithCustomTags(other.restrictionNotice);
+        }
+        if (other.sex != null) {
+            sex = new StringWithCustomTags(other.sex);
+        }
+        if (other.submitters != null) {
+            submitters = new ArrayList<>();
+            for (Submitter s : other.submitters) {
+                submitters.add(new Submitter(s));
+            }
+        }
+        if (other.userReferences != null) {
+            userReferences = new ArrayList<>();
+            for (UserReference ur : other.userReferences) {
+                userReferences.add(new UserReference(ur));
+            }
+        }
+        xref = other.xref;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -272,13 +388,6 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
         } else if (!names.equals(other.names)) {
             return false;
         }
-        if (notes == null) {
-            if (other.notes != null) {
-                return false;
-            }
-        } else if (!notes.equals(other.notes)) {
-            return false;
-        }
         if (permanentRecFileNumber == null) {
             if (other.permanentRecFileNumber != null) {
                 return false;
@@ -331,8 +440,6 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
         }
         return true;
     }
-
-    // CHECKSTYLE:ON
 
     /**
      * Gets the aliases.
@@ -707,32 +814,6 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
     }
 
     /**
-     * Gets the notes.
-     *
-     * @return the notes
-     */
-    @Override
-    public List<Note> getNotes() {
-        return notes;
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection if needed?
-     * 
-     * @return the notes
-     */
-    @Override
-    public List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<>(0);
-        }
-        return notes;
-    }
-
-    /**
      * Gets the permanent rec file number.
      *
      * @return the permanent rec file number
@@ -869,7 +950,6 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
         result = prime * result + (ldsIndividualOrdinances == null ? 0 : ldsIndividualOrdinances.hashCode());
         result = prime * result + (multimedia == null ? 0 : multimedia.hashCode());
         result = prime * result + (names == null ? 0 : names.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
         result = prime * result + (permanentRecFileNumber == null ? 0 : permanentRecFileNumber.hashCode());
         result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
         result = prime * result + (restrictionNotice == null ? 0 : restrictionNotice.hashCode());

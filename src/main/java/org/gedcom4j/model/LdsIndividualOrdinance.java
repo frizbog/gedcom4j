@@ -52,6 +52,26 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
      */
     private String yNull;
 
+    /** Default constructor */
+    public LdsIndividualOrdinance() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public LdsIndividualOrdinance(LdsIndividualOrdinance other) {
+        super(other);
+        if (other.familyWhereChild != null) {
+            familyWhereChild = new FamilyChild(other.familyWhereChild);
+        }
+        type = other.type;
+        yNull = other.yNull;
+    }
+
     /**
      * {@inheritDoc}
      */

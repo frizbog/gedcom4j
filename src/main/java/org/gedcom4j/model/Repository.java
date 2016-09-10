@@ -68,6 +68,37 @@ public class Repository extends AbstractAddressableElement implements HasXref {
      */
     private String xref;
 
+    /** Default constructor */
+    public Repository() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public Repository(Repository other) {
+        super(other);
+        if (other.changeDate != null) {
+            changeDate = new ChangeDate(other.changeDate);
+        }
+        if (other.name != null) {
+            name = new StringWithCustomTags(other.name);
+        }
+        if (other.recIdNumber != null) {
+            recIdNumber = new StringWithCustomTags(other.recIdNumber);
+        }
+        if (other.userReferences != null) {
+            userReferences = new ArrayList<>();
+            for (UserReference ur : other.userReferences) {
+                userReferences.add(new UserReference(ur));
+            }
+        }
+        xref = other.xref;
+    }
+
     /**
      * {@inheritDoc}
      */

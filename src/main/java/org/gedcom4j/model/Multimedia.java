@@ -122,7 +122,47 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      */
     public Multimedia(Multimedia other) {
         super(other);
-        // TODO complete copy constructor
+        if (other.blob != null) {
+            blob = new ArrayList<>(other.blob);
+        }
+        if (other.changeDate != null) {
+            changeDate = new ChangeDate(other.changeDate);
+        }
+        if (other.citations != null) {
+            citations = new ArrayList<>();
+            for (AbstractCitation ac : other.citations) {
+                if (ac instanceof CitationWithoutSource) {
+                    citations.add(new CitationWithoutSource((CitationWithoutSource) ac));
+                } else if (ac instanceof CitationWithSource) {
+                    citations.add(new CitationWithSource((CitationWithSource) ac));
+                }
+            }
+        }
+        if (other.continuedObject != null) {
+            continuedObject = new Multimedia(other.continuedObject);
+        }
+        if (other.embeddedMediaFormat != null) {
+            embeddedMediaFormat = new StringWithCustomTags(other.embeddedMediaFormat);
+        }
+        if (other.embeddedTitle != null) {
+            embeddedTitle = new StringWithCustomTags(other.embeddedTitle);
+        }
+        if (other.fileReferences != null) {
+            fileReferences = new ArrayList<>();
+            for (FileReference fr : other.fileReferences) {
+                fileReferences.add(new FileReference(fr));
+            }
+        }
+        if (other.recIdNumber != null) {
+            recIdNumber = new StringWithCustomTags(other.recIdNumber);
+        }
+        if (other.userReferences != null) {
+            userReferences = new ArrayList<>();
+            for (UserReference ur : other.userReferences) {
+                userReferences.add(new UserReference(ur));
+            }
+        }
+        xref = other.xref;
     }
 
     /**

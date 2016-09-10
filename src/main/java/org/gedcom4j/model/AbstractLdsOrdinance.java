@@ -69,6 +69,43 @@ public abstract class AbstractLdsOrdinance extends AbstractNotesElement implemen
      */
     protected StringWithCustomTags temple;
 
+    /** Default constructor */
+    public AbstractLdsOrdinance() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public AbstractLdsOrdinance(AbstractLdsOrdinance other) {
+        super(other);
+        if (other.citations != null) {
+            citations = new ArrayList<>();
+            for (AbstractCitation ac : other.citations) {
+                if (ac instanceof CitationWithoutSource) {
+                    citations.add(new CitationWithoutSource((CitationWithoutSource) ac));
+                } else if (ac instanceof CitationWithSource) {
+                    citations.add(new CitationWithSource((CitationWithSource) ac));
+                }
+            }
+        }
+        if (other.date != null) {
+            date = new StringWithCustomTags(other.date);
+        }
+        if (other.place != null) {
+            place = new StringWithCustomTags(other.place);
+        }
+        if (other.status != null) {
+            status = new StringWithCustomTags(other.status);
+        }
+        if (other.temple != null) {
+            temple = new StringWithCustomTags(other.temple);
+        }
+    }
+
     /**
      * {@inheritDoc}
      */

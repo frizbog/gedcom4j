@@ -88,6 +88,52 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
      */
     private String xref;
 
+    /** Default constructor */
+    public Submitter() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public Submitter(Submitter other) {
+        super(other);
+        if (other.changeDate != null) {
+            changeDate = new ChangeDate(other.changeDate);
+        }
+        if (other.languagePref != null) {
+            languagePref = new ArrayList<>();
+            for (StringWithCustomTags swct : other.languagePref) {
+                languagePref.add(new StringWithCustomTags(swct));
+            }
+        }
+        if (other.multimedia != null) {
+            multimedia = new ArrayList<>();
+            for (Multimedia m : other.multimedia) {
+                multimedia.add(new Multimedia(m));
+            }
+        }
+        if (other.name != null) {
+            name = new StringWithCustomTags(other.name);
+        }
+        if (other.recIdNumber != null) {
+            recIdNumber = new StringWithCustomTags(other.recIdNumber);
+        }
+        if (other.regFileNumber != null) {
+            regFileNumber = new StringWithCustomTags(other.regFileNumber);
+        }
+        if (other.userReferences != null) {
+            userReferences = new ArrayList<>();
+            for (UserReference ur : other.userReferences) {
+                userReferences.add(new UserReference(ur));
+            }
+        }
+        xref = other.xref;
+    }
+
     /**
      * {@inheritDoc}
      */

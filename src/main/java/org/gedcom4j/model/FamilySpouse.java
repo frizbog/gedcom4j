@@ -26,18 +26,13 @@
  */
 package org.gedcom4j.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.gedcom4j.Options;
-
 /**
  * Indicates an individual's membership, as a spouse, in a family
  * 
  * @author frizbog1
  * 
  */
-public class FamilySpouse extends AbstractElement {
+public class FamilySpouse extends AbstractNotesElement {
     /**
      * Serial Version UID
      */
@@ -48,10 +43,23 @@ public class FamilySpouse extends AbstractElement {
      */
     private Family family;
 
+    /** Default constructor */
+    public FamilySpouse() {
+        // Default constructor does nothing
+    }
+
     /**
-     * Notes about this object
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
      */
-    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
+    public FamilySpouse(FamilySpouse other) {
+        super(other);
+        if (other.family != null) {
+            family = new Family(other.family);
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -86,13 +94,6 @@ public class FamilySpouse extends AbstractElement {
                 }
             }
         }
-        if (notes == null) {
-            if (other.notes != null) {
-                return false;
-            }
-        } else if (!notes.equals(other.notes)) {
-            return false;
-        }
         return true;
     }
 
@@ -106,30 +107,6 @@ public class FamilySpouse extends AbstractElement {
     }
 
     /**
-     * Gets the notes.
-     *
-     * @return the notes
-     */
-    public List<Note> getNotes() {
-        return notes;
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection if needed?
-     * 
-     * @return the notes
-     */
-    public List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<>(0);
-        }
-        return notes;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -137,7 +114,6 @@ public class FamilySpouse extends AbstractElement {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + (family == null || family.getXref() == null ? 0 : family.getXref().hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
         return result;
     }
 
@@ -161,11 +137,6 @@ public class FamilySpouse extends AbstractElement {
         if (family != null) {
             builder.append("family=");
             builder.append(family);
-            builder.append(", ");
-        }
-        if (notes != null) {
-            builder.append("notes=");
-            builder.append(notes);
             builder.append(", ");
         }
         if (getCustomTags() != null) {

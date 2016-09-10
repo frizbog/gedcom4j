@@ -49,6 +49,27 @@ public class CharacterSet extends AbstractElement {
      */
     private StringWithCustomTags versionNum;
 
+    /** Default constructor */
+    public CharacterSet() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public CharacterSet(CharacterSet other) {
+        super(other);
+        if (other.characterSetName != null) {
+            characterSetName = new StringWithCustomTags(other.characterSetName);
+        }
+        if (other.versionNum != null) {
+            versionNum = new StringWithCustomTags(other.versionNum);
+        }
+    }
+
     /**
      * {@inheritDoc}
      */
