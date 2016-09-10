@@ -57,6 +57,41 @@ public class MultimediaCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        Multimedia orig = new Multimedia();
+        ChangeDate cd = new ChangeDate();
+        cd.setDate(new StringWithCustomTags("1 JAN 1911"));
+        orig.setChangeDate(cd);
+        orig.setContinuedObject(new Multimedia());
+        orig.setEmbeddedMediaFormat(new StringWithCustomTags("MPG"));
+        orig.setEmbeddedTitle(new StringWithCustomTags("Movie.mpg"));
+        orig.setRecIdNumber(new StringWithCustomTags("123"));
+        orig.setXref("@M1@");
+        orig.getBlob(true).add("qqwpeoiqpwoeiqpoweiqpowiepqowiepqowiepqowi");
+        orig.getBlob().add("asdlkajsdlkajlaksjdlaksjdlaskjda");
+        orig.getBlob().add("zxmcnbzmxncbmxnvbmnxbx");
+        orig.getCitations(true).add(getTestCitation());
+        orig.getCustomTags(true).add(getTestCustomTags());
+        FileReference fr = new FileReference();
+        fr.setFormat(new StringWithCustomTags("MPG"));
+        fr.setMediaType(new StringWithCustomTags("Movie"));
+        fr.setReferenceToFile(new StringWithCustomTags("foo.mpg"));
+        fr.setTitle(new StringWithCustomTags("Super movie!"));
+        orig.getFileReferences(true).add(fr);
+        orig.getNotes(true).add(getTestNote());
+        UserReference u = new UserReference();
+        u.setReferenceNum(new StringWithCustomTags("123"));
+        orig.getUserReferences(true).add(u);
+
+        Multimedia copy = new Multimedia(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+    }
 
 }

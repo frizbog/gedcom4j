@@ -57,6 +57,30 @@ public class RepositoryCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        Repository orig = new Repository();
+        orig.setAddress(getTestAddress());
+        ChangeDate cd = new ChangeDate();
+        cd.setDate(new StringWithCustomTags("04 APR 1904"));
+        orig.setChangeDate(cd);
+        orig.setName(new StringWithCustomTags("Bob's Repository"));
+        orig.setRecIdNumber(new StringWithCustomTags("123"));
+        orig.setXref("@R1@");
+        orig.getNotes(true).add(getTestNote());
+        orig.getFaxNumbers(true).add(new StringWithCustomTags("555-1212"));
+        orig.getPhoneNumbers(true).add(new StringWithCustomTags("555-1313"));
+        orig.getWwwUrls(true).add(new StringWithCustomTags("www.nowhere.com"));
+        orig.getEmails(true).add(new StringWithCustomTags("nobody@nowwhere.com"));
+
+        Repository copy = new Repository(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+    }
 
 }

@@ -57,6 +57,44 @@ public class HeaderCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        Header orig = new Header();
+        CharacterSet cs = new CharacterSet();
+        cs.setCharacterSetName(new StringWithCustomTags("AA"));
+        cs.setVersionNum(new StringWithCustomTags("1"));
+        orig.setCharacterSet(cs);
+        orig.setDate(new StringWithCustomTags("5 MAY 1905"));
+        orig.setDestinationSystem(new StringWithCustomTags("Black Hole"));
+        orig.setFileName(new StringWithCustomTags("foo.ged"));
+        GedcomVersion gv = new GedcomVersion();
+        gv.setGedcomForm(new StringWithCustomTags("XXX"));
+        gv.setVersionNumber(SupportedVersion.V5_5_1);
+        orig.setGedcomVersion(gv);
+        orig.setLanguage(new StringWithCustomTags("Klingon"));
+        orig.setPlaceHierarchy(new StringWithCustomTags("Solar System"));
+        SourceSystem ss = new SourceSystem();
+        ss.setProductName(new StringWithCustomTags("gedcom4j"));
+        orig.setSourceSystem(ss);
+        Submission s = new Submission("@SBM123@");
+        s.setRecIdNumber(new StringWithCustomTags("999"));
+        orig.setSubmission(s);
+        Submitter submitter = new Submitter();
+        submitter.setName(new StringWithCustomTags("Matt /Harrah/"));
+        orig.setSubmitter(submitter);
+        orig.setTime(new StringWithCustomTags("12:34pm"));
+        orig.getCopyrightData(true).add("(c) 932 AD");
+        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getNotes(true).add(getTestNote());
+
+        Header copy = new Header(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+    }
 
 }

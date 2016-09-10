@@ -57,6 +57,22 @@ public class HeaderSourceDataCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        HeaderSourceData orig = new HeaderSourceData();
+        orig.setCopyright(new StringWithCustomTags("(c) 1776 George Washington"));
+        orig.setName("AAA");
+        orig.setPublishDate(new StringWithCustomTags("04 APR 1804"));
+        orig.getCustomTags(true).add(getTestCustomTags());
+
+        HeaderSourceData copy = new HeaderSourceData(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+    }
 
 }

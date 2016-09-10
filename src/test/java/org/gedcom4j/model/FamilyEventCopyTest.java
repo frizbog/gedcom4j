@@ -57,6 +57,44 @@ public class FamilyEventCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        FamilyEvent orig = new FamilyEvent();
+        orig.setAddress(getTestAddress());
+        orig.getNotes(true).add(getTestNote());
+        orig.getFaxNumbers(true).add(new StringWithCustomTags("555-1212"));
+        orig.getPhoneNumbers(true).add(new StringWithCustomTags("555-1313"));
+        orig.getWwwUrls(true).add(new StringWithCustomTags("www.nowhere.com"));
+        orig.getEmails(true).add(new StringWithCustomTags("nobody@nowwhere.com"));
+        orig.setAge(new StringWithCustomTags("1"));
+        orig.setCause(new StringWithCustomTags("Just because"));
+        orig.setDate(new StringWithCustomTags("03 MAR 1903"));
+        orig.setDescription(new StringWithCustomTags("That thing with the stuff"));
+        orig.setHusbandAge(new StringWithCustomTags("123"));
+        Place p = new Place();
+        p.setPlaceName("Right there");
+        orig.setPlace(p);
+        orig.setReligiousAffiliation(new StringWithCustomTags("None"));
+        orig.setRespAgency(new StringWithCustomTags("The Avengers"));
+        orig.setRestrictionNotice(new StringWithCustomTags("Don't tell anyone....sssssshhh!"));
+        orig.setSubType(new StringWithCustomTags("mnbvcxz"));
+        orig.setType(FamilyEventType.EVENT);
+        orig.getCitations(true).add(getTestCitation());
+        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.setWifeAge(new StringWithCustomTags("124"));
+        orig.setyNull("Y");
+        Multimedia m = new Multimedia();
+        m.setXref("@M123@");
+        orig.getMultimedia(true).add(m);
+
+        FamilyEvent copy = new FamilyEvent(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+    }
 
 }

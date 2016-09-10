@@ -57,6 +57,24 @@ public class SourceDataCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        SourceData orig = new SourceData();
+        orig.getCustomTags(true).add(getTestCustomTags());
+        EventRecorded e = new EventRecorded();
+        e.setEventType("Foo");
+        orig.getEventsRecorded(true).add(e);
+        orig.setRespAgency(new StringWithCustomTags("Super Agency of Responsible Responsibility"));
+        orig.getNotes(true).add(getTestNote());
+
+        SourceData copy = new SourceData(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+    }
 
 }

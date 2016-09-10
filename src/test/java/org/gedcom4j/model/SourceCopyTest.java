@@ -57,6 +57,32 @@ public class SourceCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        Source orig = new Source();
+        ChangeDate changeDate = new ChangeDate();
+        changeDate.setDate(new StringWithCustomTags("01 JAN 1970"));
+        orig.setChangeDate(changeDate);
+        orig.setRecIdNumber(new StringWithCustomTags("A"));
+        orig.setXref("B");
+        SourceData data = new SourceData();
+        data.getNotes(true).add(getTestNote());
+        orig.setData(data);
+        RepositoryCitation rc = new RepositoryCitation();
+        rc.setRepositoryXref("@R123@");
+        SourceCallNumber scn = new SourceCallNumber();
+        scn.setCallNumber(new StringWithCustomTags("890"));
+        rc.getCallNumbers(true).add(scn);
+        orig.setRepositoryCitation(rc);
+
+        Source copy = new Source(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+    }
 
 }

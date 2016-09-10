@@ -29,6 +29,9 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 /**
@@ -57,6 +60,33 @@ public class CitationWithSourceCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        CitationWithSource orig = new CitationWithSource();
+        orig.setCertainty(new StringWithCustomTags("High"));
+        orig.setEventCited(new StringWithCustomTags("You know, that thing that happened"));
+        orig.setRoleInEvent(new StringWithCustomTags("You had to be there"));
+        Source s = new Source();
+        s.setXref("@S1@");
+        orig.setSource(s);
+        orig.setWhereInSource(new StringWithCustomTags("Page 394"));
+        CitationData cd = new CitationData();
+        List<String> ls = new ArrayList<>();
+        ls.add("line 1");
+        ls.add("line 2");
+        cd.getSourceText(true).add(ls);
+        cd.getCustomTags(true).add(getTestCustomTags());
+        cd.setEntryDate(new StringWithCustomTags("30 Jun 1998"));
+        orig.getData(true).add(cd);
+
+        CitationWithSource copy = new CitationWithSource(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+    }
 
 }

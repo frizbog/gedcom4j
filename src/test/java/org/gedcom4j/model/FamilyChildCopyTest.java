@@ -57,6 +57,34 @@ public class FamilyChildCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        FamilyChild orig = new FamilyChild();
+        orig.setAdoptedBy(AdoptedByWhichParent.WIFE);
+        Family f = new Family();
+        Individual h = new Individual();
+        h.setXref("@I1@");
+        f.setHusband(h);
+        Individual w = new Individual();
+        w.setXref("@I2@");
+        f.setWife(w);
+        Individual k = new Individual();
+        k.setXref("@I3@");
+        f.getChildren(true).add(k);
+        orig.setFamily(f);
+        orig.setPedigree(new StringWithCustomTags("OMG"));
+        orig.setStatus(new StringWithCustomTags("AOK"));
+        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getNotes(true).add(getTestNote());
+
+        FamilyChild copy = new FamilyChild(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+    }
 
 }
