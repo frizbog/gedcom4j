@@ -27,6 +27,7 @@
 package org.gedcom4j.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 
 import org.junit.Test;
@@ -57,6 +58,30 @@ public class PersonalNameCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        PersonalName orig = new PersonalName();
+        orig.setBasic("Qwerty I /Op/");
+        orig.setGivenName(new StringWithCustomTags("Qwerty I"));
+        orig.setNickname(new StringWithCustomTags("Shifty"));
+        orig.setPrefix(new StringWithCustomTags("Prof."));
+        orig.setSuffix(new StringWithCustomTags("III"));
+        orig.setSurname(new StringWithCustomTags("Op"));
+        orig.setSurnamePrefix(new StringWithCustomTags("[]"));
+        orig.getSurnamePrefix().getCustomTags(true).add(getTestCustomTags());
+        orig.getCitations(true).add(getTestCitation());
+
+        PersonalName copy = new PersonalName(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+
+        orig.getSurnamePrefix().getCustomTags().clear();
+        assertFalse("Copy shouldn't match if original changes", orig.equals(copy));
+    }
 
 }

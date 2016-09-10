@@ -57,6 +57,21 @@ public class GedcomVersionCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        GedcomVersion orig = new GedcomVersion();
+        orig.setGedcomForm(new StringWithCustomTags("foo"));
+        orig.setVersionNumber(SupportedVersion.V5_5);
+        orig.getCustomTags(true).add(getTestCustomTags());
+
+        GedcomVersion copy = new GedcomVersion(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+    }
 
 }

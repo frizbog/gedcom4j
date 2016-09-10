@@ -57,6 +57,29 @@ public class PersonalNameVariationCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        PersonalNameVariation orig = new PersonalNameVariation();
+        orig.setGivenName(new StringWithCustomTags("Gilbert"));
+        orig.setNickname(new StringWithCustomTags("Gilly"));
+        orig.setPrefix(new StringWithCustomTags("Dr."));
+        orig.setSuffix(new StringWithCustomTags("Jr."));
+        orig.setSurname(new StringWithCustomTags("Gilbertson"));
+        orig.setSurnamePrefix(new StringWithCustomTags("del"));
+        orig.setVariation("gilburtson");
+        orig.setVariationType(new StringWithCustomTags("foo"));
+        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getNotes(true).add(getTestNote());
+        orig.getCitations(true).add(getTestCitation());
+
+        PersonalNameVariation copy = new PersonalNameVariation(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+    }
 
 }

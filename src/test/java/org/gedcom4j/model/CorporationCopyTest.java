@@ -57,6 +57,31 @@ public class CorporationCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        Corporation orig = new Corporation();
+        Address a = new Address();
+        a.setAddr1(new StringWithCustomTags("ZZZ"));
+        a.setCity(new StringWithCustomTags("YYY"));
+        a.setStateProvince(new StringWithCustomTags("XXX"));
+        a.setCountry(new StringWithCustomTags("WWW"));
+        orig.setAddress(a);
+        orig.setBusinessName("Bob's Genalogy Shop");
+        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getNotes(true).add(getTestNote());
+        orig.getFaxNumbers(true).add(new StringWithCustomTags("555-1212"));
+        orig.getPhoneNumbers(true).add(new StringWithCustomTags("555-1313"));
+        orig.getWwwUrls(true).add(new StringWithCustomTags("www.nowhere.com"));
+        orig.getEmails(true).add(new StringWithCustomTags("nobody@nowwhere.com"));
+
+        Corporation copy = new Corporation(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+    }
 
 }

@@ -57,6 +57,21 @@ public class PlaceNameVariationCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        PlaceNameVariation orig = new PlaceNameVariation();
+        orig.setVariation("FryingPan");
+        orig.setVariationType(new StringWithCustomTags("VWXYZ"));
+        orig.getCustomTags(true).add(getTestCustomTags());
+
+        PlaceNameVariation copy = new PlaceNameVariation(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+    }
 
 }

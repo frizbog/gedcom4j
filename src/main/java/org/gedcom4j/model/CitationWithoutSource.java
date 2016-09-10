@@ -180,7 +180,7 @@ public class CitationWithoutSource extends AbstractCitation {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(64);
+        StringBuilder builder = new StringBuilder(50);
         builder.append("CitationWithoutSource [");
         if (description != null) {
             builder.append("description=");
@@ -190,6 +190,26 @@ public class CitationWithoutSource extends AbstractCitation {
         if (textFromSource != null) {
             builder.append("textFromSource=");
             builder.append(textFromSource);
+            builder.append(", ");
+        }
+        if (getDescription() != null) {
+            builder.append("getDescription()=");
+            builder.append(getDescription());
+            builder.append(", ");
+        }
+        if (getTextFromSource() != null) {
+            builder.append("getTextFromSource()=");
+            builder.append(getTextFromSource());
+            builder.append(", ");
+        }
+        if (getNotes() != null) {
+            builder.append("getNotes()=");
+            builder.append(getNotes());
+            builder.append(", ");
+        }
+        if (getCustomTags() != null) {
+            builder.append("getCustomTags()=");
+            builder.append(getCustomTags());
         }
         builder.append("]");
         return builder.toString();

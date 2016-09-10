@@ -29,9 +29,6 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
 
 /**
@@ -69,12 +66,10 @@ public class ChangeDateCopyTest extends AbstractCopyTest {
         ChangeDate orig = new ChangeDate();
         orig.setDate(new StringWithCustomTags("5 MAY 1905"));
         orig.setTime(new StringWithCustomTags("12:00:00 Eastern"));
-        List<Note> notes = new ArrayList<>();
         Note n = new Note();
-        notes.add(n);
         n.getLines(true).add("Frying Pan");
         n.getLines().add("Tomato sauce");
-        orig.setNotes(notes);
+        orig.getNotes(true).add(n);
 
         ChangeDate copy = new ChangeDate(orig);
         assertEquals(orig, copy);

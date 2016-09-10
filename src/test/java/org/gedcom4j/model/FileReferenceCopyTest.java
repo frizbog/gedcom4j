@@ -27,6 +27,7 @@
 package org.gedcom4j.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 
 import org.junit.Test;
@@ -57,6 +58,26 @@ public class FileReferenceCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        FileReference orig = new FileReference();
+        orig.setFormat(new StringWithCustomTags("AAA"));
+        orig.setMediaType(new StringWithCustomTags("BBB"));
+        orig.setReferenceToFile(new StringWithCustomTags("CCC"));
+        orig.setTitle(new StringWithCustomTags("DDD"));
+        orig.getCustomTags(true).add(getTestCustomTags());
+
+        FileReference copy = new FileReference(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+
+        orig.setTitle(new StringWithCustomTags("XXX"));
+        assertFalse("Copy shouldn't match if original changes", orig.equals(copy));
+    }
 
 }

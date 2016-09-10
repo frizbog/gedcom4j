@@ -27,7 +27,11 @@
 package org.gedcom4j.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -57,6 +61,30 @@ public class CitationWithoutSourceCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        CitationWithoutSource orig = new CitationWithoutSource();
+        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getDescription(true).add("Description Line 1");
+        orig.getDescription().add("Description Line 2");
+        orig.getNotes(true).add(getTestNote());
+        List<String> ls = new ArrayList<>();
+        ls.add("Line 1");
+        ls.add("Line 2");
+        ls.add("Line 3");
+        orig.getTextFromSource(true).add(ls);
+
+        CitationWithoutSource copy = new CitationWithoutSource(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+
+        orig.getTextFromSource().get(0).set(0, "XXXXXXX");
+        assertFalse("Copy shouldn't match when original is changed", orig.equals(copy));
+    }
 
 }

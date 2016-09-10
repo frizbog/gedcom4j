@@ -57,6 +57,35 @@ public class IndividualAttributeCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        IndividualAttribute orig = new IndividualAttribute();
+        Address a = new Address();
+        a.setAddr1(new StringWithCustomTags("AAA"));
+        orig.setAddress(a);
+        orig.setAge(new StringWithCustomTags("BBB"));
+        orig.setCause(new StringWithCustomTags("CCC"));
+        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.setDate(new StringWithCustomTags("DDD"));
+        orig.setDescription(new StringWithCustomTags("EEE"));
+        orig.getNotes(true).add(getTestNote());
+        Place p = new Place();
+        p.setLatitude(new StringWithCustomTags("50.2N"));
+        p.setLongitude(new StringWithCustomTags("172.4W"));
+        orig.setPlace(p);
+        orig.setReligiousAffiliation(new StringWithCustomTags("FFF"));
+        orig.setRespAgency(new StringWithCustomTags("GGG"));
+        orig.setSubType(new StringWithCustomTags("HHH"));
+        orig.setyNull("Y");
+
+        IndividualAttribute copy = new IndividualAttribute(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+    }
 
 }

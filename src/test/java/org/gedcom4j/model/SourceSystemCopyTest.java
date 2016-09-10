@@ -57,6 +57,37 @@ public class SourceSystemCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        SourceSystem orig = new SourceSystem();
+        Corporation c = new Corporation();
+        Address a = new Address();
+        a.setAddr1(new StringWithCustomTags("123 Main St."));
+        a.setCity(new StringWithCustomTags("Anytown"));
+        a.setStateProvince(new StringWithCustomTags("ME"));
+        a.setCountry(new StringWithCustomTags("USA"));
+        c.setAddress(a);
+        c.setBusinessName("Bob's Genalogy Shop");
+        c.getCustomTags(true).add(getTestCustomTags());
+        c.getNotes(true).add(getTestNote());
+        orig.setCorporation(c);
+        orig.setProductName(new StringWithCustomTags("Genillogical"));
+        HeaderSourceData hsd = new HeaderSourceData();
+        hsd.setCopyright(new StringWithCustomTags("(c) 1882 Bogus"));
+        hsd.setName("Bob");
+        hsd.setPublishDate(new StringWithCustomTags("5 MAY 1805"));
+        orig.setSourceData(hsd);
+        orig.setSystemId("MONKEY");
+        orig.setVersionNum(new StringWithCustomTags("Banana"));
+
+        SourceSystem copy = new SourceSystem(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+    }
 
 }

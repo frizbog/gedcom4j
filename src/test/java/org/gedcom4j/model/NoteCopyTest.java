@@ -73,6 +73,7 @@ public class NoteCopyTest extends AbstractCopyTest {
         orig.getLines(true).add("Line 2");
         orig.getLines(true).add("Line 3");
 
+        orig.getCitations(true).add(getTestCitation());
         orig.getCustomTags(true).add(getTestCustomTags());
 
         // Copy and compare

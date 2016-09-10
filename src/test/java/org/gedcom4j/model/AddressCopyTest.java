@@ -57,6 +57,24 @@ public class AddressCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        Address orig = new Address();
+        orig.setAddr1(new StringWithCustomTags("123 Main St."));
+        orig.setCity(new StringWithCustomTags("Anytown"));
+        orig.setStateProvince(new StringWithCustomTags("ME"));
+        orig.setCountry(new StringWithCustomTags("USA"));
+        orig.getLines(true).add("XXX");
+        orig.getCustomTags(true).add(getTestCustomTags());
+
+        Address copy = new Address(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+    }
 
 }

@@ -68,10 +68,7 @@ public class AssociationCopyTest extends AbstractCopyTest {
         orig.setAssociatedEntityType(new StringWithCustomTags("AAA"));
         orig.setAssociatedEntityXref("BBB");
         orig.setRelationship(new StringWithCustomTags("CCC"));
-        AbstractCitation c = new CitationWithoutSource();
-        Note n = new Note();
-        n.getLines(true).add("DDD");
-        c.getNotes(true).add(n);
+        AbstractCitation c = getTestCitation();
         orig.getCitations(true).add(c);
 
         Association copy = new Association(orig);
@@ -79,8 +76,8 @@ public class AssociationCopyTest extends AbstractCopyTest {
         assertNotSame(orig, copy);
         assertEquals(orig.toString(), copy.toString());
 
-        c.getNotes().get(0).getLines().set(0, "EEE");
+        c.getNotes(true).get(0).getLines(true).set(0, "EEE");
         assertFalse("Copy shouldn't match when original gets changed", orig.equals(copy));
-        assertEquals("DDD", copy.getCitations().get(0).getNotes().get(0).getLines().get(0));
+        assertEquals("Test Note Line 1", copy.getCitations().get(0).getNotes().get(0).getLines().get(0));
     }
 }

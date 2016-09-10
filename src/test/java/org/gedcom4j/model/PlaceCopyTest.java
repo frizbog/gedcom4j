@@ -57,6 +57,24 @@ public class PlaceCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        Place orig = new Place();
+        orig.setLatitude(new StringWithCustomTags("38N"));
+        orig.setLatitude(new StringWithCustomTags("175W"));
+        orig.getNotes(true).add(getTestNote());
+        orig.setPlaceFormat(new StringWithCustomTags("FooFormat"));
+        orig.setPlaceName("Some place");
+        orig.getCitations(true).add(getTestCitation());
+
+        Place copy = new Place(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+    }
 
 }

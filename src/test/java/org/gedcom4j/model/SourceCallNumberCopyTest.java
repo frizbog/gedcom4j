@@ -27,6 +27,7 @@
 package org.gedcom4j.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 
 import org.junit.Test;
@@ -57,6 +58,25 @@ public class SourceCallNumberCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-    // TODO - add more complex tests
+
+    /**
+     * Test with values
+     */
+    @Test
+    public void testWithValues() {
+        SourceCallNumber orig = new SourceCallNumber();
+        orig.setCallNumber(new StringWithCustomTags("AAA"));
+        orig.setMediaType(new StringWithCustomTags("BBB"));
+        orig.getCustomTags(true).add(getTestCustomTags());
+
+        SourceCallNumber copy = new SourceCallNumber(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+        assertEquals(orig.toString(), copy.toString());
+
+        orig.setCallNumber(new StringWithCustomTags("CCC"));
+        assertFalse("Copy should not match when original is changed", orig.equals(copy));
+
+    }
 
 }
