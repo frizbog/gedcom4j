@@ -47,11 +47,43 @@ import org.gedcom4j.model.Gedcom;
  */
 public class Validator {
 
+    /**
+     * Built-in {@link AutoRepairResponder} implementation that allows everything to be auto-repaired.
+     */
+    public static final AutoRepairResponder AUTO_REPAIR_ALL = new AutoRepairResponder() {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean mayRepair(ValidationFinding repairableValidationFinding) {
+            return true;
+        }
+    };
+
+    /**
+     * Built-in {@link AutoRepairResponder} implementation that forbids all auto-repairs.
+     */
+    public static final AutoRepairResponder AUTO_REPAIR_NONE = new AutoRepairResponder() {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean mayRepair(ValidationFinding repairableValidationFinding) {
+            return false;
+        }
+    };
+
     /** The gedcom being validated. */
     private final Gedcom gedcom;
 
     /** The results. */
     private final ValidationResults results = new ValidationResults();
+
+    /**
+     * The responder that determines whether the validator is to be allowed to auto-repair a finding. Default is the more
+     * conservative value of allowing no auto-repairs.
+     */
+    private AutoRepairResponder autoRepairResponder = AUTO_REPAIR_NONE;
 
     /**
      * Instantiates a new validator.
@@ -61,6 +93,15 @@ public class Validator {
      */
     public Validator(Gedcom gedcom) {
         this.gedcom = gedcom;
+    }
+
+    /**
+     * Gets the auto repair responder.
+     *
+     * @return the auto repair responder
+     */
+    public AutoRepairResponder getAutoRepairResponder() {
+        return autoRepairResponder;
     }
 
     /**
@@ -79,6 +120,16 @@ public class Validator {
      */
     public ValidationResults getResults() {
         return results;
+    }
+
+    /**
+     * Sets the auto repair responder.
+     *
+     * @param autoRepairResponder
+     *            the new auto repair responder. Set to null if all auto-repair is to be disabled. You can also use
+     */
+    public void setAutoRepairResponder(AutoRepairResponder autoRepairResponder) {
+        this.autoRepairResponder = autoRepairResponder;
     }
 
     /**
