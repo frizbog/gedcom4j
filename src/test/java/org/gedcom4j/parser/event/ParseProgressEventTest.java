@@ -24,50 +24,37 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.gedcom4j.io.event;
+package org.gedcom4j.parser.event;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
 
+import org.gedcom4j.model.Gedcom;
 import org.junit.Test;
 
 /**
- * Test for {@link FileProgressEvent}
+ * Test for {@link ParseProgressEvent}
  * 
  * @author frizbog
- *
  */
-public class FileProgressEventTest {
+public class ParseProgressEventTest {
 
     /**
-     * Test #1
+     * Test for {@link ParseProgressEvent}
      */
     @Test
-    public void testOne() {
-        FileProgressEvent e = new FileProgressEvent(this, -1, 5, true);
-        assertNotNull(e);
-        assertEquals(-1, e.getLinesProcessed());
-        assertEquals(5, e.getBytesProcessed());
-        assertTrue(e.isComplete());
-        assertSame(this, e.getSource());
-        assertEquals("FileProgressEvent [complete=true, linesProcessed=-1, bytesProcessed=5]", e.toString());
-    }
+    public void test() {
+        Gedcom g = new Gedcom();
+        ParseProgressEvent ppe = new ParseProgressEvent(this, g, false, 100);
+        assertNotNull(ppe);
+        assertEquals(this, ppe.getSource());
+        assertFalse(ppe.isComplete());
+        assertEquals(100, ppe.getLinesParsed());
+        assertEquals("ParseProgressEvent [complete=false, linesParsed=100, familiesProcessed=0, individualsProcessed=0, "
+                + "multimediaProcessed=0, notesProcessed=0, repositoriesProcessed=0, sourcesProcessed=0, submittersProcessed=0]",
+                ppe.toString());
 
-    /**
-     * Test #2
-     */
-    @Test
-    public void testTwo() {
-        FileProgressEvent e = new FileProgressEvent(this, 50, Integer.MIN_VALUE, false);
-        assertNotNull(e);
-        assertEquals(50, e.getLinesProcessed());
-        assertEquals(Integer.MIN_VALUE, e.getBytesProcessed());
-        assertFalse(e.isComplete());
-        assertSame(this, e.getSource());
-        assertEquals("FileProgressEvent [complete=false, linesProcessed=50, bytesProcessed=-2147483648]", e.toString());
     }
 
 }
