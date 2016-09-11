@@ -49,6 +49,9 @@ public class ValidationFinding implements Serializable {
      */
     private ModelElement itemOfConcern;
 
+    /** The severity. */
+    private Severity severity;
+
     /**
      * The code for the problem
      */
@@ -74,6 +77,41 @@ public class ValidationFinding implements Serializable {
      * {@link #itemOfConcern} object to get specific field values.
      */
     private String fieldNameOfConcern;
+
+    /**
+     * Default constructor
+     */
+    public ValidationFinding() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Instantiates a new validation finding.
+     *
+     * @param itemOfConcern
+     *            the item of concern. Required.
+     * @param severity
+     *            the severity. Required.
+     * @param problemCode
+     *            the problem code. Required.
+     * @throws IllegalArgumentException
+     *             if any of the arguments are null
+     */
+    public ValidationFinding(ModelElement itemOfConcern, Severity severity, ProblemCode problemCode) {
+        if (itemOfConcern == null) {
+            throw new IllegalArgumentException("itemOfConcern is a required argument.");
+        }
+        if (severity == null) {
+            throw new IllegalArgumentException("severity is a required argument.");
+        }
+        if (problemCode == null) {
+            throw new IllegalArgumentException("problemCode is a required argument.");
+        }
+        this.itemOfConcern = itemOfConcern;
+        this.severity = severity;
+        this.problemCode = problemCode.ordinal();
+        problemDescription = problemCode.getDescription();
+    }
 
     /**
      * Get the fieldNameOfConcern
@@ -160,6 +198,15 @@ public class ValidationFinding implements Serializable {
     }
 
     /**
+     * Get the severity
+     * 
+     * @return the severity
+     */
+    public Severity getSeverity() {
+        return severity;
+    }
+
+    /**
      * Set the user-defined problem code
      * 
      * @param problemCode
@@ -241,6 +288,21 @@ public class ValidationFinding implements Serializable {
      */
     void setRepairs(List<AutoRepair> repairs) {
         this.repairs = repairs;
+    }
+
+    /**
+     * Set the severity. Deliberately package-private. Outside the validation framework, this field should not be changeable.
+     * 
+     * @param severity
+     *            the severity to set. Required.
+     * @throws IllegalArgumentException
+     *             if severity passed in is null
+     */
+    void setSeverity(Severity severity) {
+        if (severity == null) {
+            throw new IllegalArgumentException("severity is a required argument.");
+        }
+        this.severity = severity;
     }
 
 }

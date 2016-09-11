@@ -44,6 +44,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public class ValidationFindingTest {
 
     /**
@@ -128,6 +129,57 @@ public class ValidationFindingTest {
     }
 
     /**
+     * Test getting/setting severity.
+     */
+    @Test
+    public void testGetSetSeverity() {
+        ValidationFinding vf = new ValidationFinding();
+        assertNull(vf.getSeverity());
+        vf.setSeverity(Severity.INFO);
+        assertEquals(Severity.INFO, vf.getSeverity());
+    }
+
+    /**
+     * Positive test for multi arg constructor {@link ValidationFinding#ValidationFinding(ModelElement, Severity, ProblemCode)}
+     */
+    @Test
+    public void testMultiArgConstructor() {
+        ValidationFinding vf = new ValidationFinding(new Gedcom(), Severity.INFO, ProblemCode.DUPLICATE_VALUE);
+        assertNotNull(vf);
+        assertEquals(Gedcom.class, vf.getItemOfConcern().getClass());
+        assertEquals(Severity.INFO, vf.getSeverity());
+        assertEquals(ProblemCode.DUPLICATE_VALUE.ordinal(), vf.getProblemCode());
+        assertEquals(ProblemCode.DUPLICATE_VALUE.getDescription(), vf.getProblemDescription());
+    }
+
+    /**
+     * Negative test 1 for multi arg constructor {@link ValidationFinding#ValidationFinding(ModelElement, Severity, ProblemCode)}
+     */
+    @SuppressWarnings("unused")
+    @Test(expected = IllegalArgumentException.class)
+    public void testMultiArgConstructorNegativeNullItemOfConcern() {
+        new ValidationFinding(null, Severity.INFO, ProblemCode.DUPLICATE_VALUE); // Item of concern is null
+    }
+
+    /**
+     * Negative test 2 for multi arg constructor {@link ValidationFinding#ValidationFinding(ModelElement, Severity, ProblemCode)}
+     */
+    @SuppressWarnings("unused")
+    @Test(expected = IllegalArgumentException.class)
+    public void testMultiArgConstructorNegativeNullProblemCode() {
+        new ValidationFinding(null, Severity.INFO, null); // Problem code is null
+    }
+
+    /**
+     * Negative test 3 for multi arg constructor {@link ValidationFinding#ValidationFinding(ModelElement, Severity, ProblemCode)}
+     */
+    @SuppressWarnings("unused")
+    @Test(expected = IllegalArgumentException.class)
+    public void testMultiArgConstructorNegativeNullSeverity() {
+        new ValidationFinding(new Gedcom(), null, ProblemCode.DUPLICATE_VALUE); // Severity is null
+    }
+
+    /**
      * Test method for {@link ValidationFinding#setProblem(ProblemCode)}.
      */
     @Test
@@ -148,6 +200,15 @@ public class ValidationFindingTest {
         ValidationFinding vf = new ValidationFinding();
         assertNull(vf.getProblemDescription());
         vf.setProblemDescription("Frying Pan"); // Boom, because code is less than 1000
+    }
+
+    /**
+     * Test setting a severity to null, which is not allowed
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetSeverityNull() {
+        ValidationFinding vf = new ValidationFinding();
+        vf.setSeverity(null); // Boom
     }
 
 }

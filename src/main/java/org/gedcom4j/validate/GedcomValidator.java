@@ -79,9 +79,10 @@ import org.gedcom4j.model.Trailer;
  * {@link org.gedcom4j.Options} class.
  * </p>
  * 
- * 
+ * @deprecated use Validator instead
  * @author frizbog1
  */
+@Deprecated
 @SuppressWarnings({ "PMD.GodClass", "PMD.TooManyMethods" })
 public class GedcomValidator extends AbstractValidator {
 
