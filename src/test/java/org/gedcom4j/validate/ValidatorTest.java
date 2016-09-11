@@ -31,6 +31,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.validate.Validator.Finding;
 import org.junit.Test;
 
 /**
@@ -45,8 +46,17 @@ public class ValidatorTest implements AutoRepairResponder {
      * {@inheritDoc}
      */
     @Override
-    public boolean mayRepair(ValidationFinding repairableValidationFinding) {
+    public boolean mayRepair(Finding repairableValidationFinding) {
         return false;
+    }
+
+    /**
+     * Test for constructor with a null argument, which is forbidden
+     */
+    @SuppressWarnings("unused")
+    @Test(expected = IllegalArgumentException.class)
+    public void testConstructorNullGedcom() {
+        new Validator(null); // boom
     }
 
     /**
@@ -79,7 +89,7 @@ public class ValidatorTest implements AutoRepairResponder {
         Validator v = new Validator(g);
         assertNotNull(v.getResults().getAllFindings());
         assertEquals(0, v.getResults().getAllFindings().size());
-        v.getResults().add(new ValidationFinding(g, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE));
+        v.newFinding(g, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, null);
         assertEquals(1, v.getResults().getAllFindings().size());
     }
 

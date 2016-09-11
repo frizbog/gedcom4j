@@ -55,15 +55,15 @@ class NotesValidator extends AbstractValidator {
     /**
      * Constructor
      * 
-     * @param rootValidator
+     * @param validator
      *            the root validator
      * @param parentObject
      *            the object containing the notes
      * @param notes
      *            the list of notes to be validated
      */
-    NotesValidator(GedcomValidator rootValidator, Object parentObject, List<Note> notes) {
-        this.rootValidator = rootValidator;
+    NotesValidator(Validator validator, Object parentObject, List<Note> notes) {
+        this.validator = validator;
         this.parentObject = parentObject;
         this.notes = notes;
     }
@@ -74,7 +74,7 @@ class NotesValidator extends AbstractValidator {
     @Override
     protected void validate() {
         if (notes == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 try {
                     Field f = parentObject.getClass().getField("notes");
                     f.set(parentObject, new ArrayList<Note>(0));
@@ -98,15 +98,15 @@ class NotesValidator extends AbstractValidator {
         } else {
             int i = 0;
             if (notes != null) {
-                if (rootValidator.isAutorepairEnabled()) {
+                if (validator.isAutorepairEnabled()) {
                     int dups = new DuplicateEliminator<>(notes).process();
                     if (dups > 0) {
-                        rootValidator.addInfo(dups + " duplicate notes found and removed", notes);
+                        validator.addInfo(dups + " duplicate notes found and removed", notes);
                     }
                 }
                 for (Note n : notes) {
                     i++;
-                    new NoteValidator(rootValidator, i, n).validate();
+                    new NoteValidator(validator, i, n).validate();
                 }
             }
         }

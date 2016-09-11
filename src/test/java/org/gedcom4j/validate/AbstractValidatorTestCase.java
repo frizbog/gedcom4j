@@ -31,6 +31,7 @@ import static org.junit.Assert.fail;
 import java.util.Locale;
 
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.validate.Validator.Finding;
 
 /**
  * A base class for validator tests with handy helper methods
@@ -42,7 +43,7 @@ public abstract class AbstractValidatorTestCase {
     /**
      * Root validator - test fixture
      */
-    protected GedcomValidator rootValidator;
+    protected Validator validator;
 
     /**
      * The test fixture gedcom structure
@@ -60,7 +61,7 @@ public abstract class AbstractValidatorTestCase {
      */
     public AbstractValidatorTestCase() {
         gedcom = new Gedcom();
-        rootValidator = new GedcomValidator(gedcom);
+        validator = new Validator(gedcom);
     }
 
     /**
@@ -73,7 +74,7 @@ public abstract class AbstractValidatorTestCase {
      *            substring to look for in the finding's description
      */
     protected void assertFindingsContain(Severity severity, String... substringOfDescription) {
-        for (GedcomValidationFinding f : rootValidator.getFindings()) {
+        for (Finding f : validator.getResults().getAllFindings()) {
             if (f.getSeverity() == severity) {
                 boolean matchAllSoFar = true;
                 for (String substring : substringOfDescription) {
@@ -106,7 +107,7 @@ public abstract class AbstractValidatorTestCase {
      * 
      */
     protected void assertNoIssues() {
-        if (rootValidator.hasErrors() || rootValidator.hasWarnings()) {
+        if (!validator.getResults().getAllFindings().isEmpty()) {
             boolean saveVerbose = verbose;
             verbose = true;
             verbose = saveVerbose;

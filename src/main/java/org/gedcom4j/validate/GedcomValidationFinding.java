@@ -30,7 +30,7 @@ package org.gedcom4j.validate;
  * A class that holds information about something wrong with the gedcom data validated by {@link GedcomValidator}.
  * 
  * @author frizbog1
- * @deprecated Use {@link ValidationFinding} instead
+ * @deprecated Use {@link Finding} instead
  */
 @Deprecated
 public class GedcomValidationFinding {

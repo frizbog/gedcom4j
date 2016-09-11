@@ -50,13 +50,13 @@ class CitationValidator extends AbstractValidator {
     /**
      * Constructor
      * 
-     * @param rootValidator
+     * @param validator
      *            the root validator with the collection of findings
      * @param citation
      *            the citation being validated
      */
-    CitationValidator(GedcomValidator rootValidator, AbstractCitation citation) {
-        this.rootValidator = rootValidator;
+    CitationValidator(GedcomValidator validator, AbstractCitation citation) {
+        this.validator = validator;
         this.citation = citation;
     }
 
@@ -89,7 +89,7 @@ class CitationValidator extends AbstractValidator {
             checkStringList(c.getDescription(), "description on a citation without a source", true);
             List<List<String>> textFromSource = c.getTextFromSource();
             if (textFromSource == null && Options.isCollectionInitializationEnabled()) {
-                if (rootValidator.isAutorepairEnabled()) {
+                if (validator.isAutorepairEnabled()) {
                     c.getTextFromSource(true).clear();
                     addInfo("Text from source collection (the list of lists) was null in CitationWithoutSource - autorepaired",
                             citation);
@@ -97,10 +97,10 @@ class CitationValidator extends AbstractValidator {
                     addError("Text from source collection (the list of lists) is null in CitationWithoutSource", citation);
                 }
             } else {
-                if (rootValidator.isAutorepairEnabled()) {
+                if (validator.isAutorepairEnabled()) {
                     int dups = new DuplicateEliminator<>(textFromSource).process();
                     if (dups > 0) {
-                        rootValidator.addInfo(dups + " duplicate texts from source found and removed", citation);
+                        validator.addInfo(dups + " duplicate texts from source found and removed", citation);
                     }
                 }
                 if (textFromSource != null) {
@@ -119,14 +119,14 @@ class CitationValidator extends AbstractValidator {
                     + " instances or CitationWithoutSource instances");
         }
         if (citation.getNotes() == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 citation.getNotes(true).clear();
                 addInfo("Notes collection was null on " + citation.getClass().getSimpleName() + " - autorepaired");
             } else {
                 addError("Notes collection is null on " + citation.getClass().getSimpleName());
             }
         } else {
-            new NotesValidator(rootValidator, citation, citation.getNotes()).validate();
+            new NotesValidator(validator, citation, citation.getNotes()).validate();
         }
 
     }

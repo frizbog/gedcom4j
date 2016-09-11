@@ -58,7 +58,7 @@ class FamilyValidator extends AbstractValidator {
      *            the family being validated
      */
     FamilyValidator(GedcomValidator gedcomValidator, Family f) {
-        rootValidator = gedcomValidator;
+        validator = gedcomValidator;
         this.f = f;
     }
 
@@ -74,18 +74,18 @@ class FamilyValidator extends AbstractValidator {
         checkCustomTags(f);
         if (f.getEvents() != null) {
             for (AbstractEvent ev : f.getEvents()) {
-                new EventValidator(rootValidator, ev).validate();
+                new EventValidator(validator, ev).validate();
             }
         }
         if (f.getHusband() != null) {
-            new IndividualValidator(rootValidator, f.getHusband()).validate();
+            new IndividualValidator(validator, f.getHusband()).validate();
         }
         if (f.getWife() != null) {
-            new IndividualValidator(rootValidator, f.getWife()).validate();
+            new IndividualValidator(validator, f.getWife()).validate();
         }
         checkLdsSpouseSealings();
         checkMultimedia();
-        new NotesValidator(rootValidator, f, f.getNotes()).validate();
+        new NotesValidator(validator, f, f.getNotes()).validate();
         checkOptionalString(f.getNumChildren(), "number of children", f);
         checkOptionalString(f.getRecFileNumber(), "record file number", f);
         checkOptionalString(f.getRestrictionNotice(), "restriction notice", f);
@@ -99,23 +99,23 @@ class FamilyValidator extends AbstractValidator {
     private void checkChildren() {
         List<Individual> children = f.getChildren();
         if (children == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 f.getChildren(true).clear();
-                rootValidator.addInfo("Family's collection of children was null - repaired", f);
+                validator.addInfo("Family's collection of children was null - repaired", f);
             } else {
-                rootValidator.addError("Family's collection of children is null", f);
+                validator.addError("Family's collection of children is null", f);
             }
         } else {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 int dups = new DuplicateEliminator<>(children).process();
                 if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate children found and removed", f);
+                    validator.addInfo(dups + " duplicate children found and removed", f);
                 }
             }
             if (children != null) {
                 for (Individual i : children) {
                     if (i == null) {
-                        rootValidator.addError("Family with xref '" + f.getXref() + "' has a null entry in children collection", f);
+                        validator.addError("Family with xref '" + f.getXref() + "' has a null entry in children collection", f);
                     }
                 }
             }
@@ -128,22 +128,22 @@ class FamilyValidator extends AbstractValidator {
     private void checkCitations() {
         List<AbstractCitation> citations = f.getCitations();
         if (citations == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 f.getCitations(true).clear();
-                addInfo("citations collection for family was null - rootValidator.autorepaired", f);
+                addInfo("citations collection for family was null - validator.autorepaired", f);
             } else {
                 addError("citations collection for family is null", f);
             }
         } else {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 int dups = new DuplicateEliminator<>(citations).process();
                 if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate source citations found and removed", f);
+                    validator.addInfo(dups + " duplicate source citations found and removed", f);
                 }
             }
             if (citations != null) {
                 for (AbstractCitation c : citations) {
-                    new CitationValidator(rootValidator, c).validate();
+                    new CitationValidator(validator, c).validate();
                 }
             }
         }
@@ -155,22 +155,22 @@ class FamilyValidator extends AbstractValidator {
     private void checkLdsSpouseSealings() {
         List<LdsSpouseSealing> ldsSpouseSealings = f.getLdsSpouseSealings();
         if (ldsSpouseSealings == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 f.getLdsSpouseSealings(true).clear();
-                addInfo("LDS spouse sealings collection for family was null - rootValidator.autorepaired", f);
+                addInfo("LDS spouse sealings collection for family was null - validator.autorepaired", f);
             } else {
                 addError("LDS spouse sealings collection for family is null", f);
             }
         } else {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 int dups = new DuplicateEliminator<>(ldsSpouseSealings).process();
                 if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate LDS spouse sealings found and removed", f);
+                    validator.addInfo(dups + " duplicate LDS spouse sealings found and removed", f);
                 }
             }
             if (ldsSpouseSealings != null) {
                 for (LdsSpouseSealing s : ldsSpouseSealings) {
-                    new LdsSpouseSealingValidator(rootValidator, s).validate();
+                    new LdsSpouseSealingValidator(validator, s).validate();
                 }
             }
         }
@@ -182,22 +182,22 @@ class FamilyValidator extends AbstractValidator {
     private void checkMultimedia() {
         List<Multimedia> multimedia = f.getMultimedia();
         if (multimedia == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 f.getMultimedia(true).clear();
-                addInfo("Multimedia collection for family was null - rootValidator.autorepaired", f);
+                addInfo("Multimedia collection for family was null - validator.autorepaired", f);
             } else {
                 addError("Multimedia collection for family is null", f);
             }
         } else {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 int dups = new DuplicateEliminator<>(multimedia).process();
                 if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate multimedia found and removed", f);
+                    validator.addInfo(dups + " duplicate multimedia found and removed", f);
                 }
             }
             if (multimedia != null) {
                 for (Multimedia m : multimedia) {
-                    new MultimediaValidator(rootValidator, m).validate();
+                    new MultimediaValidator(validator, m).validate();
                 }
             }
         }
@@ -209,22 +209,22 @@ class FamilyValidator extends AbstractValidator {
     private void checkSubmitters() {
         List<Submitter> submitters = f.getSubmitters();
         if (submitters == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 f.getSubmitters(true).clear();
                 addInfo("Submitters collection was missing on family - repaired", f);
             } else {
                 addInfo("Submitters collection is missing on family", f);
             }
         } else {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 int dups = new DuplicateEliminator<>(submitters).process();
                 if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate submitters found and removed", f);
+                    validator.addInfo(dups + " duplicate submitters found and removed", f);
                 }
             }
             if (submitters != null) {
                 for (Submitter s : submitters) {
-                    new SubmitterValidator(rootValidator, s).validate();
+                    new SubmitterValidator(validator, s).validate();
                 }
             }
         }

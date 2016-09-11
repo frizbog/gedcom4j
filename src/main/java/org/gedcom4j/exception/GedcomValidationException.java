@@ -31,8 +31,9 @@ package org.gedcom4j.exception;
  * found in the {@link org.gedcom4j.validate.GedcomValidator#findings} collection.
  * 
  * @author frizbog1
- * 
+ * @deprecated Use {@link ValidationException} instead
  */
+@Deprecated
 public class GedcomValidationException extends RuntimeException {
 
     /**

@@ -49,13 +49,13 @@ class PersonalNameValidator extends AbstractValidator {
     /**
      * Constructor
      * 
-     * @param rootValidator
+     * @param validator
      *            the root {@link GedcomValidator} that contains all the findings and options
      * @param pn
      *            the personal name being validated
      */
-    PersonalNameValidator(GedcomValidator rootValidator, PersonalName pn) {
-        this.rootValidator = rootValidator;
+    PersonalNameValidator(GedcomValidator validator, PersonalName pn) {
+        this.validator = validator;
         this.pn = pn;
     }
 
@@ -70,7 +70,7 @@ class PersonalNameValidator extends AbstractValidator {
         }
         checkRequiredString(pn.getBasic(), "basic name", pn);
         if (pn.getCitations() == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 pn.getCitations(true).clear();
                 addInfo("citations collection for personal name was null - autorepaired", pn);
             } else {
@@ -79,7 +79,7 @@ class PersonalNameValidator extends AbstractValidator {
         }
         if (pn.getCitations() != null) {
             for (AbstractCitation c : pn.getCitations()) {
-                new CitationValidator(rootValidator, c).validate();
+                new CitationValidator(validator, c).validate();
             }
         }
         checkCustomTags(pn);
@@ -90,51 +90,51 @@ class PersonalNameValidator extends AbstractValidator {
         checkOptionalString(pn.getSurname(), "surname", pn);
         checkOptionalString(pn.getSurnamePrefix(), "surname prefix", pn);
 
-        new NotesValidator(rootValidator, pn, pn.getNotes()).validate();
+        new NotesValidator(validator, pn, pn.getNotes()).validate();
         List<PersonalNameVariation> phonetic = pn.getPhonetic();
         if (phonetic == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 pn.getPhonetic(true).clear();
-                rootValidator.addInfo("PersonalNameValidator had null list of phonetic name variations - repaired", pn);
+                validator.addInfo("PersonalNameValidator had null list of phonetic name variations - repaired", pn);
             } else {
-                rootValidator.addError("PersonalNamevalidator has null list of phonetic name variations", pn);
+                validator.addError("PersonalNamevalidator has null list of phonetic name variations", pn);
             }
         } else {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 int dups = new DuplicateEliminator<>(phonetic).process();
                 if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate phonetic found and removed", pn);
+                    validator.addInfo(dups + " duplicate phonetic found and removed", pn);
                 }
             }
 
             if (phonetic != null) {
                 for (AbstractNameVariation nv : phonetic) {
                     PersonalNameVariation pnv = (PersonalNameVariation) nv;
-                    new PersonalNameVariationValidator(rootValidator, pnv).validate();
+                    new PersonalNameVariationValidator(validator, pnv).validate();
                 }
             }
         }
 
         List<PersonalNameVariation> romanized = pn.getRomanized();
         if (romanized == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 pn.getRomanized(true).clear();
-                rootValidator.addInfo("Event had null list of romanized name variations - repaired", pn);
+                validator.addInfo("Event had null list of romanized name variations - repaired", pn);
             } else {
-                rootValidator.addError("Event has null list of romanized name variations", pn);
+                validator.addError("Event has null list of romanized name variations", pn);
             }
         } else {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 int dups = new DuplicateEliminator<>(romanized).process();
                 if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate romanized variations found and removed", pn);
+                    validator.addInfo(dups + " duplicate romanized variations found and removed", pn);
                 }
             }
 
             if (romanized != null) {
                 for (AbstractNameVariation nv : romanized) {
                     PersonalNameVariation pnv = (PersonalNameVariation) nv;
-                    new PersonalNameVariationValidator(rootValidator, pnv).validate();
+                    new PersonalNameVariationValidator(validator, pnv).validate();
                 }
             }
         }

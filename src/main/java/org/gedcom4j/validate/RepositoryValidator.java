@@ -49,7 +49,7 @@ class RepositoryValidator extends AbstractValidator {
      *            the repository being validated
      */
     RepositoryValidator(GedcomValidator gedcomValidator, Repository repository) {
-        rootValidator = gedcomValidator;
+        validator = gedcomValidator;
         this.repository = repository;
     }
 
@@ -69,11 +69,11 @@ class RepositoryValidator extends AbstractValidator {
         checkUserReferences(repository.getUserReferences(), repository);
         checkOptionalString(repository.getRecIdNumber(), "automated record id", repository);
         checkStringTagList(repository.getPhoneNumbers(), "phone numbers", false);
-        new NotesValidator(rootValidator, repository, repository.getNotes()).validate();
+        new NotesValidator(validator, repository, repository.getNotes()).validate();
 
         Address a = repository.getAddress();
         if (a != null) {
-            new AddressValidator(rootValidator, a).validate();
+            new AddressValidator(validator, a).validate();
         }
 
     }

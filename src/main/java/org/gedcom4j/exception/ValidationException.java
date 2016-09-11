@@ -24,49 +24,59 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.gedcom4j.validate;
-
-import org.gedcom4j.model.Address;
+package org.gedcom4j.exception;
 
 /**
- * Validator for an {@link Address}. See {@link GedcomValidator} for usage information.
+ * An exception indicating that the process of validation failed. Does not mean that there is a problem with the data -- those are
+ * found in the {@link org.gedcom4j.validate.ValidationResults} class.
  * 
  * @author frizbog1
  * 
  */
-class AddressValidator extends AbstractValidator {
+public class ValidationException extends RuntimeException {
 
     /**
-     * The address being validated
+     * Serial Version UID
      */
-    private final Address address;
+    private static final long serialVersionUID = -5656983786362148078L;
 
     /**
-     * Constructor
-     * 
-     * @param validator
-     *            the root validator
-     * @param address
-     *            the address being validated
-     * 
+     * Default constructor
      */
-    AddressValidator(Validator validator, Address address) {
-        this.validator = validator;
-        this.address = address;
+    public ValidationException() {
+        super();
     }
 
     /**
-     * {@inheritDoc}
+     * Constructor that only takes a message
+     * 
+     * @param message
+     *            the message of the exception
      */
-    @Override
-    protected void validate() {
-        checkStringList(address.getLines(), "address lines", false);
-        checkOptionalString(address.getAddr1(), "line 1", address);
-        checkOptionalString(address.getAddr2(), "line 2", address);
-        checkOptionalString(address.getCity(), "city", address);
-        checkOptionalString(address.getStateProvince(), "state/province", address);
-        checkOptionalString(address.getPostalCode(), "postal code", address);
-        checkOptionalString(address.getCountry(), "country", address);
+    public ValidationException(String message) {
+        super(message);
+    }
+
+    /**
+     * Constructor that takes both a message and an underlying cause
+     * 
+     * @param message
+     *            the message of the exception
+     * @param cause
+     *            the underlying cause of the exception
+     */
+    public ValidationException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    /**
+     * Constructor that only takes a causing throwable
+     * 
+     * @param cause
+     *            the underlying cause of the exception
+     */
+    public ValidationException(Throwable cause) {
+        super(cause);
     }
 
 }

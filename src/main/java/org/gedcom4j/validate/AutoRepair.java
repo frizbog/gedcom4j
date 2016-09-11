@@ -33,7 +33,7 @@ import org.gedcom4j.model.ModelElement;
 /**
  * Represents something that was auto-repaired. As the validation framework does its work, and makes corrections, one of these
  * should be created for each correction, and saved in a list for the caller to review. It should also be added to the
- * {@link ValidationFinding} class.
+ * {@link Finding} class.
  * 
  * @author frizbog
  */

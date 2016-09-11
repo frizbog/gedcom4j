@@ -32,13 +32,13 @@ package org.gedcom4j.validate;
  * </p>
  * <p>
  * When the gedcom4j {@link Validator} class has a finding that it is able to automatically repair, it will call the
- * {@link #mayRepair(ValidationFinding)} method on the auto-repair validator that is registered in the {@link Validator} class. If
+ * {@link #mayRepair(Validator.Finding)} method on the auto-repair validator that is registered in the {@link Validator} class. If
  * that implementation returns true, the auto-repair will proceed...otherwise, it won't.
  * </p>
  * <p>
  * Built-in implementations exist to allow everything ({@link Validator#AUTO_REPAIR_ALL}) and to allow nothing
  * ({@link Validator#AUTO_REPAIR_NONE}) to be auto-repaired. You can also write your own implementation if you want to be more
- * selective. You will need to implement this interface, and your implementation should examine the {@link ValidationFinding} passed
+ * selective. You will need to implement this interface, and your implementation should examine the {@link Validator.Finding} passed
  * in on the callback to decide whether to return true (to permit the repair) or false (to forbid the repair).
  * </p>
  */
@@ -52,5 +52,5 @@ public interface AutoRepairResponder {
      * @return true if the validator is to be permitted to make the auto-repair, or return false if the repair is not to be
      *         performed.
      */
-    boolean mayRepair(ValidationFinding repairableValidationFinding);
+    boolean mayRepair(Validator.Finding repairableValidationFinding);
 }

@@ -48,13 +48,13 @@ class LdsSpouseSealingValidator extends AbstractValidator {
     /**
      * Constructor
      * 
-     * @param rootValidator
+     * @param validator
      *            root {@link GedcomValidator} that contains findings and settings
      * @param s
      *            the sealing being validated
      */
-    LdsSpouseSealingValidator(GedcomValidator rootValidator, LdsSpouseSealing s) {
-        this.rootValidator = rootValidator;
+    LdsSpouseSealingValidator(GedcomValidator validator, LdsSpouseSealing s) {
+        this.validator = validator;
         this.s = s;
     }
 
@@ -69,28 +69,28 @@ class LdsSpouseSealingValidator extends AbstractValidator {
         }
         List<AbstractCitation> citations = s.getCitations();
         if (Options.isCollectionInitializationEnabled() && citations == null) {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 s.getCitations(true).clear();
-                addInfo("citations collection for lds spouse sealing was null - rootValidator.autorepaired", s);
+                addInfo("citations collection for lds spouse sealing was null - validator.autorepaired", s);
             } else {
                 addError("citations collection for lds spouse sealing is null", s);
             }
         } else {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 int dups = new DuplicateEliminator<>(citations).process();
                 if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate citations found and removed", s);
+                    validator.addInfo(dups + " duplicate citations found and removed", s);
                 }
             }
             if (citations != null) {
                 for (AbstractCitation c : citations) {
-                    new CitationValidator(rootValidator, c).validate();
+                    new CitationValidator(validator, c).validate();
                 }
             }
         }
         checkCustomTags(s);
         checkOptionalString(s.getDate(), "date", s);
-        new NotesValidator(rootValidator, s, s.getNotes()).validate();
+        new NotesValidator(validator, s, s.getNotes()).validate();
         checkOptionalString(s.getPlace(), "place", s);
         checkOptionalString(s.getStatus(), "status", s);
         checkOptionalString(s.getTemple(), "temple", s);

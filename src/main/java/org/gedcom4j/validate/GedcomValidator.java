@@ -110,7 +110,7 @@ public class GedcomValidator extends AbstractValidator {
      */
     public GedcomValidator(Gedcom gedcom) {
         this.gedcom = gedcom;
-        rootValidator = this;
+        validator = this;
     }
 
     /**
@@ -128,7 +128,7 @@ public class GedcomValidator extends AbstractValidator {
      * @return true if there exists at least one finding with severity ERROR
      */
     public boolean hasErrors() {
-        for (GedcomValidationFinding finding : rootValidator.findings) {
+        for (GedcomValidationFinding finding : validator.findings) {
             if (finding.getSeverity() == Severity.ERROR) {
                 return true;
             }
@@ -142,7 +142,7 @@ public class GedcomValidator extends AbstractValidator {
      * @return true if there exists at least one finding with severity INFO
      */
     public boolean hasInfo() {
-        for (GedcomValidationFinding finding : rootValidator.findings) {
+        for (GedcomValidationFinding finding : validator.findings) {
             if (finding.getSeverity() == Severity.INFO) {
                 return true;
             }
@@ -156,7 +156,7 @@ public class GedcomValidator extends AbstractValidator {
      * @return true if there exists at least one finding with severity WARNING
      */
     public boolean hasWarnings() {
-        for (GedcomValidationFinding finding : rootValidator.findings) {
+        for (GedcomValidationFinding finding : validator.findings) {
             if (finding.getSeverity() == Severity.WARNING) {
                 return true;
             }
@@ -203,7 +203,7 @@ public class GedcomValidator extends AbstractValidator {
         validateSources();
         validateSubmission(gedcom.getSubmission());
         validateTrailer();
-        new NotesValidator(rootValidator, gedcom, new ArrayList<>(gedcom.getNotes().values())).validate();
+        new NotesValidator(validator, gedcom, new ArrayList<>(gedcom.getNotes().values())).validate();
     }
 
     /**
@@ -233,19 +233,19 @@ public class GedcomValidator extends AbstractValidator {
     private void validateFamilies() {
         for (Entry<String, Family> e : gedcom.getFamilies().entrySet()) {
             if (e.getKey() == null) {
-                if (rootValidator.autorepairEnabled) {
-                    rootValidator.addError("Family in map but has null key - cannot repair", e.getValue());
+                if (validator.autorepairEnabled) {
+                    validator.addError("Family in map but has null key - cannot repair", e.getValue());
                 } else {
-                    rootValidator.addError("Family in map but has null key", e.getValue());
+                    validator.addError("Family in map but has null key", e.getValue());
                 }
                 continue;
             }
             Family f = e.getValue();
             if (!e.getKey().equals(f.getXref())) {
-                if (rootValidator.autorepairEnabled) {
-                    rootValidator.addError("Family in map not keyed by its xref - cannot repair", f.getXref());
+                if (validator.autorepairEnabled) {
+                    validator.addError("Family in map not keyed by its xref - cannot repair", f.getXref());
                 } else {
-                    rootValidator.addError("Family in map not keyed by its xref", f.getXref());
+                    validator.addError("Family in map not keyed by its xref", f.getXref());
                 }
                 continue;
             }
@@ -266,7 +266,7 @@ public class GedcomValidator extends AbstractValidator {
                 return;
             }
         }
-        new HeaderValidator(rootValidator, gedcom.getHeader()).validate();
+        new HeaderValidator(validator, gedcom.getHeader()).validate();
     }
 
     /**
@@ -286,7 +286,7 @@ public class GedcomValidator extends AbstractValidator {
                 addError("Entry in individuals collection is not keyed by the individual's xref", e);
                 return;
             }
-            new IndividualValidator(rootValidator, e.getValue()).validate();
+            new IndividualValidator(validator, e.getValue()).validate();
         }
     }
 
@@ -309,7 +309,7 @@ public class GedcomValidator extends AbstractValidator {
         int i = 0;
         for (Note n : gedcom.getNotes().values()) {
             i++;
-            new NoteValidator(rootValidator, i, n).validate();
+            new NoteValidator(validator, i, n).validate();
         }
     }
 
@@ -330,7 +330,7 @@ public class GedcomValidator extends AbstractValidator {
                 addError("Entry in repositories collection is not keyed by the Repository's xref", e);
                 return;
             }
-            new RepositoryValidator(rootValidator, e.getValue()).validate();
+            new RepositoryValidator(validator, e.getValue()).validate();
         }
 
     }
@@ -352,7 +352,7 @@ public class GedcomValidator extends AbstractValidator {
                 addError("Entry in sources collection is not keyed by the individual's xref", e);
                 return;
             }
-            new SourceValidator(rootValidator, e.getValue()).validate();
+            new SourceValidator(validator, e.getValue()).validate();
         }
     }
 
@@ -372,7 +372,7 @@ public class GedcomValidator extends AbstractValidator {
             }
         }
         for (Submitter s : gedcom.getSubmitters().values()) {
-            new SubmitterValidator(rootValidator, s).validate();
+            new SubmitterValidator(validator, s).validate();
         }
     }
 
@@ -381,11 +381,11 @@ public class GedcomValidator extends AbstractValidator {
      */
     private void validateTrailer() {
         if (gedcom.getTrailer() == null) {
-            if (rootValidator.autorepairEnabled) {
+            if (validator.autorepairEnabled) {
                 gedcom.setTrailer(new Trailer());
-                rootValidator.addInfo("Gedcom had no trailer - repaired", gedcom);
+                validator.addInfo("Gedcom had no trailer - repaired", gedcom);
             } else {
-                rootValidator.addError("Gedcom has no trailer", gedcom);
+                validator.addError("Gedcom has no trailer", gedcom);
             }
         }
     }

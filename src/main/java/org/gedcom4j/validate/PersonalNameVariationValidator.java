@@ -41,13 +41,13 @@ class PersonalNameVariationValidator extends NameVariationValidator {
     /**
      * Constructor
      * 
-     * @param rootValidator
+     * @param validator
      *            the root {@link GedcomValidator} that contains the findings and the settings
      * @param pnv
      *            the personal name variation to be validated
      */
-    PersonalNameVariationValidator(GedcomValidator rootValidator, PersonalNameVariation pnv) {
-        super(rootValidator, pnv);
+    PersonalNameVariationValidator(GedcomValidator validator, PersonalNameVariation pnv) {
+        super(validator, pnv);
     }
 
     /**
@@ -66,22 +66,22 @@ class PersonalNameVariationValidator extends NameVariationValidator {
         PersonalNameVariation pnv = (PersonalNameVariation) nv;
         List<AbstractCitation> citations = pnv.getCitations();
         if (citations == null) {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 pnv.getCitations(true).clear();
                 addInfo("citations collection for personal name was null - autorepaired", pnv);
             } else {
                 addError("citations collection for personal name is null", pnv);
             }
         } else {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 int dups = new DuplicateEliminator<>(citations).process();
                 if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate citations found and removed", pnv);
+                    validator.addInfo(dups + " duplicate citations found and removed", pnv);
                 }
             }
 
             for (AbstractCitation c : citations) {
-                new CitationValidator(rootValidator, c).validate();
+                new CitationValidator(validator, c).validate();
             }
         }
         checkOptionalString(pnv.getGivenName(), "given name", pnv);
@@ -90,6 +90,6 @@ class PersonalNameVariationValidator extends NameVariationValidator {
         checkOptionalString(pnv.getSuffix(), "suffix", pnv);
         checkOptionalString(pnv.getSurname(), "surname", pnv);
         checkOptionalString(pnv.getSurnamePrefix(), "surname prefix", pnv);
-        new NotesValidator(rootValidator, pnv, pnv.getNotes()).validate();
+        new NotesValidator(validator, pnv, pnv.getNotes()).validate();
     }
 }

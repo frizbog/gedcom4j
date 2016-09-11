@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.gedcom4j.model.ModelElement;
+import org.gedcom4j.validate.Validator.Finding;
 
 /**
  * An object containing the results of a validation.
@@ -41,10 +42,10 @@ import org.gedcom4j.model.ModelElement;
 public class ValidationResults {
 
     /** All findings. */
-    private final List<ValidationFinding> allFindings = new ArrayList<>();
+    private final List<Finding> allFindings = new ArrayList<>();
 
     /** The findings by object. */
-    private final Map<ModelElement, List<ValidationFinding>> findingsByObject = new HashMap<>();
+    private final Map<ModelElement, List<Finding>> findingsByObject = new HashMap<>();
 
     /**
      * Add a validation finding.
@@ -52,9 +53,9 @@ public class ValidationResults {
      * @param vf
      *            the validation finding
      */
-    public void add(ValidationFinding vf) {
+    public void add(Finding vf) {
         allFindings.add(vf);
-        List<ValidationFinding> list = findingsByObject.get(vf.getItemOfConcern());
+        List<Finding> list = findingsByObject.get(vf.getItemOfConcern());
         if (list == null) {
             list = new ArrayList<>();
             findingsByObject.put(vf.getItemOfConcern(), list);
@@ -63,11 +64,19 @@ public class ValidationResults {
     }
 
     /**
+     * Clear all results.
+     */
+    public void clear() {
+        allFindings.clear();
+        findingsByObject.clear();
+    }
+
+    /**
      * Gets all findings.
      *
      * @return all findings
      */
-    public List<ValidationFinding> getAllFindings() {
+    public List<Finding> getAllFindings() {
         return allFindings;
     }
 
@@ -78,9 +87,9 @@ public class ValidationResults {
      *            the code to find
      * @return all findings with the provided code
      */
-    public List<ValidationFinding> getByCode(int problemCode) {
-        List<ValidationFinding> result = new ArrayList<>();
-        for (ValidationFinding vf : allFindings) {
+    public List<Finding> getByCode(int problemCode) {
+        List<Finding> result = new ArrayList<>();
+        for (Finding vf : allFindings) {
             if (vf.getProblemCode() == problemCode) {
                 result.add(vf);
             }
@@ -97,7 +106,7 @@ public class ValidationResults {
      * @throws IllegalArgumentException
      *             if a null problemCode value is provided
      */
-    public List<ValidationFinding> getByCode(ProblemCode problemCode) {
+    public List<Finding> getByCode(ProblemCode problemCode) {
         if (problemCode == null) {
             throw new IllegalArgumentException("problemCode is a required argument");
         }
@@ -114,12 +123,12 @@ public class ValidationResults {
      * @throws IllegalArgumentException
      *             if a null severity value is provided
      */
-    public List<ValidationFinding> getBySeverity(Severity s) {
+    public List<Finding> getBySeverity(Severity s) {
         if (s == null) {
             throw new IllegalArgumentException("Severity is a required argument");
         }
-        List<ValidationFinding> result = new ArrayList<>();
-        for (ValidationFinding vf : allFindings) {
+        List<Finding> result = new ArrayList<>();
+        for (Finding vf : allFindings) {
             if (vf.getSeverity() == s) {
                 result.add(vf);
             }
@@ -135,8 +144,8 @@ public class ValidationResults {
      *            the object you want to get findings for
      * @return the findings by object. Always returns a list, though it may be empty
      */
-    public List<ValidationFinding> getFindingsForObject(ModelElement modelElement) {
-        List<ValidationFinding> result = findingsByObject.get(modelElement);
+    public List<Finding> getFindingsForObject(ModelElement modelElement) {
+        List<Finding> result = findingsByObject.get(modelElement);
         if (result == null) {
             result = new ArrayList<>(0);
         }

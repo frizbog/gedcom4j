@@ -33,6 +33,7 @@ import java.io.IOException;
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.parser.GedcomParser;
+import org.gedcom4j.validate.Validator.Finding;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -64,14 +65,18 @@ public class ValidationResultsTest {
     }
 
     /**
-     * Test method for {@link ValidationResults#add(ValidationFinding)}, {@link ValidationResults#getAllFindings()}.
+     * Test method for {@link ValidationResults#add(Finding)}, {@link ValidationResults#getAllFindings()}, and
+     * {@link ValidationResults#clear()}.
      */
     @Test
     public void testAddAndGetAll() {
-        ValidationResults vr = new ValidationResults();
+        Validator v = new Validator(g);
+        ValidationResults vr = v.getResults();
         assertEquals(0, vr.getAllFindings().size());
-        vr.add(new ValidationFinding(g.getIndividuals().get("@I1@"), Severity.INFO, ProblemCode.DUPLICATE_VALUE));
+        v.newFinding(g.getIndividuals().get("@I1@"), Severity.INFO, ProblemCode.DUPLICATE_VALUE, null);
         assertEquals(1, vr.getAllFindings().size());
+        vr.clear();
+        assertEquals(0, vr.getAllFindings().size());
     }
 
     /**
@@ -79,11 +84,12 @@ public class ValidationResultsTest {
      */
     @Test
     public void testGetByProblemCodeEnum() {
-        ValidationResults vr = new ValidationResults();
+        Validator v = new Validator(g);
+        ValidationResults vr = v.getResults();
         assertEquals(0, vr.getAllFindings().size());
-        vr.add(new ValidationFinding(g.getIndividuals().get("@I1@"), Severity.INFO, ProblemCode.DUPLICATE_VALUE));
-        vr.add(new ValidationFinding(g.getIndividuals().get("@I2@"), Severity.WARNING, ProblemCode.ILLEGAL_VALUE));
-        vr.add(new ValidationFinding(g.getIndividuals().get("@I3@"), Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE));
+        v.newFinding(g.getIndividuals().get("@I1@"), Severity.INFO, ProblemCode.DUPLICATE_VALUE, null);
+        v.newFinding(g.getIndividuals().get("@I2@"), Severity.WARNING, ProblemCode.ILLEGAL_VALUE, null);
+        v.newFinding(g.getIndividuals().get("@I3@"), Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, null);
         assertEquals(3, vr.getAllFindings().size());
         assertEquals(1, vr.getByCode(ProblemCode.DUPLICATE_VALUE).size());
         assertEquals(1, vr.getByCode(ProblemCode.ILLEGAL_VALUE).size());
@@ -96,11 +102,12 @@ public class ValidationResultsTest {
      */
     @Test
     public void testGetByProblemCodeInt() {
-        ValidationResults vr = new ValidationResults();
+        Validator v = new Validator(g);
+        ValidationResults vr = v.getResults();
         assertEquals(0, vr.getAllFindings().size());
-        vr.add(new ValidationFinding(g.getIndividuals().get("@I1@"), Severity.INFO, ProblemCode.DUPLICATE_VALUE));
-        vr.add(new ValidationFinding(g.getIndividuals().get("@I2@"), Severity.WARNING, ProblemCode.ILLEGAL_VALUE));
-        vr.add(new ValidationFinding(g.getIndividuals().get("@I3@"), Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE));
+        v.newFinding(g.getIndividuals().get("@I1@"), Severity.INFO, ProblemCode.DUPLICATE_VALUE, null);
+        v.newFinding(g.getIndividuals().get("@I2@"), Severity.WARNING, ProblemCode.ILLEGAL_VALUE, null);
+        v.newFinding(g.getIndividuals().get("@I3@"), Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, null);
         assertEquals(3, vr.getAllFindings().size());
         assertEquals(1, vr.getByCode(ProblemCode.DUPLICATE_VALUE.ordinal()).size());
         assertEquals(1, vr.getByCode(ProblemCode.ILLEGAL_VALUE.ordinal()).size());
@@ -113,11 +120,12 @@ public class ValidationResultsTest {
      */
     @Test
     public void testGetBySeverity() {
-        ValidationResults vr = new ValidationResults();
+        Validator v = new Validator(g);
+        ValidationResults vr = v.getResults();
         assertEquals(0, vr.getAllFindings().size());
-        vr.add(new ValidationFinding(g.getIndividuals().get("@I1@"), Severity.INFO, ProblemCode.DUPLICATE_VALUE));
-        vr.add(new ValidationFinding(g.getIndividuals().get("@I2@"), Severity.WARNING, ProblemCode.ILLEGAL_VALUE));
-        vr.add(new ValidationFinding(g.getIndividuals().get("@I3@"), Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE));
+        v.newFinding(g.getIndividuals().get("@I1@"), Severity.INFO, ProblemCode.DUPLICATE_VALUE, null);
+        v.newFinding(g.getIndividuals().get("@I2@"), Severity.WARNING, ProblemCode.ILLEGAL_VALUE, null);
+        v.newFinding(g.getIndividuals().get("@I3@"), Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, null);
         assertEquals(3, vr.getAllFindings().size());
         assertEquals(1, vr.getBySeverity(Severity.INFO).size());
         assertEquals(1, vr.getBySeverity(Severity.WARNING).size());
@@ -138,11 +146,12 @@ public class ValidationResultsTest {
      */
     @Test
     public void testGetFindingsForObject() {
-        ValidationResults vr = new ValidationResults();
+        Validator v = new Validator(g);
+        ValidationResults vr = v.getResults();
         assertEquals(0, vr.getAllFindings().size());
-        vr.add(new ValidationFinding(g.getIndividuals().get("@I1@"), Severity.INFO, ProblemCode.DUPLICATE_VALUE));
-        vr.add(new ValidationFinding(g.getIndividuals().get("@I2@"), Severity.WARNING, ProblemCode.ILLEGAL_VALUE));
-        vr.add(new ValidationFinding(g.getIndividuals().get("@I3@"), Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE));
+        v.newFinding(g.getIndividuals().get("@I1@"), Severity.INFO, ProblemCode.DUPLICATE_VALUE, null);
+        v.newFinding(g.getIndividuals().get("@I2@"), Severity.WARNING, ProblemCode.ILLEGAL_VALUE, null);
+        v.newFinding(g.getIndividuals().get("@I3@"), Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, null);
         assertEquals(3, vr.getAllFindings().size());
         assertEquals(1, vr.getFindingsForObject(g.getIndividuals().get("@I1@")).size());
         assertEquals(1, vr.getFindingsForObject(g.getIndividuals().get("@I2@")).size());

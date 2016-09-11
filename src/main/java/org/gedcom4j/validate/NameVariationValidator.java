@@ -44,13 +44,13 @@ class NameVariationValidator extends AbstractValidator {
     /**
      * Constructor
      * 
-     * @param rootValidator
+     * @param validator
      *            the root {@link GedcomValidator} that contains all the findings and settings
      * @param nv
      *            the name variation being validated
      */
-    NameVariationValidator(GedcomValidator rootValidator, AbstractNameVariation nv) {
-        this.rootValidator = rootValidator;
+    NameVariationValidator(GedcomValidator validator, AbstractNameVariation nv) {
+        this.validator = validator;
         this.nv = nv;
     }
 

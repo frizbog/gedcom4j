@@ -53,15 +53,15 @@ class NoteValidator extends AbstractValidator {
     /**
      * Constructor
      * 
-     * @param rootValidator
+     * @param validator
      *            the main gedcom validator that holds all the findings
      * @param i
      *            the note's ordinal location in whatever collection it's in
      * @param n
      *            the note being validated
      */
-    NoteValidator(GedcomValidator rootValidator, int i, Note n) {
-        this.rootValidator = rootValidator;
+    NoteValidator(GedcomValidator validator, int i, Note n) {
+        this.validator = validator;
         this.i = i;
         this.n = n;
     }
@@ -73,7 +73,7 @@ class NoteValidator extends AbstractValidator {
     protected void validate() {
 
         if (Options.isCollectionInitializationEnabled() && n.getLines() == null) {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 n.getLines(true).clear();
                 addInfo("Lines of text collection on note was null - autorepaired");
             } else {
@@ -89,27 +89,27 @@ class NoteValidator extends AbstractValidator {
         checkOptionalString(n.getRecIdNumber(), "automated record id", n);
         List<AbstractCitation> citations = n.getCitations();
         if (citations == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 n.getCitations(true).clear();
                 addInfo("Source citations collection on note was null - autorepaired");
             } else {
                 addError("Source citations collection on note is null", n);
             }
         } else {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 int dups = new DuplicateEliminator<>(citations).process();
                 if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate citations found and removed", n);
+                    validator.addInfo(dups + " duplicate citations found and removed", n);
                 }
             }
             if (citations != null) {
                 for (AbstractCitation c : citations) {
-                    new CitationValidator(rootValidator, c).validate();
+                    new CitationValidator(validator, c).validate();
                 }
             }
         }
         if (n.getUserReferences() == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 n.getUserReferences(true).clear();
                 addInfo("User references collection on note was null - autorepaired");
             } else {

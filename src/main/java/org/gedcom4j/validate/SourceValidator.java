@@ -52,13 +52,13 @@ class SourceValidator extends AbstractValidator {
     /**
      * Constructor
      * 
-     * @param rootValidator
+     * @param validator
      *            the root validator
      * @param source
      *            the source being validated
      */
-    SourceValidator(GedcomValidator rootValidator, Source source) {
-        this.rootValidator = rootValidator;
+    SourceValidator(GedcomValidator validator, Source source) {
+        this.validator = validator;
         this.source = source;
     }
 
@@ -75,21 +75,21 @@ class SourceValidator extends AbstractValidator {
         checkChangeDate(source.getChangeDate(), source);
         if (source.getData() != null) {
             SourceData sd = source.getData();
-            new NotesValidator(rootValidator, sd, sd.getNotes()).validate();
+            new NotesValidator(validator, sd, sd.getNotes()).validate();
             checkOptionalString(sd.getRespAgency(), "responsible agency", sd);
             List<EventRecorded> eventsRecorded = sd.getEventsRecorded();
             if (eventsRecorded == null) {
-                if (rootValidator.isAutorepairEnabled()) {
+                if (validator.isAutorepairEnabled()) {
                     sd.getEventsRecorded(true).clear();
                     addInfo("Collection of recorded events in source data structure was null - autorepaired", sd);
                 } else {
                     addError("Collection of recorded events in source data structure is null", sd);
                 }
             } else {
-                if (rootValidator.isAutorepairEnabled()) {
+                if (validator.isAutorepairEnabled()) {
                     int dups = new DuplicateEliminator<>(eventsRecorded).process();
                     if (dups > 0) {
-                        rootValidator.addInfo(dups + " duplicate recorded events found and removed", sd);
+                        validator.addInfo(dups + " duplicate recorded events found and removed", sd);
                     }
                 }
 
@@ -102,26 +102,26 @@ class SourceValidator extends AbstractValidator {
         }
         List<Multimedia> multimedia = source.getMultimedia();
         if (multimedia == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 source.getMultimedia(true).clear();
                 addInfo("Multimedia collection on source was null - autorepaired", source);
             }
             addError("Multimedia collection on source is null", source);
         } else {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 int dups = new DuplicateEliminator<>(multimedia).process();
                 if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate multimedia found and removed", source);
+                    validator.addInfo(dups + " duplicate multimedia found and removed", source);
                 }
             }
 
             if (multimedia != null) {
                 for (Multimedia mm : multimedia) {
-                    new MultimediaValidator(rootValidator, mm).validate();
+                    new MultimediaValidator(validator, mm).validate();
                 }
             }
         }
-        new NotesValidator(rootValidator, source, source.getNotes()).validate();
+        new NotesValidator(validator, source, source.getNotes()).validate();
         checkStringList(source.getOriginatorsAuthors(), "originators/authors", false);
         checkStringList(source.getPublicationFacts(), "publication facts", false);
         checkOptionalString(source.getRecIdNumber(), "automated record id", source);
@@ -132,7 +132,7 @@ class SourceValidator extends AbstractValidator {
 
         RepositoryCitation c = source.getRepositoryCitation();
         if (c != null) {
-            new NotesValidator(rootValidator, c, c.getNotes()).validate();
+            new NotesValidator(validator, c, c.getNotes()).validate();
             checkRequiredString(c.getRepositoryXref(), "repository xref", c);
             checkCallNumbers(c);
         }
@@ -147,17 +147,17 @@ class SourceValidator extends AbstractValidator {
     private void checkCallNumbers(RepositoryCitation citation) {
         List<SourceCallNumber> callNumbers = citation.getCallNumbers();
         if (callNumbers == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 citation.getCallNumbers(true).clear();
                 addInfo("Call numbers collection on repository citation was null - autorepaired", citation);
             } else {
                 addError("Call numbers collection on repository citation is null", citation);
             }
         } else {
-            if (rootValidator.isAutorepairEnabled()) {
+            if (validator.isAutorepairEnabled()) {
                 int dups = new DuplicateEliminator<>(callNumbers).process();
                 if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate source call numbers found and removed", citation);
+                    validator.addInfo(dups + " duplicate source call numbers found and removed", citation);
                 }
             }
             if (callNumbers != null) {
