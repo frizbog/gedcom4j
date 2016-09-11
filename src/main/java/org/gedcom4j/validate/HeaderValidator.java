@@ -35,6 +35,7 @@ import org.gedcom4j.model.Header;
 import org.gedcom4j.model.HeaderSourceData;
 import org.gedcom4j.model.SourceSystem;
 import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.SupportedVersion;
 import org.gedcom4j.validate.Validator.Finding;
 
@@ -81,38 +82,20 @@ class HeaderValidator extends AbstractValidator {
             }
         }
         checkCustomTags(header);
-        stringWithCustomTagsMustHaveValueOrBeOmitted(header, "date");
-        stringWithCustomTagsMustHaveValueOrBeOmitted(header, "destinationSystem");
+        mustHaveValueOrBeOmitted(header, "date");
+        mustHaveValueOrBeOmitted(header, "destinationSystem");
         /*
          * Filename is actually a required field -- but since the writer automatically fills in the filename if it's blank, treating
          * it as optional here
          */
-        stringWithCustomTagsMustHaveValueOrBeOmitted(header, "fileName");
+        mustHaveValueOrBeOmitted(header, "fileName");
         checkGedcomVersion();
-        stringWithCustomTagsMustHaveValueOrBeOmitted(header, "language");
+        mustHaveValueOrBeOmitted(header, "language");
         new NotesValidator(validator, header, header.getNotes()).validate();
-        stringWithCustomTagsMustHaveValueOrBeOmitted(header, "placeHierarchy");
+        mustHaveValueOrBeOmitted(header, "placeHierarchy");
         checkSourceSystem();
-        if (header.getSubmitter() == null) {
-            if (validator.mayRepair(vf)) {
-                if (validator.gedcom.getSubmitters() == null || validator.gedcom.getSubmitters().isEmpty()) {
-                    validator.addError("Submitter not specified in header, and autorepair could not "
-                            + "find a submitter to select as default", header);
-                } else {
-                    // Take the first submitter from the collection and set that
-                    // as the primary submitter in the header
-                    header.setSubmitter(validator.gedcom.getSubmitters().values().iterator().next());
-                }
-            } else {
-                validator.addError("Submitter not specified in header", header);
-            }
-            return;
-        }
-        new SubmitterValidator(validator, header.getSubmitter()).validate();
-        if (header.getSubmission() != null) {
-            validator.validateSubmission(header.getSubmission());
-        }
-        stringWithCustomTagsMustHaveValueOrBeOmitted(header, "time");
+        checkSubmitter();
+        mustHaveValueOrBeOmitted(header, "time");
     }
 
     /**
@@ -144,8 +127,8 @@ class HeaderValidator extends AbstractValidator {
             validator.newFinding(header.getCharacterSet().getCharacterSetName(), Severity.ERROR, ProblemCode.ILLEGAL_VALUE,
                     "value");
         }
-        stringWithCustomTagsMustHaveValueOrBeOmitted(header.getCharacterSet(), "characterSetName");
-        stringWithCustomTagsMustHaveValueOrBeOmitted(header.getCharacterSet(), "versionNum");
+        mustHaveValueOrBeOmitted(header.getCharacterSet(), "characterSetName");
+        mustHaveValueOrBeOmitted(header.getCharacterSet(), "versionNum");
         checkCustomTags(header.getCharacterSet());
     }
 
@@ -180,12 +163,13 @@ class HeaderValidator extends AbstractValidator {
     private void checkSourceSystem() {
         SourceSystem ss = header.getSourceSystem();
         if (ss == null) {
+            Finding vf = validator.newFinding(header, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "sourceSystem");
             if (validator.mayRepair(vf)) {
+                Header before = new Header(header);
                 ss = new SourceSystem();
                 header.setSourceSystem(ss);
-                validator.addInfo("No source system specified in header - repaired", header);
+                vf.addRepair(new AutoRepair(before, new Header(header)));
             } else {
-                validator.addError("No source system specified in header", header);
                 return;
             }
         }
@@ -196,42 +180,60 @@ class HeaderValidator extends AbstractValidator {
             if (c.getAddress() != null) {
                 new AddressValidator(validator, c.getAddress()).validate();
             }
-            if (c.getBusinessName() == null || c.getBusinessName().trim().length() == 0) {
+            if (c.getBusinessName() == null || !isSpecified(c.getBusinessName())) {
+                Finding vf = validator.newFinding(c, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "businessName");
                 if (validator.mayRepair(vf)) {
+                    Corporation before = new Corporation(c);
                     c.setBusinessName("UNSPECIFIED");
-                    validator.addInfo("Corporation for source system exists but had no name - repaired", c);
-                } else {
-                    validator.addError("Corporation for source system exists but has no name", c);
+                    vf.addRepair(new AutoRepair(before, new Corporation(c)));
                 }
             }
         }
-        stringWithCustomTagsMustHaveValueOrBeOmitted(ss, "productName");
+        mustHaveValueOrBeOmitted(ss, "productName");
         if (ss.getSourceData() != null) {
             HeaderSourceData sd = ss.getSourceData();
             if (sd.getName() == null || sd.getName().trim().length() == 0) {
+                Finding vf = validator.newFinding(sd, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "name");
                 if (validator.mayRepair(vf)) {
+                    HeaderSourceData before = new HeaderSourceData(sd);
                     sd.setName("UNSPECIFIED");
-                    validator.addInfo("Source data was specified for source system, "
-                            + "but name of source data was not specified - repaired", sd);
-                } else {
-                    validator.addError("Source data is specified for source system, " + "but name of source data is not specified",
-                            sd);
+                    vf.addRepair(new AutoRepair(before, new HeaderSourceData(sd)));
                 }
-
             }
-            stringWithCustomTagsMustHaveValueOrBeOmitted(sd, "copyright");
-            stringWithCustomTagsMustHaveValueOrBeOmitted(sd, "publishDate");
+            mustHaveValueOrBeOmitted(sd, "copyright");
+            mustHaveValueOrBeOmitted(sd, "publishDate");
             checkCustomTags(sd);
         }
         if (ss.getSystemId() == null) {
+            Finding vf = validator.newFinding(ss, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "systemId");
             if (validator.mayRepair(vf)) {
+                SourceSystem before = new SourceSystem(ss);
                 ss.setSystemId("UNSPECIFIED");
-                validator.addInfo("System ID was not specified in source system in header - repaired", ss);
-            } else {
-                validator.addError("System ID must be specified in source system in header", ss);
+                vf.addRepair(new AutoRepair(before, new SourceSystem(ss)));
             }
         }
-        stringWithCustomTagsMustHaveValueOrBeOmitted(ss, "versionNum");
+        mustHaveValueOrBeOmitted(ss, "versionNum");
+    }
+
+    /**
+     * Check if the submitter is present and ok
+     */
+    private void checkSubmitter() {
+        if (header.getSubmitter() == null) {
+            Finding vf = validator.newFinding(header, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "submitter");
+            Submitter submitter = null;
+            if (validator.getGedcom().getSubmitters() != null && !validator.getGedcom().getSubmitters().isEmpty()) {
+                submitter = validator.getGedcom().getSubmitters().values().iterator().next();
+            }
+            if (submitter != null && validator.mayRepair(vf)) {
+                Header before = new Header(header);
+                header.setSubmitter(submitter);
+                vf.addRepair(new AutoRepair(before, new Header(header)));
+            }
+        }
+        if (header.getSubmitter() != null) {
+            new SubmitterValidator(validator, header.getSubmitter()).validate();
+        }
     }
 
 }

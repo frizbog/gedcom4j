@@ -49,8 +49,8 @@ public class IndividualEventValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testValidator() {
         Gedcom g = TestHelper.getMinimalGedcom();
-        rootValidator.setAutorepairEnabled(false);
-        rootValidator.gedcom = g;
+        validator.setAutorepairEnabled(false);
+        validator.gedcom = g;
 
         Individual i = new Individual();
         i.setXref("@I0001@");
@@ -58,36 +58,36 @@ public class IndividualEventValidatorTest extends AbstractValidatorTestCase {
 
         IndividualEvent e = new IndividualEvent();
         i.getEvents(true).add(e);
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "event", "requires", "type");
 
         e.setType(IndividualEventType.BIRTH);
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         e.getCitations(true).clear();
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         e.getEmails(true).clear();
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         e.getWwwUrls(true).clear();
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         e.getFaxNumbers(true).clear();
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         e.getPhoneNumbers(true).clear();
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         e.setAddress(new Address());
         e.getAddress().setCity(new StringWithCustomTags("FryingPanVille"));
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
     }
 }

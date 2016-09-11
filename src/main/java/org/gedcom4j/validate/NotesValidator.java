@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.gedcom4j.Options;
-import org.gedcom4j.exception.GedcomValidationException;
+import org.gedcom4j.exception.ValidationException;
 import org.gedcom4j.model.Note;
 
 /**
@@ -80,16 +80,16 @@ class NotesValidator extends AbstractValidator {
                     f.set(parentObject, new ArrayList<Note>(0));
                     addInfo("Notes collection on " + parentObject.getClass().getSimpleName() + " was null - autorepaired");
                 } catch (SecurityException e) {
-                    throw new GedcomValidationException("Could not autorepair null notes collection on " + parentObject.getClass()
+                    throw new ValidationException("Could not autorepair null notes collection on " + parentObject.getClass()
                             .getSimpleName(), e);
                 } catch (NoSuchFieldException e) {
-                    throw new GedcomValidationException("Could not autorepair null notes collection on " + parentObject.getClass()
+                    throw new ValidationException("Could not autorepair null notes collection on " + parentObject.getClass()
                             .getSimpleName(), e);
                 } catch (IllegalArgumentException e) {
-                    throw new GedcomValidationException("Could not autorepair null notes collection on " + parentObject.getClass()
+                    throw new ValidationException("Could not autorepair null notes collection on " + parentObject.getClass()
                             .getSimpleName(), e);
                 } catch (IllegalAccessException e) {
-                    throw new GedcomValidationException("Could not autorepair null notes collection on " + parentObject.getClass()
+                    throw new ValidationException("Could not autorepair null notes collection on " + parentObject.getClass()
                             .getSimpleName(), e);
                 }
             } else {

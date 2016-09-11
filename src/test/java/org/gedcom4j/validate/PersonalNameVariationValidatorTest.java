@@ -48,7 +48,7 @@ public class PersonalNameVariationValidatorTest extends AbstractValidatorTestCas
     @Test
     public void testOne() {
         Gedcom g = TestHelper.getMinimalGedcom();
-        rootValidator.gedcom = g;
+        validator.gedcom = g;
 
         Individual i = new Individual();
         i.setXref("@I00001@");
@@ -59,27 +59,27 @@ public class PersonalNameVariationValidatorTest extends AbstractValidatorTestCas
 
         pn.setBasic("Bj\u00F8rn /J\u00F8orgen/");
 
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         PersonalNameVariation romanized = new PersonalNameVariation();
         pn.getRomanized(true).add(romanized);
         romanized.setGivenName(new StringWithCustomTags("Bjorn"));
         romanized.setSurname(new StringWithCustomTags("Jorgen"));
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "variation", "name", "required");
         romanized.setVariation("Bjorn /Jorgen/");
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         PersonalNameVariation phonetic = new PersonalNameVariation();
         pn.getPhonetic(true).add(phonetic);
         phonetic.setGivenName(new StringWithCustomTags("Byorn"));
         phonetic.setSurname(new StringWithCustomTags("Yorgen"));
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "variation", "name", "required");
         phonetic.setVariation("Byorn /Yorgen/");
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
     }

@@ -51,7 +51,7 @@ public class IndividualValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testValidateIndividual() {
         Individual i = new Individual();
-        AbstractValidator v = new IndividualValidator(rootValidator, i);
+        AbstractValidator v = new IndividualValidator(validator, i);
         v.validate();
         assertFindingsContain(Severity.ERROR, "xref", "null");
     }
@@ -70,13 +70,13 @@ public class IndividualValidatorTest extends AbstractValidatorTestCase {
         g.getIndividuals().put("WrongKey", i);
 
         // Go validate
-        rootValidator = new GedcomValidator(g);
+        validator = new GedcomValidator(g);
         verbose = true;
-        rootValidator.validate();
+        validator.validate();
 
         // Assert stuff
         int errorsCount = 0;
-        for (GedcomValidationFinding f : rootValidator.getFindings()) {
+        for (GedcomValidationFinding f : validator.getFindings()) {
             assertNotNull(f);
             assertNotNull("The finding should have an object attached", f.getItemWithProblem());
             if (f.getSeverity() == Severity.ERROR) {

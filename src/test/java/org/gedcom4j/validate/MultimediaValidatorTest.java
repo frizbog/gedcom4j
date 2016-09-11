@@ -54,8 +54,8 @@ public class MultimediaValidatorTest extends AbstractValidatorTestCase {
     @Before
     public void setUp() {
         Gedcom g = new Gedcom();
-        rootValidator.gedcom = g;
-        rootValidator.setAutorepairEnabled(false);
+        validator.gedcom = g;
+        validator.setAutorepairEnabled(false);
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
         s.setName(new StringWithCustomTags("test"));
@@ -74,31 +74,31 @@ public class MultimediaValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testEmbeddedMedia() {
         mm.setXref("@MM001@");
-        rootValidator.gedcom.getMultimedia().put(mm.getXref(), mm);
+        validator.gedcom.getMultimedia().put(mm.getXref(), mm);
 
         // Blob can be empty in 5.5.1
-        rootValidator.gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
-        rootValidator.validate();
+        validator.gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
+        validator.validate();
         assertNoIssues();
 
         // Blob must be populated in v5.5, and must have a format
-        rootValidator.gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        rootValidator.validate();
+        validator.gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "blob", "empty");
         mm.getBlob(true).add("foo");
         mm.setEmbeddedMediaFormat(new StringWithCustomTags("gif"));
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         // Blob must be empty in 5.5.1, and embedded media format must be null
-        rootValidator.gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
-        rootValidator.validate();
+        validator.gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "blob", "populated", "5.5.1");
         assertFindingsContain(Severity.ERROR, "embedded", "media", "format", "5.5.1");
 
         mm.getBlob().clear();
         mm.setEmbeddedMediaFormat(null);
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
     }

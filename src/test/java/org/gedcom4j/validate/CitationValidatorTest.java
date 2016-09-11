@@ -38,7 +38,7 @@ public class CitationValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testValidate() {
-        CitationValidator cv = new CitationValidator(rootValidator, null);
+        CitationValidator cv = new CitationValidator(validator, null);
         cv.validate();
         assertFindingsContain(Severity.ERROR, "citation", "null");
     }

@@ -56,8 +56,8 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     @Before
     public void setUp() {
         gedcom = TestHelper.getMinimalGedcom();
-        rootValidator.gedcom = gedcom;
-        rootValidator.setAutorepairEnabled(false);
+        validator.gedcom = gedcom;
+        validator.setAutorepairEnabled(false);
 
         ind = new Individual();
         ind.setXref("@I00001@");
@@ -66,7 +66,7 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
         pn = new PersonalName();
         ind.getNames(true).add(pn);
         pn.setBasic("Joe /Schmo/");
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
     }
 
@@ -76,19 +76,19 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testBasic() {
         pn.setBasic(null);
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "basic", "name", "required");
 
         pn.setBasic("");
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "basic", "name", "required");
 
         pn.setBasic("       "); // whitespace gets trimmed
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "basic", "name", "required");
 
         pn.setBasic("Joe /Schmo/");
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
     }
 
@@ -98,15 +98,15 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testGivenName() {
         pn.setGivenName(new StringWithCustomTags((String) null));
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "given name", "no value");
 
         pn.setGivenName(new StringWithCustomTags(""));
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "given name", "no value");
 
         pn.setGivenName(new StringWithCustomTags("Fred"));
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
     }
 
@@ -116,15 +116,15 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testNickname() {
         pn.setNickname(new StringWithCustomTags((String) null));
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "nickname", "no value");
 
         pn.setNickname(new StringWithCustomTags(""));
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "nickname", "no value");
 
         pn.setNickname(new StringWithCustomTags("Bubba"));
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
     }
 
@@ -133,10 +133,10 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNotes() {
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
         pn.getNotes(true);
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
     }
 
@@ -147,7 +147,7 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     public void testNullNameObject() {
 
         ind.getNames(true).add(null);
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "name", "null");
     }
 
@@ -157,15 +157,15 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testPrefix() {
         pn.setPrefix(new StringWithCustomTags((String) null));
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "prefix", "no value");
 
         pn.setPrefix(new StringWithCustomTags(""));
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "prefix", "no value");
 
         pn.setPrefix(new StringWithCustomTags("Mr."));
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
     }
 
@@ -175,15 +175,15 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testSuffix() {
         pn.setSuffix(new StringWithCustomTags((String) null));
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "suffix", "no value");
 
         pn.setSuffix(new StringWithCustomTags(""));
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "suffix", "no value");
 
         pn.setSuffix(new StringWithCustomTags("Jr."));
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
     }
 
@@ -193,15 +193,15 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testSurname() {
         pn.setSurname(new StringWithCustomTags((String) null));
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "surname", "no value");
 
         pn.setSurname(new StringWithCustomTags(""));
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "surname", "no value");
 
         pn.setSurname(new StringWithCustomTags("Johnson"));
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
     }
 
@@ -211,15 +211,15 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testSurnamePrefix() {
         pn.setSurnamePrefix(new StringWithCustomTags((String) null));
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "surname prefix", "no value");
 
         pn.setSurnamePrefix(new StringWithCustomTags(""));
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "surname prefix", "no value");
 
         pn.setSurnamePrefix(new StringWithCustomTags("van"));
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
     }
 

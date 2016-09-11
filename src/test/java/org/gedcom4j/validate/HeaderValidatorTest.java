@@ -29,7 +29,6 @@ package org.gedcom4j.validate;
 import org.gedcom4j.io.encoding.Encoding;
 import org.gedcom4j.model.CharacterSet;
 import org.gedcom4j.model.Corporation;
-import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.SourceSystem;
@@ -51,37 +50,35 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testCharacterSet() {
-        Gedcom g = new Gedcom();
-        rootValidator.gedcom = g;
-        rootValidator.setAutorepairEnabled(false);
+
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
         s.setName(new StringWithCustomTags("test"));
-        g.getSubmitters().put(s.getXref(), s);
-        g.setSubmission(new Submission("@SUBN0001@"));
-        Header h = g.getHeader();
+        gedcom.getSubmitters().put(s.getXref(), s);
+        gedcom.setSubmission(new Submission("@SUBN0001@"));
+        Header h = gedcom.getHeader();
         h.setSubmitter(s);
-        h.setSubmission(g.getSubmission());
+        h.setSubmission(gedcom.getSubmission());
 
         h.setCharacterSet(null);
 
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "character set");
 
         h.setCharacterSet(new CharacterSet());
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         h.getCharacterSet().setCharacterSetName(null);
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "character set", "name", "not", "defined");
 
         h.getCharacterSet().setCharacterSetName(new StringWithCustomTags("FRYINGPAN"));
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "character set", "not", "supported");
 
         h.getCharacterSet().setCharacterSetName(new StringWithCustomTags(Encoding.ASCII.getCharacterSetName()));
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
     }
@@ -91,19 +88,16 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testCopyrightData() {
-        Gedcom g = new Gedcom();
-        rootValidator.gedcom = g;
-        rootValidator.setAutorepairEnabled(false);
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
         s.setName(new StringWithCustomTags("test"));
-        g.getSubmitters().put(s.getXref(), s);
-        Header h = g.getHeader();
+        gedcom.getSubmitters().put(s.getXref(), s);
+        Header h = gedcom.getHeader();
         h.setSubmitter(s);
-        g.setSubmission(new Submission("@SUBN0001@"));
+        gedcom.setSubmission(new Submission("@SUBN0001@"));
         h.getCopyrightData(true);
 
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
     }
@@ -113,28 +107,25 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testGedcomVersion() {
-        Gedcom g = new Gedcom();
-        rootValidator.gedcom = g;
-        rootValidator.setAutorepairEnabled(false);
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
         s.setName(new StringWithCustomTags("test"));
-        g.getSubmitters().put(s.getXref(), s);
-        Header h = g.getHeader();
+        gedcom.getSubmitters().put(s.getXref(), s);
+        Header h = gedcom.getHeader();
         h.setSubmitter(s);
-        g.setSubmission(new Submission("@SUBN0001@"));
-        h.setSubmission(g.getSubmission());
+        gedcom.setSubmission(new Submission("@SUBN0001@"));
+        h.setSubmission(gedcom.getSubmission());
 
         h.setGedcomVersion(null);
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "gedcom", "version");
 
         h.setGedcomVersion(new GedcomVersion());
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         h.getGedcomVersion().setVersionNumber(null);
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "gedcom", "version", "number");
     }
 
@@ -143,23 +134,20 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoSubmitters() {
-        Gedcom g = new Gedcom();
-        rootValidator.gedcom = g;
-        g.setSubmission(new Submission("@SUBN0001@"));
-        g.getHeader().setSubmission(g.getSubmission());
+        gedcom.setSubmission(new Submission("@SUBN0001@"));
+        gedcom.getHeader().setSubmission(gedcom.getSubmission());
 
-        rootValidator.setAutorepairEnabled(false);
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "submitter", "not specified");
 
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
         s.setName(new StringWithCustomTags("test"));
-        g.getSubmitters().put(s.getXref(), s);
-        Header h = g.getHeader();
+        gedcom.getSubmitters().put(s.getXref(), s);
+        Header h = gedcom.getHeader();
         h.setSubmitter(s);
 
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
     }
@@ -169,58 +157,55 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testSourceSystem() {
-        Gedcom g = new Gedcom();
-        rootValidator.gedcom = g;
-        rootValidator.setAutorepairEnabled(false);
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
         s.setName(new StringWithCustomTags("test"));
-        g.getSubmitters().put(s.getXref(), s);
-        Header h = g.getHeader();
+        gedcom.getSubmitters().put(s.getXref(), s);
+        Header h = gedcom.getHeader();
         h.setSubmitter(s);
-        g.setSubmission(new Submission("@SUBN0001@"));
-        h.setSubmission(g.getSubmission());
+        gedcom.setSubmission(new Submission("@SUBN0001@"));
+        h.setSubmission(gedcom.getSubmission());
 
         h.setSourceSystem(null);
 
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "source system", "specified");
 
         h.setSourceSystem(new SourceSystem());
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         SourceSystem ss = h.getSourceSystem();
         ss.setCorporation(null);
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         ss.setCorporation(new Corporation());
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         ss.getCorporation().setBusinessName(null);
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "source system", "corporation", "name");
 
         ss.getCorporation().setBusinessName("Frying Pan");
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         ss.setProductName(new StringWithCustomTags("Yo"));
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         ss.setProductName(null);
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         ss.setSystemId(null);
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "source system", "system", "id");
 
         ss.setSystemId("Test");
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
     }
 }

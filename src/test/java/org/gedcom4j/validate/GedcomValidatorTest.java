@@ -76,8 +76,8 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testTrailer() {
         Gedcom g = new Gedcom();
-        rootValidator.gedcom = g;
-        rootValidator.setAutorepairEnabled(false);
+        validator.gedcom = g;
+        validator.setAutorepairEnabled(false);
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
         s.setName(new StringWithCustomTags("test"));
@@ -86,11 +86,11 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
         g.getHeader().setSubmitter(s);
 
         g.setTrailer(null);
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "trailer");
 
         g.setTrailer(new Trailer());
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
     }
 
@@ -100,12 +100,12 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testValidateEmptyGedcom() {
         Gedcom g = new Gedcom();
-        rootValidator = new GedcomValidator(g);
+        validator = new GedcomValidator(g);
         verbose = true;
-        rootValidator.validate();
+        validator.validate();
         assertTrue("A new gedcom structure run through the validator with autorepair on should always have at least one finding",
-                rootValidator.getFindings().size() > 0);
-        for (GedcomValidationFinding f : rootValidator.getFindings()) {
+                validator.getFindings().size() > 0);
+        for (GedcomValidationFinding f : validator.getFindings()) {
             assertEquals(
                     "All findings on a new gedcom structure run through the validator with autorepair on should be at level of INFO",
                     Severity.INFO, f.getSeverity());
@@ -126,8 +126,8 @@ public class GedcomValidatorTest extends AbstractValidatorTestCase {
         GedcomParser p = new GedcomParser();
         p.load(SAMPLE_STRESS_TEST_FILENAME);
         assertTrue(p.getErrors().isEmpty());
-        rootValidator = new GedcomValidator(p.getGedcom());
-        rootValidator.validate();
+        validator = new GedcomValidator(p.getGedcom());
+        validator.validate();
         /*
          * The stress test file has an error in it - it says it's a 5.5 file, but uses a file-reference type multimedia object,
          * rather than an embedded media file

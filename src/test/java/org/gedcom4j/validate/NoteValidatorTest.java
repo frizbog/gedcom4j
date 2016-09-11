@@ -47,28 +47,28 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testNotesAtRootLevel() {
         Gedcom g = TestHelper.getMinimalGedcom();
-        rootValidator.gedcom = g;
-        rootValidator.setAutorepairEnabled(false);
+        validator.gedcom = g;
+        validator.setAutorepairEnabled(false);
 
         Note n = new Note();
         n.setXref("@N0001@");
         g.getNotes().put(n.getXref(), n);
 
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         n.getCitations(true).clear();
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
         n.getCitations(true).add(new CitationWithSource());
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "CitationWithSource", "non-null", "reference");
 
         n.getUserReferences(true).clear();
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "CitationWithSource", "non-null", "reference");
         n.getUserReferences(true).add(new UserReference());
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "reference number", "null");
 
     }
@@ -79,32 +79,32 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testNotesWithoutXref() {
         Gedcom g = TestHelper.getMinimalGedcom();
-        rootValidator.gedcom = g;
-        rootValidator.setAutorepairEnabled(false);
+        validator.gedcom = g;
+        validator.setAutorepairEnabled(false);
 
         Note n = new Note();
         n.setXref(null);
         g.getHeader().getSubmitter().getNotes(true).add(n);
 
         // Notes without xrefs must have lines of text
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "note", "without xref", "lines");
         n.getLines(true).add("Frying Pan");
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         n.getCitations(true).clear();
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
         n.getCitations(true).add(new CitationWithSource());
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "CitationWithSource", "non-null", "reference");
 
         n.getUserReferences(true).clear();
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "CitationWithSource", "non-null", "reference");
         n.getUserReferences(true).add(new UserReference());
-        rootValidator.validate();
+        validator.validate();
         assertFindingsContain(Severity.ERROR, "reference number", "UserReference", "null");
 
     }

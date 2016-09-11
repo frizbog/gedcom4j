@@ -45,7 +45,7 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
     public void testBadSource1() {
         Source src = new Source("bad xref");
         src.setRecIdNumber(new StringWithCustomTags(""));
-        AbstractValidator av = new SourceValidator(rootValidator, src);
+        AbstractValidator av = new SourceValidator(validator, src);
         av.validate();
         assertFindingsContain(Severity.ERROR, "record id", "source", "blank");
         assertFindingsContain(Severity.ERROR, "xref", "source", "start", "at", "sign");
@@ -62,7 +62,7 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
         EventRecorded e = new EventRecorded();
         e.setDatePeriod(new StringWithCustomTags("anytime"));
         src.getData().getEventsRecorded(true).add(e);
-        AbstractValidator av = new SourceValidator(rootValidator, src);
+        AbstractValidator av = new SourceValidator(validator, src);
         av.validate();
         assertNoIssues();
     }
@@ -73,7 +73,7 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testDefault() {
         Source src = new Source((String) null);
-        AbstractValidator av = new SourceValidator(rootValidator, src);
+        AbstractValidator av = new SourceValidator(validator, src);
         av.validate();
         assertFindingsContain(Severity.ERROR, "xref", "required", "null", "blank");
     }
@@ -83,7 +83,7 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNullSource() {
-        AbstractValidator av = new SourceValidator(rootValidator, null);
+        AbstractValidator av = new SourceValidator(validator, null);
         av.validate();
         assertFindingsContain(Severity.ERROR, "source", "null");
     }

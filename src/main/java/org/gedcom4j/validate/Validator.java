@@ -449,6 +449,7 @@ public class Validator implements Serializable {
     public void validate() {
         results.clear();
         new HeaderValidator(this, gedcom.getHeader()).validate();
+        new SubmissionValidator(this, gedcom.getSubmission()).validate();
     }
 
     /**

@@ -26,20 +26,25 @@
  */
 package org.gedcom4j.validate;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.gedcom4j.Options;
-import org.gedcom4j.exception.GedcomValidationException;
 import org.gedcom4j.exception.ValidationException;
 import org.gedcom4j.model.ChangeDate;
+import org.gedcom4j.model.HasCustomTags;
+import org.gedcom4j.model.HasXref;
 import org.gedcom4j.model.ModelElement;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.UserReference;
+import org.gedcom4j.validate.Validator.Finding;
 
 /**
- * A base class for all validators
+ * A base class for all validators, to share common validations
  * 
  * @author frizbog1
  * 
@@ -60,7 +65,7 @@ abstract class AbstractValidator {
      * @param objectWithChangeDate
      *            the object with the change date
      */
-    protected void checkChangeDate(ChangeDate changeDate, Object objectWithChangeDate) {
+    protected void checkChangeDate(ChangeDate changeDate, ModelElement objectWithChangeDate) {
         if (changeDate == null) {
             // Change dates are always optional
             return;
@@ -68,11 +73,11 @@ abstract class AbstractValidator {
         checkRequiredString(changeDate.getDate(), "change date", objectWithChangeDate);
         checkOptionalString(changeDate.getTime(), "change time", objectWithChangeDate);
         if (changeDate.getNotes() == null && Options.isCollectionInitializationEnabled()) {
-            if (validator.isAutorepairEnabled()) {
+            Finding vf = validator.newFinding(objectWithChangeDate, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "notes");
+            if (validator.mayRepair(vf)) {
+                ChangeDate before = new ChangeDate(changeDate);
                 changeDate.getNotes(true).clear();
-                addInfo("Notes collection was null on " + changeDate.getClass().getSimpleName() + " - autorepaired");
-            } else {
-                addError("Notes collection is null on " + changeDate.getClass().getSimpleName());
+                vf.addRepair(new AutoRepair(before, new ChangeDate(changeDate)));
             }
         } else {
             new NotesValidator(validator, changeDate, changeDate.getNotes()).validate();
@@ -87,7 +92,7 @@ abstract class AbstractValidator {
      * @param o
      *            the object being validated
      */
-    protected void checkCustomTags(Object o) {
+    protected void checkCustomTags(HasCustomTags o) {
 
         Method customTagsGetter = null;
         try {
@@ -142,76 +147,6 @@ abstract class AbstractValidator {
                 validator.addError("Custom tag collection is not a List", o);
             }
         }
-    }
-
-    /**
-     * Checks that the value for an optional tag is either null, or greater than zero characters long after trimming.
-     * 
-     * @param optionalString
-     *            the field that is required
-     * @param fieldDescription
-     *            the human-readable name of the field
-     * @param objectContainingField
-     *            the object containing the field being checked
-     */
-    protected void checkOptionalString(String optionalString, String fieldDescription, Object objectContainingField) {
-        if (optionalString != null && !isSpecified(optionalString)) {
-            addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName()
-                    + " is specified, but has a blank value", objectContainingField);
-        }
-    }
-
-    /**
-     * Checks that the value for an optional tag is either null, or greater than zero characters long after trimming
-     * 
-     * @param optionalString
-     *            the field that is required
-     * @param fieldDescription
-     *            the human-readable name of the field
-     * @param objectContainingField
-     *            the object containing the field being checked
-     */
-    protected void checkOptionalString(StringWithCustomTags optionalString, String fieldDescription, Object objectContainingField) {
-        if (optionalString != null && optionalString.getValue() != null && !isSpecified(optionalString.getValue())) {
-            addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName()
-                    + " is specified, but has a blank value", objectContainingField);
-        }
-        checkStringWithCustomTags(optionalString, fieldDescription);
-    }
-
-    /**
-     * Checks that a required string field is specified
-     * 
-     * @param requiredString
-     *            the field that is required
-     * @param fieldDescription
-     *            the human-readable name of the field
-     * @param objectContainingField
-     *            the object containing the field being checked
-     */
-    protected void checkRequiredString(String requiredString, String fieldDescription, Object objectContainingField) {
-        if (!isSpecified(requiredString)) {
-            addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName()
-                    + " is required, but is either null or blank", objectContainingField);
-        }
-    }
-
-    /**
-     * Checks that a required string field is specified
-     * 
-     * @param requiredString
-     *            the field that is required
-     * @param fieldDescription
-     *            the human-readable name of the field
-     * @param objectContainingField
-     *            the object containing the field being checked
-     */
-    protected void checkRequiredString(StringWithCustomTags requiredString, String fieldDescription, Object objectContainingField) {
-        if (requiredString == null || requiredString.getValue() == null || requiredString.getValue().trim().length() == 0) {
-            addError(fieldDescription + " on " + objectContainingField.getClass().getSimpleName()
-                    + " is required, but is either null or blank", objectContainingField);
-        }
-        checkStringWithCustomTags(requiredString, fieldDescription);
     }
 
     /**
@@ -294,6 +229,17 @@ abstract class AbstractValidator {
         }
     }
 
+    protected void checkUninitializedCollection(ModelElement objectWithCollection, String collectionName) {
+        if (!Options.isCollectionInitializationEnabled()) {
+            return;
+        }
+        if (get(objectWithCollection, collectionName) == null) {
+            Finding vf = validator.newFinding(objectWithCollection, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION,
+                    collectionName);
+            initializeCollectionIfAllowed(vf, objectWithCollection, collectionName);
+        }
+    }
+
     /**
      * Check a collection of user references
      * 
@@ -302,8 +248,10 @@ abstract class AbstractValidator {
      * @param objectWithUserReferences
      *            the object that contains the collection of user references
      */
-    protected void checkUserReferences(List<UserReference> userReferences, Object objectWithUserReferences) {
-        if (userReferences != null) {
+    protected void checkUserReferences(List<UserReference> userReferences, ModelElement objectWithUserReferences) {
+        if (userReferences == null) {
+            // finding, initialize
+        } else {
             for (UserReference userReference : userReferences) {
                 if (userReference == null) {
                     addError("Null user reference in collection on " + objectWithUserReferences.getClass().getSimpleName(),
@@ -317,16 +265,6 @@ abstract class AbstractValidator {
     }
 
     /**
-     * Check the xref on an object, using the default field name of <tt>xref</tt> for the xref field
-     * 
-     * @param objectContainingXref
-     *            the object containing the xref field
-     */
-    protected void checkXref(Object objectContainingXref) {
-        checkXref(objectContainingXref, "xref");
-    }
-
-    /**
      * Check the xref on an object, using a specific field name to find the xref in
      * 
      * @param objectContainingXref
@@ -334,94 +272,72 @@ abstract class AbstractValidator {
      * @param xrefFieldName
      *            the name of the xref field
      */
-    protected void checkXref(Object objectContainingXref, String xrefFieldName) {
-        String getterName = "get" + xrefFieldName.substring(0, 1).toUpperCase() + xrefFieldName.substring(1);
-        try {
-            Method xrefGetter = objectContainingXref.getClass().getMethod(getterName);
-            String xref = (String) xrefGetter.invoke(objectContainingXref);
-            checkRequiredString(xref, xrefFieldName, objectContainingXref);
-            if (xref != null) {
-                if (xref.length() < 3) {
-                    addError("xref on " + objectContainingXref.getClass().getSimpleName() + " is too short to be a valid xref",
-                            objectContainingXref);
-                } else if (xref.charAt(0) != '@') {
-                    addError("xref on " + objectContainingXref.getClass().getSimpleName() + " is doesn't start with an at-sign (@)",
-                            objectContainingXref);
-                }
-                if (!xref.endsWith("@")) {
-                    addError("xref on " + objectContainingXref.getClass().getSimpleName() + " is doesn't end with an at-sign (@)",
-                            objectContainingXref);
-                }
+    protected void checkXref(HasXref objectContainingXref) {
+        String xref = objectContainingXref.getXref();
+        if (!isSpecified(xref)) {
+            // TODO - log finding
+        } else {
+            if (xref.length() < 3) {
+                // TODO log finding
+                // addError("xref on " + objectContainingXref.getClass().getSimpleName() + " is too short to be a valid xref",
+                // objectContainingXref);
+            } else if (xref.charAt(0) != '@') {
+                // TODO log finding
+                // addError("xref on " + objectContainingXref.getClass().getSimpleName() + " is doesn't start with an at-sign (@)",
+                // objectContainingXref);
             }
-        } catch (SecurityException e) {
-            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName()
-                    + " doesn't have an xref getter named " + getterName + " that can be accessed to validate", e);
-        } catch (ClassCastException e) {
-            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName()
-                    + " doesn't have an xref getter of the right type named " + getterName + " to validate", e);
-        } catch (IllegalArgumentException e) {
-            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName()
-                    + " doesn't have an xref getter named " + getterName + " to validate", e);
-        } catch (IllegalAccessException e) {
-            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName()
-                    + " doesn't have an xref getter named " + getterName + " that can be accessed to validate", e);
-        } catch (InvocationTargetException e) {
-            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName()
-                    + " doesn't have an xref getter named " + getterName + " to validate", e);
-        } catch (NoSuchMethodException e) {
-            throw new GedcomValidationException(objectContainingXref.getClass().getSimpleName()
-                    + " doesn't have an xref getter named " + getterName + " to validate", e);
+            if (!xref.endsWith("@")) {
+                // TODO log finding
+                // addError("xref on " + objectContainingXref.getClass().getSimpleName() + " is doesn't end with an at-sign (@)",
+                // objectContainingXref);
+            }
         }
     }
 
     /**
-     * Check that a string with custom tags either has a non-blank/non-null value or be omitted.
-     *
-     * @param modelElement
-     *            the object that may have a value
-     * @param fieldName
-     *            the name of the field that may have a value
-     */
-    protected void stringWithCustomTagsMustHaveValueOrBeOmitted(ModelElement modelElement, String fieldName) {
-        try {
-            Method m = modelElement.getClass().getMethod("get" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(
-                    1));
-            StringWithCustomTags swct = (StringWithCustomTags) m.invoke(modelElement);
-            if (swct != null) {
-                if (swct.getValue() != null && !isSpecified(swct.getValue())) {
-                    validator.newFinding(modelElement, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, null);
-                }
-                checkCustomTags(swct);
-            }
-        } catch (SecurityException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException e) {
-            throw new ValidationException("Unable to reflectively get StringWithCustomTags named " + fieldName + " from "
-                    + modelElement, e);
-        }
-    }
-
-    /**
-     * Validate the gedcom file
-     */
-    protected abstract void validate();
-
-    /**
-     * Check a string with custom tags to make sure the custom tags collection is defined whenever there is a value in the string
-     * part.
+     * Get the value for a field whose name is supplied for a given object
      * 
-     * @param swct
-     *            the string with custom tags
-     * @param fieldDescription
-     *            a description of the field's contents
+     * @param modelElement
+     *            the object that has the named field you want a getter for
+     * @param fieldName
+     *            the name of the field you want to get
+     * @return the value of the named field
      */
-    private void checkStringWithCustomTags(StringWithCustomTags swct, String fieldDescription) {
-        if (swct == null) {
-            return;
+    protected Object get(ModelElement modelElement, String fieldName) {
+        Method getter = getGetter(modelElement, fieldName);
+        try {
+            return getter.invoke(modelElement);
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            throw new ValidationException("Unable to invoke getter method for field '" + fieldName + "' on object of type "
+                    + modelElement.getClass().getName(), e);
         }
-        if (swct.getValue() == null || !isSpecified(swct.getValue())) {
-            addError("A string with custom tags object (" + fieldDescription + ") was defined with no value", swct);
+    }
+
+    /**
+     * Get the getter for a field whose name is supplied for a given object
+     * 
+     * @param modelElement
+     *            the object that has the named field you want a getter for
+     * @param fieldName
+     *            the name of the field you want to get
+     * @return the getter method
+     */
+    @SuppressWarnings("PMD.PreserveStackTrace")
+    protected Method getGetter(ModelElement modelElement, String fieldName) {
+        Method result = null;
+        try {
+            String getterName = "get" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1);
+            result = modelElement.getClass().getMethod(getterName);
+        } catch (@SuppressWarnings("unused") NoSuchMethodException | SecurityException ignored) {
+            try {
+                String getterName = "is" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1);
+                result = modelElement.getClass().getMethod(getterName);
+            } catch (NoSuchMethodException | SecurityException e1) {
+                throw new ValidationException("Unable to find getter method for field '" + fieldName + "' on object of type "
+                        + modelElement.getClass().getName(), e1);
+            }
         }
-        checkCustomTags(swct);
+        return result;
     }
 
     /**
@@ -431,7 +347,7 @@ abstract class AbstractValidator {
      *            the strings
      * @return true if the string supplied non-null, and has something other than whitespace in it
      */
-    private boolean isSpecified(String s) {
+    protected boolean isSpecified(String s) {
         if (s == null || s.isEmpty()) {
             return false;
         }
@@ -442,4 +358,124 @@ abstract class AbstractValidator {
         }
         return false;
     }
+
+    /**
+     * Check that a string with custom tags either has a non-blank/non-null value or be omitted.
+     *
+     * @param modelElement
+     *            the object that may have a value
+     * @param fieldName
+     *            the name of the field that may have a value
+     */
+    protected void mustHaveValue(ModelElement modelElement, String fieldName) {
+        try {
+            Method m = modelElement.getClass().getMethod("get" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(
+                    1));
+
+            StringWithCustomTags swct = (StringWithCustomTags) m.invoke(modelElement);
+            if (swct == null) {
+            }
+            if (swct.getValue() != null && !isSpecified(swct.getValue())) {
+                validator.newFinding(modelElement, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, null);
+            }
+        } catch (SecurityException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException
+                | InvocationTargetException e) {
+            throw new ValidationException("Unable to reflectively get StringWithCustomTags named " + fieldName + " from "
+                    + modelElement, e);
+        }
+
+        if (modelElement instanceof HasCustomTags) {
+            checkCustomTags((HasCustomTags) modelElement);
+        }
+
+    }
+
+    /**
+     * Check that a string or string with custom tags is either null, or has a non-blank/non-null value
+     *
+     * @param modelElement
+     *            the object that may have a value
+     * @param fieldName
+     *            the name of the field that may have a value
+     */
+    protected void mustHaveValueOrBeOmitted(ModelElement modelElement, String fieldName) {
+        try {
+            Method m = modelElement.getClass().getMethod("get" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(
+                    1));
+            Object value = m.invoke(modelElement);
+            if (value == null) {
+                return; // It was omitted, so it's ok
+            }
+            if (value instanceof String) {
+                if (!isSpecified((String) value)) {
+                    validator.newFinding(modelElement, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, fieldName);
+                }
+            } else if (value instanceof StringWithCustomTags) {
+                StringWithCustomTags swct = (StringWithCustomTags) value;
+                if (swct.getValue() != null && !isSpecified(swct.getValue())) {
+                    validator.newFinding(modelElement, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, fieldName);
+                }
+            } else {
+                throw new ValidationException("Don't know how to handle result of type " + value.getClass().getName());
+            }
+        } catch (SecurityException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException
+                | InvocationTargetException e) {
+            throw new ValidationException("Unable to reflectively get StringWithCustomTags named " + fieldName + " from "
+                    + modelElement, e);
+        }
+
+        if (modelElement instanceof HasCustomTags) {
+            checkCustomTags((HasCustomTags) modelElement);
+        }
+
+    }
+
+    /**
+     * Validate the gedcom file
+     */
+    protected abstract void validate();
+
+    /**
+     * Initialize an uninitialized collection and mark the finding as repaired
+     * 
+     * @param finding
+     *            the finding to be marked as repaired
+     * @param objectWithCollection
+     *            the object that has the uninitialized collection
+     * @param collectionName
+     *            the name of the collection
+     */
+    @SuppressWarnings("rawtypes")
+    private void initializeCollectionIfAllowed(Finding finding, ModelElement objectWithCollection, String collectionName) {
+        if (validator.mayRepair(finding)) {
+            ModelElement before;
+            Constructor copyConstructor;
+            try {
+                copyConstructor = objectWithCollection.getClass().getConstructor(objectWithCollection.getClass());
+                before = (ModelElement) copyConstructor.newInstance(objectWithCollection);
+            } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
+                    | IllegalArgumentException | InvocationTargetException e1) {
+                throw new ValidationException("Unable to find copy constructor on object of class " + objectWithCollection
+                        .getClass().getName(), e1);
+            }
+            try {
+                Field f = objectWithCollection.getClass().getField(collectionName);
+                f.set(objectWithCollection, new ArrayList(0));
+            } catch (SecurityException | NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
+                throw new ValidationException("Unable to initialize collection '" + collectionName + "' on object of class "
+                        + objectWithCollection.getClass().getName(), e);
+            }
+            ModelElement after;
+            try {
+                after = (ModelElement) copyConstructor.newInstance(objectWithCollection);
+            } catch (SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException
+                    | InvocationTargetException e1) {
+                throw new ValidationException("Unable to find copy constructor on object of class " + objectWithCollection
+                        .getClass().getName(), e1);
+            }
+
+            finding.addRepair(new AutoRepair(before, after));
+        }
+    }
+
 }

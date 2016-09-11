@@ -45,7 +45,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testValidateNullSubmitter() {
-        AbstractValidator sv = new SubmitterValidator(rootValidator, null);
+        AbstractValidator sv = new SubmitterValidator(validator, null);
         sv.validate();
         assertFindingsContain(Severity.ERROR, "submitter", "null");
     }
@@ -58,9 +58,9 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
         Submitter submitter = new Submitter();
         submitter.setName(new StringWithCustomTags("somebody"));
         submitter.setXref("@nobody@");
-        AbstractValidator sv = new SubmitterValidator(rootValidator, submitter);
+        AbstractValidator sv = new SubmitterValidator(validator, submitter);
         sv.validate();
-        assertTrue(rootValidator.getFindings().isEmpty());
+        assertTrue(validator.getFindings().isEmpty());
     }
 
     /**
@@ -71,7 +71,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
         Submitter submitter = new Submitter();
         submitter.setXref("@SOMEVALUE@");
         submitter.setName(new StringWithCustomTags(""));
-        AbstractValidator sv = new SubmitterValidator(rootValidator, submitter);
+        AbstractValidator sv = new SubmitterValidator(validator, submitter);
         sv.validate();
         assertFindingsContain(Severity.ERROR, "name", "blank", "null");
     }
@@ -84,7 +84,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
         Submitter submitter = new Submitter();
         submitter.setName(new StringWithCustomTags("somebody"));
         submitter.setXref("");
-        AbstractValidator sv = new SubmitterValidator(rootValidator, submitter);
+        AbstractValidator sv = new SubmitterValidator(validator, submitter);
         sv.validate();
         assertFindingsContain(Severity.ERROR, "xref", "too short");
         assertFindingsContain(Severity.ERROR, "xref", "null");
@@ -98,7 +98,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     public void testValidateSubmitterHasNoName() {
         Submitter submitter = new Submitter();
         submitter.setXref("@SOMEVALUE@");
-        AbstractValidator sv = new SubmitterValidator(rootValidator, submitter);
+        AbstractValidator sv = new SubmitterValidator(validator, submitter);
         sv.validate();
         assertFindingsContain(Severity.ERROR, "name", "blank", "null");
     }
@@ -110,7 +110,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     public void testValidateSubmitterHasNoXref() {
         Submitter submitter = new Submitter();
         submitter.setName(new StringWithCustomTags("somebody"));
-        AbstractValidator sv = new SubmitterValidator(rootValidator, submitter);
+        AbstractValidator sv = new SubmitterValidator(validator, submitter);
         sv.validate();
         assertFindingsContain(Severity.ERROR, "xref", "blank", "null");
     }

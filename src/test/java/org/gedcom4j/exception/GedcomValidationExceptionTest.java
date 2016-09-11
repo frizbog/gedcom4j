@@ -33,16 +33,16 @@ import org.junit.Test;
  * @author frizbog1
  */
 @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
-public class GedcomValidationExceptionTest {
+public class ValidationExceptionTest {
 
     /**
-     * Test method for {@link org.gedcom4j.exception.GedcomValidationException#GedcomValidationException()} .
+     * Test method for {@link org.gedcom4j.exception.ValidationException#ValidationException()} .
      */
     @Test
-    public void testGedcomValidationException() {
+    public void testValidationException() {
         try {
-            throw new GedcomValidationException();
-        } catch (GedcomValidationException e) {
+            throw new ValidationException();
+        } catch (ValidationException e) {
             Assert.assertNotNull(e);
             Assert.assertNull(e.getMessage());
             Assert.assertNull(e.getCause());
@@ -50,13 +50,13 @@ public class GedcomValidationExceptionTest {
     }
 
     /**
-     * Test method for {@link org.gedcom4j.exception.GedcomValidationException#GedcomValidationException(java.lang.String)} .
+     * Test method for {@link org.gedcom4j.exception.ValidationException#ValidationException(java.lang.String)} .
      */
     @Test
-    public void testGedcomValidationExceptionString() {
+    public void testValidationExceptionString() {
         try {
-            throw new GedcomValidationException("Yo");
-        } catch (GedcomValidationException e) {
+            throw new ValidationException("Yo");
+        } catch (ValidationException e) {
             Assert.assertNotNull(e);
             Assert.assertEquals("Yo", e.getMessage());
             Assert.assertNull(e.getCause());
@@ -65,13 +65,13 @@ public class GedcomValidationExceptionTest {
 
     /**
      * Test method for
-     * {@link org.gedcom4j.exception.GedcomValidationException#GedcomValidationException(java.lang.String, java.lang.Throwable)} .
+     * {@link org.gedcom4j.exception.ValidationException#ValidationException(java.lang.String, java.lang.Throwable)} .
      */
     @Test
-    public void testGedcomValidationExceptionStringThrowable() {
+    public void testValidationExceptionStringThrowable() {
         try {
-            throw new GedcomValidationException(new RuntimeException());
-        } catch (GedcomValidationException e) {
+            throw new ValidationException(new RuntimeException());
+        } catch (ValidationException e) {
             Assert.assertNotNull(e);
             Assert.assertEquals("java.lang.RuntimeException", e.getMessage());
             Assert.assertNotNull(e.getCause());
@@ -79,13 +79,13 @@ public class GedcomValidationExceptionTest {
     }
 
     /**
-     * Test method for {@link org.gedcom4j.exception.GedcomValidationException#GedcomValidationException(java.lang.Throwable)} .
+     * Test method for {@link org.gedcom4j.exception.ValidationException#ValidationException(java.lang.Throwable)} .
      */
     @Test
-    public void testGedcomValidationExceptionThrowable() {
+    public void testValidationExceptionThrowable() {
         try {
-            throw new GedcomValidationException("Yo", new RuntimeException());
-        } catch (GedcomValidationException e) {
+            throw new ValidationException("Yo", new RuntimeException());
+        } catch (ValidationException e) {
             Assert.assertNotNull(e);
             Assert.assertEquals("Yo", e.getMessage());
             Assert.assertNotNull(e.getCause());

@@ -39,7 +39,6 @@ import org.gedcom4j.model.Note;
 import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.StringWithCustomTags;
-import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.Trailer;
 
@@ -204,27 +203,6 @@ public class GedcomValidator extends AbstractValidator {
         validateSubmission(gedcom.getSubmission());
         validateTrailer();
         new NotesValidator(validator, gedcom, new ArrayList<>(gedcom.getNotes().values())).validate();
-    }
-
-    /**
-     * Validate the submission substructure under the root gedcom
-     * 
-     * @param s
-     *            the submission substructure to be validated
-     */
-    void validateSubmission(Submission s) {
-
-        if (s == null) {
-            addError("Submission record on root gedcom is null", gedcom);
-            return;
-        }
-        checkXref(s);
-        checkOptionalString(s.getAncestorsCount(), "Ancestor count", s);
-        checkOptionalString(s.getDescendantsCount(), "Descendant count", s);
-        checkOptionalString(s.getNameOfFamilyFile(), "Name of family file", s);
-        checkOptionalString(s.getOrdinanceProcessFlag(), "Ordinance process flag", s);
-        checkOptionalString(s.getRecIdNumber(), "Automated record id", s);
-        checkOptionalString(s.getTempleCode(), "Temple code", s);
     }
 
     /**

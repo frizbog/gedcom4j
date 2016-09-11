@@ -29,7 +29,7 @@ package org.gedcom4j.validate;
 import java.util.List;
 
 import org.gedcom4j.Options;
-import org.gedcom4j.exception.GedcomValidationException;
+import org.gedcom4j.exception.ValidationException;
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.FileReference;
 import org.gedcom4j.model.Multimedia;
@@ -65,7 +65,7 @@ class MultimediaValidator extends AbstractValidator {
     MultimediaValidator(GedcomValidator validator, Multimedia multimedia) {
         this.validator = validator;
         if (validator == null) {
-            throw new GedcomValidationException("Root validator passed in to MultimediaValidator constructor was null");
+            throw new ValidationException("Root validator passed in to MultimediaValidator constructor was null");
         }
         mm = multimedia;
         if (validator.gedcom == null || validator.gedcom.getHeader() == null || validator.gedcom.getHeader()
