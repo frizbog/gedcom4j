@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.validate;
 
+import java.io.Serializable;
+
 import org.gedcom4j.model.ModelElement;
 
 /**
@@ -35,7 +37,12 @@ import org.gedcom4j.model.ModelElement;
  * 
  * @author frizbog
  */
-public class AutoRepair {
+public class AutoRepair implements Serializable {
+    /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -1100951640663586984L;
+
     /**
      * the corrected object
      */
