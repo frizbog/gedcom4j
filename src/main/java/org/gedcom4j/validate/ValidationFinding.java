@@ -121,6 +121,21 @@ public class ValidationFinding implements Serializable {
     }
 
     /**
+     * Get the relatedItems
+     * 
+     * @param initializeIfNeeded
+     *            initialize the collection if needed prior to returning the value
+     * 
+     * @return the relatedItems
+     */
+    public List<ModelElement> getRelatedItems(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && relatedItems == null) {
+            relatedItems = new ArrayList<>();
+        }
+        return relatedItems;
+    }
+
+    /**
      * Get the repairs
      * 
      * @return the repairs
@@ -138,7 +153,7 @@ public class ValidationFinding implements Serializable {
      * @return the repairs
      */
     public List<AutoRepair> getRepairs(boolean initializeIfNeeded) {
-        if (repairs == null) {
+        if (initializeIfNeeded && repairs == null) {
             repairs = new ArrayList<>(0);
         }
         return repairs;
