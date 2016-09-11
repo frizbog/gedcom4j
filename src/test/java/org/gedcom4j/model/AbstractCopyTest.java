@@ -26,8 +26,12 @@
  */
 package org.gedcom4j.model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.parser.GedcomParser;
 
 /**
  * A base class for the copy constructor tests, to reduce copy-and-pasted code
@@ -35,6 +39,22 @@ import java.util.List;
  * @author frizbog
  */
 public abstract class AbstractCopyTest {
+
+    /**
+     * Load a gedcom from a file for finding objects to copy
+     * 
+     * @return the Gedcom read from the sample file
+     * 
+     * @throws IOException
+     *             if the file cannot be read
+     * @throws GedcomParserException
+     *             if the file cannot be parsed
+     */
+    protected Gedcom getLoadedGedcom() throws IOException, GedcomParserException {
+        GedcomParser gp = new GedcomParser();
+        gp.load("sample/willis.ged");
+        return gp.getGedcom();
+    }
 
     /**
      * Helper method to get a test address

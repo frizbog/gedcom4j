@@ -29,8 +29,10 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 
+import java.io.IOException;
 import java.util.Date;
 
+import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.factory.FamilyFactory;
 import org.gedcom4j.factory.IndividualFactory;
 import org.gedcom4j.factory.Sex;
@@ -62,6 +64,22 @@ public class GedcomCopyTest extends AbstractCopyTest {
         Gedcom copy = new Gedcom(orig);
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
+    }
+
+    /**
+     * Test with a loaded file
+     * 
+     * @throws IOException
+     *             if the file cannot be read
+     * @throws GedcomParserException
+     *             if the file cannot be parsed
+     */
+    @Test
+    public void testWithLoadedFile() throws IOException, GedcomParserException {
+        Gedcom loadedGedcom = getLoadedGedcom();
+        Gedcom copy = new Gedcom(loadedGedcom);
+        assertEquals(loadedGedcom, copy);
+        assertNotSame(loadedGedcom, copy);
     }
 
     /**
@@ -117,5 +135,4 @@ public class GedcomCopyTest extends AbstractCopyTest {
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
-
 }

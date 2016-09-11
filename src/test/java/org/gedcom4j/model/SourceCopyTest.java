@@ -29,6 +29,9 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 
+import java.io.IOException;
+
+import org.gedcom4j.exception.GedcomParserException;
 import org.junit.Test;
 
 /**
@@ -56,6 +59,25 @@ public class SourceCopyTest extends AbstractCopyTest {
         Source copy = new Source(orig);
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
+    }
+
+    /**
+     * Test with a loaded file
+     * 
+     * @throws IOException
+     *             if the file cannot be read
+     * @throws GedcomParserException
+     *             if the file cannot be parsed
+     */
+    @Test
+    public void testWithLoadedFile() throws IOException, GedcomParserException {
+        Gedcom loadedGedcom = getLoadedGedcom();
+
+        for (Source original : loadedGedcom.getSources().values()) {
+            Source copy = new Source(original);
+            assertNotSame(original, copy);
+            assertEquals(original, copy);
+        }
     }
 
     /**

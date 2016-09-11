@@ -29,6 +29,9 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 
+import java.io.IOException;
+
+import org.gedcom4j.exception.GedcomParserException;
 import org.junit.Test;
 
 /**
@@ -88,5 +91,24 @@ public class NoteCopyTest extends AbstractCopyTest {
 
         orig.getCustomTags().clear();
         assertEquals("Copy should not change when original does", "_HOWDY", copy.getCustomTags().get(0).getTag());
+    }
+
+    /**
+     * Test with a loaded file
+     * 
+     * @throws IOException
+     *             if the file cannot be read
+     * @throws GedcomParserException
+     *             if the file cannot be parsed
+     */
+    @Test
+    public void testWithLoadedFile() throws IOException, GedcomParserException {
+        Gedcom loadedGedcom = getLoadedGedcom();
+
+        for (Note original : loadedGedcom.getNotes().values()) {
+            Note copy = new Note(original);
+            assertNotSame(original, copy);
+            assertEquals(original, copy);
+        }
     }
 }
