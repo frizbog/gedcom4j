@@ -103,8 +103,8 @@ public class ValidatorGedcomStructureTest extends AbstractValidatorTestCase {
         validator = new Validator(p.getGedcom());
         validator.validate();
         for (Finding f : validator.getResults().getAllFindings()) {
-            System.out.println("assertFindingsContain(Severity." + f.getSeverity() + ", object, " + f.getProblemCode() + ", " + f
-                    .getFieldNameOfConcern() + ");");
+            System.out.println("assertFindingsContain(Severity." + f.getSeverity() + ", " + f.getItemOfConcern() + ", " + f
+                    .getProblemCode() + ", " + f.getFieldNameOfConcern() + ");");
         }
     }
 

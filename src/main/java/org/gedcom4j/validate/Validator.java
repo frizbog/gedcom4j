@@ -33,6 +33,7 @@ import java.util.List;
 import org.gedcom4j.Options;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.ModelElement;
+import org.gedcom4j.model.Note;
 
 /**
  * <p>
@@ -52,7 +53,7 @@ import org.gedcom4j.model.ModelElement;
  * @since 4.0.0
  */
 @SuppressWarnings("PMD.GodClass")
-public class Validator implements Serializable {
+public class Validator extends AbstractValidator {
 
     /**
      * Represents something of interest found by the validation module.
@@ -383,11 +384,6 @@ public class Validator implements Serializable {
     };
 
     /**
-     * Serial Version UID
-     */
-    private static final long serialVersionUID = -8810465155456968453L;
-
-    /**
      * The responder that determines whether the validator is to be allowed to auto-repair a finding. Default is the more
      * conservative value of allowing no auto-repairs.
      */
@@ -510,10 +506,18 @@ public class Validator implements Serializable {
     /**
      * Validate the gedcom
      */
+    @Override
     public void validate() {
         results.clear();
         new HeaderValidator(this, gedcom.getHeader()).validate();
         new SubmissionValidator(this, gedcom.getSubmission()).validate();
+        // Families
+        // Individuals
+        // Multimedia
+        checkNotes();
+        // Repositories
+        // Sources
+        // Submitters
         if (gedcom.getTrailer() == null) {
             newFinding(gedcom, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "trailer");
         }
@@ -531,6 +535,23 @@ public class Validator implements Serializable {
             return autoRepairResponder.mayRepair(validationFinding);
         }
         return false;
+    }
+
+    /**
+     * Check notes
+     */
+    private void checkNotes() {
+        for (Note note : gedcom.getNotes().values()) {
+            if (note == null) {
+                newFinding(gedcom, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, "notes");
+                continue;
+            }
+            // Root level notes should have xrefs
+            if (!isSpecified(note.getXref())) {
+                newFinding(note, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "xref");
+            }
+            new NoteValidator(this, note).validate();
+        }
     }
 
 }

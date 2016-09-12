@@ -122,12 +122,12 @@ class SourceValidator extends AbstractValidator {
             }
         }
         new NotesListValidator(validator, source).validate();
-        checkStringList(source.getOriginatorsAuthors(), "originators/authors", false);
-        checkStringList(source.getPublicationFacts(), "publication facts", false);
+        checkStringList(source, "originatorsAuthors", false);
+        checkStringList(source, "publicationFacts", false);
         mustHaveValueOrBeOmitted(source, "recIdNumber");
-        checkStringList(source.getSourceText(), "source text", true);
+        checkStringList(source, "sourceText", true);
         mustHaveValueOrBeOmitted(source, "sourceFiledBy");
-        checkStringList(source.getTitle(), "title", true);
+        checkStringList(source, "title", true);
         checkUserReferences(source.getUserReferences(), source);
 
         RepositoryCitation c = source.getRepositoryCitation();

@@ -45,7 +45,7 @@ public class CitationValidatorTest extends AbstractValidatorTestCase {
         Note n = new Note();
         gedcom.getHeader().getNotes(true).add(n);
         n.getCitations(true).add(c);
-        CitationValidator cv = new CitationValidator(validator, c);
+        AbstractValidator cv = new CitationValidator(validator, c);
         cv.validate();
     }
 

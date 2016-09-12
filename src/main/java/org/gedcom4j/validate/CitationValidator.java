@@ -77,36 +77,34 @@ class CitationValidator extends AbstractValidator {
     }
 
     /**
-     * 
+     * Validate a citation without source
      */
-    protected void validateCitationWithoutSource() {
-        {
-            CitationWithoutSource c = (CitationWithoutSource) citation;
-            checkStringList(c.getDescription(), "description on a citation without a source", true);
-            List<List<String>> textFromSource = c.getTextFromSource();
-            if (textFromSource == null && Options.isCollectionInitializationEnabled()) {
-                if (validator.isAutorepairEnabled()) {
-                    c.getTextFromSource(true).clear();
-                    addInfo("Text from source collection (the list of lists) was null in CitationWithoutSource - autorepaired",
-                            citation);
-                } else {
-                    addError("Text from source collection (the list of lists) is null in CitationWithoutSource", citation);
-                }
+    private void validateCitationWithoutSource() {
+        CitationWithoutSource c = (CitationWithoutSource) citation;
+        checkStringList(c, "description", true);
+        List<List<String>> textFromSource = c.getTextFromSource();
+        if (textFromSource == null && Options.isCollectionInitializationEnabled()) {
+            if (validator.isAutorepairEnabled()) {
+                c.getTextFromSource(true).clear();
+                addInfo("Text from source collection (the list of lists) was null in CitationWithoutSource - autorepaired",
+                        citation);
             } else {
-                if (validator.isAutorepairEnabled()) {
-                    int dups = new DuplicateHandler<>(textFromSource).process();
-                    if (dups > 0) {
-                        validator.addInfo(dups + " duplicate texts from source found and removed", citation);
-                    }
+                addError("Text from source collection (the list of lists) is null in CitationWithoutSource", citation);
+            }
+        } else {
+            if (validator.isAutorepairEnabled()) {
+                int dups = new DuplicateHandler<>(textFromSource).process();
+                if (dups > 0) {
+                    validator.addInfo(dups + " duplicate texts from source found and removed", citation);
                 }
-                if (textFromSource != null) {
-                    for (List<String> sl : textFromSource) {
-                        if (sl == null) {
-                            addError("Text from source collection (the list of lists) in CitationWithoutSource contains a null",
-                                    citation);
-                        } else {
-                            checkStringList(sl, "one of the sublists in the textFromSource collection on a source citation", true);
-                        }
+            }
+            if (textFromSource != null) {
+                for (List<String> sl : textFromSource) {
+                    if (sl == null) {
+                        addError("Text from source collection (the list of lists) in CitationWithoutSource contains a null",
+                                citation);
+                    } else {
+                        checkStringList(c, "textFromSource", true);
                     }
                 }
             }
@@ -114,19 +112,17 @@ class CitationValidator extends AbstractValidator {
     }
 
     /**
-     * 
+     * Validate a citation with source
      */
-    protected void validateCitationWithSource() {
+    private void validateCitationWithSource() {
         CitationWithSource c = (CitationWithSource) citation;
         if (c.getSource() == null) {
-            addError("CitationWithSource requires a non-null source reference", c);
+            validator.newFinding(c, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "source");
         }
         mustHaveValueOrBeOmitted(c, "whereInSource");
         mustHaveValueOrBeOmitted(c, "eventCited");
         if (c.getEventCited() == null) {
-            if (c.getRoleInEvent() != null) {
-                addError("CitationWithSource has role in event but a null event");
-            }
+            mustNotHaveValue(c, "roleInEvent");
         } else {
             mustHaveValueOrBeOmitted(c, "roleInEvent");
         }

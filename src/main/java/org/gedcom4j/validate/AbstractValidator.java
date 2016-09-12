@@ -463,6 +463,25 @@ abstract class AbstractValidator {
     }
 
     /**
+     * Check that an item that should not have a value actually doesn't have one
+     * 
+     * @param modelElement
+     *            the object that to check
+     * @param fieldName
+     *            the name of the field that should not have a value
+     */
+    protected void mustNotHaveValue(ModelElement modelElement, String fieldName) {
+        Object value = get(modelElement, fieldName);
+        if (value == null) {
+            return;
+        }
+        if (value instanceof List && ((List) value).isEmpty()) {
+            return;
+        }
+        validator.newFinding(modelElement, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, fieldName);
+    }
+
+    /**
      * Validate the gedcom file
      */
     protected abstract void validate();
