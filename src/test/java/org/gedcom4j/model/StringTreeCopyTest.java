@@ -56,7 +56,7 @@ public class StringTreeCopyTest extends AbstractCopyTest {
     public void testFilledInMultiLevels() {
         StringTree orig = new StringTree();
         orig.setLevel(0);
-        orig.setId("A");
+        orig.setXref("A");
         orig.setLineNum(1);
         orig.setTag("B");
         orig.setValue("C");
@@ -99,7 +99,7 @@ public class StringTreeCopyTest extends AbstractCopyTest {
     @Test
     public void testFilledInOneLevel() {
         StringTree orig = new StringTree();
-        orig.setId("Foo");
+        orig.setXref("Foo");
         orig.setLevel(3);
         orig.setLineNum(-50);
         orig.setParent(orig);

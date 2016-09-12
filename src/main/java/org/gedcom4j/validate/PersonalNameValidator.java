@@ -29,7 +29,6 @@ package org.gedcom4j.validate;
 import java.util.List;
 
 import org.gedcom4j.Options;
-import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.AbstractNameVariation;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.PersonalNameVariation;
@@ -50,11 +49,11 @@ class PersonalNameValidator extends AbstractValidator {
      * Constructor
      * 
      * @param validator
-     *            the root {@link GedcomValidator} that contains all the findings and options
+     *            the {@link Validator} that contains all the findings and options
      * @param pn
      *            the personal name being validated
      */
-    PersonalNameValidator(GedcomValidator validator, PersonalName pn) {
+    PersonalNameValidator(Validator validator, PersonalName pn) {
         this.validator = validator;
         this.pn = pn;
     }
@@ -68,7 +67,7 @@ class PersonalNameValidator extends AbstractValidator {
             addError("Personal name was null - cannot validate");
             return;
         }
-        checkRequiredString(pn.getBasic(), "basic name", pn);
+        mustHaveValue(pn, "basic");
         if (pn.getCitations() == null && Options.isCollectionInitializationEnabled()) {
             if (validator.isAutorepairEnabled()) {
                 pn.getCitations(true).clear();
@@ -77,20 +76,16 @@ class PersonalNameValidator extends AbstractValidator {
                 addError("citations collection for personal name is null", pn);
             }
         }
-        if (pn.getCitations() != null) {
-            for (AbstractCitation c : pn.getCitations()) {
-                new CitationValidator(validator, c).validate();
-            }
-        }
+        checkCitations(pn);
         checkCustomTags(pn);
-        mustHaveValueOrBeOmitted(pn.getGivenName(), "given name", pn);
-        mustHaveValueOrBeOmitted(pn.getNickname(), "nickname", pn);
-        mustHaveValueOrBeOmitted(pn.getPrefix(), "prefix", pn);
-        mustHaveValueOrBeOmitted(pn.getSuffix(), "suffix", pn);
-        mustHaveValueOrBeOmitted(pn.getSurname(), "surname", pn);
-        mustHaveValueOrBeOmitted(pn.getSurnamePrefix(), "surname prefix", pn);
+        mustHaveValueOrBeOmitted(pn, "given");
+        mustHaveValueOrBeOmitted(pn, "nickname");
+        mustHaveValueOrBeOmitted(pn, "prefix");
+        mustHaveValueOrBeOmitted(pn, "suffix");
+        mustHaveValueOrBeOmitted(pn, "surname");
+        mustHaveValueOrBeOmitted(pn, "surnamePrefix");
 
-        new NotesValidator(validator, pn, pn.getNotes()).validate();
+        new NotesListValidator(validator, pn).validate();
         List<PersonalNameVariation> phonetic = pn.getPhonetic();
         if (phonetic == null && Options.isCollectionInitializationEnabled()) {
             if (validator.isAutorepairEnabled()) {

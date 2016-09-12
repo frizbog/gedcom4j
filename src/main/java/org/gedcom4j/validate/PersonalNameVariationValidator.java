@@ -26,9 +26,6 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.List;
-
-import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.PersonalNameVariation;
 
 /**
@@ -42,11 +39,11 @@ class PersonalNameVariationValidator extends NameVariationValidator {
      * Constructor
      * 
      * @param validator
-     *            the root {@link GedcomValidator} that contains the findings and the settings
+     *            the {@link Validator} that contains the findings and the settings
      * @param pnv
      *            the personal name variation to be validated
      */
-    PersonalNameVariationValidator(GedcomValidator validator, PersonalNameVariation pnv) {
+    PersonalNameVariationValidator(Validator validator, PersonalNameVariation pnv) {
         super(validator, pnv);
     }
 
@@ -64,32 +61,13 @@ class PersonalNameVariationValidator extends NameVariationValidator {
             return;
         }
         PersonalNameVariation pnv = (PersonalNameVariation) nv;
-        List<AbstractCitation> citations = pnv.getCitations();
-        if (citations == null) {
-            if (validator.isAutorepairEnabled()) {
-                pnv.getCitations(true).clear();
-                addInfo("citations collection for personal name was null - autorepaired", pnv);
-            } else {
-                addError("citations collection for personal name is null", pnv);
-            }
-        } else {
-            if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateHandler<>(citations).process();
-                if (dups > 0) {
-                    validator.addInfo(dups + " duplicate citations found and removed", pnv);
-                }
-            }
-
-            for (AbstractCitation c : citations) {
-                new CitationValidator(validator, c).validate();
-            }
-        }
-        mustHaveValueOrBeOmitted(pnv.getGivenName(), "given name", pnv);
-        mustHaveValueOrBeOmitted(pnv.getNickname(), "nickname", pnv);
-        mustHaveValueOrBeOmitted(pnv.getPrefix(), "prefix", pnv);
-        mustHaveValueOrBeOmitted(pnv.getSuffix(), "suffix", pnv);
-        mustHaveValueOrBeOmitted(pnv.getSurname(), "surname", pnv);
-        mustHaveValueOrBeOmitted(pnv.getSurnamePrefix(), "surname prefix", pnv);
-        new NotesValidator(validator, pnv, pnv.getNotes()).validate();
+        checkCitations(pnv);
+        mustHaveValueOrBeOmitted(pnv, "givenName");
+        mustHaveValueOrBeOmitted(pnv, "nickname");
+        mustHaveValueOrBeOmitted(pnv, "prefix");
+        mustHaveValueOrBeOmitted(pnv, "suffix");
+        mustHaveValueOrBeOmitted(pnv, "surname");
+        mustHaveValueOrBeOmitted(pnv, "surnamePrefix");
+        new NotesListValidator(validator, pnv).validate();
     }
 }

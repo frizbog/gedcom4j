@@ -55,9 +55,9 @@ import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.SupportedVersion;
-import org.gedcom4j.validate.GedcomValidationFinding;
-import org.gedcom4j.validate.GedcomValidator;
 import org.gedcom4j.validate.Severity;
+import org.gedcom4j.validate.Validator;
+import org.gedcom4j.validate.Validator.Finding;
 import org.gedcom4j.writer.event.ConstructProgressEvent;
 import org.gedcom4j.writer.event.ConstructProgressListener;
 
@@ -150,12 +150,6 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     private boolean useLittleEndianForUnicode = true;
 
     /**
-     * A list of things found during validation of the gedcom data prior to writing it. If the data cannot be written due to an
-     * exception caused by failure to validate, this collection will describe the issues encountered.
-     */
-    private List<GedcomValidationFinding> validationFindings;
-
-    /**
      * The line terminator to use
      */
     private LineTerminator lineTerminator = LineTerminator.getDefaultLineTerminator();
@@ -210,15 +204,6 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
      */
     public LineTerminator getLineTerminator() {
         return lineTerminator;
-    }
-
-    /**
-     * Get the validationFindings
-     * 
-     * @return the validationFindings
-     */
-    public List<GedcomValidationFinding> getValidationFindings() {
-        return validationFindings;
     }
 
     /**
@@ -442,12 +427,11 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     @Override
     protected void emit() throws GedcomWriterException {
         if (!validationSuppressed) {
-            GedcomValidator gv = new GedcomValidator(writeFrom);
-            gv.setAutorepairEnabled(autorepair);
+            Validator gv = new Validator(writeFrom);
+            // TODO - allow registration of AutoRepairResponder
             gv.validate();
-            validationFindings = gv.getFindings();
             int numErrorFindings = 0;
-            for (GedcomValidationFinding f : validationFindings) {
+            for (Finding f : gv.getResults().getAllFindings()) {
                 if (f.getSeverity() == Severity.ERROR) {
                     numErrorFindings++;
                 }

@@ -26,10 +26,6 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.List;
-
-import org.gedcom4j.Options;
-import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.LdsSpouseSealing;
 
 /**
@@ -49,11 +45,11 @@ class LdsSpouseSealingValidator extends AbstractValidator {
      * Constructor
      * 
      * @param validator
-     *            root {@link GedcomValidator} that contains findings and settings
+     *            the {@link Validator} that contains findings and settings
      * @param s
      *            the sealing being validated
      */
-    LdsSpouseSealingValidator(GedcomValidator validator, LdsSpouseSealing s) {
+    LdsSpouseSealingValidator(Validator validator, LdsSpouseSealing s) {
         this.validator = validator;
         this.s = s;
     }
@@ -67,33 +63,13 @@ class LdsSpouseSealingValidator extends AbstractValidator {
             addError("LDS Spouse Sealing is null and cannot be validated");
             return;
         }
-        List<AbstractCitation> citations = s.getCitations();
-        if (Options.isCollectionInitializationEnabled() && citations == null) {
-            if (validator.isAutorepairEnabled()) {
-                s.getCitations(true).clear();
-                addInfo("citations collection for lds spouse sealing was null - validator.autorepaired", s);
-            } else {
-                addError("citations collection for lds spouse sealing is null", s);
-            }
-        } else {
-            if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateHandler<>(citations).process();
-                if (dups > 0) {
-                    validator.addInfo(dups + " duplicate citations found and removed", s);
-                }
-            }
-            if (citations != null) {
-                for (AbstractCitation c : citations) {
-                    new CitationValidator(validator, c).validate();
-                }
-            }
-        }
+        checkCitations(s);
         checkCustomTags(s);
-        mustHaveValueOrBeOmitted(s.getDate(), "date", s);
-        new NotesValidator(validator, s, s.getNotes()).validate();
-        mustHaveValueOrBeOmitted(s.getPlace(), "place", s);
-        mustHaveValueOrBeOmitted(s.getStatus(), "status", s);
-        mustHaveValueOrBeOmitted(s.getTemple(), "temple", s);
+        mustHaveValueOrBeOmitted(s, "date");
+        new NotesListValidator(validator, s).validate();
+        mustHaveValueOrBeOmitted(s, "place");
+        mustHaveValueOrBeOmitted(s, "status");
+        mustHaveValueOrBeOmitted(s, "temple");
     }
 
 }

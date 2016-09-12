@@ -40,7 +40,7 @@ import org.gedcom4j.model.SupportedVersion;
 import org.gedcom4j.validate.Validator.Finding;
 
 /**
- * Validator for a {@link Header}. See {@link GedcomValidator} for usage information.
+ * Validator for a {@link Header}. See {@link Validator} for usage information.
  * 
  * @author frizbog1
  * 
@@ -91,7 +91,7 @@ class HeaderValidator extends AbstractValidator {
         mustHaveValueOrBeOmitted(header, "fileName");
         checkGedcomVersion();
         mustHaveValueOrBeOmitted(header, "language");
-        new NotesValidator(validator, header).validate();
+        new NotesListValidator(validator, header).validate();
         mustHaveValueOrBeOmitted(header, "placeHierarchy");
         checkSourceSystem();
         checkSubmitter();

@@ -496,13 +496,13 @@ public class GedcomParser extends AbstractParser<Gedcom> {
             }
             new HeaderParser(this, rootLevelItem, header).parse();
         } else if (Tag.SUBMITTER.equalsText(rootLevelItem.getTag())) {
-            Submitter submitter = getSubmitter(rootLevelItem.getId());
+            Submitter submitter = getSubmitter(rootLevelItem.getXref());
             new SubmitterParser(this, rootLevelItem, submitter).parse();
         } else if (Tag.INDIVIDUAL.equalsText(rootLevelItem.getTag())) {
-            Individual i = getIndividual(rootLevelItem.getId());
+            Individual i = getIndividual(rootLevelItem.getXref());
             new IndividualParser(this, rootLevelItem, i).parse();
         } else if (Tag.SUBMISSION.equalsText(rootLevelItem.getTag())) {
-            Submission s = new Submission(rootLevelItem.getId());
+            Submission s = new Submission(rootLevelItem.getXref());
             gedcom.setSubmission(s);
             if (gedcom.getHeader() == null) {
                 gedcom.setHeader(new Header());
@@ -522,18 +522,18 @@ public class GedcomParser extends AbstractParser<Gedcom> {
                 throw new GedcomParserException("At root level NOTE structures should have @ID@'s");
             }
         } else if (Tag.FAMILY.equalsText(rootLevelItem.getTag())) {
-            Family f = getFamily(rootLevelItem.getId());
+            Family f = getFamily(rootLevelItem.getXref());
             new FamilyParser(this, rootLevelItem, f).parse();
         } else if (Tag.TRAILER.equalsText(rootLevelItem.getTag())) {
             gedcom.setTrailer(new Trailer());
         } else if (Tag.SOURCE.equalsText(rootLevelItem.getTag())) {
-            Source s = getSource(rootLevelItem.getId());
+            Source s = getSource(rootLevelItem.getXref());
             new SourceParser(this, rootLevelItem, s).parse();
         } else if (Tag.REPOSITORY.equalsText(rootLevelItem.getTag())) {
-            Repository r = getRepository(rootLevelItem.getId());
+            Repository r = getRepository(rootLevelItem.getXref());
             new RepositoryParser(this, rootLevelItem, r).parse();
         } else if (Tag.OBJECT_MULTIMEDIA.equalsText(rootLevelItem.getTag())) {
-            Multimedia multimedia = getMultimedia(rootLevelItem.getId());
+            Multimedia multimedia = getMultimedia(rootLevelItem.getXref());
             new MultimediaRecordParser(this, rootLevelItem, multimedia).parse();
         } else {
             unknownTag(rootLevelItem, gedcom);

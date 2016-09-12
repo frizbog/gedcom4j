@@ -2,6 +2,12 @@
 GEDCOM4J RELEASE NOTES
 ==============================
 
+v4.0.0 is a major release. Some users, particularly those who used the validation framework, will need to make changes to accommodate API changes.
+
+No issue numbers, but changed:
+- The id property on StringTree has been renamed xref (along with the getters and setters)
+
+
 ?? ??? 2016 - v3.2.1
 ====================
 v3.2.1 is a minor fix release

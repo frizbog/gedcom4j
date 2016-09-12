@@ -151,7 +151,7 @@ public class StringWithCustomTags extends AbstractElement {
         if (getCustomTags() != null) {
             for (StringTree ct : getCustomTags()) {
                 sb.append("\n");
-                sb.append(ct.getLevel() + (ct.getId() == null ? "" : " " + ct.getId()) + " " + ct.getTag() + " " + ct.getValue());
+                sb.append(ct.getLevel() + (ct.getXref() == null ? "" : " " + ct.getXref()) + " " + ct.getTag() + " " + ct.getValue());
             }
         }
 

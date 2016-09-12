@@ -38,8 +38,8 @@ import java.util.Map;
  * 
  * <p>
  * Note that if you are creating a Gedcom object graph programmatically from scratch (as opposed to by parsing a GEDCOM file), you
- * will (probably) want to do the following things...some are required for the structure to pass validation, and the results of
- * autorepair (if enabled) may not be what you want (see {@link org.gedcom4j.validate.GedcomValidator}).
+ * will (probably) want to do the following things. (Some are required for the structure to pass validation, and the results of
+ * autorepair (if enabled) may not be what you want - see {@link org.gedcom4j.validate.Validator}).
  * </p>
  * <ol type="1">
  * <li>Define a {@link Submitter} and add it to the {@link Gedcom#submitters} map. Autorepair will make a fake submitter record with

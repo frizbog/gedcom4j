@@ -151,7 +151,7 @@ class MultimediaRecordParser extends AbstractParser<Multimedia> {
      *            the OBJE node being loaded
      */
     private void loadMultimediaRecord551(StringTree obje) {
-        Multimedia m = getMultimedia(obje.getId());
+        Multimedia m = getMultimedia(obje.getXref());
         if (obje.getChildren() != null) {
             for (StringTree ch : obje.getChildren()) {
                 if (Tag.FILE.equalsText(ch.getTag())) {

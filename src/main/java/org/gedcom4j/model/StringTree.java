@@ -60,9 +60,9 @@ public class StringTree implements ModelElement {
     private List<StringTree> children = getChildren(Options.isCollectionInitializationEnabled());
 
     /**
-     * The ID number of this element
+     * The Xref ID number of this element
      */
-    private String id;
+    private String xref;
 
     /**
      * The level of this element
@@ -109,7 +109,7 @@ public class StringTree implements ModelElement {
      *            the other StringTree to copy
      */
     public StringTree(StringTree other) {
-        id = other.id;
+        xref = other.xref;
         level = other.level;
         lineNum = other.lineNum;
         tag = other.tag;
@@ -147,11 +147,11 @@ public class StringTree implements ModelElement {
         } else if (!children.equals(other.children)) {
             return false;
         }
-        if (id == null) {
-            if (other.id != null) {
+        if (xref == null) {
+            if (other.xref != null) {
                 return false;
             }
-        } else if (!id.equals(other.id)) {
+        } else if (!xref.equals(other.xref)) {
             return false;
         }
         if (level != other.level) {
@@ -202,15 +202,6 @@ public class StringTree implements ModelElement {
     }
 
     /**
-     * Gets the id.
-     *
-     * @return the id
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
      * Gets the level.
      *
      * @return the level
@@ -256,6 +247,15 @@ public class StringTree implements ModelElement {
     }
 
     /**
+     * Gets the xref.
+     *
+     * @return the xref
+     */
+    public String getXref() {
+        return xref;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -263,23 +263,13 @@ public class StringTree implements ModelElement {
         final int prime = 31;
         int result = 1;
         result = prime * result + (children == null ? 0 : children.hashCode());
-        result = prime * result + (id == null ? 0 : id.hashCode());
+        result = prime * result + (xref == null ? 0 : xref.hashCode());
         result = prime * result + level;
         result = prime * result + lineNum;
         result = prime * result + (tag == null ? 0 : tag.hashCode());
         result = prime * result + (value == null ? 0 : value.hashCode());
         // Note that parent is not included, to provent infinite recursion
         return result;
-    }
-
-    /**
-     * Sets the id.
-     *
-     * @param id
-     *            the new id
-     */
-    public void setId(String id) {
-        this.id = id;
     }
 
     /**
@@ -333,12 +323,22 @@ public class StringTree implements ModelElement {
     }
 
     /**
+     * Sets the xref.
+     *
+     * @param xref
+     *            the new xref
+     */
+    public void setXref(String xref) {
+        this.xref = xref;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Line " + lineNum + ": " + level + (id == null ? "" : " " + id) + " " + (tag == null
-                ? "(null tag)" : tag) + " " + (value == null ? "(null value)" : value));
+        StringBuilder sb = new StringBuilder("Line " + lineNum + ": " + level + (xref == null ? "" : " " + xref) + " "
+                + (tag == null ? "(null tag)" : tag) + " " + (value == null ? "(null value)" : value));
         if (children != null) {
             for (StringTree ch : children) {
                 sb.append("\n").append(ch);

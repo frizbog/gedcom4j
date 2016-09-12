@@ -32,8 +32,8 @@ import org.gedcom4j.model.ModelElement;
 
 /**
  * Represents something that was auto-repaired. As the validation framework does its work, and makes corrections, one of these
- * should be created for each correction, and saved in a list for the caller to review. It should also be added to the
- * {@link Finding} class.
+ * should be created for each correction, and added to the {@link Validator.Finding} by using the
+ * {@link Validator.Finding#addRepair(AutoRepair)} method.
  * 
  * @author frizbog
  */

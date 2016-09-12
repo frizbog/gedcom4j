@@ -34,7 +34,7 @@ import org.gedcom4j.model.Submitter;
 import org.gedcom4j.validate.Validator.Finding;
 
 /**
- * Validate a {@link Submitter} object. See {@link GedcomValidator} for usage information.
+ * Validate a {@link Submitter} object. See {@link Validator} for usage information.
  * 
  * @author frizbog1
  * 
@@ -72,7 +72,7 @@ class SubmitterValidator extends AbstractValidator {
         if (submitter.getAddress() != null) {
             new AddressValidator(validator, submitter.getAddress()).validate();
         }
-        new NotesValidator(validator, submitter).validate();
+        new NotesListValidator(validator, submitter).validate();
     }
 
     /**

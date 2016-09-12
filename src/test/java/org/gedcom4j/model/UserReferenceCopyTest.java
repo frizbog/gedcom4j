@@ -70,7 +70,7 @@ public class UserReferenceCopyTest extends AbstractCopyTest {
         ct.setTag("_RRR");
         ct.setValue("SSS");
         ct.setLevel(1);
-        ct.setId("@TTT@");
+        ct.setXref("@TTT@");
         orig.getCustomTags(true).add(ct);
 
         UserReference copy = new UserReference(orig);

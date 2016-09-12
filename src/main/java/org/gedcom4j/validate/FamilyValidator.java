@@ -29,7 +29,6 @@ package org.gedcom4j.validate;
 import java.util.List;
 
 import org.gedcom4j.Options;
-import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Individual;
@@ -53,12 +52,12 @@ class FamilyValidator extends AbstractValidator {
      * Validator for {@link Family}
      * 
      * @param gedcomValidator
-     *            the {@link GedcomValidator} that holds all the findings and settings
+     *            the {@link Validator} that holds all the findings and settings
      * @param f
      *            the family being validated
      */
-    FamilyValidator(GedcomValidator gedcomValidator, Family f) {
-        validator = gedcomValidator;
+    FamilyValidator(Validator validator, Family f) {
+        this.validator = validator;
         this.f = f;
     }
 
@@ -67,10 +66,10 @@ class FamilyValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        mustHaveValueOrBeOmitted(f.getAutomatedRecordId(), "Automated record id", f);
+        mustHaveValueOrBeOmitted(f, "automatedRecordId");
         checkChangeDate(f.getChangeDate(), f);
         checkChildren();
-        checkCitations();
+        checkCitations(f);
         checkCustomTags(f);
         if (f.getEvents() != null) {
             for (AbstractEvent ev : f.getEvents()) {
@@ -85,10 +84,10 @@ class FamilyValidator extends AbstractValidator {
         }
         checkLdsSpouseSealings();
         checkMultimedia();
-        new NotesValidator(validator, f, f.getNotes()).validate();
-        mustHaveValueOrBeOmitted(f.getNumChildren(), "number of children", f);
-        mustHaveValueOrBeOmitted(f.getRecFileNumber(), "record file number", f);
-        mustHaveValueOrBeOmitted(f.getRestrictionNotice(), "restriction notice", f);
+        new NotesListValidator(validator, f).validate();
+        mustHaveValueOrBeOmitted(f, "numChildren");
+        mustHaveValueOrBeOmitted(f, "recFileNumber");
+        mustHaveValueOrBeOmitted(f, "restrictionNotice");
         checkSubmitters();
         checkUserReferences(f.getUserReferences(), f);
     }
@@ -117,33 +116,6 @@ class FamilyValidator extends AbstractValidator {
                     if (i == null) {
                         validator.addError("Family with xref '" + f.getXref() + "' has a null entry in children collection", f);
                     }
-                }
-            }
-        }
-    }
-
-    /**
-     * Check citations.
-     */
-    private void checkCitations() {
-        List<AbstractCitation> citations = f.getCitations();
-        if (citations == null && Options.isCollectionInitializationEnabled()) {
-            if (validator.isAutorepairEnabled()) {
-                f.getCitations(true).clear();
-                addInfo("citations collection for family was null - validator.autorepaired", f);
-            } else {
-                addError("citations collection for family is null", f);
-            }
-        } else {
-            if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateHandler<>(citations).process();
-                if (dups > 0) {
-                    validator.addInfo(dups + " duplicate source citations found and removed", f);
-                }
-            }
-            if (citations != null) {
-                for (AbstractCitation c : citations) {
-                    new CitationValidator(validator, c).validate();
                 }
             }
         }

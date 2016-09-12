@@ -34,12 +34,12 @@ import org.gedcom4j.model.Note;
 import org.gedcom4j.validate.Validator.Finding;
 
 /**
- * A validator for lists of {@link Note} object. See {@link GedcomValidator} for usage information.
+ * A validator for lists of {@link Note} object. See {@link Validator} for usage information.
  * 
  * @author frizbog1
  * 
  */
-class NotesValidator extends AbstractValidator {
+class NotesListValidator extends AbstractValidator {
 
     /**
      * The notes being validated
@@ -60,7 +60,7 @@ class NotesValidator extends AbstractValidator {
      *            the object containing the notes
      */
     @SuppressWarnings("unchecked")
-    NotesValidator(Validator validator, ModelElement parentObject) {
+    NotesListValidator(Validator validator, ModelElement parentObject) {
         this.validator = validator;
         this.parentObject = parentObject;
         notes = (List<Note>) get(parentObject, "notes");
@@ -87,9 +87,7 @@ class NotesValidator extends AbstractValidator {
                 vf.addRepair(new AutoRepair(before, makeCopy(parentObject)));
             }
         }
-        int i = 0;
         for (Note n : notes) {
-            i++;
             new NoteValidator(validator, n).validate();
         }
 

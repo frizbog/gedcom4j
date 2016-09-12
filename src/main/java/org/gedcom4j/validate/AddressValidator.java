@@ -29,7 +29,7 @@ package org.gedcom4j.validate;
 import org.gedcom4j.model.Address;
 
 /**
- * Validator for an {@link Address}. See {@link GedcomValidator} for usage information.
+ * Validator for an {@link Address}. See {@link Validator} for usage information.
  * 
  * @author frizbog1
  * 
@@ -60,13 +60,13 @@ class AddressValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        checkStringList(address.getLines(), "address lines", false);
-        mustHaveValueOrBeOmitted(address.getAddr1(), "line 1", address);
-        mustHaveValueOrBeOmitted(address.getAddr2(), "line 2", address);
-        mustHaveValueOrBeOmitted(address.getCity(), "city", address);
-        mustHaveValueOrBeOmitted(address.getStateProvince(), "state/province", address);
-        mustHaveValueOrBeOmitted(address.getPostalCode(), "postal code", address);
-        mustHaveValueOrBeOmitted(address.getCountry(), "country", address);
+        checkStringList(address, "lines", false);
+        mustHaveValueOrBeOmitted(address, "addr1");
+        mustHaveValueOrBeOmitted(address, "addr2");
+        mustHaveValueOrBeOmitted(address, "city");
+        mustHaveValueOrBeOmitted(address, "stateProvince");
+        mustHaveValueOrBeOmitted(address, "postalCode");
+        mustHaveValueOrBeOmitted(address, "country");
     }
 
 }

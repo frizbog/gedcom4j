@@ -327,8 +327,8 @@ abstract class AbstractEmitter<T> {
             for (StringTree st : customTags) {
                 StringBuilder line = new StringBuilder(Integer.toString(level));
                 line.append(" ");
-                if (st.getId() != null && st.getId().trim().length() > 0) {
-                    line.append(st.getId()).append(" ");
+                if (st.getXref() != null && st.getXref().trim().length() > 0) {
+                    line.append(st.getXref()).append(" ");
                 }
                 line.append(st.getTag());
                 if (st.getValue() != null && st.getValue().trim().length() > 0) {

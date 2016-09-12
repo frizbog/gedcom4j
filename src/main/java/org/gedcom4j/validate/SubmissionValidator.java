@@ -53,6 +53,9 @@ public class SubmissionValidator extends AbstractValidator {
         this.submission = submission;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void validate() {
         checkXref(submission);

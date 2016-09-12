@@ -51,6 +51,7 @@ import org.gedcom4j.model.ModelElement;
  * @author frizbog
  * @since 4.0.0
  */
+@SuppressWarnings("PMD.GodClass")
 public class Validator implements Serializable {
 
     /**
@@ -58,7 +59,7 @@ public class Validator implements Serializable {
      * 
      * @author frizbog
      */
-    class Finding implements Serializable {
+    public class Finding implements Serializable {
         /**
          * Serial Version UID
          */
@@ -513,6 +514,9 @@ public class Validator implements Serializable {
         results.clear();
         new HeaderValidator(this, gedcom.getHeader()).validate();
         new SubmissionValidator(this, gedcom.getSubmission()).validate();
+        if (gedcom.getTrailer() == null) {
+            newFinding(gedcom, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "trailer");
+        }
     }
 
     /**

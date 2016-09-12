@@ -299,8 +299,8 @@ abstract class AbstractParser<T> {
         while (st.getParent() != null) {
             st = st.getParent();
             sb.append(", child of ").append(st.getTag() == null ? null : st.getTag());
-            if (st.getId() != null) {
-                sb.append(" ").append(st.getId());
+            if (st.getXref() != null) {
+                sb.append(" ").append(st.getXref());
             }
             sb.append(" on line ").append(st.getLineNum());
         }

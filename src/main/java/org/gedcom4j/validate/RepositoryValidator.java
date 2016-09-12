@@ -30,7 +30,7 @@ import org.gedcom4j.model.Address;
 import org.gedcom4j.model.Repository;
 
 /**
- * A validator for a {@link Repository} structure. See {@link GedcomValidator} for usage information.
+ * A validator for a {@link Repository} structure. See {@link Validator} for usage information.
  * 
  * @author frizbog1
  */
@@ -48,8 +48,8 @@ class RepositoryValidator extends AbstractValidator {
      * @param repository
      *            the repository being validated
      */
-    RepositoryValidator(GedcomValidator gedcomValidator, Repository repository) {
-        validator = gedcomValidator;
+    RepositoryValidator(Validator validator, Repository repository) {
+        this.validator = validator;
         this.repository = repository;
     }
 
@@ -63,13 +63,13 @@ class RepositoryValidator extends AbstractValidator {
             return;
         }
         checkXref(repository);
-        mustHaveValueOrBeOmitted(repository.getName(), "name", repository);
+        mustHaveValueOrBeOmitted(repository, "name");
         checkChangeDate(repository.getChangeDate(), repository);
         checkStringTagList(repository.getEmails(), "email list", false);
         checkUserReferences(repository.getUserReferences(), repository);
-        mustHaveValueOrBeOmitted(repository.getRecIdNumber(), "automated record id", repository);
+        mustHaveValueOrBeOmitted(repository, "recIdNumber");
         checkStringTagList(repository.getPhoneNumbers(), "phone numbers", false);
-        new NotesValidator(validator, repository, repository.getNotes()).validate();
+        new NotesListValidator(validator, repository).validate();
 
         Address a = repository.getAddress();
         if (a != null) {

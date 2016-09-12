@@ -34,8 +34,8 @@ import org.gedcom4j.model.CitationWithSource;
 import org.gedcom4j.model.CitationWithoutSource;
 
 /**
- * A validator for source citations - both {@link CitationWithoutSource} and {@link CitationWithSource}. See {@link GedcomValidator}
- * for usage information.
+ * A validator for source citations - both {@link CitationWithoutSource} and {@link CitationWithSource}. See {@link Validator} for
+ * usage information.
  * 
  * @author frizbog1
  * 
@@ -65,26 +65,22 @@ class CitationValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        if (citation == null) {
-            addError("Citation is null");
-            return;
-        }
         if (citation instanceof CitationWithSource) {
-            CitationWithSource c = (CitationWithSource) citation;
-            if (c.getSource() == null) {
-                addError("CitationWithSource requires a non-null source reference", c);
-            }
-            mustHaveValueOrBeOmitted(c.getWhereInSource(), "where within source", c);
-            mustHaveValueOrBeOmitted(c.getEventCited(), "event type cited from", c);
-            if (c.getEventCited() == null) {
-                if (c.getRoleInEvent() != null) {
-                    addError("CitationWithSource has role in event but a null event");
-                }
-            } else {
-                mustHaveValueOrBeOmitted(c.getRoleInEvent(), "role in event", c);
-            }
-            mustHaveValueOrBeOmitted(c.getCertainty(), "certainty/quality", c);
+            validateCitationWithSource();
         } else if (citation instanceof CitationWithoutSource) {
+            validateCitationWithoutSource();
+        } else {
+            throw new IllegalStateException("AbstractCitation references must be either CitationWithSource"
+                    + " instances or CitationWithoutSource instances");
+        }
+        checkNotes(citation);
+    }
+
+    /**
+     * 
+     */
+    protected void validateCitationWithoutSource() {
+        {
             CitationWithoutSource c = (CitationWithoutSource) citation;
             checkStringList(c.getDescription(), "description on a citation without a source", true);
             List<List<String>> textFromSource = c.getTextFromSource();
@@ -114,20 +110,26 @@ class CitationValidator extends AbstractValidator {
                     }
                 }
             }
-        } else {
-            throw new IllegalStateException("AbstractCitation references must be either CitationWithSource"
-                    + " instances or CitationWithoutSource instances");
         }
-        if (citation.getNotes() == null && Options.isCollectionInitializationEnabled()) {
-            if (validator.isAutorepairEnabled()) {
-                citation.getNotes(true).clear();
-                addInfo("Notes collection was null on " + citation.getClass().getSimpleName() + " - autorepaired");
-            } else {
-                addError("Notes collection is null on " + citation.getClass().getSimpleName());
+    }
+
+    /**
+     * 
+     */
+    protected void validateCitationWithSource() {
+        CitationWithSource c = (CitationWithSource) citation;
+        if (c.getSource() == null) {
+            addError("CitationWithSource requires a non-null source reference", c);
+        }
+        mustHaveValueOrBeOmitted(c, "whereInSource");
+        mustHaveValueOrBeOmitted(c, "eventCited");
+        if (c.getEventCited() == null) {
+            if (c.getRoleInEvent() != null) {
+                addError("CitationWithSource has role in event but a null event");
             }
         } else {
-            new NotesValidator(validator, citation, citation.getNotes()).validate();
+            mustHaveValueOrBeOmitted(c, "roleInEvent");
         }
-
+        mustHaveValueOrBeOmitted(c, "certainty");
     }
 }

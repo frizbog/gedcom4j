@@ -29,7 +29,6 @@ package org.gedcom4j.validate;
 import java.util.List;
 
 import org.gedcom4j.Options;
-import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.Association;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualAttribute;
@@ -38,7 +37,7 @@ import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.Submitter;
 
 /**
- * A validator for an {@link Individual}. See {@link GedcomValidator} for usage information.
+ * A validator for an {@link Individual}. See {@link Validator} for usage information.
  * 
  * @author frizbog1
  * 
@@ -53,13 +52,13 @@ class IndividualValidator extends AbstractValidator {
     /**
      * Constructor
      * 
-     * @param gedcomValidator
+     * @param validator
      *            the root validator
      * @param individual
      *            the individual being validated
      */
-    IndividualValidator(GedcomValidator gedcomValidator, Individual individual) {
-        validator = gedcomValidator;
+    IndividualValidator(Validator validator, Individual individual) {
+        this.validator = validator;
         this.individual = individual;
     }
 
@@ -109,7 +108,7 @@ class IndividualValidator extends AbstractValidator {
 
         checkAliases();
         checkAssociations();
-        checkCitations();
+        checkCitations(individual);
         checkIndividualAttributes();
         checkSubmitters();
         checkIndividualEvents();
@@ -149,33 +148,13 @@ class IndividualValidator extends AbstractValidator {
                     if (a == null) {
                         addError("associations collection for individual contains null entry", individual);
                     } else {
-                        checkRequiredString(a.getAssociatedEntityType(), "associated entity type", a);
+                        mustHaveValue(a, "associatedEntityType");
                         checkXref(a, "associatedEntityXref");
                     }
                 }
             }
         }
 
-    }
-
-    /**
-     * Validate the {@link Individual#citations} collection
-     */
-    private void checkCitations() {
-        if (individual.getCitations() == null && Options.isCollectionInitializationEnabled()) {
-            if (validator.isAutorepairEnabled()) {
-                individual.getCitations(true).clear();
-                addInfo("citations collection for individual was null - validator.autorepaired", individual);
-            } else {
-                addError("citations collection for individual is null", individual);
-            }
-        } else {
-            if (individual.getCitations() != null) {
-                for (AbstractCitation c : individual.getCitations()) {
-                    new CitationValidator(validator, c).validate();
-                }
-            }
-        }
     }
 
     /**

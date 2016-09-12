@@ -40,6 +40,7 @@ import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.ChangeDate;
 import org.gedcom4j.model.HasCitations;
 import org.gedcom4j.model.HasCustomTags;
+import org.gedcom4j.model.HasNotes;
 import org.gedcom4j.model.HasXref;
 import org.gedcom4j.model.ModelElement;
 import org.gedcom4j.model.StringTree;
@@ -85,7 +86,7 @@ abstract class AbstractValidator {
             Finding vf = validator.newFinding(changeDate, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "notes");
             initializeCollectionIfAllowed(vf);
         }
-        new NotesValidator(validator, changeDate).validate();
+        checkNotes(changeDate);
     }
 
     /**
@@ -96,25 +97,25 @@ abstract class AbstractValidator {
      */
     protected void checkCitations(HasCitations objectWithCitations) {
         List<AbstractCitation> citations = objectWithCitations.getCitations();
-        if (citations == null && Options.isCollectionInitializationEnabled()) {
-            Finding finding = validator.newFinding(objectWithCitations, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION,
-                    "citations");
-            initializeCollectionIfAllowed(finding);
-        }
-        if (citations != null) {
-            DuplicateHandler<AbstractCitation> dh = new DuplicateHandler<>(citations);
-            if (dh.count() > 0) {
-                Finding finding = validator.newFinding(objectWithCitations, Severity.ERROR, ProblemCode.DUPLICATE_VALUE,
+        if (citations == null) {
+            if (Options.isCollectionInitializationEnabled()) {
+                Finding finding = validator.newFinding(objectWithCitations, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION,
                         "citations");
-                if (validator.mayRepair(finding)) {
-                    ModelElement before = makeCopy(objectWithCitations);
-                    dh.remove();
-                    finding.addRepair(new AutoRepair(before, makeCopy(objectWithCitations)));
-                }
+                initializeCollectionIfAllowed(finding);
             }
-            for (AbstractCitation c : citations) {
-                new CitationValidator(validator, c).validate();
+            return;
+        }
+        DuplicateHandler<AbstractCitation> dh = new DuplicateHandler<>(citations);
+        if (dh.count() > 0) {
+            Finding finding = validator.newFinding(objectWithCitations, Severity.ERROR, ProblemCode.DUPLICATE_VALUE, "citations");
+            if (validator.mayRepair(finding)) {
+                ModelElement before = makeCopy(objectWithCitations);
+                dh.remove();
+                finding.addRepair(new AutoRepair(before, makeCopy(objectWithCitations)));
             }
+        }
+        for (AbstractCitation c : citations) {
+            new CitationValidator(validator, c).validate();
         }
     }
 
@@ -151,6 +152,16 @@ abstract class AbstractValidator {
                 }
             }
         }
+    }
+
+    /**
+     * Check the notes on the object
+     * 
+     * @param objectWithNotes
+     *            the object with notes
+     */
+    protected void checkNotes(HasNotes objectWithNotes) {
+        new NotesListValidator(validator, objectWithNotes).validate();
     }
 
     /**
@@ -414,8 +425,6 @@ abstract class AbstractValidator {
             if (swct.getValue() != null && !isSpecified(swct.getValue())) {
                 validator.newFinding(modelElement, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, fieldName);
             }
-        } else {
-            throw new ValidationException("Don't know how to handle result of type " + value.getClass().getName());
         }
         if (modelElement instanceof HasCustomTags) {
             checkCustomTags((HasCustomTags) modelElement);

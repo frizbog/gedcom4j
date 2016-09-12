@@ -30,14 +30,13 @@ import java.util.List;
 
 import org.gedcom4j.Options;
 import org.gedcom4j.exception.ValidationException;
-import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.FileReference;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.SupportedVersion;
 import org.gedcom4j.model.UserReference;
 
 /**
- * A validator for {@link Multimedia} objects. See {@link GedcomValidator} for usage instructions.
+ * A validator for {@link Multimedia} objects. See {@link Validator} for usage instructions.
  * 
  * @author frizbog1
  * 
@@ -62,23 +61,23 @@ class MultimediaValidator extends AbstractValidator {
      * @param multimedia
      *            the multimedia object being validated
      */
-    MultimediaValidator(GedcomValidator validator, Multimedia multimedia) {
+    MultimediaValidator(Validator validator, Multimedia multimedia) {
         this.validator = validator;
         if (validator == null) {
-            throw new ValidationException("Root validator passed in to MultimediaValidator constructor was null");
+            throw new ValidationException("Validator passed in to MultimediaValidator constructor was null");
         }
         mm = multimedia;
-        if (validator.gedcom == null || validator.gedcom.getHeader() == null || validator.gedcom.getHeader()
-                .getGedcomVersion() == null || validator.gedcom.getHeader().getGedcomVersion().getVersionNumber() == null) {
+        if (validator.getGedcom() == null || validator.getGedcom().getHeader() == null || validator.getGedcom().getHeader()
+                .getGedcomVersion() == null || validator.getGedcom().getHeader().getGedcomVersion().getVersionNumber() == null) {
             if (validator.isAutorepairEnabled()) {
                 gedcomVersion = SupportedVersion.V5_5_1;
-                validator.addInfo("Was not able to determine GEDCOM version - assuming 5.5.1", validator.gedcom);
+                validator.addInfo("Was not able to determine GEDCOM version - assuming 5.5.1", validator.getGedcom());
             } else {
-                validator.addError("Was not able to determine GEDCOM version - cannot validate multimedia objects",
-                        validator.gedcom);
+                validator.addError("Was not able to determine GEDCOM version - cannot validate multimedia objects", validator
+                        .getGedcom());
             }
         } else {
-            gedcomVersion = validator.gedcom.getHeader().getGedcomVersion().getVersionNumber();
+            gedcomVersion = validator.getGedcom().getHeader().getGedcomVersion().getVersionNumber();
         }
     }
 
@@ -110,10 +109,10 @@ class MultimediaValidator extends AbstractValidator {
             }
             return;
         }
-        checkRequiredString(fr.getFormat(), "format", fr);
-        mustHaveValueOrBeOmitted(fr.getMediaType(), "media type", fr);
-        mustHaveValueOrBeOmitted(fr.getTitle(), "title", fr);
-        checkRequiredString(fr.getReferenceToFile(), "reference to file", fr);
+        mustHaveValue(fr, "format");
+        mustHaveValueOrBeOmitted(fr, "mediaType");
+        mustHaveValueOrBeOmitted(fr, "title");
+        mustHaveValue(fr, "referenceToFile");
     }
 
     /**
@@ -166,9 +165,9 @@ class MultimediaValidator extends AbstractValidator {
         }
 
         // Item should be found in map using the xref as the key
-        if (validator.gedcom.getMultimedia().get(mm.getXref()) != mm) {
+        if (validator.getGedcom().getMultimedia().get(mm.getXref()) != mm) {
             if (validator.isAutorepairEnabled()) {
-                validator.gedcom.getMultimedia().put(mm.getXref(), mm);
+                validator.getGedcom().getMultimedia().put(mm.getXref(), mm);
                 validator.addInfo("Multimedia object not keyed by xref in map - repaired", mm);
             } else {
                 validator.addError("Multimedia object not keyed by xref in map", mm);
@@ -197,14 +196,14 @@ class MultimediaValidator extends AbstractValidator {
                 addError("Embedded media object has an empty blob object", mm);
             }
         }
-        checkRequiredString(mm.getEmbeddedMediaFormat(), "embedded media format", mm);
+        mustHaveValue(mm, "embeddedMediaFormat");
 
         // Validate the citations - only allowed in 5.5.1
         if (mm.getCitations() != null && !mm.getCitations().isEmpty()) {
             if (validator.isAutorepairEnabled()) {
                 mm.getCitations(true).clear();
-                validator.addInfo("Citations collection was populated, but not allowed in "
-                        + "v5.5 of gedcom - repaired (cleared)", mm);
+                validator.addInfo("Citations collection was populated, but not allowed in " + "v5.5 of gedcom - repaired (cleared)",
+                        mm);
             } else {
                 validator.addError("Citations collection is populated, but not allowed in " + "v5.5 of gedcom", mm);
             }
@@ -250,18 +249,13 @@ class MultimediaValidator extends AbstractValidator {
                 validator.addInfo("Multimedia object had a format for embedded media, "
                         + "which is not allowed in GEDCOM 5.5.1 - repaired (cleared)", mm);
             } else {
-                validator.addError("Multimedia object has a format for embedded media, "
-                        + "which is not allowed in GEDCOM 5.5.1", mm);
+                validator.addError("Multimedia object has a format for embedded media, " + "which is not allowed in GEDCOM 5.5.1",
+                        mm);
             }
 
         }
 
-        // Validate the citations - only allowed in 5.5.1
-        if (mm.getCitations() != null) {
-            for (AbstractCitation c : mm.getCitations()) {
-                new CitationValidator(validator, c).validate();
-            }
-        }
+        checkCitations(mm);
 
     }
 
@@ -270,7 +264,7 @@ class MultimediaValidator extends AbstractValidator {
      */
     private void validateCommon() {
         checkXref();
-        mustHaveValueOrBeOmitted(mm.getRecIdNumber(), "record id number", mm);
+        mustHaveValueOrBeOmitted(mm, "recIdNumber");
         checkChangeDate(mm.getChangeDate(), mm);
         checkUserReferences();
         if (Options.isCollectionInitializationEnabled() && mm.getCitations() == null) {
@@ -295,7 +289,7 @@ class MultimediaValidator extends AbstractValidator {
             }
         }
 
-        new NotesValidator(validator, mm, mm.getNotes()).validate();
+        new NotesListValidator(validator, mm).validate();
     }
 
 }

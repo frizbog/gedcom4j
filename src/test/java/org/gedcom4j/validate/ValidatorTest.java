@@ -36,7 +36,7 @@ import org.junit.Test;
 
 /**
  * Test for {@link Validator} class's basic methods, and not the actual validation itself. That's spread among a lot of other
- * classes in the package.
+ * classes in the package...but from the top of the object hierarchy, try {@link GedcomValidatorTest}.
  * 
  * @author frizbog
  */

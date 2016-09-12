@@ -37,7 +37,7 @@ import org.gedcom4j.model.SourceCallNumber;
 import org.gedcom4j.model.SourceData;
 
 /**
- * A validator for {@link Source} objects. See {@link GedcomValidator} for usage information.
+ * A validator for {@link Source} objects. See {@link Validator} for usage information.
  * 
  * @author frizbog1
  * 
@@ -57,7 +57,7 @@ class SourceValidator extends AbstractValidator {
      * @param source
      *            the source being validated
      */
-    SourceValidator(GedcomValidator validator, Source source) {
+    SourceValidator(Validator validator, Source source) {
         this.validator = validator;
         this.source = source;
     }
@@ -75,8 +75,8 @@ class SourceValidator extends AbstractValidator {
         checkChangeDate(source.getChangeDate(), source);
         if (source.getData() != null) {
             SourceData sd = source.getData();
-            new NotesValidator(validator, sd, sd.getNotes()).validate();
-            mustHaveValueOrBeOmitted(sd.getRespAgency(), "responsible agency", sd);
+            new NotesListValidator(validator, sd).validate();
+            mustHaveValueOrBeOmitted(sd, "respAgency");
             List<EventRecorded> eventsRecorded = sd.getEventsRecorded();
             if (eventsRecorded == null) {
                 if (validator.isAutorepairEnabled()) {
@@ -94,9 +94,9 @@ class SourceValidator extends AbstractValidator {
                 }
 
                 for (EventRecorded er : eventsRecorded) {
-                    mustHaveValueOrBeOmitted(er.getDatePeriod(), "date period", er);
-                    mustHaveValueOrBeOmitted(er.getEventType(), "event type", er);
-                    mustHaveValueOrBeOmitted(er.getJurisdiction(), "jurisdiction", er);
+                    mustHaveValueOrBeOmitted(er, "datePeriod");
+                    mustHaveValueOrBeOmitted(er, "eventType");
+                    mustHaveValueOrBeOmitted(er, "jurisdiction");
                 }
             }
         }
@@ -121,19 +121,19 @@ class SourceValidator extends AbstractValidator {
                 }
             }
         }
-        new NotesValidator(validator, source, source.getNotes()).validate();
+        new NotesListValidator(validator, source).validate();
         checkStringList(source.getOriginatorsAuthors(), "originators/authors", false);
         checkStringList(source.getPublicationFacts(), "publication facts", false);
-        mustHaveValueOrBeOmitted(source.getRecIdNumber(), "automated record id", source);
+        mustHaveValueOrBeOmitted(source, "recIdNumber");
         checkStringList(source.getSourceText(), "source text", true);
-        mustHaveValueOrBeOmitted(source.getSourceFiledBy(), "source filed by", source);
+        mustHaveValueOrBeOmitted(source, "sourceFiledBy");
         checkStringList(source.getTitle(), "title", true);
         checkUserReferences(source.getUserReferences(), source);
 
         RepositoryCitation c = source.getRepositoryCitation();
         if (c != null) {
-            new NotesValidator(validator, c, c.getNotes()).validate();
-            checkRequiredString(c.getRepositoryXref(), "repository xref", c);
+            new NotesListValidator(validator, c).validate();
+            mustHaveValue(c, "repositoryXref");
             checkCallNumbers(c);
         }
     }
@@ -162,13 +162,13 @@ class SourceValidator extends AbstractValidator {
             }
             if (callNumbers != null) {
                 for (SourceCallNumber scn : callNumbers) {
-                    mustHaveValueOrBeOmitted(scn.getCallNumber(), "call number", scn);
+                    mustHaveValueOrBeOmitted(scn, "callNumber");
                     if (scn.getCallNumber() == null) {
                         if (scn.getMediaType() != null) {
                             addError("You cannot specify media type without a call number in a SourceCallNumber structure", scn);
                         }
                     } else {
-                        mustHaveValueOrBeOmitted(scn.getMediaType(), "media type", scn);
+                        mustHaveValueOrBeOmitted(scn, "mediaType");
                     }
                 }
             }

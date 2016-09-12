@@ -65,7 +65,7 @@ public class Issue89Test extends TestCase {
         g.getHeader().setSubmitter(s);
 
         StringTree sct = new StringTree();
-        sct.setId("@CT001@");
+        sct.setXref("@CT001@");
         sct.setTag("_CUSTSB");
         sct.setValue("Custom Submitter Tag");
         s.getCustomTags(true).add(sct);
@@ -79,13 +79,13 @@ public class Issue89Test extends TestCase {
         s.getName().getCustomTags(true).add(nct);
 
         StringTree hct = new StringTree();
-        hct.setId("@CT003@");
+        hct.setXref("@CT003@");
         hct.setTag("_CUSTHD");
         hct.setValue("Custom Header Tag");
         g.getHeader().getCustomTags(true).add(hct);
 
         StringTree hct2 = new StringTree();
-        hct2.setId("@CT004@");
+        hct2.setXref("@CT004@");
         hct2.setTag("_CUSTHD2");
         hct2.setValue("Custom Inner Tag inside Custom Header Tag");
         hct.getChildren(true).add(hct2);

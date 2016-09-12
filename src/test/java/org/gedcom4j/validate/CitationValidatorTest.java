@@ -26,6 +26,9 @@
  */
 package org.gedcom4j.validate;
 
+import org.gedcom4j.model.AbstractCitation;
+import org.gedcom4j.model.CitationWithoutSource;
+import org.gedcom4j.model.Note;
 import org.junit.Test;
 
 /**
@@ -38,9 +41,12 @@ public class CitationValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testValidate() {
-        CitationValidator cv = new CitationValidator(validator, null);
+        AbstractCitation c = new CitationWithoutSource();
+        Note n = new Note();
+        gedcom.getHeader().getNotes(true).add(n);
+        n.getCitations(true).add(c);
+        CitationValidator cv = new CitationValidator(validator, c);
         cv.validate();
-        assertFindingsContain(Severity.ERROR, "citation", "null");
     }
 
 }

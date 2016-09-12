@@ -62,19 +62,19 @@ class NoteListParser extends AbstractParser<List<Note>> {
     @Override
     void parse() {
         Note note;
-        if (stringTree.getId() == null && referencesAnotherNode(stringTree)) {
+        if (stringTree.getXref() == null && referencesAnotherNode(stringTree)) {
             note = getNote(stringTree.getValue());
             loadInto.add(note);
             return;
-        } else if (stringTree.getId() == null) {
+        } else if (stringTree.getXref() == null) {
             note = new Note();
             loadInto.add(note);
         } else {
             if (referencesAnotherNode(stringTree)) {
-                addWarning("NOTE line has both an XREF_ID (" + stringTree.getId() + ") and SUBMITTER_TEXT (" + stringTree.getValue()
+                addWarning("NOTE line has both an XREF_ID (" + stringTree.getXref() + ") and SUBMITTER_TEXT (" + stringTree.getValue()
                         + ") value between @ signs - treating SUBMITTER_TEXT as string, not a cross-reference");
             }
-            note = getNote(stringTree.getId());
+            note = getNote(stringTree.getXref());
         }
         note.getLines(true).add(stringTree.getValue());
         if (stringTree.getChildren() != null) {

@@ -45,11 +45,11 @@ class NameVariationValidator extends AbstractValidator {
      * Constructor
      * 
      * @param validator
-     *            the root {@link GedcomValidator} that contains all the findings and settings
+     *            the root {@link Validator} that contains all the findings and settings
      * @param nv
      *            the name variation being validated
      */
-    NameVariationValidator(GedcomValidator validator, AbstractNameVariation nv) {
+    NameVariationValidator(Validator validator, AbstractNameVariation nv) {
         this.validator = validator;
         this.nv = nv;
     }
@@ -64,8 +64,8 @@ class NameVariationValidator extends AbstractValidator {
             return;
         }
         checkCustomTags(nv);
-        checkRequiredString(nv.getVariation(), "variation on a personal name", nv);
-        mustHaveValueOrBeOmitted(nv.getVariationType(), "type of variation on a personal name", nv);
+        mustHaveValue(nv, "variation");
+        mustHaveValueOrBeOmitted(nv, "variationType");
 
     }
 }

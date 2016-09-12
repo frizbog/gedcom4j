@@ -66,9 +66,9 @@ public class StringTreeTest {
         st2.setLevel(1);
         assertEquals(st1, st2);
 
-        st1.setId("Frying Pan");
+        st1.setXref("Frying Pan");
         assertFalse(st1.equals(st2));
-        st2.setId("Frying Pan");
+        st2.setXref("Frying Pan");
         assertEquals(st1, st2);
 
         st1.setLineNum(2);
@@ -103,9 +103,9 @@ public class StringTreeTest {
         st2.setLevel(1);
         assertEquals(st1.hashCode(), st2.hashCode());
 
-        st1.setId("Frying Pan");
+        st1.setXref("Frying Pan");
         assertTrue(st1.hashCode() != st2.hashCode());
-        st2.setId("Frying Pan");
+        st2.setXref("Frying Pan");
         assertEquals(st1.hashCode(), st2.hashCode());
 
         st1.setLineNum(2);
@@ -129,7 +129,7 @@ public class StringTreeTest {
 
         st.getChildren(true).add(new StringTree());
         st.setLevel(1);
-        st.setId("Frying Pan");
+        st.setXref("Frying Pan");
         st.setLineNum(2);
         st.setValue("Test");
         assertEquals("Line 2: 1 Frying Pan (null tag) Test\nLine 0: 0 (null tag) (null value)", st.toString());

@@ -29,7 +29,6 @@ package org.gedcom4j.validate;
 import java.util.List;
 
 import org.gedcom4j.Options;
-import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.StringWithCustomTags;
@@ -50,11 +49,11 @@ class EventValidator extends AbstractValidator {
      * Constructor
      * 
      * @param validator
-     *            the root {@link GedcomValidator} that contains the findings and the settings
+     *            the {@link Validator} that contains the findings and the settings
      * @param e
      *            the event beign validated
      */
-    EventValidator(GedcomValidator validator, AbstractEvent e) {
+    EventValidator(Validator validator, AbstractEvent e) {
         this.validator = validator;
         this.e = e;
     }
@@ -72,53 +71,26 @@ class EventValidator extends AbstractValidator {
         if (e.getAddress() != null) {
             new AddressValidator(validator, e.getAddress()).validate();
         }
-        mustHaveValueOrBeOmitted(e.getAge(), "age", e);
-        mustHaveValueOrBeOmitted(e.getCause(), "cause", e);
-        checkCitations();
+        mustHaveValueOrBeOmitted(e, "age");
+        mustHaveValueOrBeOmitted(e, "cause");
+        checkCitations(e);
         checkCustomTags(e);
-        mustHaveValueOrBeOmitted(e.getDate(), "date", e);
+        mustHaveValueOrBeOmitted(e, "date");
         if (e.getDescription() != null && e.getDescription().trim().length() != 0) {
-            validator.addError(
-                    "Event has description, which is non-standard. Remove this value, or move it (perhaps to a Note).", e);
+            validator.addError("Event has description, which is non-standard. Remove this value, or move it (perhaps to a Note).",
+                    e);
         }
         checkEmails();
         checkFaxNumbers();
         checkMultimedia();
-        new NotesValidator(validator, e, e.getNotes()).validate();
+        new NotesListValidator(validator, e).validate();
         checkPhoneNumbers();
-        mustHaveValueOrBeOmitted(e.getReligiousAffiliation(), "religious affiliation", e);
-        mustHaveValueOrBeOmitted(e.getRespAgency(), "responsible agency", e);
-        mustHaveValueOrBeOmitted(e.getRestrictionNotice(), "restriction notice", e);
-        mustHaveValueOrBeOmitted(e.getSubType(), "subtype", e);
+        mustHaveValueOrBeOmitted(e, "religiousAffiliation");
+        mustHaveValueOrBeOmitted(e, "respAgency");
+        mustHaveValueOrBeOmitted(e, "restrictionNotice");
+        mustHaveValueOrBeOmitted(e, "subType");
         checkWwwUrls();
 
-    }
-
-    /**
-     * Check the citations
-     */
-    private void checkCitations() {
-        List<AbstractCitation> citations = e.getCitations();
-        if (citations == null && Options.isCollectionInitializationEnabled()) {
-            if (validator.isAutorepairEnabled()) {
-                e.getCitations(true).clear();
-                validator.addInfo("Event had null list of citations - repaired", e);
-            } else {
-                validator.addError("Event has null list of citations", e);
-            }
-        } else {
-            if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateHandler<>(citations).process();
-                if (dups > 0) {
-                    validator.addInfo(dups + " duplicate source citations found and removed", e);
-                }
-            }
-            if (citations != null) {
-                for (AbstractCitation c : citations) {
-                    new CitationValidator(validator, c).validate();
-                }
-            }
-        }
     }
 
     /**
@@ -142,7 +114,7 @@ class EventValidator extends AbstractValidator {
             }
             if (emails != null) {
                 for (StringWithCustomTags swct : emails) {
-                    checkRequiredString(swct, "email", e);
+                    mustHaveValue(swct, "email", e);
                 }
             }
         }
@@ -169,7 +141,7 @@ class EventValidator extends AbstractValidator {
             }
             if (faxNumbers != null) {
                 for (StringWithCustomTags swct : faxNumbers) {
-                    checkRequiredString(swct, "fax number", e);
+                    mustHaveValue(swct, "fax number", e);
                 }
             }
         }
@@ -223,7 +195,7 @@ class EventValidator extends AbstractValidator {
             }
             if (phoneNumbers != null) {
                 for (StringWithCustomTags swct : phoneNumbers) {
-                    checkRequiredString(swct, "phone number", e);
+                    mustHaveValue(swct, "phone number", e);
                 }
             }
         }
@@ -253,7 +225,7 @@ class EventValidator extends AbstractValidator {
             }
             if (wwwUrls != null) {
                 for (StringWithCustomTags swct : wwwUrls) {
-                    checkRequiredString(swct, "www url", e);
+                    mustHaveValue(swct, "www url", e);
                 }
             }
         }

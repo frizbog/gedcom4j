@@ -29,7 +29,6 @@ package org.gedcom4j.validate;
 import java.util.List;
 
 import org.gedcom4j.Options;
-import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.AbstractNameVariation;
 import org.gedcom4j.model.Place;
 
@@ -54,7 +53,7 @@ class PlaceValidator extends AbstractValidator {
      * @param place
      *            the {@link Place} begin validated
      */
-    PlaceValidator(GedcomValidator validator, Place place) {
+    PlaceValidator(Validator validator, Place place) {
         this.validator = validator;
         this.place = place;
     }
@@ -68,25 +67,13 @@ class PlaceValidator extends AbstractValidator {
             addError("Place is null and cannot be validated or repaired");
             return;
         }
-        if (place.getCitations() == null && Options.isCollectionInitializationEnabled()) {
-            if (validator.isAutorepairEnabled()) {
-                place.getCitations(true).clear();
-                validator.addInfo("Event had null list of citations - repaired", place);
-            } else {
-                validator.addError("Event has null list of citations", place);
-            }
-        }
-        if (place.getCitations() != null) {
-            for (AbstractCitation c : place.getCitations()) {
-                new CitationValidator(validator, c).validate();
-            }
-        }
+        checkCitations(place);
         checkCustomTags(place);
 
-        mustHaveValueOrBeOmitted(place.getLatitude(), "latitude", place);
-        mustHaveValueOrBeOmitted(place.getLongitude(), "longitude", place);
-        new NotesValidator(validator, place, place.getNotes()).validate();
-        mustHaveValueOrBeOmitted(place.getPlaceFormat(), "place format", place);
+        mustHaveValueOrBeOmitted(place, "latitude");
+        mustHaveValueOrBeOmitted(place, "longitude");
+        new NotesListValidator(validator, place).validate();
+        mustHaveValueOrBeOmitted(place, "placeFormat");
         if (place.getPlaceName() == null) {
             if (validator.isAutorepairEnabled()) {
                 addError("Place name was unspecified and cannot be repaired");
