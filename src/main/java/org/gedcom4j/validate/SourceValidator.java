@@ -76,7 +76,7 @@ class SourceValidator extends AbstractValidator {
         if (source.getData() != null) {
             SourceData sd = source.getData();
             new NotesValidator(validator, sd, sd.getNotes()).validate();
-            checkOptionalString(sd.getRespAgency(), "responsible agency", sd);
+            mustHaveValueOrBeOmitted(sd.getRespAgency(), "responsible agency", sd);
             List<EventRecorded> eventsRecorded = sd.getEventsRecorded();
             if (eventsRecorded == null) {
                 if (validator.isAutorepairEnabled()) {
@@ -87,16 +87,16 @@ class SourceValidator extends AbstractValidator {
                 }
             } else {
                 if (validator.isAutorepairEnabled()) {
-                    int dups = new DuplicateEliminator<>(eventsRecorded).process();
+                    int dups = new DuplicateHandler<>(eventsRecorded).process();
                     if (dups > 0) {
                         validator.addInfo(dups + " duplicate recorded events found and removed", sd);
                     }
                 }
 
                 for (EventRecorded er : eventsRecorded) {
-                    checkOptionalString(er.getDatePeriod(), "date period", er);
-                    checkOptionalString(er.getEventType(), "event type", er);
-                    checkOptionalString(er.getJurisdiction(), "jurisdiction", er);
+                    mustHaveValueOrBeOmitted(er.getDatePeriod(), "date period", er);
+                    mustHaveValueOrBeOmitted(er.getEventType(), "event type", er);
+                    mustHaveValueOrBeOmitted(er.getJurisdiction(), "jurisdiction", er);
                 }
             }
         }
@@ -109,7 +109,7 @@ class SourceValidator extends AbstractValidator {
             addError("Multimedia collection on source is null", source);
         } else {
             if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(multimedia).process();
+                int dups = new DuplicateHandler<>(multimedia).process();
                 if (dups > 0) {
                     validator.addInfo(dups + " duplicate multimedia found and removed", source);
                 }
@@ -124,9 +124,9 @@ class SourceValidator extends AbstractValidator {
         new NotesValidator(validator, source, source.getNotes()).validate();
         checkStringList(source.getOriginatorsAuthors(), "originators/authors", false);
         checkStringList(source.getPublicationFacts(), "publication facts", false);
-        checkOptionalString(source.getRecIdNumber(), "automated record id", source);
+        mustHaveValueOrBeOmitted(source.getRecIdNumber(), "automated record id", source);
         checkStringList(source.getSourceText(), "source text", true);
-        checkOptionalString(source.getSourceFiledBy(), "source filed by", source);
+        mustHaveValueOrBeOmitted(source.getSourceFiledBy(), "source filed by", source);
         checkStringList(source.getTitle(), "title", true);
         checkUserReferences(source.getUserReferences(), source);
 
@@ -155,20 +155,20 @@ class SourceValidator extends AbstractValidator {
             }
         } else {
             if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(callNumbers).process();
+                int dups = new DuplicateHandler<>(callNumbers).process();
                 if (dups > 0) {
                     validator.addInfo(dups + " duplicate source call numbers found and removed", citation);
                 }
             }
             if (callNumbers != null) {
                 for (SourceCallNumber scn : callNumbers) {
-                    checkOptionalString(scn.getCallNumber(), "call number", scn);
+                    mustHaveValueOrBeOmitted(scn.getCallNumber(), "call number", scn);
                     if (scn.getCallNumber() == null) {
                         if (scn.getMediaType() != null) {
                             addError("You cannot specify media type without a call number in a SourceCallNumber structure", scn);
                         }
                     } else {
-                        checkOptionalString(scn.getMediaType(), "media type", scn);
+                        mustHaveValueOrBeOmitted(scn.getMediaType(), "media type", scn);
                     }
                 }
             }

@@ -56,12 +56,12 @@ public class SubmissionValidator extends AbstractValidator {
     @Override
     protected void validate() {
         checkXref(submission);
-        checkOptionalString(submission.getAncestorsCount(), "Ancestor count", submission);
-        checkOptionalString(submission.getDescendantsCount(), "Descendant count", submission);
-        checkOptionalString(submission.getNameOfFamilyFile(), "Name of family file", submission);
-        checkOptionalString(submission.getOrdinanceProcessFlag(), "Ordinance process flag", submission);
-        checkOptionalString(submission.getRecIdNumber(), "Automated record id", submission);
-        checkOptionalString(submission.getTempleCode(), "Temple code", submission);
+        mustHaveValueOrBeOmitted(submission, "ancestorsCount");
+        mustHaveValueOrBeOmitted(submission, "descendantsCount");
+        mustHaveValueOrBeOmitted(submission, "nameOfFamilyFile");
+        mustHaveValueOrBeOmitted(submission, "ordinanceProcessFlag");
+        mustHaveValueOrBeOmitted(submission, "recIdNumber");
+        mustHaveValueOrBeOmitted(submission, "templeCode");
     }
 
 }

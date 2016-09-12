@@ -83,7 +83,7 @@ class IndividualValidator extends AbstractValidator {
             }
         } else {
             if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(names).process();
+                int dups = new DuplicateHandler<>(names).process();
                 if (dups > 0) {
                     validator.addInfo(dups + " duplicate names found and removed", individual);
                 }
@@ -95,13 +95,13 @@ class IndividualValidator extends AbstractValidator {
             }
         }
         if (validator.isAutorepairEnabled()) {
-            int dups = new DuplicateEliminator<>(individual.getFamiliesWhereChild()).process();
+            int dups = new DuplicateHandler<>(individual.getFamiliesWhereChild()).process();
             if (dups > 0) {
                 validator.addInfo(dups + " duplicate families (where individual was a child) found and removed", individual);
             }
         }
         if (validator.isAutorepairEnabled()) {
-            int dups = new DuplicateEliminator<>(individual.getFamiliesWhereSpouse()).process();
+            int dups = new DuplicateHandler<>(individual.getFamiliesWhereSpouse()).process();
             if (dups > 0) {
                 validator.addInfo(dups + " duplicate families (where individual was a spouse) found and removed", individual);
             }

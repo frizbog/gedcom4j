@@ -110,7 +110,7 @@ public class ValidationResults {
         if (problemCode == null) {
             throw new IllegalArgumentException("problemCode is a required argument");
         }
-        return getByCode(problemCode.ordinal());
+        return getByCode(problemCode.getCode());
     }
 
     /**

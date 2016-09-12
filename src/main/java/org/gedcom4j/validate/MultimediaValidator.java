@@ -111,8 +111,8 @@ class MultimediaValidator extends AbstractValidator {
             return;
         }
         checkRequiredString(fr.getFormat(), "format", fr);
-        checkOptionalString(fr.getMediaType(), "media type", fr);
-        checkOptionalString(fr.getTitle(), "title", fr);
+        mustHaveValueOrBeOmitted(fr.getMediaType(), "media type", fr);
+        mustHaveValueOrBeOmitted(fr.getTitle(), "title", fr);
         checkRequiredString(fr.getReferenceToFile(), "reference to file", fr);
     }
 
@@ -131,7 +131,7 @@ class MultimediaValidator extends AbstractValidator {
             }
         }
         if (validator.isAutorepairEnabled()) {
-            int dups = new DuplicateEliminator<>(userReferences).process();
+            int dups = new DuplicateHandler<>(userReferences).process();
             if (dups > 0) {
                 validator.addInfo(dups + " duplicate user references found and removed", mm);
             }
@@ -270,7 +270,7 @@ class MultimediaValidator extends AbstractValidator {
      */
     private void validateCommon() {
         checkXref();
-        checkOptionalString(mm.getRecIdNumber(), "record id number", mm);
+        mustHaveValueOrBeOmitted(mm.getRecIdNumber(), "record id number", mm);
         checkChangeDate(mm.getChangeDate(), mm);
         checkUserReferences();
         if (Options.isCollectionInitializationEnabled() && mm.getCitations() == null) {

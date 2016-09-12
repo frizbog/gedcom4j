@@ -37,7 +37,7 @@ import java.util.List;
 import org.junit.Test;
 
 /**
- * Test for {@link DuplicateEliminator}
+ * Test for {@link DuplicateHandler}
  * 
  * @author frizbog
  */
@@ -49,7 +49,7 @@ public class DuplicateEliminatorTest {
     @Test
     public void testEmptyList() {
         List<String> l = new ArrayList<>();
-        int count = new DuplicateEliminator<>(l).process();
+        int count = new DuplicateHandler<>(l).process();
         assertEquals(0, count);
         assertNotNull(l);
         assertTrue(l.isEmpty());
@@ -67,7 +67,7 @@ public class DuplicateEliminatorTest {
         l.add("Dup");
         l.add("Bat");
         assertEquals(5, l.size());
-        int count = new DuplicateEliminator<>(l).process();
+        int count = new DuplicateHandler<>(l).process();
         assertEquals(1, count);
         assertEquals(4, l.size());
         assertEquals("Foo", l.get(0));
@@ -78,7 +78,7 @@ public class DuplicateEliminatorTest {
         // Add a dup to end of list and re-process. The first "Foo" should be retained.
         l.add("Foo");
         assertEquals(5, l.size());
-        count = new DuplicateEliminator<>(l).process();
+        count = new DuplicateHandler<>(l).process();
         assertEquals(1, count);
         assertEquals(4, l.size());
         assertEquals("Foo", l.get(0));
@@ -93,7 +93,7 @@ public class DuplicateEliminatorTest {
         l.add("Bat");
         l.set(2, "Baz");
         assertEquals(8, l.size());
-        count = new DuplicateEliminator<>(l).process();
+        count = new DuplicateHandler<>(l).process();
         assertEquals(4, count);
         assertEquals(4, l.size());
         assertEquals("Foo", l.get(0));
@@ -115,7 +115,7 @@ public class DuplicateEliminatorTest {
         l.add("Baz");
         l.add("Bat");
         assertEquals(5, l.size());
-        int count = new DuplicateEliminator<>(l).process();
+        int count = new DuplicateHandler<>(l).process();
         assertEquals(0, count);
         assertEquals(5, l.size());
         assertEquals("Foo", l.get(0));
@@ -127,7 +127,7 @@ public class DuplicateEliminatorTest {
         l.set(4, null);
         l.add(null);
         assertEquals(6, l.size());
-        count = new DuplicateEliminator<>(l).process();
+        count = new DuplicateHandler<>(l).process();
         assertEquals(2, count);
         assertEquals(4, l.size());
         assertEquals("Foo", l.get(0));
@@ -148,7 +148,7 @@ public class DuplicateEliminatorTest {
         l.add("Baz");
         l.add("Bat");
         assertEquals(4, l.size());
-        int count = new DuplicateEliminator<>(l).process();
+        int count = new DuplicateHandler<>(l).process();
         assertEquals(0, count);
         assertEquals(4, l.size());
         assertEquals("Foo", l.get(0));
@@ -163,7 +163,7 @@ public class DuplicateEliminatorTest {
     @Test
     public void testNullList() {
         List<String> l = null;
-        int count = new DuplicateEliminator<>(l).process();
+        int count = new DuplicateHandler<>(l).process();
         assertEquals(0, count);
         assertNull(l);
     }

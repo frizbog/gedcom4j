@@ -83,12 +83,12 @@ class PersonalNameValidator extends AbstractValidator {
             }
         }
         checkCustomTags(pn);
-        checkOptionalString(pn.getGivenName(), "given name", pn);
-        checkOptionalString(pn.getNickname(), "nickname", pn);
-        checkOptionalString(pn.getPrefix(), "prefix", pn);
-        checkOptionalString(pn.getSuffix(), "suffix", pn);
-        checkOptionalString(pn.getSurname(), "surname", pn);
-        checkOptionalString(pn.getSurnamePrefix(), "surname prefix", pn);
+        mustHaveValueOrBeOmitted(pn.getGivenName(), "given name", pn);
+        mustHaveValueOrBeOmitted(pn.getNickname(), "nickname", pn);
+        mustHaveValueOrBeOmitted(pn.getPrefix(), "prefix", pn);
+        mustHaveValueOrBeOmitted(pn.getSuffix(), "suffix", pn);
+        mustHaveValueOrBeOmitted(pn.getSurname(), "surname", pn);
+        mustHaveValueOrBeOmitted(pn.getSurnamePrefix(), "surname prefix", pn);
 
         new NotesValidator(validator, pn, pn.getNotes()).validate();
         List<PersonalNameVariation> phonetic = pn.getPhonetic();
@@ -101,7 +101,7 @@ class PersonalNameValidator extends AbstractValidator {
             }
         } else {
             if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(phonetic).process();
+                int dups = new DuplicateHandler<>(phonetic).process();
                 if (dups > 0) {
                     validator.addInfo(dups + " duplicate phonetic found and removed", pn);
                 }
@@ -125,7 +125,7 @@ class PersonalNameValidator extends AbstractValidator {
             }
         } else {
             if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(romanized).process();
+                int dups = new DuplicateHandler<>(romanized).process();
                 if (dups > 0) {
                     validator.addInfo(dups + " duplicate romanized variations found and removed", pn);
                 }

@@ -26,13 +26,12 @@
  */
 package org.gedcom4j.validate;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.gedcom4j.Options;
-import org.gedcom4j.exception.ValidationException;
+import org.gedcom4j.model.ModelElement;
 import org.gedcom4j.model.Note;
+import org.gedcom4j.validate.Validator.Finding;
 
 /**
  * A validator for lists of {@link Note} object. See {@link GedcomValidator} for usage information.
@@ -50,7 +49,7 @@ class NotesValidator extends AbstractValidator {
     /**
      * The object that contains the notes
      */
-    private final Object parentObject;
+    private final ModelElement parentObject;
 
     /**
      * Constructor
@@ -59,13 +58,12 @@ class NotesValidator extends AbstractValidator {
      *            the root validator
      * @param parentObject
      *            the object containing the notes
-     * @param notes
-     *            the list of notes to be validated
      */
-    NotesValidator(Validator validator, Object parentObject, List<Note> notes) {
+    @SuppressWarnings("unchecked")
+    NotesValidator(Validator validator, ModelElement parentObject) {
         this.validator = validator;
         this.parentObject = parentObject;
-        this.notes = notes;
+        notes = (List<Note>) get(parentObject, "notes");
     }
 
     /**
@@ -74,41 +72,25 @@ class NotesValidator extends AbstractValidator {
     @Override
     protected void validate() {
         if (notes == null && Options.isCollectionInitializationEnabled()) {
-            if (validator.isAutorepairEnabled()) {
-                try {
-                    Field f = parentObject.getClass().getField("notes");
-                    f.set(parentObject, new ArrayList<Note>(0));
-                    addInfo("Notes collection on " + parentObject.getClass().getSimpleName() + " was null - autorepaired");
-                } catch (SecurityException e) {
-                    throw new ValidationException("Could not autorepair null notes collection on " + parentObject.getClass()
-                            .getSimpleName(), e);
-                } catch (NoSuchFieldException e) {
-                    throw new ValidationException("Could not autorepair null notes collection on " + parentObject.getClass()
-                            .getSimpleName(), e);
-                } catch (IllegalArgumentException e) {
-                    throw new ValidationException("Could not autorepair null notes collection on " + parentObject.getClass()
-                            .getSimpleName(), e);
-                } catch (IllegalAccessException e) {
-                    throw new ValidationException("Could not autorepair null notes collection on " + parentObject.getClass()
-                            .getSimpleName(), e);
-                }
-            } else {
-                addError("Notes collection on " + parentObject.getClass().getSimpleName() + " is null");
+            Finding vf = validator.newFinding(parentObject, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "notes");
+            initializeCollectionIfAllowed(vf);
+        }
+        if (notes == null) {
+            return;
+        }
+        DuplicateHandler<Note> dhn = new DuplicateHandler<>(notes);
+        if (dhn.count() > 0) {
+            Finding vf = validator.newFinding(parentObject, Severity.WARNING, ProblemCode.DUPLICATE_VALUE, "notes");
+            if (validator.mayRepair(vf)) {
+                ModelElement before = makeCopy(parentObject);
+                dhn.remove();
+                vf.addRepair(new AutoRepair(before, makeCopy(parentObject)));
             }
-        } else {
-            int i = 0;
-            if (notes != null) {
-                if (validator.isAutorepairEnabled()) {
-                    int dups = new DuplicateEliminator<>(notes).process();
-                    if (dups > 0) {
-                        validator.addInfo(dups + " duplicate notes found and removed", notes);
-                    }
-                }
-                for (Note n : notes) {
-                    i++;
-                    new NoteValidator(validator, i, n).validate();
-                }
-            }
+        }
+        int i = 0;
+        for (Note n : notes) {
+            i++;
+            new NoteValidator(validator, n).validate();
         }
 
     }

@@ -72,11 +72,11 @@ class EventValidator extends AbstractValidator {
         if (e.getAddress() != null) {
             new AddressValidator(validator, e.getAddress()).validate();
         }
-        checkOptionalString(e.getAge(), "age", e);
-        checkOptionalString(e.getCause(), "cause", e);
+        mustHaveValueOrBeOmitted(e.getAge(), "age", e);
+        mustHaveValueOrBeOmitted(e.getCause(), "cause", e);
         checkCitations();
         checkCustomTags(e);
-        checkOptionalString(e.getDate(), "date", e);
+        mustHaveValueOrBeOmitted(e.getDate(), "date", e);
         if (e.getDescription() != null && e.getDescription().trim().length() != 0) {
             validator.addError(
                     "Event has description, which is non-standard. Remove this value, or move it (perhaps to a Note).", e);
@@ -86,10 +86,10 @@ class EventValidator extends AbstractValidator {
         checkMultimedia();
         new NotesValidator(validator, e, e.getNotes()).validate();
         checkPhoneNumbers();
-        checkOptionalString(e.getReligiousAffiliation(), "religious affiliation", e);
-        checkOptionalString(e.getRespAgency(), "responsible agency", e);
-        checkOptionalString(e.getRestrictionNotice(), "restriction notice", e);
-        checkOptionalString(e.getSubType(), "subtype", e);
+        mustHaveValueOrBeOmitted(e.getReligiousAffiliation(), "religious affiliation", e);
+        mustHaveValueOrBeOmitted(e.getRespAgency(), "responsible agency", e);
+        mustHaveValueOrBeOmitted(e.getRestrictionNotice(), "restriction notice", e);
+        mustHaveValueOrBeOmitted(e.getSubType(), "subtype", e);
         checkWwwUrls();
 
     }
@@ -108,7 +108,7 @@ class EventValidator extends AbstractValidator {
             }
         } else {
             if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(citations).process();
+                int dups = new DuplicateHandler<>(citations).process();
                 if (dups > 0) {
                     validator.addInfo(dups + " duplicate source citations found and removed", e);
                 }
@@ -135,7 +135,7 @@ class EventValidator extends AbstractValidator {
             }
         } else {
             if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(emails).process();
+                int dups = new DuplicateHandler<>(emails).process();
                 if (dups > 0) {
                     validator.addInfo(dups + " duplicate emails found and removed", e);
                 }
@@ -162,7 +162,7 @@ class EventValidator extends AbstractValidator {
             }
         } else {
             if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(faxNumbers).process();
+                int dups = new DuplicateHandler<>(faxNumbers).process();
                 if (dups > 0) {
                     validator.addInfo(dups + " duplicate fax numbers found and removed", e);
                 }
@@ -189,7 +189,7 @@ class EventValidator extends AbstractValidator {
             }
         } else {
             if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(multimedia).process();
+                int dups = new DuplicateHandler<>(multimedia).process();
                 if (dups > 0) {
                     validator.addInfo(dups + " duplicate multimedia found and removed", e);
                 }
@@ -216,7 +216,7 @@ class EventValidator extends AbstractValidator {
             }
         } else {
             if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(phoneNumbers).process();
+                int dups = new DuplicateHandler<>(phoneNumbers).process();
                 if (dups > 0) {
                     validator.addInfo(dups + " duplicate phone numbers found and removed", e);
                 }
@@ -246,7 +246,7 @@ class EventValidator extends AbstractValidator {
             }
         } else {
             if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(wwwUrls).process();
+                int dups = new DuplicateHandler<>(wwwUrls).process();
                 if (dups > 0) {
                     validator.addInfo(dups + " duplicate web URLs found and removed", e);
                 }

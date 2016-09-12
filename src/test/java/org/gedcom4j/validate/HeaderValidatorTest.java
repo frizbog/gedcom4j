@@ -63,7 +63,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         h.setCharacterSet(null);
 
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "character set");
+        assertFindingsContain(Severity.ERROR, h, ProblemCode.MISSING_REQUIRED_VALUE.getCode(), "characterSet");
 
         h.setCharacterSet(new CharacterSet());
         validator.validate();
@@ -71,11 +71,13 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
 
         h.getCharacterSet().setCharacterSetName(null);
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "character set", "name", "not", "defined");
+        assertFindingsContain(Severity.ERROR, h.getCharacterSet(), ProblemCode.MISSING_REQUIRED_VALUE.getCode(),
+                "characterSetName");
 
         h.getCharacterSet().setCharacterSetName(new StringWithCustomTags("FRYINGPAN"));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "character set", "not", "supported");
+        assertFindingsContain(Severity.ERROR, h.getCharacterSet().getCharacterSetName(), ProblemCode.ILLEGAL_VALUE.getCode(),
+                "value");
 
         h.getCharacterSet().setCharacterSetName(new StringWithCustomTags(Encoding.ASCII.getCharacterSetName()));
         validator.validate();
@@ -118,7 +120,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
 
         h.setGedcomVersion(null);
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "gedcom", "version");
+        assertFindingsContain(Severity.ERROR, h, ProblemCode.MISSING_REQUIRED_VALUE.getCode(), "gedcomVersion");
 
         h.setGedcomVersion(new GedcomVersion());
         validator.validate();
@@ -126,7 +128,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
 
         h.getGedcomVersion().setVersionNumber(null);
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "gedcom", "version", "number");
+        assertFindingsContain(Severity.ERROR, h.getGedcomVersion(), ProblemCode.MISSING_REQUIRED_VALUE.getCode(), "versionNumber");
     }
 
     /**
@@ -138,7 +140,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         gedcom.getHeader().setSubmission(gedcom.getSubmission());
 
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "submitter", "not specified");
+        assertFindingsContain(Severity.ERROR, gedcom.getHeader(), ProblemCode.MISSING_REQUIRED_VALUE.getCode(), "submitter");
 
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
@@ -169,7 +171,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         h.setSourceSystem(null);
 
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "source system", "specified");
+        assertFindingsContain(Severity.ERROR, h, ProblemCode.MISSING_REQUIRED_VALUE.getCode(), "sourceSystem");
 
         h.setSourceSystem(new SourceSystem());
         validator.validate();
@@ -186,7 +188,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
 
         ss.getCorporation().setBusinessName(null);
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "source system", "corporation", "name");
+        assertFindingsContain(Severity.ERROR, ss.getCorporation(), ProblemCode.MISSING_REQUIRED_VALUE.getCode(), "businessName");
 
         ss.getCorporation().setBusinessName("Frying Pan");
         validator.validate();
@@ -202,7 +204,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
 
         ss.setSystemId(null);
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "source system", "system", "id");
+        assertFindingsContain(Severity.ERROR, ss, ProblemCode.MISSING_REQUIRED_VALUE.getCode(), "systemId");
 
         ss.setSystemId("Test");
         validator.validate();

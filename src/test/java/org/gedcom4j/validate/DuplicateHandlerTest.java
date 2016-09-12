@@ -26,60 +26,54 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.HashSet;
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
+import org.junit.Test;
+
+import edu.emory.mathcs.backport.java.util.Arrays;
+
 /**
- * A class to eliminate duplicate items from a {@link List}, while preserving the order of the List items. If the list contains two
- * or more references to equivalent objects, only the first of these is retained. Assumes that the List of items passed into the
- * constructor is mutable.
- * 
+ * Test for {@link DuplicateHandler}
  * 
  * @author frizbog
- * @param <T>
- *            The type of object in the List
+ *
  */
-public class DuplicateEliminator<T> {
+public class DuplicateHandlerTest {
+
+    /** Test fixture */
+    private List<String> list = null;
 
     /**
-     * The list of items from which duplicates are to be removed
+     * Set up the test fixtures
      */
-    private final List<T> items;
-
-    /**
-     * Constructor.
-     * 
-     * @param items
-     *            the list of items to remove duplicate entries from.
-     */
-    public DuplicateEliminator(List<T> items) {
-        this.items = items;
+    @Before
+    public void setUp() {
+        list = new ArrayList<>(Arrays.asList(new String[] { "A", "B", "B", "C", "D", "D", "D", "D", "E", "F", "F" }));
     }
 
     /**
-     * Process the list, eliminating duplicates
-     * 
-     * @return the number of items removed.
+     * Test only counting the duplicates
      */
-    public int process() {
-        if (items == null || items.isEmpty()) {
-            return 0;
-        }
-        int result = 0;
-        HashSet<T> unique = new HashSet<>();
-        int i = 0;
-        while (i < items.size()) {
-            T item = items.get(i);
-            if (unique.contains(item)) {
-                result++;
-                items.remove(i);
-            } else {
-                unique.add(item);
-                i++;
-            }
-        }
+    @Test
+    public void testCountOnly() {
+        DuplicateHandler<String> classUnderTest = new DuplicateHandler<>(list);
+        assertEquals(5, classUnderTest.count());
+        assertEquals("When only counting, repeated calls should five the same result", 5, classUnderTest.count());
+    }
 
-        return result;
+    /**
+     * Test removing the duplicates
+     */
+    @Test
+    public void testRemoving() {
+        DuplicateHandler<String> classUnderTest = new DuplicateHandler<>(list);
+        assertEquals(5, classUnderTest.remove());
+        assertEquals(Arrays.asList(new String[] { "A", "B", "C", "D", "E", "F" }), list);
+        assertEquals("After removing, repeated calls should return 0 duplicates counted/removed", 0, classUnderTest.remove());
     }
 
 }

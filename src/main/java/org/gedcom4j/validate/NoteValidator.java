@@ -26,44 +26,33 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.List;
-
 import org.gedcom4j.Options;
-import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.Note;
+import org.gedcom4j.validate.Validator.Finding;
 
 /**
  * Validator for a single {@link Note}
  * 
  * @author frizbog
- * 
  */
 class NoteValidator extends AbstractValidator {
 
     /**
      * The note being validated
      */
-    private final Note n;
-
-    /**
-     * The note's ordinal location in whatever collection it's in
-     */
-    private final int i;
+    private final Note note;
 
     /**
      * Constructor
      * 
      * @param validator
      *            the main gedcom validator that holds all the findings
-     * @param i
-     *            the note's ordinal location in whatever collection it's in
-     * @param n
+     * @param note
      *            the note being validated
      */
-    NoteValidator(GedcomValidator validator, int i, Note n) {
+    NoteValidator(Validator validator, Note note) {
         this.validator = validator;
-        this.i = i;
-        this.n = n;
+        this.note = note;
     }
 
     /**
@@ -72,53 +61,19 @@ class NoteValidator extends AbstractValidator {
     @Override
     protected void validate() {
 
-        if (Options.isCollectionInitializationEnabled() && n.getLines() == null) {
-            if (validator.isAutorepairEnabled()) {
-                n.getLines(true).clear();
-                addInfo("Lines of text collection on note was null - autorepaired");
-            } else {
-                addError("Lines of text collection on note is null", n);
-                return;
-            }
+        if (Options.isCollectionInitializationEnabled() && note.getLines() == null) {
+            Finding finding = validator.newFinding(note, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "lines");
+            initializeCollectionIfAllowed(finding);
         }
 
-        if (n.getXref() == null && (n.getLines() == null || n.getLines().isEmpty())) {
-            addError("Note " + i + " without xref has no lines", n);
+        if (note.getXref() == null && (note.getLines() == null || note.getLines().isEmpty())) {
+            validator.newFinding(note, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "lines");
         }
 
-        checkOptionalString(n.getRecIdNumber(), "automated record id", n);
-        List<AbstractCitation> citations = n.getCitations();
-        if (citations == null && Options.isCollectionInitializationEnabled()) {
-            if (validator.isAutorepairEnabled()) {
-                n.getCitations(true).clear();
-                addInfo("Source citations collection on note was null - autorepaired");
-            } else {
-                addError("Source citations collection on note is null", n);
-            }
-        } else {
-            if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(citations).process();
-                if (dups > 0) {
-                    validator.addInfo(dups + " duplicate citations found and removed", n);
-                }
-            }
-            if (citations != null) {
-                for (AbstractCitation c : citations) {
-                    new CitationValidator(validator, c).validate();
-                }
-            }
-        }
-        if (n.getUserReferences() == null && Options.isCollectionInitializationEnabled()) {
-            if (validator.isAutorepairEnabled()) {
-                n.getUserReferences(true).clear();
-                addInfo("User references collection on note was null - autorepaired");
-            } else {
-                addError("User references collection on note is null", n);
-            }
-        } else {
-            checkUserReferences(n.getUserReferences(), n);
-        }
-        checkChangeDate(n.getChangeDate(), n);
+        mustHaveValueOrBeOmitted(note, "recIdNumber");
+        checkCitations(note);
+        checkUserReferences(note.getUserReferences(), note);
+        checkChangeDate(note.getChangeDate(), note);
     }
 
 }

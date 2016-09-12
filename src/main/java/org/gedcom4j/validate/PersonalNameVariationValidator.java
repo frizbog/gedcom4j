@@ -74,7 +74,7 @@ class PersonalNameVariationValidator extends NameVariationValidator {
             }
         } else {
             if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(citations).process();
+                int dups = new DuplicateHandler<>(citations).process();
                 if (dups > 0) {
                     validator.addInfo(dups + " duplicate citations found and removed", pnv);
                 }
@@ -84,12 +84,12 @@ class PersonalNameVariationValidator extends NameVariationValidator {
                 new CitationValidator(validator, c).validate();
             }
         }
-        checkOptionalString(pnv.getGivenName(), "given name", pnv);
-        checkOptionalString(pnv.getNickname(), "nickname", pnv);
-        checkOptionalString(pnv.getPrefix(), "prefix", pnv);
-        checkOptionalString(pnv.getSuffix(), "suffix", pnv);
-        checkOptionalString(pnv.getSurname(), "surname", pnv);
-        checkOptionalString(pnv.getSurnamePrefix(), "surname prefix", pnv);
+        mustHaveValueOrBeOmitted(pnv.getGivenName(), "given name", pnv);
+        mustHaveValueOrBeOmitted(pnv.getNickname(), "nickname", pnv);
+        mustHaveValueOrBeOmitted(pnv.getPrefix(), "prefix", pnv);
+        mustHaveValueOrBeOmitted(pnv.getSuffix(), "suffix", pnv);
+        mustHaveValueOrBeOmitted(pnv.getSurname(), "surname", pnv);
+        mustHaveValueOrBeOmitted(pnv.getSurnamePrefix(), "surname prefix", pnv);
         new NotesValidator(validator, pnv, pnv.getNotes()).validate();
     }
 }

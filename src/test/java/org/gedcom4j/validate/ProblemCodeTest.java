@@ -47,7 +47,7 @@ public class ProblemCodeTest {
         assertTrue(ProblemCode.values().length > 0);
         for (ProblemCode pc : ProblemCode.values()) {
             assertNotNull(pc.getDescription());
-            assertEquals(pc.toString(), pc.ordinal() + ": " + pc.getDescription());
+            assertEquals(pc.toString(), pc.getCode() + ": " + pc.getDescription());
         }
     }
 

@@ -61,12 +61,12 @@ class AddressValidator extends AbstractValidator {
     @Override
     protected void validate() {
         checkStringList(address.getLines(), "address lines", false);
-        checkOptionalString(address.getAddr1(), "line 1", address);
-        checkOptionalString(address.getAddr2(), "line 2", address);
-        checkOptionalString(address.getCity(), "city", address);
-        checkOptionalString(address.getStateProvince(), "state/province", address);
-        checkOptionalString(address.getPostalCode(), "postal code", address);
-        checkOptionalString(address.getCountry(), "country", address);
+        mustHaveValueOrBeOmitted(address.getAddr1(), "line 1", address);
+        mustHaveValueOrBeOmitted(address.getAddr2(), "line 2", address);
+        mustHaveValueOrBeOmitted(address.getCity(), "city", address);
+        mustHaveValueOrBeOmitted(address.getStateProvince(), "state/province", address);
+        mustHaveValueOrBeOmitted(address.getPostalCode(), "postal code", address);
+        mustHaveValueOrBeOmitted(address.getCountry(), "country", address);
     }
 
 }

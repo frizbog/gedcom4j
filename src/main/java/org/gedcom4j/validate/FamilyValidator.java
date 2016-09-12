@@ -67,7 +67,7 @@ class FamilyValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        checkOptionalString(f.getAutomatedRecordId(), "Automated record id", f);
+        mustHaveValueOrBeOmitted(f.getAutomatedRecordId(), "Automated record id", f);
         checkChangeDate(f.getChangeDate(), f);
         checkChildren();
         checkCitations();
@@ -86,9 +86,9 @@ class FamilyValidator extends AbstractValidator {
         checkLdsSpouseSealings();
         checkMultimedia();
         new NotesValidator(validator, f, f.getNotes()).validate();
-        checkOptionalString(f.getNumChildren(), "number of children", f);
-        checkOptionalString(f.getRecFileNumber(), "record file number", f);
-        checkOptionalString(f.getRestrictionNotice(), "restriction notice", f);
+        mustHaveValueOrBeOmitted(f.getNumChildren(), "number of children", f);
+        mustHaveValueOrBeOmitted(f.getRecFileNumber(), "record file number", f);
+        mustHaveValueOrBeOmitted(f.getRestrictionNotice(), "restriction notice", f);
         checkSubmitters();
         checkUserReferences(f.getUserReferences(), f);
     }
@@ -107,7 +107,7 @@ class FamilyValidator extends AbstractValidator {
             }
         } else {
             if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(children).process();
+                int dups = new DuplicateHandler<>(children).process();
                 if (dups > 0) {
                     validator.addInfo(dups + " duplicate children found and removed", f);
                 }
@@ -136,7 +136,7 @@ class FamilyValidator extends AbstractValidator {
             }
         } else {
             if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(citations).process();
+                int dups = new DuplicateHandler<>(citations).process();
                 if (dups > 0) {
                     validator.addInfo(dups + " duplicate source citations found and removed", f);
                 }
@@ -163,7 +163,7 @@ class FamilyValidator extends AbstractValidator {
             }
         } else {
             if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(ldsSpouseSealings).process();
+                int dups = new DuplicateHandler<>(ldsSpouseSealings).process();
                 if (dups > 0) {
                     validator.addInfo(dups + " duplicate LDS spouse sealings found and removed", f);
                 }
@@ -190,7 +190,7 @@ class FamilyValidator extends AbstractValidator {
             }
         } else {
             if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(multimedia).process();
+                int dups = new DuplicateHandler<>(multimedia).process();
                 if (dups > 0) {
                     validator.addInfo(dups + " duplicate multimedia found and removed", f);
                 }
@@ -217,7 +217,7 @@ class FamilyValidator extends AbstractValidator {
             }
         } else {
             if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(submitters).process();
+                int dups = new DuplicateHandler<>(submitters).process();
                 if (dups > 0) {
                     validator.addInfo(dups + " duplicate submitters found and removed", f);
                 }

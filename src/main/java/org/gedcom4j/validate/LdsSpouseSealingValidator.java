@@ -77,7 +77,7 @@ class LdsSpouseSealingValidator extends AbstractValidator {
             }
         } else {
             if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(citations).process();
+                int dups = new DuplicateHandler<>(citations).process();
                 if (dups > 0) {
                     validator.addInfo(dups + " duplicate citations found and removed", s);
                 }
@@ -89,11 +89,11 @@ class LdsSpouseSealingValidator extends AbstractValidator {
             }
         }
         checkCustomTags(s);
-        checkOptionalString(s.getDate(), "date", s);
+        mustHaveValueOrBeOmitted(s.getDate(), "date", s);
         new NotesValidator(validator, s, s.getNotes()).validate();
-        checkOptionalString(s.getPlace(), "place", s);
-        checkOptionalString(s.getStatus(), "status", s);
-        checkOptionalString(s.getTemple(), "temple", s);
+        mustHaveValueOrBeOmitted(s.getPlace(), "place", s);
+        mustHaveValueOrBeOmitted(s.getStatus(), "status", s);
+        mustHaveValueOrBeOmitted(s.getTemple(), "temple", s);
     }
 
 }

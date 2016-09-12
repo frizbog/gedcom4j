@@ -28,9 +28,8 @@ package org.gedcom4j.validate;
 
 import static org.junit.Assert.fail;
 
-import java.util.Locale;
-
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.ModelElement;
 import org.gedcom4j.validate.Validator.Finding;
 
 /**
@@ -51,12 +50,6 @@ public abstract class AbstractValidatorTestCase {
     protected Gedcom gedcom = new Gedcom();
 
     /**
-     * Determines whether to write noise out to System.out. Should ALWAYS default to false, and be turned to true for specific
-     * tests, if needed.
-     */
-    protected boolean verbose = false;
-
-    /**
      * Default constructor
      */
     public AbstractValidatorTestCase() {
@@ -69,37 +62,23 @@ public abstract class AbstractValidatorTestCase {
      * given substring
      * 
      * @param severity
-     *            the expected severity
-     * @param substringOfDescription
-     *            substring to look for in the finding's description
+     *            the expected severity. Required and must match exactly.
+     * @param objectWithFinding
+     *            the object the finding is expected to be on. Required and must be the same object, not just one equivalent.
+     * @param code
+     *            code of the expected finding. Required and must match exactly.
+     * @param fieldName
+     *            the name of the fiel with the problem value. Optional, but if supplied, must match exactly.
      */
-    protected void assertFindingsContain(Severity severity, String... substringOfDescription) {
+    protected void assertFindingsContain(Severity severity, ModelElement objectWithFinding, int code, String fieldName) {
         for (Finding f : validator.getResults().getAllFindings()) {
-            if (f.getSeverity() == severity) {
-                boolean matchAllSoFar = true;
-                for (String substring : substringOfDescription) {
-                    if (!f.getProblemDescription().toLowerCase().contains(substring.toLowerCase(Locale.US))) {
-                        matchAllSoFar = false;
-                    }
-                }
-                if (matchAllSoFar) {
-                    // All the substrings were found, and the severity is right
-                    return;
-                }
+            if (f.getSeverity() == severity && f.getItemOfConcern() == objectWithFinding && f.getProblemCode() == code
+                    && (fieldName == null || fieldName.equals(f.getFieldNameOfConcern()))) {
+                return;
             }
         }
-        StringBuilder sb = new StringBuilder("Expected to find at least one finding at severity ").append(severity);
-        if (substringOfDescription != null && substringOfDescription.length > 0) {
-            for (int i = 0; i < substringOfDescription.length; i++) {
-                if (i == 0) {
-                    sb.append(" mentioning '");
-                } else {
-                    sb.append(" and '");
-                }
-                sb.append(substringOfDescription[i]).append("'");
-            }
-        }
-        fail(sb.toString());
+        fail("No finding of severity " + severity + " found on object of type " + objectWithFinding.getClass().getName()
+                + " with code " + code + " as expected");
     }
 
     /**
@@ -108,9 +87,6 @@ public abstract class AbstractValidatorTestCase {
      */
     protected void assertNoIssues() {
         if (!validator.getResults().getAllFindings().isEmpty()) {
-            boolean saveVerbose = verbose;
-            verbose = true;
-            verbose = saveVerbose;
             fail("There should not be any warnings or errors");
         }
     }

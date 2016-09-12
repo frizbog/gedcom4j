@@ -83,10 +83,10 @@ class PlaceValidator extends AbstractValidator {
         }
         checkCustomTags(place);
 
-        checkOptionalString(place.getLatitude(), "latitude", place);
-        checkOptionalString(place.getLongitude(), "longitude", place);
+        mustHaveValueOrBeOmitted(place.getLatitude(), "latitude", place);
+        mustHaveValueOrBeOmitted(place.getLongitude(), "longitude", place);
         new NotesValidator(validator, place, place.getNotes()).validate();
-        checkOptionalString(place.getPlaceFormat(), "place format", place);
+        mustHaveValueOrBeOmitted(place.getPlaceFormat(), "place format", place);
         if (place.getPlaceName() == null) {
             if (validator.isAutorepairEnabled()) {
                 addError("Place name was unspecified and cannot be repaired");
@@ -106,7 +106,7 @@ class PlaceValidator extends AbstractValidator {
         }
         if (phonetic != null) {
             if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(phonetic).process();
+                int dups = new DuplicateHandler<>(phonetic).process();
                 if (dups > 0) {
                     validator.addInfo(dups + " duplicate phonetic variations found and removed", place);
                 }
@@ -127,7 +127,7 @@ class PlaceValidator extends AbstractValidator {
             }
         }
         if (validator.isAutorepairEnabled()) {
-            int dups = new DuplicateEliminator<>(romanized).process();
+            int dups = new DuplicateHandler<>(romanized).process();
             if (dups > 0) {
                 validator.addInfo(dups + " duplicate romanized variations found and removed", place);
             }

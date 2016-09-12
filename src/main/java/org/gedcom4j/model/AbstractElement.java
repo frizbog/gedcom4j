@@ -26,7 +26,6 @@
  */
 package org.gedcom4j.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +37,7 @@ import org.gedcom4j.Options;
  * 
  * @author frizbog
  */
-public abstract class AbstractElement implements Serializable, HasCustomTags {
+public abstract class AbstractElement implements HasCustomTags {
     /**
      * Serial Version UID
      */

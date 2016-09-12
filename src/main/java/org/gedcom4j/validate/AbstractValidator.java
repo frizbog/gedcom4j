@@ -32,13 +32,17 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.gedcom4j.Options;
 import org.gedcom4j.exception.ValidationException;
+import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.ChangeDate;
+import org.gedcom4j.model.HasCitations;
 import org.gedcom4j.model.HasCustomTags;
 import org.gedcom4j.model.HasXref;
 import org.gedcom4j.model.ModelElement;
+import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.UserReference;
 import org.gedcom4j.validate.Validator.Finding;
@@ -51,6 +55,11 @@ import org.gedcom4j.validate.Validator.Finding;
  */
 @SuppressWarnings({ "PMD.TooManyMethods", "PMD.GodClass" })
 abstract class AbstractValidator {
+
+    /**
+     * Regex patter for an XRef
+     */
+    private static final Pattern XREF_PATTERN = Pattern.compile("^\\@.+\\@$");
 
     /**
      * The root validator - the one that holds the collection of findings among other things.
@@ -70,81 +79,76 @@ abstract class AbstractValidator {
             // Change dates are always optional
             return;
         }
-        checkRequiredString(changeDate.getDate(), "change date", objectWithChangeDate);
-        checkOptionalString(changeDate.getTime(), "change time", objectWithChangeDate);
+        mustHaveValue(changeDate, "date");
+        mustHaveValueOrBeOmitted(changeDate, "time");
         if (changeDate.getNotes() == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(objectWithChangeDate, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "notes");
-            if (validator.mayRepair(vf)) {
-                ChangeDate before = new ChangeDate(changeDate);
-                changeDate.getNotes(true).clear();
-                vf.addRepair(new AutoRepair(before, new ChangeDate(changeDate)));
-            }
-        } else {
-            new NotesValidator(validator, changeDate, changeDate.getNotes()).validate();
+            Finding vf = validator.newFinding(changeDate, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "notes");
+            initializeCollectionIfAllowed(vf);
         }
-
+        new NotesValidator(validator, changeDate).validate();
     }
 
     /**
-     * Check custom tags on an object. Uses reflection to look for a getter named "getCustomTags", invokes it, and checks the
-     * result. If autorepair is on, it will reflectively fix this.
+     * Check citations.
+     *
+     * @param objectWithCitations
+     *            the object with citations
+     */
+    protected void checkCitations(HasCitations objectWithCitations) {
+        List<AbstractCitation> citations = objectWithCitations.getCitations();
+        if (citations == null && Options.isCollectionInitializationEnabled()) {
+            Finding finding = validator.newFinding(objectWithCitations, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION,
+                    "citations");
+            initializeCollectionIfAllowed(finding);
+        }
+        if (citations != null) {
+            DuplicateHandler<AbstractCitation> dh = new DuplicateHandler<>(citations);
+            if (dh.count() > 0) {
+                Finding finding = validator.newFinding(objectWithCitations, Severity.ERROR, ProblemCode.DUPLICATE_VALUE,
+                        "citations");
+                if (validator.mayRepair(finding)) {
+                    ModelElement before = makeCopy(objectWithCitations);
+                    dh.remove();
+                    finding.addRepair(new AutoRepair(before, makeCopy(objectWithCitations)));
+                }
+            }
+            for (AbstractCitation c : citations) {
+                new CitationValidator(validator, c).validate();
+            }
+        }
+    }
+
+    /**
+     * Check custom tags on an object and initializes the collection of custom tags if needed.
      * 
      * @param o
      *            the object being validated
      */
     protected void checkCustomTags(HasCustomTags o) {
-
-        Method customTagsGetter = null;
-        try {
-            customTagsGetter = o.getClass().getMethod("getCustomTags");
-        } catch (@SuppressWarnings("unused") SecurityException unusedAndIgnored) {
-            addError("Cannot access getter named 'getCustomTags' on object of type " + o.getClass().getSimpleName() + ".", o);
-            return;
-        } catch (@SuppressWarnings("unused") NoSuchMethodException unusedAndIgnored) {
-            addError("Cannot find getter named 'getCustomTags' on object of type " + o.getClass().getSimpleName() + ".", o);
-            return;
+        if (o == null) {
+            return; // Nothing to check!
         }
-
-        Object fldVal = null;
-        try {
-            fldVal = customTagsGetter.invoke(o);
-        } catch (IllegalArgumentException e) {
-            addError("Cannot get value of customTags attribute on object of type " + o.getClass().getSimpleName() + " - " + e
-                    .getMessage(), o);
-            return;
-        } catch (IllegalAccessException e) {
-            addError("Cannot get value of customTags attribute on object of type " + o.getClass().getSimpleName() + " - " + e
-                    .getMessage(), o);
-            return;
-        } catch (InvocationTargetException e) {
-            addError("Cannot get value of customTags attribute on object of type " + o.getClass().getSimpleName() + " - " + e
-                    .getMessage(), o);
-            return;
+        if (o.getCustomTags() == null && Options.isCollectionInitializationEnabled()) {
+            Finding vf = validator.newFinding(o, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "customTags");
+            initializeCollectionIfAllowed(vf);
         }
-        if (fldVal == null && Options.isCollectionInitializationEnabled()) {
-            if (validator.isAutorepairEnabled()) {
-                try {
-                    customTagsGetter.invoke(o, true);
-                } catch (IllegalArgumentException e) {
-                    addError("Cannot autorepair value of customTags attribute on object of type " + o.getClass().getSimpleName()
-                            + " - " + e.getMessage(), o);
-                    return;
-                } catch (IllegalAccessException e) {
-                    addError("Cannot autorepair value of customTags attribute on object of type " + o.getClass().getSimpleName()
-                            + " - " + e.getMessage(), o);
-                    return;
-                } catch (InvocationTargetException e) {
-                    addError("Cannot autorepair value of customTags attribute on object of type " + o.getClass().getSimpleName()
-                            + " - " + e.getMessage(), o);
-                    return;
+        if (o.getCustomTags() != null) {
+            int i = 0;
+            while (i < o.getCustomTags().size()) {
+                StringTree ct = o.getCustomTags().get(i);
+                if (ct == null) {
+                    Finding vf = validator.newFinding(ct, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, null);
+                    if (validator.mayRepair(vf)) {
+                        ModelElement before = makeCopy(o);
+                        o.getCustomTags().remove(i);
+                        vf.addRepair(new AutoRepair(before, makeCopy(o)));
+                    } else {
+                        i++;
+                    }
+                } else {
+                    checkStringTree(ct);
+                    i++;
                 }
-                validator.addInfo("Custom tag collection was null - repaired", o);
-            } else {
-                validator.addError("Custom tag collection is null - must be at least an empty collection", o);
-            }
-        } else {
-            if (fldVal != null && !(fldVal instanceof List)) {
-                validator.addError("Custom tag collection is not a List", o);
             }
         }
     }
@@ -152,83 +156,52 @@ abstract class AbstractValidator {
     /**
      * Check a string list (List&lt;String&gt;) on an object. All strings in the list must be non-null and non-blank when trimmed.
      * 
-     * @param stringList
-     *            the stringlist being validated
-     * @param description
-     *            a description of the string list
-     * @param blanksAllowed
-     *            are blank strings allowed in the string list?
+     * @param modelElement
+     *            the object that has a list of strings in it
+     * @param listName
+     *            the name of the list of strings to check
+     * @param blankStringsAllowed
+     *            are blank/empty strings allowed in the string list?
      */
-    protected void checkStringList(List<String> stringList, String description, boolean blanksAllowed) {
-        int i = 0;
-        if (stringList != null) {
-            while (i < stringList.size()) {
-                String a = stringList.get(i);
-                if (a == null) {
-                    if (validator.isAutorepairEnabled()) {
-                        addInfo("String list (" + description + ") contains null entry - removed", stringList);
-                        stringList.remove(i);
-                        continue;
+    @SuppressWarnings("unchecked")
+    protected void checkStringList(ModelElement modelElement, String listName, boolean blankStringsAllowed) {
+        List<String> list = (List<String>) get(modelElement, listName);
+        if (list == null && Options.isCollectionInitializationEnabled()) {
+            Finding vf = validator.newFinding(modelElement, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, listName);
+            initializeCollectionIfAllowed(vf);
+        }
+        if (!blankStringsAllowed) {
+            list = (List<String>) get(modelElement, listName);
+            if (list == null) {
+                return;
+            }
+            int i = 0;
+            while (i < list.size()) {
+                String s = list.get(i);
+                if (!isSpecified(s)) {
+                    Finding vf = validator.newFinding(modelElement, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, listName);
+                    if (validator.mayRepair(vf)) {
+                        ModelElement before = makeCopy(modelElement);
+                        list.remove(i);
+                        vf.addRepair(new AutoRepair(before, makeCopy(modelElement)));
+                    } else {
+                        i++;
                     }
-                    addError("String list (" + description + ") contains null entry", stringList);
-                } else if (!blanksAllowed && !isSpecified(a)) {
-                    if (validator.isAutorepairEnabled()) {
-                        addInfo("String list (" + description + ") contains blank entry where none are allowed - removed",
-                                stringList);
-                        stringList.remove(i);
-                        continue;
-                    }
-                    addError("String list (" + description + ") contains blank entry where none are allowed", stringList);
+                } else {
+                    i++;
                 }
-                i++;
             }
         }
     }
 
     /**
-     * Check a tagged string list (List&lt;StringWithCustomTags&gt;) on an object. All strings in the list must be non-null and
-     * non-blank when trimmed.
+     * Check a collection for initialization and fix it, as appropriate
      * 
-     * @param stringList
-     *            the stringlist being validated
-     * @param description
-     *            a description of the string list
-     * @param blanksAllowed
-     *            are blank strings allowed in the string list?
+     * @param objectWithCollection
+     *            the object with the collection
+     * @param collectionName
+     *            the name of the collection
      */
-    protected void checkStringTagList(List<StringWithCustomTags> stringList, String description, boolean blanksAllowed) {
-        int i = 0;
-        if (validator.isAutorepairEnabled()) {
-            int dups = new DuplicateEliminator<>(stringList).process();
-            if (dups > 0) {
-                validator.addInfo(dups + " duplicate tagged strings found and removed", stringList);
-            }
-        }
-
-        if (stringList != null) {
-            while (i < stringList.size()) {
-                StringWithCustomTags a = stringList.get(i);
-                if (a == null || a.getValue() == null) {
-                    if (validator.isAutorepairEnabled()) {
-                        addInfo("String list (" + description + ") contains null entry - removed", stringList);
-                        stringList.remove(i);
-                        continue;
-                    }
-                    addError("String list (" + description + ") contains null entry", stringList);
-                } else if (!blanksAllowed && a.getValue().trim().length() == 0) {
-                    if (validator.isAutorepairEnabled()) {
-                        addInfo("String list (" + description + ") contains blank entry where none are allowed - removed",
-                                stringList);
-                        stringList.remove(i);
-                        continue;
-                    }
-                    addError("String list (" + description + ") contains blank entry where none are allowed", stringList);
-                }
-                i++;
-            }
-        }
-    }
-
     protected void checkUninitializedCollection(ModelElement objectWithCollection, String collectionName) {
         if (!Options.isCollectionInitializationEnabled()) {
             return;
@@ -236,7 +209,7 @@ abstract class AbstractValidator {
         if (get(objectWithCollection, collectionName) == null) {
             Finding vf = validator.newFinding(objectWithCollection, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION,
                     collectionName);
-            initializeCollectionIfAllowed(vf, objectWithCollection, collectionName);
+            initializeCollectionIfAllowed(vf);
         }
     }
 
@@ -249,47 +222,44 @@ abstract class AbstractValidator {
      *            the object that contains the collection of user references
      */
     protected void checkUserReferences(List<UserReference> userReferences, ModelElement objectWithUserReferences) {
+        checkUninitializedCollection(objectWithUserReferences, "userReferences");
         if (userReferences == null) {
-            // finding, initialize
-        } else {
-            for (UserReference userReference : userReferences) {
-                if (userReference == null) {
-                    addError("Null user reference in collection on " + objectWithUserReferences.getClass().getSimpleName(),
-                            objectWithUserReferences);
+            return;
+        }
+        int i = 0;
+        while (i < userReferences.size()) {
+            UserReference ur = userReferences.get(i);
+            if (ur == null) {
+                Finding vf = validator.newFinding(objectWithUserReferences, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE,
+                        "userReferences");
+                if (validator.mayRepair(vf)) {
+                    ModelElement before = makeCopy(objectWithUserReferences);
+                    userReferences.remove(i);
+                    vf.addRepair(new AutoRepair(before, makeCopy(objectWithUserReferences)));
                 } else {
-                    checkRequiredString(userReference.getReferenceNum(), "reference number", userReference);
-                    checkOptionalString(userReference.getType(), "reference type", userReference);
+                    i++;
                 }
+            } else {
+                mustHaveValue(ur, "referenceNum");
+                mustHaveValueOrBeOmitted(ur, "type");
+                i++;
             }
         }
     }
 
     /**
-     * Check the xref on an object, using a specific field name to find the xref in
+     * Check the xref on an object
      * 
      * @param objectContainingXref
      *            the object containing the xref field
-     * @param xrefFieldName
-     *            the name of the xref field
      */
     protected void checkXref(HasXref objectContainingXref) {
         String xref = objectContainingXref.getXref();
         if (!isSpecified(xref)) {
-            // TODO - log finding
+            validator.newFinding(objectContainingXref, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "xref");
         } else {
-            if (xref.length() < 3) {
-                // TODO log finding
-                // addError("xref on " + objectContainingXref.getClass().getSimpleName() + " is too short to be a valid xref",
-                // objectContainingXref);
-            } else if (xref.charAt(0) != '@') {
-                // TODO log finding
-                // addError("xref on " + objectContainingXref.getClass().getSimpleName() + " is doesn't start with an at-sign (@)",
-                // objectContainingXref);
-            }
-            if (!xref.endsWith("@")) {
-                // TODO log finding
-                // addError("xref on " + objectContainingXref.getClass().getSimpleName() + " is doesn't end with an at-sign (@)",
-                // objectContainingXref);
+            if (!XREF_PATTERN.matcher(xref).matches()) {
+                validator.newFinding(objectContainingXref, Severity.ERROR, ProblemCode.XREF_INVALID, "xref");
             }
         }
     }
@@ -311,6 +281,25 @@ abstract class AbstractValidator {
             throw new ValidationException("Unable to invoke getter method for field '" + fieldName + "' on object of type "
                     + modelElement.getClass().getName(), e);
         }
+    }
+
+    /**
+     * Get the copy constructor on a ModelElement
+     * 
+     * @param modelElement
+     *            the object
+     * @return the copy constructor, if one can be found
+     */
+    @SuppressWarnings("unchecked")
+    protected Constructor<ModelElement> getCopyConstructor(ModelElement modelElement) {
+        Constructor<ModelElement> result;
+        try {
+            result = (Constructor<ModelElement>) modelElement.getClass().getConstructor(modelElement.getClass());
+        } catch (NoSuchMethodException | SecurityException | IllegalArgumentException e) {
+            throw new ValidationException("Unable to find copy constructor on object of class " + modelElement.getClass().getName(),
+                    e);
+        }
+        return result;
     }
 
     /**
@@ -341,6 +330,30 @@ abstract class AbstractValidator {
     }
 
     /**
+     * Initialize an uninitialized collection and mark the finding as repaired
+     * 
+     * @param finding
+     *            the finding to be marked as repaired
+     */
+    @SuppressWarnings("rawtypes")
+    protected void initializeCollectionIfAllowed(Finding finding) {
+        if (validator.mayRepair(finding)) {
+            @SuppressWarnings("PMD.PrematureDeclaration")
+            ModelElement before = makeCopy(finding.getItemOfConcern());
+            try {
+                Field f = finding.getItemOfConcern().getClass().getField(finding.getFieldNameOfConcern());
+                f.set(finding.getItemOfConcern(), new ArrayList(0));
+            } catch (SecurityException | NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
+                throw new ValidationException("Unable to initialize collection '" + finding.getFieldNameOfConcern()
+                        + "' on object of class " + finding.getItemOfConcern().getClass().getName(), e);
+            }
+            ModelElement after = makeCopy(finding.getItemOfConcern());
+
+            finding.addRepair(new AutoRepair(before, after));
+        }
+    }
+
+    /**
      * Is the string supplied non-null, and has something other than whitespace in it?
      * 
      * @param s
@@ -360,7 +373,26 @@ abstract class AbstractValidator {
     }
 
     /**
-     * Check that a string with custom tags either has a non-blank/non-null value or be omitted.
+     * Make a copy of the model element (using reflection)
+     * 
+     * @param modelElement
+     *            the object to copy
+     * @return a copy of the object
+     */
+    protected ModelElement makeCopy(ModelElement modelElement) {
+        ModelElement before;
+        try {
+            Constructor<ModelElement> copyConstructor = getCopyConstructor(modelElement);
+            before = copyConstructor.newInstance(modelElement);
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            throw new ValidationException("Unable to invoke copy constructor on object of class " + modelElement.getClass()
+                    .getName(), e);
+        }
+        return before;
+    }
+
+    /**
+     * Check that an object in the model has a value for a specific field (by name)
      *
      * @param modelElement
      *            the object that may have a value
@@ -368,26 +400,26 @@ abstract class AbstractValidator {
      *            the name of the field that may have a value
      */
     protected void mustHaveValue(ModelElement modelElement, String fieldName) {
-        try {
-            Method m = modelElement.getClass().getMethod("get" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(
-                    1));
-
-            StringWithCustomTags swct = (StringWithCustomTags) m.invoke(modelElement);
-            if (swct == null) {
-            }
-            if (swct.getValue() != null && !isSpecified(swct.getValue())) {
-                validator.newFinding(modelElement, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, null);
-            }
-        } catch (SecurityException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException e) {
-            throw new ValidationException("Unable to reflectively get StringWithCustomTags named " + fieldName + " from "
-                    + modelElement, e);
+        Object value = get(modelElement, fieldName);
+        if (value == null) {
+            validator.newFinding(modelElement, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, fieldName);
+            return;
         }
-
+        if (value instanceof String) {
+            if (!isSpecified((String) value)) {
+                validator.newFinding(modelElement, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, fieldName);
+            }
+        } else if (value instanceof StringWithCustomTags) {
+            StringWithCustomTags swct = (StringWithCustomTags) value;
+            if (swct.getValue() != null && !isSpecified(swct.getValue())) {
+                validator.newFinding(modelElement, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, fieldName);
+            }
+        } else {
+            throw new ValidationException("Don't know how to handle result of type " + value.getClass().getName());
+        }
         if (modelElement instanceof HasCustomTags) {
             checkCustomTags((HasCustomTags) modelElement);
         }
-
     }
 
     /**
@@ -399,35 +431,26 @@ abstract class AbstractValidator {
      *            the name of the field that may have a value
      */
     protected void mustHaveValueOrBeOmitted(ModelElement modelElement, String fieldName) {
-        try {
-            Method m = modelElement.getClass().getMethod("get" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(
-                    1));
-            Object value = m.invoke(modelElement);
-            if (value == null) {
-                return; // It was omitted, so it's ok
-            }
-            if (value instanceof String) {
-                if (!isSpecified((String) value)) {
-                    validator.newFinding(modelElement, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, fieldName);
-                }
-            } else if (value instanceof StringWithCustomTags) {
-                StringWithCustomTags swct = (StringWithCustomTags) value;
-                if (swct.getValue() != null && !isSpecified(swct.getValue())) {
-                    validator.newFinding(modelElement, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, fieldName);
-                }
-            } else {
-                throw new ValidationException("Don't know how to handle result of type " + value.getClass().getName());
-            }
-        } catch (SecurityException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException e) {
-            throw new ValidationException("Unable to reflectively get StringWithCustomTags named " + fieldName + " from "
-                    + modelElement, e);
+        Object value = get(modelElement, fieldName);
+        if (value == null) {
+            // not there is ok
+            return;
         }
-
+        if (value instanceof String) {
+            if (!isSpecified((String) value)) {
+                validator.newFinding(modelElement, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, fieldName);
+            }
+        } else if (value instanceof StringWithCustomTags) {
+            StringWithCustomTags swct = (StringWithCustomTags) value;
+            if (swct.getValue() != null && !isSpecified(swct.getValue())) {
+                validator.newFinding(modelElement, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, fieldName);
+            }
+        } else {
+            throw new ValidationException("Don't know how to handle result of type " + value.getClass().getName());
+        }
         if (modelElement instanceof HasCustomTags) {
             checkCustomTags((HasCustomTags) modelElement);
         }
-
     }
 
     /**
@@ -436,45 +459,22 @@ abstract class AbstractValidator {
     protected abstract void validate();
 
     /**
-     * Initialize an uninitialized collection and mark the finding as repaired
-     * 
-     * @param finding
-     *            the finding to be marked as repaired
-     * @param objectWithCollection
-     *            the object that has the uninitialized collection
-     * @param collectionName
-     *            the name of the collection
+     * Check string tree.
+     *
+     * @param st
+     *            the string tree
      */
-    @SuppressWarnings("rawtypes")
-    private void initializeCollectionIfAllowed(Finding finding, ModelElement objectWithCollection, String collectionName) {
-        if (validator.mayRepair(finding)) {
-            ModelElement before;
-            Constructor copyConstructor;
-            try {
-                copyConstructor = objectWithCollection.getClass().getConstructor(objectWithCollection.getClass());
-                before = (ModelElement) copyConstructor.newInstance(objectWithCollection);
-            } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
-                    | IllegalArgumentException | InvocationTargetException e1) {
-                throw new ValidationException("Unable to find copy constructor on object of class " + objectWithCollection
-                        .getClass().getName(), e1);
+    private void checkStringTree(StringTree st) {
+        if (st == null) {
+            return; // nothing to check
+        }
+        mustHaveValue(st, "tag");
+        mustHaveValueOrBeOmitted(st, "xref");
+        mustHaveValue(st, "level");
+        if (st.getChildren() != null) {
+            for (StringTree ch : st.getChildren()) {
+                checkStringTree(ch);
             }
-            try {
-                Field f = objectWithCollection.getClass().getField(collectionName);
-                f.set(objectWithCollection, new ArrayList(0));
-            } catch (SecurityException | NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
-                throw new ValidationException("Unable to initialize collection '" + collectionName + "' on object of class "
-                        + objectWithCollection.getClass().getName(), e);
-            }
-            ModelElement after;
-            try {
-                after = (ModelElement) copyConstructor.newInstance(objectWithCollection);
-            } catch (SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException
-                    | InvocationTargetException e1) {
-                throw new ValidationException("Unable to find copy constructor on object of class " + objectWithCollection
-                        .getClass().getName(), e1);
-            }
-
-            finding.addRepair(new AutoRepair(before, after));
         }
     }
 

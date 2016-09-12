@@ -31,6 +31,7 @@ import java.util.List;
 import org.gedcom4j.Options;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
+import org.gedcom4j.validate.Validator.Finding;
 
 /**
  * Validate a {@link Submitter} object. See {@link GedcomValidator} for usage information.
@@ -63,40 +64,44 @@ class SubmitterValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        if (submitter == null) {
-            addError("Submitter being validated is null");
-            return;
-        }
         checkXref(submitter);
-        checkRequiredString(submitter.getName(), "name", submitter);
+        mustHaveValue(submitter, "name");
         checkLanguagePreferences();
-        checkOptionalString(submitter.getRecIdNumber(), "record id number", submitter);
-        checkOptionalString(submitter.getRegFileNumber(), "submitter registered rfn", submitter);
+        mustHaveValueOrBeOmitted(submitter, "recIdNumber");
+        mustHaveValueOrBeOmitted(submitter, "regFileNumber");
         if (submitter.getAddress() != null) {
             new AddressValidator(validator, submitter.getAddress()).validate();
         }
-        new NotesValidator(validator, submitter, submitter.getNotes()).validate();
+        new NotesValidator(validator, submitter).validate();
     }
 
     /**
      * Check the language preferences
      */
     private void checkLanguagePreferences() {
+        if (submitter.getLanguagePref() == null && Options.isCollectionInitializationEnabled()) {
+            Finding finding = validator.newFinding(submitter, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "languagePref");
+            initializeCollectionIfAllowed(finding);
+        }
         List<StringWithCustomTags> languagePref = submitter.getLanguagePref();
-        if (validator.isAutorepairEnabled()) {
-            int dups = new DuplicateEliminator<>(languagePref).process();
-            if (dups > 0) {
-                validator.addInfo(dups + " duplicate language preferences found and removed", submitter);
+        if (languagePref == null) {
+            return;
+        }
+        DuplicateHandler<StringWithCustomTags> dh = new DuplicateHandler<>(languagePref);
+        int dups = dh.count();
+        if (dups > 0) {
+            Finding finding = validator.newFinding(submitter, Severity.ERROR, ProblemCode.DUPLICATE_VALUE, "languagePref");
+            if (validator.mayRepair(finding)) {
+                Submitter before = new Submitter(submitter);
+                dh.remove();
+                finding.addRepair(new AutoRepair(before, new Submitter(submitter)));
             }
         }
-
-        if (submitter.getLanguagePref(Options.isCollectionInitializationEnabled()) != null) {
-            if (languagePref.size() > 3) {
-                addError("Submitter exceeds limit on language preferences (3)", submitter);
-            }
-            for (StringWithCustomTags s : languagePref) {
-                checkRequiredString(s, "language pref", submitter);
-            }
+        if (languagePref.size() > 3) {
+            validator.newFinding(submitter, Severity.ERROR, ProblemCode.TOO_MANY_VALUES, "languagePref");
+        }
+        for (StringWithCustomTags s : languagePref) {
+            mustHaveValue(s, "value");
         }
     }
 }

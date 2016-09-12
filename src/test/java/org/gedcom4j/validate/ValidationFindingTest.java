@@ -80,7 +80,7 @@ public class ValidationFindingTest {
     public void testGetSetProblemCode() {
         Validator v = new Validator(new Gedcom());
         Finding vf = v.newFinding(new Header(), Severity.ERROR, ProblemCode.ILLEGAL_VALUE, null);
-        assertEquals(ProblemCode.ILLEGAL_VALUE.ordinal(), vf.getProblemCode());
+        assertEquals(ProblemCode.ILLEGAL_VALUE.getCode(), vf.getProblemCode());
         vf.setProblemCode(1000);
         assertEquals(1000, vf.getProblemCode());
     }
@@ -155,7 +155,7 @@ public class ValidationFindingTest {
         assertNotNull(vf);
         assertEquals(Gedcom.class, vf.getItemOfConcern().getClass());
         assertEquals(Severity.INFO, vf.getSeverity());
-        assertEquals(ProblemCode.DUPLICATE_VALUE.ordinal(), vf.getProblemCode());
+        assertEquals(ProblemCode.DUPLICATE_VALUE.getCode(), vf.getProblemCode());
         assertEquals(ProblemCode.DUPLICATE_VALUE.getDescription(), vf.getProblemDescription());
     }
 
@@ -194,7 +194,7 @@ public class ValidationFindingTest {
         Validator v = new Validator(new Gedcom());
         Finding vf = v.newFinding(new Gedcom(), Severity.INFO, ProblemCode.DUPLICATE_VALUE, null);
         vf.setProblem(ProblemCode.ILLEGAL_VALUE);
-        assertEquals(ProblemCode.ILLEGAL_VALUE.ordinal(), vf.getProblemCode());
+        assertEquals(ProblemCode.ILLEGAL_VALUE.getCode(), vf.getProblemCode());
         assertEquals(ProblemCode.ILLEGAL_VALUE.getDescription(), vf.getProblemDescription());
     }
 

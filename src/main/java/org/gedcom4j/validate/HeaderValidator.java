@@ -91,7 +91,7 @@ class HeaderValidator extends AbstractValidator {
         mustHaveValueOrBeOmitted(header, "fileName");
         checkGedcomVersion();
         mustHaveValueOrBeOmitted(header, "language");
-        new NotesValidator(validator, header, header.getNotes()).validate();
+        new NotesValidator(validator, header).validate();
         mustHaveValueOrBeOmitted(header, "placeHierarchy");
         checkSourceSystem();
         checkSubmitter();

@@ -55,7 +55,7 @@ class CitationValidator extends AbstractValidator {
      * @param citation
      *            the citation being validated
      */
-    CitationValidator(GedcomValidator validator, AbstractCitation citation) {
+    CitationValidator(Validator validator, AbstractCitation citation) {
         this.validator = validator;
         this.citation = citation;
     }
@@ -74,16 +74,16 @@ class CitationValidator extends AbstractValidator {
             if (c.getSource() == null) {
                 addError("CitationWithSource requires a non-null source reference", c);
             }
-            checkOptionalString(c.getWhereInSource(), "where within source", c);
-            checkOptionalString(c.getEventCited(), "event type cited from", c);
+            mustHaveValueOrBeOmitted(c.getWhereInSource(), "where within source", c);
+            mustHaveValueOrBeOmitted(c.getEventCited(), "event type cited from", c);
             if (c.getEventCited() == null) {
                 if (c.getRoleInEvent() != null) {
                     addError("CitationWithSource has role in event but a null event");
                 }
             } else {
-                checkOptionalString(c.getRoleInEvent(), "role in event", c);
+                mustHaveValueOrBeOmitted(c.getRoleInEvent(), "role in event", c);
             }
-            checkOptionalString(c.getCertainty(), "certainty/quality", c);
+            mustHaveValueOrBeOmitted(c.getCertainty(), "certainty/quality", c);
         } else if (citation instanceof CitationWithoutSource) {
             CitationWithoutSource c = (CitationWithoutSource) citation;
             checkStringList(c.getDescription(), "description on a citation without a source", true);
@@ -98,7 +98,7 @@ class CitationValidator extends AbstractValidator {
                 }
             } else {
                 if (validator.isAutorepairEnabled()) {
-                    int dups = new DuplicateEliminator<>(textFromSource).process();
+                    int dups = new DuplicateHandler<>(textFromSource).process();
                     if (dups > 0) {
                         validator.addInfo(dups + " duplicate texts from source found and removed", citation);
                     }

@@ -63,11 +63,11 @@ class RepositoryValidator extends AbstractValidator {
             return;
         }
         checkXref(repository);
-        checkOptionalString(repository.getName(), "name", repository);
+        mustHaveValueOrBeOmitted(repository.getName(), "name", repository);
         checkChangeDate(repository.getChangeDate(), repository);
         checkStringTagList(repository.getEmails(), "email list", false);
         checkUserReferences(repository.getUserReferences(), repository);
-        checkOptionalString(repository.getRecIdNumber(), "automated record id", repository);
+        mustHaveValueOrBeOmitted(repository.getRecIdNumber(), "automated record id", repository);
         checkStringTagList(repository.getPhoneNumbers(), "phone numbers", false);
         new NotesValidator(validator, repository, repository.getNotes()).validate();
 

@@ -65,12 +65,15 @@ public class Validator implements Serializable {
         private static final long serialVersionUID = 2148459753130687833L;
 
         /**
+         * The field name in {@link #itemOfConcern} that had the finding. Optional. If populated, reflection can be used on the
+         * {@link #itemOfConcern} object to get specific field values.
+         */
+        private String fieldNameOfConcern;
+
+        /**
          * The primary item that had the finding in it
          */
         private ModelElement itemOfConcern;
-
-        /** The severity. */
-        private Severity severity;
 
         /**
          * The code for the problem
@@ -93,11 +96,8 @@ public class Validator implements Serializable {
          */
         private List<AutoRepair> repairs = (Options.isCollectionInitializationEnabled() ? new ArrayList<AutoRepair>(0) : null);
 
-        /**
-         * The field name in {@link #itemOfConcern} that had the finding. Optional. If populated, reflection can be used on the
-         * {@link #itemOfConcern} object to get specific field values.
-         */
-        private String fieldNameOfConcern;
+        /** The severity. */
+        private Severity severity;
 
         /**
          * Default constructor
@@ -241,6 +241,49 @@ public class Validator implements Serializable {
         }
 
         /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String toString() {
+            StringBuilder builder = new StringBuilder(50);
+            builder.append("Finding [");
+            if (fieldNameOfConcern != null) {
+                builder.append("fieldNameOfConcern=");
+                builder.append(fieldNameOfConcern);
+                builder.append(", ");
+            }
+            if (itemOfConcern != null) {
+                builder.append("itemOfConcern=");
+                builder.append(itemOfConcern.getClass().getName());
+                builder.append(", ");
+            }
+            if (severity != null) {
+                builder.append("severity=");
+                builder.append(severity);
+                builder.append(", ");
+            }
+            builder.append("problemCode=");
+            builder.append(problemCode);
+            builder.append(", ");
+            if (problemDescription != null) {
+                builder.append("problemDescription=");
+                builder.append(problemDescription);
+                builder.append(", ");
+            }
+            if (relatedItems != null) {
+                builder.append("relatedItems=");
+                builder.append(relatedItems);
+                builder.append(", ");
+            }
+            if (repairs != null) {
+                builder.append("repairs=");
+                builder.append(repairs);
+            }
+            builder.append("]");
+            return builder.toString();
+        }
+
+        /**
          * Set the fieldNameOfConcern. Deliberately package-private. Outside the validation framework, this field should not be
          * changeable.
          * 
@@ -270,7 +313,7 @@ public class Validator implements Serializable {
          *            the problem code enum entry to use for the problem code and description
          */
         void setProblem(ProblemCode pc) {
-            problemCode = pc.ordinal();
+            problemCode = pc.getCode();
             problemDescription = pc.getDescription();
         }
 
@@ -313,11 +356,6 @@ public class Validator implements Serializable {
     }
 
     /**
-     * Serial Version UID
-     */
-    private static final long serialVersionUID = -8810465155456968453L;
-
-    /**
      * Built-in {@link AutoRepairResponder} implementation that allows everything to be auto-repaired.
      */
     public static final AutoRepairResponder AUTO_REPAIR_ALL = new AutoRepairResponder() {
@@ -343,17 +381,22 @@ public class Validator implements Serializable {
         }
     };
 
-    /** The gedcom being validated. */
-    private final Gedcom gedcom;
-
-    /** The results. */
-    private final ValidationResults results = new ValidationResults();
+    /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -8810465155456968453L;
 
     /**
      * The responder that determines whether the validator is to be allowed to auto-repair a finding. Default is the more
      * conservative value of allowing no auto-repairs.
      */
     private AutoRepairResponder autoRepairResponder = AUTO_REPAIR_NONE;
+
+    /** The gedcom being validated. */
+    private final Gedcom gedcom;
+
+    /** The results. */
+    private final ValidationResults results = new ValidationResults();
 
     /**
      * Instantiates a new validator.
@@ -426,7 +469,7 @@ public class Validator implements Serializable {
         Finding f = new Finding();
         f.itemOfConcern = itemOfConcern;
         f.severity = severity;
-        f.problemCode = problemCode.ordinal();
+        f.problemCode = problemCode.getCode();
         f.problemDescription = problemCode.getDescription();
         f.fieldNameOfConcern = fieldNameOfConcern;
         results.add(f);
@@ -444,6 +487,26 @@ public class Validator implements Serializable {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Validator [");
+        if (results != null) {
+            builder.append("results=");
+            builder.append(results);
+            builder.append(", ");
+        }
+        if (autoRepairResponder != null) {
+            builder.append("autoRepairResponder=");
+            builder.append(autoRepairResponder);
+        }
+        builder.append("]");
+        return builder.toString();
+    }
+
+    /**
      * Validate the gedcom
      */
     public void validate() {
@@ -455,14 +518,15 @@ public class Validator implements Serializable {
     /**
      * Check if the finding can be auto-repaired. Delegates to the registered auto-repair responder, if any.
      * 
-     * @param validtionFinding
+     * @param validationFinding
      *            the validation finding
      * @return true if the finding may be auto-repaired
      */
-    boolean mayRepair(Finding validtionFinding) {
+    boolean mayRepair(Finding validationFinding) {
         if (autoRepairResponder != null) {
-            return autoRepairResponder.mayRepair(validtionFinding);
+            return autoRepairResponder.mayRepair(validationFinding);
         }
         return false;
     }
+
 }

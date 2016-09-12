@@ -109,10 +109,10 @@ public class ValidationResultsTest {
         v.newFinding(g.getIndividuals().get("@I2@"), Severity.WARNING, ProblemCode.ILLEGAL_VALUE, null);
         v.newFinding(g.getIndividuals().get("@I3@"), Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, null);
         assertEquals(3, vr.getAllFindings().size());
-        assertEquals(1, vr.getByCode(ProblemCode.DUPLICATE_VALUE.ordinal()).size());
-        assertEquals(1, vr.getByCode(ProblemCode.ILLEGAL_VALUE.ordinal()).size());
-        assertEquals(1, vr.getByCode(ProblemCode.MISSING_REQUIRED_VALUE.ordinal()).size());
-        assertEquals(0, vr.getByCode(ProblemCode.CROSS_REFERENCE_NOT_FOUND.ordinal()).size());
+        assertEquals(1, vr.getByCode(ProblemCode.DUPLICATE_VALUE.getCode()).size());
+        assertEquals(1, vr.getByCode(ProblemCode.ILLEGAL_VALUE.getCode()).size());
+        assertEquals(1, vr.getByCode(ProblemCode.MISSING_REQUIRED_VALUE.getCode()).size());
+        assertEquals(0, vr.getByCode(ProblemCode.CROSS_REFERENCE_NOT_FOUND.getCode()).size());
     }
 
     /**
