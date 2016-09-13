@@ -36,7 +36,6 @@ import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.io.event.FileProgressListener;
 import org.gedcom4j.parser.GedcomParser;
-import org.gedcom4j.validate.GedcomValidationFinding;
 import org.gedcom4j.writer.GedcomWriter;
 import org.junit.Test;
 
@@ -91,7 +90,7 @@ public class AnselWriterCancellationTest implements FileProgressListener {
         } catch (GedcomWriterException e) {
             if (!gw.getValidationFindings().isEmpty()) {
                 System.out.println(getClass().getName() + " found " + gw.getValidationFindings().size() + " validation findings:");
-                for (GedcomValidationFinding f : gw.getValidationFindings()) {
+                for (F f : gw.getValidationFindings()) {
                     System.out.println(f);
                 }
             }
