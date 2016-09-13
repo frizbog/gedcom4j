@@ -151,4 +151,19 @@ public class ValidationResults {
         }
         return result;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder(25);
+        builder.append("ValidationResults [");
+        if (allFindings != null) {
+            builder.append("allFindings=");
+            builder.append(allFindings);
+        }
+        builder.append("]");
+        return builder.toString();
+    }
 }

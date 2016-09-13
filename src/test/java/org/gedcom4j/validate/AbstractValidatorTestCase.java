@@ -68,7 +68,7 @@ public abstract class AbstractValidatorTestCase {
      * @param code
      *            code of the expected finding. Required and must match exactly.
      * @param fieldName
-     *            the name of the fiel with the problem value. Optional, but if supplied, must match exactly.
+     *            the name of the file with the problem value. Optional, but if supplied, must match exactly.
      */
     protected void assertFindingsContain(Severity severity, ModelElement objectWithFinding, int code, String fieldName) {
         for (Finding f : validator.getResults().getAllFindings()) {
@@ -82,12 +82,38 @@ public abstract class AbstractValidatorTestCase {
     }
 
     /**
+     * Assert that the findings collection on the root validator contains at least one finding of the specified severity with a
+     * given substring
+     * 
+     * @param severity
+     *            the expected severity. Required and must match exactly.
+     * @param objectWithFinding
+     *            the object the finding is expected to be on. Required and must be the same object, not just one equivalent.
+     * @param code
+     *            enumerated built-in code of the expected finding. Required and must match exactly (on the code value - description
+     *            matching not checked).
+     * @param fieldName
+     *            the name of the file with the problem value. Optional, but if supplied, must match exactly.
+     */
+    protected void assertFindingsContain(Severity severity, ModelElement objectWithFinding, ProblemCode code, String fieldName) {
+        assertFindingsContain(severity, objectWithFinding, code.getCode(), fieldName);
+    }
+
+    /**
      * Assert that there are no errors or warnings in the findings
      * 
      */
     protected void assertNoIssues() {
         if (!validator.getResults().getAllFindings().isEmpty()) {
-            fail("There should not be any warnings or errors");
+            StringBuilder sb = new StringBuilder(100);
+            boolean first = true;
+            for (Finding f : validator.getResults().getAllFindings()) {
+                if (!first) {
+                    sb.append("\n");
+                }
+                sb.append("\t").append(f);
+            }
+            fail("There should not be any warnings or errors, but there were:" + sb.toString());
         }
     }
 }

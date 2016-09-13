@@ -32,6 +32,7 @@ import org.gedcom4j.Options;
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.CitationWithSource;
 import org.gedcom4j.model.CitationWithoutSource;
+import org.gedcom4j.validate.Validator.Finding;
 
 /**
  * A validator for source citations - both {@link CitationWithoutSource} and {@link CitationWithSource}. See {@link Validator} for
@@ -81,34 +82,27 @@ class CitationValidator extends AbstractValidator {
      */
     private void validateCitationWithoutSource() {
         CitationWithoutSource c = (CitationWithoutSource) citation;
+        checkNotes(c);
         checkStringList(c, "description", true);
         List<List<String>> textFromSource = c.getTextFromSource();
         if (textFromSource == null && Options.isCollectionInitializationEnabled()) {
-            if (validator.isAutorepairEnabled()) {
-                c.getTextFromSource(true).clear();
-                addInfo("Text from source collection (the list of lists) was null in CitationWithoutSource - autorepaired",
-                        citation);
-            } else {
-                addError("Text from source collection (the list of lists) is null in CitationWithoutSource", citation);
-            }
-        } else {
-            if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateHandler<>(textFromSource).process();
-                if (dups > 0) {
-                    validator.addInfo(dups + " duplicate texts from source found and removed", citation);
-                }
-            }
-            if (textFromSource != null) {
-                for (List<String> sl : textFromSource) {
-                    if (sl == null) {
-                        addError("Text from source collection (the list of lists) in CitationWithoutSource contains a null",
-                                citation);
-                    } else {
-                        checkStringList(c, "textFromSource", true);
-                    }
-                }
+            Finding vf = validator.newFinding(c, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "textFromSource");
+            initializeCollectionIfAllowed(vf);
+            return;
+        }
+        if (textFromSource == null || textFromSource.isEmpty()) {
+            return;
+        }
+        DuplicateHandler<List<String>> dh = new DuplicateHandler<>(textFromSource);
+        if (dh.count() > 0) {
+            Finding vf = validator.newFinding(c, Severity.ERROR, ProblemCode.DUPLICATE_VALUE, "textFromSource");
+            if (validator.mayRepair(vf)) {
+                CitationWithoutSource before = new CitationWithoutSource(c);
+                dh.remove();
+                vf.addRepair(new AutoRepair(before, new CitationWithoutSource(c)));
             }
         }
+        checkForNullEntries(c, "textFromSource");
     }
 
     /**

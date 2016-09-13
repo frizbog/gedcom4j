@@ -32,8 +32,11 @@ import java.util.List;
 
 import org.gedcom4j.Options;
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.Header;
 import org.gedcom4j.model.ModelElement;
 import org.gedcom4j.model.Note;
+import org.gedcom4j.model.Submission;
+import org.gedcom4j.model.Trailer;
 
 /**
  * <p>
@@ -52,7 +55,7 @@ import org.gedcom4j.model.Note;
  * @author frizbog
  * @since 4.0.0
  */
-@SuppressWarnings("PMD.GodClass")
+@SuppressWarnings({ "PMD.GodClass", "PMD.TooManyMethods" })
 public class Validator extends AbstractValidator {
 
     /**
@@ -487,6 +490,7 @@ public class Validator extends AbstractValidator {
      * {@inheritDoc}
      */
     @Override
+    @SuppressWarnings("PMD.CompareObjectsWithEquals")
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("Validator [");
@@ -497,7 +501,13 @@ public class Validator extends AbstractValidator {
         }
         if (autoRepairResponder != null) {
             builder.append("autoRepairResponder=");
-            builder.append(autoRepairResponder);
+            if (autoRepairResponder == AUTO_REPAIR_ALL) {
+                builder.append("AUTO_REPAIR_ALL");
+            } else if (autoRepairResponder == AUTO_REPAIR_NONE) {
+                builder.append("AUTO_REPAIR_NONE");
+            } else {
+                builder.append(autoRepairResponder);
+            }
         }
         builder.append("]");
         return builder.toString();
@@ -509,8 +519,8 @@ public class Validator extends AbstractValidator {
     @Override
     public void validate() {
         results.clear();
-        new HeaderValidator(this, gedcom.getHeader()).validate();
-        new SubmissionValidator(this, gedcom.getSubmission()).validate();
+        checkHeader();
+        checkSubmission();
         // Families
         // Individuals
         // Multimedia
@@ -519,7 +529,37 @@ public class Validator extends AbstractValidator {
         // Sources
         // Submitters
         if (gedcom.getTrailer() == null) {
-            newFinding(gedcom, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "trailer");
+            Finding vf = newFinding(gedcom, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "trailer");
+            if (mayRepair(vf)) {
+                gedcom.setTrailer(new Trailer());
+                vf.addRepair(new AutoRepair(null, new Trailer()));
+            }
+        }
+    }
+
+    /**
+     * Check the header
+     */
+    protected void checkHeader() {
+        if (gedcom.getHeader() == null) {
+            Header header = new Header();
+            gedcom.setHeader(header);
+        }
+        new HeaderValidator(this, gedcom.getHeader()).validate();
+    }
+
+    /**
+     * Check submission
+     */
+    protected void checkSubmission() {
+        if (gedcom.getSubmission() != null) {
+            new SubmissionValidator(this, gedcom.getSubmission()).validate();
+        } else {
+            Finding vf = newFinding(gedcom, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "submission");
+            if (mayRepair(vf)) {
+                gedcom.setSubmission(new Submission("@SUBMISSION@"));
+                vf.addRepair(new AutoRepair(null, new Submission(gedcom.getSubmission())));
+            }
         }
     }
 

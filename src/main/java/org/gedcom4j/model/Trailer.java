@@ -26,15 +26,13 @@
  */
 package org.gedcom4j.model;
 
-import java.io.Serializable;
-
 /**
  * The trailer record.
  * 
  * @author frizbog1
  * 
  */
-public class Trailer implements Serializable {
+public class Trailer implements ModelElement {
     /**
      * Serial Version UID
      */

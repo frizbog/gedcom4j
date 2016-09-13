@@ -94,6 +94,19 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
     }
 
     /**
+     * Constructor that takes an xref
+     * 
+     * @param xref
+     *            the xref
+     * @param submitterName
+     *            the name of the submitter
+     */
+    public Submitter(String xref, String submitterName) {
+        this.xref = xref;
+        name = new StringWithCustomTags(submitterName);
+    }
+
+    /**
      * Copy constructor
      * 
      * @param other

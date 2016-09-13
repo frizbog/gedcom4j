@@ -57,12 +57,12 @@ public class ValidatorGedcomStructureTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testEmptyGedcom() {
-        Gedcom g = new Gedcom();
+        gedcom = new Gedcom();
 
         // Go validate
-        Validator v = new Validator(g);
-        v.validate();
-        assertTrue("There should not be findings on a new, empty Gedcom structure", v.getResults().getAllFindings().isEmpty());
+        validator = new Validator(gedcom);
+        validator.validate();
+        assertNoIssues();
     }
 
     /**
@@ -95,6 +95,7 @@ public class ValidatorGedcomStructureTest extends AbstractValidatorTestCase {
      *             if the file can't be parsed
      */
     @Test
+    @SuppressWarnings("PMD.SystemPrintln")
     public void testValidateStressTestFile() throws IOException, GedcomParserException {
         // Load a file
         GedcomParser p = new GedcomParser();

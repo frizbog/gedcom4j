@@ -470,6 +470,7 @@ abstract class AbstractValidator {
      * @param fieldName
      *            the name of the field that should not have a value
      */
+    @SuppressWarnings("rawtypes")
     protected void mustNotHaveValue(ModelElement modelElement, String fieldName) {
         Object value = get(modelElement, fieldName);
         if (value == null) {
@@ -502,6 +503,38 @@ abstract class AbstractValidator {
         if (st.getChildren() != null) {
             for (StringTree ch : st.getChildren()) {
                 checkStringTree(ch);
+            }
+        }
+    }
+
+    /**
+     * Check a list for null entries
+     * 
+     * @param modelElement
+     *            the object that has the list
+     * @param listName
+     *            the name of the list
+     */
+    protected void checkForNullEntries(ModelElement modelElement, String listName) {
+        Object object = get(modelElement, listName);
+        if (!(object instanceof List)) {
+            throw new ValidationException("Could not find a List named " + listName + " on object of type " + modelElement
+                    .getClass().getName());
+        }
+        @SuppressWarnings("rawtypes")
+        List list = (List) object;
+        int i = 0;
+        while (i < list.size()) {
+            Object o = list.get(i);
+            if (o != null) {
+                i++;
+                continue;
+            }
+            Finding vf = validator.newFinding(modelElement, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, listName);
+            if (validator.mayRepair(vf)) {
+                list.remove(i);
+            } else {
+                i++;
             }
         }
     }

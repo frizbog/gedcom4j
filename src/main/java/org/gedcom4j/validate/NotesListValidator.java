@@ -87,6 +87,7 @@ class NotesListValidator extends AbstractValidator {
                 vf.addRepair(new AutoRepair(before, makeCopy(parentObject)));
             }
         }
+        checkForNullEntries(parentObject, "notes");
         for (Note n : notes) {
             new NoteValidator(validator, n).validate();
         }

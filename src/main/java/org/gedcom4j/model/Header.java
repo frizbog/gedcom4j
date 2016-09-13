@@ -102,7 +102,7 @@ public class Header extends AbstractNotesElement {
     /**
      * Information about the submitter of the file
      */
-    private Submitter submitter;
+    private Submitter submitter = new Submitter("@SUBMITTER@", "UNSPECIFIED");
 
     /**
      * The time of the file
