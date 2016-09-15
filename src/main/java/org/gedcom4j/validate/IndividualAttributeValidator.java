@@ -26,25 +26,33 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.model.PersonalNameVariation;
+import org.gedcom4j.model.IndividualAttribute;
+import org.gedcom4j.model.IndividualAttributeType;
 
 /**
- * Validator for {@link PersonalNameVariation} objects
+ * Validator for {@link IndividualAttribute} objects
  * 
- * @author frizbog1
+ * @author frizbog
  */
-class PersonalNameVariationValidator extends NameVariationValidator {
+public class IndividualAttributeValidator extends AbstractValidator {
+
+    /**
+     * The individual attribute being validated
+     */
+    private final IndividualAttribute ia;
 
     /**
      * Constructor
      * 
      * @param validator
-     *            the {@link Validator} that contains the findings and the settings
-     * @param pnv
-     *            the personal name variation to be validated
+     *            the main {@link Validator} class that holds all the findings and results
+     * 
+     * @param ia
+     *            the individual attribute being validated
      */
-    PersonalNameVariationValidator(Validator validator, PersonalNameVariation pnv) {
-        super(validator, pnv);
+    public IndividualAttributeValidator(Validator validator, IndividualAttribute ia) {
+        this.validator = validator;
+        this.ia = ia;
     }
 
     /**
@@ -52,19 +60,14 @@ class PersonalNameVariationValidator extends NameVariationValidator {
      */
     @Override
     protected void validate() {
-        super.validate();
-        if (nv == null) {
-            return;
+        mustHaveValue(ia, "type");
+        if (ia.getType() == IndividualAttributeType.FACT) {
+            mustHaveValue(ia, "subType");
         }
-        PersonalNameVariation pnv = (PersonalNameVariation) nv;
-        checkCitations(pnv);
-        mustHaveValueOrBeOmitted(pnv, "givenName");
-        mustHaveValueOrBeOmitted(pnv, "nickname");
-        mustHaveValueOrBeOmitted(pnv, "prefix");
-        mustHaveValueOrBeOmitted(pnv, "suffix");
-        mustHaveValueOrBeOmitted(pnv, "surname");
-        mustHaveValueOrBeOmitted(pnv, "surnamePrefix");
-        new NotesListValidator(validator, pnv).validate();
+        if (ia.getType() != IndividualAttributeType.RESIDENCE) {
+            mustHaveValue(ia, "description");
+        }
+        checkCustomTags(ia);
     }
 
 }

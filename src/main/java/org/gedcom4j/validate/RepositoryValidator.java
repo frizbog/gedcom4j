@@ -58,10 +58,6 @@ class RepositoryValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        if (repository == null) {
-            addError("Repository being validated is null");
-            return;
-        }
         xrefMustBePresentAndWellFormed(repository);
         mustHaveValueOrBeOmitted(repository, "name");
         checkChangeDate(repository.getChangeDate(), repository);

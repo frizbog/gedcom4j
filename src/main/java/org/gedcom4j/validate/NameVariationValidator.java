@@ -59,10 +59,6 @@ class NameVariationValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        if (nv == null) {
-            addError("Name variation is null and cannot be validated");
-            return;
-        }
         checkCustomTags(nv);
         mustHaveValue(nv, "variation");
         mustHaveValueOrBeOmitted(nv, "variationType");

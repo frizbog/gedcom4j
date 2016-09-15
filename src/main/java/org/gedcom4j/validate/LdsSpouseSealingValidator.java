@@ -59,10 +59,6 @@ class LdsSpouseSealingValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        if (s == null) {
-            addError("LDS Spouse Sealing is null and cannot be validated");
-            return;
-        }
         checkCitations(s);
         checkCustomTags(s);
         mustHaveValueOrBeOmitted(s, "date");

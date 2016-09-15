@@ -76,7 +76,16 @@ public enum ProblemCode {
     /**
      * Unable to determine GEDCOM version - assuming v5.5.1
      */
-    UNABLE_TO_DETERMINE_GEDCOM_VERSION(10, "Unable to determine GEDCOM version - assuming v5.5.1");
+    UNABLE_TO_DETERMINE_GEDCOM_VERSION(10, "Unable to determine GEDCOM version - assuming v5.5.1"),
+    /**
+     * Not a valid email address (format)
+     */
+    NOT_VALID_EMAIL_ADDRESS(11, "Invalid email address"),
+    /**
+     * Not a valid URL (format)
+     */
+    NOT_VALID_WWW_URL(12, "Invalid WWW URL");
+
     /*
      * Static initializer to check for skipped code numbers (which would also occur if there are duplicates)
      */

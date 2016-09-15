@@ -60,9 +60,29 @@ class PlaceValidator extends AbstractValidator {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void validate() {
+        checkCitations(place);
+        checkCustomTags(place);
+
+        mustHaveValueOrBeOmitted(place, "latitude");
+        mustHaveValueOrBeOmitted(place, "longitude");
+        new NotesListValidator(validator, place).validate();
+        mustHaveValueOrBeOmitted(place, "placeFormat");
+        if (place.getPlaceName() == null) {
+            validator.newFinding(place, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "placeName");
+        }
+
+        checkPhoneticVariations();
+
+    }
+
+    /**
      * Check the phonetic variations on the place name
      */
-    protected void checkPhoneticVariations() {
+    private void checkPhoneticVariations() {
         List<AbstractNameVariation> phonetic = place.getPhonetic();
         if (phonetic == null && Options.isCollectionInitializationEnabled()) {
             Finding vf = validator.newFinding(place, Severity.ERROR, ProblemCode.UNINITIALIZED_COLLECTION, "phonetic");
@@ -81,7 +101,7 @@ class PlaceValidator extends AbstractValidator {
     /**
      * Check the romanized variations on the place name
      */
-    protected void checkRomanizedVariations() {
+    private void checkRomanizedVariations() {
         List<AbstractNameVariation> romanized = place.getRomanized();
         if (romanized == null && Options.isCollectionInitializationEnabled()) {
             Finding vf = validator.newFinding(place, Severity.ERROR, ProblemCode.UNINITIALIZED_COLLECTION, "romanized");
@@ -95,26 +115,6 @@ class PlaceValidator extends AbstractValidator {
         for (AbstractNameVariation nv : romanized) {
             new NameVariationValidator(validator, nv).validate();
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void validate() {
-        checkCitations(place);
-        checkCustomTags(place);
-
-        mustHaveValueOrBeOmitted(place, "latitude");
-        mustHaveValueOrBeOmitted(place, "longitude");
-        new NotesListValidator(validator, place).validate();
-        mustHaveValueOrBeOmitted(place, "placeFormat");
-        if (place.getPlaceName() == null) {
-            validator.newFinding(place, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "placeName");
-        }
-
-        checkPhoneticVariations();
-
     }
 
 }

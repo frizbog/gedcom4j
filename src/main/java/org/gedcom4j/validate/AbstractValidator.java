@@ -36,6 +36,7 @@ import java.util.regex.Pattern;
 
 import org.gedcom4j.Options;
 import org.gedcom4j.exception.ValidationException;
+import org.gedcom4j.model.AbstractAddressableElement;
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.ChangeDate;
 import org.gedcom4j.model.HasCitations;
@@ -58,9 +59,20 @@ import org.gedcom4j.validate.Validator.Finding;
 abstract class AbstractValidator {
 
     /**
-     * Regex patter for an XRef
+     * Regex pattern for an XRef
      */
     private static final Pattern XREF_PATTERN = Pattern.compile("^\\@.+\\@$");
+
+    /**
+     * Regex pattern for an Email address
+     */
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$");
+
+    /**
+     * Regex pattern for a URL
+     */
+    private static final Pattern URL_PATTERN = Pattern.compile(
+            "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
 
     /**
      * The root validator - the one that holds the collection of findings among other things.
@@ -176,6 +188,53 @@ abstract class AbstractValidator {
                     i++;
                 }
             }
+        }
+    }
+
+    /**
+     * Check the emails
+     * 
+     * @param itemWithAddresses
+     *            item with emails
+     */
+    protected void checkEmails(AbstractAddressableElement itemWithAddresses) {
+        List<StringWithCustomTags> emails = itemWithAddresses.getEmails();
+        if (emails == null && Options.isCollectionInitializationEnabled()) {
+            Finding vf = validator.newFinding(itemWithAddresses, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "emails");
+            initializeCollectionIfAllowed(vf);
+        }
+        if (emails == null) {
+            return;
+        }
+        checkListOfModelElementsForDups(itemWithAddresses, "emails");
+        checkListOfModelElementsForDups(itemWithAddresses, "nulls");
+        for (StringWithCustomTags swct : emails) {
+            mustHaveValue(swct, "value");
+            if (swct.getValue() != null && !EMAIL_PATTERN.matcher(swct.getValue()).matches()) {
+                validator.newFinding(swct, Severity.WARNING, ProblemCode.NOT_VALID_EMAIL_ADDRESS, "value");
+            }
+        }
+    }
+
+    /**
+     * Check the fax numbers
+     * 
+     * @param itemWithAddresses
+     *            item with fax numbers
+     */
+    protected void checkFaxNumbers(AbstractAddressableElement itemWithAddresses) {
+        List<StringWithCustomTags> faxNumbers = itemWithAddresses.getFaxNumbers();
+        if (faxNumbers == null && Options.isCollectionInitializationEnabled()) {
+            Finding vf = validator.newFinding(itemWithAddresses, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "faxNumbers");
+            initializeCollectionIfAllowed(vf);
+        }
+        if (faxNumbers == null) {
+            return;
+        }
+        checkListOfModelElementsForDups(itemWithAddresses, "faxNumbers");
+        checkListOfModelElementsForDups(itemWithAddresses, "nulls");
+        for (StringWithCustomTags swct : faxNumbers) {
+            mustHaveValue(swct, "value");
         }
     }
 
@@ -298,6 +357,29 @@ abstract class AbstractValidator {
     }
 
     /**
+     * Check the phone numbers
+     * 
+     * @param itemWithAddresses
+     *            item with phone numbers
+     */
+    protected void checkPhoneNumbers(AbstractAddressableElement itemWithAddresses) {
+        List<StringWithCustomTags> phoneNumbers = itemWithAddresses.getPhoneNumbers();
+        if (phoneNumbers == null && Options.isCollectionInitializationEnabled()) {
+            Finding vf = validator.newFinding(itemWithAddresses, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION,
+                    "phoneNumbers");
+            initializeCollectionIfAllowed(vf);
+        }
+        if (phoneNumbers == null) {
+            return;
+        }
+        checkListOfModelElementsForDups(itemWithAddresses, "phoneNumbers");
+        checkListOfModelElementsForDups(itemWithAddresses, "nulls");
+        for (StringWithCustomTags swct : phoneNumbers) {
+            mustHaveValue(swct, "value");
+        }
+    }
+
+    /**
      * Check a string list (List&lt;String&gt; or List&lt;StringWithCustomTags&gt;) on an object.
      * 
      * @param modelElement
@@ -414,6 +496,31 @@ abstract class AbstractValidator {
                 mustHaveValue(ur, "referenceNum");
                 mustHaveValueOrBeOmitted(ur, "type");
                 i++;
+            }
+        }
+    }
+
+    /**
+     * Check the wwwUrls
+     * 
+     * @param itemWithAddresses
+     *            item with wwwUrls
+     */
+    protected void checkWwwUrls(AbstractAddressableElement itemWithAddresses) {
+        List<StringWithCustomTags> wwwUrls = itemWithAddresses.getWwwUrls();
+        if (wwwUrls == null && Options.isCollectionInitializationEnabled()) {
+            Finding vf = validator.newFinding(itemWithAddresses, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "wwwUrls");
+            initializeCollectionIfAllowed(vf);
+        }
+        if (wwwUrls == null) {
+            return;
+        }
+        checkListOfModelElementsForDups(itemWithAddresses, "wwwUrls");
+        checkListOfModelElementsForDups(itemWithAddresses, "nulls");
+        for (StringWithCustomTags swct : wwwUrls) {
+            mustHaveValue(swct, "value");
+            if (swct.getValue() != null && !URL_PATTERN.matcher(swct.getValue()).matches()) {
+                validator.newFinding(swct, Severity.WARNING, ProblemCode.NOT_VALID_WWW_URL, "value");
             }
         }
     }
