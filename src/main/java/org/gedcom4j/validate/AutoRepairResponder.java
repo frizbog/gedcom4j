@@ -41,6 +41,11 @@ package org.gedcom4j.validate;
  * selective. You will need to implement this interface, and your implementation should examine the {@link Validator.Finding} passed
  * in on the callback to decide whether to return true (to permit the repair) or false (to forbid the repair).
  * </p>
+ * <p>
+ * Note that since the finding passed to the responder has a reference to the object with the finding, the caller has the
+ * opportunity do do its own corrections to the object if it wants, and then return false to indicate that the framework should not
+ * attempt any further repairs to the object.
+ * </p>
  */
 public interface AutoRepairResponder {
 

@@ -29,13 +29,19 @@ package org.gedcom4j.validate;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.gedcom4j.Options;
+import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Header;
+import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.ModelElement;
+import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Note;
+import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.Submission;
+import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.Trailer;
 
 /**
@@ -521,44 +527,18 @@ public class Validator extends AbstractValidator {
         results.clear();
         checkHeader();
         checkSubmission();
-        // Families
-        // Individuals
-        // Multimedia
+        checkFamilies();
+        checkIndividuals();
+        checkMultimedia();
         checkNotes();
-        // Repositories
-        // Sources
-        // Submitters
+        checkRepositories();
+        checkNotes();
+        checkSubmitters();
         if (gedcom.getTrailer() == null) {
             Finding vf = newFinding(gedcom, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "trailer");
             if (mayRepair(vf)) {
                 gedcom.setTrailer(new Trailer());
                 vf.addRepair(new AutoRepair(null, new Trailer()));
-            }
-        }
-    }
-
-    /**
-     * Check the header
-     */
-    protected void checkHeader() {
-        if (gedcom.getHeader() == null) {
-            Header header = new Header();
-            gedcom.setHeader(header);
-        }
-        new HeaderValidator(this, gedcom.getHeader()).validate();
-    }
-
-    /**
-     * Check submission
-     */
-    protected void checkSubmission() {
-        if (gedcom.getSubmission() != null) {
-            new SubmissionValidator(this, gedcom.getSubmission()).validate();
-        } else {
-            Finding vf = newFinding(gedcom, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "submission");
-            if (mayRepair(vf)) {
-                gedcom.setSubmission(new Submission("@SUBMISSION@"));
-                vf.addRepair(new AutoRepair(null, new Submission(gedcom.getSubmission())));
             }
         }
     }
@@ -578,6 +558,68 @@ public class Validator extends AbstractValidator {
     }
 
     /**
+     * Check families.
+     */
+    private void checkFamilies() {
+        for (Entry<String, Family> entry : gedcom.getFamilies().entrySet()) {
+            if (entry.getValue() == null || entry.getKey() == null) {
+                Finding vf = newFinding(gedcom, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, "submitter");
+                if (mayRepair(vf)) {
+                    vf.addRepair(new AutoRepair(null, null));
+                    gedcom.getFamilies().remove(entry.getKey());
+                }
+            } else {
+                new FamilyValidator(this, entry.getValue()).validate();
+            }
+        }
+    }
+
+    /**
+     * Check the header
+     */
+    private void checkHeader() {
+        if (gedcom.getHeader() == null) {
+            Header header = new Header();
+            gedcom.setHeader(header);
+        }
+        new HeaderValidator(this, gedcom.getHeader()).validate();
+    }
+
+    /**
+     * Check individuals.
+     */
+    private void checkIndividuals() {
+        for (Entry<String, Individual> entry : gedcom.getIndividuals().entrySet()) {
+            if (entry.getValue() == null || entry.getKey() == null) {
+                Finding vf = newFinding(gedcom, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, "individuals");
+                if (mayRepair(vf)) {
+                    vf.addRepair(new AutoRepair(null, null));
+                    gedcom.getIndividuals().remove(entry.getKey());
+                }
+            } else {
+                new IndividualValidator(this, entry.getValue()).validate();
+            }
+        }
+    }
+
+    /**
+     * Check multimedia.
+     */
+    private void checkMultimedia() {
+        for (Entry<String, Multimedia> entry : gedcom.getMultimedia().entrySet()) {
+            if (entry.getValue() == null || entry.getKey() == null) {
+                Finding vf = newFinding(gedcom, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, "multimedia");
+                if (mayRepair(vf)) {
+                    vf.addRepair(new AutoRepair(null, null));
+                    gedcom.getMultimedia().remove(entry.getKey());
+                }
+            } else {
+                new MultimediaValidator(this, entry.getValue()).validate();
+            }
+        }
+    }
+
+    /**
      * Check notes
      */
     private void checkNotes() {
@@ -591,6 +633,55 @@ public class Validator extends AbstractValidator {
                 newFinding(note, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "xref");
             }
             new NoteValidator(this, note).validate();
+        }
+    }
+
+    /**
+     * Check all the repositories in the gedcom
+     */
+    private void checkRepositories() {
+        for (Entry<String, Repository> entry : gedcom.getRepositories().entrySet()) {
+            if (entry.getValue() == null || entry.getKey() == null) {
+                Finding vf = newFinding(gedcom, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, "repositories");
+                if (mayRepair(vf)) {
+                    vf.addRepair(new AutoRepair(null, null));
+                    gedcom.getRepositories().remove(entry.getKey());
+                }
+            } else {
+                new RepositoryValidator(this, entry.getValue()).validate();
+            }
+        }
+    }
+
+    /**
+     * Check submission
+     */
+    private void checkSubmission() {
+        if (gedcom.getSubmission() != null) {
+            new SubmissionValidator(this, gedcom.getSubmission()).validate();
+        } else {
+            Finding vf = newFinding(gedcom, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "submission");
+            if (mayRepair(vf)) {
+                gedcom.setSubmission(new Submission("@SUBMISSION@"));
+                vf.addRepair(new AutoRepair(null, new Submission(gedcom.getSubmission())));
+            }
+        }
+    }
+
+    /**
+     * Check all the submitters in the gedcom
+     */
+    private void checkSubmitters() {
+        for (Entry<String, Submitter> entry : gedcom.getSubmitters().entrySet()) {
+            if (entry.getValue() == null || entry.getKey() == null) {
+                Finding vf = newFinding(gedcom, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, "submitter");
+                if (mayRepair(vf)) {
+                    vf.addRepair(new AutoRepair(null, null));
+                    gedcom.getSubmitters().remove(entry.getKey());
+                }
+            } else {
+                new SubmitterValidator(this, entry.getValue()).validate();
+            }
         }
     }
 

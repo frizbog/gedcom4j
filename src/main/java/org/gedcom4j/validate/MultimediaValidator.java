@@ -34,6 +34,7 @@ import org.gedcom4j.model.FileReference;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.SupportedVersion;
 import org.gedcom4j.model.UserReference;
+import org.gedcom4j.validate.Validator.Finding;
 
 /**
  * A validator for {@link Multimedia} objects. See {@link Validator} for usage instructions.
@@ -69,12 +70,11 @@ class MultimediaValidator extends AbstractValidator {
         mm = multimedia;
         if (validator.getGedcom() == null || validator.getGedcom().getHeader() == null || validator.getGedcom().getHeader()
                 .getGedcomVersion() == null || validator.getGedcom().getHeader().getGedcomVersion().getVersionNumber() == null) {
-            if (validator.isAutorepairEnabled()) {
+            Finding vf = validator.newFinding(mm, Severity.INFO, ProblemCode.UNABLE_TO_DETERMINE_GEDCOM_VERSION, null);
+            if (validator.mayRepair(vf)) {
+                Multimedia before = new Multimedia(mm);
                 gedcomVersion = SupportedVersion.V5_5_1;
-                validator.addInfo("Was not able to determine GEDCOM version - assuming 5.5.1", validator.getGedcom());
-            } else {
-                validator.addError("Was not able to determine GEDCOM version - cannot validate multimedia objects", validator
-                        .getGedcom());
+                vf.addRepair(new AutoRepair(before, new Multimedia(mm)));
             }
         } else {
             gedcomVersion = validator.getGedcom().getHeader().getGedcomVersion().getVersionNumber();
@@ -101,14 +101,6 @@ class MultimediaValidator extends AbstractValidator {
      *            the file reference to check
      */
     private void checkFileReference(FileReference fr) {
-        if (fr == null) {
-            if (validator.isAutorepairEnabled()) {
-                addError("Null file reference in list of file references in multimedia object - cannot repair", mm);
-            } else {
-                addError("Null file reference in list of file references in multimedia object", mm);
-            }
-            return;
-        }
         mustHaveValue(fr, "format");
         mustHaveValueOrBeOmitted(fr, "mediaType");
         mustHaveValueOrBeOmitted(fr, "title");
@@ -119,34 +111,19 @@ class MultimediaValidator extends AbstractValidator {
      * Check user references
      */
     private void checkUserReferences() {
+        Finding vf = validator.newFinding(mm, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "userReferences");
+        initializeCollectionIfAllowed(vf);
+
         List<UserReference> userReferences = mm.getUserReferences();
-        if (Options.isCollectionInitializationEnabled() && userReferences == null) {
-            if (validator.isAutorepairEnabled()) {
-                mm.getUserReferences(true).clear();
-                validator.addInfo("List of user references on multimedia object was null - repaired", mm);
-            } else {
-                validator.addError("List of user references on multimedia object is null", mm);
-                return;
-            }
+        userReferences = mm.getUserReferences();
+        if (userReferences == null) {
+            return;
         }
-        if (validator.isAutorepairEnabled()) {
-            int dups = new DuplicateHandler<>(userReferences).process();
-            if (dups > 0) {
-                validator.addInfo(dups + " duplicate user references found and removed", mm);
-            }
-        }
-        if (userReferences != null) {
-            for (UserReference u : userReferences) {
-                checkCustomTags(u);
-                if (u.getReferenceNum() == null) {
-                    if (validator.isAutorepairEnabled()) {
-                        addError("User reference is has a null or blank reference number - cannot repair", u);
-                    } else {
-                        addError("User reference is has a null or blank reference number", u);
-                    }
-                    continue;
-                }
-            }
+        checkListOfModelElementsForDups(mm, "userReferences");
+        checkListOfModelElementsForNulls(mm, "userReferences");
+        for (UserReference u : userReferences) {
+            mustHaveValue(u, "referenceNum");
+            checkCustomTags(u);
         }
     }
 
@@ -154,25 +131,11 @@ class MultimediaValidator extends AbstractValidator {
      * Check the xref field
      */
     private void checkXref() {
-        // Xref is required
-        if (mm.getXref() == null || mm.getXref().trim().length() == 0) {
-            if (validator.isAutorepairEnabled()) {
-                addError("Multimedia object must have xref - cannot autorepair", mm);
-            } else {
-                addError("Multimedia object must have xref", mm);
-            }
-            return;
-        }
+        xrefMustBePresentAndWellFormed(mm);
 
         // Item should be found in map using the xref as the key
         if (validator.getGedcom().getMultimedia().get(mm.getXref()) != mm) {
-            if (validator.isAutorepairEnabled()) {
-                validator.getGedcom().getMultimedia().put(mm.getXref(), mm);
-                validator.addInfo("Multimedia object not keyed by xref in map - repaired", mm);
-            } else {
-                validator.addError("Multimedia object not keyed by xref in map", mm);
-            }
-            return;
+            validator.newFinding(mm, Severity.ERROR, ProblemCode.CROSS_REFERENCE_NOT_FOUND, "xref");
         }
     }
 
@@ -189,23 +152,16 @@ class MultimediaValidator extends AbstractValidator {
      * Validate that the multimedia object conforms to GEDCOM 5.5 rules
      */
     private void validate55() {
-        if (mm.getBlob() == null || mm.getBlob().isEmpty()) {
-            if (validator.isAutorepairEnabled()) {
-                addError("Embedded media object has an empty blob object - cannot repair", mm);
-            } else {
-                addError("Embedded media object has an empty blob object", mm);
-            }
-        }
+        mustHaveValue(mm, "blob");
         mustHaveValue(mm, "embeddedMediaFormat");
 
         // Validate the citations - only allowed in 5.5.1
         if (mm.getCitations() != null && !mm.getCitations().isEmpty()) {
-            if (validator.isAutorepairEnabled()) {
-                mm.getCitations(true).clear();
-                validator.addInfo("Citations collection was populated, but not allowed in " + "v5.5 of gedcom - repaired (cleared)",
-                        mm);
-            } else {
-                validator.addError("Citations collection is populated, but not allowed in " + "v5.5 of gedcom", mm);
+            Finding vf = validator.newFinding(mm, Severity.ERROR, ProblemCode.NOT_ALLOWED_IN_GEDCOM_55, "");
+            if (validator.mayRepair(vf)) {
+                Multimedia before = new Multimedia(mm);
+                before.getCitations().clear();
+                vf.addRepair(new AutoRepair(before, new Multimedia(mm)));
             }
         }
     }
@@ -217,15 +173,12 @@ class MultimediaValidator extends AbstractValidator {
 
         // File references
         if (Options.isCollectionInitializationEnabled() && mm.getFileReferences() == null) {
-            if (validator.isAutorepairEnabled()) {
-                mm.getFileReferences(true).clear();
-                validator.addInfo("Multimedia object did not have list of file references - repaired", mm);
-            } else {
-                validator.addError("Multimedia object does not have list of file references", mm);
-                return;
-            }
+            Finding vf = validator.newFinding(mm, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "fileReferences");
+            initializeCollectionIfAllowed(vf);
         }
         if (mm.getFileReferences() != null) {
+            checkListOfModelElementsForDups(mm, "fileReferences");
+            checkListOfModelElementsForNulls(mm, "fileReferences");
             for (FileReference fr : mm.getFileReferences()) {
                 checkFileReference(fr);
             }
@@ -233,26 +186,22 @@ class MultimediaValidator extends AbstractValidator {
 
         // Blobs must be empty in 5.5.1
         if (mm.getBlob() != null && !mm.getBlob().isEmpty()) {
-            if (validator.isAutorepairEnabled()) {
-                mm.getBlob().clear();
-                addInfo("Embedded media object had a populated blob object, "
-                        + "which is not allowed in GEDCOM 5.5.1 - repaired (cleared)", mm);
-            } else {
-                addError("Embedded media object has a populated blob object, which is not allowed in GEDCOM 5.5.1", mm);
+            Finding vf = validator.newFinding(mm, Severity.ERROR, ProblemCode.NOT_ALLOWED_IN_GEDCOM_551, "blob");
+            if (validator.mayRepair(vf)) {
+                Multimedia before = new Multimedia(mm);
+                mm.getBlob(true).clear();
+                vf.addRepair(new AutoRepair(before, new Multimedia(mm)));
             }
         }
 
         // Cannot have an embedded media format in 5.5.1
         if (mm.getEmbeddedMediaFormat() != null) {
-            if (validator.isAutorepairEnabled()) {
+            Finding vf = validator.newFinding(mm, Severity.ERROR, ProblemCode.NOT_ALLOWED_IN_GEDCOM_551, "embeddedMediaFormat");
+            if (validator.mayRepair(vf)) {
+                Multimedia before = new Multimedia(mm);
                 mm.setEmbeddedMediaFormat(null);
-                validator.addInfo("Multimedia object had a format for embedded media, "
-                        + "which is not allowed in GEDCOM 5.5.1 - repaired (cleared)", mm);
-            } else {
-                validator.addError("Multimedia object has a format for embedded media, " + "which is not allowed in GEDCOM 5.5.1",
-                        mm);
+                vf.addRepair(new AutoRepair(before, new Multimedia(mm)));
             }
-
         }
 
         checkCitations(mm);
@@ -267,28 +216,14 @@ class MultimediaValidator extends AbstractValidator {
         mustHaveValueOrBeOmitted(mm, "recIdNumber");
         checkChangeDate(mm.getChangeDate(), mm);
         checkUserReferences();
-        if (Options.isCollectionInitializationEnabled() && mm.getCitations() == null) {
-            if (validator.isAutorepairEnabled()) {
-                mm.getCitations(true).clear();
-                addInfo("citations collection for multimedia object was null - validator.autorepaired", mm);
-            } else {
-                addError("citations collection for multimedia object is null", mm);
-            }
-        }
+        checkCitations(mm);
         if (mm.getContinuedObject() != null) {
             new MultimediaValidator(validator, mm.getContinuedObject()).validate();
         }
-        // The blob object should always be instantiated, even for 5.5.1 (in
-        // which case it should be an empty collection)
         if (Options.isCollectionInitializationEnabled() && mm.getBlob() == null) {
-            if (validator.isAutorepairEnabled()) {
-                mm.getBlob(true).clear();
-                validator.addInfo("Embedded blob was null - repaired", mm);
-            } else {
-                validator.addError("Embedded blob is null", mm);
-            }
+            Finding vf = validator.newFinding(mm, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "blob");
+            initializeCollectionIfAllowed(vf);
         }
-
         new NotesListValidator(validator, mm).validate();
     }
 

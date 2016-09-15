@@ -58,7 +58,7 @@ public class SubmissionValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        checkXref(submission);
+        xrefMustBePresentAndWellFormed(submission);
         mustHaveValueOrBeOmitted(submission, "ancestorsCount");
         mustHaveValueOrBeOmitted(submission, "descendantsCount");
         mustHaveValueOrBeOmitted(submission, "nameOfFamilyFile");

@@ -72,8 +72,11 @@ public enum ProblemCode {
     /**
      * Bad XRef value
      */
-    XREF_INVALID(9, "Xref is malformed - should begin and end with @-sign, and have at least one character in between");
-
+    XREF_INVALID(9, "Xref is malformed - should begin and end with @-sign, and have at least one character in between"),
+    /**
+     * Unable to determine GEDCOM version - assuming v5.5.1
+     */
+    UNABLE_TO_DETERMINE_GEDCOM_VERSION(10, "Unable to determine GEDCOM version - assuming v5.5.1");
     /*
      * Static initializer to check for skipped code numbers (which would also occur if there are duplicates)
      */

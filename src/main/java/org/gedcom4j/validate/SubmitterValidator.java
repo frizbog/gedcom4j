@@ -64,7 +64,7 @@ class SubmitterValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        checkXref(submitter);
+        xrefMustBePresentAndWellFormed(submitter);
         mustHaveValue(submitter, "name");
         checkLanguagePreferences();
         mustHaveValueOrBeOmitted(submitter, "recIdNumber");

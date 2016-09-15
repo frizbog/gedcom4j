@@ -43,8 +43,8 @@ class RepositoryValidator extends AbstractValidator {
     /**
      * Constructor
      * 
-     * @param gedcomValidator
-     *            the root validator
+     * @param validator
+     *            the main {@link Validator} class that holds all the validation results
      * @param repository
      *            the repository being validated
      */
@@ -62,13 +62,13 @@ class RepositoryValidator extends AbstractValidator {
             addError("Repository being validated is null");
             return;
         }
-        checkXref(repository);
+        xrefMustBePresentAndWellFormed(repository);
         mustHaveValueOrBeOmitted(repository, "name");
         checkChangeDate(repository.getChangeDate(), repository);
-        checkStringTagList(repository.getEmails(), "email list", false);
+        checkStringList(repository, "emails", false);
         checkUserReferences(repository.getUserReferences(), repository);
         mustHaveValueOrBeOmitted(repository, "recIdNumber");
-        checkStringTagList(repository.getPhoneNumbers(), "phone numbers", false);
+        checkStringList(repository, "phoneNumbers", false);
         new NotesListValidator(validator, repository).validate();
 
         Address a = repository.getAddress();

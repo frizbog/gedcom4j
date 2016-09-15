@@ -31,6 +31,7 @@ import java.util.List;
 import org.gedcom4j.Options;
 import org.gedcom4j.model.AbstractNameVariation;
 import org.gedcom4j.model.Place;
+import org.gedcom4j.validate.Validator.Finding;
 
 /**
  * Validator for {@link Place} objects
@@ -59,14 +60,48 @@ class PlaceValidator extends AbstractValidator {
     }
 
     /**
+     * Check the phonetic variations on the place name
+     */
+    protected void checkPhoneticVariations() {
+        List<AbstractNameVariation> phonetic = place.getPhonetic();
+        if (phonetic == null && Options.isCollectionInitializationEnabled()) {
+            Finding vf = validator.newFinding(place, Severity.ERROR, ProblemCode.UNINITIALIZED_COLLECTION, "phonetic");
+            initializeCollectionIfAllowed(vf);
+        }
+        if (phonetic == null) {
+            return;
+        }
+        checkListOfModelElementsForDups(place, "phonetic");
+        checkListOfModelElementsForNulls(place, "phonetic");
+        for (AbstractNameVariation nv : phonetic) {
+            new NameVariationValidator(validator, nv).validate();
+        }
+    }
+
+    /**
+     * Check the romanized variations on the place name
+     */
+    protected void checkRomanizedVariations() {
+        List<AbstractNameVariation> romanized = place.getRomanized();
+        if (romanized == null && Options.isCollectionInitializationEnabled()) {
+            Finding vf = validator.newFinding(place, Severity.ERROR, ProblemCode.UNINITIALIZED_COLLECTION, "romanized");
+            initializeCollectionIfAllowed(vf);
+        }
+        if (romanized == null) {
+            return;
+        }
+        checkListOfModelElementsForDups(place, "romanized");
+        checkListOfModelElementsForNulls(place, "romanized");
+        for (AbstractNameVariation nv : romanized) {
+            new NameVariationValidator(validator, nv).validate();
+        }
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     protected void validate() {
-        if (place == null) {
-            addError("Place is null and cannot be validated or repaired");
-            return;
-        }
         checkCitations(place);
         checkCustomTags(place);
 
@@ -75,56 +110,10 @@ class PlaceValidator extends AbstractValidator {
         new NotesListValidator(validator, place).validate();
         mustHaveValueOrBeOmitted(place, "placeFormat");
         if (place.getPlaceName() == null) {
-            if (validator.isAutorepairEnabled()) {
-                addError("Place name was unspecified and cannot be repaired");
-            } else {
-                addError("Place name was unspecified");
-            }
+            validator.newFinding(place, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "placeName");
         }
 
-        List<AbstractNameVariation> phonetic = place.getPhonetic();
-        if (phonetic == null && Options.isCollectionInitializationEnabled()) {
-            if (validator.isAutorepairEnabled()) {
-                place.getPhonetic(true).clear();
-                validator.addInfo("Event had null list of phonetic name variations - repaired", place);
-            } else {
-                validator.addError("Event has null list of phonetic name variations", place);
-            }
-        }
-        if (phonetic != null) {
-            if (validator.isAutorepairEnabled()) {
-                int dups = new DuplicateHandler<>(phonetic).process();
-                if (dups > 0) {
-                    validator.addInfo(dups + " duplicate phonetic variations found and removed", place);
-                }
-            }
-
-            for (AbstractNameVariation nv : phonetic) {
-                new NameVariationValidator(validator, nv).validate();
-            }
-        }
-
-        List<AbstractNameVariation> romanized = place.getRomanized();
-        if (romanized == null && Options.isCollectionInitializationEnabled()) {
-            if (validator.isAutorepairEnabled()) {
-                place.getRomanized(true).clear();
-                validator.addInfo("Event had null list of romanized name variations - repaired", place);
-            } else {
-                validator.addError("Event has null list of romanized name variations", place);
-            }
-        }
-        if (validator.isAutorepairEnabled()) {
-            int dups = new DuplicateHandler<>(romanized).process();
-            if (dups > 0) {
-                validator.addInfo(dups + " duplicate romanized variations found and removed", place);
-            }
-        }
-
-        if (romanized != null) {
-            for (AbstractNameVariation nv : romanized) {
-                new NameVariationValidator(validator, nv).validate();
-            }
-        }
+        checkPhoneticVariations();
 
     }
 

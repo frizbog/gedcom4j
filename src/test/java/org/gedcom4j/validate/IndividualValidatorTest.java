@@ -53,7 +53,7 @@ public class IndividualValidatorTest extends AbstractValidatorTestCase {
         Individual i = new Individual();
         AbstractValidator v = new IndividualValidator(validator, i);
         v.validate();
-        assertFindingsContain(Severity.ERROR, "xref", "null");
+        assertFindingsContain(Severity.ERROR, i, ProblemCode.XREF_INVALID, "xref");
     }
 
     /**

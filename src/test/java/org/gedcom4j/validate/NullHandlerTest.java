@@ -35,61 +35,63 @@ import org.junit.Test;
 import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
- * Test for {@link DuplicateHandler}
+ * Test for {@link NullHandler}
  * 
  * @author frizbog
  *
  */
-public class DuplicateHandlerTest {
+public class NullHandlerTest {
 
     /**
-     * Test only counting the duplicates
+     * Test only counting the nulls
      */
     @Test
     public void testCountOnly() {
-        ArrayList<String> list = new ArrayList<>(Arrays.asList(new String[] { "A", "B", "B", "C", "D", "D", "D", "D", "E", "F",
-                "F" }));
-        DuplicateHandler<String> classUnderTest = new DuplicateHandler<>(list);
-        assertEquals(5, classUnderTest.count());
-        assertEquals("When only counting, repeated calls should five the same result", 5, classUnderTest.count());
-    }
-
-    /**
-     * Test only counting the duplicates
-     */
-    @Test
-    public void testCountOnlyWithNulls() {
         ArrayList<String> list = new ArrayList<>(Arrays.asList(new String[] { "A", "B", "B", "C", null, null, "D", "D", "D", "D",
                 "E", null, "F", "F" }));
-        DuplicateHandler<String> classUnderTest = new DuplicateHandler<>(list);
-        assertEquals(7, classUnderTest.count());
-        assertEquals("When only counting, repeated calls should five the same result", 7, classUnderTest.count());
+        NullHandler<String> classUnderTest = new NullHandler<>(list);
+        assertEquals(3, classUnderTest.count());
+        assertEquals(Arrays.asList(new String[] { "A", "B", "B", "C", null, null, "D", "D", "D", "D", "E", null, "F", "F" }), list);
+        assertEquals("When only counting, repeated calls should five the same result", 3, classUnderTest.count());
     }
 
     /**
-     * Test removing the duplicates
+     * Test only counting the nulls
+     */
+    @Test
+    public void testCountOnlyNoNulls() {
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(new String[] { "A", "B", "B", "C", "D", "D", "D", "D", "E", "F",
+                "F" }));
+        NullHandler<String> classUnderTest = new NullHandler<>(list);
+        assertEquals(0, classUnderTest.count());
+        assertEquals(Arrays.asList(new String[] { "A", "B", "B", "C", "D", "D", "D", "D", "E", "F", "F" }), list);
+        assertEquals("When only counting, repeated calls should five the same result", 0, classUnderTest.count());
+    }
+
+    /**
+     * Test removing the nulls
      */
     @Test
     public void testRemoving() {
-        ArrayList<String> list = new ArrayList<>(Arrays.asList(new String[] { "A", "B", "B", "C", "D", "D", "D", "D", "E", "F",
-                "F" }));
-        DuplicateHandler<String> classUnderTest = new DuplicateHandler<>(list);
-        assertEquals(7, classUnderTest.remove());
-        assertEquals(Arrays.asList(new String[] { "A", "B", "C", "D", "E", "F" }), list);
-        assertEquals("After removing, repeated calls should return 0 duplicates counted/removed", 0, classUnderTest.remove());
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(new String[] { "A", "B", "B", "C", null, null, "D", "D", "D", "D",
+                "E", null, "F", "F" }));
+        NullHandler<String> classUnderTest = new NullHandler<>(list);
+        assertEquals(3, classUnderTest.remove());
+        assertEquals(Arrays.asList(new String[] { "A", "B", "B", "C", "D", "D", "D", "D", "E", "F", "F" }), list);
+        assertEquals("After removing, repeated calls should return 0 nulls counted/removed", 0, classUnderTest.remove());
     }
 
     /**
-     * Test removing the duplicates
+     * Test removing the nulls
      */
     @Test
-    public void testRemovingWithNulls() {
-        ArrayList<String> list = new ArrayList<>(Arrays.asList(new String[] { "A", "B", "B", "C", null, null, "D", "D", "D", "D",
-                "E", null, "F", "F" }));
-        DuplicateHandler<String> classUnderTest = new DuplicateHandler<>(list);
-        assertEquals(7, classUnderTest.remove());
-        assertEquals(Arrays.asList(new String[] { "A", "B", "C", null, "D", "E", "F" }), list);
-        assertEquals("After removing, repeated calls should return 0 duplicates counted/removed", 0, classUnderTest.remove());
+    public void testRemovingNoNulls() {
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(new String[] { "A", "B", "B", "C", "D", "D", "D", "D", "E", "F",
+                "F" }));
+        NullHandler<String> classUnderTest = new NullHandler<>(list);
+        assertEquals(0, classUnderTest.remove());
+        assertEquals(Arrays.asList(new String[] { "A", "B", "B", "C", "D", "D", "D", "D", "E", "F", "F" }), list);
+        assertEquals("After removing, repeated calls should return 0 nulls counted/removed", 0, classUnderTest.remove());
     }
 
 }

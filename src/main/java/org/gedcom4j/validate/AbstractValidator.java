@@ -68,6 +68,31 @@ abstract class AbstractValidator {
     protected Validator validator;
 
     /**
+     * Check an object that has an alternate xref field (i.e., contains an xref but isn't named "xref")
+     * 
+     * @param objectContainingXref
+     *            the object containing the xref field
+     * @param fieldName
+     *            the name of the alternate xref field
+     */
+    protected void checkAlternateXref(ModelElement objectContainingXref, String fieldName) {
+        String xref;
+        try {
+            xref = (String) get(objectContainingXref, fieldName);
+        } catch (ClassCastException e) {
+            throw new ValidationException("Field " + fieldName + " on object of type " + objectContainingXref.getClass().getName()
+                    + " did not return a string", e);
+        }
+        if (!isSpecified(xref)) {
+            validator.newFinding(objectContainingXref, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "xref");
+        } else {
+            if (!XREF_PATTERN.matcher(xref).matches()) {
+                validator.newFinding(objectContainingXref, Severity.ERROR, ProblemCode.XREF_INVALID, "xref");
+            }
+        }
+    }
+
+    /**
      * Check a change date structure
      * 
      * @param changeDate
@@ -155,6 +180,114 @@ abstract class AbstractValidator {
     }
 
     /**
+     * Check a list for null entries
+     * 
+     * @param modelElement
+     *            the object that has the list
+     * @param listName
+     *            the name of the list
+     */
+    protected void checkForNullEntries(ModelElement modelElement, String listName) {
+        Object object = get(modelElement, listName);
+        if (!(object instanceof List)) {
+            throw new ValidationException("Could not find a List named " + listName + " on object of type " + modelElement
+                    .getClass().getName());
+        }
+        @SuppressWarnings("rawtypes")
+        List list = (List) object;
+        int i = 0;
+        while (i < list.size()) {
+            Object o = list.get(i);
+            if (o != null) {
+                i++;
+                continue;
+            }
+            Finding vf = validator.newFinding(modelElement, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, listName);
+            if (validator.mayRepair(vf)) {
+                list.remove(i);
+            } else {
+                i++;
+            }
+        }
+    }
+
+    /**
+     * Check list of model elements for dups, and removes them if allowed
+     *
+     * @param <L>
+     *            the type of item in the list being checked
+     * @param <M>
+     *            the type of the object that has the list
+     * @param modelElement
+     *            the model element that has the list
+     * @param listName
+     *            the name of the list property
+     */
+    @SuppressWarnings("checkstyle:NoWhitespaceBefore")
+    protected <L extends ModelElement, M extends ModelElement> void checkListOfModelElementsForDups(M modelElement,
+            String listName) {
+        Object l = get(modelElement, listName);
+        if (l == null) {
+            return;
+        }
+        if (!(l instanceof List)) {
+            throw new ValidationException("Property " + listName + " on " + modelElement.getClass().getName()
+                    + " did not return a List, but a " + l.getClass().getName());
+        }
+        @SuppressWarnings("unchecked")
+        List<L> list = (List<L>) l;
+        DuplicateHandler<L> dh = new DuplicateHandler<>(list);
+        if (dh.count() > 0) {
+
+            Finding vf = validator.newFinding(modelElement, Severity.ERROR, ProblemCode.DUPLICATE_VALUE, listName);
+            if (validator.mayRepair(vf)) {
+                @SuppressWarnings("unchecked")
+                M before = (M) makeCopy(modelElement);
+                dh.remove();
+                vf.addRepair(new AutoRepair(before, makeCopy(modelElement)));
+            }
+        }
+    }
+
+    /**
+     * Check list of model elements for null values and removes them if allowed.
+     *
+     * @param <L>
+     *            the type of item in the list being checked
+     * @param <M>
+     *            the type of the object that has the list
+     * @param modelElement
+     *            the model element that has the list
+     * @param listName
+     *            the name of the list property
+     */
+    @SuppressWarnings("checkstyle:NoWhitespaceBefore")
+    protected <L extends ModelElement, M extends ModelElement> void checkListOfModelElementsForNulls(M modelElement,
+            String listName) {
+        Object l = get(modelElement, listName);
+        if (l == null) {
+            return;
+        }
+        if (!(l instanceof List)) {
+            throw new ValidationException("Property " + listName + " on " + modelElement.getClass().getName()
+                    + " did not return a List, but a " + l.getClass().getName());
+        }
+        @SuppressWarnings("unchecked")
+        List<L> list = (List<L>) l;
+        NullHandler<L> dh = new NullHandler<>(list);
+        if (dh.count() > 0) {
+
+            Finding vf = validator.newFinding(modelElement, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, listName);
+            if (validator.mayRepair(vf)) {
+                @SuppressWarnings("unchecked")
+                M before = (M) makeCopy(modelElement);
+                dh.remove();
+                vf.addRepair(new AutoRepair(before, makeCopy(modelElement)));
+            }
+        }
+    }
+
+    /**
      * Check the notes on the object
      * 
      * @param objectWithNotes
@@ -165,7 +298,7 @@ abstract class AbstractValidator {
     }
 
     /**
-     * Check a string list (List&lt;String&gt;) on an object. All strings in the list must be non-null and non-blank when trimmed.
+     * Check a string list (List&lt;String&gt; or List&lt;StringWithCustomTags&gt;) on an object.
      * 
      * @param modelElement
      *            the object that has a list of strings in it
@@ -176,16 +309,43 @@ abstract class AbstractValidator {
      */
     @SuppressWarnings("unchecked")
     protected void checkStringList(ModelElement modelElement, String listName, boolean blankStringsAllowed) {
-        List<String> list = (List<String>) get(modelElement, listName);
-        if (list == null && Options.isCollectionInitializationEnabled()) {
+        Object o = get(modelElement, listName);
+        if (o == null && Options.isCollectionInitializationEnabled()) {
             Finding vf = validator.newFinding(modelElement, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, listName);
             initializeCollectionIfAllowed(vf);
         }
-        if (!blankStringsAllowed) {
-            list = (List<String>) get(modelElement, listName);
-            if (list == null) {
+        o = get(modelElement, listName);
+        if (o == null) {
+            return;
+        }
+        if (!(o instanceof List)) {
+            throw new ValidationException("Field " + listName + " on object of type " + modelElement.getClass().getName()
+                    + " is not a List");
+        }
+        if (modelElement instanceof HasCustomTags) {
+            List<StringWithCustomTags> list = (List<StringWithCustomTags>) o;
+            int i = 0;
+            while (i < list.size()) {
+                StringWithCustomTags swct = list.get(i);
+                if (swct != null && (blankStringsAllowed || isSpecified(swct.getValue()))) {
+                    checkCustomTags(swct);
+                    i++;
+                } else {
+                    Finding vf = validator.newFinding(modelElement, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, listName);
+                    if (validator.mayRepair(vf)) {
+                        ModelElement before = makeCopy(modelElement);
+                        list.remove(i);
+                        vf.addRepair(new AutoRepair(before, makeCopy(modelElement)));
+                    } else {
+                        i++;
+                    }
+                }
+            }
+        } else {
+            if (blankStringsAllowed) {
                 return;
             }
+            List<String> list = (List<String>) o;
             int i = 0;
             while (i < list.size()) {
                 String s = list.get(i);
@@ -254,23 +414,6 @@ abstract class AbstractValidator {
                 mustHaveValue(ur, "referenceNum");
                 mustHaveValueOrBeOmitted(ur, "type");
                 i++;
-            }
-        }
-    }
-
-    /**
-     * Check the xref on an object
-     * 
-     * @param objectContainingXref
-     *            the object containing the xref field
-     */
-    protected void checkXref(HasXref objectContainingXref) {
-        String xref = objectContainingXref.getXref();
-        if (!isSpecified(xref)) {
-            validator.newFinding(objectContainingXref, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "xref");
-        } else {
-            if (!XREF_PATTERN.matcher(xref).matches()) {
-                validator.newFinding(objectContainingXref, Severity.ERROR, ProblemCode.XREF_INVALID, "xref");
             }
         }
     }
@@ -488,6 +631,23 @@ abstract class AbstractValidator {
     protected abstract void validate();
 
     /**
+     * Check the xref on an object
+     * 
+     * @param objectContainingXref
+     *            the object containing the xref field
+     */
+    protected void xrefMustBePresentAndWellFormed(HasXref objectContainingXref) {
+        String xref = objectContainingXref.getXref();
+        if (!isSpecified(xref)) {
+            validator.newFinding(objectContainingXref, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "xref");
+        } else {
+            if (!XREF_PATTERN.matcher(xref).matches()) {
+                validator.newFinding(objectContainingXref, Severity.ERROR, ProblemCode.XREF_INVALID, "xref");
+            }
+        }
+    }
+
+    /**
      * Check string tree.
      *
      * @param st
@@ -503,38 +663,6 @@ abstract class AbstractValidator {
         if (st.getChildren() != null) {
             for (StringTree ch : st.getChildren()) {
                 checkStringTree(ch);
-            }
-        }
-    }
-
-    /**
-     * Check a list for null entries
-     * 
-     * @param modelElement
-     *            the object that has the list
-     * @param listName
-     *            the name of the list
-     */
-    protected void checkForNullEntries(ModelElement modelElement, String listName) {
-        Object object = get(modelElement, listName);
-        if (!(object instanceof List)) {
-            throw new ValidationException("Could not find a List named " + listName + " on object of type " + modelElement
-                    .getClass().getName());
-        }
-        @SuppressWarnings("rawtypes")
-        List list = (List) object;
-        int i = 0;
-        while (i < list.size()) {
-            Object o = list.get(i);
-            if (o != null) {
-                i++;
-                continue;
-            }
-            Finding vf = validator.newFinding(modelElement, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, listName);
-            if (validator.mayRepair(vf)) {
-                list.remove(i);
-            } else {
-                i++;
             }
         }
     }

@@ -71,7 +71,7 @@ class IndividualValidator extends AbstractValidator {
             addError("Individual is null");
             return;
         }
-        checkXref(individual);
+        xrefMustBePresentAndWellFormed(individual);
         List<PersonalName> names = individual.getNames();
         if (names == null && Options.isCollectionInitializationEnabled()) {
             if (validator.isAutorepairEnabled()) {
@@ -127,7 +127,7 @@ class IndividualValidator extends AbstractValidator {
                 addError("aliases collection for individual is null", individual);
             }
         } else {
-            checkStringTagList(individual.getAliases(), "aliases on individual", false);
+            checkStringList(individual, "aliases", false);
         }
     }
 
@@ -149,7 +149,7 @@ class IndividualValidator extends AbstractValidator {
                         addError("associations collection for individual contains null entry", individual);
                     } else {
                         mustHaveValue(a, "associatedEntityType");
-                        checkXref(a, "associatedEntityXref");
+                        checkAlternateXref(a, "associatedEntityXref");
                     }
                 }
             }

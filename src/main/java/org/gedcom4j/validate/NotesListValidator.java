@@ -29,6 +29,7 @@ package org.gedcom4j.validate;
 import java.util.List;
 
 import org.gedcom4j.Options;
+import org.gedcom4j.exception.ValidationException;
 import org.gedcom4j.model.ModelElement;
 import org.gedcom4j.model.Note;
 import org.gedcom4j.validate.Validator.Finding;
@@ -63,7 +64,12 @@ class NotesListValidator extends AbstractValidator {
     NotesListValidator(Validator validator, ModelElement parentObject) {
         this.validator = validator;
         this.parentObject = parentObject;
-        notes = (List<Note>) get(parentObject, "notes");
+        try {
+            notes = (List<Note>) get(parentObject, "notes");
+        } catch (ClassCastException e) {
+            throw new ValidationException("Field notes on object of type " + parentObject.getClass().getName()
+                    + "did not return a List<Note>", e);
+        }
     }
 
     /**
