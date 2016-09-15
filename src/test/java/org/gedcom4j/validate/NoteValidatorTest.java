@@ -48,7 +48,7 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
     public void testNotesAtRootLevel() {
         Gedcom g = TestHelper.getMinimalGedcom();
         validator.gedcom = g;
-        validator.setAutorepairEnabled(false);
+        validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
 
         Note n = new Note();
         n.setXref("@N0001@");
@@ -80,7 +80,7 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
     public void testNotesWithoutXref() {
         Gedcom g = TestHelper.getMinimalGedcom();
         validator.gedcom = g;
-        validator.setAutorepairEnabled(false);
+        validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
 
         Note n = new Note();
         n.setXref(null);

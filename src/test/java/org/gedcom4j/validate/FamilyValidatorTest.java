@@ -56,8 +56,8 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
     @Before
     public void setUp() {
         gedcom = TestHelper.getMinimalGedcom();
-        validator.gedcom = gedcom;
-        validator.setAutorepairEnabled(false);
+        validator = new Validator(gedcom);
+        validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
 
         final Individual dad = new Individual();
         dad.setXref("@I00001@");
@@ -89,17 +89,15 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
     public void testAutomatedRecordId() {
         f.setAutomatedRecordId(new StringWithCustomTags((String) null));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "automated", "record", "id", "no value");
+        assertFindingsContain(Severity.ERROR, f, ProblemCode.MISSING_REQUIRED_VALUE, "automatedRecordId");
 
         f.setAutomatedRecordId(new StringWithCustomTags(""));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "automated", "record", "id", "blank");
-        assertFindingsContain(Severity.ERROR, "automated", "record", "id", "custom tags", "no value");
+        assertFindingsContain(Severity.ERROR, f, ProblemCode.MISSING_REQUIRED_VALUE, "automatedRecordId");
 
         f.setAutomatedRecordId(new StringWithCustomTags("     "));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "automated", "record", "id", "blank");
-        assertFindingsContain(Severity.ERROR, "automated", "record", "id", "custom tags", "no value");
+        assertFindingsContain(Severity.ERROR, f, ProblemCode.MISSING_REQUIRED_VALUE, "automatedRecordId");
 
         f.setAutomatedRecordId(new StringWithCustomTags("Frying Pan"));
         validator.validate();

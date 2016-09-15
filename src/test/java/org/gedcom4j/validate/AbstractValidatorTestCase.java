@@ -78,7 +78,7 @@ public abstract class AbstractValidatorTestCase {
             }
         }
         fail("No finding of severity " + severity + " found on object of type " + objectWithFinding.getClass().getName()
-                + " with code " + code + " as expected");
+                + " with code " + code + " as expected.  Findings contain: " + validator.getResults().getAllFindings());
     }
 
     /**

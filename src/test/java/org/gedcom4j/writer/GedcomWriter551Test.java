@@ -49,8 +49,9 @@ import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.SupportedVersion;
 import org.gedcom4j.model.TestHelper;
 import org.gedcom4j.parser.GedcomParser;
-import org.gedcom4j.validate.GedcomValidationFinding;
 import org.gedcom4j.validate.Severity;
+import org.gedcom4j.validate.Validator;
+import org.gedcom4j.validate.Validator.Finding;
 import org.junit.Test;
 
 /**
@@ -75,7 +76,7 @@ public class GedcomWriter551Test {
         Gedcom g = TestHelper.getMinimalGedcom();
         GedcomWriter gw = new GedcomWriter(g);
         gw.validationSuppressed = false;
-        gw.setAutorepair(false);
+        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
         assertTrue(gw.lines.isEmpty());
 
         Multimedia m = new Multimedia();
@@ -85,17 +86,17 @@ public class GedcomWriter551Test {
         m.getBlob(true).add("Blob data only allowed with 5.5");
         try {
             gw.write("tmp/delete-me.ged");
-            if (!gw.getValidationFindings().isEmpty()) {
-                System.out.println(this.getClass().getName() + " found " + gw.getValidationFindings().size()
+            if (!gw.getValidator().getResults().getAllFindings().isEmpty()) {
+                System.out.println(this.getClass().getName() + " found " + gw.getValidator().getResults().getAllFindings().size()
                         + " validation findings:");
-                for (GedcomValidationFinding f : gw.getValidationFindings()) {
+                for (Finding f : gw.getValidator().getResults().getAllFindings()) {
                     System.out.println(f);
                 }
             }
             fail("Should have gotten a GedcomException about the blob data");
         } catch (@SuppressWarnings("unused") GedcomWriterException expectedAndIgnored) {
             boolean foundBlobError = false;
-            for (GedcomValidationFinding f : gw.getValidationFindings()) {
+            for (Finding f : gw.getValidator().getResults().getAllFindings()) {
                 if (f.getSeverity() == Severity.ERROR && f.getProblemDescription().toLowerCase().contains("blob")) {
                     foundBlobError = true;
                 }

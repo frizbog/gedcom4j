@@ -47,7 +47,8 @@ import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.SupportedVersion;
 import org.gedcom4j.parser.GedcomParser;
-import org.gedcom4j.validate.GedcomValidationFinding;
+import org.gedcom4j.validate.Validator;
+import org.gedcom4j.validate.Validator.Finding;
 import org.gedcom4j.writer.event.ConstructProgressEvent;
 import org.gedcom4j.writer.event.ConstructProgressListener;
 import org.junit.Test;
@@ -181,13 +182,13 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         cleanUpGedcom(gp, Encoding.ANSEL);
         gw = new GedcomWriter(gp.getGedcom());
         gw.setLineTerminator(LineTerminator.CRLF);
-        gw.setAutorepair(true);
+        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
         try {
             gw.write(new NullOutputStream());
         } catch (GedcomWriterException e) {
-            for (GedcomValidationFinding f : gw.getValidationFindings()) {
+            for (Finding f : gw.getValidator().getResults().getAllFindings()) {
                 System.out.println(f);
             }
             throw e;
@@ -216,13 +217,13 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         cleanUpGedcom(gp, Encoding.ANSEL);
         gw = new GedcomWriter(gp.getGedcom());
         gw.setLineTerminator(LineTerminator.CR_ONLY);
-        gw.setAutorepair(true);
+        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
         try {
             gw.write(new NullOutputStream());
         } catch (GedcomWriterException e) {
-            for (GedcomValidationFinding f : gw.getValidationFindings()) {
+            for (Finding f : gw.getValidator().getResults().getAllFindings()) {
                 System.out.println(f);
             }
             throw e;
@@ -251,13 +252,13 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         cleanUpGedcom(gp, Encoding.ASCII);
         gw = new GedcomWriter(gp.getGedcom());
         gw.setLineTerminator(LineTerminator.CRLF);
-        gw.setAutorepair(true);
+        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
         try {
             gw.write(new NullOutputStream());
         } catch (GedcomWriterException e) {
-            for (GedcomValidationFinding f : gw.getValidationFindings()) {
+            for (Finding f : gw.getValidator().getResults().getAllFindings()) {
                 System.out.println(f);
             }
             throw e;
@@ -286,13 +287,13 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         cleanUpGedcom(gp, Encoding.ASCII);
         gw = new GedcomWriter(gp.getGedcom());
         gw.setLineTerminator(LineTerminator.CR_ONLY);
-        gw.setAutorepair(true);
+        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
         try {
             gw.write(new NullOutputStream());
         } catch (GedcomWriterException e) {
-            for (GedcomValidationFinding f : gw.getValidationFindings()) {
+            for (Finding f : gw.getValidator().getResults().getAllFindings()) {
                 System.out.println(f);
             }
             throw e;
@@ -321,13 +322,13 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         cleanUpGedcom(gp, Encoding.UNICODE_BIG_ENDIAN);
         gw = new GedcomWriter(gp.getGedcom());
         gw.setLineTerminator(LineTerminator.CRLF);
-        gw.setAutorepair(true);
+        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
         try {
             gw.write(new NullOutputStream());
         } catch (GedcomWriterException e) {
-            for (GedcomValidationFinding f : gw.getValidationFindings()) {
+            for (Finding f : gw.getValidator().getResults().getAllFindings()) {
                 System.out.println(f);
             }
             throw e;
@@ -356,13 +357,13 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         cleanUpGedcom(gp, Encoding.UNICODE_BIG_ENDIAN);
         gw = new GedcomWriter(gp.getGedcom());
         gw.setLineTerminator(LineTerminator.CR_ONLY);
-        gw.setAutorepair(true);
+        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
         try {
             gw.write(new NullOutputStream());
         } catch (GedcomWriterException e) {
-            for (GedcomValidationFinding f : gw.getValidationFindings()) {
+            for (Finding f : gw.getValidator().getResults().getAllFindings()) {
                 System.out.println(f);
             }
             throw e;
@@ -391,13 +392,13 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         cleanUpGedcom(gp, Encoding.UNICODE_LITTLE_ENDIAN);
         gw = new GedcomWriter(gp.getGedcom());
         gw.setLineTerminator(LineTerminator.CRLF);
-        gw.setAutorepair(true);
+        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
         try {
             gw.write(new FileOutputStream("tmp/foo-unicode-little-endian.ged"));
         } catch (GedcomWriterException e) {
-            for (GedcomValidationFinding f : gw.getValidationFindings()) {
+            for (Finding f : gw.getValidator().getResults().getAllFindings()) {
                 System.out.println(f);
             }
             throw e;
@@ -426,13 +427,13 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         cleanUpGedcom(gp, Encoding.UNICODE_LITTLE_ENDIAN);
         gw = new GedcomWriter(gp.getGedcom());
         gw.setLineTerminator(LineTerminator.CR_ONLY);
-        gw.setAutorepair(true);
+        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
         try {
             gw.write(new FileOutputStream("tmp/foo-unicode-little-endian.ged"));
         } catch (GedcomWriterException e) {
-            for (GedcomValidationFinding f : gw.getValidationFindings()) {
+            for (Finding f : gw.getValidator().getResults().getAllFindings()) {
                 System.out.println(f);
             }
             throw e;
@@ -461,13 +462,13 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         cleanUpGedcom(gp, Encoding.UTF_8);
         gw = new GedcomWriter(gp.getGedcom());
         gw.setLineTerminator(LineTerminator.CRLF);
-        gw.setAutorepair(true);
+        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
         try {
             gw.write(new NullOutputStream());
         } catch (GedcomWriterException e) {
-            for (GedcomValidationFinding f : gw.getValidationFindings()) {
+            for (Finding f : gw.getValidator().getResults().getAllFindings()) {
                 System.out.println(f);
             }
             throw e;
@@ -496,13 +497,13 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         cleanUpGedcom(gp, Encoding.UTF_8);
         gw = new GedcomWriter(gp.getGedcom());
         gw.setLineTerminator(LineTerminator.CR_ONLY);
-        gw.setAutorepair(true);
+        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
         try {
             gw.write(new NullOutputStream());
         } catch (GedcomWriterException e) {
-            for (GedcomValidationFinding f : gw.getValidationFindings()) {
+            for (Finding f : gw.getValidator().getResults().getAllFindings()) {
                 System.out.println(f);
             }
             throw e;

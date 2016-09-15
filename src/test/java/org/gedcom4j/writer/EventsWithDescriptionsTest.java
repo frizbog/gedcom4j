@@ -147,7 +147,7 @@ public class EventsWithDescriptionsTest {
             gw.write(fn);
             fail("Expected a writer exception due to validation failures");
         } catch (@SuppressWarnings("unused") GedcomWriterException expected) {
-            assertEquals(2, gw.getValidationFindings().size());
+            assertEquals(2, gw.getValidator().getResults().getAllFindings().size());
         }
     }
 }

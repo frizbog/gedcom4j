@@ -701,7 +701,7 @@ abstract class AbstractValidator {
             }
         } else if (value instanceof StringWithCustomTags) {
             StringWithCustomTags swct = (StringWithCustomTags) value;
-            if (swct.getValue() != null && !isSpecified(swct.getValue())) {
+            if (swct.getValue() == null || !isSpecified(swct.getValue())) {
                 validator.newFinding(modelElement, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, fieldName);
             }
         } else {

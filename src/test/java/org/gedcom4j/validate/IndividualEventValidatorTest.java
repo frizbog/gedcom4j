@@ -49,7 +49,7 @@ public class IndividualEventValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testValidator() {
         Gedcom g = TestHelper.getMinimalGedcom();
-        validator.setAutorepairEnabled(false);
+        validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
         validator.gedcom = g;
 
         Individual i = new Individual();

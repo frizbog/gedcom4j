@@ -34,7 +34,7 @@ import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.Submitter;
-import org.gedcom4j.validate.GedcomValidationFinding;
+import org.gedcom4j.validate.Validator.Finding;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -95,10 +95,10 @@ public class Issue89Test extends TestCase {
         try {
             gw.write(baos);
         } catch (GedcomWriterException e) {
-            if (!gw.getValidationFindings().isEmpty()) {
-                System.out.println(this.getClass().getName() + " found " + gw.getValidationFindings().size()
+            if (!gw.getValidator().getResults().getAllFindings().isEmpty()) {
+                System.out.println(this.getClass().getName() + " found " + gw.getValidator().getResults().getAllFindings().size()
                         + " validation findings:");
-                for (GedcomValidationFinding f : gw.getValidationFindings()) {
+                for (Finding f : gw.getValidator().getResults().getAllFindings()) {
                     System.out.println(f);
                 }
             }

@@ -55,6 +55,7 @@ import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.SupportedVersion;
+import org.gedcom4j.validate.AutoRepairResponder;
 import org.gedcom4j.validate.Severity;
 import org.gedcom4j.validate.Validator;
 import org.gedcom4j.validate.Validator.Finding;
@@ -115,6 +116,11 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     boolean validationSuppressed = false;
 
     /**
+     * The auto repair responder.
+     */
+    private AutoRepairResponder autoRepairResponder;
+
+    /**
      * Has this writer been cancelled?
      */
     private boolean cancelled;
@@ -145,19 +151,19 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     private int lastLineCountNotified = 0;
 
     /**
-     * Whether to use little-endian unicode
-     */
-    private boolean useLittleEndianForUnicode = true;
-
-    /**
      * The line terminator to use
      */
     private LineTerminator lineTerminator = LineTerminator.getDefaultLineTerminator();
 
     /**
-     * Whether or not we will automatically repair errors in the data model, if possible, prior to writing
+     * Whether to use little-endian unicode
      */
-    private boolean autorepair;
+    private boolean useLittleEndianForUnicode = true;
+
+    /**
+     * The validator.
+     */
+    private Validator validator;
 
     /**
      * Constructor
@@ -177,6 +183,15 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
      */
     public void cancel() {
         cancelled = true;
+    }
+
+    /**
+     * Get the autoRepairResponder
+     * 
+     * @return the autoRepairResponder
+     */
+    public AutoRepairResponder getAutoRepairResponder() {
+        return autoRepairResponder;
     }
 
     /**
@@ -204,6 +219,15 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
      */
     public LineTerminator getLineTerminator() {
         return lineTerminator;
+    }
+
+    /**
+     * Get the validator
+     * 
+     * @return the validator
+     */
+    public Validator getValidator() {
+        return validator;
     }
 
     /**
@@ -267,11 +291,13 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     }
 
     /**
-     * @param autorepair
-     *            whether to auto-repair before writing or not.
+     * Set the autoRepairResponder
+     * 
+     * @param autoRepairResponder
+     *            the autoRepairResponder to set
      */
-    public void setAutorepair(boolean autorepair) {
-        this.autorepair = autorepair;
+    public void setAutoRepairResponder(AutoRepairResponder autoRepairResponder) {
+        this.autoRepairResponder = autoRepairResponder;
     }
 
     /**
@@ -427,11 +453,11 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     @Override
     protected void emit() throws GedcomWriterException {
         if (!validationSuppressed) {
-            Validator gv = new Validator(writeFrom);
-            // TODO - allow registration of AutoRepairResponder
-            gv.validate();
+            validator = new Validator(writeFrom);
+            validator.setAutoRepairResponder(getAutoRepairResponder());
+            validator.validate();
             int numErrorFindings = 0;
-            for (Finding f : gv.getResults().getAllFindings()) {
+            for (Finding f : validator.getResults().getAllFindings()) {
                 if (f.getSeverity() == Severity.ERROR) {
                     numErrorFindings++;
                 }
@@ -653,4 +679,5 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
             }
         }
     }
+
 }
