@@ -41,7 +41,7 @@ import org.gedcom4j.validate.Validator.Finding;
 import org.junit.Test;
 
 /**
- * Test for {@link GedcomValidator}
+ * Test for {@link Validator}
  * 
  * @author frizbog1
  */
@@ -53,7 +53,7 @@ public class ValidatorGedcomStructureTest extends AbstractValidatorTestCase {
     private static final String SAMPLE_STRESS_TEST_FILENAME = "sample/TGC551.ged";
 
     /**
-     * Test autorepairing - shouldn't need to do anything on a new Gedcom
+     * Test validation on empty gedcom - shouldn't be any findings
      */
     @Test
     public void testEmptyGedcom() {

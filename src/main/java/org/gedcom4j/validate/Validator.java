@@ -544,6 +544,23 @@ public class Validator extends AbstractValidator {
     }
 
     /**
+     * Check individuals.
+     */
+    void checkIndividuals() {
+        for (Entry<String, Individual> entry : gedcom.getIndividuals().entrySet()) {
+            if (entry.getValue() == null || entry.getKey() == null) {
+                Finding vf = newFinding(gedcom, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, "individuals");
+                if (mayRepair(vf)) {
+                    vf.addRepair(new AutoRepair(null, null));
+                    gedcom.getIndividuals().remove(entry.getKey());
+                }
+            } else {
+                new IndividualValidator(this, entry.getValue()).validate();
+            }
+        }
+    }
+
+    /**
      * Check if the finding can be auto-repaired. Delegates to the registered auto-repair responder, if any.
      * 
      * @param validationFinding
@@ -583,23 +600,6 @@ public class Validator extends AbstractValidator {
             gedcom.setHeader(header);
         }
         new HeaderValidator(this, gedcom.getHeader()).validate();
-    }
-
-    /**
-     * Check individuals.
-     */
-    private void checkIndividuals() {
-        for (Entry<String, Individual> entry : gedcom.getIndividuals().entrySet()) {
-            if (entry.getValue() == null || entry.getKey() == null) {
-                Finding vf = newFinding(gedcom, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, "individuals");
-                if (mayRepair(vf)) {
-                    vf.addRepair(new AutoRepair(null, null));
-                    gedcom.getIndividuals().remove(entry.getKey());
-                }
-            } else {
-                new IndividualValidator(this, entry.getValue()).validate();
-            }
-        }
     }
 
     /**

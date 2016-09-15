@@ -49,8 +49,8 @@ public class IndividualEventValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testValidator() {
         Gedcom g = TestHelper.getMinimalGedcom();
+        validator = new Validator(g);
         validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
-        validator.gedcom = g;
 
         Individual i = new Individual();
         i.setXref("@I0001@");
@@ -59,7 +59,7 @@ public class IndividualEventValidatorTest extends AbstractValidatorTestCase {
         IndividualEvent e = new IndividualEvent();
         i.getEvents(true).add(e);
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "event", "requires", "type");
+        assertFindingsContain(Severity.ERROR, e, ProblemCode.MISSING_REQUIRED_VALUE, "type");
 
         e.setType(IndividualEventType.BIRTH);
         validator.validate();

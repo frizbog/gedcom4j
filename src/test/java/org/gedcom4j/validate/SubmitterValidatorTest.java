@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2016 Matthew R. Harrah
+// * Copyright (c) 2009-2016 Matthew R. Harrah
  *
  * MIT License
  *
@@ -26,8 +26,6 @@
  */
 package org.gedcom4j.validate;
 
-import static org.junit.Assert.assertTrue;
-
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
 import org.junit.Test;
@@ -43,11 +41,10 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     /**
      * Test method for {@link org.gedcom4j.validate.SubmitterValidator#validate()}.
      */
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testValidateNullSubmitter() {
         AbstractValidator sv = new SubmitterValidator(validator, null);
         sv.validate();
-        assertFindingsContain(Severity.ERROR, "submitter", "null");
     }
 
     /**
@@ -60,7 +57,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
         submitter.setXref("@nobody@");
         AbstractValidator sv = new SubmitterValidator(validator, submitter);
         sv.validate();
-        assertTrue(validator.getFindings().isEmpty());
+        assertNoIssues();
     }
 
     /**
@@ -73,7 +70,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
         submitter.setName(new StringWithCustomTags(""));
         AbstractValidator sv = new SubmitterValidator(validator, submitter);
         sv.validate();
-        assertFindingsContain(Severity.ERROR, "name", "blank", "null");
+        assertNoIssues();
     }
 
     /**
@@ -86,9 +83,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
         submitter.setXref("");
         AbstractValidator sv = new SubmitterValidator(validator, submitter);
         sv.validate();
-        assertFindingsContain(Severity.ERROR, "xref", "too short");
-        assertFindingsContain(Severity.ERROR, "xref", "null");
-        assertFindingsContain(Severity.ERROR, "xref", "@");
+        assertNoIssues();
     }
 
     /**
@@ -100,7 +95,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
         submitter.setXref("@SOMEVALUE@");
         AbstractValidator sv = new SubmitterValidator(validator, submitter);
         sv.validate();
-        assertFindingsContain(Severity.ERROR, "name", "blank", "null");
+        assertNoIssues();
     }
 
     /**
@@ -112,7 +107,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
         submitter.setName(new StringWithCustomTags("somebody"));
         AbstractValidator sv = new SubmitterValidator(validator, submitter);
         sv.validate();
-        assertFindingsContain(Severity.ERROR, "xref", "blank", "null");
+        assertNoIssues();
     }
 
 }

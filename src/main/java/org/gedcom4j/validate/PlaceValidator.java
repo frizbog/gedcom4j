@@ -76,7 +76,7 @@ class PlaceValidator extends AbstractValidator {
         }
 
         checkPhoneticVariations();
-
+        checkRomanizedVariations();
     }
 
     /**

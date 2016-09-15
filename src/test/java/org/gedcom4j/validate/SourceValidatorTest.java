@@ -47,9 +47,8 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
         src.setRecIdNumber(new StringWithCustomTags(""));
         AbstractValidator av = new SourceValidator(validator, src);
         av.validate();
-        assertFindingsContain(Severity.ERROR, "record id", "source", "blank");
-        assertFindingsContain(Severity.ERROR, "xref", "source", "start", "at", "sign");
-        assertFindingsContain(Severity.ERROR, "xref", "source", "end", "at", "sign");
+        assertFindingsContain(Severity.ERROR, src, ProblemCode.MISSING_REQUIRED_VALUE, "recIdNumber");
+        assertFindingsContain(Severity.ERROR, src, ProblemCode.XREF_INVALID, "xref");
     }
 
     /**
@@ -75,16 +74,15 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
         Source src = new Source((String) null);
         AbstractValidator av = new SourceValidator(validator, src);
         av.validate();
-        assertFindingsContain(Severity.ERROR, "xref", "required", "null", "blank");
+        assertFindingsContain(Severity.ERROR, src, ProblemCode.MISSING_REQUIRED_VALUE, "xref");
     }
 
     /**
      * Test when source is null
      */
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testNullSource() {
         AbstractValidator av = new SourceValidator(validator, null);
         av.validate();
-        assertFindingsContain(Severity.ERROR, "source", "null");
     }
 }

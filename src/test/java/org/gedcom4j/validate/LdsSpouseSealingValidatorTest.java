@@ -51,7 +51,7 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     @Before
     public void setUp() {
         gedcom = TestHelper.getMinimalGedcom();
-        validator.gedcom = gedcom;
+        validator = new Validator(gedcom);
         validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
 
         final Individual dad = new Individual();
@@ -112,15 +112,15 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
         f.getLdsSpouseSealings(true).add(s);
         s.setDate(new StringWithCustomTags((String) null));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "date", "no value");
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "date");
 
         s.setDate(new StringWithCustomTags(""));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "date", "no value");
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "date");
 
         s.setDate(new StringWithCustomTags("              "));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "date", "no value");
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "date");
 
         s.setDate(new StringWithCustomTags("Frying Pan"));
         validator.validate();
@@ -159,15 +159,15 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
         f.getLdsSpouseSealings(true).add(s);
         s.setPlace(new StringWithCustomTags((String) null));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "place", "no value");
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "place");
 
         s.setPlace(new StringWithCustomTags(""));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "place", "no value");
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "place");
 
         s.setPlace(new StringWithCustomTags("              "));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "place", "no value");
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "place");
 
         s.setPlace(new StringWithCustomTags("Frying Pan"));
         validator.validate();
@@ -183,15 +183,15 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
         f.getLdsSpouseSealings(true).add(s);
         s.setStatus(new StringWithCustomTags((String) null));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "status", "no value");
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "status");
 
         s.setStatus(new StringWithCustomTags(""));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "status", "no value");
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "status");
 
         s.setStatus(new StringWithCustomTags("              "));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "status", "no value");
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "status");
 
         s.setStatus(new StringWithCustomTags("Frying Pan"));
         validator.validate();
@@ -207,15 +207,15 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
         f.getLdsSpouseSealings(true).add(s);
         s.setTemple(new StringWithCustomTags((String) null));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "temple", "no value");
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "temple");
 
         s.setTemple(new StringWithCustomTags(""));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "temple", "no value");
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "temple");
 
         s.setTemple(new StringWithCustomTags("              "));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "temple", "no value");
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "temple");
 
         s.setTemple(new StringWithCustomTags("Frying Pan"));
         validator.validate();

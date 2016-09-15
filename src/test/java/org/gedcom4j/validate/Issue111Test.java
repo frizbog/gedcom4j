@@ -27,8 +27,6 @@
 package org.gedcom4j.validate;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
@@ -63,13 +61,11 @@ public class Issue111Test {
         pn2.setBasic("Duncan /Highlander/");
         i.getNames().add(pn2);
         g.getIndividuals().put(i.getXref(), i);
-        GedcomValidator gv = new GedcomValidator(g);
+        Validator gv = new Validator(g);
         gv.validate();
-        assertFalse(gv.hasErrors());
-        assertFalse(gv.hasWarnings());
-        assertTrue(gv.hasInfo());
-        assertEquals(1, gv.getFindings().size());
-        assertEquals("INFO: 1 duplicate names found and removed (Duncan /Highlander/)", gv.getFindings().get(0).toString());
+        assertEquals(1, gv.getResults().getAllFindings().size());
+        assertEquals("INFO: 1 duplicate names found and removed (Duncan /Highlander/)", gv.getResults().getAllFindings().get(0)
+                .toString());
         assertEquals("There can be only one", 1, i.getNames().size());
     }
 

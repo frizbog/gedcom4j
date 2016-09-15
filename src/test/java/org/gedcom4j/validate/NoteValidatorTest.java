@@ -47,7 +47,7 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testNotesAtRootLevel() {
         Gedcom g = TestHelper.getMinimalGedcom();
-        validator.gedcom = g;
+        validator = new Validator(g);
         validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
 
         Note n = new Note();
@@ -60,16 +60,18 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
         n.getCitations(true).clear();
         validator.validate();
         assertNoIssues();
-        n.getCitations(true).add(new CitationWithSource());
+        CitationWithSource cws = new CitationWithSource();
+        n.getCitations(true).add(cws);
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "CitationWithSource", "non-null", "reference");
+        assertFindingsContain(Severity.ERROR, cws, ProblemCode.MISSING_REQUIRED_VALUE, "reference");
 
         n.getUserReferences(true).clear();
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "CitationWithSource", "non-null", "reference");
-        n.getUserReferences(true).add(new UserReference());
+        assertFindingsContain(Severity.ERROR, n, ProblemCode.MISSING_REQUIRED_VALUE, "userReference");
+        UserReference u = new UserReference();
+        n.getUserReferences(true).add(u);
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "reference number", "null");
+        assertFindingsContain(Severity.ERROR, u, ProblemCode.MISSING_REQUIRED_VALUE, "referenceNum");
 
     }
 
@@ -79,7 +81,7 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testNotesWithoutXref() {
         Gedcom g = TestHelper.getMinimalGedcom();
-        validator.gedcom = g;
+        validator = new Validator(g);
         validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
 
         Note n = new Note();
@@ -88,7 +90,7 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
 
         // Notes without xrefs must have lines of text
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "note", "without xref", "lines");
+        assertFindingsContain(Severity.ERROR, n, ProblemCode.XREF_INVALID, "xref");
         n.getLines(true).add("Frying Pan");
         validator.validate();
         assertNoIssues();
@@ -96,16 +98,18 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
         n.getCitations(true).clear();
         validator.validate();
         assertNoIssues();
-        n.getCitations(true).add(new CitationWithSource());
+        CitationWithSource cws = new CitationWithSource();
+        n.getCitations(true).add(cws);
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "CitationWithSource", "non-null", "reference");
+        assertFindingsContain(Severity.ERROR, cws, ProblemCode.ILLEGAL_VALUE, "reference");
 
         n.getUserReferences(true).clear();
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "CitationWithSource", "non-null", "reference");
-        n.getUserReferences(true).add(new UserReference());
+        assertFindingsContain(Severity.ERROR, cws, ProblemCode.MISSING_REQUIRED_VALUE, "reference");
+        UserReference u = new UserReference();
+        n.getUserReferences(true).add(u);
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "reference number", "UserReference", "null");
+        assertFindingsContain(Severity.ERROR, u, ProblemCode.LIST_WITH_NULL_VALUE, "userReference");
 
     }
 

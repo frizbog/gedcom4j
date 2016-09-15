@@ -56,7 +56,7 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     @Before
     public void setUp() {
         gedcom = TestHelper.getMinimalGedcom();
-        validator.gedcom = gedcom;
+        validator = new Validator(gedcom);
         validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
 
         ind = new Individual();
@@ -77,15 +77,15 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     public void testBasic() {
         pn.setBasic(null);
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "basic", "name", "required");
+        assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "basic");
 
         pn.setBasic("");
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "basic", "name", "required");
+        assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "basic");
 
         pn.setBasic("       "); // whitespace gets trimmed
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "basic", "name", "required");
+        assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "basic");
 
         pn.setBasic("Joe /Schmo/");
         validator.validate();
@@ -99,11 +99,11 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     public void testGivenName() {
         pn.setGivenName(new StringWithCustomTags((String) null));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "given name", "no value");
+        assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "givenName");
 
         pn.setGivenName(new StringWithCustomTags(""));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "given name", "no value");
+        assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "givenName");
 
         pn.setGivenName(new StringWithCustomTags("Fred"));
         validator.validate();
@@ -117,11 +117,11 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     public void testNickname() {
         pn.setNickname(new StringWithCustomTags((String) null));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "nickname", "no value");
+        assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "nickName");
 
         pn.setNickname(new StringWithCustomTags(""));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "nickname", "no value");
+        assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "nickName");
 
         pn.setNickname(new StringWithCustomTags("Bubba"));
         validator.validate();
@@ -148,7 +148,8 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
 
         ind.getNames(true).add(null);
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "name", "null");
+        assertFindingsContain(Severity.ERROR, ind, ProblemCode.LIST_WITH_NULL_VALUE, "names");
+
     }
 
     /**
@@ -158,11 +159,11 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     public void testPrefix() {
         pn.setPrefix(new StringWithCustomTags((String) null));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "prefix", "no value");
+        assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "prefix");
 
         pn.setPrefix(new StringWithCustomTags(""));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "prefix", "no value");
+        assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "prefix");
 
         pn.setPrefix(new StringWithCustomTags("Mr."));
         validator.validate();
@@ -176,11 +177,11 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     public void testSuffix() {
         pn.setSuffix(new StringWithCustomTags((String) null));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "suffix", "no value");
+        assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "suffix");
 
         pn.setSuffix(new StringWithCustomTags(""));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "suffix", "no value");
+        assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "suffix");
 
         pn.setSuffix(new StringWithCustomTags("Jr."));
         validator.validate();
@@ -194,11 +195,11 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     public void testSurname() {
         pn.setSurname(new StringWithCustomTags((String) null));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "surname", "no value");
+        assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "surname");
 
         pn.setSurname(new StringWithCustomTags(""));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "surname", "no value");
+        assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "surname");
 
         pn.setSurname(new StringWithCustomTags("Johnson"));
         validator.validate();
@@ -212,11 +213,11 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     public void testSurnamePrefix() {
         pn.setSurnamePrefix(new StringWithCustomTags((String) null));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "surname prefix", "no value");
+        assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "surnamePrefix");
 
         pn.setSurnamePrefix(new StringWithCustomTags(""));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "surname prefix", "no value");
+        assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "surnamePrefix");
 
         pn.setSurnamePrefix(new StringWithCustomTags("van"));
         validator.validate();

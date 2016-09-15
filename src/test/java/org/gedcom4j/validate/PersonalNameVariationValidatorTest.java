@@ -48,7 +48,7 @@ public class PersonalNameVariationValidatorTest extends AbstractValidatorTestCas
     @Test
     public void testOne() {
         Gedcom g = TestHelper.getMinimalGedcom();
-        validator.gedcom = g;
+        validator = new Validator(g);
 
         Individual i = new Individual();
         i.setXref("@I00001@");
@@ -67,7 +67,7 @@ public class PersonalNameVariationValidatorTest extends AbstractValidatorTestCas
         romanized.setGivenName(new StringWithCustomTags("Bjorn"));
         romanized.setSurname(new StringWithCustomTags("Jorgen"));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "variation", "name", "required");
+        assertFindingsContain(Severity.ERROR, romanized, ProblemCode.MISSING_REQUIRED_VALUE, "name");
         romanized.setVariation("Bjorn /Jorgen/");
         validator.validate();
         assertNoIssues();
@@ -77,7 +77,7 @@ public class PersonalNameVariationValidatorTest extends AbstractValidatorTestCas
         phonetic.setGivenName(new StringWithCustomTags("Byorn"));
         phonetic.setSurname(new StringWithCustomTags("Yorgen"));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, "variation", "name", "required");
+        assertFindingsContain(Severity.ERROR, phonetic, ProblemCode.MISSING_REQUIRED_VALUE, "name");
         phonetic.setVariation("Byorn /Yorgen/");
         validator.validate();
         assertNoIssues();
