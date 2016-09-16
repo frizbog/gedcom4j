@@ -84,7 +84,11 @@ public enum ProblemCode {
     /**
      * Not a valid URL (format)
      */
-    NOT_VALID_WWW_URL(12, "Invalid WWW URL");
+    NOT_VALID_WWW_URL(12, "Invalid WWW URL"),
+    /**
+     * Not a valid date string (format)
+     */
+    INVALID_DATE(13, "Invalid date");
 
     /*
      * Static initializer to check for skipped code numbers (which would also occur if there are duplicates)
@@ -130,8 +134,6 @@ public enum ProblemCode {
      *            the code value
      * @param description
      *            the description of the problem
-     * @throws IllegalArgumentException
-     *             if the code value is a duplicate of some other
      */
     ProblemCode(int code, String description) {
         this.code = code;

@@ -86,7 +86,7 @@ public class EventsWithDescriptionsTest {
         // Write the file back out in standard format
         String fn = "tmp/" + this.getClass().getName() + ".ged";
         GedcomWriter gw = new GedcomWriter(gBefore);
-        gw.validationSuppressed = true;
+        gw.setValidationSuppressed(true);
         gw.write(fn);
 
         // Read the file we just wrote back in. The non-standard part should be removed.

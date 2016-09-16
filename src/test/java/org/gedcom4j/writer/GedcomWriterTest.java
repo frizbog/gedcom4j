@@ -104,7 +104,7 @@ public class GedcomWriterTest {
         gedcomOrig = p.getGedcom();
 
         GedcomWriter gw = new GedcomWriter(gedcomOrig);
-        gw.validationSuppressed = true;
+        gw.setValidationSuppressed(true);
         File tmpDir = new File("tmp");
         tmpDir.mkdirs();
         File tempFile = new File("tmp/gedcom4j.writertest.ged");
@@ -375,7 +375,7 @@ public class GedcomWriterTest {
         // Write an empty file
         Gedcom g = new Gedcom();
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = true;
+        gw.setValidationSuppressed(true);
         File tempFile = new File("tmp/gedcom4j.emptywritertest.ged");
         gw.write(tempFile);
 

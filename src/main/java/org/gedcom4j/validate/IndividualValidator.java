@@ -33,6 +33,7 @@ import org.gedcom4j.model.Association;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualAttribute;
 import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.LdsIndividualOrdinance;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.validate.Validator.Finding;
@@ -107,6 +108,7 @@ class IndividualValidator extends AbstractValidator {
         checkIndividualAttributes();
         checkSubmitters();
         checkIndividualEvents();
+        checkLdsIndividualOrdinances();
     }
 
     /**
@@ -174,6 +176,23 @@ class IndividualValidator extends AbstractValidator {
             checkListOfModelElementsForNulls(individual, "events");
             for (IndividualEvent a : individual.getEvents()) {
                 new EventValidator(validator, a).validate();
+            }
+        }
+    }
+
+    /**
+     * Validate the LdsIndividualOrinances
+     */
+    private void checkLdsIndividualOrdinances() {
+        if (individual.getLdsIndividualOrdinances() == null && Options.isCollectionInitializationEnabled()) {
+            Finding vf = validator.newFinding(individual, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "events");
+            initializeCollectionIfAllowed(vf);
+        }
+        if (individual.getLdsIndividualOrdinances() != null) {
+            checkListOfModelElementsForDups(individual, "events");
+            checkListOfModelElementsForNulls(individual, "events");
+            for (LdsIndividualOrdinance o : individual.getLdsIndividualOrdinances()) {
+                new LdsIndividualOrdinanceValidator(validator, o).validate();
             }
         }
     }

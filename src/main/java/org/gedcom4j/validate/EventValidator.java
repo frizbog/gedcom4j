@@ -110,6 +110,7 @@ class EventValidator extends AbstractValidator {
         checkCitations(e);
         checkCustomTags(e);
         mustHaveValueOrBeOmitted(e, "date");
+        mustBeDateIfSpecified(e, "date");
         if (e.getDescription() != null && e.getDescription().trim().length() != 0 && !"Y".equals(e.getDescription().trim())) {
             Finding vf = validator.newFinding(e, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, "description");
             if (validator.mayRepair(vf)) {

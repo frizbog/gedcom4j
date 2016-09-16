@@ -64,7 +64,7 @@ public class GedcomWriter551FaxTest {
         Corporation c = new Corporation();
         g.getHeader().getSourceSystem().setCorporation(c);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // Fax numbers
@@ -91,7 +91,7 @@ public class GedcomWriter551FaxTest {
         Corporation c = new Corporation();
         g.getHeader().getSourceSystem().setCorporation(c);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
         // Fax numbers
         c.getFaxNumbers(true).add(new StringWithCustomTags("Not allowed under 5.5"));
@@ -114,7 +114,7 @@ public class GedcomWriter551FaxTest {
         Corporation c = new Corporation();
         g.getHeader().getSourceSystem().setCorporation(c);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // No faxes, should be fine
@@ -137,7 +137,7 @@ public class GedcomWriter551FaxTest {
         r.setXref("@R1@");
         g.getRepositories().put(r.getXref(), r);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // Fax numbers
@@ -164,7 +164,7 @@ public class GedcomWriter551FaxTest {
         r.setXref("@R1@");
         g.getRepositories().put(r.getXref(), r);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // Fax numbers
@@ -189,7 +189,7 @@ public class GedcomWriter551FaxTest {
         r.setXref("@R1@");
         g.getRepositories().put(r.getXref(), r);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // No faxes on repository, should be ok
@@ -213,7 +213,7 @@ public class GedcomWriter551FaxTest {
         s.setXref("@S1@");
         g.getSubmitters().put(s.getXref(), s);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // Fax numbers
@@ -241,7 +241,7 @@ public class GedcomWriter551FaxTest {
         s.setXref("@S1@");
         g.getSubmitters().put(s.getXref(), s);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // Fax numbers
@@ -266,7 +266,7 @@ public class GedcomWriter551FaxTest {
         s.setXref("@S1@");
         g.getSubmitters().put(s.getXref(), s);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // No faxes on submitter, should be good

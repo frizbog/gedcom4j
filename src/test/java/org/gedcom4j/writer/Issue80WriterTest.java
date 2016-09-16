@@ -84,7 +84,7 @@ public class Issue80WriterTest {
 
         // Write to null output stream
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         gw.setUseLittleEndianForUnicode(false);
         gw.write(new NullOutputStream());
 

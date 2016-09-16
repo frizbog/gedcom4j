@@ -42,6 +42,7 @@ import org.gedcom4j.io.writer.NullOutputStream;
 import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.CharacterSet;
 import org.gedcom4j.model.Family;
+import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.StringWithCustomTags;
@@ -140,6 +141,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
         constructionCancelAfter = 5;
+        gw.setValidationSuppressed(true);
         gw.write(new NullOutputStream());
     }
 
@@ -162,6 +164,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
+        gw.setValidationSuppressed(true);
         fileCancelAfter = 5;
         gw.write(new NullOutputStream());
     }
@@ -182,11 +185,16 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-ansel.ged");
         cleanUpGedcom(gp, Encoding.ANSEL);
-        gw = new GedcomWriter(gp.getGedcom());
+        Gedcom g = gp.getGedcom();
+        Validator gv = new Validator(g);
+        gv.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
+        gv.validate(); // cleanup whatever it can
+        gw = new GedcomWriter(g);
         gw.setLineTerminator(LineTerminator.CRLF);
         gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
+        gw.setValidationSuppressed(true);
         try {
             gw.write(new NullOutputStream());
         } catch (GedcomWriterException e) {
@@ -217,11 +225,15 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-ansel.ged");
         cleanUpGedcom(gp, Encoding.ANSEL);
-        gw = new GedcomWriter(gp.getGedcom());
+        Gedcom g = gp.getGedcom();
+        Validator gv = new Validator(g);
+        gv.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
+        gv.validate(); // cleanup whatever it can
+        gw = new GedcomWriter(g);
         gw.setLineTerminator(LineTerminator.CR_ONLY);
-        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
+        gw.setValidationSuppressed(true);
         try {
             gw.write(new NullOutputStream());
         } catch (GedcomWriterException e) {
@@ -252,11 +264,16 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-ascii.ged");
         cleanUpGedcom(gp, Encoding.ASCII);
-        gw = new GedcomWriter(gp.getGedcom());
+        Gedcom g = gp.getGedcom();
+        Validator gv = new Validator(g);
+        gv.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
+        gv.validate(); // cleanup whatever it can
+        gw = new GedcomWriter(g);
         gw.setLineTerminator(LineTerminator.CRLF);
         gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
+        gw.setValidationSuppressed(true);
         try {
             gw.write(new NullOutputStream());
         } catch (GedcomWriterException e) {
@@ -287,11 +304,15 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-ascii.ged");
         cleanUpGedcom(gp, Encoding.ASCII);
-        gw = new GedcomWriter(gp.getGedcom());
+        Gedcom g = gp.getGedcom();
+        Validator gv = new Validator(g);
+        gv.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
+        gv.validate(); // cleanup whatever it can
+        gw = new GedcomWriter(g);
         gw.setLineTerminator(LineTerminator.CR_ONLY);
-        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
+        gw.setValidationSuppressed(true);
         try {
             gw.write(new NullOutputStream());
         } catch (GedcomWriterException e) {
@@ -322,11 +343,15 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-unicode-bigendian.ged");
         cleanUpGedcom(gp, Encoding.UNICODE_BIG_ENDIAN);
-        gw = new GedcomWriter(gp.getGedcom());
+        Gedcom g = gp.getGedcom();
+        Validator gv = new Validator(g);
+        gv.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
+        gv.validate(); // cleanup whatever it can
+        gw = new GedcomWriter(g);
         gw.setLineTerminator(LineTerminator.CRLF);
-        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
+        gw.setValidationSuppressed(true);
         try {
             gw.write(new NullOutputStream());
         } catch (GedcomWriterException e) {
@@ -357,11 +382,15 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-unicode-bigendian.ged");
         cleanUpGedcom(gp, Encoding.UNICODE_BIG_ENDIAN);
-        gw = new GedcomWriter(gp.getGedcom());
+        Gedcom g = gp.getGedcom();
+        Validator gv = new Validator(g);
+        gv.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
+        gv.validate(); // cleanup whatever it can
+        gw = new GedcomWriter(g);
         gw.setLineTerminator(LineTerminator.CR_ONLY);
-        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
+        gw.setValidationSuppressed(true);
         try {
             gw.write(new NullOutputStream());
         } catch (GedcomWriterException e) {
@@ -392,11 +421,15 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-unicode-littleendian.ged");
         cleanUpGedcom(gp, Encoding.UNICODE_LITTLE_ENDIAN);
-        gw = new GedcomWriter(gp.getGedcom());
+        Gedcom g = gp.getGedcom();
+        Validator gv = new Validator(g);
+        gv.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
+        gv.validate(); // cleanup whatever it can
+        gw = new GedcomWriter(g);
         gw.setLineTerminator(LineTerminator.CRLF);
-        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
+        gw.setValidationSuppressed(true);
         try {
             gw.write(new FileOutputStream("tmp/foo-unicode-little-endian.ged"));
         } catch (GedcomWriterException e) {
@@ -427,9 +460,13 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-unicode-littleendian.ged");
         cleanUpGedcom(gp, Encoding.UNICODE_LITTLE_ENDIAN);
-        gw = new GedcomWriter(gp.getGedcom());
+        Gedcom g = gp.getGedcom();
+        Validator gv = new Validator(g);
+        gv.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
+        gv.validate(); // cleanup whatever it can
+        gw = new GedcomWriter(g);
         gw.setLineTerminator(LineTerminator.CR_ONLY);
-        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
+        gw.setValidationSuppressed(true);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
         try {
@@ -462,11 +499,15 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis.ged");
         cleanUpGedcom(gp, Encoding.UTF_8);
-        gw = new GedcomWriter(gp.getGedcom());
+        Gedcom g = gp.getGedcom();
+        Validator gv = new Validator(g);
+        gv.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
+        gv.validate(); // cleanup whatever it can
+        gw = new GedcomWriter(g);
         gw.setLineTerminator(LineTerminator.CRLF);
-        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
+        gw.setValidationSuppressed(true);
         try {
             gw.write(new NullOutputStream());
         } catch (GedcomWriterException e) {
@@ -497,16 +538,22 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis.ged");
         cleanUpGedcom(gp, Encoding.UTF_8);
-        gw = new GedcomWriter(gp.getGedcom());
+        Gedcom g = gp.getGedcom();
+        Validator gv = new Validator(g);
+        gv.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
+        gv.validate(); // cleanup whatever it can
+        gw = new GedcomWriter(g);
         gw.setLineTerminator(LineTerminator.CR_ONLY);
-        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
+        gw.setValidationSuppressed(true);
         try {
             gw.write(new NullOutputStream());
         } catch (GedcomWriterException e) {
             for (Finding f : gw.getValidator().getResults().getAllFindings()) {
-                System.out.println(f);
+                if (f.getRepairs(true).isEmpty()) {
+                    System.out.println(f);
+                }
             }
             throw e;
         }

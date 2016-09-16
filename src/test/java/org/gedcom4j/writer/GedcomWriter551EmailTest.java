@@ -66,7 +66,7 @@ public class GedcomWriter551EmailTest {
         Corporation c = new Corporation();
         g.getHeader().getSourceSystem().setCorporation(c);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // Email addresses
@@ -95,7 +95,7 @@ public class GedcomWriter551EmailTest {
         Corporation c = new Corporation();
         g.getHeader().getSourceSystem().setCorporation(c);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // Email addresses
@@ -120,7 +120,7 @@ public class GedcomWriter551EmailTest {
         Corporation c = new Corporation();
         g.getHeader().getSourceSystem().setCorporation(c);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // No emails, should be ok
@@ -143,7 +143,7 @@ public class GedcomWriter551EmailTest {
         r.setXref("@R1@");
         g.getRepositories().put(r.getXref(), r);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // Email addresses
@@ -170,7 +170,7 @@ public class GedcomWriter551EmailTest {
         r.setXref("@R1@");
         g.getRepositories().put(r.getXref(), r);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // Email addresses
@@ -194,7 +194,7 @@ public class GedcomWriter551EmailTest {
         r.setXref("@R1@");
         g.getRepositories().put(r.getXref(), r);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // No emails on Repository, all should be ok
@@ -218,7 +218,7 @@ public class GedcomWriter551EmailTest {
         s.setXref("@S1@");
         g.getSubmitters().put(s.getXref(), s);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // Email addresses
@@ -246,7 +246,7 @@ public class GedcomWriter551EmailTest {
         s.setXref("@S1@");
         g.getSubmitters().put(s.getXref(), s);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // Email addresses
@@ -271,7 +271,7 @@ public class GedcomWriter551EmailTest {
         s.setXref("@S1@");
         g.getSubmitters().put(s.getXref(), s);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // No emails on submitter, should be good

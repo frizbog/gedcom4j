@@ -75,7 +75,7 @@ public class GedcomWriter551Test {
     public void testBlobWith551() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         gw.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
         assertTrue(gw.lines.isEmpty());
 
@@ -133,7 +133,7 @@ public class GedcomWriter551Test {
         Gedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
         Individual i = new Individual();
         i.setXref("@I1@");
@@ -192,7 +192,7 @@ public class GedcomWriter551Test {
         g.getHeader().getCopyrightData(true).add("One line is ok");
         g.getHeader().getCopyrightData(true).add("Two lines is bad");
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // Switch to 5.5.1, all should be fine
@@ -216,7 +216,7 @@ public class GedcomWriter551Test {
         g.getHeader().getCopyrightData(true).add("One line is ok");
         g.getHeader().getCopyrightData(true).add("Two lines is bad");
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
         gw.write("tmp/delete-me.ged");
 
@@ -236,7 +236,7 @@ public class GedcomWriter551Test {
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().getCopyrightData(true).add("One line is ok");
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // Only one line of copyright data, should be fine
@@ -326,7 +326,7 @@ public class GedcomWriter551Test {
         i.getNames(true).add(pn);
 
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = true;
+        gw.setValidationSuppressed(true);
         assertTrue(gw.lines.isEmpty());
 
         // Try basic scenario first before perturbing name with variations
@@ -378,7 +378,7 @@ public class GedcomWriter551Test {
     public void testUtf8With551() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().getCharacterSet().setCharacterSetName(new StringWithCustomTags("UTF-8"));
         assertTrue(gw.lines.isEmpty());
@@ -400,7 +400,7 @@ public class GedcomWriter551Test {
     public void testUtf8With55Bad() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().getCharacterSet().setCharacterSetName(new StringWithCustomTags("UTF-8"));
         assertTrue(gw.lines.isEmpty());
@@ -419,7 +419,7 @@ public class GedcomWriter551Test {
     public void testUtf8With55Good() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         assertTrue(gw.lines.isEmpty());
 

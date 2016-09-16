@@ -43,6 +43,11 @@ import org.junit.Test;
 public class ValidatorTest implements AutoRepairResponder {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 8324174994665255952L;
+
+    /**
      * {@inheritDoc}
      */
     @Override

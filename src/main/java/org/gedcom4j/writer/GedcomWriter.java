@@ -110,12 +110,6 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     List<String> lines = new ArrayList<>();
 
     /**
-     * Are we suppressing the call to the validator? Deliberately package-private so unit tests can fiddle with it to make testing
-     * easy.
-     */
-    boolean validationSuppressed = false;
-
-    /**
      * The auto repair responder.
      */
     private AutoRepairResponder autoRepairResponder;
@@ -159,6 +153,11 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
      * Whether to use little-endian unicode
      */
     private boolean useLittleEndianForUnicode = true;
+
+    /**
+     * Are we suppressing the call to the validator?
+     */
+    private boolean validationSuppressed = false;
 
     /**
      * The validator.
@@ -246,6 +245,15 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
      */
     public boolean isUseLittleEndianForUnicode() {
         return useLittleEndianForUnicode;
+    }
+
+    /**
+     * Get whether validation is suppressed
+     * 
+     * @return whether validation is suppressed or not
+     */
+    public boolean isValidationSuppressed() {
+        return validationSuppressed;
     }
 
     /**
@@ -345,6 +353,16 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
      */
     public void setUseLittleEndianForUnicode(boolean useLittleEndianForUnicode) {
         this.useLittleEndianForUnicode = useLittleEndianForUnicode;
+    }
+
+    /**
+     * Set whether validation is suppressed or not
+     * 
+     * @param validationSuppressed
+     *            set to true to suppress validation
+     */
+    public void setValidationSuppressed(boolean validationSuppressed) {
+        this.validationSuppressed = validationSuppressed;
     }
 
     /**

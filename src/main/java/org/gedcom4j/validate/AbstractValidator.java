@@ -48,6 +48,7 @@ import org.gedcom4j.model.ModelElement;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.UserReference;
+import org.gedcom4j.parser.DateParser;
 import org.gedcom4j.validate.Validator.Finding;
 
 /**
@@ -102,10 +103,11 @@ abstract class AbstractValidator implements Serializable {
                     + " did not return a string", e);
         }
         if (!isSpecified(xref)) {
-            validator.newFinding(objectContainingXref, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "xref");
+            validator.newFinding(objectContainingXref, Severity.ERROR, org.gedcom4j.validate.ProblemCode.MISSING_REQUIRED_VALUE,
+                    "xref");
         } else {
             if (!XREF_PATTERN.matcher(xref).matches()) {
-                validator.newFinding(objectContainingXref, Severity.ERROR, ProblemCode.XREF_INVALID, "xref");
+                validator.newFinding(objectContainingXref, Severity.ERROR, org.gedcom4j.validate.ProblemCode.XREF_INVALID, "xref");
             }
         }
     }
@@ -124,9 +126,11 @@ abstract class AbstractValidator implements Serializable {
             return;
         }
         mustHaveValue(changeDate, "date");
+        mustBeDateIfSpecified(changeDate, "date");
         mustHaveValueOrBeOmitted(changeDate, "time");
         if (changeDate.getNotes() == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(changeDate, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "notes");
+            Finding vf = validator.newFinding(changeDate, Severity.INFO, org.gedcom4j.validate.ProblemCode.UNINITIALIZED_COLLECTION,
+                    "notes");
             initializeCollectionIfAllowed(vf);
         }
         checkNotes(changeDate);
@@ -142,15 +146,16 @@ abstract class AbstractValidator implements Serializable {
         List<AbstractCitation> citations = objectWithCitations.getCitations();
         if (citations == null) {
             if (Options.isCollectionInitializationEnabled()) {
-                Finding finding = validator.newFinding(objectWithCitations, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION,
-                        "citations");
+                Finding finding = validator.newFinding(objectWithCitations, Severity.INFO,
+                        org.gedcom4j.validate.ProblemCode.UNINITIALIZED_COLLECTION, "citations");
                 initializeCollectionIfAllowed(finding);
             }
             return;
         }
         DuplicateHandler<AbstractCitation> dh = new DuplicateHandler<>(citations);
         if (dh.count() > 0) {
-            Finding finding = validator.newFinding(objectWithCitations, Severity.ERROR, ProblemCode.DUPLICATE_VALUE, "citations");
+            Finding finding = validator.newFinding(objectWithCitations, Severity.ERROR,
+                    org.gedcom4j.validate.ProblemCode.DUPLICATE_VALUE, "citations");
             if (validator.mayRepair(finding)) {
                 ModelElement before = makeCopy(objectWithCitations);
                 dh.remove();
@@ -173,7 +178,8 @@ abstract class AbstractValidator implements Serializable {
             return; // Nothing to check!
         }
         if (o.getCustomTags() == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(o, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "customTags");
+            Finding vf = validator.newFinding(o, Severity.INFO, org.gedcom4j.validate.ProblemCode.UNINITIALIZED_COLLECTION,
+                    "customTags");
             initializeCollectionIfAllowed(vf);
         }
         if (o.getCustomTags() != null) {
@@ -181,7 +187,8 @@ abstract class AbstractValidator implements Serializable {
             while (i < o.getCustomTags().size()) {
                 StringTree ct = o.getCustomTags().get(i);
                 if (ct == null) {
-                    Finding vf = validator.newFinding(o, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, "customTags");
+                    Finding vf = validator.newFinding(o, Severity.ERROR, org.gedcom4j.validate.ProblemCode.LIST_WITH_NULL_VALUE,
+                            "customTags");
                     if (validator.mayRepair(vf)) {
                         ModelElement before = makeCopy(o);
                         o.getCustomTags().remove(i);
@@ -206,7 +213,8 @@ abstract class AbstractValidator implements Serializable {
     protected void checkEmails(AbstractAddressableElement itemWithAddresses) {
         List<StringWithCustomTags> emails = itemWithAddresses.getEmails();
         if (emails == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(itemWithAddresses, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "emails");
+            Finding vf = validator.newFinding(itemWithAddresses, Severity.INFO,
+                    org.gedcom4j.validate.ProblemCode.UNINITIALIZED_COLLECTION, "emails");
             initializeCollectionIfAllowed(vf);
         }
         if (emails == null) {
@@ -217,7 +225,7 @@ abstract class AbstractValidator implements Serializable {
         for (StringWithCustomTags swct : emails) {
             mustHaveValue(swct, "value");
             if (swct.getValue() != null && !EMAIL_PATTERN.matcher(swct.getValue()).matches()) {
-                validator.newFinding(swct, Severity.WARNING, ProblemCode.NOT_VALID_EMAIL_ADDRESS, "value");
+                validator.newFinding(swct, Severity.WARNING, org.gedcom4j.validate.ProblemCode.NOT_VALID_EMAIL_ADDRESS, "value");
             }
         }
     }
@@ -231,7 +239,8 @@ abstract class AbstractValidator implements Serializable {
     protected void checkFaxNumbers(AbstractAddressableElement itemWithAddresses) {
         List<StringWithCustomTags> faxNumbers = itemWithAddresses.getFaxNumbers();
         if (faxNumbers == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(itemWithAddresses, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "faxNumbers");
+            Finding vf = validator.newFinding(itemWithAddresses, Severity.INFO,
+                    org.gedcom4j.validate.ProblemCode.UNINITIALIZED_COLLECTION, "faxNumbers");
             initializeCollectionIfAllowed(vf);
         }
         if (faxNumbers == null) {
@@ -267,7 +276,8 @@ abstract class AbstractValidator implements Serializable {
                 i++;
                 continue;
             }
-            Finding vf = validator.newFinding(modelElement, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, listName);
+            Finding vf = validator.newFinding(modelElement, Severity.ERROR, org.gedcom4j.validate.ProblemCode.LIST_WITH_NULL_VALUE,
+                    listName);
             if (validator.mayRepair(vf)) {
                 list.remove(i);
             } else {
@@ -303,7 +313,8 @@ abstract class AbstractValidator implements Serializable {
         List<L> list = (List<L>) l;
         DuplicateHandler<L> dh = new DuplicateHandler<>(list);
         if (dh.count() > 0) {
-            Finding vf = validator.newFinding(modelElement, Severity.ERROR, ProblemCode.DUPLICATE_VALUE, listName);
+            Finding vf = validator.newFinding(modelElement, Severity.ERROR, org.gedcom4j.validate.ProblemCode.DUPLICATE_VALUE,
+                    listName);
             if (validator.mayRepair(vf)) {
                 @SuppressWarnings("unchecked")
                 M before = (M) makeCopy(modelElement);
@@ -341,7 +352,8 @@ abstract class AbstractValidator implements Serializable {
         NullHandler<L> dh = new NullHandler<>(list);
         if (dh.count() > 0) {
 
-            Finding vf = validator.newFinding(modelElement, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, listName);
+            Finding vf = validator.newFinding(modelElement, Severity.ERROR, org.gedcom4j.validate.ProblemCode.LIST_WITH_NULL_VALUE,
+                    listName);
             if (validator.mayRepair(vf)) {
                 @SuppressWarnings("unchecked")
                 M before = (M) makeCopy(modelElement);
@@ -370,8 +382,8 @@ abstract class AbstractValidator implements Serializable {
     protected void checkPhoneNumbers(AbstractAddressableElement itemWithAddresses) {
         List<StringWithCustomTags> phoneNumbers = itemWithAddresses.getPhoneNumbers();
         if (phoneNumbers == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(itemWithAddresses, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION,
-                    "phoneNumbers");
+            Finding vf = validator.newFinding(itemWithAddresses, Severity.INFO,
+                    org.gedcom4j.validate.ProblemCode.UNINITIALIZED_COLLECTION, "phoneNumbers");
             initializeCollectionIfAllowed(vf);
         }
         if (phoneNumbers == null) {
@@ -398,7 +410,8 @@ abstract class AbstractValidator implements Serializable {
     protected void checkStringList(ModelElement modelElement, String listName, boolean blankStringsAllowed) {
         Object o = get(modelElement, listName);
         if (o == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(modelElement, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, listName);
+            Finding vf = validator.newFinding(modelElement, Severity.INFO,
+                    org.gedcom4j.validate.ProblemCode.UNINITIALIZED_COLLECTION, listName);
             initializeCollectionIfAllowed(vf);
         }
         o = get(modelElement, listName);
@@ -420,7 +433,8 @@ abstract class AbstractValidator implements Serializable {
                         checkCustomTags(swct);
                         i++;
                     } else {
-                        Finding vf = validator.newFinding(modelElement, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, listName);
+                        Finding vf = validator.newFinding(modelElement, Severity.ERROR,
+                                org.gedcom4j.validate.ProblemCode.LIST_WITH_NULL_VALUE, listName);
                         if (validator.mayRepair(vf)) {
                             ModelElement before = makeCopy(modelElement);
                             list.remove(i);
@@ -434,7 +448,8 @@ abstract class AbstractValidator implements Serializable {
                     if (blankStringsAllowed || isSpecified(st)) {
                         i++;
                     } else {
-                        Finding vf = validator.newFinding(modelElement, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, listName);
+                        Finding vf = validator.newFinding(modelElement, Severity.ERROR,
+                                org.gedcom4j.validate.ProblemCode.LIST_WITH_NULL_VALUE, listName);
                         if (validator.mayRepair(vf)) {
                             ModelElement before = makeCopy(modelElement);
                             list.remove(i);
@@ -454,7 +469,8 @@ abstract class AbstractValidator implements Serializable {
             while (i < list.size()) {
                 String s = list.get(i);
                 if (!isSpecified(s)) {
-                    Finding vf = validator.newFinding(modelElement, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, listName);
+                    Finding vf = validator.newFinding(modelElement, Severity.ERROR,
+                            org.gedcom4j.validate.ProblemCode.LIST_WITH_NULL_VALUE, listName);
                     if (validator.mayRepair(vf)) {
                         ModelElement before = makeCopy(modelElement);
                         list.remove(i);
@@ -482,8 +498,8 @@ abstract class AbstractValidator implements Serializable {
             return;
         }
         if (get(objectWithCollection, collectionName) == null) {
-            Finding vf = validator.newFinding(objectWithCollection, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION,
-                    collectionName);
+            Finding vf = validator.newFinding(objectWithCollection, Severity.INFO,
+                    org.gedcom4j.validate.ProblemCode.UNINITIALIZED_COLLECTION, collectionName);
             initializeCollectionIfAllowed(vf);
         }
     }
@@ -505,8 +521,8 @@ abstract class AbstractValidator implements Serializable {
         while (i < userReferences.size()) {
             UserReference ur = userReferences.get(i);
             if (ur == null) {
-                Finding vf = validator.newFinding(objectWithUserReferences, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE,
-                        "userReferences");
+                Finding vf = validator.newFinding(objectWithUserReferences, Severity.ERROR,
+                        org.gedcom4j.validate.ProblemCode.LIST_WITH_NULL_VALUE, "userReferences");
                 if (validator.mayRepair(vf)) {
                     ModelElement before = makeCopy(objectWithUserReferences);
                     userReferences.remove(i);
@@ -531,7 +547,8 @@ abstract class AbstractValidator implements Serializable {
     protected void checkWwwUrls(AbstractAddressableElement itemWithAddresses) {
         List<StringWithCustomTags> wwwUrls = itemWithAddresses.getWwwUrls();
         if (wwwUrls == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(itemWithAddresses, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "wwwUrls");
+            Finding vf = validator.newFinding(itemWithAddresses, Severity.INFO,
+                    org.gedcom4j.validate.ProblemCode.UNINITIALIZED_COLLECTION, "wwwUrls");
             initializeCollectionIfAllowed(vf);
         }
         if (wwwUrls == null) {
@@ -542,7 +559,7 @@ abstract class AbstractValidator implements Serializable {
         for (StringWithCustomTags swct : wwwUrls) {
             mustHaveValue(swct, "value");
             if (swct.getValue() != null && !URL_PATTERN.matcher(swct.getValue()).matches()) {
-                validator.newFinding(swct, Severity.WARNING, ProblemCode.NOT_VALID_WWW_URL, "value");
+                validator.newFinding(swct, Severity.WARNING, org.gedcom4j.validate.ProblemCode.NOT_VALID_WWW_URL, "value");
             }
         }
     }
@@ -550,19 +567,19 @@ abstract class AbstractValidator implements Serializable {
     /**
      * Get the value for a field whose name is supplied for a given object
      * 
-     * @param modelElement
+     * @param object
      *            the object that has the named field you want a getter for
      * @param fieldName
      *            the name of the field you want to get
      * @return the value of the named field
      */
-    protected Object get(ModelElement modelElement, String fieldName) {
-        Method getter = getGetter(modelElement, fieldName);
+    protected Object get(Object object, String fieldName) {
+        Method getter = getGetter(object, fieldName);
         try {
-            return getter.invoke(modelElement);
+            return getter.invoke(object);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            throw new ValidationException("Unable to invoke getter method for field '" + fieldName + "' on object of type "
-                    + modelElement.getClass().getName(), e);
+            throw new ValidationException("Unable to invoke getter method for field '" + fieldName + "' on object of type " + object
+                    .getClass().getName(), e);
         }
     }
 
@@ -588,25 +605,25 @@ abstract class AbstractValidator implements Serializable {
     /**
      * Get the getter for a field whose name is supplied for a given object
      * 
-     * @param modelElement
+     * @param object
      *            the object that has the named field you want a getter for
      * @param fieldName
      *            the name of the field you want to get
      * @return the getter method
      */
     @SuppressWarnings("PMD.PreserveStackTrace")
-    protected Method getGetter(ModelElement modelElement, String fieldName) {
+    protected Method getGetter(Object object, String fieldName) {
         Method result = null;
         try {
             String getterName = "get" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1);
-            result = modelElement.getClass().getMethod(getterName);
+            result = object.getClass().getMethod(getterName);
         } catch (@SuppressWarnings("unused") NoSuchMethodException | SecurityException ignored) {
             try {
                 String getterName = "is" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1);
-                result = modelElement.getClass().getMethod(getterName);
+                result = object.getClass().getMethod(getterName);
             } catch (NoSuchMethodException | SecurityException e1) {
                 throw new ValidationException("Unable to find getter method for field '" + fieldName + "' on object of type "
-                        + modelElement.getClass().getName(), e1);
+                        + object.getClass().getName(), e1);
             }
         }
         return result;
@@ -675,6 +692,107 @@ abstract class AbstractValidator implements Serializable {
     }
 
     /**
+     * Check that object is a well-formed date string in GEDCOM format, or null/empty.
+     *
+     * @param modelElement
+     *            the model element with a date field
+     * @param dateFieldName
+     *            the name date field
+     */
+    protected void mustBeDateIfSpecified(ModelElement modelElement, String dateFieldName) {
+        Object object = get(modelElement, dateFieldName);
+        if (object == null) {
+            return;
+        }
+        String dateToValidate = null;
+        if (object instanceof String) {
+            dateToValidate = (String) object;
+        } else if (object instanceof StringWithCustomTags) {
+            dateToValidate = ((StringWithCustomTags) object).getValue();
+        }
+        if (!isSpecified(dateToValidate)) {
+            return;
+        }
+        DateParser dp = new DateParser();
+        if (dp.parse(dateToValidate) == null) {
+            validator.newFinding(modelElement, Severity.ERROR, ProblemCode.INVALID_DATE, dateFieldName);
+        }
+    }
+
+    /**
+     * <p>
+     * Validate that a named field on the supplied object has a value that can be found in a supplied enum, or isn't there (it's
+     * empty or null).
+     * </p>
+     * <p>
+     * The check is made through a series of attempts:
+     * </p>
+     * <ol>
+     * <li>See if the value of the field equals any of the enumerated constants in the enum</li>
+     * <li>If the value of the field is a string, see if it matches any of the following:
+     * <ol>
+     * <li>The name (as a string) of the enum constant</li>
+     * <li>The value of a property in the enum constant named "code" (if a getCode() getter exists)</li>
+     * </ol>
+     * </ol>
+     * 
+     * @param <E>
+     *            foo
+     * @param e
+     *            the enum that the value must be in
+     * @param modelElement
+     *            the object that has the field to be checked
+     * @param fieldName
+     *            the name of the field with the value that needs to be in the enum
+     */
+    @SuppressWarnings({ "checkstyle:NoWhitespaceBefore", "PMD.EmptyCatchBlock" })
+    protected <E extends Enum<E>> void mustBeInEnumIfSpecified(Class<E> e, ModelElement modelElement, String fieldName) {
+        if (!e.isEnum()) {
+            throw new ValidationException("Class of type " + e.getClass().getName() + " is not an enum");
+        }
+        Object object = get(modelElement, fieldName);
+        if (object == null) {
+            // No value to check, so no problem
+            return;
+        }
+
+        for (Enum<E> c : e.getEnumConstants()) {
+            if (c.equals(object)) {
+                // The field had a value that was equal to one of the enum constants, so it's ok
+                return;
+            }
+        }
+
+        // Get a string value from the field value - we're going to see if there's a code
+        String val = null;
+        if (object instanceof StringWithCustomTags) {
+            val = ((StringWithCustomTags) object).getValue();
+        } else if (object instanceof String) {
+            val = (String) object;
+        }
+        if (val == null) {
+            // No value to check, so no problem
+            return;
+        }
+        for (Enum<E> c : e.getEnumConstants()) {
+            if (c.name().equals(val)) {
+                // We matched an enum constant's name, so it's ok
+                return;
+            }
+            try {
+                Object enumCode = get(c, "code");
+                if (val.equals(enumCode)) {
+                    return;
+                }
+            } catch (@SuppressWarnings("unused") ValidationException ignored) {
+                // No getCode() getter on the enum constant
+            }
+        }
+        // IF we've fallen through to here, we failed to find a match in the enum and need to register a finding
+        validator.newFinding(modelElement, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, fieldName);
+    }
+
+    /**
      * Check that an object in the model has a value for a specific field (by name)
      *
      * @param modelElement
@@ -685,17 +803,19 @@ abstract class AbstractValidator implements Serializable {
     protected void mustHaveValue(ModelElement modelElement, String fieldName) {
         Object value = get(modelElement, fieldName);
         if (value == null) {
-            validator.newFinding(modelElement, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, fieldName);
+            validator.newFinding(modelElement, Severity.ERROR, org.gedcom4j.validate.ProblemCode.MISSING_REQUIRED_VALUE, fieldName);
             return;
         }
         if (value instanceof String) {
             if (!isSpecified((String) value)) {
-                validator.newFinding(modelElement, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, fieldName);
+                validator.newFinding(modelElement, Severity.ERROR, org.gedcom4j.validate.ProblemCode.MISSING_REQUIRED_VALUE,
+                        fieldName);
             }
         } else if (value instanceof StringWithCustomTags) {
             StringWithCustomTags swct = (StringWithCustomTags) value;
             if (swct.getValue() != null && !isSpecified(swct.getValue())) {
-                validator.newFinding(modelElement, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, fieldName);
+                validator.newFinding(modelElement, Severity.ERROR, org.gedcom4j.validate.ProblemCode.MISSING_REQUIRED_VALUE,
+                        fieldName);
             }
         }
         if (modelElement instanceof HasCustomTags) {
@@ -719,12 +839,14 @@ abstract class AbstractValidator implements Serializable {
         }
         if (value instanceof String) {
             if (!isSpecified((String) value)) {
-                validator.newFinding(modelElement, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, fieldName);
+                validator.newFinding(modelElement, Severity.ERROR, org.gedcom4j.validate.ProblemCode.MISSING_REQUIRED_VALUE,
+                        fieldName);
             }
         } else if (value instanceof StringWithCustomTags) {
             StringWithCustomTags swct = (StringWithCustomTags) value;
             if (swct.getValue() == null || !isSpecified(swct.getValue())) {
-                validator.newFinding(modelElement, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, fieldName);
+                validator.newFinding(modelElement, Severity.ERROR, org.gedcom4j.validate.ProblemCode.MISSING_REQUIRED_VALUE,
+                        fieldName);
             }
         } else {
             throw new ValidationException("Don't know how to handle result of type " + value.getClass().getName());
@@ -751,7 +873,7 @@ abstract class AbstractValidator implements Serializable {
         if (value instanceof List && ((List) value).isEmpty()) {
             return;
         }
-        validator.newFinding(modelElement, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, fieldName);
+        validator.newFinding(modelElement, Severity.ERROR, org.gedcom4j.validate.ProblemCode.ILLEGAL_VALUE, fieldName);
     }
 
     /**
@@ -768,10 +890,11 @@ abstract class AbstractValidator implements Serializable {
     protected void xrefMustBePresentAndWellFormed(HasXref objectContainingXref) {
         String xref = objectContainingXref.getXref();
         if (!isSpecified(xref)) {
-            validator.newFinding(objectContainingXref, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "xref");
+            validator.newFinding(objectContainingXref, Severity.ERROR, org.gedcom4j.validate.ProblemCode.MISSING_REQUIRED_VALUE,
+                    "xref");
         } else {
             if (!XREF_PATTERN.matcher(xref).matches()) {
-                validator.newFinding(objectContainingXref, Severity.ERROR, ProblemCode.XREF_INVALID, "xref");
+                validator.newFinding(objectContainingXref, Severity.ERROR, org.gedcom4j.validate.ProblemCode.XREF_INVALID, "xref");
             }
         }
     }

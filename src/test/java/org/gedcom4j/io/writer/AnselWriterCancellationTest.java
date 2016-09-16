@@ -35,9 +35,9 @@ import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.io.event.FileProgressListener;
+import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.validate.Validator;
-import org.gedcom4j.validate.Validator.Finding;
 import org.gedcom4j.writer.GedcomWriter;
 import org.junit.Test;
 
@@ -85,21 +85,14 @@ public class AnselWriterCancellationTest implements FileProgressListener {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-ansel.ged");
         eventCount = 0;
-        gw = new GedcomWriter(gp.getGedcom());
-        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
+        Gedcom g = gp.getGedcom();
+        Validator gv = new Validator(g);
+        gv.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
+        gv.validate(); // Cleanup whatever can be cleaned up
+        gw = new GedcomWriter(g);
+        gw.setValidationSuppressed(true);
         gw.registerFileObserver(this);
-        try {
-            gw.write(new NullOutputStream());
-        } catch (GedcomWriterException e) {
-            if (!gw.getValidator().getResults().getAllFindings().isEmpty()) {
-                System.out.println(getClass().getName() + " found " + gw.getValidator().getResults().getAllFindings().size()
-                        + " validation findings:");
-                for (Finding f : gw.getValidator().getResults().getAllFindings()) {
-                    System.out.println(f);
-                }
-            }
-            throw e;
-        }
+        gw.write(new NullOutputStream());
 
         assertEquals(42, eventCount);
     }

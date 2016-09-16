@@ -64,7 +64,7 @@ public class GedcomWriter551WwwTest {
         Corporation c = new Corporation();
         g.getHeader().getSourceSystem().setCorporation(c);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
     
         // WWW urls
@@ -92,7 +92,7 @@ public class GedcomWriter551WwwTest {
         Corporation c = new Corporation();
         g.getHeader().getSourceSystem().setCorporation(c);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
     
         // WWW urls
@@ -116,7 +116,7 @@ public class GedcomWriter551WwwTest {
         Corporation c = new Corporation();
         g.getHeader().getSourceSystem().setCorporation(c);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
     
         // No www URL's, all should be fine
@@ -139,7 +139,7 @@ public class GedcomWriter551WwwTest {
         r.setXref("@R1@");
         g.getRepositories().put(r.getXref(), r);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
     
         // WWW urls
@@ -167,7 +167,7 @@ public class GedcomWriter551WwwTest {
         r.setXref("@R1@");
         g.getRepositories().put(r.getXref(), r);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
     
         // WWW urls
@@ -191,7 +191,7 @@ public class GedcomWriter551WwwTest {
         r.setXref("@R1@");
         g.getRepositories().put(r.getXref(), r);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
     
         // Repository has no www urls, should be ok
@@ -215,7 +215,7 @@ public class GedcomWriter551WwwTest {
         s.setXref("@S1@");
         g.getSubmitters().put(s.getXref(), s);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
     
         // WWW urls
@@ -243,7 +243,7 @@ public class GedcomWriter551WwwTest {
         s.setXref("@S1@");
         g.getSubmitters().put(s.getXref(), s);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
     
         // WWW urls
@@ -268,7 +268,7 @@ public class GedcomWriter551WwwTest {
         s.setXref("@S1@");
         g.getSubmitters().put(s.getXref(), s);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
     
         // No WWW Urls on submitter, should be good
