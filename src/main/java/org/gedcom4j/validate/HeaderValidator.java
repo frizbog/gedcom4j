@@ -88,6 +88,7 @@ class HeaderValidator extends AbstractValidator {
         }
         checkCustomTags(header);
         mustHaveValueOrBeOmitted(header, "date");
+        mustBeDateIfSpecified(header, "date");
         mustHaveValueOrBeOmitted(header, "destinationSystem");
         /*
          * Filename is actually a required field -- but since the writer automatically fills in the filename if it's blank, treating
@@ -206,7 +207,7 @@ class HeaderValidator extends AbstractValidator {
                 }
             }
             mustHaveValueOrBeOmitted(sd, "copyright");
-            mustHaveValueOrBeOmitted(sd, "publishDate");
+            mustBeDateIfSpecified(sd, "publishDate");
             checkCustomTags(sd);
         }
         if (ss.getSystemId() == null) {
