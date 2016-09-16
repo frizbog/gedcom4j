@@ -48,6 +48,11 @@ import org.gedcom4j.validate.Validator.Finding;
 class HeaderValidator extends AbstractValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 6219406585813356753L;
+
+    /**
      * The {@link Header} being validated
      */
     private final Header header;

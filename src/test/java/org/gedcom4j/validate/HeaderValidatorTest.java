@@ -136,9 +136,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoSubmitters() {
-        gedcom.setSubmission(new Submission("@SUBN0001@"));
-        gedcom.getHeader().setSubmission(gedcom.getSubmission());
-
+        gedcom.getHeader().setSubmitter(null);
         validator.validate();
         assertFindingsContain(Severity.ERROR, gedcom.getHeader(), ProblemCode.MISSING_REQUIRED_VALUE.getCode(), "submitter");
 

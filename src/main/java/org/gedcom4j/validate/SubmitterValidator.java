@@ -42,6 +42,11 @@ import org.gedcom4j.validate.Validator.Finding;
 class SubmitterValidator extends AbstractValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 3930055974247055871L;
+
+    /**
      * The submitter being validated
      */
     private final Submitter submitter;

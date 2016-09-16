@@ -148,9 +148,9 @@ public class IndividualAttributeTest {
         i2.getWwwUrls(true).add(new StringWithCustomTags("Twelve"));
         assertEquals(i1, i2);
 
-        i1.setyNull("Thirteen");
+        i1.setYNull("Thirteen");
         assertFalse(i1.equals(i2));
-        i2.setyNull("Thirteen");
+        i2.setYNull("Thirteen");
         assertEquals(i1, i2);
 
     }
@@ -262,9 +262,9 @@ public class IndividualAttributeTest {
         i2.getWwwUrls(true).add(new StringWithCustomTags("Twelve"));
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.setyNull("Thirteen");
+        i1.setYNull("Thirteen");
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.setyNull("Thirteen");
+        i2.setYNull("Thirteen");
         assertEquals(i1.hashCode(), i2.hashCode());
 
     }
@@ -296,7 +296,7 @@ public class IndividualAttributeTest {
         i.setSubType(new StringWithCustomTags("Eleven"));
         i.setType(IndividualAttributeType.FACT);
         i.getWwwUrls(true).add(new StringWithCustomTags("Twelve"));
-        i.setyNull("Thirteen");
+        i.setYNull("Thirteen");
 
         assertEquals(
                 "IndividualAttribute [type=Fact, age=One, cause=Two, citations=[CitationWithoutSource []], date=Three, description=Four, "

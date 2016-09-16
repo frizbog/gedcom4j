@@ -37,6 +37,11 @@ import org.gedcom4j.model.Address;
 class AddressValidator extends AbstractValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 3107623401886842041L;
+
+    /**
      * The address being validated
      */
     private final Address address;

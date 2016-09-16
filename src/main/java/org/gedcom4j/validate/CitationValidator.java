@@ -44,6 +44,11 @@ import org.gedcom4j.validate.Validator.Finding;
 class CitationValidator extends AbstractValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -5330593557253049349L;
+
+    /**
      * The citation being validated
      */
     private final AbstractCitation citation;

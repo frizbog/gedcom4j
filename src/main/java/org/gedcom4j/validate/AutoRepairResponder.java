@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.validate;
 
+import java.io.Serializable;
+
 /**
  * <p>
  * The interface for an AutoRepairResponder.
@@ -47,7 +49,7 @@ package org.gedcom4j.validate;
  * attempt any further repairs to the object.
  * </p>
  */
-public interface AutoRepairResponder {
+public interface AutoRepairResponder extends Serializable {
 
     /**
      * Determine whether or not the validate may repair the finding

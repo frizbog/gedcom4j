@@ -132,10 +132,11 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
      */
     @SuppressWarnings("resource")
     @Test(expected = WriterCancelledException.class)
-    public void testConstuctionCancellation() throws IOException, GedcomParserException, GedcomWriterException {
+    public void testConstructionCancellation() throws IOException, GedcomParserException, GedcomWriterException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-ascii.ged");
         gw = new GedcomWriter(gp.getGedcom());
+        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
         constructionCancelAfter = 5;
@@ -158,6 +159,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-ascii.ged");
         gw = new GedcomWriter(gp.getGedcom());
+        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
         fileCancelAfter = 5;
@@ -194,9 +196,9 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
             throw e;
         }
         assertEquals(40, constructNotificationCount);
-        assertEquals(42, fileNotificationCount);
-        assertEquals(20022, linesConstructed);
-        assertEquals(621821, bytesWritten);
+        assertEquals(41, fileNotificationCount);
+        assertEquals(19998, linesConstructed);
+        assertEquals(621291, bytesWritten);
     }
 
     /**
@@ -229,9 +231,9 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
             throw e;
         }
         assertEquals(40, constructNotificationCount);
-        assertEquals(42, fileNotificationCount);
-        assertEquals(20022, linesConstructed);
-        assertEquals(601799, bytesWritten);
+        assertEquals(41, fileNotificationCount);
+        assertEquals(19998, linesConstructed);
+        assertEquals(601293, bytesWritten);
     }
 
     /**
@@ -264,9 +266,9 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
             throw e;
         }
         assertEquals(40, constructNotificationCount);
-        assertEquals(42, fileNotificationCount);
-        assertEquals(20022, linesConstructed);
-        assertEquals(621821, bytesWritten);
+        assertEquals(41, fileNotificationCount);
+        assertEquals(19998, linesConstructed);
+        assertEquals(621291, bytesWritten);
     }
 
     /**
@@ -299,9 +301,9 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
             throw e;
         }
         assertEquals(40, constructNotificationCount);
-        assertEquals(42, fileNotificationCount);
-        assertEquals(20022, linesConstructed);
-        assertEquals(601799, bytesWritten);
+        assertEquals(41, fileNotificationCount);
+        assertEquals(19998, linesConstructed);
+        assertEquals(601293, bytesWritten);
     }
 
     /**
@@ -334,9 +336,9 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
             throw e;
         }
         assertEquals(40, constructNotificationCount);
-        assertEquals(42, fileNotificationCount);
-        assertEquals(20022, linesConstructed);
-        assertEquals(1243670, bytesWritten);
+        assertEquals(41, fileNotificationCount);
+        assertEquals(19998, linesConstructed);
+        assertEquals(1242610, bytesWritten);
     }
 
     /**
@@ -369,9 +371,9 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
             throw e;
         }
         assertEquals(40, constructNotificationCount);
-        assertEquals(42, fileNotificationCount);
-        assertEquals(20022, linesConstructed);
-        assertEquals(1203626, bytesWritten);
+        assertEquals(41, fileNotificationCount);
+        assertEquals(19998, linesConstructed);
+        assertEquals(1202614, bytesWritten);
     }
 
     /**
@@ -404,9 +406,9 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
             throw e;
         }
         assertEquals(40, constructNotificationCount);
-        assertEquals(42, fileNotificationCount);
-        assertEquals(20022, linesConstructed);
-        assertEquals(1243676, bytesWritten);
+        assertEquals(41, fileNotificationCount);
+        assertEquals(19998, linesConstructed);
+        assertEquals(1242616, bytesWritten);
     }
 
     /**
@@ -439,9 +441,9 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
             throw e;
         }
         assertEquals(40, constructNotificationCount);
-        assertEquals(42, fileNotificationCount);
-        assertEquals(20022, linesConstructed);
-        assertEquals(1203632, bytesWritten);
+        assertEquals(41, fileNotificationCount);
+        assertEquals(19998, linesConstructed);
+        assertEquals(1202620, bytesWritten);
     }
 
     /**
@@ -474,9 +476,9 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
             throw e;
         }
         assertEquals(40, constructNotificationCount);
-        assertEquals(41, fileNotificationCount);
-        assertEquals(20019, linesConstructed);
-        assertEquals(606208, bytesWritten);
+        assertEquals(40, fileNotificationCount);
+        assertEquals(19995, linesConstructed);
+        assertEquals(573440, bytesWritten);
     }
 
     /**
@@ -509,9 +511,9 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
             throw e;
         }
         assertEquals(40, constructNotificationCount);
-        assertEquals(41, fileNotificationCount);
-        assertEquals(20019, linesConstructed);
-        assertEquals(581632, bytesWritten);
+        assertEquals(40, fileNotificationCount);
+        assertEquals(19995, linesConstructed);
+        assertEquals(557056, bytesWritten);
     }
 
     /**

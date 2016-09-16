@@ -45,6 +45,11 @@ import org.gedcom4j.validate.Validator.Finding;
 class MultimediaValidator extends AbstractValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -4969512119892429424L;
+
+    /**
      * The multimedia being validated
      */
     private final Multimedia mm;
@@ -111,14 +116,15 @@ class MultimediaValidator extends AbstractValidator {
      * Check user references
      */
     private void checkUserReferences() {
-        Finding vf = validator.newFinding(mm, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "userReferences");
-        initializeCollectionIfAllowed(vf);
-
-        List<UserReference> userReferences = mm.getUserReferences();
-        userReferences = mm.getUserReferences();
-        if (userReferences == null) {
+        if (mm.getUserReferences() == null && Options.isCollectionInitializationEnabled()) {
+            Finding vf = validator.newFinding(mm, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "userReferences");
+            initializeCollectionIfAllowed(vf);
+        }
+        if (mm.getUserReferences() == null) {
             return;
         }
+
+        List<UserReference> userReferences = mm.getUserReferences();
         checkListOfModelElementsForDups(mm, "userReferences");
         checkListOfModelElementsForNulls(mm, "userReferences");
         for (UserReference u : userReferences) {

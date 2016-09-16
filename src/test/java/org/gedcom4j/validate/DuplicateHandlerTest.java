@@ -74,7 +74,7 @@ public class DuplicateHandlerTest {
         ArrayList<String> list = new ArrayList<>(Arrays.asList(new String[] { "A", "B", "B", "C", "D", "D", "D", "D", "E", "F",
                 "F" }));
         DuplicateHandler<String> classUnderTest = new DuplicateHandler<>(list);
-        assertEquals(7, classUnderTest.remove());
+        assertEquals(5, classUnderTest.remove());
         assertEquals(Arrays.asList(new String[] { "A", "B", "C", "D", "E", "F" }), list);
         assertEquals("After removing, repeated calls should return 0 duplicates counted/removed", 0, classUnderTest.remove());
     }

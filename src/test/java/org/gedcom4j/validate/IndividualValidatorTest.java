@@ -30,8 +30,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Map;
-
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.TestHelper;
@@ -54,7 +52,7 @@ public class IndividualValidatorTest extends AbstractValidatorTestCase {
         Individual i = new Individual();
         AbstractValidator v = new IndividualValidator(validator, i);
         v.validate();
-        assertFindingsContain(Severity.ERROR, i, ProblemCode.XREF_INVALID, "xref");
+        assertFindingsContain(Severity.ERROR, i, ProblemCode.MISSING_REQUIRED_VALUE, "xref");
     }
 
     /**
@@ -81,7 +79,8 @@ public class IndividualValidatorTest extends AbstractValidatorTestCase {
             assertNotNull("The finding should have an object attached", f.getItemOfConcern());
             if (f.getSeverity() == Severity.ERROR) {
                 errorsCount++;
-                assertTrue("The object attached should be a Map entry", f.getItemOfConcern() instanceof Map.Entry);
+                assertTrue("The " + f.getItemOfConcern().getClass().getName() + " object attached should be a Map entry", f
+                        .getItemOfConcern() instanceof Individual);
             }
         }
         assertEquals("There should be one finding of severity ERROR", 1, errorsCount);

@@ -121,7 +121,7 @@ class FamilyEmitter extends AbstractEmitter<Collection<Family>> {
      *             if the data is malformed and cannot be written
      */
     private void emitFamilyEventStructure(int level, FamilyEvent e) throws GedcomWriterException {
-        emitTagWithOptionalValue(level, e.getType().getTag(), e.getyNull());
+        emitTagWithOptionalValue(level, e.getType().getTag(), e.getYNull());
         new EventEmitter(baseWriter, level + 1, e).emit();
         if (e.getHusbandAge() != null) {
             emitTag(level + 1, "HUSB");

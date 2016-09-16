@@ -63,6 +63,31 @@ public abstract class AbstractValidatorTestCase {
      * 
      * @param severity
      *            the expected severity. Required and must match exactly.
+     * @param c
+     *            the type (class) of object the finding is expected to be on.
+     * @param code
+     *            code of the expected finding. Required and must match exactly.
+     * @param fieldName
+     *            the name of the file with the problem value. Optional, but if supplied, must match exactly.
+     */
+    @SuppressWarnings("checkstyle:WhitespaceAround")
+    protected void assertFindingsContain(Severity severity, Class<? extends ModelElement> c, int code, String fieldName) {
+        for (Finding f : validator.getResults().getAllFindings()) {
+            if (f.getSeverity() == severity && f.getItemOfConcern().getClass().equals(c) && f.getProblemCode() == code
+                    && (fieldName == null || fieldName.equals(f.getFieldNameOfConcern()))) {
+                return;
+            }
+        }
+        fail("No finding of severity " + severity + " found on object of type " + c.getName() + " with code " + code + " on field "
+                + fieldName + " as expected.\nFindings contain: " + validator.getResults().getAllFindings());
+    }
+
+    /**
+     * Assert that the findings collection on the root validator contains at least one finding of the specified severity with a
+     * given substring
+     * 
+     * @param severity
+     *            the expected severity. Required and must match exactly.
      * @param objectWithFinding
      *            the object the finding is expected to be on. Required and must be the same object, not just one equivalent.
      * @param code
@@ -78,7 +103,8 @@ public abstract class AbstractValidatorTestCase {
             }
         }
         fail("No finding of severity " + severity + " found on object of type " + objectWithFinding.getClass().getName()
-                + " with code " + code + " as expected.  Findings contain: " + validator.getResults().getAllFindings());
+                + " with code " + code + " on field " + fieldName + " as expected.\nFindings contain: " + validator.getResults()
+                        .getAllFindings());
     }
 
     /**

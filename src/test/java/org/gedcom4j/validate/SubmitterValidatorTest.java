@@ -1,5 +1,5 @@
 /*
-// * Copyright (c) 2009-2016 Matthew R. Harrah
+ * Copyright (c) 2009-2016 Matthew R. Harrah
  *
  * MIT License
  *
@@ -31,7 +31,7 @@ import org.gedcom4j.model.Submitter;
 import org.junit.Test;
 
 /**
- * Test cas for {@link SubmitterValidator}
+ * Test case for {@link SubmitterValidator}
  * 
  * @author frizbog1
  * 
@@ -70,7 +70,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
         submitter.setName(new StringWithCustomTags(""));
         AbstractValidator sv = new SubmitterValidator(validator, submitter);
         sv.validate();
-        assertNoIssues();
+        assertFindingsContain(Severity.ERROR, submitter, ProblemCode.MISSING_REQUIRED_VALUE, "name");
     }
 
     /**
@@ -83,7 +83,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
         submitter.setXref("");
         AbstractValidator sv = new SubmitterValidator(validator, submitter);
         sv.validate();
-        assertNoIssues();
+        assertFindingsContain(Severity.ERROR, submitter, ProblemCode.MISSING_REQUIRED_VALUE, "xref");
     }
 
     /**
@@ -95,7 +95,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
         submitter.setXref("@SOMEVALUE@");
         AbstractValidator sv = new SubmitterValidator(validator, submitter);
         sv.validate();
-        assertNoIssues();
+        assertFindingsContain(Severity.ERROR, submitter, ProblemCode.MISSING_REQUIRED_VALUE, "name");
     }
 
     /**
@@ -107,7 +107,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
         submitter.setName(new StringWithCustomTags("somebody"));
         AbstractValidator sv = new SubmitterValidator(validator, submitter);
         sv.validate();
-        assertNoIssues();
+        assertFindingsContain(Severity.ERROR, submitter, ProblemCode.MISSING_REQUIRED_VALUE, "xref");
     }
 
 }

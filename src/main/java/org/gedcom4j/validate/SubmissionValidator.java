@@ -36,6 +36,11 @@ import org.gedcom4j.model.Submission;
 public class SubmissionValidator extends AbstractValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -1499277826314233624L;
+
+    /**
      * The Submission being validated
      */
     private final Submission submission;

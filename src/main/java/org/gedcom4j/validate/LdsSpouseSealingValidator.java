@@ -37,6 +37,11 @@ import org.gedcom4j.model.LdsSpouseSealing;
 class LdsSpouseSealingValidator extends AbstractValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -7894442750246320800L;
+
+    /**
      * The sealing being validated
      */
     private final LdsSpouseSealing s;

@@ -36,6 +36,11 @@ import org.gedcom4j.model.Repository;
  */
 class RepositoryValidator extends AbstractValidator {
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 7390239858953711209L;
+
+    /**
      * The individul being validated
      */
     private final Repository repository;

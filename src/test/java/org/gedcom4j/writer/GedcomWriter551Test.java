@@ -97,7 +97,7 @@ public class GedcomWriter551Test {
         } catch (@SuppressWarnings("unused") GedcomWriterException expectedAndIgnored) {
             boolean foundBlobError = false;
             for (Finding f : gw.getValidator().getResults().getAllFindings()) {
-                if (f.getSeverity() == Severity.ERROR && f.getProblemDescription().toLowerCase().contains("blob")) {
+                if (f.getSeverity() == Severity.ERROR && f.getFieldNameOfConcern().contains("blob")) {
                     foundBlobError = true;
                 }
             }

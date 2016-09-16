@@ -46,6 +46,11 @@ import org.gedcom4j.validate.Validator.Finding;
 class IndividualValidator extends AbstractValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -4569551561960734159L;
+
+    /**
      * The individual being validated
      */
     private final Individual individual;
@@ -78,7 +83,9 @@ class IndividualValidator extends AbstractValidator {
             checkListOfModelElementsForDups(individual, "names");
             checkListOfModelElementsForNulls(individual, "names");
             for (PersonalName pn : names) {
-                new PersonalNameValidator(validator, pn).validate();
+                if (pn != null) {
+                    new PersonalNameValidator(validator, pn).validate();
+                }
             }
         }
         if (individual.getFamiliesWhereChild() == null && Options.isCollectionInitializationEnabled()) {

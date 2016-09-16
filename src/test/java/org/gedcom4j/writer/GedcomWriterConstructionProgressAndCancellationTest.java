@@ -35,6 +35,7 @@ import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.io.writer.NullOutputStream;
 import org.gedcom4j.parser.GedcomParser;
+import org.gedcom4j.validate.Validator;
 import org.gedcom4j.writer.event.ConstructProgressEvent;
 import org.gedcom4j.writer.event.ConstructProgressListener;
 import org.junit.Test;
@@ -88,6 +89,7 @@ public class GedcomWriterConstructionProgressAndCancellationTest implements Cons
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-ascii.ged");
         gw = new GedcomWriter(gp.getGedcom());
+        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         cancelAfter = 5;
         gw.write(new NullOutputStream());
@@ -109,6 +111,7 @@ public class GedcomWriterConstructionProgressAndCancellationTest implements Cons
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-ascii.ged");
         gw = new GedcomWriter(gp.getGedcom());
+        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.write(new NullOutputStream());
         assertEquals(40, notificationCount);

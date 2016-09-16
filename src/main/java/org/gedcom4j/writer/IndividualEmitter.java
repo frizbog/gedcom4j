@@ -214,7 +214,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
     private void emitIndividualEvents(int level, List<IndividualEvent> events) throws GedcomWriterException {
         if (events != null) {
             for (IndividualEvent e : events) {
-                emitTagWithOptionalValue(level, e.getType().getTag(), e.getyNull());
+                emitTagWithOptionalValue(level, e.getType().getTag(), e.getYNull());
                 new EventEmitter(baseWriter, level + 1, e).emit();
                 if (e.getType() == IndividualEventType.BIRTH || e.getType() == IndividualEventType.CHRISTENING) {
                     if (e.getFamily() != null && e.getFamily().getFamily() != null && e.getFamily().getFamily().getXref() != null) {
@@ -243,7 +243,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
             throws GedcomWriterException {
         if (ldsIndividualOrdinances != null) {
             for (LdsIndividualOrdinance o : ldsIndividualOrdinances) {
-                emitTagWithOptionalValue(level, o.getType().getTag(), o.getyNull());
+                emitTagWithOptionalValue(level, o.getType().getTag(), o.getYNull());
                 emitTagIfValueNotNull(level + 1, "STAT", o.getStatus());
                 emitTagIfValueNotNull(level + 1, "DATE", o.getDate());
                 emitTagIfValueNotNull(level + 1, "TEMP", o.getTemple());

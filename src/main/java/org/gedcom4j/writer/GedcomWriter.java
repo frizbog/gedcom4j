@@ -456,15 +456,15 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
             validator = new Validator(writeFrom);
             validator.setAutoRepairResponder(getAutoRepairResponder());
             validator.validate();
-            int numErrorFindings = 0;
+            int numUnrepairedErrorFindings = 0;
             for (Finding f : validator.getResults().getAllFindings()) {
-                if (f.getSeverity() == Severity.ERROR) {
-                    numErrorFindings++;
+                if (f.getSeverity() == Severity.ERROR && (f.getRepairs() == null || f.getRepairs().isEmpty())) {
+                    numUnrepairedErrorFindings++;
                 }
             }
-            if (numErrorFindings > 0) {
-                throw new GedcomWriterException("Cannot write file - " + numErrorFindings
-                        + " error(s) found during validation.  Review the validation findings to determine root cause.");
+            if (numUnrepairedErrorFindings > 0) {
+                throw new GedcomWriterException("Cannot write file - " + numUnrepairedErrorFindings
+                        + " error(s) found during validation requiring repair.  Review the validation findings to determine root cause.");
             }
         }
         checkVersionCompatibility();

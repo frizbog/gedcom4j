@@ -26,6 +26,7 @@
  */
 package org.gedcom4j.validate;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +40,12 @@ import org.gedcom4j.validate.Validator.Finding;
  * 
  * @author frizbog
  */
-public class ValidationResults {
+public class ValidationResults implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 7657208202992645360L;
 
     /** All findings. */
     private final List<Finding> allFindings = new ArrayList<>();

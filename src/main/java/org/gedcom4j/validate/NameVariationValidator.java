@@ -37,6 +37,11 @@ import org.gedcom4j.model.AbstractNameVariation;
 class NameVariationValidator extends AbstractValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -7681092157410982602L;
+
+    /**
      * The name variation being validated
      */
     protected AbstractNameVariation nv;

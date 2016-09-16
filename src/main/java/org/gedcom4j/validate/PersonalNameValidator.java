@@ -42,6 +42,11 @@ import org.gedcom4j.validate.Validator.Finding;
 class PersonalNameValidator extends AbstractValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -2718066344479251436L;
+
+    /**
      * The personal name being validated
      */
     private final PersonalName pn;
@@ -68,7 +73,7 @@ class PersonalNameValidator extends AbstractValidator {
         checkCitations(pn);
         checkCitations(pn);
         checkCustomTags(pn);
-        mustHaveValueOrBeOmitted(pn, "given");
+        mustHaveValueOrBeOmitted(pn, "givenName");
         mustHaveValueOrBeOmitted(pn, "nickname");
         mustHaveValueOrBeOmitted(pn, "prefix");
         mustHaveValueOrBeOmitted(pn, "suffix");

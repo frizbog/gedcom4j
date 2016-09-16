@@ -26,6 +26,7 @@
  */
 package org.gedcom4j.validate;
 
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -56,7 +57,12 @@ import org.gedcom4j.validate.Validator.Finding;
  * 
  */
 @SuppressWarnings({ "PMD.TooManyMethods", "PMD.GodClass" })
-abstract class AbstractValidator {
+abstract class AbstractValidator implements Serializable {
+
+    /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -4649410344505048925L;
 
     /**
      * Regex pattern for an XRef
@@ -175,7 +181,7 @@ abstract class AbstractValidator {
             while (i < o.getCustomTags().size()) {
                 StringTree ct = o.getCustomTags().get(i);
                 if (ct == null) {
-                    Finding vf = validator.newFinding(ct, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, null);
+                    Finding vf = validator.newFinding(o, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, "customTags");
                     if (validator.mayRepair(vf)) {
                         ModelElement before = makeCopy(o);
                         o.getCustomTags().remove(i);
@@ -207,7 +213,7 @@ abstract class AbstractValidator {
             return;
         }
         checkListOfModelElementsForDups(itemWithAddresses, "emails");
-        checkListOfModelElementsForDups(itemWithAddresses, "nulls");
+        checkListOfModelElementsForNulls(itemWithAddresses, "emails");
         for (StringWithCustomTags swct : emails) {
             mustHaveValue(swct, "value");
             if (swct.getValue() != null && !EMAIL_PATTERN.matcher(swct.getValue()).matches()) {
@@ -232,7 +238,7 @@ abstract class AbstractValidator {
             return;
         }
         checkListOfModelElementsForDups(itemWithAddresses, "faxNumbers");
-        checkListOfModelElementsForDups(itemWithAddresses, "nulls");
+        checkListOfModelElementsForNulls(itemWithAddresses, "faxNumbers");
         for (StringWithCustomTags swct : faxNumbers) {
             mustHaveValue(swct, "value");
         }
@@ -297,7 +303,6 @@ abstract class AbstractValidator {
         List<L> list = (List<L>) l;
         DuplicateHandler<L> dh = new DuplicateHandler<>(list);
         if (dh.count() > 0) {
-
             Finding vf = validator.newFinding(modelElement, Severity.ERROR, ProblemCode.DUPLICATE_VALUE, listName);
             if (validator.mayRepair(vf)) {
                 @SuppressWarnings("unchecked")
@@ -373,7 +378,7 @@ abstract class AbstractValidator {
             return;
         }
         checkListOfModelElementsForDups(itemWithAddresses, "phoneNumbers");
-        checkListOfModelElementsForDups(itemWithAddresses, "nulls");
+        checkListOfModelElementsForNulls(itemWithAddresses, "phoneNumbers");
         for (StringWithCustomTags swct : phoneNumbers) {
             mustHaveValue(swct, "value");
         }
@@ -408,18 +413,35 @@ abstract class AbstractValidator {
             List<StringWithCustomTags> list = (List<StringWithCustomTags>) o;
             int i = 0;
             while (i < list.size()) {
-                StringWithCustomTags swct = list.get(i);
-                if (swct != null && (blankStringsAllowed || isSpecified(swct.getValue()))) {
-                    checkCustomTags(swct);
-                    i++;
-                } else {
-                    Finding vf = validator.newFinding(modelElement, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, listName);
-                    if (validator.mayRepair(vf)) {
-                        ModelElement before = makeCopy(modelElement);
-                        list.remove(i);
-                        vf.addRepair(new AutoRepair(before, makeCopy(modelElement)));
-                    } else {
+                Object s = list.get(i);
+                if (s instanceof StringWithCustomTags) {
+                    StringWithCustomTags swct = list.get(i);
+                    if (swct != null && (blankStringsAllowed || isSpecified(swct.getValue()))) {
+                        checkCustomTags(swct);
                         i++;
+                    } else {
+                        Finding vf = validator.newFinding(modelElement, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, listName);
+                        if (validator.mayRepair(vf)) {
+                            ModelElement before = makeCopy(modelElement);
+                            list.remove(i);
+                            vf.addRepair(new AutoRepair(before, makeCopy(modelElement)));
+                        } else {
+                            i++;
+                        }
+                    }
+                } else if (s instanceof String) {
+                    String st = (String) s;
+                    if (blankStringsAllowed || isSpecified(st)) {
+                        i++;
+                    } else {
+                        Finding vf = validator.newFinding(modelElement, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, listName);
+                        if (validator.mayRepair(vf)) {
+                            ModelElement before = makeCopy(modelElement);
+                            list.remove(i);
+                            vf.addRepair(new AutoRepair(before, makeCopy(modelElement)));
+                        } else {
+                            i++;
+                        }
                     }
                 }
             }
@@ -516,7 +538,7 @@ abstract class AbstractValidator {
             return;
         }
         checkListOfModelElementsForDups(itemWithAddresses, "wwwUrls");
-        checkListOfModelElementsForDups(itemWithAddresses, "nulls");
+        checkListOfModelElementsForNulls(itemWithAddresses, "wwwUrls");
         for (StringWithCustomTags swct : wwwUrls) {
             mustHaveValue(swct, "value");
             if (swct.getValue() != null && !URL_PATTERN.matcher(swct.getValue()).matches()) {

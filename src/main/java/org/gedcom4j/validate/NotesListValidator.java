@@ -43,6 +43,11 @@ import org.gedcom4j.validate.Validator.Finding;
 class NotesListValidator extends AbstractValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -7836612973656530761L;
+
+    /**
      * The notes being validated
      */
     private final List<Note> notes;

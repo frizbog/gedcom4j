@@ -67,7 +67,7 @@ public class PersonalNameVariationValidatorTest extends AbstractValidatorTestCas
         romanized.setGivenName(new StringWithCustomTags("Bjorn"));
         romanized.setSurname(new StringWithCustomTags("Jorgen"));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, romanized, ProblemCode.MISSING_REQUIRED_VALUE, "name");
+        assertFindingsContain(Severity.ERROR, romanized, ProblemCode.MISSING_REQUIRED_VALUE, "variation");
         romanized.setVariation("Bjorn /Jorgen/");
         validator.validate();
         assertNoIssues();
@@ -77,7 +77,7 @@ public class PersonalNameVariationValidatorTest extends AbstractValidatorTestCas
         phonetic.setGivenName(new StringWithCustomTags("Byorn"));
         phonetic.setSurname(new StringWithCustomTags("Yorgen"));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, phonetic, ProblemCode.MISSING_REQUIRED_VALUE, "name");
+        assertFindingsContain(Severity.ERROR, phonetic, ProblemCode.MISSING_REQUIRED_VALUE, "variation");
         phonetic.setVariation("Byorn /Yorgen/");
         validator.validate();
         assertNoIssues();

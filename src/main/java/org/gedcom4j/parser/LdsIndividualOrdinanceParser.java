@@ -60,7 +60,7 @@ class LdsIndividualOrdinanceParser extends AbstractParser<LdsIndividualOrdinance
     @Override
     void parse() {
         loadInto.setType(LdsIndividualOrdinanceType.getFromTag(stringTree.getTag()));
-        loadInto.setyNull(stringTree.getValue());
+        loadInto.setYNull(stringTree.getValue());
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.DATE.equalsText(ch.getTag())) {

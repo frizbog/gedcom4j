@@ -37,6 +37,11 @@ import org.gedcom4j.model.IndividualAttributeType;
 public class IndividualAttributeValidator extends AbstractValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 9121742173084690556L;
+
+    /**
      * The individual attribute being validated
      */
     private final IndividualAttribute ia;

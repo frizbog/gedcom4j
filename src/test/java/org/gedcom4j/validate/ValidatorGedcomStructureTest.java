@@ -37,7 +37,6 @@ import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.Trailer;
 import org.gedcom4j.parser.GedcomParser;
-import org.gedcom4j.validate.Validator.Finding;
 import org.junit.Test;
 
 /**
@@ -103,10 +102,18 @@ public class ValidatorGedcomStructureTest extends AbstractValidatorTestCase {
         assertTrue(p.getErrors().isEmpty());
         validator = new Validator(p.getGedcom());
         validator.validate();
-        for (Finding f : validator.getResults().getAllFindings()) {
-            System.out.println("assertFindingsContain(Severity." + f.getSeverity() + ", " + f.getItemOfConcern() + ", " + f
-                    .getProblemCode() + ", " + f.getFieldNameOfConcern() + ");");
-        }
+
+        assertFindingsContain(Severity.ERROR, org.gedcom4j.model.FamilyEvent.class, ProblemCode.ILLEGAL_VALUE.getCode(), "yNull");
+        assertFindingsContain(Severity.ERROR, org.gedcom4j.model.IndividualEvent.class, ProblemCode.ILLEGAL_VALUE.getCode(),
+                "yNull");
+        assertFindingsContain(Severity.ERROR, org.gedcom4j.model.Multimedia.class, ProblemCode.CROSS_REFERENCE_NOT_FOUND.getCode(),
+                "xref");
+        assertFindingsContain(Severity.ERROR, org.gedcom4j.model.Multimedia.class, ProblemCode.MISSING_REQUIRED_VALUE.getCode(),
+                "blob");
+        assertFindingsContain(Severity.ERROR, org.gedcom4j.model.Multimedia.class, ProblemCode.MISSING_REQUIRED_VALUE.getCode(),
+                "embeddedMediaFormat");
+        assertFindingsContain(Severity.ERROR, org.gedcom4j.model.Multimedia.class, ProblemCode.MISSING_REQUIRED_VALUE.getCode(),
+                "xref");
     }
 
 }

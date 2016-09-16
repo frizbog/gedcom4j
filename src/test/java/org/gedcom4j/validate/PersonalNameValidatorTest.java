@@ -117,11 +117,11 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     public void testNickname() {
         pn.setNickname(new StringWithCustomTags((String) null));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "nickName");
+        assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "nickname");
 
         pn.setNickname(new StringWithCustomTags(""));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "nickName");
+        assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "nickname");
 
         pn.setNickname(new StringWithCustomTags("Bubba"));
         validator.validate();

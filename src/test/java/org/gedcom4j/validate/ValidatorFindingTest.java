@@ -32,7 +32,6 @@ import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 
-import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.ModelElement;
 import org.gedcom4j.validate.Validator.Finding;
@@ -51,8 +50,7 @@ public class ValidatorFindingTest {
      */
     @Test
     public void testAddRepair() {
-        Validator v = new Validator(new Gedcom());
-        Finding f = v.new Finding();
+        Finding f = new Validator.Finding();
         assertNotNull(f);
         assertNotNull(f.getRepairs(true));
         f.addRepair(new AutoRepair(new Header(), new Header()));
@@ -64,8 +62,7 @@ public class ValidatorFindingTest {
      */
     @Test
     public void testFinding() {
-        Validator v = new Validator(new Gedcom());
-        Finding f = v.new Finding();
+        Finding f = new Validator.Finding();
         assertNotNull(f);
     }
 
@@ -74,8 +71,7 @@ public class ValidatorFindingTest {
      */
     @Test
     public void testGetRepairs() {
-        Validator v = new Validator(new Gedcom());
-        Finding f = v.new Finding();
+        Finding f = new Validator.Finding();
         assertNotNull(f);
         assertNull(f.getRepairs());
     }
@@ -85,8 +81,7 @@ public class ValidatorFindingTest {
      */
     @Test
     public void testGetRepairsBoolean() {
-        Validator v = new Validator(new Gedcom());
-        Finding f = v.new Finding();
+        Finding f = new Validator.Finding();
         assertNotNull(f);
         assertNotNull(f.getRepairs(true));
     }
@@ -96,8 +91,7 @@ public class ValidatorFindingTest {
      */
     @Test
     public void testGetSetFieldNameOfConcern() {
-        Validator v = new Validator(new Gedcom());
-        Finding f = v.new Finding();
+        Finding f = new Validator.Finding();
         assertNull(f.getFieldNameOfConcern());
         f.setFieldNameOfConcern("Foo");
         assertEquals("Foo", f.getFieldNameOfConcern());
@@ -108,8 +102,7 @@ public class ValidatorFindingTest {
      */
     @Test
     public void testGetSetItemOfConcern() {
-        Validator v = new Validator(new Gedcom());
-        Finding f = v.new Finding();
+        Finding f = new Validator.Finding();
         assertNull(f.getItemOfConcern());
         f.setItemOfConcern(new Header());
         assertEquals(new Header(), f.getItemOfConcern());
@@ -120,8 +113,7 @@ public class ValidatorFindingTest {
      */
     @Test
     public void testGetSetProblemCode() {
-        Validator v = new Validator(new Gedcom());
-        Finding f = v.new Finding();
+        Finding f = new Validator.Finding();
         assertEquals(0, f.getProblemCode());
         f.setProblemCode(1000);
         assertEquals(1000, f.getProblemCode());
@@ -132,8 +124,7 @@ public class ValidatorFindingTest {
      */
     @Test
     public void testGetSetProblemDescription() {
-        Validator v = new Validator(new Gedcom());
-        Finding f = v.new Finding();
+        Finding f = new Validator.Finding();
         assertEquals(0, f.getProblemCode());
         f.setProblemCode(1000);
         assertEquals(1000, f.getProblemCode());
@@ -147,8 +138,7 @@ public class ValidatorFindingTest {
      */
     @Test
     public void testGetSetRelatedItems() {
-        Validator v = new Validator(new Gedcom());
-        Finding f = v.new Finding();
+        Finding f = new Validator.Finding();
         assertNull(f.getRelatedItems());
         assertNotNull(f.getRelatedItems(true));
         f.setRelatedItems(null);
@@ -162,8 +152,7 @@ public class ValidatorFindingTest {
      */
     @Test
     public void testGetSetSeverity() {
-        Validator v = new Validator(new Gedcom());
-        Finding f = v.new Finding();
+        Finding f = new Validator.Finding();
         assertNull(f.getSeverity());
         f.setSeverity(Severity.INFO);
         assertEquals(Severity.INFO, f.getSeverity());
@@ -174,8 +163,7 @@ public class ValidatorFindingTest {
      */
     @Test
     public void testSetProblem() {
-        Validator v = new Validator(new Gedcom());
-        Finding f = v.new Finding();
+        Finding f = new Validator.Finding();
         assertEquals(0, f.getProblemCode());
         f.setProblem(ProblemCode.CROSS_REFERENCE_NOT_FOUND);
         assertEquals(ProblemCode.CROSS_REFERENCE_NOT_FOUND.getCode(), f.getProblemCode());
@@ -187,8 +175,7 @@ public class ValidatorFindingTest {
      */
     @Test
     public void testSetRepairs() {
-        Validator v = new Validator(new Gedcom());
-        Finding f = v.new Finding();
+        Finding f = new Validator.Finding();
         assertNull(f.getRepairs());
         f.setRepairs(new ArrayList<AutoRepair>());
         assertNotNull(f.getRepairs());
@@ -199,8 +186,7 @@ public class ValidatorFindingTest {
      */
     @Test
     public void testToString() {
-        Validator v = new Validator(new Gedcom());
-        Finding f = v.new Finding();
+        Finding f = new Validator.Finding();
         f.setProblem(ProblemCode.CROSS_REFERENCE_NOT_FOUND);
         assertEquals("Finding [problemCode=0, problemDescription=Cross-referenced item could not be found in the GEDCOM, ]", f
                 .toString());

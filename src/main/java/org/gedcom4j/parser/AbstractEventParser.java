@@ -58,13 +58,13 @@ public abstract class AbstractEventParser<T extends AbstractEvent> extends Abstr
      */
     protected void parseYNull() {
         if ("Y".equals(stringTree.getValue())) {
-            loadInto.setyNull(stringTree.getValue());
+            loadInto.setYNull(stringTree.getValue());
             loadInto.setDescription(null);
         } else if (stringTree.getValue() == null || stringTree.getValue().trim().length() == 0) {
-            loadInto.setyNull(null);
+            loadInto.setYNull(null);
             loadInto.setDescription(null);
         } else {
-            loadInto.setyNull(null);
+            loadInto.setYNull(null);
             loadInto.setDescription(new StringWithCustomTags(stringTree.getValue()));
             addWarning(stringTree.getTag() + " tag had description rather than [Y|<NULL>] - violates standard");
         }

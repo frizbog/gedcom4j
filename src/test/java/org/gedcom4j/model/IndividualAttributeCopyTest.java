@@ -80,7 +80,7 @@ public class IndividualAttributeCopyTest extends AbstractCopyTest {
         orig.setReligiousAffiliation(new StringWithCustomTags("FFF"));
         orig.setRespAgency(new StringWithCustomTags("GGG"));
         orig.setSubType(new StringWithCustomTags("HHH"));
-        orig.setyNull("Y");
+        orig.setYNull("Y");
 
         IndividualAttribute copy = new IndividualAttribute(orig);
         assertEquals(orig, copy);

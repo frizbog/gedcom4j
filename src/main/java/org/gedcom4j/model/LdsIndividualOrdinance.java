@@ -130,7 +130,7 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
      * 
      * @return the yNull
      */
-    public String getyNull() {
+    public String getYNull() {
         return yNull;
     }
 
@@ -173,7 +173,8 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
      * @param yNull
      *            the yNull to set
      */
-    public void setyNull(String yNull) {
+    @SuppressWarnings("checkstyle:HiddenField")
+    public void setYNull(String yNull) {
         this.yNull = yNull;
     }
 

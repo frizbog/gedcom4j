@@ -26,12 +26,16 @@
  */
 package org.gedcom4j.validate;
 
+import java.io.PrintWriter;
 import java.io.Serializable;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
 import org.gedcom4j.Options;
+import org.gedcom4j.exception.ValidationException;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Header;
@@ -52,7 +56,7 @@ import org.gedcom4j.model.Trailer;
  * Does a deep traversal over the items in the {@link Gedcom} structure and checks them for problems, errors, etc, which are
  * represented as {@link Finding} objects. These objects contain problem codes, descriptions, severity ratings, and references to
  * the objects that have problems.
- * <p>
+ * </p>
  * <p>
  * Typical usage is to instantiate a Validator with the Gedcom being validated, call the validate() method, then call the
  * getResults()
@@ -69,7 +73,7 @@ public class Validator extends AbstractValidator {
      * 
      * @author frizbog
      */
-    public class Finding implements Serializable {
+    public static class Finding implements Serializable {
         /**
          * Serial Version UID
          */
@@ -111,10 +115,19 @@ public class Validator extends AbstractValidator {
         private Severity severity;
 
         /**
+         * A stack trace of where in the validation framework the finding originated from
+         */
+        private final String stackTrace;
+
+        /**
          * Default constructor
          */
         Finding() {
             // Default constructor does nothing
+            Writer result = new StringWriter();
+            PrintWriter printWriter = new PrintWriter(result);
+            new ValidationException().printStackTrace(printWriter);
+            stackTrace = result.toString();
         }
 
         /**
@@ -124,7 +137,7 @@ public class Validator extends AbstractValidator {
          *            the auto-repair object to add
          */
         public void addRepair(AutoRepair autoRepair) {
-            repairs.add(autoRepair);
+            getRepairs(true).add(autoRepair);
         }
 
         /**
@@ -221,6 +234,15 @@ public class Validator extends AbstractValidator {
         }
 
         /**
+         * Get the stackTrace
+         * 
+         * @return the stackTrace
+         */
+        public String getStackTrace() {
+            return stackTrace;
+        }
+
+        /**
          * Set the user-defined problem code
          * 
          * @param problemCode
@@ -265,7 +287,7 @@ public class Validator extends AbstractValidator {
             }
             if (itemOfConcern != null) {
                 builder.append("itemOfConcern=");
-                builder.append(itemOfConcern.getClass().getName());
+                builder.append(itemOfConcern);
                 builder.append(", ");
             }
             if (severity != null) {
@@ -290,6 +312,7 @@ public class Validator extends AbstractValidator {
                 builder.append("repairs=");
                 builder.append(repairs);
             }
+
             builder.append("]");
             return builder.toString();
         }
@@ -367,9 +390,19 @@ public class Validator extends AbstractValidator {
     }
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -5828898693076973667L;
+
+    /**
      * Built-in {@link AutoRepairResponder} implementation that allows everything to be auto-repaired.
      */
     public static final AutoRepairResponder AUTO_REPAIR_ALL = new AutoRepairResponder() {
+        /**
+         * Serial Version UID
+         */
+        private static final long serialVersionUID = -7286303303501153069L;
+
         /**
          * {@inheritDoc}
          */
@@ -383,6 +416,11 @@ public class Validator extends AbstractValidator {
      * Built-in {@link AutoRepairResponder} implementation that forbids all auto-repairs.
      */
     public static final AutoRepairResponder AUTO_REPAIR_NONE = new AutoRepairResponder() {
+        /**
+         * Serial Version UID
+         */
+        private static final long serialVersionUID = -4162579589370187101L;
+
         /**
          * {@inheritDoc}
          */

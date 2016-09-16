@@ -29,6 +29,8 @@ package org.gedcom4j.validate;
 import org.gedcom4j.model.CitationWithSource;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Note;
+import org.gedcom4j.model.Source;
+import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.TestHelper;
 import org.gedcom4j.model.UserReference;
 import org.junit.Test;
@@ -63,16 +65,24 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
         CitationWithSource cws = new CitationWithSource();
         n.getCitations(true).add(cws);
         validator.validate();
-        assertFindingsContain(Severity.ERROR, cws, ProblemCode.MISSING_REQUIRED_VALUE, "reference");
+        assertFindingsContain(Severity.ERROR, cws, ProblemCode.MISSING_REQUIRED_VALUE, "source");
+
+        cws.setSource(new Source());
+        validator.validate();
+        assertNoIssues();
 
         n.getUserReferences(true).clear();
         validator.validate();
-        assertFindingsContain(Severity.ERROR, n, ProblemCode.MISSING_REQUIRED_VALUE, "userReference");
+        assertNoIssues();
+
         UserReference u = new UserReference();
         n.getUserReferences(true).add(u);
         validator.validate();
         assertFindingsContain(Severity.ERROR, u, ProblemCode.MISSING_REQUIRED_VALUE, "referenceNum");
 
+        u.setReferenceNum(new StringWithCustomTags("Foo"));
+        validator.validate();
+        assertNoIssues();
     }
 
     /**
@@ -90,7 +100,7 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
 
         // Notes without xrefs must have lines of text
         validator.validate();
-        assertFindingsContain(Severity.ERROR, n, ProblemCode.XREF_INVALID, "xref");
+        assertFindingsContain(Severity.ERROR, n, ProblemCode.MISSING_REQUIRED_VALUE, "lines");
         n.getLines(true).add("Frying Pan");
         validator.validate();
         assertNoIssues();
@@ -101,15 +111,29 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
         CitationWithSource cws = new CitationWithSource();
         n.getCitations(true).add(cws);
         validator.validate();
-        assertFindingsContain(Severity.ERROR, cws, ProblemCode.ILLEGAL_VALUE, "reference");
+        assertFindingsContain(Severity.ERROR, cws, ProblemCode.MISSING_REQUIRED_VALUE, "source");
+
+        cws.setSource(new Source());
+        validator.validate();
+        assertNoIssues();
 
         n.getUserReferences(true).clear();
         validator.validate();
-        assertFindingsContain(Severity.ERROR, cws, ProblemCode.MISSING_REQUIRED_VALUE, "reference");
+        assertNoIssues();
+
+        n.getUserReferences(true).add(null);
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, n, ProblemCode.LIST_WITH_NULL_VALUE, "userReferences");
+
         UserReference u = new UserReference();
+        n.getUserReferences(true).clear();
         n.getUserReferences(true).add(u);
         validator.validate();
-        assertFindingsContain(Severity.ERROR, u, ProblemCode.LIST_WITH_NULL_VALUE, "userReference");
+        assertFindingsContain(Severity.ERROR, u, ProblemCode.MISSING_REQUIRED_VALUE, "referenceNum");
+
+        u.setReferenceNum(new StringWithCustomTags("Foo"));
+        validator.validate();
+        assertNoIssues();
 
     }
 

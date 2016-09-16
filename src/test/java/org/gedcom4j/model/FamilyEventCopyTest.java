@@ -86,7 +86,7 @@ public class FamilyEventCopyTest extends AbstractCopyTest {
         orig.getCitations(true).add(getTestCitation());
         orig.getCustomTags(true).add(getTestCustomTags());
         orig.setWifeAge(new StringWithCustomTags("124"));
-        orig.setyNull("Y");
+        orig.setYNull("Y");
         Multimedia m = new Multimedia();
         m.setXref("@M123@");
         orig.getMultimedia(true).add(m);

@@ -42,6 +42,11 @@ import org.gedcom4j.validate.Validator.Finding;
 class PlaceValidator extends AbstractValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 3340140076536125787L;
+
+    /**
      * The place being validated
      */
     private final Place place;

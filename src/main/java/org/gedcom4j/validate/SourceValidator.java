@@ -46,6 +46,11 @@ import org.gedcom4j.validate.Validator.Finding;
 class SourceValidator extends AbstractValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -1329075355558483196L;
+
+    /**
      * The source being validated
      */
     private final Source source;

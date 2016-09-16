@@ -71,12 +71,6 @@ public class GedcomWriterTest {
     private static final String SAMPLE_STRESS_TEST_FILENAME = "sample/TGC551.ged";
 
     /**
-     * Determines whether to write noise out to System.out. Useful to change to true temporarily for debugging this test but should
-     * be always set to false when checked into repository.
-     */
-    private static boolean verbose = false;
-
-    /**
      * The original gedcom structure read in from the torture test file.
      */
     private final Gedcom gedcomOrig;
@@ -154,7 +148,6 @@ public class GedcomWriterTest {
         // Make sure we actually have test fixtures to work with
         assertNotNull(gedcomOrig);
         assertNotNull(gedcomReadback);
-        verbose = false;
     }
 
     /**
@@ -388,8 +381,8 @@ public class GedcomWriterTest {
 
         // Read back the empty file and check its contents
         assertLineSequence("Empty file contents not as expected", readBack(tempFile), "0 HEAD", "1 SOUR UNSPECIFIED",
-                "1 FILE gedcom4j.emptywritertest.ged", "1 GEDC", "2 VERS 5.5.1", "2 FORM LINEAGE-LINKED", "1 CHAR ANSEL",
-                "0 @SUBMISSION@ SUBN", "0 TRLR");
+                "1 SUBM @SUBMITTER@", "1 FILE gedcom4j.emptywritertest.ged", "1 GEDC", "2 VERS 5.5.1", "2 FORM LINEAGE-LINKED",
+                "1 CHAR ANSEL", "0 @SUBMISSION@ SUBN", "0 TRLR");
 
     }
 
@@ -409,7 +402,7 @@ public class GedcomWriterTest {
     @SuppressWarnings("PMD.SystemPrintln")
     private void assertLineSequence(String failureMessage, List<String> lookIn, String... lookFor) {
         int indexOf = lookIn.indexOf(lookFor[0]);
-        if (verbose && indexOf < 0) {
+        if (indexOf < 0) {
             System.out.println("\n====");
             System.out.println("Looking for: ");
             System.out.println(lookFor[0]);
@@ -429,7 +422,7 @@ public class GedcomWriterTest {
             }
         }
 
-        if (verbose && !matches) {
+        if (!matches) {
             System.out.println("\n----------------------------------");
             System.out.println(failureMessage);
             System.out.println("Line sequence mismatch");

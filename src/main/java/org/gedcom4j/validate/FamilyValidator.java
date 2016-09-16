@@ -45,6 +45,11 @@ import org.gedcom4j.validate.Validator.Finding;
 class FamilyValidator extends AbstractValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -2719392556810437421L;
+
+    /**
      * The family being validated
      */
     private final Family f;

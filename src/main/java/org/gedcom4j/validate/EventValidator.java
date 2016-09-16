@@ -34,7 +34,9 @@ import org.gedcom4j.model.FamilyEvent;
 import org.gedcom4j.model.FamilyEventType;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.IndividualEventType;
+import org.gedcom4j.model.ModelElement;
 import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.Note;
 import org.gedcom4j.validate.Validator.Finding;
 
 /**
@@ -43,6 +45,11 @@ import org.gedcom4j.validate.Validator.Finding;
  * @author frizbog1
  */
 class EventValidator extends AbstractValidator {
+
+    /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -1272765738333620248L;
 
     /**
      * The event being validated
@@ -77,10 +84,8 @@ class EventValidator extends AbstractValidator {
             } else {
                 mustNotHaveValue(ie, "yNull");
             }
-            if (ie.getType() == IndividualEventType.BIRTH || ie.getType() == IndividualEventType.CHRISTENING || ie
-                    .getType() == IndividualEventType.ADOPTION) {
-                mustHaveValueOrBeOmitted(ie, "family");
-            } else {
+            if (ie.getType() != IndividualEventType.BIRTH && ie.getType() != IndividualEventType.CHRISTENING && ie
+                    .getType() != IndividualEventType.ADOPTION) {
                 mustNotHaveValue(ie, "family");
             }
         } else if (e instanceof FamilyEvent) {
@@ -105,8 +110,16 @@ class EventValidator extends AbstractValidator {
         checkCitations(e);
         checkCustomTags(e);
         mustHaveValueOrBeOmitted(e, "date");
-        if (e.getDescription() != null && e.getDescription().trim().length() != 0) {
-            validator.newFinding(e, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, "description");
+        if (e.getDescription() != null && e.getDescription().trim().length() != 0 && !"Y".equals(e.getDescription().trim())) {
+            Finding vf = validator.newFinding(e, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, "description");
+            if (validator.mayRepair(vf)) {
+                ModelElement before = makeCopy(e);
+                Note n = new Note();
+                n.getLines(true).add(e.getDescription().getValue());
+                e.getNotes(true).add(n);
+                e.getDescription().setValue(null);
+                vf.addRepair(new AutoRepair(before, makeCopy(e)));
+            }
         }
         checkEmails(e);
         checkFaxNumbers(e);

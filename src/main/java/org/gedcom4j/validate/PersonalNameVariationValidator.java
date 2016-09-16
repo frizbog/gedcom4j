@@ -36,6 +36,11 @@ import org.gedcom4j.model.PersonalNameVariation;
 class PersonalNameVariationValidator extends NameVariationValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -1410145014070374415L;
+
+    /**
      * Constructor
      * 
      * @param validator
