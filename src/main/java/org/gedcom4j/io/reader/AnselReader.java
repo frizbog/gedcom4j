@@ -299,9 +299,9 @@ final class AnselReader extends AbstractEncodingSpecificReader {
      * @return true iff we at the beginning of the text portion of a CONC line
      */
     private boolean isStartOfConcLine() {
-        return (lineBufferIdx >= 7 && Character.isDigit(lineBuffer[lineBufferIdx - 7]) && lineBuffer[lineBufferIdx - 6] == ' '
+        return lineBufferIdx >= 7 && Character.isDigit(lineBuffer[lineBufferIdx - 7]) && lineBuffer[lineBufferIdx - 6] == ' '
                 && lineBuffer[lineBufferIdx - 5] == 'C' && lineBuffer[lineBufferIdx - 4] == 'O' && lineBuffer[lineBufferIdx
-                        - 3] == 'N' && lineBuffer[lineBufferIdx - 2] == 'C' && lineBuffer[lineBufferIdx - 1] == ' ');
+                        - 3] == 'N' && lineBuffer[lineBufferIdx - 2] == 'C' && lineBuffer[lineBufferIdx - 1] == ' ';
     }
 
 }

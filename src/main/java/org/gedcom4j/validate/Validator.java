@@ -103,13 +103,13 @@ public class Validator extends AbstractValidator {
         /**
          * Items that are related to the item of concern that are contributing to or are somehow related to the problem.
          */
-        private List<ModelElement> relatedItems = (Options.isCollectionInitializationEnabled() ? new ArrayList<ModelElement>(0)
-                : null);
+        private List<ModelElement> relatedItems = Options.isCollectionInitializationEnabled() ? new ArrayList<ModelElement>(0)
+                : null;
 
         /**
          * The repairs made automatically by the validator
          */
-        private List<AutoRepair> repairs = (Options.isCollectionInitializationEnabled() ? new ArrayList<AutoRepair>(0) : null);
+        private List<AutoRepair> repairs = Options.isCollectionInitializationEnabled() ? new ArrayList<AutoRepair>(0) : null;
 
         /** The severity. */
         private Severity severity;

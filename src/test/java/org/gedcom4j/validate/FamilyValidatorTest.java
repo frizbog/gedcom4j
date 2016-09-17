@@ -91,15 +91,15 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
         validator.validate();
         assertFindingsContain(Severity.ERROR, f, ProblemCode.MISSING_REQUIRED_VALUE, "automatedRecordId");
 
-        f.setAutomatedRecordId(new StringWithCustomTags(""));
+        f.setAutomatedRecordId("");
         validator.validate();
         assertFindingsContain(Severity.ERROR, f, ProblemCode.MISSING_REQUIRED_VALUE, "automatedRecordId");
 
-        f.setAutomatedRecordId(new StringWithCustomTags("     "));
+        f.setAutomatedRecordId("     ");
         validator.validate();
         assertFindingsContain(Severity.ERROR, f, ProblemCode.MISSING_REQUIRED_VALUE, "automatedRecordId");
 
-        f.setAutomatedRecordId(new StringWithCustomTags("Frying Pan"));
+        f.setAutomatedRecordId("Frying Pan");
         validator.validate();
         assertNoIssues();
     }

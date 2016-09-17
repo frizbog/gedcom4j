@@ -102,6 +102,7 @@ public abstract class AbstractElement implements HasCustomTags {
      *
      * @return the custom tags
      */
+    @Override
     public List<StringTree> getCustomTags() {
         return customTags;
     }
@@ -113,6 +114,7 @@ public abstract class AbstractElement implements HasCustomTags {
      *            initialize the collection if needed
      * @return the customTags
      */
+    @Override
     public List<StringTree> getCustomTags(boolean initializeIfNeeded) {
         if (initializeIfNeeded && customTags == null) {
             customTags = new ArrayList<>(0);

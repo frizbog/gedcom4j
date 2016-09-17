@@ -67,7 +67,7 @@ public class CitationDataCopyTest extends AbstractCopyTest {
     @Test
     public void testWithValues() {
         CitationData orig = new CitationData();
-        orig.setEntryDate(new StringWithCustomTags("1 JAN 1990"));
+        orig.setEntryDate("1 JAN 1990");
         List<String> ls = new ArrayList<>();
         ls.add("Line 1");
         ls.add("Line 2");

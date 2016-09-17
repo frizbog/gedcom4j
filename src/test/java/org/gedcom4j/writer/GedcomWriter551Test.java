@@ -45,7 +45,6 @@ import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.PersonalNameVariation;
 import org.gedcom4j.model.Place;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.SupportedVersion;
 import org.gedcom4j.model.TestHelper;
 import org.gedcom4j.parser.GedcomParser;
@@ -80,7 +79,7 @@ public class GedcomWriter551Test {
         assertTrue(gw.lines.isEmpty());
 
         Multimedia m = new Multimedia();
-        m.setEmbeddedMediaFormat(new StringWithCustomTags("bmp"));
+        m.setEmbeddedMediaFormat("bmp");
         m.setXref("@M1@");
         g.getMultimedia().put(m.getXref(), m);
         m.getBlob(true).add("Blob data only allowed with 5.5");
@@ -146,8 +145,8 @@ public class GedcomWriter551Test {
         e.setType(IndividualEventType.BIRTH);
         e.setPlace(new Place());
         e.getPlace().setPlaceName("Krakow, Poland");
-        e.getPlace().setLatitude(new StringWithCustomTags("+50\u00B0 3' 1.49\""));
-        e.getPlace().setLongitude(new StringWithCustomTags("+19\u00B0 56' 21.48\""));
+        e.getPlace().setLatitude("+50\u00B0 3' 1.49\"");
+        e.getPlace().setLongitude("+19\u00B0 56' 21.48\"");
 
         // Write the test data
         gw.write("tmp/writertest551.ged");
@@ -263,15 +262,15 @@ public class GedcomWriter551Test {
         m1.setXref("@M0@");
         g1.getMultimedia().put(m1.getXref(), m1);
         FileReference fr = new FileReference();
-        fr.setReferenceToFile(new StringWithCustomTags("C:/foo.gif"));
-        fr.setTitle(new StringWithCustomTags("Foo"));
-        fr.setFormat(new StringWithCustomTags("gif"));
-        fr.setMediaType(new StringWithCustomTags("disk"));
+        fr.setReferenceToFile("C:/foo.gif");
+        fr.setTitle("Foo");
+        fr.setFormat("gif");
+        fr.setMediaType("disk");
         m1.getFileReferences(true).add(fr);
         fr = new FileReference();
-        fr.setReferenceToFile(new StringWithCustomTags("C:/bar.png"));
-        fr.setFormat(new StringWithCustomTags("png"));
-        fr.setTitle(new StringWithCustomTags("Bar"));
+        fr.setReferenceToFile("C:/bar.png");
+        fr.setFormat("png");
+        fr.setTitle("Bar");
         m1.getFileReferences(true).add(fr);
 
         // Write it
@@ -345,7 +344,7 @@ public class GedcomWriter551Test {
         pnv.setVariation("Byorn /Yorgen/");
         gw.write("tmp/delete-me.ged");
         // Now fiddle with it further
-        pnv.setVariationType(new StringWithCustomTags("Typed it like it sounds, duh"));
+        pnv.setVariationType("Typed it like it sounds, duh");
         gw.write("tmp/delete-me.ged");
 
         // Add a bad romanized variation
@@ -361,7 +360,7 @@ public class GedcomWriter551Test {
         pnv.setVariation("Bjorn /Jorgen/");
         gw.write("tmp/delete-me.ged");
         // Now fiddle with it further
-        pnv.setVariationType(new StringWithCustomTags("Removed the slashes from the O's"));
+        pnv.setVariationType("Removed the slashes from the O's");
         gw.write("tmp/delete-me.ged");
 
     }
@@ -380,7 +379,7 @@ public class GedcomWriter551Test {
         GedcomWriter gw = new GedcomWriter(g);
         gw.setValidationSuppressed(false);
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        g.getHeader().getCharacterSet().setCharacterSetName(new StringWithCustomTags("UTF-8"));
+        g.getHeader().getCharacterSet().setCharacterSetName("UTF-8");
         assertTrue(gw.lines.isEmpty());
 
         // Switch to 5.5.1, all should be fine
@@ -402,7 +401,7 @@ public class GedcomWriter551Test {
         GedcomWriter gw = new GedcomWriter(g);
         gw.setValidationSuppressed(false);
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        g.getHeader().getCharacterSet().setCharacterSetName(new StringWithCustomTags("UTF-8"));
+        g.getHeader().getCharacterSet().setCharacterSetName("UTF-8");
         assertTrue(gw.lines.isEmpty());
         gw.write("tmp/delete-me.ged");
     }

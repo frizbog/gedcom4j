@@ -48,9 +48,9 @@ public class CharacterSetTest {
 
         CharacterSet cs2 = new CharacterSet();
         assertEquals("objects are equal, so equals() should return true", cs1, cs2);
-        cs1.setCharacterSetName(new StringWithCustomTags("Frying Pan"));
+        cs1.setCharacterSetName("Frying Pan");
         assertFalse("objects are not equal, so equals() should not return true", cs1.equals(cs2));
-        cs2.setCharacterSetName(new StringWithCustomTags("Frying Pan"));
+        cs2.setCharacterSetName("Frying Pan");
         assertEquals("objects are equal again, so equals() should return true", cs1, cs2);
         assertFalse(cs1.equals(null));
         assertFalse(cs1.equals(this));
@@ -64,9 +64,9 @@ public class CharacterSetTest {
         CharacterSet cs1 = new CharacterSet();
         CharacterSet cs2 = new CharacterSet();
         assertEquals("objects are equal, so hashcodes should match", cs1.hashCode(), cs2.hashCode());
-        cs1.setCharacterSetName(new StringWithCustomTags("Frying Pan"));
+        cs1.setCharacterSetName("Frying Pan");
         assertFalse("objects are not equal, so hashcodes should not match", cs1.hashCode() == cs2.hashCode());
-        cs2.setCharacterSetName(new StringWithCustomTags("Frying Pan"));
+        cs2.setCharacterSetName("Frying Pan");
         assertEquals("objects are equal again, so hashcodes should match", cs1.hashCode(), cs2.hashCode());
     }
 

@@ -92,21 +92,21 @@ public class SubmitterCopyTest extends AbstractCopyTest {
         orig.getWwwUrls(true).add(new StringWithCustomTags("www.nowhere.com"));
         orig.getEmails(true).add(new StringWithCustomTags("nobody@nowwhere.com"));
         ChangeDate cd = new ChangeDate();
-        cd.setDate(new StringWithCustomTags("22 FEB 1922"));
+        cd.setDate("22 FEB 1922");
         orig.setChangeDate(cd);
-        orig.setName(new StringWithCustomTags("Steve /Submitter/"));
-        orig.setRecIdNumber(new StringWithCustomTags("123"));
-        orig.setRegFileNumber(new StringWithCustomTags("345"));
+        orig.setName("Steve /Submitter/");
+        orig.setRecIdNumber("123");
+        orig.setRegFileNumber("345");
         orig.setXref("@SBM029@");
         orig.getLanguagePref(true).add(new StringWithCustomTags("English"));
         orig.getLanguagePref(true).add(new StringWithCustomTags("German"));
         orig.getCustomTags(true).add(getTestCustomTags());
         Multimedia m = new Multimedia();
         m.setXref("@M123@");
-        m.setRecIdNumber(new StringWithCustomTags("987"));
+        m.setRecIdNumber("987");
         orig.getMultimedia(true).add(m);
         UserReference u = new UserReference();
-        u.setReferenceNum(new StringWithCustomTags("555"));
+        u.setReferenceNum("555");
         orig.getUserReferences(true).add(u);
 
         Submitter copy = new Submitter(orig);

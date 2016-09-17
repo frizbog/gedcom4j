@@ -38,7 +38,6 @@ import java.util.List;
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.model.Gedcom;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.writer.GedcomWriter;
@@ -937,7 +936,7 @@ public class GedcomFileWriterTest {
         g.getHeader().setSubmission(g.getSubmission());
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
-        s.setName(new StringWithCustomTags("Joe Tester"));
+        s.setName("Joe Tester");
         g.getSubmitters().put(s.getXref(), s);
         g.getHeader().setSubmitter(s);
         GedcomWriter gw = new GedcomWriter(g);

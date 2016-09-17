@@ -102,7 +102,7 @@ final class Utf8Reader extends AbstractEncodingSpecificReader {
         bytesRead = inputStream.getBytesRead();
 
         // Strip off Byte Order Mark if needed
-        if (s != null && s.length() > 0 && s.charAt(0) == ((char) 0xFEFF)) {
+        if (s != null && s.length() > 0 && s.charAt(0) == (char) 0xFEFF) {
             s = s.substring(1);
         }
 

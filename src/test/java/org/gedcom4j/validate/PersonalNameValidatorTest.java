@@ -101,11 +101,11 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
         validator.validate();
         assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "givenName");
 
-        pn.setGivenName(new StringWithCustomTags(""));
+        pn.setGivenName("");
         validator.validate();
         assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "givenName");
 
-        pn.setGivenName(new StringWithCustomTags("Fred"));
+        pn.setGivenName("Fred");
         validator.validate();
         assertNoIssues();
     }
@@ -119,11 +119,11 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
         validator.validate();
         assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "nickname");
 
-        pn.setNickname(new StringWithCustomTags(""));
+        pn.setNickname("");
         validator.validate();
         assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "nickname");
 
-        pn.setNickname(new StringWithCustomTags("Bubba"));
+        pn.setNickname("Bubba");
         validator.validate();
         assertNoIssues();
     }
@@ -161,11 +161,11 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
         validator.validate();
         assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "prefix");
 
-        pn.setPrefix(new StringWithCustomTags(""));
+        pn.setPrefix("");
         validator.validate();
         assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "prefix");
 
-        pn.setPrefix(new StringWithCustomTags("Mr."));
+        pn.setPrefix("Mr.");
         validator.validate();
         assertNoIssues();
     }
@@ -179,11 +179,11 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
         validator.validate();
         assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "suffix");
 
-        pn.setSuffix(new StringWithCustomTags(""));
+        pn.setSuffix("");
         validator.validate();
         assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "suffix");
 
-        pn.setSuffix(new StringWithCustomTags("Jr."));
+        pn.setSuffix("Jr.");
         validator.validate();
         assertNoIssues();
     }
@@ -197,11 +197,11 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
         validator.validate();
         assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "surname");
 
-        pn.setSurname(new StringWithCustomTags(""));
+        pn.setSurname("");
         validator.validate();
         assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "surname");
 
-        pn.setSurname(new StringWithCustomTags("Johnson"));
+        pn.setSurname("Johnson");
         validator.validate();
         assertNoIssues();
     }
@@ -215,11 +215,11 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
         validator.validate();
         assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "surnamePrefix");
 
-        pn.setSurnamePrefix(new StringWithCustomTags(""));
+        pn.setSurnamePrefix("");
         validator.validate();
         assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "surnamePrefix");
 
-        pn.setSurnamePrefix(new StringWithCustomTags("van"));
+        pn.setSurnamePrefix("van");
         validator.validate();
         assertNoIssues();
     }

@@ -64,10 +64,10 @@ public class AddressCopyTest extends AbstractCopyTest {
     @Test
     public void testWithValues() {
         Address orig = new Address();
-        orig.setAddr1(new StringWithCustomTags("123 Main St."));
-        orig.setCity(new StringWithCustomTags("Anytown"));
-        orig.setStateProvince(new StringWithCustomTags("ME"));
-        orig.setCountry(new StringWithCustomTags("USA"));
+        orig.setAddr1("123 Main St.");
+        orig.setCity("Anytown");
+        orig.setStateProvince("ME");
+        orig.setCountry("USA");
         orig.getLines(true).add("XXX");
         orig.getCustomTags(true).add(getTestCustomTags());
 

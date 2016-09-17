@@ -66,14 +66,14 @@ public class GedcomWriter551WwwTest {
         GedcomWriter gw = new GedcomWriter(g);
         gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
-    
+
         // WWW urls
         c.getWwwUrls(true).add(new StringWithCustomTags("Not allowed under 5.5"));
-    
+
         // Switch to 5.5.1, all should be fine
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         gw.write("tmp/delete-me.ged");
-    
+
     }
 
     /**
@@ -94,7 +94,7 @@ public class GedcomWriter551WwwTest {
         GedcomWriter gw = new GedcomWriter(g);
         gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
-    
+
         // WWW urls
         c.getWwwUrls(true).add(new StringWithCustomTags("Not allowed under 5.5"));
         gw.write("tmp/delete-me.ged");
@@ -118,7 +118,7 @@ public class GedcomWriter551WwwTest {
         GedcomWriter gw = new GedcomWriter(g);
         gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
-    
+
         // No www URL's, all should be fine
         gw.write("tmp/delete-me.ged");
     }
@@ -141,14 +141,14 @@ public class GedcomWriter551WwwTest {
         GedcomWriter gw = new GedcomWriter(g);
         gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
-    
+
         // WWW urls
         r.getWwwUrls(true).add(new StringWithCustomTags("Not allowed under 5.5"));
-    
+
         // Switch to 5.5.1, all should be fine
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         gw.write("tmp/delete-me.ged");
-    
+
     }
 
     /**
@@ -169,7 +169,7 @@ public class GedcomWriter551WwwTest {
         GedcomWriter gw = new GedcomWriter(g);
         gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
-    
+
         // WWW urls
         r.getWwwUrls(true).add(new StringWithCustomTags("Not allowed under 5.5"));
         gw.write("tmp/delete-me.ged");
@@ -193,7 +193,7 @@ public class GedcomWriter551WwwTest {
         GedcomWriter gw = new GedcomWriter(g);
         gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
-    
+
         // Repository has no www urls, should be ok
         gw.write("tmp/delete-me.ged");
     }
@@ -211,16 +211,16 @@ public class GedcomWriter551WwwTest {
         Gedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         Submitter s = new Submitter();
-        s.setName(new StringWithCustomTags("test"));
+        s.setName("test");
         s.setXref("@S1@");
         g.getSubmitters().put(s.getXref(), s);
         GedcomWriter gw = new GedcomWriter(g);
         gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
-    
+
         // WWW urls
         s.getWwwUrls(true).add(new StringWithCustomTags("Not allowed under 5.5"));
-    
+
         // Switch to 5.5.1, all should be fine
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         gw.write("tmp/delete-me.ged");
@@ -239,13 +239,13 @@ public class GedcomWriter551WwwTest {
         Gedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         Submitter s = new Submitter();
-        s.setName(new StringWithCustomTags("test"));
+        s.setName("test");
         s.setXref("@S1@");
         g.getSubmitters().put(s.getXref(), s);
         GedcomWriter gw = new GedcomWriter(g);
         gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
-    
+
         // WWW urls
         s.getWwwUrls(true).add(new StringWithCustomTags("Not allowed under 5.5"));
         gw.write("tmp/delete-me.ged");
@@ -264,13 +264,13 @@ public class GedcomWriter551WwwTest {
         Gedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         Submitter s = new Submitter();
-        s.setName(new StringWithCustomTags("test"));
+        s.setName("test");
         s.setXref("@S1@");
         g.getSubmitters().put(s.getXref(), s);
         GedcomWriter gw = new GedcomWriter(g);
         gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
-    
+
         // No WWW Urls on submitter, should be good
         gw.write("tmp/delete-me.ged");
     }

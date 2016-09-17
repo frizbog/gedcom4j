@@ -64,15 +64,15 @@ public class SubmissionCopyTest extends AbstractCopyTest {
     @Test
     public void testWithValues() {
         Submission orig = new Submission();
-        orig.setAncestorsCount(new StringWithCustomTags("1"));
-        orig.setDescendantsCount(new StringWithCustomTags("2"));
-        orig.setNameOfFamilyFile(new StringWithCustomTags("AAA"));
-        orig.setOrdinanceProcessFlag(new StringWithCustomTags("BBB"));
-        orig.setRecIdNumber(new StringWithCustomTags("111"));
+        orig.setAncestorsCount("1");
+        orig.setDescendantsCount("2");
+        orig.setNameOfFamilyFile("AAA");
+        orig.setOrdinanceProcessFlag("BBB");
+        orig.setRecIdNumber("111");
         Submitter s = new Submitter();
-        s.setName(new StringWithCustomTags("Sally /Submitter/"));
+        s.setName("Sally /Submitter/");
         orig.setSubmitter(s);
-        orig.setTempleCode(new StringWithCustomTags("CCC"));
+        orig.setTempleCode("CCC");
         orig.setXref("@S098@");
         orig.getCustomTags(true).add(getTestCustomTags());
 

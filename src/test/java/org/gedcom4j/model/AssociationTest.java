@@ -49,9 +49,9 @@ public class AssociationTest {
         Association a2 = new Association();
         assertEquals(a1, a2);
 
-        a1.setAssociatedEntityType(new StringWithCustomTags("Frying Pan"));
+        a1.setAssociatedEntityType("Frying Pan");
         assertFalse(a1.equals(a2));
-        a2.setAssociatedEntityType(new StringWithCustomTags("Frying Pan"));
+        a2.setAssociatedEntityType("Frying Pan");
         assertEquals(a1, a2);
         a1.setAssociatedEntityType((String) null);
         assertFalse(a1.equals(a2));
@@ -67,9 +67,9 @@ public class AssociationTest {
         a2.setAssociatedEntityXref(null);
         assertEquals(a1, a2);
 
-        a1.setRelationship(new StringWithCustomTags("Frying Pan"));
+        a1.setRelationship("Frying Pan");
         assertFalse(a1.equals(a2));
-        a2.setRelationship(new StringWithCustomTags("Frying Pan"));
+        a2.setRelationship("Frying Pan");
         assertEquals(a1, a2);
         a1.setRelationship((String) null);
         assertFalse(a1.equals(a2));
@@ -108,9 +108,9 @@ public class AssociationTest {
         Association a2 = new Association();
         assertEquals(a1, a2);
 
-        a1.setAssociatedEntityType(new StringWithCustomTags("Frying Pan"));
+        a1.setAssociatedEntityType("Frying Pan");
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.setAssociatedEntityType(new StringWithCustomTags("Frying Pan"));
+        a2.setAssociatedEntityType("Frying Pan");
         assertEquals(a1.hashCode(), a2.hashCode());
         a1.setAssociatedEntityType((String) null);
         assertFalse(a1.hashCode() == a2.hashCode());
@@ -126,9 +126,9 @@ public class AssociationTest {
         a2.setAssociatedEntityXref(null);
         assertEquals(a1.hashCode(), a2.hashCode());
 
-        a1.setRelationship(new StringWithCustomTags("Frying Pan"));
+        a1.setRelationship("Frying Pan");
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.setRelationship(new StringWithCustomTags("Frying Pan"));
+        a2.setRelationship("Frying Pan");
         assertEquals(a1.hashCode(), a2.hashCode());
         a1.setRelationship((String) null);
         assertFalse(a1.hashCode() == a2.hashCode());

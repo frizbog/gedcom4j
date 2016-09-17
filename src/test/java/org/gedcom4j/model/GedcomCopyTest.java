@@ -89,11 +89,11 @@ public class GedcomCopyTest extends AbstractCopyTest {
     public void testWithValues() {
         Gedcom orig = new Gedcom();
         Header hdr = new Header();
-        hdr.setLanguage(new StringWithCustomTags("Pig Latin"));
+        hdr.setLanguage("Pig Latin");
         orig.setHeader(hdr);
         Submission s = new Submission();
         s.setXref("@SBM1@");
-        s.setRecIdNumber(new StringWithCustomTags("40404040"));
+        s.setRecIdNumber("40404040");
         orig.setSubmission(s);
         orig.setTrailer(new Trailer());
         orig.getCustomTags(true).add(getTestCustomTags());
@@ -114,7 +114,7 @@ public class GedcomCopyTest extends AbstractCopyTest {
 
         Source src = new Source();
         src.setXref("@SRC1@");
-        src.setRecIdNumber(new StringWithCustomTags("987"));
+        src.setRecIdNumber("987");
         orig.getSources().put(src.getXref(), src);
 
         Note n = getTestNote();
@@ -123,12 +123,12 @@ public class GedcomCopyTest extends AbstractCopyTest {
 
         Repository r = new Repository();
         r.setXref("@R1@");
-        r.setName(new StringWithCustomTags("Repository of all truth and wisdom"));
+        r.setName("Repository of all truth and wisdom");
         orig.getRepositories().put(r.getXref(), r);
 
         Submitter sbr = new Submitter();
         sbr.setXref("@SBR1@");
-        sbr.setName(new StringWithCustomTags("Steve /Submitter/"));
+        sbr.setName("Steve /Submitter/");
         orig.getSubmitters().put(sbr.getXref(), sbr);
 
         Gedcom copy = new Gedcom(orig);

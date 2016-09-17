@@ -26,7 +26,6 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
 import org.junit.Test;
 
@@ -53,7 +52,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testValidateSubmitterHappyPath() {
         Submitter submitter = new Submitter();
-        submitter.setName(new StringWithCustomTags("somebody"));
+        submitter.setName("somebody");
         submitter.setXref("@nobody@");
         AbstractValidator sv = new SubmitterValidator(validator, submitter);
         sv.validate();
@@ -67,7 +66,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     public void testValidateSubmitterHasBlankName() {
         Submitter submitter = new Submitter();
         submitter.setXref("@SOMEVALUE@");
-        submitter.setName(new StringWithCustomTags(""));
+        submitter.setName("");
         AbstractValidator sv = new SubmitterValidator(validator, submitter);
         sv.validate();
         assertFindingsContain(Severity.ERROR, submitter, ProblemCode.MISSING_REQUIRED_VALUE, "name");
@@ -79,7 +78,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testValidateSubmitterHasBlankXref() {
         Submitter submitter = new Submitter();
-        submitter.setName(new StringWithCustomTags("somebody"));
+        submitter.setName("somebody");
         submitter.setXref("");
         AbstractValidator sv = new SubmitterValidator(validator, submitter);
         sv.validate();
@@ -104,7 +103,7 @@ public class SubmitterValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testValidateSubmitterHasNoXref() {
         Submitter submitter = new Submitter();
-        submitter.setName(new StringWithCustomTags("somebody"));
+        submitter.setName("somebody");
         AbstractValidator sv = new SubmitterValidator(validator, submitter);
         sv.validate();
         assertFindingsContain(Severity.ERROR, submitter, ProblemCode.MISSING_REQUIRED_VALUE, "xref");

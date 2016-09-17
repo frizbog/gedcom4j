@@ -30,7 +30,6 @@ import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.PersonalNameVariation;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.TestHelper;
 import org.junit.Test;
 
@@ -64,8 +63,8 @@ public class PersonalNameVariationValidatorTest extends AbstractValidatorTestCas
 
         PersonalNameVariation romanized = new PersonalNameVariation();
         pn.getRomanized(true).add(romanized);
-        romanized.setGivenName(new StringWithCustomTags("Bjorn"));
-        romanized.setSurname(new StringWithCustomTags("Jorgen"));
+        romanized.setGivenName("Bjorn");
+        romanized.setSurname("Jorgen");
         validator.validate();
         assertFindingsContain(Severity.ERROR, romanized, ProblemCode.MISSING_REQUIRED_VALUE, "variation");
         romanized.setVariation("Bjorn /Jorgen/");
@@ -74,8 +73,8 @@ public class PersonalNameVariationValidatorTest extends AbstractValidatorTestCas
 
         PersonalNameVariation phonetic = new PersonalNameVariation();
         pn.getPhonetic(true).add(phonetic);
-        phonetic.setGivenName(new StringWithCustomTags("Byorn"));
-        phonetic.setSurname(new StringWithCustomTags("Yorgen"));
+        phonetic.setGivenName("Byorn");
+        phonetic.setSurname("Yorgen");
         validator.validate();
         assertFindingsContain(Severity.ERROR, phonetic, ProblemCode.MISSING_REQUIRED_VALUE, "variation");
         phonetic.setVariation("Byorn /Yorgen/");

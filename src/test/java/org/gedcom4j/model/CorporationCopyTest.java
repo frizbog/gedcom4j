@@ -65,10 +65,10 @@ public class CorporationCopyTest extends AbstractCopyTest {
     public void testWithValues() {
         Corporation orig = new Corporation();
         Address a = new Address();
-        a.setAddr1(new StringWithCustomTags("ZZZ"));
-        a.setCity(new StringWithCustomTags("YYY"));
-        a.setStateProvince(new StringWithCustomTags("XXX"));
-        a.setCountry(new StringWithCustomTags("WWW"));
+        a.setAddr1("ZZZ");
+        a.setCity("YYY");
+        a.setStateProvince("XXX");
+        a.setCountry("WWW");
         orig.setAddress(a);
         orig.setBusinessName("Bob's Genalogy Shop");
         orig.getCustomTags(true).add(getTestCustomTags());

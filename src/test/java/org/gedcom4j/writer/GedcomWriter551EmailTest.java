@@ -214,7 +214,7 @@ public class GedcomWriter551EmailTest {
         Gedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         Submitter s = new Submitter();
-        s.setName(new StringWithCustomTags("test"));
+        s.setName("test");
         s.setXref("@S1@");
         g.getSubmitters().put(s.getXref(), s);
         GedcomWriter gw = new GedcomWriter(g);
@@ -242,7 +242,7 @@ public class GedcomWriter551EmailTest {
         Gedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         Submitter s = new Submitter();
-        s.setName(new StringWithCustomTags("test"));
+        s.setName("test");
         s.setXref("@S1@");
         g.getSubmitters().put(s.getXref(), s);
         GedcomWriter gw = new GedcomWriter(g);
@@ -267,7 +267,7 @@ public class GedcomWriter551EmailTest {
         Gedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         Submitter s = new Submitter();
-        s.setName(new StringWithCustomTags("test"));
+        s.setName("test");
         s.setXref("@S1@");
         g.getSubmitters().put(s.getXref(), s);
         GedcomWriter gw = new GedcomWriter(g);

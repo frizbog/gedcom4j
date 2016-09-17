@@ -64,9 +64,9 @@ public class HeaderSourceDataCopyTest extends AbstractCopyTest {
     @Test
     public void testWithValues() {
         HeaderSourceData orig = new HeaderSourceData();
-        orig.setCopyright(new StringWithCustomTags("(c) 1776 George Washington"));
+        orig.setCopyright("(c) 1776 George Washington");
         orig.setName("AAA");
-        orig.setPublishDate(new StringWithCustomTags("04 APR 1804"));
+        orig.setPublishDate("04 APR 1804");
         orig.getCustomTags(true).add(getTestCustomTags());
 
         HeaderSourceData copy = new HeaderSourceData(orig);

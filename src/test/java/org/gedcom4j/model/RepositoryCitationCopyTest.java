@@ -69,8 +69,8 @@ public class RepositoryCitationCopyTest extends AbstractCopyTest {
         Note n = new Note();
         n.getLines(true).add("Frying Pan");
         UserReference u = new UserReference();
-        u.setReferenceNum(new StringWithCustomTags("XYZ"));
-        u.setType(new StringWithCustomTags("123"));
+        u.setReferenceNum("XYZ");
+        u.setType("123");
         n.getUserReferences(true).add(u);
         orig.getNotes(true).add(n);
 

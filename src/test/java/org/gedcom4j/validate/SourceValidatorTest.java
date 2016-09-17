@@ -29,7 +29,6 @@ package org.gedcom4j.validate;
 import org.gedcom4j.model.EventRecorded;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.SourceData;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.junit.Test;
 
 /**
@@ -44,7 +43,7 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testBadSource1() {
         Source src = new Source("bad xref");
-        src.setRecIdNumber(new StringWithCustomTags(""));
+        src.setRecIdNumber("");
         AbstractValidator av = new SourceValidator(validator, src);
         av.validate();
         assertFindingsContain(Severity.ERROR, src, ProblemCode.MISSING_REQUIRED_VALUE, "recIdNumber");
@@ -59,7 +58,7 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
         Source src = new Source("@Test@");
         src.setData(new SourceData());
         EventRecorded e = new EventRecorded();
-        e.setDatePeriod(new StringWithCustomTags("anytime"));
+        e.setDatePeriod("anytime");
         src.getData().getEventsRecorded(true).add(e);
         AbstractValidator av = new SourceValidator(validator, src);
         av.validate();

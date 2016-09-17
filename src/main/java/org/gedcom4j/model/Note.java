@@ -188,6 +188,7 @@ public class Note extends AbstractElement implements HasCitations, HasXref {
      *
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations() {
         return citations;
     }
@@ -200,6 +201,7 @@ public class Note extends AbstractElement implements HasCitations, HasXref {
      * 
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
             citations = new ArrayList<>(0);
@@ -267,6 +269,7 @@ public class Note extends AbstractElement implements HasCitations, HasXref {
      *
      * @return the xref
      */
+    @Override
     public String getXref() {
         return xref;
     }

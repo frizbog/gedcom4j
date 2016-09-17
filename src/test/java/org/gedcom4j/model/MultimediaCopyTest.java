@@ -65,12 +65,12 @@ public class MultimediaCopyTest extends AbstractCopyTest {
     public void testWithValues() {
         Multimedia orig = new Multimedia();
         ChangeDate cd = new ChangeDate();
-        cd.setDate(new StringWithCustomTags("1 JAN 1911"));
+        cd.setDate("1 JAN 1911");
         orig.setChangeDate(cd);
         orig.setContinuedObject(new Multimedia());
-        orig.setEmbeddedMediaFormat(new StringWithCustomTags("MPG"));
-        orig.setEmbeddedTitle(new StringWithCustomTags("Movie.mpg"));
-        orig.setRecIdNumber(new StringWithCustomTags("123"));
+        orig.setEmbeddedMediaFormat("MPG");
+        orig.setEmbeddedTitle("Movie.mpg");
+        orig.setRecIdNumber("123");
         orig.setXref("@M1@");
         orig.getBlob(true).add("qqwpeoiqpwoeiqpoweiqpowiepqowiepqowiepqowi");
         orig.getBlob().add("asdlkajsdlkajlaksjdlaksjdlaskjda");
@@ -78,14 +78,14 @@ public class MultimediaCopyTest extends AbstractCopyTest {
         orig.getCitations(true).add(getTestCitation());
         orig.getCustomTags(true).add(getTestCustomTags());
         FileReference fr = new FileReference();
-        fr.setFormat(new StringWithCustomTags("MPG"));
-        fr.setMediaType(new StringWithCustomTags("Movie"));
-        fr.setReferenceToFile(new StringWithCustomTags("foo.mpg"));
-        fr.setTitle(new StringWithCustomTags("Super movie!"));
+        fr.setFormat("MPG");
+        fr.setMediaType("Movie");
+        fr.setReferenceToFile("foo.mpg");
+        fr.setTitle("Super movie!");
         orig.getFileReferences(true).add(fr);
         orig.getNotes(true).add(getTestNote());
         UserReference u = new UserReference();
-        u.setReferenceNum(new StringWithCustomTags("123"));
+        u.setReferenceNum("123");
         orig.getUserReferences(true).add(u);
 
         Multimedia copy = new Multimedia(orig);

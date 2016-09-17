@@ -49,7 +49,6 @@ import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Note;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.Source;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
 import org.junit.Test;
 
@@ -142,7 +141,7 @@ public class GedcomParserTest {
         assertFalse(g.getSubmitters().isEmpty());
         Submitter submitter = g.getSubmitters().values().iterator().next();
         assertNotNull(submitter);
-        assertEquals(new StringWithCustomTags("UNSPECIFIED"), submitter.getName());
+        assertEquals("UNSPECIFIED", submitter.getName().getValue());
 
         // Check header
         assertEquals("6.00", g.getHeader().getSourceSystem().getVersionNum().getValue());

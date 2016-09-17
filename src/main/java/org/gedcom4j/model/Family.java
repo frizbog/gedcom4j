@@ -385,6 +385,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations() {
         return citations;
     }
@@ -397,6 +398,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      * 
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
             citations = new ArrayList<>(0);
@@ -569,6 +571,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the xref
      */
+    @Override
     public String getXref() {
         return xref;
     }

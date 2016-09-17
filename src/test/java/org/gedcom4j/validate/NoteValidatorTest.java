@@ -30,7 +30,6 @@ import org.gedcom4j.model.CitationWithSource;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Note;
 import org.gedcom4j.model.Source;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.TestHelper;
 import org.gedcom4j.model.UserReference;
 import org.junit.Test;
@@ -80,7 +79,7 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
         validator.validate();
         assertFindingsContain(Severity.ERROR, u, ProblemCode.MISSING_REQUIRED_VALUE, "referenceNum");
 
-        u.setReferenceNum(new StringWithCustomTags("Foo"));
+        u.setReferenceNum("Foo");
         validator.validate();
         assertNoIssues();
     }
@@ -131,7 +130,7 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
         validator.validate();
         assertFindingsContain(Severity.ERROR, u, ProblemCode.MISSING_REQUIRED_VALUE, "referenceNum");
 
-        u.setReferenceNum(new StringWithCustomTags("Foo"));
+        u.setReferenceNum("Foo");
         validator.validate();
         assertNoIssues();
 

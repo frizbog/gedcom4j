@@ -66,10 +66,10 @@ public class LdsSpouseSealingCopyTest extends AbstractCopyTest {
     @Test
     public void testValues() {
         LdsSpouseSealing orig = new LdsSpouseSealing();
-        orig.setDate(new StringWithCustomTags("A"));
-        orig.setPlace(new StringWithCustomTags("B"));
-        orig.setStatus(new StringWithCustomTags("C"));
-        orig.setStatus(new StringWithCustomTags("D"));
+        orig.setDate("A");
+        orig.setPlace("B");
+        orig.setStatus("C");
+        orig.setStatus("D");
         orig.getNotes(true);
         orig.setCustomTags(null);
 

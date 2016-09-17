@@ -28,7 +28,6 @@ package org.gedcom4j.validate;
 
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.SupportedVersion;
@@ -55,7 +54,7 @@ public class MultimediaValidatorTest extends AbstractValidatorTestCase {
         validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
-        s.setName(new StringWithCustomTags("test"));
+        s.setName("test");
         gedcom.getSubmitters().put(s.getXref(), s);
         gedcom.setSubmission(new Submission("@SUBN0001@"));
         Header h = gedcom.getHeader();
@@ -83,7 +82,7 @@ public class MultimediaValidatorTest extends AbstractValidatorTestCase {
         validator.validate();
         assertFindingsContain(Severity.ERROR, mm, ProblemCode.MISSING_REQUIRED_VALUE, "blob");
         mm.getBlob(true).add("foo");
-        mm.setEmbeddedMediaFormat(new StringWithCustomTags("gif"));
+        mm.setEmbeddedMediaFormat("gif");
         validator.validate();
         assertNoIssues();
 

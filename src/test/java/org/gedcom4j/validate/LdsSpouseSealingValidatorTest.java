@@ -114,15 +114,15 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
         validator.validate();
         assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "date");
 
-        s.setDate(new StringWithCustomTags(""));
+        s.setDate("");
         validator.validate();
         assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "date");
 
-        s.setDate(new StringWithCustomTags("              "));
+        s.setDate("              ");
         validator.validate();
         assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "date");
 
-        s.setDate(new StringWithCustomTags("Frying Pan"));
+        s.setDate("Frying Pan");
         validator.validate();
         assertNoIssues();
     }
@@ -161,15 +161,15 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
         validator.validate();
         assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "place");
 
-        s.setPlace(new StringWithCustomTags(""));
+        s.setPlace("");
         validator.validate();
         assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "place");
 
-        s.setPlace(new StringWithCustomTags("              "));
+        s.setPlace("              ");
         validator.validate();
         assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "place");
 
-        s.setPlace(new StringWithCustomTags("Frying Pan"));
+        s.setPlace("Frying Pan");
         validator.validate();
         assertNoIssues();
     }
@@ -185,15 +185,15 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
         validator.validate();
         assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "status");
 
-        s.setStatus(new StringWithCustomTags(""));
+        s.setStatus("");
         validator.validate();
         assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "status");
 
-        s.setStatus(new StringWithCustomTags("              "));
+        s.setStatus("              ");
         validator.validate();
         assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "status");
 
-        s.setStatus(new StringWithCustomTags("Frying Pan"));
+        s.setStatus("Frying Pan");
         validator.validate();
         assertNoIssues();
     }
@@ -209,15 +209,15 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
         validator.validate();
         assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "temple");
 
-        s.setTemple(new StringWithCustomTags(""));
+        s.setTemple("");
         validator.validate();
         assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "temple");
 
-        s.setTemple(new StringWithCustomTags("              "));
+        s.setTemple("              ");
         validator.validate();
         assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "temple");
 
-        s.setTemple(new StringWithCustomTags("Frying Pan"));
+        s.setTemple("Frying Pan");
         validator.validate();
         assertNoIssues();
     }

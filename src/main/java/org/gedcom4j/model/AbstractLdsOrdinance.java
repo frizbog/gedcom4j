@@ -164,6 +164,7 @@ public abstract class AbstractLdsOrdinance extends AbstractNotesElement implemen
      *
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations() {
         return citations;
     }
@@ -175,6 +176,7 @@ public abstract class AbstractLdsOrdinance extends AbstractNotesElement implemen
      *            initialize the collection if needed
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
             citations = new ArrayList<>();

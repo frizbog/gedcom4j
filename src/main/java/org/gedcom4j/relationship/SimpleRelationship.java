@@ -115,7 +115,7 @@ public class SimpleRelationship {
         if (name != other.name) {
             return false;
         }
-        return (reverseName == other.reverseName);
+        return reverseName == other.reverseName;
     }
 
     /**

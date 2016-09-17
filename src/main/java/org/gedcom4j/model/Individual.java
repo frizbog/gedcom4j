@@ -599,6 +599,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations() {
         return citations;
     }
@@ -611,6 +612,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      * 
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
             citations = new ArrayList<>(0);
@@ -935,6 +937,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *
      * @return the xref
      */
+    @Override
     public String getXref() {
         return xref;
     }

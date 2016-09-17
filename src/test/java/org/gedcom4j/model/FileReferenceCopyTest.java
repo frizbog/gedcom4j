@@ -65,10 +65,10 @@ public class FileReferenceCopyTest extends AbstractCopyTest {
     @Test
     public void testWithValues() {
         FileReference orig = new FileReference();
-        orig.setFormat(new StringWithCustomTags("AAA"));
-        orig.setMediaType(new StringWithCustomTags("BBB"));
-        orig.setReferenceToFile(new StringWithCustomTags("CCC"));
-        orig.setTitle(new StringWithCustomTags("DDD"));
+        orig.setFormat("AAA");
+        orig.setMediaType("BBB");
+        orig.setReferenceToFile("CCC");
+        orig.setTitle("DDD");
         orig.getCustomTags(true).add(getTestCustomTags());
 
         FileReference copy = new FileReference(orig);
@@ -76,7 +76,7 @@ public class FileReferenceCopyTest extends AbstractCopyTest {
         assertNotSame(orig, copy);
         assertEquals(orig.toString(), copy.toString());
 
-        orig.setTitle(new StringWithCustomTags("XXX"));
+        orig.setTitle("XXX");
         assertFalse("Copy shouldn't match if original changes", orig.equals(copy));
     }
 

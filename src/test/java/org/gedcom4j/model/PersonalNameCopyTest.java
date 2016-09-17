@@ -66,12 +66,12 @@ public class PersonalNameCopyTest extends AbstractCopyTest {
     public void testWithValues() {
         PersonalName orig = new PersonalName();
         orig.setBasic("Qwerty I /Op/");
-        orig.setGivenName(new StringWithCustomTags("Qwerty I"));
-        orig.setNickname(new StringWithCustomTags("Shifty"));
-        orig.setPrefix(new StringWithCustomTags("Prof."));
-        orig.setSuffix(new StringWithCustomTags("III"));
-        orig.setSurname(new StringWithCustomTags("Op"));
-        orig.setSurnamePrefix(new StringWithCustomTags("[]"));
+        orig.setGivenName("Qwerty I");
+        orig.setNickname("Shifty");
+        orig.setPrefix("Prof.");
+        orig.setSuffix("III");
+        orig.setSurname("Op");
+        orig.setSurnamePrefix("[]");
         orig.getSurnamePrefix().getCustomTags(true).add(getTestCustomTags());
         orig.getCitations(true).add(getTestCitation());
 

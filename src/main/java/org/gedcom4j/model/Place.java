@@ -197,6 +197,7 @@ public class Place extends AbstractNotesElement implements HasCitations {
      *
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations() {
         return citations;
     }
@@ -209,6 +210,7 @@ public class Place extends AbstractNotesElement implements HasCitations {
      * 
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
             citations = new ArrayList<>(0);

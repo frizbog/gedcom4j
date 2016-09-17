@@ -88,10 +88,10 @@ public class RepositoryCopyTest extends AbstractCopyTest {
         Repository orig = new Repository();
         orig.setAddress(getTestAddress());
         ChangeDate cd = new ChangeDate();
-        cd.setDate(new StringWithCustomTags("04 APR 1904"));
+        cd.setDate("04 APR 1904");
         orig.setChangeDate(cd);
-        orig.setName(new StringWithCustomTags("Bob's Repository"));
-        orig.setRecIdNumber(new StringWithCustomTags("123"));
+        orig.setName("Bob's Repository");
+        orig.setRecIdNumber("123");
         orig.setXref("@R1@");
         orig.getNotes(true).add(getTestNote());
         orig.getFaxNumbers(true).add(new StringWithCustomTags("555-1212"));

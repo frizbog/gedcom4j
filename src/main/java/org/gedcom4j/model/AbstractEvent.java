@@ -327,6 +327,7 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      *
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations() {
         return citations;
     }
@@ -339,6 +340,7 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      * 
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
             citations = new ArrayList<>(0);

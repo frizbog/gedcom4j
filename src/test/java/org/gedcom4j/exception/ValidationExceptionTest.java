@@ -64,8 +64,8 @@ public class ValidationExceptionTest {
     }
 
     /**
-     * Test method for
-     * {@link org.gedcom4j.exception.ValidationException#ValidationException(java.lang.String, java.lang.Throwable)} .
+     * Test method for {@link org.gedcom4j.exception.ValidationException#ValidationException(java.lang.String, java.lang.Throwable)}
+     * .
      */
     @Test
     public void testValidationExceptionStringThrowable() {

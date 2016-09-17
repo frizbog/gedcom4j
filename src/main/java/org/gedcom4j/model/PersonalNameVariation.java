@@ -229,6 +229,7 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      *
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations() {
         return citations;
     }
@@ -241,6 +242,7 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      * 
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
             citations = new ArrayList<>(0);
@@ -271,6 +273,7 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      *
      * @return the notes
      */
+    @Override
     public List<Note> getNotes() {
         return notes;
     }
@@ -283,6 +286,7 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      * 
      * @return the notes
      */
+    @Override
     public List<Note> getNotes(boolean initializeIfNeeded) {
         if (initializeIfNeeded && notes == null) {
             notes = new ArrayList<>(0);

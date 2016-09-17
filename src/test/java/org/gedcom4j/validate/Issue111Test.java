@@ -31,7 +31,6 @@ import static org.junit.Assert.assertEquals;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.PersonalName;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.validate.Validator.Finding;
 import org.junit.Test;
@@ -50,7 +49,7 @@ public class Issue111Test {
     public void testRemoveDupNames() {
         Gedcom g = new Gedcom();
         Submitter subm = new Submitter();
-        subm.setName(new StringWithCustomTags("Sean /Connery/"));
+        subm.setName("Sean /Connery/");
         subm.setXref("@SUBM@");
         g.getSubmitters().put("@SUBM@", subm);
         Individual i = new Individual();

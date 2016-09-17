@@ -207,6 +207,7 @@ public class Repository extends AbstractAddressableElement implements HasXref {
      *
      * @return the xref
      */
+    @Override
     public String getXref() {
         return xref;
     }
@@ -218,11 +219,11 @@ public class Repository extends AbstractAddressableElement implements HasXref {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((changeDate == null) ? 0 : changeDate.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((recIdNumber == null) ? 0 : recIdNumber.hashCode());
-        result = prime * result + ((userReferences == null) ? 0 : userReferences.hashCode());
-        result = prime * result + ((xref == null) ? 0 : xref.hashCode());
+        result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
+        result = prime * result + (name == null ? 0 : name.hashCode());
+        result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
+        result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
+        result = prime * result + (xref == null ? 0 : xref.hashCode());
         return result;
     }
 

@@ -31,7 +31,6 @@ import java.io.ByteArrayOutputStream;
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.validate.Validator.Finding;
@@ -60,7 +59,7 @@ public class Issue89Test extends TestCase {
         g.getHeader().setSubmission(g.getSubmission());
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
-        s.setName(new StringWithCustomTags("Joe Tester"));
+        s.setName("Joe Tester");
         g.getSubmitters().put(s.getXref(), s);
         g.getHeader().setSubmitter(s);
 

@@ -49,12 +49,12 @@ public class DateParserFrenchRepublicanTest extends AbstractDateParserTest {
                 Calendar.JULY, 28);
         assertDate(dp.parse("@#DFRENCH R@ FROM 5 THER 224 TO 11 THER 224", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016,
                 Calendar.JULY, 25);
-    
+
         assertDate(dp.parse("@#DFRENCH R@ FROM VEND 4 TO THER 4", ImpreciseDatePreference.FAVOR_EARLIEST), 1795, Calendar.SEPTEMBER,
                 23);
         assertDate(dp.parse("@#DFRENCH R@ FROM VEND 4 TO THER 4", ImpreciseDatePreference.FAVOR_LATEST), 1796, Calendar.AUGUST, 17);
         assertDate(dp.parse("@#DFRENCH R@ FROM VEND 4 TO THER 4", ImpreciseDatePreference.FAVOR_MIDPOINT), 1796, Calendar.MARCH, 5);
-    
+
         assertDate(dp.parse("@#DFRENCH R@ FROM 1 TO 5", ImpreciseDatePreference.FAVOR_EARLIEST), 1792, Calendar.SEPTEMBER, 22);
         assertDate(dp.parse("@#DFRENCH R@ FROM 1 TO 5", ImpreciseDatePreference.FAVOR_LATEST), 1797, Calendar.SEPTEMBER, 21);
         assertDate(dp.parse("@#DFRENCH R@ FROM 1 TO 5", ImpreciseDatePreference.FAVOR_MIDPOINT), 1795, Calendar.MARCH, 23);
@@ -71,12 +71,12 @@ public class DateParserFrenchRepublicanTest extends AbstractDateParserTest {
                 Calendar.JULY, 28);
         assertDate(dp.parse("@#DFRENCH R@ BET 5 THER 224 AND 11 THER 224", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016,
                 Calendar.JULY, 25);
-    
+
         assertDate(dp.parse("@#DFRENCH R@ BET VEND 4 AND THER 4", ImpreciseDatePreference.FAVOR_EARLIEST), 1795, Calendar.SEPTEMBER,
                 23);
         assertDate(dp.parse("@#DFRENCH R@ BET VEND 4 AND THER 4", ImpreciseDatePreference.FAVOR_LATEST), 1796, Calendar.AUGUST, 17);
         assertDate(dp.parse("@#DFRENCH R@ BET VEND 4 AND THER 4", ImpreciseDatePreference.FAVOR_MIDPOINT), 1796, Calendar.MARCH, 5);
-    
+
         assertDate(dp.parse("@#DFRENCH R@ BET 1 AND 5", ImpreciseDatePreference.FAVOR_EARLIEST), 1792, Calendar.SEPTEMBER, 22);
         assertDate(dp.parse("@#DFRENCH R@ BET 1 AND 5", ImpreciseDatePreference.FAVOR_LATEST), 1797, Calendar.SEPTEMBER, 21);
         assertDate(dp.parse("@#DFRENCH R@ BET 1 AND 5", ImpreciseDatePreference.FAVOR_MIDPOINT), 1795, Calendar.MARCH, 23);
@@ -90,7 +90,7 @@ public class DateParserFrenchRepublicanTest extends AbstractDateParserTest {
         assertDate(dp.parse("@#DFRENCH R@ 3 THER 224", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 20);
         assertDate(dp.parse("@#DFRENCH R@ THER 224", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 18);
         assertDate(dp.parse("@#DFRENCH R@ 224", ImpreciseDatePreference.FAVOR_EARLIEST), 2015, Calendar.SEPTEMBER, 22);
-    
+
         assertDate(dp.parse("@#DFRENCH R@ ABT 3 THER 224", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 20);
         assertDate(dp.parse("@#DFRENCH R@ EST 3 THER 224", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 20);
         assertDate(dp.parse("@#DFRENCH R@ CAL 3 THER 224", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 20);
@@ -100,7 +100,7 @@ public class DateParserFrenchRepublicanTest extends AbstractDateParserTest {
         assertDate(dp.parse("@#DFRENCH R@ TO 3 THER 224", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 20);
         assertDate(dp.parse("@#DFRENCH R@ INT 3 THER 224 (Because)", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY,
                 20);
-    
+
         assertDate(dp.parse("@#DFRENCH R@ ABT THER 224", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 18);
         assertDate(dp.parse("@#DFRENCH R@ EST THER 224", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 18);
         assertDate(dp.parse("@#DFRENCH R@ CAL THER 224", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 18);
@@ -110,7 +110,7 @@ public class DateParserFrenchRepublicanTest extends AbstractDateParserTest {
         assertDate(dp.parse("@#DFRENCH R@ TO THER 224", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 18);
         assertDate(dp.parse("@#DFRENCH R@ INT THER 224 (Because)", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY,
                 18);
-    
+
         assertDate(dp.parse("@#DFRENCH R@ ABT 224", ImpreciseDatePreference.FAVOR_EARLIEST), 2015, Calendar.SEPTEMBER, 22);
         assertDate(dp.parse("@#DFRENCH R@ EST 224", ImpreciseDatePreference.FAVOR_EARLIEST), 2015, Calendar.SEPTEMBER, 22);
         assertDate(dp.parse("@#DFRENCH R@ CAL 224", ImpreciseDatePreference.FAVOR_EARLIEST), 2015, Calendar.SEPTEMBER, 22);
@@ -130,7 +130,7 @@ public class DateParserFrenchRepublicanTest extends AbstractDateParserTest {
         assertDate(dp.parse("@#DFRENCH R@ 3 THER 224", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 20);
         assertDate(dp.parse("@#DFRENCH R@ THER 224", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.AUGUST, 16);
         assertDate(dp.parse("@#DFRENCH R@ 224", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.SEPTEMBER, 21);
-    
+
         assertDate(dp.parse("@#DFRENCH R@ ABT 3 THER 224", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 20);
         assertDate(dp.parse("@#DFRENCH R@ EST 3 THER 224", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 20);
         assertDate(dp.parse("@#DFRENCH R@ CAL 3 THER 224", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 20);
@@ -140,7 +140,7 @@ public class DateParserFrenchRepublicanTest extends AbstractDateParserTest {
         assertDate(dp.parse("@#DFRENCH R@ TO 3 THER 224", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 20);
         assertDate(dp.parse("@#DFRENCH R@ INT 3 THER 224 (Because)", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY,
                 20);
-    
+
         assertDate(dp.parse("@#DFRENCH R@ ABT THER 224", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.AUGUST, 16);
         assertDate(dp.parse("@#DFRENCH R@ EST THER 224", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.AUGUST, 16);
         assertDate(dp.parse("@#DFRENCH R@ CAL THER 224", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.AUGUST, 16);
@@ -150,7 +150,7 @@ public class DateParserFrenchRepublicanTest extends AbstractDateParserTest {
         assertDate(dp.parse("@#DFRENCH R@ TO THER 224", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.AUGUST, 16);
         assertDate(dp.parse("@#DFRENCH R@ INT THER 224 (Because)", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.AUGUST,
                 16);
-    
+
         assertDate(dp.parse("@#DFRENCH R@ ABT 224", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.SEPTEMBER, 21);
         assertDate(dp.parse("@#DFRENCH R@ EST 224", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.SEPTEMBER, 21);
         assertDate(dp.parse("@#DFRENCH R@ CAL 224", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.SEPTEMBER, 21);
@@ -169,7 +169,7 @@ public class DateParserFrenchRepublicanTest extends AbstractDateParserTest {
         assertDate(dp.parse("@#DFRENCH R@ 3 THER 224", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 20);
         assertDate(dp.parse("@#DFRENCH R@ THER 224", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.AUGUST, 1);
         assertDate(dp.parse("@#DFRENCH R@ 224", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.MARCH, 20);
-    
+
         assertDate(dp.parse("@#DFRENCH R@ ABT 3 THER 224", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 20);
         assertDate(dp.parse("@#DFRENCH R@ EST 3 THER 224", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 20);
         assertDate(dp.parse("@#DFRENCH R@ CAL 3 THER 224", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 20);
@@ -179,7 +179,7 @@ public class DateParserFrenchRepublicanTest extends AbstractDateParserTest {
         assertDate(dp.parse("@#DFRENCH R@ TO 3 THER 224", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 20);
         assertDate(dp.parse("@#DFRENCH R@ INT 3 THER 224 (Because)", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY,
                 20);
-    
+
         assertDate(dp.parse("@#DFRENCH R@ ABT THER 224", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.AUGUST, 1);
         assertDate(dp.parse("@#DFRENCH R@ EST THER 224", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.AUGUST, 1);
         assertDate(dp.parse("@#DFRENCH R@ CAL THER 224", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.AUGUST, 1);
@@ -189,7 +189,7 @@ public class DateParserFrenchRepublicanTest extends AbstractDateParserTest {
         assertDate(dp.parse("@#DFRENCH R@ TO THER 224", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.AUGUST, 1);
         assertDate(dp.parse("@#DFRENCH R@ INT THER 224 (Because)", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.AUGUST,
                 1);
-    
+
         assertDate(dp.parse("@#DFRENCH R@ ABT 224", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.MARCH, 20);
         assertDate(dp.parse("@#DFRENCH R@ EST 224", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.MARCH, 20);
         assertDate(dp.parse("@#DFRENCH R@ CAL 224", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.MARCH, 20);
@@ -208,7 +208,7 @@ public class DateParserFrenchRepublicanTest extends AbstractDateParserTest {
         assertDate(dp.parse("@#DFRENCH R@ 3 THER 224"), 2016, Calendar.JULY, 20);
         assertDate(dp.parse("@#DFRENCH R@ THER 224"), 2016, Calendar.JULY, 18);
         assertDate(dp.parse("@#DFRENCH R@ 224"), 2015, Calendar.SEPTEMBER, 22);
-    
+
         assertDate(dp.parse("@#DFRENCH R@ ABT 3 THER 224"), 2016, Calendar.JULY, 20);
         assertDate(dp.parse("@#DFRENCH R@ EST 3 THER 224"), 2016, Calendar.JULY, 20);
         assertDate(dp.parse("@#DFRENCH R@ CAL 3 THER 224"), 2016, Calendar.JULY, 20);
@@ -217,7 +217,7 @@ public class DateParserFrenchRepublicanTest extends AbstractDateParserTest {
         assertDate(dp.parse("@#DFRENCH R@ FROM 3 THER 224"), 2016, Calendar.JULY, 20);
         assertDate(dp.parse("@#DFRENCH R@ TO 3 THER 224"), 2016, Calendar.JULY, 20);
         assertDate(dp.parse("@#DFRENCH R@ INT 3 THER 224 (Because)"), 2016, Calendar.JULY, 20);
-    
+
         assertDate(dp.parse("@#DFRENCH R@ ABT THER 224"), 2016, Calendar.JULY, 18);
         assertDate(dp.parse("@#DFRENCH R@ EST THER 224"), 2016, Calendar.JULY, 18);
         assertDate(dp.parse("@#DFRENCH R@ CAL THER 224"), 2016, Calendar.JULY, 18);
@@ -226,7 +226,7 @@ public class DateParserFrenchRepublicanTest extends AbstractDateParserTest {
         assertDate(dp.parse("@#DFRENCH R@ FROM THER 224"), 2016, Calendar.JULY, 18);
         assertDate(dp.parse("@#DFRENCH R@ TO THER 224"), 2016, Calendar.JULY, 18);
         assertDate(dp.parse("@#DFRENCH R@ INT THER 224 (Because)"), 2016, Calendar.JULY, 18);
-    
+
         assertDate(dp.parse("@#DFRENCH R@ ABT 224"), 2015, Calendar.SEPTEMBER, 22);
         assertDate(dp.parse("@#DFRENCH R@ EST 224"), 2015, Calendar.SEPTEMBER, 22);
         assertDate(dp.parse("@#DFRENCH R@ CAL 224"), 2015, Calendar.SEPTEMBER, 22);

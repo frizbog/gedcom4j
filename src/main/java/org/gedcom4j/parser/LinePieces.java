@@ -147,7 +147,7 @@ class LinePieces {
     private void processXrefId() {
         // Take care of the id, if any
         StringBuilder i = null;
-        if ('@' == (chars[currCharIdx])) {
+        if ('@' == chars[currCharIdx]) {
             while (currCharIdx < chars.length && chars[currCharIdx] != ' ') {
                 if (i == null) {
                     i = new StringBuilder();

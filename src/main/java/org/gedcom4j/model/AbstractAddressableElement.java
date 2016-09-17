@@ -257,11 +257,11 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((address == null) ? 0 : address.hashCode());
-        result = prime * result + ((emails == null) ? 0 : emails.hashCode());
-        result = prime * result + ((faxNumbers == null) ? 0 : faxNumbers.hashCode());
-        result = prime * result + ((phoneNumbers == null) ? 0 : phoneNumbers.hashCode());
-        result = prime * result + ((wwwUrls == null) ? 0 : wwwUrls.hashCode());
+        result = prime * result + (address == null ? 0 : address.hashCode());
+        result = prime * result + (emails == null ? 0 : emails.hashCode());
+        result = prime * result + (faxNumbers == null ? 0 : faxNumbers.hashCode());
+        result = prime * result + (phoneNumbers == null ? 0 : phoneNumbers.hashCode());
+        result = prime * result + (wwwUrls == null ? 0 : wwwUrls.hashCode());
         return result;
     }
 

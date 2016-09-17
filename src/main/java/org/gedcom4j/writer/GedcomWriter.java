@@ -507,7 +507,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
      * Notify construct observers if more than 100 lines have been constructed since last time we notified them
      */
     void notifyConstructObserversIfNeeded() {
-        if ((lines.size() - lastLineCountNotified) > constructionNotificationRate) {
+        if (lines.size() - lastLineCountNotified > constructionNotificationRate) {
             notifyConstructObservers(new ConstructProgressEvent(this, lines.size(), true));
         }
     }

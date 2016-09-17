@@ -63,10 +63,10 @@ public abstract class AbstractCopyTest {
      */
     protected Address getTestAddress() {
         Address result = new Address();
-        result.setAddr1(new StringWithCustomTags("123 Main St."));
-        result.setCity(new StringWithCustomTags("Anytown"));
-        result.setStateProvince(new StringWithCustomTags("ME"));
-        result.setCountry(new StringWithCustomTags("USA"));
+        result.setAddr1("123 Main St.");
+        result.setCity("Anytown");
+        result.setStateProvince("ME");
+        result.setCountry("USA");
         result.getLines(true).add("XXX");
         result.getCustomTags(true).add(getTestCustomTags());
         return result;
@@ -119,14 +119,14 @@ public abstract class AbstractCopyTest {
     protected Note getTestNote() {
         Note result = new Note();
         ChangeDate cd = new ChangeDate();
-        cd.setDate(new StringWithCustomTags("1 JAN 1980"));
-        cd.setTime(new StringWithCustomTags("12:00 AM"));
+        cd.setDate("1 JAN 1980");
+        cd.setTime("12:00 AM");
         Note n = new Note();
         n.getLines(true).add("Note on change date");
         cd.getNotes(true).add(n);
         result.setChangeDate(cd);
         result.getCustomTags(true).add(getTestCustomTags());
-        result.setRecIdNumber(new StringWithCustomTags("YYY"));
+        result.setRecIdNumber("YYY");
         result.setXref("@N0001@");
         result.getLines(true).add("Test Note Line 1");
         return result;

@@ -65,9 +65,9 @@ public class EventRecordedCopyTest extends AbstractCopyTest {
     @Test
     public void testWithValues() {
         EventRecorded orig = new EventRecorded();
-        orig.setDatePeriod(new StringWithCustomTags("AAA"));
+        orig.setDatePeriod("AAA");
         orig.setEventType("BBB");
-        orig.setJurisdiction(new StringWithCustomTags("CCC"));
+        orig.setJurisdiction("CCC");
         orig.getCustomTags(true).add(getTestCustomTags());
 
         EventRecorded copy = new EventRecorded(orig);

@@ -65,10 +65,10 @@ public class LdsIndividualOrdinanceCopyTest extends AbstractCopyTest {
     @Test
     public void testValues() {
         LdsIndividualOrdinance orig = new LdsIndividualOrdinance();
-        orig.setDate(new StringWithCustomTags("A"));
+        orig.setDate("A");
         FamilyChild fc = new FamilyChild();
-        fc.setStatus(new StringWithCustomTags("B"));
-        fc.setPedigree(new StringWithCustomTags("C"));
+        fc.setStatus("B");
+        fc.setPedigree("C");
         fc.setAdoptedBy(AdoptedByWhichParent.HUSBAND);
         Family f = new Family();
         fc.setFamily(f);

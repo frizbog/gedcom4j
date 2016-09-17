@@ -28,7 +28,6 @@ package org.gedcom4j.validate;
 
 import org.gedcom4j.model.ChangeDate;
 import org.gedcom4j.model.Repository;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.junit.Test;
 
 /**
@@ -46,7 +45,7 @@ public class RepositoryValidatorTest extends AbstractValidatorTestCase {
         Repository r = new Repository();
         r.setXref("@R1@");
         ChangeDate changeDate = new ChangeDate();
-        changeDate.setDate(new StringWithCustomTags("Not a valid date"));
+        changeDate.setDate("Not a valid date");
         r.setChangeDate(changeDate);
 
         new RepositoryValidator(validator, r).validate();
@@ -61,7 +60,7 @@ public class RepositoryValidatorTest extends AbstractValidatorTestCase {
         Repository r = new Repository();
         r.setXref("@R1@");
         ChangeDate changeDate = new ChangeDate();
-        changeDate.setDate(new StringWithCustomTags("12 DEC 1912"));
+        changeDate.setDate("12 DEC 1912");
         r.setChangeDate(changeDate);
 
         new RepositoryValidator(validator, r).validate();

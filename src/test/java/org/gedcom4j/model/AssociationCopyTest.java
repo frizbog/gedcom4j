@@ -65,9 +65,9 @@ public class AssociationCopyTest extends AbstractCopyTest {
     @Test
     public void testWithValues() {
         Association orig = new Association();
-        orig.setAssociatedEntityType(new StringWithCustomTags("AAA"));
+        orig.setAssociatedEntityType("AAA");
         orig.setAssociatedEntityXref("BBB");
-        orig.setRelationship(new StringWithCustomTags("CCC"));
+        orig.setRelationship("CCC");
         AbstractCitation c = getTestCitation();
         orig.getCitations(true).add(c);
 

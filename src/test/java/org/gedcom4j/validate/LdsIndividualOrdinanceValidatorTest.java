@@ -46,10 +46,10 @@ public class LdsIndividualOrdinanceValidatorTest extends AbstractValidatorTestCa
     @Test
     public void testBadEnumString1() {
         LdsIndividualOrdinance l = new LdsIndividualOrdinance();
-        l.setDate(new StringWithCustomTags("5 MAY 1905"));
-        l.setTemple(new StringWithCustomTags("Temple 1"));
+        l.setDate("5 MAY 1905");
+        l.setTemple("Temple 1");
         l.setType(LdsIndividualOrdinanceType.BAPTISM);
-        l.setStatus(new StringWithCustomTags("I'm a bad baptism status"));
+        l.setStatus("I'm a bad baptism status");
 
         new LdsIndividualOrdinanceValidator(validator, l).validate();
         assertFindingsContain(Severity.ERROR, l, ProblemCode.ILLEGAL_VALUE, "status");
@@ -61,8 +61,8 @@ public class LdsIndividualOrdinanceValidatorTest extends AbstractValidatorTestCa
     @Test
     public void testNoType() {
         LdsIndividualOrdinance l = new LdsIndividualOrdinance();
-        l.setDate(new StringWithCustomTags("5 MAY 1905"));
-        l.setTemple(new StringWithCustomTags("Temple 1"));
+        l.setDate("5 MAY 1905");
+        l.setTemple("Temple 1");
         Note n = new Note();
         n.getLines(true).add("Testing 1 2 3");
         l.getNotes(true).add(n);
@@ -77,8 +77,8 @@ public class LdsIndividualOrdinanceValidatorTest extends AbstractValidatorTestCa
     @Test
     public void testPositive() {
         LdsIndividualOrdinance l = new LdsIndividualOrdinance();
-        l.setDate(new StringWithCustomTags("5 MAY 1905"));
-        l.setTemple(new StringWithCustomTags("Temple 1"));
+        l.setDate("5 MAY 1905");
+        l.setTemple("Temple 1");
         Note n = new Note();
         n.getLines(true).add("Testing 1 2 3");
         l.getNotes(true).add(n);
@@ -94,8 +94,8 @@ public class LdsIndividualOrdinanceValidatorTest extends AbstractValidatorTestCa
     @Test
     public void testPositiveEnumString() {
         LdsIndividualOrdinance l = new LdsIndividualOrdinance();
-        l.setDate(new StringWithCustomTags("5 MAY 1905"));
-        l.setTemple(new StringWithCustomTags("Temple 1"));
+        l.setDate("5 MAY 1905");
+        l.setTemple("Temple 1");
         l.setType(LdsIndividualOrdinanceType.BAPTISM);
         l.setStatus(new StringWithCustomTags(LdsBaptismDateStatus.CHILD.getCode()));
 

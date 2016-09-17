@@ -71,8 +71,8 @@ class NoteListParser extends AbstractParser<List<Note>> {
             loadInto.add(note);
         } else {
             if (referencesAnotherNode(stringTree)) {
-                addWarning("NOTE line has both an XREF_ID (" + stringTree.getXref() + ") and SUBMITTER_TEXT (" + stringTree.getValue()
-                        + ") value between @ signs - treating SUBMITTER_TEXT as string, not a cross-reference");
+                addWarning("NOTE line has both an XREF_ID (" + stringTree.getXref() + ") and SUBMITTER_TEXT (" + stringTree
+                        .getValue() + ") value between @ signs - treating SUBMITTER_TEXT as string, not a cross-reference");
             }
             note = getNote(stringTree.getXref());
         }

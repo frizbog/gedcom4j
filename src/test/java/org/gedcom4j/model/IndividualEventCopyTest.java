@@ -65,12 +65,12 @@ public class IndividualEventCopyTest extends AbstractCopyTest {
     public void testWithValues() {
         IndividualEvent orig = new IndividualEvent();
         orig.setAddress(getTestAddress());
-        orig.setAge(new StringWithCustomTags("890"));
-        orig.setCause(new StringWithCustomTags("Mom said so"));
-        orig.setDate(new StringWithCustomTags("04 SEP 1905"));
-        orig.setDescription(new StringWithCustomTags("It was glorious."));
+        orig.setAge("890");
+        orig.setCause("Mom said so");
+        orig.setDate("04 SEP 1905");
+        orig.setDescription("It was glorious.");
         FamilyChild fc = new FamilyChild();
-        fc.setStatus(new StringWithCustomTags("XXX"));
+        fc.setStatus("XXX");
         orig.setFamily(fc);
         orig.getNotes(true).add(getTestNote());
         orig.getFaxNumbers(true).add(new StringWithCustomTags("555-1212"));
@@ -80,12 +80,12 @@ public class IndividualEventCopyTest extends AbstractCopyTest {
         Place p = new Place();
         p.setPlaceName("Charleston, WV");
         orig.setPlace(p);
-        orig.setReligiousAffiliation(new StringWithCustomTags("XXX"));
-        orig.setRespAgency(new StringWithCustomTags("YYY"));
-        orig.setRestrictionNotice(new StringWithCustomTags("ZZZ"));
-        orig.setSubType(new StringWithCustomTags("!@#"));
+        orig.setReligiousAffiliation("XXX");
+        orig.setRespAgency("YYY");
+        orig.setRestrictionNotice("ZZZ");
+        orig.setSubType("!@#");
         orig.setType(IndividualEventType.PROBATE);
-        orig.setSubType(new StringWithCustomTags("000"));
+        orig.setSubType("000");
 
         IndividualEvent copy = new IndividualEvent(orig);
         assertEquals(orig, copy);

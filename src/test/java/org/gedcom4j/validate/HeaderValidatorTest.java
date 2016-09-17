@@ -53,7 +53,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
 
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
-        s.setName(new StringWithCustomTags("test"));
+        s.setName("test");
         gedcom.getSubmitters().put(s.getXref(), s);
         gedcom.setSubmission(new Submission("@SUBN0001@"));
         Header h = gedcom.getHeader();
@@ -74,7 +74,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         assertFindingsContain(Severity.ERROR, h.getCharacterSet(), ProblemCode.MISSING_REQUIRED_VALUE.getCode(),
                 "characterSetName");
 
-        h.getCharacterSet().setCharacterSetName(new StringWithCustomTags("FRYINGPAN"));
+        h.getCharacterSet().setCharacterSetName("FRYINGPAN");
         validator.validate();
         assertFindingsContain(Severity.ERROR, h.getCharacterSet().getCharacterSetName(), ProblemCode.ILLEGAL_VALUE.getCode(),
                 "value");
@@ -92,7 +92,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
     public void testCopyrightData() {
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
-        s.setName(new StringWithCustomTags("test"));
+        s.setName("test");
         gedcom.getSubmitters().put(s.getXref(), s);
         Header h = gedcom.getHeader();
         h.setSubmitter(s);
@@ -111,7 +111,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
     public void testGedcomVersion() {
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
-        s.setName(new StringWithCustomTags("test"));
+        s.setName("test");
         gedcom.getSubmitters().put(s.getXref(), s);
         Header h = gedcom.getHeader();
         h.setSubmitter(s);
@@ -142,7 +142,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
 
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
-        s.setName(new StringWithCustomTags("test"));
+        s.setName("test");
         gedcom.getSubmitters().put(s.getXref(), s);
         Header h = gedcom.getHeader();
         h.setSubmitter(s);
@@ -159,7 +159,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
     public void testSourceSystem() {
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
-        s.setName(new StringWithCustomTags("test"));
+        s.setName("test");
         gedcom.getSubmitters().put(s.getXref(), s);
         Header h = gedcom.getHeader();
         h.setSubmitter(s);
@@ -192,7 +192,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         validator.validate();
         assertNoIssues();
 
-        ss.setProductName(new StringWithCustomTags("Yo"));
+        ss.setProductName("Yo");
         validator.validate();
         assertNoIssues();
 

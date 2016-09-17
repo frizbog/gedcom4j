@@ -88,7 +88,7 @@ public class IndividualEvent extends AbstractEvent {
         } else if (!family.equals(other.family)) {
             return false;
         }
-        return (type == other.type);
+        return type == other.type;
     }
 
     /**

@@ -74,7 +74,7 @@ public class IndividualAttribute extends AbstractEvent {
             return false;
         }
         IndividualAttribute other = (IndividualAttribute) obj;
-        return (type == other.type);
+        return type == other.type;
     }
 
     /**

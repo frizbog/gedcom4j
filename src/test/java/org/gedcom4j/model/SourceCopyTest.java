@@ -87,9 +87,9 @@ public class SourceCopyTest extends AbstractCopyTest {
     public void testWithValues() {
         Source orig = new Source();
         ChangeDate changeDate = new ChangeDate();
-        changeDate.setDate(new StringWithCustomTags("01 JAN 1970"));
+        changeDate.setDate("01 JAN 1970");
         orig.setChangeDate(changeDate);
-        orig.setRecIdNumber(new StringWithCustomTags("A"));
+        orig.setRecIdNumber("A");
         orig.setXref("B");
         SourceData data = new SourceData();
         data.getNotes(true).add(getTestNote());
@@ -97,7 +97,7 @@ public class SourceCopyTest extends AbstractCopyTest {
         RepositoryCitation rc = new RepositoryCitation();
         rc.setRepositoryXref("@R123@");
         SourceCallNumber scn = new SourceCallNumber();
-        scn.setCallNumber(new StringWithCustomTags("890"));
+        scn.setCallNumber("890");
         rc.getCallNumbers(true).add(scn);
         orig.setRepositoryCitation(rc);
 

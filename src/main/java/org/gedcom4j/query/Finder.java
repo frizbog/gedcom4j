@@ -184,9 +184,8 @@ public class Finder {
                 for (PersonalName n : i.getNames()) {
                     // Sometimes the name is broken up into separate fields in the
                     // GEDCOM
-                    if ((surname == null || (n.getSurname() != null && surname.equalsIgnoreCase(n.getSurname().getValue())))
-                            && (given == null || (n.getGivenName() != null && given.equalsIgnoreCase(n.getGivenName()
-                                    .getValue())))) {
+                    if ((surname == null || n.getSurname() != null && surname.equalsIgnoreCase(n.getSurname().getValue()))
+                            && (given == null || n.getGivenName() != null && given.equalsIgnoreCase(n.getGivenName().getValue()))) {
                         result.add(i);
                         continue;
                     }
@@ -301,7 +300,7 @@ public class Finder {
         }
         String sdx1 = Soundex.soundex(s1);
         String sdx2 = Soundex.soundex(s2);
-        return (((sdx1 == null && sdx2 == null) || (sdx1 != null && sdx1.equals(sdx2))));
+        return sdx1 == null && sdx2 == null || sdx1 != null && sdx1.equals(sdx2);
     }
 
 }

@@ -65,8 +65,8 @@ public class SourceCallNumberCopyTest extends AbstractCopyTest {
     @Test
     public void testWithValues() {
         SourceCallNumber orig = new SourceCallNumber();
-        orig.setCallNumber(new StringWithCustomTags("AAA"));
-        orig.setMediaType(new StringWithCustomTags("BBB"));
+        orig.setCallNumber("AAA");
+        orig.setMediaType("BBB");
         orig.getCustomTags(true).add(getTestCustomTags());
 
         SourceCallNumber copy = new SourceCallNumber(orig);
@@ -74,7 +74,7 @@ public class SourceCallNumberCopyTest extends AbstractCopyTest {
         assertNotSame(orig, copy);
         assertEquals(orig.toString(), copy.toString());
 
-        orig.setCallNumber(new StringWithCustomTags("CCC"));
+        orig.setCallNumber("CCC");
         assertFalse("Copy should not match when original is changed", orig.equals(copy));
 
     }

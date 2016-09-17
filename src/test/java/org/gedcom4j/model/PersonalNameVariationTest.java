@@ -65,12 +65,12 @@ public class PersonalNameVariationTest {
         pnv2.getCustomTags(true).clear();
         assertEquals(pnv1, pnv2);
 
-        pnv1.setGivenName(new StringWithCustomTags("Yo"));
+        pnv1.setGivenName("Yo");
         assertFalse(pnv1.equals(pnv2));
         pnv1.setGivenName((String) null);
         assertEquals(pnv1, pnv2);
 
-        pnv1.setNickname(new StringWithCustomTags("Yo"));
+        pnv1.setNickname("Yo");
         assertFalse(pnv1.equals(pnv2));
         pnv1.setNickname((String) null);
         assertEquals(pnv1, pnv2);
@@ -82,22 +82,22 @@ public class PersonalNameVariationTest {
         pnv2.getNotes(true).clear();
         assertEquals(pnv1, pnv2);
 
-        pnv1.setPrefix(new StringWithCustomTags("Yo"));
+        pnv1.setPrefix("Yo");
         assertFalse(pnv1.equals(pnv2));
         pnv1.setPrefix((String) null);
         assertEquals(pnv1, pnv2);
 
-        pnv1.setSuffix(new StringWithCustomTags("Yo"));
+        pnv1.setSuffix("Yo");
         assertFalse(pnv1.equals(pnv2));
         pnv1.setSuffix((String) null);
         assertEquals(pnv1, pnv2);
 
-        pnv1.setSurname(new StringWithCustomTags("Yo"));
+        pnv1.setSurname("Yo");
         assertFalse(pnv1.equals(pnv2));
         pnv1.setSurname((String) null);
         assertEquals(pnv1, pnv2);
 
-        pnv1.setSurnamePrefix(new StringWithCustomTags("Yo"));
+        pnv1.setSurnamePrefix("Yo");
         assertFalse(pnv1.equals(pnv2));
         pnv1.setSurnamePrefix((String) null);
         assertEquals(pnv1, pnv2);
@@ -139,12 +139,12 @@ public class PersonalNameVariationTest {
         pnv2.getCustomTags(true).clear();
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
-        pnv1.setGivenName(new StringWithCustomTags("Yo"));
+        pnv1.setGivenName("Yo");
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
         pnv1.setGivenName((String) null);
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
-        pnv1.setNickname(new StringWithCustomTags("Yo"));
+        pnv1.setNickname("Yo");
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
         pnv1.setNickname((String) null);
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
@@ -156,22 +156,22 @@ public class PersonalNameVariationTest {
         pnv2.getNotes(true).clear();
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
-        pnv1.setPrefix(new StringWithCustomTags("Yo"));
+        pnv1.setPrefix("Yo");
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
         pnv1.setPrefix((String) null);
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
-        pnv1.setSuffix(new StringWithCustomTags("Yo"));
+        pnv1.setSuffix("Yo");
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
         pnv1.setSuffix((String) null);
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
-        pnv1.setSurname(new StringWithCustomTags("Yo"));
+        pnv1.setSurname("Yo");
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
         pnv1.setSurname((String) null);
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
-        pnv1.setSurnamePrefix(new StringWithCustomTags("Yo"));
+        pnv1.setSurnamePrefix("Yo");
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
         pnv1.setSurnamePrefix((String) null);
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
@@ -198,12 +198,12 @@ public class PersonalNameVariationTest {
 
         pnv.variation = "Frying Pan";
         pnv.getCustomTags(true).add(new StringTree());
-        pnv.setGivenName(new StringWithCustomTags("Now"));
-        pnv.setNickname(new StringWithCustomTags("Is"));
+        pnv.setGivenName("Now");
+        pnv.setNickname("Is");
         pnv.getNotes(true).add(new Note());
-        pnv.setSuffix(new StringWithCustomTags("The"));
-        pnv.setSurname(new StringWithCustomTags("Time"));
-        pnv.setSurnamePrefix(new StringWithCustomTags("For"));
+        pnv.setSuffix("The");
+        pnv.setSurname("Time");
+        pnv.setSurnamePrefix("For");
         pnv.variationType = new StringWithCustomTags("All");
         assertEquals(
                 "PersonalNameVariation [givenName=Now, nickname=Is, notes=[Note []], suffix=The, surname=Time, surnamePrefix=For, "

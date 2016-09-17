@@ -86,11 +86,11 @@ public class FamilyCopyTest extends AbstractCopyTest {
     @Test
     public void testWithValues() {
         Family orig = new Family();
-        orig.setAutomatedRecordId(new StringWithCustomTags("123"));
+        orig.setAutomatedRecordId("123");
         ChangeDate cd = new ChangeDate();
-        cd.setTime(new StringWithCustomTags("12:21a"));
+        cd.setTime("12:21a");
         orig.setChangeDate(cd);
-        orig.setNumChildren(new StringWithCustomTags("1"));
+        orig.setNumChildren("1");
         Individual h = new Individual();
         h.setXref("@I1@");
         orig.setHusband(h);
@@ -100,27 +100,27 @@ public class FamilyCopyTest extends AbstractCopyTest {
         Individual k = new Individual();
         k.setXref("@I3@");
         orig.getChildren(true).add(k);
-        orig.setRecFileNumber(new StringWithCustomTags("123"));
-        orig.setRestrictionNotice(new StringWithCustomTags("UNRESTRICTED"));
+        orig.setRecFileNumber("123");
+        orig.setRestrictionNotice("UNRESTRICTED");
         orig.getCitations(true).add(getTestCitation());
         orig.getCustomTags(true).add(getTestCustomTags());
         FamilyEvent e = new FamilyEvent();
         e.setType(FamilyEventType.ANNULMENT);
-        e.setDate(new StringWithCustomTags("10 OCT 1910"));
-        e.setDescription(new StringWithCustomTags("Never happened"));
+        e.setDate("10 OCT 1910");
+        e.setDescription("Never happened");
         orig.getEvents(true).add(e);
         LdsSpouseSealing lss = new LdsSpouseSealing();
-        lss.setStatus(new StringWithCustomTags("Complete"));
+        lss.setStatus("Complete");
         orig.getLdsSpouseSealings(true).add(lss);
         Multimedia m = new Multimedia();
         m.getBlob(true).add("qwpeoklskfsekrpweoalksfnsleorpwqoewklsfjlskjfpoeriwpeori");
         orig.getMultimedia(true).add(m);
         orig.getNotes(true).add(getTestNote());
         Submitter s = new Submitter();
-        s.setName(new StringWithCustomTags("Eloise /King/"));
+        s.setName("Eloise /King/");
         orig.getSubmitters(true).add(s);
         UserReference u = new UserReference();
-        u.setType(new StringWithCustomTags("Any type you like"));
+        u.setType("Any type you like");
         orig.getUserReferences(true).add(u);
 
         Family copy = new Family(orig);

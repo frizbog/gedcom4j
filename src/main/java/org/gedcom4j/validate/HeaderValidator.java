@@ -34,7 +34,6 @@ import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.HeaderSourceData;
 import org.gedcom4j.model.SourceSystem;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.SupportedVersion;
 import org.gedcom4j.validate.Validator.Finding;
@@ -123,7 +122,7 @@ class HeaderValidator extends AbstractValidator {
                     "characterSetName");
             if (validator.mayRepair(vf)) {
                 CharacterSet before = new CharacterSet(header.getCharacterSet());
-                header.getCharacterSet().setCharacterSetName(new StringWithCustomTags("ANSEL"));
+                header.getCharacterSet().setCharacterSetName("ANSEL");
                 vf.addRepair(new AutoRepair(before, new CharacterSet(header.getCharacterSet())));
             } else {
                 return;

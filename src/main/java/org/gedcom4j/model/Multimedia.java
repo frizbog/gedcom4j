@@ -290,6 +290,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      *
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations() {
         return citations;
     }
@@ -302,6 +303,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      * 
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
             citations = new ArrayList<>(0);
@@ -396,6 +398,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      *
      * @return the xref
      */
+    @Override
     public String getXref() {
         return xref;
     }

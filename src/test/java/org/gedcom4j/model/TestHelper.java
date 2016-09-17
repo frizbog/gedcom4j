@@ -46,7 +46,7 @@ public final class TestHelper {
         g.getHeader().setSubmission(g.getSubmission());
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
-        s.setName(new StringWithCustomTags("Joe Tester"));
+        s.setName("Joe Tester");
         g.getSubmitters().put(s.getXref(), s);
         g.getHeader().setSubmitter(s);
         return g;

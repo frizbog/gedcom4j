@@ -64,14 +64,14 @@ public class PersonalNameVariationCopyTest extends AbstractCopyTest {
     @Test
     public void testWithValues() {
         PersonalNameVariation orig = new PersonalNameVariation();
-        orig.setGivenName(new StringWithCustomTags("Gilbert"));
-        orig.setNickname(new StringWithCustomTags("Gilly"));
-        orig.setPrefix(new StringWithCustomTags("Dr."));
-        orig.setSuffix(new StringWithCustomTags("Jr."));
-        orig.setSurname(new StringWithCustomTags("Gilbertson"));
-        orig.setSurnamePrefix(new StringWithCustomTags("del"));
+        orig.setGivenName("Gilbert");
+        orig.setNickname("Gilly");
+        orig.setPrefix("Dr.");
+        orig.setSuffix("Jr.");
+        orig.setSurname("Gilbertson");
+        orig.setSurnamePrefix("del");
         orig.setVariation("gilburtson");
-        orig.setVariationType(new StringWithCustomTags("foo"));
+        orig.setVariationType("foo");
         orig.getCustomTags(true).add(getTestCustomTags());
         orig.getNotes(true).add(getTestNote());
         orig.getCitations(true).add(getTestCitation());

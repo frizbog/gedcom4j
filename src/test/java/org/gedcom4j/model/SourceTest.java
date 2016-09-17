@@ -87,9 +87,9 @@ public class SourceTest {
         s2.getPublicationFacts(true).add("foo");
         assertEquals(s1, s2);
 
-        s1.setRecIdNumber(new StringWithCustomTags("Foo"));
+        s1.setRecIdNumber("Foo");
         assertTrue(s1.hashCode() != s2.hashCode());
-        s2.setRecIdNumber(new StringWithCustomTags("Foo"));
+        s2.setRecIdNumber("Foo");
         assertEquals(s1, s2);
 
         s1.setRepositoryCitation(new RepositoryCitation());
@@ -97,9 +97,9 @@ public class SourceTest {
         s2.setRepositoryCitation(new RepositoryCitation());
         assertEquals(s1, s2);
 
-        s1.setSourceFiledBy(new StringWithCustomTags("Bar"));
+        s1.setSourceFiledBy("Bar");
         assertTrue(s1.hashCode() != s2.hashCode());
-        s2.setSourceFiledBy(new StringWithCustomTags("Bar"));
+        s2.setSourceFiledBy("Bar");
         assertEquals(s1, s2);
 
         s1.getSourceText(true).add("bar");
@@ -166,9 +166,9 @@ public class SourceTest {
         s2.getPublicationFacts(true).add("bar");
         assertEquals(s1.hashCode(), s2.hashCode());
 
-        s1.setRecIdNumber(new StringWithCustomTags("Foo"));
+        s1.setRecIdNumber("Foo");
         assertFalse(s1.hashCode() == s2.hashCode());
-        s2.setRecIdNumber(new StringWithCustomTags("Foo"));
+        s2.setRecIdNumber("Foo");
         assertEquals(s1.hashCode(), s2.hashCode());
 
         s1.setRepositoryCitation(new RepositoryCitation());
@@ -176,9 +176,9 @@ public class SourceTest {
         s2.setRepositoryCitation(new RepositoryCitation());
         assertEquals(s1.hashCode(), s2.hashCode());
 
-        s1.setSourceFiledBy(new StringWithCustomTags("Bar"));
+        s1.setSourceFiledBy("Bar");
         assertFalse(s1.hashCode() == s2.hashCode());
-        s2.setSourceFiledBy(new StringWithCustomTags("Bar"));
+        s2.setSourceFiledBy("Bar");
         assertEquals(s1.hashCode(), s2.hashCode());
 
         s1.getSourceText(true).add("baz");
@@ -213,9 +213,9 @@ public class SourceTest {
         s1.getNotes(true).add(new Note());
         s1.getOriginatorsAuthors(true).clear();
         s1.getPublicationFacts(true).clear();
-        s1.setRecIdNumber(new StringWithCustomTags("Foo"));
+        s1.setRecIdNumber("Foo");
         s1.setRepositoryCitation(new RepositoryCitation());
-        s1.setSourceFiledBy(new StringWithCustomTags("Bar"));
+        s1.setSourceFiledBy("Bar");
         s1.getSourceText(true).clear();
         s1.getTitle(true).clear();
         s1.getUserReferences(true).clear();

@@ -76,8 +76,8 @@ public class FamilyChildCopyTest extends AbstractCopyTest {
         k.setXref("@I3@");
         f.getChildren(true).add(k);
         orig.setFamily(f);
-        orig.setPedigree(new StringWithCustomTags("OMG"));
-        orig.setStatus(new StringWithCustomTags("AOK"));
+        orig.setPedigree("OMG");
+        orig.setStatus("AOK");
         orig.getCustomTags(true).add(getTestCustomTags());
         orig.getNotes(true).add(getTestNote());
 

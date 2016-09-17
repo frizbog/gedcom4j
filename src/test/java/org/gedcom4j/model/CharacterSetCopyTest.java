@@ -64,8 +64,8 @@ public class CharacterSetCopyTest extends AbstractCopyTest {
     @Test
     public void testWithValues() {
         CharacterSet orig = new CharacterSet();
-        orig.setCharacterSetName(new StringWithCustomTags("AAA"));
-        orig.setVersionNum(new StringWithCustomTags("BBB"));
+        orig.setCharacterSetName("AAA");
+        orig.setVersionNum("BBB");
 
         orig.getCustomTags(true).add(getTestCustomTags());
 

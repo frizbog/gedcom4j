@@ -33,7 +33,6 @@ import static org.junit.Assert.assertNotNull;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Source;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.junit.Test;
 
 /**
@@ -60,10 +59,10 @@ public class AutoRepairTest {
     public void testBasic() {
         Source b = new Source();
         b.setXref("@S123@");
-        b.setRecIdNumber(new StringWithCustomTags("1"));
+        b.setRecIdNumber("1");
 
         Source a = new Source(b);
-        a.setRecIdNumber(new StringWithCustomTags("2"));
+        a.setRecIdNumber("2");
 
         AutoRepair ar = new AutoRepair(b, a);
         assertNotNull(ar);

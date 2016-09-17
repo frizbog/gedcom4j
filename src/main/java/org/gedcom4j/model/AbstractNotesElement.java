@@ -96,6 +96,7 @@ public abstract class AbstractNotesElement extends AbstractElement implements Ha
      *
      * @return the notes
      */
+    @Override
     public List<Note> getNotes() {
         return notes;
     }
@@ -107,6 +108,7 @@ public abstract class AbstractNotesElement extends AbstractElement implements Ha
      *            true if this collection should be created on-the-fly if it is currently null
      * @return the notes
      */
+    @Override
     public List<Note> getNotes(boolean initializeIfNeeded) {
         if (initializeIfNeeded && notes == null) {
             notes = new ArrayList<>(0);
@@ -121,7 +123,7 @@ public abstract class AbstractNotesElement extends AbstractElement implements Ha
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
+        result = prime * result + (notes == null ? 0 : notes.hashCode());
         return result;
     }
 

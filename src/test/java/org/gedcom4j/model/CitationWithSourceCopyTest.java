@@ -67,20 +67,20 @@ public class CitationWithSourceCopyTest extends AbstractCopyTest {
     @Test
     public void testWithValues() {
         CitationWithSource orig = new CitationWithSource();
-        orig.setCertainty(new StringWithCustomTags("High"));
-        orig.setEventCited(new StringWithCustomTags("You know, that thing that happened"));
-        orig.setRoleInEvent(new StringWithCustomTags("You had to be there"));
+        orig.setCertainty("High");
+        orig.setEventCited("You know, that thing that happened");
+        orig.setRoleInEvent("You had to be there");
         Source s = new Source();
         s.setXref("@S1@");
         orig.setSource(s);
-        orig.setWhereInSource(new StringWithCustomTags("Page 394"));
+        orig.setWhereInSource("Page 394");
         CitationData cd = new CitationData();
         List<String> ls = new ArrayList<>();
         ls.add("line 1");
         ls.add("line 2");
         cd.getSourceText(true).add(ls);
         cd.getCustomTags(true).add(getTestCustomTags());
-        cd.setEntryDate(new StringWithCustomTags("30 Jun 1998"));
+        cd.setEntryDate("30 Jun 1998");
         orig.getData(true).add(cd);
 
         CitationWithSource copy = new CitationWithSource(orig);

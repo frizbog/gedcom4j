@@ -65,21 +65,21 @@ public class IndividualAttributeCopyTest extends AbstractCopyTest {
     public void testWithValues() {
         IndividualAttribute orig = new IndividualAttribute();
         Address a = new Address();
-        a.setAddr1(new StringWithCustomTags("AAA"));
+        a.setAddr1("AAA");
         orig.setAddress(a);
-        orig.setAge(new StringWithCustomTags("BBB"));
-        orig.setCause(new StringWithCustomTags("CCC"));
+        orig.setAge("BBB");
+        orig.setCause("CCC");
         orig.getCustomTags(true).add(getTestCustomTags());
-        orig.setDate(new StringWithCustomTags("DDD"));
-        orig.setDescription(new StringWithCustomTags("EEE"));
+        orig.setDate("DDD");
+        orig.setDescription("EEE");
         orig.getNotes(true).add(getTestNote());
         Place p = new Place();
-        p.setLatitude(new StringWithCustomTags("50.2N"));
-        p.setLongitude(new StringWithCustomTags("172.4W"));
+        p.setLatitude("50.2N");
+        p.setLongitude("172.4W");
         orig.setPlace(p);
-        orig.setReligiousAffiliation(new StringWithCustomTags("FFF"));
-        orig.setRespAgency(new StringWithCustomTags("GGG"));
-        orig.setSubType(new StringWithCustomTags("HHH"));
+        orig.setReligiousAffiliation("FFF");
+        orig.setRespAgency("GGG");
+        orig.setSubType("HHH");
         orig.setYNull("Y");
 
         IndividualAttribute copy = new IndividualAttribute(orig);

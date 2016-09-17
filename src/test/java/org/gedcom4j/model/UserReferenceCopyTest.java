@@ -64,8 +64,8 @@ public class UserReferenceCopyTest extends AbstractCopyTest {
     @Test
     public void testWithValues() {
         UserReference orig = new UserReference();
-        orig.setReferenceNum(new StringWithCustomTags("PPP"));
-        orig.setType(new StringWithCustomTags("QQQ"));
+        orig.setReferenceNum("PPP");
+        orig.setType("QQQ");
         StringTree ct = new StringTree();
         ct.setTag("_RRR");
         ct.setValue("SSS");

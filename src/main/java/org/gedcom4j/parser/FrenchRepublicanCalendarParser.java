@@ -116,7 +116,7 @@ class FrenchRepublicanCalendarParser {
             // Probably a leap year
             if (frenchRepublicanYear % 100 == 0) {
                 // Must be divisible by 400 if it's also divisible by 100 to be a leap year
-                return (frenchRepublicanYear % 400 == 0);
+                return frenchRepublicanYear % 400 == 0;
             }
             return true;
         }

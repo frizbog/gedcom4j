@@ -463,6 +463,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      *
      * @return the xref
      */
+    @Override
     public String getXref() {
         return xref;
     }

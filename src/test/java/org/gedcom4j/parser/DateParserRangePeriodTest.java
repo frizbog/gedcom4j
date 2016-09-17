@@ -47,14 +47,14 @@ public class DateParserRangePeriodTest extends AbstractDateParserTest {
         assertDate(dp.parse("FROM 1 DEC 2017 TO 31 DEC 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2017, Calendar.DECEMBER, 1);
         assertDate(dp.parse("FROM 1 DEC 2017 TO 31 DEC 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 31);
         assertDate(dp.parse("FROM 1 DEC 2017 TO 31 DEC 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2017, Calendar.DECEMBER, 16);
-    
+
         assertDate(dp.parse("FROM 28 DEC 2017 TO 31 DEC 2017"), 2017, Calendar.DECEMBER, 28);
         assertDate(dp.parse("FROM 28 DEC 2017 TO 31 DEC 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2017, Calendar.DECEMBER,
                 28);
         assertDate(dp.parse("FROM 28 DEC 2017 TO 31 DEC 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 31);
         assertDate(dp.parse("FROM 28 DEC 2017 TO 31 DEC 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2017, Calendar.DECEMBER,
                 29);
-    
+
     }
 
     /**
@@ -67,17 +67,17 @@ public class DateParserRangePeriodTest extends AbstractDateParserTest {
         assertDate(dp.parse("FROM 2014 TO 1 DEC 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.JANUARY, 1);
         assertDate(dp.parse("FROM 2014 TO 1 DEC 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 1);
         assertDate(dp.parse("FROM 2014 TO 1 DEC 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.DECEMBER, 17);
-    
+
         assertDate(dp.parse("FROM 1 FEB 2014 TO 2017"), 2014, Calendar.FEBRUARY, 1);
         assertDate(dp.parse("FROM 1 FEB 2014 TO 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 1);
         assertDate(dp.parse("FROM 1 FEB 2014 TO 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 31);
         assertDate(dp.parse("FROM 1 FEB 2014 TO 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JANUARY, 16);
-    
+
         assertDate(dp.parse("FROM 1 FEB 2014 TO OCT 2017"), 2014, Calendar.FEBRUARY, 1);
         assertDate(dp.parse("FROM 1 FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 1);
         assertDate(dp.parse("FROM 1 FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.OCTOBER, 31);
         assertDate(dp.parse("FROM 1 FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.DECEMBER, 17);
-    
+
         assertDate(dp.parse("FROM 28 FEB 2014 TO OCT 2017"), 2014, Calendar.FEBRUARY, 28);
         assertDate(dp.parse("FROM 28 FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 28);
         assertDate(dp.parse("FROM 28 FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.OCTOBER, 31);
@@ -93,7 +93,7 @@ public class DateParserRangePeriodTest extends AbstractDateParserTest {
         assertDate(dp.parse("FROM JAN 2017 TO DEC 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2017, Calendar.JANUARY, 1);
         assertDate(dp.parse("FROM JAN 2017 TO DEC 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 31);
         assertDate(dp.parse("FROM JAN 2017 TO DEC 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2017, Calendar.JULY, 2);
-    
+
         assertDate(dp.parse("FROM FEB 2014 TO OCT 2017"), 2014, Calendar.FEBRUARY, 1);
         assertDate(dp.parse("FROM FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 1);
         assertDate(dp.parse("FROM FEB 2014 TO OCT 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.OCTOBER, 31);
@@ -113,7 +113,7 @@ public class DateParserRangePeriodTest extends AbstractDateParserTest {
         assertDate(dp.parse("TO. 17 JUL 2016", ImpreciseDatePreference.PRECISE), 2016, Calendar.JULY, 17);
         assertDate(dp.parse("TO JUL 2016", ImpreciseDatePreference.PRECISE), 2016, Calendar.JULY, 1);
         assertDate(dp.parse("TO 2016", ImpreciseDatePreference.PRECISE), 2016, Calendar.JANUARY, 1);
-    
+
         assertDate(dp.parse("FROM 17 JUL 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 17);
         assertDate(dp.parse("FROM. 17 JUL 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 17);
         assertDate(dp.parse("FROM JUL 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 1);
@@ -122,7 +122,7 @@ public class DateParserRangePeriodTest extends AbstractDateParserTest {
         assertDate(dp.parse("TO. 17 JUL 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 17);
         assertDate(dp.parse("TO JUL 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 1);
         assertDate(dp.parse("TO 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JANUARY, 1);
-    
+
         assertDate(dp.parse("FROM 17 JUL 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 17);
         assertDate(dp.parse("FROM. 17 JUL 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 17);
         assertDate(dp.parse("FROM JUL 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 31);
@@ -131,7 +131,7 @@ public class DateParserRangePeriodTest extends AbstractDateParserTest {
         assertDate(dp.parse("TO. 17 JUL 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 17);
         assertDate(dp.parse("TO JUL 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 31);
         assertDate(dp.parse("TO 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.DECEMBER, 31);
-    
+
         assertDate(dp.parse("FROM 17 JUL 2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 17);
         assertDate(dp.parse("FROM. 17 JUL 2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 17);
         assertDate(dp.parse("FROM JUL 2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 15);
@@ -163,14 +163,14 @@ public class DateParserRangePeriodTest extends AbstractDateParserTest {
         assertDate(dp.parse("BET 1 DEC 2017 AND 31 DEC 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2017, Calendar.DECEMBER, 1);
         assertDate(dp.parse("BET 1 DEC 2017 AND 31 DEC 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 31);
         assertDate(dp.parse("BET 1 DEC 2017 AND 31 DEC 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2017, Calendar.DECEMBER, 16);
-    
+
         assertDate(dp.parse("BET 28 DEC 2017 AND 31 DEC 2017"), 2017, Calendar.DECEMBER, 28);
         assertDate(dp.parse("BET 28 DEC 2017 AND 31 DEC 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2017, Calendar.DECEMBER,
                 28);
         assertDate(dp.parse("BET 28 DEC 2017 AND 31 DEC 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 31);
         assertDate(dp.parse("BET 28 DEC 2017 AND 31 DEC 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2017, Calendar.DECEMBER,
                 29);
-    
+
     }
 
     /**
@@ -183,17 +183,17 @@ public class DateParserRangePeriodTest extends AbstractDateParserTest {
         assertDate(dp.parse("BET 2014 AND 1 DEC 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.JANUARY, 1);
         assertDate(dp.parse("BET 2014 AND 1 DEC 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 1);
         assertDate(dp.parse("BET 2014 AND 1 DEC 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.DECEMBER, 17);
-    
+
         assertDate(dp.parse("BET 1 FEB 2014 AND 2017"), 2014, Calendar.FEBRUARY, 1);
         assertDate(dp.parse("BET 1 FEB 2014 AND 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 1);
         assertDate(dp.parse("BET 1 FEB 2014 AND 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 31);
         assertDate(dp.parse("BET 1 FEB 2014 AND 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JANUARY, 16);
-    
+
         assertDate(dp.parse("BET 1 FEB 2014 AND OCT 2017"), 2014, Calendar.FEBRUARY, 1);
         assertDate(dp.parse("BET 1 FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 1);
         assertDate(dp.parse("BET 1 FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.OCTOBER, 31);
         assertDate(dp.parse("BET 1 FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2015, Calendar.DECEMBER, 17);
-    
+
         assertDate(dp.parse("BET 28 FEB 2014 AND OCT 2017"), 2014, Calendar.FEBRUARY, 28);
         assertDate(dp.parse("BET 28 FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 28);
         assertDate(dp.parse("BET 28 FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.OCTOBER, 31);
@@ -209,7 +209,7 @@ public class DateParserRangePeriodTest extends AbstractDateParserTest {
         assertDate(dp.parse("BTW JAN 2017 AND DEC 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2017, Calendar.JANUARY, 1);
         assertDate(dp.parse("BTW JAN 2017 AND DEC 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.DECEMBER, 31);
         assertDate(dp.parse("BTW JAN 2017 AND DEC 2017", ImpreciseDatePreference.FAVOR_MIDPOINT), 2017, Calendar.JULY, 2);
-    
+
         assertDate(dp.parse("BTW FEB 2014 AND OCT 2017"), 2014, Calendar.FEBRUARY, 1);
         assertDate(dp.parse("BTW FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_EARLIEST), 2014, Calendar.FEBRUARY, 1);
         assertDate(dp.parse("BTW FEB 2014 AND OCT 2017", ImpreciseDatePreference.FAVOR_LATEST), 2017, Calendar.OCTOBER, 31);
@@ -229,7 +229,7 @@ public class DateParserRangePeriodTest extends AbstractDateParserTest {
         assertDate(dp.parse("AFT. 17 JUL 2016", ImpreciseDatePreference.PRECISE), 2016, Calendar.JULY, 17);
         assertDate(dp.parse("AFTER JUL 2016", ImpreciseDatePreference.PRECISE), 2016, Calendar.JULY, 1);
         assertDate(dp.parse("AFTER 2016", ImpreciseDatePreference.PRECISE), 2016, Calendar.JANUARY, 1);
-    
+
         assertDate(dp.parse("BEF 17 JUL 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 17);
         assertDate(dp.parse("BEF. 17 JUL 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 17);
         assertDate(dp.parse("BEFORE JUL 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 1);
@@ -238,7 +238,7 @@ public class DateParserRangePeriodTest extends AbstractDateParserTest {
         assertDate(dp.parse("AFT. 17 JUL 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 17);
         assertDate(dp.parse("AFTER JUL 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JULY, 1);
         assertDate(dp.parse("AFTER 2016", ImpreciseDatePreference.FAVOR_EARLIEST), 2016, Calendar.JANUARY, 1);
-    
+
         assertDate(dp.parse("BEF 17 JUL 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 17);
         assertDate(dp.parse("BEF. 17 JUL 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 17);
         assertDate(dp.parse("BEFORE JUL 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 31);
@@ -247,7 +247,7 @@ public class DateParserRangePeriodTest extends AbstractDateParserTest {
         assertDate(dp.parse("AFT. 17 JUL 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 17);
         assertDate(dp.parse("AFTER JUL 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.JULY, 31);
         assertDate(dp.parse("AFTER 2016", ImpreciseDatePreference.FAVOR_LATEST), 2016, Calendar.DECEMBER, 31);
-    
+
         assertDate(dp.parse("BEF 17 JUL 2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 17);
         assertDate(dp.parse("BEF. 17 JUL 2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 17);
         assertDate(dp.parse("BEFORE JUL 2016", ImpreciseDatePreference.FAVOR_MIDPOINT), 2016, Calendar.JULY, 15);

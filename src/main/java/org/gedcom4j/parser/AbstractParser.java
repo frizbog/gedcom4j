@@ -36,7 +36,6 @@ import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.SupportedVersion;
 
@@ -68,7 +67,7 @@ abstract class AbstractParser<T> {
      *            the object we are loading data into
      */
     AbstractParser(GedcomParser gedcomParser, StringTree stringTree, T loadInto) {
-        this.gedcomParser = (gedcomParser == null && this instanceof GedcomParser) ? ((GedcomParser) this) : gedcomParser;
+        this.gedcomParser = gedcomParser == null && this instanceof GedcomParser ? (GedcomParser) this : gedcomParser;
         this.stringTree = stringTree;
         this.loadInto = loadInto;
     }
@@ -203,7 +202,7 @@ abstract class AbstractParser<T> {
         s = gedcomParser.getGedcom().getSubmitters().get(xref);
         if (s == null) {
             s = new Submitter();
-            s.setName(new StringWithCustomTags("UNSPECIFIED"));
+            s.setName("UNSPECIFIED");
             s.setXref(xref);
             gedcomParser.getGedcom().getSubmitters().put(xref, s);
         }
@@ -287,7 +286,7 @@ abstract class AbstractParser<T> {
      *            collection of custom tags
      */
     protected void unknownTag(StringTree node, AbstractElement element) {
-        if (node.getTag().length() > 0 && (node.getTag().charAt(0) == '_') || !gedcomParser.isStrictCustomTags()) {
+        if (node.getTag().length() > 0 && node.getTag().charAt(0) == '_' || !gedcomParser.isStrictCustomTags()) {
             element.getCustomTags(true).add(node);
             return;
         }

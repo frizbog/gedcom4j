@@ -68,9 +68,9 @@ public class NoteCopyTest extends AbstractCopyTest {
     public void testValues() {
         Note orig = new Note();
         ChangeDate changeDate = new ChangeDate();
-        changeDate.setDate(new StringWithCustomTags("01 JAN 1970"));
+        changeDate.setDate("01 JAN 1970");
         orig.setChangeDate(changeDate);
-        orig.setRecIdNumber(new StringWithCustomTags("A"));
+        orig.setRecIdNumber("A");
         orig.setXref("B");
         orig.getLines(true).add("Line 1");
         orig.getLines(true).add("Line 2");

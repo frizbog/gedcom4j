@@ -32,7 +32,6 @@ import java.io.ByteArrayOutputStream;
 
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.model.Gedcom;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.Submitter;
 import org.junit.Test;
@@ -59,7 +58,7 @@ public class Issue97Test {
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
         // Note the newline in the middle of the value
-        s.setName(new StringWithCustomTags("Line break in middle of a wo\nrd"));
+        s.setName("Line break in middle of a wo\nrd");
         g.getSubmitters().put(s.getXref(), s);
         g.getHeader().setSubmitter(s);
 

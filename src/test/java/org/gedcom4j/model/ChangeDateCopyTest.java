@@ -64,8 +64,8 @@ public class ChangeDateCopyTest extends AbstractCopyTest {
     @Test
     public void testValues() {
         ChangeDate orig = new ChangeDate();
-        orig.setDate(new StringWithCustomTags("5 MAY 1905"));
-        orig.setTime(new StringWithCustomTags("12:00:00 Eastern"));
+        orig.setDate("5 MAY 1905");
+        orig.setTime("12:00:00 Eastern");
         Note n = new Note();
         n.getLines(true).add("Frying Pan");
         n.getLines().add("Tomato sauce");

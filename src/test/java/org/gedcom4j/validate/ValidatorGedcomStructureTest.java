@@ -32,7 +32,6 @@ import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Gedcom;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.Trailer;
@@ -71,7 +70,7 @@ public class ValidatorGedcomStructureTest extends AbstractValidatorTestCase {
     public void testTrailer() {
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
-        s.setName(new StringWithCustomTags("test"));
+        s.setName("test");
         gedcom.getSubmitters().put(s.getXref(), s);
         gedcom.setSubmission(new Submission("@SUBN0001@"));
         gedcom.getHeader().setSubmitter(s);

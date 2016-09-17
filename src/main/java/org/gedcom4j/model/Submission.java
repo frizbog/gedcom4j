@@ -267,6 +267,7 @@ public class Submission extends AbstractElement implements HasXref {
      *
      * @return the xref
      */
+    @Override
     public String getXref() {
         return xref;
     }
