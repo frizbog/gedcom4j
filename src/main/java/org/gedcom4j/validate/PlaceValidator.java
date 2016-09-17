@@ -56,7 +56,7 @@ class PlaceValidator extends AbstractValidator {
      *            the {@link Place} begin validated
      */
     PlaceValidator(Validator validator, Place place) {
-        this.validator = validator;
+        super(validator);
         this.place = place;
     }
 
@@ -70,10 +70,10 @@ class PlaceValidator extends AbstractValidator {
 
         mustHaveValueOrBeOmitted(place, "latitude");
         mustHaveValueOrBeOmitted(place, "longitude");
-        new NotesListValidator(validator, place).validate();
+        new NotesListValidator(getValidator(), place).validate();
         mustHaveValueOrBeOmitted(place, "placeFormat");
         if (place.getPlaceName() == null) {
-            validator.newFinding(place, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "placeName");
+            newFinding(place, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "placeName");
         }
 
         checkPhoneticVariations();
@@ -91,7 +91,7 @@ class PlaceValidator extends AbstractValidator {
         checkListOfModelElementsForDups(place, "phonetic");
         checkListOfModelElementsForNulls(place, "phonetic");
         for (AbstractNameVariation nv : place.getPhonetic()) {
-            new NameVariationValidator(validator, nv).validate();
+            new NameVariationValidator(getValidator(), nv).validate();
         }
     }
 
@@ -106,7 +106,7 @@ class PlaceValidator extends AbstractValidator {
         checkListOfModelElementsForDups(place, "romanized");
         checkListOfModelElementsForNulls(place, "romanized");
         for (AbstractNameVariation nv : place.getRomanized()) {
-            new NameVariationValidator(validator, nv).validate();
+            new NameVariationValidator(getValidator(), nv).validate();
         }
     }
 

@@ -84,7 +84,17 @@ abstract class AbstractValidator implements Serializable {
     /**
      * The root validator - the one that holds the collection of findings among other things.
      */
-    protected Validator validator;
+    private final Validator validator;
+
+    /**
+     * Instantiates a new abstract validator.
+     *
+     * @param v
+     *            the root {@link Validator} that tracks findings, etc.
+     */
+    protected AbstractValidator(Validator v) {
+        validator = v;
+    }
 
     /**
      * Check an object that has an alternate xref field (i.e., contains an xref but isn't named "xref")
@@ -548,6 +558,15 @@ abstract class AbstractValidator implements Serializable {
     }
 
     /**
+     * Get the validator
+     * 
+     * @return the validator
+     */
+    protected Validator getValidator() {
+        return validator;
+    }
+
+    /**
      * Initialize an uninitialized collection and mark the finding as repaired
      * 
      * @param finding
@@ -607,6 +626,17 @@ abstract class AbstractValidator implements Serializable {
                     .getName(), e);
         }
         return before;
+    }
+
+    /**
+     * Check if the finding can be auto-repaired. Delegates to the registered auto-repair responder, if any.
+     * 
+     * @param validationFinding
+     *            the validation finding
+     * @return true if the finding may be auto-repaired
+     */
+    protected boolean mayRepair(Finding validationFinding) {
+        return validator.mayRepair(validationFinding);
     }
 
     /**
@@ -792,6 +822,27 @@ abstract class AbstractValidator implements Serializable {
             return;
         }
         validator.newFinding(modelElement, Severity.ERROR, org.gedcom4j.validate.ProblemCode.ILLEGAL_VALUE, fieldName);
+    }
+
+    /**
+     * Create a finding - automatically adds to the results.
+     * 
+     * @param itemOfConcern
+     *            the item of concern. Required.
+     * @param severity
+     *            the severity. Required.
+     * @param problemCode
+     *            the problem code. Required.
+     * @param fieldNameOfConcern
+     *            the name of the field that has a problmatic value. Optional, but if supplied it needs to exist on the item of
+     *            concern as a field
+     * @throws IllegalArgumentException
+     *             if any of the arguments are null
+     * @return the finding just created and added to the results
+     */
+    protected Finding newFinding(ModelElement itemOfConcern, Severity severity, ProblemCode problemCode,
+            String fieldNameOfConcern) {
+        return validator.newFinding(itemOfConcern, severity, problemCode, fieldNameOfConcern);
     }
 
     /**

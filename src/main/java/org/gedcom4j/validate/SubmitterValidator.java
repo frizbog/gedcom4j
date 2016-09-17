@@ -60,7 +60,7 @@ class SubmitterValidator extends AbstractValidator {
      *            the submitter being validated
      */
     SubmitterValidator(Validator validator, Submitter submitter) {
-        this.validator = validator;
+        super(validator);
         this.submitter = submitter;
     }
 
@@ -75,9 +75,9 @@ class SubmitterValidator extends AbstractValidator {
         mustHaveValueOrBeOmitted(submitter, "recIdNumber");
         mustHaveValueOrBeOmitted(submitter, "regFileNumber");
         if (submitter.getAddress() != null) {
-            new AddressValidator(validator, submitter.getAddress()).validate();
+            new AddressValidator(getValidator(), submitter.getAddress()).validate();
         }
-        new NotesListValidator(validator, submitter).validate();
+        new NotesListValidator(getValidator(), submitter).validate();
     }
 
     /**
@@ -92,15 +92,15 @@ class SubmitterValidator extends AbstractValidator {
         DuplicateHandler<StringWithCustomTags> dh = new DuplicateHandler<>(languagePref);
         int dups = dh.count();
         if (dups > 0) {
-            Finding finding = validator.newFinding(submitter, Severity.ERROR, ProblemCode.DUPLICATE_VALUE, "languagePref");
-            if (validator.mayRepair(finding)) {
+            Finding finding = newFinding(submitter, Severity.ERROR, ProblemCode.DUPLICATE_VALUE, "languagePref");
+            if (mayRepair(finding)) {
                 Submitter before = new Submitter(submitter);
                 dh.remove();
                 finding.addRepair(new AutoRepair(before, new Submitter(submitter)));
             }
         }
         if (languagePref.size() > 3) {
-            validator.newFinding(submitter, Severity.ERROR, ProblemCode.TOO_MANY_VALUES, "languagePref");
+            newFinding(submitter, Severity.ERROR, ProblemCode.TOO_MANY_VALUES, "languagePref");
         }
         for (StringWithCustomTags s : languagePref) {
             mustBeInEnumIfSpecified(LanguageID.class, s, "value");

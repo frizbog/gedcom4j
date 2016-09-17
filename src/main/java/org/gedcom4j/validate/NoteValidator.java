@@ -54,7 +54,7 @@ class NoteValidator extends AbstractValidator {
      *            the note being validated
      */
     NoteValidator(Validator validator, Note note) {
-        this.validator = validator;
+        super(validator);
         this.note = note;
     }
 
@@ -65,7 +65,7 @@ class NoteValidator extends AbstractValidator {
     protected void validate() {
         checkUninitializedCollection(note, "lines");
         if (note.getXref() == null && (note.getLines() == null || note.getLines().isEmpty())) {
-            validator.newFinding(note, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "lines");
+            newFinding(note, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "lines");
         }
 
         mustHaveValueOrBeOmitted(note, "recIdNumber");

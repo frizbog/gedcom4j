@@ -54,7 +54,7 @@ class RepositoryValidator extends AbstractValidator {
      *            the repository being validated
      */
     RepositoryValidator(Validator validator, Repository repository) {
-        this.validator = validator;
+        super(validator);
         this.repository = repository;
     }
 
@@ -70,11 +70,11 @@ class RepositoryValidator extends AbstractValidator {
         checkUserReferences(repository.getUserReferences(), repository);
         mustHaveValueOrBeOmitted(repository, "recIdNumber");
         checkStringList(repository, "phoneNumbers", false);
-        new NotesListValidator(validator, repository).validate();
+        new NotesListValidator(getValidator(), repository).validate();
 
         Address a = repository.getAddress();
         if (a != null) {
-            new AddressValidator(validator, a).validate();
+            new AddressValidator(getValidator(), a).validate();
         }
 
     }

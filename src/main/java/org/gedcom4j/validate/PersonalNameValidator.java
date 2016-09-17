@@ -55,7 +55,7 @@ class PersonalNameValidator extends AbstractValidator {
      *            the personal name being validated
      */
     PersonalNameValidator(Validator validator, PersonalName pn) {
-        this.validator = validator;
+        super(validator);
         this.pn = pn;
     }
 
@@ -75,7 +75,7 @@ class PersonalNameValidator extends AbstractValidator {
         mustHaveValueOrBeOmitted(pn, "surname");
         mustHaveValueOrBeOmitted(pn, "surnamePrefix");
 
-        new NotesListValidator(validator, pn).validate();
+        new NotesListValidator(getValidator(), pn).validate();
 
         checkPhoneticVariations();
         checkRomanizedVariations();
@@ -92,7 +92,7 @@ class PersonalNameValidator extends AbstractValidator {
         checkListOfModelElementsForDups(pn, "phonetic");
         checkListOfModelElementsForNulls(pn, "phonetic");
         for (AbstractNameVariation nv : pn.getPhonetic()) {
-            new NameVariationValidator(validator, nv).validate();
+            new NameVariationValidator(getValidator(), nv).validate();
         }
     }
 
@@ -107,7 +107,7 @@ class PersonalNameValidator extends AbstractValidator {
         checkListOfModelElementsForDups(pn, "romanized");
         checkListOfModelElementsForNulls(pn, "romanized");
         for (AbstractNameVariation nv : pn.getRomanized()) {
-            new NameVariationValidator(validator, nv).validate();
+            new NameVariationValidator(getValidator(), nv).validate();
         }
     }
 }

@@ -56,7 +56,7 @@ class LdsSpouseSealingValidator extends AbstractValidator {
      *            the sealing being validated
      */
     LdsSpouseSealingValidator(Validator validator, LdsSpouseSealing s) {
-        this.validator = validator;
+        super(validator);
         this.s = s;
     }
 
@@ -67,7 +67,7 @@ class LdsSpouseSealingValidator extends AbstractValidator {
     protected void validate() {
         checkCitations(s);
         checkCustomTags(s);
-        new NotesListValidator(validator, s).validate();
+        new NotesListValidator(getValidator(), s).validate();
         mustHaveValueOrBeOmitted(s, "place");
         mustBeInEnumIfSpecified(LdsSpouseSealingDateStatus.class, s, "status");
         if (s.getStatus() != null && isSpecified(s.getStatus().getValue())) {

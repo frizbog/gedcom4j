@@ -67,7 +67,7 @@ public class IndividualAttributeValidator extends AbstractValidator {
      *            the individual attribute being validated
      */
     public IndividualAttributeValidator(Validator validator, IndividualAttribute ia) {
-        this.validator = validator;
+        super(validator);
         this.ia = ia;
     }
 
@@ -84,7 +84,7 @@ public class IndividualAttributeValidator extends AbstractValidator {
             mustHaveValue(ia, "description");
         }
         if (ia.getPlace() != null) {
-            new PlaceValidator(validator, ia.getPlace()).validate();
+            new PlaceValidator(getValidator(), ia.getPlace()).validate();
         }
 
         mustBeAgeFormatIfSpecified(ia, ia.getAge(), "age");
@@ -96,13 +96,13 @@ public class IndividualAttributeValidator extends AbstractValidator {
         checkEmails(ia);
         checkFaxNumbers(ia);
         checkMultimedia();
-        new NotesListValidator(validator, ia).validate();
+        new NotesListValidator(getValidator(), ia).validate();
         checkPhoneNumbers(ia);
         mustHaveValueOrBeOmitted(ia, "religiousAffiliation");
         mustHaveValueOrBeOmitted(ia, "respAgency");
         mustHaveValueOrBeOmitted(ia, "restrictionNotice");
         if (ia.getPlace() != null) {
-            new PlaceValidator(validator, ia.getPlace()).validate();
+            new PlaceValidator(getValidator(), ia.getPlace()).validate();
         }
         checkWwwUrls(ia);
 
@@ -118,7 +118,7 @@ public class IndividualAttributeValidator extends AbstractValidator {
             checkListOfModelElementsForDups(ia, "multimedia");
             checkListOfModelElementsForNulls(ia, "multimedia");
             for (Multimedia m : multimedia) {
-                new MultimediaValidator(validator, m).validate();
+                new MultimediaValidator(getValidator(), m).validate();
             }
         }
     }
@@ -143,7 +143,7 @@ public class IndividualAttributeValidator extends AbstractValidator {
                 return;
             }
         }
-        validator.newFinding(ev, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, fieldName);
+        newFinding(ev, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, fieldName);
     }
 
 }

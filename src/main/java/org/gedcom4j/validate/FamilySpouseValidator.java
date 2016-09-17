@@ -55,7 +55,7 @@ public class FamilySpouseValidator extends AbstractValidator {
      *            the family-spouse linkage structure
      */
     public FamilySpouseValidator(Validator validator, FamilySpouse fs) {
-        this.validator = validator;
+        super(validator);
         this.fs = fs;
     }
 

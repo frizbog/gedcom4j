@@ -57,7 +57,7 @@ public class MustBeInEnumTest extends AbstractValidatorTestCase {
          *            base validator that tracks issues, etc.
          */
         TestValidator(Validator validator) {
-            this.validator = validator;
+            super(validator);
         }
 
         /**

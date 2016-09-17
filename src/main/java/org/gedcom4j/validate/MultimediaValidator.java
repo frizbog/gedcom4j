@@ -67,15 +67,15 @@ class MultimediaValidator extends AbstractValidator {
      *            the multimedia object being validated
      */
     MultimediaValidator(Validator validator, Multimedia multimedia) {
-        this.validator = validator;
+        super(validator);
         if (validator == null) {
             throw new ValidationException("Validator passed in to MultimediaValidator constructor was null");
         }
         mm = multimedia;
         if (validator.getGedcom() == null || validator.getGedcom().getHeader() == null || validator.getGedcom().getHeader()
                 .getGedcomVersion() == null || validator.getGedcom().getHeader().getGedcomVersion().getVersionNumber() == null) {
-            Finding vf = validator.newFinding(mm, Severity.INFO, ProblemCode.UNABLE_TO_DETERMINE_GEDCOM_VERSION, null);
-            if (validator.mayRepair(vf)) {
+            Finding vf = newFinding(mm, Severity.INFO, ProblemCode.UNABLE_TO_DETERMINE_GEDCOM_VERSION, null);
+            if (mayRepair(vf)) {
                 Multimedia before = new Multimedia(mm);
                 gedcomVersion = SupportedVersion.V5_5_1;
                 vf.addRepair(new AutoRepair(before, new Multimedia(mm)));
@@ -136,8 +136,8 @@ class MultimediaValidator extends AbstractValidator {
         xrefMustBePresentAndWellFormed(mm);
 
         // Item should be found in map using the xref as the key
-        if (validator.getGedcom().getMultimedia().get(mm.getXref()) != mm) {
-            validator.newFinding(mm, Severity.ERROR, ProblemCode.CROSS_REFERENCE_NOT_FOUND, "xref");
+        if (getValidator().getGedcom().getMultimedia().get(mm.getXref()) != mm) {
+            newFinding(mm, Severity.ERROR, ProblemCode.CROSS_REFERENCE_NOT_FOUND, "xref");
         }
     }
 
@@ -159,8 +159,8 @@ class MultimediaValidator extends AbstractValidator {
 
         // Validate the citations - only allowed in 5.5.1
         if (mm.getCitations() != null && !mm.getCitations().isEmpty()) {
-            Finding vf = validator.newFinding(mm, Severity.ERROR, ProblemCode.NOT_ALLOWED_IN_GEDCOM_55, "");
-            if (validator.mayRepair(vf)) {
+            Finding vf = newFinding(mm, Severity.ERROR, ProblemCode.NOT_ALLOWED_IN_GEDCOM_55, "");
+            if (mayRepair(vf)) {
                 Multimedia before = new Multimedia(mm);
                 before.getCitations().clear();
                 vf.addRepair(new AutoRepair(before, new Multimedia(mm)));
@@ -185,8 +185,8 @@ class MultimediaValidator extends AbstractValidator {
 
         // Blobs must be empty in 5.5.1
         if (mm.getBlob() != null && !mm.getBlob().isEmpty()) {
-            Finding vf = validator.newFinding(mm, Severity.ERROR, ProblemCode.NOT_ALLOWED_IN_GEDCOM_551, "blob");
-            if (validator.mayRepair(vf)) {
+            Finding vf = newFinding(mm, Severity.ERROR, ProblemCode.NOT_ALLOWED_IN_GEDCOM_551, "blob");
+            if (mayRepair(vf)) {
                 Multimedia before = new Multimedia(mm);
                 mm.getBlob(true).clear();
                 vf.addRepair(new AutoRepair(before, new Multimedia(mm)));
@@ -195,8 +195,8 @@ class MultimediaValidator extends AbstractValidator {
 
         // Cannot have an embedded media format in 5.5.1
         if (mm.getEmbeddedMediaFormat() != null) {
-            Finding vf = validator.newFinding(mm, Severity.ERROR, ProblemCode.NOT_ALLOWED_IN_GEDCOM_551, "embeddedMediaFormat");
-            if (validator.mayRepair(vf)) {
+            Finding vf = newFinding(mm, Severity.ERROR, ProblemCode.NOT_ALLOWED_IN_GEDCOM_551, "embeddedMediaFormat");
+            if (mayRepair(vf)) {
                 Multimedia before = new Multimedia(mm);
                 mm.setEmbeddedMediaFormat((String) null);
                 vf.addRepair(new AutoRepair(before, new Multimedia(mm)));
@@ -217,10 +217,10 @@ class MultimediaValidator extends AbstractValidator {
         checkUserReferences();
         checkCitations(mm);
         if (mm.getContinuedObject() != null) {
-            new MultimediaValidator(validator, mm.getContinuedObject()).validate();
+            new MultimediaValidator(getValidator(), mm.getContinuedObject()).validate();
         }
         checkUninitializedCollection(mm, "blob");
-        new NotesListValidator(validator, mm).validate();
+        new NotesListValidator(getValidator(), mm).validate();
     }
 
 }

@@ -56,7 +56,7 @@ public class FamilyChildValidator extends AbstractValidator {
      *            the family-child linkage structure
      */
     public FamilyChildValidator(Validator validator, FamilyChild fc) {
-        this.validator = validator;
+        super(validator);
         this.fc = fc;
     }
 

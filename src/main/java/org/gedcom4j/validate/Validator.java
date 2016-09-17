@@ -66,7 +66,7 @@ import org.gedcom4j.model.Trailer;
  * @since 4.0.0
  */
 @SuppressWarnings({ "PMD.GodClass", "PMD.TooManyMethods" })
-public class Validator extends AbstractValidator {
+public class Validator implements Serializable {
 
     /**
      * Represents something of interest found by the validation module.
@@ -560,7 +560,6 @@ public class Validator extends AbstractValidator {
     /**
      * Validate the gedcom
      */
-    @Override
     public void validate() {
         results.clear();
         checkHeader();
@@ -721,6 +720,25 @@ public class Validator extends AbstractValidator {
                 new SubmitterValidator(this, entry.getValue()).validate();
             }
         }
+    }
+
+    /**
+     * Is the string supplied non-null, and has something other than whitespace in it?
+     * 
+     * @param s
+     *            the strings
+     * @return true if the string supplied non-null, and has something other than whitespace in it
+     */
+    private boolean isSpecified(String s) {
+        if (s == null || s.isEmpty()) {
+            return false;
+        }
+        for (int i = 0; i < s.length(); i++) {
+            if (!Character.isWhitespace(s.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

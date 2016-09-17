@@ -62,7 +62,7 @@ class FamilyValidator extends AbstractValidator {
      *            the family being validated
      */
     FamilyValidator(Validator validator, Family f) {
-        this.validator = validator;
+        super(validator);
         this.f = f;
     }
 
@@ -78,18 +78,18 @@ class FamilyValidator extends AbstractValidator {
         checkCustomTags(f);
         if (f.getEvents() != null) {
             for (AbstractEvent ev : f.getEvents()) {
-                new EventValidator(validator, ev).validate();
+                new EventValidator(getValidator(), ev).validate();
             }
         }
         if (f.getHusband() != null) {
-            new IndividualValidator(validator, f.getHusband()).validate();
+            new IndividualValidator(getValidator(), f.getHusband()).validate();
         }
         if (f.getWife() != null) {
-            new IndividualValidator(validator, f.getWife()).validate();
+            new IndividualValidator(getValidator(), f.getWife()).validate();
         }
         checkLdsSpouseSealings();
         checkMultimedia();
-        new NotesListValidator(validator, f).validate();
+        new NotesListValidator(getValidator(), f).validate();
         mustHaveValueOrBeOmitted(f, "numChildren");
         mustHaveValueOrBeOmitted(f, "recFileNumber");
         mustHaveValueOrBeOmitted(f, "restrictionNotice");
@@ -127,7 +127,7 @@ class FamilyValidator extends AbstractValidator {
             checkListOfModelElementsForDups(f, "ldsSpouseSealings");
             checkListOfModelElementsForNulls(f, "ldsSpouseSealings");
             for (LdsSpouseSealing s : ldsSpouseSealings) {
-                new LdsSpouseSealingValidator(validator, s).validate();
+                new LdsSpouseSealingValidator(getValidator(), s).validate();
             }
         }
     }
@@ -142,7 +142,7 @@ class FamilyValidator extends AbstractValidator {
             checkListOfModelElementsForDups(f, "multimedia");
             checkListOfModelElementsForNulls(f, "multimedia");
             for (Multimedia m : multimedia) {
-                new MultimediaValidator(validator, m).validate();
+                new MultimediaValidator(getValidator(), m).validate();
             }
         }
     }
@@ -157,7 +157,7 @@ class FamilyValidator extends AbstractValidator {
             checkListOfModelElementsForDups(f, "submitters");
             checkListOfModelElementsForNulls(f, "submitters");
             for (Submitter s : submitters) {
-                new SubmitterValidator(validator, s).validate();
+                new SubmitterValidator(getValidator(), s).validate();
             }
         }
     }

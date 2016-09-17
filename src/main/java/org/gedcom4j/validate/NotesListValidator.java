@@ -66,7 +66,7 @@ class NotesListValidator extends AbstractValidator {
      */
     @SuppressWarnings("unchecked")
     NotesListValidator(Validator validator, ModelElement parentObject) {
-        this.validator = validator;
+        super(validator);
         this.parentObject = parentObject;
         try {
             notes = (List<Note>) get(parentObject, "notes");
@@ -94,8 +94,8 @@ class NotesListValidator extends AbstractValidator {
         }
         DuplicateHandler<Note> dhn = new DuplicateHandler<>(notes);
         if (dhn.count() > 0) {
-            Finding vf = validator.newFinding(parentObject, Severity.WARNING, ProblemCode.DUPLICATE_VALUE, "notes");
-            if (validator.mayRepair(vf)) {
+            Finding vf = newFinding(parentObject, Severity.WARNING, ProblemCode.DUPLICATE_VALUE, "notes");
+            if (mayRepair(vf)) {
                 ModelElement before = makeCopy(parentObject);
                 dhn.remove();
                 vf.addRepair(new AutoRepair(before, makeCopy(parentObject)));
@@ -103,7 +103,7 @@ class NotesListValidator extends AbstractValidator {
         }
         checkForNullEntries(parentObject, "notes");
         for (Note n : notes) {
-            new NoteValidator(validator, n).validate();
+            new NoteValidator(getValidator(), n).validate();
         }
 
     }

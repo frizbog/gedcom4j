@@ -57,7 +57,7 @@ public class LdsIndividualOrdinanceValidator extends AbstractValidator {
      *            the ordinance to validate
      */
     public LdsIndividualOrdinanceValidator(Validator validator, LdsIndividualOrdinance o) {
-        this.validator = validator;
+        super(validator);
         this.o = o;
     }
 

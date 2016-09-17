@@ -54,7 +54,7 @@ public class SubmissionValidator extends AbstractValidator {
      *            the submission being validated
      */
     public SubmissionValidator(Validator validator, Submission submission) {
-        this.validator = validator;
+        super(validator);
         this.submission = submission;
     }
 
@@ -71,7 +71,7 @@ public class SubmissionValidator extends AbstractValidator {
         if (submission.getOrdinanceProcessFlag() != null && submission.getOrdinanceProcessFlag().getValue() != null && !"yes"
                 .equals(submission.getOrdinanceProcessFlag().getValue()) && !"no".equals(submission.getOrdinanceProcessFlag()
                         .getValue())) {
-            validator.newFinding(submission, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, "ordinanceProcessFlag");
+            newFinding(submission, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, "ordinanceProcessFlag");
         }
         mustHaveValueOrBeOmitted(submission, "recIdNumber");
         mustHaveValueOrBeOmitted(submission, "templeCode");

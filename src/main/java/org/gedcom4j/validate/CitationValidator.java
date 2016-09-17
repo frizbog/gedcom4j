@@ -62,7 +62,7 @@ class CitationValidator extends AbstractValidator {
      *            the citation being validated
      */
     CitationValidator(Validator validator, AbstractCitation citation) {
-        this.validator = validator;
+        super(validator);
         this.citation = citation;
     }
 
@@ -97,8 +97,8 @@ class CitationValidator extends AbstractValidator {
         }
         DuplicateHandler<List<String>> dh = new DuplicateHandler<>(textFromSource);
         if (dh.count() > 0) {
-            Finding vf = validator.newFinding(c, Severity.ERROR, ProblemCode.DUPLICATE_VALUE, "textFromSource");
-            if (validator.mayRepair(vf)) {
+            Finding vf = newFinding(c, Severity.ERROR, ProblemCode.DUPLICATE_VALUE, "textFromSource");
+            if (mayRepair(vf)) {
                 CitationWithoutSource before = new CitationWithoutSource(c);
                 dh.remove();
                 vf.addRepair(new AutoRepair(before, new CitationWithoutSource(c)));
@@ -113,7 +113,7 @@ class CitationValidator extends AbstractValidator {
     private void validateCitationWithSource() {
         CitationWithSource c = (CitationWithSource) citation;
         if (c.getSource() == null) {
-            validator.newFinding(c, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "source");
+            newFinding(c, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "source");
         }
         mustHaveValueOrBeOmitted(c, "whereInSource");
         mustHaveValueOrBeOmitted(c, "eventCited");
@@ -126,7 +126,7 @@ class CitationValidator extends AbstractValidator {
         if (c.getCertainty() != null && c.getCertainty().getValue() != null && !"0".equals(c.getCertainty().getValue()) && !"1"
                 .equals(c.getCertainty().getValue()) && !"2".equals(c.getCertainty().getValue()) && !"3".equals(c.getCertainty()
                         .getValue())) {
-            validator.newFinding(c, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, "certainty");
+            newFinding(c, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, "certainty");
         }
         checkUninitializedCollection(c, "data");
         checkListOfModelElementsForDups(c, "data");

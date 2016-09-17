@@ -66,7 +66,7 @@ class IndividualValidator extends AbstractValidator {
      *            the individual being validated
      */
     IndividualValidator(Validator validator, Individual individual) {
-        this.validator = validator;
+        super(validator);
         this.individual = individual;
     }
 
@@ -83,7 +83,7 @@ class IndividualValidator extends AbstractValidator {
             checkListOfModelElementsForNulls(individual, "names");
             for (PersonalName pn : names) {
                 if (pn != null) {
-                    new PersonalNameValidator(validator, pn).validate();
+                    new PersonalNameValidator(getValidator(), pn).validate();
                 }
             }
         }
@@ -92,7 +92,7 @@ class IndividualValidator extends AbstractValidator {
             checkListOfModelElementsForDups(individual, "familiesWhereChild");
             checkListOfModelElementsForNulls(individual, "familiesWhereChild");
             for (FamilyChild fc : individual.getFamiliesWhereChild()) {
-                new FamilyChildValidator(validator, fc).validate();
+                new FamilyChildValidator(getValidator(), fc).validate();
             }
         }
         checkUninitializedCollection(individual, "familiesWhereSpouse");
@@ -100,7 +100,7 @@ class IndividualValidator extends AbstractValidator {
             checkListOfModelElementsForDups(individual, "familiesWhereSpouse");
             checkListOfModelElementsForNulls(individual, "familiesWhereSpouse");
             for (FamilySpouse fs : individual.getFamiliesWhereSpouse()) {
-                new FamilySpouseValidator(validator, fs).validate();
+                new FamilySpouseValidator(getValidator(), fs).validate();
             }
         }
         if (individual.getRestrictionNotice() != null) {
@@ -153,7 +153,7 @@ class IndividualValidator extends AbstractValidator {
             checkListOfModelElementsForDups(individual, "attributes");
             checkListOfModelElementsForNulls(individual, "attributes");
             for (IndividualAttribute a : individual.getAttributes()) {
-                new IndividualAttributeValidator(validator, a).validate();
+                new IndividualAttributeValidator(getValidator(), a).validate();
             }
         }
     }
@@ -167,7 +167,7 @@ class IndividualValidator extends AbstractValidator {
             checkListOfModelElementsForDups(individual, "events");
             checkListOfModelElementsForNulls(individual, "events");
             for (IndividualEvent a : individual.getEvents()) {
-                new EventValidator(validator, a).validate();
+                new EventValidator(getValidator(), a).validate();
             }
         }
     }
@@ -181,7 +181,7 @@ class IndividualValidator extends AbstractValidator {
             checkListOfModelElementsForDups(individual, "ldsIndividualOrdinances");
             checkListOfModelElementsForNulls(individual, "ldsIndividualOrdinances");
             for (LdsIndividualOrdinance o : individual.getLdsIndividualOrdinances()) {
-                new LdsIndividualOrdinanceValidator(validator, o).validate();
+                new LdsIndividualOrdinanceValidator(getValidator(), o).validate();
             }
         }
     }
@@ -193,13 +193,13 @@ class IndividualValidator extends AbstractValidator {
         checkUninitializedCollection(individual, "ancestorInterest");
         if (individual.getAncestorInterest() != null) {
             for (Submitter submitter : individual.getAncestorInterest()) {
-                new SubmitterValidator(validator, submitter).validate();
+                new SubmitterValidator(getValidator(), submitter).validate();
             }
         }
         checkUninitializedCollection(individual, "descendantInterest");
         if (individual.getDescendantInterest() != null) {
             for (Submitter submitter : individual.getDescendantInterest()) {
-                new SubmitterValidator(validator, submitter).validate();
+                new SubmitterValidator(getValidator(), submitter).validate();
             }
         }
 

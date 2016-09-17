@@ -72,7 +72,7 @@ class EventValidator extends AbstractValidator {
      *            the event beign validated
      */
     EventValidator(Validator validator, AbstractEvent e) {
-        this.validator = validator;
+        super(validator);
         this.e = e;
     }
 
@@ -113,7 +113,7 @@ class EventValidator extends AbstractValidator {
             mustNotHaveValue(fe, "age");
         }
         if (e.getAddress() != null) {
-            new AddressValidator(validator, e.getAddress()).validate();
+            new AddressValidator(getValidator(), e.getAddress()).validate();
         }
         mustBeAgeFormatIfSpecified(e, e.getAge(), "age");
         mustHaveValueOrBeOmitted(e, "cause");
@@ -122,8 +122,8 @@ class EventValidator extends AbstractValidator {
         mustHaveValueOrBeOmitted(e, "date");
         mustBeDateIfSpecified(e, "date");
         if (e.getDescription() != null && e.getDescription().trim().length() != 0 && !"Y".equals(e.getDescription().trim())) {
-            Finding vf = validator.newFinding(e, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, "description");
-            if (validator.mayRepair(vf)) {
+            Finding vf = newFinding(e, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, "description");
+            if (mayRepair(vf)) {
                 ModelElement before = makeCopy(e);
                 Note n = new Note();
                 n.getLines(true).add(e.getDescription().getValue());
@@ -135,7 +135,7 @@ class EventValidator extends AbstractValidator {
         checkEmails(e);
         checkFaxNumbers(e);
         checkMultimedia();
-        new NotesListValidator(validator, e).validate();
+        new NotesListValidator(getValidator(), e).validate();
         checkPhoneNumbers(e);
         mustHaveValueOrBeOmitted(e, "religiousAffiliation");
         mustHaveValueOrBeOmitted(e, "respAgency");
@@ -144,7 +144,7 @@ class EventValidator extends AbstractValidator {
             mustBeInEnumIfSpecified(RestrictionNoticeType.class, e, "restrictionNotice");
         }
         if (e.getPlace() != null) {
-            new PlaceValidator(validator, e.getPlace()).validate();
+            new PlaceValidator(getValidator(), e.getPlace()).validate();
         }
         checkWwwUrls(e);
 
@@ -160,7 +160,7 @@ class EventValidator extends AbstractValidator {
             checkListOfModelElementsForDups(e, "multimedia");
             checkListOfModelElementsForNulls(e, "multimedia");
             for (Multimedia m : multimedia) {
-                new MultimediaValidator(validator, m).validate();
+                new MultimediaValidator(getValidator(), m).validate();
             }
         }
     }
@@ -185,6 +185,6 @@ class EventValidator extends AbstractValidator {
                 return;
             }
         }
-        validator.newFinding(ev, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, fieldName);
+        newFinding(ev, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, fieldName);
     }
 }

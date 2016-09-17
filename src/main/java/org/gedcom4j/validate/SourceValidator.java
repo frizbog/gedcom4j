@@ -63,7 +63,7 @@ class SourceValidator extends AbstractValidator {
      *            the source being validated
      */
     SourceValidator(Validator validator, Source source) {
-        this.validator = validator;
+        super(validator);
         this.source = source;
     }
 
@@ -76,11 +76,11 @@ class SourceValidator extends AbstractValidator {
         checkChangeDate(source.getChangeDate(), source);
         if (source.getData() != null) {
             SourceData sd = source.getData();
-            new NotesListValidator(validator, sd).validate();
+            new NotesListValidator(getValidator(), sd).validate();
             mustHaveValueOrBeOmitted(sd, "respAgency");
             List<EventRecorded> eventsRecorded = sd.getEventsRecorded();
             if (eventsRecorded == null) {
-                Finding vf = validator.newFinding(sd, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "eventsRecorded");
+                Finding vf = newFinding(sd, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "eventsRecorded");
                 initializeCollectionIfAllowed(vf);
             } else {
                 checkListOfModelElementsForDups(sd, "eventsRecorded");
@@ -98,10 +98,10 @@ class SourceValidator extends AbstractValidator {
             checkListOfModelElementsForDups(source, "multimedia");
             checkListOfModelElementsForNulls(source, "multimedia");
             for (Multimedia mm : source.getMultimedia()) {
-                new MultimediaValidator(validator, mm).validate();
+                new MultimediaValidator(getValidator(), mm).validate();
             }
         }
-        new NotesListValidator(validator, source).validate();
+        new NotesListValidator(getValidator(), source).validate();
         checkStringList(source, "originatorsAuthors", false);
         checkStringList(source, "publicationFacts", false);
         mustHaveValueOrBeOmitted(source, "recIdNumber");
@@ -112,7 +112,7 @@ class SourceValidator extends AbstractValidator {
 
         RepositoryCitation c = source.getRepositoryCitation();
         if (c != null) {
-            new NotesListValidator(validator, c).validate();
+            new NotesListValidator(getValidator(), c).validate();
             mustHaveValue(c, "repositoryXref");
             checkCallNumbers(c);
         }
@@ -133,7 +133,7 @@ class SourceValidator extends AbstractValidator {
                 mustHaveValueOrBeOmitted(scn, "callNumber");
                 if (scn.getCallNumber() == null) {
                     if (scn.getMediaType() != null) {
-                        validator.newFinding(scn, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, "mediaType");
+                        newFinding(scn, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, "mediaType");
                     }
                 } else {
                     mustHaveValueOrBeOmitted(scn, "mediaType");

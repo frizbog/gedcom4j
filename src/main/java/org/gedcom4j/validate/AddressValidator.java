@@ -56,7 +56,7 @@ class AddressValidator extends AbstractValidator {
      * 
      */
     AddressValidator(Validator validator, Address address) {
-        this.validator = validator;
+        super(validator);
         this.address = address;
     }
 

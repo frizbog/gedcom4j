@@ -55,7 +55,7 @@ class NameVariationValidator extends AbstractValidator {
      *            the name variation being validated
      */
     NameVariationValidator(Validator validator, AbstractNameVariation nv) {
-        this.validator = validator;
+        super(validator);
         this.nv = nv;
     }
 
