@@ -38,7 +38,7 @@ import java.util.List;
  * @param <T>
  *            The type of object in the List
  */
-public class DuplicateHandler<T> {
+class DuplicateHandler<T> {
 
     /**
      * The list of items from which duplicates are to be removed
@@ -51,17 +51,8 @@ public class DuplicateHandler<T> {
      * @param items
      *            the list of items to remove duplicate entries from.
      */
-    public DuplicateHandler(List<T> items) {
+    DuplicateHandler(List<T> items) {
         this.items = items;
-    }
-
-    /**
-     * Count the duplicates in the list
-     * 
-     * @return the number of duplicated items counted
-     */
-    public int count() {
-        return process(false);
     }
 
     /**
@@ -71,6 +62,15 @@ public class DuplicateHandler<T> {
      */
     public int remove() {
         return process(true);
+    }
+
+    /**
+     * Count the duplicates in the list
+     * 
+     * @return the number of duplicated items counted
+     */
+    int count() {
+        return process(false);
     }
 
     /**

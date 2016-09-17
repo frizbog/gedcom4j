@@ -72,8 +72,8 @@ import org.gedcom4j.parser.event.ParseProgressListener;
  * data while parsing. Most commonly, the <code>warnings</code> collection will have information about tags from GEDCOM 5.5.1 that
  * were specified in a file that was designated as a GEDCOM 5.5 file. When this occurs, the data is loaded, but will not be able to
  * be written by {@link org.gedcom4j.writer.GedcomWriter} until the version number in the <code>gedcomVersion</code> field of
- * {@link Gedcom#header} is updated to {@link org.gedcom4j.model.enumerations.SupportedVersion#V5_5_1}, or the 5.5.1-specific data is cleared
- * from the data.
+ * {@link Gedcom#header} is updated to {@link org.gedcom4j.model.enumerations.SupportedVersion#V5_5_1}, or the 5.5.1-specific data
+ * is cleared from the data.
  * </p>
  * <p>
  * The parser takes a "forgiving" approach where it tries to load as much data as possible, including 5.5.1 data in a file that says

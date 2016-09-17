@@ -67,6 +67,5 @@ class NameVariationValidator extends AbstractValidator {
         checkCustomTags(nv);
         mustHaveValue(nv, "variation");
         mustHaveValueOrBeOmitted(nv, "variationType");
-
     }
 }

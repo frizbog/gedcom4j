@@ -26,7 +26,12 @@
  */
 package org.gedcom4j.validate;
 
+import java.util.List;
+
+import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.IndividualAttribute;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.enumerations.IndividualAttributeType;
 
 /**
@@ -40,6 +45,12 @@ public class IndividualAttributeValidator extends AbstractValidator {
      * Serial Version UID
      */
     private static final long serialVersionUID = 9121742173084690556L;
+
+    /**
+     * Regexes that match the age formats defined in AGE_AT_EVENT structure
+     */
+    private static final String[] AGE_FORMATS = { "CHILD", "INFANT", "STILLBORN", "[<>]?\\s?\\d+y", "[<>]?\\s?\\d+m",
+            "[<>]\\s?\\d+d", "[<>]\\s?\\d+y \\d+m \\d+d", "[<>]\\s?\\d+y \\d+m", "[<>]\\s?\\d+y \\d+d", "[<>]\\s?\\d+m \\d+d" };
 
     /**
      * The individual attribute being validated
@@ -72,7 +83,67 @@ public class IndividualAttributeValidator extends AbstractValidator {
         if (ia.getType() != IndividualAttributeType.RESIDENCE) {
             mustHaveValue(ia, "description");
         }
+        if (ia.getPlace() != null) {
+            new PlaceValidator(validator, ia.getPlace()).validate();
+        }
+
+        mustBeAgeFormatIfSpecified(ia, ia.getAge(), "age");
+        mustHaveValueOrBeOmitted(ia, "cause");
+        checkCitations(ia);
         checkCustomTags(ia);
+        mustHaveValueOrBeOmitted(ia, "date");
+        mustBeDateIfSpecified(ia, "date");
+        checkEmails(ia);
+        checkFaxNumbers(ia);
+        checkMultimedia();
+        new NotesListValidator(validator, ia).validate();
+        checkPhoneNumbers(ia);
+        mustHaveValueOrBeOmitted(ia, "religiousAffiliation");
+        mustHaveValueOrBeOmitted(ia, "respAgency");
+        mustHaveValueOrBeOmitted(ia, "restrictionNotice");
+        if (ia.getPlace() != null) {
+            new PlaceValidator(validator, ia.getPlace()).validate();
+        }
+        checkWwwUrls(ia);
+
+    }
+
+    /**
+     * Check the multimedia
+     */
+    private void checkMultimedia() {
+        checkUninitializedCollection(ia, "multimedia");
+        List<Multimedia> multimedia = ia.getMultimedia();
+        if (multimedia != null) {
+            checkListOfModelElementsForDups(ia, "multimedia");
+            checkListOfModelElementsForNulls(ia, "multimedia");
+            for (Multimedia m : multimedia) {
+                new MultimediaValidator(validator, m).validate();
+            }
+        }
+    }
+
+    /**
+     * Age values must be in proper format if specified
+     * 
+     * @param ev
+     *            the event
+     * @param val
+     *            the age value to be checked
+     * @param fieldName
+     *            the name of the age field
+     */
+    private void mustBeAgeFormatIfSpecified(AbstractEvent ev, StringWithCustomTags val, String fieldName) {
+        if (val == null || !isSpecified(val.getValue())) {
+            return;
+        }
+        String s = val.getValue().trim();
+        for (String regex : AGE_FORMATS) {
+            if (regex.matches(s)) {
+                return;
+            }
+        }
+        validator.newFinding(ev, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, fieldName);
     }
 
 }

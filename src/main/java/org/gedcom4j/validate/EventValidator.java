@@ -139,6 +139,9 @@ class EventValidator extends AbstractValidator {
         mustHaveValueOrBeOmitted(e, "religiousAffiliation");
         mustHaveValueOrBeOmitted(e, "respAgency");
         mustHaveValueOrBeOmitted(e, "restrictionNotice");
+        if (e.getPlace() != null) {
+            new PlaceValidator(validator, e.getPlace()).validate();
+        }
         checkWwwUrls(e);
 
     }

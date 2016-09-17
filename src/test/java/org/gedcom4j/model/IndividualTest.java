@@ -170,7 +170,8 @@ public class IndividualTest {
     }
 
     /**
-     * Test method for {@link org.gedcom4j.model.Individual#getAttributesOfType(org.gedcom4j.model.enumerations.IndividualAttributeType)} .
+     * Test method for
+     * {@link org.gedcom4j.model.Individual#getAttributesOfType(org.gedcom4j.model.enumerations.IndividualAttributeType)} .
      */
     @Test
     public void testGetAttributesOfType() {

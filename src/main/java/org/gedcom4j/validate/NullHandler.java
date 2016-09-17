@@ -36,7 +36,7 @@ import java.util.List;
  * @param <T>
  *            The type of object in the List
  */
-public class NullHandler<T> {
+class NullHandler<T> {
 
     /**
      * The list of items from which duplicates are to be removed
@@ -49,17 +49,8 @@ public class NullHandler<T> {
      * @param items
      *            the list of items to remove duplicate entries from.
      */
-    public NullHandler(List<T> items) {
+    NullHandler(List<T> items) {
         this.items = items;
-    }
-
-    /**
-     * Count the nulls in the list
-     * 
-     * @return the number of null items counted
-     */
-    public int count() {
-        return process(false);
     }
 
     /**
@@ -69,6 +60,15 @@ public class NullHandler<T> {
      */
     public int remove() {
         return process(true);
+    }
+
+    /**
+     * Count the nulls in the list
+     * 
+     * @return the number of null items counted
+     */
+    int count() {
+        return process(false);
     }
 
     /**
