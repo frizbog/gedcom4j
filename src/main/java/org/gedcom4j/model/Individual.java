@@ -979,6 +979,16 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      * @param ancestralFileNumber
      *            the new ancestral file number
      */
+    public void setAncestralFileNumber(String ancestralFileNumber) {
+        this.ancestralFileNumber = ancestralFileNumber == null ? null : new StringWithCustomTags(ancestralFileNumber);
+    }
+
+    /**
+     * Sets the ancestral file number.
+     *
+     * @param ancestralFileNumber
+     *            the new ancestral file number
+     */
     public void setAncestralFileNumber(StringWithCustomTags ancestralFileNumber) {
         this.ancestralFileNumber = ancestralFileNumber;
     }
@@ -999,8 +1009,28 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      * @param permanentRecFileNumber
      *            the new permanent rec file number
      */
+    public void setPermanentRecFileNumber(String permanentRecFileNumber) {
+        this.permanentRecFileNumber = permanentRecFileNumber == null ? null : new StringWithCustomTags(permanentRecFileNumber);
+    }
+
+    /**
+     * Sets the permanent rec file number.
+     *
+     * @param permanentRecFileNumber
+     *            the new permanent rec file number
+     */
     public void setPermanentRecFileNumber(StringWithCustomTags permanentRecFileNumber) {
         this.permanentRecFileNumber = permanentRecFileNumber;
+    }
+
+    /**
+     * Sets the rec id number.
+     *
+     * @param recIdNumber
+     *            the new rec id number
+     */
+    public void setRecIdNumber(String recIdNumber) {
+        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomTags(recIdNumber);
     }
 
     /**
@@ -1019,8 +1049,28 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      * @param restrictionNotice
      *            the new restriction notice
      */
+    public void setRestrictionNotice(String restrictionNotice) {
+        this.restrictionNotice = restrictionNotice == null ? null : new StringWithCustomTags(restrictionNotice);
+    }
+
+    /**
+     * Sets the restriction notice.
+     *
+     * @param restrictionNotice
+     *            the new restriction notice
+     */
     public void setRestrictionNotice(StringWithCustomTags restrictionNotice) {
         this.restrictionNotice = restrictionNotice;
+    }
+
+    /**
+     * Sets the sex.
+     *
+     * @param sex
+     *            the new sex
+     */
+    public void setSex(String sex) {
+        this.sex = sex == null ? null : new StringWithCustomTags(sex);
     }
 
     /**

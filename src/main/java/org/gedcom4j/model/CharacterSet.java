@@ -138,8 +138,28 @@ public class CharacterSet extends AbstractElement {
      * @param characterSetName
      *            the new character set name
      */
+    public void setCharacterSetName(String characterSetName) {
+        this.characterSetName = characterSetName == null ? null : new StringWithCustomTags(characterSetName);
+    }
+
+    /**
+     * Sets the character set name.
+     *
+     * @param characterSetName
+     *            the new character set name
+     */
     public void setCharacterSetName(StringWithCustomTags characterSetName) {
         this.characterSetName = characterSetName;
+    }
+
+    /**
+     * Sets the version num.
+     *
+     * @param versionNum
+     *            the new version num
+     */
+    public void setVersionNum(String versionNum) {
+        this.versionNum = versionNum == null ? null : new StringWithCustomTags(versionNum);
     }
 
     /**

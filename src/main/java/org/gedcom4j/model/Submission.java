@@ -295,8 +295,28 @@ public class Submission extends AbstractElement implements HasXref {
      * @param ancestorsCount
      *            the new ancestors count
      */
+    public void setAncestorsCount(String ancestorsCount) {
+        this.ancestorsCount = ancestorsCount == null ? null : new StringWithCustomTags(ancestorsCount);
+    }
+
+    /**
+     * Sets the ancestors count.
+     *
+     * @param ancestorsCount
+     *            the new ancestors count
+     */
     public void setAncestorsCount(StringWithCustomTags ancestorsCount) {
         this.ancestorsCount = ancestorsCount;
+    }
+
+    /**
+     * Sets the descendants count.
+     *
+     * @param descendantsCount
+     *            the new descendants count
+     */
+    public void setDescendantsCount(String descendantsCount) {
+        this.descendantsCount = descendantsCount == null ? null : new StringWithCustomTags(descendantsCount);
     }
 
     /**
@@ -315,6 +335,16 @@ public class Submission extends AbstractElement implements HasXref {
      * @param nameOfFamilyFile
      *            the new name of family file
      */
+    public void setNameOfFamilyFile(String nameOfFamilyFile) {
+        this.nameOfFamilyFile = nameOfFamilyFile == null ? null : new StringWithCustomTags(nameOfFamilyFile);
+    }
+
+    /**
+     * Sets the name of family file.
+     *
+     * @param nameOfFamilyFile
+     *            the new name of family file
+     */
     public void setNameOfFamilyFile(StringWithCustomTags nameOfFamilyFile) {
         this.nameOfFamilyFile = nameOfFamilyFile;
     }
@@ -325,8 +355,28 @@ public class Submission extends AbstractElement implements HasXref {
      * @param ordinanceProcessFlag
      *            the new ordinance process flag
      */
+    public void setOrdinanceProcessFlag(String ordinanceProcessFlag) {
+        this.ordinanceProcessFlag = ordinanceProcessFlag == null ? null : new StringWithCustomTags(ordinanceProcessFlag);
+    }
+
+    /**
+     * Sets the ordinance process flag.
+     *
+     * @param ordinanceProcessFlag
+     *            the new ordinance process flag
+     */
     public void setOrdinanceProcessFlag(StringWithCustomTags ordinanceProcessFlag) {
         this.ordinanceProcessFlag = ordinanceProcessFlag;
+    }
+
+    /**
+     * Sets the rec id number.
+     *
+     * @param recIdNumber
+     *            the new rec id number
+     */
+    public void setRecIdNumber(String recIdNumber) {
+        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomTags(recIdNumber);
     }
 
     /**
@@ -347,6 +397,16 @@ public class Submission extends AbstractElement implements HasXref {
      */
     public void setSubmitter(Submitter submitter) {
         this.submitter = submitter;
+    }
+
+    /**
+     * Sets the temple code.
+     *
+     * @param templeCode
+     *            the new temple code
+     */
+    public void setTempleCode(String templeCode) {
+        this.templeCode = templeCode == null ? null : new StringWithCustomTags(templeCode);
     }
 
     /**

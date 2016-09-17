@@ -212,6 +212,16 @@ public class Association extends AbstractNotesElement {
      * @param associatedEntityType
      *            the new associated entity type
      */
+    public void setAssociatedEntityType(String associatedEntityType) {
+        this.associatedEntityType = associatedEntityType == null ? null : new StringWithCustomTags(associatedEntityType);
+    }
+
+    /**
+     * Sets the associated entity type.
+     *
+     * @param associatedEntityType
+     *            the new associated entity type
+     */
     public void setAssociatedEntityType(StringWithCustomTags associatedEntityType) {
         this.associatedEntityType = associatedEntityType;
     }
@@ -224,6 +234,16 @@ public class Association extends AbstractNotesElement {
      */
     public void setAssociatedEntityXref(String associatedEntityXref) {
         this.associatedEntityXref = associatedEntityXref;
+    }
+
+    /**
+     * Sets the relationship.
+     *
+     * @param relationship
+     *            the new relationship
+     */
+    public void setRelationship(String relationship) {
+        this.relationship = relationship == null ? null : new StringWithCustomTags(relationship);
     }
 
     /**

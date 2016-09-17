@@ -303,6 +303,16 @@ public class Note extends AbstractElement implements HasCitations, HasXref {
      * @param recIdNumber
      *            the new rec id number
      */
+    public void setRecIdNumber(String recIdNumber) {
+        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomTags(recIdNumber);
+    }
+
+    /**
+     * Sets the rec id number.
+     *
+     * @param recIdNumber
+     *            the new rec id number
+     */
     public void setRecIdNumber(StringWithCustomTags recIdNumber) {
         this.recIdNumber = recIdNumber;
     }

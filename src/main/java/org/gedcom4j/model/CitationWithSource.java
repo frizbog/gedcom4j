@@ -311,6 +311,16 @@ public class CitationWithSource extends AbstractCitation {
      * @param certainty
      *            the new certainty
      */
+    public void setCertainty(String certainty) {
+        this.certainty = certainty == null ? null : new StringWithCustomTags(certainty);
+    }
+
+    /**
+     * Sets the certainty.
+     *
+     * @param certainty
+     *            the new certainty
+     */
     public void setCertainty(StringWithCustomTags certainty) {
         this.certainty = certainty;
     }
@@ -321,8 +331,28 @@ public class CitationWithSource extends AbstractCitation {
      * @param eventCited
      *            the new event cited
      */
+    public void setEventCited(String eventCited) {
+        this.eventCited = eventCited == null ? null : new StringWithCustomTags(eventCited);
+    }
+
+    /**
+     * Sets the event cited.
+     *
+     * @param eventCited
+     *            the new event cited
+     */
     public void setEventCited(StringWithCustomTags eventCited) {
         this.eventCited = eventCited;
+    }
+
+    /**
+     * Sets the role in event.
+     *
+     * @param roleInEvent
+     *            the new role in event
+     */
+    public void setRoleInEvent(String roleInEvent) {
+        this.roleInEvent = roleInEvent == null ? null : new StringWithCustomTags(roleInEvent);
     }
 
     /**
@@ -343,6 +373,16 @@ public class CitationWithSource extends AbstractCitation {
      */
     public void setSource(Source source) {
         this.source = source;
+    }
+
+    /**
+     * Sets where in the source is being cited
+     *
+     * @param whereInSource
+     *            where in the source is being cited
+     */
+    public void setWhereInSource(String whereInSource) {
+        this.whereInSource = whereInSource == null ? null : new StringWithCustomTags(whereInSource);
     }
 
     /**

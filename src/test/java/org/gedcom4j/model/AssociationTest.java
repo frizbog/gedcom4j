@@ -53,9 +53,9 @@ public class AssociationTest {
         assertFalse(a1.equals(a2));
         a2.setAssociatedEntityType(new StringWithCustomTags("Frying Pan"));
         assertEquals(a1, a2);
-        a1.setAssociatedEntityType(null);
+        a1.setAssociatedEntityType((String) null);
         assertFalse(a1.equals(a2));
-        a2.setAssociatedEntityType(null);
+        a2.setAssociatedEntityType((String) null);
         assertEquals(a1, a2);
 
         a1.setAssociatedEntityXref("Frying Pan");
@@ -71,9 +71,9 @@ public class AssociationTest {
         assertFalse(a1.equals(a2));
         a2.setRelationship(new StringWithCustomTags("Frying Pan"));
         assertEquals(a1, a2);
-        a1.setRelationship(null);
+        a1.setRelationship((String) null);
         assertFalse(a1.equals(a2));
-        a2.setRelationship(null);
+        a2.setRelationship((String) null);
         assertEquals(a1, a2);
 
         a1.getCitations(true).add(new CitationWithSource());
@@ -112,9 +112,9 @@ public class AssociationTest {
         assertFalse(a1.hashCode() == a2.hashCode());
         a2.setAssociatedEntityType(new StringWithCustomTags("Frying Pan"));
         assertEquals(a1.hashCode(), a2.hashCode());
-        a1.setAssociatedEntityType(null);
+        a1.setAssociatedEntityType((String) null);
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.setAssociatedEntityType(null);
+        a2.setAssociatedEntityType((String) null);
         assertEquals(a1.hashCode(), a2.hashCode());
 
         a1.setAssociatedEntityXref("Frying Pan");
@@ -130,9 +130,9 @@ public class AssociationTest {
         assertFalse(a1.hashCode() == a2.hashCode());
         a2.setRelationship(new StringWithCustomTags("Frying Pan"));
         assertEquals(a1.hashCode(), a2.hashCode());
-        a1.setRelationship(null);
+        a1.setRelationship((String) null);
         assertFalse(a1.hashCode() == a2.hashCode());
-        a2.setRelationship(null);
+        a2.setRelationship((String) null);
         assertEquals(a1.hashCode(), a2.hashCode());
 
         a1.getCitations(true).add(new CitationWithSource());

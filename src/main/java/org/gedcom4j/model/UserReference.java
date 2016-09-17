@@ -138,8 +138,28 @@ public class UserReference extends AbstractElement {
      * @param referenceNum
      *            the new reference num
      */
+    public void setReferenceNum(String referenceNum) {
+        this.referenceNum = referenceNum == null ? null : new StringWithCustomTags(referenceNum);
+    }
+
+    /**
+     * Sets the reference num.
+     *
+     * @param referenceNum
+     *            the new reference num
+     */
     public void setReferenceNum(StringWithCustomTags referenceNum) {
         this.referenceNum = referenceNum;
+    }
+
+    /**
+     * Sets the type.
+     *
+     * @param type
+     *            the new type
+     */
+    public void setType(String type) {
+        this.type = type == null ? null : new StringWithCustomTags(type);
     }
 
     /**

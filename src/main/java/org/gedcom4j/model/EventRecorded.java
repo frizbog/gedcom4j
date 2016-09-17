@@ -160,6 +160,16 @@ public class EventRecorded extends AbstractElement {
      * @param datePeriod
      *            the new date period
      */
+    public void setDatePeriod(String datePeriod) {
+        this.datePeriod = datePeriod == null ? null : new StringWithCustomTags(datePeriod);
+    }
+
+    /**
+     * Sets the date period.
+     *
+     * @param datePeriod
+     *            the new date period
+     */
     public void setDatePeriod(StringWithCustomTags datePeriod) {
         this.datePeriod = datePeriod;
     }
@@ -172,6 +182,16 @@ public class EventRecorded extends AbstractElement {
      */
     public void setEventType(String eventType) {
         this.eventType = eventType;
+    }
+
+    /**
+     * Sets the jurisdiction.
+     *
+     * @param jurisdiction
+     *            the new jurisdiction
+     */
+    public void setJurisdiction(String jurisdiction) {
+        this.jurisdiction = jurisdiction == null ? null : new StringWithCustomTags(jurisdiction);
     }
 
     /**

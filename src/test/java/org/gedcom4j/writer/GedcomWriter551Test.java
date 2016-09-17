@@ -112,7 +112,7 @@ public class GedcomWriter551Test {
         // be fine
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         m.getBlob().clear();
-        m.setEmbeddedMediaFormat(null);
+        m.setEmbeddedMediaFormat((String) null);
         gw.write("tmp/delete-me.ged");
 
     }

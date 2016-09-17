@@ -158,6 +158,16 @@ public class CitationData extends AbstractElement {
      * @param entryDate
      *            the new entry date
      */
+    public void setEntryDate(String entryDate) {
+        this.entryDate = entryDate == null ? null : new StringWithCustomTags(entryDate);
+    }
+
+    /**
+     * Sets the entry date.
+     *
+     * @param entryDate
+     *            the new entry date
+     */
     public void setEntryDate(StringWithCustomTags entryDate) {
         this.entryDate = entryDate;
     }

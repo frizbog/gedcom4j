@@ -136,8 +136,28 @@ public class SourceCallNumber extends AbstractElement {
      * @param callNumber
      *            the new call number
      */
+    public void setCallNumber(String callNumber) {
+        this.callNumber = callNumber == null ? null : new StringWithCustomTags(callNumber);
+    }
+
+    /**
+     * Sets the call number.
+     *
+     * @param callNumber
+     *            the new call number
+     */
     public void setCallNumber(StringWithCustomTags callNumber) {
         this.callNumber = callNumber;
+    }
+
+    /**
+     * Sets the media type.
+     *
+     * @param mediaType
+     *            the new media type
+     */
+    public void setMediaType(String mediaType) {
+        this.mediaType = mediaType == null ? null : new StringWithCustomTags(mediaType);
     }
 
     /**

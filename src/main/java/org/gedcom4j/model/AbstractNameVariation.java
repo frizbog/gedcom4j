@@ -146,6 +146,16 @@ public abstract class AbstractNameVariation extends AbstractElement {
      * @param variationType
      *            the new variation type
      */
+    public void setVariationType(String variationType) {
+        this.variationType = new StringWithCustomTags(variationType);
+    }
+
+    /**
+     * Sets the variation type.
+     *
+     * @param variationType
+     *            the new variation type
+     */
     public void setVariationType(StringWithCustomTags variationType) {
         this.variationType = variationType;
     }

@@ -321,6 +321,16 @@ public class Place extends AbstractNotesElement implements HasCitations {
      * @param latitude
      *            the new latitude
      */
+    public void setLatitude(String latitude) {
+        this.latitude = latitude == null ? null : new StringWithCustomTags(latitude);
+    }
+
+    /**
+     * Sets the latitude.
+     *
+     * @param latitude
+     *            the new latitude
+     */
     public void setLatitude(StringWithCustomTags latitude) {
         this.latitude = latitude;
     }
@@ -331,8 +341,28 @@ public class Place extends AbstractNotesElement implements HasCitations {
      * @param longitude
      *            the new longitude
      */
+    public void setLongitude(String longitude) {
+        this.longitude = longitude == null ? null : new StringWithCustomTags(longitude);
+    }
+
+    /**
+     * Sets the longitude.
+     *
+     * @param longitude
+     *            the new longitude
+     */
     public void setLongitude(StringWithCustomTags longitude) {
         this.longitude = longitude;
+    }
+
+    /**
+     * Sets the place format.
+     *
+     * @param placeFormat
+     *            the new place format
+     */
+    public void setPlaceFormat(String placeFormat) {
+        this.placeFormat = placeFormat == null ? null : new StringWithCustomTags(placeFormat);
     }
 
     /**

@@ -424,6 +424,16 @@ public class Header extends AbstractNotesElement {
      * @param date
      *            the new date
      */
+    public void setDate(String date) {
+        this.date = new StringWithCustomTags(date);
+    }
+
+    /**
+     * Sets the date.
+     *
+     * @param date
+     *            the new date
+     */
     public void setDate(StringWithCustomTags date) {
         this.date = date;
     }
@@ -434,8 +444,28 @@ public class Header extends AbstractNotesElement {
      * @param destinationSystem
      *            the new destination system
      */
+    public void setDestinationSystem(String destinationSystem) {
+        this.destinationSystem = destinationSystem == null ? null : new StringWithCustomTags(destinationSystem);
+    }
+
+    /**
+     * Sets the destination system.
+     *
+     * @param destinationSystem
+     *            the new destination system
+     */
     public void setDestinationSystem(StringWithCustomTags destinationSystem) {
         this.destinationSystem = destinationSystem;
+    }
+
+    /**
+     * Sets the file name.
+     *
+     * @param fileName
+     *            the new file name
+     */
+    public void setFileName(String fileName) {
+        this.fileName = fileName == null ? null : new StringWithCustomTags(fileName);
     }
 
     /**
@@ -464,8 +494,28 @@ public class Header extends AbstractNotesElement {
      * @param language
      *            the new language
      */
+    public void setLanguage(String language) {
+        this.language = language == null ? null : new StringWithCustomTags(language);
+    }
+
+    /**
+     * Sets the language.
+     *
+     * @param language
+     *            the new language
+     */
     public void setLanguage(StringWithCustomTags language) {
         this.language = language;
+    }
+
+    /**
+     * Sets the place hierarchy.
+     *
+     * @param placeHierarchy
+     *            the new place hierarchy
+     */
+    public void setPlaceHierarchy(String placeHierarchy) {
+        this.placeHierarchy = placeHierarchy == null ? null : new StringWithCustomTags(placeHierarchy);
     }
 
     /**
@@ -506,6 +556,16 @@ public class Header extends AbstractNotesElement {
      */
     public void setSubmitter(Submitter submitter) {
         this.submitter = submitter;
+    }
+
+    /**
+     * Sets the time.
+     *
+     * @param time
+     *            the new time
+     */
+    public void setTime(String time) {
+        this.time = time == null ? null : new StringWithCustomTags(time);
     }
 
     /**

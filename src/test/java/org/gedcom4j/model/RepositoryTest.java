@@ -80,9 +80,9 @@ public class RepositoryTest {
         assertFalse(r1.equals(r2));
         r2.setName(new StringWithCustomTags("Frying Pan"));
         assertEquals(r1, r2);
-        r1.setName(null);
+        r1.setName((String) null);
         assertFalse(r1.equals(r2));
-        r2.setName(null);
+        r2.setName((String) null);
         assertEquals(r1, r2);
 
         r1.getNotes(true).add(new Note());
@@ -107,9 +107,9 @@ public class RepositoryTest {
         assertFalse(r1.equals(r2));
         r2.setRecIdNumber(new StringWithCustomTags("Frying Pan"));
         assertEquals(r1, r2);
-        r1.setRecIdNumber(null);
+        r1.setRecIdNumber((String) null);
         assertFalse(r1.equals(r2));
-        r2.setRecIdNumber(null);
+        r2.setRecIdNumber((String) null);
         assertEquals(r1, r2);
 
         assertFalse(r1.equals(null));
@@ -156,9 +156,9 @@ public class RepositoryTest {
         assertFalse(r1.hashCode() == r2.hashCode());
         r2.setName(new StringWithCustomTags("Frying Pan"));
         assertEquals(r1.hashCode(), r2.hashCode());
-        r1.setName(null);
+        r1.setName((String) null);
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.setName(null);
+        r2.setName((String) null);
         assertEquals(r1.hashCode(), r2.hashCode());
 
         r1.getNotes(true).add(new Note());
@@ -183,9 +183,9 @@ public class RepositoryTest {
         assertFalse(r1.hashCode() == r2.hashCode());
         r2.setRecIdNumber(new StringWithCustomTags("Frying Pan"));
         assertEquals(r1.hashCode(), r2.hashCode());
-        r1.setRecIdNumber(null);
+        r1.setRecIdNumber((String) null);
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.setRecIdNumber(null);
+        r2.setRecIdNumber((String) null);
         assertEquals(r1.hashCode(), r2.hashCode());
 
         assertFalse(r1.equals(Integer.valueOf(hashCode())));

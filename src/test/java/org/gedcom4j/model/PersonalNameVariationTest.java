@@ -67,12 +67,12 @@ public class PersonalNameVariationTest {
 
         pnv1.setGivenName(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.equals(pnv2));
-        pnv1.setGivenName(null);
+        pnv1.setGivenName((String) null);
         assertEquals(pnv1, pnv2);
 
         pnv1.setNickname(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.equals(pnv2));
-        pnv1.setNickname(null);
+        pnv1.setNickname((String) null);
         assertEquals(pnv1, pnv2);
 
         pnv1.getNotes(true).add(new Note());
@@ -84,22 +84,22 @@ public class PersonalNameVariationTest {
 
         pnv1.setPrefix(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.equals(pnv2));
-        pnv1.setPrefix(null);
+        pnv1.setPrefix((String) null);
         assertEquals(pnv1, pnv2);
 
         pnv1.setSuffix(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.equals(pnv2));
-        pnv1.setSuffix(null);
+        pnv1.setSuffix((String) null);
         assertEquals(pnv1, pnv2);
 
         pnv1.setSurname(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.equals(pnv2));
-        pnv1.setSurname(null);
+        pnv1.setSurname((String) null);
         assertEquals(pnv1, pnv2);
 
         pnv1.setSurnamePrefix(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.equals(pnv2));
-        pnv1.setSurnamePrefix(null);
+        pnv1.setSurnamePrefix((String) null);
         assertEquals(pnv1, pnv2);
 
         pnv1.variation = "Yo";
@@ -141,12 +141,12 @@ public class PersonalNameVariationTest {
 
         pnv1.setGivenName(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
-        pnv1.setGivenName(null);
+        pnv1.setGivenName((String) null);
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
         pnv1.setNickname(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
-        pnv1.setNickname(null);
+        pnv1.setNickname((String) null);
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
         pnv1.getNotes(true).add(new Note());
@@ -158,22 +158,22 @@ public class PersonalNameVariationTest {
 
         pnv1.setPrefix(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
-        pnv1.setPrefix(null);
+        pnv1.setPrefix((String) null);
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
         pnv1.setSuffix(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
-        pnv1.setSuffix(null);
+        pnv1.setSuffix((String) null);
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
         pnv1.setSurname(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
-        pnv1.setSurname(null);
+        pnv1.setSurname((String) null);
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
         pnv1.setSurnamePrefix(new StringWithCustomTags("Yo"));
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
-        pnv1.setSurnamePrefix(null);
+        pnv1.setSurnamePrefix((String) null);
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
         pnv1.variation = "Yo";

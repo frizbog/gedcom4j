@@ -369,6 +369,16 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
      * @param name
      *            the new name
      */
+    public void setName(String name) {
+        this.name = name == null ? null : new StringWithCustomTags(name);
+    }
+
+    /**
+     * Sets the name.
+     *
+     * @param name
+     *            the new name
+     */
     public void setName(StringWithCustomTags name) {
         this.name = name;
     }
@@ -379,8 +389,28 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
      * @param recIdNumber
      *            the new rec id number
      */
+    public void setRecIdNumber(String recIdNumber) {
+        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomTags(recIdNumber);
+    }
+
+    /**
+     * Sets the rec id number.
+     *
+     * @param recIdNumber
+     *            the new rec id number
+     */
     public void setRecIdNumber(StringWithCustomTags recIdNumber) {
         this.recIdNumber = recIdNumber;
+    }
+
+    /**
+     * Sets the reg file number.
+     *
+     * @param regFileNumber
+     *            the new reg file number
+     */
+    public void setRegFileNumber(String regFileNumber) {
+        this.regFileNumber = regFileNumber == null ? null : new StringWithCustomTags(regFileNumber);
     }
 
     /**

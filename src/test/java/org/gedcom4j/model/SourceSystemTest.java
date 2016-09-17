@@ -52,9 +52,9 @@ public class SourceSystemTest {
         assertFalse("They're not equivalent anymore, so equals should be false", ss1.equals(ss2));
         ss2.setProductName(new StringWithCustomTags("Frying Pan"));
         assertEquals("equals() should be the same for equivalent objects", ss1, ss2);
-        ss1.setProductName(null);
+        ss1.setProductName((String) null);
         assertFalse("They're not equivalent anymore, so equals should be false", ss1.equals(ss2));
-        ss2.setProductName(null);
+        ss2.setProductName((String) null);
         assertEquals("equals() should be the same for equivalent objects", ss1, ss2);
 
         ss1.setSystemId("Frying Pan");

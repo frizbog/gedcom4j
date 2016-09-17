@@ -474,8 +474,28 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      * @param age
      *            the new age
      */
+    public void setAge(String age) {
+        this.age = age == null ? null : new StringWithCustomTags(age);
+    }
+
+    /**
+     * Sets the age.
+     *
+     * @param age
+     *            the new age
+     */
     public void setAge(StringWithCustomTags age) {
         this.age = age;
+    }
+
+    /**
+     * Sets the cause.
+     *
+     * @param cause
+     *            the new cause
+     */
+    public void setCause(String cause) {
+        this.cause = cause == null ? null : new StringWithCustomTags(cause);
     }
 
     /**
@@ -494,8 +514,28 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      * @param date
      *            the new date
      */
+    public void setDate(String date) {
+        this.date = date == null ? null : new StringWithCustomTags(date);
+    }
+
+    /**
+     * Sets the date.
+     *
+     * @param date
+     *            the new date
+     */
     public void setDate(StringWithCustomTags date) {
         this.date = date;
+    }
+
+    /**
+     * Sets the description.
+     *
+     * @param description
+     *            the new description
+     */
+    public void setDescription(String description) {
+        this.description = description == null ? null : new StringWithCustomTags(description);
     }
 
     /**
@@ -524,8 +564,28 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      * @param religiousAffiliation
      *            the new religious affiliation
      */
+    public void setReligiousAffiliation(String religiousAffiliation) {
+        this.religiousAffiliation = religiousAffiliation == null ? null : new StringWithCustomTags(religiousAffiliation);
+    }
+
+    /**
+     * Sets the religious affiliation.
+     *
+     * @param religiousAffiliation
+     *            the new religious affiliation
+     */
     public void setReligiousAffiliation(StringWithCustomTags religiousAffiliation) {
         this.religiousAffiliation = religiousAffiliation;
+    }
+
+    /**
+     * Sets the resp agency.
+     *
+     * @param respAgency
+     *            the new resp agency
+     */
+    public void setRespAgency(String respAgency) {
+        this.respAgency = respAgency == null ? null : new StringWithCustomTags(respAgency);
     }
 
     /**
@@ -544,8 +604,28 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      * @param restrictionNotice
      *            the new restriction notice
      */
+    public void setRestrictionNotice(String restrictionNotice) {
+        this.restrictionNotice = restrictionNotice == null ? null : new StringWithCustomTags(restrictionNotice);
+    }
+
+    /**
+     * Sets the restriction notice.
+     *
+     * @param restrictionNotice
+     *            the new restriction notice
+     */
     public void setRestrictionNotice(StringWithCustomTags restrictionNotice) {
         this.restrictionNotice = restrictionNotice;
+    }
+
+    /**
+     * Sets the sub type.
+     *
+     * @param subType
+     *            the new sub type
+     */
+    public void setSubType(String subType) {
+        this.subType = subType == null ? null : new StringWithCustomTags(subType);
     }
 
     /**

@@ -136,8 +136,28 @@ public class ChangeDate extends AbstractNotesElement {
      * @param date
      *            the new date
      */
+    public void setDate(String date) {
+        this.date = date == null ? null : new StringWithCustomTags(date);
+    }
+
+    /**
+     * Sets the date.
+     *
+     * @param date
+     *            the new date
+     */
     public void setDate(StringWithCustomTags date) {
         this.date = date;
+    }
+
+    /**
+     * Sets the time.
+     *
+     * @param time
+     *            the new time
+     */
+    public void setTime(String time) {
+        this.time = time == null ? null : new StringWithCustomTags(time);
     }
 
     /**

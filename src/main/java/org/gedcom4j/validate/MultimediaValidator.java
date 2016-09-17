@@ -205,7 +205,7 @@ class MultimediaValidator extends AbstractValidator {
             Finding vf = validator.newFinding(mm, Severity.ERROR, ProblemCode.NOT_ALLOWED_IN_GEDCOM_551, "embeddedMediaFormat");
             if (validator.mayRepair(vf)) {
                 Multimedia before = new Multimedia(mm);
-                mm.setEmbeddedMediaFormat(null);
+                mm.setEmbeddedMediaFormat((String) null);
                 vf.addRepair(new AutoRepair(before, new Multimedia(mm)));
             }
         }

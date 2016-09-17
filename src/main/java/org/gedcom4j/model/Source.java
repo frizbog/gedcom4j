@@ -515,6 +515,16 @@ public class Source extends AbstractNotesElement implements HasXref {
      * @param recIdNumber
      *            the new rec id number
      */
+    public void setRecIdNumber(String recIdNumber) {
+        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomTags(recIdNumber);
+    }
+
+    /**
+     * Sets the rec id number.
+     *
+     * @param recIdNumber
+     *            the new rec id number
+     */
     public void setRecIdNumber(StringWithCustomTags recIdNumber) {
         this.recIdNumber = recIdNumber;
     }
@@ -527,6 +537,16 @@ public class Source extends AbstractNotesElement implements HasXref {
      */
     public void setRepositoryCitation(RepositoryCitation repositoryCitation) {
         this.repositoryCitation = repositoryCitation;
+    }
+
+    /**
+     * Sets the source filed by.
+     *
+     * @param sourceFiledBy
+     *            the new source filed by
+     */
+    public void setSourceFiledBy(String sourceFiledBy) {
+        this.sourceFiledBy = sourceFiledBy == null ? null : new StringWithCustomTags(sourceFiledBy);
     }
 
     /**

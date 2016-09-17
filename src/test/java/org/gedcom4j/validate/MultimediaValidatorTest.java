@@ -94,7 +94,7 @@ public class MultimediaValidatorTest extends AbstractValidatorTestCase {
         assertFindingsContain(Severity.ERROR, mm, ProblemCode.NOT_ALLOWED_IN_GEDCOM_551, "embeddedMediaFormat");
 
         mm.getBlob().clear();
-        mm.setEmbeddedMediaFormat(null);
+        mm.setEmbeddedMediaFormat((String) null);
         validator.validate();
         assertNoIssues();
 

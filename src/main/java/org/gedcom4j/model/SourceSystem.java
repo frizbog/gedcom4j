@@ -226,6 +226,16 @@ public class SourceSystem extends AbstractElement {
      * @param productName
      *            the new product name
      */
+    public void setProductName(String productName) {
+        this.productName = productName == null ? null : new StringWithCustomTags(productName);
+    }
+
+    /**
+     * Sets the product name.
+     *
+     * @param productName
+     *            the new product name
+     */
     public void setProductName(StringWithCustomTags productName) {
         this.productName = productName;
     }
@@ -248,6 +258,16 @@ public class SourceSystem extends AbstractElement {
      */
     public void setSystemId(String systemId) {
         this.systemId = systemId;
+    }
+
+    /**
+     * Sets the version num.
+     *
+     * @param versionNum
+     *            the new version num
+     */
+    public void setVersionNum(String versionNum) {
+        this.versionNum = versionNum == null ? null : new StringWithCustomTags(versionNum);
     }
 
     /**

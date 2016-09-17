@@ -75,7 +75,7 @@ public class EventRecordedCopyTest extends AbstractCopyTest {
         assertNotSame(orig, copy);
         assertEquals(orig.toString(), copy.toString());
 
-        orig.setDatePeriod(null);
+        orig.setDatePeriod((String) null);
         orig.getJurisdiction().setValue("DDD");
         assertNotNull("Copy should not change when original does", copy.getDatePeriod());
         assertEquals("CCC", copy.getJurisdiction().getValue());

@@ -581,14 +581,14 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         for (Individual i : gp.getGedcom().getIndividuals().values()) {
             if (i.getEvents() != null) {
                 for (AbstractEvent e : i.getEvents()) {
-                    e.setDescription(null);
+                    e.setDescription((String) null);
                 }
             }
         }
         for (Family f : gp.getGedcom().getFamilies().values()) {
             if (f.getEvents() != null) {
                 for (AbstractEvent e : f.getEvents()) {
-                    e.setDescription(null);
+                    e.setDescription((String) null);
                 }
             }
         }

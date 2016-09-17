@@ -407,8 +407,28 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      * @param givenName
      *            the new given name
      */
+    public void setGivenName(String givenName) {
+        this.givenName = givenName == null ? null : new StringWithCustomTags(givenName);
+    }
+
+    /**
+     * Sets the given name.
+     *
+     * @param givenName
+     *            the new given name
+     */
     public void setGivenName(StringWithCustomTags givenName) {
         this.givenName = givenName;
+    }
+
+    /**
+     * Sets the nickname.
+     *
+     * @param nickname
+     *            the new nickname
+     */
+    public void setNickname(String nickname) {
+        this.nickname = nickname == null ? null : new StringWithCustomTags(nickname);
     }
 
     /**
@@ -427,8 +447,28 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      * @param prefix
      *            the new prefix
      */
+    public void setPrefix(String prefix) {
+        this.prefix = prefix == null ? null : new StringWithCustomTags(prefix);
+    }
+
+    /**
+     * Sets the prefix.
+     *
+     * @param prefix
+     *            the new prefix
+     */
     public void setPrefix(StringWithCustomTags prefix) {
         this.prefix = prefix;
+    }
+
+    /**
+     * Sets the suffix.
+     *
+     * @param suffix
+     *            the new suffix
+     */
+    public void setSuffix(String suffix) {
+        this.suffix = suffix == null ? null : new StringWithCustomTags(suffix);
     }
 
     /**
@@ -447,8 +487,28 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      * @param surname
      *            the new surname
      */
+    public void setSurname(String surname) {
+        this.surname = surname == null ? null : new StringWithCustomTags(surname);
+    }
+
+    /**
+     * Sets the surname.
+     *
+     * @param surname
+     *            the new surname
+     */
     public void setSurname(StringWithCustomTags surname) {
         this.surname = surname;
+    }
+
+    /**
+     * Sets the surname prefix.
+     *
+     * @param surnamePrefix
+     *            the new surname prefix
+     */
+    public void setSurnamePrefix(String surnamePrefix) {
+        this.surnamePrefix = surnamePrefix == null ? null : new StringWithCustomTags(surnamePrefix);
     }
 
     /**

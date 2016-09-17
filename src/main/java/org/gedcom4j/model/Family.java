@@ -604,6 +604,16 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      * @param automatedRecordId
      *            the new automated record id
      */
+    public void setAutomatedRecordId(String automatedRecordId) {
+        this.automatedRecordId = automatedRecordId == null ? null : new StringWithCustomTags(automatedRecordId);
+    }
+
+    /**
+     * Sets the automated record id.
+     *
+     * @param automatedRecordId
+     *            the new automated record id
+     */
     public void setAutomatedRecordId(StringWithCustomTags automatedRecordId) {
         this.automatedRecordId = automatedRecordId;
     }
@@ -634,6 +644,16 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      * @param numChildren
      *            the new number of children
      */
+    public void setNumChildren(String numChildren) {
+        this.numChildren = numChildren == null ? null : new StringWithCustomTags(numChildren);
+    }
+
+    /**
+     * Sets the number of children.
+     *
+     * @param numChildren
+     *            the new number of children
+     */
     public void setNumChildren(StringWithCustomTags numChildren) {
         this.numChildren = numChildren;
     }
@@ -644,8 +664,28 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      * @param recFileNumber
      *            the new rec file number
      */
+    public void setRecFileNumber(String recFileNumber) {
+        this.recFileNumber = recFileNumber == null ? null : new StringWithCustomTags(recFileNumber);
+    }
+
+    /**
+     * Sets the rec file number.
+     *
+     * @param recFileNumber
+     *            the new rec file number
+     */
     public void setRecFileNumber(StringWithCustomTags recFileNumber) {
         this.recFileNumber = recFileNumber;
+    }
+
+    /**
+     * Sets the restriction notice.
+     *
+     * @param restrictionNotice
+     *            the new restriction notice
+     */
+    public void setRestrictionNotice(String restrictionNotice) {
+        this.restrictionNotice = restrictionNotice == null ? null : new StringWithCustomTags(restrictionNotice);
     }
 
     /**

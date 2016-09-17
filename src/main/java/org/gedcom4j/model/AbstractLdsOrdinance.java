@@ -239,8 +239,28 @@ public abstract class AbstractLdsOrdinance extends AbstractNotesElement implemen
      * @param date
      *            the new date
      */
+    public void setDate(String date) {
+        this.date = new StringWithCustomTags(date);
+    }
+
+    /**
+     * Sets the date.
+     *
+     * @param date
+     *            the new date
+     */
     public void setDate(StringWithCustomTags date) {
         this.date = date;
+    }
+
+    /**
+     * Sets the place.
+     *
+     * @param place
+     *            the new place
+     */
+    public void setPlace(String place) {
+        this.place = new StringWithCustomTags(place);
     }
 
     /**
@@ -259,8 +279,28 @@ public abstract class AbstractLdsOrdinance extends AbstractNotesElement implemen
      * @param status
      *            the new status
      */
+    public void setStatus(String status) {
+        this.status = new StringWithCustomTags(status);
+    }
+
+    /**
+     * Sets the status.
+     *
+     * @param status
+     *            the new status
+     */
     public void setStatus(StringWithCustomTags status) {
         this.status = status;
+    }
+
+    /**
+     * Sets the temple.
+     *
+     * @param temple
+     *            the new temple
+     */
+    public void setTemple(String temple) {
+        this.temple = new StringWithCustomTags(temple);
     }
 
     /**

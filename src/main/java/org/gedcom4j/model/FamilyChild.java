@@ -232,8 +232,28 @@ public class FamilyChild extends AbstractNotesElement {
      * @param pedigree
      *            the new pedigree
      */
+    public void setPedigree(String pedigree) {
+        this.pedigree = pedigree == null ? null : new StringWithCustomTags(pedigree);
+    }
+
+    /**
+     * Sets the pedigree.
+     *
+     * @param pedigree
+     *            the new pedigree
+     */
     public void setPedigree(StringWithCustomTags pedigree) {
         this.pedigree = pedigree;
+    }
+
+    /**
+     * Sets the status.
+     *
+     * @param status
+     *            the new status
+     */
+    public void setStatus(String status) {
+        this.status = status == null ? null : new StringWithCustomTags(status);
     }
 
     /**

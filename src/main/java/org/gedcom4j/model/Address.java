@@ -282,8 +282,28 @@ public class Address extends AbstractElement {
      * @param addr1
      *            the new addr line 1
      */
+    public void setAddr1(String addr1) {
+        this.addr1 = new StringWithCustomTags(addr1);
+    }
+
+    /**
+     * Sets the addr line 1.
+     *
+     * @param addr1
+     *            the new addr line 1
+     */
     public void setAddr1(StringWithCustomTags addr1) {
         this.addr1 = addr1;
+    }
+
+    /**
+     * Sets the addr line 2.
+     *
+     * @param addr2
+     *            the new addr line 2
+     */
+    public void setAddr2(String addr2) {
+        this.addr2 = new StringWithCustomTags(addr2);
     }
 
     /**
@@ -302,8 +322,28 @@ public class Address extends AbstractElement {
      * @param city
      *            the new city
      */
+    public void setCity(String city) {
+        this.city = new StringWithCustomTags(city);
+    }
+
+    /**
+     * Sets the city.
+     *
+     * @param city
+     *            the new city
+     */
     public void setCity(StringWithCustomTags city) {
         this.city = city;
+    }
+
+    /**
+     * Sets the country.
+     *
+     * @param country
+     *            the new country
+     */
+    public void setCountry(String country) {
+        this.country = new StringWithCustomTags(country);
     }
 
     /**
@@ -322,8 +362,28 @@ public class Address extends AbstractElement {
      * @param postalCode
      *            the new postal code
      */
+    public void setPostalCode(String postalCode) {
+        this.postalCode = new StringWithCustomTags(postalCode);
+    }
+
+    /**
+     * Sets the postal code.
+     *
+     * @param postalCode
+     *            the new postal code
+     */
     public void setPostalCode(StringWithCustomTags postalCode) {
         this.postalCode = postalCode;
+    }
+
+    /**
+     * Sets the state province.
+     *
+     * @param stateProvince
+     *            the new state province
+     */
+    public void setStateProvince(String stateProvince) {
+        this.stateProvince = new StringWithCustomTags(stateProvince);
     }
 
     /**

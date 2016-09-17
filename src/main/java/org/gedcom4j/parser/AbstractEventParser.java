@@ -59,10 +59,10 @@ public abstract class AbstractEventParser<T extends AbstractEvent> extends Abstr
     protected void parseYNull() {
         if ("Y".equals(stringTree.getValue())) {
             loadInto.setYNull(stringTree.getValue());
-            loadInto.setDescription(null);
+            loadInto.setDescription((String) null);
         } else if (stringTree.getValue() == null || stringTree.getValue().trim().length() == 0) {
             loadInto.setYNull(null);
-            loadInto.setDescription(null);
+            loadInto.setDescription((String) null);
         } else {
             loadInto.setYNull(null);
             loadInto.setDescription(new StringWithCustomTags(stringTree.getValue()));

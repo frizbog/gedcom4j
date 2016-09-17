@@ -446,6 +446,16 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      * @param embeddedMediaFormat
      *            the new embedded media format
      */
+    public void setEmbeddedMediaFormat(String embeddedMediaFormat) {
+        this.embeddedMediaFormat = embeddedMediaFormat == null ? null : new StringWithCustomTags(embeddedMediaFormat);
+    }
+
+    /**
+     * Sets the embedded media format.
+     *
+     * @param embeddedMediaFormat
+     *            the new embedded media format
+     */
     public void setEmbeddedMediaFormat(StringWithCustomTags embeddedMediaFormat) {
         this.embeddedMediaFormat = embeddedMediaFormat;
     }
@@ -456,8 +466,28 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      * @param embeddedTitle
      *            the new embedded title
      */
+    public void setEmbeddedTitle(String embeddedTitle) {
+        this.embeddedTitle = embeddedTitle == null ? null : new StringWithCustomTags(embeddedTitle);
+    }
+
+    /**
+     * Sets the embedded title.
+     *
+     * @param embeddedTitle
+     *            the new embedded title
+     */
     public void setEmbeddedTitle(StringWithCustomTags embeddedTitle) {
         this.embeddedTitle = embeddedTitle;
+    }
+
+    /**
+     * Sets the rec id number.
+     *
+     * @param recIdNumber
+     *            the new rec id number
+     */
+    public void setRecIdNumber(String recIdNumber) {
+        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomTags(recIdNumber);
     }
 
     /**

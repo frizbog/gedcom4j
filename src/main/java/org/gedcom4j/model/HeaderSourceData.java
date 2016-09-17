@@ -166,6 +166,16 @@ public class HeaderSourceData extends AbstractElement {
      * @param copyright
      *            the new copyright
      */
+    public void setCopyright(String copyright) {
+        this.copyright = copyright == null ? null : new StringWithCustomTags(copyright);
+    }
+
+    /**
+     * Sets the copyright.
+     *
+     * @param copyright
+     *            the new copyright
+     */
     public void setCopyright(StringWithCustomTags copyright) {
         this.copyright = copyright;
     }
@@ -178,6 +188,16 @@ public class HeaderSourceData extends AbstractElement {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * Sets the publish date.
+     *
+     * @param publishDate
+     *            the new publish date
+     */
+    public void setPublishDate(String publishDate) {
+        this.publishDate = publishDate == null ? null : new StringWithCustomTags(publishDate);
     }
 
     /**

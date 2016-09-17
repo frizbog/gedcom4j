@@ -135,6 +135,16 @@ public class GedcomVersion extends AbstractElement {
      * @param gedcomForm
      *            the new gedcom form
      */
+    public void setGedcomForm(String gedcomForm) {
+        this.gedcomForm = gedcomForm == null ? null : new StringWithCustomTags(gedcomForm);
+    }
+
+    /**
+     * Sets the gedcom form.
+     *
+     * @param gedcomForm
+     *            the new gedcom form
+     */
     public void setGedcomForm(StringWithCustomTags gedcomForm) {
         this.gedcomForm = gedcomForm;
     }

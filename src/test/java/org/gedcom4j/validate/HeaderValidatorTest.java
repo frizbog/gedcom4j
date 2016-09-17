@@ -69,7 +69,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         validator.validate();
         assertNoIssues();
 
-        h.getCharacterSet().setCharacterSetName(null);
+        h.getCharacterSet().setCharacterSetName((String) null);
         validator.validate();
         assertFindingsContain(Severity.ERROR, h.getCharacterSet(), ProblemCode.MISSING_REQUIRED_VALUE.getCode(),
                 "characterSetName");
@@ -196,7 +196,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         validator.validate();
         assertNoIssues();
 
-        ss.setProductName(null);
+        ss.setProductName((String) null);
         validator.validate();
         assertNoIssues();
 

@@ -157,6 +157,16 @@ public class FamilyEvent extends AbstractEvent {
      * @param husbandAge
      *            the new husband's age
      */
+    public void setHusbandAge(String husbandAge) {
+        this.husbandAge = husbandAge == null ? null : new StringWithCustomTags(husbandAge);
+    }
+
+    /**
+     * Sets the husband's age.
+     *
+     * @param husbandAge
+     *            the new husband's age
+     */
     public void setHusbandAge(StringWithCustomTags husbandAge) {
         this.husbandAge = husbandAge;
     }
@@ -169,6 +179,16 @@ public class FamilyEvent extends AbstractEvent {
      */
     public void setType(FamilyEventType type) {
         this.type = type;
+    }
+
+    /**
+     * Sets the wife's age.
+     *
+     * @param wifeAge
+     *            the new wife's age
+     */
+    public void setWifeAge(String wifeAge) {
+        this.wifeAge = wifeAge == null ? null : new StringWithCustomTags(wifeAge);
     }
 
     /**

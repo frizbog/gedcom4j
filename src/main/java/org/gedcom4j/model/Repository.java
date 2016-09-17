@@ -242,8 +242,28 @@ public class Repository extends AbstractAddressableElement implements HasXref {
      * @param name
      *            the new name
      */
+    public void setName(String name) {
+        this.name = name == null ? null : new StringWithCustomTags(name);
+    }
+
+    /**
+     * Sets the name.
+     *
+     * @param name
+     *            the new name
+     */
     public void setName(StringWithCustomTags name) {
         this.name = name;
+    }
+
+    /**
+     * Sets the rec id number.
+     *
+     * @param recIdNumber
+     *            the new rec id number
+     */
+    public void setRecIdNumber(String recIdNumber) {
+        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomTags(recIdNumber);
     }
 
     /**

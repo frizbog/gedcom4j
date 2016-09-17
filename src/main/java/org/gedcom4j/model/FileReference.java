@@ -187,8 +187,28 @@ public class FileReference extends AbstractElement {
      * @param format
      *            the new format
      */
+    public void setFormat(String format) {
+        this.format = format == null ? null : new StringWithCustomTags(format);
+    }
+
+    /**
+     * Sets the format.
+     *
+     * @param format
+     *            the new format
+     */
     public void setFormat(StringWithCustomTags format) {
         this.format = format;
+    }
+
+    /**
+     * Sets the media type.
+     *
+     * @param mediaType
+     *            the new media type
+     */
+    public void setMediaType(String mediaType) {
+        this.mediaType = mediaType == null ? null : new StringWithCustomTags(mediaType);
     }
 
     /**
@@ -207,8 +227,28 @@ public class FileReference extends AbstractElement {
      * @param referenceToFile
      *            the new reference to file
      */
+    public void setReferenceToFile(String referenceToFile) {
+        this.referenceToFile = referenceToFile == null ? null : new StringWithCustomTags(referenceToFile);
+    }
+
+    /**
+     * Sets the reference to file.
+     *
+     * @param referenceToFile
+     *            the new reference to file
+     */
     public void setReferenceToFile(StringWithCustomTags referenceToFile) {
         this.referenceToFile = referenceToFile;
+    }
+
+    /**
+     * Sets the title.
+     *
+     * @param title
+     *            the new title
+     */
+    public void setTitle(String title) {
+        this.title = title == null ? null : new StringWithCustomTags(title);
     }
 
     /**

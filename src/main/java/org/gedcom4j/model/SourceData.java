@@ -159,6 +159,16 @@ public class SourceData extends AbstractNotesElement {
      * @param respAgency
      *            the new resp agency
      */
+    public void setRespAgency(String respAgency) {
+        this.respAgency = respAgency == null ? null : new StringWithCustomTags(respAgency);
+    }
+
+    /**
+     * Sets the resp agency.
+     *
+     * @param respAgency
+     *            the new resp agency
+     */
     public void setRespAgency(StringWithCustomTags respAgency) {
         this.respAgency = respAgency;
     }
