@@ -124,7 +124,15 @@ public enum ProblemCode {
     /**
      * Father was sixty or older at the time
      */
-    FATHER_WAS_SIXTY_OR_OLDER(22, "Father was sixty or older at the time");
+    FATHER_WAS_SIXTY_OR_OLDER(22, "Father was sixty or older at the time"),
+    /**
+     * Husband less than sixteen years old at the time
+     */
+    HUSBAND_WAS_LESS_THAN_SIXTEEN(23, "Husband less than sixteen years old at the time"),
+    /**
+     * Wife less than sixteen years old at the time
+     */
+    WIFE_WAS_LESS_THAN_SIXTEEN(24, "Wife less than sixteen years old at the time");
 
     /*
      * Static initializer to check for skipped code numbers (which would also occur if there are duplicates)
