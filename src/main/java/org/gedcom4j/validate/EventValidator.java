@@ -37,6 +37,7 @@ import org.gedcom4j.model.Note;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.enumerations.FamilyEventType;
 import org.gedcom4j.model.enumerations.IndividualEventType;
+import org.gedcom4j.model.enumerations.RestrictionNoticeType;
 import org.gedcom4j.validate.Validator.Finding;
 
 /**
@@ -139,6 +140,9 @@ class EventValidator extends AbstractValidator {
         mustHaveValueOrBeOmitted(e, "religiousAffiliation");
         mustHaveValueOrBeOmitted(e, "respAgency");
         mustHaveValueOrBeOmitted(e, "restrictionNotice");
+        if (e.getRestrictionNotice() != null) {
+            mustBeInEnumIfSpecified(RestrictionNoticeType.class, e, "restrictionNotice");
+        }
         if (e.getPlace() != null) {
             new PlaceValidator(validator, e.getPlace()).validate();
         }

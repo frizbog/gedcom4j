@@ -31,6 +31,7 @@ import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.LdsSpouseSealing;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.TestHelper;
+import org.gedcom4j.model.enumerations.LdsSpouseSealingDateStatus;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -110,19 +111,27 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     public void testDate() {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.getLdsSpouseSealings(true).add(s);
-        s.setDate(new StringWithCustomTags((String) null));
+        s.setDate((String) null);
         validator.validate();
-        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "date");
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.ILLEGAL_VALUE, "date");
 
         s.setDate("");
         validator.validate();
-        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "date");
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.ILLEGAL_VALUE, "date");
 
         s.setDate("              ");
         validator.validate();
-        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "date");
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.ILLEGAL_VALUE, "date");
 
         s.setDate("Frying Pan");
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.ILLEGAL_VALUE, "date");
+
+        s.setDate("01 JAN 1901");
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.ILLEGAL_VALUE, "date");
+
+        s.setStatus(LdsSpouseSealingDateStatus.COMPLETED.getCode());
         validator.validate();
         assertNoIssues();
     }
@@ -183,17 +192,25 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
         f.getLdsSpouseSealings(true).add(s);
         s.setStatus(new StringWithCustomTags((String) null));
         validator.validate();
-        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "status");
+        assertNoIssues();
 
         s.setStatus("");
         validator.validate();
-        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "status");
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.ILLEGAL_VALUE, "status");
 
         s.setStatus("              ");
         validator.validate();
-        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "status");
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.ILLEGAL_VALUE, "status");
 
         s.setStatus("Frying Pan");
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.ILLEGAL_VALUE, "status");
+
+        s.setStatus(LdsSpouseSealingDateStatus.DNS_CAN.getCode());
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "date");
+
+        s.setDate("1 JAN 1990");
         validator.validate();
         assertNoIssues();
     }

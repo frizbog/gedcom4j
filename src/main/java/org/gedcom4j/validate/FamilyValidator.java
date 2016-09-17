@@ -34,6 +34,7 @@ import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.LdsSpouseSealing;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.enumerations.RestrictionNoticeType;
 
 /**
  * Validator for {@link Family} objects
@@ -92,6 +93,10 @@ class FamilyValidator extends AbstractValidator {
         mustHaveValueOrBeOmitted(f, "numChildren");
         mustHaveValueOrBeOmitted(f, "recFileNumber");
         mustHaveValueOrBeOmitted(f, "restrictionNotice");
+        if (f.getRestrictionNotice() != null) {
+            mustBeInEnumIfSpecified(RestrictionNoticeType.class, f, "restrictionNotice");
+        }
+
         checkSubmitters();
         checkUserReferences(f.getUserReferences(), f);
     }

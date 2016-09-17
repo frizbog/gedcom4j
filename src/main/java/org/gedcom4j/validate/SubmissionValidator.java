@@ -68,6 +68,11 @@ public class SubmissionValidator extends AbstractValidator {
         mustHaveValueOrBeOmitted(submission, "descendantsCount");
         mustHaveValueOrBeOmitted(submission, "nameOfFamilyFile");
         mustHaveValueOrBeOmitted(submission, "ordinanceProcessFlag");
+        if (submission.getOrdinanceProcessFlag() != null && submission.getOrdinanceProcessFlag().getValue() != null && !"yes"
+                .equals(submission.getOrdinanceProcessFlag().getValue()) && !"no".equals(submission.getOrdinanceProcessFlag()
+                        .getValue())) {
+            validator.newFinding(submission, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, "ordinanceProcessFlag");
+        }
         mustHaveValueOrBeOmitted(submission, "recIdNumber");
         mustHaveValueOrBeOmitted(submission, "templeCode");
     }

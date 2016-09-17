@@ -37,6 +37,7 @@ import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.LdsIndividualOrdinance;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.enumerations.RestrictionNoticeType;
 
 /**
  * A validator for an {@link Individual}. See {@link Validator} for usage information.
@@ -101,6 +102,9 @@ class IndividualValidator extends AbstractValidator {
             for (FamilySpouse fs : individual.getFamiliesWhereSpouse()) {
                 new FamilySpouseValidator(validator, fs).validate();
             }
+        }
+        if (individual.getRestrictionNotice() != null) {
+            mustBeInEnumIfSpecified(RestrictionNoticeType.class, individual, "restrictionNotice");
         }
         checkAliases();
         checkAssociations();

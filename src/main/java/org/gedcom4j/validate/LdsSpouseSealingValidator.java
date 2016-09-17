@@ -27,6 +27,7 @@
 package org.gedcom4j.validate;
 
 import org.gedcom4j.model.LdsSpouseSealing;
+import org.gedcom4j.model.enumerations.LdsSpouseSealingDateStatus;
 
 /**
  * Validator for {@link LdsSpouseSealing} objects
@@ -66,10 +67,15 @@ class LdsSpouseSealingValidator extends AbstractValidator {
     protected void validate() {
         checkCitations(s);
         checkCustomTags(s);
-        mustHaveValueOrBeOmitted(s, "date");
         new NotesListValidator(validator, s).validate();
         mustHaveValueOrBeOmitted(s, "place");
-        mustHaveValueOrBeOmitted(s, "status");
+        mustBeInEnumIfSpecified(LdsSpouseSealingDateStatus.class, s, "status");
+        if (s.getStatus() != null && isSpecified(s.getStatus().getValue())) {
+            mustHaveValue(s, "date");
+            mustBeDateIfSpecified(s, "date");
+        } else {
+            mustNotHaveValue(s, "date");
+        }
         mustHaveValueOrBeOmitted(s, "temple");
     }
 
