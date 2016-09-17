@@ -6,9 +6,11 @@ v4.0.0 is a major release. Some users, particularly those who used the validatio
 
 No issue numbers, but changed:
 - The id property on StringTree has been renamed xref (along with the getters and setters)
+- All enums in the model are now moved to the new org.gedcom4j.model.enumerations package
+- 
 
 
-?? ??? 2016 - v3.2.1
+14 SEP 2016 - v3.2.1
 ====================
 v3.2.1 is a minor fix release
 

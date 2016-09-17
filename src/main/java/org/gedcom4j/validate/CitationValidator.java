@@ -123,6 +123,11 @@ class CitationValidator extends AbstractValidator {
             mustHaveValueOrBeOmitted(c, "roleInEvent");
         }
         mustHaveValueOrBeOmitted(c, "certainty");
+        if (c.getCertainty() != null && c.getCertainty().getValue() != null && !"0".equals(c.getCertainty().getValue()) && !"1"
+                .equals(c.getCertainty().getValue()) && !"2".equals(c.getCertainty().getValue()) && !"3".equals(c.getCertainty()
+                        .getValue())) {
+            validator.newFinding(c, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, "certainty");
+        }
         checkUninitializedCollection(c, "data");
         checkListOfModelElementsForDups(c, "data");
         checkListOfModelElementsForNulls(c, "data");

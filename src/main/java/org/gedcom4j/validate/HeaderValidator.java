@@ -34,6 +34,7 @@ import org.gedcom4j.model.Header;
 import org.gedcom4j.model.HeaderSourceData;
 import org.gedcom4j.model.SourceSystem;
 import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.enumerations.LanguageID;
 import org.gedcom4j.model.enumerations.SupportedVersion;
 import org.gedcom4j.validate.Validator.Finding;
 
@@ -88,6 +89,7 @@ class HeaderValidator extends AbstractValidator {
         mustHaveValueOrBeOmitted(header, "fileName");
         checkGedcomVersion();
         mustHaveValueOrBeOmitted(header, "language");
+        mustBeInEnumIfSpecified(LanguageID.class, header, "language");
         new NotesListValidator(validator, header).validate();
         mustHaveValueOrBeOmitted(header, "placeHierarchy");
         checkSourceSystem();

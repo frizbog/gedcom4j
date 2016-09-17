@@ -29,6 +29,8 @@ package org.gedcom4j.validate;
 import java.util.List;
 
 import org.gedcom4j.model.Association;
+import org.gedcom4j.model.FamilyChild;
+import org.gedcom4j.model.FamilySpouse;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualAttribute;
 import org.gedcom4j.model.IndividualEvent;
@@ -88,11 +90,17 @@ class IndividualValidator extends AbstractValidator {
         if (individual.getFamiliesWhereChild() != null) {
             checkListOfModelElementsForDups(individual, "familiesWhereChild");
             checkListOfModelElementsForNulls(individual, "familiesWhereChild");
+            for (FamilyChild fc : individual.getFamiliesWhereChild()) {
+                new FamilyChildValidator(validator, fc).validate();
+            }
         }
         checkUninitializedCollection(individual, "familiesWhereSpouse");
         if (individual.getFamiliesWhereSpouse() != null) {
             checkListOfModelElementsForDups(individual, "familiesWhereSpouse");
             checkListOfModelElementsForNulls(individual, "familiesWhereSpouse");
+            for (FamilySpouse fs : individual.getFamiliesWhereSpouse()) {
+                new FamilySpouseValidator(validator, fs).validate();
+            }
         }
         checkAliases();
         checkAssociations();

@@ -30,6 +30,7 @@ import java.util.List;
 
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.enumerations.LanguageID;
 import org.gedcom4j.validate.Validator.Finding;
 
 /**
@@ -102,7 +103,7 @@ class SubmitterValidator extends AbstractValidator {
             validator.newFinding(submitter, Severity.ERROR, ProblemCode.TOO_MANY_VALUES, "languagePref");
         }
         for (StringWithCustomTags s : languagePref) {
-            mustHaveValue(s, "value");
+            mustBeInEnumIfSpecified(LanguageID.class, s, "value");
         }
     }
 }
