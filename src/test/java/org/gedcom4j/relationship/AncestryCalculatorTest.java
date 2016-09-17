@@ -103,7 +103,7 @@ public class AncestryCalculatorTest {
     @Test
     public void testCyclicalAncestry() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
-        gp.load("sample/gedantic sample.ged");
+        gp.load("sample/problemFile.ged");
         Individual i1 = gp.getGedcom().getIndividuals().get("@I27@");
         assertNotNull(i1);
         Set<Individual> extendedAncestry = anc.getExtendedAncestry(i1);

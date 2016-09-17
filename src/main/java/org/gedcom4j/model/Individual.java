@@ -30,6 +30,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.gedcom4j.Options;
 import org.gedcom4j.model.enumerations.IndividualAttributeType;
@@ -909,6 +912,32 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
             submitters = new ArrayList<>(0);
         }
         return submitters;
+    }
+
+    /**
+     * Gets the surnames from individual.
+     *
+     * @return the surnames from individual
+     */
+    public Set<String> getSurnames() {
+        TreeSet<String> result = new TreeSet<>();
+        Pattern pattern = Pattern.compile(".*\\/(.*)\\/.*");
+        for (PersonalName pn : getNames()) {
+            if ("<No /name>/".equals(pn.getBasic())) {
+                result.add("");
+                continue;
+            }
+            if (pn.getSurname() != null) {
+                result.add(pn.getSurname().getValue());
+            }
+            if (pn.getBasic() != null) {
+                Matcher matcher = pattern.matcher(pn.getBasic());
+                while (matcher.find()) {
+                    result.add(matcher.group(1));
+                }
+            }
+        }
+        return result;
     }
 
     /**

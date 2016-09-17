@@ -88,7 +88,43 @@ public enum ProblemCode {
     /**
      * Not a valid date string (format)
      */
-    INVALID_DATE(13, "Invalid date");
+    INVALID_DATE(13, "Invalid date"),
+    /**
+     * The child has surname(s) that do not match those of either parent
+     */
+    SURNAMES_DONT_MATCH_PARENTS(14, "Child has surname(s) that do not match those of either parent"),
+    /**
+     * The child's mother may not have been born at the time
+     */
+    MOTHER_MAY_NOT_HAVE_BEEN_BORN_YET(15, "Mother may not have been born yet"),
+    /**
+     * The child's mother was not sixteen yet at the time
+     */
+    MOTHER_WAS_LESS_THAN_SIXTEEN(16, "Mother may not have been 16 yet at the time"),
+    /**
+     * The child's father may not have been born at the time
+     */
+    FATHER_MAY_NOT_HAVE_BEEN_BORN_YET(17, "Father may not have been born yet"),
+    /**
+     * The child's father was not sixteen yet at the time
+     */
+    FATHER_WAS_LESS_THAN_SIXTEEN(18, "Mother may not have been 16 yet at the time"),
+    /**
+     * Mother may have been deceased at the time
+     */
+    MOTHER_MAY_HAVE_BEEN_DECEASED(19, "Mother may have been deceased at the time"),
+    /**
+     * Father may have been deceased at the time
+     */
+    FATHER_MAY_HAVE_BEEN_DECEASED(20, "Father may have been deceased at the time"),
+    /**
+     * Mother was sixty or older at the time
+     */
+    MOTHER_WAS_SIXTY_OR_OLDER(21, "Mother was sixty or older at the time"),
+    /**
+     * Father was sixty or older at the time
+     */
+    FATHER_WAS_SIXTY_OR_OLDER(22, "Father was sixty or older at the time");
 
     /*
      * Static initializer to check for skipped code numbers (which would also occur if there are duplicates)

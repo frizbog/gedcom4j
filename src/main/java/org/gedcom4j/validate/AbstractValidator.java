@@ -32,6 +32,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -44,11 +45,15 @@ import org.gedcom4j.model.HasCitations;
 import org.gedcom4j.model.HasCustomTags;
 import org.gedcom4j.model.HasNotes;
 import org.gedcom4j.model.HasXref;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.ModelElement;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.UserReference;
+import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.gedcom4j.parser.DateParser;
+import org.gedcom4j.parser.DateParser.ImpreciseDatePreference;
 import org.gedcom4j.validate.Validator.Finding;
 
 /**
@@ -92,7 +97,7 @@ abstract class AbstractValidator implements Serializable {
      * @param v
      *            the root {@link Validator} that tracks findings, etc.
      */
-    protected AbstractValidator(Validator v) {
+    AbstractValidator(Validator v) {
         validator = v;
     }
 
@@ -555,6 +560,64 @@ abstract class AbstractValidator implements Serializable {
             throw new ValidationException("Unable to invoke getter method for field '" + fieldName + "' on object of type " + object
                     .getClass().getName(), e);
         }
+    }
+
+    /**
+     * Gets the earliest event of a given type on an individual
+     *
+     * @param i
+     *            the individual
+     * @param type
+     *            the type of event to find
+     * @return the earliest event of type
+     */
+    protected IndividualEvent getEarliestEventOfType(Individual i, IndividualEventType type) {
+        if (i == null) {
+            return null;
+        }
+        IndividualEvent result = null;
+        List<IndividualEvent> eventsOfType = i.getEventsOfType(type);
+        DateParser dp = new DateParser();
+        Date earliestSoFar = new Date(Long.MAX_VALUE);
+        for (IndividualEvent e : eventsOfType) {
+            if (e.getDate() != null && e.getDate().getValue() != null) {
+                Date d = dp.parse(e.getDate().getValue(), ImpreciseDatePreference.FAVOR_EARLIEST);
+                if (d != null && d.before(earliestSoFar)) {
+                    result = e;
+                    earliestSoFar = d;
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Gets the latest event of a given type on an individual
+     *
+     * @param i
+     *            the individual
+     * @param type
+     *            the type of event to find
+     * @return the latest event of type
+     */
+    protected IndividualEvent getLatestEventOfType(Individual i, IndividualEventType type) {
+        if (i == null) {
+            return null;
+        }
+        IndividualEvent result = null;
+        List<IndividualEvent> eventsOfType = i.getEventsOfType(type);
+        DateParser dp = new DateParser();
+        Date latestSoFar = new Date(Long.MIN_VALUE);
+        for (IndividualEvent e : eventsOfType) {
+            if (e.getDate() != null && e.getDate().getValue() != null) {
+                Date d = dp.parse(e.getDate().getValue(), ImpreciseDatePreference.FAVOR_LATEST);
+                if (d != null && d.after(latestSoFar)) {
+                    result = e;
+                    latestSoFar = d;
+                }
+            }
+        }
+        return result;
     }
 
     /**

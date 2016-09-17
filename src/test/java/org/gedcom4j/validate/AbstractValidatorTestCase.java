@@ -28,8 +28,12 @@ package org.gedcom4j.validate;
 
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
+
+import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.ModelElement;
+import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.validate.Validator.Finding;
 
 /**
@@ -141,5 +145,22 @@ public abstract class AbstractValidatorTestCase {
             }
             fail("There should not be any warnings or errors, but there were:" + sb.toString());
         }
+    }
+
+    /**
+     * Load a file for the tes
+     *
+     * @param fileName
+     *            the file name
+     * @throws IOException
+     *             if the file cannot be read
+     * @throws GedcomParserException
+     *             if the file cannot be parsed
+     */
+    protected void loadFile(String fileName) throws IOException, GedcomParserException {
+        GedcomParser gp = new GedcomParser();
+        gp.load(fileName);
+        gedcom = gp.getGedcom();
+        validator = new Validator(gedcom);
     }
 }

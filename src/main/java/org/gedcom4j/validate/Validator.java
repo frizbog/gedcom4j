@@ -30,9 +30,12 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.gedcom4j.Options;
 import org.gedcom4j.exception.ValidationException;
@@ -50,7 +53,7 @@ import org.gedcom4j.model.Trailer;
 
 /**
  * <p>
- * Validates {@link Gedcom} objects.
+ * Validates {@link Gedcom} object graphs.
  * </p>
  * <p>
  * Does a deep traversal over the items in the {@link Gedcom} structure and checks them for problems, errors, etc, which are
@@ -58,8 +61,16 @@ import org.gedcom4j.model.Trailer;
  * the objects that have problems.
  * </p>
  * <p>
- * Typical usage is to instantiate a Validator with the Gedcom being validated, call the validate() method, then call the
- * getResults()
+ * Typical usage is to instantiate a Validator with the Gedcom being validated, call the {@link #validate()} method, then examine
+ * the {@link ValidationResults} object obtained from the {@link #getResults()} method.
+ * </p>
+ * <p>
+ * Users can extend the validation process by writing custom validators and registering them with this validator. To do this, write
+ * a class that extends {@link AbstractValidator}, implement its {@link AbstractValidator#validate()} method which examines the
+ * {@link Gedcom} being validated, and for anything that's problematic found, call
+ * {@link AbstractValidator#newFinding(ModelElement, Severity, ProblemCode, String)} from there. When the {@link #validate()} method
+ * runs on this class, your validator will be called (along with the others in the collection) and your results will be added to the
+ * full set of results.
  * </p>
  * 
  * @author frizbog
@@ -443,6 +454,12 @@ public class Validator implements Serializable {
     private final ValidationResults results = new ValidationResults();
 
     /**
+     * The extra validators. Callers may declare their own validators and register them to be executied
+     */
+    @SuppressWarnings("checkstyle:WhitespaceAround")
+    private final Set<Class<? extends AbstractValidator>> supplementaryValidators = new HashSet<>();
+
+    /**
      * Instantiates a new validator.
      *
      * @param gedcom
@@ -455,6 +472,10 @@ public class Validator implements Serializable {
             throw new IllegalArgumentException("gedcom is a required argument");
         }
         this.gedcom = gedcom;
+
+        supplementaryValidators.add(DifferentSurnamesThanParentsValidator.class);
+        supplementaryValidators.add(BirthsToYoungParentsValidator.class);
+        supplementaryValidators.add(BirthsToOldParentsValidator.class);
     }
 
     /**
@@ -560,6 +581,7 @@ public class Validator implements Serializable {
     /**
      * Validate the gedcom
      */
+    @SuppressWarnings("checkstyle:WhitespaceAround")
     public void validate() {
         results.clear();
         checkHeader();
@@ -578,6 +600,32 @@ public class Validator implements Serializable {
                 vf.addRepair(new AutoRepair(null, new Trailer()));
             }
         }
+        for (Class<? extends AbstractValidator> avc : supplementaryValidators) {
+            try {
+                AbstractValidator av = avc.getConstructor(Validator.class).newInstance(this);
+                av.validate();
+            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                    | NoSuchMethodException | SecurityException e) {
+                throw new ValidationException("Unable to instantiate and invoke custom validator " + avc.getName(), e);
+            }
+        }
+    }
+
+    /**
+     * <p>
+     * Get the supplementary validators.
+     * </p>
+     * <p>
+     * This collection comes pre-populated with a variety of built-in validators. Users can add their own custom
+     * {@link AbstractValidator} implementations to this collection and have them executed at validation time. Users can also remove
+     * any supplemental validator they do not want to run during validation.
+     * </p>
+     * 
+     * @return the supplementary validators collection.
+     */
+    @SuppressWarnings("checkstyle:WhitespaceAround")
+    protected Set<Class<? extends AbstractValidator>> getSupplementaryValidators() {
+        return supplementaryValidators;
     }
 
     /**
