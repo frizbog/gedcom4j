@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.gedcom4j.Options;
+import org.gedcom4j.model.enumerations.IndividualAttributeType;
+import org.gedcom4j.model.enumerations.IndividualEventType;
 
 /**
  * An individual person. Corresponds to the INDIVIDUAL_RECORD structure in the GEDCOM specification.

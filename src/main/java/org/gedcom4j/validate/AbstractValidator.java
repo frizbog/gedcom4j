@@ -128,11 +128,7 @@ abstract class AbstractValidator implements Serializable {
         mustHaveValue(changeDate, "date");
         mustBeDateIfSpecified(changeDate, "date");
         mustHaveValueOrBeOmitted(changeDate, "time");
-        if (changeDate.getNotes() == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(changeDate, Severity.INFO, org.gedcom4j.validate.ProblemCode.UNINITIALIZED_COLLECTION,
-                    "notes");
-            initializeCollectionIfAllowed(vf);
-        }
+        checkUninitializedCollection(changeDate, "notes");
         checkNotes(changeDate);
     }
 
@@ -143,13 +139,9 @@ abstract class AbstractValidator implements Serializable {
      *            the object with citations
      */
     protected void checkCitations(HasCitations objectWithCitations) {
+        checkUninitializedCollection(objectWithCitations, "citations");
         List<AbstractCitation> citations = objectWithCitations.getCitations();
         if (citations == null) {
-            if (Options.isCollectionInitializationEnabled()) {
-                Finding finding = validator.newFinding(objectWithCitations, Severity.INFO,
-                        org.gedcom4j.validate.ProblemCode.UNINITIALIZED_COLLECTION, "citations");
-                initializeCollectionIfAllowed(finding);
-            }
             return;
         }
         DuplicateHandler<AbstractCitation> dh = new DuplicateHandler<>(citations);
@@ -177,29 +169,26 @@ abstract class AbstractValidator implements Serializable {
         if (o == null) {
             return; // Nothing to check!
         }
-        if (o.getCustomTags() == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(o, Severity.INFO, org.gedcom4j.validate.ProblemCode.UNINITIALIZED_COLLECTION,
-                    "customTags");
-            initializeCollectionIfAllowed(vf);
+        checkUninitializedCollection(o, "customTags");
+        if (o.getCustomTags() == null) {
+            return;
         }
-        if (o.getCustomTags() != null) {
-            int i = 0;
-            while (i < o.getCustomTags().size()) {
-                StringTree ct = o.getCustomTags().get(i);
-                if (ct == null) {
-                    Finding vf = validator.newFinding(o, Severity.ERROR, org.gedcom4j.validate.ProblemCode.LIST_WITH_NULL_VALUE,
-                            "customTags");
-                    if (validator.mayRepair(vf)) {
-                        ModelElement before = makeCopy(o);
-                        o.getCustomTags().remove(i);
-                        vf.addRepair(new AutoRepair(before, makeCopy(o)));
-                    } else {
-                        i++;
-                    }
+        int i = 0;
+        while (i < o.getCustomTags().size()) {
+            StringTree ct = o.getCustomTags().get(i);
+            if (ct == null) {
+                Finding vf = validator.newFinding(o, Severity.ERROR, org.gedcom4j.validate.ProblemCode.LIST_WITH_NULL_VALUE,
+                        "customTags");
+                if (validator.mayRepair(vf)) {
+                    ModelElement before = makeCopy(o);
+                    o.getCustomTags().remove(i);
+                    vf.addRepair(new AutoRepair(before, makeCopy(o)));
                 } else {
-                    checkStringTree(ct);
                     i++;
                 }
+            } else {
+                checkStringTree(ct);
+                i++;
             }
         }
     }
@@ -211,18 +200,13 @@ abstract class AbstractValidator implements Serializable {
      *            item with emails
      */
     protected void checkEmails(AbstractAddressableElement itemWithAddresses) {
-        List<StringWithCustomTags> emails = itemWithAddresses.getEmails();
-        if (emails == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(itemWithAddresses, Severity.INFO,
-                    org.gedcom4j.validate.ProblemCode.UNINITIALIZED_COLLECTION, "emails");
-            initializeCollectionIfAllowed(vf);
-        }
-        if (emails == null) {
+        checkUninitializedCollection(itemWithAddresses, "emails");
+        if (itemWithAddresses.getEmails() == null) {
             return;
         }
         checkListOfModelElementsForDups(itemWithAddresses, "emails");
         checkListOfModelElementsForNulls(itemWithAddresses, "emails");
-        for (StringWithCustomTags swct : emails) {
+        for (StringWithCustomTags swct : itemWithAddresses.getEmails()) {
             mustHaveValue(swct, "value");
             if (swct.getValue() != null && !EMAIL_PATTERN.matcher(swct.getValue()).matches()) {
                 validator.newFinding(swct, Severity.WARNING, org.gedcom4j.validate.ProblemCode.NOT_VALID_EMAIL_ADDRESS, "value");
@@ -237,18 +221,13 @@ abstract class AbstractValidator implements Serializable {
      *            item with fax numbers
      */
     protected void checkFaxNumbers(AbstractAddressableElement itemWithAddresses) {
-        List<StringWithCustomTags> faxNumbers = itemWithAddresses.getFaxNumbers();
-        if (faxNumbers == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(itemWithAddresses, Severity.INFO,
-                    org.gedcom4j.validate.ProblemCode.UNINITIALIZED_COLLECTION, "faxNumbers");
-            initializeCollectionIfAllowed(vf);
-        }
-        if (faxNumbers == null) {
+        checkUninitializedCollection(itemWithAddresses, "faxNumbers");
+        if (itemWithAddresses.getFaxNumbers() == null) {
             return;
         }
         checkListOfModelElementsForDups(itemWithAddresses, "faxNumbers");
         checkListOfModelElementsForNulls(itemWithAddresses, "faxNumbers");
-        for (StringWithCustomTags swct : faxNumbers) {
+        for (StringWithCustomTags swct : itemWithAddresses.getFaxNumbers()) {
             mustHaveValue(swct, "value");
         }
     }
@@ -380,18 +359,13 @@ abstract class AbstractValidator implements Serializable {
      *            item with phone numbers
      */
     protected void checkPhoneNumbers(AbstractAddressableElement itemWithAddresses) {
-        List<StringWithCustomTags> phoneNumbers = itemWithAddresses.getPhoneNumbers();
-        if (phoneNumbers == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(itemWithAddresses, Severity.INFO,
-                    org.gedcom4j.validate.ProblemCode.UNINITIALIZED_COLLECTION, "phoneNumbers");
-            initializeCollectionIfAllowed(vf);
-        }
-        if (phoneNumbers == null) {
+        checkUninitializedCollection(itemWithAddresses, "phoneNumbers");
+        if (itemWithAddresses.getPhoneNumbers() == null) {
             return;
         }
         checkListOfModelElementsForDups(itemWithAddresses, "phoneNumbers");
         checkListOfModelElementsForNulls(itemWithAddresses, "phoneNumbers");
-        for (StringWithCustomTags swct : phoneNumbers) {
+        for (StringWithCustomTags swct : itemWithAddresses.getPhoneNumbers()) {
             mustHaveValue(swct, "value");
         }
     }
@@ -408,13 +382,8 @@ abstract class AbstractValidator implements Serializable {
      */
     @SuppressWarnings("unchecked")
     protected void checkStringList(ModelElement modelElement, String listName, boolean blankStringsAllowed) {
+        checkUninitializedCollection(modelElement, listName);
         Object o = get(modelElement, listName);
-        if (o == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(modelElement, Severity.INFO,
-                    org.gedcom4j.validate.ProblemCode.UNINITIALIZED_COLLECTION, listName);
-            initializeCollectionIfAllowed(vf);
-        }
-        o = get(modelElement, listName);
         if (o == null) {
             return;
         }
@@ -545,18 +514,13 @@ abstract class AbstractValidator implements Serializable {
      *            item with wwwUrls
      */
     protected void checkWwwUrls(AbstractAddressableElement itemWithAddresses) {
-        List<StringWithCustomTags> wwwUrls = itemWithAddresses.getWwwUrls();
-        if (wwwUrls == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(itemWithAddresses, Severity.INFO,
-                    org.gedcom4j.validate.ProblemCode.UNINITIALIZED_COLLECTION, "wwwUrls");
-            initializeCollectionIfAllowed(vf);
-        }
-        if (wwwUrls == null) {
+        checkUninitializedCollection(itemWithAddresses, "wwwUrls");
+        if (itemWithAddresses.getWwwUrls() == null) {
             return;
         }
         checkListOfModelElementsForDups(itemWithAddresses, "wwwUrls");
         checkListOfModelElementsForNulls(itemWithAddresses, "wwwUrls");
-        for (StringWithCustomTags swct : wwwUrls) {
+        for (StringWithCustomTags swct : itemWithAddresses.getWwwUrls()) {
             mustHaveValue(swct, "value");
             if (swct.getValue() != null && !URL_PATTERN.matcher(swct.getValue()).matches()) {
                 validator.newFinding(swct, Severity.WARNING, org.gedcom4j.validate.ProblemCode.NOT_VALID_WWW_URL, "value");
@@ -581,52 +545,6 @@ abstract class AbstractValidator implements Serializable {
             throw new ValidationException("Unable to invoke getter method for field '" + fieldName + "' on object of type " + object
                     .getClass().getName(), e);
         }
-    }
-
-    /**
-     * Get the copy constructor on a ModelElement
-     * 
-     * @param modelElement
-     *            the object
-     * @return the copy constructor, if one can be found
-     */
-    @SuppressWarnings("unchecked")
-    protected Constructor<ModelElement> getCopyConstructor(ModelElement modelElement) {
-        Constructor<ModelElement> result;
-        try {
-            result = (Constructor<ModelElement>) modelElement.getClass().getConstructor(modelElement.getClass());
-        } catch (NoSuchMethodException | SecurityException | IllegalArgumentException e) {
-            throw new ValidationException("Unable to find copy constructor on object of class " + modelElement.getClass().getName(),
-                    e);
-        }
-        return result;
-    }
-
-    /**
-     * Get the getter for a field whose name is supplied for a given object
-     * 
-     * @param object
-     *            the object that has the named field you want a getter for
-     * @param fieldName
-     *            the name of the field you want to get
-     * @return the getter method
-     */
-    @SuppressWarnings("PMD.PreserveStackTrace")
-    protected Method getGetter(Object object, String fieldName) {
-        Method result = null;
-        try {
-            String getterName = "get" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1);
-            result = object.getClass().getMethod(getterName);
-        } catch (@SuppressWarnings("unused") NoSuchMethodException | SecurityException ignored) {
-            try {
-                String getterName = "is" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1);
-                result = object.getClass().getMethod(getterName);
-            } catch (NoSuchMethodException | SecurityException e1) {
-                throw new ValidationException("Unable to find getter method for field '" + fieldName + "' on object of type "
-                        + object.getClass().getName(), e1);
-            }
-        }
-        return result;
     }
 
     /**
@@ -917,6 +835,52 @@ abstract class AbstractValidator implements Serializable {
                 checkStringTree(ch);
             }
         }
+    }
+
+    /**
+     * Get the copy constructor on a ModelElement
+     * 
+     * @param modelElement
+     *            the object
+     * @return the copy constructor, if one can be found
+     */
+    @SuppressWarnings("unchecked")
+    private Constructor<ModelElement> getCopyConstructor(ModelElement modelElement) {
+        Constructor<ModelElement> result;
+        try {
+            result = (Constructor<ModelElement>) modelElement.getClass().getConstructor(modelElement.getClass());
+        } catch (NoSuchMethodException | SecurityException | IllegalArgumentException e) {
+            throw new ValidationException("Unable to find copy constructor on object of class " + modelElement.getClass().getName(),
+                    e);
+        }
+        return result;
+    }
+
+    /**
+     * Get the getter for a field whose name is supplied for a given object
+     * 
+     * @param object
+     *            the object that has the named field you want a getter for
+     * @param fieldName
+     *            the name of the field you want to get
+     * @return the getter method
+     */
+    @SuppressWarnings("PMD.PreserveStackTrace")
+    private Method getGetter(Object object, String fieldName) {
+        Method result = null;
+        try {
+            String getterName = "get" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1);
+            result = object.getClass().getMethod(getterName);
+        } catch (@SuppressWarnings("unused") NoSuchMethodException | SecurityException ignored) {
+            try {
+                String getterName = "is" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1);
+                result = object.getClass().getMethod(getterName);
+            } catch (NoSuchMethodException | SecurityException e1) {
+                throw new ValidationException("Unable to find getter method for field '" + fieldName + "' on object of type "
+                        + object.getClass().getName(), e1);
+            }
+        }
+        return result;
     }
 
 }

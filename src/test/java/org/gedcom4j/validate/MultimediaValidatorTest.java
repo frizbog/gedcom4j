@@ -30,7 +30,7 @@ import org.gedcom4j.model.Header;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.Submitter;
-import org.gedcom4j.model.SupportedVersion;
+import org.gedcom4j.model.enumerations.SupportedVersion;
 import org.junit.Before;
 import org.junit.Test;
 

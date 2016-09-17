@@ -30,8 +30,8 @@ import org.gedcom4j.model.Address;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
-import org.gedcom4j.model.IndividualEventType;
 import org.gedcom4j.model.TestHelper;
+import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.junit.Test;
 
 /**

@@ -26,10 +26,10 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.model.LdsBaptismDateStatus;
-import org.gedcom4j.model.LdsChildSealingDateStatus;
-import org.gedcom4j.model.LdsEndowmentDateStatus;
 import org.gedcom4j.model.LdsIndividualOrdinance;
+import org.gedcom4j.model.enumerations.LdsBaptismDateStatus;
+import org.gedcom4j.model.enumerations.LdsChildSealingDateStatus;
+import org.gedcom4j.model.enumerations.LdsEndowmentDateStatus;
 
 /**
  * Validator for an {@link LdsIndividualOrdinance}

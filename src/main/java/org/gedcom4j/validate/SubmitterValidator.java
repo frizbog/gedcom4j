@@ -28,7 +28,6 @@ package org.gedcom4j.validate;
 
 import java.util.List;
 
-import org.gedcom4j.Options;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.validate.Validator.Finding;
@@ -84,10 +83,7 @@ class SubmitterValidator extends AbstractValidator {
      * Check the language preferences
      */
     private void checkLanguagePreferences() {
-        if (submitter.getLanguagePref() == null && Options.isCollectionInitializationEnabled()) {
-            Finding finding = validator.newFinding(submitter, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "languagePref");
-            initializeCollectionIfAllowed(finding);
-        }
+        checkUninitializedCollection(submitter, "languagePref");
         List<StringWithCustomTags> languagePref = submitter.getLanguagePref();
         if (languagePref == null) {
             return;

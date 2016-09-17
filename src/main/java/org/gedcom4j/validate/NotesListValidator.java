@@ -28,7 +28,6 @@ package org.gedcom4j.validate;
 
 import java.util.List;
 
-import org.gedcom4j.Options;
 import org.gedcom4j.exception.ValidationException;
 import org.gedcom4j.model.ModelElement;
 import org.gedcom4j.model.Note;
@@ -50,7 +49,7 @@ class NotesListValidator extends AbstractValidator {
     /**
      * The notes being validated
      */
-    private final List<Note> notes;
+    private List<Note> notes;
 
     /**
      * The object that contains the notes
@@ -80,11 +79,15 @@ class NotesListValidator extends AbstractValidator {
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("unchecked")
     @Override
     protected void validate() {
-        if (notes == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(parentObject, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "notes");
-            initializeCollectionIfAllowed(vf);
+        checkUninitializedCollection(parentObject, "notes");
+        try {
+            notes = (List<Note>) get(parentObject, "notes");
+        } catch (ClassCastException e) {
+            throw new ValidationException("Field notes on object of type " + parentObject.getClass().getName()
+                    + "did not return a List<Note>", e);
         }
         if (notes == null) {
             return;

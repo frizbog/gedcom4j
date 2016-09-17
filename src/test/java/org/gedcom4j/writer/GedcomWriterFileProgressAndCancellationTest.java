@@ -46,7 +46,7 @@ import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.StringWithCustomTags;
-import org.gedcom4j.model.SupportedVersion;
+import org.gedcom4j.model.enumerations.SupportedVersion;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.validate.Validator;
 import org.gedcom4j.validate.Validator.Finding;

@@ -28,7 +28,6 @@ package org.gedcom4j.validate;
 
 import java.util.List;
 
-import org.gedcom4j.Options;
 import org.gedcom4j.model.EventRecorded;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.RepositoryCitation;
@@ -94,18 +93,12 @@ class SourceValidator extends AbstractValidator {
                 }
             }
         }
-        List<Multimedia> multimedia = source.getMultimedia();
-        if (multimedia == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(source, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "multimedia");
-            initializeCollectionIfAllowed(vf);
-        } else {
+        checkUninitializedCollection(source, "multimedia");
+        if (source.getMultimedia() != null) {
             checkListOfModelElementsForDups(source, "multimedia");
             checkListOfModelElementsForNulls(source, "multimedia");
-
-            if (multimedia != null) {
-                for (Multimedia mm : multimedia) {
-                    new MultimediaValidator(validator, mm).validate();
-                }
+            for (Multimedia mm : source.getMultimedia()) {
+                new MultimediaValidator(validator, mm).validate();
             }
         }
         new NotesListValidator(validator, source).validate();
@@ -132,15 +125,11 @@ class SourceValidator extends AbstractValidator {
      *            the citation to check the call numbers on
      */
     private void checkCallNumbers(RepositoryCitation citation) {
-        List<SourceCallNumber> callNumbers = citation.getCallNumbers();
-        if (callNumbers == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(citation, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "callNumbers");
-            initializeCollectionIfAllowed(vf);
-        }
-        if (callNumbers != null) {
+        checkUninitializedCollection(citation, "callNumbers");
+        if (citation.getCallNumbers() != null) {
             checkListOfModelElementsForDups(citation, "callNumbers");
             checkListOfModelElementsForNulls(citation, "callNumbers");
-            for (SourceCallNumber scn : callNumbers) {
+            for (SourceCallNumber scn : citation.getCallNumbers()) {
                 mustHaveValueOrBeOmitted(scn, "callNumber");
                 if (scn.getCallNumber() == null) {
                     if (scn.getMediaType() != null) {

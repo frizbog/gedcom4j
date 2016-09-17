@@ -37,14 +37,14 @@ import org.gedcom4j.model.FamilySpouse;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualAttribute;
 import org.gedcom4j.model.IndividualEvent;
-import org.gedcom4j.model.IndividualEventType;
 import org.gedcom4j.model.LdsIndividualOrdinance;
-import org.gedcom4j.model.LdsIndividualOrdinanceType;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.PersonalNameVariation;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.UserReference;
+import org.gedcom4j.model.enumerations.IndividualEventType;
+import org.gedcom4j.model.enumerations.LdsIndividualOrdinanceType;
 
 /**
  * @author frizbog

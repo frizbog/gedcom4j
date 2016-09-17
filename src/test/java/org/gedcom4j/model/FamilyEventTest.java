@@ -30,6 +30,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.gedcom4j.model.enumerations.FamilyEventType;
 import org.junit.Test;
 
 /**

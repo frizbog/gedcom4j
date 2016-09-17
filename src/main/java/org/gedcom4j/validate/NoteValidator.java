@@ -26,9 +26,7 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.Options;
 import org.gedcom4j.model.Note;
-import org.gedcom4j.validate.Validator.Finding;
 
 /**
  * Validator for a single {@link Note}
@@ -65,12 +63,7 @@ class NoteValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-
-        if (Options.isCollectionInitializationEnabled() && note.getLines() == null) {
-            Finding finding = validator.newFinding(note, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "lines");
-            initializeCollectionIfAllowed(finding);
-        }
-
+        checkUninitializedCollection(note, "lines");
         if (note.getXref() == null && (note.getLines() == null || note.getLines().isEmpty())) {
             validator.newFinding(note, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "lines");
         }

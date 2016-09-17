@@ -31,12 +31,12 @@ import java.util.List;
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.Address;
 import org.gedcom4j.model.IndividualAttribute;
-import org.gedcom4j.model.IndividualAttributeType;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Note;
 import org.gedcom4j.model.Place;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.enumerations.IndividualAttributeType;
 
 /**
  * Parser for {@link IndividualAttribute} objects

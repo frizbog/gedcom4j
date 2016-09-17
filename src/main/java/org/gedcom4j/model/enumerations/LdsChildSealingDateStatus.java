@@ -24,23 +24,26 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.gedcom4j.model;
+package org.gedcom4j.model.enumerations;
 
 /**
- * Allowed statuses for LDS Baptisms and Confirmations
+ * Allowed statuses for LDS Endowments
  * 
  * @author frizbog
  */
-public enum LdsBaptismDateStatus {
+public enum LdsChildSealingDateStatus {
 
-    /** child */
-    CHILD("CHILD", "Died before becoming eight years old, baptism not required."),
+    /** Born in covenant */
+    BIC("BIC", "Born in the covenant receiving blessing of child to parent sealing"),
 
     /** completed */
     COMPLETED("COMPLETED", "Completed but the date is not known."),
 
     /** excluded */
     EXCLUDED("EXCLUDED", "Patron excluded this ordinance from being cleared in this submission."),
+
+    /** Do not submit */
+    DNS("DNS", "This ordinance is not authorized"),
 
     /** pre 1970 */
     PRE_1970("PRE-1970", "Ordinance from temple records of work completed before 1970, assumed complete."),
@@ -61,8 +64,8 @@ public enum LdsBaptismDateStatus {
      *            the code
      * @return the code, or null if no matching value can be found
      */
-    public static LdsBaptismDateStatus getForCode(String code) {
-        for (LdsBaptismDateStatus e : values()) {
+    public static LdsChildSealingDateStatus getForCode(String code) {
+        for (LdsChildSealingDateStatus e : values()) {
             if (e.code.equals(code)) {
                 return e;
             }
@@ -88,7 +91,7 @@ public enum LdsBaptismDateStatus {
      * @param description
      *            the description of the problem
      */
-    LdsBaptismDateStatus(String code, String description) {
+    LdsChildSealingDateStatus(String code, String description) {
         this.code = code;
         this.description = description;
     }

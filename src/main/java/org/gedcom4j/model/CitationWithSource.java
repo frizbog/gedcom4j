@@ -30,6 +30,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.gedcom4j.Options;
+import org.gedcom4j.model.enumerations.FamilyEventType;
+import org.gedcom4j.model.enumerations.IndividualAttributeType;
+import org.gedcom4j.model.enumerations.IndividualEventType;
 
 /**
  * A citation with a source. Corresponds to the first (preferred) form of the SOURCE_CITATION structure (which you'd do in Pascal

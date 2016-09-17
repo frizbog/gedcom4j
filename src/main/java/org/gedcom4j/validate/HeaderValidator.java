@@ -26,7 +26,6 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.Options;
 import org.gedcom4j.io.encoding.Encoding;
 import org.gedcom4j.model.CharacterSet;
 import org.gedcom4j.model.Corporation;
@@ -35,7 +34,7 @@ import org.gedcom4j.model.Header;
 import org.gedcom4j.model.HeaderSourceData;
 import org.gedcom4j.model.SourceSystem;
 import org.gedcom4j.model.Submitter;
-import org.gedcom4j.model.SupportedVersion;
+import org.gedcom4j.model.enumerations.SupportedVersion;
 import org.gedcom4j.validate.Validator.Finding;
 
 /**
@@ -77,14 +76,7 @@ class HeaderValidator extends AbstractValidator {
     @Override
     protected void validate() {
         checkCharacterSet();
-        if (header.getCopyrightData() == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(header, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "copyrightData");
-            if (validator.mayRepair(vf)) {
-                Header before = new Header(header);
-                header.getCopyrightData(true).clear();
-                vf.addRepair(new AutoRepair(before, new Header(header)));
-            }
-        }
+        checkUninitializedCollection(header, "copyrightData");
         checkCustomTags(header);
         mustHaveValueOrBeOmitted(header, "date");
         mustBeDateIfSpecified(header, "date");

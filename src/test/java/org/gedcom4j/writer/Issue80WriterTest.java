@@ -34,9 +34,9 @@ import org.gedcom4j.io.writer.NullOutputStream;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
-import org.gedcom4j.model.IndividualEventType;
 import org.gedcom4j.model.Place;
 import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.junit.Test;
 
 /**

@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.model;
 
+import org.gedcom4j.model.enumerations.SupportedVersion;
+
 /**
  * Information about the version of the GEDCOM spec used
  * 

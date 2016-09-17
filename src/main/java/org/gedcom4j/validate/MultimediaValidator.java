@@ -28,12 +28,11 @@ package org.gedcom4j.validate;
 
 import java.util.List;
 
-import org.gedcom4j.Options;
 import org.gedcom4j.exception.ValidationException;
 import org.gedcom4j.model.FileReference;
 import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.SupportedVersion;
 import org.gedcom4j.model.UserReference;
+import org.gedcom4j.model.enumerations.SupportedVersion;
 import org.gedcom4j.validate.Validator.Finding;
 
 /**
@@ -116,10 +115,7 @@ class MultimediaValidator extends AbstractValidator {
      * Check user references
      */
     private void checkUserReferences() {
-        if (mm.getUserReferences() == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(mm, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "userReferences");
-            initializeCollectionIfAllowed(vf);
-        }
+        checkUninitializedCollection(mm, "userReferences");
         if (mm.getUserReferences() == null) {
             return;
         }
@@ -178,10 +174,7 @@ class MultimediaValidator extends AbstractValidator {
     private void validate551() {
 
         // File references
-        if (Options.isCollectionInitializationEnabled() && mm.getFileReferences() == null) {
-            Finding vf = validator.newFinding(mm, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "fileReferences");
-            initializeCollectionIfAllowed(vf);
-        }
+        checkUninitializedCollection(mm, "fileReferences");
         if (mm.getFileReferences() != null) {
             checkListOfModelElementsForDups(mm, "fileReferences");
             checkListOfModelElementsForNulls(mm, "fileReferences");
@@ -226,10 +219,7 @@ class MultimediaValidator extends AbstractValidator {
         if (mm.getContinuedObject() != null) {
             new MultimediaValidator(validator, mm.getContinuedObject()).validate();
         }
-        if (Options.isCollectionInitializationEnabled() && mm.getBlob() == null) {
-            Finding vf = validator.newFinding(mm, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "blob");
-            initializeCollectionIfAllowed(vf);
-        }
+        checkUninitializedCollection(mm, "blob");
         new NotesListValidator(validator, mm).validate();
     }
 

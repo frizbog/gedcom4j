@@ -26,13 +26,8 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.List;
-
-import org.gedcom4j.Options;
 import org.gedcom4j.model.AbstractNameVariation;
 import org.gedcom4j.model.PersonalName;
-import org.gedcom4j.model.PersonalNameVariation;
-import org.gedcom4j.validate.Validator.Finding;
 
 /**
  * Validator for {@link PersonalName} objects
@@ -90,17 +85,13 @@ class PersonalNameValidator extends AbstractValidator {
      * Check the phonetic variations on the place name
      */
     private void checkPhoneticVariations() {
-        List<PersonalNameVariation> phonetic = pn.getPhonetic();
-        if (phonetic == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(pn, Severity.ERROR, ProblemCode.UNINITIALIZED_COLLECTION, "phonetic");
-            initializeCollectionIfAllowed(vf);
-        }
-        if (phonetic == null) {
+        checkUninitializedCollection(pn, "phonetic");
+        if (pn.getPhonetic() == null) {
             return;
         }
         checkListOfModelElementsForDups(pn, "phonetic");
         checkListOfModelElementsForNulls(pn, "phonetic");
-        for (AbstractNameVariation nv : phonetic) {
+        for (AbstractNameVariation nv : pn.getPhonetic()) {
             new NameVariationValidator(validator, nv).validate();
         }
     }
@@ -109,17 +100,13 @@ class PersonalNameValidator extends AbstractValidator {
      * Check the romanized variations on the place name
      */
     private void checkRomanizedVariations() {
-        List<PersonalNameVariation> romanized = pn.getRomanized();
-        if (romanized == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(pn, Severity.ERROR, ProblemCode.UNINITIALIZED_COLLECTION, "romanized");
-            initializeCollectionIfAllowed(vf);
-        }
-        if (romanized == null) {
+        checkUninitializedCollection(pn, "romanized");
+        if (pn.getRomanized() == null) {
             return;
         }
         checkListOfModelElementsForDups(pn, "romanized");
         checkListOfModelElementsForNulls(pn, "romanized");
-        for (AbstractNameVariation nv : romanized) {
+        for (AbstractNameVariation nv : pn.getRomanized()) {
             new NameVariationValidator(validator, nv).validate();
         }
     }

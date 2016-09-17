@@ -37,17 +37,17 @@ import org.gedcom4j.model.FamilyChild;
 import org.gedcom4j.model.FamilySpouse;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualAttribute;
-import org.gedcom4j.model.IndividualAttributeType;
 import org.gedcom4j.model.IndividualEvent;
-import org.gedcom4j.model.IndividualEventType;
 import org.gedcom4j.model.LdsIndividualOrdinance;
-import org.gedcom4j.model.LdsIndividualOrdinanceType;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Note;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.UserReference;
+import org.gedcom4j.model.enumerations.IndividualAttributeType;
+import org.gedcom4j.model.enumerations.IndividualEventType;
+import org.gedcom4j.model.enumerations.LdsIndividualOrdinanceType;
 
 /**
  * Parser for {@link Individual} records

@@ -27,7 +27,7 @@
 package org.gedcom4j.validate;
 
 import org.gedcom4j.model.IndividualAttribute;
-import org.gedcom4j.model.IndividualAttributeType;
+import org.gedcom4j.model.enumerations.IndividualAttributeType;
 
 /**
  * Validator for {@link IndividualAttribute} objects

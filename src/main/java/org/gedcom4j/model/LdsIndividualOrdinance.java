@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.model;
 
+import org.gedcom4j.model.enumerations.LdsIndividualOrdinanceType;
+
 /**
  * An LDS Ordinance for an individual
  * 

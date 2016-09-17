@@ -28,12 +28,12 @@ package org.gedcom4j.parser;
 
 import java.util.List;
 
-import org.gedcom4j.model.AdoptedByWhichParent;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyChild;
 import org.gedcom4j.model.Note;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.enumerations.AdoptedByWhichParent;
 
 /**
  * Parser for {@link FamilyChild} objects

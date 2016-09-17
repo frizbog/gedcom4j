@@ -33,7 +33,7 @@ import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomTags;
-import org.gedcom4j.model.SupportedVersion;
+import org.gedcom4j.model.enumerations.SupportedVersion;
 
 /**
  * A base class for type-specific writers, which "render" the object model as GEDCOM text.

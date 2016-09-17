@@ -28,7 +28,6 @@ package org.gedcom4j.validate;
 
 import java.util.List;
 
-import org.gedcom4j.Options;
 import org.gedcom4j.model.Association;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualAttribute;
@@ -36,7 +35,6 @@ import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.LdsIndividualOrdinance;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.Submitter;
-import org.gedcom4j.validate.Validator.Finding;
 
 /**
  * A validator for an {@link Individual}. See {@link Validator} for usage information.
@@ -75,11 +73,8 @@ class IndividualValidator extends AbstractValidator {
     @Override
     protected void validate() {
         xrefMustBePresentAndWellFormed(individual);
+        checkUninitializedCollection(individual, "names");
         List<PersonalName> names = individual.getNames();
-        if (names == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(individual, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "names");
-            initializeCollectionIfAllowed(vf);
-        }
         if (names != null) {
             checkListOfModelElementsForDups(individual, "names");
             checkListOfModelElementsForNulls(individual, "names");
@@ -89,15 +84,12 @@ class IndividualValidator extends AbstractValidator {
                 }
             }
         }
-        if (individual.getFamiliesWhereChild() == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(individual, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION,
-                    "familiesWhereChild");
-            initializeCollectionIfAllowed(vf);
-        }
+        checkUninitializedCollection(individual, "familiesWhereChild");
         if (individual.getFamiliesWhereChild() != null) {
             checkListOfModelElementsForDups(individual, "familiesWhereChild");
             checkListOfModelElementsForNulls(individual, "familiesWhereChild");
         }
+        checkUninitializedCollection(individual, "familiesWhereSpouse");
         if (individual.getFamiliesWhereSpouse() != null) {
             checkListOfModelElementsForDups(individual, "familiesWhereSpouse");
             checkListOfModelElementsForNulls(individual, "familiesWhereSpouse");
@@ -116,10 +108,7 @@ class IndividualValidator extends AbstractValidator {
      * 
      */
     private void checkAliases() {
-        if (individual.getAliases() == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(individual, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "aliases");
-            initializeCollectionIfAllowed(vf);
-        }
+        checkUninitializedCollection(individual, "aliases");
         if (individual.getAliases() != null) {
             checkListOfModelElementsForDups(individual, "aliases");
             checkListOfModelElementsForNulls(individual, "aliases");
@@ -131,10 +120,7 @@ class IndividualValidator extends AbstractValidator {
      * Validate the {@link Individual#associations} collection
      */
     private void checkAssociations() {
-        if (individual.getAssociations() == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(individual, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "collections");
-            initializeCollectionIfAllowed(vf);
-        }
+        checkUninitializedCollection(individual, "associations");
         if (individual.getAssociations() != null) {
             checkListOfModelElementsForDups(individual, "associations");
             checkListOfModelElementsForNulls(individual, "associations");
@@ -150,10 +136,7 @@ class IndividualValidator extends AbstractValidator {
      * Validate the {@link Individual#attributes} collection
      */
     private void checkIndividualAttributes() {
-        if (individual.getAttributes() == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(individual, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "attributs");
-            initializeCollectionIfAllowed(vf);
-        }
+        checkUninitializedCollection(individual, "attributes");
         if (individual.getAttributes() != null) {
             checkListOfModelElementsForDups(individual, "attributes");
             checkListOfModelElementsForNulls(individual, "attributes");
@@ -167,10 +150,7 @@ class IndividualValidator extends AbstractValidator {
      * Validate the {@link Individual#events} collection
      */
     private void checkIndividualEvents() {
-        if (individual.getEvents() == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(individual, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "events");
-            initializeCollectionIfAllowed(vf);
-        }
+        checkUninitializedCollection(individual, "events");
         if (individual.getEvents() != null) {
             checkListOfModelElementsForDups(individual, "events");
             checkListOfModelElementsForNulls(individual, "events");
@@ -184,13 +164,10 @@ class IndividualValidator extends AbstractValidator {
      * Validate the LdsIndividualOrinances
      */
     private void checkLdsIndividualOrdinances() {
-        if (individual.getLdsIndividualOrdinances() == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(individual, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "events");
-            initializeCollectionIfAllowed(vf);
-        }
+        checkUninitializedCollection(individual, "ldsIndividualOrdinances");
         if (individual.getLdsIndividualOrdinances() != null) {
-            checkListOfModelElementsForDups(individual, "events");
-            checkListOfModelElementsForNulls(individual, "events");
+            checkListOfModelElementsForDups(individual, "ldsIndividualOrdinances");
+            checkListOfModelElementsForNulls(individual, "ldsIndividualOrdinances");
             for (LdsIndividualOrdinance o : individual.getLdsIndividualOrdinances()) {
                 new LdsIndividualOrdinanceValidator(validator, o).validate();
             }
@@ -201,20 +178,13 @@ class IndividualValidator extends AbstractValidator {
      * Validate the two submitters collections: {@link Individual#ancestorInterest} and {@link Individual#descendantInterest}
      */
     private void checkSubmitters() {
-        if (individual.getAncestorInterest() == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(individual, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "ancestorInterest");
-            initializeCollectionIfAllowed(vf);
-        }
+        checkUninitializedCollection(individual, "ancestorInterest");
         if (individual.getAncestorInterest() != null) {
             for (Submitter submitter : individual.getAncestorInterest()) {
                 new SubmitterValidator(validator, submitter).validate();
             }
         }
-        if (individual.getDescendantInterest() == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(individual, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION,
-                    "descendantInterest");
-            initializeCollectionIfAllowed(vf);
-        }
+        checkUninitializedCollection(individual, "descendantInterest");
         if (individual.getDescendantInterest() != null) {
             for (Submitter submitter : individual.getDescendantInterest()) {
                 new SubmitterValidator(validator, submitter).validate();

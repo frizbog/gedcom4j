@@ -26,11 +26,11 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.model.LdsBaptismDateStatus;
 import org.gedcom4j.model.LdsIndividualOrdinance;
-import org.gedcom4j.model.LdsIndividualOrdinanceType;
 import org.gedcom4j.model.Note;
 import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.enumerations.LdsBaptismDateStatus;
+import org.gedcom4j.model.enumerations.LdsIndividualOrdinanceType;
 import org.junit.Test;
 
 /**

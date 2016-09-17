@@ -30,7 +30,7 @@ import org.gedcom4j.exception.UnsupportedVersionException;
 import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomTags;
-import org.gedcom4j.model.SupportedVersion;
+import org.gedcom4j.model.enumerations.SupportedVersion;
 
 /**
  * A parser for {@link GedcomVersion} objects.

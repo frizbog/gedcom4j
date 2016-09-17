@@ -24,7 +24,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.gedcom4j.model;
+package org.gedcom4j.model.enumerations;
 
 /**
  * An enumeration of who adopted a child. Corresponds to the ADOPTED_BY_WHICH_PARENT definition in the GEDCOM specification.

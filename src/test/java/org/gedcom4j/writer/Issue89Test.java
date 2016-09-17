@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.writer;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.ByteArrayOutputStream;
 
 import org.gedcom4j.exception.GedcomWriterException;
@@ -36,14 +38,12 @@ import org.gedcom4j.model.Submitter;
 import org.gedcom4j.validate.Validator.Finding;
 import org.junit.Test;
 
-import junit.framework.TestCase;
-
 /**
  * Test for issue 89 where custom tags are not being emitted by the GedcomWriter
  * 
  * @author frizbog
  */
-public class Issue89Test extends TestCase {
+public class Issue89Test {
 
     /**
      * Test for issue 89 where custom tags are not being emitted by the GedcomWriter

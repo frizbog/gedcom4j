@@ -24,18 +24,21 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.gedcom4j.model;
+package org.gedcom4j.model.enumerations;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-
-import junit.framework.TestCase;
 
 /**
  * Tests for {@link FamilyEventType}
  * 
  * @author frizbog1
  */
-public class FamilyEventTypeTest extends TestCase {
+public class FamilyEventTypeTest {
 
     /**
      * Test for {@link FamilyEventType#getFromTag(String)}

@@ -32,6 +32,7 @@ import static org.junit.Assert.assertNotSame;
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.model.enumerations.FamilyEventType;
 import org.junit.Test;
 
 /**

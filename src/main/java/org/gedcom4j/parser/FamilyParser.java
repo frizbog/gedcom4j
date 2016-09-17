@@ -32,13 +32,13 @@ import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.ChangeDate;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyEvent;
-import org.gedcom4j.model.FamilyEventType;
 import org.gedcom4j.model.LdsSpouseSealing;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Note;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.UserReference;
+import org.gedcom4j.model.enumerations.FamilyEventType;
 
 /**
  * Parser for {@link Family} objects

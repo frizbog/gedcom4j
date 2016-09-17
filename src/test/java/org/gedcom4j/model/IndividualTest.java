@@ -36,6 +36,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.model.enumerations.IndividualAttributeType;
+import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.query.Finder;
 import org.junit.Test;
@@ -168,7 +170,7 @@ public class IndividualTest {
     }
 
     /**
-     * Test method for {@link org.gedcom4j.model.Individual#getAttributesOfType(org.gedcom4j.model.IndividualAttributeType)} .
+     * Test method for {@link org.gedcom4j.model.Individual#getAttributesOfType(org.gedcom4j.model.enumerations.IndividualAttributeType)} .
      */
     @Test
     public void testGetAttributesOfType() {
@@ -223,7 +225,7 @@ public class IndividualTest {
     }
 
     /**
-     * Test method for {@link org.gedcom4j.model.Individual#getEventsOfType(org.gedcom4j.model.IndividualEventType)} .
+     * Test method for {@link org.gedcom4j.model.Individual#getEventsOfType(org.gedcom4j.model.enumerations.IndividualEventType)} .
      */
     @Test
     public void testGetEventsOfType() {

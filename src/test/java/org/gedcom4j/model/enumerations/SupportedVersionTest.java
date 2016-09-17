@@ -24,35 +24,40 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.gedcom4j.model;
+package org.gedcom4j.model.enumerations;
 
-import org.junit.Assert;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
+import org.gedcom4j.exception.UnsupportedVersionException;
 import org.junit.Test;
 
 /**
- * Test for the individual event type
+ * Test for the SupportedVersion class
  * 
- * @author frizbog1
+ * @author frizbog
  * 
  */
-public class IndividualEventTypeTest {
+public class SupportedVersionTest {
 
     /**
-     * Test for {@link IndividualEventType#getFromTag(String)}
+     * Tests the SupportedVersion class and the UnsupportedVersionException
+     * 
+     * @throws UnsupportedVersionException
+     *             should never happen unless the {@link SupportedVersion#forString(String)} method is broken
      */
     @Test
-    public void testGetFromTag() {
-        Assert.assertSame(IndividualEventType.PROBATE, IndividualEventType.getFromTag("PROB"));
-        Assert.assertNull(IndividualEventType.getFromTag(""));
-        Assert.assertNull(IndividualEventType.getFromTag(null));
+    @SuppressWarnings("PMD.EmptyStatementNotInLoop")
+    public void test() throws UnsupportedVersionException {
+        assertNotNull(SupportedVersion.forString("5.5"));
+        assertNotNull(SupportedVersion.forString("5.5.1"));
+
+        try {
+            SupportedVersion.forString("frying pan");
+            fail("Should have gotten an exception");
+        } catch (@SuppressWarnings("unused") UnsupportedVersionException expectedAndIgnored) {
+            ; // Good!
+        }
     }
 
-    /**
-     * Test for {@link IndividualEventType#isValidTag(String)}
-     */
-    @Test
-    public void testIsValidTag() {
-        Assert.assertTrue(IndividualEventType.isValidTag("BAPM"));
-        Assert.assertFalse("Baptism is BAPM, not BAPT like you might expect", IndividualEventType.isValidTag("BAPT"));
-    }
 }

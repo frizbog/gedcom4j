@@ -26,8 +26,8 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.model.LdsBaptismDateStatus;
 import org.gedcom4j.model.ModelElement;
+import org.gedcom4j.model.enumerations.LdsBaptismDateStatus;
 import org.junit.Test;
 
 /**

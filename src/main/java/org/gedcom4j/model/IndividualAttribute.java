@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.model;
 
+import org.gedcom4j.model.enumerations.IndividualAttributeType;
+
 /**
  * A class for an individual attribute. Corresponds to INDIVIDUAL_ATTRIBUTE_STRUCTURE in the GEDCOM standard
  * 

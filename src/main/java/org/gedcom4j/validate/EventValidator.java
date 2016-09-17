@@ -28,15 +28,15 @@ package org.gedcom4j.validate;
 
 import java.util.List;
 
-import org.gedcom4j.Options;
 import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.FamilyEvent;
-import org.gedcom4j.model.FamilyEventType;
 import org.gedcom4j.model.IndividualEvent;
-import org.gedcom4j.model.IndividualEventType;
 import org.gedcom4j.model.ModelElement;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Note;
+import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.enumerations.FamilyEventType;
+import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.gedcom4j.validate.Validator.Finding;
 
 /**
@@ -50,6 +50,12 @@ class EventValidator extends AbstractValidator {
      * Serial Version UID
      */
     private static final long serialVersionUID = -1272765738333620248L;
+
+    /**
+     * Regexes that match the age formats defined in AGE_AT_EVENT structure
+     */
+    private static final String[] AGE_FORMATS = { "CHILD", "INFANT", "STILLBORN", "[<>]?\\s?\\d+y", "[<>]?\\s?\\d+m",
+            "[<>]\\s?\\d+d", "[<>]\\s?\\d+y \\d+m \\d+d", "[<>]\\s?\\d+y \\d+m", "[<>]\\s?\\d+y \\d+d", "[<>]\\s?\\d+m \\d+d" };
 
     /**
      * The event being validated
@@ -101,11 +107,14 @@ class EventValidator extends AbstractValidator {
             } else {
                 mustNotHaveValue(fe, "description");
             }
+            mustBeAgeFormatIfSpecified(fe, fe.getHusbandAge(), "husbandAge");
+            mustBeAgeFormatIfSpecified(fe, fe.getWifeAge(), "husbandAge");
+            mustNotHaveValue(fe, "age");
         }
         if (e.getAddress() != null) {
             new AddressValidator(validator, e.getAddress()).validate();
         }
-        mustHaveValueOrBeOmitted(e, "age");
+        mustBeAgeFormatIfSpecified(e, e.getAge(), "age");
         mustHaveValueOrBeOmitted(e, "cause");
         checkCitations(e);
         checkCustomTags(e);
@@ -138,12 +147,8 @@ class EventValidator extends AbstractValidator {
      * Check the multimedia
      */
     private void checkMultimedia() {
+        checkUninitializedCollection(e, "multimedia");
         List<Multimedia> multimedia = e.getMultimedia();
-        if (multimedia == null && Options.isCollectionInitializationEnabled()) {
-
-            Finding vf = validator.newFinding(e, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "multimedia");
-            initializeCollectionIfAllowed(vf);
-        }
         if (multimedia != null) {
             checkListOfModelElementsForDups(e, "multimedia");
             checkListOfModelElementsForNulls(e, "multimedia");
@@ -151,5 +156,28 @@ class EventValidator extends AbstractValidator {
                 new MultimediaValidator(validator, m).validate();
             }
         }
+    }
+
+    /**
+     * Age values must be in proper format if specified
+     * 
+     * @param ev
+     *            the event
+     * @param val
+     *            the age value to be checked
+     * @param fieldName
+     *            the name of the age field
+     */
+    private void mustBeAgeFormatIfSpecified(AbstractEvent ev, StringWithCustomTags val, String fieldName) {
+        if (val == null || !isSpecified(val.getValue())) {
+            return;
+        }
+        String s = val.getValue().trim();
+        for (String regex : AGE_FORMATS) {
+            if (regex.matches(s)) {
+                return;
+            }
+        }
+        validator.newFinding(ev, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, fieldName);
     }
 }

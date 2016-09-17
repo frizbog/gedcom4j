@@ -37,8 +37,8 @@ import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.SourceSystem;
 import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
-import org.gedcom4j.model.SupportedVersion;
 import org.gedcom4j.model.TestHelper;
+import org.gedcom4j.model.enumerations.SupportedVersion;
 import org.junit.Test;
 
 /**

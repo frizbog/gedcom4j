@@ -28,14 +28,12 @@ package org.gedcom4j.validate;
 
 import java.util.List;
 
-import org.gedcom4j.Options;
 import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.LdsSpouseSealing;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Submitter;
-import org.gedcom4j.validate.Validator.Finding;
 
 /**
  * Validator for {@link Family} objects
@@ -102,12 +100,8 @@ class FamilyValidator extends AbstractValidator {
      * Check children.
      */
     private void checkChildren() {
+        checkUninitializedCollection(f, "children");
         List<Individual> children = f.getChildren();
-        if (children == null && Options.isCollectionInitializationEnabled()) {
-
-            Finding vf = validator.newFinding(f, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "children");
-            initializeCollectionIfAllowed(vf);
-        }
         if (children != null) {
             checkListOfModelElementsForDups(f, "children");
             checkListOfModelElementsForNulls(f, "children");
@@ -122,12 +116,8 @@ class FamilyValidator extends AbstractValidator {
      * Check lds spouse sealings.
      */
     private void checkLdsSpouseSealings() {
+        checkUninitializedCollection(f, "ldsSpouseSealings");
         List<LdsSpouseSealing> ldsSpouseSealings = f.getLdsSpouseSealings();
-        if (ldsSpouseSealings == null && Options.isCollectionInitializationEnabled()) {
-
-            Finding vf = validator.newFinding(f, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "ldsSpouseSealings");
-            initializeCollectionIfAllowed(vf);
-        }
         if (ldsSpouseSealings != null) {
             checkListOfModelElementsForDups(f, "ldsSpouseSealings");
             checkListOfModelElementsForNulls(f, "ldsSpouseSealings");
@@ -141,11 +131,8 @@ class FamilyValidator extends AbstractValidator {
      * Check multimedia.
      */
     private void checkMultimedia() {
+        checkUninitializedCollection(f, "multimedia");
         List<Multimedia> multimedia = f.getMultimedia();
-        if (multimedia == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(f, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "multimedia");
-            initializeCollectionIfAllowed(vf);
-        }
         if (multimedia != null) {
             checkListOfModelElementsForDups(f, "multimedia");
             checkListOfModelElementsForNulls(f, "multimedia");
@@ -159,11 +146,8 @@ class FamilyValidator extends AbstractValidator {
      * Check submitters.
      */
     private void checkSubmitters() {
+        checkUninitializedCollection(f, "submitters");
         List<Submitter> submitters = f.getSubmitters();
-        if (submitters == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(f, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "submitters");
-            initializeCollectionIfAllowed(vf);
-        }
         if (submitters != null) {
             checkListOfModelElementsForDups(f, "submitters");
             checkListOfModelElementsForNulls(f, "submitters");

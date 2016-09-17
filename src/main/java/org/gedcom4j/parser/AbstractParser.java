@@ -37,7 +37,7 @@ import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.Submitter;
-import org.gedcom4j.model.SupportedVersion;
+import org.gedcom4j.model.enumerations.SupportedVersion;
 
 /**
  * A base class for all Parser subclasses.

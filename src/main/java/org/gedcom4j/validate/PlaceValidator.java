@@ -26,12 +26,8 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.List;
-
-import org.gedcom4j.Options;
 import org.gedcom4j.model.AbstractNameVariation;
 import org.gedcom4j.model.Place;
-import org.gedcom4j.validate.Validator.Finding;
 
 /**
  * Validator for {@link Place} objects
@@ -88,17 +84,13 @@ class PlaceValidator extends AbstractValidator {
      * Check the phonetic variations on the place name
      */
     private void checkPhoneticVariations() {
-        List<AbstractNameVariation> phonetic = place.getPhonetic();
-        if (phonetic == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(place, Severity.ERROR, ProblemCode.UNINITIALIZED_COLLECTION, "phonetic");
-            initializeCollectionIfAllowed(vf);
-        }
-        if (phonetic == null) {
+        checkUninitializedCollection(place, "phonetic");
+        if (place.getPhonetic() == null) {
             return;
         }
         checkListOfModelElementsForDups(place, "phonetic");
         checkListOfModelElementsForNulls(place, "phonetic");
-        for (AbstractNameVariation nv : phonetic) {
+        for (AbstractNameVariation nv : place.getPhonetic()) {
             new NameVariationValidator(validator, nv).validate();
         }
     }
@@ -107,17 +99,13 @@ class PlaceValidator extends AbstractValidator {
      * Check the romanized variations on the place name
      */
     private void checkRomanizedVariations() {
-        List<AbstractNameVariation> romanized = place.getRomanized();
-        if (romanized == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(place, Severity.ERROR, ProblemCode.UNINITIALIZED_COLLECTION, "romanized");
-            initializeCollectionIfAllowed(vf);
-        }
-        if (romanized == null) {
+        checkUninitializedCollection(place, "romanized");
+        if (place.getRomanized() == null) {
             return;
         }
         checkListOfModelElementsForDups(place, "romanized");
         checkListOfModelElementsForNulls(place, "romanized");
-        for (AbstractNameVariation nv : romanized) {
+        for (AbstractNameVariation nv : place.getRomanized()) {
             new NameVariationValidator(validator, nv).validate();
         }
     }

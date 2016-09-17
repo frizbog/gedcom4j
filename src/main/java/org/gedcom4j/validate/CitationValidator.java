@@ -28,7 +28,6 @@ package org.gedcom4j.validate;
 
 import java.util.List;
 
-import org.gedcom4j.Options;
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.CitationData;
 import org.gedcom4j.model.CitationWithSource;
@@ -91,12 +90,8 @@ class CitationValidator extends AbstractValidator {
         CitationWithoutSource c = (CitationWithoutSource) citation;
         checkNotes(c);
         checkStringList(c, "description", true);
+        checkUninitializedCollection(c, "textFromSource");
         List<List<String>> textFromSource = c.getTextFromSource();
-        if (textFromSource == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(c, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "textFromSource");
-            initializeCollectionIfAllowed(vf);
-            return;
-        }
         if (textFromSource == null || textFromSource.isEmpty()) {
             return;
         }
@@ -128,20 +123,14 @@ class CitationValidator extends AbstractValidator {
             mustHaveValueOrBeOmitted(c, "roleInEvent");
         }
         mustHaveValueOrBeOmitted(c, "certainty");
-        if (c.getData() == null && Options.isCollectionInitializationEnabled()) {
-            Finding vf = validator.newFinding(c, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "data");
-            initializeCollectionIfAllowed(vf);
-        }
+        checkUninitializedCollection(c, "data");
         checkListOfModelElementsForDups(c, "data");
         checkListOfModelElementsForNulls(c, "data");
         if (c.getData() != null) {
             for (CitationData cd : c.getData()) {
                 checkCustomTags(cd);
                 mustBeDateIfSpecified(cd, "entryDate");
-                if (cd.getSourceText() == null && Options.isCollectionInitializationEnabled()) {
-                    Finding vf = validator.newFinding(cd, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "sourceText");
-                    initializeCollectionIfAllowed(vf);
-                }
+                checkUninitializedCollection(cd, "sourceText");
             }
         }
     }

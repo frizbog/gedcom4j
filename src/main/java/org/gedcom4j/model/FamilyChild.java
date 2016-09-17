@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.model;
 
+import org.gedcom4j.model.enumerations.AdoptedByWhichParent;
+
 /**
  * Represent's an individuals membership, as a child, in a family
  * 

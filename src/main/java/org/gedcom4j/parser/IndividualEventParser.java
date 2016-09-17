@@ -32,12 +32,12 @@ import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.Address;
 import org.gedcom4j.model.FamilyChild;
 import org.gedcom4j.model.IndividualEvent;
-import org.gedcom4j.model.IndividualEventType;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Note;
 import org.gedcom4j.model.Place;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.enumerations.IndividualEventType;
 
 /**
  * Parser for {@link IndividualEvent} object nodes
