@@ -148,7 +148,11 @@ public enum ProblemCode {
     /**
      * Couple's age difference is at least fifteen years
      */
-    COUPLE_MORE_THAN_FIFTEEN_YEARS_AGE_DIFFERENCE(28, "Couple has more than 15 years age difference");
+    COUPLE_MORE_THAN_FIFTEEN_YEARS_AGE_DIFFERENCE(28, "Couple has more than 15 years age difference"),
+    /**
+     * Descendant was born before an ancestor
+     */
+    DESCENDANT_BORN_BEFORE_ANCESTOR(29, "Descendant born before ancestor");
 
     /*
      * Static initializer to check for skipped code numbers (which would also occur if there are duplicates)
