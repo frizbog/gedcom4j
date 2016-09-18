@@ -45,7 +45,7 @@ import org.gedcom4j.parser.DateParser.ImpreciseDatePreference;
 import org.gedcom4j.validate.Validator.Finding;
 
 /**
- * Validator that looks for multiple children in a family with the same given name
+ * Validator that looks for multiple children in a family that have the same given names AND had overlapping lifespans.
  * 
  * @author frizbog
  */

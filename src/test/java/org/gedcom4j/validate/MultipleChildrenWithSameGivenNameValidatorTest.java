@@ -35,8 +35,9 @@ import org.gedcom4j.model.Family;
 import org.junit.Test;
 
 /**
+ * Test for {@link MultipleChildrenWithSameGivenNameValidator}
+ * 
  * @author frizbog
- *
  */
 public class MultipleChildrenWithSameGivenNameValidatorTest extends AbstractValidatorTestCase {
 
