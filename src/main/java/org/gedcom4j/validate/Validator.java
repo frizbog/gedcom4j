@@ -481,6 +481,7 @@ public class Validator implements Serializable {
         supplementaryValidators.add(MaleWivesFemaleHusbandsValidator.class);
         supplementaryValidators.add(CouplesWithLargeAgeDifferencesValidator.class);
         supplementaryValidators.add(BornBeforeAncestorsValidator.class);
+        supplementaryValidators.add(MultipleChildrenWithSameGivenNameValidator.class);
     }
 
     /**

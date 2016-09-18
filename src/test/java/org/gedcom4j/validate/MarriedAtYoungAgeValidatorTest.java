@@ -49,7 +49,7 @@ public class MarriedAtYoungAgeValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNegative() throws IOException, GedcomParserException {
-        loadFile("sample/john_of_sea_20101009.ged");
+        loadFile("sample/validatesOk.ged");
         validator.validate();
         assertNoIssues();
     }

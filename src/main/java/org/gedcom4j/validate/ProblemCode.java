@@ -152,7 +152,11 @@ public enum ProblemCode {
     /**
      * Descendant was born before an ancestor
      */
-    DESCENDANT_BORN_BEFORE_ANCESTOR(29, "Descendant born before ancestor");
+    DESCENDANT_BORN_BEFORE_ANCESTOR(29, "Descendant born before ancestor"),
+    /**
+     * Family has multiple children with the same given name
+     */
+    MULTIPLE_CHILDREN_WITH_SAME_GIVEN_NAME(30, "Family has multiple children with the same given name");
 
     /*
      * Static initializer to check for skipped code numbers (which would also occur if there are duplicates)

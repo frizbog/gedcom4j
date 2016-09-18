@@ -31,18 +31,17 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.Family;
 import org.junit.Test;
 
 /**
- * Test for {@link BirthsToYoungParentsValidator}
- * 
  * @author frizbog
+ *
  */
-public class BirthsToYoungParentsValidatorTest extends AbstractValidatorTestCase {
+public class MultipleChildrenWithSameGivenNameValidatorTest extends AbstractValidatorTestCase {
 
     /**
-     * Test for {@link BirthsToYoungParentsValidator} where there is no problem.
+     * Test for {@link MultipleChildrenWithSameGivenNameValidator} where there is no problem.
      *
      * @throws IOException
      *             when the file cannot be read
@@ -53,11 +52,12 @@ public class BirthsToYoungParentsValidatorTest extends AbstractValidatorTestCase
     public void testNegative() throws IOException, GedcomParserException {
         loadFile("sample/validatesOk.ged");
         validator.validate();
+
         assertNoIssues();
     }
 
     /**
-     * Test for {@link BirthsToYoungParentsValidator} that finds the problem.
+     * Test for {@link MultipleChildrenWithSameGivenNameValidator} that finds the problem.
      *
      * @throws IOException
      *             when the file cannot be read
@@ -68,13 +68,11 @@ public class BirthsToYoungParentsValidatorTest extends AbstractValidatorTestCase
     public void testPositive() throws IOException, GedcomParserException {
         loadFile("sample/problemFile.ged");
         validator.validate();
-        assertFindingsContain(Severity.WARNING, IndividualEvent.class, ProblemCode.MOTHER_MAY_NOT_HAVE_BEEN_BORN_YET.getCode(),
-                "date");
 
-        assertEquals(1, validator.getResults().getByCode(ProblemCode.MOTHER_MAY_NOT_HAVE_BEEN_BORN_YET).size());
-        assertEquals(0, validator.getResults().getByCode(ProblemCode.FATHER_MAY_NOT_HAVE_BEEN_BORN_YET).size());
-        assertEquals(2, validator.getResults().getByCode(ProblemCode.MOTHER_WAS_LESS_THAN_SIXTEEN).size());
-        assertEquals(2, validator.getResults().getByCode(ProblemCode.FATHER_WAS_LESS_THAN_SIXTEEN).size());
+        assertFindingsContain(Severity.WARNING, Family.class, ProblemCode.MULTIPLE_CHILDREN_WITH_SAME_GIVEN_NAME.getCode(),
+                "children");
+
+        assertEquals(1, validator.getResults().getByCode(ProblemCode.MULTIPLE_CHILDREN_WITH_SAME_GIVEN_NAME).size());
     }
 
 }
