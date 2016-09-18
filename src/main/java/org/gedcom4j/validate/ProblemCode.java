@@ -144,7 +144,11 @@ public enum ProblemCode {
     /**
      * Wife is male
      */
-    WIFE_IS_MALE(27, "Wife is male");
+    WIFE_IS_MALE(27, "Wife is male"),
+    /**
+     * Couple's age difference is at least fifteen years
+     */
+    COUPLE_MORE_THAN_FIFTEEN_YEARS_AGE_DIFFERENCE(28, "Couple has more than 15 years age difference");
 
     /*
      * Static initializer to check for skipped code numbers (which would also occur if there are duplicates)
