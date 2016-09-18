@@ -136,7 +136,15 @@ public enum ProblemCode {
     /**
      * Date is in the future
      */
-    DATE_IN_FUTURE(25, "Date is in the future");
+    DATE_IN_FUTURE(25, "Date is in the future"),
+    /**
+     * Husband is female
+     */
+    HUSBAND_IS_FEMALE(26, "Husband is female"),
+    /**
+     * Wife is male
+     */
+    WIFE_IS_MALE(27, "Wife is male");
 
     /*
      * Static initializer to check for skipped code numbers (which would also occur if there are duplicates)
