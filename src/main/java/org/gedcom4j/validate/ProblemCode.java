@@ -156,7 +156,11 @@ public enum ProblemCode {
     /**
      * Family has multiple children with the same given name
      */
-    MULTIPLE_CHILDREN_WITH_SAME_GIVEN_NAME(30, "Family has multiple children with the same given name");
+    MULTIPLE_CHILDREN_WITH_SAME_GIVEN_NAME(30, "Family has multiple children with the same given name"),
+    /**
+     * Circular ancestral relationship detected
+     */
+    CIRCULAR_ANCESTRAL_RELATIONSHIP(31, "Circular ancestral relationship detected");
 
     /*
      * Static initializer to check for skipped code numbers (which would also occur if there are duplicates)
