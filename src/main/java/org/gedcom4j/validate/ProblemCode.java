@@ -160,7 +160,11 @@ public enum ProblemCode {
     /**
      * Circular ancestral relationship detected
      */
-    CIRCULAR_ANCESTRAL_RELATIONSHIP(31, "Circular ancestral relationship detected");
+    CIRCULAR_ANCESTRAL_RELATIONSHIP(31, "Circular ancestral relationship detected"),
+    /**
+     * Simultaneous births in multiple locations
+     */
+    SIMULTANEOUS_BIRTHS_IN_MULTIPLE_LOCATIONS(32, "Simultaneous births in multiple locations");
 
     /*
      * Static initializer to check for skipped code numbers (which would also occur if there are duplicates)
