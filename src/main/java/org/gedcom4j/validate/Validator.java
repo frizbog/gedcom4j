@@ -66,17 +66,17 @@ import org.gedcom4j.model.Trailer;
  * </p>
  * <p>
  * Users can extend the validation process by writing custom validators and registering them with this validator. To do this, write
- * a class that extends {@link AbstractValidator}, implement its {@link AbstractValidator#validate()} method which examines the
- * {@link Gedcom} being validated, and for anything that's problematic found, call
- * {@link AbstractValidator#newFinding(ModelElement, Severity, ProblemCode, String)} from there. When the {@link #validate()} method
- * runs on this class, your validator will be called (along with the others in the collection) and your results will be added to the
- * full set of results.
+ * a class that extends {@link AbstractValidator} and add it to the {@link #supplementaryValidators} collection. When writing a new
+ * validator, implement its {@link AbstractValidator#validate()} method which examines the {@link Gedcom} being validated, and for
+ * anything that's problematic found, call {@link AbstractValidator#newFinding(ModelElement, Severity, ProblemCode, String)} from
+ * there. When the {@link #validate()} method runs on this class, your validator will be called (along with the others in the
+ * collection) and your results will be added to the full set of results.
  * </p>
  * 
  * @author frizbog
  * @since 4.0.0
  */
-@SuppressWarnings({ "PMD.GodClass", "PMD.TooManyMethods" })
+@SuppressWarnings({ "PMD.GodClass", "PMD.TooManyMethods", "PMD.CouplingBetweenObjects" })
 public class Validator implements Serializable {
 
     /**

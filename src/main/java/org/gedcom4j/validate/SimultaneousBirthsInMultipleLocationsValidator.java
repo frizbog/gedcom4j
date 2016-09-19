@@ -52,7 +52,7 @@ public class SimultaneousBirthsInMultipleLocationsValidator extends AbstractVali
     /**
      * A birthEvent of a specific person
      */
-    private class Birth {
+    private static class Birth {
 
         /** The person. */
         private Individual person;
@@ -123,8 +123,6 @@ public class SimultaneousBirthsInMultipleLocationsValidator extends AbstractVali
      * @return a Map of Births, keyed (grouped) by approximate birth date
      */
     protected Map<Date, Set<Birth>> groupChildrenByBirthDate(Family f) {
-        /*
-         */
         Map<Date, Set<Birth>> birthsByDate = new HashMap<>();
         DateParser dp = new DateParser();
 
@@ -140,9 +138,10 @@ public class SimultaneousBirthsInMultipleLocationsValidator extends AbstractVali
                 }
 
                 boolean added = false;
-                for (Date das : birthsByDate.keySet()) {
+                for (Entry<Date, Set<Birth>> birthByDate : birthsByDate.entrySet()) {
                     // Look for any already existing set or people born within 48h of this birthEvent date
-                    if (Math.abs(das.getTime() - birthDate.getTime()) < 48L * 60 * 60 * 1000) {
+                    Date bd = birthByDate.getKey();
+                    if (Math.abs(bd.getTime() - birthDate.getTime()) < 48L * 60 * 60 * 1000) {
                         /*
                          * The existing date in the Map is roughly the same as this birthEvent date, so add this birthEvent to that
                          * map entry
@@ -150,7 +149,7 @@ public class SimultaneousBirthsInMultipleLocationsValidator extends AbstractVali
                         Birth b = new Birth();
                         b.setBirthEvent(birthEvent);
                         b.setPerson(i);
-                        birthsByDate.get(das).add(b);
+                        birthByDate.getValue().add(b);
                         added = true;
                     }
                 }
