@@ -164,7 +164,11 @@ public enum ProblemCode {
     /**
      * Simultaneous births in multiple locations
      */
-    SIMULTANEOUS_BIRTHS_IN_MULTIPLE_LOCATIONS(32, "Simultaneous births in multiple locations");
+    SIMULTANEOUS_BIRTHS_IN_MULTIPLE_LOCATIONS(32, "Simultaneous births in multiple locations"),
+    /**
+     * Quadruplets or more
+     */
+    MORE_THAN_THREE_CHILDREN_BORN_WITHIN_48_HOURS(33, "More than three children born within 48 hours");
 
     /*
      * Static initializer to check for skipped code numbers (which would also occur if there are duplicates)
