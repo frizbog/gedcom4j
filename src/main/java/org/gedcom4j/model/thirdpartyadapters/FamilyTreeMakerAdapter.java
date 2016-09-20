@@ -55,6 +55,83 @@ public class FamilyTreeMakerAdapter extends AbstractCustomTagsAdapter {
     }
 
     /**
+     * Get circumcision information
+     * 
+     * @param i
+     *            the individual
+     * @return the circumcision information for the individual
+     */
+    public List<DatePlaceDescription> getCircumcision(Individual i) {
+        return getDatePlaceDescriptions(i, "_CIRC");
+    }
+
+    /**
+     * Gets the destinations
+     *
+     * @param i
+     *            the individual
+     * @return the destinations
+     */
+    public List<String> getDestinations(Individual i) {
+        return getDescriptions(i, "_DEST");
+    }
+
+    /**
+     * Get DNA Marker information
+     * 
+     * @param i
+     *            the individual
+     * @return the DNA Marker information for the individual
+     */
+    public List<DatePlaceDescription> getDnaMarkers(Individual i) {
+        return getDatePlaceDescriptions(i, "_DNA");
+    }
+
+    /**
+     * Get elected information
+     * 
+     * @param i
+     *            the individual
+     * @return the elected information for the individual
+     */
+    public List<DatePlaceDescription> getElected(Individual i) {
+        return getDatePlaceDescriptions(i, "_ELEC");
+    }
+
+    /**
+     * Get employment information
+     * 
+     * @param i
+     *            the individual
+     * @return the employment information for the individual
+     */
+    public List<DatePlaceDescription> getEmployment(Individual i) {
+        return getDatePlaceDescriptions(i, "_EMPLOY");
+    }
+
+    /**
+     * Get excommunication information
+     * 
+     * @param i
+     *            the individual
+     * @return the excommunication information for the individual
+     */
+    public List<DatePlaceDescription> getExcommunication(Individual i) {
+        return getDatePlaceDescriptions(i, "_EXCM");
+    }
+
+    /**
+     * Get funeral information
+     * 
+     * @param i
+     *            the individual
+     * @return the funeral information for the individual
+     */
+    public List<DatePlaceDescription> getFuneral(Individual i) {
+        return getDatePlaceDescriptions(i, "_FUN");
+    }
+
+    /**
      * Sets the causes of death.
      *
      * @param i
@@ -64,6 +141,90 @@ public class FamilyTreeMakerAdapter extends AbstractCustomTagsAdapter {
      */
     public void setCausesOfDeath(Individual i, List<String> descriptions) {
         setAllDescriptions(i, "_DCAUSE", descriptions);
+    }
+
+    /**
+     * Set circumcision information
+     * 
+     * @param i
+     *            the individual
+     * @param circumcisions
+     *            the circumcision information for the individual
+     */
+    public void setCircumcision(Individual i, List<DatePlaceDescription> circumcisions) {
+        setAllDatePlaceDescription(i, "_CIRC", circumcisions);
+    }
+
+    /**
+     * Set the destinations
+     * 
+     * @param i
+     *            the individual
+     * @param destinations
+     *            the destinations
+     */
+    public void setDestination(Individual i, List<String> destinations) {
+        setAllDescriptions(i, "_DEST", destinations);
+    }
+
+    /**
+     * Set DNA Marker information
+     * 
+     * @param i
+     *            the individual
+     * @param dnaMarkers
+     *            the DNA Marker information for the individual
+     */
+    public void setDnaMarkers(Individual i, List<DatePlaceDescription> dnaMarkers) {
+        setAllDatePlaceDescription(i, "_DNA", dnaMarkers);
+    }
+
+    /**
+     * Set elected information
+     * 
+     * @param i
+     *            the individual
+     * @param elected
+     *            the elected information for the individual
+     */
+    public void setElected(Individual i, List<DatePlaceDescription> elected) {
+        setAllDatePlaceDescription(i, "_ELEC", elected);
+    }
+
+    /**
+     * Set employment information
+     * 
+     * @param i
+     *            the individual
+     * @param employment
+     *            the employment information for the individual
+     */
+    public void setEmployment(Individual i, List<DatePlaceDescription> employment) {
+        setAllDatePlaceDescription(i, "_EMPLOY", employment);
+    }
+
+    /**
+     * Set excommunication information
+     * 
+     * @param i
+     *            the individual
+     * @param excommunication
+     *            the excommunication information for the individual
+     */
+    public void setExcommunication(Individual i, List<DatePlaceDescription> excommunication) {
+        setAllDatePlaceDescription(i, "_EXCM", excommunication);
+    }
+
+    /**
+     * Set funeral information
+     * 
+     * @param i
+     *            the individual
+     * @param funeral
+     *            the funeral information for the individual
+     */
+    public void setFuneral(Individual i, List<DatePlaceDescription> funeral) {
+        setAllDatePlaceDescription(i, "_FUN", funeral);
     }
 
 }
