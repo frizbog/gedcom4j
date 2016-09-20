@@ -132,6 +132,39 @@ public class FamilyTreeMakerAdapter extends AbstractCustomTagsAdapter {
     }
 
     /**
+     * Gets the heights
+     *
+     * @param i
+     *            the individual
+     * @return the heights
+     */
+    public List<String> getHeights(Individual i) {
+        return getDescriptions(i, "_HEIG");
+    }
+
+    /**
+     * Get initiatory information
+     * 
+     * @param i
+     *            the individual
+     * @return the initiatory information for the individual
+     */
+    public List<DatePlaceDescription> getInitiatory(Individual i) {
+        return getDatePlaceDescriptions(i, "_INIT");
+    }
+
+    /**
+     * Get mission information
+     * 
+     * @param i
+     *            the individual
+     * @return the mission information for the individual
+     */
+    public List<DatePlaceDescription> getMission(Individual i) {
+        return getDatePlaceDescriptions(i, "_MISN");
+    }
+
+    /**
      * Sets the causes of death.
      *
      * @param i
@@ -163,7 +196,7 @@ public class FamilyTreeMakerAdapter extends AbstractCustomTagsAdapter {
      * @param destinations
      *            the destinations
      */
-    public void setDestination(Individual i, List<String> destinations) {
+    public void setDestinations(Individual i, List<String> destinations) {
         setAllDescriptions(i, "_DEST", destinations);
     }
 
@@ -225,6 +258,42 @@ public class FamilyTreeMakerAdapter extends AbstractCustomTagsAdapter {
      */
     public void setFuneral(Individual i, List<DatePlaceDescription> funeral) {
         setAllDatePlaceDescription(i, "_FUN", funeral);
+    }
+
+    /**
+     * Set the heights
+     * 
+     * @param i
+     *            the individual
+     * @param heights
+     *            the heights
+     */
+    public void setHeights(Individual i, List<String> heights) {
+        setAllDescriptions(i, "_HEIG", heights);
+    }
+
+    /**
+     * Set initiatory information
+     * 
+     * @param i
+     *            the individual
+     * @param initiatorys
+     *            the initiatory information for the individual
+     */
+    public void setInitiatory(Individual i, List<DatePlaceDescription> initiatorys) {
+        setAllDatePlaceDescription(i, "_INIT", initiatorys);
+    }
+
+    /**
+     * Set mission information
+     * 
+     * @param i
+     *            the individual
+     * @param missions
+     *            the mission information for the individual
+     */
+    public void setMission(Individual i, List<DatePlaceDescription> missions) {
+        setAllDatePlaceDescription(i, "_MISN", missions);
     }
 
 }

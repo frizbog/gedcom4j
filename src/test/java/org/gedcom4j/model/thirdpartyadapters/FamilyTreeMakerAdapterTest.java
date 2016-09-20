@@ -97,7 +97,8 @@ public class FamilyTreeMakerAdapterTest {
     }
 
     /**
-     * Test {@link FamilyTreeMakerAdapter#getCauseOfDeath(Individual)}
+     * Test {@link FamilyTreeMakerAdapter#getCauseOfDeath(Individual)} and
+     * {@link FamilyTreeMakerAdapter#setCausesOfDeath(Individual, List)}
      */
     @Test
     public void testCauseOfDeathNegative() {
@@ -115,7 +116,8 @@ public class FamilyTreeMakerAdapterTest {
     }
 
     /**
-     * Test {@link FamilyTreeMakerAdapter#getCauseOfDeath(Individual)}.
+     * Test {@link FamilyTreeMakerAdapter#getCauseOfDeath(Individual)} and
+     * {@link FamilyTreeMakerAdapter#setCausesOfDeath(Individual, List)}
      */
     @Test
     public void testCauseOfDeathPositive() {
@@ -132,7 +134,8 @@ public class FamilyTreeMakerAdapterTest {
     }
 
     /**
-     * Test {@link FamilyTreeMakerAdapter#getCircumcision(Individual)}
+     * Test {@link FamilyTreeMakerAdapter#getCircumcision(Individual)} and
+     * {@link FamilyTreeMakerAdapter#setCircumcision(Individual, List)}
      */
     @Test
     public void testCircumcisionNegative() {
@@ -158,7 +161,8 @@ public class FamilyTreeMakerAdapterTest {
     }
 
     /**
-     * Test {@link FamilyTreeMakerAdapter#getCircumcision(Individual)}
+     * Test {@link FamilyTreeMakerAdapter#getCircumcision(Individual)} and
+     * {@link FamilyTreeMakerAdapter#setCircumcision(Individual, List)}
      */
     @Test
     public void testCircumcisionPositive() {
@@ -177,7 +181,8 @@ public class FamilyTreeMakerAdapterTest {
     }
 
     /**
-     * Test {@link FamilyTreeMakerAdapter#getDestinations(Individual)}
+     * Test {@link FamilyTreeMakerAdapter#getDestinations(Individual)} and
+     * {@link FamilyTreeMakerAdapter#setDestinations(Individual, List)}
      */
     @Test
     public void testDestinationNegative() {
@@ -186,7 +191,7 @@ public class FamilyTreeMakerAdapterTest {
         assertNotNull(d);
         assertEquals(0, d.size());
 
-        a.setDestination(jesse, Arrays.asList(new String[] { "Frying Pan" }));
+        a.setDestinations(jesse, Arrays.asList(new String[] { "Frying Pan" }));
         d = a.getDestinations(jesse);
         assertNotNull(d);
         assertEquals(1, d.size());
@@ -195,7 +200,8 @@ public class FamilyTreeMakerAdapterTest {
     }
 
     /**
-     * Test {@link FamilyTreeMakerAdapter#getDestinations(Individual)}.
+     * Test {@link FamilyTreeMakerAdapter#getDestinations(Individual)} and
+     * {@link FamilyTreeMakerAdapter#setDestinations(Individual, List)}
      */
     @Test
     public void testDestinationPositive() {
@@ -205,14 +211,14 @@ public class FamilyTreeMakerAdapterTest {
         assertEquals(1, d.size());
         assertEquals("Alpha Centauri", d.get(0));
 
-        a.setDestination(john, new ArrayList<String>());
+        a.setDestinations(john, new ArrayList<String>());
         d = a.getDestinations(jesse);
         assertNotNull(d);
         assertEquals(0, d.size());
     }
 
     /**
-     * Test {@link FamilyTreeMakerAdapter#getElected(Individual)}
+     * Test {@link FamilyTreeMakerAdapter#getElected(Individual)} and {@link FamilyTreeMakerAdapter#setElected(Individual, List)}
      */
     @Test
     public void testElectedNegative() {
@@ -238,7 +244,7 @@ public class FamilyTreeMakerAdapterTest {
     }
 
     /**
-     * Test {@link FamilyTreeMakerAdapter#getElected(Individual)}
+     * Test {@link FamilyTreeMakerAdapter#getElected(Individual)} and {@link FamilyTreeMakerAdapter#setElected(Individual, List)}
      */
     @Test
     public void testElectedPositive() {
@@ -257,7 +263,8 @@ public class FamilyTreeMakerAdapterTest {
     }
 
     /**
-     * Test {@link FamilyTreeMakerAdapter#getEmployment(Individual)}
+     * Test {@link FamilyTreeMakerAdapter#getEmployment(Individual)} and
+     * {@link FamilyTreeMakerAdapter#setEmployment(Individual, List)}
      */
     @Test
     public void testEmploymentNegative() {
@@ -283,7 +290,8 @@ public class FamilyTreeMakerAdapterTest {
     }
 
     /**
-     * Test {@link FamilyTreeMakerAdapter#getEmployment(Individual)}
+     * Test {@link FamilyTreeMakerAdapter#getEmployment(Individual)} and
+     * {@link FamilyTreeMakerAdapter#setEmployment(Individual, List)}
      */
     @Test
     public void testEmploymentPositive() {
@@ -302,7 +310,8 @@ public class FamilyTreeMakerAdapterTest {
     }
 
     /**
-     * Test {@link FamilyTreeMakerAdapter#getExcommunication(Individual)}
+     * Test {@link FamilyTreeMakerAdapter#getExcommunication(Individual)} and
+     * {@link FamilyTreeMakerAdapter#setExcommunication(Individual, List)}
      */
     @Test
     public void testExcommunicationNegative() {
@@ -328,7 +337,8 @@ public class FamilyTreeMakerAdapterTest {
     }
 
     /**
-     * Test {@link FamilyTreeMakerAdapter#getExcommunication(Individual)}
+     * Test {@link FamilyTreeMakerAdapter#getExcommunication(Individual)} and
+     * {@link FamilyTreeMakerAdapter#setExcommunication(Individual, List)}
      */
     @Test
     public void testExcommunicationPositive() {
@@ -347,7 +357,7 @@ public class FamilyTreeMakerAdapterTest {
     }
 
     /**
-     * Test {@link FamilyTreeMakerAdapter#getFuneral(Individual)}
+     * Test {@link FamilyTreeMakerAdapter#getFuneral(Individual)} and {@link FamilyTreeMakerAdapter#setFuneral(Individual, List)}
      */
     @Test
     public void testFuneralNegative() {
@@ -373,7 +383,7 @@ public class FamilyTreeMakerAdapterTest {
     }
 
     /**
-     * Test {@link FamilyTreeMakerAdapter#getFuneral(Individual)}
+     * Test {@link FamilyTreeMakerAdapter#getFuneral(Individual)} and {@link FamilyTreeMakerAdapter#setFuneral(Individual, List)}
      */
     @Test
     public void testFuneralPositive() {
@@ -389,5 +399,132 @@ public class FamilyTreeMakerAdapterTest {
         fun = a.getFuneral(jesse);
         assertNotNull(fun);
         assertEquals(0, fun.size());
+    }
+
+    /**
+     * Test {@link FamilyTreeMakerAdapter#getHeights(Individual)} and {@link FamilyTreeMakerAdapter#setHeights(Individual, List)}
+     */
+    @Test
+    public void testHeightNegative() {
+        FamilyTreeMakerAdapter a = new FamilyTreeMakerAdapter();
+        List<String> h = a.getHeights(jesse);
+        assertNotNull(h);
+        assertEquals(0, h.size());
+
+        a.setHeights(jesse, Arrays.asList(new String[] { "Frying Pan" }));
+        h = a.getHeights(jesse);
+        assertNotNull(h);
+        assertEquals(1, h.size());
+        assertEquals("Frying Pan", h.get(0));
+
+    }
+
+    /**
+     * Test {@link FamilyTreeMakerAdapter#getHeights(Individual)} and {@link FamilyTreeMakerAdapter#setHeights(Individual, List)}
+     */
+    @Test
+    public void testHeightPositive() {
+        FamilyTreeMakerAdapter a = new FamilyTreeMakerAdapter();
+        List<String> h = a.getHeights(john);
+        assertNotNull(h);
+        assertEquals(1, h.size());
+        assertEquals("6' 2\"", h.get(0));
+
+        a.setHeights(john, new ArrayList<String>());
+        h = a.getHeights(jesse);
+        assertNotNull(h);
+        assertEquals(0, h.size());
+    }
+
+    /**
+     * Test {@link FamilyTreeMakerAdapter#getInitiatory(Individual)} and
+     * {@link FamilyTreeMakerAdapter#setInitiatory(Individual, List)}
+     */
+    @Test
+    public void testInitiatoryNegative() {
+        FamilyTreeMakerAdapter a = new FamilyTreeMakerAdapter();
+        List<DatePlaceDescription> i = a.getInitiatory(jesse);
+        assertNotNull(i);
+        assertEquals(0, i.size());
+
+        List<DatePlaceDescription> i2 = new ArrayList<>();
+        DatePlaceDescription dpd = new DatePlaceDescription();
+        dpd.setDate("01 JAN 1990");
+        dpd.setDescription("Frying Pan");
+        dpd.setPlace("Wyoming, USA");
+        i2.add(dpd);
+
+        a.setInitiatory(jesse, i2);
+        i = a.getInitiatory(jesse);
+        assertNotNull(i);
+        assertEquals(1, i.size());
+        assertEquals("Frying Pan", i.get(0).getDescription());
+        assertEquals("01 JAN 1990", i.get(0).getDate());
+        assertEquals("Wyoming, USA", i.get(0).getPlace());
+    }
+
+    /**
+     * Test {@link FamilyTreeMakerAdapter#getInitiatory(Individual)} and
+     * {@link FamilyTreeMakerAdapter#setInitiatory(Individual, List)}
+     */
+    @Test
+    public void testInitiatoryPositive() {
+        FamilyTreeMakerAdapter a = new FamilyTreeMakerAdapter();
+        List<DatePlaceDescription> i = a.getInitiatory(john);
+        assertNotNull(i);
+        assertEquals(1, i.size());
+        assertEquals("Wore a blue tie", i.get(0).getDescription());
+        assertEquals("03 MAR 1970", i.get(0).getDate());
+        assertEquals("Kalamazoo, Kalamazoo, Michigan, USA", i.get(0).getPlace());
+
+        a.setInitiatory(john, new ArrayList<DatePlaceDescription>());
+        i = a.getInitiatory(jesse);
+        assertNotNull(i);
+        assertEquals(0, i.size());
+    }
+
+    /**
+     * Test {@link FamilyTreeMakerAdapter#getMission(Individual)} and {@link FamilyTreeMakerAdapter#setMission(Individual, List)}
+     */
+    @Test
+    public void testMissionNegative() {
+        FamilyTreeMakerAdapter a = new FamilyTreeMakerAdapter();
+        List<DatePlaceDescription> m = a.getMission(jesse);
+        assertNotNull(m);
+        assertEquals(0, m.size());
+
+        List<DatePlaceDescription> m2 = new ArrayList<>();
+        DatePlaceDescription dpd = new DatePlaceDescription();
+        dpd.setDate("01 JAN 1990");
+        dpd.setDescription("Frying Pan");
+        dpd.setPlace("Wyoming, USA");
+        m2.add(dpd);
+
+        a.setMission(jesse, m2);
+        m = a.getMission(jesse);
+        assertNotNull(m);
+        assertEquals(1, m.size());
+        assertEquals("Frying Pan", m.get(0).getDescription());
+        assertEquals("01 JAN 1990", m.get(0).getDate());
+        assertEquals("Wyoming, USA", m.get(0).getPlace());
+    }
+
+    /**
+     * Test {@link FamilyTreeMakerAdapter#getMission(Individual)} and {@link FamilyTreeMakerAdapter#setMission(Individual, List)}
+     */
+    @Test
+    public void testMissionPositive() {
+        FamilyTreeMakerAdapter a = new FamilyTreeMakerAdapter();
+        List<DatePlaceDescription> m = a.getMission(john);
+        assertNotNull(m);
+        assertEquals(1, m.size());
+        assertEquals("It was swell", m.get(0).getDescription());
+        assertEquals("BET 01 JAN AND 31 AUG 1977", m.get(0).getDate());
+        assertEquals("Pocatello, Bannock, Idaho, USA", m.get(0).getPlace());
+
+        a.setMission(john, new ArrayList<DatePlaceDescription>());
+        m = a.getMission(jesse);
+        assertNotNull(m);
+        assertEquals(0, m.size());
     }
 }
