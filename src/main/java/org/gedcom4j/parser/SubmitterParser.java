@@ -33,7 +33,6 @@ import org.gedcom4j.model.ChangeDate;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Note;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
 
 /**
@@ -62,36 +61,36 @@ class SubmitterParser extends AbstractParser<Submitter> {
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.NAME.equalsText(ch.getTag())) {
-                    loadInto.setName(new StringWithCustomTags(ch));
+                    loadInto.setName(parseStringWithCustomFacts(ch));
                 } else if (Tag.ADDRESS.equalsText(ch.getTag())) {
                     Address address = new Address();
                     loadInto.setAddress(address);
                     new AddressParser(gedcomParser, ch, address).parse();
                 } else if (Tag.PHONE.equalsText(ch.getTag())) {
-                    loadInto.getPhoneNumbers(true).add(new StringWithCustomTags(ch));
+                    loadInto.getPhoneNumbers(true).add(parseStringWithCustomFacts(ch));
                 } else if (Tag.WEB_ADDRESS.equalsText(ch.getTag())) {
-                    loadInto.getWwwUrls(true).add(new StringWithCustomTags(ch));
+                    loadInto.getWwwUrls(true).add(parseStringWithCustomFacts(ch));
                     if (g55()) {
                         addWarning("GEDCOM version is 5.5 but WWW URL number was specified on submitter on line " + ch.getLineNum()
                                 + ", which is a GEDCOM 5.5.1 feature."
                                 + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.FAX.equalsText(ch.getTag())) {
-                    loadInto.getFaxNumbers(true).add(new StringWithCustomTags(ch));
+                    loadInto.getFaxNumbers(true).add(parseStringWithCustomFacts(ch));
                     if (g55()) {
                         addWarning("GEDCOM version is 5.5 but fax number was specified on submitter on line " + ch.getLineNum()
                                 + ", which is a GEDCOM 5.5.1 feature."
                                 + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.EMAIL.equalsText(ch.getTag())) {
-                    loadInto.getEmails(true).add(new StringWithCustomTags(ch));
+                    loadInto.getEmails(true).add(parseStringWithCustomFacts(ch));
                     if (g55()) {
                         addWarning("GEDCOM version is 5.5 but email was specified on submitter on line " + ch.getLineNum()
                                 + ", which is a GEDCOM 5.5.1 feature."
                                 + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.LANGUAGE.equalsText(ch.getTag())) {
-                    loadInto.getLanguagePref(true).add(new StringWithCustomTags(ch));
+                    loadInto.getLanguagePref(true).add(parseStringWithCustomFacts(ch));
                 } else if (Tag.CHANGED_DATETIME.equalsText(ch.getTag())) {
                     ChangeDate changeDate = new ChangeDate();
                     loadInto.setChangeDate(changeDate);
@@ -100,9 +99,9 @@ class SubmitterParser extends AbstractParser<Submitter> {
                     List<Multimedia> multimedia = loadInto.getMultimedia(true);
                     new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
                 } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
-                    loadInto.setRecIdNumber(new StringWithCustomTags(ch));
+                    loadInto.setRecIdNumber(parseStringWithCustomFacts(ch));
                 } else if (Tag.REGISTRATION_FILE_NUMBER.equalsText(ch.getTag())) {
-                    loadInto.setRegFileNumber(new StringWithCustomTags(ch));
+                    loadInto.setRegFileNumber(parseStringWithCustomFacts(ch));
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
                     List<Note> notes = loadInto.getNotes(true);
                     new NoteListParser(gedcomParser, ch, notes).parse();

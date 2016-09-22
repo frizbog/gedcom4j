@@ -55,11 +55,11 @@ public class SourceTest {
         s2.setChangeDate(new ChangeDate());
         assertEquals(s1, s2);
 
-        s1.setCustomTags(null);
+        s1.customFacts = null;
         assertEquals(s1, s2);
-        s1.getCustomTags(true).clear();
+        s1.getCustomFacts(true).clear();
         assertTrue(s1.hashCode() != s2.hashCode());
-        s2.getCustomTags(true).clear();
+        s2.getCustomFacts(true).clear();
         assertEquals(s1, s2);
 
         s1.setData(new SourceData());
@@ -134,11 +134,11 @@ public class SourceTest {
         s2.setChangeDate(new ChangeDate());
         assertEquals(s1.hashCode(), s2.hashCode());
 
-        s1.setCustomTags(null);
+        s1.customFacts = null;
         assertEquals(s1.hashCode(), s2.hashCode());
-        s1.getCustomTags(true).clear();
+        s1.getCustomFacts(true).clear();
         assertFalse(s1.hashCode() == s2.hashCode());
-        s2.getCustomTags(true).clear();
+        s2.getCustomFacts(true).clear();
         assertEquals(s1.hashCode(), s2.hashCode());
 
         s1.setData(new SourceData());
@@ -207,7 +207,7 @@ public class SourceTest {
         assertEquals("Source [xref=Foo, ]", s1.toString());
 
         s1.setChangeDate(new ChangeDate());
-        s1.setCustomTags(null);
+        s1.customFacts = null;
         s1.setData(new SourceData());
         s1.getMultimedia(true).clear();
         s1.getNotes(true).add(new Note());

@@ -79,7 +79,7 @@ public class FamilyChildCopyTest extends AbstractCopyTest {
         orig.setFamily(f);
         orig.setPedigree("OMG");
         orig.setStatus("AOK");
-        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getCustomFacts(true).add(getTestCustomFact());
         orig.getNotes(true).add(getTestNote());
 
         FamilyChild copy = new FamilyChild(orig);

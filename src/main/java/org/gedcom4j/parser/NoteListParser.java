@@ -31,7 +31,6 @@ import java.util.List;
 import org.gedcom4j.model.ChangeDate;
 import org.gedcom4j.model.Note;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.UserReference;
 
 /**
@@ -99,7 +98,7 @@ class NoteListParser extends AbstractParser<List<Note>> {
                     note.getUserReferences(true).add(u);
                     new UserReferenceParser(gedcomParser, ch, u).parse();
                 } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
-                    note.setRecIdNumber(new StringWithCustomTags(ch));
+                    note.setRecIdNumber(parseStringWithCustomFacts(ch));
                 } else if (Tag.CHANGED_DATETIME.equalsText(ch.getTag())) {
                     ChangeDate changeDate = new ChangeDate();
                     note.setChangeDate(changeDate);

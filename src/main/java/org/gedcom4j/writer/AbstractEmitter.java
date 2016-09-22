@@ -31,8 +31,8 @@ import java.util.List;
 
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
-import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.CustomFact;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.enumerations.SupportedVersion;
 
 /**
@@ -148,7 +148,7 @@ abstract class AbstractEmitter<T> {
     }
 
     /**
-     * Emit a list of {@link StringWithCustomTags} objects, using a specific tag value.
+     * Emit a list of {@link StringWithCustomFacts} objects, using a specific tag value.
      * 
      * @param level
      *            the level to write at
@@ -159,10 +159,10 @@ abstract class AbstractEmitter<T> {
      * @throws GedcomWriterException
      *             if the data cannot be written
      */
-    protected void emitStringsWithCustomTags(int level, List<StringWithCustomTags> strings, String tagValue)
+    protected void emitStringsWithCustomTags(int level, List<StringWithCustomFacts> strings, String tagValue)
             throws GedcomWriterException {
         if (strings != null) {
-            for (StringWithCustomTags f : strings) {
+            for (StringWithCustomFacts f : strings) {
                 emitTagWithRequiredValue(level, tagValue, f);
             }
         }
@@ -250,14 +250,14 @@ abstract class AbstractEmitter<T> {
      * @throws GedcomWriterException
      *             if the value is null or blank (which never happens, because we check for it)
      */
-    protected void emitTagWithOptionalValueAndCustomSubtags(int level, String tag, StringWithCustomTags valueToRightOfTag)
+    protected void emitTagWithOptionalValueAndCustomSubtags(int level, String tag, StringWithCustomFacts valueToRightOfTag)
             throws GedcomWriterException {
         if (valueToRightOfTag == null || valueToRightOfTag.getValue() == null) {
             StringBuilder line = new StringBuilder(Integer.toString(level));
             line.append(" ").append(tag);
             baseWriter.lines.add(line.toString());
             if (valueToRightOfTag != null) {
-                emitCustomTags(level + 1, valueToRightOfTag.getCustomTags());
+                emitCustomTags(level + 1, valueToRightOfTag.getCustomFacts());
             }
             return;
         }
@@ -268,7 +268,7 @@ abstract class AbstractEmitter<T> {
 
         emitValueLines(level, null, tag, valueLines);
 
-        emitCustomTags(level + 1, valueToRightOfTag.getCustomTags());
+        emitCustomTags(level + 1, valueToRightOfTag.getCustomFacts());
     }
 
     /**
@@ -284,7 +284,7 @@ abstract class AbstractEmitter<T> {
      *             if the value is null or blank
      */
     protected void emitTagWithRequiredValue(int level, String tag, String value) throws GedcomWriterException {
-        emitTagWithRequiredValue(level, null, tag, new StringWithCustomTags(value));
+        emitTagWithRequiredValue(level, null, tag, new StringWithCustomFacts(value));
     }
 
     /**
@@ -299,7 +299,7 @@ abstract class AbstractEmitter<T> {
      * @throws GedcomWriterException
      *             if the value is null or blank
      */
-    protected void emitTagWithRequiredValue(int level, String tag, StringWithCustomTags value) throws GedcomWriterException {
+    protected void emitTagWithRequiredValue(int level, String tag, StringWithCustomFacts value) throws GedcomWriterException {
         emitTagWithRequiredValue(level, null, tag, value);
     }
 
@@ -315,27 +315,35 @@ abstract class AbstractEmitter<T> {
     }
 
     /**
-     * Emit the custom tags
+     * Emit the custom facts as custom tags
      * 
-     * @param customTags
-     *            the custom tags
+     * @param customFacts
+     *            the custom facts
      * @param level
-     *            the level at which the custom tags are to be written
+     *            the level at which the custom facts are to be written as custom tags
+     * @throws GedcomWriterException
+     *             if the data is malformed and cannot be written
+     * @throws WriterCancelledException
+     *             if cancellation was requested during the operation
      */
-    void emitCustomTags(int level, List<StringTree> customTags) {
-        if (customTags != null) {
-            for (StringTree st : customTags) {
+    void emitCustomTags(int level, List<CustomFact> customFacts) throws WriterCancelledException, GedcomWriterException {
+        if (customFacts != null) {
+            for (CustomFact cf : customFacts) {
                 StringBuilder line = new StringBuilder(Integer.toString(level));
                 line.append(" ");
-                if (st.getXref() != null && st.getXref().trim().length() > 0) {
-                    line.append(st.getXref()).append(" ");
+                if (cf.getXref() != null && cf.getXref().trim().length() > 0) {
+                    line.append(cf.getXref()).append(" ");
                 }
-                line.append(st.getTag());
-                if (st.getValue() != null && st.getValue().trim().length() > 0) {
-                    line.append(" ").append(st.getValue());
+                line.append(cf.getTag());
+                if (cf.getDescription() != null && cf.getDescription().trim().length() > 0) {
+                    line.append(" ").append(cf.getDescription());
                 }
                 baseWriter.lines.add(line.toString());
-                emitCustomTags(level + 1, st.getChildren());
+                emitTagIfValueNotNull(startLevel, "DATE", cf.getDate());
+                new PlaceEmitter(baseWriter, level + 1, cf.getPlace()).emit();
+                new NotesEmitter(baseWriter, level + 1, cf.getNotes()).emit();
+                new SourceCitationEmitter(baseWriter, startLevel, cf.getCitations()).emit();
+                emitCustomTags(level + 1, cf.getCustomFacts());
             }
         }
     }
@@ -426,7 +434,8 @@ abstract class AbstractEmitter<T> {
      * @throws GedcomWriterException
      *             if the value is null or blank
      */
-    private void emitTagWithRequiredValue(int level, String xref, String tag, StringWithCustomTags e) throws GedcomWriterException {
+    private void emitTagWithRequiredValue(int level, String xref, String tag, StringWithCustomFacts e)
+            throws GedcomWriterException {
         if (e == null || e.getValue() == null || e.getValue().trim().length() == 0) {
             throw new GedcomWriterException("Required value for tag " + tag + " at level " + level + " was null or blank");
         }
@@ -436,7 +445,7 @@ abstract class AbstractEmitter<T> {
 
         emitValueLines(level, xref, tag, valueLines);
 
-        emitCustomTags(level + 1, e.getCustomTags());
+        emitCustomTags(level + 1, e.getCustomFacts());
     }
 
     /**

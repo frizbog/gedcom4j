@@ -57,12 +57,12 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
     /**
      * The given (aka "Christian" or "first") names
      */
-    private StringWithCustomTags givenName;
+    private StringWithCustomFacts givenName;
 
     /**
      * Nickname
      */
-    private StringWithCustomTags nickname;
+    private StringWithCustomFacts nickname;
 
     /**
      * Phonetic spelling. New for GEDCOM 5.5.1
@@ -72,7 +72,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
     /**
      * The prefix for the name
      */
-    private StringWithCustomTags prefix;
+    private StringWithCustomFacts prefix;
 
     /**
      * Romanized variant. New for GEDCOM 5.5.1
@@ -82,17 +82,17 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
     /**
      * The suffix
      */
-    private StringWithCustomTags suffix;
+    private StringWithCustomFacts suffix;
 
     /**
      * The surname (aka "family" or "last" name)
      */
-    private StringWithCustomTags surname;
+    private StringWithCustomFacts surname;
 
     /**
      * Surname prefix
      */
-    private StringWithCustomTags surnamePrefix;
+    private StringWithCustomFacts surnamePrefix;
 
     /** Default constructor */
     public PersonalName() {
@@ -119,10 +119,10 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
             }
         }
         if (other.givenName != null) {
-            givenName = new StringWithCustomTags(other.givenName);
+            givenName = new StringWithCustomFacts(other.givenName);
         }
         if (other.nickname != null) {
-            nickname = new StringWithCustomTags(other.nickname);
+            nickname = new StringWithCustomFacts(other.nickname);
         }
         if (other.phonetic != null) {
             phonetic = new ArrayList<>();
@@ -131,7 +131,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
             }
         }
         if (other.prefix != null) {
-            prefix = new StringWithCustomTags(other.prefix);
+            prefix = new StringWithCustomFacts(other.prefix);
         }
         if (other.romanized != null) {
             romanized = new ArrayList<>();
@@ -140,13 +140,13 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
             }
         }
         if (other.suffix != null) {
-            suffix = new StringWithCustomTags(other.suffix);
+            suffix = new StringWithCustomFacts(other.suffix);
         }
         if (other.surname != null) {
-            surname = new StringWithCustomTags(other.surname);
+            surname = new StringWithCustomFacts(other.surname);
         }
         if (other.surnamePrefix != null) {
-            surnamePrefix = new StringWithCustomTags(other.surnamePrefix);
+            surnamePrefix = new StringWithCustomFacts(other.surnamePrefix);
         }
     }
 
@@ -278,7 +278,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      *
      * @return the given name
      */
-    public StringWithCustomTags getGivenName() {
+    public StringWithCustomFacts getGivenName() {
         return givenName;
     }
 
@@ -287,7 +287,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      *
      * @return the nickname
      */
-    public StringWithCustomTags getNickname() {
+    public StringWithCustomFacts getNickname() {
         return nickname;
     }
 
@@ -319,7 +319,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      *
      * @return the prefix
      */
-    public StringWithCustomTags getPrefix() {
+    public StringWithCustomFacts getPrefix() {
         return prefix;
     }
 
@@ -351,7 +351,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      *
      * @return the suffix
      */
-    public StringWithCustomTags getSuffix() {
+    public StringWithCustomFacts getSuffix() {
         return suffix;
     }
 
@@ -360,7 +360,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      *
      * @return the surname
      */
-    public StringWithCustomTags getSurname() {
+    public StringWithCustomFacts getSurname() {
         return surname;
     }
 
@@ -369,7 +369,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      *
      * @return the surname prefix
      */
-    public StringWithCustomTags getSurnamePrefix() {
+    public StringWithCustomFacts getSurnamePrefix() {
         return surnamePrefix;
     }
 
@@ -410,7 +410,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      *            the new given name
      */
     public void setGivenName(String givenName) {
-        this.givenName = givenName == null ? null : new StringWithCustomTags(givenName);
+        this.givenName = givenName == null ? null : new StringWithCustomFacts(givenName);
     }
 
     /**
@@ -419,7 +419,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      * @param givenName
      *            the new given name
      */
-    public void setGivenName(StringWithCustomTags givenName) {
+    public void setGivenName(StringWithCustomFacts givenName) {
         this.givenName = givenName;
     }
 
@@ -430,7 +430,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      *            the new nickname
      */
     public void setNickname(String nickname) {
-        this.nickname = nickname == null ? null : new StringWithCustomTags(nickname);
+        this.nickname = nickname == null ? null : new StringWithCustomFacts(nickname);
     }
 
     /**
@@ -439,7 +439,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      * @param nickname
      *            the new nickname
      */
-    public void setNickname(StringWithCustomTags nickname) {
+    public void setNickname(StringWithCustomFacts nickname) {
         this.nickname = nickname;
     }
 
@@ -450,7 +450,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      *            the new prefix
      */
     public void setPrefix(String prefix) {
-        this.prefix = prefix == null ? null : new StringWithCustomTags(prefix);
+        this.prefix = prefix == null ? null : new StringWithCustomFacts(prefix);
     }
 
     /**
@@ -459,7 +459,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      * @param prefix
      *            the new prefix
      */
-    public void setPrefix(StringWithCustomTags prefix) {
+    public void setPrefix(StringWithCustomFacts prefix) {
         this.prefix = prefix;
     }
 
@@ -470,7 +470,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      *            the new suffix
      */
     public void setSuffix(String suffix) {
-        this.suffix = suffix == null ? null : new StringWithCustomTags(suffix);
+        this.suffix = suffix == null ? null : new StringWithCustomFacts(suffix);
     }
 
     /**
@@ -479,7 +479,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      * @param suffix
      *            the new suffix
      */
-    public void setSuffix(StringWithCustomTags suffix) {
+    public void setSuffix(StringWithCustomFacts suffix) {
         this.suffix = suffix;
     }
 
@@ -490,7 +490,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      *            the new surname
      */
     public void setSurname(String surname) {
-        this.surname = surname == null ? null : new StringWithCustomTags(surname);
+        this.surname = surname == null ? null : new StringWithCustomFacts(surname);
     }
 
     /**
@@ -499,7 +499,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      * @param surname
      *            the new surname
      */
-    public void setSurname(StringWithCustomTags surname) {
+    public void setSurname(StringWithCustomFacts surname) {
         this.surname = surname;
     }
 
@@ -510,7 +510,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      *            the new surname prefix
      */
     public void setSurnamePrefix(String surnamePrefix) {
-        this.surnamePrefix = surnamePrefix == null ? null : new StringWithCustomTags(surnamePrefix);
+        this.surnamePrefix = surnamePrefix == null ? null : new StringWithCustomFacts(surnamePrefix);
     }
 
     /**
@@ -519,7 +519,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      * @param surnamePrefix
      *            the new surname prefix
      */
-    public void setSurnamePrefix(StringWithCustomTags surnamePrefix) {
+    public void setSurnamePrefix(StringWithCustomFacts surnamePrefix) {
         this.surnamePrefix = surnamePrefix;
     }
 

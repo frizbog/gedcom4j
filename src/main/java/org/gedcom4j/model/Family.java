@@ -46,7 +46,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
     /**
      * The automated record ID number
      */
-    private StringWithCustomTags automatedRecordId;
+    private StringWithCustomFacts automatedRecordId;
 
     /**
      * The change date information for this family record
@@ -86,18 +86,18 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
     /**
      * The number of children
      */
-    private StringWithCustomTags numChildren;
+    private StringWithCustomFacts numChildren;
 
     /**
      * The permanent record file number
      */
-    private StringWithCustomTags recFileNumber;
+    private StringWithCustomFacts recFileNumber;
 
     /**
      * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be "confidential",
      * "locked", or "privacy" but this implementation allows any value.
      */
-    private StringWithCustomTags restrictionNotice;
+    private StringWithCustomFacts restrictionNotice;
 
     /**
      * A list of the submitters for this family
@@ -146,7 +146,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
     public Family(Family other, boolean deep) {
         super(other);
         if (other.automatedRecordId != null) {
-            automatedRecordId = new StringWithCustomTags(other.automatedRecordId);
+            automatedRecordId = new StringWithCustomFacts(other.automatedRecordId);
         }
         if (other.changeDate != null) {
             changeDate = new ChangeDate(other.changeDate);
@@ -189,13 +189,13 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
             }
         }
         if (other.numChildren != null) {
-            numChildren = new StringWithCustomTags(other.numChildren);
+            numChildren = new StringWithCustomFacts(other.numChildren);
         }
         if (other.recFileNumber != null) {
-            recFileNumber = new StringWithCustomTags(other.recFileNumber);
+            recFileNumber = new StringWithCustomFacts(other.recFileNumber);
         }
         if (other.restrictionNotice != null) {
-            restrictionNotice = new StringWithCustomTags(other.restrictionNotice);
+            restrictionNotice = new StringWithCustomFacts(other.restrictionNotice);
         }
         if (other.submitters != null) {
             submitters = new ArrayList<>();
@@ -344,7 +344,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the automated record id
      */
-    public StringWithCustomTags getAutomatedRecordId() {
+    public StringWithCustomFacts getAutomatedRecordId() {
         return automatedRecordId;
     }
 
@@ -489,7 +489,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the number of children
      */
-    public StringWithCustomTags getNumChildren() {
+    public StringWithCustomFacts getNumChildren() {
         return numChildren;
     }
 
@@ -498,7 +498,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the rec file number
      */
-    public StringWithCustomTags getRecFileNumber() {
+    public StringWithCustomFacts getRecFileNumber() {
         return recFileNumber;
     }
 
@@ -507,7 +507,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the restriction notice
      */
-    public StringWithCustomTags getRestrictionNotice() {
+    public StringWithCustomFacts getRestrictionNotice() {
         return restrictionNotice;
     }
 
@@ -608,7 +608,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *            the new automated record id
      */
     public void setAutomatedRecordId(String automatedRecordId) {
-        this.automatedRecordId = automatedRecordId == null ? null : new StringWithCustomTags(automatedRecordId);
+        this.automatedRecordId = automatedRecordId == null ? null : new StringWithCustomFacts(automatedRecordId);
     }
 
     /**
@@ -617,7 +617,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      * @param automatedRecordId
      *            the new automated record id
      */
-    public void setAutomatedRecordId(StringWithCustomTags automatedRecordId) {
+    public void setAutomatedRecordId(StringWithCustomFacts automatedRecordId) {
         this.automatedRecordId = automatedRecordId;
     }
 
@@ -648,7 +648,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *            the new number of children
      */
     public void setNumChildren(String numChildren) {
-        this.numChildren = numChildren == null ? null : new StringWithCustomTags(numChildren);
+        this.numChildren = numChildren == null ? null : new StringWithCustomFacts(numChildren);
     }
 
     /**
@@ -657,7 +657,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      * @param numChildren
      *            the new number of children
      */
-    public void setNumChildren(StringWithCustomTags numChildren) {
+    public void setNumChildren(StringWithCustomFacts numChildren) {
         this.numChildren = numChildren;
     }
 
@@ -668,7 +668,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *            the new rec file number
      */
     public void setRecFileNumber(String recFileNumber) {
-        this.recFileNumber = recFileNumber == null ? null : new StringWithCustomTags(recFileNumber);
+        this.recFileNumber = recFileNumber == null ? null : new StringWithCustomFacts(recFileNumber);
     }
 
     /**
@@ -677,7 +677,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      * @param recFileNumber
      *            the new rec file number
      */
-    public void setRecFileNumber(StringWithCustomTags recFileNumber) {
+    public void setRecFileNumber(StringWithCustomFacts recFileNumber) {
         this.recFileNumber = recFileNumber;
     }
 
@@ -688,7 +688,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *            the new restriction notice
      */
     public void setRestrictionNotice(String restrictionNotice) {
-        this.restrictionNotice = restrictionNotice == null ? null : new StringWithCustomTags(restrictionNotice);
+        this.restrictionNotice = restrictionNotice == null ? null : new StringWithCustomFacts(restrictionNotice);
     }
 
     /**
@@ -697,7 +697,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      * @param restrictionNotice
      *            the new restriction notice
      */
-    public void setRestrictionNotice(StringWithCustomTags restrictionNotice) {
+    public void setRestrictionNotice(StringWithCustomFacts restrictionNotice) {
         this.restrictionNotice = restrictionNotice;
     }
 
@@ -808,9 +808,9 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
             builder.append(xref);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
+        if (getCustomFacts() != null) {
             builder.append("customTags=");
-            builder.append(getCustomTags());
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

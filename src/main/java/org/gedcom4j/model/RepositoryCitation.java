@@ -185,9 +185,9 @@ public class RepositoryCitation extends AbstractNotesElement {
             builder.append(repositoryXref);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
+        if (getCustomFacts() != null) {
             builder.append("customTags=");
-            builder.append(getCustomTags());
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

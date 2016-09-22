@@ -45,7 +45,7 @@ public class Association extends AbstractNotesElement {
     /**
      * The type of the associated entity
      */
-    private StringWithCustomTags associatedEntityType;
+    private StringWithCustomFacts associatedEntityType;
 
     /**
      * The XREF to the associated entity
@@ -60,7 +60,7 @@ public class Association extends AbstractNotesElement {
     /**
      * Relationship description
      */
-    private StringWithCustomTags relationship;
+    private StringWithCustomFacts relationship;
 
     /** Default constructor */
     public Association() {
@@ -76,7 +76,7 @@ public class Association extends AbstractNotesElement {
     public Association(Association other) {
         super(other);
         if (other.associatedEntityType != null) {
-            associatedEntityType = new StringWithCustomTags(other.associatedEntityType);
+            associatedEntityType = new StringWithCustomFacts(other.associatedEntityType);
         }
         associatedEntityXref = other.associatedEntityXref;
         if (other.citations != null) {
@@ -90,7 +90,7 @@ public class Association extends AbstractNotesElement {
             }
         }
         if (other.relationship != null) {
-            relationship = new StringWithCustomTags(other.relationship);
+            relationship = new StringWithCustomFacts(other.relationship);
         }
 
     }
@@ -146,7 +146,7 @@ public class Association extends AbstractNotesElement {
      *
      * @return the associated entity type
      */
-    public StringWithCustomTags getAssociatedEntityType() {
+    public StringWithCustomFacts getAssociatedEntityType() {
         return associatedEntityType;
     }
 
@@ -188,7 +188,7 @@ public class Association extends AbstractNotesElement {
      *
      * @return the relationship
      */
-    public StringWithCustomTags getRelationship() {
+    public StringWithCustomFacts getRelationship() {
         return relationship;
     }
 
@@ -213,7 +213,7 @@ public class Association extends AbstractNotesElement {
      *            the new associated entity type
      */
     public void setAssociatedEntityType(String associatedEntityType) {
-        this.associatedEntityType = associatedEntityType == null ? null : new StringWithCustomTags(associatedEntityType);
+        this.associatedEntityType = associatedEntityType == null ? null : new StringWithCustomFacts(associatedEntityType);
     }
 
     /**
@@ -222,7 +222,7 @@ public class Association extends AbstractNotesElement {
      * @param associatedEntityType
      *            the new associated entity type
      */
-    public void setAssociatedEntityType(StringWithCustomTags associatedEntityType) {
+    public void setAssociatedEntityType(StringWithCustomFacts associatedEntityType) {
         this.associatedEntityType = associatedEntityType;
     }
 
@@ -243,7 +243,7 @@ public class Association extends AbstractNotesElement {
      *            the new relationship
      */
     public void setRelationship(String relationship) {
-        this.relationship = relationship == null ? null : new StringWithCustomTags(relationship);
+        this.relationship = relationship == null ? null : new StringWithCustomFacts(relationship);
     }
 
     /**
@@ -252,7 +252,7 @@ public class Association extends AbstractNotesElement {
      * @param relationship
      *            the new relationship
      */
-    public void setRelationship(StringWithCustomTags relationship) {
+    public void setRelationship(StringWithCustomFacts relationship) {
         this.relationship = relationship;
     }
 
@@ -283,9 +283,9 @@ public class Association extends AbstractNotesElement {
             builder.append(relationship);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
+        if (getCustomFacts() != null) {
             builder.append("customTags=");
-            builder.append(getCustomTags());
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

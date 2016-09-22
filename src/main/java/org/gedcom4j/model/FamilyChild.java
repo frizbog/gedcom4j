@@ -52,12 +52,12 @@ public class FamilyChild extends AbstractNotesElement {
     /**
      * Pedigree information
      */
-    private StringWithCustomTags pedigree;
+    private StringWithCustomFacts pedigree;
 
     /**
      * The status of this Family/Child relationship. New for GEDCOM 5.5.1.
      */
-    private StringWithCustomTags status;
+    private StringWithCustomFacts status;
 
     /** Default constructor */
     public FamilyChild() {
@@ -93,10 +93,10 @@ public class FamilyChild extends AbstractNotesElement {
             family = new Family(other.family, deep);
         }
         if (other.pedigree != null) {
-            pedigree = new StringWithCustomTags(other.pedigree);
+            pedigree = new StringWithCustomFacts(other.pedigree);
         }
         if (other.status != null) {
-            status = new StringWithCustomTags(other.status);
+            status = new StringWithCustomFacts(other.status);
         }
     }
 
@@ -180,7 +180,7 @@ public class FamilyChild extends AbstractNotesElement {
      *
      * @return the pedigree
      */
-    public StringWithCustomTags getPedigree() {
+    public StringWithCustomFacts getPedigree() {
         return pedigree;
     }
 
@@ -189,7 +189,7 @@ public class FamilyChild extends AbstractNotesElement {
      *
      * @return the status
      */
-    public StringWithCustomTags getStatus() {
+    public StringWithCustomFacts getStatus() {
         return status;
     }
 
@@ -234,7 +234,7 @@ public class FamilyChild extends AbstractNotesElement {
      *            the new pedigree
      */
     public void setPedigree(String pedigree) {
-        this.pedigree = pedigree == null ? null : new StringWithCustomTags(pedigree);
+        this.pedigree = pedigree == null ? null : new StringWithCustomFacts(pedigree);
     }
 
     /**
@@ -243,7 +243,7 @@ public class FamilyChild extends AbstractNotesElement {
      * @param pedigree
      *            the new pedigree
      */
-    public void setPedigree(StringWithCustomTags pedigree) {
+    public void setPedigree(StringWithCustomFacts pedigree) {
         this.pedigree = pedigree;
     }
 
@@ -254,7 +254,7 @@ public class FamilyChild extends AbstractNotesElement {
      *            the new status
      */
     public void setStatus(String status) {
-        this.status = status == null ? null : new StringWithCustomTags(status);
+        this.status = status == null ? null : new StringWithCustomFacts(status);
     }
 
     /**
@@ -263,7 +263,7 @@ public class FamilyChild extends AbstractNotesElement {
      * @param status
      *            the new status
      */
-    public void setStatus(StringWithCustomTags status) {
+    public void setStatus(StringWithCustomFacts status) {
         this.status = status;
     }
 
@@ -294,9 +294,9 @@ public class FamilyChild extends AbstractNotesElement {
             builder.append(status);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
+        if (getCustomFacts() != null) {
             builder.append("customTags=");
-            builder.append(getCustomTags());
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

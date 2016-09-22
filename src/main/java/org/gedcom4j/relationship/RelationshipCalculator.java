@@ -44,7 +44,7 @@ import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyChild;
 import org.gedcom4j.model.FamilySpouse;
 import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 
 /**
  * <p>
@@ -441,7 +441,7 @@ public class RelationshipCalculator {
      *            the sex of original person
      * @return what the relationship would be back to the original person
      */
-    private RelationshipName getReverseRelationship(RelationshipName relationship, StringWithCustomTags sex) {
+    private RelationshipName getReverseRelationship(RelationshipName relationship, StringWithCustomFacts sex) {
         if (sex == null) {
             return relationship.reverseForUnknown;
         }

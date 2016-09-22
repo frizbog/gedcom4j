@@ -29,7 +29,6 @@ package org.gedcom4j.parser;
 import org.gedcom4j.exception.UnsupportedVersionException;
 import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.enumerations.SupportedVersion;
 
 /**
@@ -69,7 +68,7 @@ class GedcomVersionParser extends AbstractParser<GedcomVersion> {
                     }
                     loadInto.setVersionNumber(vn);
                 } else if (Tag.FORM.equalsText(ch.getTag())) {
-                    loadInto.setGedcomForm(new StringWithCustomTags(ch));
+                    loadInto.setGedcomForm(parseStringWithCustomFacts(ch));
                 } else {
                     unknownTag(ch, loadInto);
                 }

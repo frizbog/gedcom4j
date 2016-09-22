@@ -67,10 +67,10 @@ public class FamilyEventCopyTest extends AbstractCopyTest {
         FamilyEvent orig = new FamilyEvent();
         orig.setAddress(getTestAddress());
         orig.getNotes(true).add(getTestNote());
-        orig.getFaxNumbers(true).add(new StringWithCustomTags("555-1212"));
-        orig.getPhoneNumbers(true).add(new StringWithCustomTags("555-1313"));
-        orig.getWwwUrls(true).add(new StringWithCustomTags("www.nowhere.com"));
-        orig.getEmails(true).add(new StringWithCustomTags("nobody@nowwhere.com"));
+        orig.getFaxNumbers(true).add(new StringWithCustomFacts("555-1212"));
+        orig.getPhoneNumbers(true).add(new StringWithCustomFacts("555-1313"));
+        orig.getWwwUrls(true).add(new StringWithCustomFacts("www.nowhere.com"));
+        orig.getEmails(true).add(new StringWithCustomFacts("nobody@nowwhere.com"));
         orig.setAge("1");
         orig.setCause("Just because");
         orig.setDate("03 MAR 1903");
@@ -85,7 +85,7 @@ public class FamilyEventCopyTest extends AbstractCopyTest {
         orig.setSubType("mnbvcxz");
         orig.setType(FamilyEventType.EVENT);
         orig.getCitations(true).add(getTestCitation());
-        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getCustomFacts(true).add(getTestCustomFact());
         orig.setWifeAge("124");
         orig.setYNull("Y");
         Multimedia m = new Multimedia();

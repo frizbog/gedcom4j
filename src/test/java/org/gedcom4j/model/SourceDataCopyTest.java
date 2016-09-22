@@ -64,7 +64,7 @@ public class SourceDataCopyTest extends AbstractCopyTest {
     @Test
     public void testWithValues() {
         SourceData orig = new SourceData();
-        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getCustomFacts(true).add(getTestCustomFact());
         EventRecorded e = new EventRecorded();
         e.setEventType("Foo");
         orig.getEventsRecorded(true).add(e);

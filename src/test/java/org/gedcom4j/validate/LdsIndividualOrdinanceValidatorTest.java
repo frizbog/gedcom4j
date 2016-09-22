@@ -28,7 +28,7 @@ package org.gedcom4j.validate;
 
 import org.gedcom4j.model.LdsIndividualOrdinance;
 import org.gedcom4j.model.Note;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.enumerations.LdsBaptismDateStatus;
 import org.gedcom4j.model.enumerations.LdsIndividualOrdinanceType;
 import org.junit.Test;
@@ -97,7 +97,7 @@ public class LdsIndividualOrdinanceValidatorTest extends AbstractValidatorTestCa
         l.setDate("5 MAY 1905");
         l.setTemple("Temple 1");
         l.setType(LdsIndividualOrdinanceType.BAPTISM);
-        l.setStatus(new StringWithCustomTags(LdsBaptismDateStatus.CHILD.getCode()));
+        l.setStatus(new StringWithCustomFacts(LdsBaptismDateStatus.CHILD.getCode()));
 
         new LdsIndividualOrdinanceValidator(validator, l).validate();
         assertNoIssues();

@@ -68,7 +68,7 @@ public abstract class AbstractCopyTest {
         result.setStateProvince("ME");
         result.setCountry("USA");
         result.getLines(true).add("XXX");
-        result.getCustomTags(true).add(getTestCustomTags());
+        result.getCustomFacts(true).add(getTestCustomFact());
         return result;
     }
 
@@ -79,7 +79,7 @@ public abstract class AbstractCopyTest {
      */
     protected AbstractCitation getTestCitation() {
         CitationWithoutSource result = new CitationWithoutSource();
-        result.getCustomTags(true).add(getTestCustomTags());
+        result.getCustomFacts(true).add(getTestCustomFact());
         result.getNotes(true).add(getTestNote());
         List<String> ls = new ArrayList<>();
         ls.add("Foo");
@@ -90,25 +90,24 @@ public abstract class AbstractCopyTest {
     }
 
     /**
-     * Helper method to get some custom tags to work with
+     * Helper method to get a custom fact representing some custom tags to work with
      * 
-     * @return custom tags
+     * @return a custom fact
      */
-    protected StringTree getTestCustomTags() {
-        StringTree ct = new StringTree();
-        ct.setLevel(5);
-        ct.setLineNum(60);
-        ct.setTag("_HOWDY");
-        ct.setValue("Pardners");
+    protected CustomFact getTestCustomFact() {
+        CustomFact result = new CustomFact("_HOWDY");
+        result.setDescription("Pardners");
+        Place p = new Place();
+        p.setPlaceName("TV Land");
+        result.setPlace(p);
+        result.getNotes(true).add(getTestNote());
+        result.setDate("11 SEP 1911");
 
-        StringTree ct2 = new StringTree();
-        ct.getChildren(true).add(ct2);
-        ct2.setParent(ct);
-        ct2.setLevel(6);
-        ct2.setLineNum(61);
-        ct2.setTag("_XXXX");
-        ct2.setValue("Y");
-        return ct;
+        CustomFact subFact = new CustomFact("_XXXX");
+        subFact.setDescription("More input");
+        result.getCustomFacts(true).add(subFact);
+
+        return result;
     }
 
     /**
@@ -125,7 +124,8 @@ public abstract class AbstractCopyTest {
         n.getLines(true).add("Note on change date");
         cd.getNotes(true).add(n);
         result.setChangeDate(cd);
-        result.getCustomTags(true).add(getTestCustomTags());
+        CustomFact n2 = new CustomFact("_QWER");
+        result.getCustomFacts(true).add(n2);
         result.setRecIdNumber("YYY");
         result.setXref("@N0001@");
         result.getLines(true).add("Test Note Line 1");

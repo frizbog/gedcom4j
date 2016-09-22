@@ -534,7 +534,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
             new RepositoryParser(this, rootLevelItem, r).parse();
         } else if (Tag.OBJECT_MULTIMEDIA.equalsText(rootLevelItem.getTag())) {
             Multimedia multimedia = getMultimedia(rootLevelItem.getXref());
-            new MultimediaRecordParser(this, rootLevelItem, multimedia).parse();
+            new MultimediaParser(this, rootLevelItem, multimedia).parse();
         } else {
             unknownTag(rootLevelItem, gedcom);
         }

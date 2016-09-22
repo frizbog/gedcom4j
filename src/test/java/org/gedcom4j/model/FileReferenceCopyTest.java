@@ -69,7 +69,7 @@ public class FileReferenceCopyTest extends AbstractCopyTest {
         orig.setMediaType("BBB");
         orig.setReferenceToFile("CCC");
         orig.setTitle("DDD");
-        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getCustomFacts(true).add(getTestCustomFact());
 
         FileReference copy = new FileReference(orig);
         assertEquals(orig, copy);

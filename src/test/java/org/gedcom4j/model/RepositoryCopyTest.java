@@ -94,10 +94,10 @@ public class RepositoryCopyTest extends AbstractCopyTest {
         orig.setRecIdNumber("123");
         orig.setXref("@R1@");
         orig.getNotes(true).add(getTestNote());
-        orig.getFaxNumbers(true).add(new StringWithCustomTags("555-1212"));
-        orig.getPhoneNumbers(true).add(new StringWithCustomTags("555-1313"));
-        orig.getWwwUrls(true).add(new StringWithCustomTags("www.nowhere.com"));
-        orig.getEmails(true).add(new StringWithCustomTags("nobody@nowwhere.com"));
+        orig.getFaxNumbers(true).add(new StringWithCustomFacts("555-1212"));
+        orig.getPhoneNumbers(true).add(new StringWithCustomFacts("555-1313"));
+        orig.getWwwUrls(true).add(new StringWithCustomFacts("www.nowhere.com"));
+        orig.getEmails(true).add(new StringWithCustomFacts("nobody@nowwhere.com"));
 
         Repository copy = new Repository(orig);
         assertEquals(orig, copy);

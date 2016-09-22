@@ -41,15 +41,16 @@ import org.gedcom4j.exception.ValidationException;
 import org.gedcom4j.model.AbstractAddressableElement;
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.ChangeDate;
+import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.HasCitations;
-import org.gedcom4j.model.HasCustomTags;
+import org.gedcom4j.model.HasCustomFacts;
 import org.gedcom4j.model.HasNotes;
 import org.gedcom4j.model.HasXref;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.ModelElement;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.UserReference;
 import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.gedcom4j.parser.DateParser;
@@ -180,29 +181,35 @@ abstract class AbstractValidator implements Serializable {
      * @param o
      *            the object being validated
      */
-    protected void checkCustomTags(HasCustomTags o) {
+    protected void checkCustomTags(HasCustomFacts o) {
         if (o == null) {
             return; // Nothing to check!
         }
         checkUninitializedCollection(o, "customTags");
-        if (o.getCustomTags() == null) {
+        if (o.getCustomFacts() == null) {
             return;
         }
         int i = 0;
-        while (i < o.getCustomTags().size()) {
-            StringTree ct = o.getCustomTags().get(i);
-            if (ct == null) {
+        while (i < o.getCustomFacts().size()) {
+            CustomFact cf = o.getCustomFacts().get(i);
+            if (cf == null) {
                 Finding vf = validator.newFinding(o, Severity.ERROR, org.gedcom4j.validate.ProblemCode.LIST_WITH_NULL_VALUE,
                         "customTags");
                 if (validator.mayRepair(vf)) {
                     ModelElement before = makeCopy(o);
-                    o.getCustomTags().remove(i);
+                    o.getCustomFacts().remove(i);
                     vf.addRepair(new AutoRepair(before, makeCopy(o)));
                 } else {
                     i++;
                 }
             } else {
-                checkStringTree(ct);
+                mustBeDateIfSpecified(cf, "date");
+                if (cf.getPlace() != null) {
+                    new PlaceValidator(getValidator(), cf.getPlace()).validate();
+                }
+                checkNotes(cf);
+                checkCitations(cf);
+                checkCustomTags(cf);
                 i++;
             }
         }
@@ -221,7 +228,7 @@ abstract class AbstractValidator implements Serializable {
         }
         checkListOfModelElementsForDups(itemWithAddresses, "emails");
         checkListOfModelElementsForNulls(itemWithAddresses, "emails");
-        for (StringWithCustomTags swct : itemWithAddresses.getEmails()) {
+        for (StringWithCustomFacts swct : itemWithAddresses.getEmails()) {
             mustHaveValue(swct, "value");
             if (swct.getValue() != null && !EMAIL_PATTERN.matcher(swct.getValue()).matches()) {
                 validator.newFinding(swct, Severity.WARNING, org.gedcom4j.validate.ProblemCode.NOT_VALID_EMAIL_ADDRESS, "value");
@@ -242,7 +249,7 @@ abstract class AbstractValidator implements Serializable {
         }
         checkListOfModelElementsForDups(itemWithAddresses, "faxNumbers");
         checkListOfModelElementsForNulls(itemWithAddresses, "faxNumbers");
-        for (StringWithCustomTags swct : itemWithAddresses.getFaxNumbers()) {
+        for (StringWithCustomFacts swct : itemWithAddresses.getFaxNumbers()) {
             mustHaveValue(swct, "value");
         }
     }
@@ -380,13 +387,13 @@ abstract class AbstractValidator implements Serializable {
         }
         checkListOfModelElementsForDups(itemWithAddresses, "phoneNumbers");
         checkListOfModelElementsForNulls(itemWithAddresses, "phoneNumbers");
-        for (StringWithCustomTags swct : itemWithAddresses.getPhoneNumbers()) {
+        for (StringWithCustomFacts swct : itemWithAddresses.getPhoneNumbers()) {
             mustHaveValue(swct, "value");
         }
     }
 
     /**
-     * Check a string list (List&lt;String&gt; or List&lt;StringWithCustomTags&gt;) on an object.
+     * Check a string list (List&lt;String&gt; or List&lt;StringWithCustomFacts&gt;) on an object.
      * 
      * @param modelElement
      *            the object that has a list of strings in it
@@ -406,13 +413,13 @@ abstract class AbstractValidator implements Serializable {
             throw new ValidationException("Field " + listName + " on object of type " + modelElement.getClass().getName()
                     + " is not a List");
         }
-        if (modelElement instanceof HasCustomTags) {
-            List<StringWithCustomTags> list = (List<StringWithCustomTags>) o;
+        if (modelElement instanceof HasCustomFacts) {
+            List<StringWithCustomFacts> list = (List<StringWithCustomFacts>) o;
             int i = 0;
             while (i < list.size()) {
                 Object s = list.get(i);
-                if (s instanceof StringWithCustomTags) {
-                    StringWithCustomTags swct = list.get(i);
+                if (s instanceof StringWithCustomFacts) {
+                    StringWithCustomFacts swct = list.get(i);
                     if (swct != null && (blankStringsAllowed || isSpecified(swct.getValue()))) {
                         checkCustomTags(swct);
                         i++;
@@ -535,7 +542,7 @@ abstract class AbstractValidator implements Serializable {
         }
         checkListOfModelElementsForDups(itemWithAddresses, "wwwUrls");
         checkListOfModelElementsForNulls(itemWithAddresses, "wwwUrls");
-        for (StringWithCustomTags swct : itemWithAddresses.getWwwUrls()) {
+        for (StringWithCustomFacts swct : itemWithAddresses.getWwwUrls()) {
             mustHaveValue(swct, "value");
             if (swct.getValue() != null && !URL_PATTERN.matcher(swct.getValue()).matches()) {
                 validator.newFinding(swct, Severity.WARNING, org.gedcom4j.validate.ProblemCode.NOT_VALID_WWW_URL, "value");
@@ -718,8 +725,8 @@ abstract class AbstractValidator implements Serializable {
         String dateToValidate = null;
         if (object instanceof String) {
             dateToValidate = (String) object;
-        } else if (object instanceof StringWithCustomTags) {
-            dateToValidate = ((StringWithCustomTags) object).getValue();
+        } else if (object instanceof StringWithCustomFacts) {
+            dateToValidate = ((StringWithCustomFacts) object).getValue();
         }
         if (!isSpecified(dateToValidate)) {
             return;
@@ -776,8 +783,8 @@ abstract class AbstractValidator implements Serializable {
 
         // Get a string value from the field value - we're going to see if there's a code
         String val = null;
-        if (object instanceof StringWithCustomTags) {
-            val = ((StringWithCustomTags) object).getValue();
+        if (object instanceof StringWithCustomFacts) {
+            val = ((StringWithCustomFacts) object).getValue();
         } else if (object instanceof String) {
             val = (String) object;
         }
@@ -822,15 +829,15 @@ abstract class AbstractValidator implements Serializable {
                 validator.newFinding(modelElement, Severity.ERROR, org.gedcom4j.validate.ProblemCode.MISSING_REQUIRED_VALUE,
                         fieldName);
             }
-        } else if (value instanceof StringWithCustomTags) {
-            StringWithCustomTags swct = (StringWithCustomTags) value;
+        } else if (value instanceof StringWithCustomFacts) {
+            StringWithCustomFacts swct = (StringWithCustomFacts) value;
             if (swct.getValue() != null && !isSpecified(swct.getValue())) {
                 validator.newFinding(modelElement, Severity.ERROR, org.gedcom4j.validate.ProblemCode.MISSING_REQUIRED_VALUE,
                         fieldName);
             }
         }
-        if (modelElement instanceof HasCustomTags) {
-            checkCustomTags((HasCustomTags) modelElement);
+        if (modelElement instanceof HasCustomFacts) {
+            checkCustomTags((HasCustomFacts) modelElement);
         }
     }
 
@@ -853,8 +860,8 @@ abstract class AbstractValidator implements Serializable {
                 validator.newFinding(modelElement, Severity.ERROR, org.gedcom4j.validate.ProblemCode.MISSING_REQUIRED_VALUE,
                         fieldName);
             }
-        } else if (value instanceof StringWithCustomTags) {
-            StringWithCustomTags swct = (StringWithCustomTags) value;
+        } else if (value instanceof StringWithCustomFacts) {
+            StringWithCustomFacts swct = (StringWithCustomFacts) value;
             if (swct.getValue() == null || !isSpecified(swct.getValue())) {
                 validator.newFinding(modelElement, Severity.ERROR, org.gedcom4j.validate.ProblemCode.MISSING_REQUIRED_VALUE,
                         fieldName);
@@ -862,8 +869,8 @@ abstract class AbstractValidator implements Serializable {
         } else {
             throw new ValidationException("Don't know how to handle result of type " + value.getClass().getName());
         }
-        if (modelElement instanceof HasCustomTags) {
-            checkCustomTags((HasCustomTags) modelElement);
+        if (modelElement instanceof HasCustomFacts) {
+            checkCustomTags((HasCustomFacts) modelElement);
         }
     }
 

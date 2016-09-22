@@ -72,7 +72,7 @@ public class SourceSystemCopyTest extends AbstractCopyTest {
         a.setCountry("USA");
         c.setAddress(a);
         c.setBusinessName("Bob's Genalogy Shop");
-        c.getCustomTags(true).add(getTestCustomTags());
+        c.getCustomFacts(true).add(getTestCustomFact());
         c.getNotes(true).add(getTestNote());
         orig.setCorporation(c);
         orig.setProductName("Genillogical");

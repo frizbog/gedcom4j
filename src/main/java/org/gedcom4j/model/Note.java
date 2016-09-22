@@ -61,7 +61,7 @@ public class Note extends AbstractElement implements HasCitations, HasXref {
     /**
      * The record ID number
      */
-    private StringWithCustomTags recIdNumber;
+    private StringWithCustomFacts recIdNumber;
 
     /**
      * The user references for this submitter
@@ -103,7 +103,7 @@ public class Note extends AbstractElement implements HasCitations, HasXref {
             lines = new ArrayList<>(other.lines);
         }
         if (other.recIdNumber != null) {
-            recIdNumber = new StringWithCustomTags(other.recIdNumber);
+            recIdNumber = new StringWithCustomFacts(other.recIdNumber);
         }
         if (other.userReferences != null) {
             userReferences = new ArrayList<>();
@@ -237,7 +237,7 @@ public class Note extends AbstractElement implements HasCitations, HasXref {
      *
      * @return the rec id number
      */
-    public StringWithCustomTags getRecIdNumber() {
+    public StringWithCustomFacts getRecIdNumber() {
         return recIdNumber;
     }
 
@@ -307,7 +307,7 @@ public class Note extends AbstractElement implements HasCitations, HasXref {
      *            the new rec id number
      */
     public void setRecIdNumber(String recIdNumber) {
-        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomTags(recIdNumber);
+        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomFacts(recIdNumber);
     }
 
     /**
@@ -316,7 +316,7 @@ public class Note extends AbstractElement implements HasCitations, HasXref {
      * @param recIdNumber
      *            the new rec id number
      */
-    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+    public void setRecIdNumber(StringWithCustomFacts recIdNumber) {
         this.recIdNumber = recIdNumber;
     }
 
@@ -367,9 +367,9 @@ public class Note extends AbstractElement implements HasCitations, HasXref {
             builder.append(xref);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
+        if (getCustomFacts() != null) {
             builder.append("customTags=");
-            builder.append(getCustomTags());
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

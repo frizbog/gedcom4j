@@ -51,22 +51,22 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
     /**
      * The emails for this submitter. New for GEDCOM 5.5.1
      */
-    protected List<StringWithCustomTags> emails = getEmails(Options.isCollectionInitializationEnabled());
+    protected List<StringWithCustomFacts> emails = getEmails(Options.isCollectionInitializationEnabled());
 
     /**
      * Fax numbers. New for GEDCOM 5.5.1.
      */
-    protected List<StringWithCustomTags> faxNumbers = getFaxNumbers(Options.isCollectionInitializationEnabled());
+    protected List<StringWithCustomFacts> faxNumbers = getFaxNumbers(Options.isCollectionInitializationEnabled());
 
     /**
      * The phone numbers for this submitter
      */
-    protected List<StringWithCustomTags> phoneNumbers = getPhoneNumbers(Options.isCollectionInitializationEnabled());
+    protected List<StringWithCustomFacts> phoneNumbers = getPhoneNumbers(Options.isCollectionInitializationEnabled());
 
     /**
      * Web URL's. New for GEDCOM 5.5.1.
      */
-    protected List<StringWithCustomTags> wwwUrls = getWwwUrls(Options.isCollectionInitializationEnabled());
+    protected List<StringWithCustomFacts> wwwUrls = getWwwUrls(Options.isCollectionInitializationEnabled());
 
     /** Default constructor */
     public AbstractAddressableElement() {
@@ -87,26 +87,26 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
         }
         if (other.emails != null) {
             emails = new ArrayList<>();
-            for (StringWithCustomTags e : other.emails) {
-                emails.add(new StringWithCustomTags(e));
+            for (StringWithCustomFacts e : other.emails) {
+                emails.add(new StringWithCustomFacts(e));
             }
         }
         if (other.faxNumbers != null) {
             faxNumbers = new ArrayList<>();
-            for (StringWithCustomTags swct : other.faxNumbers) {
-                faxNumbers.add(new StringWithCustomTags(swct));
+            for (StringWithCustomFacts swct : other.faxNumbers) {
+                faxNumbers.add(new StringWithCustomFacts(swct));
             }
         }
         if (other.phoneNumbers != null) {
             phoneNumbers = new ArrayList<>();
-            for (StringWithCustomTags swct : other.phoneNumbers) {
-                phoneNumbers.add(new StringWithCustomTags(swct));
+            for (StringWithCustomFacts swct : other.phoneNumbers) {
+                phoneNumbers.add(new StringWithCustomFacts(swct));
             }
         }
         if (other.wwwUrls != null) {
             wwwUrls = new ArrayList<>();
-            for (StringWithCustomTags swct : other.wwwUrls) {
-                wwwUrls.add(new StringWithCustomTags(swct));
+            for (StringWithCustomFacts swct : other.wwwUrls) {
+                wwwUrls.add(new StringWithCustomFacts(swct));
             }
         }
 
@@ -177,7 +177,7 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
      * {@inheritDoc}
      */
     @Override
-    public List<StringWithCustomTags> getEmails() {
+    public List<StringWithCustomFacts> getEmails() {
         return emails;
     }
 
@@ -185,7 +185,7 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
      * {@inheritDoc}
      */
     @Override
-    public List<StringWithCustomTags> getEmails(boolean initializeIfNeeded) {
+    public List<StringWithCustomFacts> getEmails(boolean initializeIfNeeded) {
         if (initializeIfNeeded && emails == null) {
             emails = new ArrayList<>(0);
         }
@@ -197,7 +197,7 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
      * {@inheritDoc}
      */
     @Override
-    public List<StringWithCustomTags> getFaxNumbers() {
+    public List<StringWithCustomFacts> getFaxNumbers() {
         return faxNumbers;
     }
 
@@ -205,7 +205,7 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
      * {@inheritDoc}
      */
     @Override
-    public List<StringWithCustomTags> getFaxNumbers(boolean initializeIfNeeded) {
+    public List<StringWithCustomFacts> getFaxNumbers(boolean initializeIfNeeded) {
         if (initializeIfNeeded && faxNumbers == null) {
             faxNumbers = new ArrayList<>(0);
         }
@@ -216,7 +216,7 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
      * {@inheritDoc}
      */
     @Override
-    public List<StringWithCustomTags> getPhoneNumbers() {
+    public List<StringWithCustomFacts> getPhoneNumbers() {
         return phoneNumbers;
     }
 
@@ -224,7 +224,7 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
      * {@inheritDoc}
      */
     @Override
-    public List<StringWithCustomTags> getPhoneNumbers(boolean initializeIfNeeded) {
+    public List<StringWithCustomFacts> getPhoneNumbers(boolean initializeIfNeeded) {
         if (initializeIfNeeded && phoneNumbers == null) {
             phoneNumbers = new ArrayList<>(0);
         }
@@ -235,7 +235,7 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
      * {@inheritDoc}
      */
     @Override
-    public List<StringWithCustomTags> getWwwUrls() {
+    public List<StringWithCustomFacts> getWwwUrls() {
         return wwwUrls;
     }
 
@@ -243,7 +243,7 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
      * {@inheritDoc}
      */
     @Override
-    public List<StringWithCustomTags> getWwwUrls(boolean initializeIfNeeded) {
+    public List<StringWithCustomFacts> getWwwUrls(boolean initializeIfNeeded) {
         if (initializeIfNeeded && wwwUrls == null) {
             wwwUrls = new ArrayList<>(0);
         }

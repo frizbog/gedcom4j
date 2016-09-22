@@ -365,6 +365,9 @@ public class GedcomParser551Test {
     public void testMultimediaFileRef() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/5.5.1 sample 5.ged");
+        for (String e : gp.getErrors()) {
+            System.out.println(e);
+        }
         assertTrue(gp.getErrors().isEmpty());
     }
 
@@ -639,4 +642,5 @@ public class GedcomParser551Test {
         assertEquals(2, s.getWwwUrls().size());
         assertEquals("https://www.facebook.com/Gedcom4j", s.getWwwUrls().get(1).getValue());
     }
+
 }

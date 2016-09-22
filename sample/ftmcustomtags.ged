@@ -7,12 +7,12 @@
 4 CONT Provo, UT 84604
 3 PHON (801) 705-7000
 1 DEST GED55
-1 DATE 19 SEP 2016
+1 DATE 20 SEP 2016
 1 CHAR UTF-8
 1 FILE /Users/frizbog/Documents/workspace/gedcom4j/sample/ftmcustomtags.ged
 1 SUBM @SUBM@
 1 GEDC
-2 VERS 5.5
+2 VERS 5.5.1
 2 FORM LINEAGE-LINKED
 0 @SUBM@ SUBM
 0 @I1@ INDI
@@ -38,8 +38,12 @@
 2 PLAC Frostbite Falls, Minnesota, USA
 1 _WEIG 165lb
 2 SOUR @S1@
+3 PAGE p1
+3 DATA
+4 TEXT “John weighs 165 lbs.”
 3 _JUST Because it was an awesome napkin.
 3 QUAY 3
+3 _LINK http://gedcom4j.org
 1 _INIT Wore a blue tie
 2 DATE 03 MAR 1970
 2 PLAC Kalamazoo, Kalamazoo, Michigan, USA

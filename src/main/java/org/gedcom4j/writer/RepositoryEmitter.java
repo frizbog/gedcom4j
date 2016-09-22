@@ -77,7 +77,7 @@ class RepositoryEmitter extends AbstractEmitter<Collection<Repository>> {
             emitStringsWithCustomTags(1, r.getFaxNumbers(), "FAX");
             emitStringsWithCustomTags(1, r.getEmails(), "EMAIL");
             new ChangeDateEmitter(baseWriter, 1, r.getChangeDate()).emit();
-            emitCustomTags(1, r.getCustomTags());
+            emitCustomTags(1, r.getCustomFacts());
         }
     }
 

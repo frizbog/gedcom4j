@@ -77,7 +77,7 @@ public class NoteCopyTest extends AbstractCopyTest {
         orig.getLines(true).add("Line 3");
 
         orig.getCitations(true).add(getTestCitation());
-        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getCustomFacts(true).add(getTestCustomFact());
 
         // Copy and compare
         Note copy = new Note(orig);
@@ -89,8 +89,8 @@ public class NoteCopyTest extends AbstractCopyTest {
         orig.getLines().set(0, "0th Line");
         assertEquals("Copy should not change when original does", "Line 1", copy.getLines().get(0));
 
-        orig.getCustomTags().clear();
-        assertEquals("Copy should not change when original does", "_HOWDY", copy.getCustomTags().get(0).getTag());
+        orig.getCustomFacts().clear();
+        assertEquals("Copy should not change when original does", "_HOWDY", copy.getCustomFacts().get(0).getTag());
     }
 
     /**

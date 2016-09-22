@@ -82,12 +82,12 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
     /**
      * The format of the multimedia object - only for 5.5 style multimedia files, and should be null for 5.5.1 files.
      */
-    private StringWithCustomTags embeddedMediaFormat;
+    private StringWithCustomFacts embeddedMediaFormat;
 
     /**
      * The title of this multimedia item. This field should ONLY be used when the spec is 5.5 and should be null for 5.5.1 files.
      */
-    private StringWithCustomTags embeddedTitle;
+    private StringWithCustomFacts embeddedTitle;
 
     /**
      * The file reference for this multimedia item
@@ -97,7 +97,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
     /**
      * The record ID number
      */
-    private StringWithCustomTags recIdNumber;
+    private StringWithCustomFacts recIdNumber;
 
     /**
      * The user references for this submitter
@@ -142,10 +142,10 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
             continuedObject = new Multimedia(other.continuedObject);
         }
         if (other.embeddedMediaFormat != null) {
-            embeddedMediaFormat = new StringWithCustomTags(other.embeddedMediaFormat);
+            embeddedMediaFormat = new StringWithCustomFacts(other.embeddedMediaFormat);
         }
         if (other.embeddedTitle != null) {
-            embeddedTitle = new StringWithCustomTags(other.embeddedTitle);
+            embeddedTitle = new StringWithCustomFacts(other.embeddedTitle);
         }
         if (other.fileReferences != null) {
             fileReferences = new ArrayList<>();
@@ -154,7 +154,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
             }
         }
         if (other.recIdNumber != null) {
-            recIdNumber = new StringWithCustomTags(other.recIdNumber);
+            recIdNumber = new StringWithCustomFacts(other.recIdNumber);
         }
         if (other.userReferences != null) {
             userReferences = new ArrayList<>();
@@ -325,7 +325,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      *
      * @return the embedded media format
      */
-    public StringWithCustomTags getEmbeddedMediaFormat() {
+    public StringWithCustomFacts getEmbeddedMediaFormat() {
         return embeddedMediaFormat;
     }
 
@@ -334,7 +334,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      *
      * @return the embedded title
      */
-    public StringWithCustomTags getEmbeddedTitle() {
+    public StringWithCustomFacts getEmbeddedTitle() {
         return embeddedTitle;
     }
 
@@ -366,7 +366,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      *
      * @return the rec id number
      */
-    public StringWithCustomTags getRecIdNumber() {
+    public StringWithCustomFacts getRecIdNumber() {
         return recIdNumber;
     }
 
@@ -450,7 +450,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      *            the new embedded media format
      */
     public void setEmbeddedMediaFormat(String embeddedMediaFormat) {
-        this.embeddedMediaFormat = embeddedMediaFormat == null ? null : new StringWithCustomTags(embeddedMediaFormat);
+        this.embeddedMediaFormat = embeddedMediaFormat == null ? null : new StringWithCustomFacts(embeddedMediaFormat);
     }
 
     /**
@@ -459,7 +459,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      * @param embeddedMediaFormat
      *            the new embedded media format
      */
-    public void setEmbeddedMediaFormat(StringWithCustomTags embeddedMediaFormat) {
+    public void setEmbeddedMediaFormat(StringWithCustomFacts embeddedMediaFormat) {
         this.embeddedMediaFormat = embeddedMediaFormat;
     }
 
@@ -470,7 +470,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      *            the new embedded title
      */
     public void setEmbeddedTitle(String embeddedTitle) {
-        this.embeddedTitle = embeddedTitle == null ? null : new StringWithCustomTags(embeddedTitle);
+        this.embeddedTitle = embeddedTitle == null ? null : new StringWithCustomFacts(embeddedTitle);
     }
 
     /**
@@ -479,7 +479,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      * @param embeddedTitle
      *            the new embedded title
      */
-    public void setEmbeddedTitle(StringWithCustomTags embeddedTitle) {
+    public void setEmbeddedTitle(StringWithCustomFacts embeddedTitle) {
         this.embeddedTitle = embeddedTitle;
     }
 
@@ -490,7 +490,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      *            the new rec id number
      */
     public void setRecIdNumber(String recIdNumber) {
-        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomTags(recIdNumber);
+        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomFacts(recIdNumber);
     }
 
     /**
@@ -499,7 +499,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      * @param recIdNumber
      *            the new rec id number
      */
-    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+    public void setRecIdNumber(StringWithCustomFacts recIdNumber) {
         this.recIdNumber = recIdNumber;
     }
 
@@ -575,9 +575,9 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
             builder.append(xref);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
+        if (getCustomFacts() != null) {
             builder.append("customTags=");
-            builder.append(getCustomTags());
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

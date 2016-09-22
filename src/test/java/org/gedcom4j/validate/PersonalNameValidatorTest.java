@@ -28,7 +28,7 @@ package org.gedcom4j.validate;
 
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.PersonalName;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.TestHelper;
 import org.junit.Before;
 import org.junit.Test;
@@ -97,7 +97,7 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testGivenName() {
-        pn.setGivenName(new StringWithCustomTags((String) null));
+        pn.setGivenName(new StringWithCustomFacts((String) null));
         validator.validate();
         assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "givenName");
 
@@ -115,7 +115,7 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNickname() {
-        pn.setNickname(new StringWithCustomTags((String) null));
+        pn.setNickname(new StringWithCustomFacts((String) null));
         validator.validate();
         assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "nickname");
 
@@ -157,7 +157,7 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testPrefix() {
-        pn.setPrefix(new StringWithCustomTags((String) null));
+        pn.setPrefix(new StringWithCustomFacts((String) null));
         validator.validate();
         assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "prefix");
 
@@ -175,7 +175,7 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testSuffix() {
-        pn.setSuffix(new StringWithCustomTags((String) null));
+        pn.setSuffix(new StringWithCustomFacts((String) null));
         validator.validate();
         assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "suffix");
 
@@ -193,7 +193,7 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testSurname() {
-        pn.setSurname(new StringWithCustomTags((String) null));
+        pn.setSurname(new StringWithCustomFacts((String) null));
         validator.validate();
         assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "surname");
 
@@ -211,7 +211,7 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testSurnamePrefix() {
-        pn.setSurnamePrefix(new StringWithCustomTags((String) null));
+        pn.setSurnamePrefix(new StringWithCustomFacts((String) null));
         validator.validate();
         assertFindingsContain(Severity.ERROR, pn, ProblemCode.MISSING_REQUIRED_VALUE, "surnamePrefix");
 

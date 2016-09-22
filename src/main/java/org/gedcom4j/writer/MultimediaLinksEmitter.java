@@ -106,7 +106,7 @@ class MultimediaLinksEmitter extends AbstractEmitter<List<Multimedia>> {
                 // Link to the embedded form
                 emitTagWithRequiredValue(startLevel, "OBJE", m.getXref());
             }
-            emitCustomTags(startLevel + 1, m.getCustomTags());
+            emitCustomTags(startLevel + 1, m.getCustomFacts());
         }
     }
 

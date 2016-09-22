@@ -40,12 +40,12 @@ public class SourceCallNumber extends AbstractElement {
     /**
      * The call number. Corresponds to SOURCE_CALL_NUMBER in the Gedcom spec.
      */
-    private StringWithCustomTags callNumber;
+    private StringWithCustomFacts callNumber;
 
     /**
      * The media type, corresponds to SOURCE_MEDIA_TYPE in the Gedcom spec
      */
-    private StringWithCustomTags mediaType;
+    private StringWithCustomFacts mediaType;
 
     /** Default constructor */
     public SourceCallNumber() {
@@ -61,10 +61,10 @@ public class SourceCallNumber extends AbstractElement {
     public SourceCallNumber(SourceCallNumber other) {
         super(other);
         if (other.callNumber != null) {
-            callNumber = new StringWithCustomTags(other.callNumber);
+            callNumber = new StringWithCustomFacts(other.callNumber);
         }
         if (other.mediaType != null) {
-            mediaType = new StringWithCustomTags(other.mediaType);
+            mediaType = new StringWithCustomFacts(other.mediaType);
         }
     }
 
@@ -105,7 +105,7 @@ public class SourceCallNumber extends AbstractElement {
      *
      * @return the call number
      */
-    public StringWithCustomTags getCallNumber() {
+    public StringWithCustomFacts getCallNumber() {
         return callNumber;
     }
 
@@ -114,7 +114,7 @@ public class SourceCallNumber extends AbstractElement {
      *
      * @return the media type
      */
-    public StringWithCustomTags getMediaType() {
+    public StringWithCustomFacts getMediaType() {
         return mediaType;
     }
 
@@ -137,7 +137,7 @@ public class SourceCallNumber extends AbstractElement {
      *            the new call number
      */
     public void setCallNumber(String callNumber) {
-        this.callNumber = callNumber == null ? null : new StringWithCustomTags(callNumber);
+        this.callNumber = callNumber == null ? null : new StringWithCustomFacts(callNumber);
     }
 
     /**
@@ -146,7 +146,7 @@ public class SourceCallNumber extends AbstractElement {
      * @param callNumber
      *            the new call number
      */
-    public void setCallNumber(StringWithCustomTags callNumber) {
+    public void setCallNumber(StringWithCustomFacts callNumber) {
         this.callNumber = callNumber;
     }
 
@@ -157,7 +157,7 @@ public class SourceCallNumber extends AbstractElement {
      *            the new media type
      */
     public void setMediaType(String mediaType) {
-        this.mediaType = mediaType == null ? null : new StringWithCustomTags(mediaType);
+        this.mediaType = mediaType == null ? null : new StringWithCustomFacts(mediaType);
     }
 
     /**
@@ -166,7 +166,7 @@ public class SourceCallNumber extends AbstractElement {
      * @param mediaType
      *            the new media type
      */
-    public void setMediaType(StringWithCustomTags mediaType) {
+    public void setMediaType(StringWithCustomFacts mediaType) {
         this.mediaType = mediaType;
     }
 
@@ -187,9 +187,9 @@ public class SourceCallNumber extends AbstractElement {
             builder.append(mediaType);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
+        if (getCustomFacts() != null) {
             builder.append("customTags=");
-            builder.append(getCustomTags());
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

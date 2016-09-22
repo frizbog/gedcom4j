@@ -43,7 +43,7 @@ public class GedcomVersion extends AbstractElement {
     /**
      * The form
      */
-    private StringWithCustomTags gedcomForm = new StringWithCustomTags("LINEAGE-LINKED");
+    private StringWithCustomFacts gedcomForm = new StringWithCustomFacts("LINEAGE-LINKED");
 
     /**
      * The version number for this GEDCOM
@@ -64,7 +64,7 @@ public class GedcomVersion extends AbstractElement {
     public GedcomVersion(GedcomVersion other) {
         super(other);
         if (other.gedcomForm != null) {
-            gedcomForm = new StringWithCustomTags(other.gedcomForm);
+            gedcomForm = new StringWithCustomFacts(other.gedcomForm);
         }
         versionNumber = other.versionNumber;
     }
@@ -106,7 +106,7 @@ public class GedcomVersion extends AbstractElement {
      *
      * @return the gedcom form
      */
-    public StringWithCustomTags getGedcomForm() {
+    public StringWithCustomFacts getGedcomForm() {
         return gedcomForm;
     }
 
@@ -138,7 +138,7 @@ public class GedcomVersion extends AbstractElement {
      *            the new gedcom form
      */
     public void setGedcomForm(String gedcomForm) {
-        this.gedcomForm = gedcomForm == null ? null : new StringWithCustomTags(gedcomForm);
+        this.gedcomForm = gedcomForm == null ? null : new StringWithCustomFacts(gedcomForm);
     }
 
     /**
@@ -147,7 +147,7 @@ public class GedcomVersion extends AbstractElement {
      * @param gedcomForm
      *            the new gedcom form
      */
-    public void setGedcomForm(StringWithCustomTags gedcomForm) {
+    public void setGedcomForm(StringWithCustomFacts gedcomForm) {
         this.gedcomForm = gedcomForm;
     }
 
@@ -178,9 +178,9 @@ public class GedcomVersion extends AbstractElement {
             builder.append(versionNumber);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
+        if (getCustomFacts() != null) {
             builder.append("customTags=");
-            builder.append(getCustomTags());
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

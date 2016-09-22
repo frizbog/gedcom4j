@@ -28,7 +28,6 @@ package org.gedcom4j.parser;
 
 import org.gedcom4j.model.Address;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * Parser for {@link Address} objects
@@ -63,17 +62,17 @@ class AddressParser extends AbstractParser<Address> {
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.ADDRESS_1.equalsText(ch.getTag())) {
-                    loadInto.setAddr1(new StringWithCustomTags(ch));
+                    loadInto.setAddr1(parseStringWithCustomFacts(ch));
                 } else if (Tag.ADDRESS_2.equalsText(ch.getTag())) {
-                    loadInto.setAddr2(new StringWithCustomTags(ch));
+                    loadInto.setAddr2(parseStringWithCustomFacts(ch));
                 } else if (Tag.CITY.equalsText(ch.getTag())) {
-                    loadInto.setCity(new StringWithCustomTags(ch));
+                    loadInto.setCity(parseStringWithCustomFacts(ch));
                 } else if (Tag.STATE.equalsText(ch.getTag())) {
-                    loadInto.setStateProvince(new StringWithCustomTags(ch));
+                    loadInto.setStateProvince(parseStringWithCustomFacts(ch));
                 } else if (Tag.POSTAL_CODE.equalsText(ch.getTag())) {
-                    loadInto.setPostalCode(new StringWithCustomTags(ch));
+                    loadInto.setPostalCode(parseStringWithCustomFacts(ch));
                 } else if (Tag.COUNTRY.equalsText(ch.getTag())) {
-                    loadInto.setCountry(new StringWithCustomTags(ch));
+                    loadInto.setCountry(parseStringWithCustomFacts(ch));
                 } else if (Tag.CONCATENATION.equalsText(ch.getTag())) {
                     if (loadInto.getLines(true).isEmpty()) {
                         loadInto.getLines().add(ch.getValue());

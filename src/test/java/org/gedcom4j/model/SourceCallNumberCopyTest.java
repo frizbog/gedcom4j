@@ -67,7 +67,7 @@ public class SourceCallNumberCopyTest extends AbstractCopyTest {
         SourceCallNumber orig = new SourceCallNumber();
         orig.setCallNumber("AAA");
         orig.setMediaType("BBB");
-        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getCustomFacts(true).add(getTestCustomFact());
 
         SourceCallNumber copy = new SourceCallNumber(orig);
         assertEquals(orig, copy);

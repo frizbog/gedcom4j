@@ -67,7 +67,7 @@ public class CharacterSetCopyTest extends AbstractCopyTest {
         orig.setCharacterSetName("AAA");
         orig.setVersionNum("BBB");
 
-        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getCustomFacts(true).add(getTestCustomFact());
 
         CharacterSet copy = new CharacterSet(orig);
         assertEquals(orig, copy);

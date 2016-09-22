@@ -27,7 +27,7 @@
 package org.gedcom4j.parser;
 
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.UserReference;
 
 /**
@@ -56,11 +56,11 @@ class UserReferenceParser extends AbstractParser<UserReference> {
      */
     @Override
     void parse() {
-        loadInto.setReferenceNum(new StringWithCustomTags(stringTree.getValue()));
+        loadInto.setReferenceNum(new StringWithCustomFacts(stringTree.getValue()));
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.TYPE.equalsText(ch.getTag())) {
-                    loadInto.setType(new StringWithCustomTags(ch));
+                    loadInto.setType(parseStringWithCustomFacts(ch));
                 } else {
                     unknownTag(ch, loadInto);
                 }

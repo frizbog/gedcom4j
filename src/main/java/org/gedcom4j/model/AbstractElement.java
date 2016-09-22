@@ -37,16 +37,16 @@ import org.gedcom4j.Options;
  * 
  * @author frizbog
  */
-public abstract class AbstractElement implements HasCustomTags {
+public abstract class AbstractElement implements HasCustomFacts {
     /**
      * Serial Version UID
      */
     private static final long serialVersionUID = -983667065483378388L;
 
     /**
-     * A list of custom tags on this item.
+     * A list of custom facts on this item.
      */
-    private List<StringTree> customTags = getCustomTags(Options.isCollectionInitializationEnabled());
+    protected List<CustomFact> customFacts = getCustomFacts(Options.isCollectionInitializationEnabled());
 
     /**
      * Default constructor
@@ -63,11 +63,12 @@ public abstract class AbstractElement implements HasCustomTags {
      */
     public AbstractElement(AbstractElement other) {
         super();
-        if (other.customTags != null) {
-            customTags = new ArrayList<>();
-            for (StringTree st : other.customTags) {
-                StringTree newSt = new StringTree(st);
-                customTags.add(newSt);
+        if (other.customFacts != null) {
+            customFacts = new ArrayList<>();
+            for (CustomFact cf : other.customFacts) {
+                if (cf != null) {
+                    customFacts.add(new CustomFact(cf));
+                }
             }
         }
     }
@@ -87,11 +88,11 @@ public abstract class AbstractElement implements HasCustomTags {
             return false;
         }
         AbstractElement other = (AbstractElement) obj;
-        if (getCustomTags() == null) {
-            if (other.getCustomTags() != null) {
+        if (getCustomFacts() == null) {
+            if (other.getCustomFacts() != null) {
                 return false;
             }
-        } else if (!getCustomTags().equals(other.getCustomTags())) {
+        } else if (!getCustomFacts().equals(other.getCustomFacts())) {
             return false;
         }
         return true;
@@ -103,8 +104,8 @@ public abstract class AbstractElement implements HasCustomTags {
      * @return the custom tags
      */
     @Override
-    public List<StringTree> getCustomTags() {
-        return customTags;
+    public List<CustomFact> getCustomFacts() {
+        return customFacts;
     }
 
     /**
@@ -112,14 +113,34 @@ public abstract class AbstractElement implements HasCustomTags {
      * 
      * @param initializeIfNeeded
      *            initialize the collection if needed
-     * @return the customTags
+     * @return the customFacts
      */
     @Override
-    public List<StringTree> getCustomTags(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && customTags == null) {
-            customTags = new ArrayList<>(0);
+    public List<CustomFact> getCustomFacts(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && customFacts == null) {
+            customFacts = new ArrayList<>(0);
         }
-        return customTags;
+        return customFacts;
+    }
+
+    /**
+     * Gets the custom facts that have a tag that matches the one supplied
+     * 
+     * @param tag
+     *            the tag we are looking for
+     * @return a list of custom facts that have the desired tag. Always returns a list but it might be empty.
+     */
+    @Override
+    public List<CustomFact> getCustomFactsWithTag(String tag) {
+        List<CustomFact> result = new ArrayList<>();
+        if (customFacts != null) {
+            for (CustomFact cf : customFacts) {
+                if (cf.getTag() != null && cf.getTag().equals(tag)) {
+                    result.add(cf);
+                }
+            }
+        }
+        return result;
     }
 
     /**
@@ -129,7 +150,7 @@ public abstract class AbstractElement implements HasCustomTags {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (getCustomTags() == null ? 0 : getCustomTags().hashCode());
+        result = prime * result + (getCustomFacts() == null ? 0 : getCustomFacts().hashCode());
         return result;
     }
 
@@ -140,22 +161,12 @@ public abstract class AbstractElement implements HasCustomTags {
     public String toString() {
         StringBuilder builder = new StringBuilder(32);
         builder.append("AbstractElement [");
-        if (customTags != null) {
-            builder.append("customTags=");
-            builder.append(customTags);
+        if (customFacts != null) {
+            builder.append("customFacts=");
+            builder.append(customFacts);
         }
         builder.append("]");
         return builder.toString();
-    }
-
-    /**
-     * Set the custom tags
-     * 
-     * @param theCustomTags
-     *            the custom tags
-     */
-    protected void setCustomTags(List<StringTree> theCustomTags) {
-        customTags = theCustomTags;
     }
 
 }

@@ -47,7 +47,7 @@ public class HeaderSourceData extends AbstractElement {
     /**
      * Copyright information
      */
-    private StringWithCustomTags copyright;
+    private StringWithCustomFacts copyright;
 
     /**
      * The name of the source data. This field must be valued to pass validation, so the default value is "UNSPECIFIED".
@@ -57,7 +57,7 @@ public class HeaderSourceData extends AbstractElement {
     /**
      * The publish date
      */
-    private StringWithCustomTags publishDate;
+    private StringWithCustomFacts publishDate;
 
     /** Default constructor */
     public HeaderSourceData() {
@@ -73,11 +73,11 @@ public class HeaderSourceData extends AbstractElement {
     public HeaderSourceData(HeaderSourceData other) {
         super(other);
         if (other.copyright != null) {
-            copyright = new StringWithCustomTags(other.copyright);
+            copyright = new StringWithCustomFacts(other.copyright);
         }
         name = other.name;
         if (other.publishDate != null) {
-            publishDate = new StringWithCustomTags(other.publishDate);
+            publishDate = new StringWithCustomFacts(other.publishDate);
         }
     }
 
@@ -125,7 +125,7 @@ public class HeaderSourceData extends AbstractElement {
      *
      * @return the copyright
      */
-    public StringWithCustomTags getCopyright() {
+    public StringWithCustomFacts getCopyright() {
         return copyright;
     }
 
@@ -143,7 +143,7 @@ public class HeaderSourceData extends AbstractElement {
      *
      * @return the publish date
      */
-    public StringWithCustomTags getPublishDate() {
+    public StringWithCustomFacts getPublishDate() {
         return publishDate;
     }
 
@@ -167,7 +167,7 @@ public class HeaderSourceData extends AbstractElement {
      *            the new copyright
      */
     public void setCopyright(String copyright) {
-        this.copyright = copyright == null ? null : new StringWithCustomTags(copyright);
+        this.copyright = copyright == null ? null : new StringWithCustomFacts(copyright);
     }
 
     /**
@@ -176,7 +176,7 @@ public class HeaderSourceData extends AbstractElement {
      * @param copyright
      *            the new copyright
      */
-    public void setCopyright(StringWithCustomTags copyright) {
+    public void setCopyright(StringWithCustomFacts copyright) {
         this.copyright = copyright;
     }
 
@@ -197,7 +197,7 @@ public class HeaderSourceData extends AbstractElement {
      *            the new publish date
      */
     public void setPublishDate(String publishDate) {
-        this.publishDate = publishDate == null ? null : new StringWithCustomTags(publishDate);
+        this.publishDate = publishDate == null ? null : new StringWithCustomFacts(publishDate);
     }
 
     /**
@@ -206,7 +206,7 @@ public class HeaderSourceData extends AbstractElement {
      * @param publishDate
      *            the new publish date
      */
-    public void setPublishDate(StringWithCustomTags publishDate) {
+    public void setPublishDate(StringWithCustomFacts publishDate) {
         this.publishDate = publishDate;
     }
 
@@ -232,9 +232,9 @@ public class HeaderSourceData extends AbstractElement {
             builder.append(publishDate);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
+        if (getCustomFacts() != null) {
             builder.append("customTags=");
-            builder.append(getCustomTags());
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

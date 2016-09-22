@@ -68,7 +68,7 @@ public class CitationWithoutSourceCopyTest extends AbstractCopyTest {
     @Test
     public void testWithValues() {
         CitationWithoutSource orig = new CitationWithoutSource();
-        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getCustomFacts(true).add(getTestCustomFact());
         orig.getDescription(true).add("Description Line 1");
         orig.getDescription().add("Description Line 2");
         orig.getNotes(true).add(getTestNote());

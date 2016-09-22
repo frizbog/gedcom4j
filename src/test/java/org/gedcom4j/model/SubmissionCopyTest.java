@@ -74,7 +74,7 @@ public class SubmissionCopyTest extends AbstractCopyTest {
         orig.setSubmitter(s);
         orig.setTempleCode("CCC");
         orig.setXref("@S098@");
-        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getCustomFacts(true).add(getTestCustomFact());
 
         Submission copy = new Submission(orig);
         assertEquals(orig, copy);

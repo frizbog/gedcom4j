@@ -29,24 +29,33 @@ package org.gedcom4j.model;
 import java.util.List;
 
 /**
- * Marks an object that has custom tags.
+ * Marks an object that has custom facts (from custom tags)
  * 
- * @author Mark A Sikes
+ * @author frizbog
  */
-public interface HasCustomTags extends ModelElement {
+public interface HasCustomFacts extends ModelElement {
     /**
-     * Geth the custom tags on this object
+     * Gets the custom facts on this object
      * 
-     * @return the custom tags on this object
+     * @return the custom facts on this object
      */
-    List<StringTree> getCustomTags();
+    List<CustomFact> getCustomFacts();
 
     /**
-     * Get the custom tags on this object, initializing the collection if needed
+     * Get the custom facts on this object, initializing the collection if needed
      * 
      * @param initializeIfNeeded
      *            set to true if you want the backing collection to be instantiated/initialized if it is currently null
-     * @return the custom tags on this object, or null if there are none and <tt>initializeIfNeeded</tt> is false
+     * @return the custom facts on this object, or null if there are none and <tt>initializeIfNeeded</tt> is false
      */
-    List<StringTree> getCustomTags(boolean initializeIfNeeded);
+    List<CustomFact> getCustomFacts(boolean initializeIfNeeded);
+
+    /**
+     * Gets the custom facts that have a tag that matches the one supplied
+     * 
+     * @param tag
+     *            the tag we are looking for
+     * @return a list of custom facts that have the desired tag. Always returns a list but it might be empty.
+     */
+    List<CustomFact> getCustomFactsWithTag(String tag);
 }

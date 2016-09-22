@@ -31,7 +31,7 @@ import java.util.List;
 import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.IndividualAttribute;
 import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.enumerations.IndividualAttributeType;
 
 /**
@@ -133,7 +133,7 @@ public class IndividualAttributeValidator extends AbstractValidator {
      * @param fieldName
      *            the name of the age field
      */
-    private void mustBeAgeFormatIfSpecified(AbstractEvent ev, StringWithCustomTags val, String fieldName) {
+    private void mustBeAgeFormatIfSpecified(AbstractEvent ev, StringWithCustomFacts val, String fieldName) {
         if (val == null || !isSpecified(val.getValue())) {
             return;
         }

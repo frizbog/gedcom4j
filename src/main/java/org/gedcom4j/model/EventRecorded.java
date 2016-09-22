@@ -41,7 +41,7 @@ public class EventRecorded extends AbstractElement {
     /**
      * The date period covered in the source
      */
-    private StringWithCustomTags datePeriod;
+    private StringWithCustomFacts datePeriod;
 
     /**
      * The event type (tag)
@@ -51,7 +51,7 @@ public class EventRecorded extends AbstractElement {
     /**
      * The jurisdiction of the source. Corresponds to SOURCE_JURISDICTION_PLACE in the GEDCOM spec.
      */
-    private StringWithCustomTags jurisdiction;
+    private StringWithCustomFacts jurisdiction;
 
     /** Default constructor */
     public EventRecorded() {
@@ -67,11 +67,11 @@ public class EventRecorded extends AbstractElement {
     public EventRecorded(EventRecorded other) {
         super(other);
         if (other.datePeriod != null) {
-            datePeriod = new StringWithCustomTags(other.datePeriod);
+            datePeriod = new StringWithCustomFacts(other.datePeriod);
         }
         eventType = other.eventType;
         if (other.jurisdiction != null) {
-            jurisdiction = new StringWithCustomTags(other.jurisdiction);
+            jurisdiction = new StringWithCustomFacts(other.jurisdiction);
         }
     }
 
@@ -119,7 +119,7 @@ public class EventRecorded extends AbstractElement {
      *
      * @return the date period
      */
-    public StringWithCustomTags getDatePeriod() {
+    public StringWithCustomFacts getDatePeriod() {
         return datePeriod;
     }
 
@@ -137,7 +137,7 @@ public class EventRecorded extends AbstractElement {
      *
      * @return the jurisdiction
      */
-    public StringWithCustomTags getJurisdiction() {
+    public StringWithCustomFacts getJurisdiction() {
         return jurisdiction;
     }
 
@@ -161,7 +161,7 @@ public class EventRecorded extends AbstractElement {
      *            the new date period
      */
     public void setDatePeriod(String datePeriod) {
-        this.datePeriod = datePeriod == null ? null : new StringWithCustomTags(datePeriod);
+        this.datePeriod = datePeriod == null ? null : new StringWithCustomFacts(datePeriod);
     }
 
     /**
@@ -170,7 +170,7 @@ public class EventRecorded extends AbstractElement {
      * @param datePeriod
      *            the new date period
      */
-    public void setDatePeriod(StringWithCustomTags datePeriod) {
+    public void setDatePeriod(StringWithCustomFacts datePeriod) {
         this.datePeriod = datePeriod;
     }
 
@@ -191,7 +191,7 @@ public class EventRecorded extends AbstractElement {
      *            the new jurisdiction
      */
     public void setJurisdiction(String jurisdiction) {
-        this.jurisdiction = jurisdiction == null ? null : new StringWithCustomTags(jurisdiction);
+        this.jurisdiction = jurisdiction == null ? null : new StringWithCustomFacts(jurisdiction);
     }
 
     /**
@@ -200,7 +200,7 @@ public class EventRecorded extends AbstractElement {
      * @param jurisdiction
      *            the new jurisdiction
      */
-    public void setJurisdiction(StringWithCustomTags jurisdiction) {
+    public void setJurisdiction(StringWithCustomFacts jurisdiction) {
         this.jurisdiction = jurisdiction;
     }
 
@@ -226,9 +226,9 @@ public class EventRecorded extends AbstractElement {
             builder.append(jurisdiction);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
+        if (getCustomFacts() != null) {
             builder.append("customTags=");
-            builder.append(getCustomTags());
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

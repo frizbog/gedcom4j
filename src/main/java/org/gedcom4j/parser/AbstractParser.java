@@ -29,6 +29,7 @@ package org.gedcom4j.parser;
 import java.util.List;
 
 import org.gedcom4j.model.AbstractElement;
+import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
@@ -36,6 +37,7 @@ import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.enumerations.SupportedVersion;
 
@@ -248,6 +250,28 @@ abstract class AbstractParser<T> {
     }
 
     /**
+     * Helper method to take a string tree and all its children and load them into a StringWithCustomFacts object
+     * 
+     * @param ch
+     *            the string tree
+     * @return the constructed {@link StringWithCustomFacts}, with all the {@link CustomFact} objects built from the string tree's
+     *         children
+     */
+    protected StringWithCustomFacts parseStringWithCustomFacts(StringTree ch) {
+        StringWithCustomFacts swcf = new StringWithCustomFacts(ch.getValue());
+        if (ch.getChildren() != null) {
+            for (StringTree gch : ch.getChildren()) {
+                CustomFact cf = new CustomFact(gch.getTag());
+                swcf.getCustomFacts(true).add(cf);
+                cf.setDescription(gch.getValue());
+                cf.setXref(gch.getXref());
+                new CustomFactParser(gedcomParser, gch, cf).parse();
+            }
+        }
+        return swcf;
+    }
+
+    /**
      * Returns true if the node passed in uses a cross-reference to another node
      * 
      * @param st
@@ -276,7 +300,7 @@ abstract class AbstractParser<T> {
      * <li>If {@link GedcomParser#isStrictCustomTags()} parsing is turned off (i.e., == false), it is treated as a user-defined tag
      * (despite the lack of beginning underscore) and treated like any other user-defined tag.</li>
      * <li>If {@link GedcomParser#isStrictCustomTags()} parsing is turned on (i.e., == true), it is treated as bad tag and an error
-     * is logged in the {@link GedcomParser#getErrors()} collection.</li>
+     * is logged in the {@link GedcomParser#getErrors()} collection, and then the tag and its children are ignored.</li>
      * </ul>
      * 
      * @param node
@@ -287,7 +311,11 @@ abstract class AbstractParser<T> {
      */
     protected void unknownTag(StringTree node, AbstractElement element) {
         if (node.getTag().length() > 0 && node.getTag().charAt(0) == '_' || !gedcomParser.isStrictCustomTags()) {
-            element.getCustomTags(true).add(node);
+            CustomFact cf = new CustomFact(node.getTag());
+            element.getCustomFacts(true).add(cf);
+            cf.setXref(node.getXref());
+            cf.setDescription(node.getValue());
+            new CustomFactParser(gedcomParser, node, cf).parse();
             return;
         }
 
@@ -310,4 +338,5 @@ abstract class AbstractParser<T> {
      * Parse the string tree passed into the constructor, and load it into the object model
      */
     abstract void parse();
+
 }

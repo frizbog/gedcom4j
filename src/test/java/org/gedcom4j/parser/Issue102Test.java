@@ -35,7 +35,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Submitter;
 import org.junit.Test;
 
@@ -65,11 +65,18 @@ public class Issue102Test {
      * 
      */
     @Test
+    @SuppressWarnings("PMD.SystemPrintln")
     public void test100LevelsRelaxed() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.setStrictLineBreaks(false);
         gp.load("sample/issue102_100levels.ged");
+        for (String e : gp.getErrors()) {
+            System.out.println(e);
+        }
         assertEquals(0, gp.getErrors().size());
+        for (String w : gp.getWarnings()) {
+            System.out.println(w);
+        }
         assertEquals(1, gp.getWarnings().size());
         assertEquals(
                 "Line 108 did not begin with a level and tag, so it was treated as a non-standard continuation of the previous line.",
@@ -117,30 +124,29 @@ public class Issue102Test {
         Submitter submitter = gp.getGedcom().getSubmitters().get("@SUBM001@");
         assertNotNull(submitter);
         assertNotNull(submitter.getName());
-        List<StringTree> customTags = submitter.getName().getCustomTags();
-        assertNotNull(customTags);
-        assertEquals(1, customTags.size());
-        assertCustomTagRecursively(customTags.get(0), MAX_DEPTH);
+        List<CustomFact> customFacts = submitter.getName().getCustomFacts();
+        assertNotNull(customFacts);
+        assertEquals(1, customFacts.size());
+        assertCustomTagRecursively(customFacts.get(0), MAX_DEPTH);
     }
 
     /**
      * Recursively assert that there is a single custom tag, as expected, up to a maximum depth
      * 
-     * @param customTags
+     * @param customFact
      *            the StringTree that has the custom tags
      * @param remaining
      *            the number of times left to recurse
      */
-    private void assertCustomTagRecursively(StringTree customTags, int remaining) {
-        assertEquals(99 - remaining, customTags.getLevel());
+    private void assertCustomTagRecursively(CustomFact customFact, int remaining) {
         if (remaining <= 0) {
             return;
         }
-        assertNotNull("With " + remaining + " levels remaining, customTags was null", customTags);
-        assertNotNull("With " + remaining + " levels remaining, customTags had no children", customTags.getChildren());
-        assertEquals("With " + remaining + " levels remaining, customTags did not have exactly one child. ", 1, customTags
-                .getChildren().size());
-        StringTree newCustomTags = customTags.getChildren().get(0);
+        assertNotNull("With " + remaining + " levels remaining, customTags was null", customFact);
+        assertNotNull("With " + remaining + " levels remaining, customTags had no children", customFact.getCustomFacts());
+        assertEquals("With " + remaining + " levels remaining, customTags did not have exactly one child. ", 1, customFact
+                .getCustomFacts().size());
+        CustomFact newCustomTags = customFact.getCustomFacts().get(0);
         assertNotNull(newCustomTags);
         assertCustomTagRecursively(newCustomTags, remaining - 1);
     }

@@ -32,7 +32,7 @@ import org.gedcom4j.model.Corporation;
 import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.SourceSystem;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.Submitter;
 import org.junit.Test;
@@ -79,7 +79,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         assertFindingsContain(Severity.ERROR, h.getCharacterSet().getCharacterSetName(), ProblemCode.ILLEGAL_VALUE.getCode(),
                 "value");
 
-        h.getCharacterSet().setCharacterSetName(new StringWithCustomTags(Encoding.ASCII.getCharacterSetName()));
+        h.getCharacterSet().setCharacterSetName(new StringWithCustomFacts(Encoding.ASCII.getCharacterSetName()));
         validator.validate();
         assertNoIssues();
 

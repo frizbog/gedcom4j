@@ -26,14 +26,12 @@
  */
 package org.gedcom4j.model;
 
-import java.util.List;
-
 /**
- * Represents a string value from a tag, and allows for user-defined child tags
+ * Represents a string value from a tag, and allows for user-defined child facts(tags)
  * 
  * @author frizbog
  */
-public class StringWithCustomTags extends AbstractElement {
+public class StringWithCustomFacts extends AbstractElement {
 
     /**
      * Serial Version UID
@@ -48,7 +46,7 @@ public class StringWithCustomTags extends AbstractElement {
     /**
      * Default constructor
      */
-    public StringWithCustomTags() {
+    public StringWithCustomFacts() {
         // Default constructor does nothing
     }
 
@@ -58,22 +56,8 @@ public class StringWithCustomTags extends AbstractElement {
      * @param string
      *            the string
      */
-    public StringWithCustomTags(String string) {
+    public StringWithCustomFacts(String string) {
         value = string;
-    }
-
-    /**
-     * Constructor that takes a StringTree as a parameter
-     * 
-     * @param s
-     *            the string tree with the value of the string, plus optional custom tags
-     */
-    public StringWithCustomTags(StringTree s) {
-        value = s.getValue();
-        List<StringTree> children = s.getChildren();
-        if (children != null && !children.isEmpty()) {
-            getCustomTags(true).addAll(children);
-        }
     }
 
     /**
@@ -82,7 +66,7 @@ public class StringWithCustomTags extends AbstractElement {
      * @param other
      *            the other object to copy
      */
-    public StringWithCustomTags(StringWithCustomTags other) {
+    public StringWithCustomFacts(StringWithCustomFacts other) {
         super(other);
         value = other.value;
     }
@@ -101,7 +85,7 @@ public class StringWithCustomTags extends AbstractElement {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        StringWithCustomTags other = (StringWithCustomTags) obj;
+        StringWithCustomFacts other = (StringWithCustomFacts) obj;
         if (value == null) {
             if (other.value != null) {
                 return false;
@@ -147,16 +131,23 @@ public class StringWithCustomTags extends AbstractElement {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder(value == null ? "null" : value);
-        if (getCustomTags() != null) {
-            for (StringTree ct : getCustomTags()) {
-                sb.append("\n");
-                sb.append(ct.getLevel() + (ct.getXref() == null ? "" : " " + ct.getXref()) + " " + ct.getTag() + " " + ct
-                        .getValue());
-            }
+        if (customFacts == null || customFacts.isEmpty()) {
+            return value;
         }
 
-        return sb.toString();
+        StringBuilder builder = new StringBuilder(30);
+        builder.append("StringWithCustomFacts [");
+        if (value != null) {
+            builder.append("value=");
+            builder.append(value);
+            builder.append(", ");
+        }
+        if (getCustomFacts() != null) {
+            builder.append("getCustomFacts()=");
+            builder.append(getCustomFacts());
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
     /**

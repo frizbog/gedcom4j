@@ -92,7 +92,7 @@ class HeaderEmitter extends AbstractEmitter<Header> {
             emitTagWithRequiredValue(2, "FORM", header.getPlaceHierarchy());
         }
         new NotesEmitter(baseWriter, 1, header.getNotes()).emit();
-        emitCustomTags(1, header.getCustomTags());
+        emitCustomTags(1, header.getCustomFacts());
     }
 
     /**
@@ -125,7 +125,7 @@ class HeaderEmitter extends AbstractEmitter<Header> {
             emitTagIfValueNotNull(3, "DATE", sourceData.getPublishDate());
             emitTagIfValueNotNull(3, "COPR", sourceData.getCopyright());
         }
-        emitCustomTags(1, sourceSystem.getCustomTags());
+        emitCustomTags(1, sourceSystem.getCustomFacts());
     }
 
 }

@@ -32,7 +32,6 @@ import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyChild;
 import org.gedcom4j.model.Note;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.enumerations.AdoptedByWhichParent;
 
 /**
@@ -66,11 +65,11 @@ class FamilyChildParser extends AbstractParser<FamilyChild> {
                     List<Note> notes = loadInto.getNotes(true);
                     new NoteListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.PEDIGREE.equalsText(ch.getTag())) {
-                    loadInto.setPedigree(new StringWithCustomTags(ch));
+                    loadInto.setPedigree(parseStringWithCustomFacts(ch));
                 } else if (Tag.ADOPTION.equalsText(ch.getTag())) {
                     loadInto.setAdoptedBy(AdoptedByWhichParent.valueOf(ch.getValue()));
                 } else if (Tag.STATUS.equalsText(ch.getTag())) {
-                    loadInto.setStatus(new StringWithCustomTags(ch));
+                    loadInto.setStatus(parseStringWithCustomFacts(ch));
                     if (g55()) {
                         addWarning("GEDCOM version is 5.5 but status was specified for child-to-family link on line " + ch
                                 .getLineNum() + ", which is a GEDCOM 5.5.1 feature."

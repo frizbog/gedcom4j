@@ -34,7 +34,6 @@ import org.gedcom4j.model.Note;
 import org.gedcom4j.model.Place;
 import org.gedcom4j.model.PlaceNameVariation;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * Parser for {@link Place} objects
@@ -63,7 +62,7 @@ class PlaceParser extends AbstractParser<Place> {
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.FORM.equalsText(ch.getTag())) {
-                    loadInto.setPlaceFormat(new StringWithCustomTags(ch));
+                    loadInto.setPlaceFormat(parseStringWithCustomFacts(ch));
                 } else if (Tag.SOURCE.equalsText(ch.getTag())) {
                     List<AbstractCitation> citations = loadInto.getCitations(true);
                     new CitationListParser(gedcomParser, ch, citations).parse();
@@ -86,7 +85,7 @@ class PlaceParser extends AbstractParser<Place> {
                     if (ch.getChildren() != null) {
                         for (StringTree gch : ch.getChildren()) {
                             if (Tag.TYPE.equalsText(gch.getTag())) {
-                                nv.setVariationType(new StringWithCustomTags(gch));
+                                nv.setVariationType(parseStringWithCustomFacts(gch));
                             } else {
                                 unknownTag(gch, nv);
                             }
@@ -104,7 +103,7 @@ class PlaceParser extends AbstractParser<Place> {
                     if (ch.getChildren() != null) {
                         for (StringTree gch : ch.getChildren()) {
                             if (Tag.TYPE.equalsText(gch.getTag())) {
-                                nv.setVariationType(new StringWithCustomTags(gch));
+                                nv.setVariationType(parseStringWithCustomFacts(gch));
                             } else {
                                 unknownTag(gch, nv);
                             }
@@ -119,9 +118,9 @@ class PlaceParser extends AbstractParser<Place> {
                     if (ch.getChildren() != null) {
                         for (StringTree gch : ch.getChildren()) {
                             if (Tag.LATITUDE.equalsText(gch.getTag())) {
-                                loadInto.setLatitude(new StringWithCustomTags(gch));
+                                loadInto.setLatitude(parseStringWithCustomFacts(gch));
                             } else if (Tag.LONGITUDE.equalsText(gch.getTag())) {
-                                loadInto.setLongitude(new StringWithCustomTags(gch));
+                                loadInto.setLongitude(parseStringWithCustomFacts(gch));
                             } else {
                                 unknownTag(gch, loadInto);
                             }

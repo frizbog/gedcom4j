@@ -47,7 +47,7 @@ public abstract class AbstractNameVariation extends AbstractElement {
      * The variation type. For romanized names, the method used in transforming the text to a romanized variation. For phonetic
      * names, the method used in transforming the text to the phonetic variation.
      */
-    protected StringWithCustomTags variationType;
+    protected StringWithCustomFacts variationType;
 
     /** Default constructor */
     public AbstractNameVariation() {
@@ -64,7 +64,7 @@ public abstract class AbstractNameVariation extends AbstractElement {
         super(other);
         variation = other.variation;
         if (other.variationType != null) {
-            variationType = new StringWithCustomTags(other.variationType);
+            variationType = new StringWithCustomFacts(other.variationType);
         }
     }
 
@@ -114,7 +114,7 @@ public abstract class AbstractNameVariation extends AbstractElement {
      *
      * @return the variation type
      */
-    public StringWithCustomTags getVariationType() {
+    public StringWithCustomFacts getVariationType() {
         return variationType;
     }
 
@@ -147,7 +147,7 @@ public abstract class AbstractNameVariation extends AbstractElement {
      *            the new variation type
      */
     public void setVariationType(String variationType) {
-        this.variationType = new StringWithCustomTags(variationType);
+        this.variationType = new StringWithCustomFacts(variationType);
     }
 
     /**
@@ -156,7 +156,7 @@ public abstract class AbstractNameVariation extends AbstractElement {
      * @param variationType
      *            the new variation type
      */
-    public void setVariationType(StringWithCustomTags variationType) {
+    public void setVariationType(StringWithCustomFacts variationType) {
         this.variationType = variationType;
     }
 
@@ -177,9 +177,9 @@ public abstract class AbstractNameVariation extends AbstractElement {
             builder.append(variationType);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
+        if (getCustomFacts() != null) {
             builder.append("customTags=");
-            builder.append(getCustomTags());
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

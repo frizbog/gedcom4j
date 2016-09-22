@@ -29,7 +29,7 @@ package org.gedcom4j.validate;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.LdsSpouseSealing;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.TestHelper;
 import org.gedcom4j.model.enumerations.LdsSpouseSealingDateStatus;
 import org.junit.Before;
@@ -99,7 +99,7 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.getLdsSpouseSealings(true).add(s);
 
-        s.getCustomTags(true).clear();
+        s.getCustomFacts(true).clear();
         validator.validate();
         assertNoIssues();
     }
@@ -166,7 +166,7 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     public void testPlace() {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.getLdsSpouseSealings(true).add(s);
-        s.setPlace(new StringWithCustomTags((String) null));
+        s.setPlace(new StringWithCustomFacts((String) null));
         validator.validate();
         assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "place");
 
@@ -190,7 +190,7 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     public void testStatus() {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.getLdsSpouseSealings(true).add(s);
-        s.setStatus(new StringWithCustomTags((String) null));
+        s.setStatus(new StringWithCustomFacts((String) null));
         validator.validate();
         assertNoIssues();
 
@@ -222,7 +222,7 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     public void testTemple() {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.getLdsSpouseSealings(true).add(s);
-        s.setTemple(new StringWithCustomTags((String) null));
+        s.setTemple(new StringWithCustomFacts((String) null));
         validator.validate();
         assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "temple");
 

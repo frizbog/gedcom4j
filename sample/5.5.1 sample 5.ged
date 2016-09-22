@@ -18,6 +18,8 @@
 1 SUBM @SUB1@
 0 @SUB1@ SUBM
 1 NAME Frizbog Gordnik
+0 @I0@ INDI
+1 NAME Frizbog /Gordnik/
 2 FONE Frizbog /Gordnik/
 3 TYPE Manual
 3 GIVN Frizbog

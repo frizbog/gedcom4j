@@ -50,7 +50,7 @@ public class SourceData extends AbstractNotesElement {
     /**
      * The responsible agency.
      */
-    private StringWithCustomTags respAgency;
+    private StringWithCustomFacts respAgency;
 
     /** Default constructor */
     public SourceData() {
@@ -72,7 +72,7 @@ public class SourceData extends AbstractNotesElement {
             }
         }
         if (other.respAgency != null) {
-            respAgency = new StringWithCustomTags(other.respAgency);
+            respAgency = new StringWithCustomFacts(other.respAgency);
         }
 
     }
@@ -137,7 +137,7 @@ public class SourceData extends AbstractNotesElement {
      *
      * @return the resp agency
      */
-    public StringWithCustomTags getRespAgency() {
+    public StringWithCustomFacts getRespAgency() {
         return respAgency;
     }
 
@@ -160,7 +160,7 @@ public class SourceData extends AbstractNotesElement {
      *            the new resp agency
      */
     public void setRespAgency(String respAgency) {
-        this.respAgency = respAgency == null ? null : new StringWithCustomTags(respAgency);
+        this.respAgency = respAgency == null ? null : new StringWithCustomFacts(respAgency);
     }
 
     /**
@@ -169,7 +169,7 @@ public class SourceData extends AbstractNotesElement {
      * @param respAgency
      *            the new resp agency
      */
-    public void setRespAgency(StringWithCustomTags respAgency) {
+    public void setRespAgency(StringWithCustomFacts respAgency) {
         this.respAgency = respAgency;
     }
 
@@ -195,9 +195,9 @@ public class SourceData extends AbstractNotesElement {
             builder.append(respAgency);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
+        if (getCustomFacts() != null) {
             builder.append("customTags=");
-            builder.append(getCustomTags());
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

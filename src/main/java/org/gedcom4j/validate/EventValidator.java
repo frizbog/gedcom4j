@@ -34,7 +34,7 @@ import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.ModelElement;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Note;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.enumerations.FamilyEventType;
 import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.gedcom4j.model.enumerations.RestrictionNoticeType;
@@ -175,7 +175,7 @@ class EventValidator extends AbstractValidator {
      * @param fieldName
      *            the name of the age field
      */
-    private void mustBeAgeFormatIfSpecified(AbstractEvent ev, StringWithCustomTags val, String fieldName) {
+    private void mustBeAgeFormatIfSpecified(AbstractEvent ev, StringWithCustomFacts val, String fieldName) {
         if (val == null || !isSpecified(val.getValue())) {
             return;
         }

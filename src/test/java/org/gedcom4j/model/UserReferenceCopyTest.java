@@ -66,12 +66,10 @@ public class UserReferenceCopyTest extends AbstractCopyTest {
         UserReference orig = new UserReference();
         orig.setReferenceNum("PPP");
         orig.setType("QQQ");
-        StringTree ct = new StringTree();
-        ct.setTag("_RRR");
-        ct.setValue("SSS");
-        ct.setLevel(1);
+        CustomFact ct = new CustomFact("_RRR");
+        ct.setDescription("SSS");
         ct.setXref("@TTT@");
-        orig.getCustomTags(true).add(ct);
+        orig.getCustomFacts(true).add(ct);
 
         UserReference copy = new UserReference(orig);
         assertEquals(orig, copy);

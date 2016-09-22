@@ -67,7 +67,7 @@ public class HeaderSourceDataCopyTest extends AbstractCopyTest {
         orig.setCopyright("(c) 1776 George Washington");
         orig.setName("AAA");
         orig.setPublishDate("04 APR 1804");
-        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getCustomFacts(true).add(getTestCustomFact());
 
         HeaderSourceData copy = new HeaderSourceData(orig);
         assertEquals(orig, copy);

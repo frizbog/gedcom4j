@@ -56,7 +56,7 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
     /**
      * The language preferences
      */
-    private List<StringWithCustomTags> languagePref = getLanguagePref(Options.isCollectionInitializationEnabled());
+    private List<StringWithCustomFacts> languagePref = getLanguagePref(Options.isCollectionInitializationEnabled());
 
     /**
      * The multimedia for this submitter
@@ -66,17 +66,17 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
     /**
      * The name of this submitter
      */
-    private StringWithCustomTags name;
+    private StringWithCustomFacts name;
 
     /**
      * The record ID number
      */
-    private StringWithCustomTags recIdNumber;
+    private StringWithCustomFacts recIdNumber;
 
     /**
      * The registration file number for this submitter
      */
-    private StringWithCustomTags regFileNumber;
+    private StringWithCustomFacts regFileNumber;
 
     /**
      * The user references for this submitter
@@ -103,7 +103,7 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
      */
     public Submitter(String xref, String submitterName) {
         this.xref = xref;
-        name = new StringWithCustomTags(submitterName);
+        name = new StringWithCustomFacts(submitterName);
     }
 
     /**
@@ -119,8 +119,8 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
         }
         if (other.languagePref != null) {
             languagePref = new ArrayList<>();
-            for (StringWithCustomTags swct : other.languagePref) {
-                languagePref.add(new StringWithCustomTags(swct));
+            for (StringWithCustomFacts swct : other.languagePref) {
+                languagePref.add(new StringWithCustomFacts(swct));
             }
         }
         if (other.multimedia != null) {
@@ -130,13 +130,13 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
             }
         }
         if (other.name != null) {
-            name = new StringWithCustomTags(other.name);
+            name = new StringWithCustomFacts(other.name);
         }
         if (other.recIdNumber != null) {
-            recIdNumber = new StringWithCustomTags(other.recIdNumber);
+            recIdNumber = new StringWithCustomFacts(other.recIdNumber);
         }
         if (other.regFileNumber != null) {
-            regFileNumber = new StringWithCustomTags(other.regFileNumber);
+            regFileNumber = new StringWithCustomFacts(other.regFileNumber);
         }
         if (other.userReferences != null) {
             userReferences = new ArrayList<>();
@@ -235,7 +235,7 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
      *
      * @return the language pref
      */
-    public List<StringWithCustomTags> getLanguagePref() {
+    public List<StringWithCustomFacts> getLanguagePref() {
         return languagePref;
     }
 
@@ -246,7 +246,7 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
      *            initialize the collection, if needed?
      * @return the languagePref
      */
-    public List<StringWithCustomTags> getLanguagePref(boolean initializeIfNeeded) {
+    public List<StringWithCustomFacts> getLanguagePref(boolean initializeIfNeeded) {
         if (initializeIfNeeded && languagePref == null) {
             languagePref = new ArrayList<>(0);
         }
@@ -281,7 +281,7 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
      *
      * @return the name
      */
-    public StringWithCustomTags getName() {
+    public StringWithCustomFacts getName() {
         return name;
     }
 
@@ -290,7 +290,7 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
      *
      * @return the rec id number
      */
-    public StringWithCustomTags getRecIdNumber() {
+    public StringWithCustomFacts getRecIdNumber() {
         return recIdNumber;
     }
 
@@ -299,7 +299,7 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
      *
      * @return the reg file number
      */
-    public StringWithCustomTags getRegFileNumber() {
+    public StringWithCustomFacts getRegFileNumber() {
         return regFileNumber;
     }
 
@@ -371,7 +371,7 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
      *            the new name
      */
     public void setName(String name) {
-        this.name = name == null ? null : new StringWithCustomTags(name);
+        this.name = name == null ? null : new StringWithCustomFacts(name);
     }
 
     /**
@@ -380,7 +380,7 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
      * @param name
      *            the new name
      */
-    public void setName(StringWithCustomTags name) {
+    public void setName(StringWithCustomFacts name) {
         this.name = name;
     }
 
@@ -391,7 +391,7 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
      *            the new rec id number
      */
     public void setRecIdNumber(String recIdNumber) {
-        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomTags(recIdNumber);
+        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomFacts(recIdNumber);
     }
 
     /**
@@ -400,7 +400,7 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
      * @param recIdNumber
      *            the new rec id number
      */
-    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+    public void setRecIdNumber(StringWithCustomFacts recIdNumber) {
         this.recIdNumber = recIdNumber;
     }
 
@@ -411,7 +411,7 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
      *            the new reg file number
      */
     public void setRegFileNumber(String regFileNumber) {
-        this.regFileNumber = regFileNumber == null ? null : new StringWithCustomTags(regFileNumber);
+        this.regFileNumber = regFileNumber == null ? null : new StringWithCustomFacts(regFileNumber);
     }
 
     /**
@@ -420,7 +420,7 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
      * @param regFileNumber
      *            the new reg file number
      */
-    public void setRegFileNumber(StringWithCustomTags regFileNumber) {
+    public void setRegFileNumber(StringWithCustomFacts regFileNumber) {
         this.regFileNumber = regFileNumber;
     }
 

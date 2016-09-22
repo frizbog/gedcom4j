@@ -74,10 +74,10 @@ public class IndividualEventCopyTest extends AbstractCopyTest {
         fc.setStatus("XXX");
         orig.setFamily(fc);
         orig.getNotes(true).add(getTestNote());
-        orig.getFaxNumbers(true).add(new StringWithCustomTags("555-1212"));
-        orig.getPhoneNumbers(true).add(new StringWithCustomTags("555-1313"));
-        orig.getWwwUrls(true).add(new StringWithCustomTags("www.nowhere.com"));
-        orig.getEmails(true).add(new StringWithCustomTags("nobody@nowwhere.com"));
+        orig.getFaxNumbers(true).add(new StringWithCustomFacts("555-1212"));
+        orig.getPhoneNumbers(true).add(new StringWithCustomFacts("555-1313"));
+        orig.getWwwUrls(true).add(new StringWithCustomFacts("www.nowhere.com"));
+        orig.getEmails(true).add(new StringWithCustomFacts("nobody@nowwhere.com"));
         Place p = new Place();
         p.setPlaceName("Charleston, WV");
         orig.setPlace(p);

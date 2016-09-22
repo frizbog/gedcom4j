@@ -51,7 +51,7 @@ import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualAttribute;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Repository;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.enumerations.IndividualAttributeType;
 import org.gedcom4j.model.enumerations.SupportedVersion;
@@ -415,7 +415,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
      */
     public void write(File file) throws IOException, GedcomWriterException {
         // Automatically replace the contents of the filename in the header
-        writeFrom.getHeader().setFileName(new StringWithCustomTags(file.getName()));
+        writeFrom.getHeader().setFileName(new StringWithCustomFacts(file.getName()));
 
         // If the file doesn't exist yet, we have to create it, otherwise a FileNotFoundException will be thrown
         if (!file.exists() && !file.getCanonicalFile().getParentFile().exists() && !file.getCanonicalFile().getParentFile().mkdirs()
@@ -500,7 +500,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
         new SourceEmitter(baseWriter, 0, writeFrom.getSources().values()).emit();
         new SubmittersEmitter(this, 0, writeFrom.getSubmitters().values()).emit();
         emitTrailer();
-        emitCustomTags(1, writeFrom.getCustomTags());
+        emitCustomTags(1, writeFrom.getCustomFacts());
     }
 
     /**

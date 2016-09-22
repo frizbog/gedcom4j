@@ -69,7 +69,7 @@ public class IndividualAttributeCopyTest extends AbstractCopyTest {
         orig.setAddress(a);
         orig.setAge("BBB");
         orig.setCause("CCC");
-        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getCustomFacts(true).add(getTestCustomFact());
         orig.setDate("DDD");
         orig.setDescription("EEE");
         orig.getNotes(true).add(getTestNote());

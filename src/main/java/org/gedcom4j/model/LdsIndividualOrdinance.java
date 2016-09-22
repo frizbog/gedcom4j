@@ -232,9 +232,9 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
             builder.append(temple);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
+        if (getCustomFacts() != null) {
             builder.append("customTags=");
-            builder.append(getCustomTags());
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

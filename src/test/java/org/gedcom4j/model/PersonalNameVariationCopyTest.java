@@ -72,7 +72,7 @@ public class PersonalNameVariationCopyTest extends AbstractCopyTest {
         orig.setSurnamePrefix("del");
         orig.setVariation("gilburtson");
         orig.setVariationType("foo");
-        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getCustomFacts(true).add(getTestCustomFact());
         orig.getNotes(true).add(getTestNote());
         orig.getCitations(true).add(getTestCitation());
 

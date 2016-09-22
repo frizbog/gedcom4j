@@ -28,7 +28,7 @@ package org.gedcom4j.parser;
 
 import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 
 /**
  * A base class for an event parser.
@@ -65,7 +65,7 @@ public abstract class AbstractEventParser<T extends AbstractEvent> extends Abstr
             loadInto.setDescription((String) null);
         } else {
             loadInto.setYNull(null);
-            loadInto.setDescription(new StringWithCustomTags(stringTree.getValue()));
+            loadInto.setDescription(new StringWithCustomFacts(stringTree.getValue()));
             addWarning(stringTree.getTag() + " tag had description rather than [Y|<NULL>] - violates standard");
         }
     }

@@ -50,7 +50,7 @@ public class CitationWithSource extends AbstractCitation {
     /**
      * The quality of this citation. Supposed to be 0, 1, 2, or 3, but stored as a string since we're not doing math on it.
      */
-    private StringWithCustomTags certainty;
+    private StringWithCustomFacts certainty;
 
     /**
      * A list of citation data entries
@@ -61,7 +61,7 @@ public class CitationWithSource extends AbstractCitation {
      * The type of event or attribute cited from. Will be the tag from one of the the following three enum types:
      * {@link FamilyEventType}, {@link IndividualEventType}, {@link IndividualAttributeType}.
      */
-    private StringWithCustomTags eventCited;
+    private StringWithCustomFacts eventCited;
 
     /**
      * Multimedia links for this source citation
@@ -71,7 +71,7 @@ public class CitationWithSource extends AbstractCitation {
     /**
      * The role in the event cited
      */
-    private StringWithCustomTags roleInEvent;
+    private StringWithCustomFacts roleInEvent;
 
     /**
      * A reference to the cited source
@@ -81,7 +81,7 @@ public class CitationWithSource extends AbstractCitation {
     /**
      * Where within the source is the information being cited
      */
-    private StringWithCustomTags whereInSource;
+    private StringWithCustomFacts whereInSource;
 
     /** Default constructor */
     public CitationWithSource() {
@@ -97,7 +97,7 @@ public class CitationWithSource extends AbstractCitation {
     public CitationWithSource(CitationWithSource other) {
         super(other);
         if (other.certainty != null) {
-            certainty = new StringWithCustomTags(other.certainty);
+            certainty = new StringWithCustomFacts(other.certainty);
         }
         if (other.data != null) {
             data = new ArrayList<>();
@@ -106,7 +106,7 @@ public class CitationWithSource extends AbstractCitation {
             }
         }
         if (other.eventCited != null) {
-            eventCited = new StringWithCustomTags(other.eventCited);
+            eventCited = new StringWithCustomFacts(other.eventCited);
         }
         if (other.multimedia != null) {
             multimedia = new ArrayList<>();
@@ -115,13 +115,13 @@ public class CitationWithSource extends AbstractCitation {
             }
         }
         if (other.roleInEvent != null) {
-            roleInEvent = new StringWithCustomTags(other.roleInEvent);
+            roleInEvent = new StringWithCustomFacts(other.roleInEvent);
         }
         if (other.source != null) {
             source = new Source(other.source);
         }
         if (other.whereInSource != null) {
-            whereInSource = new StringWithCustomTags(other.whereInSource);
+            whereInSource = new StringWithCustomFacts(other.whereInSource);
         }
     }
 
@@ -204,7 +204,7 @@ public class CitationWithSource extends AbstractCitation {
      *
      * @return the certainty
      */
-    public StringWithCustomTags getCertainty() {
+    public StringWithCustomFacts getCertainty() {
         return certainty;
     }
 
@@ -236,7 +236,7 @@ public class CitationWithSource extends AbstractCitation {
      *
      * @return the event cited
      */
-    public StringWithCustomTags getEventCited() {
+    public StringWithCustomFacts getEventCited() {
         return eventCited;
     }
 
@@ -268,7 +268,7 @@ public class CitationWithSource extends AbstractCitation {
      *
      * @return the role in event
      */
-    public StringWithCustomTags getRoleInEvent() {
+    public StringWithCustomFacts getRoleInEvent() {
         return roleInEvent;
     }
 
@@ -286,7 +286,7 @@ public class CitationWithSource extends AbstractCitation {
      *
      * @return where in source
      */
-    public StringWithCustomTags getWhereInSource() {
+    public StringWithCustomFacts getWhereInSource() {
         return whereInSource;
     }
 
@@ -315,7 +315,7 @@ public class CitationWithSource extends AbstractCitation {
      *            the new certainty
      */
     public void setCertainty(String certainty) {
-        this.certainty = certainty == null ? null : new StringWithCustomTags(certainty);
+        this.certainty = certainty == null ? null : new StringWithCustomFacts(certainty);
     }
 
     /**
@@ -324,7 +324,7 @@ public class CitationWithSource extends AbstractCitation {
      * @param certainty
      *            the new certainty
      */
-    public void setCertainty(StringWithCustomTags certainty) {
+    public void setCertainty(StringWithCustomFacts certainty) {
         this.certainty = certainty;
     }
 
@@ -335,7 +335,7 @@ public class CitationWithSource extends AbstractCitation {
      *            the new event cited
      */
     public void setEventCited(String eventCited) {
-        this.eventCited = eventCited == null ? null : new StringWithCustomTags(eventCited);
+        this.eventCited = eventCited == null ? null : new StringWithCustomFacts(eventCited);
     }
 
     /**
@@ -344,7 +344,7 @@ public class CitationWithSource extends AbstractCitation {
      * @param eventCited
      *            the new event cited
      */
-    public void setEventCited(StringWithCustomTags eventCited) {
+    public void setEventCited(StringWithCustomFacts eventCited) {
         this.eventCited = eventCited;
     }
 
@@ -355,7 +355,7 @@ public class CitationWithSource extends AbstractCitation {
      *            the new role in event
      */
     public void setRoleInEvent(String roleInEvent) {
-        this.roleInEvent = roleInEvent == null ? null : new StringWithCustomTags(roleInEvent);
+        this.roleInEvent = roleInEvent == null ? null : new StringWithCustomFacts(roleInEvent);
     }
 
     /**
@@ -364,7 +364,7 @@ public class CitationWithSource extends AbstractCitation {
      * @param roleInEvent
      *            the new role in event
      */
-    public void setRoleInEvent(StringWithCustomTags roleInEvent) {
+    public void setRoleInEvent(StringWithCustomFacts roleInEvent) {
         this.roleInEvent = roleInEvent;
     }
 
@@ -385,7 +385,7 @@ public class CitationWithSource extends AbstractCitation {
      *            where in the source is being cited
      */
     public void setWhereInSource(String whereInSource) {
-        this.whereInSource = whereInSource == null ? null : new StringWithCustomTags(whereInSource);
+        this.whereInSource = whereInSource == null ? null : new StringWithCustomFacts(whereInSource);
     }
 
     /**
@@ -394,7 +394,7 @@ public class CitationWithSource extends AbstractCitation {
      * @param whereInSource
      *            where in the source is being cited
      */
-    public void setWhereInSource(StringWithCustomTags whereInSource) {
+    public void setWhereInSource(StringWithCustomFacts whereInSource) {
         this.whereInSource = whereInSource;
     }
 
@@ -445,9 +445,9 @@ public class CitationWithSource extends AbstractCitation {
             builder.append(getNotes());
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
+        if (getCustomFacts() != null) {
             builder.append("customTags=");
-            builder.append(getCustomTags());
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

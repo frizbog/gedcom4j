@@ -96,7 +96,7 @@ public class GedcomCopyTest extends AbstractCopyTest {
         s.setRecIdNumber("40404040");
         orig.setSubmission(s);
         orig.setTrailer(new Trailer());
-        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getCustomFacts(true).add(getTestCustomFact());
 
         DateParser dp = new DateParser();
         IndividualFactory ifact = new IndividualFactory();

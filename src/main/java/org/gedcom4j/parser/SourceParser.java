@@ -37,7 +37,7 @@ import org.gedcom4j.model.Source;
 import org.gedcom4j.model.SourceCallNumber;
 import org.gedcom4j.model.SourceData;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.UserReference;
 
 /**
@@ -75,7 +75,7 @@ class SourceParser extends AbstractParser<Source> {
                 } else if (Tag.TEXT.equalsText(ch.getTag())) {
                     loadMultiLinesOfText(ch, loadInto.getSourceText(true), loadInto);
                 } else if (Tag.ABBREVIATION.equalsText(ch.getTag())) {
-                    loadInto.setSourceFiledBy(new StringWithCustomTags(ch));
+                    loadInto.setSourceFiledBy(parseStringWithCustomFacts(ch));
                 } else if (Tag.AUTHORS.equalsText(ch.getTag())) {
                     loadMultiLinesOfText(ch, loadInto.getOriginatorsAuthors(true), loadInto);
                 } else if (Tag.REPOSITORY.equalsText(ch.getTag())) {
@@ -91,7 +91,7 @@ class SourceParser extends AbstractParser<Source> {
                     loadInto.getUserReferences(true).add(u);
                     new UserReferenceParser(gedcomParser, ch, u).parse();
                 } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
-                    loadInto.setRecIdNumber(new StringWithCustomTags(ch));
+                    loadInto.setRecIdNumber(parseStringWithCustomFacts(ch));
                 } else if (Tag.CHANGED_DATETIME.equalsText(ch.getTag())) {
                     ChangeDate changeDate = new ChangeDate();
                     loadInto.setChangeDate(changeDate);
@@ -121,11 +121,11 @@ class SourceParser extends AbstractParser<Source> {
                 } else if (Tag.CALL_NUMBER.equalsText(ch.getTag())) {
                     SourceCallNumber scn = new SourceCallNumber();
                     r.getCallNumbers(true).add(scn);
-                    scn.setCallNumber(new StringWithCustomTags(ch.getValue()));
+                    scn.setCallNumber(new StringWithCustomFacts(ch.getValue()));
                     if (ch.getChildren() != null) {
                         for (StringTree gch : ch.getChildren()) {
                             if (Tag.MEDIA.equalsText(gch.getTag())) {
-                                scn.setMediaType(new StringWithCustomTags(gch));
+                                scn.setMediaType(parseStringWithCustomFacts(gch));
                             } else {
                                 unknownTag(gch, scn.getCallNumber());
                             }
@@ -156,7 +156,7 @@ class SourceParser extends AbstractParser<Source> {
                     List<Note> notes = sourceData.getNotes(true);
                     new NoteListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.AGENCY.equalsText(ch.getTag())) {
-                    sourceData.setRespAgency(new StringWithCustomTags(ch));
+                    sourceData.setRespAgency(parseStringWithCustomFacts(ch));
                 } else {
                     unknownTag(ch, sourceData);
                 }
@@ -179,9 +179,9 @@ class SourceParser extends AbstractParser<Source> {
         if (dataNode.getChildren() != null) {
             for (StringTree ch : dataNode.getChildren()) {
                 if (Tag.DATE.equalsText(ch.getTag())) {
-                    e.setDatePeriod(new StringWithCustomTags(ch));
+                    e.setDatePeriod(parseStringWithCustomFacts(ch));
                 } else if (Tag.PLACE.equalsText(ch.getTag())) {
-                    e.setJurisdiction(new StringWithCustomTags(ch));
+                    e.setJurisdiction(parseStringWithCustomFacts(ch));
                 } else {
                     unknownTag(ch, sourceData);
                 }

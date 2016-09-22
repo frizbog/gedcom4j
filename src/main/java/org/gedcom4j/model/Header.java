@@ -62,17 +62,17 @@ public class Header extends AbstractNotesElement {
     /**
      * The date of the GEDCOM file
      */
-    private StringWithCustomTags date;
+    private StringWithCustomFacts date;
 
     /**
      * The destination system for the GEDCOM file.
      */
-    private StringWithCustomTags destinationSystem;
+    private StringWithCustomFacts destinationSystem;
 
     /**
      * The filename for the GEDCOM file
      */
-    private StringWithCustomTags fileName;
+    private StringWithCustomFacts fileName;
 
     /**
      * The version information for the GEDCOM file
@@ -82,12 +82,12 @@ public class Header extends AbstractNotesElement {
     /**
      * The language for the file
      */
-    private StringWithCustomTags language;
+    private StringWithCustomFacts language;
 
     /**
      * The place structure for the file
      */
-    private StringWithCustomTags placeHierarchy;
+    private StringWithCustomFacts placeHierarchy;
 
     /**
      * The source system for the GEDCOM file
@@ -107,7 +107,7 @@ public class Header extends AbstractNotesElement {
     /**
      * The time of the file
      */
-    private StringWithCustomTags time;
+    private StringWithCustomFacts time;
 
     /** Default constructor */
     public Header() {
@@ -129,22 +129,22 @@ public class Header extends AbstractNotesElement {
             copyrightData = new ArrayList<>(other.copyrightData);
         }
         if (other.date != null) {
-            date = new StringWithCustomTags(other.date);
+            date = new StringWithCustomFacts(other.date);
         }
         if (other.destinationSystem != null) {
-            destinationSystem = new StringWithCustomTags(other.destinationSystem);
+            destinationSystem = new StringWithCustomFacts(other.destinationSystem);
         }
         if (other.fileName != null) {
-            fileName = new StringWithCustomTags(other.fileName);
+            fileName = new StringWithCustomFacts(other.fileName);
         }
         if (other.gedcomVersion != null) {
             gedcomVersion = new GedcomVersion(other.gedcomVersion);
         }
         if (other.language != null) {
-            language = new StringWithCustomTags(other.language);
+            language = new StringWithCustomFacts(other.language);
         }
         if (other.placeHierarchy != null) {
-            placeHierarchy = new StringWithCustomTags(other.placeHierarchy);
+            placeHierarchy = new StringWithCustomFacts(other.placeHierarchy);
         }
         if (other.sourceSystem != null) {
             sourceSystem = new SourceSystem(other.sourceSystem);
@@ -156,7 +156,7 @@ public class Header extends AbstractNotesElement {
             submitter = new Submitter(other.submitter);
         }
         if (other.time != null) {
-            time = new StringWithCustomTags(other.time);
+            time = new StringWithCustomFacts(other.time);
         }
     }
 
@@ -300,7 +300,7 @@ public class Header extends AbstractNotesElement {
      *
      * @return the date
      */
-    public StringWithCustomTags getDate() {
+    public StringWithCustomFacts getDate() {
         return date;
     }
 
@@ -309,7 +309,7 @@ public class Header extends AbstractNotesElement {
      *
      * @return the destination system
      */
-    public StringWithCustomTags getDestinationSystem() {
+    public StringWithCustomFacts getDestinationSystem() {
         return destinationSystem;
     }
 
@@ -318,7 +318,7 @@ public class Header extends AbstractNotesElement {
      *
      * @return the file name
      */
-    public StringWithCustomTags getFileName() {
+    public StringWithCustomFacts getFileName() {
         return fileName;
     }
 
@@ -336,7 +336,7 @@ public class Header extends AbstractNotesElement {
      *
      * @return the language
      */
-    public StringWithCustomTags getLanguage() {
+    public StringWithCustomFacts getLanguage() {
         return language;
     }
 
@@ -345,7 +345,7 @@ public class Header extends AbstractNotesElement {
      *
      * @return the place hierarchy
      */
-    public StringWithCustomTags getPlaceHierarchy() {
+    public StringWithCustomFacts getPlaceHierarchy() {
         return placeHierarchy;
     }
 
@@ -381,7 +381,7 @@ public class Header extends AbstractNotesElement {
      *
      * @return the time
      */
-    public StringWithCustomTags getTime() {
+    public StringWithCustomFacts getTime() {
         return time;
     }
 
@@ -425,7 +425,7 @@ public class Header extends AbstractNotesElement {
      *            the new date
      */
     public void setDate(String date) {
-        this.date = new StringWithCustomTags(date);
+        this.date = new StringWithCustomFacts(date);
     }
 
     /**
@@ -434,7 +434,7 @@ public class Header extends AbstractNotesElement {
      * @param date
      *            the new date
      */
-    public void setDate(StringWithCustomTags date) {
+    public void setDate(StringWithCustomFacts date) {
         this.date = date;
     }
 
@@ -445,7 +445,7 @@ public class Header extends AbstractNotesElement {
      *            the new destination system
      */
     public void setDestinationSystem(String destinationSystem) {
-        this.destinationSystem = destinationSystem == null ? null : new StringWithCustomTags(destinationSystem);
+        this.destinationSystem = destinationSystem == null ? null : new StringWithCustomFacts(destinationSystem);
     }
 
     /**
@@ -454,7 +454,7 @@ public class Header extends AbstractNotesElement {
      * @param destinationSystem
      *            the new destination system
      */
-    public void setDestinationSystem(StringWithCustomTags destinationSystem) {
+    public void setDestinationSystem(StringWithCustomFacts destinationSystem) {
         this.destinationSystem = destinationSystem;
     }
 
@@ -465,7 +465,7 @@ public class Header extends AbstractNotesElement {
      *            the new file name
      */
     public void setFileName(String fileName) {
-        this.fileName = fileName == null ? null : new StringWithCustomTags(fileName);
+        this.fileName = fileName == null ? null : new StringWithCustomFacts(fileName);
     }
 
     /**
@@ -474,7 +474,7 @@ public class Header extends AbstractNotesElement {
      * @param fileName
      *            the new file name
      */
-    public void setFileName(StringWithCustomTags fileName) {
+    public void setFileName(StringWithCustomFacts fileName) {
         this.fileName = fileName;
     }
 
@@ -495,7 +495,7 @@ public class Header extends AbstractNotesElement {
      *            the new language
      */
     public void setLanguage(String language) {
-        this.language = language == null ? null : new StringWithCustomTags(language);
+        this.language = language == null ? null : new StringWithCustomFacts(language);
     }
 
     /**
@@ -504,7 +504,7 @@ public class Header extends AbstractNotesElement {
      * @param language
      *            the new language
      */
-    public void setLanguage(StringWithCustomTags language) {
+    public void setLanguage(StringWithCustomFacts language) {
         this.language = language;
     }
 
@@ -515,7 +515,7 @@ public class Header extends AbstractNotesElement {
      *            the new place hierarchy
      */
     public void setPlaceHierarchy(String placeHierarchy) {
-        this.placeHierarchy = placeHierarchy == null ? null : new StringWithCustomTags(placeHierarchy);
+        this.placeHierarchy = placeHierarchy == null ? null : new StringWithCustomFacts(placeHierarchy);
     }
 
     /**
@@ -524,7 +524,7 @@ public class Header extends AbstractNotesElement {
      * @param placeHierarchy
      *            the new place hierarchy
      */
-    public void setPlaceHierarchy(StringWithCustomTags placeHierarchy) {
+    public void setPlaceHierarchy(StringWithCustomFacts placeHierarchy) {
         this.placeHierarchy = placeHierarchy;
     }
 
@@ -565,7 +565,7 @@ public class Header extends AbstractNotesElement {
      *            the new time
      */
     public void setTime(String time) {
-        this.time = time == null ? null : new StringWithCustomTags(time);
+        this.time = time == null ? null : new StringWithCustomFacts(time);
     }
 
     /**
@@ -574,7 +574,7 @@ public class Header extends AbstractNotesElement {
      * @param time
      *            the new time
      */
-    public void setTime(StringWithCustomTags time) {
+    public void setTime(StringWithCustomFacts time) {
         this.time = time;
     }
 
@@ -650,9 +650,9 @@ public class Header extends AbstractNotesElement {
             builder.append(time);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
+        if (getCustomFacts() != null) {
             builder.append("customTags=");
-            builder.append(getCustomTags());
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

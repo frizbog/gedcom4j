@@ -51,12 +51,12 @@ public class Repository extends AbstractAddressableElement implements HasXref {
     /**
      * The name of this repository
      */
-    private StringWithCustomTags name;
+    private StringWithCustomFacts name;
 
     /**
      * The record ID number
      */
-    private StringWithCustomTags recIdNumber;
+    private StringWithCustomFacts recIdNumber;
 
     /**
      * The user references for this submitter
@@ -85,10 +85,10 @@ public class Repository extends AbstractAddressableElement implements HasXref {
             changeDate = new ChangeDate(other.changeDate);
         }
         if (other.name != null) {
-            name = new StringWithCustomTags(other.name);
+            name = new StringWithCustomFacts(other.name);
         }
         if (other.recIdNumber != null) {
-            recIdNumber = new StringWithCustomTags(other.recIdNumber);
+            recIdNumber = new StringWithCustomFacts(other.recIdNumber);
         }
         if (other.userReferences != null) {
             userReferences = new ArrayList<>();
@@ -166,7 +166,7 @@ public class Repository extends AbstractAddressableElement implements HasXref {
      *
      * @return the name
      */
-    public StringWithCustomTags getName() {
+    public StringWithCustomFacts getName() {
         return name;
     }
 
@@ -175,7 +175,7 @@ public class Repository extends AbstractAddressableElement implements HasXref {
      *
      * @return the rec id number
      */
-    public StringWithCustomTags getRecIdNumber() {
+    public StringWithCustomFacts getRecIdNumber() {
         return recIdNumber;
     }
 
@@ -244,7 +244,7 @@ public class Repository extends AbstractAddressableElement implements HasXref {
      *            the new name
      */
     public void setName(String name) {
-        this.name = name == null ? null : new StringWithCustomTags(name);
+        this.name = name == null ? null : new StringWithCustomFacts(name);
     }
 
     /**
@@ -253,7 +253,7 @@ public class Repository extends AbstractAddressableElement implements HasXref {
      * @param name
      *            the new name
      */
-    public void setName(StringWithCustomTags name) {
+    public void setName(StringWithCustomFacts name) {
         this.name = name;
     }
 
@@ -264,7 +264,7 @@ public class Repository extends AbstractAddressableElement implements HasXref {
      *            the new rec id number
      */
     public void setRecIdNumber(String recIdNumber) {
-        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomTags(recIdNumber);
+        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomFacts(recIdNumber);
     }
 
     /**
@@ -273,7 +273,7 @@ public class Repository extends AbstractAddressableElement implements HasXref {
      * @param recIdNumber
      *            the new rec id number
      */
-    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+    public void setRecIdNumber(StringWithCustomFacts recIdNumber) {
         this.recIdNumber = recIdNumber;
     }
 

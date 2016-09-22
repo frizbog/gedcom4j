@@ -75,7 +75,7 @@ public class FamilySpouseCopyTest extends AbstractCopyTest {
         k.setXref("@I3@");
         f.getChildren(true).add(k);
         orig.setFamily(f);
-        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getCustomFacts(true).add(getTestCustomFact());
         orig.getNotes(true).add(getTestNote());
 
         FamilySpouse copy = new FamilySpouse(orig);

@@ -35,14 +35,14 @@ import org.gedcom4j.model.FileReference;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Note;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.UserReference;
 
 /**
+ * A parser for MULTIMEDIA_RECORD structures into {@link Multimedia} objects
+ * 
  * @author frizbog
- *
  */
-class MultimediaRecordParser extends AbstractParser<Multimedia> {
+class MultimediaParser extends AbstractParser<Multimedia> {
 
     /**
      * Constructor
@@ -54,7 +54,7 @@ class MultimediaRecordParser extends AbstractParser<Multimedia> {
      * @param loadInto
      *            the object we are loading data into
      */
-    MultimediaRecordParser(GedcomParser gedcomParser, StringTree stringTree, Multimedia loadInto) {
+    MultimediaParser(GedcomParser gedcomParser, StringTree stringTree, Multimedia loadInto) {
         super(gedcomParser, stringTree, loadInto);
     }
 
@@ -68,6 +68,7 @@ class MultimediaRecordParser extends AbstractParser<Multimedia> {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.FILE.equalsText(ch.getTag())) {
                     fileTagCount++;
+                    break;
                 }
             }
         }
@@ -102,9 +103,9 @@ class MultimediaRecordParser extends AbstractParser<Multimedia> {
         } else {
             for (StringTree ch : obje.getChildren()) {
                 if (Tag.FORM.equalsText(ch.getTag())) {
-                    loadInto.setEmbeddedMediaFormat(new StringWithCustomTags(ch));
+                    loadInto.setEmbeddedMediaFormat(parseStringWithCustomFacts(ch));
                 } else if (Tag.TITLE.equalsText(ch.getTag())) {
-                    loadInto.setEmbeddedTitle(new StringWithCustomTags(ch));
+                    loadInto.setEmbeddedTitle(parseStringWithCustomFacts(ch));
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
                     List<Note> notes = loadInto.getNotes(true);
                     new NoteListParser(gedcomParser, ch, notes).parse();
@@ -130,7 +131,7 @@ class MultimediaRecordParser extends AbstractParser<Multimedia> {
                     loadInto.getUserReferences(true).add(u);
                     new UserReferenceParser(gedcomParser, ch, u).parse();
                 } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
-                    loadInto.setRecIdNumber(new StringWithCustomTags(ch));
+                    loadInto.setRecIdNumber(parseStringWithCustomFacts(ch));
                 } else if (Tag.CHANGED_DATETIME.equalsText(ch.getTag())) {
                     ChangeDate changeDate = new ChangeDate();
                     loadInto.setChangeDate(changeDate);
@@ -169,7 +170,7 @@ class MultimediaRecordParser extends AbstractParser<Multimedia> {
                     m.getUserReferences(true).add(u);
                     new UserReferenceParser(gedcomParser, ch, u).parse();
                 } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
-                    m.setRecIdNumber(new StringWithCustomTags(ch));
+                    m.setRecIdNumber(parseStringWithCustomFacts(ch));
                 } else if (Tag.CHANGED_DATETIME.equalsText(ch.getTag())) {
                     ChangeDate changeDate = new ChangeDate();
                     m.setChangeDate(changeDate);

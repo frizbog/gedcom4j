@@ -71,7 +71,7 @@ public class Source extends AbstractNotesElement implements HasXref {
     /**
      * The record ID number
      */
-    private StringWithCustomTags recIdNumber;
+    private StringWithCustomFacts recIdNumber;
 
     /**
      * A repository Citation
@@ -81,7 +81,7 @@ public class Source extends AbstractNotesElement implements HasXref {
     /**
      * Who filed the source
      */
-    private StringWithCustomTags sourceFiledBy;
+    private StringWithCustomFacts sourceFiledBy;
 
     /**
      * Text from the source
@@ -136,13 +136,13 @@ public class Source extends AbstractNotesElement implements HasXref {
         }
 
         if (other.recIdNumber != null) {
-            recIdNumber = new StringWithCustomTags(other.recIdNumber);
+            recIdNumber = new StringWithCustomFacts(other.recIdNumber);
         }
         if (other.repositoryCitation != null) {
             repositoryCitation = new RepositoryCitation(other.repositoryCitation);
         }
         if (other.sourceFiledBy != null) {
-            sourceFiledBy = new StringWithCustomTags(other.sourceFiledBy);
+            sourceFiledBy = new StringWithCustomFacts(other.sourceFiledBy);
         }
         if (other.sourceText != null) {
             sourceText = new ArrayList<>(other.sourceText);
@@ -367,7 +367,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      *
      * @return the rec id number
      */
-    public StringWithCustomTags getRecIdNumber() {
+    public StringWithCustomFacts getRecIdNumber() {
         return recIdNumber;
     }
 
@@ -385,7 +385,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      *
      * @return the source filed by
      */
-    public StringWithCustomTags getSourceFiledBy() {
+    public StringWithCustomFacts getSourceFiledBy() {
         return sourceFiledBy;
     }
 
@@ -517,7 +517,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      *            the new rec id number
      */
     public void setRecIdNumber(String recIdNumber) {
-        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomTags(recIdNumber);
+        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomFacts(recIdNumber);
     }
 
     /**
@@ -526,7 +526,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      * @param recIdNumber
      *            the new rec id number
      */
-    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+    public void setRecIdNumber(StringWithCustomFacts recIdNumber) {
         this.recIdNumber = recIdNumber;
     }
 
@@ -547,7 +547,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      *            the new source filed by
      */
     public void setSourceFiledBy(String sourceFiledBy) {
-        this.sourceFiledBy = sourceFiledBy == null ? null : new StringWithCustomTags(sourceFiledBy);
+        this.sourceFiledBy = sourceFiledBy == null ? null : new StringWithCustomFacts(sourceFiledBy);
     }
 
     /**
@@ -556,7 +556,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      * @param sourceFiledBy
      *            the new source filed by
      */
-    public void setSourceFiledBy(StringWithCustomTags sourceFiledBy) {
+    public void setSourceFiledBy(StringWithCustomFacts sourceFiledBy) {
         this.sourceFiledBy = sourceFiledBy;
     }
 
@@ -642,9 +642,9 @@ public class Source extends AbstractNotesElement implements HasXref {
             builder.append(xref);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
+        if (getCustomFacts() != null) {
             builder.append("customTags=");
-            builder.append(getCustomTags());
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

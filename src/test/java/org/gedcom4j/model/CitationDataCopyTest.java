@@ -73,7 +73,7 @@ public class CitationDataCopyTest extends AbstractCopyTest {
         ls.add("Line 2");
         ls.add("Line 5 (no 3!)");
         orig.getSourceText(true).add(ls);
-        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getCustomFacts(true).add(getTestCustomFact());
 
         CitationData copy = new CitationData(orig);
         assertEquals(orig, copy);

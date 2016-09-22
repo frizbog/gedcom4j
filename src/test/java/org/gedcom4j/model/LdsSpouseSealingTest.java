@@ -55,24 +55,24 @@ public class LdsSpouseSealingTest {
         l2.getCitations(true).add(new CitationWithoutSource());
         assertEquals(l1, l2);
 
-        l1.getCustomTags(true).add(new StringTree());
+        l1.getCustomFacts(true).add(new CustomFact("_FOO"));
         assertFalse(l1.equals(l2));
-        l2.getCustomTags(true).add(new StringTree());
+        l2.getCustomFacts(true).add(new CustomFact("_FOO"));
         assertEquals(l1, l2);
 
-        l1.date = new StringWithCustomTags("Frying Pan");
+        l1.date = new StringWithCustomFacts("Frying Pan");
         assertFalse(l1.equals(l2));
-        l2.date = new StringWithCustomTags("Frying Pan");
+        l2.date = new StringWithCustomFacts("Frying Pan");
         assertEquals(l1, l2);
 
-        l1.place = new StringWithCustomTags("Howdy");
+        l1.place = new StringWithCustomFacts("Howdy");
         assertFalse(l1.equals(l2));
-        l2.place = new StringWithCustomTags("Howdy");
+        l2.place = new StringWithCustomFacts("Howdy");
         assertEquals(l1, l2);
 
-        l1.status = new StringWithCustomTags("Test");
+        l1.status = new StringWithCustomFacts("Test");
         assertFalse(l1.equals(l2));
-        l2.status = new StringWithCustomTags("Test");
+        l2.status = new StringWithCustomFacts("Test");
         assertEquals(l1, l2);
 
     }
@@ -92,24 +92,24 @@ public class LdsSpouseSealingTest {
         l2.getCitations(true).add(new CitationWithoutSource());
         assertEquals(l1.hashCode(), l2.hashCode());
 
-        l1.getCustomTags(true).add(new StringTree());
+        l1.getCustomFacts(true).add(new CustomFact("_FOO"));
         assertFalse(l1.hashCode() == l2.hashCode());
-        l2.getCustomTags(true).add(new StringTree());
+        l2.getCustomFacts(true).add(new CustomFact("_FOO"));
         assertEquals(l1.hashCode(), l2.hashCode());
 
-        l1.date = new StringWithCustomTags("Frying Pan");
+        l1.date = new StringWithCustomFacts("Frying Pan");
         assertFalse(l1.hashCode() == l2.hashCode());
-        l2.date = new StringWithCustomTags("Frying Pan");
+        l2.date = new StringWithCustomFacts("Frying Pan");
         assertEquals(l1.hashCode(), l2.hashCode());
 
-        l1.place = new StringWithCustomTags("Howdy");
+        l1.place = new StringWithCustomFacts("Howdy");
         assertFalse(l1.hashCode() == l2.hashCode());
-        l2.place = new StringWithCustomTags("Howdy");
+        l2.place = new StringWithCustomFacts("Howdy");
         assertEquals(l1.hashCode(), l2.hashCode());
 
-        l1.status = new StringWithCustomTags("Test");
+        l1.status = new StringWithCustomFacts("Test");
         assertFalse(l1.hashCode() == l2.hashCode());
-        l2.status = new StringWithCustomTags("Test");
+        l2.status = new StringWithCustomFacts("Test");
         assertEquals(l1.hashCode(), l2.hashCode());
     }
 
@@ -122,13 +122,13 @@ public class LdsSpouseSealingTest {
         assertEquals("LdsSpouseSealing []", l.toString());
 
         l.getCitations(true).add(new CitationWithoutSource());
-        l.getCustomTags(true).add(new StringTree());
-        l.date = new StringWithCustomTags("Frying Pan");
-        l.place = new StringWithCustomTags("Howdy");
-        l.status = new StringWithCustomTags("Test");
+        l.getCustomFacts(true).add(new CustomFact("_FOO"));
+        l.date = new StringWithCustomFacts("Frying Pan");
+        l.place = new StringWithCustomFacts("Howdy");
+        l.status = new StringWithCustomFacts("Test");
 
         assertEquals("LdsSpouseSealing [citations=[CitationWithoutSource []], date=Frying Pan, place=Howdy, "
-                + "status=Test, customTags=[Line 0: 0 (null tag) (null value)]]", l.toString());
+                + "status=Test, customTags=[CustomFact [tag=_FOO, ]]]", l.toString());
     }
 
 }

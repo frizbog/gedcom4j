@@ -43,7 +43,6 @@ import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Note;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.UserReference;
 import org.gedcom4j.model.enumerations.IndividualAttributeType;
 import org.gedcom4j.model.enumerations.IndividualEventType;
@@ -83,29 +82,29 @@ class IndividualParser extends AbstractParser<Individual> {
                     loadInto.getNames(true).add(pn);
                     new PersonalNameParser(gedcomParser, ch, pn).parse();
                 } else if (Tag.SEX.equalsText(ch.getTag())) {
-                    loadInto.setSex(new StringWithCustomTags(ch));
+                    loadInto.setSex(parseStringWithCustomFacts(ch));
                 } else if (Tag.ADDRESS.equalsText(ch.getTag())) {
                     Address address = new Address();
                     loadInto.setAddress(address);
                     new AddressParser(gedcomParser, ch, address).parse();
                 } else if (Tag.PHONE.equalsText(ch.getTag())) {
-                    loadInto.getPhoneNumbers(true).add(new StringWithCustomTags(ch));
+                    loadInto.getPhoneNumbers(true).add(parseStringWithCustomFacts(ch));
                 } else if (Tag.WEB_ADDRESS.equalsText(ch.getTag())) {
-                    loadInto.getWwwUrls(true).add(new StringWithCustomTags(ch));
+                    loadInto.getWwwUrls(true).add(parseStringWithCustomFacts(ch));
                     if (g55()) {
                         addWarning("GEDCOM version is 5.5 but WWW URL was specified for individual " + loadInto.getXref()
                                 + " on line " + ch.getLineNum() + ", which is a GEDCOM 5.5.1 feature."
                                 + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.FAX.equalsText(ch.getTag())) {
-                    loadInto.getFaxNumbers(true).add(new StringWithCustomTags(ch));
+                    loadInto.getFaxNumbers(true).add(parseStringWithCustomFacts(ch));
                     if (g55()) {
                         addWarning("GEDCOM version is 5.5 but fax was specified for individual " + loadInto.getXref() + "on line "
                                 + ch.getLineNum() + ", which is a GEDCOM 5.5.1 feature."
                                 + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.EMAIL.equalsText(ch.getTag())) {
-                    loadInto.getEmails(true).add(new StringWithCustomTags(ch));
+                    loadInto.getEmails(true).add(parseStringWithCustomFacts(ch));
                     if (g55()) {
                         addWarning("GEDCOM version is 5.5 but email was specified for individual " + loadInto.getXref()
                                 + " on line " + ch.getLineNum() + ", which is a GEDCOM 5.5.1 feature."
@@ -131,19 +130,19 @@ class IndividualParser extends AbstractParser<Individual> {
                     loadInto.setChangeDate(changeDate);
                     new ChangeDateParser(gedcomParser, ch, changeDate).parse();
                 } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
-                    loadInto.setRecIdNumber(new StringWithCustomTags(ch));
+                    loadInto.setRecIdNumber(parseStringWithCustomFacts(ch));
                 } else if (Tag.REGISTRATION_FILE_NUMBER.equalsText(ch.getTag())) {
-                    loadInto.setPermanentRecFileNumber(new StringWithCustomTags(ch));
+                    loadInto.setPermanentRecFileNumber(parseStringWithCustomFacts(ch));
                 } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
                     List<Multimedia> multimedia = loadInto.getMultimedia(true);
                     new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
                 } else if (Tag.RESTRICTION.equalsText(ch.getTag())) {
-                    loadInto.setRestrictionNotice(new StringWithCustomTags(ch));
+                    loadInto.setRestrictionNotice(parseStringWithCustomFacts(ch));
                 } else if (Tag.SOURCE.equalsText(ch.getTag())) {
                     List<AbstractCitation> citations = loadInto.getCitations(true);
                     new CitationListParser(gedcomParser, ch, citations).parse();
                 } else if (Tag.ALIAS.equalsText(ch.getTag())) {
-                    loadInto.getAliases(true).add(new StringWithCustomTags(ch));
+                    loadInto.getAliases(true).add(parseStringWithCustomFacts(ch));
                 } else if (Tag.FAMILY_WHERE_SPOUSE.equalsText(ch.getTag())) {
                     loadFamilyWhereSpouse(ch, loadInto.getFamiliesWhereSpouse(true));
                 } else if (Tag.FAMILY_WHERE_CHILD.equalsText(ch.getTag())) {
@@ -159,7 +158,7 @@ class IndividualParser extends AbstractParser<Individual> {
                 } else if (Tag.DESCENDANT_INTEREST.equalsText(ch.getTag())) {
                     loadInto.getDescendantInterest(true).add(getSubmitter(ch.getValue()));
                 } else if (Tag.ANCESTRAL_FILE_NUMBER.equalsText(ch.getTag())) {
-                    loadInto.setAncestralFileNumber(new StringWithCustomTags(ch));
+                    loadInto.setAncestralFileNumber(parseStringWithCustomFacts(ch));
                 } else if (Tag.REFERENCE.equalsText(ch.getTag())) {
                     UserReference u = new UserReference();
                     loadInto.getUserReferences(true).add(u);

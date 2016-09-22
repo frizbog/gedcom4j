@@ -45,7 +45,7 @@ public class CitationData extends AbstractElement {
     /**
      * The date of the entry
      */
-    private StringWithCustomTags entryDate;
+    private StringWithCustomFacts entryDate;
 
     /**
      * The source text - one or more lines of it
@@ -66,7 +66,7 @@ public class CitationData extends AbstractElement {
     public CitationData(CitationData other) {
         super(other);
         if (other.entryDate != null) {
-            entryDate = new StringWithCustomTags(other.entryDate);
+            entryDate = new StringWithCustomFacts(other.entryDate);
         }
         if (other.sourceText != null) {
             sourceText = new ArrayList<>();
@@ -113,7 +113,7 @@ public class CitationData extends AbstractElement {
      *
      * @return the entry date
      */
-    public StringWithCustomTags getEntryDate() {
+    public StringWithCustomFacts getEntryDate() {
         return entryDate;
     }
 
@@ -159,7 +159,7 @@ public class CitationData extends AbstractElement {
      *            the new entry date
      */
     public void setEntryDate(String entryDate) {
-        this.entryDate = entryDate == null ? null : new StringWithCustomTags(entryDate);
+        this.entryDate = entryDate == null ? null : new StringWithCustomFacts(entryDate);
     }
 
     /**
@@ -168,7 +168,7 @@ public class CitationData extends AbstractElement {
      * @param entryDate
      *            the new entry date
      */
-    public void setEntryDate(StringWithCustomTags entryDate) {
+    public void setEntryDate(StringWithCustomFacts entryDate) {
         this.entryDate = entryDate;
     }
 
@@ -189,9 +189,9 @@ public class CitationData extends AbstractElement {
             builder.append(sourceText);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
+        if (getCustomFacts() != null) {
             builder.append("customTags=");
-            builder.append(getCustomTags());
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

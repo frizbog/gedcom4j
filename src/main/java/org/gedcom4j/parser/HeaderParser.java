@@ -31,7 +31,6 @@ import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.SourceSystem;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * A parser for {@link Header} objects
@@ -54,6 +53,9 @@ class HeaderParser extends AbstractParser<Header> {
         super(gedcomParser, stringTree, loadInto);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     void parse() {
         if (stringTree.getChildren() != null) {
@@ -63,24 +65,24 @@ class HeaderParser extends AbstractParser<Header> {
                     loadInto.setSourceSystem(sourceSystem);
                     new SourceSystemParser(gedcomParser, ch, sourceSystem).parse();
                 } else if (Tag.DESTINATION.equalsText(ch.getTag())) {
-                    loadInto.setDestinationSystem(new StringWithCustomTags(ch));
+                    loadInto.setDestinationSystem(parseStringWithCustomFacts(ch));
                 } else if (Tag.DATE.equalsText(ch.getTag())) {
-                    loadInto.setDate(new StringWithCustomTags(ch));
+                    loadInto.setDate(parseStringWithCustomFacts(ch));
                     // one optional time subitem is the only possibility here
                     if (ch.getChildren() != null && !ch.getChildren().isEmpty()) {
-                        loadInto.setTime(new StringWithCustomTags(ch.getChildren().get(0)));
+                        loadInto.setTime(parseStringWithCustomFacts(ch.getChildren().get(0)));
                     }
                 } else if (Tag.CHARACTER_SET.equalsText(ch.getTag())) {
                     loadInto.setCharacterSet(new CharacterSet());
-                    loadInto.getCharacterSet().setCharacterSetName(new StringWithCustomTags(ch));
+                    loadInto.getCharacterSet().setCharacterSetName(parseStringWithCustomFacts(ch));
                     // one optional version subitem is the only possibility here
                     if (ch.getChildren() != null && !ch.getChildren().isEmpty()) {
-                        loadInto.getCharacterSet().setVersionNum(new StringWithCustomTags(ch.getChildren().get(0)));
+                        loadInto.getCharacterSet().setVersionNum(parseStringWithCustomFacts(ch.getChildren().get(0)));
                     }
                 } else if (Tag.SUBMITTER.equalsText(ch.getTag())) {
                     loadInto.setSubmitter(getSubmitter(ch.getValue()));
                 } else if (Tag.FILE.equalsText(ch.getTag())) {
-                    loadInto.setFileName(new StringWithCustomTags(ch));
+                    loadInto.setFileName(parseStringWithCustomFacts(ch));
                 } else if (Tag.GEDCOM_VERSION.equalsText(ch.getTag())) {
                     GedcomVersion gedcomVersion = new GedcomVersion();
                     loadInto.setGedcomVersion(gedcomVersion);
@@ -102,9 +104,9 @@ class HeaderParser extends AbstractParser<Header> {
                         loadInto.setSubmission(gedcomParser.getGedcom().getSubmission());
                     }
                 } else if (Tag.LANGUAGE.equalsText(ch.getTag())) {
-                    loadInto.setLanguage(new StringWithCustomTags(ch));
+                    loadInto.setLanguage(parseStringWithCustomFacts(ch));
                 } else if (Tag.PLACE.equalsText(ch.getTag())) {
-                    loadInto.setPlaceHierarchy(new StringWithCustomTags(ch.getChildren().get(0)));
+                    loadInto.setPlaceHierarchy(parseStringWithCustomFacts(ch.getChildren().get(0)));
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
                     new NoteListParser(gedcomParser, ch, loadInto.getNotes(true)).parse();
                 } else {

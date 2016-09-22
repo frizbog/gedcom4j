@@ -31,8 +31,8 @@ import static org.junit.Assert.assertEquals;
 import java.io.ByteArrayOutputStream;
 
 import org.gedcom4j.exception.GedcomWriterException;
+import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Gedcom;
-import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.validate.Validator.Finding;
@@ -63,31 +63,25 @@ public class Issue89Test {
         g.getSubmitters().put(s.getXref(), s);
         g.getHeader().setSubmitter(s);
 
-        StringTree sct = new StringTree();
-        sct.setXref("@CT001@");
-        sct.setTag("_CUSTSB");
-        sct.setValue("Custom Submitter Tag");
-        s.getCustomTags(true).add(sct);
+        CustomFact cf = new CustomFact("_CUSTSB");
+        cf.setXref("@CT001@");
+        cf.setDescription("Custom Submitter Tag");
+        s.getCustomFacts(true).add(cf);
 
-        StringTree nct = new StringTree();
-        /* Note the level value gets ignored when writing */
-        nct.setLevel(999);
+        CustomFact cf2 = new CustomFact("_CUSTNM");
         // No ID on this tag
-        nct.setTag("_CUSTNM");
-        nct.setValue("Custom Name Tag");
-        s.getName().getCustomTags(true).add(nct);
+        cf2.setDescription("Custom Name Tag");
+        s.getName().getCustomFacts(true).add(cf2);
 
-        StringTree hct = new StringTree();
-        hct.setXref("@CT003@");
-        hct.setTag("_CUSTHD");
-        hct.setValue("Custom Header Tag");
-        g.getHeader().getCustomTags(true).add(hct);
+        CustomFact cf3 = new CustomFact("_CUSTHD");
+        cf3.setXref("@CT003@");
+        cf3.setDescription("Custom Header Tag");
+        g.getHeader().getCustomFacts(true).add(cf3);
 
-        StringTree hct2 = new StringTree();
-        hct2.setXref("@CT004@");
-        hct2.setTag("_CUSTHD2");
-        hct2.setValue("Custom Inner Tag inside Custom Header Tag");
-        hct.getChildren(true).add(hct2);
+        CustomFact cf4 = new CustomFact("_CUSTHD2");
+        cf4.setXref("@CT004@");
+        cf4.setDescription("Custom Inner Tag inside Custom Header Tag");
+        cf3.getCustomFacts(true).add(cf4);
 
         GedcomWriter gw = new GedcomWriter(g);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

@@ -106,7 +106,7 @@ class FamilyEmitter extends AbstractEmitter<Collection<Family>> {
             }
             emitTagIfValueNotNull(1, "RIN", f.getAutomatedRecordId());
             new ChangeDateEmitter(baseWriter, 1, f.getChangeDate()).emit();
-            emitCustomTags(1, f.getCustomTags());
+            emitCustomTags(1, f.getCustomFacts());
         }
     }
 
@@ -151,7 +151,7 @@ class FamilyEmitter extends AbstractEmitter<Collection<Family>> {
         emitTagIfValueNotNull(level + 1, "PLAC", sealings.getPlace());
         new SourceCitationEmitter(baseWriter, level + 1, sealings.getCitations()).emit();
         new NotesEmitter(baseWriter, level + 1, sealings.getNotes()).emit();
-        emitCustomTags(level + 1, sealings.getCustomTags());
+        emitCustomTags(level + 1, sealings.getCustomFacts());
     }
 
 }

@@ -46,22 +46,22 @@ public class Address extends AbstractElement {
     /**
      * Line one of the address
      */
-    private StringWithCustomTags addr1;
+    private StringWithCustomFacts addr1;
 
     /**
      * Line two of the address
      */
-    private StringWithCustomTags addr2;
+    private StringWithCustomFacts addr2;
 
     /**
      * City
      */
-    private StringWithCustomTags city;
+    private StringWithCustomFacts city;
 
     /**
      * Country
      */
-    private StringWithCustomTags country;
+    private StringWithCustomFacts country;
 
     /**
      * The lines of the address
@@ -71,12 +71,12 @@ public class Address extends AbstractElement {
     /**
      * Postal code
      */
-    private StringWithCustomTags postalCode;
+    private StringWithCustomFacts postalCode;
 
     /**
      * State/province
      */
-    private StringWithCustomTags stateProvince;
+    private StringWithCustomFacts stateProvince;
 
     /** Default constructor */
     public Address() {
@@ -92,25 +92,25 @@ public class Address extends AbstractElement {
     public Address(Address other) {
         super(other);
         if (other.addr1 != null) {
-            addr1 = new StringWithCustomTags(other.addr1);
+            addr1 = new StringWithCustomFacts(other.addr1);
         }
         if (other.addr2 != null) {
-            addr2 = new StringWithCustomTags(other.addr2);
+            addr2 = new StringWithCustomFacts(other.addr2);
         }
         if (other.city != null) {
-            city = new StringWithCustomTags(other.city);
+            city = new StringWithCustomFacts(other.city);
         }
         if (other.country != null) {
-            country = new StringWithCustomTags(other.country);
+            country = new StringWithCustomFacts(other.country);
         }
         if (other.lines != null) {
             lines = new ArrayList<>(other.lines);
         }
         if (other.postalCode != null) {
-            postalCode = new StringWithCustomTags(other.postalCode);
+            postalCode = new StringWithCustomFacts(other.postalCode);
         }
         if (other.stateProvince != null) {
-            stateProvince = new StringWithCustomTags(other.stateProvince);
+            stateProvince = new StringWithCustomFacts(other.stateProvince);
         }
     }
 
@@ -186,7 +186,7 @@ public class Address extends AbstractElement {
      *
      * @return the addr line 1
      */
-    public StringWithCustomTags getAddr1() {
+    public StringWithCustomFacts getAddr1() {
         return addr1;
     }
 
@@ -195,7 +195,7 @@ public class Address extends AbstractElement {
      *
      * @return the addr line 2
      */
-    public StringWithCustomTags getAddr2() {
+    public StringWithCustomFacts getAddr2() {
         return addr2;
     }
 
@@ -204,7 +204,7 @@ public class Address extends AbstractElement {
      *
      * @return the city
      */
-    public StringWithCustomTags getCity() {
+    public StringWithCustomFacts getCity() {
         return city;
     }
 
@@ -213,7 +213,7 @@ public class Address extends AbstractElement {
      *
      * @return the country
      */
-    public StringWithCustomTags getCountry() {
+    public StringWithCustomFacts getCountry() {
         return country;
     }
 
@@ -246,7 +246,7 @@ public class Address extends AbstractElement {
      *
      * @return the postal code
      */
-    public StringWithCustomTags getPostalCode() {
+    public StringWithCustomFacts getPostalCode() {
         return postalCode;
     }
 
@@ -255,7 +255,7 @@ public class Address extends AbstractElement {
      *
      * @return the state province
      */
-    public StringWithCustomTags getStateProvince() {
+    public StringWithCustomFacts getStateProvince() {
         return stateProvince;
     }
 
@@ -283,7 +283,7 @@ public class Address extends AbstractElement {
      *            the new addr line 1
      */
     public void setAddr1(String addr1) {
-        this.addr1 = new StringWithCustomTags(addr1);
+        this.addr1 = new StringWithCustomFacts(addr1);
     }
 
     /**
@@ -292,7 +292,7 @@ public class Address extends AbstractElement {
      * @param addr1
      *            the new addr line 1
      */
-    public void setAddr1(StringWithCustomTags addr1) {
+    public void setAddr1(StringWithCustomFacts addr1) {
         this.addr1 = addr1;
     }
 
@@ -303,7 +303,7 @@ public class Address extends AbstractElement {
      *            the new addr line 2
      */
     public void setAddr2(String addr2) {
-        this.addr2 = new StringWithCustomTags(addr2);
+        this.addr2 = new StringWithCustomFacts(addr2);
     }
 
     /**
@@ -312,7 +312,7 @@ public class Address extends AbstractElement {
      * @param addr2
      *            the new addr line 2
      */
-    public void setAddr2(StringWithCustomTags addr2) {
+    public void setAddr2(StringWithCustomFacts addr2) {
         this.addr2 = addr2;
     }
 
@@ -323,7 +323,7 @@ public class Address extends AbstractElement {
      *            the new city
      */
     public void setCity(String city) {
-        this.city = new StringWithCustomTags(city);
+        this.city = new StringWithCustomFacts(city);
     }
 
     /**
@@ -332,7 +332,7 @@ public class Address extends AbstractElement {
      * @param city
      *            the new city
      */
-    public void setCity(StringWithCustomTags city) {
+    public void setCity(StringWithCustomFacts city) {
         this.city = city;
     }
 
@@ -343,7 +343,7 @@ public class Address extends AbstractElement {
      *            the new country
      */
     public void setCountry(String country) {
-        this.country = new StringWithCustomTags(country);
+        this.country = new StringWithCustomFacts(country);
     }
 
     /**
@@ -352,7 +352,7 @@ public class Address extends AbstractElement {
      * @param country
      *            the new country
      */
-    public void setCountry(StringWithCustomTags country) {
+    public void setCountry(StringWithCustomFacts country) {
         this.country = country;
     }
 
@@ -363,7 +363,7 @@ public class Address extends AbstractElement {
      *            the new postal code
      */
     public void setPostalCode(String postalCode) {
-        this.postalCode = new StringWithCustomTags(postalCode);
+        this.postalCode = new StringWithCustomFacts(postalCode);
     }
 
     /**
@@ -372,7 +372,7 @@ public class Address extends AbstractElement {
      * @param postalCode
      *            the new postal code
      */
-    public void setPostalCode(StringWithCustomTags postalCode) {
+    public void setPostalCode(StringWithCustomFacts postalCode) {
         this.postalCode = postalCode;
     }
 
@@ -383,7 +383,7 @@ public class Address extends AbstractElement {
      *            the new state province
      */
     public void setStateProvince(String stateProvince) {
-        this.stateProvince = new StringWithCustomTags(stateProvince);
+        this.stateProvince = new StringWithCustomFacts(stateProvince);
     }
 
     /**
@@ -392,7 +392,7 @@ public class Address extends AbstractElement {
      * @param stateProvince
      *            the new state province
      */
-    public void setStateProvince(StringWithCustomTags stateProvince) {
+    public void setStateProvince(StringWithCustomFacts stateProvince) {
         this.stateProvince = stateProvince;
     }
 
@@ -438,9 +438,9 @@ public class Address extends AbstractElement {
             builder.append(stateProvince);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
+        if (getCustomFacts() != null) {
             builder.append("customTags=");
-            builder.append(getCustomTags());
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

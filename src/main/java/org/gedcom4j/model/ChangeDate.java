@@ -40,12 +40,12 @@ public class ChangeDate extends AbstractNotesElement {
     /**
      * The date (as a string)
      */
-    private StringWithCustomTags date;
+    private StringWithCustomFacts date;
 
     /**
      * The time (as a string)
      */
-    private StringWithCustomTags time;
+    private StringWithCustomFacts time;
 
     /** Default constructor */
     public ChangeDate() {
@@ -61,10 +61,10 @@ public class ChangeDate extends AbstractNotesElement {
     public ChangeDate(ChangeDate other) {
         super(other);
         if (other.getDate() != null) {
-            date = new StringWithCustomTags(other.date);
+            date = new StringWithCustomFacts(other.date);
         }
         if (other.getTime() != null) {
-            time = new StringWithCustomTags(other.time);
+            time = new StringWithCustomFacts(other.time);
         }
     }
 
@@ -105,7 +105,7 @@ public class ChangeDate extends AbstractNotesElement {
      *
      * @return the date
      */
-    public StringWithCustomTags getDate() {
+    public StringWithCustomFacts getDate() {
         return date;
     }
 
@@ -114,7 +114,7 @@ public class ChangeDate extends AbstractNotesElement {
      *
      * @return the time
      */
-    public StringWithCustomTags getTime() {
+    public StringWithCustomFacts getTime() {
         return time;
     }
 
@@ -137,7 +137,7 @@ public class ChangeDate extends AbstractNotesElement {
      *            the new date
      */
     public void setDate(String date) {
-        this.date = date == null ? null : new StringWithCustomTags(date);
+        this.date = date == null ? null : new StringWithCustomFacts(date);
     }
 
     /**
@@ -146,7 +146,7 @@ public class ChangeDate extends AbstractNotesElement {
      * @param date
      *            the new date
      */
-    public void setDate(StringWithCustomTags date) {
+    public void setDate(StringWithCustomFacts date) {
         this.date = date;
     }
 
@@ -157,7 +157,7 @@ public class ChangeDate extends AbstractNotesElement {
      *            the new time
      */
     public void setTime(String time) {
-        this.time = time == null ? null : new StringWithCustomTags(time);
+        this.time = time == null ? null : new StringWithCustomFacts(time);
     }
 
     /**
@@ -166,7 +166,7 @@ public class ChangeDate extends AbstractNotesElement {
      * @param time
      *            the new time
      */
-    public void setTime(StringWithCustomTags time) {
+    public void setTime(StringWithCustomFacts time) {
         this.time = time;
     }
 
@@ -192,9 +192,9 @@ public class ChangeDate extends AbstractNotesElement {
             builder.append(time);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
+        if (getCustomFacts() != null) {
             builder.append("customTags=");
-            builder.append(getCustomTags());
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

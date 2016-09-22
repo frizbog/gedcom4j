@@ -94,7 +94,7 @@ class SourceEmitter extends AbstractEmitter<Collection<Source>> {
             }
             emitTagIfValueNotNull(1, "RIN", s.getRecIdNumber());
             new ChangeDateEmitter(baseWriter, 1, s.getChangeDate()).emit();
-            emitCustomTags(1, s.getCustomTags());
+            emitCustomTags(1, s.getCustomFacts());
         }
     }
 
@@ -121,7 +121,7 @@ class SourceEmitter extends AbstractEmitter<Collection<Source>> {
                     emitTagIfValueNotNull(level + 2, "MEDI", scn.getMediaType());
                 }
             }
-            emitCustomTags(level + 1, repositoryCitation.getCustomTags());
+            emitCustomTags(level + 1, repositoryCitation.getCustomFacts());
         }
 
     }

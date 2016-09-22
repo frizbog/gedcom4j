@@ -79,7 +79,7 @@ public class CitationWithSourceCopyTest extends AbstractCopyTest {
         ls.add("line 1");
         ls.add("line 2");
         cd.getSourceText(true).add(ls);
-        cd.getCustomTags(true).add(getTestCustomTags());
+        cd.getCustomFacts(true).add(getTestCustomFact());
         cd.setEntryDate("30 Jun 1998");
         orig.getData(true).add(cd);
 

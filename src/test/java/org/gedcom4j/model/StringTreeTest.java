@@ -151,29 +151,29 @@ public class StringTreeTest {
         Gedcom g = gp.getGedcom();
 
         for (Family f : g.getFamilies().values()) {
-            assertNotNull(f.getCustomTags(true).toString());
-            assertFalse(0 == f.getCustomTags().hashCode());
+            assertNotNull(f.getCustomFacts(true).toString());
+            assertFalse(0 == f.getCustomFacts().hashCode());
 
             assertNotNull(f.toString());
             assertFalse(0 == f.hashCode());
         }
         for (Individual i : g.getIndividuals().values()) {
-            assertNotNull(i.getCustomTags(true).toString());
-            assertFalse(0 == i.getCustomTags().hashCode());
+            assertNotNull(i.getCustomFacts(true).toString());
+            assertFalse(0 == i.getCustomFacts().hashCode());
 
             assertNotNull(i.toString());
             assertFalse(0 == i.hashCode());
         }
         for (Multimedia m : g.getMultimedia().values()) {
-            assertNotNull(m.getCustomTags(true).toString());
-            assertFalse(0 == m.getCustomTags().hashCode());
+            assertNotNull(m.getCustomFacts(true).toString());
+            assertFalse(0 == m.getCustomFacts().hashCode());
 
             assertNotNull(m.toString());
             assertFalse(0 == m.hashCode());
         }
         for (Note n : g.getNotes().values()) {
-            assertNotNull(n.getCustomTags(true).toString());
-            assertFalse(0 == n.getCustomTags().hashCode());
+            assertNotNull(n.getCustomFacts(true).toString());
+            assertFalse(0 == n.getCustomFacts().hashCode());
 
             assertNotNull(n.toString());
             assertFalse(0 == n.hashCode());

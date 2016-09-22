@@ -35,7 +35,7 @@ import org.gedcom4j.model.Corporation;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.SourceSystem;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.TestHelper;
 import org.gedcom4j.model.enumerations.SupportedVersion;
@@ -68,7 +68,7 @@ public class GedcomWriter551WwwTest {
         assertTrue(gw.lines.isEmpty());
 
         // WWW urls
-        c.getWwwUrls(true).add(new StringWithCustomTags("Not allowed under 5.5"));
+        c.getWwwUrls(true).add(new StringWithCustomFacts("Not allowed under 5.5"));
 
         // Switch to 5.5.1, all should be fine
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
@@ -96,7 +96,7 @@ public class GedcomWriter551WwwTest {
         assertTrue(gw.lines.isEmpty());
 
         // WWW urls
-        c.getWwwUrls(true).add(new StringWithCustomTags("Not allowed under 5.5"));
+        c.getWwwUrls(true).add(new StringWithCustomFacts("Not allowed under 5.5"));
         gw.write("tmp/delete-me.ged");
     }
 
@@ -143,7 +143,7 @@ public class GedcomWriter551WwwTest {
         assertTrue(gw.lines.isEmpty());
 
         // WWW urls
-        r.getWwwUrls(true).add(new StringWithCustomTags("Not allowed under 5.5"));
+        r.getWwwUrls(true).add(new StringWithCustomFacts("Not allowed under 5.5"));
 
         // Switch to 5.5.1, all should be fine
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
@@ -171,7 +171,7 @@ public class GedcomWriter551WwwTest {
         assertTrue(gw.lines.isEmpty());
 
         // WWW urls
-        r.getWwwUrls(true).add(new StringWithCustomTags("Not allowed under 5.5"));
+        r.getWwwUrls(true).add(new StringWithCustomFacts("Not allowed under 5.5"));
         gw.write("tmp/delete-me.ged");
     }
 
@@ -219,7 +219,7 @@ public class GedcomWriter551WwwTest {
         assertTrue(gw.lines.isEmpty());
 
         // WWW urls
-        s.getWwwUrls(true).add(new StringWithCustomTags("Not allowed under 5.5"));
+        s.getWwwUrls(true).add(new StringWithCustomFacts("Not allowed under 5.5"));
 
         // Switch to 5.5.1, all should be fine
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
@@ -247,7 +247,7 @@ public class GedcomWriter551WwwTest {
         assertTrue(gw.lines.isEmpty());
 
         // WWW urls
-        s.getWwwUrls(true).add(new StringWithCustomTags("Not allowed under 5.5"));
+        s.getWwwUrls(true).add(new StringWithCustomFacts("Not allowed under 5.5"));
         gw.write("tmp/delete-me.ged");
     }
 

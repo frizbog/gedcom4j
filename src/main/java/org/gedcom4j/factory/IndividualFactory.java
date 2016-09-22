@@ -35,7 +35,7 @@ import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.Place;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.enumerations.IndividualEventType;
 
 /**
@@ -115,7 +115,7 @@ public class IndividualFactory {
 
         // Set sex
         if (sex != null) {
-            result.setSex(new StringWithCustomTags(sex.getCode()));
+            result.setSex(new StringWithCustomFacts(sex.getCode()));
         }
 
         // Set name
@@ -136,7 +136,7 @@ public class IndividualFactory {
             IndividualEvent b = new IndividualEvent();
             b.setType(IndividualEventType.BIRTH);
             if (birthDateString != null) {
-                b.setDate(new StringWithCustomTags(birthDateString));
+                b.setDate(new StringWithCustomFacts(birthDateString));
             }
             if (birthPlace != null) {
                 Place place = new Place();
@@ -151,7 +151,7 @@ public class IndividualFactory {
             IndividualEvent b = new IndividualEvent();
             b.setType(IndividualEventType.DEATH);
             if (deathDateString != null) {
-                b.setDate(new StringWithCustomTags(deathDateString));
+                b.setDate(new StringWithCustomFacts(deathDateString));
             }
             if (deathPlace != null) {
                 Place place = new Place();

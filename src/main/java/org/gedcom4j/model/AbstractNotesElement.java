@@ -139,9 +139,9 @@ public abstract class AbstractNotesElement extends AbstractElement implements Ha
             builder.append(notes);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
+        if (getCustomFacts() != null) {
             builder.append("customTags=");
-            builder.append(getCustomTags());
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

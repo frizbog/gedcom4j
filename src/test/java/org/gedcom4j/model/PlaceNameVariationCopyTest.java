@@ -66,7 +66,7 @@ public class PlaceNameVariationCopyTest extends AbstractCopyTest {
         PlaceNameVariation orig = new PlaceNameVariation();
         orig.setVariation("FryingPan");
         orig.setVariationType("VWXYZ");
-        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getCustomFacts(true).add(getTestCustomFact());
 
         PlaceNameVariation copy = new PlaceNameVariation(orig);
         assertEquals(orig, copy);

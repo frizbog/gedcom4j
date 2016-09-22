@@ -72,7 +72,7 @@ public class PersonalNameCopyTest extends AbstractCopyTest {
         orig.setSuffix("III");
         orig.setSurname("Op");
         orig.setSurnamePrefix("[]");
-        orig.getSurnamePrefix().getCustomTags(true).add(getTestCustomTags());
+        orig.getSurnamePrefix().getCustomFacts(true).add(getTestCustomFact());
         orig.getCitations(true).add(getTestCitation());
 
         PersonalName copy = new PersonalName(orig);
@@ -80,7 +80,7 @@ public class PersonalNameCopyTest extends AbstractCopyTest {
         assertNotSame(orig, copy);
         assertEquals(orig.toString(), copy.toString());
 
-        orig.getSurnamePrefix().getCustomTags().clear();
+        orig.getSurnamePrefix().getCustomFacts().clear();
         assertFalse("Copy shouldn't match if original changes", orig.equals(copy));
     }
 

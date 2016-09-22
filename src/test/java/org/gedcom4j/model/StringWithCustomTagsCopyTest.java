@@ -32,28 +32,28 @@ import static org.junit.Assert.assertNotSame;
 import org.junit.Test;
 
 /**
- * Test copy constructor for {@link StringWithCustomTags}
+ * Test copy constructor for {@link StringWithCustomFacts}
  * 
  * @author frizbog
  */
 public class StringWithCustomTagsCopyTest extends AbstractCopyTest {
 
     /**
-     * Test copying a null {@link StringWithCustomTags}, which should never work
+     * Test copying a null {@link StringWithCustomFacts}, which should never work
      */
     @SuppressWarnings("unused")
     @Test(expected = NullPointerException.class)
     public void testCopyNull() {
-        new StringWithCustomTags((StringWithCustomTags) null);
+        new StringWithCustomFacts((StringWithCustomFacts) null);
     }
 
     /**
-     * Test the simplest possible scenario - copy a new default {@link StringWithCustomTags}
+     * Test the simplest possible scenario - copy a new default {@link StringWithCustomFacts}
      */
     @Test
     public void testSimplestPossible() {
-        StringWithCustomTags orig = new StringWithCustomTags();
-        StringWithCustomTags copy = new StringWithCustomTags(orig);
+        StringWithCustomFacts orig = new StringWithCustomFacts();
+        StringWithCustomFacts copy = new StringWithCustomFacts(orig);
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
@@ -63,11 +63,12 @@ public class StringWithCustomTagsCopyTest extends AbstractCopyTest {
      */
     @Test
     public void testWithCustomTags() {
-        StringWithCustomTags orig = new StringWithCustomTags("FryingPan");
-        StringTree ct = getTestCustomTags();
-        orig.getCustomTags(true).add(ct);
+        StringWithCustomFacts orig = new StringWithCustomFacts("FryingPan");
+        CustomFact cf = getTestCustomFact();
+        cf.setDescription("UNCHANGED");
+        orig.getCustomFacts(true).add(cf);
 
-        StringWithCustomTags copy = new StringWithCustomTags(orig);
+        StringWithCustomFacts copy = new StringWithCustomFacts(orig);
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
 
@@ -75,10 +76,11 @@ public class StringWithCustomTagsCopyTest extends AbstractCopyTest {
         orig.setValue("Not a Frying Pan anymore");
         assertEquals("FryingPan", copy.getValue());
 
-        assertEquals(orig.getCustomTags().get(0), copy.getCustomTags().get(0));
-        assertEquals("_HOWDY", copy.getCustomTags().get(0).getTag());
-        ct.setTag("_CHANGED");
-        assertEquals("Copy should not change when original does", "_HOWDY", copy.getCustomTags().get(0).getTag());
+        assertEquals(orig.getCustomFacts().get(0), copy.getCustomFacts().get(0));
+        assertEquals("_HOWDY", copy.getCustomFacts().get(0).getTag());
+        cf.setDescription("CHANGED");
+        assertEquals("Copy should not change when original does", "UNCHANGED", copy.getCustomFacts().get(0).getDescription()
+                .getValue());
 
     }
 
@@ -87,8 +89,8 @@ public class StringWithCustomTagsCopyTest extends AbstractCopyTest {
      */
     @Test
     public void testWithValues() {
-        StringWithCustomTags orig = new StringWithCustomTags("FryingPan");
-        StringWithCustomTags copy = new StringWithCustomTags(orig);
+        StringWithCustomFacts orig = new StringWithCustomFacts("FryingPan");
+        StringWithCustomFacts copy = new StringWithCustomFacts(orig);
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
         assertEquals("FryingPan", copy.getValue());

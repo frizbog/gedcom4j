@@ -29,18 +29,20 @@ package org.gedcom4j.parser;
 import java.util.List;
 
 import org.gedcom4j.model.AbstractCitation;
-import org.gedcom4j.model.FamilyChild;
-import org.gedcom4j.model.LdsIndividualOrdinance;
+import org.gedcom4j.model.CustomFact;
+import org.gedcom4j.model.HasCustomFacts;
 import org.gedcom4j.model.Note;
+import org.gedcom4j.model.Place;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.enumerations.LdsIndividualOrdinanceType;
+import org.gedcom4j.model.StringWithCustomFacts;
 
 /**
- * Parser for {@link LdsIndividualOrdinance} records
+ * A Parser for custom tags. Loads custom tags into object that have a collection of {@link CustomFact} objects (i.e., implement the
+ * {@link HasCustomFacts} interface).
  * 
  * @author frizbog
  */
-class LdsIndividualOrdinanceParser extends AbstractParser<LdsIndividualOrdinance> {
+public class CustomFactParser extends AbstractParser<CustomFact> {
 
     /**
      * Constructor
@@ -52,34 +54,44 @@ class LdsIndividualOrdinanceParser extends AbstractParser<LdsIndividualOrdinance
      * @param loadInto
      *            the object we are loading data into
      */
-    LdsIndividualOrdinanceParser(GedcomParser gedcomParser, StringTree stringTree, LdsIndividualOrdinance loadInto) {
+    CustomFactParser(GedcomParser gedcomParser, StringTree stringTree, CustomFact loadInto) {
         super(gedcomParser, stringTree, loadInto);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     void parse() {
-        loadInto.setType(LdsIndividualOrdinanceType.getFromTag(stringTree.getTag()));
-        loadInto.setYNull(stringTree.getValue());
+        loadInto.setXref(stringTree.getXref());
+        loadInto.setDescription(stringTree.getValue());
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {
+                // Descriptions and continuations
                 if (Tag.DATE.equalsText(ch.getTag())) {
-                    loadInto.setDate(parseStringWithCustomFacts(ch));
+                    loadInto.setDate(ch.getValue());
                 } else if (Tag.PLACE.equalsText(ch.getTag())) {
-                    loadInto.setPlace(parseStringWithCustomFacts(ch));
-                } else if (Tag.STATUS.equalsText(ch.getTag())) {
-                    loadInto.setStatus(parseStringWithCustomFacts(ch));
-                } else if (Tag.TEMPLE.equalsText(ch.getTag())) {
-                    loadInto.setTemple(parseStringWithCustomFacts(ch));
-                } else if (Tag.SOURCE.equalsText(ch.getTag())) {
-                    List<AbstractCitation> citations = loadInto.getCitations(true);
-                    new CitationListParser(gedcomParser, ch, citations).parse();
+                    Place place = new Place();
+                    loadInto.setPlace(place);
+                    new PlaceParser(gedcomParser, ch, place).parse();
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
                     List<Note> notes = loadInto.getNotes(true);
                     new NoteListParser(gedcomParser, ch, notes).parse();
-                } else if (Tag.FAMILY_WHERE_CHILD.equalsText(ch.getTag())) {
-                    FamilyChild fc = new FamilyChild();
-                    loadInto.setFamilyWhereChild(fc);
-                    new FamilyChildParser(gedcomParser, ch, fc).parse();
+                } else if (Tag.SOURCE.equalsText(ch.getTag())) {
+                    List<AbstractCitation> citations = loadInto.getCitations(true);
+                    new CitationListParser(gedcomParser, ch, citations).parse();
+                } else if (Tag.CONCATENATION.equalsText(ch.getTag())) {
+                    if (loadInto.getDescription() == null) {
+                        loadInto.setDescription(parseStringWithCustomFacts(ch));
+                    } else {
+                        loadInto.getDescription().setValue(loadInto.getDescription().getValue() + ch.getValue());
+                    }
+                } else if (Tag.CONTINUATION.equalsText(ch.getTag())) {
+                    if (loadInto.getDescription() == null) {
+                        loadInto.setDescription(new StringWithCustomFacts(ch.getValue() == null ? "" : ch.getValue()));
+                    } else {
+                        loadInto.getDescription().setValue(loadInto.getDescription().getValue() + "\n" + ch.getValue());
+                    }
                 } else {
                     unknownTag(ch, loadInto);
                 }

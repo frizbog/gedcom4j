@@ -27,7 +27,6 @@
 package org.gedcom4j.parser;
 
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submission;
 
 /**
@@ -58,17 +57,17 @@ class SubmissionParser extends AbstractParser<Submission> {
                 if (Tag.SUBMITTER.equalsText(ch.getTag())) {
                     loadInto.setSubmitter(getSubmitter(ch.getValue()));
                 } else if (Tag.FAMILY_FILE.equalsText(ch.getTag())) {
-                    loadInto.setNameOfFamilyFile(new StringWithCustomTags(ch));
+                    loadInto.setNameOfFamilyFile(parseStringWithCustomFacts(ch));
                 } else if (Tag.TEMPLE.equalsText(ch.getTag())) {
-                    loadInto.setTempleCode(new StringWithCustomTags(ch));
+                    loadInto.setTempleCode(parseStringWithCustomFacts(ch));
                 } else if (Tag.ANCESTORS.equalsText(ch.getTag())) {
-                    loadInto.setAncestorsCount(new StringWithCustomTags(ch));
+                    loadInto.setAncestorsCount(parseStringWithCustomFacts(ch));
                 } else if (Tag.DESCENDANTS.equalsText(ch.getTag())) {
-                    loadInto.setDescendantsCount(new StringWithCustomTags(ch));
+                    loadInto.setDescendantsCount(parseStringWithCustomFacts(ch));
                 } else if (Tag.ORDINANCE_PROCESS_FLAG.equalsText(ch.getTag())) {
-                    loadInto.setOrdinanceProcessFlag(new StringWithCustomTags(ch));
+                    loadInto.setOrdinanceProcessFlag(parseStringWithCustomFacts(ch));
                 } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
-                    loadInto.setRecIdNumber(new StringWithCustomTags(ch));
+                    loadInto.setRecIdNumber(parseStringWithCustomFacts(ch));
                 } else {
                     unknownTag(ch, loadInto);
                 }

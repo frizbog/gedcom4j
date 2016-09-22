@@ -112,8 +112,8 @@ public class GedcomParserTest {
         gp.load("sample/allged.ged");
         assertTrue(gp.getErrors().isEmpty());
         assertTrue(gp.getWarnings().isEmpty());
-        assertEquals("There is exactly 1 custom tag on the file as a whole", 1, gp.getGedcom().getCustomTags().size());
-        assertEquals("There is exactly 1 custom tag in the header", 1, gp.getGedcom().getHeader().getCustomTags().size());
+        assertEquals("There is exactly 1 custom tag on the file as a whole", 1, gp.getGedcom().getCustomFacts().size());
+        assertEquals("There is exactly 1 custom tag in the header", 1, gp.getGedcom().getHeader().getCustomFacts().size());
         Gedcom g = gp.getGedcom();
         assertFalse(g.getSubmitters().isEmpty());
         Submitter submitter = g.getSubmitters().values().iterator().next();

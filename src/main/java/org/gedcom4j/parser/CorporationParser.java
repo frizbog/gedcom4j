@@ -29,7 +29,6 @@ package org.gedcom4j.parser;
 import org.gedcom4j.model.Address;
 import org.gedcom4j.model.Corporation;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * Parser for {@link Corporation} objects
@@ -62,9 +61,9 @@ class CorporationParser extends AbstractParser<Corporation> {
                     loadInto.setAddress(address);
                     new AddressParser(gedcomParser, ch, address).parse();
                 } else if (Tag.PHONE.equalsText(ch.getTag())) {
-                    loadInto.getPhoneNumbers(true).add(new StringWithCustomTags(ch));
+                    loadInto.getPhoneNumbers(true).add(parseStringWithCustomFacts(ch));
                 } else if (Tag.WEB_ADDRESS.equalsText(ch.getTag())) {
-                    loadInto.getWwwUrls(true).add(new StringWithCustomTags(ch));
+                    loadInto.getWwwUrls(true).add(parseStringWithCustomFacts(ch));
                     if (g55()) {
                         addWarning(
                                 "GEDCOM version is 5.5 but WWW URL was specified for the corporation in the source system on line "
@@ -72,7 +71,7 @@ class CorporationParser extends AbstractParser<Corporation> {
                                         + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.FAX.equalsText(ch.getTag())) {
-                    loadInto.getFaxNumbers(true).add(new StringWithCustomTags(ch));
+                    loadInto.getFaxNumbers(true).add(parseStringWithCustomFacts(ch));
                     if (g55()) {
                         addWarning(
                                 "GEDCOM version is 5.5 but fax number was specified for the corporation in the source system on line "
@@ -80,7 +79,7 @@ class CorporationParser extends AbstractParser<Corporation> {
                                         + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.EMAIL.equalsText(ch.getTag())) {
-                    loadInto.getEmails(true).add(new StringWithCustomTags(ch));
+                    loadInto.getEmails(true).add(parseStringWithCustomFacts(ch));
                     if (g55()) {
                         addWarning(
                                 "GEDCOM version is 5.5 but emails was specified for the corporation in the source system on line "

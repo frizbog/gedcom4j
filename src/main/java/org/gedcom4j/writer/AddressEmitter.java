@@ -68,7 +68,7 @@ class AddressEmitter extends AbstractEmitter<Address> {
         emitTagIfValueNotNull(startLevel + 1, "STAE", writeFrom.getStateProvince());
         emitTagIfValueNotNull(startLevel + 1, "POST", writeFrom.getPostalCode());
         emitTagIfValueNotNull(startLevel + 1, "CTRY", writeFrom.getCountry());
-        emitCustomTags(startLevel + 1, writeFrom.getCustomTags());
+        emitCustomTags(startLevel + 1, writeFrom.getCustomFacts());
     }
 
 }

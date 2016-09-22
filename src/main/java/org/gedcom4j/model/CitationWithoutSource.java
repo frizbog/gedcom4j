@@ -207,9 +207,9 @@ public class CitationWithoutSource extends AbstractCitation {
             builder.append(getNotes());
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
-            builder.append("getCustomTags()=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("getCustomFacts()=");
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

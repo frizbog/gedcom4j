@@ -104,7 +104,7 @@ public class FamilyCopyTest extends AbstractCopyTest {
         orig.setRecFileNumber("123");
         orig.setRestrictionNotice("UNRESTRICTED");
         orig.getCitations(true).add(getTestCitation());
-        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getCustomFacts(true).add(getTestCustomFact());
         FamilyEvent e = new FamilyEvent();
         e.setType(FamilyEventType.ANNULMENT);
         e.setDate("10 OCT 1910");

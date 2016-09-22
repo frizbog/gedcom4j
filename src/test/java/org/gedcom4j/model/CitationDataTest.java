@@ -72,13 +72,13 @@ public class CitationDataTest {
         assertNotSame(c1, c2);
         assertEquals(c1, c2);
 
-        c1.setCustomTags(null);
+        c1.customFacts = null;
         if (Options.isCollectionInitializationEnabled()) {
             assertFalse(c1.equals(c2));
         } else {
             assertEquals(c1, c2);
         }
-        c1.setCustomTags(new ArrayList<StringTree>());
+        c1.getCustomFacts(true).addAll(new ArrayList<CustomFact>());
         if (Options.isCollectionInitializationEnabled()) {
             assertEquals(c1, c2);
         } else {
@@ -115,13 +115,13 @@ public class CitationDataTest {
         assertNotSame(c1.hashCode(), c2.hashCode());
         assertEquals(c1.hashCode(), c2.hashCode());
 
-        c1.setCustomTags(null);
+        c1.customFacts = null;
         if (Options.isCollectionInitializationEnabled()) {
             assertFalse(c1.hashCode() == c2.hashCode());
         } else {
             assertEquals(c1.hashCode(), c2.hashCode());
         }
-        c1.setCustomTags(new ArrayList<StringTree>());
+        c1.getCustomFacts(true).addAll(new ArrayList<CustomFact>());
         if (Options.isCollectionInitializationEnabled()) {
             assertEquals(c1.hashCode(), c2.hashCode());
         } else {
@@ -157,7 +157,7 @@ public class CitationDataTest {
         CitationData c1 = new CitationData();
         assertEquals("CitationData []", c1.toString());
 
-        c1.setCustomTags(null);
+        c1.customFacts = null;
         c1.setEntryDate("Frying Pan");
         c1.getSourceText(true).add(new ArrayList<String>());
 
@@ -173,7 +173,7 @@ public class CitationDataTest {
         CitationData c1 = new CitationData();
         assertEquals("CitationData [sourceText=[], customTags=[]]", c1.toString());
 
-        c1.setCustomTags(null);
+        c1.customFacts = null;
         c1.setEntryDate("Frying Pan");
         c1.getSourceText(true).add(new ArrayList<String>());
 

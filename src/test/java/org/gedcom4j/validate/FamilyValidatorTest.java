@@ -28,7 +28,7 @@ package org.gedcom4j.validate;
 
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.TestHelper;
 import org.junit.Before;
 import org.junit.Test;
@@ -87,7 +87,7 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testAutomatedRecordId() {
-        f.setAutomatedRecordId(new StringWithCustomTags((String) null));
+        f.setAutomatedRecordId(new StringWithCustomFacts((String) null));
         validator.validate();
         assertFindingsContain(Severity.ERROR, f, ProblemCode.MISSING_REQUIRED_VALUE, "automatedRecordId");
 
@@ -121,7 +121,7 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
     public void testNoCustomTags() {
         validator.validate();
         assertNoIssues();
-        f.getCustomTags(true).clear();
+        f.getCustomFacts(true).clear();
         validator.validate();
         assertNoIssues();
     }

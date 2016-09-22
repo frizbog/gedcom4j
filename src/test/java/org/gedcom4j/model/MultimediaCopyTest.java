@@ -76,7 +76,7 @@ public class MultimediaCopyTest extends AbstractCopyTest {
         orig.getBlob().add("asdlkajsdlkajlaksjdlaksjdlaskjda");
         orig.getBlob().add("zxmcnbzmxncbmxnvbmnxbx");
         orig.getCitations(true).add(getTestCitation());
-        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getCustomFacts(true).add(getTestCustomFact());
         FileReference fr = new FileReference();
         fr.setFormat("MPG");
         fr.setMediaType("Movie");

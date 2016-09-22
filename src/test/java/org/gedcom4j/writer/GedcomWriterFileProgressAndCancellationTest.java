@@ -45,7 +45,7 @@ import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.enumerations.SupportedVersion;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.validate.Validator;
@@ -573,7 +573,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
      */
     private void cleanUpGedcom(GedcomParser gp, Encoding encoding) {
         CharacterSet characterSet = new CharacterSet();
-        characterSet.setCharacterSetName(new StringWithCustomTags(encoding.getCharacterSetName()));
+        characterSet.setCharacterSetName(new StringWithCustomFacts(encoding.getCharacterSetName()));
         gp.getGedcom().getHeader().setCharacterSet(characterSet);
         GedcomVersion gv = new GedcomVersion();
         gv.setVersionNumber(SupportedVersion.V5_5_1);

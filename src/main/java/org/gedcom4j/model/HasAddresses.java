@@ -47,7 +47,7 @@ public interface HasAddresses {
      *
      * @return the emails
      */
-    List<StringWithCustomTags> getEmails();
+    List<StringWithCustomFacts> getEmails();
 
     /**
      * Get the emails
@@ -56,14 +56,14 @@ public interface HasAddresses {
      *            initialize the collection, if needed?
      * @return the emails
      */
-    List<StringWithCustomTags> getEmails(boolean initializeIfNeeded);
+    List<StringWithCustomFacts> getEmails(boolean initializeIfNeeded);
 
     /**
      * Gets the fax numbers.
      *
      * @return the fax numbers
      */
-    List<StringWithCustomTags> getFaxNumbers();
+    List<StringWithCustomFacts> getFaxNumbers();
 
     /**
      * Get the fax numbers
@@ -72,14 +72,14 @@ public interface HasAddresses {
      *            initialize the collection, if needed?
      * @return the fax numbers
      */
-    List<StringWithCustomTags> getFaxNumbers(boolean initializeIfNeeded);
+    List<StringWithCustomFacts> getFaxNumbers(boolean initializeIfNeeded);
 
     /**
      * Gets the phone numbers.
      *
      * @return the phone numbers
      */
-    List<StringWithCustomTags> getPhoneNumbers();
+    List<StringWithCustomFacts> getPhoneNumbers();
 
     /**
      * Get the phone numbers
@@ -88,14 +88,14 @@ public interface HasAddresses {
      *            initialize the collection, if needed?
      * @return the phone numbers
      */
-    List<StringWithCustomTags> getPhoneNumbers(boolean initializeIfNeeded);
+    List<StringWithCustomFacts> getPhoneNumbers(boolean initializeIfNeeded);
 
     /**
      * Gets the www urls.
      *
      * @return the www urls
      */
-    List<StringWithCustomTags> getWwwUrls();
+    List<StringWithCustomFacts> getWwwUrls();
 
     /**
      * Get the www urls
@@ -104,7 +104,7 @@ public interface HasAddresses {
      *            initialize the collection, if needed?
      * @return the www urls
      */
-    List<StringWithCustomTags> getWwwUrls(boolean initializeIfNeeded);
+    List<StringWithCustomFacts> getWwwUrls(boolean initializeIfNeeded);
 
     /**
      * Sets the address.

@@ -90,7 +90,7 @@ class Multimedia55Emitter extends AbstractEmitter<Collection<Multimedia>> {
                         "GEDCOM version is 5.5, but found file references in multimedia object " + m.getXref()
                                 + " which are not allowed until GEDCOM 5.5.1");
             }
-            emitCustomTags(1, m.getCustomTags());
+            emitCustomTags(1, m.getCustomFacts());
         }
     }
 

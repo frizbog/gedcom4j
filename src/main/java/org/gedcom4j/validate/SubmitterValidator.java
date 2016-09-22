@@ -28,7 +28,7 @@ package org.gedcom4j.validate;
 
 import java.util.List;
 
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.enumerations.LanguageID;
 import org.gedcom4j.validate.Validator.Finding;
@@ -85,11 +85,11 @@ class SubmitterValidator extends AbstractValidator {
      */
     private void checkLanguagePreferences() {
         checkUninitializedCollection(submitter, "languagePref");
-        List<StringWithCustomTags> languagePref = submitter.getLanguagePref();
+        List<StringWithCustomFacts> languagePref = submitter.getLanguagePref();
         if (languagePref == null) {
             return;
         }
-        DuplicateHandler<StringWithCustomTags> dh = new DuplicateHandler<>(languagePref);
+        DuplicateHandler<StringWithCustomFacts> dh = new DuplicateHandler<>(languagePref);
         int dups = dh.count();
         if (dups > 0) {
             Finding finding = newFinding(submitter, Severity.ERROR, ProblemCode.DUPLICATE_VALUE, "languagePref");
@@ -102,7 +102,7 @@ class SubmitterValidator extends AbstractValidator {
         if (languagePref.size() > 3) {
             newFinding(submitter, Severity.ERROR, ProblemCode.TOO_MANY_VALUES, "languagePref");
         }
-        for (StringWithCustomTags s : languagePref) {
+        for (StringWithCustomFacts s : languagePref) {
             mustBeInEnumIfSpecified(LanguageID.class, s, "value");
         }
     }

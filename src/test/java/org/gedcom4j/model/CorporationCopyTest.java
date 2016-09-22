@@ -71,12 +71,12 @@ public class CorporationCopyTest extends AbstractCopyTest {
         a.setCountry("WWW");
         orig.setAddress(a);
         orig.setBusinessName("Bob's Genalogy Shop");
-        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getCustomFacts(true).add(getTestCustomFact());
         orig.getNotes(true).add(getTestNote());
-        orig.getFaxNumbers(true).add(new StringWithCustomTags("555-1212"));
-        orig.getPhoneNumbers(true).add(new StringWithCustomTags("555-1313"));
-        orig.getWwwUrls(true).add(new StringWithCustomTags("www.nowhere.com"));
-        orig.getEmails(true).add(new StringWithCustomTags("nobody@nowwhere.com"));
+        orig.getFaxNumbers(true).add(new StringWithCustomFacts("555-1212"));
+        orig.getPhoneNumbers(true).add(new StringWithCustomFacts("555-1313"));
+        orig.getWwwUrls(true).add(new StringWithCustomFacts("www.nowhere.com"));
+        orig.getEmails(true).add(new StringWithCustomFacts("nobody@nowwhere.com"));
 
         Corporation copy = new Corporation(orig);
         assertEquals(orig, copy);

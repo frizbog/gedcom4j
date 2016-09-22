@@ -32,7 +32,7 @@ import org.gedcom4j.model.FileReference;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Note;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 
 /**
  * @author frizbog
@@ -137,11 +137,11 @@ class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
         if (objeChildren != null) {
             for (StringTree ch : objeChildren) {
                 if (Tag.FORM.equalsText(ch.getTag())) {
-                    currentFileRef.setFormat(new StringWithCustomTags(ch));
+                    currentFileRef.setFormat(parseStringWithCustomFacts(ch));
                 } else if (Tag.TITLE.equalsText(ch.getTag())) {
-                    m.setEmbeddedTitle(new StringWithCustomTags(ch));
+                    m.setEmbeddedTitle(parseStringWithCustomFacts(ch));
                 } else if (Tag.FILE.equalsText(ch.getTag())) {
-                    currentFileRef.setReferenceToFile(new StringWithCustomTags(ch));
+                    currentFileRef.setReferenceToFile(parseStringWithCustomFacts(ch));
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
                     List<Note> notes = m.getNotes(true);
                     new NoteListParser(gedcomParser, ch, notes).parse();
@@ -172,7 +172,7 @@ class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
                 } else if (Tag.TITLE.equalsText(ch.getTag())) {
                     if (m.getFileReferences() != null) {
                         for (FileReference fr : m.getFileReferences()) {
-                            fr.setTitle(new StringWithCustomTags(ch.getTag().intern()));
+                            fr.setTitle(new StringWithCustomFacts(ch.getTag().intern()));
                         }
                     }
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {

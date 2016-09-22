@@ -36,7 +36,6 @@ import org.gedcom4j.model.LdsSpouseSealing;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Note;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.UserReference;
 import org.gedcom4j.model.enumerations.FamilyEventType;
 
@@ -72,7 +71,7 @@ class FamilyParser extends AbstractParser<Family> {
                 } else if (Tag.CHILD.equalsText(ch.getTag())) {
                     loadInto.getChildren(true).add(getIndividual(ch.getValue()));
                 } else if (Tag.NUM_CHILDREN.equalsText(ch.getTag())) {
-                    loadInto.setNumChildren(new StringWithCustomTags(ch));
+                    loadInto.setNumChildren(parseStringWithCustomFacts(ch));
                 } else if (Tag.SOURCE.equalsText(ch.getTag())) {
                     List<AbstractCitation> citations = loadInto.getCitations(true);
                     new CitationListParser(gedcomParser, ch, citations).parse();
@@ -80,7 +79,7 @@ class FamilyParser extends AbstractParser<Family> {
                     List<Multimedia> multimedia = loadInto.getMultimedia(true);
                     new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
                 } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
-                    loadInto.setAutomatedRecordId(new StringWithCustomTags(ch));
+                    loadInto.setAutomatedRecordId(parseStringWithCustomFacts(ch));
                 } else if (Tag.CHANGED_DATETIME.equalsText(ch.getTag())) {
                     ChangeDate changeDate = new ChangeDate();
                     loadInto.setChangeDate(changeDate);
@@ -89,14 +88,14 @@ class FamilyParser extends AbstractParser<Family> {
                     List<Note> notes = loadInto.getNotes(true);
                     new NoteListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.RESTRICTION.equalsText(ch.getTag())) {
-                    loadInto.setRestrictionNotice(new StringWithCustomTags(ch));
+                    loadInto.setRestrictionNotice(parseStringWithCustomFacts(ch));
                     if (g55()) {
                         addWarning("GEDCOM version is 5.5 but restriction notice was specified for family on line " + ch
                                 .getLineNum() + " , which is a GEDCOM 5.5.1 feature."
                                 + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.REGISTRATION_FILE_NUMBER.equalsText(ch.getTag())) {
-                    loadInto.setRecFileNumber(new StringWithCustomTags(ch));
+                    loadInto.setRecFileNumber(parseStringWithCustomFacts(ch));
                 } else if (FamilyEventType.isValidTag(ch.getTag())) {
                     FamilyEvent event = new FamilyEvent();
                     loadInto.getEvents(true).add(event);

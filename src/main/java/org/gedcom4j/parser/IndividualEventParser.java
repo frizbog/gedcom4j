@@ -36,7 +36,7 @@ import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Note;
 import org.gedcom4j.model.Place;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.enumerations.IndividualEventType;
 
 /**
@@ -71,9 +71,9 @@ class IndividualEventParser extends AbstractEventParser<IndividualEvent> {
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.TYPE.equalsText(ch.getTag())) {
-                    loadInto.setSubType(new StringWithCustomTags(ch));
+                    loadInto.setSubType(parseStringWithCustomFacts(ch));
                 } else if (Tag.DATE.equalsText(ch.getTag())) {
-                    loadInto.setDate(new StringWithCustomTags(ch));
+                    loadInto.setDate(parseStringWithCustomFacts(ch));
                 } else if (Tag.PLACE.equalsText(ch.getTag())) {
                     Place place = new Place();
                     loadInto.setPlace(place);
@@ -88,47 +88,47 @@ class IndividualEventParser extends AbstractEventParser<IndividualEvent> {
                     List<AbstractCitation> citations = loadInto.getCitations(true);
                     new CitationListParser(gedcomParser, ch, citations).parse();
                 } else if (Tag.AGE.equalsText(ch.getTag())) {
-                    loadInto.setAge(new StringWithCustomTags(ch));
+                    loadInto.setAge(parseStringWithCustomFacts(ch));
                 } else if (Tag.CAUSE.equalsText(ch.getTag())) {
-                    loadInto.setCause(new StringWithCustomTags(ch));
+                    loadInto.setCause(parseStringWithCustomFacts(ch));
                 } else if (Tag.ADDRESS.equalsText(ch.getTag())) {
                     Address address = new Address();
                     loadInto.setAddress(address);
                     new AddressParser(gedcomParser, ch, address).parse();
                 } else if (Tag.AGENCY.equalsText(ch.getTag())) {
-                    loadInto.setRespAgency(new StringWithCustomTags(ch));
+                    loadInto.setRespAgency(parseStringWithCustomFacts(ch));
                 } else if (Tag.RESTRICTION.equalsText(ch.getTag())) {
-                    loadInto.setRestrictionNotice(new StringWithCustomTags(ch));
+                    loadInto.setRestrictionNotice(parseStringWithCustomFacts(ch));
                     if (g55()) {
                         addWarning("GEDCOM version is 5.5 but restriction notice was specified for individual event on line " + ch
                                 .getLineNum() + ", which is a GEDCOM 5.5.1 feature."
                                 + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.RELIGION.equalsText(ch.getTag())) {
-                    loadInto.setReligiousAffiliation(new StringWithCustomTags(ch));
+                    loadInto.setReligiousAffiliation(parseStringWithCustomFacts(ch));
                     if (g55()) {
                         addWarning("GEDCOM version is 5.5 but religious affiliation was specified for individual event on line "
                                 + ch.getLineNum() + ", which is a GEDCOM 5.5.1 feature."
                                 + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.PHONE.equalsText(ch.getTag())) {
-                    loadInto.getPhoneNumbers(true).add(new StringWithCustomTags(ch));
+                    loadInto.getPhoneNumbers(true).add(parseStringWithCustomFacts(ch));
                 } else if (Tag.WEB_ADDRESS.equalsText(ch.getTag())) {
-                    loadInto.getWwwUrls(true).add(new StringWithCustomTags(ch));
+                    loadInto.getWwwUrls(true).add(parseStringWithCustomFacts(ch));
                     if (g55()) {
                         addWarning("GEDCOM version is 5.5 but WWW URL was specified on " + loadInto.getType() + " event on line "
                                 + ch.getLineNum() + ", which is a GEDCOM 5.5.1 feature."
                                 + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.FAX.equalsText(ch.getTag())) {
-                    loadInto.getFaxNumbers(true).add(new StringWithCustomTags(ch));
+                    loadInto.getFaxNumbers(true).add(parseStringWithCustomFacts(ch));
                     if (g55()) {
                         addWarning("GEDCOM version is 5.5 but fax was specified on " + loadInto.getType() + " event on line " + ch
                                 .getLineNum() + ", which is a GEDCOM 5.5.1 feature."
                                 + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.EMAIL.equalsText(ch.getTag())) {
-                    loadInto.getEmails(true).add(new StringWithCustomTags(ch));
+                    loadInto.getEmails(true).add(parseStringWithCustomFacts(ch));
                     if (g55()) {
                         addWarning("GEDCOM version is 5.5 but email was specified on " + loadInto.getType() + " event on line " + ch
                                 .getLineNum() + ", which is a GEDCOM 5.5.1 feature."
@@ -136,13 +136,13 @@ class IndividualEventParser extends AbstractEventParser<IndividualEvent> {
                     }
                 } else if (Tag.CONCATENATION.equalsText(ch.getTag())) {
                     if (loadInto.getDescription() == null) {
-                        loadInto.setDescription(new StringWithCustomTags(ch));
+                        loadInto.setDescription(parseStringWithCustomFacts(ch));
                     } else {
                         loadInto.getDescription().setValue(loadInto.getDescription().getValue() + ch.getValue());
                     }
                 } else if (Tag.CONTINUATION.equalsText(ch.getTag())) {
                     if (loadInto.getDescription() == null) {
-                        loadInto.setDescription(new StringWithCustomTags(ch.getValue() == null ? "" : ch.getValue()));
+                        loadInto.setDescription(new StringWithCustomFacts(ch.getValue() == null ? "" : ch.getValue()));
                     } else {
                         loadInto.getDescription().setValue(loadInto.getDescription().getValue() + "\n" + ch.getValue());
                     }

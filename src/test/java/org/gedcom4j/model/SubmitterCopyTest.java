@@ -87,10 +87,10 @@ public class SubmitterCopyTest extends AbstractCopyTest {
     public void testWithValues() {
         Submitter orig = new Submitter();
         orig.setAddress(getTestAddress());
-        orig.getFaxNumbers(true).add(new StringWithCustomTags("555-1212"));
-        orig.getPhoneNumbers(true).add(new StringWithCustomTags("555-1313"));
-        orig.getWwwUrls(true).add(new StringWithCustomTags("www.nowhere.com"));
-        orig.getEmails(true).add(new StringWithCustomTags("nobody@nowwhere.com"));
+        orig.getFaxNumbers(true).add(new StringWithCustomFacts("555-1212"));
+        orig.getPhoneNumbers(true).add(new StringWithCustomFacts("555-1313"));
+        orig.getWwwUrls(true).add(new StringWithCustomFacts("www.nowhere.com"));
+        orig.getEmails(true).add(new StringWithCustomFacts("nobody@nowwhere.com"));
         ChangeDate cd = new ChangeDate();
         cd.setDate("22 FEB 1922");
         orig.setChangeDate(cd);
@@ -98,9 +98,9 @@ public class SubmitterCopyTest extends AbstractCopyTest {
         orig.setRecIdNumber("123");
         orig.setRegFileNumber("345");
         orig.setXref("@SBM029@");
-        orig.getLanguagePref(true).add(new StringWithCustomTags("English"));
-        orig.getLanguagePref(true).add(new StringWithCustomTags("German"));
-        orig.getCustomTags(true).add(getTestCustomTags());
+        orig.getLanguagePref(true).add(new StringWithCustomFacts("English"));
+        orig.getLanguagePref(true).add(new StringWithCustomFacts("German"));
+        orig.getCustomFacts(true).add(getTestCustomFact());
         Multimedia m = new Multimedia();
         m.setXref("@M123@");
         m.setRecIdNumber("987");

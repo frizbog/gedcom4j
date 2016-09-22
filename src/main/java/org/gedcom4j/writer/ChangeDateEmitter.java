@@ -61,7 +61,7 @@ class ChangeDateEmitter extends AbstractEmitter<ChangeDate> {
             emitTagWithRequiredValue(startLevel + 1, "DATE", writeFrom.getDate());
             emitTagIfValueNotNull(startLevel + 2, "TIME", writeFrom.getTime());
             new NotesEmitter(baseWriter, startLevel + 1, writeFrom.getNotes()).emit();
-            emitCustomTags(startLevel + 1, writeFrom.getCustomTags());
+            emitCustomTags(startLevel + 1, writeFrom.getCustomFacts());
         }
     }
 

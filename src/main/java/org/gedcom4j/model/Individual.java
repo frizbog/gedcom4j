@@ -54,7 +54,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
     /**
      * Aliases for the current individual.
      */
-    private List<StringWithCustomTags> aliases = getAliases(Options.isCollectionInitializationEnabled());
+    private List<StringWithCustomFacts> aliases = getAliases(Options.isCollectionInitializationEnabled());
 
     /**
      * A list of submitter(s) who are interested in the ancestry of this individual.
@@ -64,7 +64,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
     /**
      * The Ancestral File Number of this individual.
      */
-    private StringWithCustomTags ancestralFileNumber;
+    private StringWithCustomFacts ancestralFileNumber;
 
     /**
      * A list of associations to which this individual belongs/belonged.
@@ -125,22 +125,22 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
     /**
      * The permanent record file number for this individual
      */
-    private StringWithCustomTags permanentRecFileNumber;
+    private StringWithCustomFacts permanentRecFileNumber;
 
     /**
      * The record ID number
      */
-    private StringWithCustomTags recIdNumber;
+    private StringWithCustomFacts recIdNumber;
 
     /**
      * The restriction notice (if any) for this individual
      */
-    private StringWithCustomTags restrictionNotice;
+    private StringWithCustomFacts restrictionNotice;
 
     /**
      * The sex of this individual
      */
-    private StringWithCustomTags sex;
+    private StringWithCustomFacts sex;
 
     /**
      * A list of submitter(s) of this individual
@@ -186,8 +186,8 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
         super(other);
         if (other.aliases != null) {
             aliases = new ArrayList<>();
-            for (StringWithCustomTags swct : other.aliases) {
-                aliases.add(new StringWithCustomTags(swct));
+            for (StringWithCustomFacts swct : other.aliases) {
+                aliases.add(new StringWithCustomFacts(swct));
             }
         }
         if (other.ancestorInterest != null) {
@@ -197,7 +197,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
             }
         }
         if (other.ancestralFileNumber != null) {
-            ancestralFileNumber = new StringWithCustomTags(other.ancestralFileNumber);
+            ancestralFileNumber = new StringWithCustomFacts(other.ancestralFileNumber);
         }
         if (other.associations != null) {
             associations = new ArrayList<>();
@@ -267,16 +267,16 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
             }
         }
         if (other.permanentRecFileNumber != null) {
-            permanentRecFileNumber = new StringWithCustomTags(other.permanentRecFileNumber);
+            permanentRecFileNumber = new StringWithCustomFacts(other.permanentRecFileNumber);
         }
         if (other.recIdNumber != null) {
-            recIdNumber = new StringWithCustomTags(other.recIdNumber);
+            recIdNumber = new StringWithCustomFacts(other.recIdNumber);
         }
         if (other.restrictionNotice != null) {
-            restrictionNotice = new StringWithCustomTags(other.restrictionNotice);
+            restrictionNotice = new StringWithCustomFacts(other.restrictionNotice);
         }
         if (other.sex != null) {
-            sex = new StringWithCustomTags(other.sex);
+            sex = new StringWithCustomFacts(other.sex);
         }
         if (other.submitters != null) {
             submitters = new ArrayList<>();
@@ -465,7 +465,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *
      * @return the aliases
      */
-    public List<StringWithCustomTags> getAliases() {
+    public List<StringWithCustomFacts> getAliases() {
         return aliases;
     }
 
@@ -476,7 +476,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *            initialize the collection if needed?
      * @return the aliases
      */
-    public List<StringWithCustomTags> getAliases(boolean initializeIfNeeded) {
+    public List<StringWithCustomFacts> getAliases(boolean initializeIfNeeded) {
         if (initializeIfNeeded && aliases == null) {
             aliases = new ArrayList<>(0);
         }
@@ -522,7 +522,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *
      * @return the ancestral file number
      */
-    public StringWithCustomTags getAncestralFileNumber() {
+    public StringWithCustomFacts getAncestralFileNumber() {
         return ancestralFileNumber;
     }
 
@@ -839,7 +839,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *
      * @return the permanent rec file number
      */
-    public StringWithCustomTags getPermanentRecFileNumber() {
+    public StringWithCustomFacts getPermanentRecFileNumber() {
         return permanentRecFileNumber;
     }
 
@@ -848,7 +848,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *
      * @return the rec id number
      */
-    public StringWithCustomTags getRecIdNumber() {
+    public StringWithCustomFacts getRecIdNumber() {
         return recIdNumber;
     }
 
@@ -857,7 +857,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *
      * @return the restriction notice
      */
-    public StringWithCustomTags getRestrictionNotice() {
+    public StringWithCustomFacts getRestrictionNotice() {
         return restrictionNotice;
     }
 
@@ -866,7 +866,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *
      * @return the sex
      */
-    public StringWithCustomTags getSex() {
+    public StringWithCustomFacts getSex() {
         return sex;
     }
 
@@ -1014,7 +1014,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *            the new ancestral file number
      */
     public void setAncestralFileNumber(String ancestralFileNumber) {
-        this.ancestralFileNumber = ancestralFileNumber == null ? null : new StringWithCustomTags(ancestralFileNumber);
+        this.ancestralFileNumber = ancestralFileNumber == null ? null : new StringWithCustomFacts(ancestralFileNumber);
     }
 
     /**
@@ -1023,7 +1023,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      * @param ancestralFileNumber
      *            the new ancestral file number
      */
-    public void setAncestralFileNumber(StringWithCustomTags ancestralFileNumber) {
+    public void setAncestralFileNumber(StringWithCustomFacts ancestralFileNumber) {
         this.ancestralFileNumber = ancestralFileNumber;
     }
 
@@ -1044,7 +1044,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *            the new permanent rec file number
      */
     public void setPermanentRecFileNumber(String permanentRecFileNumber) {
-        this.permanentRecFileNumber = permanentRecFileNumber == null ? null : new StringWithCustomTags(permanentRecFileNumber);
+        this.permanentRecFileNumber = permanentRecFileNumber == null ? null : new StringWithCustomFacts(permanentRecFileNumber);
     }
 
     /**
@@ -1053,7 +1053,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      * @param permanentRecFileNumber
      *            the new permanent rec file number
      */
-    public void setPermanentRecFileNumber(StringWithCustomTags permanentRecFileNumber) {
+    public void setPermanentRecFileNumber(StringWithCustomFacts permanentRecFileNumber) {
         this.permanentRecFileNumber = permanentRecFileNumber;
     }
 
@@ -1064,7 +1064,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *            the new rec id number
      */
     public void setRecIdNumber(String recIdNumber) {
-        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomTags(recIdNumber);
+        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomFacts(recIdNumber);
     }
 
     /**
@@ -1073,7 +1073,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      * @param recIdNumber
      *            the new rec id number
      */
-    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+    public void setRecIdNumber(StringWithCustomFacts recIdNumber) {
         this.recIdNumber = recIdNumber;
     }
 
@@ -1084,7 +1084,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *            the new restriction notice
      */
     public void setRestrictionNotice(String restrictionNotice) {
-        this.restrictionNotice = restrictionNotice == null ? null : new StringWithCustomTags(restrictionNotice);
+        this.restrictionNotice = restrictionNotice == null ? null : new StringWithCustomFacts(restrictionNotice);
     }
 
     /**
@@ -1093,7 +1093,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      * @param restrictionNotice
      *            the new restriction notice
      */
-    public void setRestrictionNotice(StringWithCustomTags restrictionNotice) {
+    public void setRestrictionNotice(StringWithCustomFacts restrictionNotice) {
         this.restrictionNotice = restrictionNotice;
     }
 
@@ -1104,7 +1104,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *            the new sex
      */
     public void setSex(String sex) {
-        this.sex = sex == null ? null : new StringWithCustomTags(sex);
+        this.sex = sex == null ? null : new StringWithCustomFacts(sex);
     }
 
     /**
@@ -1113,7 +1113,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      * @param sex
      *            the new sex
      */
-    public void setSex(StringWithCustomTags sex) {
+    public void setSex(StringWithCustomFacts sex) {
         this.sex = sex;
     }
 
@@ -1135,7 +1135,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
         StringBuilder sb = new StringBuilder(64);
         sb.append(getFormattedName());
         if (aliases != null) {
-            for (StringWithCustomTags n : aliases) {
+            for (StringWithCustomFacts n : aliases) {
                 if (sb.length() > 0) {
                     sb.append(" aka ");
                 }
