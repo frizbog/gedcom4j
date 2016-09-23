@@ -368,7 +368,7 @@ public class Note extends AbstractElement implements HasCitations, HasXref {
             builder.append(", ");
         }
         if (getCustomFacts() != null) {
-            builder.append("customTags=");
+            builder.append("customFacts=");
             builder.append(getCustomFacts());
         }
         builder.append("]");

@@ -128,7 +128,7 @@ public class LdsSpouseSealingTest {
         l.status = new StringWithCustomFacts("Test");
 
         assertEquals("LdsSpouseSealing [citations=[CitationWithoutSource []], date=Frying Pan, place=Howdy, "
-                + "status=Test, customTags=[CustomFact [tag=_FOO, ]]]", l.toString());
+                + "status=Test, customFacts=[CustomFact [tag=_FOO, ]]]", l.toString());
     }
 
 }

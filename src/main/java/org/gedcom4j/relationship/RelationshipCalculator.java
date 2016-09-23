@@ -266,11 +266,11 @@ public class RelationshipCalculator {
             if (personBeingExamined.getFamiliesWhereChild() != null) {
                 for (FamilyChild fc : personBeingExamined.getFamiliesWhereChild()) {
                     Family family = fc.getFamily();
-                    if (!lookedAt.contains(family.getHusband())) {
+                    if (!lookedAt.contains((family.getHusband() == null ? null : family.getHusband().getIndividual()))) {
                         examineFather(personBeingExamined, (family.getHusband() == null ? null
                                 : family.getHusband().getIndividual()));
                     }
-                    if (!lookedAt.contains(family.getWife())) {
+                    if (!lookedAt.contains((family.getWife() == null ? null : family.getWife().getIndividual()))) {
                         examineMother(personBeingExamined, (family.getWife() == null ? null : family.getWife().getIndividual()));
                     }
                 }
@@ -281,14 +281,14 @@ public class RelationshipCalculator {
                     Family family = fs.getFamily();
                     Individual h = family.getHusband() == null ? null : family.getHusband().getIndividual();
                     if (h == personBeingExamined) { // NOPMD - deliberately using ==
-                        if (lookedAt.contains(family.getWife())) {
+                        if (lookedAt.contains((family.getWife() == null ? null : family.getWife().getIndividual()))) {
                             continue;
                         }
                         examineWife(personBeingExamined, fs);
                     } else {
                         Individual w = family.getWife() == null ? null : family.getWife().getIndividual();
                         if (w == personBeingExamined) { // NOPMD - deliberately using ==
-                            if (lookedAt.contains(family.getHusband())) {
+                            if (lookedAt.contains((family.getHusband() == null ? null : family.getHusband().getIndividual()))) {
                                 continue;
                             }
                             examineHusband(personBeingExamined, fs);

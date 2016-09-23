@@ -142,9 +142,9 @@ public class Issue102Test {
         if (remaining <= 0) {
             return;
         }
-        assertNotNull("With " + remaining + " levels remaining, customTags was null", customFact);
-        assertNotNull("With " + remaining + " levels remaining, customTags had no children", customFact.getCustomFacts());
-        assertEquals("With " + remaining + " levels remaining, customTags did not have exactly one child. ", 1, customFact
+        assertNotNull("With " + remaining + " levels remaining, customFacts was null", customFact);
+        assertNotNull("With " + remaining + " levels remaining, customFacts had no children", customFact.getCustomFacts());
+        assertEquals("With " + remaining + " levels remaining, customFacts did not have exactly one child. ", 1, customFact
                 .getCustomFacts().size());
         CustomFact newCustomTags = customFact.getCustomFacts().get(0);
         assertNotNull(newCustomTags);

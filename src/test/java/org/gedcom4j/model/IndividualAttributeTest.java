@@ -303,7 +303,7 @@ public class IndividualAttributeTest {
                 + "citations=[CitationWithoutSource []], date=Three, description=Four, multimedia=[Multimedia []], "
                 + "notes=[Note []], place=Place [], religiousAffiliation=Eight, respAgency=Nine, restrictionNotice=Ten, "
                 + "subType=Eleven, yNull=Thirteen, address=Address [], emails=[Five], faxNumbers=[Six], phoneNumbers=[Seven], "
-                + "wwwUrls=[Twelve], customTags=[CustomFact [tag=_FOO, ]]]", i.toString());
+                + "wwwUrls=[Twelve], customFacts=[CustomFact [tag=_FOO, ]]]", i.toString());
     }
 
 }

@@ -184,7 +184,7 @@ abstract class AbstractValidator implements Serializable {
         if (o == null) {
             return; // Nothing to check!
         }
-        checkUninitializedCollection(o, "customTags");
+        checkUninitializedCollection(o, "customFacts");
         if (o.getCustomFacts() == null) {
             return;
         }
@@ -193,7 +193,7 @@ abstract class AbstractValidator implements Serializable {
             CustomFact cf = o.getCustomFacts().get(i);
             if (cf == null) {
                 Finding vf = validator.newFinding(o, Severity.ERROR, org.gedcom4j.validate.ProblemCode.LIST_WITH_NULL_VALUE,
-                        "customTags");
+                        "customFacts");
                 if (validator.mayRepair(vf)) {
                     ModelElement before = makeCopy(o);
                     o.getCustomFacts().remove(i);

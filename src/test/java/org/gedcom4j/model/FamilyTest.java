@@ -164,9 +164,8 @@ public class FamilyTest {
      */
     @Test
     public void testToString() {
-        assertEquals(
-                "Family [husband=IndividualReference [individual=Fred /Astaire/, spouse of Ginger /Rogers/, ], wife=IndividualReference [individual=Ginger /Rogers/, spouse of Fred /Astaire/, ], ]",
-                family1.toString());
+        assertEquals("Family [husband=IndividualReference [individual=Fred /Astaire/, spouse of Ginger /Rogers/, ], "
+                + "wife=IndividualReference [individual=Ginger /Rogers/, spouse of Fred /Astaire/, ], ]", family1.toString());
     }
 
     /**

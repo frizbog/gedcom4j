@@ -643,7 +643,7 @@ public class Source extends AbstractNotesElement implements HasXref {
             builder.append(", ");
         }
         if (getCustomFacts() != null) {
-            builder.append("customTags=");
+            builder.append("customFacts=");
             builder.append(getCustomFacts());
         }
         builder.append("]");

@@ -75,10 +75,12 @@ class FamilyEmitter extends AbstractEmitter<Collection<Family>> {
             }
             if (f.getHusband() != null && f.getHusband().getIndividual() != null) {
                 emitTagWithRequiredValue(1, "HUSB", f.getHusband().getIndividual().getXref());
+                // Note these are the custom facts on the husband *reference*, not the husband
                 emitCustomFacts(2, f.getHusband().getCustomFacts());
             }
             if (f.getWife() != null && f.getWife().getIndividual() != null) {
                 emitTagWithRequiredValue(1, "WIFE", f.getWife().getIndividual().getXref());
+                // Note these are the custom facts on the wife *reference*, not the wife
                 emitCustomFacts(2, f.getWife().getCustomFacts());
             }
             if (f.getChildren() != null) {
@@ -88,6 +90,7 @@ class FamilyEmitter extends AbstractEmitter<Collection<Family>> {
                     }
                     Individual i = iRef.getIndividual();
                     emitTagWithRequiredValue(1, "CHIL", i.getXref());
+                    // Note these are the custom facts on the child *reference*, not the child
                     emitCustomFacts(2, iRef.getCustomFacts());
                 }
             }

@@ -110,7 +110,7 @@ public class NameVariationTest {
         nv.variation = "Frying Pan";
         nv.getCustomFacts(true).add(new CustomFact("_FOO"));
         nv.variationType = new StringWithCustomFacts("All");
-        assertEquals("PersonalNameVariation [variation=Frying Pan, variationType=All, customTags=[CustomFact [tag=_FOO, ]]]", nv
+        assertEquals("PersonalNameVariation [variation=Frying Pan, variationType=All, customFacts=[CustomFact [tag=_FOO, ]]]", nv
                 .toString());
 
     }

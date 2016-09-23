@@ -196,7 +196,7 @@ public class SourceData extends AbstractNotesElement {
             builder.append(", ");
         }
         if (getCustomFacts() != null) {
-            builder.append("customTags=");
+            builder.append("customFacts=");
             builder.append(getCustomFacts());
         }
         builder.append("]");

@@ -190,7 +190,7 @@ public class CitationData extends AbstractElement {
             builder.append(", ");
         }
         if (getCustomFacts() != null) {
-            builder.append("customTags=");
+            builder.append("customFacts=");
             builder.append(getCustomFacts());
         }
         builder.append("]");

@@ -172,7 +172,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                 emitTagIfValueNotNull(level + 1, "PEDI", familyChild.getPedigree());
                 emitTagIfValueNotNull(level + 1, "STAT", familyChild.getStatus());
                 new NotesEmitter(baseWriter, level + 1, familyChild.getNotes()).emit();
-                emitCustomFacts(level + 1, i.getCustomFacts());
+                emitCustomFacts(level + 1, familyChild.getCustomFacts());
             }
         }
     }

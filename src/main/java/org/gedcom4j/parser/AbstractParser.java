@@ -295,7 +295,7 @@ abstract class AbstractParser<T> {
      * Default handler for a tag that the parser was not expecting to see.
      * </p>
      * <ul>
-     * <li>If the tag begins with an underscore, it is a user-defined tag, which is stored in the customTags collection of the
+     * <li>If the tag begins with an underscore, it is a user-defined tag, which is stored in the customFacts collection of the
      * passed in element, and returns.</li>
      * <li>If {@link GedcomParser#isStrictCustomTags()} parsing is turned off (i.e., == false), it is treated as a user-defined tag
      * (despite the lack of beginning underscore) and treated like any other user-defined tag.</li>

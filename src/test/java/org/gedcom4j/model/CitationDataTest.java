@@ -171,7 +171,7 @@ public class CitationDataTest {
     public void testToStringPrepopulated() {
         Options.setCollectionInitializationEnabled(true);
         CitationData c1 = new CitationData();
-        assertEquals("CitationData [sourceText=[], customTags=[]]", c1.toString());
+        assertEquals("CitationData [sourceText=[], customFacts=[]]", c1.toString());
 
         c1.customFacts = null;
         c1.setEntryDate("Frying Pan");

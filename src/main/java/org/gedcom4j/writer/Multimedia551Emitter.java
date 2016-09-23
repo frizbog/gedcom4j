@@ -75,6 +75,7 @@ class Multimedia551Emitter extends AbstractEmitter<Collection<Multimedia>> {
                     emitTagWithRequiredValue(2, "FORM", fr.getFormat());
                     emitTagIfValueNotNull(3, "TYPE", fr.getMediaType());
                     emitTagIfValueNotNull(2, "TITL", fr.getTitle());
+                    emitCustomFacts(2, fr.getCustomFacts());
                 }
             }
             if (m.getUserReferences() != null) {

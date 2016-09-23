@@ -207,7 +207,7 @@ public class PersonalNameVariationTest {
         pnv.variationType = new StringWithCustomFacts("All");
         assertEquals(
                 "PersonalNameVariation [givenName=Now, nickname=Is, notes=[Note []], suffix=The, surname=Time, surnamePrefix=For, "
-                        + "variation=Frying Pan, variationType=All, customTags=[CustomFact [tag=_FOO, ]]]", pnv.toString());
+                        + "variation=Frying Pan, variationType=All, customFacts=[CustomFact [tag=_FOO, ]]]", pnv.toString());
 
     }
 }

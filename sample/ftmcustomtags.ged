@@ -17,6 +17,7 @@
 2 FORM LINEAGE-LINKED
 0 @SUBMISSION@ SUBN
 0 @SUBM@ SUBM
+1 NAME UNSPECIFIED
 0 @I1@ INDI
 1 NAME John /Johnson/
 1 SEX M
@@ -57,10 +58,6 @@
 1 _ELEC Mayor of Munchkin City
 2 DATE 08 NOV 1992
 2 PLAC Orlando, Brevard, Florida, USA
-1 EVEN http://gedcom4j.org
-2 TYPE Web Address
-2 DATE 10 OCT 1999
-2 PLAC Mount Rainier, Pierce, Washington, USA
 1 _HEIG 6' 2"
 1 _CIRC Dr. Streck performed
 2 DATE 08 JAN 1950
@@ -104,6 +101,7 @@
 1 TITL Napkin Drawing
 0 @M1@ OBJE
 1 FILE Vitruvian_man.jpg
+2 FORM jpg
 2 TITL Vitruvian_man
 2 DATE 9/19/16, 11:40:36 AM
 0 TRLR

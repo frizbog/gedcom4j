@@ -39,7 +39,6 @@ import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.io.reader.GedcomFileReader;
 import org.gedcom4j.model.Gedcom;
-import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.validate.Validator;
 import org.gedcom4j.validate.Validator.Finding;
@@ -66,15 +65,15 @@ public class CustomFactsWriterTest {
     @SuppressWarnings("PMD.SystemPrintln")
     public void test() throws IOException, GedcomParserException, GedcomWriterException {
         GedcomParser gp = new GedcomParser();
+        gp.setStrictCustomTags(false);
         gp.load("sample/ftmcustomtags.ged");
         Gedcom g = gp.getGedcom();
         assertNotNull(g);
 
-        assertEquals(1, gp.getErrors().size());
-        assertEquals(2, gp.getWarnings().size());
+        assertTrue(gp.getErrors().isEmpty());
+        assertTrue(gp.getWarnings().isEmpty());
 
-        g.getIndividuals().get("@I1@").getEventsOfType(IndividualEventType.EVENT).get(0).setDescription((String) null);
-        g.getMultimedia().get("@M1@").getFileReferences().get(0).setFormat("jpg");
+        System.out.println(g.getMultimedia().values().iterator().next());
 
         Validator v = new Validator(g);
         v.validate();
@@ -82,12 +81,18 @@ public class CustomFactsWriterTest {
             System.out.println(f);
             System.out.println(f.getStackTrace());
         }
+        assertTrue(v.getResults().getAllFindings().isEmpty());
 
         GedcomWriter gw = new GedcomWriter(g);
         gw.write("tmp/ftmcustomtags.ged");
 
         String original = readFileAsString(new File("sample/ftmcustomtags.ged"));
         String replica = readFileAsString(new File("tmp/ftmcustomtags.ged"));
+
+        /*
+         * Check all the substructures with custom tags, and some without - they should all be there (although the order is
+         * indeterminate)
+         */
 
         assertTrue(replica.contains("1 _MISN It was swell\n" + "2 DATE BET 01 JAN AND 31 AUG 1977\n"
                 + "2 PLAC Pocatello, Bannock, Idaho, USA"));
@@ -132,20 +137,14 @@ public class CustomFactsWriterTest {
         assertTrue(replica.contains("1 _SEPR There was a big fight\n" + "2 DATE 05 MAY 1955\n"
                 + "2 PLAC Glad Valley, Ziebach, South Dakota, USA"));
         assertTrue(replica.contains("0 @S1@ SOUR\n" + "1 TITL Napkin Drawing"));
-        assertTrue(replica.contains("0 @M1@ OBJE\n" + "1 FILE Vitruvian_man.jpg\n" + "2 TITL Vitruvian_man\n"
-                + "2 DATE 9/19/16, 11:40:36 AM\n"));
+        assertTrue(replica.contains("0 @M1@ OBJE\n" + "1 FILE Vitruvian_man.jpg\n" + "2 FORM jpg\n" + "2 TITL Vitruvian_man\n"
+                + "2 DATE 9/19/16, 11:40:36 AM"));
         assertTrue(replica.contains("1 OBJE @M1@"));
         assertTrue(replica.contains("1 FAMS @F2@"));
         assertTrue(replica.contains("1 FAMC @F1@"));
-        assertTrue(replica.contains(""));
-        assertTrue(replica.contains(""));
-        assertTrue(replica.contains(""));
-        assertTrue(replica.contains(""));
-        assertTrue(replica.contains(""));
-        assertTrue(replica.contains(""));
-        assertTrue(replica.contains(""));
-        assertTrue(replica.contains(""));
+        assertTrue(replica.contains("0 @SUBM@ SUBM\n" + "1 NAME UNSPECIFIED"));
 
+        // And finally, the files should be the same length so nothing dropped or added
         assertEquals(original.length(), replica.length());
 
     }

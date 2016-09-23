@@ -56,6 +56,7 @@ public class CustomFactParserTest {
     @SuppressWarnings("PMD.SystemPrintln")
     public void test() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
+        gp.setStrictCustomTags(false);
         gp.load("sample/ftmcustomtags.ged");
         Gedcom g = gp.getGedcom();
         assertNotNull(g);
@@ -63,11 +64,11 @@ public class CustomFactParserTest {
         for (String e : gp.getErrors()) {
             System.out.println(e);
         }
-        assertEquals(1, gp.getErrors().size());
+        assertEquals(0, gp.getErrors().size());
         for (String w : gp.getWarnings()) {
             System.out.println(w);
         }
-        assertEquals(2, gp.getWarnings().size());
+        assertEquals(0, gp.getWarnings().size());
 
         Individual john = g.getIndividuals().get("@I1@");
         assertNotNull(john);
