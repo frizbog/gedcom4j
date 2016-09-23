@@ -118,7 +118,7 @@ class EventValidator extends AbstractValidator {
         mustBeAgeFormatIfSpecified(e, e.getAge(), "age");
         mustHaveValueOrBeOmitted(e, "cause");
         checkCitations(e);
-        checkCustomTags(e);
+        checkCustomFacts(e);
         mustHaveValueOrBeOmitted(e, "date");
         mustBeDateIfSpecified(e, "date");
         if (e.getDescription() != null && e.getDescription().trim().length() != 0 && !"Y".equals(e.getDescription().trim())) {

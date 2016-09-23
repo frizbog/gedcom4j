@@ -114,10 +114,10 @@ class HeaderEmitter extends AbstractEmitter<Header> {
         if (corporation != null) {
             emitTagWithOptionalValue(2, "CORP", corporation.getBusinessName());
             new AddressEmitter(baseWriter, 3, corporation.getAddress()).emit();
-            emitStringsWithCustomTags(3, corporation.getPhoneNumbers(), "PHON");
-            emitStringsWithCustomTags(3, corporation.getFaxNumbers(), "FAX");
-            emitStringsWithCustomTags(3, corporation.getWwwUrls(), "WWW");
-            emitStringsWithCustomTags(3, corporation.getEmails(), "EMAIL");
+            emitStringsWithCustomFacts(3, corporation.getPhoneNumbers(), "PHON");
+            emitStringsWithCustomFacts(3, corporation.getFaxNumbers(), "FAX");
+            emitStringsWithCustomFacts(3, corporation.getWwwUrls(), "WWW");
+            emitStringsWithCustomFacts(3, corporation.getEmails(), "EMAIL");
         }
         HeaderSourceData sourceData = sourceSystem.getSourceData();
         if (sourceData != null) {

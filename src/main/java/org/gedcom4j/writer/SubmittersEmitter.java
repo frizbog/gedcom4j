@@ -73,10 +73,10 @@ class SubmittersEmitter extends AbstractEmitter<Collection<Submitter>> {
                     emitTagWithRequiredValue(1, "LANG", l);
                 }
             }
-            emitStringsWithCustomTags(1, s.getPhoneNumbers(), "PHON");
-            emitStringsWithCustomTags(1, s.getWwwUrls(), "WWW");
-            emitStringsWithCustomTags(1, s.getFaxNumbers(), "FAX");
-            emitStringsWithCustomTags(1, s.getEmails(), "EMAIL");
+            emitStringsWithCustomFacts(1, s.getPhoneNumbers(), "PHON");
+            emitStringsWithCustomFacts(1, s.getWwwUrls(), "WWW");
+            emitStringsWithCustomFacts(1, s.getFaxNumbers(), "FAX");
+            emitStringsWithCustomFacts(1, s.getEmails(), "EMAIL");
             emitTagIfValueNotNull(1, "RFN", s.getRegFileNumber());
             emitTagIfValueNotNull(1, "RIN", s.getRecIdNumber());
             new ChangeDateEmitter(baseWriter, 1, s.getChangeDate()).emit();

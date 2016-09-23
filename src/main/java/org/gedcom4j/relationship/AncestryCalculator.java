@@ -205,13 +205,14 @@ public class AncestryCalculator {
         if (individual.getFamiliesWhereChild() != null) {
             for (FamilyChild fc : individual.getFamiliesWhereChild()) {
                 // First check dad
-                if (!checkedAlready.contains(fc.getFamily().getHusband())) {
-                    checkParent(level, set, (fc.getFamily().getHusband() == null ? null
-                            : fc.getFamily().getHusband().getIndividual()));
+                Individual dad = fc.getFamily().getHusband() == null ? null : fc.getFamily().getHusband().getIndividual();
+                if (!checkedAlready.contains(dad)) {
+                    checkParent(level, set, dad);
                 }
                 // Now check mom
-                if (!checkedAlready.contains(fc.getFamily().getWife())) {
-                    checkParent(level, set, (fc.getFamily().getWife() == null ? null : fc.getFamily().getWife().getIndividual()));
+                Individual mom = fc.getFamily().getWife() == null ? null : fc.getFamily().getWife().getIndividual();
+                if (!checkedAlready.contains(mom)) {
+                    checkParent(level, set, mom);
                 }
             }
         }
@@ -362,13 +363,15 @@ public class AncestryCalculator {
         if (person != null && person.getFamiliesWhereChild() != null) {
             for (FamilyChild fc : person.getFamiliesWhereChild()) {
                 Family f = fc.getFamily();
-                if (ancestor.equals(f.getHusband()) || ancestor.equals(f.getWife())) {
+                Individual w = f.getWife() == null ? null : f.getWife().getIndividual();
+                Individual h = f.getHusband() == null ? null : f.getHusband().getIndividual();
+                if (ancestor.equals(h) || ancestor.equals(w)) {
                     genCount = 1;
                     return true;
-                } else if (lookForAncestor((f.getHusband() == null ? null : f.getHusband().getIndividual()), ancestor)) {
+                } else if (lookForAncestor(h, ancestor)) {
                     genCount++;
                     return true;
-                } else if (lookForAncestor((f.getWife() == null ? null : f.getWife().getIndividual()), ancestor)) {
+                } else if (lookForAncestor(w, ancestor)) {
                     genCount++;
                     return true;
                 } else {

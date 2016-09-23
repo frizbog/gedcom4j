@@ -112,7 +112,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
 
     /**
      * Indicates whether handling of custom tags should be strict - that is, must an unrecognized tag begin with an underscore to be
-     * loaded into the custom tags collection? If false, unrecognized tags will be treated as custom tags even if they don't begin
+     * loaded into the custom facts collection? If false, unrecognized tags will be treated as custom tags even if they don't begin
      * with underscores, and no errors will be issued. If true, unrecognized tags that do not begin with underscores will be
      * discarded, with errors added to the errors collection.
      */

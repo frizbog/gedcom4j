@@ -175,12 +175,12 @@ abstract class AbstractValidator implements Serializable {
     }
 
     /**
-     * Check custom tags on an object and initializes the collection of custom tags if needed.
+     * Check custom facts on an object and initializes the collection of custom facts if needed.
      * 
      * @param o
      *            the object being validated
      */
-    protected void checkCustomTags(HasCustomFacts o) {
+    protected void checkCustomFacts(HasCustomFacts o) {
         if (o == null) {
             return; // Nothing to check!
         }
@@ -208,7 +208,7 @@ abstract class AbstractValidator implements Serializable {
                 }
                 checkNotes(cf);
                 checkCitations(cf);
-                checkCustomTags(cf);
+                checkCustomFacts(cf);
                 i++;
             }
         }
@@ -420,7 +420,7 @@ abstract class AbstractValidator implements Serializable {
                 if (s instanceof StringWithCustomFacts) {
                     StringWithCustomFacts swct = list.get(i);
                     if (swct != null && (blankStringsAllowed || isSpecified(swct.getValue()))) {
-                        checkCustomTags(swct);
+                        checkCustomFacts(swct);
                         i++;
                     } else {
                         Finding vf = validator.newFinding(modelElement, Severity.ERROR,
@@ -836,7 +836,7 @@ abstract class AbstractValidator implements Serializable {
             }
         }
         if (modelElement instanceof HasCustomFacts) {
-            checkCustomTags((HasCustomFacts) modelElement);
+            checkCustomFacts((HasCustomFacts) modelElement);
         }
     }
 
@@ -869,7 +869,7 @@ abstract class AbstractValidator implements Serializable {
             throw new ValidationException("Don't know how to handle result of type " + value.getClass().getName());
         }
         if (modelElement instanceof HasCustomFacts) {
-            checkCustomTags((HasCustomFacts) modelElement);
+            checkCustomFacts((HasCustomFacts) modelElement);
         }
     }
 

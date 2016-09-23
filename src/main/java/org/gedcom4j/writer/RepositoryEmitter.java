@@ -72,10 +72,10 @@ class RepositoryEmitter extends AbstractEmitter<Collection<Repository>> {
                 }
             }
             emitTagIfValueNotNull(1, "RIN", r.getRecIdNumber());
-            emitStringsWithCustomTags(1, r.getPhoneNumbers(), "PHON");
-            emitStringsWithCustomTags(1, r.getWwwUrls(), "WWW");
-            emitStringsWithCustomTags(1, r.getFaxNumbers(), "FAX");
-            emitStringsWithCustomTags(1, r.getEmails(), "EMAIL");
+            emitStringsWithCustomFacts(1, r.getPhoneNumbers(), "PHON");
+            emitStringsWithCustomFacts(1, r.getWwwUrls(), "WWW");
+            emitStringsWithCustomFacts(1, r.getFaxNumbers(), "FAX");
+            emitStringsWithCustomFacts(1, r.getEmails(), "EMAIL");
             new ChangeDateEmitter(baseWriter, 1, r.getChangeDate()).emit();
             emitCustomFacts(1, r.getCustomFacts());
         }

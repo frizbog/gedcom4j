@@ -90,7 +90,7 @@ public class IndividualAttributeValidator extends AbstractValidator {
         mustBeAgeFormatIfSpecified(ia, ia.getAge(), "age");
         mustHaveValueOrBeOmitted(ia, "cause");
         checkCitations(ia);
-        checkCustomTags(ia);
+        checkCustomFacts(ia);
         mustHaveValueOrBeOmitted(ia, "date");
         mustBeDateIfSpecified(ia, "date");
         checkEmails(ia);

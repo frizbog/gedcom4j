@@ -75,7 +75,7 @@ class FamilyValidator extends AbstractValidator {
         checkChangeDate(f.getChangeDate(), f);
         checkChildren();
         checkCitations(f);
-        checkCustomTags(f);
+        checkCustomFacts(f);
         if (f.getEvents() != null) {
             for (AbstractEvent ev : f.getEvents()) {
                 new EventValidator(getValidator(), ev).validate();

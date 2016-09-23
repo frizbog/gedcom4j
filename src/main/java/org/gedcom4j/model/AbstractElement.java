@@ -99,9 +99,9 @@ public abstract class AbstractElement implements HasCustomFacts {
     }
 
     /**
-     * Gets the custom tags.
+     * Gets the custom facts.
      *
-     * @return the custom tags
+     * @return the custom facts
      */
     @Override
     public List<CustomFact> getCustomFacts() {
@@ -109,7 +109,7 @@ public abstract class AbstractElement implements HasCustomFacts {
     }
 
     /**
-     * Get the custom tags
+     * Get the custom facts
      * 
      * @param initializeIfNeeded
      *            initialize the collection if needed

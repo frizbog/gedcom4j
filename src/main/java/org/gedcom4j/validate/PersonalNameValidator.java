@@ -67,7 +67,7 @@ class PersonalNameValidator extends AbstractValidator {
         mustHaveValue(pn, "basic");
         checkCitations(pn);
         checkCitations(pn);
-        checkCustomTags(pn);
+        checkCustomFacts(pn);
         mustHaveValueOrBeOmitted(pn, "givenName");
         mustHaveValueOrBeOmitted(pn, "nickname");
         mustHaveValueOrBeOmitted(pn, "prefix");

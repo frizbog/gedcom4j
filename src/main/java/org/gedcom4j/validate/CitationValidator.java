@@ -80,7 +80,7 @@ class CitationValidator extends AbstractValidator {
                     + " instances or CitationWithoutSource instances");
         }
         checkNotes(citation);
-        checkCustomTags(citation);
+        checkCustomFacts(citation);
     }
 
     /**
@@ -133,7 +133,7 @@ class CitationValidator extends AbstractValidator {
         checkListOfModelElementsForNulls(c, "data");
         if (c.getData() != null) {
             for (CitationData cd : c.getData()) {
-                checkCustomTags(cd);
+                checkCustomFacts(cd);
                 mustBeDateIfSpecified(cd, "entryDate");
                 checkUninitializedCollection(cd, "sourceText");
             }

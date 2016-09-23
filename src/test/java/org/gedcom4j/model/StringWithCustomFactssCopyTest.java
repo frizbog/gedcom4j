@@ -36,7 +36,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class StringWithCustomTagsCopyTest extends AbstractCopyTest {
+public class StringWithCustomFactssCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link StringWithCustomFacts}, which should never work
@@ -59,10 +59,10 @@ public class StringWithCustomTagsCopyTest extends AbstractCopyTest {
     }
 
     /**
-     * Test with values and custom tags in play
+     * Test with values and custom facts in play
      */
     @Test
-    public void testWithCustomTags() {
+    public void testWithCustomFacts() {
         StringWithCustomFacts orig = new StringWithCustomFacts("FryingPan");
         CustomFact cf = getTestCustomFact();
         cf.setDescription("UNCHANGED");

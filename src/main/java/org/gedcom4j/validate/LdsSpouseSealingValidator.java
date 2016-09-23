@@ -66,7 +66,7 @@ class LdsSpouseSealingValidator extends AbstractValidator {
     @Override
     protected void validate() {
         checkCitations(s);
-        checkCustomTags(s);
+        checkCustomFacts(s);
         new NotesListValidator(getValidator(), s).validate();
         mustHaveValueOrBeOmitted(s, "place");
         mustBeInEnumIfSpecified(LdsSpouseSealingDateStatus.class, s, "status");

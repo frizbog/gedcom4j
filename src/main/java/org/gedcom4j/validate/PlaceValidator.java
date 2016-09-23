@@ -66,7 +66,7 @@ class PlaceValidator extends AbstractValidator {
     @Override
     protected void validate() {
         checkCitations(place);
-        checkCustomTags(place);
+        checkCustomFacts(place);
 
         mustHaveValueOrBeOmitted(place, "latitude");
         mustHaveValueOrBeOmitted(place, "longitude");

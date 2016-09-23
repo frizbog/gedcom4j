@@ -193,10 +193,10 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                 emitTagWithOptionalValueAndCustomSubtags(level, a.getType().getTag(), a.getDescription());
                 new EventEmitter(baseWriter, level + 1, a).emit();
                 new AddressEmitter(baseWriter, level + 1, a.getAddress()).emit();
-                emitStringsWithCustomTags(level + 1, a.getPhoneNumbers(), "PHON");
-                emitStringsWithCustomTags(level + 1, a.getWwwUrls(), "WWW");
-                emitStringsWithCustomTags(level + 1, a.getFaxNumbers(), "FAX");
-                emitStringsWithCustomTags(level + 1, a.getEmails(), "EMAIL");
+                emitStringsWithCustomFacts(level + 1, a.getPhoneNumbers(), "PHON");
+                emitStringsWithCustomFacts(level + 1, a.getWwwUrls(), "WWW");
+                emitStringsWithCustomFacts(level + 1, a.getFaxNumbers(), "FAX");
+                emitStringsWithCustomFacts(level + 1, a.getEmails(), "EMAIL");
             }
         }
     }

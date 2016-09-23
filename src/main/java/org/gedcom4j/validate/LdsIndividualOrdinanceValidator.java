@@ -67,7 +67,7 @@ public class LdsIndividualOrdinanceValidator extends AbstractValidator {
     @Override
     protected void validate() {
         checkCitations(o);
-        checkCustomTags(o);
+        checkCustomFacts(o);
         checkNotes(o);
         mustHaveValue(o, "type");
         mustNotHaveValue(o, "yNull");

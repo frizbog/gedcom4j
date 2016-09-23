@@ -146,8 +146,8 @@ public class Issue102Test {
         assertNotNull("With " + remaining + " levels remaining, customFacts had no children", customFact.getCustomFacts());
         assertEquals("With " + remaining + " levels remaining, customFacts did not have exactly one child. ", 1, customFact
                 .getCustomFacts().size());
-        CustomFact newCustomTags = customFact.getCustomFacts().get(0);
-        assertNotNull(newCustomTags);
-        assertCustomTagRecursively(newCustomTags, remaining - 1);
+        CustomFact newCustomFacts = customFact.getCustomFacts().get(0);
+        assertNotNull(newCustomFacts);
+        assertCustomTagRecursively(newCustomFacts, remaining - 1);
     }
 }

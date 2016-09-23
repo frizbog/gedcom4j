@@ -116,10 +116,10 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
     }
 
     /**
-     * Test when there are no custom tags
+     * Test when there are no custom facts
      */
     @Test
-    public void testNoCustomTags() {
+    public void testNoCustomFacts() {
         validator.validate();
         assertNoIssues();
         f.getCustomFacts(true).clear();

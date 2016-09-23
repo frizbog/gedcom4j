@@ -64,7 +64,7 @@ class NameVariationValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        checkCustomTags(nv);
+        checkCustomFacts(nv);
         mustHaveValue(nv, "variation");
         mustHaveValueOrBeOmitted(nv, "variationType");
     }

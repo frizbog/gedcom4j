@@ -67,7 +67,7 @@ public class Issue61Test {
         for (Individual i : g.getIndividuals().values()) {
             assertNotNull(i);
             assertNotNull(i.getCustomFacts());
-            assertFalse("Individual " + i + " has no custom tags", i.getCustomFacts().isEmpty());
+            assertFalse("Individual " + i + " has no custom facts", i.getCustomFacts().isEmpty());
             for (CustomFact ct : i.getCustomFacts()) {
                 assertTrue("Custom tag should be WAND or MUGL, but is " + ct.getDescription(), "WAND".equals(ct.getTag()) || "MUGL"
                         .equals(ct.getTag()));

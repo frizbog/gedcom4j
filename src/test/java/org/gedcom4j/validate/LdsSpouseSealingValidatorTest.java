@@ -93,10 +93,10 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     }
 
     /**
-     * Test when custom tags are messed up
+     * Test when custom facts are messed up
      */
     @Test
-    public void testCustomTags() {
+    public void testCustomFacts() {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.getLdsSpouseSealings(true).add(s);
 

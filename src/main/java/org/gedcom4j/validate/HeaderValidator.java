@@ -78,7 +78,7 @@ class HeaderValidator extends AbstractValidator {
     protected void validate() {
         checkCharacterSet();
         checkUninitializedCollection(header, "copyrightData");
-        checkCustomTags(header);
+        checkCustomFacts(header);
         mustHaveValueOrBeOmitted(header, "date");
         mustBeDateIfSpecified(header, "date");
         mustHaveValueOrBeOmitted(header, "destinationSystem");
@@ -127,7 +127,7 @@ class HeaderValidator extends AbstractValidator {
         }
         mustHaveValueOrBeOmitted(header.getCharacterSet(), "characterSetName");
         mustHaveValueOrBeOmitted(header.getCharacterSet(), "versionNum");
-        checkCustomTags(header.getCharacterSet());
+        checkCustomFacts(header.getCharacterSet());
     }
 
     /**
@@ -151,7 +151,7 @@ class HeaderValidator extends AbstractValidator {
                     vf.addRepair(new AutoRepair(before, new GedcomVersion(gv)));
                 }
             }
-            checkCustomTags(gv);
+            checkCustomFacts(gv);
         }
     }
 
@@ -171,10 +171,10 @@ class HeaderValidator extends AbstractValidator {
                 return;
             }
         }
-        checkCustomTags(ss);
+        checkCustomFacts(ss);
         if (ss.getCorporation() != null) {
             Corporation c = ss.getCorporation();
-            checkCustomTags(c);
+            checkCustomFacts(c);
             if (c.getAddress() != null) {
                 new AddressValidator(getValidator(), c.getAddress()).validate();
             }
@@ -200,7 +200,7 @@ class HeaderValidator extends AbstractValidator {
             }
             mustHaveValueOrBeOmitted(sd, "copyright");
             mustBeDateIfSpecified(sd, "publishDate");
-            checkCustomTags(sd);
+            checkCustomFacts(sd);
         }
         if (ss.getSystemId() == null) {
             Finding vf = newFinding(ss, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "systemId");

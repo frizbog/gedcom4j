@@ -159,7 +159,7 @@ abstract class AbstractEmitter<T> {
      * @throws GedcomWriterException
      *             if the data cannot be written
      */
-    protected void emitStringsWithCustomTags(int level, List<StringWithCustomFacts> strings, String tagValue)
+    protected void emitStringsWithCustomFacts(int level, List<StringWithCustomFacts> strings, String tagValue)
             throws GedcomWriterException {
         if (strings != null) {
             for (StringWithCustomFacts f : strings) {

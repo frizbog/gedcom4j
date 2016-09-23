@@ -125,7 +125,7 @@ class MultimediaValidator extends AbstractValidator {
         checkListOfModelElementsForNulls(mm, "userReferences");
         for (UserReference u : userReferences) {
             mustHaveValue(u, "referenceNum");
-            checkCustomTags(u);
+            checkCustomFacts(u);
         }
     }
 
