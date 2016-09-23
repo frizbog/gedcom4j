@@ -65,7 +65,7 @@ class NotesEmitter extends AbstractEmitter<Collection<Note>> {
         if (writeFrom != null) {
             for (Note n : writeFrom) {
                 emitNote(startLevel, n);
-                emitCustomTags(startLevel + 1, n.getCustomFacts());
+                emitCustomFacts(startLevel + 1, n.getCustomFacts());
                 if (baseWriter.isCancelled()) {
                     throw new WriterCancelledException("Construction and writing of GEDCOM cancelled");
                 }
@@ -98,7 +98,7 @@ class NotesEmitter extends AbstractEmitter<Collection<Note>> {
         }
         emitTagIfValueNotNull(level + 1, "RIN", note.getRecIdNumber());
         new ChangeDateEmitter(baseWriter, level + 1, note.getChangeDate()).emit();
-        emitCustomTags(level + 1, note.getCustomFacts());
+        emitCustomFacts(level + 1, note.getCustomFacts());
     }
 
 }

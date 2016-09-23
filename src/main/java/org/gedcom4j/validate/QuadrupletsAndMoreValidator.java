@@ -36,6 +36,7 @@ import java.util.Set;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.IndividualReference;
 import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.gedcom4j.parser.DateParser;
 import org.gedcom4j.parser.DateParser.ImpreciseDatePreference;
@@ -79,7 +80,11 @@ public class QuadrupletsAndMoreValidator extends AbstractValidator {
              * other as on the same date (multiple births)
              */
             Map<Date, Set<Individual>> births = new HashMap<>();
-            for (Individual i : f.getChildren()) {
+            for (IndividualReference iRef : f.getChildren()) {
+                if (iRef == null) {
+                    continue;
+                }
+                Individual i = iRef.getIndividual();
                 Date birthDate = getEarliestBirthDate(i);
                 if (birthDate == null) {
                     continue;

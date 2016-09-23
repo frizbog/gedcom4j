@@ -30,7 +30,7 @@ import java.util.List;
 
 import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.Family;
-import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualReference;
 import org.gedcom4j.model.LdsSpouseSealing;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Submitter;
@@ -82,10 +82,10 @@ class FamilyValidator extends AbstractValidator {
             }
         }
         if (f.getHusband() != null) {
-            new IndividualValidator(getValidator(), f.getHusband()).validate();
+            new IndividualValidator(getValidator(), (f.getHusband() == null ? null : f.getHusband().getIndividual())).validate();
         }
         if (f.getWife() != null) {
-            new IndividualValidator(getValidator(), f.getWife()).validate();
+            new IndividualValidator(getValidator(), (f.getWife() == null ? null : f.getWife().getIndividual())).validate();
         }
         checkLdsSpouseSealings();
         checkMultimedia();
@@ -106,7 +106,7 @@ class FamilyValidator extends AbstractValidator {
      */
     private void checkChildren() {
         checkUninitializedCollection(f, "children");
-        List<Individual> children = f.getChildren();
+        List<IndividualReference> children = f.getChildren();
         if (children != null) {
             checkListOfModelElementsForDups(f, "children");
             checkListOfModelElementsForNulls(f, "children");

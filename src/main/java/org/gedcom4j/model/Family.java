@@ -56,7 +56,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
     /**
      * A list of the children in the family
      */
-    private List<Individual> children = getChildren(Options.isCollectionInitializationEnabled());
+    private List<IndividualReference> children = getChildren(Options.isCollectionInitializationEnabled());
 
     /**
      * The citations for this object
@@ -71,7 +71,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
     /**
      * The husband in the family
      */
-    private Individual husband;
+    private IndividualReference husband;
 
     /**
      * The LDS Spouse Sealings for this family
@@ -112,7 +112,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
     /**
      * The wife in the family
      */
-    private Individual wife;
+    private IndividualReference wife;
 
     /**
      * The xref for this submitter
@@ -153,8 +153,8 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
         }
         if (deep && other.children != null) {
             children = new ArrayList<>();
-            for (Individual c : other.children) {
-                children.add(new Individual(c, false));
+            for (IndividualReference c : other.children) {
+                children.add(new IndividualReference(c, false));
             }
         }
         if (other.citations != null) {
@@ -174,7 +174,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
             }
         }
         if (deep && other.husband != null) {
-            husband = new Individual(other.husband, false);
+            husband = new IndividualReference(other.husband, false);
         }
         if (other.ldsSpouseSealings != null) {
             ldsSpouseSealings = new ArrayList<>();
@@ -210,7 +210,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
             }
         }
         if (deep && other.wife != null) {
-            wife = new Individual(other.wife, false);
+            wife = new IndividualReference(other.wife, false);
         }
         xref = other.xref;
     }
@@ -362,7 +362,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the children
      */
-    public List<Individual> getChildren() {
+    public List<IndividualReference> getChildren() {
         return children;
     }
 
@@ -373,7 +373,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *            initialize the collection, if needed?
      * @return the children
      */
-    public List<Individual> getChildren(boolean initializeIfNeeded) {
+    public List<IndividualReference> getChildren(boolean initializeIfNeeded) {
         if (initializeIfNeeded && children == null) {
             children = new ArrayList<>(0);
         }
@@ -434,7 +434,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the husband
      */
-    public Individual getHusband() {
+    public IndividualReference getHusband() {
         return husband;
     }
 
@@ -562,7 +562,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the wife
      */
-    public Individual getWife() {
+    public IndividualReference getWife() {
         return wife;
     }
 
@@ -637,7 +637,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      * @param husband
      *            the new husband
      */
-    public void setHusband(Individual husband) {
+    public void setHusband(IndividualReference husband) {
         this.husband = husband;
     }
 
@@ -707,7 +707,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      * @param wife
      *            the new wife
      */
-    public void setWife(Individual wife) {
+    public void setWife(IndividualReference wife) {
         this.wife = wife;
     }
 

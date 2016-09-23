@@ -31,6 +31,7 @@ import java.util.Date;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.IndividualReference;
 import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.gedcom4j.parser.DateParser;
 import org.gedcom4j.parser.DateParser.ImpreciseDatePreference;
@@ -75,7 +76,7 @@ public class BirthsToOldParentsValidator extends AbstractValidator {
                 continue;
             }
 
-            Individual husband = f.getHusband();
+            Individual husband = (f.getHusband() == null ? null : f.getHusband().getIndividual());
             IndividualEvent husbandLatestBirth = getLatestEventOfType(husband, IndividualEventType.BIRTH);
             Date husbandLatestBirthDate = null;
             if (husbandLatestBirth != null) {
@@ -88,7 +89,7 @@ public class BirthsToOldParentsValidator extends AbstractValidator {
                         ImpreciseDatePreference.FAVOR_EARLIEST);
             }
 
-            Individual wife = f.getWife();
+            Individual wife = (f.getWife() == null ? null : f.getWife().getIndividual());
             IndividualEvent wifeLatestBirth = getLatestEventOfType(wife, IndividualEventType.BIRTH);
             Date wifeLatestBirthDate = null;
             if (wifeLatestBirth != null) {
@@ -105,7 +106,8 @@ public class BirthsToOldParentsValidator extends AbstractValidator {
                 continue;
             }
 
-            for (Individual kid : f.getChildren()) {
+            for (IndividualReference kidRef : f.getChildren()) {
+                Individual kid = (kidRef == null ? null : kidRef.getIndividual());
                 IndividualEvent kidEarliestBirth = getEarliestEventOfType(kid, IndividualEventType.BIRTH);
                 if (kidEarliestBirth == null) {
                     continue;

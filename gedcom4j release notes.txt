@@ -2,12 +2,13 @@
 GEDCOM4J RELEASE NOTES
 ==============================
 
-v4.0.0 is a major release. Some users, particularly those who used the validation framework, will need to make changes to accommodate API changes.
+v4.0.0 is a major release. Some users, particularly those who used the validation framework or used custom tags, will need to make changes to accommodate API changes.
 
-No issue numbers, but changed:
+No specific issue numbers, but changed:
 - The id property on StringTree has been renamed xref (along with the getters and setters)
 - All enums in the model are now moved to the new org.gedcom4j.model.enumerations package
-- 
+- Families no longer directly link to the individuals in them, but use an intermediary IndividualReference class that can hold custom facts
+- CustomTags are completely reworked to be CustomFacts. A CustomFact object represents a custom tag but has built-in first order support for Dates, Places, Notes, and Citations.
 
 
 14 SEP 2016 - v3.2.1

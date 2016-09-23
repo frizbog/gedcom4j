@@ -30,8 +30,10 @@ import java.util.List;
 
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.ChangeDate;
+import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyEvent;
+import org.gedcom4j.model.IndividualReference;
 import org.gedcom4j.model.LdsSpouseSealing;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Note;
@@ -65,11 +67,35 @@ class FamilyParser extends AbstractParser<Family> {
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.HUSBAND.equalsText(ch.getTag())) {
-                    loadInto.setHusband(getIndividual(ch.getValue()));
+                    IndividualReference husband = new IndividualReference(getIndividual(ch.getValue()));
+                    loadInto.setHusband(husband);
+                    if (ch.getChildren() != null) {
+                        for (StringTree gch : ch.getChildren()) {
+                            CustomFact cf = new CustomFact(gch.getTag());
+                            husband.getCustomFacts(true).add(cf);
+                            new CustomFactParser(gedcomParser, gch, cf).parse();
+                        }
+                    }
                 } else if (Tag.WIFE.equalsText(ch.getTag())) {
-                    loadInto.setWife(getIndividual(ch.getValue()));
+                    IndividualReference wife = new IndividualReference(getIndividual(ch.getValue()));
+                    loadInto.setWife(wife);
+                    if (ch.getChildren() != null) {
+                        for (StringTree gch : ch.getChildren()) {
+                            CustomFact cf = new CustomFact(gch.getTag());
+                            wife.getCustomFacts(true).add(cf);
+                            new CustomFactParser(gedcomParser, gch, cf).parse();
+                        }
+                    }
                 } else if (Tag.CHILD.equalsText(ch.getTag())) {
-                    loadInto.getChildren(true).add(getIndividual(ch.getValue()));
+                    IndividualReference child = new IndividualReference(getIndividual(ch.getValue()));
+                    loadInto.getChildren(true).add(child);
+                    if (ch.getChildren() != null) {
+                        for (StringTree gch : ch.getChildren()) {
+                            CustomFact cf = new CustomFact(gch.getTag());
+                            child.getCustomFacts(true).add(cf);
+                            new CustomFactParser(gedcomParser, gch, cf).parse();
+                        }
+                    }
                 } else if (Tag.NUM_CHILDREN.equalsText(ch.getTag())) {
                     loadInto.setNumChildren(parseStringWithCustomFacts(ch));
                 } else if (Tag.SOURCE.equalsText(ch.getTag())) {

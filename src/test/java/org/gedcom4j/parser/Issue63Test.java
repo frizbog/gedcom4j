@@ -64,14 +64,16 @@ public class Issue63Test {
         Family family = g.getFamilies().get("@F001@");
         assertNotNull(family);
         assertNotNull(family.getHusband());
-        assertEquals("@I001@", family.getHusband().getXref());
-        assertEquals("Husband /Gedcom/", family.getHusband().getNames().get(0).getBasic());
+        assertNotNull(family.getHusband().getIndividual());
+        assertEquals("@I001@", family.getHusband().getIndividual().getXref());
+        assertEquals("Husband /Gedcom/", family.getHusband().getIndividual().getNames().get(0).getBasic());
 
         assertNotNull(family.getWife());
-        assertEquals("@I002@", family.getWife().getXref());
+        assertNotNull(family.getWife().getIndividual());
+        assertEquals("@I002@", family.getWife().getIndividual().getXref());
 
         // Things above this line passed (and below this line failed) prior to the fix for Issue 63
-        assertEquals("Wife /Gedcom/", family.getWife().getNames().get(0).getBasic());
+        assertEquals("Wife /Gedcom/", family.getWife().getIndividual().getNames().get(0).getBasic());
 
     }
 }

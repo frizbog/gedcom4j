@@ -74,14 +74,14 @@ public class CouplesWithLargeAgeDifferencesValidator extends AbstractValidator {
                 continue;
             }
 
-            Individual husband = f.getHusband();
+            Individual husband = (f.getHusband() == null ? null : f.getHusband().getIndividual());
             IndividualEvent husbandLatestBirth = getLatestEventOfType(husband, IndividualEventType.BIRTH);
             Date husbandLatestBirthDate = null;
             if (husbandLatestBirth != null) {
                 husbandLatestBirthDate = dp.parse(husbandLatestBirth.getDate().getValue(), ImpreciseDatePreference.FAVOR_LATEST);
             }
 
-            Individual wife = f.getWife();
+            Individual wife = (f.getWife() == null ? null : f.getWife().getIndividual());
             IndividualEvent wifeLatestBirth = getLatestEventOfType(wife, IndividualEventType.BIRTH);
             Date wifeLatestBirthDate = null;
             if (wifeLatestBirth != null) {

@@ -121,7 +121,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
             }
             emitTagIfValueNotNull(1, "RIN", i.getRecIdNumber());
             new ChangeDateEmitter(baseWriter, 1, i.getChangeDate()).emit();
-            emitCustomTags(1, i.getCustomFacts());
+            emitCustomFacts(1, i.getCustomFacts());
         }
 
     }
@@ -144,7 +144,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                 emitTagWithRequiredValue(level + 1, "RELA", a.getRelationship());
                 new NotesEmitter(baseWriter, level + 1, a.getNotes()).emit();
                 new SourceCitationEmitter(baseWriter, level + 1, a.getCitations()).emit();
-                emitCustomTags(level + 1, a.getCustomFacts());
+                emitCustomFacts(level + 1, a.getCustomFacts());
             }
         }
     }
@@ -172,7 +172,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                 emitTagIfValueNotNull(level + 1, "PEDI", familyChild.getPedigree());
                 emitTagIfValueNotNull(level + 1, "STAT", familyChild.getStatus());
                 new NotesEmitter(baseWriter, level + 1, familyChild.getNotes()).emit();
-                emitCustomTags(level + 1, i.getCustomFacts());
+                emitCustomFacts(level + 1, i.getCustomFacts());
             }
         }
     }
@@ -260,7 +260,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                 }
                 new SourceCitationEmitter(baseWriter, level + 1, o.getCitations()).emit();
                 new NotesEmitter(baseWriter, level + 1, o.getNotes()).emit();
-                emitCustomTags(level + 1, o.getCustomFacts());
+                emitCustomFacts(level + 1, o.getCustomFacts());
             }
         }
     }
@@ -297,7 +297,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                 }
                 new SourceCitationEmitter(baseWriter, level + 1, n.getCitations()).emit();
                 new NotesEmitter(baseWriter, level + 1, n.getNotes()).emit();
-                emitCustomTags(level + 1, n.getCustomFacts());
+                emitCustomFacts(level + 1, n.getCustomFacts());
             }
         }
     }
@@ -324,7 +324,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
         emitTagIfValueNotNull(level + 1, "NSFX", pnv.getSuffix());
         new SourceCitationEmitter(baseWriter, level + 1, pnv.getCitations()).emit();
         new NotesEmitter(baseWriter, level + 1, pnv.getNotes()).emit();
-        emitCustomTags(level + 1, pnv.getCustomFacts());
+        emitCustomFacts(level + 1, pnv.getCustomFacts());
     }
 
     /**
@@ -348,7 +348,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                 }
                 emitTagWithRequiredValue(level, "FAMS", familySpouse.getFamily().getXref());
                 new NotesEmitter(baseWriter, level + 1, familySpouse.getNotes()).emit();
-                emitCustomTags(level + 1, familySpouse.getCustomFacts());
+                emitCustomFacts(level + 1, familySpouse.getCustomFacts());
             }
         }
     }

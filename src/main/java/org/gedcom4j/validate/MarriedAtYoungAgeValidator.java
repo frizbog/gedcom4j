@@ -114,7 +114,7 @@ public class MarriedAtYoungAgeValidator extends AbstractValidator {
      *            the earliest date for the earliest marriage
      */
     private void checkHusband(Family f, FamilyEvent earliestMarriage, Date earliestMarriageDate) {
-        Individual husband = f.getHusband();
+        Individual husband = (f.getHusband() == null ? null : f.getHusband().getIndividual());
         IndividualEvent husbandLatestBirth = getLatestEventOfType(husband, IndividualEventType.BIRTH);
         if (husbandLatestBirth == null) {
             return;
@@ -140,7 +140,7 @@ public class MarriedAtYoungAgeValidator extends AbstractValidator {
      *            the earliest date for the earliest marriage
      */
     private void checkWife(Family f, FamilyEvent earliestMarriage, Date earliestMarriageDate) {
-        Individual wife = f.getWife();
+        Individual wife = (f.getWife() == null ? null : f.getWife().getIndividual());
         IndividualEvent wifeLatestBirth = getLatestEventOfType(wife, IndividualEventType.BIRTH);
         if (wifeLatestBirth == null) {
             return;

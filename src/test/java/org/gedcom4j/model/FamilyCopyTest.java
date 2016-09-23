@@ -94,13 +94,13 @@ public class FamilyCopyTest extends AbstractCopyTest {
         orig.setNumChildren("1");
         Individual h = new Individual();
         h.setXref("@I1@");
-        orig.setHusband(h);
+        orig.setHusband(new IndividualReference(h));
         Individual w = new Individual();
         w.setXref("@I2@");
-        orig.setWife(w);
+        orig.setWife(new IndividualReference(w));
         Individual k = new Individual();
         k.setXref("@I3@");
-        orig.getChildren(true).add(k);
+        orig.getChildren(true).add(new IndividualReference(k));
         orig.setRecFileNumber("123");
         orig.setRestrictionNotice("UNRESTRICTED");
         orig.getCitations(true).add(getTestCitation());

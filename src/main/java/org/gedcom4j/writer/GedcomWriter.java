@@ -500,7 +500,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
         new SourceEmitter(baseWriter, 0, writeFrom.getSources().values()).emit();
         new SubmittersEmitter(this, 0, writeFrom.getSubmitters().values()).emit();
         emitTrailer();
-        emitCustomTags(1, writeFrom.getCustomFacts());
+        emitCustomFacts(1, writeFrom.getCustomFacts());
     }
 
     /**

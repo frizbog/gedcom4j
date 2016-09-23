@@ -86,7 +86,7 @@ class Multimedia551Emitter extends AbstractEmitter<Collection<Multimedia>> {
             emitTagIfValueNotNull(1, "RIN", m.getRecIdNumber());
             new NotesEmitter(baseWriter, 1, m.getNotes()).emit();
             new ChangeDateEmitter(baseWriter, 1, m.getChangeDate()).emit();
-            emitCustomTags(1, m.getCustomFacts());
+            emitCustomFacts(1, m.getCustomFacts());
             if (m.getBlob() != null && !m.getBlob().isEmpty()) {
                 throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5.1, but BLOB data on multimedia item " + m
                         .getXref() + " was found.  This is only allowed in GEDCOM 5.5");

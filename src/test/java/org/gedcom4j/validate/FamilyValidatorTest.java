@@ -28,6 +28,7 @@ package org.gedcom4j.validate;
 
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualReference;
 import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.TestHelper;
 import org.junit.Before;
@@ -73,9 +74,9 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
 
         f = new Family();
         f.setXref("@F0001@");
-        f.setHusband(dad);
-        f.setWife(mom);
-        f.getChildren(true).add(jr);
+        f.setHusband(new IndividualReference(dad));
+        f.setWife(new IndividualReference(mom));
+        f.getChildren(true).add(new IndividualReference(jr));
         gedcom.getFamilies().put(f.getXref(), f);
 
         validator.validate();
@@ -146,7 +147,7 @@ public class FamilyValidatorTest extends AbstractValidatorTestCase {
         validator.validate();
         assertNoIssues();
 
-        f.getChildren(true).add(jr);
+        f.getChildren(true).add(new IndividualReference(jr));
         validator.validate();
         assertNoIssues();
     }

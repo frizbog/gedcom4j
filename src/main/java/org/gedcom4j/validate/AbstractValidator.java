@@ -49,7 +49,6 @@ import org.gedcom4j.model.HasXref;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.ModelElement;
-import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.UserReference;
 import org.gedcom4j.model.enumerations.IndividualEventType;
@@ -934,26 +933,6 @@ abstract class AbstractValidator implements Serializable {
         } else {
             if (!XREF_PATTERN.matcher(xref).matches()) {
                 validator.newFinding(objectContainingXref, Severity.ERROR, org.gedcom4j.validate.ProblemCode.XREF_INVALID, "xref");
-            }
-        }
-    }
-
-    /**
-     * Check string tree.
-     *
-     * @param st
-     *            the string tree
-     */
-    private void checkStringTree(StringTree st) {
-        if (st == null) {
-            return; // nothing to check
-        }
-        mustHaveValue(st, "tag");
-        mustHaveValueOrBeOmitted(st, "xref");
-        mustHaveValue(st, "level");
-        if (st.getChildren() != null) {
-            for (StringTree ch : st.getChildren()) {
-                checkStringTree(ch);
             }
         }
     }

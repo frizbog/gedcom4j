@@ -257,7 +257,7 @@ abstract class AbstractEmitter<T> {
             line.append(" ").append(tag);
             baseWriter.lines.add(line.toString());
             if (valueToRightOfTag != null) {
-                emitCustomTags(level + 1, valueToRightOfTag.getCustomFacts());
+                emitCustomFacts(level + 1, valueToRightOfTag.getCustomFacts());
             }
             return;
         }
@@ -268,7 +268,7 @@ abstract class AbstractEmitter<T> {
 
         emitValueLines(level, null, tag, valueLines);
 
-        emitCustomTags(level + 1, valueToRightOfTag.getCustomFacts());
+        emitCustomFacts(level + 1, valueToRightOfTag.getCustomFacts());
     }
 
     /**
@@ -326,7 +326,7 @@ abstract class AbstractEmitter<T> {
      * @throws WriterCancelledException
      *             if cancellation was requested during the operation
      */
-    void emitCustomTags(int level, List<CustomFact> customFacts) throws WriterCancelledException, GedcomWriterException {
+    void emitCustomFacts(int level, List<CustomFact> customFacts) throws WriterCancelledException, GedcomWriterException {
         if (customFacts != null) {
             for (CustomFact cf : customFacts) {
                 StringBuilder line = new StringBuilder(Integer.toString(level));
@@ -339,11 +339,11 @@ abstract class AbstractEmitter<T> {
                     line.append(" ").append(cf.getDescription());
                 }
                 baseWriter.lines.add(line.toString());
-                emitTagIfValueNotNull(startLevel, "DATE", cf.getDate());
+                emitTagIfValueNotNull(level + 1, "DATE", cf.getDate());
                 new PlaceEmitter(baseWriter, level + 1, cf.getPlace()).emit();
                 new NotesEmitter(baseWriter, level + 1, cf.getNotes()).emit();
-                new SourceCitationEmitter(baseWriter, startLevel, cf.getCitations()).emit();
-                emitCustomTags(level + 1, cf.getCustomFacts());
+                new SourceCitationEmitter(baseWriter, level + 1, cf.getCitations()).emit();
+                emitCustomFacts(level + 1, cf.getCustomFacts());
             }
         }
     }
@@ -445,7 +445,7 @@ abstract class AbstractEmitter<T> {
 
         emitValueLines(level, xref, tag, valueLines);
 
-        emitCustomTags(level + 1, e.getCustomFacts());
+        emitCustomFacts(level + 1, e.getCustomFacts());
     }
 
     /**

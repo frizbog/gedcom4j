@@ -80,7 +80,7 @@ class SubmittersEmitter extends AbstractEmitter<Collection<Submitter>> {
             emitTagIfValueNotNull(1, "RFN", s.getRegFileNumber());
             emitTagIfValueNotNull(1, "RIN", s.getRecIdNumber());
             new ChangeDateEmitter(baseWriter, 1, s.getChangeDate()).emit();
-            emitCustomTags(1, s.getCustomFacts());
+            emitCustomFacts(1, s.getCustomFacts());
         }
     }
 

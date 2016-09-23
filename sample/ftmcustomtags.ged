@@ -9,11 +9,13 @@
 1 DEST GED55
 1 DATE 20 SEP 2016
 1 CHAR UTF-8
-1 FILE /Users/frizbog/Documents/workspace/gedcom4j/sample/ftmcustomtags.ged
+1 SUBN @SUBMISSION@
+1 FILE ftmcustomtags.ged
 1 SUBM @SUBM@
 1 GEDC
 2 VERS 5.5.1
 2 FORM LINEAGE-LINKED
+0 @SUBMISSION@ SUBN
 0 @SUBM@ SUBM
 0 @I1@ INDI
 1 NAME John /Johnson/
@@ -41,8 +43,8 @@
 3 PAGE p1
 3 DATA
 4 TEXT “John weighs 165 lbs.”
-3 _JUST Because it was an awesome napkin.
 3 QUAY 3
+3 _JUST Because it was an awesome napkin.
 3 _LINK http://gedcom4j.org
 1 _INIT Wore a blue tie
 2 DATE 03 MAR 1970
@@ -101,7 +103,7 @@
 0 @S1@ SOUR
 1 TITL Napkin Drawing
 0 @M1@ OBJE
-1 FILE /Users/frizbog/Documents/Family Tree Maker/ftmcustomtags Media/Vitruvian_man.jpg
+1 FILE Vitruvian_man.jpg
 2 TITL Vitruvian_man
 2 DATE 9/19/16, 11:40:36 AM
 0 TRLR

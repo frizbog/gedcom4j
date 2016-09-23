@@ -880,11 +880,11 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
         if (familiesWhereSpouse != null) {
             for (FamilySpouse f : familiesWhereSpouse) {
                 Family fam = f.getFamily();
-                if (this != fam.getHusband() && fam.getHusband() != null) {
-                    result.add(fam.getHusband());
+                if (fam.getHusband() != null && this != fam.getHusband().getIndividual()) {
+                    result.add(fam.getHusband().getIndividual());
                 }
-                if (this != fam.getWife() && fam.getWife() != null) {
-                    result.add(fam.getWife());
+                if (fam.getWife() != null && this != fam.getWife().getIndividual()) {
+                    result.add(fam.getWife().getIndividual());
                 }
             }
         }
@@ -1148,15 +1148,15 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
         if (familiesWhereSpouse != null) {
             for (FamilySpouse f : familiesWhereSpouse) {
                 Family fam = f.getFamily();
-                if (fam.getHusband() == this) {
-                    if (fam.getWife() != null) {
+                if (fam.getHusband() != null && fam.getHusband().getIndividual() == this) {
+                    if (fam.getWife() != null && fam.getWife().getIndividual() != null) {
                         sb.append(", spouse of ");
-                        sb.append(fam.getWife().getFormattedName());
+                        sb.append(fam.getWife().getIndividual().getFormattedName());
                     }
                 } else {
-                    if (fam.getHusband() != null) {
+                    if (fam.getHusband() != null && fam.getHusband().getIndividual() != null) {
                         sb.append(", spouse of ");
-                        sb.append(fam.getHusband().getFormattedName());
+                        sb.append(fam.getHusband().getIndividual().getFormattedName());
                     }
                 }
             }
@@ -1164,14 +1164,14 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
         if (familiesWhereChild != null) {
             for (FamilyChild f : familiesWhereChild) {
                 sb.append(", child of ");
-                if (f.getFamily().getWife() != null) {
-                    sb.append(f.getFamily().getWife().getFormattedName());
+                if (f.getFamily().getWife() != null && f.getFamily().getWife().getIndividual() != null) {
+                    sb.append(f.getFamily().getWife().getIndividual().getFormattedName());
                     sb.append(" and ");
                 }
-                if (f.getFamily().getHusband() == null) {
+                if (f.getFamily().getHusband() == null || f.getFamily().getHusband().getIndividual() == null) {
                     sb.append("unknown");
                 } else {
-                    sb.append(f.getFamily().getHusband().getFormattedName());
+                    sb.append(f.getFamily().getHusband().getIndividual().getFormattedName());
                 }
             }
         }
@@ -1219,7 +1219,10 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
                 if (f == null) {
                     continue;
                 }
-                Individual husband = f.getFamily().getHusband();
+                Individual husband = null;
+                if (f.getFamily() != null && f.getFamily().getHusband() != null) {
+                    husband = f.getFamily().getHusband().getIndividual();
+                }
                 if (husband != null && !seenSoFar.contains(husband)) {
                     result.add(husband);
                     seenSoFar.add(husband);
@@ -1227,7 +1230,10 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
                     result.addAll(husbandsAncestors);
                     seenSoFar.addAll(husbandsAncestors);
                 }
-                Individual wife = f.getFamily().getWife();
+                Individual wife = null;
+                if (f.getFamily() != null && f.getFamily().getWife() != null) {
+                    wife = f.getFamily().getWife().getIndividual();
+                }
                 if (wife != null && !seenSoFar.contains(wife)) {
                     result.add(wife);
                     seenSoFar.add(wife);
@@ -1253,13 +1259,14 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
         if (familiesWhereSpouse != null) {
             for (FamilySpouse f : familiesWhereSpouse) {
                 if (f.getFamily().getChildren() != null) {
-                    for (Individual i : f.getFamily().getChildren()) {
-                        if (i == null) {
+                    for (IndividualReference iRef : f.getFamily().getChildren()) {
+                        if (iRef == null) {
                             continue;
                         }
+                        Individual i = iRef.getIndividual();
                         // Recurse if we have not seen this person before in the results already, and they have spouses
-                        boolean notSeenAlready = i != this && !seenSoFar.contains(i);
-                        boolean hasSpouses = i.familiesWhereSpouse != null && !i.familiesWhereSpouse.isEmpty();
+                        boolean notSeenAlready = (i != this && !seenSoFar.contains(i));
+                        boolean hasSpouses = i.getFamiliesWhereSpouse() != null && !i.getFamiliesWhereSpouse().isEmpty();
                         if (notSeenAlready && hasSpouses) {
                             seenSoFar.add(i);
                             Set<Individual> d = i.addGenerationOfDescendants(seenSoFar);

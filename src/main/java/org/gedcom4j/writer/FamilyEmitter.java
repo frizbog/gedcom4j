@@ -33,6 +33,7 @@ import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyEvent;
 import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualReference;
 import org.gedcom4j.model.LdsSpouseSealing;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.UserReference;
@@ -72,15 +73,22 @@ class FamilyEmitter extends AbstractEmitter<Collection<Family>> {
                     emitFamilyEventStructure(1, e);
                 }
             }
-            if (f.getHusband() != null) {
-                emitTagWithRequiredValue(1, "HUSB", f.getHusband().getXref());
+            if (f.getHusband() != null && f.getHusband().getIndividual() != null) {
+                emitTagWithRequiredValue(1, "HUSB", f.getHusband().getIndividual().getXref());
+                emitCustomFacts(2, f.getHusband().getCustomFacts());
             }
-            if (f.getWife() != null) {
-                emitTagWithRequiredValue(1, "WIFE", f.getWife().getXref());
+            if (f.getWife() != null && f.getWife().getIndividual() != null) {
+                emitTagWithRequiredValue(1, "WIFE", f.getWife().getIndividual().getXref());
+                emitCustomFacts(2, f.getWife().getCustomFacts());
             }
             if (f.getChildren() != null) {
-                for (Individual i : f.getChildren()) {
+                for (IndividualReference iRef : f.getChildren()) {
+                    if (iRef == null) {
+                        continue;
+                    }
+                    Individual i = iRef.getIndividual();
                     emitTagWithRequiredValue(1, "CHIL", i.getXref());
+                    emitCustomFacts(2, iRef.getCustomFacts());
                 }
             }
             emitTagIfValueNotNull(1, "NCHI", f.getNumChildren());
@@ -106,7 +114,7 @@ class FamilyEmitter extends AbstractEmitter<Collection<Family>> {
             }
             emitTagIfValueNotNull(1, "RIN", f.getAutomatedRecordId());
             new ChangeDateEmitter(baseWriter, 1, f.getChangeDate()).emit();
-            emitCustomTags(1, f.getCustomFacts());
+            emitCustomFacts(1, f.getCustomFacts());
         }
     }
 
@@ -151,7 +159,7 @@ class FamilyEmitter extends AbstractEmitter<Collection<Family>> {
         emitTagIfValueNotNull(level + 1, "PLAC", sealings.getPlace());
         new SourceCitationEmitter(baseWriter, level + 1, sealings.getCitations()).emit();
         new NotesEmitter(baseWriter, level + 1, sealings.getNotes()).emit();
-        emitCustomTags(level + 1, sealings.getCustomFacts());
+        emitCustomFacts(level + 1, sealings.getCustomFacts());
     }
 
 }

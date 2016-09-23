@@ -37,6 +37,7 @@ import java.util.Set;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.IndividualReference;
 import org.gedcom4j.model.Place;
 import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.gedcom4j.parser.DateParser;
@@ -126,7 +127,11 @@ public class SimultaneousBirthsInMultipleLocationsValidator extends AbstractVali
         Map<Date, Set<Birth>> birthsByDate = new HashMap<>();
         DateParser dp = new DateParser();
 
-        for (Individual i : f.getChildren()) {
+        for (IndividualReference iRef : f.getChildren()) {
+            if (iRef == null) {
+                continue;
+            }
+            Individual i = iRef.getIndividual();
             List<IndividualEvent> birthEvents = i.getEventsOfType(IndividualEventType.BIRTH);
             for (IndividualEvent birthEvent : birthEvents) {
                 if (birthEvent.getDate() == null) {

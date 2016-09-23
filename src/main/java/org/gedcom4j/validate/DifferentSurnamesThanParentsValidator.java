@@ -69,13 +69,15 @@ public class DifferentSurnamesThanParentsValidator extends AbstractValidator {
             Set<String> allParentSurnames = new TreeSet<>();
             Set<Individual> parents = new HashSet<>();
             for (FamilyChild fc : i.getFamiliesWhereChild()) {
-                if (fc.getFamily().getHusband() != null) {
-                    parents.add(fc.getFamily().getHusband());
-                    allParentSurnames.addAll(fc.getFamily().getHusband().getSurnames());
+                if (fc.getFamily().getHusband() != null && fc.getFamily().getHusband().getIndividual() != null) {
+                    Individual h = fc.getFamily().getHusband().getIndividual();
+                    parents.add(h);
+                    allParentSurnames.addAll(h.getSurnames());
                 }
-                if (fc.getFamily().getWife() != null) {
-                    parents.add(fc.getFamily().getWife());
-                    allParentSurnames.addAll(fc.getFamily().getWife().getSurnames());
+                if (fc.getFamily().getWife() != null && fc.getFamily().getWife().getIndividual() != null) {
+                    Individual w = fc.getFamily().getWife().getIndividual();
+                    parents.add(w);
+                    allParentSurnames.addAll(w.getSurnames());
                 }
             }
             if (allParentSurnames.isEmpty()) {

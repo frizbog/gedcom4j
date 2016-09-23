@@ -38,6 +38,7 @@ import java.util.Set;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.IndividualReference;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.gedcom4j.parser.DateParser;
@@ -167,7 +168,11 @@ public class MultipleChildrenWithSameGivenNameValidator extends AbstractValidato
      */
     private Map<String, Set<Individual>> getKidsByGivenName(Family f) {
         Map<String, Set<Individual>> result = new HashMap<>();
-        for (Individual kid : f.getChildren()) {
+        for (IndividualReference kidRef : f.getChildren()) {
+            if (kidRef == null) {
+                continue;
+            }
+            Individual kid = kidRef.getIndividual();
             for (PersonalName pn : kid.getNames(true)) {
                 String gn = null;
                 if (pn.getGivenName() != null && isSpecified(pn.getGivenName().getValue())) {

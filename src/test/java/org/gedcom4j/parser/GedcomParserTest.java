@@ -162,8 +162,10 @@ public class GedcomParserTest {
         Family family = g.getFamilies().get("@F1428@");
         assertNotNull(family);
         assertEquals(3, family.getChildren().size());
-        assertEquals("Lawrence Henry /Barnett/", family.getHusband().getNames().get(0).getBasic());
-        assertEquals("Velma //", family.getWife().getNames().get(0).getBasic());
+        Individual h = family.getHusband().getIndividual();
+        assertEquals("Lawrence Henry /Barnett/", h.getNames().get(0).getBasic());
+        Individual w = family.getWife().getIndividual();
+        assertEquals("Velma //", w.getNames().get(0).getBasic());
 
     }
 

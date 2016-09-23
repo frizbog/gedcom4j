@@ -67,13 +67,13 @@ public class FamilySpouseCopyTest extends AbstractCopyTest {
         Family f = new Family();
         Individual h = new Individual();
         h.setXref("@I1@");
-        f.setHusband(h);
+        f.setHusband(new IndividualReference(h));
         Individual w = new Individual();
         w.setXref("@I2@");
-        f.setWife(w);
+        f.setWife(new IndividualReference(w));
         Individual k = new Individual();
         k.setXref("@I3@");
-        f.getChildren(true).add(k);
+        f.getChildren(true).add(new IndividualReference(k));
         orig.setFamily(f);
         orig.getCustomFacts(true).add(getTestCustomFact());
         orig.getNotes(true).add(getTestNote());

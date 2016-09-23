@@ -98,7 +98,7 @@ class PlaceEmitter extends AbstractEmitter<Place> {
                                 + ", which is only allowed in GEDCOM 5.5.1");
             }
         }
-        emitCustomTags(startLevel + 1, writeFrom.getCustomFacts());
+        emitCustomFacts(startLevel + 1, writeFrom.getCustomFacts());
     }
 
 }

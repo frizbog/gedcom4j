@@ -70,7 +70,7 @@ class EventEmitter extends AbstractEmitter<AbstractEvent> {
         new SourceCitationEmitter(baseWriter, startLevel, writeFrom.getCitations()).emit();
         new MultimediaLinksEmitter(baseWriter, startLevel, writeFrom.getMultimedia()).emit();
         new NotesEmitter(baseWriter, startLevel, writeFrom.getNotes()).emit();
-        emitCustomTags(startLevel, writeFrom.getCustomFacts());
+        emitCustomFacts(startLevel, writeFrom.getCustomFacts());
     }
 
 }

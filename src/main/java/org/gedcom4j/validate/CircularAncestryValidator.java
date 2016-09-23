@@ -65,7 +65,7 @@ public class CircularAncestryValidator extends AbstractValidator {
                     Family f = fc.getFamily();
 
                     // Check father's side
-                    Individual father = f.getHusband();
+                    Individual father = (f.getHusband() == null ? null : f.getHusband().getIndividual());
                     if (father != null && father.getAncestors().contains(i)) {
                         Finding finding = newFinding(i, Severity.ERROR, ProblemCode.CIRCULAR_ANCESTRAL_RELATIONSHIP,
                                 "familiesWhereChild");
@@ -76,7 +76,7 @@ public class CircularAncestryValidator extends AbstractValidator {
                     }
 
                     // Check mother's side
-                    Individual mother = f.getWife();
+                    Individual mother = (f.getWife() == null ? null : f.getWife().getIndividual());
                     if (mother != null && mother.getAncestors().contains(i)) {
                         Finding finding = newFinding(i, Severity.ERROR, ProblemCode.CIRCULAR_ANCESTRAL_RELATIONSHIP,
                                 "familiesWhereChild");

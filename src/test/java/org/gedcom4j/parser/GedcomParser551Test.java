@@ -362,6 +362,7 @@ public class GedcomParser551Test {
      * 
      */
     @Test
+    @SuppressWarnings("PMD.SystemPrintln")
     public void testMultimediaFileRef() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/5.5.1 sample 5.ged");
