@@ -10,6 +10,12 @@ No specific issue numbers, but changed:
 - Families no longer directly link to the individuals in them, but use an intermediary IndividualReference class that can hold custom facts
 - CustomTags are completely reworked to be CustomFacts. A CustomFact object represents a custom tag but has built-in first order support for Dates, Places, Notes, and Citations.
 
+?? SEP 2016 - v3.2.2
+====================
+v3.2.1 is a minor fix release
+
+Issue #162 - Fixed enum AdoptedByWhichParent so it uses the correct tag name HUSB for the husband doing the adopting.
+
 
 14 SEP 2016 - v3.2.1
 ====================
