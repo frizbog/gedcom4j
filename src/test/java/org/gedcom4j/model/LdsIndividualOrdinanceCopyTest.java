@@ -70,7 +70,7 @@ public class LdsIndividualOrdinanceCopyTest extends AbstractCopyTest {
         FamilyChild fc = new FamilyChild();
         fc.setStatus("B");
         fc.setPedigree("C");
-        fc.setAdoptedBy(AdoptedByWhichParent.HUSBAND);
+        fc.setAdoptedBy(AdoptedByWhichParent.HUSB);
         Family f = new Family();
         fc.setFamily(f);
         orig.setFamilyWhereChild(fc);

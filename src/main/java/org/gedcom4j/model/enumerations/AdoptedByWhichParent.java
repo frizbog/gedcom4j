@@ -39,7 +39,7 @@ public enum AdoptedByWhichParent {
     /**
      * The husband did the adopting
      */
-    HUSBAND,
+    HUSB,
     /**
      * The wife did the adopting
      */
