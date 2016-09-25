@@ -69,9 +69,6 @@ public class FamilyTreeMaker3AdapterTest {
     /** Jesse, one of the people in the GEDCOM test file. */
     private Individual jesse;
 
-    /** June, one of the people in the GEDCOM test file. */
-    private Individual june;
-
     /** The main family (consisting of jesse, june, and john) in the GEDCOM test file. */
     private Family family1;
 
@@ -104,7 +101,7 @@ public class FamilyTreeMaker3AdapterTest {
         jesse = g.getIndividuals().get("@I2@");
         assertNotNull(jesse);
 
-        june = g.getIndividuals().get("@I3@");
+        final Individual june = g.getIndividuals().get("@I3@");
         assertNotNull(june);
 
         family1 = g.getFamilies().get("@F1@");
