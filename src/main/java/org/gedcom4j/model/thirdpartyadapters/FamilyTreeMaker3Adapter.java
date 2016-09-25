@@ -28,6 +28,7 @@ package org.gedcom4j.model.thirdpartyadapters;
 
 import java.util.List;
 
+import org.gedcom4j.model.CitationWithSource;
 import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Individual;
 
@@ -42,7 +43,7 @@ import org.gedcom4j.model.Individual;
  * 
  * @author frizbog
  */
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({ "PMD.TooManyMethods", "PMD.ExcessivePublicCount", "PMD.GodClass" })
 public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
 
     /**
@@ -54,6 +55,17 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      */
     public List<CustomFact> getCauseOfDeath(Individual i) {
         return i.getCustomFactsWithTag("_DCAUSE");
+    }
+
+    /**
+     * Get certainty justification information
+     * 
+     * @param cws
+     *            the Citation with source
+     * @return the certainty justification information for the individual
+     */
+    public List<CustomFact> getCertaintyJustification(CitationWithSource cws) {
+        return cws.getCustomFactsWithTag("_JUST");
     }
 
     /**
@@ -156,6 +168,39 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get medical information
+     * 
+     * @param i
+     *            the individual
+     * @return the medical information for the individual
+     */
+    public List<CustomFact> getMedical(Individual i) {
+        return i.getCustomFactsWithTag("_MDCL");
+    }
+
+    /**
+     * Get military information
+     * 
+     * @param i
+     *            the individual
+     * @return the military information for the individual
+     */
+    public List<CustomFact> getMilitary(Individual i) {
+        return i.getCustomFactsWithTag("_MILT");
+    }
+
+    /**
+     * Get military ID information
+     * 
+     * @param i
+     *            the individual
+     * @return the military ID information for the individual
+     */
+    public List<CustomFact> getMilitaryId(Individual i) {
+        return i.getCustomFactsWithTag("_MILTID");
+    }
+
+    /**
      * Get mission information
      * 
      * @param i
@@ -167,12 +212,76 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get namesake information
+     * 
+     * @param i
+     *            the individual
+     * @return the namesake information for the individual
+     */
+    public List<CustomFact> getNamesake(Individual i) {
+        return i.getCustomFactsWithTag("_NAMS");
+    }
+
+    /**
+     * Get ordinance information
+     * 
+     * @param i
+     *            the individual
+     * @return the ordinance information for the individual
+     */
+    public List<CustomFact> getOrdinance(Individual i) {
+        return i.getCustomFactsWithTag("_ORDI");
+    }
+
+    /**
+     * Get origin information
+     * 
+     * @param i
+     *            the individual
+     * @return the origin information for the individual
+     */
+    public List<CustomFact> getOrigin(Individual i) {
+        return i.getCustomFactsWithTag("_ORIG");
+    }
+
+    /**
+     * Get web link information for a source citation
+     * 
+     * @param cws
+     *            citation with source
+     * @return the web link(s) for the citation
+     */
+    public List<CustomFact> getWebLink(CitationWithSource cws) {
+        return cws.getCustomFactsWithTag("_LINK");
+    }
+
+    /**
+     * Get weight information
+     * 
+     * @param i
+     *            the individual
+     * @return the weight information for the individual
+     */
+    public List<CustomFact> getWeight(Individual i) {
+        return i.getCustomFactsWithTag("_WEIG");
+    }
+
+    /**
      * Creates a new custom fact about a cause of death
      * 
      * @return the new custom fact about a cause of death
      */
     public CustomFact newCauseOfDeathCustomFact() {
         return new CustomFact("_DCAUSE");
+    }
+
+    /**
+     * Creates a new custom fact about certainty justification
+     * 
+     * @return the new custom fact about certainty justification
+     */
+    public CustomFact newCertaintyJustificationCustomFact() {
+        return new CustomFact("_JUST");
     }
 
     /**
@@ -257,12 +366,84 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Creates a new custom fact about a medical
+     * 
+     * @return the new custom fact about a medical
+     */
+    public CustomFact newMedicalCustomFact() {
+        return new CustomFact("_MDCL");
+    }
+
+    /**
+     * Creates a new custom fact about a military
+     * 
+     * @return the new custom fact about a military
+     */
+    public CustomFact newMilitaryCustomFact() {
+        return new CustomFact("_MILT");
+    }
+
+    /**
+     * Creates a new custom fact about a military ID
+     * 
+     * @return the new custom fact about a military ID
+     */
+    public CustomFact newMilitaryIdCustomFact() {
+        return new CustomFact("_MILTID");
+    }
+
+    /**
      * Creates a new custom fact about a mission
      * 
      * @return the new custom fact about a mission
      */
     public CustomFact newMissionCustomFact() {
         return new CustomFact("_MISN");
+    }
+
+    /**
+     * Creates a new custom fact about a namesake
+     * 
+     * @return the new custom fact about a namesake
+     */
+    public CustomFact newNamesakeCustomFact() {
+        return new CustomFact("_NAMS");
+    }
+
+    /**
+     * Creates a new custom fact about a ordinance
+     * 
+     * @return the new custom fact about a ordinance
+     */
+    public CustomFact newOrdinanceCustomFact() {
+        return new CustomFact("_ORDI");
+    }
+
+    /**
+     * Creates a new custom fact about a origin
+     * 
+     * @return the new custom fact about a origin
+     */
+    public CustomFact newOriginCustomFact() {
+        return new CustomFact("_ORIG");
+    }
+
+    /**
+     * Creates a new custom fact about a web link on a citation
+     * 
+     * @return the new custom fact about a web link for a citation
+     */
+    public CustomFact newWebLinkCustomFact() {
+        return new CustomFact("_LINK");
+    }
+
+    /**
+     * Creates a new custom fact about a weight
+     * 
+     * @return the new custom fact about a weight
+     */
+    public CustomFact newWeightCustomFact() {
+        return new CustomFact("_WEIG");
     }
 
     /**
@@ -276,6 +457,18 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
     public void setCausesOfDeath(Individual i, List<CustomFact> causes) {
         clearCustomTagsOfType(i, "_DCAUSE");
         i.getCustomFacts(true).addAll(causes);
+    }
+
+    /**
+     * Set certainty justification information
+     * 
+     * @param cws
+     *            the citation with source
+     * @param justifications
+     *            the certainty justification information for the citation
+     */
+    public void setCertaintyJustification(CitationWithSource cws, List<CustomFact> justifications) {
+        replaceAllCustomFactsOfTypeWithNewFacts(cws, "_WEIG", justifications);
     }
 
     /**
@@ -388,6 +581,42 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Set medical information
+     * 
+     * @param i
+     *            the individual
+     * @param medical
+     *            the medical information for the individual
+     */
+    public void setMedical(Individual i, List<CustomFact> medical) {
+        replaceAllCustomFactsOfTypeWithNewFacts(i, "_MDCL", medical);
+    }
+
+    /**
+     * Set military information
+     * 
+     * @param i
+     *            the individual
+     * @param military
+     *            the military information for the individual
+     */
+    public void setMilitary(Individual i, List<CustomFact> military) {
+        replaceAllCustomFactsOfTypeWithNewFacts(i, "_MILT", military);
+    }
+
+    /**
+     * Set military ID information
+     * 
+     * @param i
+     *            the individual
+     * @param militaryIds
+     *            the military ID information for the individual
+     */
+    public void setMilitaryId(Individual i, List<CustomFact> militaryIds) {
+        replaceAllCustomFactsOfTypeWithNewFacts(i, "_MILTID", militaryIds);
+    }
+
+    /**
      * Set mission information
      * 
      * @param i
@@ -397,6 +626,54 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      */
     public void setMission(Individual i, List<CustomFact> missions) {
         replaceAllCustomFactsOfTypeWithNewFacts(i, "_MISN", missions);
+    }
+
+    /**
+     * Set namesake information
+     * 
+     * @param i
+     *            the individual
+     * @param namesake
+     *            the namesake information for the individual
+     */
+    public void setNamesake(Individual i, List<CustomFact> namesake) {
+        replaceAllCustomFactsOfTypeWithNewFacts(i, "_NAMS", namesake);
+    }
+
+    /**
+     * Set ordinance information
+     * 
+     * @param i
+     *            the individual
+     * @param ordinance
+     *            the ordinance information for the individual
+     */
+    public void setOrdinance(Individual i, List<CustomFact> ordinance) {
+        replaceAllCustomFactsOfTypeWithNewFacts(i, "_ORDI", ordinance);
+    }
+
+    /**
+     * Set origin information
+     * 
+     * @param i
+     *            the individual
+     * @param origin
+     *            the origin information for the individual
+     */
+    public void setOrigin(Individual i, List<CustomFact> origin) {
+        replaceAllCustomFactsOfTypeWithNewFacts(i, "_ORIG", origin);
+    }
+
+    /**
+     * Set weight information
+     * 
+     * @param i
+     *            the individual
+     * @param weight
+     *            the weight information for the individual
+     */
+    public void setWeight(Individual i, List<CustomFact> weight) {
+        replaceAllCustomFactsOfTypeWithNewFacts(i, "_WEIG", weight);
     }
 
 }

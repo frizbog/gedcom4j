@@ -28,12 +28,17 @@ package org.gedcom4j.model.thirdpartyadapters;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.model.AbstractCitation;
+import org.gedcom4j.model.CitationWithSource;
 import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
@@ -520,6 +525,153 @@ public class FamilyTreeMaker3AdapterTest {
     }
 
     /**
+     * Test {@link FamilyTreeMaker3Adapter#getMedical(Individual)} and {@link FamilyTreeMaker3Adapter#setMedical(Individual, List)}
+     */
+    @Test
+    public void testMedicalNegative() {
+        FamilyTreeMaker3Adapter a = new FamilyTreeMaker3Adapter();
+        List<CustomFact> m = a.getMedical(jesse);
+        assertNotNull(m);
+        assertEquals(0, m.size());
+
+        List<CustomFact> m2 = new ArrayList<>();
+        CustomFact cf = a.newMedicalCustomFact();
+        cf.setDate("01 JAN 1990");
+        cf.setDescription("Frying Pan");
+        Place p = new Place();
+        p.setPlaceName("Wyoming, USA");
+        cf.setPlace(p);
+        m2.add(cf);
+        a.setMedical(jesse, m2);
+
+        m = a.getMedical(jesse);
+        assertNotNull(m);
+        assertEquals(1, m.size());
+        assertEquals("Frying Pan", m.get(0).getDescription().getValue());
+        assertEquals("01 JAN 1990", m.get(0).getDate().getValue());
+        assertEquals("Wyoming, USA", m.get(0).getPlace().getPlaceName());
+    }
+
+    /**
+     * Test {@link FamilyTreeMaker3Adapter#getMedical(Individual)} and {@link FamilyTreeMaker3Adapter#setMedical(Individual, List)}
+     */
+    @Test
+    public void testMedicalPositive() {
+        FamilyTreeMaker3Adapter a = new FamilyTreeMaker3Adapter();
+        List<CustomFact> m = a.getMedical(john);
+        assertNotNull(m);
+        assertEquals(1, m.size());
+        assertEquals("Decapitated, but recovered", m.get(0).getDescription().getValue());
+        assertEquals("08 AUG 1978", m.get(0).getDate().getValue());
+        assertEquals("San Antonio, Bexar, Texas, USA", m.get(0).getPlace().getPlaceName());
+
+        a.setMedical(john, new ArrayList<CustomFact>());
+        m = a.getMedical(jesse);
+        assertNotNull(m);
+        assertEquals(0, m.size());
+    }
+
+    /**
+     * Test {@link FamilyTreeMaker3Adapter#getMilitaryId(Individual)} and
+     * {@link FamilyTreeMaker3Adapter#setMilitaryId(Individual, List)}
+     */
+    @Test
+    public void testMilitaryIdNegative() {
+        FamilyTreeMaker3Adapter a = new FamilyTreeMaker3Adapter();
+        List<CustomFact> m = a.getMilitaryId(jesse);
+        assertNotNull(m);
+        assertEquals(0, m.size());
+
+        List<CustomFact> m2 = new ArrayList<>();
+        CustomFact cf = a.newMilitaryIdCustomFact();
+        cf.setDate("01 JAN 1990");
+        cf.setDescription("Frying Pan");
+        Place p = new Place();
+        p.setPlaceName("Wyoming, USA");
+        cf.setPlace(p);
+        m2.add(cf);
+        a.setMilitaryId(jesse, m2);
+
+        m = a.getMilitaryId(jesse);
+        assertNotNull(m);
+        assertEquals(1, m.size());
+        assertEquals("Frying Pan", m.get(0).getDescription().getValue());
+        assertEquals("01 JAN 1990", m.get(0).getDate().getValue());
+        assertEquals("Wyoming, USA", m.get(0).getPlace().getPlaceName());
+
+    }
+
+    /**
+     * Test {@link FamilyTreeMaker3Adapter#getMilitaryId(Individual)} and
+     * {@link FamilyTreeMaker3Adapter#setMilitaryId(Individual, List)}
+     */
+    @Test
+    public void testMilitaryIdPositive() {
+        FamilyTreeMaker3Adapter a = new FamilyTreeMaker3Adapter();
+        List<CustomFact> m = a.getMilitaryId(john);
+        assertNotNull(m);
+        assertEquals(1, m.size());
+
+        assertEquals("1234567", m.get(0).getDescription().getValue());
+        assertEquals("06 JUN 1966", m.get(0).getDate().getValue());
+        assertEquals("Walla Walla, Walla Walla, Washington, USA", m.get(0).getPlace().getPlaceName());
+
+        a.setMilitaryId(john, new ArrayList<CustomFact>());
+        m = a.getMilitaryId(jesse);
+        assertNotNull(m);
+        assertEquals(0, m.size());
+    }
+
+    /**
+     * Test {@link FamilyTreeMaker3Adapter#getMilitary(Individual)} and
+     * {@link FamilyTreeMaker3Adapter#setMilitary(Individual, List)}
+     */
+    @Test
+    public void testMilitaryNegative() {
+        FamilyTreeMaker3Adapter a = new FamilyTreeMaker3Adapter();
+        List<CustomFact> m = a.getMilitary(jesse);
+        assertNotNull(m);
+        assertEquals(0, m.size());
+
+        List<CustomFact> m2 = new ArrayList<>();
+        CustomFact cf = a.newMilitaryCustomFact();
+        cf.setDate("01 JAN 1990");
+        cf.setDescription("Frying Pan");
+        Place p = new Place();
+        p.setPlaceName("Wyoming, USA");
+        cf.setPlace(p);
+        m2.add(cf);
+        a.setMilitary(jesse, m2);
+
+        m = a.getMilitary(jesse);
+        assertNotNull(m);
+        assertEquals(1, m.size());
+        assertEquals("Frying Pan", m.get(0).getDescription().getValue());
+        assertEquals("01 JAN 1990", m.get(0).getDate().getValue());
+        assertEquals("Wyoming, USA", m.get(0).getPlace().getPlaceName());
+    }
+
+    /**
+     * Test {@link FamilyTreeMaker3Adapter#getMilitary(Individual)} and
+     * {@link FamilyTreeMaker3Adapter#setMilitary(Individual, List)}
+     */
+    @Test
+    public void testMilitaryPositive() {
+        FamilyTreeMaker3Adapter a = new FamilyTreeMaker3Adapter();
+        List<CustomFact> m = a.getMilitary(john);
+        assertNotNull(m);
+        assertEquals(1, m.size());
+        assertEquals("Garbage Pail Scrubber", m.get(0).getDescription().getValue());
+        assertEquals("BET 06 JUN 1966 AND 07 JUL 1967", m.get(0).getDate().getValue());
+        assertEquals("Fort Bragg, Cumberland, North Carolina, USA", m.get(0).getPlace().getPlaceName());
+
+        a.setMilitary(john, new ArrayList<CustomFact>());
+        m = a.getMilitary(jesse);
+        assertNotNull(m);
+        assertEquals(0, m.size());
+    }
+
+    /**
      * Test {@link FamilyTreeMaker3Adapter#getMission(Individual)} and {@link FamilyTreeMaker3Adapter#setMission(Individual, List)}
      */
     @Test
@@ -564,5 +716,212 @@ public class FamilyTreeMaker3AdapterTest {
         m = a.getMission(jesse);
         assertNotNull(m);
         assertEquals(0, m.size());
+    }
+
+    /**
+     * Test {@link FamilyTreeMaker3Adapter#getNamesake(Individual)} and
+     * {@link FamilyTreeMaker3Adapter#setNamesake(Individual, List)}
+     */
+    @Test
+    public void testNamesakeNegative() {
+        FamilyTreeMaker3Adapter a = new FamilyTreeMaker3Adapter();
+        List<CustomFact> n = a.getNamesake(jesse);
+        assertNotNull(n);
+        assertEquals(0, n.size());
+
+        List<CustomFact> n2 = new ArrayList<>();
+        CustomFact cf = a.newNamesakeCustomFact();
+        cf.setDate("01 JAN 1990");
+        cf.setDescription("Frying Pan");
+        Place p = new Place();
+        p.setPlaceName("Wyoming, USA");
+        cf.setPlace(p);
+        n2.add(cf);
+        a.setNamesake(jesse, n2);
+
+        n = a.getNamesake(jesse);
+        assertNotNull(n);
+        assertEquals(1, n.size());
+        assertEquals("Frying Pan", n.get(0).getDescription().getValue());
+        assertEquals("01 JAN 1990", n.get(0).getDate().getValue());
+        assertEquals("Wyoming, USA", n.get(0).getPlace().getPlaceName());
+    }
+
+    /**
+     * Test {@link FamilyTreeMaker3Adapter#getNamesake(Individual)} and
+     * {@link FamilyTreeMaker3Adapter#setNamesake(Individual, List)}
+     */
+    @Test
+    public void testNamesakePositive() {
+        FamilyTreeMaker3Adapter a = new FamilyTreeMaker3Adapter();
+        List<CustomFact> n = a.getNamesake(john);
+        assertNotNull(n);
+        assertEquals(1, n.size());
+        assertEquals("Mr. Phil Philanganes (the Phamous Photographer)", n.get(0).getDescription().getValue());
+        assertNull(n.get(0).getDate());
+        assertNull(n.get(0).getPlace());
+
+        a.setNamesake(john, new ArrayList<CustomFact>());
+        n = a.getNamesake(jesse);
+        assertNotNull(n);
+        assertEquals(0, n.size());
+    }
+
+    /**
+     * Test {@link FamilyTreeMaker3Adapter#getOrdinance(Individual)} and
+     * {@link FamilyTreeMaker3Adapter#setOrdinance(Individual, List)}
+     */
+    @Test
+    public void testOrdinanceNegative() {
+        FamilyTreeMaker3Adapter a = new FamilyTreeMaker3Adapter();
+        List<CustomFact> o = a.getOrdinance(jesse);
+        assertNotNull(o);
+        assertEquals(0, o.size());
+
+        List<CustomFact> o2 = new ArrayList<>();
+        CustomFact cf = a.newOrdinanceCustomFact();
+        cf.setDate("01 JAN 1990");
+        cf.setDescription("Frying Pan");
+        Place p = new Place();
+        p.setPlaceName("Wyoming, USA");
+        cf.setPlace(p);
+        o2.add(cf);
+        a.setOrdinance(jesse, o2);
+
+        o = a.getOrdinance(jesse);
+        assertNotNull(o);
+        assertEquals(1, o.size());
+        assertEquals("Frying Pan", o.get(0).getDescription().getValue());
+        assertEquals("01 JAN 1990", o.get(0).getDate().getValue());
+        assertEquals("Wyoming, USA", o.get(0).getPlace().getPlaceName());
+    }
+
+    /**
+     * Test {@link FamilyTreeMaker3Adapter#getOrdinance(Individual)} and
+     * {@link FamilyTreeMaker3Adapter#setOrdinance(Individual, List)}
+     */
+    @Test
+    public void testOrdinancePositive() {
+        FamilyTreeMaker3Adapter a = new FamilyTreeMaker3Adapter();
+        List<CustomFact> o = a.getOrdinance(john);
+        assertNotNull(o);
+        assertEquals(1, o.size());
+        assertEquals("Frying pans were not involved", o.get(0).getDescription().getValue());
+        assertEquals("09 SEP 1979", o.get(0).getDate().getValue());
+        assertEquals("Temecula, Riverside, California, USA", o.get(0).getPlace().getPlaceName());
+
+        a.setOrdinance(john, new ArrayList<CustomFact>());
+        o = a.getOrdinance(jesse);
+        assertNotNull(o);
+        assertEquals(0, o.size());
+    }
+
+    /**
+     * Test {@link FamilyTreeMaker3Adapter#getOrigin(Individual)} and {@link FamilyTreeMaker3Adapter#setOrigin(Individual, List)}
+     */
+    @Test
+    public void testOriginNegative() {
+        FamilyTreeMaker3Adapter a = new FamilyTreeMaker3Adapter();
+        List<CustomFact> o = a.getOrigin(jesse);
+        assertNotNull(o);
+        assertEquals(0, o.size());
+
+        List<CustomFact> o2 = new ArrayList<>();
+        CustomFact cf = a.newOriginCustomFact();
+        cf.setDate("01 JAN 1990");
+        cf.setDescription("Frying Pan");
+        Place p = new Place();
+        p.setPlaceName("Wyoming, USA");
+        cf.setPlace(p);
+        o2.add(cf);
+        a.setOrigin(jesse, o2);
+
+        o = a.getOrigin(jesse);
+        assertNotNull(o);
+        assertEquals(1, o.size());
+        assertEquals("Frying Pan", o.get(0).getDescription().getValue());
+        assertEquals("01 JAN 1990", o.get(0).getDate().getValue());
+        assertEquals("Wyoming, USA", o.get(0).getPlace().getPlaceName());
+    }
+
+    /**
+     * Test {@link FamilyTreeMaker3Adapter#getOrigin(Individual)} and {@link FamilyTreeMaker3Adapter#setOrigin(Individual, List)}
+     */
+    @Test
+    public void testOriginPositive() {
+        FamilyTreeMaker3Adapter a = new FamilyTreeMaker3Adapter();
+        List<CustomFact> o = a.getOrigin(john);
+        assertNotNull(o);
+        assertEquals(1, o.size());
+        assertEquals("Cabbage Patch", o.get(0).getDescription().getValue());
+        assertNull(o.get(0).getDate());
+        assertNull(o.get(0).getPlace());
+
+        a.setOrigin(john, new ArrayList<CustomFact>());
+        o = a.getOrigin(jesse);
+        assertNotNull(o);
+        assertEquals(0, o.size());
+    }
+
+    /**
+     * Test {@link FamilyTreeMaker3Adapter#getWeight(Individual)} and {@link FamilyTreeMaker3Adapter#setWeight(Individual, List)}
+     */
+    @Test
+    public void testWeightNegative() {
+        FamilyTreeMaker3Adapter a = new FamilyTreeMaker3Adapter();
+        List<CustomFact> w = a.getWeight(jesse);
+        assertNotNull(w);
+        assertEquals(0, w.size());
+
+        List<CustomFact> w2 = new ArrayList<>();
+        CustomFact cf = a.newWeightCustomFact();
+        cf.setDate("01 JAN 1990");
+        cf.setDescription("Frying Pan");
+        Place p = new Place();
+        p.setPlaceName("Wyoming, USA");
+        cf.setPlace(p);
+        w2.add(cf);
+        a.setWeight(jesse, w2);
+
+        w = a.getWeight(jesse);
+        assertNotNull(w);
+        assertEquals(1, w.size());
+        assertEquals("Frying Pan", w.get(0).getDescription().getValue());
+        assertEquals("01 JAN 1990", w.get(0).getDate().getValue());
+        assertEquals("Wyoming, USA", w.get(0).getPlace().getPlaceName());
+    }
+
+    /**
+     * Test {@link FamilyTreeMaker3Adapter#getWeight(Individual)} and {@link FamilyTreeMaker3Adapter#setWeight(Individual, List)}
+     */
+    @Test
+    public void testWeightPositive() {
+        FamilyTreeMaker3Adapter a = new FamilyTreeMaker3Adapter();
+        List<CustomFact> w = a.getWeight(john);
+        assertNotNull(w);
+        assertEquals(1, w.size());
+        CustomFact wt = w.get(0);
+        assertEquals("165lb", wt.getDescription().getValue());
+        assertNull(wt.getDate());
+        assertNull(wt.getPlace());
+
+        // Check the citations and stuff
+        assertEquals(1, wt.getCitations().size());
+        AbstractCitation c = wt.getCitations().get(0);
+        assertTrue(c instanceof CitationWithSource);
+        CitationWithSource cws = (CitationWithSource) c;
+        assertNotNull(cws.getSource());
+        assertEquals(cws.getSource(), source);
+        assertSame(cws.getSource(), source);
+        assertEquals("3", cws.getCertainty().getValue());
+        assertEquals("p1", cws.getWhereInSource().getValue());
+        assertEquals("Because it was an awesome napkin.", a.getCertaintyJustification(cws).get(0).getDescription().getValue());
+        assertNotNull(a.getWebLink(cws));
+        assertEquals("http://gedcom4j.org", a.getWebLink(cws).get(0).getDescription().getValue());
+
+        a.setWeight(john, new ArrayList<CustomFact>());
+        w = a.getWeight(jesse);
+        assertNotNull(w);
+        assertEquals(0, w.size());
     }
 }
