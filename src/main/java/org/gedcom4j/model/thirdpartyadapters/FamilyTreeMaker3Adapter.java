@@ -30,7 +30,9 @@ import java.util.List;
 
 import org.gedcom4j.model.CitationWithSource;
 import org.gedcom4j.model.CustomFact;
+import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualReference;
 
 /**
  * <p>
@@ -135,6 +137,17 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get the father's relationship to a child
+     * 
+     * @param familySpecificChildReference
+     *            the family-specific reference to the child whose maternal relationship we want to determine
+     * @return the custom facts related to the child's relationship with the father
+     */
+    public List<CustomFact> getFatherRelationship(IndividualReference familySpecificChildReference) {
+        return familySpecificChildReference.getCustomFactsWithTag("_FREL");
+    }
+
+    /**
      * Get funeral information
      * 
      * @param i
@@ -212,6 +225,17 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get the mother's relationship to a child
+     * 
+     * @param familySpecificChildReference
+     *            the family-specific reference to the child whose maternal relationship we want to determine
+     * @return the custom facts related to the child's relationship with the mother
+     */
+    public List<CustomFact> getMotherRelationship(IndividualReference familySpecificChildReference) {
+        return familySpecificChildReference.getCustomFactsWithTag("_MREL");
+    }
+
+    /**
      * Get namesake information
      * 
      * @param i
@@ -242,6 +266,28 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      */
     public List<CustomFact> getOrigin(Individual i) {
         return i.getCustomFactsWithTag("_ORIG");
+    }
+
+    /**
+     * Get the individual's main photo(s)
+     * 
+     * @param i
+     *            the individual
+     * @return the main photo(s) for the individual
+     */
+    public List<CustomFact> getPhoto(Individual i) {
+        return i.getCustomFactsWithTag("_PHOTO");
+    }
+
+    /**
+     * Get the separations in the family
+     * 
+     * @param family
+     *            the family
+     * @return the separations
+     */
+    public List<CustomFact> getSeparation(Family family) {
+        return family.getCustomFactsWithTag("_SEPR");
     }
 
     /**
@@ -339,6 +385,15 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Make a new custom fact for father relationship
+     * 
+     * @return a new custom fact for father relationship
+     */
+    public CustomFact newFatherRelationshipCustomFact() {
+        return new CustomFact("_FREL");
+    }
+
+    /**
      * Creates a new custom fact about a funeral
      * 
      * @return the new custom fact about a funeral
@@ -402,6 +457,15 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Make a new custom fact for mother relationship
+     * 
+     * @return a new custom fact for mother relationship
+     */
+    public CustomFact newMotherRelationshipCustomFact() {
+        return new CustomFact("_MREL");
+    }
+
+    /**
      * Creates a new custom fact about a namesake
      * 
      * @return the new custom fact about a namesake
@@ -426,6 +490,24 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      */
     public CustomFact newOriginCustomFact() {
         return new CustomFact("_ORIG");
+    }
+
+    /**
+     * Creates a new custom fact about a photo for the individual
+     * 
+     * @return the new custom fact about a photo for the individual
+     */
+    public CustomFact newPhotoCustomFact() {
+        return new CustomFact("_PHOTO");
+    }
+
+    /**
+     * Get a new custom fact about a separation
+     * 
+     * @return a new custom fact about a separation
+     */
+    public CustomFact newSeparationCustomFact() {
+        return new CustomFact("_SEPR");
     }
 
     /**
@@ -545,6 +627,18 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Set father relationships for a child of a family
+     * 
+     * @param familySpecificChildReference
+     *            the family-specific reference to a child in a family whose father relationships we want to change
+     * @param facts
+     *            the father relationship facts we are setting
+     */
+    public void setFatherRelationship(IndividualReference familySpecificChildReference, List<CustomFact> facts) {
+        replaceAllCustomFactsOfTypeWithNewFacts(familySpecificChildReference, "_FREL", facts);
+    }
+
+    /**
      * Set funeral information
      * 
      * @param i
@@ -629,6 +723,18 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Set mother relationships for a child of a family
+     * 
+     * @param familySpecificChildReference
+     *            the family-specific reference to a child in a family whose mother relationships we want to change
+     * @param facts
+     *            the mother relationship facts we are setting
+     */
+    public void setMotherRelationship(IndividualReference familySpecificChildReference, List<CustomFact> facts) {
+        replaceAllCustomFactsOfTypeWithNewFacts(familySpecificChildReference, "_MREL", facts);
+    }
+
+    /**
      * Set namesake information
      * 
      * @param i
@@ -662,6 +768,30 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      */
     public void setOrigin(Individual i, List<CustomFact> origin) {
         replaceAllCustomFactsOfTypeWithNewFacts(i, "_ORIG", origin);
+    }
+
+    /**
+     * Set individual's main photo(s)
+     * 
+     * @param i
+     *            the individual
+     * @param photo
+     *            the individual's main photo(s)
+     */
+    public void setPhoto(Individual i, List<CustomFact> photo) {
+        replaceAllCustomFactsOfTypeWithNewFacts(i, "_PHOTO", photo);
+    }
+
+    /**
+     * Set the separation fact(s) about a family
+     * 
+     * @param family
+     *            the family
+     * @param separations
+     *            the separations
+     */
+    public void setSeparation(Family family, List<CustomFact> separations) {
+        replaceAllCustomFactsOfTypeWithNewFacts(family, "_SEPR", separations);
     }
 
     /**

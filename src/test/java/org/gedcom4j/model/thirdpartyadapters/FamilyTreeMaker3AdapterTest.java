@@ -43,6 +43,7 @@ import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualReference;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Place;
 import org.gedcom4j.model.Source;
@@ -54,7 +55,7 @@ import org.junit.Test;
  * @author frizbog
  *
  */
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({ "PMD.TooManyMethods", "PMD.ExcessiveClassLength" })
 public class FamilyTreeMaker3AdapterTest {
 
     /**
@@ -71,8 +72,11 @@ public class FamilyTreeMaker3AdapterTest {
     /** June, one of the people in the GEDCOM test file. */
     private Individual june;
 
-    /** The family in the GEDCOM test file. */
-    private Family family;
+    /** The main family (consisting of jesse, june, and john) in the GEDCOM test file. */
+    private Family family1;
+
+    /** Another family in the GEDCOM test file. */
+    private Family family2;
 
     /** The photo in the GEDCOM test file. */
     private Multimedia photo;
@@ -93,12 +97,29 @@ public class FamilyTreeMaker3AdapterTest {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/ftmcustomtags.ged");
         g = gp.getGedcom();
+
         john = g.getIndividuals().get("@I1@");
+        assertNotNull(john);
+
         jesse = g.getIndividuals().get("@I2@");
+        assertNotNull(jesse);
+
         june = g.getIndividuals().get("@I3@");
-        family = g.getFamilies().get("@F1@");
+        assertNotNull(june);
+
+        family1 = g.getFamilies().get("@F1@");
+        assertNotNull(family1);
+        assertSame(jesse, family1.getHusband().getIndividual());
+        assertSame(june, family1.getWife().getIndividual());
+
+        family2 = g.getFamilies().get("@F2@");
+        assertNotNull(family2);
+
         photo = g.getMultimedia().get("@M1@");
+        assertNotNull(photo);
+
         source = g.getSources().get("@S1@");
+        assertNotNull(source);
     }
 
     /**
@@ -381,6 +402,38 @@ public class FamilyTreeMaker3AdapterTest {
         ex = a.getExcommunication(jesse);
         assertNotNull(ex);
         assertEquals(0, ex.size());
+    }
+
+    /**
+     * Positive test for {@link FamilyTreeMaker3Adapter#getFatherRelationship(IndividualReference)},
+     * {@link FamilyTreeMaker3Adapter#newFatherRelationshipCustomFact()}, and
+     * {@link FamilyTreeMaker3Adapter#setFatherRelationship(IndividualReference, List)}
+     */
+    @Test
+    public void testFatherRelationshipPositive() {
+        FamilyTreeMaker3Adapter a = new FamilyTreeMaker3Adapter();
+        Family f = john.getFamiliesWhereChild().get(0).getFamily();
+        assertSame(family1, f);
+        assertNotNull(f.getChildren());
+        assertEquals(1, f.getChildren().size());
+
+        IndividualReference c = f.getChildren().get(0);
+        assertSame(john, c.getIndividual());
+
+        List<CustomFact> motherRelationship = a.getFatherRelationship(c);
+        assertNotNull(motherRelationship);
+        assertEquals(1, motherRelationship.size());
+
+        CustomFact frel = motherRelationship.get(0);
+        assertEquals("Step", frel.getDescription().getValue());
+
+        List<CustomFact> frels = new ArrayList<>();
+        CustomFact frel2 = a.newFatherRelationshipCustomFact();
+        frel2.setDescription("Adopted");
+        frels.add(frel2);
+        a.setFatherRelationship(c, frels);
+
+        assertEquals("Adopted", a.getFatherRelationship(c).get(0).getDescription().getValue());
     }
 
     /**
@@ -719,6 +772,38 @@ public class FamilyTreeMaker3AdapterTest {
     }
 
     /**
+     * Positive test for {@link FamilyTreeMaker3Adapter#getMotherRelationship(IndividualReference)},
+     * {@link FamilyTreeMaker3Adapter#newMotherRelationshipCustomFact()}, and
+     * {@link FamilyTreeMaker3Adapter#setMotherRelationship(IndividualReference, List)}
+     */
+    @Test
+    public void testMotherRelationshipPositive() {
+        FamilyTreeMaker3Adapter a = new FamilyTreeMaker3Adapter();
+        Family f = john.getFamiliesWhereChild().get(0).getFamily();
+        assertSame(family1, f);
+        assertNotNull(f.getChildren());
+        assertEquals(1, f.getChildren().size());
+
+        IndividualReference c = f.getChildren().get(0);
+        assertSame(john, c.getIndividual());
+
+        List<CustomFact> motherRelationship = a.getMotherRelationship(c);
+        assertNotNull(motherRelationship);
+        assertEquals(1, motherRelationship.size());
+
+        CustomFact mrel = motherRelationship.get(0);
+        assertEquals("Guardian", mrel.getDescription().getValue());
+
+        List<CustomFact> mrels = new ArrayList<>();
+        CustomFact mrel2 = a.newMotherRelationshipCustomFact();
+        mrel2.setDescription("Adopted");
+        mrels.add(mrel2);
+        a.setMotherRelationship(c, mrels);
+
+        assertEquals("Adopted", a.getMotherRelationship(c).get(0).getDescription().getValue());
+    }
+
+    /**
      * Test {@link FamilyTreeMaker3Adapter#getNamesake(Individual)} and
      * {@link FamilyTreeMaker3Adapter#setNamesake(Individual, List)}
      */
@@ -861,6 +946,95 @@ public class FamilyTreeMaker3AdapterTest {
         o = a.getOrigin(jesse);
         assertNotNull(o);
         assertEquals(0, o.size());
+    }
+
+    /**
+     * Test {@link FamilyTreeMaker3Adapter#getPhoto(Individual)} and {@link FamilyTreeMaker3Adapter#setPhoto(Individual, List)}
+     */
+    @Test
+    public void testPhotoNegative() {
+        FamilyTreeMaker3Adapter a = new FamilyTreeMaker3Adapter();
+        List<CustomFact> o = a.getPhoto(jesse);
+        assertNotNull(o);
+        assertEquals(0, o.size());
+
+        List<CustomFact> o2 = new ArrayList<>();
+        CustomFact cf = a.newPhotoCustomFact();
+        cf.setDate("01 JAN 1990");
+        cf.setDescription("Frying Pan");
+        Place p = new Place();
+        p.setPlaceName("Wyoming, USA");
+        cf.setPlace(p);
+        o2.add(cf);
+        a.setPhoto(jesse, o2);
+
+        o = a.getPhoto(jesse);
+        assertNotNull(o);
+        assertEquals(1, o.size());
+        assertEquals("Frying Pan", o.get(0).getDescription().getValue());
+        assertEquals("01 JAN 1990", o.get(0).getDate().getValue());
+        assertEquals("Wyoming, USA", o.get(0).getPlace().getPlaceName());
+    }
+
+    /**
+     * Test {@link FamilyTreeMaker3Adapter#getPhoto(Individual)} and {@link FamilyTreeMaker3Adapter#setPhoto(Individual, List)}
+     */
+    @Test
+    public void testPhotoPositive() {
+        FamilyTreeMaker3Adapter a = new FamilyTreeMaker3Adapter();
+        List<CustomFact> p = a.getPhoto(john);
+        assertNotNull(p);
+        assertEquals(1, p.size());
+        CustomFact thePhoto = p.get(0);
+        assertEquals("@M1@", thePhoto.getDescription().getValue());
+        assertNull(thePhoto.getDate());
+        assertNull(thePhoto.getPlace());
+
+        assertSame(photo, g.getMultimedia().get(thePhoto.getDescription().getValue()));
+
+        a.setPhoto(john, new ArrayList<CustomFact>());
+        p = a.getPhoto(jesse);
+        assertNotNull(p);
+        assertEquals(0, p.size());
+    }
+
+    /**
+     * Negative test for {@link FamilyTreeMaker3Adapter#getSeparation(Family)},
+     * {@link FamilyTreeMaker3Adapter#newSeparationCustomFact()}, and {@link FamilyTreeMaker3Adapter#setSeparation(Family, List)}
+     */
+    @Test
+    public void testSeparationNegative() {
+        FamilyTreeMaker3Adapter a = new FamilyTreeMaker3Adapter();
+        List<CustomFact> separations = a.getSeparation(family2);
+        assertNotNull(separations);
+        assertEquals(0, separations.size());
+    }
+
+    /**
+     * Positive test for {@link FamilyTreeMaker3Adapter#getSeparation(Family)},
+     * {@link FamilyTreeMaker3Adapter#newSeparationCustomFact()}, and {@link FamilyTreeMaker3Adapter#setSeparation(Family, List)}
+     */
+    @Test
+    public void testSeparationPositive() {
+        FamilyTreeMaker3Adapter a = new FamilyTreeMaker3Adapter();
+        List<CustomFact> separations = a.getSeparation(family1);
+        assertNotNull(separations);
+        assertEquals(1, separations.size());
+        CustomFact theSep = separations.get(0);
+        assertNotNull(theSep);
+        assertEquals("There was a big fight", theSep.getDescription().getValue());
+        assertEquals("05 MAY 1955", theSep.getDate().getValue());
+        assertEquals("Glad Valley, Ziebach, South Dakota, USA", theSep.getPlace().getPlaceName());
+
+        CustomFact sep = a.newSeparationCustomFact();
+        sep.setDescription("Never happened");
+        List<CustomFact> newSeps = new ArrayList<>();
+        newSeps.add(sep);
+        a.setSeparation(family1, newSeps);
+
+        assertEquals("Never happened", a.getSeparation(family1).get(0).getDescription().getValue());
+        assertNull(a.getSeparation(family1).get(0).getPlace());
+        assertNull(a.getSeparation(family1).get(0).getDate());
     }
 
     /**

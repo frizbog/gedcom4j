@@ -263,7 +263,6 @@ abstract class AbstractParser<T> {
             for (StringTree gch : ch.getChildren()) {
                 CustomFact cf = new CustomFact(gch.getTag());
                 swcf.getCustomFacts(true).add(cf);
-                cf.setDescription(gch.getValue());
                 cf.setXref(gch.getXref());
                 new CustomFactParser(gedcomParser, gch, cf).parse();
             }
