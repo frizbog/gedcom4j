@@ -64,6 +64,11 @@ class LinePieces {
     private final char[] chars;
 
     /**
+     * The number of the line we are breaking into pieces
+     */
+    private final int lineNum;
+
+    /**
      * Constructor that makes a {@link LinePieces} object from a line of text input from a GEDCOM file
      * 
      * @param lineToParse
@@ -74,27 +79,21 @@ class LinePieces {
      *             if the line of text cannot be split into pieces
      */
     LinePieces(String lineToParse, int lineNum) throws GedcomParserException {
-
+        this.lineNum = lineNum;
         chars = lineToParse.toCharArray();
-
-        processLevel(lineNum);
-
+        processLevel();
         processXrefId();
-
         processTag();
-
         processRemainder();
     }
 
     /**
      * Process the level portion of the line
      * 
-     * @param lineNum
-     *            the line number we're currently reading
      * @throws GedcomParserException
      *             if the line does not begin with a 1 or 2 digit number for level, followed by a space
      */
-    private void processLevel(int lineNum) throws GedcomParserException {
+    private void processLevel() throws GedcomParserException {
         try {
             char c2 = chars[1]; // 2nd character in line
 
@@ -116,6 +115,10 @@ class LinePieces {
             throw new GedcomParserException("Line " + lineNum
                     + " does not begin with a 1 or 2 digit number for the level followed by a space: " + new String(chars), e);
         }
+        if (level < 0 || level > 99) {
+            throw new GedcomParserException("Line " + lineNum
+                    + " does not begin with a 1 or 2 digit number for the level followed by a space: " + new String(chars));
+        }
     }
 
     /**
@@ -129,8 +132,11 @@ class LinePieces {
 
     /**
      * Process the tag portion of the line
+     * 
+     * @throws GedcomParserException
+     *             if no tag could be found on the line
      */
-    private void processTag() {
+    private void processTag() throws GedcomParserException {
         // Parse the tag
         StringBuilder t = new StringBuilder();
         while (currCharIdx < chars.length && chars[currCharIdx] != ' ') {
@@ -138,13 +144,19 @@ class LinePieces {
         }
         if (t.length() > 0) {
             tag = t.toString().intern();
+        } else {
+            throw new GedcomParserException("All GEDCOM lines are required to have a tag value, but no tag could be found on line "
+                    + lineNum);
         }
     }
 
     /**
      * Process the XREF ID portion of the line, if there is one
+     * 
+     * @throws GedcomParserException
+     *             if the XREF is not properly terminated with an @ sign
      */
-    private void processXrefId() {
+    private void processXrefId() throws GedcomParserException {
         // Take care of the id, if any
         StringBuilder i = null;
         if ('@' == chars[currCharIdx]) {
@@ -156,7 +168,11 @@ class LinePieces {
             }
             currCharIdx++;
         }
+
         if (i != null) {
+            if (i.charAt(i.length() - 1) != '@') {
+                throw new GedcomParserException("XRef ID begins with @ sign but is not terminated with one on line " + lineNum);
+            }
             id = i.toString().intern();
         }
     }
