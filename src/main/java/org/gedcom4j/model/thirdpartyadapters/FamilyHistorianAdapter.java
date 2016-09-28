@@ -34,7 +34,9 @@ import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.PersonalName;
+import org.gedcom4j.model.enumerations.IndividualEventType;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
@@ -72,14 +74,33 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
-     * Get the custom Fact Set Sentence Template for representing this event, fact, or attribute
+     * Get the custom Fact Set Sentence Template for representing the supplied event, fact, or attribute
      * 
      * @param eventFactAttribute
-     * @return
+     *            the event, fact, or attribute
+     * @return the custom Fact Set Sentence Template for representing the supplied event, fact, or attribute
      */
-    public String getFactSetSentenceTemplate(AbstractEvent event) {
-        if (event.getCustomFacts() != null) {
-            for (CustomFact cf : event.getCustomFacts()) {
+    public String getFactSetSentenceTemplate(AbstractEvent eventFactAttribute) {
+        if (eventFactAttribute.getCustomFacts() != null) {
+            for (CustomFact cf : eventFactAttribute.getCustomFacts()) {
+                if ("_SENT".equals(cf.getTag())) {
+                    return cf.getDescription() == null ? null : cf.getDescription().getValue();
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the custom Fact Set Sentence Template for representing the supplied custom fact
+     * 
+     * @param customFact
+     *            the custom fact
+     * @return the custom Fact Set Sentence Template for representing the supplied custom fact
+     */
+    public String getFactSetSentenceTemplate(CustomFact customFact) {
+        if (customFact.getCustomFacts() != null) {
+            for (CustomFact cf : customFact.getCustomFacts()) {
                 if ("_SENT".equals(cf.getTag())) {
                     return cf.getDescription() == null ? null : cf.getDescription().getValue();
                 }
@@ -131,6 +152,33 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      */
     public List<CustomFact> getNameUsed(PersonalName pn) {
         return pn.getCustomFactsWithTag("_USED");
+    }
+
+    /**
+     * Get the other location for an immigration (from where?) or emigration (to where?) event.
+     * 
+     * @param immigrationOrEmigrationEvent
+     *            the immigration or emigration event. Required, and must be an IMMIgration or EMIGration event type.
+     * @return the other location
+     * @throws IllegalArgumentException
+     *             if immigrationOrEmigrationEvent is null or not an an IMMIgration or EMIGration event
+     */
+    public String getOtherPlaceName(IndividualEvent immigrationOrEmigrationEvent) {
+        if (immigrationOrEmigrationEvent == null) {
+            throw new IllegalArgumentException("immigrationOrEmigrationEvent is a required argument");
+        }
+        if (immigrationOrEmigrationEvent.getType() != IndividualEventType.IMMIGRATION && immigrationOrEmigrationEvent
+                .getType() != IndividualEventType.EMIGRATION) {
+            throw new IllegalArgumentException("Other place names are only supported on " + IndividualEventType.IMMIGRATION
+                    + " and " + IndividualEventType.EMIGRATION + " event types; " + immigrationOrEmigrationEvent.getType()
+                    + " was supplied");
+        }
+        for (CustomFact cf : immigrationOrEmigrationEvent.getCustomFactsWithTag("_PLAC")) {
+            if (cf != null && cf.getDescription() != null) {
+                return cf.getDescription().getValue();
+            }
+        }
+        return null;
     }
 
     /**
@@ -290,18 +338,80 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Set the custom Fact Set Sentence Template for representing the supplied event, fact, or attribute
+     * 
+     * @param eventFactAttribute
+     *            the event, fact, or attribute
+     * @param string
+     *            the custom Fact Set Sentence Template for representing the supplied event, fact, or attribute. Optional.
+     */
+    public void setFactSetSentenceTemplate(AbstractEvent eventFactAttribute, String string) {
+        clearCustomTagsOfType(eventFactAttribute, "_SENT");
+        if (string != null) {
+            CustomFact fsst = new CustomFact("_SENT");
+            fsst.setDescription(string);
+            eventFactAttribute.getCustomFacts(true).add(fsst);
+        }
+    }
+
+    /**
+     * Set the custom Fact Set Sentence Template for representing the supplied custom fact
+     * 
+     * @param customFact
+     *            the event, fact, or attribute
+     * @param string
+     *            the custom Fact Set Sentence Template for representing the supplied event, fact, or attribute. Optional.
+     */
+    public void setFactSetSentenceTemplate(CustomFact customFact, String string) {
+        clearCustomTagsOfType(customFact, "_SENT");
+        if (string != null) {
+            CustomFact fsst = new CustomFact("_SENT");
+            fsst.setDescription(string);
+            customFact.getCustomFacts(true).add(fsst);
+        }
+    }
+
+    /**
      * Get which given name was used by an individual (such as someone going by their middle name instead of their first name)
      * 
      * @param pn
      *            the personal name
      * @param nameUsed
-     *            the name used
+     *            the name used. Optional.
      */
     public void setNameUsed(PersonalName pn, String nameUsed) {
         clearCustomTagsOfType(pn, "_USED");
-        CustomFact customFact = new CustomFact("_USED");
-        customFact.setDescription(nameUsed);
-        pn.getCustomFacts(true).add(customFact);
+        if (nameUsed != null) {
+            CustomFact customFact = new CustomFact("_USED");
+            customFact.setDescription(nameUsed);
+            pn.getCustomFacts(true).add(customFact);
+        }
+    }
+
+    /**
+     * Sets the other location on an IMMIgration (from where?) or EMIGration (to where?) event
+     * 
+     * @param immigrationOrEmigrationEvent
+     *            the event. Required, and must be an IMMIgration or EMIGration event.
+     * @param otherPlaceName
+     *            the name of the other location. Optional.
+     */
+    public void setOtherPlaceName(IndividualEvent immigrationOrEmigrationEvent, String otherPlaceName) {
+        if (immigrationOrEmigrationEvent == null) {
+            throw new IllegalArgumentException("immigrationOrEmigrationEvent is a required argument");
+        }
+        if (immigrationOrEmigrationEvent.getType() != IndividualEventType.IMMIGRATION && immigrationOrEmigrationEvent
+                .getType() != IndividualEventType.EMIGRATION) {
+            throw new IllegalArgumentException("Other place names are only supported on " + IndividualEventType.IMMIGRATION
+                    + " and " + IndividualEventType.EMIGRATION + " event types; " + immigrationOrEmigrationEvent.getType()
+                    + " was supplied");
+        }
+        clearCustomTagsOfType(immigrationOrEmigrationEvent, "_PLAC");
+        if (otherPlaceName != null) {
+            CustomFact cf = new CustomFact("_PLAC");
+            cf.setDescription(otherPlaceName);
+            immigrationOrEmigrationEvent.getCustomFacts(true).add(cf);
+        }
     }
 
     /**
@@ -316,11 +426,11 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
         if (newRootIndividual == null) {
             throw new IllegalArgumentException("Individual being set as root individual is a required argument");
         }
-        clearCustomTagsOfType(gedcom.getHeader(), "_ROOT");
         Individual i = gedcom.getIndividuals().get(newRootIndividual.getXref());
         if (!newRootIndividual.equals(i)) {
             throw new IllegalArgumentException("Individual being set as root individual does not exist in the supplied gedcom");
         }
+        clearCustomTagsOfType(gedcom.getHeader(), "_ROOT");
         CustomFact cf = new CustomFact("_ROOT");
         cf.setDescription(newRootIndividual.getXref());
         gedcom.getHeader().getCustomFacts(true).add(cf);
@@ -332,13 +442,15 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      * @param gedcom
      *            the gedcom
      * @param vef
-     *            the UID value to set
+     *            the UID value to set. Optional.
      */
     public void setUID(Gedcom gedcom, String vef) {
         clearCustomTagsOfType(gedcom.getHeader(), "_UID");
-        CustomFact cf = new CustomFact("_UID");
-        cf.setDescription(vef);
-        gedcom.getHeader().getCustomFacts(true).add(cf);
+        if (vef != null) {
+            CustomFact cf = new CustomFact("_UID");
+            cf.setDescription(vef);
+            gedcom.getHeader().getCustomFacts(true).add(cf);
+        }
     }
 
     /**
@@ -354,8 +466,10 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
             gedcom.getHeader().setGedcomVersion(new GedcomVersion());
         }
         clearCustomTagsOfType(gedcom.getHeader().getGedcomVersion(), "_VAR");
-        CustomFact cf = new CustomFact("_VAR");
-        cf.setDescription(vef);
-        gedcom.getHeader().getGedcomVersion().getCustomFacts(true).add(cf);
+        if (vef != null) {
+            CustomFact cf = new CustomFact("_VAR");
+            cf.setDescription(vef);
+            gedcom.getHeader().getGedcomVersion().getCustomFacts(true).add(cf);
+        }
     }
 }

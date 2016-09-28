@@ -39,9 +39,17 @@ import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.CustomFact;
+import org.gedcom4j.model.FamilyEvent;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualAttribute;
+import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.PersonalName;
+import org.gedcom4j.model.Place;
+import org.gedcom4j.model.StringWithCustomFacts;
+import org.gedcom4j.model.enumerations.FamilyEventType;
+import org.gedcom4j.model.enumerations.IndividualAttributeType;
+import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.gedcom4j.parser.GedcomParser;
 import org.junit.Before;
 import org.junit.Test;
@@ -231,6 +239,101 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
+     * Test for {@link FamilyHistorianAdapter#getOtherPlaceName(IndividualEvent)} and
+     * {@link FamilyHistorianAdapter#setOtherPlaceName(IndividualEvent, String)}
+     */
+    @Test
+    public void testGetSetOtherPlaceNamePositive() {
+        Place here = new Place();
+        here.setPlaceName("Earth");
+
+        IndividualEvent ie = new IndividualEvent();
+        ie.setType(IndividualEventType.IMMIGRATION);
+        ie.setPlace(here);
+
+        assertNull(fha.getOtherPlaceName(ie));
+
+        fha.setOtherPlaceName(ie, "Cete Alpha V");
+        assertEquals("Cete Alpha V", fha.getOtherPlaceName(ie));
+
+        fha.setOtherPlaceName(ie, null);
+        assertNull(fha.getOtherPlaceName(ie));
+
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getFactSetSentenceTemplate(org.gedcom4j.model.CustomFact)} and
+     * {@link FamilyHistorianAdapter#setFactSetSentenceTemplate(org.gedcom4j.model.CustomFact, String)}
+     */
+    @Test
+    public void testGetSetSentenceCustomFact() {
+        CustomFact cf = new CustomFact("_ATTR");
+        cf.setType(new StringWithCustomFacts("Victory"));
+
+        assertNull(fha.getFactSetSentenceTemplate(cf));
+
+        fha.setFactSetSentenceTemplate(cf, "The quick brown fox jumps over the lazy dog.");
+        assertEquals("The quick brown fox jumps over the lazy dog.", fha.getFactSetSentenceTemplate(cf));
+
+        fha.setFactSetSentenceTemplate(cf, null);
+        assertNull(fha.getFactSetSentenceTemplate(cf));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getFactSetSentenceTemplate(org.gedcom4j.model.AbstractEvent)} and
+     * {@link FamilyHistorianAdapter#setFactSetSentenceTemplate(org.gedcom4j.model.AbstractEvent, String)}
+     */
+    @Test
+    public void testGetSetSentenceFamilyEvent() {
+        FamilyEvent fe = new FamilyEvent();
+        fe.setType(FamilyEventType.EVENT);
+
+        assertNull(fha.getFactSetSentenceTemplate(fe));
+
+        fha.setFactSetSentenceTemplate(fe, "The quick brown fox jumps over the lazy dog.");
+        assertEquals("The quick brown fox jumps over the lazy dog.", fha.getFactSetSentenceTemplate(fe));
+
+        fha.setFactSetSentenceTemplate(fe, null);
+        assertNull(fha.getFactSetSentenceTemplate(fe));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getFactSetSentenceTemplate(org.gedcom4j.model.AbstractEvent)} and
+     * {@link FamilyHistorianAdapter#setFactSetSentenceTemplate(org.gedcom4j.model.AbstractEvent, String)}
+     */
+    @Test
+    public void testGetSetSentenceIndividualAttribute() {
+        IndividualAttribute ia = new IndividualAttribute();
+        ia.setType(IndividualAttributeType.FACT);
+
+        assertNull(fha.getFactSetSentenceTemplate(ia));
+
+        fha.setFactSetSentenceTemplate(ia, "The quick brown fox jumps over the lazy dog.");
+        assertEquals("The quick brown fox jumps over the lazy dog.", fha.getFactSetSentenceTemplate(ia));
+
+        fha.setFactSetSentenceTemplate(ia, null);
+        assertNull(fha.getFactSetSentenceTemplate(ia));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getFactSetSentenceTemplate(org.gedcom4j.model.AbstractEvent)} and
+     * {@link FamilyHistorianAdapter#setFactSetSentenceTemplate(org.gedcom4j.model.AbstractEvent, String)}
+     */
+    @Test
+    public void testGetSetSentenceIndividualEvent() {
+        IndividualEvent ie = new IndividualEvent();
+        ie.setType(IndividualEventType.EVENT);
+
+        assertNull(fha.getFactSetSentenceTemplate(ie));
+
+        fha.setFactSetSentenceTemplate(ie, "The quick brown fox jumps over the lazy dog.");
+        assertEquals("The quick brown fox jumps over the lazy dog.", fha.getFactSetSentenceTemplate(ie));
+
+        fha.setFactSetSentenceTemplate(ie, null);
+        assertNull(fha.getFactSetSentenceTemplate(ie));
+    }
+
+    /**
      * Negative test case for {@link FamilyHistorianAdapter#getUID(Gedcom)} and
      * {@link FamilyHistorianAdapter#setUID(Gedcom, String)}
      */
@@ -347,5 +450,4 @@ public class FamilyHistorianAdapterTest {
         assertEquals(tomsMom, fha.getRootIndividual(gedcomWithoutCustomTags));
         assertSame(tomsMom, fha.getRootIndividual(gedcomWithoutCustomTags));
     }
-
 }
