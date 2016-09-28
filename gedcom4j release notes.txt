@@ -8,6 +8,8 @@ GEDCOM4J RELEASE NOTES
 v3.2.1 is a minor fix release
 
 Issue #162 - Fixed enum AdoptedByWhichParent so it uses the correct tag name HUSB for the husband doing the adopting.
+Issue #163 - Fixed a NullPointerException vulnerability when parsing malformed files
+Issue #164 - Fixed where the GedcomParser did not make a new, fresh instance of a Gedcom object if used repeatedly
 
 
 14 SEP 2016 - v3.2.1
