@@ -122,3 +122,4 @@ crashlytics-build.properties
 /.DS_Store
 /.pmd
 /testbin/
+/.checkstyle
