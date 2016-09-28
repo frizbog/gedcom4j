@@ -26,19 +26,48 @@
  */
 package org.gedcom4j.parser;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
 
+import java.io.IOException;
+
+import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.model.Gedcom;
 import org.junit.Test;
 
 /**
+ * Test for issue 164, where {@link GedcomParser#load(java.io.BufferedInputStream)} and {@link GedcomParser#load(String)} were not
+ * returning a new {@link Gedcom} object upon successive executions.
+ * 
  * @author frizbog
  *
  */
 public class Issue164Test {
 
+    /**
+     * The test
+     * 
+     * @throws IOException
+     *             if the sample file cannot be read
+     * @throws GedcomParserException
+     *             if the sample file cannot be parsed
+     */
     @Test
-    public void test() {
-        fail("Not yet implemented");
+    public void test() throws IOException, GedcomParserException {
+        GedcomParser oneParser = new GedcomParser();
+        oneParser.load("sample/minimal55.ged");
+        Gedcom g1 = oneParser.getGedcom();
+        assertNotNull(g1);
+
+        // Load file again
+        oneParser.load("sample/minimal55.ged");
+        Gedcom g2 = oneParser.getGedcom();
+        assertNotNull(g2);
+
+        // Moment of truth
+        assertEquals(g1, g2);
+        assertNotSame(g1, g2);
     }
 
 }
