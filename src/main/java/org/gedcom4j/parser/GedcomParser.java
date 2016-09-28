@@ -108,7 +108,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
     /**
      * The content of the gedcom file
      */
-    private final Gedcom gedcom = new Gedcom();
+    private Gedcom gedcom = new Gedcom();
 
     /**
      * Indicates whether handling of custom tags should be strict - that is, must an unrecognized tag begin with an underscore to be
@@ -283,6 +283,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
      */
     public void load(BufferedInputStream bytes) throws IOException, GedcomParserException {
         // Reset counters and stuff
+        gedcom = new Gedcom();
         lineNum = 0;
         errors.clear();
         warnings.clear();
