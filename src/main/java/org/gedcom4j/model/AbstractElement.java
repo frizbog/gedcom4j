@@ -31,6 +31,8 @@ import java.util.List;
 
 import org.gedcom4j.Options;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+
 /**
  * An abstract class from which most other items in the data model extend. Exists to hold custom tag information, which by
  * definition cannot be known in advance.
@@ -128,7 +130,8 @@ public abstract class AbstractElement implements HasCustomFacts {
      * 
      * @param tag
      *            the tag we are looking for
-     * @return a list of custom facts that have the desired tag. Always returns a list but it might be empty.
+     * @return a list of custom facts that have the desired tag. Always returns a list but it might be empty. Although the entries
+     *         in the result list are modifiable, the list itself is not.
      */
     @Override
     public List<CustomFact> getCustomFactsWithTag(String tag) {
@@ -140,7 +143,7 @@ public abstract class AbstractElement implements HasCustomFacts {
                 }
             }
         }
-        return result;
+        return Collections.unmodifiableList(result);
     }
 
     /**

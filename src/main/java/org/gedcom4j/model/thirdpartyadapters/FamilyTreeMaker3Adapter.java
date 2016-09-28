@@ -53,7 +53,7 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      *
      * @param i
      *            the individual
-     * @return the cause of death
+     * @return the cause(s) of death. Although the entries in the result list are modifiable, the list itself is not.
      */
     public List<CustomFact> getCauseOfDeath(Individual i) {
         return i.getCustomFactsWithTag("_DCAUSE");
@@ -64,7 +64,8 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param cws
      *            the Citation with source
-     * @return the certainty justification information for the individual
+     * @return the certainty justification information for the individual. Although the entries in the result list are modifiable,
+     *         the list itself is not.
      */
     public List<CustomFact> getCertaintyJustification(CitationWithSource cws) {
         return cws.getCustomFactsWithTag("_JUST");
@@ -75,7 +76,8 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param i
      *            the individual
-     * @return the circumcision information for the individual
+     * @return the circumcision information for the individual. Although the entries in the result list are modifiable, the list
+     *         itself is not.
      */
     public List<CustomFact> getCircumcision(Individual i) {
         return i.getCustomFactsWithTag("_CIRC");
@@ -86,7 +88,7 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      *
      * @param i
      *            the individual
-     * @return the destinations
+     * @return the destinations. Although the entries in the result list are modifiable, the list itself is not.
      */
     public List<CustomFact> getDestinations(Individual i) {
         return i.getCustomFactsWithTag("_DEST");
@@ -97,7 +99,8 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param i
      *            the individual
-     * @return the DNA Marker information for the individual
+     * @return the DNA Marker information for the individual. Although the entries in the result list are modifiable, the list
+     *         itself is not.
      */
     public List<CustomFact> getDnaMarkers(Individual i) {
         return i.getCustomFactsWithTag("_DNA");
@@ -108,7 +111,8 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param i
      *            the individual
-     * @return the elected information for the individual
+     * @return the elected information for the individual. Although the entries in the result list are modifiable, the list itself
+     *         is not.
      */
     public List<CustomFact> getElected(Individual i) {
         return i.getCustomFactsWithTag("_ELEC");
@@ -119,7 +123,8 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param i
      *            the individual
-     * @return the employment information for the individual
+     * @return the employment information for the individual. Although the entries in the result list are modifiable, the list
+     *         itself is not.
      */
     public List<CustomFact> getEmployment(Individual i) {
         return i.getCustomFactsWithTag("_EMPLOY");
@@ -130,7 +135,8 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param i
      *            the individual
-     * @return the excommunication information for the individual
+     * @return the excommunication information for the individual. Although the entries in the result list are modifiable, the list
+     *         itself is not.
      */
     public List<CustomFact> getExcommunication(Individual i) {
         return i.getCustomFactsWithTag("_EXCM");
@@ -141,7 +147,8 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param familySpecificChildReference
      *            the family-specific reference to the child whose maternal relationship we want to determine
-     * @return the custom facts related to the child's relationship with the father
+     * @return the custom facts related to the child's relationship with the father. Although the entries in the result list are
+     *         modifiable, the list itself is not.
      */
     public List<CustomFact> getFatherRelationship(IndividualReference familySpecificChildReference) {
         return familySpecificChildReference.getCustomFactsWithTag("_FREL");
@@ -152,7 +159,8 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param i
      *            the individual
-     * @return the funeral information for the individual
+     * @return the funeral information for the individual. Although the entries in the result list are modifiable, the list itself
+     *         is not.
      */
     public List<CustomFact> getFuneral(Individual i) {
         return i.getCustomFactsWithTag("_FUN");
@@ -163,7 +171,7 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      *
      * @param i
      *            the individual
-     * @return the heights
+     * @return the heights. Although the entries in the result list are modifiable, the list itself is not.
      */
     public List<CustomFact> getHeights(Individual i) {
         return i.getCustomFactsWithTag("_HEIG");
@@ -174,7 +182,8 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param i
      *            the individual
-     * @return the initiatory information for the individual
+     * @return the initiatory information for the individual. Although the entries in the result list are modifiable, the list
+     *         itself is not.
      */
     public List<CustomFact> getInitiatory(Individual i) {
         return i.getCustomFactsWithTag("_INIT");
@@ -185,7 +194,8 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param i
      *            the individual
-     * @return the medical information for the individual
+     * @return the medical information for the individual. Although the entries in the result list are modifiable, the list itself
+     *         is not.
      */
     public List<CustomFact> getMedical(Individual i) {
         return i.getCustomFactsWithTag("_MDCL");
@@ -196,7 +206,8 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param i
      *            the individual
-     * @return the military information for the individual
+     * @return the military information for the individual. Although the entries in the result list are modifiable, the list itself
+     *         is not.
      */
     public List<CustomFact> getMilitary(Individual i) {
         return i.getCustomFactsWithTag("_MILT");
@@ -207,7 +218,8 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param i
      *            the individual
-     * @return the military ID information for the individual
+     * @return the military ID information for the individual. Although the entries in the result list are modifiable, the list
+     *         itself is not.
      */
     public List<CustomFact> getMilitaryId(Individual i) {
         return i.getCustomFactsWithTag("_MILTID");
@@ -218,7 +230,8 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param i
      *            the individual
-     * @return the mission information for the individual
+     * @return the mission information for the individual. Although the entries in the result list are modifiable, the list itself
+     *         is not.
      */
     public List<CustomFact> getMission(Individual i) {
         return i.getCustomFactsWithTag("_MISN");
@@ -229,7 +242,8 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param familySpecificChildReference
      *            the family-specific reference to the child whose maternal relationship we want to determine
-     * @return the custom facts related to the child's relationship with the mother
+     * @return the custom facts related to the child's relationship with the mother. Although the entries in the result list are
+     *         modifiable, the list itself is not.
      */
     public List<CustomFact> getMotherRelationship(IndividualReference familySpecificChildReference) {
         return familySpecificChildReference.getCustomFactsWithTag("_MREL");
@@ -240,7 +254,8 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param i
      *            the individual
-     * @return the namesake information for the individual
+     * @return the namesake information for the individual. Although the entries in the result list are modifiable, the list itself
+     *         is not.
      */
     public List<CustomFact> getNamesake(Individual i) {
         return i.getCustomFactsWithTag("_NAMS");
@@ -251,7 +266,8 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param i
      *            the individual
-     * @return the ordinance information for the individual
+     * @return the ordinance information for the individual. Although the entries in the result list are modifiable, the list itself
+     *         is not.
      */
     public List<CustomFact> getOrdinance(Individual i) {
         return i.getCustomFactsWithTag("_ORDI");
@@ -262,7 +278,8 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param i
      *            the individual
-     * @return the origin information for the individual
+     * @return the origin information for the individual. Although the entries in the result list are modifiable, the list itself is
+     *         not.
      */
     public List<CustomFact> getOrigin(Individual i) {
         return i.getCustomFactsWithTag("_ORIG");
@@ -273,7 +290,7 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param i
      *            the individual
-     * @return the main photo(s) for the individual
+     * @return the main photo(s) for the individual. Although the entries in the result list are modifiable, the list itself is not.
      */
     public List<CustomFact> getPhoto(Individual i) {
         return i.getCustomFactsWithTag("_PHOTO");
@@ -284,7 +301,7 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param family
      *            the family
-     * @return the separations
+     * @return the separations. Although the entries in the result list are modifiable, the list itself is not.
      */
     public List<CustomFact> getSeparation(Family family) {
         return family.getCustomFactsWithTag("_SEPR");
@@ -295,7 +312,7 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param cws
      *            citation with source
-     * @return the web link(s) for the citation
+     * @return the web link(s) for the citation. Although the entries in the result list are modifiable, the list itself is not.
      */
     public List<CustomFact> getWebLink(CitationWithSource cws) {
         return cws.getCustomFactsWithTag("_LINK");
@@ -306,7 +323,8 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param i
      *            the individual
-     * @return the weight information for the individual
+     * @return the weight information for the individual. Although the entries in the result list are modifiable, the list itself is
+     *         not.
      */
     public List<CustomFact> getWeight(Individual i) {
         return i.getCustomFactsWithTag("_WEIG");
@@ -315,7 +333,7 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
     /**
      * Creates a new custom fact about a cause of death
      * 
-     * @return the new custom fact about a cause of death
+     * @return the new custom fact about a cause of death.
      */
     public CustomFact newCauseOfDeathCustomFact() {
         return new CustomFact("_DCAUSE");
@@ -324,7 +342,7 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
     /**
      * Creates a new custom fact about certainty justification
      * 
-     * @return the new custom fact about certainty justification
+     * @return the new custom fact about certainty justification.
      */
     public CustomFact newCertaintyJustificationCustomFact() {
         return new CustomFact("_JUST");
