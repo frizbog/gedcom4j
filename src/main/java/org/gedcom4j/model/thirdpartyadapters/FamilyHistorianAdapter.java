@@ -26,6 +26,12 @@
  */
 package org.gedcom4j.model.thirdpartyadapters;
 
+import java.util.List;
+
+import org.gedcom4j.model.CustomFact;
+import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.Individual;
+
 /**
  * <p>
  * A custom tag adapter for Family Historian.
@@ -39,4 +45,22 @@ package org.gedcom4j.model.thirdpartyadapters;
  */
 public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
 
+    /**
+     * Get the root individual
+     * 
+     * @param gedcom
+     *            the gedcom file
+     * 
+     * @return the root individual
+     */
+    public Individual getRootIndividual(Gedcom gedcom) {
+        List<CustomFact> cfs = gedcom.getHeader().getCustomFactsWithTag("_ROOT");
+        if (cfs != null && !cfs.isEmpty()) {
+            CustomFact root = cfs.get(0);
+            if (root != null && root.getDescription() != null) {
+                return gedcom.getIndividuals().get(root.getDescription().getValue());
+            }
+        }
+        return null;
+    }
 }

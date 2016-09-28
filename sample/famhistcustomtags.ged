@@ -3,7 +3,7 @@
 2 VERS 6.2.2
 2 NAME Family Historian
 2 CORP Calico Pie Limited
-1 FILE C:\Users\Matt\Documents\Family Historian Projects\famhistcustomtags\Public\famhistcustomtags.ged
+1 FILE famhistcustomtags.ged
 1 GEDC
 2 VERS 5.5
 2 FORM LINEAGE-LINKED
@@ -118,7 +118,7 @@
 1 FORM jpeg
 1 TITL photo
 1 _NOTE Picture is a bit small and may not be him.
-1 FILE C:\Users\Matt\Documents\Family Historian Projects\famhistcustomtags\famhistcustomtags.fh_data\Media\photo.jpg
+1 FILE photo.jpg
 1 _DATE 7 JUL 1977
 1 _KEYS Picture
 1 NOTE 
