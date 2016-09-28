@@ -26,8 +26,10 @@
  */
 package org.gedcom4j.model.thirdpartyadapters;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.gedcom4j.model.AbstractElement;
 import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.HasCustomFacts;
 
@@ -58,6 +60,63 @@ public abstract class AbstractThirdPartyAdapter {
                 }
             }
         }
+    }
+
+    /**
+     * <p>
+     * Get a list of custom facts from the supplied element, each of which has a tag that matches the value supplied, and has a
+     * sub-element named "TYPE" with the value specified. This is similar to generic EVEN or FACT tags, but also supports other
+     * custom tags that follow that convention.
+     * </p>
+     * <p>
+     * Example: given a structure like this:
+     * </p>
+     * 
+     * <pre>
+     * 0 @I1@ INDI
+     * 1 NAME Edward /Example/
+     * 1 _FAVF Pizza
+     * 2 TYPE Favorite Food
+     * </pre>
+     * 
+     * a concrete adapter might provide a method like this:
+     * 
+     * <pre>
+     * public List<CustomFact> getFavoriteFoods(Individual ind) {
+     *    List<CustomFact> favoriteFoods = getCustomTagsWithTagAndType(elem, "_FAVF", "Favorite Food");
+     *    return favoriteFoods;
+     * </pre>
+     * 
+     * and the caller could iterate through the {@link CustomFact#getDescription()} property of each value in the resulting list,
+     * where "Pizza" would be found in the list.
+     * 
+     * 
+     * @param elem
+     *            the element containing custom facts/tags
+     * @param tag
+     *            the main tag for the custom fact we're looking for
+     * @param type
+     *            the type of element we are looking for. Must match a child node of the main custom fact's tag,
+     * @return a list of custom tags with the specified tag and (sub)type.
+     */
+    protected List<CustomFact> getCustomTagsWithTagAndType(AbstractElement elem, String tag, String type) {
+        List<CustomFact> result = new ArrayList<>();
+        if (elem.getCustomFacts() == null) {
+            return result;
+        }
+        for (CustomFact outer : elem.getCustomFacts()) {
+            if (!outer.getTag().equals(tag)) {
+                continue;
+            }
+            for (CustomFact inner : outer.getCustomFacts()) {
+                if ("TYPE".equals(inner.getTag()) && inner.getDescription() != null && type.equals(inner.getDescription()
+                        .getValue())) {
+                    result.add(outer);
+                    break;
+                }
+            }
+        }
+        return result;
     }
 
     /**
