@@ -67,8 +67,9 @@ public class CustomFactParser extends AbstractParser<CustomFact> {
         loadInto.setDescription(stringTree.getValue());
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {
-                // Descriptions and continuations
-                if (Tag.DATE.equalsText(ch.getTag())) {
+                if (Tag.TYPE.equalsText(ch.getTag())) {
+                    loadInto.setType(parseStringWithCustomFacts(ch));
+                } else if (Tag.DATE.equalsText(ch.getTag())) {
                     loadInto.setDate(ch.getValue());
                 } else if (Tag.PLACE.equalsText(ch.getTag())) {
                     Place place = new Place();

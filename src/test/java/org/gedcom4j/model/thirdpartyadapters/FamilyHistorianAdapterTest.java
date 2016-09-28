@@ -27,10 +27,12 @@
 package org.gedcom4j.model.thirdpartyadapters;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,17 +41,15 @@ import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.parser.GedcomParser;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
+ * Test for {@link FamilyHistorianAdapter}
+ * 
  * @author frizbog
- *
- */
-/**
- * @author frizbog
- *
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public class FamilyHistorianAdapterTest {
@@ -101,6 +101,38 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
+     * Test for {@link FamilyHistorianAdapter#addNamedList(Gedcom, CustomFact)}
+     */
+    @Test
+    public void testAddNamedList() {
+        List<CustomFact> lists = fha.getNamedLists(gedcomWithoutCustomTags);
+        assertNotNull(lists);
+        assertEquals(0, lists.size());
+
+        CustomFact namedList = fha.newNamedList("Frying Pans");
+        fha.addNamedList(gedcomWithoutCustomTags, namedList);
+
+        lists = fha.getNamedLists(gedcomWithoutCustomTags);
+        assertNotNull(lists);
+        assertEquals(1, lists.size());
+
+        lists = fha.getNamedList(gedcomWithoutCustomTags, "Frying Pans");
+        assertNotNull(lists);
+        assertEquals(1, lists.size());
+    }
+
+    /**
+     * Positive test for {@link FamilyHistorianAdapter#getNamedList(Gedcom, String)}
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetNamedListImmutable() {
+        List<CustomFact> lists = fha.getNamedList(gedcomWithCustomTags, "Key Individuals");
+        assertNotNull(lists);
+        assertEquals(1, lists.size());
+        lists.clear();
+    }
+
+    /**
      * Negative test for {@link FamilyHistorianAdapter#getNamedList(Gedcom, String)}
      */
     @Test
@@ -123,6 +155,17 @@ public class FamilyHistorianAdapterTest {
         assertNotNull(lists);
         assertEquals(1, lists.size());
         assertEquals("Key Individuals", lists.get(0).getDescription().getValue());
+    }
+
+    /**
+     * Positive test for {@link FamilyHistorianAdapter#getNamedLists(Gedcom)}
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetNamedListsImmutable() {
+        List<CustomFact> lists = fha.getNamedLists(gedcomWithCustomTags);
+        assertNotNull(lists);
+        assertEquals(1, lists.size());
+        lists.clear();
     }
 
     /**
@@ -158,11 +201,41 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
+     * Test for {@link FamilyHistorianAdapter#getNameUsed(PersonalName)} and
+     * {@link FamilyHistorianAdapter#setNameUsed(PersonalName, String)}
+     */
+    @Test
+    public void testGetSetNameUsedNegative() {
+        PersonalName pn = new PersonalName();
+        List<CustomFact> nameUsed = fha.getNameUsed(pn);
+        assertNotNull(nameUsed);
+        assertEquals(0, nameUsed.size());
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getNameUsed(PersonalName)} and
+     * {@link FamilyHistorianAdapter#setNameUsed(PersonalName, String)}
+     */
+    @Test
+    public void testGetSetNameUsedPositive() {
+        PersonalName pn = tom.getNames().get(0);
+        assertNotNull(pn);
+        List<CustomFact> nameUsed = fha.getNameUsed(pn);
+        assertNotNull(nameUsed);
+        assertEquals(1, nameUsed.size());
+        assertEquals("Tony", nameUsed.get(0).getDescription().getValue());
+
+        fha.setNameUsed(pn, "Billy Jo Bob");
+        nameUsed = fha.getNameUsed(pn);
+        assertEquals("Billy Jo Bob", nameUsed.get(0).getDescription().getValue());
+    }
+
+    /**
      * Negative test case for {@link FamilyHistorianAdapter#getUID(Gedcom)} and
      * {@link FamilyHistorianAdapter#setUID(Gedcom, String)}
      */
     @Test
-    public void testGetUIDNegative() {
+    public void testGetSetUIDNegative() {
         assertNull(fha.getUID(gedcomWithoutCustomTags));
         fha.setUID(gedcomWithoutCustomTags, "FryingPan");
         assertEquals("FryingPan", fha.getUID(gedcomWithoutCustomTags));
@@ -173,7 +246,7 @@ public class FamilyHistorianAdapterTest {
      * {@link FamilyHistorianAdapter#setUID(Gedcom, String)}
      */
     @Test
-    public void testGetUIDPositive() {
+    public void testGetSetUIDPositive() {
         assertEquals("{C2159006-9E8E-4149-87DB-36E5F6D08A37}", fha.getUID(gedcomWithCustomTags));
         fha.setUID(gedcomWithCustomTags, "FryingPan");
         assertEquals("FryingPan", fha.getUID(gedcomWithCustomTags));
@@ -184,7 +257,7 @@ public class FamilyHistorianAdapterTest {
      * {@link FamilyHistorianAdapter#setVariantExportFormat(Gedcom, String)}
      */
     @Test
-    public void testGetVariantExportFormatNegative() {
+    public void testGetSetVariantExportFormatNegative() {
         assertNull(fha.getVariantExportFormat(gedcomWithoutCustomTags));
         fha.setVariantExportFormat(gedcomWithoutCustomTags, "FryingPan");
         assertEquals("FryingPan", fha.getVariantExportFormat(gedcomWithoutCustomTags));
@@ -195,26 +268,56 @@ public class FamilyHistorianAdapterTest {
      * {@link FamilyHistorianAdapter#setVariantExportFormat(Gedcom, String)}
      */
     @Test
-    public void testGetVariantExportFormatPositive() {
+    public void testGetSetVariantExportFormatPositive() {
         assertEquals("DSR", fha.getVariantExportFormat(gedcomWithCustomTags));
         fha.setVariantExportFormat(gedcomWithCustomTags, "FryingPan");
         assertEquals("FryingPan", fha.getVariantExportFormat(gedcomWithCustomTags));
     }
 
     /**
-     * Negative test for {@link FamilyHistorianAdapter#getRootIndividual(Gedcom)} and positive test for
-     * {@link FamilyHistorianAdapter#setRootIndividual(Gedcom, Individual)}
+     * Test for {@link FamilyHistorianAdapter#isEditingEnabled(CustomFact)} and
+     * {@link FamilyHistorianAdapter#setEditingEnabled(CustomFact, boolean)}
      */
     @Test
-    public void testRootIndividualNegative2() {
-        Individual individual = fha.getRootIndividual(gedcomWithoutCustomTags);
-        assertNull(individual);
+    public void testNamedListEditingEnabled() {
+        CustomFact namedList = fha.getNamedList(gedcomWithCustomTags, "Key Individuals").get(0);
+        assertTrue(fha.isEditingEnabled(namedList));
+        fha.setEditingEnabled(namedList, false);
+        assertFalse(fha.isEditingEnabled(namedList));
+        fha.setEditingEnabled(namedList, true);
+        assertTrue(fha.isEditingEnabled(namedList));
+    }
 
-        Individual tomsMom = gedcomWithoutCustomTags.getIndividuals().get("@I3@");
-        fha.setRootIndividual(gedcomWithoutCustomTags, tomsMom);
+    /**
+     * Test for {@link FamilyHistorianAdapter#removeNamedList(Gedcom, String)}
+     */
+    @Test
+    public void testRemoveNamedList() {
+        List<CustomFact> lists = fha.getNamedLists(gedcomWithCustomTags);
+        assertNotNull(lists);
+        assertEquals(1, lists.size());
 
-        assertEquals(tomsMom, fha.getRootIndividual(gedcomWithoutCustomTags));
-        assertSame(tomsMom, fha.getRootIndividual(gedcomWithoutCustomTags));
+        fha.removeNamedList(gedcomWithCustomTags, "Key Individuals");
+
+        lists = fha.getNamedList(gedcomWithCustomTags, "Key Individuals");
+        assertNotNull(lists);
+        assertEquals(0, lists.size());
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#removeNamedLists(Gedcom)}
+     */
+    @Test
+    public void testRemoveNamedLists() {
+        List<CustomFact> lists = fha.getNamedLists(gedcomWithCustomTags);
+        assertNotNull(lists);
+        assertEquals(1, lists.size());
+
+        fha.removeNamedLists(gedcomWithCustomTags);
+
+        lists = fha.getNamedLists(gedcomWithCustomTags);
+        assertNotNull(lists);
+        assertEquals(0, lists.size());
     }
 
     /**
@@ -228,4 +331,21 @@ public class FamilyHistorianAdapterTest {
 
         fha.setRootIndividual(gedcomWithoutCustomTags, tom);
     }
+
+    /**
+     * Negative test for {@link FamilyHistorianAdapter#getRootIndividual(Gedcom)} and positive test for
+     * {@link FamilyHistorianAdapter#setRootIndividual(Gedcom, Individual)}
+     */
+    @Test
+    public void testSetRootIndividualNegative2() {
+        Individual individual = fha.getRootIndividual(gedcomWithoutCustomTags);
+        assertNull(individual);
+
+        Individual tomsMom = gedcomWithoutCustomTags.getIndividuals().get("@I3@");
+        fha.setRootIndividual(gedcomWithoutCustomTags, tomsMom);
+
+        assertEquals(tomsMom, fha.getRootIndividual(gedcomWithoutCustomTags));
+        assertSame(tomsMom, fha.getRootIndividual(gedcomWithoutCustomTags));
+    }
+
 }

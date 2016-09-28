@@ -84,6 +84,11 @@ public class CustomFact extends AbstractNotesElement implements HasCitations, Ha
     private String xref;
 
     /**
+     * The type of custom fact this is - a sub-type of the tag for this custom fact
+     */
+    private StringWithCustomFacts type;
+
+    /**
      * Copy constructor
      * 
      * @param other
@@ -92,6 +97,7 @@ public class CustomFact extends AbstractNotesElement implements HasCitations, Ha
     public CustomFact(CustomFact other) {
         super(other);
         tag = other.tag;
+        xref = other.xref;
         if (other.date != null) {
             date = new StringWithCustomFacts(other.date);
         }
@@ -100,6 +106,9 @@ public class CustomFact extends AbstractNotesElement implements HasCitations, Ha
         }
         if (other.place != null) {
             place = new Place(other.place);
+        }
+        if (other.type != null) {
+            type = new StringWithCustomFacts(other.type);
         }
         if (other.citations != null) {
             for (AbstractCitation c : other.citations) {
@@ -172,6 +181,20 @@ public class CustomFact extends AbstractNotesElement implements HasCitations, Ha
         } else if (!tag.equals(other.tag)) {
             return false;
         }
+        if (type == null) {
+            if (other.type != null) {
+                return false;
+            }
+        } else if (!type.equals(other.type)) {
+            return false;
+        }
+        if (xref == null) {
+            if (other.xref != null) {
+                return false;
+            }
+        } else if (!xref.equals(other.xref)) {
+            return false;
+        }
         return true;
     }
 
@@ -238,6 +261,15 @@ public class CustomFact extends AbstractNotesElement implements HasCitations, Ha
     }
 
     /**
+     * Get the type
+     * 
+     * @return the type
+     */
+    public StringWithCustomFacts getType() {
+        return type;
+    }
+
+    /**
      * Gets the xref.
      *
      * @return the xref
@@ -259,6 +291,8 @@ public class CustomFact extends AbstractNotesElement implements HasCitations, Ha
         result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((place == null) ? 0 : place.hashCode());
         result = prime * result + ((tag == null) ? 0 : tag.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + ((xref == null) ? 0 : xref.hashCode());
         return result;
     }
 
@@ -314,6 +348,16 @@ public class CustomFact extends AbstractNotesElement implements HasCitations, Ha
     }
 
     /**
+     * Set the type
+     * 
+     * @param type
+     *            the type to set
+     */
+    public void setType(StringWithCustomFacts type) {
+        this.type = type;
+    }
+
+    /**
      * Sets the xref.
      *
      * @param xref
@@ -355,14 +399,19 @@ public class CustomFact extends AbstractNotesElement implements HasCitations, Ha
             builder.append(tag);
             builder.append(", ");
         }
-        if (getNotes() != null) {
-            builder.append("getNotes()=");
-            builder.append(getNotes());
+        if (xref != null) {
+            builder.append("xref=");
+            builder.append(xref);
             builder.append(", ");
         }
-        if (getCustomFacts() != null) {
-            builder.append("getCustomFacts()=");
-            builder.append(getCustomFacts());
+        if (type != null) {
+            builder.append("type=");
+            builder.append(type);
+            builder.append(", ");
+        }
+        if (customFacts != null) {
+            builder.append("customFacts=");
+            builder.append(customFacts);
         }
         builder.append("]");
         return builder.toString();
