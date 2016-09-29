@@ -38,6 +38,8 @@ import org.gedcom4j.Options;
 import org.gedcom4j.model.enumerations.IndividualAttributeType;
 import org.gedcom4j.model.enumerations.IndividualEventType;
 
+import java.util.Collections;
+
 /**
  * An individual person. Corresponds to the INDIVIDUAL_RECORD structure in the GEDCOM specification.
  * 
@@ -698,7 +700,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
                 }
             }
         }
-        return result;
+        return Collections.unmodifiableList(result);
     }
 
     /**

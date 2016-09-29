@@ -372,7 +372,7 @@ public class CustomFact extends AbstractNotesElement implements HasCitations, Ha
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(50);
+        StringBuilder builder = new StringBuilder(30);
         builder.append("CustomFact [");
         if (citations != null) {
             builder.append("citations=");
@@ -407,6 +407,11 @@ public class CustomFact extends AbstractNotesElement implements HasCitations, Ha
         if (type != null) {
             builder.append("type=");
             builder.append(type);
+            builder.append(", ");
+        }
+        if (getNotes() != null) {
+            builder.append("notes=");
+            builder.append(getNotes());
             builder.append(", ");
         }
         if (customFacts != null) {

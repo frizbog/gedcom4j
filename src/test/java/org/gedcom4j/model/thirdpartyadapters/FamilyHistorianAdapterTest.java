@@ -130,6 +130,31 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
+     * Test for {@link FamilyHistorianAdapter#removeUnrelatedWitnesses(IndividualEvent)},
+     * {@link FamilyHistorianAdapter#newUnrelatedWitness(String)}, and
+     * {@link FamilyHistorianAdapter#addUnrelatedWitness(IndividualEvent, CustomFact)}
+     */
+    @Test
+    public void testClearAddUnrelatedWitnesses() {
+        IndividualEvent birth = tom.getEventsOfType(IndividualEventType.BIRTH).get(0);
+        List<CustomFact> witnessNames = fha.getUnrelatedWitnesses(birth);
+        assertNotNull(witnessNames);
+        assertEquals(1, witnessNames.size());
+
+        fha.removeUnrelatedWitnesses(birth);
+        witnessNames = fha.getUnrelatedWitnesses(birth);
+        assertNotNull(witnessNames);
+        assertEquals(0, witnessNames.size());
+
+        CustomFact uw = fha.newUnrelatedWitness("Robert Roberts");
+        fha.addUnrelatedWitness(birth, uw);
+
+        witnessNames = fha.getUnrelatedWitnesses(birth);
+        assertNotNull(witnessNames);
+        assertEquals("Robert Roberts", witnessNames.get(0).getDescription().getValue());
+    }
+
+    /**
      * Positive test for {@link FamilyHistorianAdapter#getNamedList(Gedcom, String)}
      */
     @Test(expected = UnsupportedOperationException.class)
@@ -375,6 +400,32 @@ public class FamilyHistorianAdapterTest {
         assertEquals("DSR", fha.getVariantExportFormat(gedcomWithCustomTags));
         fha.setVariantExportFormat(gedcomWithCustomTags, "FryingPan");
         assertEquals("FryingPan", fha.getVariantExportFormat(gedcomWithCustomTags));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getUnrelatedWitnesses(IndividualEvent)}
+     */
+    @Test
+    public void testGetUnrelatedWitnesses() {
+        IndividualEvent birth = tom.getEventsOfType(IndividualEventType.BIRTH).get(0);
+        List<CustomFact> witnessNames = fha.getUnrelatedWitnesses(birth);
+        assertNotNull(witnessNames);
+        assertEquals(1, witnessNames.size());
+        CustomFact w1 = witnessNames.get(0);
+        assertEquals("Wally Witness", w1.getDescription().getValue());
+        assertEquals("Disinterested Observer", w1.getCustomFactsWithTag("ROLE").get(0).getDescription().getValue());
+        assertEquals("It was sorta awkward", w1.getNotes().get(0).getLines().get(0));
+    }
+
+    /**
+     * Test that the results from {@link FamilyHistorianAdapter#getUnrelatedWitnesses(IndividualEvent)} are immutable
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetWitnessNamesImmutable() {
+        IndividualEvent birth = tom.getEventsOfType(IndividualEventType.BIRTH).get(0);
+        List<CustomFact> witnessNames = fha.getUnrelatedWitnesses(birth);
+        assertNotNull(witnessNames);
+        witnessNames.clear();
     }
 
     /**

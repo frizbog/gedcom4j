@@ -29,10 +29,9 @@ package org.gedcom4j.validate;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.Test;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * Test for {@link DuplicateHandler}

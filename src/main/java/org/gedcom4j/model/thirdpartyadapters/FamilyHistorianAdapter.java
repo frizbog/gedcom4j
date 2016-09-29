@@ -27,6 +27,7 @@
 package org.gedcom4j.model.thirdpartyadapters;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.gedcom4j.model.AbstractEvent;
@@ -37,8 +38,6 @@ import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.enumerations.IndividualEventType;
-
-import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * <p>
@@ -66,11 +65,31 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
         if (namedList == null) {
             throw new IllegalArgumentException("namedList cannot be null");
         }
-        if (!isNamedList(namedList)) {
+        if (!isNonNullAndHasRequiredTag(namedList, "_LIST")) {
             throw new IllegalArgumentException(
                     "Custom fact supplied in namedList does not have the correct tag. Expected _LIST, found " + namedList.getTag());
         }
         gedcom.getHeader().getCustomFacts(true).add(namedList);
+    }
+
+    /**
+     * Add an unrelated witness to an event. Unrelated witnesses do not exist in the Individuals map in the {@link Gedcom}.
+     * 
+     * @param event
+     *            the event we are adding to
+     * @param unrelatedWitness
+     *            the unrelated witness to add
+     */
+    public void addUnrelatedWitness(IndividualEvent event, CustomFact unrelatedWitness) {
+        if (unrelatedWitness == null) {
+            throw new IllegalArgumentException("unrelatedWitness cannot be null");
+        }
+        if (!isNonNullAndHasRequiredTag(unrelatedWitness, "_SHAN")) {
+            throw new IllegalArgumentException(
+                    "Custom fact supplied in unrelatedWitness does not have the correct tag. Expected _SHAN, found "
+                            + unrelatedWitness.getTag());
+        }
+        event.getCustomFacts(true).add(unrelatedWitness);
     }
 
     /**
@@ -216,6 +235,18 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get a list of witnesses to an event. These witnesses are people who do not exist in the {@link Gedcom} structure as
+     * {@link Individual}s. {@link Gedcom} structure - these are people who only have names.
+     * 
+     * @param event
+     *            the event to find witnesses for
+     * @return the list of witnesses
+     */
+    public List<CustomFact> getUnrelatedWitnesses(IndividualEvent event) {
+        return event.getCustomFactsWithTag("_SHAN");
+    }
+
+    /**
      * Get the variant export format value for the supplied gedcom
      * 
      * @param gedcom
@@ -242,7 +273,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      * @return true if the list is flagged as enabled for editing
      */
     public boolean isEditingEnabled(CustomFact namedList) {
-        if (!isNamedList(namedList)) {
+        if (!isNonNullAndHasRequiredTag(namedList, "_LIST")) {
             throw new IllegalArgumentException("namedList supplied is not a named list");
         }
         List<CustomFact> flags = namedList.getCustomFactsWithTag("_FLAG");
@@ -255,17 +286,6 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
-     * Verifies that the supplied CustomFact is actually a named list
-     * 
-     * @param namedList
-     *            the named list custom fact to be inspected
-     * @return true if and only if the supplied custom fact represents a named list
-     */
-    public boolean isNamedList(CustomFact namedList) {
-        return namedList != null && "_LIST".equals(namedList.getTag());
-    }
-
-    /**
      * Create a new named list
      * 
      * @param string
@@ -275,6 +295,19 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     public CustomFact newNamedList(String string) {
         CustomFact result = new CustomFact("_LIST");
         result.setDescription(string);
+        return result;
+    }
+
+    /**
+     * Create a new unrelated witness
+     * 
+     * @param witnessName
+     *            the name of the unrelated witness
+     * @return the newly created witness
+     */
+    public CustomFact newUnrelatedWitness(String witnessName) {
+        CustomFact result = new CustomFact("_SHAN");
+        result.setDescription(witnessName);
         return result;
     }
 
@@ -320,6 +353,17 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Remove the unrelated witnesses from an event. Unrelated witness means one who is not in the Individuals map in the
+     * {@link Gedcom}.
+     * 
+     * @param event
+     *            the event
+     */
+    public void removeUnrelatedWitnesses(IndividualEvent event) {
+        clearCustomTagsOfType(event, "_SHAN");
+    }
+
+    /**
      * Set the editing-enabled flag on the named list
      * 
      * @param namedList
@@ -328,7 +372,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      *            true if the flag should be set to enabled
      */
     public void setEditingEnabled(CustomFact namedList, boolean enabled) {
-        if (!isNamedList(namedList)) {
+        if (!isNonNullAndHasRequiredTag(namedList, "_LIST")) {
             throw new IllegalArgumentException("namedList supplied is not a named list");
         }
         clearCustomTagsOfType(namedList, "_FLAG");

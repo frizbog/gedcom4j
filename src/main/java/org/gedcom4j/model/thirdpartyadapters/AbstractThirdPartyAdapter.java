@@ -135,4 +135,17 @@ public abstract class AbstractThirdPartyAdapter {
             hct.getCustomFacts(true).addAll(facts);
         }
     }
+
+    /**
+     * Is the custom fact non-null and does it have the required tag?
+     * 
+     * @param fact
+     *            the fact
+     * @param requiredTag
+     *            the required tag
+     * @return true if and only if the custom fact is non-null and has the specified required tag
+     */
+    protected boolean isNonNullAndHasRequiredTag(CustomFact fact, String requiredTag) {
+        return fact != null && requiredTag.equals(fact.getTag());
+    }
 }

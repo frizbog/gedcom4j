@@ -165,6 +165,11 @@ public class GedcomParser extends AbstractParser<Gedcom> {
     private int lineNum;
 
     /**
+     * Are we currently parsing somewhere inside a custom tag?
+     */
+    private boolean insideCustomTag;
+
+    /**
      * Default constructor
      */
     public GedcomParser() {
@@ -470,6 +475,15 @@ public class GedcomParser extends AbstractParser<Gedcom> {
     }
 
     /**
+     * Are we currently inside a custom tag?
+     * 
+     * @return the insideCustomTag
+     */
+    boolean isInsideCustomTag() {
+        return insideCustomTag;
+    }
+
+    /**
      * {@inheritDoc}
      * <p>
      * Note: Not implemented in this base {@link GedcomParser} class. Things in this class are handled by the
@@ -478,6 +492,16 @@ public class GedcomParser extends AbstractParser<Gedcom> {
     @Override
     void parse() {
         // Do nothing
+    }
+
+    /**
+     * Set the insideCustomTag
+     * 
+     * @param insideCustomTag
+     *            the insideCustomTag to set
+     */
+    void setInsideCustomTag(boolean insideCustomTag) {
+        this.insideCustomTag = insideCustomTag;
     }
 
     /**

@@ -27,11 +27,10 @@
 package org.gedcom4j.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.gedcom4j.Options;
-
-import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * An abstract class from which most other items in the data model extend. Exists to hold custom tag information, which by

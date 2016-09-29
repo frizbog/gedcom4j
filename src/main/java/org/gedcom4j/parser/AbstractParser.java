@@ -309,12 +309,18 @@ abstract class AbstractParser<T> {
      *            collection of custom tags
      */
     protected void unknownTag(StringTree node, AbstractElement element) {
-        if (node.getTag().length() > 0 && node.getTag().charAt(0) == '_' || !gedcomParser.isStrictCustomTags()) {
+        boolean beginsWithUnderscore = node.getTag().length() > 0 && node.getTag().charAt(0) == '_';
+        if (beginsWithUnderscore || !gedcomParser.isStrictCustomTags() || gedcomParser.isInsideCustomTag()) {
             CustomFact cf = new CustomFact(node.getTag());
             element.getCustomFacts(true).add(cf);
             cf.setXref(node.getXref());
             cf.setDescription(node.getValue());
+            // Save current value
+            boolean saveIsInsideCustomTag = gedcomParser.isInsideCustomTag();
+            gedcomParser.setInsideCustomTag(true);
             new CustomFactParser(gedcomParser, node, cf).parse();
+            // Restore prior value
+            gedcomParser.setInsideCustomTag(saveIsInsideCustomTag);
             return;
         }
 
