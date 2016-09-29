@@ -84,7 +84,9 @@ public class FamilyFactory {
         // Put the people in the Family record
         result.setHusband(father);
         result.setWife(mother);
-        result.getChildren(true).addAll(Arrays.asList(children));
+        if (children != null && children.length > 0) {
+            result.getChildren(true).addAll(Arrays.asList(children));
+        }
 
         // And add the family record to the people
         if (father != null) {
