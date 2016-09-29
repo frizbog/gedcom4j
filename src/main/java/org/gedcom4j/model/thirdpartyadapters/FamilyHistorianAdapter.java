@@ -221,6 +221,86 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Add a Medical Condition custom fact to the individual
+     * 
+     * @param individual
+     *            the individual
+     * @param medicalCondition
+     *            the Medical Condition custom fact. Required.
+     * @throws IllegalArgumentException
+     *             if the medicalCondition argument is null, does not have the right tag type, and does not have the right tag
+     *             subtype
+     */
+    public void addMedicalCondition(Individual individual, CustomFact medicalCondition) {
+        if (medicalCondition == null) {
+            throw new IllegalArgumentException("The medicalCondition argument is required.");
+        }
+        if (!isNonNullAndHasRequiredTag(medicalCondition, "_ATTR")) {
+            throw new IllegalArgumentException("The medicalCondition argument had the wrong tag value; expected _ATTR, found "
+                    + medicalCondition.getTag());
+        }
+        StringWithCustomFacts type = medicalCondition.getType();
+        if (type != null && !"Medical Condition".equals(type.getValue())) {
+            throw new IllegalArgumentException(
+                    "The medicalCondition argument had the wrong type value; expected 'Medical Condition', found '" + type + "'");
+        }
+        individual.getCustomFacts(true).add(medicalCondition);
+    }
+
+    /**
+     * Add a Military ID custom fact to the individual
+     * 
+     * @param individual
+     *            the individual
+     * @param militaryId
+     *            the Military ID custom fact. Required.
+     * @throws IllegalArgumentException
+     *             if the militaryId argument is null, does not have the right tag type, and does not have the right tag subtype
+     */
+    public void addMilitaryId(Individual individual, CustomFact militaryId) {
+        if (militaryId == null) {
+            throw new IllegalArgumentException("The militaryId argument is required.");
+        }
+        if (!isNonNullAndHasRequiredTag(militaryId, "_ATTR")) {
+            throw new IllegalArgumentException("The militaryId argument had the wrong tag value; expected _ATTR, found "
+                    + militaryId.getTag());
+        }
+        StringWithCustomFacts type = militaryId.getType();
+        if (type != null && !"Military ID".equals(type.getValue())) {
+            throw new IllegalArgumentException("The militaryId argument had the wrong type value; expected 'Military ID', found '"
+                    + type + "'");
+        }
+        individual.getCustomFacts(true).add(militaryId);
+    }
+
+    /**
+     * Add a Military Service custom fact to the individual
+     * 
+     * @param individual
+     *            the individual
+     * @param militaryService
+     *            the Military Service custom fact. Required.
+     * @throws IllegalArgumentException
+     *             if the militaryService argument is null, does not have the right tag type, and does not have the right tag
+     *             subtype
+     */
+    public void addMilitaryService(Individual individual, CustomFact militaryService) {
+        if (militaryService == null) {
+            throw new IllegalArgumentException("The militaryService argument is required.");
+        }
+        if (!isNonNullAndHasRequiredTag(militaryService, "_ATTR")) {
+            throw new IllegalArgumentException("The militaryService argument had the wrong tag value; expected _ATTR, found "
+                    + militaryService.getTag());
+        }
+        StringWithCustomFacts type = militaryService.getType();
+        if (type != null && !"Military Service".equals(type.getValue())) {
+            throw new IllegalArgumentException(
+                    "The militaryService argument had the wrong type value; expected 'Military Service', found '" + type + "'");
+        }
+        individual.getCustomFacts(true).add(militaryService);
+    }
+
+    /**
      * Add a Mission custom fact to the individual
      * 
      * @param individual
@@ -263,6 +343,32 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
                     "Custom fact supplied in namedList does not have the correct tag. Expected _LIST, found " + namedList.getTag());
         }
         gedcom.getHeader().getCustomFacts(true).add(namedList);
+    }
+
+    /**
+     * Add a Namesake custom fact to the individual
+     * 
+     * @param individual
+     *            the individual
+     * @param namesake
+     *            the Namesake custom fact. Required.
+     * @throws IllegalArgumentException
+     *             if the namesake argument is null, does not have the right tag type, and does not have the right tag subtype
+     */
+    public void addNamesake(Individual individual, CustomFact namesake) {
+        if (namesake == null) {
+            throw new IllegalArgumentException("The namesake argument is required.");
+        }
+        if (!isNonNullAndHasRequiredTag(namesake, "_ATTR")) {
+            throw new IllegalArgumentException("The namesake argument had the wrong tag value; expected _ATTR, found " + namesake
+                    .getTag());
+        }
+        StringWithCustomFacts type = namesake.getType();
+        if (type != null && !"Namesake".equals(type.getValue())) {
+            throw new IllegalArgumentException("The namesake argument had the wrong type value; expected 'Namesake', found '" + type
+                    + "'");
+        }
+        individual.getCustomFacts(true).add(namesake);
     }
 
     /**
@@ -571,6 +677,39 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get the Medical Condition for an individual
+     * 
+     * @param individual
+     *            the individual
+     * @return the Medical Condition custom fact(s)
+     */
+    public List<CustomFact> getMedicalCondition(Individual individual) {
+        return getCustomTagsWithTagAndType(individual, "_ATTR", "Medical Condition");
+    }
+
+    /**
+     * Get the Military ID for an individual
+     * 
+     * @param individual
+     *            the individual
+     * @return the Military ID custom fact(s)
+     */
+    public List<CustomFact> getMilitaryId(Individual individual) {
+        return getCustomTagsWithTagAndType(individual, "_ATTR", "Military ID");
+    }
+
+    /**
+     * Get the Military Service for an individual
+     * 
+     * @param individual
+     *            the individual
+     * @return the Military Service custom fact(s)
+     */
+    public List<CustomFact> getMilitaryService(Individual individual) {
+        return getCustomTagsWithTagAndType(individual, "_ATTR", "Military Service");
+    }
+
+    /**
      * Get the Mission for an individual
      * 
      * @param individual
@@ -613,6 +752,17 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      */
     public List<CustomFact> getNamedLists(Gedcom gedcom) {
         return gedcom.getHeader().getCustomFactsWithTag("_LIST");
+    }
+
+    /**
+     * Get the Namesake for an individual
+     * 
+     * @param individual
+     *            the individual
+     * @return the Namesake custom fact(s)
+     */
+    public List<CustomFact> getNamesake(Individual individual) {
+        return getCustomTagsWithTagAndType(individual, "_ATTR", "Namesake");
     }
 
     /**
@@ -895,6 +1045,48 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get a new Medical Condition custom fact
+     * 
+     * @param string
+     *            the string for the Medical Condition
+     * @return the new Medical Condition custom fact
+     */
+    public CustomFact newMedicalCondition(String string) {
+        CustomFact result = new CustomFact("_ATTR");
+        result.setType("Medical Condition");
+        result.setDescription(string);
+        return result;
+    }
+
+    /**
+     * Get a new Military ID custom fact
+     * 
+     * @param string
+     *            the string for the Military ID
+     * @return the new Military ID custom fact
+     */
+    public CustomFact newMilitaryId(String string) {
+        CustomFact result = new CustomFact("_ATTR");
+        result.setType("Military ID");
+        result.setDescription(string);
+        return result;
+    }
+
+    /**
+     * Get a new Military Service custom fact
+     * 
+     * @param string
+     *            the string for the Military Service
+     * @return the new Military Service custom fact
+     */
+    public CustomFact newMilitaryService(String string) {
+        CustomFact result = new CustomFact("_ATTR");
+        result.setType("Military Service");
+        result.setDescription(string);
+        return result;
+    }
+
+    /**
      * Get a new Mission custom fact
      * 
      * @param string
@@ -917,6 +1109,20 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      */
     public CustomFact newNamedList(String string) {
         CustomFact result = new CustomFact("_LIST");
+        result.setDescription(string);
+        return result;
+    }
+
+    /**
+     * Get a new Namesake custom fact
+     * 
+     * @param string
+     *            the string for the Namesake
+     * @return the new Namesake custom fact
+     */
+    public CustomFact newNamesake(String string) {
+        CustomFact result = new CustomFact("_ATTR");
+        result.setType("Namesake");
         result.setDescription(string);
         return result;
     }
@@ -1042,6 +1248,36 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Remove the Medical Condition custom facts from the individual supplied
+     * 
+     * @param individual
+     *            the individual
+     */
+    public void removeMedicalCondition(Individual individual) {
+        clearCustomTagsOfTypeAndSubType(individual, "_ATTR", "Medical Condition");
+    }
+
+    /**
+     * Remove the Military ID custom facts from the individual supplied
+     * 
+     * @param individual
+     *            the individual
+     */
+    public void removeMilitaryId(Individual individual) {
+        clearCustomTagsOfTypeAndSubType(individual, "_ATTR", "Military ID");
+    }
+
+    /**
+     * Remove the Military Service custom facts from the individual supplied
+     * 
+     * @param individual
+     *            the individual
+     */
+    public void removeMilitaryService(Individual individual) {
+        clearCustomTagsOfTypeAndSubType(individual, "_ATTR", "Military Service");
+    }
+
+    /**
      * Remove the Mission custom facts from the individual supplied
      * 
      * @param individual
@@ -1090,6 +1326,16 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      */
     public void removeNamedLists(Gedcom gedcom) {
         clearCustomTagsOfType(gedcom.getHeader(), "_LIST");
+    }
+
+    /**
+     * Remove the Namesake custom facts from the individual supplied
+     * 
+     * @param individual
+     *            the individual
+     */
+    public void removeNamesake(Individual individual) {
+        clearCustomTagsOfTypeAndSubType(individual, "_ATTR", "Namesake");
     }
 
     /**

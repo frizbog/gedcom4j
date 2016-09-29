@@ -61,7 +61,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-@SuppressWarnings({ "PMD.TooManyMethods", "PMD.ExcessivePublicCount", "PMD.GodClass" })
+@SuppressWarnings({ "PMD.TooManyMethods", "PMD.ExcessivePublicCount", "PMD.GodClass", "PMD.ExcessiveClassLength" })
 public class FamilyHistorianAdapterTest {
 
     /**
@@ -901,6 +901,96 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
+     * Test for Medical Condition
+     */
+    @Test
+    public void testMedicalCondition() {
+        List<CustomFact> medicalConditions = fha.getMedicalCondition(tom);
+        assertNotNull(medicalConditions);
+        assertEquals(1, medicalConditions.size());
+        CustomFact medicalCondition = medicalConditions.get(0);
+        assertEquals("_ATTR", medicalCondition.getTag());
+        assertEquals("Caries", medicalCondition.getDescription().getValue());
+        assertEquals("Medical Condition", medicalCondition.getType().getValue());
+
+        fha.removeMedicalCondition(tom);
+        medicalConditions = fha.getMedicalCondition(tom);
+        assertNotNull(medicalConditions);
+        assertEquals(0, medicalConditions.size());
+
+        CustomFact n = fha.newMedicalCondition("frying pan");
+        fha.addMedicalCondition(tom, n);
+
+        medicalConditions = fha.getMedicalCondition(tom);
+        assertNotNull(medicalConditions);
+        assertEquals(1, medicalConditions.size());
+        medicalCondition = medicalConditions.get(0);
+        assertEquals("_ATTR", medicalCondition.getTag());
+        assertEquals("frying pan", medicalCondition.getDescription().getValue());
+        assertEquals("Medical Condition", medicalCondition.getType().getValue());
+    }
+
+    /**
+     * Test for Military ID
+     */
+    @Test
+    public void testMilitaryId() {
+        List<CustomFact> militaryIds = fha.getMilitaryId(tom);
+        assertNotNull(militaryIds);
+        assertEquals(1, militaryIds.size());
+        CustomFact militaryId = militaryIds.get(0);
+        assertEquals("_ATTR", militaryId.getTag());
+        assertEquals("99999", militaryId.getDescription().getValue());
+        assertEquals("Military ID", militaryId.getType().getValue());
+
+        fha.removeMilitaryId(tom);
+        militaryIds = fha.getMilitaryId(tom);
+        assertNotNull(militaryIds);
+        assertEquals(0, militaryIds.size());
+
+        CustomFact n = fha.newMilitaryId("frying pan");
+        fha.addMilitaryId(tom, n);
+
+        militaryIds = fha.getMilitaryId(tom);
+        assertNotNull(militaryIds);
+        assertEquals(1, militaryIds.size());
+        militaryId = militaryIds.get(0);
+        assertEquals("_ATTR", militaryId.getTag());
+        assertEquals("frying pan", militaryId.getDescription().getValue());
+        assertEquals("Military ID", militaryId.getType().getValue());
+    }
+
+    /**
+     * Test for Military Service
+     */
+    @Test
+    public void testMilitaryService() {
+        List<CustomFact> militaryServices = fha.getMilitaryService(tom);
+        assertNotNull(militaryServices);
+        assertEquals(1, militaryServices.size());
+        CustomFact militaryService = militaryServices.get(0);
+        assertEquals("_ATTR", militaryService.getTag());
+        assertEquals("Coast Guard", militaryService.getDescription().getValue());
+        assertEquals("Military Service", militaryService.getType().getValue());
+
+        fha.removeMilitaryService(tom);
+        militaryServices = fha.getMilitaryService(tom);
+        assertNotNull(militaryServices);
+        assertEquals(0, militaryServices.size());
+
+        CustomFact n = fha.newMilitaryService("frying pan");
+        fha.addMilitaryService(tom, n);
+
+        militaryServices = fha.getMilitaryService(tom);
+        assertNotNull(militaryServices);
+        assertEquals(1, militaryServices.size());
+        militaryService = militaryServices.get(0);
+        assertEquals("_ATTR", militaryService.getTag());
+        assertEquals("frying pan", militaryService.getDescription().getValue());
+        assertEquals("Military Service", militaryService.getType().getValue());
+    }
+
+    /**
      * Test for Mission
      */
     @Test
@@ -942,6 +1032,36 @@ public class FamilyHistorianAdapterTest {
         assertFalse(fha.isEditingEnabled(namedList));
         fha.setEditingEnabled(namedList, true);
         assertTrue(fha.isEditingEnabled(namedList));
+    }
+
+    /**
+     * Test for Namesake
+     */
+    @Test
+    public void testNamesake() {
+        List<CustomFact> namesakes = fha.getNamesake(tom);
+        assertNotNull(namesakes);
+        assertEquals(1, namesakes.size());
+        CustomFact namesake = namesakes.get(0);
+        assertEquals("_ATTR", namesake.getTag());
+        assertEquals("Tom Thompson (a complete stranger)", namesake.getDescription().getValue());
+        assertEquals("Namesake", namesake.getType().getValue());
+
+        fha.removeNamesake(tom);
+        namesakes = fha.getNamesake(tom);
+        assertNotNull(namesakes);
+        assertEquals(0, namesakes.size());
+
+        CustomFact n = fha.newNamesake("frying pan");
+        fha.addNamesake(tom, n);
+
+        namesakes = fha.getNamesake(tom);
+        assertNotNull(namesakes);
+        assertEquals(1, namesakes.size());
+        namesake = namesakes.get(0);
+        assertEquals("_ATTR", namesake.getTag());
+        assertEquals("frying pan", namesake.getDescription().getValue());
+        assertEquals("Namesake", namesake.getType().getValue());
     }
 
     /**
