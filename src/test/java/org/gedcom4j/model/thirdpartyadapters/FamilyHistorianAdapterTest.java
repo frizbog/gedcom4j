@@ -61,7 +61,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({ "PMD.TooManyMethods", "PMD.ExcessivePublicCount", "PMD.GodClass" })
 public class FamilyHistorianAdapterTest {
 
     /**
@@ -211,6 +211,66 @@ public class FamilyHistorianAdapterTest {
         assertEquals("_ATTR", dnaMarker.getTag());
         assertEquals("frying pan", dnaMarker.getDescription().getValue());
         assertEquals("DNA Markers", dnaMarker.getType().getValue());
+    }
+
+    /**
+     * Test for Elected
+     */
+    @Test
+    public void testElected() {
+        List<CustomFact> electeds = fha.getElected(tom);
+        assertNotNull(electeds);
+        assertEquals(1, electeds.size());
+        CustomFact elected = electeds.get(0);
+        assertEquals("_ATTR", elected.getTag());
+        assertEquals("grand poobah", elected.getDescription().getValue());
+        assertEquals("Elected", elected.getType().getValue());
+
+        fha.removeElected(tom);
+        electeds = fha.getElected(tom);
+        assertNotNull(electeds);
+        assertEquals(0, electeds.size());
+
+        CustomFact n = fha.newElected("frying pan");
+        fha.addElected(tom, n);
+
+        electeds = fha.getElected(tom);
+        assertNotNull(electeds);
+        assertEquals(1, electeds.size());
+        elected = electeds.get(0);
+        assertEquals("_ATTR", elected.getTag());
+        assertEquals("frying pan", elected.getDescription().getValue());
+        assertEquals("Elected", elected.getType().getValue());
+    }
+
+    /**
+     * Test for Employment
+     */
+    @Test
+    public void testEmployment() {
+        List<CustomFact> employments = fha.getEmployment(tom);
+        assertNotNull(employments);
+        assertEquals(1, employments.size());
+        CustomFact employment = employments.get(0);
+        assertEquals("_ATTR", employment.getTag());
+        assertEquals("waiter", employment.getDescription().getValue());
+        assertEquals("Employment", employment.getType().getValue());
+
+        fha.removeEmployment(tom);
+        employments = fha.getEmployment(tom);
+        assertNotNull(employments);
+        assertEquals(0, employments.size());
+
+        CustomFact n = fha.newEmployment("frying pan");
+        fha.addEmployment(tom, n);
+
+        employments = fha.getEmployment(tom);
+        assertNotNull(employments);
+        assertEquals(1, employments.size());
+        employment = employments.get(0);
+        assertEquals("_ATTR", employment.getTag());
+        assertEquals("frying pan", employment.getDescription().getValue());
+        assertEquals("Employment", employment.getType().getValue());
     }
 
     /**
@@ -811,6 +871,66 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
+     * Test for Height
+     */
+    @Test
+    public void testHeight() {
+        List<CustomFact> heights = fha.getHeight(tom);
+        assertNotNull(heights);
+        assertEquals(1, heights.size());
+        CustomFact height = heights.get(0);
+        assertEquals("_ATTR", height.getTag());
+        assertEquals("5' 1\"", height.getDescription().getValue());
+        assertEquals("Height", height.getType().getValue());
+
+        fha.removeHeight(tom);
+        heights = fha.getHeight(tom);
+        assertNotNull(heights);
+        assertEquals(0, heights.size());
+
+        CustomFact n = fha.newHeight("frying pan");
+        fha.addHeight(tom, n);
+
+        heights = fha.getHeight(tom);
+        assertNotNull(heights);
+        assertEquals(1, heights.size());
+        height = heights.get(0);
+        assertEquals("_ATTR", height.getTag());
+        assertEquals("frying pan", height.getDescription().getValue());
+        assertEquals("Height", height.getType().getValue());
+    }
+
+    /**
+     * Test for Mission
+     */
+    @Test
+    public void testMission() {
+        List<CustomFact> missions = fha.getMission(tom);
+        assertNotNull(missions);
+        assertEquals(1, missions.size());
+        CustomFact mission = missions.get(0);
+        assertEquals("_ATTR", mission.getTag());
+        assertEquals("QWERTY", mission.getDescription().getValue());
+        assertEquals("Mission (LDS)", mission.getType().getValue());
+
+        fha.removeMission(tom);
+        missions = fha.getMission(tom);
+        assertNotNull(missions);
+        assertEquals(0, missions.size());
+
+        CustomFact n = fha.newMission("frying pan");
+        fha.addMission(tom, n);
+
+        missions = fha.getMission(tom);
+        assertNotNull(missions);
+        assertEquals(1, missions.size());
+        mission = missions.get(0);
+        assertEquals("_ATTR", mission.getTag());
+        assertEquals("frying pan", mission.getDescription().getValue());
+        assertEquals("Mission (LDS)", mission.getType().getValue());
+    }
+
+    /**
      * Test for {@link FamilyHistorianAdapter#isEditingEnabled(CustomFact)} and
      * {@link FamilyHistorianAdapter#setEditingEnabled(CustomFact, boolean)}
      */
@@ -822,6 +942,36 @@ public class FamilyHistorianAdapterTest {
         assertFalse(fha.isEditingEnabled(namedList));
         fha.setEditingEnabled(namedList, true);
         assertTrue(fha.isEditingEnabled(namedList));
+    }
+
+    /**
+     * Test for Ordinances
+     */
+    @Test
+    public void testOrdinances() {
+        List<CustomFact> ordinances = fha.getOrdinances(tom);
+        assertNotNull(ordinances);
+        assertEquals(1, ordinances.size());
+        CustomFact ordinance = ordinances.get(0);
+        assertEquals("_ATTR", ordinance.getTag());
+        assertEquals("wasd", ordinance.getDescription().getValue());
+        assertEquals("Ordinance", ordinance.getType().getValue());
+
+        fha.removeOrdinances(tom);
+        ordinances = fha.getOrdinances(tom);
+        assertNotNull(ordinances);
+        assertEquals(0, ordinances.size());
+
+        CustomFact n = fha.newOrdinance("frying pan");
+        fha.addOrdinance(tom, n);
+
+        ordinances = fha.getOrdinances(tom);
+        assertNotNull(ordinances);
+        assertEquals(1, ordinances.size());
+        ordinance = ordinances.get(0);
+        assertEquals("_ATTR", ordinance.getTag());
+        assertEquals("frying pan", ordinance.getDescription().getValue());
+        assertEquals("Ordinance", ordinance.getType().getValue());
     }
 
     /**

@@ -83,6 +83,32 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Add a Elected custom fact to the individual
+     * 
+     * @param individual
+     *            the individual
+     * @param elected
+     *            the Elected custom fact. Required.
+     * @throws IllegalArgumentException
+     *             if the elected argument is null, does not have the right tag type, and does not have the right tag subtype
+     */
+    public void addElected(Individual individual, CustomFact elected) {
+        if (elected == null) {
+            throw new IllegalArgumentException("The elected argument is required.");
+        }
+        if (!isNonNullAndHasRequiredTag(elected, "_ATTR")) {
+            throw new IllegalArgumentException("The elected argument had the wrong tag value; expected _ATTR, found " + elected
+                    .getTag());
+        }
+        StringWithCustomFacts type = elected.getType();
+        if (type != null && !"Elected".equals(type.getValue())) {
+            throw new IllegalArgumentException("The elected argument had the wrong type value; expected 'Elected', found '" + type
+                    + "'");
+        }
+        individual.getCustomFacts(true).add(elected);
+    }
+
+    /**
      * Add an email custom fact to an event or attribute
      * 
      * @param event
@@ -143,6 +169,84 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Add a Employment custom fact to the individual
+     * 
+     * @param individual
+     *            the individual
+     * @param employment
+     *            the Employment custom fact. Required.
+     * @throws IllegalArgumentException
+     *             if the employment argument is null, does not have the right tag type, and does not have the right tag subtype
+     */
+    public void addEmployment(Individual individual, CustomFact employment) {
+        if (employment == null) {
+            throw new IllegalArgumentException("The employment argument is required.");
+        }
+        if (!isNonNullAndHasRequiredTag(employment, "_ATTR")) {
+            throw new IllegalArgumentException("The employment argument had the wrong tag value; expected _ATTR, found "
+                    + employment.getTag());
+        }
+        StringWithCustomFacts type = employment.getType();
+        if (type != null && !"Employment".equals(type.getValue())) {
+            throw new IllegalArgumentException("The employment argument had the wrong type value; expected 'Employment', found '"
+                    + type + "'");
+        }
+        individual.getCustomFacts(true).add(employment);
+    }
+
+    /**
+     * Add a Height custom fact to the individual
+     * 
+     * @param individual
+     *            the individual
+     * @param height
+     *            the Height custom fact. Required.
+     * @throws IllegalArgumentException
+     *             if the height argument is null, does not have the right tag type, and does not have the right tag subtype
+     */
+    public void addHeight(Individual individual, CustomFact height) {
+        if (height == null) {
+            throw new IllegalArgumentException("The height argument is required.");
+        }
+        if (!isNonNullAndHasRequiredTag(height, "_ATTR")) {
+            throw new IllegalArgumentException("The height argument had the wrong tag value; expected _ATTR, found " + height
+                    .getTag());
+        }
+        StringWithCustomFacts type = height.getType();
+        if (type != null && !"Height".equals(type.getValue())) {
+            throw new IllegalArgumentException("The height argument had the wrong type value; expected 'Height', found '" + type
+                    + "'");
+        }
+        individual.getCustomFacts(true).add(height);
+    }
+
+    /**
+     * Add a Mission custom fact to the individual
+     * 
+     * @param individual
+     *            the individual
+     * @param mission
+     *            the Mission custom fact. Required.
+     * @throws IllegalArgumentException
+     *             if the mission argument is null, does not have the right tag type, and does not have the right tag subtype
+     */
+    public void addMission(Individual individual, CustomFact mission) {
+        if (mission == null) {
+            throw new IllegalArgumentException("The mission argument is required.");
+        }
+        if (!isNonNullAndHasRequiredTag(mission, "_ATTR")) {
+            throw new IllegalArgumentException("The mission argument had the wrong tag value; expected _ATTR, found " + mission
+                    .getTag());
+        }
+        StringWithCustomFacts type = mission.getType();
+        if (type != null && !"Mission (LDS)".equals(type.getValue())) {
+            throw new IllegalArgumentException("The mission argument had the wrong type value; expected 'Mission (LDS)', found '"
+                    + type + "'");
+        }
+        individual.getCustomFacts(true).add(mission);
+    }
+
+    /**
      * Add a named list to the gedcom
      * 
      * @param gedcom
@@ -159,6 +263,32 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
                     "Custom fact supplied in namedList does not have the correct tag. Expected _LIST, found " + namedList.getTag());
         }
         gedcom.getHeader().getCustomFacts(true).add(namedList);
+    }
+
+    /**
+     * Add a Ordinance custom fact to the individual
+     * 
+     * @param individual
+     *            the individual
+     * @param ordinance
+     *            the Ordinance custom fact. Required.
+     * @throws IllegalArgumentException
+     *             if the ordinance argument is null, does not have the right tag type, and does not have the right tag subtype
+     */
+    public void addOrdinance(Individual individual, CustomFact ordinance) {
+        if (ordinance == null) {
+            throw new IllegalArgumentException("The ordinance argument is required.");
+        }
+        if (!isNonNullAndHasRequiredTag(ordinance, "_ATTR")) {
+            throw new IllegalArgumentException("The ordinance argument had the wrong tag value; expected _ATTR, found " + ordinance
+                    .getTag());
+        }
+        StringWithCustomFacts type = ordinance.getType();
+        if (type != null && !"Ordinance".equals(type.getValue())) {
+            throw new IllegalArgumentException("The ordinance argument had the wrong type value; expected 'Ordinance', found '"
+                    + type + "'");
+        }
+        individual.getCustomFacts(true).add(ordinance);
     }
 
     /**
@@ -289,6 +419,17 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get the Elected for an individual
+     * 
+     * @param individual
+     *            the individual
+     * @return the Elected custom fact(s)
+     */
+    public List<CustomFact> getElected(Individual individual) {
+        return getCustomTagsWithTagAndType(individual, "_ATTR", "Elected");
+    }
+
+    /**
      * Get the emails from an event
      * 
      * @param event
@@ -357,6 +498,17 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get the Employment for an individual
+     * 
+     * @param individual
+     *            the individual
+     * @return the Employment custom fact(s)
+     */
+    public List<CustomFact> getEmployment(Individual individual) {
+        return getCustomTagsWithTagAndType(individual, "_ATTR", "Employment");
+    }
+
+    /**
      * Get the custom Fact Set Sentence Template for representing the supplied event, fact, or attribute
      * 
      * @param eventFactAttribute
@@ -408,6 +560,28 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get the Height for an individual
+     * 
+     * @param individual
+     *            the individual
+     * @return the Height custom fact(s)
+     */
+    public List<CustomFact> getHeight(Individual individual) {
+        return getCustomTagsWithTagAndType(individual, "_ATTR", "Height");
+    }
+
+    /**
+     * Get the Mission for an individual
+     * 
+     * @param individual
+     *            the individual
+     * @return the Mission custom fact(s)
+     */
+    public List<CustomFact> getMission(Individual individual) {
+        return getCustomTagsWithTagAndType(individual, "_ATTR", "Mission (LDS)");
+    }
+
+    /**
      * Get a named lists for the supplied gedcom that match as specific name
      * 
      * @param gedcom
@@ -450,6 +624,17 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      */
     public List<CustomFact> getNameUsed(PersonalName pn) {
         return pn.getCustomFactsWithTag("_USED");
+    }
+
+    /**
+     * Get the Ordinances for an individual
+     * 
+     * @param individual
+     *            the individual
+     * @return the Ordinance custom fact(s)
+     */
+    public List<CustomFact> getOrdinances(Individual individual) {
+        return getCustomTagsWithTagAndType(individual, "_ATTR", "Ordinance");
     }
 
     /**
@@ -659,12 +844,68 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get a new Elected custom fact
+     * 
+     * @param string
+     *            the string for the Elected
+     * @return the new Elected custom fact
+     */
+    public CustomFact newElected(String string) {
+        CustomFact result = new CustomFact("_ATTR");
+        result.setType("Elected");
+        result.setDescription(string);
+        return result;
+    }
+
+    /**
+     * Get a new Employment custom fact
+     * 
+     * @param string
+     *            the string for the Employment
+     * @return the new Employment custom fact
+     */
+    public CustomFact newEmployment(String string) {
+        CustomFact result = new CustomFact("_ATTR");
+        result.setType("Employment");
+        result.setDescription(string);
+        return result;
+    }
+
+    /**
      * Create new flags custom fact
      * 
      * @return the new flags custom fact
      */
     public CustomFact newFlags() {
         return new CustomFact("_FLGS");
+    }
+
+    /**
+     * Get a new Height custom fact
+     * 
+     * @param string
+     *            the string for the Height
+     * @return the new Height custom fact
+     */
+    public CustomFact newHeight(String string) {
+        CustomFact result = new CustomFact("_ATTR");
+        result.setType("Height");
+        result.setDescription(string);
+        return result;
+    }
+
+    /**
+     * Get a new Mission custom fact
+     * 
+     * @param string
+     *            the string for the Mission
+     * @return the new Mission custom fact
+     */
+    public CustomFact newMission(String string) {
+        CustomFact result = new CustomFact("_ATTR");
+        result.setType("Mission (LDS)");
+        result.setDescription(string);
+        return result;
     }
 
     /**
@@ -676,6 +917,20 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      */
     public CustomFact newNamedList(String string) {
         CustomFact result = new CustomFact("_LIST");
+        result.setDescription(string);
+        return result;
+    }
+
+    /**
+     * Get a new Ordinance custom fact
+     * 
+     * @param string
+     *            the string for the Ordinance
+     * @return the new Ordinance custom fact
+     */
+    public CustomFact newOrdinance(String string) {
+        CustomFact result = new CustomFact("_ATTR");
+        result.setType("Ordinance");
         result.setDescription(string);
         return result;
     }
@@ -714,6 +969,16 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      */
     public void removeDnaMarkers(Individual individual) {
         clearCustomTagsOfTypeAndSubType(individual, "_ATTR", "DNA Markers");
+    }
+
+    /**
+     * Remove the Elected custom facts from the individual supplied
+     * 
+     * @param individual
+     *            the individual
+     */
+    public void removeElected(Individual individual) {
+        clearCustomTagsOfTypeAndSubType(individual, "_ATTR", "Elected");
     }
 
     /**
@@ -757,6 +1022,36 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Remove the Employment custom facts from the individual supplied
+     * 
+     * @param individual
+     *            the individual
+     */
+    public void removeEmployment(Individual individual) {
+        clearCustomTagsOfTypeAndSubType(individual, "_ATTR", "Employment");
+    }
+
+    /**
+     * Remove the Height custom facts from the individual supplied
+     * 
+     * @param individual
+     *            the individual
+     */
+    public void removeHeight(Individual individual) {
+        clearCustomTagsOfTypeAndSubType(individual, "_ATTR", "Height");
+    }
+
+    /**
+     * Remove the Mission custom facts from the individual supplied
+     * 
+     * @param individual
+     *            the individual
+     */
+    public void removeMission(Individual individual) {
+        clearCustomTagsOfTypeAndSubType(individual, "_ATTR", "Mission (LDS)");
+    }
+
+    /**
      * Remove the named list from the gedcom. More precisely, removes all named lists from the gedcom that match the supplied name -
      * but since they *should* be unique, it's effectively the same.
      * 
@@ -795,6 +1090,16 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      */
     public void removeNamedLists(Gedcom gedcom) {
         clearCustomTagsOfType(gedcom.getHeader(), "_LIST");
+    }
+
+    /**
+     * Remove the Ordinance custom facts from the individual supplied
+     * 
+     * @param individual
+     *            the individual
+     */
+    public void removeOrdinances(Individual individual) {
+        clearCustomTagsOfTypeAndSubType(individual, "_ATTR", "Ordinance");
     }
 
     /**
