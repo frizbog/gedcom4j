@@ -32,12 +32,15 @@ import java.util.List;
 
 import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.CustomFact;
+import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.Repository;
+import org.gedcom4j.model.Source;
 import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.enumerations.IndividualEventType;
@@ -651,6 +654,21 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get the family status
+     * 
+     * @param family
+     *            the family
+     * @return the family status
+     */
+    public String getFamilyStatus(Family family) {
+        List<CustomFact> stats = family.getCustomFactsWithTag("_STAT");
+        if (!stats.isEmpty() && stats.get(0).getDescription() != null) {
+            return stats.get(0).getDescription().getValue();
+        }
+        return null;
+    }
+
+    /**
      * Get the flags on an individual
      * 
      * @param individual
@@ -718,6 +736,70 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      */
     public List<CustomFact> getMission(Individual individual) {
         return getCustomTagsWithTagAndType(individual, "_ATTR", "Mission (LDS)");
+    }
+
+    /**
+     * Get the multimedia date
+     * 
+     * @param multimedia
+     *            the multimedia
+     * @return the date of multimedia it is
+     */
+    public String getMultimediaDate(Multimedia multimedia) {
+        for (CustomFact cf : multimedia.getCustomFactsWithTag("_DATE")) {
+            if (cf.getDescription() != null) {
+                return cf.getDescription().getValue();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the multimedia file
+     * 
+     * @param multimedia
+     *            the multimedia
+     * @return the file of multimedia it is
+     */
+    public String getMultimediaFile(Multimedia multimedia) {
+        for (CustomFact cf : multimedia.getCustomFactsWithTag("_FILE")) {
+            if (cf.getDescription() != null) {
+                return cf.getDescription().getValue();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the multimedia keys
+     * 
+     * @param multimedia
+     *            the multimedia
+     * @return the keys of multimedia it is
+     */
+    public String getMultimediaKeys(Multimedia multimedia) {
+        for (CustomFact cf : multimedia.getCustomFactsWithTag("_KEYS")) {
+            if (cf.getDescription() != null) {
+                return cf.getDescription().getValue();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the multimedia note
+     * 
+     * @param multimedia
+     *            the multimedia
+     * @return the note of multimedia it is
+     */
+    public String getMultimediaNote(Multimedia multimedia) {
+        for (CustomFact cf : multimedia.getCustomFactsWithTag("_NOTE")) {
+            if (cf.getDescription() != null) {
+                return cf.getDescription().getValue();
+            }
+        }
+        return null;
     }
 
     /**
@@ -828,6 +910,22 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
             CustomFact root = cfs.get(0);
             if (root != null && root.getDescription() != null) {
                 return gedcom.getIndividuals().get(root.getDescription().getValue());
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the source type
+     * 
+     * @param src
+     *            the source
+     * @return the type of source it is
+     */
+    public String getSourceType(Source src) {
+        for (CustomFact cf : src.getCustomFactsWithTag("_TYPE")) {
+            if (cf.getDescription() != null) {
+                return cf.getDescription().getValue();
             }
         }
         return null;
@@ -1463,6 +1561,24 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Set the family status
+     * 
+     * @param family
+     *            the family
+     * @param familyStatus
+     *            the family status. Optional - pass null to remove.
+     */
+    public void setFamilyStatus(Family family, String familyStatus) {
+        clearCustomTagsOfType(family, "_STAT");
+        if (familyStatus != null) {
+            CustomFact cf = new CustomFact("_STAT");
+            cf.setDescription(familyStatus);
+            family.getCustomFacts(true).add(cf);
+        }
+
+    }
+
+    /**
      * Set the flags on an individual
      * 
      * @param individual
@@ -1480,6 +1596,74 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
         clearCustomTagsOfType(individual, "_FLGS");
         if (flags != null) {
             individual.getCustomFacts(true).add(flags);
+        }
+    }
+
+    /**
+     * Set the multimedia date
+     * 
+     * @param multimedia
+     *            the multimedia
+     * @param multimediaDate
+     *            the multimedia date
+     */
+    public void setMultimediaDate(Multimedia multimedia, String multimediaDate) {
+        clearCustomTagsOfType(multimedia, "_DATE");
+        if (multimediaDate != null) {
+            CustomFact cf = new CustomFact("_DATE");
+            cf.setDescription(multimediaDate);
+            multimedia.getCustomFacts(true).add(cf);
+        }
+    }
+
+    /**
+     * Set the multimedia file
+     * 
+     * @param multimedia
+     *            the multimedia
+     * @param multimediaFile
+     *            the multimedia file
+     */
+    public void setMultimediaFile(Multimedia multimedia, String multimediaFile) {
+        clearCustomTagsOfType(multimedia, "_FILE");
+        if (multimediaFile != null) {
+            CustomFact cf = new CustomFact("_FILE");
+            cf.setDescription(multimediaFile);
+            multimedia.getCustomFacts(true).add(cf);
+        }
+    }
+
+    /**
+     * Set the multimedia keys
+     * 
+     * @param multimedia
+     *            the multimedia
+     * @param multimediaKeys
+     *            the multimedia keys
+     */
+    public void setMultimediaKeys(Multimedia multimedia, String multimediaKeys) {
+        clearCustomTagsOfType(multimedia, "_KEYS");
+        if (multimediaKeys != null) {
+            CustomFact cf = new CustomFact("_KEYS");
+            cf.setDescription(multimediaKeys);
+            multimedia.getCustomFacts(true).add(cf);
+        }
+    }
+
+    /**
+     * Set the multimedia note
+     * 
+     * @param multimedia
+     *            the multimedia
+     * @param multimediaNote
+     *            the multimedia note
+     */
+    public void setMultimediaNote(Multimedia multimedia, String multimediaNote) {
+        clearCustomTagsOfType(multimedia, "_NOTE");
+        if (multimediaNote != null) {
+            CustomFact cf = new CustomFact("_NOTE");
+            cf.setDescription(multimediaNote);
+            multimedia.getCustomFacts(true).add(cf);
         }
     }
 
@@ -1546,6 +1730,23 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
         CustomFact cf = new CustomFact("_ROOT");
         cf.setDescription(newRootIndividual.getXref());
         gedcom.getHeader().getCustomFacts(true).add(cf);
+    }
+
+    /**
+     * Set the source type
+     * 
+     * @param src
+     *            the source
+     * @param sourceType
+     *            the source type
+     */
+    public void setSourceType(Source src, String sourceType) {
+        clearCustomTagsOfType(src, "_TYPE");
+        if (sourceType != null) {
+            CustomFact cf = new CustomFact("_TYPE");
+            cf.setDescription(sourceType);
+            src.getCustomFacts(true).add(cf);
+        }
     }
 
     /**

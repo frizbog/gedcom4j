@@ -39,14 +39,17 @@ import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.CustomFact;
+import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyEvent;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualAttribute;
 import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.Place;
 import org.gedcom4j.model.Repository;
+import org.gedcom4j.model.Source;
 import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.enumerations.FamilyEventType;
@@ -61,7 +64,8 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-@SuppressWarnings({ "PMD.TooManyMethods", "PMD.ExcessivePublicCount", "PMD.GodClass", "PMD.ExcessiveClassLength" })
+@SuppressWarnings({ "PMD.TooManyMethods", "PMD.ExcessivePublicCount", "PMD.GodClass", "PMD.ExcessiveClassLength",
+        "PMD.ExcessiveImports" })
 public class FamilyHistorianAdapterTest {
 
     /**
@@ -271,6 +275,32 @@ public class FamilyHistorianAdapterTest {
         assertEquals("_ATTR", employment.getTag());
         assertEquals("frying pan", employment.getDescription().getValue());
         assertEquals("Employment", employment.getType().getValue());
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getFamilyStatus(Family)} and
+     * {@link FamilyHistorianAdapter#setFamilyStatus(Family, String)}
+     */
+    @Test
+    public void testFamilyStatusNegative() {
+        Family family = gedcomWithoutCustomTags.getFamilies().get("@F1@");
+        assertNull(fha.getFamilyStatus(family));
+        fha.setFamilyStatus(family, "Common Law");
+        assertEquals("Common Law", fha.getFamilyStatus(family));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getFamilyStatus(Family)} and
+     * {@link FamilyHistorianAdapter#setFamilyStatus(Family, String)}
+     */
+    @Test
+    public void testFamilyStatusPositive() {
+        Family family = gedcomWithCustomTags.getFamilies().get("@F1@");
+        assertEquals("Never Married", fha.getFamilyStatus(family));
+        fha.setFamilyStatus(family, null);
+        assertNull(fha.getFamilyStatus(family));
+        fha.setFamilyStatus(family, "Common Law");
+        assertEquals("Common Law", fha.getFamilyStatus(family));
     }
 
     /**
@@ -1021,6 +1051,70 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
+     * Test for {@link FamilyHistorianAdapter#getMultimediaDate(Multimedia)} and
+     * {@link FamilyHistorianAdapter#setMultimediaDate(Multimedia, String)}
+     */
+    @Test
+    public void testMultimediaDate() {
+        Multimedia src = gedcomWithCustomTags.getMultimedia().get("@O1@");
+        assertEquals("7 JUL 1977", fha.getMultimediaDate(src));
+
+        fha.setMultimediaDate(src, null);
+        assertNull(fha.getMultimediaDate(src));
+
+        fha.setMultimediaDate(src, "4 JUL 1976");
+        assertEquals("4 JUL 1976", fha.getMultimediaDate(src));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getMultimediaFile(Multimedia)} and
+     * {@link FamilyHistorianAdapter#setMultimediaFile(Multimedia, String)}
+     */
+    @Test
+    public void testMultimediaFile() {
+        Multimedia src = gedcomWithCustomTags.getMultimedia().get("@O1@");
+        assertEquals("photo.jpg", fha.getMultimediaFile(src));
+
+        fha.setMultimediaFile(src, null);
+        assertNull(fha.getMultimediaFile(src));
+
+        fha.setMultimediaFile(src, "photo.png");
+        assertEquals("photo.png", fha.getMultimediaFile(src));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getMultimediaKeys(Multimedia)} and
+     * {@link FamilyHistorianAdapter#setMultimediaKeys(Multimedia, String)}
+     */
+    @Test
+    public void testMultimediaKeys() {
+        Multimedia src = gedcomWithCustomTags.getMultimedia().get("@O1@");
+        assertEquals("Picture", fha.getMultimediaKeys(src));
+
+        fha.setMultimediaKeys(src, null);
+        assertNull(fha.getMultimediaKeys(src));
+
+        fha.setMultimediaKeys(src, "Movie");
+        assertEquals("Movie", fha.getMultimediaKeys(src));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getMultimediaNote(Multimedia)} and
+     * {@link FamilyHistorianAdapter#setMultimediaNote(Multimedia, String)}
+     */
+    @Test
+    public void testMultimediaNote() {
+        Multimedia src = gedcomWithCustomTags.getMultimedia().get("@O1@");
+        assertEquals("Picture is a bit small and may not be him.", fha.getMultimediaNote(src));
+
+        fha.setMultimediaNote(src, null);
+        assertNull(fha.getMultimediaNote(src));
+
+        fha.setMultimediaNote(src, "Black and white");
+        assertEquals("Black and white", fha.getMultimediaNote(src));
+    }
+
+    /**
      * Test for {@link FamilyHistorianAdapter#isEditingEnabled(CustomFact)} and
      * {@link FamilyHistorianAdapter#setEditingEnabled(CustomFact, boolean)}
      */
@@ -1153,4 +1247,21 @@ public class FamilyHistorianAdapterTest {
         assertEquals(tomsMom, fha.getRootIndividual(gedcomWithoutCustomTags));
         assertSame(tomsMom, fha.getRootIndividual(gedcomWithoutCustomTags));
     }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getSourceType(Source)} and
+     * {@link FamilyHistorianAdapter#setSourceType(Source, String)}
+     */
+    @Test
+    public void testSourceType() {
+        Source src = gedcomWithCustomTags.getSources().get("@S1@");
+        assertEquals("Hearsay", fha.getSourceType(src));
+
+        fha.setSourceType(src, null);
+        assertNull(fha.getSourceType(src));
+
+        fha.setSourceType(src, "Napkin drawing");
+        assertEquals("Napkin drawing", fha.getSourceType(src));
+    }
+
 }
