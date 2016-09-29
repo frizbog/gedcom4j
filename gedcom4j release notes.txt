@@ -23,6 +23,7 @@ v3.2.2 is a minor fix release
 Issue #162 - Fixed enum AdoptedByWhichParent so it uses the correct tag name HUSB for the husband doing the adopting.
 Issue #163 - Fixed a NullPointerException vulnerability when parsing malformed files
 Issue #164 - Fixed where the GedcomParser did not make a new, fresh instance of a Gedcom object if used repeatedly
+Issue #165 - Fixed where Individual.getEventsOfType() returned an modifiable List - it is now unmodifiable
 Issue #166 - Fixed where indented files in UTF-8 encoding (such as from GENi.com) were not being parsed correctly.
 
 
