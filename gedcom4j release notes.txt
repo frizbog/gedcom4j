@@ -3,7 +3,7 @@ GEDCOM4J RELEASE NOTES
 ==============================
 
 
-?? SEP 2016 - v3.2.2
+29 SEP 2016 - v3.2.2
 ====================
 v3.2.2 is a minor fix release
 
