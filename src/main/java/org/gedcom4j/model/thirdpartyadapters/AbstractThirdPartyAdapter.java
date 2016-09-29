@@ -82,8 +82,8 @@ public abstract class AbstractThirdPartyAdapter {
      * a concrete adapter might provide a method like this:
      * 
      * <pre>
-     * public List<CustomFact> getFavoriteFoods(Individual ind) {
-     *    List<CustomFact> favoriteFoods = getCustomTagsWithTagAndType(elem, "_FAVF", "Favorite Food");
+     * public List&lt;CustomFact&gt; getFavoriteFoods(Individual ind) {
+     *    List&lt;CustomFact&gt; favoriteFoods = getCustomTagsWithTagAndType(ind, "_FAVF", "Favorite Food");
      *    return favoriteFoods;
      * </pre>
      * 
@@ -120,6 +120,19 @@ public abstract class AbstractThirdPartyAdapter {
     }
 
     /**
+     * Is the custom fact non-null and does it have the required tag?
+     * 
+     * @param fact
+     *            the fact
+     * @param requiredTag
+     *            the required tag
+     * @return true if and only if the custom fact is non-null and has the specified required tag
+     */
+    protected boolean isNonNullAndHasRequiredTag(CustomFact fact, String requiredTag) {
+        return fact != null && requiredTag.equals(fact.getTag());
+    }
+
+    /**
      * Replaces all the custom facts of a specific type with a list of other custom facts
      * 
      * @param hct
@@ -134,18 +147,5 @@ public abstract class AbstractThirdPartyAdapter {
         if (facts != null && !facts.isEmpty()) {
             hct.getCustomFacts(true).addAll(facts);
         }
-    }
-
-    /**
-     * Is the custom fact non-null and does it have the required tag?
-     * 
-     * @param fact
-     *            the fact
-     * @param requiredTag
-     *            the required tag
-     * @return true if and only if the custom fact is non-null and has the specified required tag
-     */
-    protected boolean isNonNullAndHasRequiredTag(CustomFact fact, String requiredTag) {
-        return fact != null && requiredTag.equals(fact.getTag());
     }
 }
