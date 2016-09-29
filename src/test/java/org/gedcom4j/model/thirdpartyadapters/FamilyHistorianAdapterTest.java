@@ -46,6 +46,7 @@ import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualAttribute;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.Note;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.Place;
 import org.gedcom4j.model.Repository;
@@ -1056,14 +1057,14 @@ public class FamilyHistorianAdapterTest {
      */
     @Test
     public void testMultimediaDate() {
-        Multimedia src = gedcomWithCustomTags.getMultimedia().get("@O1@");
-        assertEquals("7 JUL 1977", fha.getMultimediaDate(src));
+        Multimedia mm = gedcomWithCustomTags.getMultimedia().get("@O1@");
+        assertEquals("7 JUL 1977", fha.getMultimediaDate(mm));
 
-        fha.setMultimediaDate(src, null);
-        assertNull(fha.getMultimediaDate(src));
+        fha.setMultimediaDate(mm, null);
+        assertNull(fha.getMultimediaDate(mm));
 
-        fha.setMultimediaDate(src, "4 JUL 1976");
-        assertEquals("4 JUL 1976", fha.getMultimediaDate(src));
+        fha.setMultimediaDate(mm, "4 JUL 1976");
+        assertEquals("4 JUL 1976", fha.getMultimediaDate(mm));
     }
 
     /**
@@ -1072,14 +1073,14 @@ public class FamilyHistorianAdapterTest {
      */
     @Test
     public void testMultimediaFile() {
-        Multimedia src = gedcomWithCustomTags.getMultimedia().get("@O1@");
-        assertEquals("photo.jpg", fha.getMultimediaFile(src));
+        Multimedia mm = gedcomWithCustomTags.getMultimedia().get("@O1@");
+        assertEquals("photo.jpg", fha.getMultimediaFile(mm));
 
-        fha.setMultimediaFile(src, null);
-        assertNull(fha.getMultimediaFile(src));
+        fha.setMultimediaFile(mm, null);
+        assertNull(fha.getMultimediaFile(mm));
 
-        fha.setMultimediaFile(src, "photo.png");
-        assertEquals("photo.png", fha.getMultimediaFile(src));
+        fha.setMultimediaFile(mm, "photo.png");
+        assertEquals("photo.png", fha.getMultimediaFile(mm));
     }
 
     /**
@@ -1088,14 +1089,14 @@ public class FamilyHistorianAdapterTest {
      */
     @Test
     public void testMultimediaKeys() {
-        Multimedia src = gedcomWithCustomTags.getMultimedia().get("@O1@");
-        assertEquals("Picture", fha.getMultimediaKeys(src));
+        Multimedia mm = gedcomWithCustomTags.getMultimedia().get("@O1@");
+        assertEquals("Picture", fha.getMultimediaKeys(mm));
 
-        fha.setMultimediaKeys(src, null);
-        assertNull(fha.getMultimediaKeys(src));
+        fha.setMultimediaKeys(mm, null);
+        assertNull(fha.getMultimediaKeys(mm));
 
-        fha.setMultimediaKeys(src, "Movie");
-        assertEquals("Movie", fha.getMultimediaKeys(src));
+        fha.setMultimediaKeys(mm, "Movie");
+        assertEquals("Movie", fha.getMultimediaKeys(mm));
     }
 
     /**
@@ -1104,14 +1105,98 @@ public class FamilyHistorianAdapterTest {
      */
     @Test
     public void testMultimediaNote() {
-        Multimedia src = gedcomWithCustomTags.getMultimedia().get("@O1@");
-        assertEquals("Picture is a bit small and may not be him.", fha.getMultimediaNote(src));
+        Multimedia mm = gedcomWithCustomTags.getMultimedia().get("@O1@");
+        assertEquals("Picture is a bit small and may not be him.", fha.getMultimediaNote(mm));
 
-        fha.setMultimediaNote(src, null);
-        assertNull(fha.getMultimediaNote(src));
+        fha.setMultimediaNote(mm, null);
+        assertNull(fha.getMultimediaNote(mm));
 
-        fha.setMultimediaNote(src, "Black and white");
-        assertEquals("Black and white", fha.getMultimediaNote(src));
+        fha.setMultimediaNote(mm, "Black and white");
+        assertEquals("Black and white", fha.getMultimediaNote(mm));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getMultimediaNoteArea(Note)} and
+     * {@link FamilyHistorianAdapter#setMultimediaNoteArea(Note, String)}
+     */
+    @Test
+    public void testMultimediaNoteArea() {
+        Multimedia mm = gedcomWithCustomTags.getMultimedia().get("@O1@");
+        assertNotNull(mm.getNotes());
+        assertEquals(1, mm.getNotes().size());
+
+        Note n = mm.getNotes().get(0);
+
+        assertEquals("{154,46,243,127}", fha.getMultimediaNoteArea(n));
+
+        fha.setMultimediaNoteArea(n, null);
+        assertNull(fha.getMultimediaNoteArea(n));
+
+        fha.setMultimediaNoteArea(n, "Chess");
+        assertEquals("Chess", fha.getMultimediaNoteArea(n));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getMultimediaNoteASID(Note)} and
+     * {@link FamilyHistorianAdapter#setMultimediaNoteASID(Note, String)} (whatever an ASID is...)
+     */
+    @Test
+    public void testMultimediaNoteASID() {
+        Multimedia mm = gedcomWithCustomTags.getMultimedia().get("@O1@");
+        assertNotNull(mm.getNotes());
+        assertEquals(1, mm.getNotes().size());
+
+        Note n = mm.getNotes().get(0);
+
+        assertEquals("1", fha.getMultimediaNoteASID(n));
+
+        fha.setMultimediaNoteASID(n, null);
+        assertNull(fha.getMultimediaNoteASID(n));
+
+        fha.setMultimediaNoteASID(n, "3");
+        assertEquals("3", fha.getMultimediaNoteASID(n));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getMultimediaNoteCaption(Note)} and
+     * {@link FamilyHistorianAdapter#setMultimediaNoteCaption(Note, String)}
+     */
+    @Test
+    public void testMultimediaNoteCaption() {
+        Multimedia mm = gedcomWithCustomTags.getMultimedia().get("@O1@");
+        assertNotNull(mm.getNotes());
+        assertEquals(1, mm.getNotes().size());
+
+        Note n = mm.getNotes().get(0);
+
+        assertEquals("Y", fha.getMultimediaNoteCaption(n));
+
+        fha.setMultimediaNoteCaption(n, null);
+        assertNull(fha.getMultimediaNoteCaption(n));
+
+        fha.setMultimediaNoteCaption(n, "N");
+        assertEquals("N", fha.getMultimediaNoteCaption(n));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getMultimediaNoteExclusion(Note)} and
+     * {@link FamilyHistorianAdapter#setMultimediaNoteExclusion(Note, String)}
+     */
+    @Test
+    public void testMultimediaNoteExclusion() {
+        Multimedia mm = gedcomWithCustomTags.getMultimedia().get("@O1@");
+        assertNotNull(mm.getNotes());
+        assertEquals(1, mm.getNotes().size());
+
+        Note n = mm.getNotes().get(0);
+
+        assertEquals("ALL", fha.getMultimediaNoteExclusion(n));
+
+        fha.setMultimediaNoteExclusion(n, null);
+        assertNull(fha.getMultimediaNoteExclusion(n));
+
+        fha.setMultimediaNoteExclusion(n, "Synchronicity");
+        assertEquals("Synchronicity", fha.getMultimediaNoteExclusion(n));
     }
 
     /**
@@ -1189,6 +1274,19 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
+     * Test for {@link FamilyHistorianAdapter#getPlaceRecords(Gedcom)}
+     */
+    @Test
+    public void testPlaceRecords() {
+        List<CustomFact> places = fha.getPlaceRecords(gedcomWithCustomTags);
+        assertNotNull(places);
+        assertEquals(11, places.size());
+
+        // TODO clear, add, removeByXref, findByXref
+
+    }
+
+    /**
      * Test for {@link FamilyHistorianAdapter#removeNamedList(Gedcom, String)}
      */
     @Test
@@ -1263,5 +1361,4 @@ public class FamilyHistorianAdapterTest {
         fha.setSourceType(src, "Napkin drawing");
         assertEquals("Napkin drawing", fha.getSourceType(src));
     }
-
 }

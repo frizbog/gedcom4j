@@ -37,6 +37,7 @@ import org.gedcom4j.Options;
  * 
  * @author frizbog
  */
+@SuppressWarnings("PMD.GodClass")
 public class CustomFact extends AbstractNotesElement implements HasCitations, HasXref {
 
     /**
@@ -87,6 +88,11 @@ public class CustomFact extends AbstractNotesElement implements HasCitations, Ha
      * The type of custom fact this is - a sub-type of the tag for this custom fact
      */
     private StringWithCustomFacts type;
+
+    /**
+     * The change date information for this family record
+     */
+    private ChangeDate changeDate;
 
     /**
      * Copy constructor
@@ -146,6 +152,13 @@ public class CustomFact extends AbstractNotesElement implements HasCitations, Ha
             return false;
         }
         CustomFact other = (CustomFact) obj;
+        if (changeDate == null) {
+            if (other.changeDate != null) {
+                return false;
+            }
+        } else if (!changeDate.equals(other.changeDate)) {
+            return false;
+        }
         if (citations == null) {
             if (other.citations != null) {
                 return false;
@@ -196,6 +209,15 @@ public class CustomFact extends AbstractNotesElement implements HasCitations, Ha
             return false;
         }
         return true;
+    }
+
+    /**
+     * Gets the change date.
+     *
+     * @return the change date
+     */
+    public ChangeDate getChangeDate() {
+        return changeDate;
     }
 
     /**
@@ -286,6 +308,7 @@ public class CustomFact extends AbstractNotesElement implements HasCitations, Ha
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
+        result = prime * result + ((changeDate == null) ? 0 : changeDate.hashCode());
         result = prime * result + ((citations == null) ? 0 : citations.hashCode());
         result = prime * result + ((date == null) ? 0 : date.hashCode());
         result = prime * result + ((description == null) ? 0 : description.hashCode());
@@ -294,6 +317,16 @@ public class CustomFact extends AbstractNotesElement implements HasCitations, Ha
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         result = prime * result + ((xref == null) ? 0 : xref.hashCode());
         return result;
+    }
+
+    /**
+     * Sets the change date.
+     *
+     * @param changeDate
+     *            the new change date
+     */
+    public void setChangeDate(ChangeDate changeDate) {
+        this.changeDate = changeDate;
     }
 
     /**
@@ -382,8 +415,13 @@ public class CustomFact extends AbstractNotesElement implements HasCitations, Ha
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(30);
+        StringBuilder builder = new StringBuilder(50);
         builder.append("CustomFact [");
+        if (changeDate != null) {
+            builder.append("changeDate=");
+            builder.append(changeDate);
+            builder.append(", ");
+        }
         if (citations != null) {
             builder.append("citations=");
             builder.append(citations);
@@ -420,7 +458,7 @@ public class CustomFact extends AbstractNotesElement implements HasCitations, Ha
             builder.append(", ");
         }
         if (getNotes() != null) {
-            builder.append("notes=");
+            builder.append("getNotes()=");
             builder.append(getNotes());
             builder.append(", ");
         }

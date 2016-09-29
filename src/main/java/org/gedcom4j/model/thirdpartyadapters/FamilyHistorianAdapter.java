@@ -38,6 +38,7 @@ import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.Note;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.Source;
@@ -803,6 +804,70 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get the multimedia area from the note
+     * 
+     * @param note
+     *            the multimedia note
+     * @return the area of multimedia it is
+     */
+    public String getMultimediaNoteArea(Note note) {
+        for (CustomFact cf : note.getCustomFactsWithTag("_AREA")) {
+            if (cf.getDescription() != null) {
+                return cf.getDescription().getValue();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the multimedia Note ASID (whatever <i>that</i> is...)
+     * 
+     * @param note
+     *            the multimedia note
+     * @return the ASID of multimedia it is
+     */
+    public String getMultimediaNoteASID(Note note) {
+        for (CustomFact cf : note.getCustomFactsWithTag("_ASID")) {
+            if (cf.getDescription() != null) {
+                return cf.getDescription().getValue();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the multimedia caption
+     * 
+     * @param note
+     *            the multimedia note
+     * @return the caption of multimedia it is
+     */
+    public String getMultimediaNoteCaption(Note note) {
+        for (CustomFact cf : note.getCustomFactsWithTag("_CAPT")) {
+            if (cf.getDescription() != null) {
+                return cf.getDescription().getValue();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the multimedia exclusion
+     * 
+     * @param note
+     *            the multimedia note
+     * @return the exclusion of multimedia it is
+     */
+    public String getMultimediaNoteExclusion(Note note) {
+        for (CustomFact cf : note.getCustomFactsWithTag("_EXCL")) {
+            if (cf.getDescription() != null) {
+                return cf.getDescription().getValue();
+            }
+        }
+        return null;
+    }
+
+    /**
      * Get a named lists for the supplied gedcom that match as specific name
      * 
      * @param gedcom
@@ -894,6 +959,17 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
             }
         }
         return null;
+    }
+
+    /**
+     * Get the root-level place records
+     * 
+     * @param gedcom
+     *            the gedcom
+     * @return the root-level place records
+     */
+    public List<CustomFact> getPlaceRecords(Gedcom gedcom) {
+        return gedcom.getCustomFactsWithTag("_PLAC");
     }
 
     /**
@@ -1664,6 +1740,74 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
             CustomFact cf = new CustomFact("_NOTE");
             cf.setDescription(multimediaNote);
             multimedia.getCustomFacts(true).add(cf);
+        }
+    }
+
+    /**
+     * Set the multimedia area
+     * 
+     * @param note
+     *            the multimedia note
+     * @param multimediaArea
+     *            the multimedia area
+     */
+    public void setMultimediaNoteArea(Note note, String multimediaArea) {
+        clearCustomTagsOfType(note, "_AREA");
+        if (multimediaArea != null) {
+            CustomFact cf = new CustomFact("_AREA");
+            cf.setDescription(multimediaArea);
+            note.getCustomFacts(true).add(cf);
+        }
+    }
+
+    /**
+     * Set the multimedia note ASID (whatever <i>that</i> is...)
+     * 
+     * @param note
+     *            the multimedia note
+     * @param multimediaASID
+     *            the ASID
+     */
+    public void setMultimediaNoteASID(Note note, String multimediaASID) {
+        clearCustomTagsOfType(note, "_ASID");
+        if (multimediaASID != null) {
+            CustomFact cf = new CustomFact("_ASID");
+            cf.setDescription(multimediaASID);
+            note.getCustomFacts(true).add(cf);
+        }
+    }
+
+    /**
+     * Set the multimedia caption
+     * 
+     * @param note
+     *            the multimedia note
+     * @param multimediaCaption
+     *            the multimedia caption
+     */
+    public void setMultimediaNoteCaption(Note note, String multimediaCaption) {
+        clearCustomTagsOfType(note, "_CAPT");
+        if (multimediaCaption != null) {
+            CustomFact cf = new CustomFact("_CAPT");
+            cf.setDescription(multimediaCaption);
+            note.getCustomFacts(true).add(cf);
+        }
+    }
+
+    /**
+     * Set the multimedia exclusion
+     * 
+     * @param note
+     *            the multimedia note
+     * @param multimediaExclusion
+     *            the multimedia exclusion
+     */
+    public void setMultimediaNoteExclusion(Note note, String multimediaExclusion) {
+        clearCustomTagsOfType(note, "_EXCL");
+        if (multimediaExclusion != null) {
+            CustomFact cf = new CustomFact("_EXCL");
+            cf.setDescription(multimediaExclusion);
+            note.getCustomFacts(true).add(cf);
         }
     }
 

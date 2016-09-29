@@ -29,6 +29,7 @@ package org.gedcom4j.parser;
 import java.util.List;
 
 import org.gedcom4j.model.AbstractCitation;
+import org.gedcom4j.model.ChangeDate;
 import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.HasCustomFacts;
 import org.gedcom4j.model.Note;
@@ -69,6 +70,10 @@ public class CustomFactParser extends AbstractParser<CustomFact> {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.TYPE.equalsText(ch.getTag())) {
                     loadInto.setType(parseStringWithCustomFacts(ch));
+                } else if (Tag.CHANGED_DATETIME.equalsText(ch.getTag())) {
+                    ChangeDate changeDate = new ChangeDate();
+                    loadInto.setChangeDate(changeDate);
+                    new ChangeDateParser(gedcomParser, ch, changeDate).parse();
                 } else if (Tag.DATE.equalsText(ch.getTag())) {
                     loadInto.setDate(ch.getValue());
                 } else if (Tag.PLACE.equalsText(ch.getTag())) {
