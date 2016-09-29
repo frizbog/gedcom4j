@@ -155,6 +155,138 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
+     * Test for {@link FamilyHistorianAdapter#removeWitnessReferences(IndividualEvent)},
+     * {@link FamilyHistorianAdapter#newUnrelatedWitness(String)}, and
+     * {@link FamilyHistorianAdapter#addUnrelatedWitness(IndividualEvent, CustomFact)}
+     */
+    @Test
+    public void testClearAddWitnessReferences() {
+
+        IndividualEvent birth = tom.getEventsOfType(IndividualEventType.BIRTH).get(0);
+        List<CustomFact> witnessRefs = fha.getWitnessReferences(birth);
+        assertNotNull(witnessRefs);
+        assertEquals(1, witnessRefs.size());
+
+        fha.removeWitnessReferences(birth);
+        witnessRefs = fha.getWitnessReferences(birth);
+        assertNotNull(witnessRefs);
+        assertEquals(0, witnessRefs.size());
+
+        Individual theresa = gedcomWithCustomTags.getIndividuals().get("@I3@");
+        CustomFact wr = fha.newWitnessReference(theresa);
+        fha.addWitnessReference(gedcomWithCustomTags, birth, wr);
+
+        witnessRefs = fha.getWitnessReferences(birth);
+        assertNotNull(witnessRefs);
+        assertEquals("@I3@", witnessRefs.get(0).getDescription().getValue());
+    }
+
+    /**
+     * Test for DNA markers
+     */
+    @Test
+    public void testDnaMarkers() {
+        List<CustomFact> dnaMarkers = fha.getDnaMarkers(tom);
+        assertNotNull(dnaMarkers);
+        assertEquals(1, dnaMarkers.size());
+        CustomFact dnaMarker = dnaMarkers.get(0);
+        assertEquals("_ATTR", dnaMarker.getTag());
+        assertEquals("xxx", dnaMarker.getDescription().getValue());
+        assertEquals("DNA Markers", dnaMarker.getType().getValue());
+
+        // TODO Clear
+        // TODO Add
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#addEmail(org.gedcom4j.model.AbstractEvent, String)},
+     * {@link FamilyHistorianAdapter#getEmails(org.gedcom4j.model.AbstractEvent)}, and
+     * {@link FamilyHistorianAdapter#removeEmails(org.gedcom4j.model.AbstractEvent)}
+     */
+    @Test
+    public void testGetAddRemoveEmailsToAttribute() {
+        IndividualAttribute ia = tom.getAttributesOfType(IndividualAttributeType.FACT).get(0);
+        assertEquals("Tomato", ia.getSubType().getValue());
+        List<String> emails = fha.getEmails(ia);
+        assertNotNull(emails);
+        assertEquals(1, emails.size());
+        assertEquals("info@internet.com", emails.get(0));
+
+        fha.removeEmails(ia);
+        emails = fha.getEmails(ia);
+        assertNotNull(emails);
+        assertEquals(0, emails.size());
+
+        assertNotNull(fha.addEmail(ia, "matt@gedcom4j.org"));
+
+        emails = fha.getEmails(ia);
+        assertNotNull(emails);
+        assertEquals(1, emails.size());
+        assertEquals("matt@gedcom4j.org", emails.get(0));
+    }
+
+    // TODO - public void testGetAddRemoveEmailsToRepository()
+
+    // TODO - public void testGetAddRemoveEmailsToSubmitter()
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#addEmail(org.gedcom4j.model.AbstractEvent, String)},
+     * {@link FamilyHistorianAdapter#getEmails(org.gedcom4j.model.AbstractEvent)}, and
+     * {@link FamilyHistorianAdapter#removeEmails(org.gedcom4j.model.AbstractEvent)}
+     */
+    @Test
+    public void testGetAddRemoveEmailsToCustomFact() {
+        List<CustomFact> dnaMarkers = fha.getDnaMarkers(tom);
+        assertNotNull(dnaMarkers);
+        assertEquals(1, dnaMarkers.size());
+
+        CustomFact dnaMarker = dnaMarkers.get(0);
+
+        List<String> emails = fha.getEmails(dnaMarker);
+        assertNotNull(emails);
+        assertEquals(1, emails.size());
+        assertEquals("info@internet.com", emails.get(0));
+
+        fha.removeEmails(dnaMarker);
+        emails = fha.getEmails(dnaMarker);
+        assertNotNull(emails);
+        assertEquals(0, emails.size());
+
+        assertNotNull(fha.addEmail(dnaMarker, "matt@gedcom4j.org"));
+
+        emails = fha.getEmails(dnaMarker);
+        assertNotNull(emails);
+        assertEquals(1, emails.size());
+        assertEquals("matt@gedcom4j.org", emails.get(0));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#addEmail(org.gedcom4j.model.AbstractEvent, String)},
+     * {@link FamilyHistorianAdapter#getEmails(org.gedcom4j.model.AbstractEvent)}, and
+     * {@link FamilyHistorianAdapter#removeEmails(org.gedcom4j.model.AbstractEvent)}
+     */
+    @Test
+    public void testGetAddRemoveEmailsToEvent() {
+        IndividualEvent birth = tom.getEventsOfType(IndividualEventType.BIRTH).get(0);
+        List<String> emails = fha.getEmails(birth);
+        assertNotNull(emails);
+        assertEquals(1, emails.size());
+        assertEquals("info@internet.com", emails.get(0));
+
+        fha.removeEmails(birth);
+        emails = fha.getEmails(birth);
+        assertNotNull(emails);
+        assertEquals(0, emails.size());
+
+        assertNotNull(fha.addEmail(birth, "matt@gedcom4j.org"));
+
+        emails = fha.getEmails(birth);
+        assertNotNull(emails);
+        assertEquals(1, emails.size());
+        assertEquals("matt@gedcom4j.org", emails.get(0));
+    }
+
+    /**
      * Positive test for {@link FamilyHistorianAdapter#getNamedList(Gedcom, String)}
      */
     @Test(expected = UnsupportedOperationException.class)
@@ -231,6 +363,38 @@ public class FamilyHistorianAdapterTest {
         assertNotNull(individual);
         assertEquals(tom, individual);
         assertSame(tom, individual);
+    }
+
+    /**
+     * Test {@link FamilyHistorianAdapter#getFlags(Individual)} and {@link FamilyHistorianAdapter#setFlags(Individual, CustomFact)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetSetFlagsNegative() {
+        CustomFact flags = fha.getFlags(tom);
+        assertNotNull(flags);
+        assertEquals(2, flags.getCustomFacts().size());
+
+        CustomFact newFlags = fha.newNamedList("This is intentionally wrong!");
+        assertNotNull(newFlags);
+        fha.setFlags(tom, newFlags);
+    }
+
+    /**
+     * Test {@link FamilyHistorianAdapter#getFlags(Individual)} and {@link FamilyHistorianAdapter#setFlags(Individual, CustomFact)}
+     */
+    @Test
+    public void testGetSetFlagsPositive() {
+        CustomFact flags = fha.getFlags(tom);
+        assertNotNull(flags);
+        assertEquals(2, flags.getCustomFacts().size());
+
+        CustomFact newFlags = fha.newFlags();
+        assertNotNull(newFlags);
+        fha.setFlags(tom, newFlags);
+
+        flags = fha.getFlags(tom);
+        assertNotNull(flags);
+        assertNull(flags.getCustomFacts());
     }
 
     /**
@@ -426,6 +590,21 @@ public class FamilyHistorianAdapterTest {
         List<CustomFact> witnessNames = fha.getUnrelatedWitnesses(birth);
         assertNotNull(witnessNames);
         witnessNames.clear();
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getWitnessReferences(IndividualEvent)}
+     */
+    @Test
+    public void testGetWitnessReferences() {
+        IndividualEvent birth = tom.getEventsOfType(IndividualEventType.BIRTH).get(0);
+        List<CustomFact> witnessRefs = fha.getWitnessReferences(birth);
+        assertNotNull(witnessRefs);
+        assertEquals(1, witnessRefs.size());
+        CustomFact w1 = witnessRefs.get(0);
+        assertEquals("@I3@", w1.getDescription().getValue());
+        assertEquals("Birthing Coach", w1.getCustomFactsWithTag("ROLE").get(0).getDescription().getValue());
+        assertEquals("Passed out during delivery", w1.getNotes().get(0).getLines().get(0));
     }
 
     /**

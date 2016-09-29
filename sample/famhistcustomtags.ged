@@ -17,6 +17,14 @@
 2 _IDS I3,I2
 3 _NOTE Named List Note for Record I2
 2 _IDS I19,I15
+0 @SUBM001@ SUBM
+1 NAME Matt /Harrah/
+1 _EMAIL info@internet.com
+1 _WEB http://www.internet.com
+0 @R0000@ REPO
+1 NAME National Archives
+1 _EMAIL info@internet.com
+1 _WEB http://www.internet.com
 0 @I1@ INDI
 1 NAME Tom /Thompson/
 2 _USED Tony
@@ -25,6 +33,8 @@
 2 TYPE Ordinance
 2 DATE 12 MAR 1934
 1 BIRT
+2 _EMAIL info@internet.com
+2 _WEB http://www.internet.com
 2 DATE 1 JAN 1940
 2 PLAC Ansted, WV, USA
 2 _SHAN Wally Witness
@@ -37,6 +47,8 @@
 2 TYPE DNA Markers
 2 DATE 2 FEB 1942
 2 PLAC Charleston, WV, USA
+2 _EMAIL info@internet.com
+2 _WEB http://www.internet.com
 1 _ATTR grand poobah
 2 TYPE Elected
 2 DATE 3 MAR 1943

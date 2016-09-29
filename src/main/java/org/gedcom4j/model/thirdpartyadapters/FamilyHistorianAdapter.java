@@ -37,6 +37,7 @@ import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.PersonalName;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.enumerations.IndividualEventType;
 
 /**
@@ -50,8 +51,64 @@ import org.gedcom4j.model.enumerations.IndividualEventType;
  * 
  * @author frizbog
  */
-@SuppressWarnings("PMD.GodClass")
+@SuppressWarnings({ "PMD.GodClass", "PMD.TooManyMethods" })
 public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
+
+    /**
+     * Add a DNA Marker custom fact to the individual
+     * 
+     * @param individual
+     *            the individual
+     * @param dnaMarker
+     *            the DNA Marker custom fact. Required.
+     * @throws IllegalArgumentException
+     *             if the dnaMarker argument is null, does not have the right tag type, and does not have the right tag subtype
+     */
+    public void addDnaMarker(Individual individual, CustomFact dnaMarker) {
+        if (dnaMarker == null) {
+            throw new IllegalArgumentException("The dnaMarker argument is required.");
+        }
+        if (!isNonNullAndHasRequiredTag(dnaMarker, "_DNA")) {
+            throw new IllegalArgumentException("The dnaMarker argument had the wrong tag value; expected _DNA, found " + dnaMarker
+                    .getTag());
+        }
+        StringWithCustomFacts type = dnaMarker.getType();
+        if (type != null && "DNA Markers".equals(type.getValue())) {
+            throw new IllegalArgumentException("The dnaMarker argument had the wrong type value; expected 'DNA Markers', found "
+                    + type);
+        }
+        individual.getCustomFacts(true).add(dnaMarker);
+    }
+
+    /**
+     * Add an email custom fact to an event or attribute
+     * 
+     * @param event
+     *            the event or attribute
+     * @param emailString
+     *            the email string
+     * @return the newly created email custom fact
+     */
+    public CustomFact addEmail(AbstractEvent event, String emailString) {
+        CustomFact cf = newEmail(emailString);
+        event.getCustomFacts(true).add(cf);
+        return cf;
+    }
+
+    /**
+     * Add an email custom fact to another custom fact
+     * 
+     * @param customFact
+     *            the custom fact
+     * @param emailString
+     *            the email string
+     * @return the newly created email custom fact
+     */
+    public CustomFact addEmail(CustomFact customFact, String emailString) {
+        CustomFact cf = newEmail(emailString);
+        customFact.getCustomFacts(true).add(cf);
+        return cf;
+    }
 
     /**
      * Add a named list to the gedcom
@@ -93,6 +150,87 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Add an witness reference to an event. Witness references are for people who exist in the Individuals map in the
+     * {@link Gedcom}.
+     * 
+     * @param gedcom
+     *            the gedcom we're working with
+     * 
+     * @param event
+     *            the event we are adding to
+     * @param witnessReference
+     *            the witness reference to add
+     * @throws IllegalArgumentException
+     *             if the witnessReference has the wrong tag, is null, or doesn't contain a valid xref to an individual in the
+     *             gedcom
+     */
+    public void addWitnessReference(Gedcom gedcom, IndividualEvent event, CustomFact witnessReference) {
+        if (witnessReference == null) {
+            throw new IllegalArgumentException("unrelatedWitness cannot be null");
+        }
+        if (!isNonNullAndHasRequiredTag(witnessReference, "_SHAR")) {
+            throw new IllegalArgumentException(
+                    "Custom fact supplied in witnessReference does not have the correct tag. Expected _SHAR, found "
+                            + witnessReference.getTag());
+        }
+        if (witnessReference.getDescription() == null || witnessReference.getDescription().getValue().trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "The witnessReference value supplied does not contain a cross-reference to an individual");
+        }
+        String xref = witnessReference.getDescription().getValue();
+        if (gedcom.getIndividuals().get(xref) == null) {
+            throw new IllegalArgumentException("Individual referenced in the witnessReference value (xref=" + xref
+                    + ") could not be found in the gedcom supplied");
+        }
+        event.getCustomFacts(true).add(witnessReference);
+    }
+
+    /**
+     * Get the DNA markers for an individual
+     * 
+     * @param individual
+     *            the individual
+     * @return the DNA marker custom fact(s)
+     */
+    public List<CustomFact> getDnaMarkers(Individual individual) {
+        return getCustomTagsWithTagAndType(individual, "_ATTR", "DNA Markers");
+    }
+
+    /**
+     * Get the emails from an event
+     * 
+     * @param event
+     *            the event or attribute
+     * @return the emails from the event
+     */
+    public List<String> getEmails(AbstractEvent event) {
+        List<String> result = new ArrayList<>();
+        for (CustomFact cf : event.getCustomFactsWithTag("_EMAIL")) {
+            if (cf != null && cf.getDescription() != null) {
+                result.add(cf.getDescription().getValue());
+            }
+        }
+        return Collections.unmodifiableList(result);
+    }
+
+    /**
+     * Get the emails from an custom fact
+     * 
+     * @param customFact
+     *            the custom fact
+     * @return the emails from the custom fact
+     */
+    public List<String> getEmails(CustomFact customFact) {
+        List<String> result = new ArrayList<>();
+        for (CustomFact cf : customFact.getCustomFactsWithTag("_EMAIL")) {
+            if (cf != null && cf.getDescription() != null) {
+                result.add(cf.getDescription().getValue());
+            }
+        }
+        return Collections.unmodifiableList(result);
+    }
+
+    /**
      * Get the custom Fact Set Sentence Template for representing the supplied event, fact, or attribute
      * 
      * @param eventFactAttribute
@@ -124,6 +262,21 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
                     return cf.getDescription() == null ? null : cf.getDescription().getValue();
                 }
             }
+        }
+        return null;
+    }
+
+    /**
+     * Get the flags on an individual
+     * 
+     * @param individual
+     *            the individual
+     * @return the flags
+     */
+    public CustomFact getFlags(Individual individual) {
+        List<CustomFact> facts = individual.getCustomFactsWithTag("_FLGS");
+        if (!facts.isEmpty()) {
+            return facts.get(0);
         }
         return null;
     }
@@ -236,7 +389,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
 
     /**
      * Get a list of witnesses to an event. These witnesses are people who do not exist in the {@link Gedcom} structure as
-     * {@link Individual}s. {@link Gedcom} structure - these are people who only have names.
+     * {@link Individual}s.
      * 
      * @param event
      *            the event to find witnesses for
@@ -266,6 +419,18 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get a list of witness references to an event. These witnesses are people who exist in the {@link Gedcom} structure as
+     * {@link Individual}s.
+     * 
+     * @param event
+     *            the event to find witnesses for
+     * @return the list of witnesses
+     */
+    public List<CustomFact> getWitnessReferences(IndividualEvent event) {
+        return event.getCustomFactsWithTag("_SHAR");
+    }
+
+    /**
      * Determine if the custom tag supplied is enabled for editing
      * 
      * @param namedList
@@ -286,7 +451,16 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
-     * Create a new named list
+     * Create new flags custom fact
+     * 
+     * @return the new flags custom fact
+     */
+    public CustomFact newFlags() {
+        return new CustomFact("_FLGS");
+    }
+
+    /**
+     * Create a new named list custom fact
      * 
      * @param string
      *            the name of the new named list
@@ -299,7 +473,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
-     * Create a new unrelated witness
+     * Create a new unrelated witness custom fact
      * 
      * @param witnessName
      *            the name of the unrelated witness
@@ -309,6 +483,49 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
         CustomFact result = new CustomFact("_SHAN");
         result.setDescription(witnessName);
         return result;
+    }
+
+    /**
+     * Create a new witness reference custom fact
+     *
+     * @param individual
+     *            the individual being referenced
+     * @return the custom fact created
+     */
+    public CustomFact newWitnessReference(Individual individual) {
+        CustomFact result = new CustomFact("_SHAR");
+        result.setDescription(individual.getXref());
+        return result;
+    }
+
+    /**
+     * Remove the DNA Marker custom facts from the individual supplied
+     * 
+     * @param individual
+     *            the individual
+     */
+    public void removeDnaMarkers(Individual individual) {
+        clearCustomTagsOfTypeAndSubType(individual, "_ATTR", "DNA Markers");
+    }
+
+    /**
+     * Clear the emails from the event or attribute
+     * 
+     * @param event
+     *            the event
+     */
+    public void removeEmails(AbstractEvent event) {
+        clearCustomTagsOfType(event, "_EMAIL");
+    }
+
+    /**
+     * Clear the emails from the custom fact
+     * 
+     * @param customFact
+     *            the customFact
+     */
+    public void removeEmails(CustomFact customFact) {
+        clearCustomTagsOfType(customFact, "_EMAIL");
     }
 
     /**
@@ -364,6 +581,17 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Remove the witness references from an event. Witness reference means the witness is someone who is in the Individuals map in
+     * the {@link Gedcom}.
+     * 
+     * @param event
+     *            the event
+     */
+    public void removeWitnessReferences(IndividualEvent event) {
+        clearCustomTagsOfType(event, "_SHAR");
+    }
+
+    /**
      * Set the editing-enabled flag on the named list
      * 
      * @param namedList
@@ -412,6 +640,27 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
             CustomFact fsst = new CustomFact("_SENT");
             fsst.setDescription(string);
             customFact.getCustomFacts(true).add(fsst);
+        }
+    }
+
+    /**
+     * Set the flags on an individual
+     * 
+     * @param individual
+     *            the individual
+     * @param flags
+     *            the flags custom fact
+     * @throws IllegalArgumentException
+     *             if the flags custom fact is non-null but does not have the correct tag on it
+     */
+    public void setFlags(Individual individual, CustomFact flags) {
+        if (flags != null && !isNonNullAndHasRequiredTag(flags, "_FLGS")) {
+            throw new IllegalArgumentException("flags custom fact did not have the expected tag type of _FLGS - found " + flags
+                    .getTag());
+        }
+        clearCustomTagsOfType(individual, "_FLGS");
+        if (flags != null) {
+            individual.getCustomFacts(true).add(flags);
         }
     }
 
@@ -515,5 +764,18 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
             cf.setDescription(vef);
             gedcom.getHeader().getGedcomVersion().getCustomFacts(true).add(cf);
         }
+    }
+
+    /**
+     * Create a new email custom fact
+     * 
+     * @param emailString
+     *            the email string
+     * @return the new email custom fact
+     */
+    private CustomFact newEmail(String emailString) {
+        CustomFact result = new CustomFact("_EMAIL");
+        result.setDescription(emailString);
+        return result;
     }
 }

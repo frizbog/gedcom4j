@@ -63,6 +63,38 @@ public abstract class AbstractThirdPartyAdapter {
     }
 
     /**
+     * Clear custom facts of a specific type and subtype. Searches the supplied element <code>elem</code> for custom facts with tag
+     * specified in <code>tag</code>, and that also have a subelement of type <code>TYPE</code> that matches the supplied
+     * <code>subType</code> value. These matches are removed from the custom facts collection on the element supplied.
+     * 
+     * @param elem
+     *            the object that has custom facts
+     * @param tag
+     *            the tag type to clear from the custom facts.
+     * @param subType
+     *            the subtype of item to clear from the custom facts
+     * @return the count of items removed
+     */
+    protected int clearCustomTagsOfTypeAndSubType(AbstractElement elem, String tag, String subType) {
+        int result = 0;
+        if (elem.getCustomFacts() == null) {
+            return result;
+        }
+        int i = 0;
+        while (i < elem.getCustomFacts().size()) {
+            CustomFact fact = elem.getCustomFacts().get(i);
+            if (fact.getTag().equals(tag) && fact.getType() != null && fact.getType().getValue() != null && fact.getType()
+                    .getValue().equals(subType)) {
+                elem.getCustomFacts().remove(i);
+                result++;
+            } else {
+                i++;
+            }
+        }
+        return result;
+    }
+
+    /**
      * <p>
      * Get a list of custom facts from the supplied element, each of which has a tag that matches the value supplied, and has a
      * sub-element named "TYPE" with the value specified. This is similar to generic EVEN or FACT tags, but also supports other
@@ -104,16 +136,10 @@ public abstract class AbstractThirdPartyAdapter {
         if (elem.getCustomFacts() == null) {
             return result;
         }
-        for (CustomFact outer : elem.getCustomFacts()) {
-            if (!outer.getTag().equals(tag)) {
-                continue;
-            }
-            for (CustomFact inner : outer.getCustomFacts()) {
-                if ("TYPE".equals(inner.getTag()) && inner.getDescription() != null && type.equals(inner.getDescription()
-                        .getValue())) {
-                    result.add(outer);
-                    break;
-                }
+        for (CustomFact fact : elem.getCustomFacts()) {
+            if (fact.getTag().equals(tag) && fact.getType() != null && fact.getType().getValue() != null && fact.getType()
+                    .getValue().equals(type)) {
+                result.add(fact);
             }
         }
         return result;
