@@ -37,7 +37,9 @@ import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.PersonalName;
+import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.StringWithCustomFacts;
+import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.enumerations.IndividualEventType;
 
 /**
@@ -51,7 +53,7 @@ import org.gedcom4j.model.enumerations.IndividualEventType;
  * 
  * @author frizbog
  */
-@SuppressWarnings({ "PMD.GodClass", "PMD.TooManyMethods" })
+@SuppressWarnings({ "PMD.GodClass", "PMD.TooManyMethods", "PMD.ExcessivePublicCount", "PMD.ExcessiveClassLength" })
 public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
 
     /**
@@ -68,14 +70,14 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
         if (dnaMarker == null) {
             throw new IllegalArgumentException("The dnaMarker argument is required.");
         }
-        if (!isNonNullAndHasRequiredTag(dnaMarker, "_DNA")) {
+        if (!isNonNullAndHasRequiredTag(dnaMarker, "_ATTR")) {
             throw new IllegalArgumentException("The dnaMarker argument had the wrong tag value; expected _DNA, found " + dnaMarker
                     .getTag());
         }
         StringWithCustomFacts type = dnaMarker.getType();
-        if (type != null && "DNA Markers".equals(type.getValue())) {
-            throw new IllegalArgumentException("The dnaMarker argument had the wrong type value; expected 'DNA Markers', found "
-                    + type);
+        if (type != null && !"DNA Markers".equals(type.getValue())) {
+            throw new IllegalArgumentException("The dnaMarker argument had the wrong type value; expected 'DNA Markers', found '"
+                    + type + "'");
         }
         individual.getCustomFacts(true).add(dnaMarker);
     }
@@ -107,6 +109,36 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     public CustomFact addEmail(CustomFact customFact, String emailString) {
         CustomFact cf = newEmail(emailString);
         customFact.getCustomFacts(true).add(cf);
+        return cf;
+    }
+
+    /**
+     * Add an email custom fact to a {@link Repository}
+     * 
+     * @param repo
+     *            the repository
+     * @param emailString
+     *            the email string
+     * @return the newly created email custom fact
+     */
+    public CustomFact addEmail(Repository repo, String emailString) {
+        CustomFact cf = newEmail(emailString);
+        repo.getCustomFacts(true).add(cf);
+        return cf;
+    }
+
+    /**
+     * Add an email custom fact to a {@link Submitter}
+     * 
+     * @param submitter
+     *            the submitter
+     * @param emailString
+     *            the email string
+     * @return the newly created email custom fact
+     */
+    public CustomFact addEmail(Submitter submitter, String emailString) {
+        CustomFact cf = newEmail(emailString);
+        submitter.getCustomFacts(true).add(cf);
         return cf;
     }
 
@@ -147,6 +179,66 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
                             + unrelatedWitness.getTag());
         }
         event.getCustomFacts(true).add(unrelatedWitness);
+    }
+
+    /**
+     * Add an webUrl custom fact to an event or attribute
+     * 
+     * @param event
+     *            the event or attribute
+     * @param webUrlString
+     *            the webUrl string
+     * @return the newly created webUrl custom fact
+     */
+    public CustomFact addWebUrl(AbstractEvent event, String webUrlString) {
+        CustomFact cf = newWebUrl(webUrlString);
+        event.getCustomFacts(true).add(cf);
+        return cf;
+    }
+
+    /**
+     * Add an webUrl custom fact to another custom fact
+     * 
+     * @param customFact
+     *            the custom fact
+     * @param webUrlString
+     *            the webUrl string
+     * @return the newly created webUrl custom fact
+     */
+    public CustomFact addWebUrl(CustomFact customFact, String webUrlString) {
+        CustomFact cf = newWebUrl(webUrlString);
+        customFact.getCustomFacts(true).add(cf);
+        return cf;
+    }
+
+    /**
+     * Add an webUrl custom fact to a {@link Repository}
+     * 
+     * @param repo
+     *            the repository
+     * @param webUrlString
+     *            the webUrl string
+     * @return the newly created webUrl custom fact
+     */
+    public CustomFact addWebUrl(Repository repo, String webUrlString) {
+        CustomFact cf = newWebUrl(webUrlString);
+        repo.getCustomFacts(true).add(cf);
+        return cf;
+    }
+
+    /**
+     * Add an webUrl custom fact to a {@link Submitter}
+     * 
+     * @param submitter
+     *            the submitter
+     * @param webUrlString
+     *            the webUrl string
+     * @return the newly created webUrl custom fact
+     */
+    public CustomFact addWebUrl(Submitter submitter, String webUrlString) {
+        CustomFact cf = newWebUrl(webUrlString);
+        submitter.getCustomFacts(true).add(cf);
+        return cf;
     }
 
     /**
@@ -231,6 +323,40 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get the emails from a {@link Repository}
+     * 
+     * @param repository
+     *            the repository
+     * @return the emails from the repository
+     */
+    public List<String> getEmails(Repository repository) {
+        List<String> result = new ArrayList<>();
+        for (CustomFact cf : repository.getCustomFactsWithTag("_EMAIL")) {
+            if (cf != null && cf.getDescription() != null) {
+                result.add(cf.getDescription().getValue());
+            }
+        }
+        return Collections.unmodifiableList(result);
+    }
+
+    /**
+     * Get the emails from a {@link Submitter}
+     * 
+     * @param submitter
+     *            the submitter
+     * @return the emails from the submitter
+     */
+    public List<String> getEmails(Submitter submitter) {
+        List<String> result = new ArrayList<>();
+        for (CustomFact cf : submitter.getCustomFactsWithTag("_EMAIL")) {
+            if (cf != null && cf.getDescription() != null) {
+                result.add(cf.getDescription().getValue());
+            }
+        }
+        return Collections.unmodifiableList(result);
+    }
+
+    /**
      * Get the custom Fact Set Sentence Template for representing the supplied event, fact, or attribute
      * 
      * @param eventFactAttribute
@@ -293,7 +419,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      */
     public List<CustomFact> getNamedList(Gedcom gedcom, String listName) {
         if (listName == null) {
-            throw new IllegalArgumentException("listName is q required argument");
+            throw new IllegalArgumentException("listName is a required argument");
         }
         List<CustomFact> result = new ArrayList<>();
         for (CustomFact cf : gedcom.getHeader().getCustomFactsWithTag("_LIST")) {
@@ -419,6 +545,74 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get the webUrls from an event
+     * 
+     * @param event
+     *            the event or attribute
+     * @return the webUrls from the event
+     */
+    public List<String> getWebUrls(AbstractEvent event) {
+        List<String> result = new ArrayList<>();
+        for (CustomFact cf : event.getCustomFactsWithTag("_WEB")) {
+            if (cf != null && cf.getDescription() != null) {
+                result.add(cf.getDescription().getValue());
+            }
+        }
+        return Collections.unmodifiableList(result);
+    }
+
+    /**
+     * Get the webUrls from an custom fact
+     * 
+     * @param customFact
+     *            the custom fact
+     * @return the webUrls from the custom fact
+     */
+    public List<String> getWebUrls(CustomFact customFact) {
+        List<String> result = new ArrayList<>();
+        for (CustomFact cf : customFact.getCustomFactsWithTag("_WEB")) {
+            if (cf != null && cf.getDescription() != null) {
+                result.add(cf.getDescription().getValue());
+            }
+        }
+        return Collections.unmodifiableList(result);
+    }
+
+    /**
+     * Get the webUrls from a {@link Repository}
+     * 
+     * @param repository
+     *            the repository
+     * @return the webUrls from the repository
+     */
+    public List<String> getWebUrls(Repository repository) {
+        List<String> result = new ArrayList<>();
+        for (CustomFact cf : repository.getCustomFactsWithTag("_WEB")) {
+            if (cf != null && cf.getDescription() != null) {
+                result.add(cf.getDescription().getValue());
+            }
+        }
+        return Collections.unmodifiableList(result);
+    }
+
+    /**
+     * Get the webUrls from a {@link Submitter}
+     * 
+     * @param submitter
+     *            the submitter
+     * @return the webUrls from the submitter
+     */
+    public List<String> getWebUrls(Submitter submitter) {
+        List<String> result = new ArrayList<>();
+        for (CustomFact cf : submitter.getCustomFactsWithTag("_WEB")) {
+            if (cf != null && cf.getDescription() != null) {
+                result.add(cf.getDescription().getValue());
+            }
+        }
+        return Collections.unmodifiableList(result);
+    }
+
+    /**
      * Get a list of witness references to an event. These witnesses are people who exist in the {@link Gedcom} structure as
      * {@link Individual}s.
      * 
@@ -448,6 +642,20 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
             }
         }
         return false;
+    }
+
+    /**
+     * Get a new DNA Marker custom fact
+     * 
+     * @param string
+     *            the string for the DNA marker
+     * @return the new DNA Marker custom fact
+     */
+    public CustomFact newDnaMarker(String string) {
+        CustomFact result = new CustomFact("_ATTR");
+        result.setType("DNA Markers");
+        result.setDescription(string);
+        return result;
     }
 
     /**
@@ -529,6 +737,26 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Clear the emails from the {@link Repository}
+     * 
+     * @param repo
+     *            the repository
+     */
+    public void removeEmails(Repository repo) {
+        clearCustomTagsOfType(repo, "_EMAIL");
+    }
+
+    /**
+     * Clear the emails from Submitter
+     * 
+     * @param submitter
+     *            the submitter
+     */
+    public void removeEmails(Submitter submitter) {
+        clearCustomTagsOfType(submitter, "_EMAIL");
+    }
+
+    /**
      * Remove the named list from the gedcom. More precisely, removes all named lists from the gedcom that match the supplied name -
      * but since they *should* be unique, it's effectively the same.
      * 
@@ -578,6 +806,46 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      */
     public void removeUnrelatedWitnesses(IndividualEvent event) {
         clearCustomTagsOfType(event, "_SHAN");
+    }
+
+    /**
+     * Clear the webUrls from the event or attribute
+     * 
+     * @param event
+     *            the event
+     */
+    public void removeWebUrls(AbstractEvent event) {
+        clearCustomTagsOfType(event, "_WEB");
+    }
+
+    /**
+     * Clear the webUrls from the custom fact
+     * 
+     * @param customFact
+     *            the customFact
+     */
+    public void removeWebUrls(CustomFact customFact) {
+        clearCustomTagsOfType(customFact, "_WEB");
+    }
+
+    /**
+     * Clear the webUrls from the {@link Repository}
+     * 
+     * @param repo
+     *            the repository
+     */
+    public void removeWebUrls(Repository repo) {
+        clearCustomTagsOfType(repo, "_WEB");
+    }
+
+    /**
+     * Clear the webUrls from Submitter
+     * 
+     * @param submitter
+     *            the submitter
+     */
+    public void removeWebUrls(Submitter submitter) {
+        clearCustomTagsOfType(submitter, "_WEB");
     }
 
     /**
@@ -776,6 +1044,19 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     private CustomFact newEmail(String emailString) {
         CustomFact result = new CustomFact("_EMAIL");
         result.setDescription(emailString);
+        return result;
+    }
+
+    /**
+     * Create a new webUrl custom fact
+     * 
+     * @param webUrlString
+     *            the webUrl string
+     * @return the new webUrl custom fact
+     */
+    private CustomFact newWebUrl(String webUrlString) {
+        CustomFact result = new CustomFact("_WEB");
+        result.setDescription(webUrlString);
         return result;
     }
 }

@@ -353,6 +353,16 @@ public class CustomFact extends AbstractNotesElement implements HasCitations, Ha
      * @param type
      *            the type to set
      */
+    public void setType(String type) {
+        this.type = new StringWithCustomFacts(type);
+    }
+
+    /**
+     * Set the type
+     * 
+     * @param type
+     *            the type to set
+     */
     public void setType(StringWithCustomFacts type) {
         this.type = type;
     }

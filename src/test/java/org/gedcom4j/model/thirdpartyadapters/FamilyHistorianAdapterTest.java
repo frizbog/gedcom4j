@@ -46,7 +46,9 @@ import org.gedcom4j.model.IndividualAttribute;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.Place;
+import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.StringWithCustomFacts;
+import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.enumerations.FamilyEventType;
 import org.gedcom4j.model.enumerations.IndividualAttributeType;
 import org.gedcom4j.model.enumerations.IndividualEventType;
@@ -194,8 +196,21 @@ public class FamilyHistorianAdapterTest {
         assertEquals("xxx", dnaMarker.getDescription().getValue());
         assertEquals("DNA Markers", dnaMarker.getType().getValue());
 
-        // TODO Clear
-        // TODO Add
+        fha.removeDnaMarkers(tom);
+        dnaMarkers = fha.getDnaMarkers(tom);
+        assertNotNull(dnaMarkers);
+        assertEquals(0, dnaMarkers.size());
+
+        CustomFact n = fha.newDnaMarker("frying pan");
+        fha.addDnaMarker(tom, n);
+
+        dnaMarkers = fha.getDnaMarkers(tom);
+        assertNotNull(dnaMarkers);
+        assertEquals(1, dnaMarkers.size());
+        dnaMarker = dnaMarkers.get(0);
+        assertEquals("_ATTR", dnaMarker.getTag());
+        assertEquals("frying pan", dnaMarker.getDescription().getValue());
+        assertEquals("DNA Markers", dnaMarker.getType().getValue());
     }
 
     /**
@@ -224,10 +239,6 @@ public class FamilyHistorianAdapterTest {
         assertEquals(1, emails.size());
         assertEquals("matt@gedcom4j.org", emails.get(0));
     }
-
-    // TODO - public void testGetAddRemoveEmailsToRepository()
-
-    // TODO - public void testGetAddRemoveEmailsToSubmitter()
 
     /**
      * Test for {@link FamilyHistorianAdapter#addEmail(org.gedcom4j.model.AbstractEvent, String)},
@@ -284,6 +295,198 @@ public class FamilyHistorianAdapterTest {
         assertNotNull(emails);
         assertEquals(1, emails.size());
         assertEquals("matt@gedcom4j.org", emails.get(0));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#addEmail(Repository, String)}, {@link FamilyHistorianAdapter#getEmails(Repository)},
+     * and {@link FamilyHistorianAdapter#removeEmails(Repository)}
+     */
+    @Test
+    public void testGetAddRemoveEmailsToRepository() {
+
+        Repository repository = gedcomWithCustomTags.getRepositories().get("@R0000@");
+
+        List<String> emails = fha.getEmails(repository);
+        assertNotNull(emails);
+        assertEquals(1, emails.size());
+        assertEquals("info@internet.com", emails.get(0));
+
+        fha.removeEmails(repository);
+        emails = fha.getEmails(repository);
+        assertNotNull(emails);
+        assertEquals(0, emails.size());
+
+        assertNotNull(fha.addEmail(repository, "matt@gedcom4j.org"));
+
+        emails = fha.getEmails(repository);
+        assertNotNull(emails);
+        assertEquals(1, emails.size());
+        assertEquals("matt@gedcom4j.org", emails.get(0));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#addEmail(Submitter, String)}, {@link FamilyHistorianAdapter#getEmails(Submitter)}, and
+     * {@link FamilyHistorianAdapter#removeEmails(Submitter)}
+     */
+    @Test
+    public void testGetAddRemoveEmailsToSubmitter() {
+
+        Submitter submitter = gedcomWithCustomTags.getSubmitters().get("@SUBM001@");
+
+        List<String> emails = fha.getEmails(submitter);
+        assertNotNull(emails);
+        assertEquals(1, emails.size());
+        assertEquals("info@internet.com", emails.get(0));
+
+        fha.removeEmails(submitter);
+        emails = fha.getEmails(submitter);
+        assertNotNull(emails);
+        assertEquals(0, emails.size());
+
+        assertNotNull(fha.addEmail(submitter, "matt@gedcom4j.org"));
+
+        emails = fha.getEmails(submitter);
+        assertNotNull(emails);
+        assertEquals(1, emails.size());
+        assertEquals("matt@gedcom4j.org", emails.get(0));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#addWebUrl(org.gedcom4j.model.AbstractEvent, String)},
+     * {@link FamilyHistorianAdapter#getWebUrls(org.gedcom4j.model.AbstractEvent)}, and
+     * {@link FamilyHistorianAdapter#removeWebUrls(org.gedcom4j.model.AbstractEvent)}
+     */
+    @Test
+    public void testGetAddRemoveWebUrlsToAttribute() {
+        IndividualAttribute ia = tom.getAttributesOfType(IndividualAttributeType.FACT).get(0);
+        assertEquals("Tomato", ia.getSubType().getValue());
+        List<String> faxes = fha.getWebUrls(ia);
+        assertNotNull(faxes);
+        assertEquals(1, faxes.size());
+        assertEquals("http://www.internet.com", faxes.get(0));
+
+        fha.removeWebUrls(ia);
+        faxes = fha.getWebUrls(ia);
+        assertNotNull(faxes);
+        assertEquals(0, faxes.size());
+
+        assertNotNull(fha.addWebUrl(ia, "http://gedcom4j.org"));
+
+        faxes = fha.getWebUrls(ia);
+        assertNotNull(faxes);
+        assertEquals(1, faxes.size());
+        assertEquals("http://gedcom4j.org", faxes.get(0));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#addWebUrl(org.gedcom4j.model.AbstractEvent, String)},
+     * {@link FamilyHistorianAdapter#getWebUrls(org.gedcom4j.model.AbstractEvent)}, and
+     * {@link FamilyHistorianAdapter#removeWebUrls(org.gedcom4j.model.AbstractEvent)}
+     */
+    @Test
+    public void testGetAddRemoveWebUrlsToCustomFact() {
+        List<CustomFact> dnaMarkers = fha.getDnaMarkers(tom);
+        assertNotNull(dnaMarkers);
+        assertEquals(1, dnaMarkers.size());
+
+        CustomFact dnaMarker = dnaMarkers.get(0);
+
+        List<String> faxes = fha.getWebUrls(dnaMarker);
+        assertNotNull(faxes);
+        assertEquals(1, faxes.size());
+        assertEquals("http://www.internet.com", faxes.get(0));
+
+        fha.removeWebUrls(dnaMarker);
+        faxes = fha.getWebUrls(dnaMarker);
+        assertNotNull(faxes);
+        assertEquals(0, faxes.size());
+
+        assertNotNull(fha.addWebUrl(dnaMarker, "http://gedcom4j.org"));
+
+        faxes = fha.getWebUrls(dnaMarker);
+        assertNotNull(faxes);
+        assertEquals(1, faxes.size());
+        assertEquals("http://gedcom4j.org", faxes.get(0));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#addWebUrl(org.gedcom4j.model.AbstractEvent, String)},
+     * {@link FamilyHistorianAdapter#getWebUrls(org.gedcom4j.model.AbstractEvent)}, and
+     * {@link FamilyHistorianAdapter#removeWebUrls(org.gedcom4j.model.AbstractEvent)}
+     */
+    @Test
+    public void testGetAddRemoveWebUrlsToEvent() {
+        IndividualEvent birth = tom.getEventsOfType(IndividualEventType.BIRTH).get(0);
+        List<String> faxes = fha.getWebUrls(birth);
+        assertNotNull(faxes);
+        assertEquals(1, faxes.size());
+        assertEquals("http://www.internet.com", faxes.get(0));
+
+        fha.removeWebUrls(birth);
+        faxes = fha.getWebUrls(birth);
+        assertNotNull(faxes);
+        assertEquals(0, faxes.size());
+
+        assertNotNull(fha.addWebUrl(birth, "http://gedcom4j.org"));
+
+        faxes = fha.getWebUrls(birth);
+        assertNotNull(faxes);
+        assertEquals(1, faxes.size());
+        assertEquals("http://gedcom4j.org", faxes.get(0));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#addWebUrl(Repository, String)}, {@link FamilyHistorianAdapter#getWebUrls(Repository)},
+     * and {@link FamilyHistorianAdapter#removeWebUrls(Repository)}
+     */
+    @Test
+    public void testGetAddRemoveWebUrlsToRepository() {
+
+        Repository repository = gedcomWithCustomTags.getRepositories().get("@R0000@");
+
+        List<String> faxes = fha.getWebUrls(repository);
+        assertNotNull(faxes);
+        assertEquals(1, faxes.size());
+        assertEquals("http://www.internet.com", faxes.get(0));
+
+        fha.removeWebUrls(repository);
+        faxes = fha.getWebUrls(repository);
+        assertNotNull(faxes);
+        assertEquals(0, faxes.size());
+
+        assertNotNull(fha.addWebUrl(repository, "http://gedcom4j.org"));
+
+        faxes = fha.getWebUrls(repository);
+        assertNotNull(faxes);
+        assertEquals(1, faxes.size());
+        assertEquals("http://gedcom4j.org", faxes.get(0));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#addWebUrl(Submitter, String)}, {@link FamilyHistorianAdapter#getWebUrls(Submitter)},
+     * and {@link FamilyHistorianAdapter#removeWebUrls(Submitter)}
+     */
+    @Test
+    public void testGetAddRemoveWebUrlsToSubmitter() {
+
+        Submitter submitter = gedcomWithCustomTags.getSubmitters().get("@SUBM001@");
+
+        List<String> faxes = fha.getWebUrls(submitter);
+        assertNotNull(faxes);
+        assertEquals(1, faxes.size());
+        assertEquals("http://www.internet.com", faxes.get(0));
+
+        fha.removeWebUrls(submitter);
+        faxes = fha.getWebUrls(submitter);
+        assertNotNull(faxes);
+        assertEquals(0, faxes.size());
+
+        assertNotNull(fha.addWebUrl(submitter, "http://gedcom4j.org"));
+
+        faxes = fha.getWebUrls(submitter);
+        assertNotNull(faxes);
+        assertEquals(1, faxes.size());
+        assertEquals("http://gedcom4j.org", faxes.get(0));
     }
 
     /**

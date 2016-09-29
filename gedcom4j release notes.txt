@@ -4,7 +4,7 @@ GEDCOM4J RELEASE NOTES
 
 v4.0.0 is a major release. Some users, particularly those who used the validation framework or used custom tags, will need to make changes to accommodate API changes.
 
-Upgrade guide:
+Upgrade tips:
 - References to StringWithCustomTags will need to be changed to references to StringWithCustomFacts instead.
 - References to GedcomValidator should be replaced with Validator - but this is only if you are directly accessing the validator.  Generally it's only accessed implicitly in the GedcomWriter, and using the writer hasn't really changed...although the validation findings have changed their formats.
 - Most of the enums in the library have been moved to the org.gedcom4j.model.enumerations package, so you may need to touch up your imports.
