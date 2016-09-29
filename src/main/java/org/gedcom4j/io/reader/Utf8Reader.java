@@ -107,6 +107,7 @@ final class Utf8Reader extends AbstractEncodingSpecificReader {
         }
 
         while (s != null) {
+            s = leftTrim(s);
             if (s.length() != 0) {
                 result = s;
                 break;
@@ -152,4 +153,29 @@ final class Utf8Reader extends AbstractEncodingSpecificReader {
         }
     }
 
+    /**
+     * Trim all whitespace off the left side (only) of the supplied string.
+     * 
+     * @param line
+     *            the string to trim left leading whitespace from
+     * @return the line passed in with the leading whitespace removed. If the original string passed in was null, null is returned
+     *         here.
+     */
+    private String leftTrim(String line) {
+        if (line == null) {
+            return null;
+        }
+        if (line.length() == 0) {
+            return "";
+        }
+        if (!Character.isWhitespace(line.charAt(0))) {
+            return line;
+        }
+        for (int i = 0; i < line.length(); i++) {
+            if (!Character.isWhitespace(line.charAt(i))) {
+                return line.substring(i);
+            }
+        }
+        return "";
+    }
 }
