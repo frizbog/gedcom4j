@@ -27,6 +27,7 @@
 package org.gedcom4j.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -570,7 +571,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
                 }
             }
         }
-        return result;
+        return Collections.unmodifiableList(result);
     }
 
     /**
