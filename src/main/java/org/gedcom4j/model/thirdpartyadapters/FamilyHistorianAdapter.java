@@ -402,6 +402,27 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Add a root level place record to the gedcom
+     * 
+     * @param gedcom
+     *            the gedcom
+     * @param place
+     *            the place custom fact. Required.
+     * @throws IllegalArgumentException
+     *             if the place supplied is null or doesn't have the right tag
+     */
+    public void addPlaceRecord(Gedcom gedcom, CustomFact place) {
+        if (place == null) {
+            throw new IllegalArgumentException("place must be non-null");
+        }
+        if (!isNonNullAndHasRequiredTag(place, "_PLAC")) {
+            throw new IllegalArgumentException("place did not have the required custom tag; expected _PLAC, found " + place
+                    .getTag());
+        }
+        gedcom.getCustomFacts(true).add(place);
+    }
+
+    /**
      * Add an unrelated witness to an event. Unrelated witnesses do not exist in the Individuals map in the {@link Gedcom}.
      * 
      * @param event
@@ -962,6 +983,24 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get a specific root-level place record by its xref
+     * 
+     * @param gedcom
+     *            the gedcom
+     * @param xref
+     *            the xref of the root-level place record desired
+     * @return the place record, or null if it could not be found
+     */
+    public CustomFact getPlaceRecord(Gedcom gedcom, String xref) {
+        for (CustomFact cf : gedcom.getCustomFactsWithTag("_PLAC")) {
+            if (cf.getXref() != null && cf.getXref().equals(xref)) {
+                return cf;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Get the root-level place records
      * 
      * @param gedcom
@@ -1316,6 +1355,31 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Create a new Place custom fact
+     * 
+     * @param xref
+     *            the xref of the new place. Required, and must begin and end with an @-sign like other xrefs.
+     * @param placeName
+     *            the place name. Required.
+     * @return the custom fact for the place
+     */
+    public CustomFact newPlace(String xref, String placeName) {
+        if (xref == null) {
+            throw new IllegalArgumentException("xref is required");
+        }
+        if (!xref.matches("\\@\\w+\\@")) {
+            throw new IllegalArgumentException("xref does not consist of letters and numbers between @-signs");
+        }
+        if (placeName == null || placeName.trim().isEmpty()) {
+            throw new IllegalArgumentException("placeName is required and must not be empty");
+        }
+        CustomFact result = new CustomFact("_PLAC");
+        result.setXref(xref);
+        result.setDescription(placeName);
+        return result;
+    }
+
+    /**
      * Create a new unrelated witness custom fact
      * 
      * @param witnessName
@@ -1520,6 +1584,42 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      */
     public void removeOrdinances(Individual individual) {
         clearCustomTagsOfTypeAndSubType(individual, "_ATTR", "Ordinance");
+    }
+
+    /**
+     * Remove a specific root-level place record, by its xref
+     * 
+     * @param gedcom
+     *            the gedcom
+     * @param xref
+     *            the xref of the record to remove
+     * @return true if the record was removed, otherwise false
+     */
+    public boolean removePlaceRecord(Gedcom gedcom, String xref) {
+        if (gedcom.getCustomFacts() == null) {
+            return false;
+        }
+        int i = 0;
+        while (i < gedcom.getCustomFacts().size()) {
+            CustomFact cf = gedcom.getCustomFacts().get(i);
+            if ("_PLAC".equals(cf.getTag()) && cf.getXref() != null && cf.getXref().equals(xref)) {
+                gedcom.getCustomFacts().remove(i);
+                return true;
+            }
+            i++;
+        }
+        return false;
+
+    }
+
+    /**
+     * Remove all the root-level place records from the gedcom
+     * 
+     * @param gedcom
+     *            the gedcom
+     */
+    public void removePlaceRecords(Gedcom gedcom) {
+        clearCustomTagsOfType(gedcom, "_PLAC");
     }
 
     /**

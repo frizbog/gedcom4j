@@ -1244,6 +1244,54 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
+     * Test {@link FamilyHistorianAdapter#newPlace(String, String)} with a bad xref
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNewPlaceNegativeBadXref() {
+        fha.newPlace("bad", "asdf");
+    }
+
+    /**
+     * Test {@link FamilyHistorianAdapter#newPlace(String, String)} with a blank place name
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNewPlaceNegativeBlankPlaceName() {
+        fha.newPlace("@P1@", " ");
+    }
+
+    /**
+     * Test {@link FamilyHistorianAdapter#newPlace(String, String)} with a null place name
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNewPlaceNegativeNullPlaceName() {
+        fha.newPlace("@P1@", null);
+    }
+
+    /**
+     * Test {@link FamilyHistorianAdapter#newPlace(String, String)} with a null xref
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNewPlaceNegativeNullXref() {
+        fha.newPlace(null, "asdf");
+    }
+
+    /**
+     * Test {@link FamilyHistorianAdapter#newPlace(String, String)} with the place name and xref transposed
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNewPlaceNegativeXrefPlacenameTransposed() {
+        fha.newPlace("Virginia", "@P1@");
+    }
+
+    /**
+     * Test {@link FamilyHistorianAdapter#newPlace(String, String)} with good parameters
+     */
+    @Test
+    public void testNewPlacePositive() {
+        assertNotNull(fha.newPlace("@P1@", "Florida"));
+    }
+
+    /**
      * Test for Ordinances
      */
     @Test
@@ -1274,7 +1322,11 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Test for {@link FamilyHistorianAdapter#getPlaceRecords(Gedcom)}
+     * Test for {@link FamilyHistorianAdapter#getPlaceRecords(Gedcom)},
+     * {@link FamilyHistorianAdapter#getPlaceRecord(Gedcom, String)},
+     * {@link FamilyHistorianAdapter#removePlaceRecord(Gedcom, String)}, {@link FamilyHistorianAdapter#removePlaceRecords(Gedcom)},
+     * {@link FamilyHistorianAdapter#addPlaceRecord(Gedcom, CustomFact)}, and
+     * {@link FamilyHistorianAdapter#newPlace(String, String)}
      */
     @Test
     public void testPlaceRecords() {
@@ -1282,8 +1334,47 @@ public class FamilyHistorianAdapterTest {
         assertNotNull(places);
         assertEquals(11, places.size());
 
-        // TODO clear, add, removeByXref, findByXref
+        CustomFact p1 = fha.getPlaceRecord(gedcomWithCustomTags, "@P1@");
+        assertEquals(places.get(0), p1);
+        assertEquals("Ansted, WV, USA", p1.getDescription().getValue());
 
+        fha.removePlaceRecord(gedcomWithCustomTags, p1.getXref());
+        assertNull(fha.getPlaceRecord(gedcomWithCustomTags, "@P1@"));
+
+        places = fha.getPlaceRecords(gedcomWithCustomTags);
+        assertNotNull(places);
+        assertEquals(10, places.size());
+
+        fha.addPlaceRecord(gedcomWithCustomTags, p1);
+        assertSame(p1, fha.getPlaceRecord(gedcomWithCustomTags, "@P1@"));
+        assertEquals("Ansted, WV, USA", p1.getDescription().getValue());
+
+        places = fha.getPlaceRecords(gedcomWithCustomTags);
+        assertNotNull(places);
+        assertEquals(11, places.size());
+
+        fha.removePlaceRecords(gedcomWithCustomTags);
+        assertNull(fha.getPlaceRecord(gedcomWithCustomTags, "@P1@"));
+
+        places = fha.getPlaceRecords(gedcomWithCustomTags);
+        assertNotNull(places);
+        assertEquals(0, places.size());
+
+        CustomFact newPlace = fha.newPlace("@P999@", "Cucamonga");
+        fha.addPlaceRecord(gedcomWithCustomTags, newPlace);
+        p1 = fha.getPlaceRecord(gedcomWithCustomTags, "@P999@");
+        assertEquals(p1, newPlace);
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getPlaceRecords(Gedcom)}
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testPlaceRecordsImmutable() {
+        List<CustomFact> places = fha.getPlaceRecords(gedcomWithCustomTags);
+        assertNotNull(places);
+        assertEquals(11, places.size());
+        places.clear();
     }
 
     /**
