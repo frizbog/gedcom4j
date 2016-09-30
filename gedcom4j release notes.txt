@@ -18,6 +18,7 @@ Summary of changes:
 - Validation framework was almost entirely rebuilt. You can now also write your own validators and register them have them executed during validation (see the Validator.getSupplementaryValidators() method).
 - There are now adapter classes for providing assistance with processing custom tags for Family Tree Maker 3, Family Historian, and Legacy Family Tree. This will enable users to work with the custom tags those programs a bit more easily than working directly with the custom facts structures.
 
+
 29 SEP 2016 - v3.2.2
 ====================
 v3.2.2 is a minor fix release
