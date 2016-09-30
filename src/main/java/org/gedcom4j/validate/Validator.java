@@ -515,6 +515,23 @@ public class Validator implements Serializable {
     }
 
     /**
+     * <p>
+     * Get the supplementary validators.
+     * </p>
+     * <p>
+     * This collection comes pre-populated with a variety of built-in validators. Users can add their own custom
+     * {@link AbstractValidator} implementations to this collection and have them executed at validation time. Users can also remove
+     * any supplemental validator they do not want to run during validation.
+     * </p>
+     * 
+     * @return the supplementary validators collection.
+     */
+    @SuppressWarnings("checkstyle:WhitespaceAround")
+    public Set<Class<? extends AbstractValidator>> getSupplementaryValidators() {
+        return supplementaryValidators;
+    }
+
+    /**
      * Create a finding - automatically adds to the results.
      * 
      * @param itemOfConcern
@@ -618,23 +635,6 @@ public class Validator implements Serializable {
                 throw new ValidationException("Unable to instantiate and invoke custom validator " + avc.getName(), e);
             }
         }
-    }
-
-    /**
-     * <p>
-     * Get the supplementary validators.
-     * </p>
-     * <p>
-     * This collection comes pre-populated with a variety of built-in validators. Users can add their own custom
-     * {@link AbstractValidator} implementations to this collection and have them executed at validation time. Users can also remove
-     * any supplemental validator they do not want to run during validation.
-     * </p>
-     * 
-     * @return the supplementary validators collection.
-     */
-    @SuppressWarnings("checkstyle:WhitespaceAround")
-    protected Set<Class<? extends AbstractValidator>> getSupplementaryValidators() {
-        return supplementaryValidators;
     }
 
     /**
