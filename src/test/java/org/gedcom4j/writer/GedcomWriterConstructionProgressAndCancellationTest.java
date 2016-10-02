@@ -123,7 +123,7 @@ public class GedcomWriterConstructionProgressAndCancellationTest implements Cons
         gw.setValidationSuppressed(true);
         gw.registerConstructObserver(this);
         gw.write(new NullOutputStream());
-        assertEquals(40, notificationCount);
+        assertEquals(36, notificationCount);
     }
 
 }

@@ -36,7 +36,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class StringWithCustomFactssCopyTest extends AbstractCopyTest {
+public class StringWithCustomFactsCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link StringWithCustomFacts}, which should never work

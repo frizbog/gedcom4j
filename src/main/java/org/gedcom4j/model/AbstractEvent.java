@@ -740,7 +740,7 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
         appendAddressFields(builder, true);
         if (getCustomFacts() != null) {
             builder.append("customFacts=");
-            builder.append(getCustomFacts());
+            builder.append(customFacts);
         }
         return builder;
     }

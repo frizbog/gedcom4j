@@ -329,4 +329,40 @@ public class LegacyFamilyTree8AdapterTest {
         lfta.setNameAtAddress(addr, "Bill Williams");
         assertEquals("Bill Williams", lfta.getNameAtAddress(addr));
     }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getToDoCategory(CustomFact)} and
+     * {@link LegacyFamilyTree8Adapter#setToDoCategory(CustomFact, String)}
+     */
+    @Test
+    public void testToDoCategory() {
+        CustomFact toDo = lfta.newToDo();
+        assertNull(lfta.getToDoCategory(toDo));
+
+        lfta.setToDoCategory(toDo, "License");
+        assertEquals("License", lfta.getToDoCategory(toDo));
+
+        assertEquals("Birth Certificate", lfta.getToDoCategory(lfta.getToDos(will).get(0)));
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getToDoDescription(CustomFact)} and
+     * {@link LegacyFamilyTree8Adapter#setToDoDescription(CustomFact, String)}. Note that Legacy Family Tree 8 puts the description
+     * of the to-do in a child "DESC" tag (without the leading underscore - a tag normally reserved for DESCendands) and not in the
+     * value to the right of the tag.
+     */
+    @Test
+    public void testToDoDescription() {
+        CustomFact toDo = lfta.newToDo();
+        assertNull(lfta.getToDoDescription(toDo));
+        assertNull(toDo.getDescription());
+
+        lfta.setToDoDescription(toDo, "License");
+        assertEquals("License", lfta.getToDoDescription(toDo));
+        assertNull(toDo.getDescription());
+
+        CustomFact willToDo1 = lfta.getToDos(will).get(0);
+        assertEquals("Birth Certificate", lfta.getToDoDescription(willToDo1));
+        assertNull(willToDo1.getDescription());
+    }
 }

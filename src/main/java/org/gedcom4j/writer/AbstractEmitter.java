@@ -329,20 +329,26 @@ abstract class AbstractEmitter<T> {
     void emitCustomFacts(int level, List<CustomFact> customFacts) throws WriterCancelledException, GedcomWriterException {
         if (customFacts != null) {
             for (CustomFact cf : customFacts) {
+                if (cf == null) {
+                    continue;
+                }
                 StringBuilder line = new StringBuilder(Integer.toString(level));
                 line.append(" ");
                 if (cf.getXref() != null && cf.getXref().trim().length() > 0) {
                     line.append(cf.getXref()).append(" ");
                 }
                 line.append(cf.getTag());
-                if (cf.getDescription() != null && cf.getDescription().trim().length() > 0) {
+                if (cf.getDescription() != null && cf.getDescription().getValue() != null && cf.getDescription().getValue().trim()
+                        .length() > 0) {
                     line.append(" ").append(cf.getDescription());
                 }
                 baseWriter.lines.add(line.toString());
-                emitTagIfValueNotNull(level + 1, "DATE", cf.getDate());
-                new PlaceEmitter(baseWriter, level + 1, cf.getPlace()).emit();
-                new NotesEmitter(baseWriter, level + 1, cf.getNotes()).emit();
+                new ChangeDateEmitter(baseWriter, level + 1, cf.getChangeDate()).emit();
                 new SourceCitationEmitter(baseWriter, level + 1, cf.getCitations()).emit();
+                emitTagIfValueNotNull(level + 1, "DATE", cf.getDate());
+                new NotesEmitter(baseWriter, level + 1, cf.getNotes()).emit();
+                new PlaceEmitter(baseWriter, level + 1, cf.getPlace()).emit();
+                emitTagIfValueNotNull(level + 1, "TYPE", cf.getType());
                 emitCustomFacts(level + 1, cf.getCustomFacts());
             }
         }

@@ -155,6 +155,34 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get the to-do category
+     * 
+     * @param toDo
+     *            the to-do custom fact
+     * @return the category for the to-do
+     */
+    public String getToDoCategory(CustomFact toDo) {
+        if (!isNonNullAndHasRequiredTag(toDo, "_TODO")) {
+            throw new IllegalArgumentException("toDo is required and must have correct custom tag");
+        }
+        return getDescriptionForCustomTag(toDo, "_CAT");
+    }
+
+    /**
+     * Get the to-do description
+     * 
+     * @param toDo
+     *            the to-do custom fact
+     * @return the description for the to-do
+     */
+    public String getToDoDescription(CustomFact toDo) {
+        if (!isNonNullAndHasRequiredTag(toDo, "_TODO")) {
+            throw new IllegalArgumentException("toDo is required and must have correct custom tag");
+        }
+        return getDescriptionForCustomTag(toDo, "_CAT");
+    }
+
+    /**
      * Get a List of Todo's from an object with custom facts
      * 
      * @param hasCustomFacts
@@ -307,6 +335,36 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      */
     public void setNameAtAddress(Address addr, String nameAtAddress) {
         setDescriptionForCustomTag(addr, "_NAME", nameAtAddress);
+    }
+
+    /**
+     * Sets the to do category.
+     *
+     * @param toDo
+     *            the to do
+     * @param category
+     *            the category
+     */
+    public void setToDoCategory(CustomFact toDo, String category) {
+        if (!isNonNullAndHasRequiredTag(toDo, "_TODO")) {
+            throw new IllegalArgumentException("toDo is required and must have correct custom tag");
+        }
+        setDescriptionForCustomTag(toDo, "_CAT", category);
+    }
+
+    /**
+     * Sets the to do description.
+     *
+     * @param toDo
+     *            the to do
+     * @param description
+     *            the description
+     */
+    public void setToDoDescription(CustomFact toDo, String description) {
+        if (!isNonNullAndHasRequiredTag(toDo, "_TODO")) {
+            throw new IllegalArgumentException("toDo is required and must have correct custom tag");
+        }
+        setDescriptionForCustomTag(toDo, "_CAT", description);
     }
 
 }

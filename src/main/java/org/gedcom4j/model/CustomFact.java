@@ -357,7 +357,11 @@ public class CustomFact extends AbstractNotesElement implements HasCitations, Ha
      *            the string value
      */
     public void setDescription(String string) {
-        description = new StringWithCustomFacts(string);
+        if (string != null) {
+            description = new StringWithCustomFacts(string);
+        } else {
+            description = null;
+        }
     }
 
     /**
@@ -432,7 +436,7 @@ public class CustomFact extends AbstractNotesElement implements HasCitations, Ha
             builder.append(date);
             builder.append(", ");
         }
-        if (description != null) {
+        if (description != null && description.getValue() != null && description.getCustomFacts() != null) {
             builder.append("description=");
             builder.append(description);
             builder.append(", ");

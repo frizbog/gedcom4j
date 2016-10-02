@@ -532,7 +532,7 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
         }
         if (getCustomFacts() != null) {
             builder.append("customFacts=");
-            builder.append(getCustomFacts());
+            builder.append(customFacts);
         }
         builder.append("]");
         return builder.toString();

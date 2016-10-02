@@ -76,7 +76,7 @@ public class Issue61Test {
                     assertFalse(ct.getDescription().trim().length() == 0);
                 }
                 if ("MUGL".equals(ct.getTag())) {
-                    assertNull(ct.getDescription().getValue());
+                    assertNull(ct.getDescription());
                 }
             }
         }

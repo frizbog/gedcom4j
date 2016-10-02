@@ -64,6 +64,11 @@ import org.junit.Test;
 public class GedcomWriterFileProgressAndCancellationTest implements ConstructProgressListener, FileProgressListener {
 
     /**
+     * The number of notifications we are going to cancel after, when we're testing cancellation
+     */
+    private static final int TEST_CANCELLATION_COUNT = 5;
+
+    /**
      * Number of construction notifications received
      */
     private int constructNotificationCount = 0;
@@ -141,7 +146,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
-        constructionCancelAfter = 5;
+        constructionCancelAfter = TEST_CANCELLATION_COUNT;
         gw.setValidationSuppressed(true);
         gw.write(new NullOutputStream());
     }
@@ -166,7 +171,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
         gw.registerConstructObserver(this);
         gw.registerFileObserver(this);
         gw.setValidationSuppressed(true);
-        fileCancelAfter = 5;
+        fileCancelAfter = TEST_CANCELLATION_COUNT;
         gw.write(new NullOutputStream());
     }
 
@@ -204,10 +209,10 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
             }
             throw e;
         }
-        assertEquals(40, constructNotificationCount);
-        assertEquals(41, fileNotificationCount);
-        assertEquals(19724, linesConstructed);
-        assertEquals(757371, bytesWritten);
+        assertTrue(constructNotificationCount > TEST_CANCELLATION_COUNT);
+        assertTrue(fileNotificationCount > TEST_CANCELLATION_COUNT);
+        assertEquals(17897, linesConstructed);
+        assertEquals(500158, bytesWritten);
     }
 
     /**
@@ -243,10 +248,10 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
             }
             throw e;
         }
-        assertEquals(40, constructNotificationCount);
-        assertEquals(41, fileNotificationCount);
-        assertEquals(19724, linesConstructed);
-        assertEquals(737647, bytesWritten);
+        assertTrue(constructNotificationCount > TEST_CANCELLATION_COUNT);
+        assertTrue(fileNotificationCount > TEST_CANCELLATION_COUNT);
+        assertEquals(17897, linesConstructed);
+        assertEquals(482261, bytesWritten);
     }
 
     /**
@@ -283,10 +288,10 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
             }
             throw e;
         }
-        assertEquals(40, constructNotificationCount);
-        assertEquals(41, fileNotificationCount);
-        assertEquals(19724, linesConstructed);
-        assertEquals(757371, bytesWritten);
+        assertTrue(constructNotificationCount > TEST_CANCELLATION_COUNT);
+        assertTrue(fileNotificationCount > TEST_CANCELLATION_COUNT);
+        assertEquals(17897, linesConstructed);
+        assertEquals(500158, bytesWritten);
     }
 
     /**
@@ -322,10 +327,10 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
             }
             throw e;
         }
-        assertEquals(40, constructNotificationCount);
-        assertEquals(41, fileNotificationCount);
-        assertEquals(19724, linesConstructed);
-        assertEquals(737647, bytesWritten);
+        assertTrue(constructNotificationCount > TEST_CANCELLATION_COUNT);
+        assertTrue(fileNotificationCount > TEST_CANCELLATION_COUNT);
+        assertEquals(17897, linesConstructed);
+        assertEquals(482261, bytesWritten);
     }
 
     /**
@@ -361,10 +366,10 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
             }
             throw e;
         }
-        assertEquals(40, constructNotificationCount);
-        assertEquals(41, fileNotificationCount);
-        assertEquals(19724, linesConstructed);
-        assertEquals(1514770, bytesWritten);
+        assertTrue(constructNotificationCount > TEST_CANCELLATION_COUNT);
+        assertTrue(fileNotificationCount > TEST_CANCELLATION_COUNT);
+        assertEquals(17897, linesConstructed);
+        assertEquals(1000344, bytesWritten);
     }
 
     /**
@@ -400,10 +405,10 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
             }
             throw e;
         }
-        assertEquals(40, constructNotificationCount);
-        assertEquals(41, fileNotificationCount);
-        assertEquals(19724, linesConstructed);
-        assertEquals(1475322, bytesWritten);
+        assertTrue(constructNotificationCount > TEST_CANCELLATION_COUNT);
+        assertTrue(fileNotificationCount > TEST_CANCELLATION_COUNT);
+        assertEquals(17897, linesConstructed);
+        assertEquals(964550, bytesWritten);
     }
 
     /**
@@ -439,10 +444,10 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
             }
             throw e;
         }
-        assertEquals(40, constructNotificationCount);
-        assertEquals(41, fileNotificationCount);
-        assertEquals(19724, linesConstructed);
-        assertEquals(1514776, bytesWritten);
+        assertTrue(constructNotificationCount > TEST_CANCELLATION_COUNT);
+        assertTrue(fileNotificationCount > TEST_CANCELLATION_COUNT);
+        assertEquals(17897, linesConstructed);
+        assertEquals(1000350, bytesWritten);
     }
 
     /**
@@ -478,10 +483,10 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
             }
             throw e;
         }
-        assertEquals(40, constructNotificationCount);
-        assertEquals(41, fileNotificationCount);
-        assertEquals(19724, linesConstructed);
-        assertEquals(1475328, bytesWritten);
+        assertTrue(constructNotificationCount > TEST_CANCELLATION_COUNT);
+        assertTrue(fileNotificationCount > TEST_CANCELLATION_COUNT);
+        assertEquals(17897, linesConstructed);
+        assertEquals(964556, bytesWritten);
     }
 
     /**
@@ -517,10 +522,10 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
             }
             throw e;
         }
-        assertTrue(constructNotificationCount >= 41);
-        assertEquals(42, fileNotificationCount);
-        assertEquals(20652, linesConstructed);
-        assertEquals(745472, bytesWritten);
+        assertTrue(constructNotificationCount > TEST_CANCELLATION_COUNT);
+        assertTrue(fileNotificationCount > TEST_CANCELLATION_COUNT);
+        assertEquals(18846, linesConstructed);
+        assertEquals(499712, bytesWritten);
     }
 
     /**
@@ -558,10 +563,10 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
             }
             throw e;
         }
-        assertTrue(constructNotificationCount >= 41);
-        assertEquals(42, fileNotificationCount);
-        assertEquals(20652, linesConstructed);
-        assertEquals(729088, bytesWritten);
+        assertTrue(constructNotificationCount > TEST_CANCELLATION_COUNT);
+        assertTrue(fileNotificationCount > TEST_CANCELLATION_COUNT);
+        assertEquals(18846, linesConstructed);
+        assertEquals(475136, bytesWritten);
     }
 
     /**

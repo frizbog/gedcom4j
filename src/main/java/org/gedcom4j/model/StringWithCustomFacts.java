@@ -39,9 +39,9 @@ public class StringWithCustomFacts extends AbstractElement {
     private static final long serialVersionUID = -2479578654715820890L;
 
     /**
-     * The string value itself.
+     * The string value itself. Deliberately package private.
      */
-    private String value;
+    String value;
 
     /**
      * Default constructor
@@ -131,23 +131,7 @@ public class StringWithCustomFacts extends AbstractElement {
      */
     @Override
     public String toString() {
-        if (customFacts == null || customFacts.isEmpty()) {
-            return value;
-        }
-
-        StringBuilder builder = new StringBuilder(30);
-        builder.append("StringWithCustomFacts [");
-        if (value != null) {
-            builder.append("value=");
-            builder.append(value);
-            builder.append(", ");
-        }
-        if (getCustomFacts() != null) {
-            builder.append("getCustomFacts()=");
-            builder.append(getCustomFacts());
-        }
-        builder.append("]");
-        return builder.toString();
+        return value;
     }
 
     /**
