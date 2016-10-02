@@ -32,9 +32,11 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Address;
+import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
@@ -49,6 +51,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public class LegacyFamilyTree8AdapterTest {
 
     /**
@@ -99,6 +102,49 @@ public class LegacyFamilyTree8AdapterTest {
     }
 
     /**
+     * 
+     */
+    @Test
+    public void testAddNewRemoveRemoveAllToDos() {
+        List<CustomFact> toDos = lfta.getToDos(will);
+        assertNotNull(toDos);
+        assertEquals(2, toDos.size());
+
+        CustomFact cf1 = toDos.get(0);
+        CustomFact cf2 = toDos.get(1);
+
+        assertEquals(2, lfta.removeToDos(will));
+
+        toDos = lfta.getToDos(will);
+        assertNotNull(toDos);
+        assertEquals(0, toDos.size());
+
+        // Reversing order on purpose
+        lfta.addToDo(will, cf2);
+        lfta.addToDo(will, cf1);
+
+        toDos = lfta.getToDos(will);
+        assertNotNull(toDos);
+        assertEquals(2, toDos.size());
+
+        assertEquals(cf2, toDos.get(0));
+        assertEquals(cf1, toDos.get(1));
+
+        assertEquals(1, lfta.removeTodo(will, cf2));
+        toDos = lfta.getToDos(will);
+        assertNotNull(toDos);
+        assertEquals(1, toDos.size());
+        assertEquals(cf1, toDos.get(0));
+
+        CustomFact cf3 = lfta.newToDo();
+        lfta.addToDo(will, cf3);
+
+        toDos = lfta.getToDos(will);
+        assertNotNull(toDos);
+        assertEquals(2, toDos.size());
+    }
+
+    /**
      * Negative test for {@link LegacyFamilyTree8Adapter#getAddressSortValue(Address)}
      */
     @Test
@@ -145,6 +191,89 @@ public class LegacyFamilyTree8AdapterTest {
 
         lfta.setMultimediaDate(mm, "01 Jan 1986");
         assertEquals("01 Jan 1986", lfta.getMultimediaDate(mm));
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getMultimediaPrimaryFlag(Multimedia)} and
+     * {@link LegacyFamilyTree8Adapter#setMultimediaPrimaryFlag(Multimedia, String)}
+     */
+    @Test
+    public void testGetSetMultimediaPrimaryFlag() {
+        Multimedia mm = will.getMultimedia().get(0);
+
+        String s = lfta.getMultimediaPrimaryFlag(mm);
+        assertEquals("Alarm01.wav", s);
+
+        lfta.setMultimediaPrimaryFlag(mm, null);
+        assertNull(lfta.getMultimediaPrimaryFlag(mm));
+
+        lfta.setMultimediaPrimaryFlag(mm, "N");
+        assertEquals("N", lfta.getMultimediaPrimaryFlag(mm));
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getMultimediaScrapbookTag(Multimedia)} and
+     * {@link LegacyFamilyTree8Adapter#setMultimediaScrapbookTag(Multimedia, String)}
+     */
+    @Test
+    public void testGetSetMultimediaScrapbookTag() {
+        Multimedia mm = will.getMultimedia().get(0);
+
+        String s = lfta.getMultimediaScrapbookTag(mm);
+        assertEquals("Y", s);
+
+        lfta.setMultimediaScrapbookTag(mm, null);
+        assertNull(lfta.getMultimediaScrapbookTag(mm));
+
+        lfta.setMultimediaScrapbookTag(mm, "N");
+        assertEquals("N", lfta.getMultimediaScrapbookTag(mm));
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getMultimediaSound(Multimedia)} and
+     * {@link LegacyFamilyTree8Adapter#setMultimediaSound(Multimedia, String)}
+     */
+    @Test
+    public void testGetSetMultimediaSound() {
+        Multimedia mm = will.getMultimedia().get(0);
+
+        String s = lfta.getMultimediaSound(mm);
+        assertEquals("Alarm01.wav", s);
+
+        lfta.setMultimediaSound(mm, null);
+        assertNull(lfta.getMultimediaSound(mm));
+
+        lfta.setMultimediaSound(mm, "funkytown.mp3");
+        assertEquals("funkytown.mp3", lfta.getMultimediaSound(mm));
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getMultimediaType(Multimedia)} and
+     * {@link LegacyFamilyTree8Adapter#setMultimediaType(Multimedia, String)}
+     */
+    @Test
+    public void testGetSetMultimediaType() {
+        Multimedia mm = will.getMultimedia().get(0);
+
+        String s = lfta.getMultimediaType(mm);
+        assertEquals("PHOTO", s);
+
+        lfta.setMultimediaType(mm, null);
+        assertNull(lfta.getMultimediaType(mm));
+
+        lfta.setMultimediaType(mm, "MOVIE");
+        assertEquals("MOVIE", lfta.getMultimediaType(mm));
+    }
+
+    /**
+     * Test {@link LegacyFamilyTree8Adapter#getToDos(org.gedcom4j.model.HasCustomFacts)}
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetTodosImmutable() {
+        List<CustomFact> todos = lfta.getToDos(will);
+        assertNotNull(todos);
+        assertEquals(2, todos.size());
+        todos.clear();
     }
 
     /**
@@ -200,5 +329,4 @@ public class LegacyFamilyTree8AdapterTest {
         lfta.setNameAtAddress(addr, "Bill Williams");
         assertEquals("Bill Williams", lfta.getNameAtAddress(addr));
     }
-
 }

@@ -47,19 +47,23 @@ public abstract class AbstractThirdPartyAdapter {
      *            the object that has custom facts
      * @param tag
      *            the tag type to clear from the custom facts.
+     * @return the number of facts removed
      */
-    protected void clearCustomTagsOfType(HasCustomFacts hct, String tag) {
+    protected int clearCustomTagsOfType(HasCustomFacts hct, String tag) {
+        int result = 0;
         List<CustomFact> customFacts = hct.getCustomFacts();
         if (customFacts != null) {
             for (int i = 0; i < customFacts.size();) {
                 CustomFact cf = customFacts.get(i);
                 if (tag.equals(cf.getTag())) {
                     customFacts.remove(i);
+                    result++;
                 } else {
                     i++;
                 }
             }
         }
+        return result;
     }
 
     /**

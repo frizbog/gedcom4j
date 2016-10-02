@@ -26,7 +26,11 @@
  */
 package org.gedcom4j.model.thirdpartyadapters;
 
+import java.util.List;
+
 import org.gedcom4j.model.Address;
+import org.gedcom4j.model.CustomFact;
+import org.gedcom4j.model.HasCustomFacts;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.Multimedia;
 
@@ -42,6 +46,25 @@ import org.gedcom4j.model.Multimedia;
  * @author frizbog
  */
 public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
+
+    /**
+     * Add a Todo custom fact to the supplied object
+     * 
+     * @param hasCustomFacts
+     *            the object to add the to-do to.
+     * @param todo
+     *            the to-do to add. Must be non-null, and must have the _TODO tag set.
+     */
+    public void addToDo(HasCustomFacts hasCustomFacts, CustomFact todo) {
+        if (todo == null) {
+            throw new IllegalArgumentException("The todo argument is required.");
+        }
+        if (!isNonNullAndHasRequiredTag(todo, "_TODO")) {
+            throw new IllegalArgumentException("The Todo did not have the expected custom tag. Expected _TODO, found " + todo
+                    .getTag());
+        }
+        hasCustomFacts.getCustomFacts(true).add(todo);
+    }
 
     /**
      * Get the value used for sorting an address
@@ -77,6 +100,50 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get the primary flag on the multimedia item
+     * 
+     * @param mm
+     *            the multimedia item
+     * @return the primary flag on the multimedia item
+     */
+    public String getMultimediaPrimaryFlag(Multimedia mm) {
+        return getDescriptionForCustomTag(mm, "_SOUND");
+    }
+
+    /**
+     * Get the scrapbook tag on the multimedia item
+     * 
+     * @param mm
+     *            the multimedia item
+     * @return the scrapbook tag on the multimedia item
+     */
+    public String getMultimediaScrapbookTag(Multimedia mm) {
+        return getDescriptionForCustomTag(mm, "_SCBK");
+    }
+
+    /**
+     * Get the sound on the multimedia item
+     * 
+     * @param mm
+     *            the multimedia item
+     * @return the sound on the multimedia item
+     */
+    public String getMultimediaSound(Multimedia mm) {
+        return getDescriptionForCustomTag(mm, "_SOUND");
+    }
+
+    /**
+     * Get the type of the multimedia item
+     * 
+     * @param mm
+     *            the multimedia item
+     * @return the type of the multimedia item
+     */
+    public String getMultimediaType(Multimedia mm) {
+        return getDescriptionForCustomTag(mm, "_TYPE");
+    }
+
+    /**
      * Get the name used (by the individual) at an address
      * 
      * @param addr
@@ -85,6 +152,65 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      */
     public String getNameAtAddress(Address addr) {
         return getDescriptionForCustomTag(addr, "_NAME");
+    }
+
+    /**
+     * Get a List of Todo's from an object with custom facts
+     * 
+     * @param hasCustomFacts
+     *            object with custom facts
+     * @return a {@link List} of Todo's from an object with custom facts. List will always be non-null, but may be empty. The List
+     *         itself will also always be immutable, although the objects in it may not be.
+     */
+    public List<CustomFact> getToDos(HasCustomFacts hasCustomFacts) {
+        return hasCustomFacts.getCustomFactsWithTag("_TODO");
+    }
+
+    /**
+     * Get a new custom fact that represents a to-do for that item
+     * 
+     * @return the to-do custom fact
+     */
+    public CustomFact newToDo() {
+        return new CustomFact("_TODO");
+    }
+
+    /**
+     * Remove a specific to-do from the supplied item
+     * 
+     * @param hasCustomFacts
+     *            the object with the to-do that you want to remove
+     * @param todo
+     *            the to-do that you want to remove. It must be <code>equals()</code> to the to-do on the object to be removed.
+     * @return the number of to-do's that matched and were removed
+     */
+    public int removeTodo(HasCustomFacts hasCustomFacts, CustomFact todo) {
+        int result = 0;
+        if (hasCustomFacts.getCustomFacts() == null) {
+            return result;
+        }
+        int i = 0;
+        while (i < hasCustomFacts.getCustomFacts().size()) {
+            CustomFact cf = hasCustomFacts.getCustomFacts().get(i);
+            if (cf.equals(todo)) {
+                hasCustomFacts.getCustomFacts().remove(i);
+                result++;
+            } else {
+                i++;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Remove all the Todo's on the object supplied
+     * 
+     * @param hasCustomFacts
+     *            the object to remove Todo's from
+     * @return the number of Todo's removed
+     */
+    public int removeToDos(HasCustomFacts hasCustomFacts) {
+        return clearCustomTagsOfType(hasCustomFacts, "_TODO");
     }
 
     /**
@@ -121,6 +247,54 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      */
     public void setMultimediaDate(Multimedia mm, String multimediaDate) {
         setDescriptionForCustomTag(mm, "_DATE", multimediaDate);
+    }
+
+    /**
+     * Set the multimedia primary flag
+     * 
+     * @param mm
+     *            the multimedia
+     * @param multimediaPrimaryFlag
+     *            the primary flag on the multimedia. Optional; pass null to remove the primary flag.
+     */
+    public void setMultimediaPrimaryFlag(Multimedia mm, String multimediaPrimaryFlag) {
+        setDescriptionForCustomTag(mm, "_SOUND", multimediaPrimaryFlag);
+    }
+
+    /**
+     * Set the multimedia scrapbook tag
+     * 
+     * @param mm
+     *            the multimedia
+     * @param multimediaScrapbookTag
+     *            the scrapbook tag on the multimedia. Optional; pass null to remove the scrapbook tag.
+     */
+    public void setMultimediaScrapbookTag(Multimedia mm, String multimediaScrapbookTag) {
+        setDescriptionForCustomTag(mm, "_SCBK", multimediaScrapbookTag);
+    }
+
+    /**
+     * Set the multimedia sound
+     * 
+     * @param mm
+     *            the multimedia
+     * @param multimediaSound
+     *            the sound on the multimedia. Optional; pass null to remove the sound.
+     */
+    public void setMultimediaSound(Multimedia mm, String multimediaSound) {
+        setDescriptionForCustomTag(mm, "_SOUND", multimediaSound);
+    }
+
+    /**
+     * Set the multimedia sound
+     * 
+     * @param mm
+     *            the multimedia
+     * @param multimediaType
+     *            the type of the multimedia. Optional; pass null to remove the sound.
+     */
+    public void setMultimediaType(Multimedia mm, String multimediaType) {
+        setDescriptionForCustomTag(mm, "_TYPE", multimediaType);
     }
 
     /**
