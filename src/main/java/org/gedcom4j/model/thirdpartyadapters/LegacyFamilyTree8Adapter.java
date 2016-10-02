@@ -30,6 +30,7 @@ import java.util.List;
 
 import org.gedcom4j.model.Address;
 import org.gedcom4j.model.CustomFact;
+import org.gedcom4j.model.Individual;
 
 /**
  * <p>
@@ -53,6 +54,23 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      */
     public String getAddressSortValue(Address addr) {
         List<CustomFact> cfs = addr.getCustomFactsWithTag("_SORT");
+        for (CustomFact cf : cfs) {
+            if (cf != null && cf.getDescription() != null) {
+                return cf.getDescription().getValue();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the UID assigned to the individual
+     * 
+     * @param ind
+     *            the individual
+     * @return the UID assigned to the individual
+     */
+    public String getIndividualUID(Individual ind) {
+        List<CustomFact> cfs = ind.getCustomFactsWithTag("_UID");
         for (CustomFact cf : cfs) {
             if (cf != null && cf.getDescription() != null) {
                 return cf.getDescription().getValue();
@@ -94,6 +112,23 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
             addr.getCustomFacts(true).add(cf);
         }
 
+    }
+
+    /**
+     * Set the UID assigned to the individual
+     * 
+     * @param ind
+     *            the individual
+     * @param nameAtIndividual
+     *            the the UID assigned to the individual. Optional - pass in null to remove.
+     */
+    public void setIndividualUID(Individual ind, String nameAtIndividual) {
+        clearCustomTagsOfType(ind, "_UID");
+        if (nameAtIndividual != null) {
+            CustomFact cf = new CustomFact("_UID");
+            cf.setDescription(nameAtIndividual);
+            ind.getCustomFacts(true).add(cf);
+        }
     }
 
     /**

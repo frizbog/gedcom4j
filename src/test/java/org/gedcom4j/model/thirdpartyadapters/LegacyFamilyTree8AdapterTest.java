@@ -98,8 +98,7 @@ public class LegacyFamilyTree8AdapterTest {
     }
 
     /**
-     * Negative test for {@link LegacyFamilyTree8Adapter#getAddressSortValue(Address)} and
-     * {@link LegacyFamilyTree8Adapter#setAddressSortValue(Address, String)}
+     * Negative test for {@link LegacyFamilyTree8Adapter#getAddressSortValue(Address)}
      */
     @Test
     public void testAddressSortValueNegative() {
@@ -130,8 +129,30 @@ public class LegacyFamilyTree8AdapterTest {
     }
 
     /**
-     * Negative test for {@link LegacyFamilyTree8Adapter#getNameAtAddress(Address)} and
-     * {@link LegacyFamilyTree8Adapter#setNameAtAddress(Address, String)}
+     * Negative test for {@link LegacyFamilyTree8Adapter#getIndividualUID(Individual)}
+     */
+    @Test
+    public void testIndividualUIDNegative() {
+        Individual willNoCustomTags = gedcomWithoutCustomTags.getIndividuals().get("@I2@");
+        assertNull(lfta.getIndividualUID(willNoCustomTags));
+    }
+
+    /**
+     * Positive test for {@link LegacyFamilyTree8Adapter#getIndividualUID(Individual)} and
+     * {@link LegacyFamilyTree8Adapter#setIndividualUID(Individual, String)}
+     */
+    @Test
+    public void testIndividualUIDPositive() {
+        assertEquals("A0DFC922CDC44040B6B22B58106216AB9916", lfta.getIndividualUID(will));
+
+        lfta.setIndividualUID(will, (String) null);
+        assertNull(lfta.getIndividualUID(will));
+        lfta.setIndividualUID(will, "12345678-1234-1234-1234-1234567890AB");
+        assertEquals("12345678-1234-1234-1234-1234567890AB", lfta.getIndividualUID(will));
+    }
+
+    /**
+     * Negative test for {@link LegacyFamilyTree8Adapter#getNameAtAddress(Address)}
      */
     @Test
     public void testNameAtAddressNegative() {
@@ -160,4 +181,5 @@ public class LegacyFamilyTree8AdapterTest {
         lfta.setNameAtAddress(addr, "Bill Williams");
         assertEquals("Bill Williams", lfta.getNameAtAddress(addr));
     }
+
 }
