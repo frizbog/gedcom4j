@@ -1,4 +1,4 @@
-﻿0 HEAD
+0 HEAD
 1 SOUR Legacy
 2 VERS 8.0
 2 NAME Legacy (R)
@@ -8,7 +8,7 @@
 1 DEST Legacy
 1 DATE 29 Sep 2016
 1 SUBM @S0@
-1 FILE C:\Users\Matt\Downloads\lftcustomtags.ged
+1 FILE lftcustomtags.ged
 1 GEDC
 2 VERS 5.5.1
 2 FORM LINEAGE-LINKED
@@ -41,7 +41,7 @@
 2 ADDR 123 Main St
 3 CONT 123 Main Street
 3 CONT San Diego, CA USA
-3 _NAME 123 Main St
+3 _NAME Will Williams
 3 _SORT Main
 3 ADR1 123 Main Street
 3 CITY San Diego
@@ -56,7 +56,7 @@
 3 TIME 19:59
 1 OBJE
 2 FORM jpg
-2 FILE C:\Users\Matt\Documents\Legacy Family Tree\Media\sample - browndavid.jpg
+2 FILE browndavid.jpg
 2 TITL Somebody else
 2 NOTE Dude has a dank moustache
 2 _DATE 4 Apr 2013
