@@ -2,7 +2,7 @@
 GEDCOM4J RELEASE NOTES
 ==============================
 
-v4.0.0 is a major release. Some users, particularly those who used the validation framework or used custom tags, will need to make changes to accommodate API changes.
+v4.0.0 is a major release. Most users, particularly those who used the validation framework or used custom tags, will need to make changes to accommodate API changes.
 
 Upgrade tips:
 - References to StringWithCustomTags will need to be changed to references to StringWithCustomFacts instead.
