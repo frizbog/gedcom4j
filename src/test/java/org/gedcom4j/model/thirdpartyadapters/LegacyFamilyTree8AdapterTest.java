@@ -38,6 +38,7 @@ import org.gedcom4j.model.Address;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.gedcom4j.parser.GedcomParser;
 import org.junit.Before;
@@ -126,6 +127,24 @@ public class LegacyFamilyTree8AdapterTest {
         assertNull(lfta.getAddressSortValue(addr));
         lfta.setAddressSortValue(addr, "zzzzzSortMeLastzzzzzz");
         assertEquals("zzzzzSortMeLastzzzzzz", lfta.getAddressSortValue(addr));
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getMultimediaDate(Multimedia)} and
+     * {@link LegacyFamilyTree8Adapter#setMultimediaDate(Multimedia, String)}
+     */
+    @Test
+    public void testGetSetMultimediaDate() {
+        Multimedia mm = will.getMultimedia().get(0);
+
+        String s = lfta.getMultimediaDate(mm);
+        assertEquals("4 Apr 2013", s);
+
+        lfta.setMultimediaDate(mm, null);
+        assertNull(lfta.getMultimediaDate(mm));
+
+        lfta.setMultimediaDate(mm, "01 Jan 1986");
+        assertEquals("01 Jan 1986", lfta.getMultimediaDate(mm));
     }
 
     /**

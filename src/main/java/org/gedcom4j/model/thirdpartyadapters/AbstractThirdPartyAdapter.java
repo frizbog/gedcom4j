@@ -146,6 +146,25 @@ public abstract class AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get the first available description value that matches the supplied custom tag
+     * 
+     * @param hct
+     *            the object that has custom tags
+     * @param tag
+     *            the tag we are looking for
+     * @return the first available description value that matches the supplied custom tag
+     */
+    protected String getDescriptionForCustomTag(HasCustomFacts hct, String tag) {
+        List<CustomFact> cfs = hct.getCustomFactsWithTag(tag);
+        for (CustomFact cf : cfs) {
+            if (cf != null && cf.getDescription() != null) {
+                return cf.getDescription().getValue();
+            }
+        }
+        return null;
+    }
+
+    /**
      * Is the custom fact non-null and does it have the required tag?
      * 
      * @param fact
@@ -172,6 +191,26 @@ public abstract class AbstractThirdPartyAdapter {
         clearCustomTagsOfType(hct, tag);
         if (facts != null && !facts.isEmpty()) {
             hct.getCustomFacts(true).addAll(facts);
+        }
+    }
+
+    /**
+     * Set the description for a given custom tag. Used for tags that only take a description, occur no more than once for an
+     * object, and have no child tags.
+     * 
+     * @param hcf
+     *            the object that has custom facts
+     * @param tag
+     *            the tag to use
+     * @param value
+     *            the value to set on the description. Optional; pass null to remove the description custom fact.
+     */
+    protected void setDescriptionForCustomTag(HasCustomFacts hcf, String tag, String value) {
+        clearCustomTagsOfType(hcf, tag);
+        if (value != null && !value.trim().isEmpty()) {
+            CustomFact cf = new CustomFact(tag);
+            cf.setDescription(value);
+            hcf.getCustomFacts(true).add(cf);
         }
     }
 }

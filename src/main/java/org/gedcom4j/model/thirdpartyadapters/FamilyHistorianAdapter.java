@@ -35,6 +35,7 @@ import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.GedcomVersion;
+import org.gedcom4j.model.Header;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.Multimedia;
@@ -1085,11 +1086,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
         if (gv == null) {
             return null;
         }
-        List<CustomFact> customFactsWithTag = gv.getCustomFactsWithTag("_VAR");
-        if (customFactsWithTag != null && customFactsWithTag.size() == 1 && customFactsWithTag.get(0).getDescription() != null) {
-            return customFactsWithTag.get(0).getDescription().getValue();
-        }
-        return null;
+        return getDescriptionForCustomTag(gedcom.getHeader().getGedcomVersion(), "_VAR");
     }
 
     /**
@@ -1869,12 +1866,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      *            the ASID
      */
     public void setMultimediaNoteASID(Note note, String multimediaASID) {
-        clearCustomTagsOfType(note, "_ASID");
-        if (multimediaASID != null) {
-            CustomFact cf = new CustomFact("_ASID");
-            cf.setDescription(multimediaASID);
-            note.getCustomFacts(true).add(cf);
-        }
+        setDescriptionForCustomTag(note, "_ASID", multimediaASID);
     }
 
     /**
@@ -1886,12 +1878,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      *            the multimedia caption
      */
     public void setMultimediaNoteCaption(Note note, String multimediaCaption) {
-        clearCustomTagsOfType(note, "_CAPT");
-        if (multimediaCaption != null) {
-            CustomFact cf = new CustomFact("_CAPT");
-            cf.setDescription(multimediaCaption);
-            note.getCustomFacts(true).add(cf);
-        }
+        setDescriptionForCustomTag(note, "_CAPT", multimediaCaption);
     }
 
     /**
@@ -1903,12 +1890,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      *            the multimedia exclusion
      */
     public void setMultimediaNoteExclusion(Note note, String multimediaExclusion) {
-        clearCustomTagsOfType(note, "_EXCL");
-        if (multimediaExclusion != null) {
-            CustomFact cf = new CustomFact("_EXCL");
-            cf.setDescription(multimediaExclusion);
-            note.getCustomFacts(true).add(cf);
-        }
+        setDescriptionForCustomTag(note, "_EXCL", multimediaExclusion);
     }
 
     /**
@@ -1920,12 +1902,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      *            the name used. Optional.
      */
     public void setNameUsed(PersonalName pn, String nameUsed) {
-        clearCustomTagsOfType(pn, "_USED");
-        if (nameUsed != null) {
-            CustomFact customFact = new CustomFact("_USED");
-            customFact.setDescription(nameUsed);
-            pn.getCustomFacts(true).add(customFact);
-        }
+        setDescriptionForCustomTag(pn, "_USED", nameUsed);
     }
 
     /**
@@ -1946,12 +1923,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
                     + " and " + IndividualEventType.EMIGRATION + " event types; " + immigrationOrEmigrationEvent.getType()
                     + " was supplied");
         }
-        clearCustomTagsOfType(immigrationOrEmigrationEvent, "_PLAC");
-        if (otherPlaceName != null) {
-            CustomFact cf = new CustomFact("_PLAC");
-            cf.setDescription(otherPlaceName);
-            immigrationOrEmigrationEvent.getCustomFacts(true).add(cf);
-        }
+        setDescriptionForCustomTag(immigrationOrEmigrationEvent, "_PLAC", otherPlaceName);
     }
 
     /**
@@ -1970,10 +1942,8 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
         if (!newRootIndividual.equals(i)) {
             throw new IllegalArgumentException("Individual being set as root individual does not exist in the supplied gedcom");
         }
-        clearCustomTagsOfType(gedcom.getHeader(), "_ROOT");
-        CustomFact cf = new CustomFact("_ROOT");
-        cf.setDescription(newRootIndividual.getXref());
-        gedcom.getHeader().getCustomFacts(true).add(cf);
+        Header h = gedcom.getHeader();
+        setDescriptionForCustomTag(h, "_ROOT", newRootIndividual.getXref());
     }
 
     /**
@@ -1985,12 +1955,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      *            the source type
      */
     public void setSourceType(Source src, String sourceType) {
-        clearCustomTagsOfType(src, "_TYPE");
-        if (sourceType != null) {
-            CustomFact cf = new CustomFact("_TYPE");
-            cf.setDescription(sourceType);
-            src.getCustomFacts(true).add(cf);
-        }
+        setDescriptionForCustomTag(src, "_TYPE", sourceType);
     }
 
     /**
@@ -1998,16 +1963,11 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      * 
      * @param gedcom
      *            the gedcom
-     * @param vef
+     * @param uid
      *            the UID value to set. Optional.
      */
-    public void setUID(Gedcom gedcom, String vef) {
-        clearCustomTagsOfType(gedcom.getHeader(), "_UID");
-        if (vef != null) {
-            CustomFact cf = new CustomFact("_UID");
-            cf.setDescription(vef);
-            gedcom.getHeader().getCustomFacts(true).add(cf);
-        }
+    public void setUID(Gedcom gedcom, String uid) {
+        setDescriptionForCustomTag(gedcom.getHeader(), "_UID", uid);
     }
 
     /**
@@ -2015,19 +1975,14 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      * 
      * @param gedcom
      *            the gedcom
-     * @param vef
+     * @param variantExportFormat
      *            the variant export format value to set
      */
-    public void setVariantExportFormat(Gedcom gedcom, String vef) {
+    public void setVariantExportFormat(Gedcom gedcom, String variantExportFormat) {
         if (gedcom.getHeader().getGedcomVersion() == null) {
             gedcom.getHeader().setGedcomVersion(new GedcomVersion());
         }
-        clearCustomTagsOfType(gedcom.getHeader().getGedcomVersion(), "_VAR");
-        if (vef != null) {
-            CustomFact cf = new CustomFact("_VAR");
-            cf.setDescription(vef);
-            gedcom.getHeader().getGedcomVersion().getCustomFacts(true).add(cf);
-        }
+        setDescriptionForCustomTag(gedcom.getHeader().getGedcomVersion(), "_VAR", variantExportFormat);
     }
 
     /**

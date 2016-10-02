@@ -26,11 +26,9 @@
  */
 package org.gedcom4j.model.thirdpartyadapters;
 
-import java.util.List;
-
 import org.gedcom4j.model.Address;
-import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.Multimedia;
 
 /**
  * <p>
@@ -53,13 +51,7 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      * @return the value used for sorting the address
      */
     public String getAddressSortValue(Address addr) {
-        List<CustomFact> cfs = addr.getCustomFactsWithTag("_SORT");
-        for (CustomFact cf : cfs) {
-            if (cf != null && cf.getDescription() != null) {
-                return cf.getDescription().getValue();
-            }
-        }
-        return null;
+        return getDescriptionForCustomTag(addr, "_SORT");
     }
 
     /**
@@ -70,13 +62,18 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      * @return the UID assigned to the individual
      */
     public String getIndividualUID(Individual ind) {
-        List<CustomFact> cfs = ind.getCustomFactsWithTag("_UID");
-        for (CustomFact cf : cfs) {
-            if (cf != null && cf.getDescription() != null) {
-                return cf.getDescription().getValue();
-            }
-        }
-        return null;
+        return getDescriptionForCustomTag(ind, "_UID");
+    }
+
+    /**
+     * Get the date of the multimedia item
+     * 
+     * @param mm
+     *            the multimedia item
+     * @return the date of the multimedia item
+     */
+    public String getMultimediaDate(Multimedia mm) {
+        return getDescriptionForCustomTag(mm, "_DATE");
     }
 
     /**
@@ -87,13 +84,7 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      * @return the name used at the address
      */
     public String getNameAtAddress(Address addr) {
-        List<CustomFact> cfs = addr.getCustomFactsWithTag("_NAME");
-        for (CustomFact cf : cfs) {
-            if (cf != null && cf.getDescription() != null) {
-                return cf.getDescription().getValue();
-            }
-        }
-        return null;
+        return getDescriptionForCustomTag(addr, "_NAME");
     }
 
     /**
@@ -105,13 +96,7 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      *            the value used for sorting the address. Optional - pass in null to remove.
      */
     public void setAddressSortValue(Address addr, String nameAtAddress) {
-        clearCustomTagsOfType(addr, "_SORT");
-        if (nameAtAddress != null) {
-            CustomFact cf = new CustomFact("_SORT");
-            cf.setDescription(nameAtAddress);
-            addr.getCustomFacts(true).add(cf);
-        }
-
+        setDescriptionForCustomTag(addr, "_SORT", nameAtAddress);
     }
 
     /**
@@ -119,16 +104,23 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      * 
      * @param ind
      *            the individual
-     * @param nameAtIndividual
+     * @param individualUid
      *            the the UID assigned to the individual. Optional - pass in null to remove.
      */
-    public void setIndividualUID(Individual ind, String nameAtIndividual) {
-        clearCustomTagsOfType(ind, "_UID");
-        if (nameAtIndividual != null) {
-            CustomFact cf = new CustomFact("_UID");
-            cf.setDescription(nameAtIndividual);
-            ind.getCustomFacts(true).add(cf);
-        }
+    public void setIndividualUID(Individual ind, String individualUid) {
+        setDescriptionForCustomTag(ind, "_UID", individualUid);
+    }
+
+    /**
+     * Set the multimedia date
+     * 
+     * @param mm
+     *            the multimedia
+     * @param multimediaDate
+     *            the date of the multimedia. Optional; pass null to remove the date.
+     */
+    public void setMultimediaDate(Multimedia mm, String multimediaDate) {
+        setDescriptionForCustomTag(mm, "_DATE", multimediaDate);
     }
 
     /**
@@ -140,12 +132,7 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      *            the name used at the address. Optional - pass in null to remove.
      */
     public void setNameAtAddress(Address addr, String nameAtAddress) {
-        clearCustomTagsOfType(addr, "_NAME");
-        if (nameAtAddress != null) {
-            CustomFact cf = new CustomFact("_NAME");
-            cf.setDescription(nameAtAddress);
-            addr.getCustomFacts(true).add(cf);
-        }
+        setDescriptionForCustomTag(addr, "_NAME", nameAtAddress);
     }
 
 }
