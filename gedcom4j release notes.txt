@@ -18,6 +18,35 @@ Summary of changes:
 - Validation framework was almost entirely rebuilt. You can now also write your own validators and register them have them executed during validation (see the Validator.getSupplementaryValidators() method).
 - There are now adapter classes for providing assistance with processing custom tags for Family Tree Maker 3, Family Historian, and Legacy Family Tree. This will enable users to work with the custom tags those programs a bit more easily than working directly with the custom facts structures.
 
+Issues from Github (https://github.com/frizbog/gedcom4j/issues):
+- Issue #133 - Fine-grained control over auto-repair during validation
+- Issue #135 - Validation findings should only reference gedcom4j objects, not java.lang.Object
+- Issue #136 - Validation findings should include an optional name of the field/property with the finding
+- Issue #137 - Validation findings should be serializable
+- Issue #138 - Validators should use DateParser to validate date strings
+- Issue #139 - Auto-repair should be tracked and examinable by caller
+- Issue #140 - Support for well-known custom tag sets
+- Issue #141 - Steal validations from gedantic
+- Issue #142 - Add Validation: Children of Elderly Parents
+- Issue #143 - Add validation: Children of young parents
+- Issue #144 - Add validation: Children with different surnames than parents
+- Issue #145 - Add validation: family multiple children with same given names
+- Issue #146 - Add validation: Cyclical Ancestral Relationship
+- Issue #147 - Add validation: Couples with large age differences
+- Issue #148 - Add validation: Born before ancestors
+- Issue #149 - Add validation: future birth and death
+- Issue #150 - Add validation: Male Wives and Female Husbands
+- Issue #151 - Add validation: Married at young age
+- Issue #152 - Add validation: Multiple births (quads, quints, and more)
+- Issue #153 - Add validation: Simultaneous births in multiple locations
+- Issue #154 - Validation findings should have problem codes along with problem descriptions
+- Issue #155 - Validation findings should support representation of related items
+- Issue #156 - ModelElements need copy constructors or clone() implementation or something like it
+- Issue #158 - All StringWithCustomTags fields should have overloaded setters that accept Strings
+- Issue #159 - Validation findings should be grouped by object with the issue
+- Issue #160 - Validating enumerated values
+- Issue #161 - CustomTags are not preserved on the references to Individuals in Family objects
+
 
 29 SEP 2016 - v3.2.2
 ====================
