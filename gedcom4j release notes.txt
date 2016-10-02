@@ -2,6 +2,8 @@
 GEDCOM4J RELEASE NOTES
 ==============================
 
+?? OCT 2016 - v4.0.0
+====================
 v4.0.0 is a major release. Most users, particularly those who used the validation framework or used custom tags, will need to make changes to accommodate API changes.
 
 Upgrade tips:
