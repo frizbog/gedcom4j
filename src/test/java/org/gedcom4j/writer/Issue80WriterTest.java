@@ -89,11 +89,11 @@ public class Issue80WriterTest {
         gw.write(new NullOutputStream());
 
         // Now that we've written the gedcom, let's examine what we wrote
-        assertEquals("Should have written 19 lines", 19, gw.lines.size());
+        assertEquals("Should have written 17 lines", 17, gw.lines.size());
 
         boolean foundMap = false;
         // Loop through and find the map coordinates - don't assume at any particular location
-        for (int n = 0; n < 19; n++) {
+        for (int n = 0; n < 17; n++) {
             String l = gw.lines.get(n);
             if ("3 MAP".equals(l)) {
                 foundMap = true;

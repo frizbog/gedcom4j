@@ -525,7 +525,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
             // 5.5.1
             writeFrom.getHeader().setGedcomVersion(new GedcomVersion());
         }
-        if (SupportedVersion.V5_5.equals(writeFrom.getHeader().getGedcomVersion().getVersionNumber())) {
+        if (SupportedVersion.V5_5.toString().equals(writeFrom.getHeader().getGedcomVersion().getVersionNumber().getValue())) {
             checkVersionCompatibility55();
         } else {
             checkVersionCompatibility551();

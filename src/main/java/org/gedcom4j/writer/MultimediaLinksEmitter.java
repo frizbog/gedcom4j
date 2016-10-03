@@ -97,7 +97,7 @@ class MultimediaLinksEmitter extends AbstractEmitter<List<Multimedia>> {
                         emitTagIfValueNotNull(startLevel + 3, "MEDI", fr.getMediaType());
                         emitTagIfValueNotNull(startLevel + 1, "TITL", fr.getTitle());
                     }
-                    if (!m.getNotes().isEmpty()) {
+                    if (m.getNotes() != null && !m.getNotes().isEmpty()) {
                         throw new GedcomWriterVersionDataMismatchException(
                                 "GEDCOM version is 5.5.1, but multimedia link has notes which are no longer allowed in 5.5");
                     }

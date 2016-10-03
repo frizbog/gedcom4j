@@ -316,8 +316,8 @@ abstract class AbstractEmitter<T> {
      */
     protected boolean g55() {
         return baseWriter != null && baseWriter.writeFrom.getHeader() != null && baseWriter.writeFrom.getHeader()
-                .getGedcomVersion() != null && SupportedVersion.V5_5.equals(baseWriter.writeFrom.getHeader().getGedcomVersion()
-                        .getVersionNumber());
+                .getGedcomVersion() != null && SupportedVersion.V5_5.toString().equals(baseWriter.writeFrom.getHeader()
+                        .getGedcomVersion().getVersionNumber().getValue());
     }
 
     /**

@@ -48,7 +48,7 @@ public class GedcomVersion extends AbstractElement {
     /**
      * The version number for this GEDCOM
      */
-    private SupportedVersion versionNumber = SupportedVersion.V5_5_1;
+    private StringWithCustomFacts versionNumber = new StringWithCustomFacts(SupportedVersion.V5_5_1.toString());
 
     /** Default constructor */
     public GedcomVersion() {
@@ -115,7 +115,7 @@ public class GedcomVersion extends AbstractElement {
      *
      * @return the version number
      */
-    public SupportedVersion getVersionNumber() {
+    public StringWithCustomFacts getVersionNumber() {
         return versionNumber;
     }
 
@@ -157,8 +157,36 @@ public class GedcomVersion extends AbstractElement {
      * @param versionNumber
      *            the new version number
      */
-    public void setVersionNumber(SupportedVersion versionNumber) {
+    public void setVersionNumber(String versionNumber) {
+        if (versionNumber != null) {
+            this.versionNumber = new StringWithCustomFacts(versionNumber);
+        } else {
+            this.versionNumber = null;
+        }
+    }
+
+    /**
+     * Sets the version number.
+     *
+     * @param versionNumber
+     *            the new version number
+     */
+    public void setVersionNumber(StringWithCustomFacts versionNumber) {
         this.versionNumber = versionNumber;
+    }
+
+    /**
+     * Sets the version number.
+     *
+     * @param versionNumber
+     *            the new version number
+     */
+    public void setVersionNumber(SupportedVersion versionNumber) {
+        if (versionNumber != null) {
+            this.versionNumber = new StringWithCustomFacts(versionNumber.toString());
+        } else {
+            this.versionNumber = null;
+        }
     }
 
     /**

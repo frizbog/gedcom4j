@@ -26,14 +26,7 @@
  */
 package org.gedcom4j.model.enumerations;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.gedcom4j.Options;
 import org.gedcom4j.exception.UnsupportedVersionException;
-import org.gedcom4j.model.CustomFact;
-import org.gedcom4j.model.HasCustomFacts;
 
 /**
  * A GEDCOM version supported by gedcom4j
@@ -41,7 +34,7 @@ import org.gedcom4j.model.HasCustomFacts;
  * @author frizbog1
  * 
  */
-public enum SupportedVersion implements HasCustomFacts {
+public enum SupportedVersion {
     /**
      * Version 5.5
      */
@@ -74,10 +67,6 @@ public enum SupportedVersion implements HasCustomFacts {
      * The string representation of the version
      */
     private String stringRepresentation;
-    /**
-     * A list of custom facts on this item.
-     */
-    protected List<CustomFact> customFacts = getCustomFacts(Options.isCollectionInitializationEnabled());
 
     /**
      * Constructor that takes the string representation as a parameter
@@ -98,51 +87,5 @@ public enum SupportedVersion implements HasCustomFacts {
     @Override
     public String toString() {
         return stringRepresentation.intern();
-    }
-
-    /**
-     * Gets the custom facts.
-     *
-     * @return the custom facts
-     */
-    @Override
-    public List<CustomFact> getCustomFacts() {
-        return customFacts;
-    }
-
-    /**
-     * Get the custom facts
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection if needed
-     * @return the customFacts
-     */
-    @Override
-    public List<CustomFact> getCustomFacts(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && customFacts == null) {
-            customFacts = new ArrayList<>(0);
-        }
-        return customFacts;
-    }
-
-    /**
-     * Gets the custom facts that have a tag that matches the one supplied
-     * 
-     * @param tag
-     *            the tag we are looking for
-     * @return a list of custom facts that have the desired tag. Always returns a list but it might be empty. Although the entries
-     *         in the result list are modifiable, the list itself is not.
-     */
-    @Override
-    public List<CustomFact> getCustomFactsWithTag(String tag) {
-        List<CustomFact> result = new ArrayList<>();
-        if (customFacts != null) {
-            for (CustomFact cf : customFacts) {
-                if (cf.getTag() != null && cf.getTag().equals(tag)) {
-                    result.add(cf);
-                }
-            }
-        }
-        return Collections.unmodifiableList(result);
     }
 }

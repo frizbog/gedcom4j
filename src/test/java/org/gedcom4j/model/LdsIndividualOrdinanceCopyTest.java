@@ -80,7 +80,7 @@ public class LdsIndividualOrdinanceCopyTest extends AbstractCopyTest {
         assertNotSame(orig, copy);
         assertEquals(orig.toString(), copy.toString());
 
-        orig.getFamilyWhereChild().setAdoptedBy(null);
+        orig.getFamilyWhereChild().setAdoptedBy((String) null);
         assertFalse("Copy shoul not match if original is changed", orig.equals(copy));
     }
 

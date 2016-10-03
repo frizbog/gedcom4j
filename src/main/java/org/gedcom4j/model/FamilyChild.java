@@ -42,7 +42,7 @@ public class FamilyChild extends AbstractNotesElement {
     /**
      * Who did the adopting.
      */
-    private AdoptedByWhichParent adoptedBy;
+    private StringWithCustomFacts adoptedBy;
 
     /**
      * The family to which the child belonged
@@ -162,7 +162,7 @@ public class FamilyChild extends AbstractNotesElement {
      *
      * @return the parent who did the adopting
      */
-    public AdoptedByWhichParent getAdoptedBy() {
+    public StringWithCustomFacts getAdoptedBy() {
         return adoptedBy;
     }
 
@@ -214,6 +214,26 @@ public class FamilyChild extends AbstractNotesElement {
      *            the new adopted by
      */
     public void setAdoptedBy(AdoptedByWhichParent adoptedBy) {
+        this.adoptedBy = new StringWithCustomFacts(adoptedBy.toString());
+    }
+
+    /**
+     * Sets the adopted by.
+     *
+     * @param adoptedBy
+     *            the new adopted by
+     */
+    public void setAdoptedBy(String adoptedBy) {
+        this.adoptedBy = new StringWithCustomFacts(adoptedBy);
+    }
+
+    /**
+     * Sets the adopted by.
+     *
+     * @param adoptedBy
+     *            the new adopted by
+     */
+    public void setAdoptedBy(StringWithCustomFacts adoptedBy) {
         this.adoptedBy = adoptedBy;
     }
 

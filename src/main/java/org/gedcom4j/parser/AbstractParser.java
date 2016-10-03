@@ -102,8 +102,9 @@ abstract class AbstractParser<T> {
      */
     protected final boolean g55() {
         Gedcom g = gedcomParser.getGedcom();
-        return g != null && g.getHeader() != null && g.getHeader().getGedcomVersion() != null && SupportedVersion.V5_5.equals(g
-                .getHeader().getGedcomVersion().getVersionNumber());
+        return g != null && g.getHeader() != null && g.getHeader().getGedcomVersion() != null && g.getHeader().getGedcomVersion()
+                .getVersionNumber() != null && SupportedVersion.V5_5.toString().equals(g.getHeader().getGedcomVersion()
+                        .getVersionNumber().getValue());
     }
 
     /**

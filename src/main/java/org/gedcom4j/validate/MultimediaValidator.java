@@ -31,6 +31,7 @@ import java.util.List;
 import org.gedcom4j.exception.ValidationException;
 import org.gedcom4j.model.FileReference;
 import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.UserReference;
 import org.gedcom4j.model.enumerations.SupportedVersion;
 import org.gedcom4j.validate.Validator.Finding;
@@ -56,7 +57,7 @@ class MultimediaValidator extends AbstractValidator {
     /**
      * The gedcom version to validate against. There are numerous differences in multimedia records between 5.5 and 5.5.1.
      */
-    private SupportedVersion gedcomVersion;
+    private StringWithCustomFacts gedcomVersion;
 
     /**
      * Constructor
@@ -77,7 +78,7 @@ class MultimediaValidator extends AbstractValidator {
             Finding vf = newFinding(mm, Severity.INFO, ProblemCode.UNABLE_TO_DETERMINE_GEDCOM_VERSION, null);
             if (mayRepair(vf)) {
                 Multimedia before = new Multimedia(mm);
-                gedcomVersion = SupportedVersion.V5_5_1;
+                gedcomVersion = new StringWithCustomFacts(SupportedVersion.V5_5_1.toString());
                 vf.addRepair(new AutoRepair(before, new Multimedia(mm)));
             }
         } else {
@@ -147,7 +148,7 @@ class MultimediaValidator extends AbstractValidator {
      * @return true if and only if GEDCOM standard in use is 5.5.1
      */
     private boolean v551() {
-        return SupportedVersion.V5_5_1.equals(gedcomVersion);
+        return SupportedVersion.V5_5_1.toString().equals(gedcomVersion.getValue());
     }
 
     /**
