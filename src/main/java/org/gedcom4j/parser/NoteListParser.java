@@ -62,8 +62,10 @@ class NoteListParser extends AbstractParser<List<Note>> {
     void parse() {
         Note note;
         if (stringTree.getXref() == null && referencesAnotherNode(stringTree)) {
+            // TODO - convert to NoteReference
             note = getNote(stringTree.getValue());
             loadInto.add(note);
+            remainingChildrenAreCustomTags(stringTree, note);
             return;
         } else if (stringTree.getXref() == null) {
             note = new Note();

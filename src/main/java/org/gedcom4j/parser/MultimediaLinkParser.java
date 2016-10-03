@@ -62,6 +62,7 @@ class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
         Multimedia m;
         if (referencesAnotherNode(stringTree)) {
             m = getMultimedia(stringTree.getValue());
+            // TODO - change to a multimedia reference and get custom tags
         } else {
             m = new Multimedia();
             loadFileReferences(m, stringTree);

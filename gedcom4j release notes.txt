@@ -15,6 +15,7 @@ Upgrade tips:
 Summary of changes:
 - The id property on StringTree has been renamed xref (along with the getters and setters)
 - All enums in the model are now moved to the new org.gedcom4j.model.enumerations package
+- Model classes that used enum values now use StringWithCustomFact values instead in order to allow custom tags on those values.  The enums still exist but are best used for building new StringWithCustomFacts objects.
 - Families no longer directly link to the individuals in them, but use an intermediary IndividualReference class that can hold custom facts.
 - CustomTags are completely reworked to be CustomFacts. A CustomFact object represents a custom tag but has built-in first order support for Dates, Places, Notes, and Citations.
 - Validation framework was almost entirely rebuilt. You can now also write your own validators and register them have them executed during validation (see the Validator.getSupplementaryValidators() method).
@@ -48,6 +49,7 @@ Issues from Github (https://github.com/frizbog/gedcom4j/issues):
 - Issue #159 - Validation findings should be grouped by object with the issue
 - Issue #160 - Validating enumerated values
 - Issue #161 - CustomTags are not preserved on the references to Individuals in Family objects
+- Issue #167 - Many custom tags don't load or write
 
 
 29 SEP 2016 - v3.2.2

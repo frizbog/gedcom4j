@@ -366,7 +366,9 @@ abstract class AbstractEmitter<T> {
                         .length() > 0) {
                     line.append(" ").append(cf.getDescription());
                 }
-                baseWriter.lines.add(line.toString());
+
+                emitAndSplit(level, line.toString());
+
                 new ChangeDateEmitter(baseWriter, level + 1, cf.getChangeDate()).emit();
                 new SourceCitationEmitter(baseWriter, level + 1, cf.getCitations()).emit();
                 emitTagIfValueNotNull(level + 1, "DATE", cf.getDate());
@@ -446,15 +448,13 @@ abstract class AbstractEmitter<T> {
     private void emitTagIfValueNotNull(int level, String xref, String tag, HasCustomFacts value) throws WriterCancelledException,
             GedcomWriterException {
         if (value != null) {
-
             List<String> temp = new ArrayList<>();
             temp.add(value.toString());
-            List<String> valueLines = splitLinesOnBreakingCharacters(temp);
 
+            List<String> valueLines = splitLinesOnBreakingCharacters(temp);
             emitValueLines(level, xref, tag, valueLines);
 
             emitCustomFacts(level + 1, value.getCustomFacts());
-
         }
     }
 

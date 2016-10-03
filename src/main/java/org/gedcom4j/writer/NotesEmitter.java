@@ -65,7 +65,6 @@ class NotesEmitter extends AbstractEmitter<Collection<Note>> {
         if (writeFrom != null) {
             for (Note n : writeFrom) {
                 emitNote(startLevel, n);
-                emitCustomFacts(startLevel + 1, n.getCustomFacts());
                 if (baseWriter.isCancelled()) {
                     throw new WriterCancelledException("Construction and writing of GEDCOM cancelled");
                 }

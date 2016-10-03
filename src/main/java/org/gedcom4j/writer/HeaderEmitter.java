@@ -81,8 +81,9 @@ class HeaderEmitter extends AbstractEmitter<Header> {
             emitTagWithRequiredValue(1, "SUBN", header.getSubmissionReference().getSubmission().getXref());
             emitCustomFacts(2, header.getSubmissionReference());
         }
+
         emitTagIfValueNotNull(1, "FILE", header.getFileName());
-        emitCustomFacts(2, header.getFileName());
+
         emitLinesOfText(1, "COPR", header.getCopyrightData());
 
         emitTag(1, "GEDC");
@@ -93,8 +94,6 @@ class HeaderEmitter extends AbstractEmitter<Header> {
         emitCustomFacts(2, header.getGedcomVersion());
 
         emitTagWithRequiredValue(1, "CHAR", header.getCharacterSet().getCharacterSetName());
-        // emitTagIfValueNotNull(2, "VERS", header.getCharacterSet().getVersionNum());
-        // emitCustomFacts(3, header.getCharacterSet().getVersionNum());
 
         emitTagIfValueNotNull(1, "LANG", header.getLanguage());
         if (header.getPlaceHierarchy() != null && header.getPlaceHierarchy().getValue() != null && header.getPlaceHierarchy()

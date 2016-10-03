@@ -415,7 +415,11 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
      */
     public void write(File file) throws IOException, GedcomWriterException {
         // Automatically replace the contents of the filename in the header
-        writeFrom.getHeader().setFileName(new StringWithCustomFacts(file.getName()));
+        if (writeFrom.getHeader().getFileName() != null) {
+            writeFrom.getHeader().getFileName().setValue(file.getName());
+        } else {
+            writeFrom.getHeader().setFileName(new StringWithCustomFacts(file.getName()));
+        }
 
         // If the file doesn't exist yet, we have to create it, otherwise a FileNotFoundException will be thrown
         if (!file.exists() && !file.getCanonicalFile().getParentFile().exists() && !file.getCanonicalFile().getParentFile().mkdirs()
