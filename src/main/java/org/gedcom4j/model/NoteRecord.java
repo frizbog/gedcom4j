@@ -32,13 +32,13 @@ import java.util.List;
 import org.gedcom4j.Options;
 
 /**
- * A note. Corresponds to NOTE_STRUCTURE in the GEDCOM standard.
+ * Corresponds to NOTE_RECORD in the GEDCOM standard. Note that this sort of note is always at the root of the GEDCOM, and always
+ * has an xref.
  * 
  * @author frizbog1
- * @deprecated Use a {@link NoteStructure} or a {@link NoteRecord} depending on your use case
+ * 
  */
-@Deprecated
-public class Note extends AbstractElement implements HasCitations, HasXref {
+public class NoteRecord extends AbstractElement implements HasCitations, HasXref {
     /**
      * Serial Version UID
      */
@@ -74,18 +74,13 @@ public class Note extends AbstractElement implements HasCitations, HasXref {
      */
     private String xref;
 
-    /** Default constructor */
-    public Note() {
-        // Default constructor does nothing
-    }
-
     /**
      * Copy constructor
      * 
      * @param other
      *            the other object to copy
      */
-    public Note(Note other) {
+    public NoteRecord(NoteRecord other) {
         super(other);
         if (other.getChangeDate() != null) {
             changeDate = new ChangeDate(other.changeDate);
@@ -116,6 +111,16 @@ public class Note extends AbstractElement implements HasCitations, HasXref {
     }
 
     /**
+     * Primary constructor
+     * 
+     * @param xref
+     *            the xref of this note record
+     */
+    public NoteRecord(String xref) {
+        this.xref = xref;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -129,7 +134,7 @@ public class Note extends AbstractElement implements HasCitations, HasXref {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        Note other = (Note) obj;
+        NoteRecord other = (NoteRecord) obj;
         if (changeDate == null) {
             if (other.changeDate != null) {
                 return false;
