@@ -34,6 +34,7 @@ import org.gedcom4j.model.Header;
 import org.gedcom4j.model.HeaderSourceData;
 import org.gedcom4j.model.SourceSystem;
 import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.SubmitterReference;
 import org.gedcom4j.model.enumerations.LanguageID;
 import org.gedcom4j.model.enumerations.SupportedVersion;
 import org.gedcom4j.validate.Validator.Finding;
@@ -217,7 +218,7 @@ class HeaderValidator extends AbstractValidator {
      * Check if the submitter is present and ok
      */
     private void checkSubmitter() {
-        if (header.getSubmitter() == null) {
+        if (header.getSubmitterReference() == null) {
             Finding vf = newFinding(header, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "submitter");
             Submitter submitter = null;
             if (getValidator().getGedcom().getSubmitters() != null && !getValidator().getGedcom().getSubmitters().isEmpty()) {
@@ -225,12 +226,12 @@ class HeaderValidator extends AbstractValidator {
             }
             if (submitter != null && mayRepair(vf)) {
                 Header before = new Header(header);
-                header.setSubmitter(submitter);
+                header.setSubmitterReference(new SubmitterReference(submitter));
                 vf.addRepair(new AutoRepair(before, new Header(header)));
             }
         }
-        if (header.getSubmitter() != null) {
-            new SubmitterValidator(getValidator(), header.getSubmitter()).validate();
+        if (header.getSubmitterReference() != null) {
+            new SubmitterValidator(getValidator(), header.getSubmitterReference().getSubmitter()).validate();
         }
     }
 

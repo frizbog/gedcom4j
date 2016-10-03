@@ -2,7 +2,9 @@
 1 SOUR 0
 2 ______WIERD custom tag for source in header
 1 SUBM @SUBM001@
+2 _AAA Custom tag for the reference to the submitter, which is a root level item
 1 SUBN @SUBMISSION@
+2 _BBB Custom tag for the reference to the submission, which is a root level item
 1 FILE customtagstorture.ged
 1 GEDC
 2 VERS 5.5.1
@@ -13,11 +15,11 @@
 0 @SUBMISSION@ SUBN
 1 _RRR Custom thing under the root level submission
 0 @SUBM001@ SUBM
-1 _SSS Custom thing under the root level submitter
 1 NAME Matt /Harrah/
 2 GIVN Matt
 3 _QQQQ This is a custom tag under a given name
 2 SURN Harrah
+1 _SSS Custom thing under the root level submitter
 0 _ROOT Root element
 0 _ROOT2
 1 CHAN

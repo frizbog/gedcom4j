@@ -367,7 +367,7 @@ abstract class AbstractEmitter<T> {
      * @throws WriterCancelledException
      *             if cancellation was requested during the operation
      */
-    void emitCustomFactsOn(int level, HasCustomFacts thingWithCustomFacts) throws WriterCancelledException, GedcomWriterException {
+    void emitCustomFacts(int level, HasCustomFacts thingWithCustomFacts) throws WriterCancelledException, GedcomWriterException {
         if (thingWithCustomFacts != null && thingWithCustomFacts.getCustomFacts() != null) {
             emitCustomFacts(level, thingWithCustomFacts.getCustomFacts());
         }

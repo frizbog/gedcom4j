@@ -45,9 +45,9 @@ import java.util.Map;
  * <li>Define a {@link Submitter} and add it to the {@link Gedcom#submitters} map. Autorepair will make a fake submitter record with
  * a name of "UNSPECIFIED" and add it to the map during validation if validation is turned on, but this submitter record may not be
  * what you want.</li>
- * <li>Specify which Submitter in the submitters map is the primary submitter and set the {@link Header#submitter} reference to that
- * instance. If no primary submitter is specified in the header, auto-repair will select the first value in the submitters map and
- * use that.</li>
+ * <li>Specify which Submitter in the submitters map is the primary submitter and set the {@link Header#getSubmitterReference()} to
+ * that instance. If no primary submitter is specified in the header, auto-repair will select the first value in the submitters map
+ * and use that.</li>
  * <li>Override default values for the Source System and its components in {@link Header#sourceSystem}
  * <ol type="a">
  * <li>Specify, or override the default value of the {@link SourceSystem#systemId} field to an application-specific value. If it is

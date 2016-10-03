@@ -31,6 +31,8 @@ import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.SourceSystem;
 import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.SubmissionReference;
+import org.gedcom4j.model.SubmitterReference;
 
 /**
  * A parser for {@link Header} objects
@@ -93,7 +95,8 @@ class HeaderParser extends AbstractParser<Header> {
                         }
                     }
                 } else if (Tag.SUBMITTER.equalsText(ch.getTag())) {
-                    loadInto.setSubmitter(getSubmitter(ch.getValue()));
+                    loadInto.setSubmitterReference(new SubmitterReference(getSubmitter(ch.getValue())));
+                    remainingChildrenAreCustomTags(ch, loadInto.getSubmitterReference());
                 } else if (Tag.FILE.equalsText(ch.getTag())) {
                     loadInto.setFileName(parseStringWithCustomFacts(ch));
                 } else if (Tag.GEDCOM_VERSION.equalsText(ch.getTag())) {
@@ -108,13 +111,14 @@ class HeaderParser extends AbstractParser<Header> {
                                         + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.SUBMISSION.equalsText(ch.getTag())) {
-                    if (loadInto.getSubmission() == null) {
+                    if (loadInto.getSubmissionReference() == null) {
                         /*
                          * There can only be one SUBMISSION record per GEDCOM, and it's found at the root level, but the HEAD
                          * structure has a cross-reference to that root-level structure, so we're setting it here (if it hasn't
                          * already been loaded, which it probably isn't yet)
                          */
-                        loadInto.setSubmission(gedcomParser.getGedcom().getSubmission());
+                        loadInto.setSubmissionReference(new SubmissionReference(gedcomParser.getGedcom().getSubmission()));
+                        remainingChildrenAreCustomTags(ch, loadInto.getSubmissionReference());
                     }
                 } else if (Tag.LANGUAGE.equalsText(ch.getTag())) {
                     loadInto.setLanguage(parseStringWithCustomFacts(ch));

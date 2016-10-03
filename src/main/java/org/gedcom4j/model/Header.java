@@ -95,14 +95,14 @@ public class Header extends AbstractNotesElement {
     private SourceSystem sourceSystem = new SourceSystem();
 
     /**
-     * Information about the file submission
+     * Information about the file submissionReference
      */
-    private Submission submission;
+    private SubmissionReference submissionReference;
 
     /**
      * Information about the submitter of the file
      */
-    private Submitter submitter = new Submitter("@SUBMITTER@", "UNSPECIFIED");
+    private SubmitterReference submitterReference = new SubmitterReference(new Submitter("@SUBMITTER@", "UNSPECIFIED"));
 
     /**
      * The time of the file
@@ -149,11 +149,11 @@ public class Header extends AbstractNotesElement {
         if (other.sourceSystem != null) {
             sourceSystem = new SourceSystem(other.sourceSystem);
         }
-        if (other.submission != null) {
-            submission = new Submission(other.submission);
+        if (other.submissionReference != null) {
+            submissionReference = new SubmissionReference(other.submissionReference);
         }
-        if (other.submitter != null) {
-            submitter = new Submitter(other.submitter);
+        if (other.submitterReference != null) {
+            submitterReference = new SubmitterReference(other.submitterReference);
         }
         if (other.time != null) {
             time = new StringWithCustomFacts(other.time);
@@ -239,18 +239,18 @@ public class Header extends AbstractNotesElement {
         } else if (!sourceSystem.equals(other.sourceSystem)) {
             return false;
         }
-        if (submission == null) {
-            if (other.submission != null) {
+        if (submissionReference == null) {
+            if (other.submissionReference != null) {
                 return false;
             }
-        } else if (!submission.equals(other.submission)) {
+        } else if (!submissionReference.equals(other.submissionReference)) {
             return false;
         }
-        if (submitter == null) {
-            if (other.submitter != null) {
+        if (submitterReference == null) {
+            if (other.submitterReference != null) {
                 return false;
             }
-        } else if (!submitter.equals(other.submitter)) {
+        } else if (!submitterReference.equals(other.submitterReference)) {
             return false;
         }
         if (time == null) {
@@ -359,21 +359,21 @@ public class Header extends AbstractNotesElement {
     }
 
     /**
-     * Gets the submission.
+     * Gets the submission reference.
      *
-     * @return the submission
+     * @return the submission reference
      */
-    public Submission getSubmission() {
-        return submission;
+    public SubmissionReference getSubmissionReference() {
+        return submissionReference;
     }
 
     /**
-     * Gets the submitter.
+     * Gets the submitter reference
      *
-     * @return the submitter
+     * @return the submitter reference
      */
-    public Submitter getSubmitter() {
-        return submitter;
+    public SubmitterReference getSubmitterReference() {
+        return submitterReference;
     }
 
     /**
@@ -401,8 +401,8 @@ public class Header extends AbstractNotesElement {
         result = prime * result + (language == null ? 0 : language.hashCode());
         result = prime * result + (placeHierarchy == null ? 0 : placeHierarchy.hashCode());
         result = prime * result + (sourceSystem == null ? 0 : sourceSystem.hashCode());
-        result = prime * result + (submission == null ? 0 : submission.hashCode());
-        result = prime * result + (submitter == null ? 0 : submitter.hashCode());
+        result = prime * result + (submissionReference == null ? 0 : submissionReference.hashCode());
+        result = prime * result + (submitterReference == null ? 0 : submitterReference.hashCode());
         result = prime * result + (time == null ? 0 : time.hashCode());
 
         return result;
@@ -539,23 +539,23 @@ public class Header extends AbstractNotesElement {
     }
 
     /**
-     * Sets the submission.
+     * Sets the submission reference.
      *
-     * @param submission
-     *            the new submission
+     * @param submissionReference
+     *            the new submissionReference
      */
-    public void setSubmission(Submission submission) {
-        this.submission = submission;
+    public void setSubmissionReference(SubmissionReference submissionReference) {
+        this.submissionReference = submissionReference;
     }
 
     /**
      * Sets the submitter.
      *
-     * @param submitter
+     * @param submitterReference
      *            the new submitter
      */
-    public void setSubmitter(Submitter submitter) {
-        this.submitter = submitter;
+    public void setSubmitterReference(SubmitterReference submitterReference) {
+        this.submitterReference = submitterReference;
     }
 
     /**
@@ -635,14 +635,14 @@ public class Header extends AbstractNotesElement {
             builder.append(sourceSystem);
             builder.append(", ");
         }
-        if (submission != null) {
-            builder.append("submission=");
-            builder.append(submission);
+        if (submissionReference != null) {
+            builder.append("submissionReference=");
+            builder.append(submissionReference);
             builder.append(", ");
         }
-        if (submitter != null) {
+        if (submitterReference != null) {
             builder.append("submitter=");
-            builder.append(submitter);
+            builder.append(submitterReference);
             builder.append(", ");
         }
         if (time != null) {

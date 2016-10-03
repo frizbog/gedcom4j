@@ -102,7 +102,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
     /**
      * A list of the submitters for this family
      */
-    private List<Submitter> submitters = getSubmitters(Options.isCollectionInitializationEnabled());
+    private List<SubmitterReference> submitters = getSubmitters(Options.isCollectionInitializationEnabled());
 
     /**
      * The user references for this submitter
@@ -199,8 +199,8 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
         }
         if (other.submitters != null) {
             submitters = new ArrayList<>();
-            for (Submitter s : other.submitters) {
-                submitters.add(new Submitter(s));
+            for (SubmitterReference s : other.submitters) {
+                submitters.add(new SubmitterReference(s));
             }
         }
         if (other.userReferences != null) {
@@ -516,7 +516,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the submitters
      */
-    public List<Submitter> getSubmitters() {
+    public List<SubmitterReference> getSubmitters() {
         return submitters;
     }
 
@@ -527,7 +527,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *            initialize the collection, if needed?
      * @return the submitters
      */
-    public List<Submitter> getSubmitters(boolean initializeIfNeeded) {
+    public List<SubmitterReference> getSubmitters(boolean initializeIfNeeded) {
         if (initializeIfNeeded && submitters == null) {
             submitters = new ArrayList<>(0);
         }

@@ -34,6 +34,7 @@ import org.gedcom4j.model.IndividualReference;
 import org.gedcom4j.model.LdsSpouseSealing;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.SubmitterReference;
 import org.gedcom4j.model.enumerations.RestrictionNoticeType;
 
 /**
@@ -152,11 +153,12 @@ class FamilyValidator extends AbstractValidator {
      */
     private void checkSubmitters() {
         checkUninitializedCollection(f, "submitters");
-        List<Submitter> submitters = f.getSubmitters();
+        List<SubmitterReference> submitters = f.getSubmitters();
         if (submitters != null) {
             checkListOfModelElementsForDups(f, "submitters");
             checkListOfModelElementsForNulls(f, "submitters");
-            for (Submitter s : submitters) {
+            for (SubmitterReference sRef : submitters) {
+                Submitter s = sRef.getSubmitter();
                 new SubmitterValidator(getValidator(), s).validate();
             }
         }

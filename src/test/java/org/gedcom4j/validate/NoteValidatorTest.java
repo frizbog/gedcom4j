@@ -95,7 +95,7 @@ public class NoteValidatorTest extends AbstractValidatorTestCase {
 
         Note n = new Note();
         n.setXref(null);
-        g.getHeader().getSubmitter().getNotes(true).add(n);
+        g.getHeader().getSubmitterReference().getSubmitter().getNotes(true).add(n);
 
         // Notes without xrefs must have lines of text
         validator.validate();

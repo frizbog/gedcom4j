@@ -36,6 +36,7 @@ import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualReference;
 import org.gedcom4j.model.LdsSpouseSealing;
 import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.SubmitterReference;
 import org.gedcom4j.model.UserReference;
 
 /**
@@ -96,7 +97,8 @@ class FamilyEmitter extends AbstractEmitter<Collection<Family>> {
             }
             emitTagIfValueNotNull(1, "NCHI", f.getNumChildren());
             if (f.getSubmitters() != null) {
-                for (Submitter s : f.getSubmitters()) {
+                for (SubmitterReference sRef : f.getSubmitters()) {
+                    Submitter s = sRef.getSubmitter();
                     emitTagWithRequiredValue(1, "SUBM", s.getXref());
                 }
             }

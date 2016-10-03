@@ -49,6 +49,7 @@ import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.Submission;
+import org.gedcom4j.model.SubmissionReference;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.Trailer;
 import org.gedcom4j.parser.event.ParseProgressEvent;
@@ -532,12 +533,12 @@ public class GedcomParser extends AbstractParser<Gedcom> {
             if (gedcom.getHeader() == null) {
                 gedcom.setHeader(new Header());
             }
-            if (gedcom.getHeader().getSubmission() == null) {
+            if (gedcom.getHeader().getSubmissionReference() == null) {
                 /*
                  * The GEDCOM spec puts a cross reference to the root-level SUBN element in the HEAD structure. Now that we have a
                  * submission object, represent that cross reference in the header object
                  */
-                gedcom.getHeader().setSubmission(s);
+                gedcom.getHeader().setSubmissionReference(new SubmissionReference(s));
             }
             new SubmissionParser(this, rootLevelItem, s).parse();
         } else if (Tag.NOTE.equalsText(rootLevelItem.getTag())) {

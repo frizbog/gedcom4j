@@ -38,6 +38,7 @@ import org.gedcom4j.model.LdsSpouseSealing;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Note;
 import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.SubmitterReference;
 import org.gedcom4j.model.UserReference;
 import org.gedcom4j.model.enumerations.FamilyEventType;
 
@@ -131,7 +132,7 @@ class FamilyParser extends AbstractParser<Family> {
                     loadInto.getLdsSpouseSealings(true).add(ldsss);
                     new LdsSpouseSealingParser(gedcomParser, ch, ldsss).parse();
                 } else if (Tag.SUBMITTER.equalsText(ch.getTag())) {
-                    loadInto.getSubmitters(true).add(getSubmitter(ch.getValue()));
+                    loadInto.getSubmitters(true).add(new SubmitterReference(getSubmitter(ch.getValue())));
                 } else if (Tag.REFERENCE.equalsText(ch.getTag())) {
                     UserReference u = new UserReference();
                     loadInto.getUserReferences(true).add(u);

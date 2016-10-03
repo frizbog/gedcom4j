@@ -29,7 +29,9 @@ package org.gedcom4j.validate;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Submission;
+import org.gedcom4j.model.SubmissionReference;
 import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.SubmitterReference;
 import org.gedcom4j.model.enumerations.SupportedVersion;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,8 +60,8 @@ public class MultimediaValidatorTest extends AbstractValidatorTestCase {
         gedcom.getSubmitters().put(s.getXref(), s);
         gedcom.setSubmission(new Submission("@SUBN0001@"));
         Header h = gedcom.getHeader();
-        h.setSubmitter(s);
-        h.setSubmission(gedcom.getSubmission());
+        h.setSubmitterReference(new SubmitterReference(s));
+        h.setSubmissionReference(new SubmissionReference(gedcom.getSubmission()));
 
         mm = new Multimedia();
     }

@@ -60,7 +60,7 @@ public class CustomTagParseWriteTortureTest {
 
         // Write the file back out to a temp file
         GedcomWriter gw = new GedcomWriter(gp.getGedcom());
-        gw.write("sample/customtagstorture2.ged");
+        gw.write("tmp/customtagstorture.ged");
 
         // Read all the lines of the original
         List<String> original = new ArrayList<>();
@@ -74,7 +74,7 @@ public class CustomTagParseWriteTortureTest {
 
         // Read all the lines of the copy
         List<String> copy = new ArrayList<>();
-        try (FileReader fr = new FileReader("sample/customtagstorture2.ged"); BufferedReader br = new BufferedReader(fr)) {
+        try (FileReader fr = new FileReader("tmp/customtagstorture.ged"); BufferedReader br = new BufferedReader(fr)) {
             String s = br.readLine();
             while (s != null) {
                 copy.add(s);
@@ -84,14 +84,10 @@ public class CustomTagParseWriteTortureTest {
 
         // Each and every line in one file should be found in the other
         for (String s : original) {
-            if (!"1 FILE customtagstorture2.ged".equals(s) && !"1 FILE customtagstorture.ged".equals(s)) {
-                assertTrue("Could not find original line in copy: " + s, copy.contains(s));
-            }
+            assertTrue("Could not find original line in copy: " + s, copy.contains(s));
         }
         for (String s : copy) {
-            if (!"1 FILE customtagstorture2.ged".equals(s) && !"1 FILE customtagstorture.ged".equals(s)) {
-                assertTrue("Could not find copy line in original: " + s, original.contains(s));
-            }
+            assertTrue("Could not find copy line in original: " + s, original.contains(s));
         }
 
         // Should have the same number of lines

@@ -33,7 +33,9 @@ import java.io.ByteArrayOutputStream;
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Submission;
+import org.gedcom4j.model.SubmissionReference;
 import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.SubmitterReference;
 import org.junit.Test;
 
 /**
@@ -54,13 +56,13 @@ public class Issue97Test {
     public void testIssue97() throws GedcomWriterException {
         Gedcom g = new Gedcom();
         g.setSubmission(new Submission("@SUBN0001@"));
-        g.getHeader().setSubmission(g.getSubmission());
+        g.getHeader().setSubmissionReference(new SubmissionReference(g.getSubmission()));
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
         // Note the newline in the middle of the value
         s.setName("Line break in middle of a wo\nrd");
         g.getSubmitters().put(s.getXref(), s);
-        g.getHeader().setSubmitter(s);
+        g.getHeader().setSubmitterReference(new SubmitterReference(s));
 
         GedcomWriter gw = new GedcomWriter(g);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

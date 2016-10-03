@@ -83,10 +83,10 @@ public class HeaderCopyTest extends AbstractCopyTest {
         orig.setSourceSystem(ss);
         Submission s = new Submission("@SBM123@");
         s.setRecIdNumber("999");
-        orig.setSubmission(s);
+        orig.setSubmissionReference(new SubmissionReference(s));
         Submitter submitter = new Submitter();
         submitter.setName("Matt /Harrah/");
-        orig.setSubmitter(submitter);
+        orig.setSubmitterReference(new SubmitterReference(submitter));
         orig.setTime("12:34pm");
         orig.getCopyrightData(true).add("(c) 932 AD");
         orig.getCustomFacts(true).add(getTestCustomFact());

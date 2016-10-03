@@ -27,12 +27,12 @@
 package org.gedcom4j.model;
 
 /**
- * A reference to an individual, which may have custom facts on the reference that are not custom facts about the individual
+ * A reference to an submitter, which may have custom facts on the reference that are not custom facts about the submitter
  * themselves.
  * 
  * @author frizbog
  */
-public class IndividualReference extends AbstractElement {
+public class SubmitterReference extends AbstractElement {
 
     /**
      * Serial version UID
@@ -40,40 +40,36 @@ public class IndividualReference extends AbstractElement {
     private static final long serialVersionUID = -1855269504871281907L;
 
     /**
-     * The individual referred to
+     * The submitter referred to
      */
-    Individual individual;
+    Submitter submitter;
 
     /**
      * Default constructor
      */
-    public IndividualReference() {
+    public SubmitterReference() {
         // Default constructor does nothing
     }
 
     /**
-     * Create a new IndividualReference object
+     * Create a new SubmitterReference object
      * 
-     * @param individual
-     *            the individual being referred to
+     * @param submitter
+     *            the submitter being referred to
      */
-    public IndividualReference(Individual individual) {
-        this.individual = individual;
+    public SubmitterReference(Submitter submitter) {
+        this.submitter = submitter;
     }
 
     /**
      * Copy constructor.
      * 
      * @param other
-     *            the other IndividualReference being copied
-     * @param deep
-     *            pass in true if a full, deep copy of the {@link IndividualReference} should be created, including copies of the
-     *            families the referenced individual is in. If false, the object is copied without references to the families the
-     *            individual is in.
+     *            the other SubmitterReference being copied
      */
-    public IndividualReference(IndividualReference other, boolean deep) {
+    public SubmitterReference(SubmitterReference other) {
         super(other);
-        individual = new Individual(other.individual, deep);
+        submitter = new Submitter(other.submitter);
     }
 
     /**
@@ -87,27 +83,27 @@ public class IndividualReference extends AbstractElement {
         if (!super.equals(obj)) {
             return false;
         }
-        if (!(obj instanceof IndividualReference)) {
+        if (!(obj instanceof SubmitterReference)) {
             return false;
         }
-        IndividualReference other = (IndividualReference) obj;
-        if (individual == null) {
-            if (other.individual != null) {
+        SubmitterReference other = (SubmitterReference) obj;
+        if (submitter == null) {
+            if (other.submitter != null) {
                 return false;
             }
-        } else if (!individual.equals(other.individual)) {
+        } else if (!submitter.equals(other.submitter)) {
             return false;
         }
         return true;
     }
 
     /**
-     * Get the individual
+     * Get the submitter
      * 
-     * @return the individual
+     * @return the submitter
      */
-    public Individual getIndividual() {
-        return individual;
+    public Submitter getSubmitter() {
+        return submitter;
     }
 
     /**
@@ -117,18 +113,18 @@ public class IndividualReference extends AbstractElement {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((individual == null) ? 0 : individual.hashCode());
+        result = prime * result + ((submitter == null) ? 0 : submitter.hashCode());
         return result;
     }
 
     /**
-     * Set the individual
+     * Set the submitter
      * 
-     * @param individual
-     *            the individual to set
+     * @param submitter
+     *            the submitter to set
      */
-    public void setIndividual(Individual individual) {
-        this.individual = individual;
+    public void setSubmitter(Submitter submitter) {
+        this.submitter = submitter;
     }
 
     /**
@@ -137,10 +133,10 @@ public class IndividualReference extends AbstractElement {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder(25);
-        builder.append("IndividualReference [");
-        if (individual != null) {
-            builder.append("individual=");
-            builder.append(individual);
+        builder.append("SubmitterReference [");
+        if (submitter != null) {
+            builder.append("submitter=");
+            builder.append(submitter);
             builder.append(", ");
         }
         if (customFacts != null) {

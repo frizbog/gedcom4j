@@ -34,7 +34,9 @@ import org.gedcom4j.model.Header;
 import org.gedcom4j.model.SourceSystem;
 import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.Submission;
+import org.gedcom4j.model.SubmissionReference;
 import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.SubmitterReference;
 import org.junit.Test;
 
 /**
@@ -57,8 +59,8 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         gedcom.getSubmitters().put(s.getXref(), s);
         gedcom.setSubmission(new Submission("@SUBN0001@"));
         Header h = gedcom.getHeader();
-        h.setSubmitter(s);
-        h.setSubmission(gedcom.getSubmission());
+        h.setSubmitterReference(new SubmitterReference(s));
+        h.setSubmissionReference(new SubmissionReference(gedcom.getSubmission()));
 
         h.setCharacterSet(null);
 
@@ -95,7 +97,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         s.setName("test");
         gedcom.getSubmitters().put(s.getXref(), s);
         Header h = gedcom.getHeader();
-        h.setSubmitter(s);
+        h.setSubmitterReference(new SubmitterReference(s));
         gedcom.setSubmission(new Submission("@SUBN0001@"));
         h.getCopyrightData(true);
 
@@ -114,9 +116,9 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         s.setName("test");
         gedcom.getSubmitters().put(s.getXref(), s);
         Header h = gedcom.getHeader();
-        h.setSubmitter(s);
+        h.setSubmitterReference(new SubmitterReference(s));
         gedcom.setSubmission(new Submission("@SUBN0001@"));
-        h.setSubmission(gedcom.getSubmission());
+        h.setSubmissionReference(new SubmissionReference(gedcom.getSubmission()));
 
         h.setGedcomVersion(null);
         validator.validate();
@@ -136,7 +138,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoSubmitters() {
-        gedcom.getHeader().setSubmitter(null);
+        gedcom.getHeader().setSubmitterReference(null);
         validator.validate();
         assertFindingsContain(Severity.ERROR, gedcom.getHeader(), ProblemCode.MISSING_REQUIRED_VALUE.getCode(), "submitter");
 
@@ -145,7 +147,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         s.setName("test");
         gedcom.getSubmitters().put(s.getXref(), s);
         Header h = gedcom.getHeader();
-        h.setSubmitter(s);
+        h.setSubmitterReference(new SubmitterReference(s));
 
         validator.validate();
         assertNoIssues();
@@ -162,9 +164,9 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
         s.setName("test");
         gedcom.getSubmitters().put(s.getXref(), s);
         Header h = gedcom.getHeader();
-        h.setSubmitter(s);
+        h.setSubmitterReference(new SubmitterReference(s));
         gedcom.setSubmission(new Submission("@SUBN0001@"));
-        h.setSubmission(gedcom.getSubmission());
+        h.setSubmissionReference(new SubmissionReference(gedcom.getSubmission()));
 
         h.setSourceSystem(null);
 

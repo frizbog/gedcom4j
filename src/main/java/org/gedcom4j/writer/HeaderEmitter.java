@@ -72,19 +72,21 @@ class HeaderEmitter extends AbstractEmitter<Header> {
             emitTagIfValueNotNull(1, "DATE", header.getDate());
             emitTagIfValueNotNull(2, "TIME", header.getTime());
         }
-        if (header.getSubmitter() != null) {
-            emitTagWithRequiredValue(1, "SUBM", header.getSubmitter().getXref());
+        if (header.getSubmitterReference() != null) {
+            emitTagWithRequiredValue(1, "SUBM", header.getSubmitterReference().getSubmitter().getXref());
+            emitCustomFacts(2, header.getSubmitterReference());
         }
-        if (header.getSubmission() != null) {
-            emitTagWithRequiredValue(1, "SUBN", header.getSubmission().getXref());
+        if (header.getSubmissionReference() != null) {
+            emitTagWithRequiredValue(1, "SUBN", header.getSubmissionReference().getSubmission().getXref());
+            emitCustomFacts(2, header.getSubmissionReference());
         }
         emitTagIfValueNotNull(1, "FILE", header.getFileName());
-        emitCustomFactsOn(2, header.getFileName());
+        emitCustomFacts(2, header.getFileName());
         emitLinesOfText(1, "COPR", header.getCopyrightData());
         emitTag(1, "GEDC");
         emitTagWithRequiredValue(2, "VERS", header.getGedcomVersion().getVersionNumber().toString());
         emitTagWithRequiredValue(2, "FORM", header.getGedcomVersion().getGedcomForm());
-        emitCustomFactsOn(2, header.getGedcomVersion());
+        emitCustomFacts(2, header.getGedcomVersion());
         emitTagWithRequiredValue(1, "CHAR", header.getCharacterSet().getCharacterSetName());
         emitTagIfValueNotNull(2, "VERS", header.getCharacterSet().getVersionNum());
         emitTagIfValueNotNull(1, "LANG", header.getLanguage());

@@ -36,6 +36,7 @@ import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.Place;
 import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.SubmitterReference;
 import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.junit.Test;
 
@@ -78,7 +79,7 @@ public class Issue80WriterTest {
         Submitter s = new Submitter();
         s.setXref("@SUBM@"); // Some unique xref for a submitter
         s.setName("Matt /Harrah/");
-        g.getHeader().setSubmitter(s);
+        g.getHeader().setSubmitterReference(new SubmitterReference(s));
         g.getSubmitters().put(s.getXref(), s); // Use the xref as the map key
 
         // Write to null output stream

@@ -119,7 +119,7 @@ public class FamilyCopyTest extends AbstractCopyTest {
         orig.getNotes(true).add(getTestNote());
         Submitter s = new Submitter();
         s.setName("Eloise /King/");
-        orig.getSubmitters(true).add(s);
+        orig.getSubmitters(true).add(new SubmitterReference(s));
         UserReference u = new UserReference();
         u.setType("Any type you like");
         orig.getUserReferences(true).add(u);
