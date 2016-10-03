@@ -94,6 +94,7 @@ class HeaderParser extends AbstractParser<Header> {
                             }
                         }
                     }
+
                 } else if (Tag.SUBMITTER.equalsText(ch.getTag())) {
                     loadInto.setSubmitterReference(new SubmitterReference(getSubmitter(ch.getValue())));
                     remainingChildrenAreCustomTags(ch, loadInto.getSubmitterReference());

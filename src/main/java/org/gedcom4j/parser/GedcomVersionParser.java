@@ -67,6 +67,7 @@ class GedcomVersionParser extends AbstractParser<GedcomVersion> {
                         addError(e.getMessage());
                     }
                     loadInto.setVersionNumber(vn);
+                    remainingChildrenAreCustomTags(ch, loadInto.getVersionNumber());
                 } else if (Tag.FORM.equalsText(ch.getTag())) {
                     loadInto.setGedcomForm(parseStringWithCustomFacts(ch));
                 } else {

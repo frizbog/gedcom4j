@@ -209,8 +209,13 @@ abstract class AbstractEmitter<T> {
      *            the tag for the line of the file
      * @param value
      *            the value to write to the right of the tag
+     * @throws GedcomWriterException
+     *             if the data is malformed and cannot be written
+     * @throws WriterCancelledException
+     *             if cancellation was requested during the operation
      */
-    protected void emitTagIfValueNotNull(int level, String tag, Object value) {
+    protected void emitTagIfValueNotNull(int level, String tag, HasCustomFacts value) throws WriterCancelledException,
+            GedcomWriterException {
         emitTagIfValueNotNull(level, null, tag, value);
     }
 
@@ -318,6 +323,24 @@ abstract class AbstractEmitter<T> {
     /**
      * Emit the custom facts as custom tags
      * 
+     * @param thingWithCustomFacts
+     *            the thing with custom facts
+     * @param level
+     *            the level at which the custom facts are to be written as custom tags
+     * @throws GedcomWriterException
+     *             if the data is malformed and cannot be written
+     * @throws WriterCancelledException
+     *             if cancellation was requested during the operation
+     */
+    void emitCustomFacts(int level, HasCustomFacts thingWithCustomFacts) throws WriterCancelledException, GedcomWriterException {
+        if (thingWithCustomFacts != null && thingWithCustomFacts.getCustomFacts() != null) {
+            emitCustomFacts(level, thingWithCustomFacts.getCustomFacts());
+        }
+    }
+
+    /**
+     * Emit the custom facts as custom tags
+     * 
      * @param customFacts
      *            the custom facts
      * @param level
@@ -352,24 +375,6 @@ abstract class AbstractEmitter<T> {
                 emitTagIfValueNotNull(level + 1, "TYPE", cf.getType());
                 emitCustomFacts(level + 1, cf.getCustomFacts());
             }
-        }
-    }
-
-    /**
-     * Emit the custom facts as custom tags
-     * 
-     * @param thingWithCustomFacts
-     *            the thing with custom facts
-     * @param level
-     *            the level at which the custom facts are to be written as custom tags
-     * @throws GedcomWriterException
-     *             if the data is malformed and cannot be written
-     * @throws WriterCancelledException
-     *             if cancellation was requested during the operation
-     */
-    void emitCustomFacts(int level, HasCustomFacts thingWithCustomFacts) throws WriterCancelledException, GedcomWriterException {
-        if (thingWithCustomFacts != null && thingWithCustomFacts.getCustomFacts() != null) {
-            emitCustomFacts(level, thingWithCustomFacts.getCustomFacts());
         }
     }
 
@@ -433,8 +438,13 @@ abstract class AbstractEmitter<T> {
      *            the tag for the line of the file
      * @param value
      *            the value to write to the right of the tag
+     * @throws GedcomWriterException
+     *             if the data is malformed and cannot be written
+     * @throws WriterCancelledException
+     *             if cancellation was requested during the operation
      */
-    private void emitTagIfValueNotNull(int level, String xref, String tag, Object value) {
+    private void emitTagIfValueNotNull(int level, String xref, String tag, HasCustomFacts value) throws WriterCancelledException,
+            GedcomWriterException {
         if (value != null) {
 
             List<String> temp = new ArrayList<>();
@@ -442,6 +452,9 @@ abstract class AbstractEmitter<T> {
             List<String> valueLines = splitLinesOnBreakingCharacters(temp);
 
             emitValueLines(level, xref, tag, valueLines);
+
+            emitCustomFacts(level + 1, value.getCustomFacts());
+
         }
     }
 

@@ -32,6 +32,7 @@ import org.gedcom4j.model.AbstractElement;
 import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.HasCustomFacts;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Repository;
@@ -290,6 +291,23 @@ abstract class AbstractParser<T> {
     }
 
     /**
+     * Load all the remaining children of this tag as custom tags
+     * 
+     * @param st
+     *            the string tree we're parsing
+     * @param into
+     *            what we're parsing all the custom tags into
+     */
+    protected void remainingChildrenAreCustomTags(StringTree st, HasCustomFacts into) {
+        if (st == null || st.getChildren() == null) {
+            return;
+        }
+        for (StringTree ch : st.getChildren()) {
+            unknownTag(ch, into);
+        }
+    }
+
+    /**
      * <p>
      * Default handler for a tag that the parser was not expecting to see.
      * </p>
@@ -308,7 +326,7 @@ abstract class AbstractParser<T> {
      *            the element that the node is part of, so if it's a custom tag, this unknown tag can be added to this node's
      *            collection of custom tags
      */
-    protected void unknownTag(StringTree node, AbstractElement element) {
+    protected void unknownTag(StringTree node, HasCustomFacts element) {
         boolean beginsWithUnderscore = node.getTag().length() > 0 && node.getTag().charAt(0) == '_';
         if (beginsWithUnderscore || !gedcomParser.isStrictCustomTags() || gedcomParser.isInsideCustomTag()) {
             CustomFact cf = new CustomFact(node.getTag());
@@ -343,22 +361,5 @@ abstract class AbstractParser<T> {
      * Parse the string tree passed into the constructor, and load it into the object model
      */
     abstract void parse();
-
-    /**
-     * Load all the remaining children of this tag as custom tags
-     * 
-     * @param st
-     *            the string tree we're parsing
-     * @param into
-     *            what we're parsing all the custom tags into
-     */
-    protected void remainingChildrenAreCustomTags(StringTree st, AbstractElement into) {
-        if (st == null || st.getChildren() == null) {
-            return;
-        }
-        for (StringTree ch : st.getChildren()) {
-            unknownTag(ch, into);
-        }
-    }
 
 }

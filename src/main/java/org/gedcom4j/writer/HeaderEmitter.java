@@ -32,6 +32,7 @@ import org.gedcom4j.model.Corporation;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.HeaderSourceData;
 import org.gedcom4j.model.SourceSystem;
+import org.gedcom4j.model.StringWithCustomFacts;
 
 /**
  * Emitter for {@link Header} objects
@@ -83,12 +84,18 @@ class HeaderEmitter extends AbstractEmitter<Header> {
         emitTagIfValueNotNull(1, "FILE", header.getFileName());
         emitCustomFacts(2, header.getFileName());
         emitLinesOfText(1, "COPR", header.getCopyrightData());
+
         emitTag(1, "GEDC");
         emitTagWithRequiredValue(2, "VERS", header.getGedcomVersion().getVersionNumber().toString());
+        emitCustomFacts(3, header.getGedcomVersion().getVersionNumber());
+
         emitTagWithRequiredValue(2, "FORM", header.getGedcomVersion().getGedcomForm());
         emitCustomFacts(2, header.getGedcomVersion());
+
         emitTagWithRequiredValue(1, "CHAR", header.getCharacterSet().getCharacterSetName());
-        emitTagIfValueNotNull(2, "VERS", header.getCharacterSet().getVersionNum());
+        // emitTagIfValueNotNull(2, "VERS", header.getCharacterSet().getVersionNum());
+        // emitCustomFacts(3, header.getCharacterSet().getVersionNum());
+
         emitTagIfValueNotNull(1, "LANG", header.getLanguage());
         if (header.getPlaceHierarchy() != null && header.getPlaceHierarchy().getValue() != null && header.getPlaceHierarchy()
                 .getValue().length() > 0) {
@@ -125,7 +132,7 @@ class HeaderEmitter extends AbstractEmitter<Header> {
         }
         HeaderSourceData sourceData = sourceSystem.getSourceData();
         if (sourceData != null) {
-            emitTagIfValueNotNull(2, "DATA", sourceData.getName());
+            emitTagIfValueNotNull(2, "DATA", new StringWithCustomFacts(sourceData.getName()));
             emitTagIfValueNotNull(3, "DATE", sourceData.getPublishDate());
             emitTagIfValueNotNull(3, "COPR", sourceData.getCopyright());
         }
