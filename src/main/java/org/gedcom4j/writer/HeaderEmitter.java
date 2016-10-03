@@ -79,10 +79,12 @@ class HeaderEmitter extends AbstractEmitter<Header> {
             emitTagWithRequiredValue(1, "SUBN", header.getSubmission().getXref());
         }
         emitTagIfValueNotNull(1, "FILE", header.getFileName());
+        emitCustomFactsOn(2, header.getFileName());
         emitLinesOfText(1, "COPR", header.getCopyrightData());
         emitTag(1, "GEDC");
         emitTagWithRequiredValue(2, "VERS", header.getGedcomVersion().getVersionNumber().toString());
         emitTagWithRequiredValue(2, "FORM", header.getGedcomVersion().getGedcomForm());
+        emitCustomFactsOn(2, header.getGedcomVersion());
         emitTagWithRequiredValue(1, "CHAR", header.getCharacterSet().getCharacterSetName());
         emitTagIfValueNotNull(2, "VERS", header.getCharacterSet().getVersionNum());
         emitTagIfValueNotNull(1, "LANG", header.getLanguage());
@@ -125,7 +127,7 @@ class HeaderEmitter extends AbstractEmitter<Header> {
             emitTagIfValueNotNull(3, "DATE", sourceData.getPublishDate());
             emitTagIfValueNotNull(3, "COPR", sourceData.getCopyright());
         }
-        emitCustomFacts(1, sourceSystem.getCustomFacts());
+        emitCustomFacts(2, sourceSystem.getCustomFacts());
     }
 
 }

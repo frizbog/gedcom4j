@@ -1,0 +1,29 @@
+0 HEAD
+1 SOUR 0
+2 ______WIERD custom tag for source in header
+1 SUBM @SUBM001@
+1 SUBN @SUBMISSION@
+1 FILE customtagstorture.ged
+1 GEDC
+2 VERS 5.5.1
+2 FORM LINEAGE-LINKED
+2 _COMMENT weird custom comment about the GEDC 
+1 CHAR ANSEL
+2 _COMMENT UTF-8 is more modern
+0 @SUBMISSION@ SUBN
+1 _RRR Custom thing under the root level submission
+0 @SUBM001@ SUBM
+1 _SSS Custom thing under the root level submitter
+1 NAME Matt /Harrah/
+2 GIVN Matt
+3 _QQQQ This is a custom tag under a given name
+2 SURN Harrah
+0 _ROOT Root element
+0 _ROOT2
+1 CHAN
+2 DATE 2 OCT 2016
+3 TIME 15:25:00
+2 NOTE This is a note.
+2 NOTE This is another note
+1 _DESC This is a custom description of the root2 element
+0 TRLR

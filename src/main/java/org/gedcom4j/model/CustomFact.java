@@ -436,7 +436,7 @@ public class CustomFact extends AbstractNotesElement implements HasCitations, Ha
             builder.append(date);
             builder.append(", ");
         }
-        if (description != null && description.getValue() != null && description.getCustomFacts() != null) {
+        if (description != null) {
             builder.append("description=");
             builder.append(description);
             builder.append(", ");

@@ -344,4 +344,21 @@ abstract class AbstractParser<T> {
      */
     abstract void parse();
 
+    /**
+     * Load all the remaining children of this tag as custom tags
+     * 
+     * @param st
+     *            the string tree we're parsing
+     * @param into
+     *            what we're parsing all the custom tags into
+     */
+    protected void remainingChildrenAreCustomTags(StringTree st, AbstractElement into) {
+        if (st == null || st.getChildren() == null) {
+            return;
+        }
+        for (StringTree ch : st.getChildren()) {
+            unknownTag(ch, into);
+        }
+    }
+
 }

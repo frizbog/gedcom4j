@@ -58,16 +58,22 @@ class SubmissionParser extends AbstractParser<Submission> {
                     loadInto.setSubmitter(getSubmitter(ch.getValue()));
                 } else if (Tag.FAMILY_FILE.equalsText(ch.getTag())) {
                     loadInto.setNameOfFamilyFile(parseStringWithCustomFacts(ch));
+                    remainingChildrenAreCustomTags(ch, loadInto.getNameOfFamilyFile());
                 } else if (Tag.TEMPLE.equalsText(ch.getTag())) {
                     loadInto.setTempleCode(parseStringWithCustomFacts(ch));
+                    remainingChildrenAreCustomTags(ch, loadInto.getTempleCode());
                 } else if (Tag.ANCESTORS.equalsText(ch.getTag())) {
                     loadInto.setAncestorsCount(parseStringWithCustomFacts(ch));
+                    remainingChildrenAreCustomTags(ch, loadInto.getAncestorsCount());
                 } else if (Tag.DESCENDANTS.equalsText(ch.getTag())) {
                     loadInto.setDescendantsCount(parseStringWithCustomFacts(ch));
+                    remainingChildrenAreCustomTags(ch, loadInto.getDescendantsCount());
                 } else if (Tag.ORDINANCE_PROCESS_FLAG.equalsText(ch.getTag())) {
                     loadInto.setOrdinanceProcessFlag(parseStringWithCustomFacts(ch));
+                    remainingChildrenAreCustomTags(ch, loadInto.getOrdinanceProcessFlag());
                 } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
                     loadInto.setRecIdNumber(parseStringWithCustomFacts(ch));
+                    remainingChildrenAreCustomTags(ch, loadInto.getRecIdNumber());
                 } else {
                     unknownTag(ch, loadInto);
                 }

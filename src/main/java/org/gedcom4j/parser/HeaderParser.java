@@ -66,18 +66,31 @@ class HeaderParser extends AbstractParser<Header> {
                     new SourceSystemParser(gedcomParser, ch, sourceSystem).parse();
                 } else if (Tag.DESTINATION.equalsText(ch.getTag())) {
                     loadInto.setDestinationSystem(parseStringWithCustomFacts(ch));
+                    // remainingChildrenAreCustomTags(ch, loadInto.getDestinationSystem());
                 } else if (Tag.DATE.equalsText(ch.getTag())) {
                     loadInto.setDate(parseStringWithCustomFacts(ch));
                     // one optional time subitem is the only possibility here
-                    if (ch.getChildren() != null && !ch.getChildren().isEmpty()) {
-                        loadInto.setTime(parseStringWithCustomFacts(ch.getChildren().get(0)));
+                    if (ch.getChildren() != null) {
+                        for (StringTree gch : ch.getChildren()) {
+                            if ("TIME".equals(gch.getTag())) {
+                                loadInto.setTime(parseStringWithCustomFacts(gch));
+                            } else {
+                                unknownTag(gch, loadInto.getDate());
+                            }
+                        }
                     }
                 } else if (Tag.CHARACTER_SET.equalsText(ch.getTag())) {
                     loadInto.setCharacterSet(new CharacterSet());
                     loadInto.getCharacterSet().setCharacterSetName(parseStringWithCustomFacts(ch));
-                    // one optional version subitem is the only possibility here
+                    // one optional version subitem is the only standard possibility here, but there can be custom tags
                     if (ch.getChildren() != null && !ch.getChildren().isEmpty()) {
-                        loadInto.getCharacterSet().setVersionNum(parseStringWithCustomFacts(ch.getChildren().get(0)));
+                        for (StringTree gch : ch.getChildren()) {
+                            if ("VERS".equals(gch.getTag())) {
+                                loadInto.getCharacterSet().setVersionNum(parseStringWithCustomFacts(gch));
+                            } else {
+                                unknownTag(gch, loadInto.getCharacterSet());
+                            }
+                        }
                     }
                 } else if (Tag.SUBMITTER.equalsText(ch.getTag())) {
                     loadInto.setSubmitter(getSubmitter(ch.getValue()));

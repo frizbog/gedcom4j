@@ -499,8 +499,8 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
         new RepositoryEmitter(baseWriter, 0, writeFrom.getRepositories().values()).emit();
         new SourceEmitter(baseWriter, 0, writeFrom.getSources().values()).emit();
         new SubmittersEmitter(this, 0, writeFrom.getSubmitters().values()).emit();
+        emitCustomFacts(0, writeFrom.getCustomFacts());
         emitTrailer();
-        emitCustomFacts(1, writeFrom.getCustomFacts());
     }
 
     /**

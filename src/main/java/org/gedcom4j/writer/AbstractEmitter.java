@@ -32,6 +32,7 @@ import java.util.List;
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.model.CustomFact;
+import org.gedcom4j.model.HasCustomFacts;
 import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.enumerations.SupportedVersion;
 
@@ -351,6 +352,24 @@ abstract class AbstractEmitter<T> {
                 emitTagIfValueNotNull(level + 1, "TYPE", cf.getType());
                 emitCustomFacts(level + 1, cf.getCustomFacts());
             }
+        }
+    }
+
+    /**
+     * Emit the custom facts as custom tags
+     * 
+     * @param thingWithCustomFacts
+     *            the thing with custom facts
+     * @param level
+     *            the level at which the custom facts are to be written as custom tags
+     * @throws GedcomWriterException
+     *             if the data is malformed and cannot be written
+     * @throws WriterCancelledException
+     *             if cancellation was requested during the operation
+     */
+    void emitCustomFactsOn(int level, HasCustomFacts thingWithCustomFacts) throws WriterCancelledException, GedcomWriterException {
+        if (thingWithCustomFacts != null && thingWithCustomFacts.getCustomFacts() != null) {
+            emitCustomFacts(level, thingWithCustomFacts.getCustomFacts());
         }
     }
 
