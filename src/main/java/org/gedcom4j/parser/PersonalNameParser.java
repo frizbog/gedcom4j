@@ -29,7 +29,7 @@ package org.gedcom4j.parser;
 import java.util.List;
 
 import org.gedcom4j.model.AbstractCitation;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.PersonalNameVariation;
 import org.gedcom4j.model.StringTree;
@@ -75,8 +75,8 @@ class PersonalNameParser extends AbstractParser<PersonalName> {
                     List<AbstractCitation> citations = loadInto.getCitations(true);
                     new CitationListParser(gedcomParser, ch, citations).parse();
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = loadInto.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = loadInto.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.ROMANIZED.equalsText(ch.getTag())) {
                     PersonalNameVariation pnv = new PersonalNameVariation();
                     loadInto.getRomanized(true).add(pnv);
@@ -121,8 +121,8 @@ class PersonalNameParser extends AbstractParser<PersonalName> {
                     List<AbstractCitation> citations = pnv.getCitations(true);
                     new CitationListParser(gedcomParser, ch, citations).parse();
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = pnv.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = pnv.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.TYPE.equalsText(ch.getTag())) {
                     pnv.setVariationType(parseStringWithCustomFacts(ch));
                 } else {

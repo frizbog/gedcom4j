@@ -85,7 +85,7 @@ class Multimedia551Emitter extends AbstractEmitter<Collection<Multimedia>> {
                 }
             }
             emitTagIfValueNotNull(1, "RIN", m.getRecIdNumber());
-            new NotesEmitter(baseWriter, 1, m.getNotes()).emit();
+            new NoteStructureEmitter(baseWriter, 1, m.getNoteStructures()).emit();
             new ChangeDateEmitter(baseWriter, 1, m.getChangeDate()).emit();
             emitCustomFacts(1, m.getCustomFacts());
             if (m.getBlob() != null && !m.getBlob().isEmpty()) {

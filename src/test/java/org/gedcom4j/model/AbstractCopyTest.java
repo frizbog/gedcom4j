@@ -80,7 +80,7 @@ public abstract class AbstractCopyTest {
     protected AbstractCitation getTestCitation() {
         CitationWithoutSource result = new CitationWithoutSource();
         result.getCustomFacts(true).add(getTestCustomFact());
-        result.getNotes(true).add(getTestNote());
+        result.getNoteStructures(true).add(getTestNoteStructure());
         List<String> ls = new ArrayList<>();
         ls.add("Foo");
         ls.add("Bar");
@@ -100,7 +100,7 @@ public abstract class AbstractCopyTest {
         Place p = new Place();
         p.setPlaceName("TV Land");
         result.setPlace(p);
-        result.getNotes(true).add(getTestNote());
+        result.getNoteStructures(true).add(getTestNoteStructure());
         result.setDate("11 SEP 1911");
 
         CustomFact subFact = new CustomFact("_XXXX");
@@ -111,24 +111,31 @@ public abstract class AbstractCopyTest {
     }
 
     /**
-     * Helper method to construct a test note
+     * Helper method to construct a test root-level note record
      * 
      * @return a Note
      */
-    protected Note getTestNote() {
-        Note result = new Note();
+    protected NoteRecord getTestNoteRecord() {
+        NoteRecord result = new NoteRecord("@N0001@");
         ChangeDate cd = new ChangeDate();
         cd.setDate("1 JAN 1980");
         cd.setTime("12:00 AM");
-        Note n = new Note();
-        n.getLines(true).add("Note on change date");
-        cd.getNotes(true).add(n);
         result.setChangeDate(cd);
         CustomFact n2 = new CustomFact("_QWER");
         result.getCustomFacts(true).add(n2);
         result.setRecIdNumber("YYY");
-        result.setXref("@N0001@");
         result.getLines(true).add("Test Note Line 1");
+        return result;
+    }
+
+    /**
+     * Helper method to construct a test note structure (inline note)
+     * 
+     * @return the note structure
+     */
+    protected NoteStructure getTestNoteStructure() {
+        NoteStructure result = new NoteStructure();
+        result.getLines(true).add("This is a test");
         return result;
     }
 

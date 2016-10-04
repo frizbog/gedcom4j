@@ -372,7 +372,7 @@ abstract class AbstractEmitter<T> {
                 new ChangeDateEmitter(baseWriter, level + 1, cf.getChangeDate()).emit();
                 new SourceCitationEmitter(baseWriter, level + 1, cf.getCitations()).emit();
                 emitTagIfValueNotNull(level + 1, "DATE", cf.getDate());
-                new NotesEmitter(baseWriter, level + 1, cf.getNotes()).emit();
+                new NoteStructureEmitter(baseWriter, level + 1, cf.getNoteStructures()).emit();
                 new PlaceEmitter(baseWriter, level + 1, cf.getPlace()).emit();
                 emitTagIfValueNotNull(level + 1, "TYPE", cf.getType());
                 emitCustomFacts(level + 1, cf.getCustomFacts());

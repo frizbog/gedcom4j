@@ -110,7 +110,7 @@ class FamilyEmitter extends AbstractEmitter<Collection<Family>> {
             emitTagIfValueNotNull(1, "RESN", f.getRestrictionNotice());
             new SourceCitationEmitter(baseWriter, 1, f.getCitations()).emit();
             new MultimediaLinksEmitter(baseWriter, 1, f.getMultimedia()).emit();
-            new NotesEmitter(baseWriter, 1, f.getNotes()).emit();
+            new NoteStructureEmitter(baseWriter, 1, f.getNoteStructures()).emit();
             if (f.getUserReferences() != null) {
                 for (UserReference u : f.getUserReferences()) {
                     emitTagWithRequiredValue(1, "REFN", u.getReferenceNum());
@@ -163,7 +163,7 @@ class FamilyEmitter extends AbstractEmitter<Collection<Family>> {
         emitTagIfValueNotNull(level + 1, "TEMP", sealings.getTemple());
         emitTagIfValueNotNull(level + 1, "PLAC", sealings.getPlace());
         new SourceCitationEmitter(baseWriter, level + 1, sealings.getCitations()).emit();
-        new NotesEmitter(baseWriter, level + 1, sealings.getNotes()).emit();
+        new NoteStructureEmitter(baseWriter, level + 1, sealings.getNoteStructures()).emit();
         emitCustomFacts(level + 1, sealings.getCustomFacts());
     }
 

@@ -135,7 +135,7 @@ public class PersonalNameValidatorTest extends AbstractValidatorTestCase {
     public void testNotes() {
         validator.validate();
         assertNoIssues();
-        pn.getNotes(true);
+        pn.getNoteStructures(true);
         validator.validate();
         assertNoIssues();
     }

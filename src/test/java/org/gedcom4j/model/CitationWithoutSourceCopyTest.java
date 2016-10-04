@@ -71,7 +71,7 @@ public class CitationWithoutSourceCopyTest extends AbstractCopyTest {
         orig.getCustomFacts(true).add(getTestCustomFact());
         orig.getDescription(true).add("Description Line 1");
         orig.getDescription().add("Description Line 2");
-        orig.getNotes(true).add(getTestNote());
+        orig.getNoteStructures(true).add(getTestNoteStructure());
         List<String> ls = new ArrayList<>();
         ls.add("Line 1");
         ls.add("Line 2");

@@ -35,28 +35,28 @@ import org.gedcom4j.exception.GedcomParserException;
 import org.junit.Test;
 
 /**
- * Test copy constructor for {@link Note}
+ * Test copy constructor for {@link NoteRecord}
  * 
  * @author frizbog
  */
 public class NoteCopyTest extends AbstractCopyTest {
 
     /**
-     * Test copying a null {@link Note}, which should never work
+     * Test copying a null {@link NoteRecord}, which should never work
      */
     @SuppressWarnings("unused")
     @Test(expected = NullPointerException.class)
     public void testCopyNull() {
-        new Note(null);
+        new NoteRecord((String) null);
     }
 
     /**
-     * Test the simplest possible scenario - copy a new default {@link Note}
+     * Test the simplest possible scenario - copy a new default {@link NoteRecord}
      */
     @Test
     public void testSimplestPossible() {
-        Note orig = new Note();
-        Note copy = new Note(orig);
+        NoteRecord orig = new NoteRecord("@N1@");
+        NoteRecord copy = new NoteRecord(orig);
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
@@ -66,7 +66,7 @@ public class NoteCopyTest extends AbstractCopyTest {
      */
     @Test
     public void testValues() {
-        Note orig = new Note();
+        NoteRecord orig = new NoteRecord("@N1@");
         ChangeDate changeDate = new ChangeDate();
         changeDate.setDate("01 JAN 1970");
         orig.setChangeDate(changeDate);
@@ -80,7 +80,7 @@ public class NoteCopyTest extends AbstractCopyTest {
         orig.getCustomFacts(true).add(getTestCustomFact());
 
         // Copy and compare
-        Note copy = new Note(orig);
+        NoteRecord copy = new NoteRecord(orig);
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
 
@@ -105,8 +105,8 @@ public class NoteCopyTest extends AbstractCopyTest {
     public void testWithLoadedFile() throws IOException, GedcomParserException {
         Gedcom loadedGedcom = getLoadedGedcom();
 
-        for (Note original : loadedGedcom.getNotes().values()) {
-            Note copy = new Note(original);
+        for (NoteRecord original : loadedGedcom.getNotes().values()) {
+            NoteRecord copy = new NoteRecord(original);
             assertNotSame(original, copy);
             assertEquals(original, copy);
         }

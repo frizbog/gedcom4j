@@ -28,18 +28,17 @@ package org.gedcom4j.parser;
 
 import java.util.List;
 
-import org.gedcom4j.model.ChangeDate;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteRecord;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.UserReference;
 
 /**
- * Parser for a list of {@link Note} objects
+ * Parser for a list of {@link NoteStructure} objects
  * 
  * @author frizbog
  *
  */
-class NoteListParser extends AbstractParser<List<Note>> {
+class NoteStructureListParser extends AbstractParser<List<NoteStructure>> {
 
     /**
      * Constructor
@@ -51,7 +50,7 @@ class NoteListParser extends AbstractParser<List<Note>> {
      * @param loadInto
      *            the object we are loading data into
      */
-    NoteListParser(GedcomParser gedcomParser, StringTree stringTree, List<Note> loadInto) {
+    NoteStructureListParser(GedcomParser gedcomParser, StringTree stringTree, List<NoteStructure> loadInto) {
         super(gedcomParser, stringTree, loadInto);
     }
 
@@ -60,71 +59,53 @@ class NoteListParser extends AbstractParser<List<Note>> {
      */
     @Override
     void parse() {
-        Note note;
+        NoteStructure noteStructure = new NoteStructure();
         if (stringTree.getXref() == null && referencesAnotherNode(stringTree)) {
-            // TODO - convert to NoteReference
-            note = getNote(stringTree.getValue());
-            loadInto.add(note);
-            remainingChildrenAreCustomTags(stringTree, note);
+            noteStructure.setNoteReference(getNote(stringTree.getValue()));
+            loadInto.add(noteStructure);
+            remainingChildrenAreCustomTags(stringTree, noteStructure);
             return;
         } else if (stringTree.getXref() == null) {
-            note = new Note();
-            loadInto.add(note);
-        } else {
-            if (referencesAnotherNode(stringTree)) {
-                addWarning("NOTE line has both an XREF_ID (" + stringTree.getXref() + ") and SUBMITTER_TEXT (" + stringTree
-                        .getValue() + ") value between @ signs - treating SUBMITTER_TEXT as string, not a cross-reference");
-            }
-            note = getNote(stringTree.getXref());
+            noteStructure = new NoteStructure();
+            loadInto.add(noteStructure);
+            remainingChildrenAreCustomTags(stringTree, noteStructure);
+            return;
         }
-        note.getLines(true).add(stringTree.getValue());
+        noteStructure.getLines(true).add(stringTree.getValue());
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.CONCATENATION.equalsText(ch.getTag())) {
-                    if (note.getLines().isEmpty()) {
-                        note.getLines(true).add(ch.getValue());
+                    if (noteStructure.getLines().isEmpty()) {
+                        noteStructure.getLines(true).add(ch.getValue());
                     } else {
-                        String lastNote = note.getLines().get(note.getLines().size() - 1);
+                        String lastNote = noteStructure.getLines().get(noteStructure.getLines().size() - 1);
                         if (lastNote == null || lastNote.length() == 0) {
-                            note.getLines().set(note.getLines().size() - 1, ch.getValue());
+                            noteStructure.getLines().set(noteStructure.getLines().size() - 1, ch.getValue());
                         } else {
-                            note.getLines().set(note.getLines().size() - 1, lastNote + ch.getValue());
+                            noteStructure.getLines().set(noteStructure.getLines().size() - 1, lastNote + ch.getValue());
                         }
                     }
                 } else if (Tag.CONTINUATION.equalsText(ch.getTag())) {
-                    note.getLines(true).add(ch.getValue() == null ? "" : ch.getValue());
-                } else if (Tag.SOURCE.equalsText(ch.getTag())) {
-                    new CitationListParser(gedcomParser, ch, note.getCitations(true)).parse();
-                } else if (Tag.REFERENCE.equalsText(ch.getTag())) {
-                    UserReference u = new UserReference();
-                    note.getUserReferences(true).add(u);
-                    new UserReferenceParser(gedcomParser, ch, u).parse();
-                } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
-                    note.setRecIdNumber(parseStringWithCustomFacts(ch));
-                } else if (Tag.CHANGED_DATETIME.equalsText(ch.getTag())) {
-                    ChangeDate changeDate = new ChangeDate();
-                    note.setChangeDate(changeDate);
-                    new ChangeDateParser(gedcomParser, ch, changeDate).parse();
+                    noteStructure.getLines(true).add(ch.getValue() == null ? "" : ch.getValue());
                 } else {
-                    unknownTag(ch, note);
+                    unknownTag(ch, noteStructure);
                 }
             }
         }
     }
 
     /**
-     * Get a note by its xref, adding it to the gedcom collection of notes if needed.
+     * Get a {@link NoteRecord} by its xref, adding it to the gedcom collection of notes if needed.
      * 
      * @param xref
      *            the xref of the note
      * @return the note with the specified xref
      */
-    private Note getNote(String xref) {
-        Note note;
+    private NoteRecord getNote(String xref) {
+        NoteRecord note;
         note = gedcomParser.getGedcom().getNotes().get(xref);
         if (note == null) {
-            note = new Note();
-            note.setXref(xref);
+            note = new NoteRecord(xref);
             gedcomParser.getGedcom().getNotes().put(xref, note);
         }
         return note;

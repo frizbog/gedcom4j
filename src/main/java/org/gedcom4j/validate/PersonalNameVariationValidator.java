@@ -69,7 +69,7 @@ class PersonalNameVariationValidator extends NameVariationValidator {
         mustHaveValueOrBeOmitted(pnv, "suffix");
         mustHaveValueOrBeOmitted(pnv, "surname");
         mustHaveValueOrBeOmitted(pnv, "surnamePrefix");
-        new NotesListValidator(getValidator(), pnv).validate();
+        new NoteStructureListValidator(getValidator(), pnv).validate();
     }
 
 }

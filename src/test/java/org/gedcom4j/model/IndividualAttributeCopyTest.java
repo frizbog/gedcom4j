@@ -72,7 +72,7 @@ public class IndividualAttributeCopyTest extends AbstractCopyTest {
         orig.getCustomFacts(true).add(getTestCustomFact());
         orig.setDate("DDD");
         orig.setDescription("EEE");
-        orig.getNotes(true).add(getTestNote());
+        orig.getNoteStructures(true).add(getTestNoteStructure());
         Place p = new Place();
         p.setLatitude("50.2N");
         p.setLongitude("172.4W");

@@ -592,9 +592,9 @@ public class Source extends AbstractNotesElement implements HasXref {
             builder.append(multimedia);
             builder.append(", ");
         }
-        if (getNotes() != null) {
+        if (getNoteStructures() != null) {
             builder.append("notes=");
-            builder.append(getNotes());
+            builder.append(getNoteStructures());
             builder.append(", ");
         }
         if (originatorsAuthors != null) {

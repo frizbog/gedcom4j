@@ -69,7 +69,7 @@ public class SourceDataCopyTest extends AbstractCopyTest {
         e.setEventType("Foo");
         orig.getEventsRecorded(true).add(e);
         orig.setRespAgency("Super Agency of Responsible Responsibility");
-        orig.getNotes(true).add(getTestNote());
+        orig.getNoteStructures(true).add(getTestNoteStructure());
 
         SourceData copy = new SourceData(orig);
         assertEquals(orig, copy);

@@ -34,7 +34,7 @@ import org.gedcom4j.model.CitationData;
 import org.gedcom4j.model.CitationWithSource;
 import org.gedcom4j.model.CitationWithoutSource;
 import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomFacts;
@@ -129,7 +129,7 @@ class CitationListParser extends AbstractParser<List<AbstractCitation>> {
                     cws.getTextFromSource(true).add(ls);
                     loadMultiLinesOfText(ch, ls, cws);
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    new NoteListParser(gedcomParser, ch, cws.getNotes(true)).parse();
+                    new NoteStructureListParser(gedcomParser, ch, cws.getNoteStructures(true)).parse();
                 } else {
                     unknownTag(ch, citation);
                 }
@@ -175,8 +175,8 @@ class CitationListParser extends AbstractParser<List<AbstractCitation>> {
                 } else if (Tag.QUALITY.equalsText(ch.getTag())) {
                     cws.setCertainty(parseStringWithCustomFacts(ch));
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = cws.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = cws.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
                     List<Multimedia> multimedia = cws.getMultimedia(true);
                     new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();

@@ -33,7 +33,7 @@ import org.gedcom4j.model.Address;
 import org.gedcom4j.model.FamilyChild;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.Place;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomFacts;
@@ -82,8 +82,8 @@ class IndividualEventParser extends AbstractEventParser<IndividualEvent> {
                     List<Multimedia> multimedia = loadInto.getMultimedia(true);
                     new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = loadInto.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = loadInto.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.SOURCE.equalsText(ch.getTag())) {
                     List<AbstractCitation> citations = loadInto.getCitations(true);
                     new CitationListParser(gedcomParser, ch, citations).parse();

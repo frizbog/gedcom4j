@@ -30,7 +30,7 @@ import java.util.List;
 
 import org.gedcom4j.model.Address;
 import org.gedcom4j.model.ChangeDate;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.UserReference;
@@ -90,8 +90,8 @@ class RepositoryParser extends AbstractParser<Repository> {
                                 + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = loadInto.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = loadInto.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.REFERENCE.equalsText(ch.getTag())) {
                     UserReference u = new UserReference();
                     loadInto.getUserReferences(true).add(u);

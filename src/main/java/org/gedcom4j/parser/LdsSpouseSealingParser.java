@@ -30,7 +30,7 @@ import java.util.List;
 
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.LdsSpouseSealing;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.StringTree;
 
 /**
@@ -70,8 +70,8 @@ class LdsSpouseSealingParser extends AbstractParser<LdsSpouseSealing> {
                     List<AbstractCitation> citations = loadInto.getCitations(true);
                     new CitationListParser(gedcomParser, ch, citations).parse();
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = loadInto.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = loadInto.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else {
                     unknownTag(ch, loadInto);
                 }

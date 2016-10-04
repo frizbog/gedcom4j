@@ -65,7 +65,7 @@ class PlaceEmitter extends AbstractEmitter<Place> {
         emitTagWithOptionalValue(startLevel, "PLAC", writeFrom.getPlaceName());
         emitTagIfValueNotNull(startLevel + 1, "FORM", writeFrom.getPlaceFormat());
         new SourceCitationEmitter(baseWriter, startLevel + 1, writeFrom.getCitations()).emit();
-        new NotesEmitter(baseWriter, startLevel + 1, writeFrom.getNotes()).emit();
+        new NoteStructureEmitter(baseWriter, startLevel + 1, writeFrom.getNoteStructures()).emit();
         if (writeFrom.getRomanized() != null) {
             for (AbstractNameVariation nv : writeFrom.getRomanized()) {
                 if (g55()) {

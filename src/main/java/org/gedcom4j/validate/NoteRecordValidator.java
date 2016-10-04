@@ -26,14 +26,14 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteRecord;
 
 /**
- * Validator for a single {@link Note}
+ * Validator for a single {@link NoteRecord}
  * 
  * @author frizbog
  */
-class NoteValidator extends AbstractValidator {
+class NoteRecordValidator extends AbstractValidator {
 
     /**
      * Serial Version UID
@@ -41,21 +41,21 @@ class NoteValidator extends AbstractValidator {
     private static final long serialVersionUID = 7426278912021230776L;
 
     /**
-     * The note being validated
+     * The noteRecord being validated
      */
-    private final Note note;
+    private final NoteRecord noteRecord;
 
     /**
      * Constructor
      * 
      * @param validator
      *            the main gedcom validator that holds all the findings
-     * @param note
-     *            the note being validated
+     * @param noteRecord
+     *            the noteRecord being validated
      */
-    NoteValidator(Validator validator, Note note) {
+    NoteRecordValidator(Validator validator, NoteRecord noteRecord) {
         super(validator);
-        this.note = note;
+        this.noteRecord = noteRecord;
     }
 
     /**
@@ -63,15 +63,17 @@ class NoteValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        checkUninitializedCollection(note, "lines");
-        if (note.getXref() == null && (note.getLines() == null || note.getLines().isEmpty())) {
-            newFinding(note, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "lines");
+        checkUninitializedCollection(noteRecord, "lines");
+        if (noteRecord.getXref() == null || !noteRecord.getXref().matches("^\\@\\w+\\@$")) {
+            newFinding(noteRecord, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "xref");
         }
-
-        mustHaveValueOrBeOmitted(note, "recIdNumber");
-        checkCitations(note);
-        checkUserReferences(note.getUserReferences(), note);
-        checkChangeDate(note.getChangeDate(), note);
+        if (noteRecord.getXref() == null && (noteRecord.getLines() == null || noteRecord.getLines().isEmpty())) {
+            newFinding(noteRecord, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "lines");
+        }
+        mustHaveValueOrBeOmitted(noteRecord, "recIdNumber");
+        checkCitations(noteRecord);
+        checkUserReferences(noteRecord.getUserReferences(), noteRecord);
+        checkChangeDate(noteRecord.getChangeDate(), noteRecord);
     }
 
 }

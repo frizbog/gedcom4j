@@ -77,7 +77,7 @@ class SubmitterValidator extends AbstractValidator {
         if (submitter.getAddress() != null) {
             new AddressValidator(getValidator(), submitter.getAddress()).validate();
         }
-        new NotesListValidator(getValidator(), submitter).validate();
+        new NoteStructureListValidator(getValidator(), submitter).validate();
     }
 
     /**

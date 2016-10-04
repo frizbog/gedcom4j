@@ -70,9 +70,9 @@ public class LdsSpouseSealing extends AbstractLdsOrdinance {
             builder.append(date);
             builder.append(", ");
         }
-        if (getNotes() != null) {
+        if (getNoteStructures() != null) {
             builder.append("notes=");
-            builder.append(getNotes());
+            builder.append(getNoteStructures());
             builder.append(", ");
         }
         if (place != null) {

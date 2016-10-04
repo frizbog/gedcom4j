@@ -90,7 +90,7 @@ public class HeaderCopyTest extends AbstractCopyTest {
         orig.setTime("12:34pm");
         orig.getCopyrightData(true).add("(c) 932 AD");
         orig.getCustomFacts(true).add(getTestCustomFact());
-        orig.getNotes(true).add(getTestNote());
+        orig.getNoteStructures(true).add(getTestNoteStructure());
 
         Header copy = new Header(orig);
         assertEquals(orig, copy);

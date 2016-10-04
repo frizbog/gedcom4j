@@ -76,7 +76,7 @@ public class FamilySpouseCopyTest extends AbstractCopyTest {
         f.getChildren(true).add(new IndividualReference(k));
         orig.setFamily(f);
         orig.getCustomFacts(true).add(getTestCustomFact());
-        orig.getNotes(true).add(getTestNote());
+        orig.getNoteStructures(true).add(getTestNoteStructure());
 
         FamilySpouse copy = new FamilySpouse(orig);
         assertEquals(orig, copy);

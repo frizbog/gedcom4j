@@ -30,16 +30,16 @@ import java.util.List;
 
 import org.gedcom4j.exception.ValidationException;
 import org.gedcom4j.model.ModelElement;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.validate.Validator.Finding;
 
 /**
- * A validator for lists of {@link Note} object. See {@link Validator} for usage information.
+ * A validator for lists of {@link NoteStructure} object. See {@link Validator} for usage information.
  * 
  * @author frizbog1
  * 
  */
-class NotesListValidator extends AbstractValidator {
+class NoteStructureListValidator extends AbstractValidator {
 
     /**
      * Serial Version UID
@@ -49,7 +49,7 @@ class NotesListValidator extends AbstractValidator {
     /**
      * The notes being validated
      */
-    private List<Note> notes;
+    private List<NoteStructure> notes;
 
     /**
      * The object that contains the notes
@@ -65,13 +65,13 @@ class NotesListValidator extends AbstractValidator {
      *            the object containing the notes
      */
     @SuppressWarnings("unchecked")
-    NotesListValidator(Validator validator, ModelElement parentObject) {
+    NoteStructureListValidator(Validator validator, ModelElement parentObject) {
         super(validator);
         this.parentObject = parentObject;
         try {
-            notes = (List<Note>) get(parentObject, "notes");
+            notes = (List<NoteStructure>) get(parentObject, "noteStructures");
         } catch (ClassCastException e) {
-            throw new ValidationException("Field notes on object of type " + parentObject.getClass().getName()
+            throw new ValidationException("Field notestructures on object of type " + parentObject.getClass().getName()
                     + "did not return a List<Note>", e);
         }
     }
@@ -82,28 +82,28 @@ class NotesListValidator extends AbstractValidator {
     @SuppressWarnings("unchecked")
     @Override
     protected void validate() {
-        checkUninitializedCollection(parentObject, "notes");
+        checkUninitializedCollection(parentObject, "noteStructures");
         try {
-            notes = (List<Note>) get(parentObject, "notes");
+            notes = (List<NoteStructure>) get(parentObject, "noteStructures");
         } catch (ClassCastException e) {
-            throw new ValidationException("Field notes on object of type " + parentObject.getClass().getName()
-                    + "did not return a List<Note>", e);
+            throw new ValidationException("Field noteStructures on object of type " + parentObject.getClass().getName()
+                    + "did not return a List<NoteStructure", e);
         }
         if (notes == null) {
             return;
         }
-        DuplicateHandler<Note> dhn = new DuplicateHandler<>(notes);
+        DuplicateHandler<NoteStructure> dhn = new DuplicateHandler<>(notes);
         if (dhn.count() > 0) {
-            Finding vf = newFinding(parentObject, Severity.WARNING, ProblemCode.DUPLICATE_VALUE, "notes");
+            Finding vf = newFinding(parentObject, Severity.WARNING, ProblemCode.DUPLICATE_VALUE, "noteStructures");
             if (mayRepair(vf)) {
                 ModelElement before = makeCopy(parentObject);
                 dhn.remove();
                 vf.addRepair(new AutoRepair(before, makeCopy(parentObject)));
             }
         }
-        checkForNullEntries(parentObject, "notes");
-        for (Note n : notes) {
-            new NoteValidator(getValidator(), n).validate();
+        checkForNullEntries(parentObject, "noteStructures");
+        for (NoteStructure n : notes) {
+            new NoteStructureValidator(getValidator(), n).validate();
         }
 
     }

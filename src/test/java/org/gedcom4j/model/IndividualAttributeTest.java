@@ -104,9 +104,9 @@ public class IndividualAttributeTest {
         i2.getMultimedia(true).add(new Multimedia());
         assertEquals(i1, i2);
 
-        i1.getNotes(true).add(new Note());
+        i1.getNoteStructures(true).add(new NoteStructure());
         assertFalse(i1.equals(i2));
-        i2.getNotes(true).add(new Note());
+        i2.getNoteStructures(true).add(new NoteStructure());
         assertEquals(i1, i2);
 
         i1.getPhoneNumbers(true).add(new StringWithCustomFacts("Seven"));
@@ -218,9 +218,9 @@ public class IndividualAttributeTest {
         i2.getMultimedia(true).add(new Multimedia());
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.getNotes(true).add(new Note());
+        i1.getNoteStructures(true).add(new NoteStructure());
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.getNotes(true).add(new Note());
+        i2.getNoteStructures(true).add(new NoteStructure());
         assertEquals(i1.hashCode(), i2.hashCode());
 
         i1.getPhoneNumbers(true).add(new StringWithCustomFacts("Seven"));
@@ -288,7 +288,7 @@ public class IndividualAttributeTest {
         i.getEmails(true).add(new StringWithCustomFacts("Five"));
         i.getFaxNumbers(true).add(new StringWithCustomFacts("Six"));
         i.getMultimedia(true).add(new Multimedia());
-        i.getNotes(true).add(new Note());
+        i.getNoteStructures(true).add(new NoteStructure());
         i.getPhoneNumbers(true).add(new StringWithCustomFacts("Seven"));
         i.setPlace(new Place());
         i.setReligiousAffiliation("Eight");

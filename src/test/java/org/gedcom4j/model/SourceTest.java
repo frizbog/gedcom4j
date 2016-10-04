@@ -72,9 +72,9 @@ public class SourceTest {
         s2.getMultimedia(true).add(new Multimedia());
         assertEquals(s1, s2);
 
-        s1.getNotes(true).add(new Note());
+        s1.getNoteStructures(true).add(new NoteStructure());
         assertTrue(s1.hashCode() != s2.hashCode());
-        s2.getNotes(true).add(new Note());
+        s2.getNoteStructures(true).add(new NoteStructure());
         assertEquals(s1, s2);
 
         s1.getOriginatorsAuthors(true).add("qweqwe");
@@ -151,9 +151,9 @@ public class SourceTest {
         s2.getMultimedia(true).add(new Multimedia());
         assertEquals(s1.hashCode(), s2.hashCode());
 
-        s1.getNotes(true).add(new Note());
+        s1.getNoteStructures(true).add(new NoteStructure());
         assertFalse(s1.hashCode() == s2.hashCode());
-        s2.getNotes(true).add(new Note());
+        s2.getNoteStructures(true).add(new NoteStructure());
         assertEquals(s1.hashCode(), s2.hashCode());
 
         s1.getOriginatorsAuthors(true).add("foo");
@@ -210,7 +210,7 @@ public class SourceTest {
         s1.customFacts = null;
         s1.setData(new SourceData());
         s1.getMultimedia(true).clear();
-        s1.getNotes(true).add(new Note());
+        s1.getNoteStructures(true).add(new NoteStructure());
         s1.getOriginatorsAuthors(true).clear();
         s1.getPublicationFacts(true).clear();
         s1.setRecIdNumber("Foo");

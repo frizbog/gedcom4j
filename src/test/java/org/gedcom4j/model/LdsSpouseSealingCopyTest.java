@@ -70,7 +70,7 @@ public class LdsSpouseSealingCopyTest extends AbstractCopyTest {
         orig.setPlace("B");
         orig.setStatus("C");
         orig.setStatus("D");
-        orig.getNotes(true);
+        orig.getNoteStructures(true);
         orig.customFacts = null;
 
         LdsSpouseSealing copy = new LdsSpouseSealing(orig);
@@ -78,8 +78,8 @@ public class LdsSpouseSealingCopyTest extends AbstractCopyTest {
         assertNotSame(orig, copy);
 
         assertEquals(orig.toString(), copy.toString());
-        assertNotNull(orig.getNotes());
-        assertNotNull(copy.getNotes());
+        assertNotNull(orig.getNoteStructures());
+        assertNotNull(copy.getNoteStructures());
         assertNull(orig.getCustomFacts());
         assertNull(copy.getCustomFacts());
 

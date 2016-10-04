@@ -499,7 +499,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
         } else {
             new Multimedia551Emitter(baseWriter, 0, writeFrom.getMultimedia().values()).emit();
         }
-        new NotesEmitter(baseWriter, 0, writeFrom.getNotes().values()).emit();
+        new NoteRecordEmitter(baseWriter, 0, writeFrom.getNotes().values()).emit();
         new RepositoryEmitter(baseWriter, 0, writeFrom.getRepositories().values()).emit();
         new SourceEmitter(baseWriter, 0, writeFrom.getSources().values()).emit();
         new SubmittersEmitter(this, 0, writeFrom.getSubmitters().values()).emit();

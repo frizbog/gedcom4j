@@ -32,7 +32,7 @@ import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.Address;
 import org.gedcom4j.model.IndividualAttribute;
 import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.Place;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomFacts;
@@ -118,8 +118,8 @@ class IndividualAttributeParser extends AbstractParser<IndividualAttribute> {
                     List<Multimedia> multimedia = loadInto.getMultimedia(true);
                     new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = loadInto.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = loadInto.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.CONCATENATION.equalsText(ch.getTag())) {
                     if (loadInto.getDescription() == null) {
                         loadInto.setDescription(parseStringWithCustomFacts(ch));

@@ -116,7 +116,7 @@ public class FamilyCopyTest extends AbstractCopyTest {
         Multimedia m = new Multimedia();
         m.getBlob(true).add("qwpeoklskfsekrpweoalksfnsleorpwqoewklsfjlskjfpoeriwpeori");
         orig.getMultimedia(true).add(m);
-        orig.getNotes(true).add(getTestNote());
+        orig.getNoteStructures(true).add(getTestNoteStructure());
         Submitter s = new Submitter();
         s.setName("Eloise /King/");
         orig.getSubmitters(true).add(new SubmitterReference(s));

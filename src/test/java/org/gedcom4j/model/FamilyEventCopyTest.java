@@ -66,7 +66,7 @@ public class FamilyEventCopyTest extends AbstractCopyTest {
     public void testWithValues() {
         FamilyEvent orig = new FamilyEvent();
         orig.setAddress(getTestAddress());
-        orig.getNotes(true).add(getTestNote());
+        orig.getNoteStructures(true).add(getTestNoteStructure());
         orig.getFaxNumbers(true).add(new StringWithCustomFacts("555-1212"));
         orig.getPhoneNumbers(true).add(new StringWithCustomFacts("555-1313"));
         orig.getWwwUrls(true).add(new StringWithCustomFacts("www.nowhere.com"));

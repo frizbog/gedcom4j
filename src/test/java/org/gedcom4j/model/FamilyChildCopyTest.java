@@ -80,7 +80,7 @@ public class FamilyChildCopyTest extends AbstractCopyTest {
         orig.setPedigree("OMG");
         orig.setStatus("AOK");
         orig.getCustomFacts(true).add(getTestCustomFact());
-        orig.getNotes(true).add(getTestNote());
+        orig.getNoteStructures(true).add(getTestNoteStructure());
 
         FamilyChild copy = new FamilyChild(orig);
         assertEquals(orig, copy);

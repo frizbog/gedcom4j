@@ -33,7 +33,7 @@ import org.gedcom4j.model.FamilyEvent;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.ModelElement;
 import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.enumerations.FamilyEventType;
 import org.gedcom4j.model.enumerations.IndividualEventType;
@@ -125,9 +125,9 @@ class EventValidator extends AbstractValidator {
             Finding vf = newFinding(e, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, "description");
             if (mayRepair(vf)) {
                 ModelElement before = makeCopy(e);
-                Note n = new Note();
+                NoteStructure n = new NoteStructure();
                 n.getLines(true).add(e.getDescription().getValue());
-                e.getNotes(true).add(n);
+                e.getNoteStructures(true).add(n);
                 e.getDescription().setValue(null);
                 vf.addRepair(new AutoRepair(before, makeCopy(e)));
             }
@@ -135,7 +135,7 @@ class EventValidator extends AbstractValidator {
         checkEmails(e);
         checkFaxNumbers(e);
         checkMultimedia();
-        new NotesListValidator(getValidator(), e).validate();
+        new NoteStructureListValidator(getValidator(), e).validate();
         checkPhoneNumbers(e);
         mustHaveValueOrBeOmitted(e, "religiousAffiliation");
         mustHaveValueOrBeOmitted(e, "respAgency");

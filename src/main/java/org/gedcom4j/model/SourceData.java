@@ -185,9 +185,9 @@ public class SourceData extends AbstractNotesElement {
             builder.append(eventsRecorded);
             builder.append(", ");
         }
-        if (getNotes() != null) {
+        if (getNoteStructures() != null) {
             builder.append("notes=");
-            builder.append(getNotes());
+            builder.append(getNoteStructures());
             builder.append(", ");
         }
         if (respAgency != null) {

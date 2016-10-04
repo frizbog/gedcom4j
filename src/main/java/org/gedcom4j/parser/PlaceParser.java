@@ -30,7 +30,7 @@ import java.util.List;
 
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.AbstractNameVariation;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.Place;
 import org.gedcom4j.model.PlaceNameVariation;
 import org.gedcom4j.model.StringTree;
@@ -67,8 +67,8 @@ class PlaceParser extends AbstractParser<Place> {
                     List<AbstractCitation> citations = loadInto.getCitations(true);
                     new CitationListParser(gedcomParser, ch, citations).parse();
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = loadInto.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = loadInto.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.CONCATENATION.equalsText(ch.getTag())) {
                     loadInto.setPlaceName(loadInto.getPlaceName() + (ch.getValue() == null ? "" : ch.getValue()));
                 } else if (Tag.CONTINUATION.equalsText(ch.getTag())) {

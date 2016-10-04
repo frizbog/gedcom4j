@@ -126,7 +126,7 @@ class HeaderParser extends AbstractParser<Header> {
                 } else if (Tag.PLACE.equalsText(ch.getTag())) {
                     loadInto.setPlaceHierarchy(parseStringWithCustomFacts(ch.getChildren().get(0)));
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    new NoteListParser(gedcomParser, ch, loadInto.getNotes(true)).parse();
+                    new NoteStructureListParser(gedcomParser, ch, loadInto.getNoteStructures(true)).parse();
                 } else {
                     unknownTag(ch, loadInto);
                 }

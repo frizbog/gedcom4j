@@ -40,7 +40,7 @@ import org.gedcom4j.model.IndividualAttribute;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.LdsIndividualOrdinance;
 import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.UserReference;
@@ -123,8 +123,8 @@ class IndividualParser extends AbstractParser<Individual> {
                     loadInto.getLdsIndividualOrdinances(true).add(ord);
                     new LdsIndividualOrdinanceParser(gedcomParser, ch, ord).parse();
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = loadInto.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = loadInto.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.CHANGED_DATETIME.equalsText(ch.getTag())) {
                     ChangeDate changeDate = new ChangeDate();
                     loadInto.setChangeDate(changeDate);
@@ -188,8 +188,8 @@ class IndividualParser extends AbstractParser<Individual> {
         if (st.getChildren() != null) {
             for (StringTree ch : st.getChildren()) {
                 if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = fs.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = fs.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else {
                     unknownTag(ch, fs);
                 }

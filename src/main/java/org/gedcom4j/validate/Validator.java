@@ -45,7 +45,7 @@ import org.gedcom4j.model.Header;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.ModelElement;
 import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteRecord;
 import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.Submitter;
@@ -717,7 +717,7 @@ public class Validator implements Serializable {
      * Check notes
      */
     private void checkNotes() {
-        for (Note note : gedcom.getNotes().values()) {
+        for (NoteRecord note : gedcom.getNotes().values()) {
             if (note == null) {
                 newFinding(gedcom, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, "notes");
                 continue;
@@ -726,7 +726,7 @@ public class Validator implements Serializable {
             if (!isSpecified(note.getXref())) {
                 newFinding(note, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "xref");
             }
-            new NoteValidator(this, note).validate();
+            new NoteRecordValidator(this, note).validate();
         }
     }
 

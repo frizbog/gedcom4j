@@ -555,9 +555,9 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
             builder.append(fileReferences);
             builder.append(", ");
         }
-        if (getNotes() != null) {
+        if (getNoteStructures() != null) {
             builder.append("notes=");
-            builder.append(getNotes());
+            builder.append(getNoteStructures());
             builder.append(", ");
         }
         if (recIdNumber != null) {

@@ -91,7 +91,7 @@ class HeaderValidator extends AbstractValidator {
         checkGedcomVersion();
         mustHaveValueOrBeOmitted(header, "language");
         mustBeInEnumIfSpecified(LanguageID.class, header, "language");
-        new NotesListValidator(getValidator(), header).validate();
+        new NoteStructureListValidator(getValidator(), header).validate();
         mustHaveValueOrBeOmitted(header, "placeHierarchy");
         checkSourceSystem();
         checkSubmitter();

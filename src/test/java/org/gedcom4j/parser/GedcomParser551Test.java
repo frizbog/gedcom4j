@@ -235,8 +235,8 @@ public class GedcomParser551Test {
         assertNotNull(e.getPlace());
         Place p = e.getPlace();
         assertEquals("Tarnowie, Krak\u00F3w, Poland", p.getPlaceName());
-        assertNotNull(p.getNotes());
-        assertEquals(1, p.getNotes().size());
+        assertNotNull(p.getNoteStructures());
+        assertEquals(1, p.getNoteStructures().size());
         assertNotNull(p.getPhonetic());
         assertEquals(1, p.getPhonetic().size());
         AbstractNameVariation nv = p.getPhonetic().get(0);
@@ -271,8 +271,8 @@ public class GedcomParser551Test {
         assertNotNull(e.getPlace());
         Place p = e.getPlace();
         assertEquals("Tarnowie, Krak\u00F3w, Poland", e.getPlace().getPlaceName());
-        assertNotNull(p.getNotes());
-        assertEquals(1, p.getNotes().size());
+        assertNotNull(p.getNoteStructures());
+        assertEquals(1, p.getNoteStructures().size());
 
         assertEquals("+50\u00B0 3' 1.49\"", p.getLatitude().toString());
         assertEquals("+19\u00B0 56' 21.48\"", p.getLongitude().toString());
@@ -569,8 +569,8 @@ public class GedcomParser551Test {
         assertNotNull(e.getPlace());
         Place p = e.getPlace();
         assertEquals("Tarnowie, Krak\u00F3w, Poland", e.getPlace().getPlaceName());
-        assertNotNull(p.getNotes());
-        assertEquals(1, p.getNotes().size());
+        assertNotNull(p.getNoteStructures());
+        assertEquals(1, p.getNoteStructures().size());
         assertNotNull(p.getRomanized());
         assertEquals(1, p.getRomanized().size());
         AbstractNameVariation nv = p.getRomanized().get(0);

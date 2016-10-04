@@ -110,7 +110,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
             }
             new SourceCitationEmitter(baseWriter, 1, i.getCitations()).emit();
             new MultimediaLinksEmitter(baseWriter, 1, i.getMultimedia()).emit();
-            new NotesEmitter(baseWriter, 1, i.getNotes()).emit();
+            new NoteStructureEmitter(baseWriter, 1, i.getNoteStructures()).emit();
             emitTagIfValueNotNull(1, "RFN", i.getPermanentRecFileNumber());
             emitTagIfValueNotNull(1, "AFN", i.getAncestralFileNumber());
             if (i.getUserReferences() != null) {
@@ -142,7 +142,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                 emitTagWithRequiredValue(level, "ASSO", a.getAssociatedEntityXref());
                 emitTagWithRequiredValue(level + 1, "TYPE", a.getAssociatedEntityType());
                 emitTagWithRequiredValue(level + 1, "RELA", a.getRelationship());
-                new NotesEmitter(baseWriter, level + 1, a.getNotes()).emit();
+                new NoteStructureEmitter(baseWriter, level + 1, a.getNoteStructures()).emit();
                 new SourceCitationEmitter(baseWriter, level + 1, a.getCitations()).emit();
                 emitCustomFacts(level + 1, a.getCustomFacts());
             }
@@ -171,7 +171,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                 emitTagWithRequiredValue(level, "FAMC", familyChild.getFamily().getXref());
                 emitTagIfValueNotNull(level + 1, "PEDI", familyChild.getPedigree());
                 emitTagIfValueNotNull(level + 1, "STAT", familyChild.getStatus());
-                new NotesEmitter(baseWriter, level + 1, familyChild.getNotes()).emit();
+                new NoteStructureEmitter(baseWriter, level + 1, familyChild.getNoteStructures()).emit();
                 emitCustomFacts(level + 1, familyChild.getCustomFacts());
             }
         }
@@ -259,7 +259,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                     emitTagWithRequiredValue(level + 1, "FAMC", o.getFamilyWhereChild().getFamily().getXref());
                 }
                 new SourceCitationEmitter(baseWriter, level + 1, o.getCitations()).emit();
-                new NotesEmitter(baseWriter, level + 1, o.getNotes()).emit();
+                new NoteStructureEmitter(baseWriter, level + 1, o.getNoteStructures()).emit();
                 emitCustomFacts(level + 1, o.getCustomFacts());
             }
         }
@@ -296,7 +296,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                     }
                 }
                 new SourceCitationEmitter(baseWriter, level + 1, n.getCitations()).emit();
-                new NotesEmitter(baseWriter, level + 1, n.getNotes()).emit();
+                new NoteStructureEmitter(baseWriter, level + 1, n.getNoteStructures()).emit();
                 emitCustomFacts(level + 1, n.getCustomFacts());
             }
         }
@@ -323,7 +323,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
         emitTagIfValueNotNull(level + 1, "SURN", pnv.getSurname());
         emitTagIfValueNotNull(level + 1, "NSFX", pnv.getSuffix());
         new SourceCitationEmitter(baseWriter, level + 1, pnv.getCitations()).emit();
-        new NotesEmitter(baseWriter, level + 1, pnv.getNotes()).emit();
+        new NoteStructureEmitter(baseWriter, level + 1, pnv.getNoteStructures()).emit();
         emitCustomFacts(level + 1, pnv.getCustomFacts());
     }
 
@@ -347,7 +347,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                     throw new GedcomWriterException("Family in which " + i + " was a spouse had a null family reference");
                 }
                 emitTagWithRequiredValue(level, "FAMS", familySpouse.getFamily().getXref());
-                new NotesEmitter(baseWriter, level + 1, familySpouse.getNotes()).emit();
+                new NoteStructureEmitter(baseWriter, level + 1, familySpouse.getNoteStructures()).emit();
                 emitCustomFacts(level + 1, familySpouse.getCustomFacts());
             }
         }

@@ -35,7 +35,7 @@ import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.parser.GedcomParser;
 import org.junit.Before;
@@ -88,8 +88,8 @@ public class Issue81ReaderTest {
         assertNotNull(i);
         assertEquals(2, i.getEvents().size());
         IndividualEvent e = i.getEvents().get(1);
-        assertEquals(1, e.getNotes().size());
-        Note note = e.getNotes().get(0);
+        assertEquals(1, e.getNoteStructures().size());
+        NoteStructure note = e.getNoteStructures().get(0);
         assertEquals(6, note.getLines().size());
 
         assertEquals("Sa grand-m\u00E8re l'a nourrie car sa m\u00E8re \u00E9tait plac\u00E9e nourrice dans une famille de riches. "

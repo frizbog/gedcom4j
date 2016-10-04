@@ -30,7 +30,7 @@ import org.gedcom4j.Options;
 import org.junit.Test;
 
 /**
- * Test for {@link NotesListValidator}
+ * Test for {@link NoteStructureListValidator}
  * 
  * @author frizbog
  *
@@ -43,7 +43,7 @@ public class NotesListValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testNullNotesList() {
         Options.setCollectionInitializationEnabled(true);
-        new NotesListValidator(validator, gedcom.getHeader()).validate();
+        new NoteStructureListValidator(validator, gedcom.getHeader()).validate();
         assertFindingsContain(Severity.INFO, gedcom.getHeader(), ProblemCode.UNINITIALIZED_COLLECTION.getCode(), "notes");
         Options.setCollectionInitializationEnabled(false);
     }

@@ -64,7 +64,7 @@ class RepositoryEmitter extends AbstractEmitter<Collection<Repository>> {
             emitTag(0, r.getXref(), "REPO");
             emitTagIfValueNotNull(1, "NAME", r.getName());
             new AddressEmitter(baseWriter, 1, r.getAddress()).emit();
-            new NotesEmitter(baseWriter, 1, r.getNotes()).emit();
+            new NoteStructureEmitter(baseWriter, 1, r.getNoteStructures()).emit();
             if (r.getUserReferences() != null) {
                 for (UserReference u : r.getUserReferences()) {
                     emitTagWithRequiredValue(1, "REFN", u.getReferenceNum());

@@ -30,7 +30,7 @@ import java.util.List;
 
 import org.gedcom4j.model.FileReference;
 import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomFacts;
 
@@ -144,8 +144,8 @@ class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
                 } else if (Tag.FILE.equalsText(ch.getTag())) {
                     currentFileRef.setReferenceToFile(parseStringWithCustomFacts(ch));
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = m.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = m.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else {
                     unknownTag(ch, m);
                 }
@@ -177,8 +177,8 @@ class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
                         }
                     }
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = m.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = m.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                     if (!g55()) {
                         addWarning("Gedcom version was 5.5.1, but a NOTE was found on a multimedia link on line " + ch.getLineNum()
                                 + ", which is no longer supported. "

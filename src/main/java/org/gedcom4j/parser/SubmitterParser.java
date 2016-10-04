@@ -31,7 +31,7 @@ import java.util.List;
 import org.gedcom4j.model.Address;
 import org.gedcom4j.model.ChangeDate;
 import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.Submitter;
 
@@ -103,8 +103,8 @@ class SubmitterParser extends AbstractParser<Submitter> {
                 } else if (Tag.REGISTRATION_FILE_NUMBER.equalsText(ch.getTag())) {
                     loadInto.setRegFileNumber(parseStringWithCustomFacts(ch));
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = loadInto.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = loadInto.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else {
                     unknownTag(ch, loadInto);
                 }

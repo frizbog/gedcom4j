@@ -29,7 +29,7 @@ package org.gedcom4j.model;
 import java.util.List;
 
 /**
- * Marks an object that has notes.
+ * Marks an object that has note strucutres (inline notes, or references to root level notes - see {@link NoteStructure})
  * 
  * @author Mark A Sikes
  */
@@ -39,7 +39,7 @@ public interface HasNotes extends ModelElement {
      * 
      * @return the notes on this object
      */
-    List<Note> getNotes();
+    List<NoteStructure> getNoteStructures();
 
     /**
      * Get the notes on this object, initializing the collection if needed
@@ -48,5 +48,5 @@ public interface HasNotes extends ModelElement {
      *            set to true if you want the backing collection to be instantiated/initialized if it is currently null
      * @return the notes on this object, or null if there are none and <tt>initializeIfNeeded</tt> is false
      */
-    List<Note> getNotes(boolean initializeIfNeeded);
+    List<NoteStructure> getNoteStructures(boolean initializeIfNeeded);
 }

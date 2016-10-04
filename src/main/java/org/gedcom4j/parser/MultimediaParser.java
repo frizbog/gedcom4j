@@ -33,7 +33,7 @@ import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.ChangeDate;
 import org.gedcom4j.model.FileReference;
 import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.UserReference;
 
@@ -107,8 +107,8 @@ class MultimediaParser extends AbstractParser<Multimedia> {
                 } else if (Tag.TITLE.equalsText(ch.getTag())) {
                     loadInto.setEmbeddedTitle(parseStringWithCustomFacts(ch));
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = loadInto.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = loadInto.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.SOURCE.equalsText(ch.getTag())) {
                     List<AbstractCitation> citations = loadInto.getCitations(true);
                     new CitationListParser(gedcomParser, ch, citations).parse();
@@ -160,8 +160,8 @@ class MultimediaParser extends AbstractParser<Multimedia> {
                     m.getFileReferences(true).add(fr);
                     new FileReference551Parser(gedcomParser, ch, fr).parse();
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = m.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = m.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.SOURCE.equalsText(ch.getTag())) {
                     List<AbstractCitation> citations = m.getCitations(true);
                     new CitationListParser(gedcomParser, ch, citations).parse();

@@ -99,11 +99,11 @@ public class CitationWithoutSource extends AbstractCitation {
         } else if (!description.equals(other.description)) {
             return false;
         }
-        if (getNotes() == null) {
-            if (other.getNotes() != null) {
+        if (getNoteStructures() == null) {
+            if (other.getNoteStructures() != null) {
                 return false;
             }
-        } else if (!getNotes().equals(other.getNotes())) {
+        } else if (!getNoteStructures().equals(other.getNoteStructures())) {
             return false;
         }
         if (textFromSource == null) {
@@ -170,7 +170,7 @@ public class CitationWithoutSource extends AbstractCitation {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + (description == null ? 0 : description.hashCode());
-        result = prime * result + (getNotes() == null ? 0 : getNotes().hashCode());
+        result = prime * result + (getNoteStructures() == null ? 0 : getNoteStructures().hashCode());
         result = prime * result + (textFromSource == null ? 0 : textFromSource.hashCode());
         return result;
     }
@@ -202,9 +202,9 @@ public class CitationWithoutSource extends AbstractCitation {
             builder.append(getTextFromSource());
             builder.append(", ");
         }
-        if (getNotes() != null) {
+        if (getNoteStructures() != null) {
             builder.append("getNotes()=");
-            builder.append(getNotes());
+            builder.append(getNoteStructures());
             builder.append(", ");
         }
         if (getCustomFacts() != null) {

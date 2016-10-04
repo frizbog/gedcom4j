@@ -46,7 +46,7 @@ import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualAttribute;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.Place;
 import org.gedcom4j.model.Repository;
@@ -872,7 +872,7 @@ public class FamilyHistorianAdapterTest {
         CustomFact w1 = witnessNames.get(0);
         assertEquals("Wally Witness", w1.getDescription().getValue());
         assertEquals("Disinterested Observer", w1.getCustomFactsWithTag("ROLE").get(0).getDescription().getValue());
-        assertEquals("It was sorta awkward", w1.getNotes().get(0).getLines().get(0));
+        assertEquals("It was sorta awkward", w1.getNoteStructures().get(0).getLines().get(0));
     }
 
     /**
@@ -898,7 +898,7 @@ public class FamilyHistorianAdapterTest {
         CustomFact w1 = witnessRefs.get(0);
         assertEquals("@I3@", w1.getDescription().getValue());
         assertEquals("Birthing Coach", w1.getCustomFactsWithTag("ROLE").get(0).getDescription().getValue());
-        assertEquals("Passed out during delivery", w1.getNotes().get(0).getLines().get(0));
+        assertEquals("Passed out during delivery", w1.getNoteStructures().get(0).getLines().get(0));
     }
 
     /**
@@ -1116,16 +1116,16 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Test for {@link FamilyHistorianAdapter#getMultimediaNoteArea(Note)} and
-     * {@link FamilyHistorianAdapter#setMultimediaNoteArea(Note, String)}
+     * Test for {@link FamilyHistorianAdapter#getMultimediaNoteArea(NoteStructure)} and
+     * {@link FamilyHistorianAdapter#setMultimediaNoteArea(NoteStructure, String)}
      */
     @Test
     public void testMultimediaNoteArea() {
         Multimedia mm = gedcomWithCustomTags.getMultimedia().get("@O1@");
-        assertNotNull(mm.getNotes());
-        assertEquals(1, mm.getNotes().size());
+        assertNotNull(mm.getNoteStructures());
+        assertEquals(1, mm.getNoteStructures().size());
 
-        Note n = mm.getNotes().get(0);
+        NoteStructure n = mm.getNoteStructures().get(0);
 
         assertEquals("{154,46,243,127}", fha.getMultimediaNoteArea(n));
 
@@ -1137,16 +1137,16 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Test for {@link FamilyHistorianAdapter#getMultimediaNoteASID(Note)} and
-     * {@link FamilyHistorianAdapter#setMultimediaNoteASID(Note, String)} (whatever an ASID is...)
+     * Test for {@link FamilyHistorianAdapter#getMultimediaNoteASID(NoteStructure)} and
+     * {@link FamilyHistorianAdapter#setMultimediaNoteASID(NoteStructure, String)} (whatever an ASID is...)
      */
     @Test
     public void testMultimediaNoteASID() {
         Multimedia mm = gedcomWithCustomTags.getMultimedia().get("@O1@");
-        assertNotNull(mm.getNotes());
-        assertEquals(1, mm.getNotes().size());
+        assertNotNull(mm.getNoteStructures());
+        assertEquals(1, mm.getNoteStructures().size());
 
-        Note n = mm.getNotes().get(0);
+        NoteStructure n = mm.getNoteStructures().get(0);
 
         assertEquals("1", fha.getMultimediaNoteASID(n));
 
@@ -1158,16 +1158,16 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Test for {@link FamilyHistorianAdapter#getMultimediaNoteCaption(Note)} and
-     * {@link FamilyHistorianAdapter#setMultimediaNoteCaption(Note, String)}
+     * Test for {@link FamilyHistorianAdapter#getMultimediaNoteCaption(NoteStructure)} and
+     * {@link FamilyHistorianAdapter#setMultimediaNoteCaption(NoteStructure, String)}
      */
     @Test
     public void testMultimediaNoteCaption() {
         Multimedia mm = gedcomWithCustomTags.getMultimedia().get("@O1@");
-        assertNotNull(mm.getNotes());
-        assertEquals(1, mm.getNotes().size());
+        assertNotNull(mm.getNoteStructures());
+        assertEquals(1, mm.getNoteStructures().size());
 
-        Note n = mm.getNotes().get(0);
+        NoteStructure n = mm.getNoteStructures().get(0);
 
         assertEquals("Y", fha.getMultimediaNoteCaption(n));
 
@@ -1179,16 +1179,16 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Test for {@link FamilyHistorianAdapter#getMultimediaNoteExclusion(Note)} and
-     * {@link FamilyHistorianAdapter#setMultimediaNoteExclusion(Note, String)}
+     * Test for {@link FamilyHistorianAdapter#getMultimediaNoteExclusion(NoteStructure)} and
+     * {@link FamilyHistorianAdapter#setMultimediaNoteExclusion(NoteStructure, String)}
      */
     @Test
     public void testMultimediaNoteExclusion() {
         Multimedia mm = gedcomWithCustomTags.getMultimedia().get("@O1@");
-        assertNotNull(mm.getNotes());
-        assertEquals(1, mm.getNotes().size());
+        assertNotNull(mm.getNoteStructures());
+        assertEquals(1, mm.getNoteStructures().size());
 
-        Note n = mm.getNotes().get(0);
+        NoteStructure n = mm.getNoteStructures().get(0);
 
         assertEquals("ALL", fha.getMultimediaNoteExclusion(n));
 

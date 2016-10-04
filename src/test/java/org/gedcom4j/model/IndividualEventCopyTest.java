@@ -73,7 +73,7 @@ public class IndividualEventCopyTest extends AbstractCopyTest {
         FamilyChild fc = new FamilyChild();
         fc.setStatus("XXX");
         orig.setFamily(fc);
-        orig.getNotes(true).add(getTestNote());
+        orig.getNoteStructures(true).add(getTestNoteStructure());
         orig.getFaxNumbers(true).add(new StringWithCustomFacts("555-1212"));
         orig.getPhoneNumbers(true).add(new StringWithCustomFacts("555-1313"));
         orig.getWwwUrls(true).add(new StringWithCustomFacts("www.nowhere.com"));

@@ -26,15 +26,21 @@
  */
 package org.gedcom4j.writer;
 
+import java.util.Collection;
+
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
-import org.gedcom4j.model.ChangeDate;
+import org.gedcom4j.model.NoteRecord;
+import org.gedcom4j.model.UserReference;
 
 /**
+ * Emitter for {@link NoteRecord}s.
+ * 
  * @author frizbog
  *
  */
-class ChangeDateEmitter extends AbstractEmitter<ChangeDate> {
+class NoteRecordEmitter extends AbstractEmitter<Collection<NoteRecord>> {
+
     /**
      * Constructor
      * 
@@ -42,13 +48,13 @@ class ChangeDateEmitter extends AbstractEmitter<ChangeDate> {
      *            The base Gedcom writer class this Emitter is partnering with to emit the entire file
      * @param startLevel
      *            write starting at this level
-     * @param writeFrom
+     * @param collection
      *            object to write
      * @throws WriterCancelledException
      *             if cancellation was requested during the operation
      */
-    ChangeDateEmitter(GedcomWriter baseWriter, int startLevel, ChangeDate writeFrom) throws WriterCancelledException {
-        super(baseWriter, startLevel, writeFrom);
+    NoteRecordEmitter(GedcomWriter baseWriter, int startLevel, Collection<NoteRecord> collection) throws WriterCancelledException {
+        super(baseWriter, startLevel, collection);
     }
 
     /**
@@ -57,12 +63,38 @@ class ChangeDateEmitter extends AbstractEmitter<ChangeDate> {
     @Override
     protected void emit() throws GedcomWriterException {
         if (writeFrom != null) {
-            emitTag(startLevel, "CHAN");
-            emitTagWithRequiredValue(startLevel + 1, "DATE", writeFrom.getDate());
-            emitTagIfValueNotNull(startLevel + 2, "TIME", writeFrom.getTime());
-            new NoteStructureEmitter(baseWriter, startLevel + 1, writeFrom.getNoteStructures()).emit();
-            emitCustomFacts(startLevel + 1, writeFrom.getCustomFacts());
+            for (NoteRecord n : writeFrom) {
+                emitNoteRecord(n);
+                if (baseWriter.isCancelled()) {
+                    throw new WriterCancelledException("Construction and writing of GEDCOM cancelled");
+                }
+            }
         }
+    }
+
+    /**
+     * Emit a note structure (possibly multi-line)
+     * 
+     * @param note
+     *            the note structure
+     * @throws GedcomWriterException
+     *             if the data is malformed and cannot be written
+     */
+    private void emitNoteRecord(NoteRecord note) throws GedcomWriterException {
+        if (note.getXref() == null || note.getXref().trim().isEmpty()) {
+            throw new GedcomWriterException(NoteRecord.class.getName() + " has no xref");
+        }
+        emitLinesOfText(0, note.getXref(), "NOTE", note.getLines());
+        new SourceCitationEmitter(baseWriter, 1, note.getCitations()).emit();
+        if (note.getUserReferences() != null) {
+            for (UserReference u : note.getUserReferences()) {
+                emitTagWithRequiredValue(1, "REFN", u.getReferenceNum());
+                emitTagIfValueNotNull(2, "TYPE", u.getType());
+            }
+        }
+        emitTagIfValueNotNull(1, "RIN", note.getRecIdNumber());
+        new ChangeDateEmitter(baseWriter, 1, note.getChangeDate()).emit();
+        emitCustomFacts(1, note.getCustomFacts());
     }
 
 }

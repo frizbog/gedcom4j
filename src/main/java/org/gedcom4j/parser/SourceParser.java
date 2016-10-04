@@ -31,7 +31,7 @@ import java.util.List;
 import org.gedcom4j.model.ChangeDate;
 import org.gedcom4j.model.EventRecorded;
 import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.RepositoryCitation;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.SourceCallNumber;
@@ -81,8 +81,8 @@ class SourceParser extends AbstractParser<Source> {
                 } else if (Tag.REPOSITORY.equalsText(ch.getTag())) {
                     loadInto.setRepositoryCitation(loadRepositoryCitation(ch));
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = loadInto.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = loadInto.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
                     List<Multimedia> multimedia = loadInto.getMultimedia(true);
                     new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
@@ -116,8 +116,8 @@ class SourceParser extends AbstractParser<Source> {
         if (repo.getChildren() != null) {
             for (StringTree ch : repo.getChildren()) {
                 if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = r.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = r.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.CALL_NUMBER.equalsText(ch.getTag())) {
                     SourceCallNumber scn = new SourceCallNumber();
                     r.getCallNumbers(true).add(scn);
@@ -153,8 +153,8 @@ class SourceParser extends AbstractParser<Source> {
                 if (Tag.EVENT.equalsText(ch.getTag())) {
                     loadSourceDataEventRecorded(ch, sourceData);
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = sourceData.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = sourceData.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.AGENCY.equalsText(ch.getTag())) {
                     sourceData.setRespAgency(parseStringWithCustomFacts(ch));
                 } else {

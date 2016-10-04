@@ -409,9 +409,9 @@ public class Place extends AbstractNotesElement implements HasCitations {
             builder.append(longitude);
             builder.append(", ");
         }
-        if (getNotes() != null) {
+        if (getNoteStructures() != null) {
             builder.append("notes=");
-            builder.append(getNotes());
+            builder.append(getNoteStructures());
             builder.append(", ");
         }
         if (phonetic != null) {

@@ -83,7 +83,7 @@ public class MultimediaCopyTest extends AbstractCopyTest {
         fr.setReferenceToFile("foo.mpg");
         fr.setTitle("Super movie!");
         orig.getFileReferences(true).add(fr);
-        orig.getNotes(true).add(getTestNote());
+        orig.getNoteStructures(true).add(getTestNoteStructure());
         UserReference u = new UserReference();
         u.setReferenceNum("123");
         orig.getUserReferences(true).add(u);

@@ -96,7 +96,7 @@ public class IndividualAttributeValidator extends AbstractValidator {
         checkEmails(ia);
         checkFaxNumbers(ia);
         checkMultimedia();
-        new NotesListValidator(getValidator(), ia).validate();
+        new NoteStructureListValidator(getValidator(), ia).validate();
         checkPhoneNumbers(ia);
         mustHaveValueOrBeOmitted(ia, "religiousAffiliation");
         mustHaveValueOrBeOmitted(ia, "respAgency");

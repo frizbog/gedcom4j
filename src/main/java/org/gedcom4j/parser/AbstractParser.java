@@ -35,6 +35,7 @@ import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.HasCustomFacts;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.NoteRecord;
 import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.StringTree;
@@ -49,6 +50,7 @@ import org.gedcom4j.model.enumerations.SupportedVersion;
  *            The type of object this parser can load into
  * @author frizbog
  */
+@SuppressWarnings("PMD.GodClass")
 abstract class AbstractParser<T> {
     /** The {@link StringTree} to be parsed */
     protected final StringTree stringTree;
@@ -158,6 +160,23 @@ abstract class AbstractParser<T> {
             gedcomParser.getGedcom().getMultimedia().put(xref, m);
         }
         return m;
+    }
+
+    /**
+     * Get a note record by their xref, adding them to the gedcom collection of {@link NoteRecord}s if needed.
+     * 
+     * @param xref
+     *            the xref of the note record
+     * @return the note record with the specified xref
+     */
+    protected NoteRecord getNoteRecord(String xref) {
+        NoteRecord nr;
+        nr = gedcomParser.getGedcom().getNotes().get(xref);
+        if (nr == null) {
+            nr = new NoteRecord(xref);
+            gedcomParser.getGedcom().getNotes().put(xref, nr);
+        }
+        return nr;
     }
 
     /**

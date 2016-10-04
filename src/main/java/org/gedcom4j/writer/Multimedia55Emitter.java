@@ -69,7 +69,7 @@ class Multimedia55Emitter extends AbstractEmitter<Collection<Multimedia>> {
             emitTag(0, m.getXref(), "OBJE");
             emitTagWithRequiredValue(1, "FORM", m.getEmbeddedMediaFormat());
             emitTagIfValueNotNull(1, "TITL", m.getEmbeddedTitle());
-            new NotesEmitter(baseWriter, 1, m.getNotes()).emit();
+            new NoteStructureEmitter(baseWriter, 1, m.getNoteStructures()).emit();
             emitTag(1, "BLOB");
             for (String b : m.getBlob()) {
                 emitTagWithRequiredValue(2, "CONT", b);

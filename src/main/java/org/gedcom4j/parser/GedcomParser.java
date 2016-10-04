@@ -44,7 +44,7 @@ import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteRecord;
 import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.StringTree;
@@ -542,11 +542,8 @@ public class GedcomParser extends AbstractParser<Gedcom> {
             }
             new SubmissionParser(this, rootLevelItem, s).parse();
         } else if (Tag.NOTE.equalsText(rootLevelItem.getTag())) {
-            List<Note> dummyList = new ArrayList<>();
-            new NoteListParser(this, rootLevelItem, dummyList).parse();
-            if (!dummyList.isEmpty()) {
-                throw new GedcomParserException("At root level NOTE structures should have @ID@'s");
-            }
+            NoteRecord nr = getNoteRecord(rootLevelItem.getXref());
+            new NoteRecordListParser(this, rootLevelItem, nr).parse();
         } else if (Tag.FAMILY.equalsText(rootLevelItem.getTag())) {
             Family f = getFamily(rootLevelItem.getXref());
             new FamilyParser(this, rootLevelItem, f).parse();

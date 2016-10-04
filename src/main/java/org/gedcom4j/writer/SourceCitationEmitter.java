@@ -95,7 +95,7 @@ class SourceCitationEmitter extends AbstractEmitter<List<AbstractCitation>> {
                 emitLinesOfText(level + 1, "TEXT", linesOfText);
             }
         }
-        new NotesEmitter(baseWriter, level + 1, cws.getNotes()).emit();
+        new NoteStructureEmitter(baseWriter, level + 1, cws.getNoteStructures()).emit();
         emitCustomFacts(level + 1, cws.getCustomFacts());
     }
 
@@ -129,7 +129,7 @@ class SourceCitationEmitter extends AbstractEmitter<List<AbstractCitation>> {
         }
         emitTagIfValueNotNull(level + 1, "QUAY", cws.getCertainty());
         new MultimediaLinksEmitter(baseWriter, level + 1, cws.getMultimedia()).emit();
-        new NotesEmitter(baseWriter, level + 1, cws.getNotes()).emit();
+        new NoteStructureEmitter(baseWriter, level + 1, cws.getNoteStructures()).emit();
         emitCustomFacts(level + 1, cws.getCustomFacts());
     }
 

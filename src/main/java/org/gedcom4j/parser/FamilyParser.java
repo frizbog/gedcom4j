@@ -36,7 +36,7 @@ import org.gedcom4j.model.FamilyEvent;
 import org.gedcom4j.model.IndividualReference;
 import org.gedcom4j.model.LdsSpouseSealing;
 import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.SubmitterReference;
 import org.gedcom4j.model.UserReference;
@@ -112,8 +112,8 @@ class FamilyParser extends AbstractParser<Family> {
                     loadInto.setChangeDate(changeDate);
                     new ChangeDateParser(gedcomParser, ch, changeDate).parse();
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = loadInto.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = loadInto.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.RESTRICTION.equalsText(ch.getTag())) {
                     loadInto.setRestrictionNotice(parseStringWithCustomFacts(ch));
                     if (g55()) {

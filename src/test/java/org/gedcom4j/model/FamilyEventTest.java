@@ -176,10 +176,10 @@ public class FamilyEventTest {
         FamilyEvent e1 = new FamilyEvent();
         FamilyEvent e2 = new FamilyEvent();
 
-        e1.getNotes(true);
+        e1.getNoteStructures(true);
         assertFalse(e1.equals(e2));
         assertFalse(e1.hashCode() == e2.hashCode());
-        e2.getNotes(true);
+        e2.getNoteStructures(true);
         assertTrue(e1.equals(e2));
         assertTrue(e1.hashCode() == e2.hashCode());
     }

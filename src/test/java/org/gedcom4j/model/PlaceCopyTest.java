@@ -66,7 +66,7 @@ public class PlaceCopyTest extends AbstractCopyTest {
         Place orig = new Place();
         orig.setLatitude("38N");
         orig.setLatitude("175W");
-        orig.getNotes(true).add(getTestNote());
+        orig.getNoteStructures(true).add(getTestNoteStructure());
         orig.setPlaceFormat("FooFormat");
         orig.setPlaceName("Some place");
         orig.getCitations(true).add(getTestCitation());

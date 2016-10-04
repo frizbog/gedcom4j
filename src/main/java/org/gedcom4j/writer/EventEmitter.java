@@ -69,7 +69,7 @@ class EventEmitter extends AbstractEmitter<AbstractEvent> {
         emitTagIfValueNotNull(startLevel, "RESN", writeFrom.getRestrictionNotice());
         new SourceCitationEmitter(baseWriter, startLevel, writeFrom.getCitations()).emit();
         new MultimediaLinksEmitter(baseWriter, startLevel, writeFrom.getMultimedia()).emit();
-        new NotesEmitter(baseWriter, startLevel, writeFrom.getNotes()).emit();
+        new NoteStructureEmitter(baseWriter, startLevel, writeFrom.getNoteStructures()).emit();
         emitCustomFacts(startLevel, writeFrom.getCustomFacts());
     }
 

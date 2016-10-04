@@ -70,7 +70,7 @@ class PlaceValidator extends AbstractValidator {
 
         mustHaveValueOrBeOmitted(place, "latitude");
         mustHaveValueOrBeOmitted(place, "longitude");
-        new NotesListValidator(getValidator(), place).validate();
+        new NoteStructureListValidator(getValidator(), place).validate();
         mustHaveValueOrBeOmitted(place, "placeFormat");
         if (place.getPlaceName() == null) {
             newFinding(place, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "placeName");

@@ -171,7 +171,7 @@ public class StringTreeTest {
             assertNotNull(m.toString());
             assertFalse(0 == m.hashCode());
         }
-        for (Note n : g.getNotes().values()) {
+        for (NoteRecord n : g.getNotes().values()) {
             assertNotNull(n.getCustomFacts(true).toString());
             assertFalse(0 == n.getCustomFacts().hashCode());
 

@@ -175,9 +175,9 @@ public class RepositoryCitation extends AbstractNotesElement {
             builder.append(callNumbers);
             builder.append(", ");
         }
-        if (getNotes() != null) {
+        if (getNoteStructures() != null) {
             builder.append("notes=");
-            builder.append(getNotes());
+            builder.append(getNoteStructures());
             builder.append(", ");
         }
         if (repositoryXref != null) {

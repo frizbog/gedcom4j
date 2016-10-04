@@ -289,7 +289,7 @@ public class GedcomWriter551Test {
         assertNotNull(m2);
         assertNull(m2.getEmbeddedMediaFormat());
         assertNull(m2.getChangeDate());
-        assertTrue(m2.getNotes(true).isEmpty());
+        assertTrue(m2.getNoteStructures(true).isEmpty());
         assertEquals(2, m2.getFileReferences().size());
 
         fr = m2.getFileReferences().get(0);

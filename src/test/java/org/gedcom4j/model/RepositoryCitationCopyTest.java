@@ -66,13 +66,9 @@ public class RepositoryCitationCopyTest extends AbstractCopyTest {
     public void testWithValues() {
         RepositoryCitation orig = new RepositoryCitation();
         orig.setRepositoryXref("ABC");
-        Note n = new Note();
+        NoteStructure n = new NoteStructure();
         n.getLines(true).add("Frying Pan");
-        UserReference u = new UserReference();
-        u.setReferenceNum("XYZ");
-        u.setType("123");
-        n.getUserReferences(true).add(u);
-        orig.getNotes(true).add(n);
+        orig.getNoteStructures(true).add(n);
 
         RepositoryCitation copy = new RepositoryCitation(orig);
         assertEquals(orig, copy);
@@ -80,8 +76,8 @@ public class RepositoryCitationCopyTest extends AbstractCopyTest {
 
         assertEquals(orig.toString(), copy.toString());
 
-        orig.getNotes().clear();
-        assertFalse("Copy should not change when original changes", copy.getNotes().isEmpty());
+        orig.getNoteStructures().clear();
+        assertFalse("Copy should not change when original changes", copy.getNoteStructures().isEmpty());
     }
 
 }

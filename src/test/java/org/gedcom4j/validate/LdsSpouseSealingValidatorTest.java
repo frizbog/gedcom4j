@@ -145,7 +145,7 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.getLdsSpouseSealings(true).add(s);
 
-        s.getNotes(true).clear();
+        s.getNoteStructures(true).clear();
         validator.validate();
         assertNoIssues();
     }

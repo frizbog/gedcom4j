@@ -30,7 +30,7 @@ import java.util.List;
 
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyChild;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.enumerations.AdoptedByWhichParent;
 
@@ -62,8 +62,8 @@ class FamilyChildParser extends AbstractParser<FamilyChild> {
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = loadInto.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = loadInto.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.PEDIGREE.equalsText(ch.getTag())) {
                     loadInto.setPedigree(parseStringWithCustomFacts(ch));
                 } else if (Tag.ADOPTION.equalsText(ch.getTag())) {

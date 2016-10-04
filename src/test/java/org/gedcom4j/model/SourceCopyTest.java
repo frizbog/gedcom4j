@@ -92,7 +92,7 @@ public class SourceCopyTest extends AbstractCopyTest {
         orig.setRecIdNumber("A");
         orig.setXref("B");
         SourceData data = new SourceData();
-        data.getNotes(true).add(getTestNote());
+        data.getNoteStructures(true).add(getTestNoteStructure());
         orig.setData(data);
         RepositoryCitation rc = new RepositoryCitation();
         rc.setRepositoryXref("@R123@");

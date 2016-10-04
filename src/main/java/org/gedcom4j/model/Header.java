@@ -620,9 +620,9 @@ public class Header extends AbstractNotesElement {
             builder.append(language);
             builder.append(", ");
         }
-        if (getNotes() != null) {
+        if (getNoteStructures() != null) {
             builder.append("notes=");
-            builder.append(getNotes());
+            builder.append(getNoteStructures());
             builder.append(", ");
         }
         if (placeHierarchy != null) {

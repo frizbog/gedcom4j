@@ -32,7 +32,7 @@ import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.ChangeDate;
 import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.HasCustomFacts;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.Place;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomFacts;
@@ -81,8 +81,8 @@ public class CustomFactParser extends AbstractParser<CustomFact> {
                     loadInto.setPlace(place);
                     new PlaceParser(gedcomParser, ch, place).parse();
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = loadInto.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = loadInto.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.SOURCE.equalsText(ch.getTag())) {
                     List<AbstractCitation> citations = loadInto.getCitations(true);
                     new CitationListParser(gedcomParser, ch, citations).parse();

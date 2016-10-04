@@ -39,7 +39,7 @@ import org.gedcom4j.model.Header;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.Source;
@@ -832,7 +832,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      *            the multimedia note
      * @return the area of multimedia it is
      */
-    public String getMultimediaNoteArea(Note note) {
+    public String getMultimediaNoteArea(NoteStructure note) {
         for (CustomFact cf : note.getCustomFactsWithTag("_AREA")) {
             if (cf.getDescription() != null) {
                 return cf.getDescription().getValue();
@@ -848,7 +848,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      *            the multimedia note
      * @return the ASID of multimedia it is
      */
-    public String getMultimediaNoteASID(Note note) {
+    public String getMultimediaNoteASID(NoteStructure note) {
         for (CustomFact cf : note.getCustomFactsWithTag("_ASID")) {
             if (cf.getDescription() != null) {
                 return cf.getDescription().getValue();
@@ -864,7 +864,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      *            the multimedia note
      * @return the caption of multimedia it is
      */
-    public String getMultimediaNoteCaption(Note note) {
+    public String getMultimediaNoteCaption(NoteStructure note) {
         for (CustomFact cf : note.getCustomFactsWithTag("_CAPT")) {
             if (cf.getDescription() != null) {
                 return cf.getDescription().getValue();
@@ -880,7 +880,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      *            the multimedia note
      * @return the exclusion of multimedia it is
      */
-    public String getMultimediaNoteExclusion(Note note) {
+    public String getMultimediaNoteExclusion(NoteStructure note) {
         for (CustomFact cf : note.getCustomFactsWithTag("_EXCL")) {
             if (cf.getDescription() != null) {
                 return cf.getDescription().getValue();
@@ -1848,7 +1848,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      * @param multimediaArea
      *            the multimedia area
      */
-    public void setMultimediaNoteArea(Note note, String multimediaArea) {
+    public void setMultimediaNoteArea(NoteStructure note, String multimediaArea) {
         clearCustomTagsOfType(note, "_AREA");
         if (multimediaArea != null) {
             CustomFact cf = new CustomFact("_AREA");
@@ -1865,7 +1865,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      * @param multimediaASID
      *            the ASID
      */
-    public void setMultimediaNoteASID(Note note, String multimediaASID) {
+    public void setMultimediaNoteASID(NoteStructure note, String multimediaASID) {
         setDescriptionForCustomTag(note, "_ASID", multimediaASID);
     }
 
@@ -1877,7 +1877,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      * @param multimediaCaption
      *            the multimedia caption
      */
-    public void setMultimediaNoteCaption(Note note, String multimediaCaption) {
+    public void setMultimediaNoteCaption(NoteStructure note, String multimediaCaption) {
         setDescriptionForCustomTag(note, "_CAPT", multimediaCaption);
     }
 
@@ -1889,7 +1889,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      * @param multimediaExclusion
      *            the multimedia exclusion
      */
-    public void setMultimediaNoteExclusion(Note note, String multimediaExclusion) {
+    public void setMultimediaNoteExclusion(NoteStructure note, String multimediaExclusion) {
         setDescriptionForCustomTag(note, "_EXCL", multimediaExclusion);
     }
 

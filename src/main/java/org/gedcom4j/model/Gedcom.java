@@ -123,7 +123,7 @@ public class Gedcom extends AbstractElement {
     /**
      * A map of notes. The map is keyed with cross-reference numbers and the notes themselves are the values.
      */
-    private final Map<String, Note> notes = new HashMap<>(0);
+    private final Map<String, NoteRecord> notes = new HashMap<>(0);
 
     /**
      * A map of all the source repositories in the GEDCOM file. The map is keyed on the repository cross-reference numbers, and the
@@ -178,8 +178,8 @@ public class Gedcom extends AbstractElement {
         for (Multimedia m : other.multimedia.values()) {
             multimedia.put(m.getXref(), new Multimedia(m));
         }
-        for (Note n : other.notes.values()) {
-            notes.put(n.getXref(), new Note(n));
+        for (NoteRecord n : other.notes.values()) {
+            notes.put(n.getXref(), new NoteRecord(n));
         }
         for (Repository r : other.repositories.values()) {
             repositories.put(r.getXref(), new Repository(r));
@@ -325,7 +325,7 @@ public class Gedcom extends AbstractElement {
      *
      * @return the notes
      */
-    public Map<String, Note> getNotes() {
+    public Map<String, NoteRecord> getNotes() {
         return notes;
     }
 

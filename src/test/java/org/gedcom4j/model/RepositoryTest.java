@@ -85,13 +85,13 @@ public class RepositoryTest {
         r2.setName((String) null);
         assertEquals(r1, r2);
 
-        r1.getNotes(true).add(new Note());
+        r1.getNoteStructures(true).add(new NoteStructure());
         assertFalse(r1.equals(r2));
-        r2.getNotes(true).add(new Note());
+        r2.getNoteStructures(true).add(new NoteStructure());
         assertEquals(r1, r2);
-        r1.getNotes().clear();
+        r1.getNoteStructures().clear();
         assertFalse(r1.equals(r2));
-        r2.getNotes().clear();
+        r2.getNoteStructures().clear();
         assertEquals(r1, r2);
 
         r1.getPhoneNumbers(true).add(new StringWithCustomFacts("Frying Pan"));
@@ -161,13 +161,13 @@ public class RepositoryTest {
         r2.setName((String) null);
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1.getNotes(true).add(new Note());
+        r1.getNoteStructures(true).add(new NoteStructure());
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.getNotes(true).add(new Note());
+        r2.getNoteStructures(true).add(new NoteStructure());
         assertEquals(r1.hashCode(), r2.hashCode());
-        r1.getNotes().clear();
+        r1.getNoteStructures().clear();
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.getNotes().clear();
+        r2.getNoteStructures().clear();
         assertEquals(r1.hashCode(), r2.hashCode());
 
         r1.getPhoneNumbers(true).add(new StringWithCustomFacts("Frying Pan"));

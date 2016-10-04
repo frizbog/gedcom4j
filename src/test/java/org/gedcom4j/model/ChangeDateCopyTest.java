@@ -66,25 +66,25 @@ public class ChangeDateCopyTest extends AbstractCopyTest {
         ChangeDate orig = new ChangeDate();
         orig.setDate("5 MAY 1905");
         orig.setTime("12:00:00 Eastern");
-        Note n = new Note();
+        NoteStructure n = new NoteStructure();
         n.getLines(true).add("Frying Pan");
         n.getLines().add("Tomato sauce");
-        orig.getNotes(true).add(n);
+        orig.getNoteStructures(true).add(n);
 
         ChangeDate copy = new ChangeDate(orig);
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
 
-        assertEquals(1, copy.getNotes().size());
-        assertEquals(2, copy.getNotes().get(0).getLines().size());
+        assertEquals(1, copy.getNoteStructures().size());
+        assertEquals(2, copy.getNoteStructures().get(0).getLines().size());
 
         assertEquals(orig.toString(), copy.toString());
 
         orig.getDate().setValue("31 DEC 2001");
         assertEquals("Copy should not change when original does", "5 MAY 1905", copy.getDate().getValue());
 
-        orig.getNotes().get(0).getLines().add(0, "Inserted line in original");
-        assertEquals("Copy should not change when original does", "Frying Pan", copy.getNotes().get(0).getLines().get(0));
+        orig.getNoteStructures().get(0).getLines().add(0, "Inserted line in original");
+        assertEquals("Copy should not change when original does", "Frying Pan", copy.getNoteStructures().get(0).getLines().get(0));
     }
 
 }

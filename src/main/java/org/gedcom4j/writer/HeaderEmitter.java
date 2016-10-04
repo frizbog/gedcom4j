@@ -101,7 +101,7 @@ class HeaderEmitter extends AbstractEmitter<Header> {
             emitTag(1, "PLAC");
             emitTagWithRequiredValue(2, "FORM", header.getPlaceHierarchy());
         }
-        new NotesEmitter(baseWriter, 1, header.getNotes()).emit();
+        new NoteStructureEmitter(baseWriter, 1, header.getNoteStructures()).emit();
         emitCustomFacts(1, header.getCustomFacts());
     }
 

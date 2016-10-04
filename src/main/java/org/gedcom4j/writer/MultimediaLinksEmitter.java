@@ -88,7 +88,7 @@ class MultimediaLinksEmitter extends AbstractEmitter<List<Multimedia>> {
                         emitTagWithRequiredValue(startLevel + 1, "FORM", m.getEmbeddedMediaFormat());
                         emitTagIfValueNotNull(startLevel + 1, "TITL", m.getEmbeddedTitle());
                     }
-                    new NotesEmitter(baseWriter, startLevel + 1, m.getNotes()).emit();
+                    new NoteStructureEmitter(baseWriter, startLevel + 1, m.getNoteStructures()).emit();
                 } else {
                     // GEDCOM 5.5.1 format
                     for (FileReference fr : m.getFileReferences()) {
@@ -97,7 +97,7 @@ class MultimediaLinksEmitter extends AbstractEmitter<List<Multimedia>> {
                         emitTagIfValueNotNull(startLevel + 3, "MEDI", fr.getMediaType());
                         emitTagIfValueNotNull(startLevel + 1, "TITL", fr.getTitle());
                     }
-                    if (m.getNotes() != null && !m.getNotes().isEmpty()) {
+                    if (m.getNoteStructures() != null && !m.getNoteStructures().isEmpty()) {
                         throw new GedcomWriterVersionDataMismatchException(
                                 "GEDCOM version is 5.5.1, but multimedia link has notes which are no longer allowed in 5.5");
                     }

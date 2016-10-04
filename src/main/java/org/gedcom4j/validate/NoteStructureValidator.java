@@ -26,38 +26,36 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.model.LdsSpouseSealing;
-import org.gedcom4j.model.enumerations.LdsSpouseSealingDateStatus;
+import org.gedcom4j.model.NoteStructure;
 
 /**
- * Validator for {@link LdsSpouseSealing} objects
+ * Validator for a single {@link NoteStructure}
  * 
- * @author frizbog1
- * 
+ * @author frizbog
  */
-class LdsSpouseSealingValidator extends AbstractValidator {
+class NoteStructureValidator extends AbstractValidator {
 
     /**
      * Serial Version UID
      */
-    private static final long serialVersionUID = -7894442750246320800L;
+    private static final long serialVersionUID = 7426278912021230776L;
 
     /**
-     * The sealing being validated
+     * The note being validated
      */
-    private final LdsSpouseSealing s;
+    private final NoteStructure noteStructure;
 
     /**
      * Constructor
      * 
      * @param validator
-     *            the {@link Validator} that contains findings and settings
-     * @param s
-     *            the sealing being validated
+     *            the main gedcom validator that holds all the findings
+     * @param noteStructure
+     *            the {@link NoteStructure} being validated
      */
-    LdsSpouseSealingValidator(Validator validator, LdsSpouseSealing s) {
+    NoteStructureValidator(Validator validator, NoteStructure noteStructure) {
         super(validator);
-        this.s = s;
+        this.noteStructure = noteStructure;
     }
 
     /**
@@ -65,18 +63,10 @@ class LdsSpouseSealingValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        checkCitations(s);
-        checkCustomFacts(s);
-        new NoteStructureListValidator(getValidator(), s).validate();
-        mustHaveValueOrBeOmitted(s, "place");
-        mustBeInEnumIfSpecified(LdsSpouseSealingDateStatus.class, s, "status");
-        if (s.getStatus() != null && isSpecified(s.getStatus().getValue())) {
-            mustHaveValue(s, "date");
-            mustBeDateIfSpecified(s, "date");
-        } else {
-            mustNotHaveValue(s, "date");
+        checkUninitializedCollection(noteStructure, "lines");
+        if (noteStructure.getNoteReference() == null && (noteStructure.getLines() == null || noteStructure.getLines().isEmpty())) {
+            newFinding(noteStructure, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "lines");
         }
-        mustHaveValueOrBeOmitted(s, "temple");
     }
 
 }

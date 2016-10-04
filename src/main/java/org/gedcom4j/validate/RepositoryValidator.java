@@ -70,7 +70,7 @@ class RepositoryValidator extends AbstractValidator {
         checkUserReferences(repository.getUserReferences(), repository);
         mustHaveValueOrBeOmitted(repository, "recIdNumber");
         checkStringList(repository, "phoneNumbers", false);
-        new NotesListValidator(getValidator(), repository).validate();
+        new NoteStructureListValidator(getValidator(), repository).validate();
 
         Address a = repository.getAddress();
         if (a != null) {

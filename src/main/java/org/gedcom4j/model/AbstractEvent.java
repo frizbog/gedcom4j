@@ -702,9 +702,9 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
             builder.append(multimedia);
             builder.append(", ");
         }
-        if (getNotes() != null) {
+        if (getNoteStructures() != null) {
             builder.append("notes=");
-            builder.append(getNotes());
+            builder.append(getNoteStructures());
             builder.append(", ");
         }
         if (place != null) {

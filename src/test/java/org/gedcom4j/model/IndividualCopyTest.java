@@ -94,7 +94,7 @@ public class IndividualCopyTest extends AbstractCopyTest {
         orig.setChangeDate(cd);
         orig.setRecIdNumber("321");
         orig.setXref("@I1@");
-        orig.getNotes(true).add(getTestNote());
+        orig.getNoteStructures(true).add(getTestNoteStructure());
         orig.getFaxNumbers(true).add(new StringWithCustomFacts("555-1212"));
         orig.getPhoneNumbers(true).add(new StringWithCustomFacts("555-1313"));
         orig.getWwwUrls(true).add(new StringWithCustomFacts("www.nowhere.net"));
@@ -138,7 +138,7 @@ public class IndividualCopyTest extends AbstractCopyTest {
         PersonalName pn = new PersonalName();
         pn.setBasic("Gloria /Gleeson/");
         orig.getNames(true).add(pn);
-        orig.getNotes(true).add(getTestNote());
+        orig.getNoteStructures(true).add(getTestNoteStructure());
         Submitter sbm = new Submitter();
         sbm.setName("Paul /Paulson/");
         orig.getSubmitters(true).add(sbm);

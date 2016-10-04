@@ -30,16 +30,15 @@ import java.util.Collection;
 
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
-import org.gedcom4j.model.Note;
-import org.gedcom4j.model.UserReference;
+import org.gedcom4j.model.NoteStructure;
 
 /**
- * Emitter for {@link Note}s.
+ * Emitter for {@link NoteStructure}s.
  * 
  * @author frizbog
  *
  */
-class NotesEmitter extends AbstractEmitter<Collection<Note>> {
+class NoteStructureEmitter extends AbstractEmitter<Collection<NoteStructure>> {
 
     /**
      * Constructor
@@ -53,7 +52,8 @@ class NotesEmitter extends AbstractEmitter<Collection<Note>> {
      * @throws WriterCancelledException
      *             if cancellation was requested during the operation
      */
-    NotesEmitter(GedcomWriter baseWriter, int startLevel, Collection<Note> collection) throws WriterCancelledException {
+    NoteStructureEmitter(GedcomWriter baseWriter, int startLevel, Collection<NoteStructure> collection)
+            throws WriterCancelledException {
         super(baseWriter, startLevel, collection);
     }
 
@@ -63,8 +63,8 @@ class NotesEmitter extends AbstractEmitter<Collection<Note>> {
     @Override
     protected void emit() throws GedcomWriterException {
         if (writeFrom != null) {
-            for (Note n : writeFrom) {
-                emitNote(startLevel, n);
+            for (NoteStructure n : writeFrom) {
+                emitNoteStructure(startLevel, n);
                 if (baseWriter.isCancelled()) {
                     throw new WriterCancelledException("Construction and writing of GEDCOM cancelled");
                 }
@@ -82,21 +82,8 @@ class NotesEmitter extends AbstractEmitter<Collection<Note>> {
      * @throws GedcomWriterException
      *             if the data is malformed and cannot be written
      */
-    private void emitNote(int level, Note note) throws GedcomWriterException {
-        if (level > 0 && note.getXref() != null) {
-            emitTagWithRequiredValue(level, "NOTE", note.getXref());
-            return;
-        }
-        emitLinesOfText(level, note.getXref(), "NOTE", note.getLines());
-        new SourceCitationEmitter(baseWriter, level + 1, note.getCitations()).emit();
-        if (note.getUserReferences() != null) {
-            for (UserReference u : note.getUserReferences()) {
-                emitTagWithRequiredValue(level + 1, "REFN", u.getReferenceNum());
-                emitTagIfValueNotNull(level + 2, "TYPE", u.getType());
-            }
-        }
-        emitTagIfValueNotNull(level + 1, "RIN", note.getRecIdNumber());
-        new ChangeDateEmitter(baseWriter, level + 1, note.getChangeDate()).emit();
+    private void emitNoteStructure(int level, NoteStructure note) throws GedcomWriterException {
+        emitLinesOfText(level, null, "NOTE", note.getLines());
         emitCustomFacts(level + 1, note.getCustomFacts());
     }
 

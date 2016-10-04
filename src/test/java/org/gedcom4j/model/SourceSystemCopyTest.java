@@ -73,7 +73,7 @@ public class SourceSystemCopyTest extends AbstractCopyTest {
         c.setAddress(a);
         c.setBusinessName("Bob's Genalogy Shop");
         c.getCustomFacts(true).add(getTestCustomFact());
-        c.getNotes(true).add(getTestNote());
+        c.getNoteStructures(true).add(getTestNoteStructure());
         orig.setCorporation(c);
         orig.setProductName("Genillogical");
         HeaderSourceData hsd = new HeaderSourceData();

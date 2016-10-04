@@ -36,7 +36,7 @@ import java.util.Map.Entry;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.junit.Test;
 
 /**
@@ -69,13 +69,13 @@ public class Issue32Test {
                 foundJohn = true;
                 Individual john = i.getValue();
                 assertNotNull(john);
-                checkJohn(john.getNotes());
+                checkJohn(john.getNoteStructures());
             }
             if (i.getKey().equalsIgnoreCase("@I2@")) {
                 foundMary = true;
                 Individual mary = i.getValue();
                 assertNotNull(mary);
-                checkMary(mary.getNotes());
+                checkMary(mary.getNoteStructures());
             }
         }
         assertTrue("Didn't find john", foundJohn);
@@ -85,13 +85,13 @@ public class Issue32Test {
     /**
      * Check that the notes on John are as expected based on the gedcom
      * 
-     * @param notes
+     * @param list
      *            the notes
      */
-    private void checkJohn(List<Note> notes) {
-        assertNotNull(notes);
-        assertEquals(1, notes.size());
-        Note note = notes.get(0);
+    private void checkJohn(List<NoteStructure> list) {
+        assertNotNull(list);
+        assertEquals(1, list.size());
+        NoteStructure note = list.get(0);
         assertNotNull(note);
         assertNotNull(note.getLines());
         assertEquals(1, note.getLines().size());
@@ -110,10 +110,10 @@ public class Issue32Test {
      * @param notes
      *            the notes on mary
      */
-    private void checkMary(List<Note> notes) {
+    private void checkMary(List<NoteStructure> notes) {
         assertNotNull(notes);
         assertEquals(1, notes.size());
-        Note note = notes.get(0);
+        NoteStructure note = notes.get(0);
         assertNotNull(note);
         assertNotNull(note.getLines());
         assertEquals(3, note.getLines().size());

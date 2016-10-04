@@ -48,7 +48,7 @@ import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteRecord;
 import org.gedcom4j.parser.GedcomParser;
 import org.junit.Before;
 import org.junit.Test;
@@ -242,8 +242,8 @@ public class GedcomWriterTest {
                 "0 @N19@ NOTE A note about this LDS spouse sealing source.", "1 CHAN", "2 DATE 12 Mar 2000", "3 TIME 12:32:13");
         assertEquals(gedcomOrig.getNotes().keySet(), gedcomReadback.getNotes().keySet());
         for (String xref : gedcomOrig.getNotes().keySet()) {
-            Note n1 = gedcomOrig.getNotes().get(xref);
-            Note n2 = gedcomReadback.getNotes().get(xref);
+            NoteRecord n1 = gedcomOrig.getNotes().get(xref);
+            NoteRecord n2 = gedcomReadback.getNotes().get(xref);
             assertEquals(n1.getLines().size(), n2.getLines().size());
             String prevLine = null;
             for (int i = 0; i < n1.getLines().size(); i++) {

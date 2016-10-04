@@ -221,7 +221,7 @@ class MultimediaValidator extends AbstractValidator {
             new MultimediaValidator(getValidator(), mm.getContinuedObject()).validate();
         }
         checkUninitializedCollection(mm, "blob");
-        new NotesListValidator(getValidator(), mm).validate();
+        new NoteStructureListValidator(getValidator(), mm).validate();
     }
 
 }

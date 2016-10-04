@@ -90,7 +90,7 @@ class FamilyValidator extends AbstractValidator {
         }
         checkLdsSpouseSealings();
         checkMultimedia();
-        new NotesListValidator(getValidator(), f).validate();
+        new NoteStructureListValidator(getValidator(), f).validate();
         mustHaveValueOrBeOmitted(f, "numChildren");
         mustHaveValueOrBeOmitted(f, "recFileNumber");
         mustHaveValueOrBeOmitted(f, "restrictionNotice");

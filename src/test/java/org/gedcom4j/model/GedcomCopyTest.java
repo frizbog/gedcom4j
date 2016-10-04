@@ -117,7 +117,7 @@ public class GedcomCopyTest extends AbstractCopyTest {
         src.setRecIdNumber("987");
         orig.getSources().put(src.getXref(), src);
 
-        Note n = getTestNote();
+        NoteRecord n = getTestNoteRecord();
         n.setXref("@N1@");
         orig.getNotes().put(n.getXref(), n);
 

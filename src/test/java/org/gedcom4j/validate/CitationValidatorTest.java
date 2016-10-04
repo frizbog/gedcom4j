@@ -28,7 +28,7 @@ package org.gedcom4j.validate;
 
 import org.gedcom4j.model.CitationWithSource;
 import org.gedcom4j.model.CitationWithoutSource;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.Source;
 import org.junit.Test;
 
@@ -42,9 +42,9 @@ public class CitationValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testValidateWithoutSourceNoNoteLines() {
-        Note n = new Note();
+        NoteStructure n = new NoteStructure();
         CitationWithoutSource c = new CitationWithoutSource();
-        c.getNotes(true).add(n);
+        c.getNoteStructures(true).add(n);
         AbstractValidator cv = new CitationValidator(validator, c);
         cv.validate();
         assertFindingsContain(Severity.ERROR, n, ProblemCode.MISSING_REQUIRED_VALUE.getCode(), "lines");
@@ -55,10 +55,10 @@ public class CitationValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testValidateWithoutSourceSimple() {
-        Note n = new Note();
+        NoteStructure n = new NoteStructure();
         n.getLines(true).add("Frying Pan");
         CitationWithoutSource c = new CitationWithoutSource();
-        c.getNotes(true).add(n);
+        c.getNoteStructures(true).add(n);
         AbstractValidator cv = new CitationValidator(validator, c);
         cv.validate();
         assertNoIssues();
@@ -69,10 +69,10 @@ public class CitationValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testValidateWithSourceNoSource() {
-        Note n = new Note();
+        NoteStructure n = new NoteStructure();
         n.getLines(true).add("Frying Pan");
         CitationWithSource c = new CitationWithSource();
-        c.getNotes(true).add(n);
+        c.getNoteStructures(true).add(n);
         AbstractValidator cv = new CitationValidator(validator, c);
         cv.validate();
         assertFindingsContain(Severity.ERROR, c, ProblemCode.MISSING_REQUIRED_VALUE.getCode(), "source");
@@ -83,10 +83,10 @@ public class CitationValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testValidateWithSourceSimple() {
-        Note n = new Note();
+        NoteStructure n = new NoteStructure();
         n.getLines(true).add("Frying Pan");
         CitationWithSource c = new CitationWithSource();
-        c.getNotes(true).add(n);
+        c.getNoteStructures(true).add(n);
         Source source = new Source();
         c.setSource(source);
 

@@ -75,7 +75,7 @@ class PersonalNameValidator extends AbstractValidator {
         mustHaveValueOrBeOmitted(pn, "surname");
         mustHaveValueOrBeOmitted(pn, "surnamePrefix");
 
-        new NotesListValidator(getValidator(), pn).validate();
+        new NoteStructureListValidator(getValidator(), pn).validate();
 
         checkPhoneticVariations();
         checkRomanizedVariations();

@@ -27,7 +27,7 @@
 package org.gedcom4j.validate;
 
 import org.gedcom4j.model.LdsIndividualOrdinance;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.enumerations.LdsBaptismDateStatus;
 import org.gedcom4j.model.enumerations.LdsIndividualOrdinanceType;
@@ -63,9 +63,9 @@ public class LdsIndividualOrdinanceValidatorTest extends AbstractValidatorTestCa
         LdsIndividualOrdinance l = new LdsIndividualOrdinance();
         l.setDate("5 MAY 1905");
         l.setTemple("Temple 1");
-        Note n = new Note();
+        NoteStructure n = new NoteStructure();
         n.getLines(true).add("Testing 1 2 3");
-        l.getNotes(true).add(n);
+        l.getNoteStructures(true).add(n);
 
         new LdsIndividualOrdinanceValidator(validator, l).validate();
         assertFindingsContain(Severity.ERROR, l, ProblemCode.MISSING_REQUIRED_VALUE, "type");
@@ -79,9 +79,9 @@ public class LdsIndividualOrdinanceValidatorTest extends AbstractValidatorTestCa
         LdsIndividualOrdinance l = new LdsIndividualOrdinance();
         l.setDate("5 MAY 1905");
         l.setTemple("Temple 1");
-        Note n = new Note();
+        NoteStructure n = new NoteStructure();
         n.getLines(true).add("Testing 1 2 3");
-        l.getNotes(true).add(n);
+        l.getNoteStructures(true).add(n);
         l.setType(LdsIndividualOrdinanceType.BAPTISM);
 
         new LdsIndividualOrdinanceValidator(validator, l).validate();

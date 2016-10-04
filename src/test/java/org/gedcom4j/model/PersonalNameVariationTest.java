@@ -75,11 +75,11 @@ public class PersonalNameVariationTest {
         pnv1.setNickname((String) null);
         assertEquals(pnv1, pnv2);
 
-        pnv1.getNotes(true).add(new Note());
+        pnv1.getNoteStructures(true).add(new NoteStructure());
         assertFalse(pnv1.equals(pnv2));
-        pnv1.getNotes().clear();
+        pnv1.getNoteStructures().clear();
         assertFalse(pnv1.equals(pnv2));
-        pnv2.getNotes(true).clear();
+        pnv2.getNoteStructures(true).clear();
         assertEquals(pnv1, pnv2);
 
         pnv1.setPrefix("Yo");
@@ -149,11 +149,11 @@ public class PersonalNameVariationTest {
         pnv1.setNickname((String) null);
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
-        pnv1.getNotes(true).add(new Note());
+        pnv1.getNoteStructures(true).add(new NoteStructure());
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
-        pnv1.getNotes().clear();
+        pnv1.getNoteStructures().clear();
         assertFalse(pnv1.hashCode() == pnv2.hashCode());
-        pnv2.getNotes(true).clear();
+        pnv2.getNoteStructures(true).clear();
         assertEquals(pnv1.hashCode(), pnv2.hashCode());
 
         pnv1.setPrefix("Yo");
@@ -200,7 +200,7 @@ public class PersonalNameVariationTest {
         pnv.getCustomFacts(true).add(new CustomFact("_FOO"));
         pnv.setGivenName("Now");
         pnv.setNickname("Is");
-        pnv.getNotes(true).add(new Note());
+        pnv.getNoteStructures(true).add(new NoteStructure());
         pnv.setSuffix("The");
         pnv.setSurname("Time");
         pnv.setSurnamePrefix("For");

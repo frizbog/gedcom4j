@@ -76,7 +76,7 @@ class SourceValidator extends AbstractValidator {
         checkChangeDate(source.getChangeDate(), source);
         if (source.getData() != null) {
             SourceData sd = source.getData();
-            new NotesListValidator(getValidator(), sd).validate();
+            new NoteStructureListValidator(getValidator(), sd).validate();
             mustHaveValueOrBeOmitted(sd, "respAgency");
             List<EventRecorded> eventsRecorded = sd.getEventsRecorded();
             if (eventsRecorded == null) {
@@ -101,7 +101,7 @@ class SourceValidator extends AbstractValidator {
                 new MultimediaValidator(getValidator(), mm).validate();
             }
         }
-        new NotesListValidator(getValidator(), source).validate();
+        new NoteStructureListValidator(getValidator(), source).validate();
         checkStringList(source, "originatorsAuthors", false);
         checkStringList(source, "publicationFacts", false);
         mustHaveValueOrBeOmitted(source, "recIdNumber");
@@ -112,7 +112,7 @@ class SourceValidator extends AbstractValidator {
 
         RepositoryCitation c = source.getRepositoryCitation();
         if (c != null) {
-            new NotesListValidator(getValidator(), c).validate();
+            new NoteStructureListValidator(getValidator(), c).validate();
             mustHaveValue(c, "repositoryXref");
             checkCallNumbers(c);
         }

@@ -41,9 +41,9 @@ public abstract class AbstractNotesElement extends AbstractElement implements Ha
     private static final long serialVersionUID = 2539148787102235445L;
 
     /**
-     * Notes on this element
+     * NoteStructure structures on this element
      */
-    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
+    private List<NoteStructure> notes = getNoteStructures(Options.isCollectionInitializationEnabled());
 
     /** Default constructor */
     public AbstractNotesElement() {
@@ -58,10 +58,10 @@ public abstract class AbstractNotesElement extends AbstractElement implements Ha
      */
     public AbstractNotesElement(AbstractNotesElement other) {
         super(other);
-        if (other.getNotes() != null) {
+        if (other.getNoteStructures() != null) {
             notes = new ArrayList<>();
-            for (Note n : other.getNotes()) {
-                notes.add(new Note(n));
+            for (NoteStructure n : other.getNoteStructures()) {
+                notes.add(new NoteStructure(n));
             }
         }
     }
@@ -97,7 +97,7 @@ public abstract class AbstractNotesElement extends AbstractElement implements Ha
      * @return the notes
      */
     @Override
-    public List<Note> getNotes() {
+    public List<NoteStructure> getNoteStructures() {
         return notes;
     }
 
@@ -109,7 +109,7 @@ public abstract class AbstractNotesElement extends AbstractElement implements Ha
      * @return the notes
      */
     @Override
-    public List<Note> getNotes(boolean initializeIfNeeded) {
+    public List<NoteStructure> getNoteStructures(boolean initializeIfNeeded) {
         if (initializeIfNeeded && notes == null) {
             notes = new ArrayList<>(0);
         }
