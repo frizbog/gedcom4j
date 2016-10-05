@@ -51,8 +51,24 @@
 3 TIME 16:00:06
 4 _CTAG Custom tag on I14's Change Time
 2 _CTAG Custom tag on I14's Change
+0 @I01@ INDI
+1 NAME Paul /Paulson/
+1 FAMS @F7@
+0 @I02@ INDI
+1 NAME Alyson /Allison/
+1 FAMS @F7@
 0 @F6@ FAM
+1 HUSB @I14@
+2 _BBB Custom tag on husband in family with no wife or children
+1 _AAA Custom tag on family with no wife or children
 0 @F7@ FAM
+1 HUSB @I01@
+2 _FFF Custom tag on husband in family with 1 husb, 1 wife, 1 kid
+1 WIFE @I02@
+2 _FFF Custom tag on wife in family with 1 husb, 1 wife, 1 kid
+1 CHIL @I14@
+2 _FFF Custom tag on child in family with 1 husb, 1 wife, 1 kid
+1 _FFF Custom tag on family with 1 husb, 1 wife, 1 kid
 0 @SUBM001@ SUBM
 1 NAME Matt /Harrah/
 2 GIVN Matt
