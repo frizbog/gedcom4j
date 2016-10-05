@@ -26,7 +26,10 @@
  */
 package org.gedcom4j.validate;
 
+import org.gedcom4j.factory.IndividualFactory;
+import org.gedcom4j.factory.Sex;
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.NoteRecord;
 import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.TestHelper;
@@ -49,8 +52,9 @@ public class NoteStructureValidatorTest extends AbstractValidatorTestCase {
         validator = new Validator(g);
         validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
 
+        Individual i = new IndividualFactory().create(g, "Bob", "Boberts", Sex.MALE, (String) null, null, null, null);
         NoteStructure n = new NoteStructure();
-        // TODO - attach this to something
+        i.getNoteStructures(true).add(n);
 
         validator.validate();
         assertFindingsContain(Severity.ERROR, n, ProblemCode.MISSING_REQUIRED_VALUE, "lines");
@@ -69,8 +73,10 @@ public class NoteStructureValidatorTest extends AbstractValidatorTestCase {
         validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
 
         NoteStructure n = new NoteStructure();
-        n.setNoteReference(new NoteRecord("@N1@"));
-        // TODO - attach this to something
+        NoteRecord nr = new NoteRecord("@N1@");
+        g.getNotes().put("@N1@", nr);
+        n.setNoteReference(nr);
+
         validator.validate();
         assertNoIssues();
         n.getLines(true).add("Frying Pan");
@@ -85,8 +91,10 @@ public class NoteStructureValidatorTest extends AbstractValidatorTestCase {
         validator = new Validator(g);
         validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
 
+        Individual i = new IndividualFactory().create(g, "Bob", "Boberts", Sex.MALE, (String) null, null, null, null);
         NoteStructure n = new NoteStructure();
-        // TODO - attach this to something
+        i.getNoteStructures(true).add(n);
+
         validator.validate();
         assertFindingsContain(Severity.ERROR, n, ProblemCode.MISSING_REQUIRED_VALUE, "lines");
         n.getLines(true).add("Frying Pan");

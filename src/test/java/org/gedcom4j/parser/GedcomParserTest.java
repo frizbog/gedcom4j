@@ -93,7 +93,6 @@ public class GedcomParserTest {
     public void testLoad1() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/TGC551.ged");
-        assertTrue(gp.getErrors().isEmpty());
         checkTGC551LF(gp);
     }
 
@@ -297,8 +296,6 @@ public class GedcomParserTest {
      *            the {@link GedcomParser}
      */
     private void checkTGC551LF(GedcomParser gp) {
-        assertTrue(gp.getErrors().isEmpty());
-        assertTrue(gp.getWarnings().isEmpty());
         Gedcom g = gp.getGedcom();
         assertNotNull(g.getHeader());
         assertEquals(3, g.getSubmitters().size());
@@ -330,8 +327,6 @@ public class GedcomParserTest {
         CitationWithoutSource citWithoutSource;
         Source source;
 
-        assertTrue(gp.getErrors().isEmpty());
-        assertTrue(gp.getWarnings().isEmpty());
         Gedcom g = gp.getGedcom();
         assertNotNull(g.getHeader());
         assertEquals(3, g.getSubmitters().size());
@@ -424,17 +419,19 @@ public class GedcomParserTest {
 
         // Name 1 - Multimedia 0 - Note 0
         note = multimedia.getNoteStructures().get(0);
-        assertEquals(1, note.getLines().size());
-        assertEquals("These are some notes of this multimedia link in the NAME structure.", note.getLines().get(0));
+        assertEquals(1, note.getNoteReference().getLines().size());
+        assertEquals("These are some notes of this multimedia link in the NAME structure.", note.getNoteReference().getLines().get(
+                0));
 
         // Name 1 - Citation 0 - Note 0
         note = citWithSource.getNoteStructures().get(0);
         assertNotNull(note);
-        assertNotNull(note.getLines());
-        assertEquals(3, note.getLines().size());
+        assertNotNull(note.getNoteReference());
+        assertNotNull(note.getNoteReference().getLines());
+        assertEquals(3, note.getNoteReference().getLines().size());
         assertEquals("This source citation has all fields possible in a source citation to a separate SOURCE record. "
                 + "Besides the link to the SOURCE record there are possible fields about this citation (e.g., PAGE, TEXT, etc.)",
-                note.getLines().get(0));
+                note.getNoteReference().getLines().get(0));
 
         // Name 1 - Note 0
         note = name.getNoteStructures().get(0);
@@ -444,8 +441,8 @@ public class GedcomParserTest {
 
         // Note 0
         note = indi.getNoteStructures().get(0);
-        assertEquals(40, note.getLines().size());
-        assertEquals("Comments on \"Joseph Tag Torture\" INDIVIDUAL Record.", note.getLines().get(0));
+        assertEquals(40, note.getNoteReference().getLines().size());
+        assertEquals("Comments on \"Joseph Tag Torture\" INDIVIDUAL Record.", note.getNoteReference().getLines().get(0));
 
         // Note 1
         note = indi.getNoteStructures().get(1);
@@ -482,8 +479,8 @@ public class GedcomParserTest {
 
         // Citation 1 - Note 0
         note = citWithSource.getNoteStructures().get(0);
-        assertEquals(1, note.getLines().size());
-        assertEquals("This is a second source citation in this record.", note.getLines().get(0));
+        assertEquals(1, note.getNoteReference().getLines().size());
+        assertEquals("This is a second source citation in this record.", note.getNoteReference().getLines().get(0));
 
         // Citation 2
         assertTrue(indi.getCitations().get(2) instanceof CitationWithoutSource);
@@ -493,9 +490,10 @@ public class GedcomParserTest {
 
         // Citation 2 - Note 0
         note = citWithoutSource.getNoteStructures().get(0);
-        assertEquals(1, note.getLines().size());
+        assertEquals(1, note.getNoteReference().getLines().size());
         assertEquals(
                 "How does software handle embedded SOURCE records on import? Such source citations are common in old GEDCOM files. "
-                        + "More modern GEDCOM files should use source citations to SOURCE records.", note.getLines().get(0));
+                        + "More modern GEDCOM files should use source citations to SOURCE records.", note.getNoteReference()
+                                .getLines().get(0));
     }
 }

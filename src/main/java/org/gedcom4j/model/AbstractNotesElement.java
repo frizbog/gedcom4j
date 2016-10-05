@@ -43,7 +43,7 @@ public abstract class AbstractNotesElement extends AbstractElement implements Ha
     /**
      * NoteStructure structures on this element
      */
-    private List<NoteStructure> notes = getNoteStructures(Options.isCollectionInitializationEnabled());
+    private List<NoteStructure> noteStructures = getNoteStructures(Options.isCollectionInitializationEnabled());
 
     /** Default constructor */
     public AbstractNotesElement() {
@@ -59,9 +59,9 @@ public abstract class AbstractNotesElement extends AbstractElement implements Ha
     public AbstractNotesElement(AbstractNotesElement other) {
         super(other);
         if (other.getNoteStructures() != null) {
-            notes = new ArrayList<>();
+            noteStructures = new ArrayList<>();
             for (NoteStructure n : other.getNoteStructures()) {
-                notes.add(new NoteStructure(n));
+                noteStructures.add(new NoteStructure(n));
             }
         }
     }
@@ -81,39 +81,39 @@ public abstract class AbstractNotesElement extends AbstractElement implements Ha
             return false;
         }
         AbstractNotesElement other = (AbstractNotesElement) obj;
-        if (notes == null) {
-            if (other.notes != null) {
+        if (noteStructures == null) {
+            if (other.noteStructures != null) {
                 return false;
             }
-        } else if (!notes.equals(other.notes)) {
+        } else if (!noteStructures.equals(other.noteStructures)) {
             return false;
         }
         return true;
     }
 
     /**
-     * Gets the notes.
+     * Gets the noteStructures.
      *
-     * @return the notes
+     * @return the noteStructures
      */
     @Override
     public List<NoteStructure> getNoteStructures() {
-        return notes;
+        return noteStructures;
     }
 
     /**
-     * Get the notes
+     * Get the noteStructures
      * 
      * @param initializeIfNeeded
      *            true if this collection should be created on-the-fly if it is currently null
-     * @return the notes
+     * @return the noteStructures
      */
     @Override
     public List<NoteStructure> getNoteStructures(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<>(0);
+        if (initializeIfNeeded && noteStructures == null) {
+            noteStructures = new ArrayList<>(0);
         }
-        return notes;
+        return noteStructures;
     }
 
     /**
@@ -123,7 +123,7 @@ public abstract class AbstractNotesElement extends AbstractElement implements Ha
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (noteStructures == null ? 0 : noteStructures.hashCode());
         return result;
     }
 
@@ -134,9 +134,9 @@ public abstract class AbstractNotesElement extends AbstractElement implements Ha
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append(getClass().getSimpleName()).append(" [");
-        if (notes != null) {
-            builder.append("notes=");
-            builder.append(notes);
+        if (noteStructures != null) {
+            builder.append("noteStructures=");
+            builder.append(noteStructures);
             builder.append(", ");
         }
         if (getCustomFacts() != null) {

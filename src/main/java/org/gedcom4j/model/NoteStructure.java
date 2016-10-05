@@ -77,6 +77,38 @@ public class NoteStructure extends AbstractElement {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (!(obj instanceof NoteStructure)) {
+            return false;
+        }
+        NoteStructure other = (NoteStructure) obj;
+        if (lines == null) {
+            if (other.lines != null) {
+                return false;
+            }
+        } else if (!lines.equals(other.lines)) {
+            return false;
+        }
+        if (noteReference == null) {
+            if (other.noteReference != null) {
+                return false;
+            }
+        } else if (!noteReference.equals(other.noteReference)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Gets the lines.
      *
      * @return the lines
@@ -113,6 +145,18 @@ public class NoteStructure extends AbstractElement {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((lines == null) ? 0 : lines.hashCode());
+        result = prime * result + ((noteReference == null) ? 0 : noteReference.hashCode());
+        return result;
+    }
+
+    /**
      * Set the noteReference
      * 
      * @param noteReference
@@ -127,5 +171,30 @@ public class NoteStructure extends AbstractElement {
                     "Cannot set a note reference when there are lines of text. Clear the lines of text or set the lines property to null first.");
         }
         this.noteReference = noteReference;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder(20);
+        builder.append("NoteStructure [");
+        if (lines != null) {
+            builder.append("lines=");
+            builder.append(lines);
+            builder.append(", ");
+        }
+        if (noteReference != null) {
+            builder.append("noteReference=");
+            builder.append(noteReference);
+            builder.append(", ");
+        }
+        if (customFacts != null) {
+            builder.append("customFacts=");
+            builder.append(customFacts);
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

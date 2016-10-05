@@ -453,7 +453,7 @@ public class Gedcom extends AbstractElement {
             builder.append(", ");
         }
         if (notes != null) {
-            builder.append("notes=");
+            builder.append("noteStructures=");
             builder.append(toStringLimitCollection(notes.entrySet(), maxLen));
             builder.append(", ");
         }

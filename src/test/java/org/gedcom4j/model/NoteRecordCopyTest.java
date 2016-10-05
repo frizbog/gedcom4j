@@ -39,7 +39,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-public class NoteCopyTest extends AbstractCopyTest {
+public class NoteRecordCopyTest extends AbstractCopyTest {
 
     /**
      * Test copying a null {@link NoteRecord}, which should never work
@@ -47,7 +47,7 @@ public class NoteCopyTest extends AbstractCopyTest {
     @SuppressWarnings("unused")
     @Test(expected = NullPointerException.class)
     public void testCopyNull() {
-        new NoteRecord((String) null);
+        new NoteRecord((NoteRecord) null);
     }
 
     /**

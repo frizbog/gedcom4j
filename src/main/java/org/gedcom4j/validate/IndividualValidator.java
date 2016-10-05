@@ -113,6 +113,7 @@ class IndividualValidator extends AbstractValidator {
         checkSubmitters();
         checkIndividualEvents();
         checkLdsIndividualOrdinances();
+        checkNotes(individual);
     }
 
     /**

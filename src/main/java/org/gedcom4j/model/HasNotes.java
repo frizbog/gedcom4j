@@ -32,6 +32,7 @@ import java.util.List;
  * Marks an object that has note strucutres (inline notes, or references to root level notes - see {@link NoteStructure})
  * 
  * @author Mark A Sikes
+ * @author frizbog
  */
 public interface HasNotes extends ModelElement {
     /**

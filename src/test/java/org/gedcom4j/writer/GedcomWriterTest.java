@@ -100,7 +100,6 @@ public class GedcomWriterTest {
         // Load a file
         GedcomParser p = new GedcomParser();
         p.load(SAMPLE_STRESS_TEST_FILENAME);
-        assertTrue(p.getErrors().isEmpty());
         gedcomOrig = p.getGedcom();
 
         GedcomWriter gw = new GedcomWriter(gedcomOrig);

@@ -441,7 +441,7 @@ public class CitationWithSource extends AbstractCitation {
             builder.append(", ");
         }
         if (getNoteStructures() != null) {
-            builder.append("notes=");
+            builder.append("noteStructures=");
             builder.append(getNoteStructures());
             builder.append(", ");
         }

@@ -76,8 +76,8 @@ public class AssociationCopyTest extends AbstractCopyTest {
         assertNotSame(orig, copy);
         assertEquals(orig.toString(), copy.toString());
 
-        c.getNoteStructures(true).get(0).getLines(true).set(0, "EEE");
+        c.getNoteStructures(true).get(0).getLines(true).set(0, "Changed value");
         assertFalse("Copy shouldn't match when original gets changed", orig.equals(copy));
-        assertEquals("Test Note Line 1", copy.getCitations().get(0).getNoteStructures().get(0).getLines().get(0));
+        assertEquals("This is a test", copy.getCitations().get(0).getNoteStructures().get(0).getLines().get(0));
     }
 }

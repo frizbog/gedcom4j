@@ -144,7 +144,7 @@ abstract class AbstractValidator implements Serializable {
         mustBeDateIfSpecified(changeDate, "date");
         mustHaveValueOrBeOmitted(changeDate, "time");
         if (objectWithChangeDate instanceof HasNotes) {
-            checkUninitializedCollection(changeDate, "notes");
+            checkUninitializedCollection(changeDate, "noteStructures");
         }
         checkNotes(changeDate);
     }

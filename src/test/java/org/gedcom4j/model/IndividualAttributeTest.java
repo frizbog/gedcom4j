@@ -301,7 +301,7 @@ public class IndividualAttributeTest {
 
         assertEquals("IndividualAttribute [type=Fact, age=One, cause=Two, "
                 + "citations=[CitationWithoutSource []], date=Three, description=Four, multimedia=[Multimedia []], "
-                + "notes=[Note []], place=Place [], religiousAffiliation=Eight, respAgency=Nine, restrictionNotice=Ten, "
+                + "noteStructures=[NoteStructure []], place=Place [], religiousAffiliation=Eight, respAgency=Nine, restrictionNotice=Ten, "
                 + "subType=Eleven, yNull=Thirteen, address=Address [], emails=[Five], faxNumbers=[Six], phoneNumbers=[Seven], "
                 + "wwwUrls=[Twelve], customFacts=[CustomFact [tag=_FOO, ]]]", i.toString());
     }

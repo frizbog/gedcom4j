@@ -543,7 +543,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
             new SubmissionParser(this, rootLevelItem, s).parse();
         } else if (Tag.NOTE.equalsText(rootLevelItem.getTag())) {
             NoteRecord nr = getNoteRecord(rootLevelItem.getXref());
-            new NoteRecordListParser(this, rootLevelItem, nr).parse();
+            new NoteRecordParser(this, rootLevelItem, nr).parse();
         } else if (Tag.FAMILY.equalsText(rootLevelItem.getTag())) {
             Family f = getFamily(rootLevelItem.getXref());
             new FamilyParser(this, rootLevelItem, f).parse();

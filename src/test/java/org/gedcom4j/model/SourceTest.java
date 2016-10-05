@@ -219,7 +219,7 @@ public class SourceTest {
         s1.getSourceText(true).clear();
         s1.getTitle(true).clear();
         s1.getUserReferences(true).clear();
-        assertEquals("Source [changeDate=ChangeDate [], data=SourceData [], multimedia=[], notes=[Note []], originatorsAuthors=[], "
+        assertEquals("Source [changeDate=ChangeDate [], data=SourceData [], multimedia=[], noteStructures=[NoteStructure []], originatorsAuthors=[], "
                 + "publicationFacts=[], recIdNumber=Foo, repositoryCitation=RepositoryCitation [], sourceFiledBy=Bar, "
                 + "sourceText=[], title=[], userReferences=[], xref=Foo, ]", s1.toString());
 

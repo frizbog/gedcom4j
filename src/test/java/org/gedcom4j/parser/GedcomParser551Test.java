@@ -293,7 +293,6 @@ public class GedcomParser551Test {
 
         // 5.5 data, has a blob - OK
         gp.load("sample/TGC551.ged");
-        assertTrue(gp.getErrors().isEmpty());
         // Any warnings issued should NOT be about BLOBs
         for (String w : gp.getWarnings()) {
             assertTrue(!w.contains("BLOB"));

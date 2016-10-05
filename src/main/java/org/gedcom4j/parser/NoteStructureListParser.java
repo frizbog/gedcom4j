@@ -65,12 +65,9 @@ class NoteStructureListParser extends AbstractParser<List<NoteStructure>> {
             loadInto.add(noteStructure);
             remainingChildrenAreCustomTags(stringTree, noteStructure);
             return;
-        } else if (stringTree.getXref() == null) {
-            noteStructure = new NoteStructure();
-            loadInto.add(noteStructure);
-            remainingChildrenAreCustomTags(stringTree, noteStructure);
-            return;
         }
+        noteStructure = new NoteStructure();
+        loadInto.add(noteStructure);
         noteStructure.getLines(true).add(stringTree.getValue());
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {

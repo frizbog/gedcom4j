@@ -26,8 +26,6 @@
  */
 package org.gedcom4j.validate;
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
@@ -99,7 +97,6 @@ public class ValidatorGedcomStructureTest extends AbstractValidatorTestCase {
         // Load a file
         GedcomParser p = new GedcomParser();
         p.load(SAMPLE_STRESS_TEST_FILENAME);
-        assertTrue(p.getErrors().isEmpty());
         validator = new Validator(p.getGedcom());
         validator.validate();
 

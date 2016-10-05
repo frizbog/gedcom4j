@@ -28,7 +28,6 @@ package org.gedcom4j.parser;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
@@ -63,7 +62,6 @@ public class StressFileSpecialCharacterReadTest {
     public static void setUpClass() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/TGC551.ged");
-        assertTrue(gp.getErrors().isEmpty());
         g = gp.getGedcom();
     }
 

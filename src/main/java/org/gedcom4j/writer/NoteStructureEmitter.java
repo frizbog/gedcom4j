@@ -83,7 +83,11 @@ class NoteStructureEmitter extends AbstractEmitter<Collection<NoteStructure>> {
      *             if the data is malformed and cannot be written
      */
     private void emitNoteStructure(int level, NoteStructure note) throws GedcomWriterException {
-        emitLinesOfText(level, null, "NOTE", note.getLines());
+        if (note.getNoteReference() == null) {
+            emitLinesOfText(level, null, "NOTE", note.getLines());
+        } else {
+            emitTagWithRequiredValue(level, "NOTE", note.getNoteReference().getXref());
+        }
         emitCustomFacts(level + 1, note.getCustomFacts());
     }
 

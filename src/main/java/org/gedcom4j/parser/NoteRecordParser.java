@@ -36,7 +36,7 @@ import org.gedcom4j.model.UserReference;
  * 
  * @author frizbog
  */
-class NoteRecordListParser extends AbstractParser<NoteRecord> {
+class NoteRecordParser extends AbstractParser<NoteRecord> {
 
     /**
      * Constructor
@@ -48,7 +48,7 @@ class NoteRecordListParser extends AbstractParser<NoteRecord> {
      * @param loadInto
      *            the object we are loading data into
      */
-    NoteRecordListParser(GedcomParser gedcomParser, StringTree stringTree, NoteRecord loadInto) {
+    NoteRecordParser(GedcomParser gedcomParser, StringTree stringTree, NoteRecord loadInto) {
         super(gedcomParser, stringTree, loadInto);
     }
 
@@ -57,37 +57,40 @@ class NoteRecordListParser extends AbstractParser<NoteRecord> {
      */
     @Override
     void parse() {
-        NoteRecord noteRecord = new NoteRecord(stringTree.getXref());
-        noteRecord.getLines(true).add(stringTree.getValue());
+        if (stringTree.getXref() != null && !stringTree.getXref().isEmpty() && referencesAnotherNode(stringTree)) {
+            addWarning("NOTE line has both an XREF_ID (" + stringTree.getXref() + ") and SUBMITTER_TEXT (" + stringTree.getValue()
+                    + ") value between @ signs - " + "treating SUBMITTER_TEXT as string, not a cross-reference");
+        }
+        loadInto.getLines(true).add(stringTree.getValue());
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.CONCATENATION.equalsText(ch.getTag())) {
-                    if (noteRecord.getLines().isEmpty()) {
-                        noteRecord.getLines(true).add(ch.getValue());
+                    if (loadInto.getLines().isEmpty()) {
+                        loadInto.getLines(true).add(ch.getValue());
                     } else {
-                        String lastNote = noteRecord.getLines().get(noteRecord.getLines().size() - 1);
+                        String lastNote = loadInto.getLines().get(loadInto.getLines().size() - 1);
                         if (lastNote == null || lastNote.length() == 0) {
-                            noteRecord.getLines().set(noteRecord.getLines().size() - 1, ch.getValue());
+                            loadInto.getLines().set(loadInto.getLines().size() - 1, ch.getValue());
                         } else {
-                            noteRecord.getLines().set(noteRecord.getLines().size() - 1, lastNote + ch.getValue());
+                            loadInto.getLines().set(loadInto.getLines().size() - 1, lastNote + ch.getValue());
                         }
                     }
                 } else if (Tag.CONTINUATION.equalsText(ch.getTag())) {
-                    noteRecord.getLines(true).add(ch.getValue() == null ? "" : ch.getValue());
+                    loadInto.getLines(true).add(ch.getValue() == null ? "" : ch.getValue());
                 } else if (Tag.SOURCE.equalsText(ch.getTag())) {
-                    new CitationListParser(gedcomParser, ch, noteRecord.getCitations(true)).parse();
+                    new CitationListParser(gedcomParser, ch, loadInto.getCitations(true)).parse();
                 } else if (Tag.REFERENCE.equalsText(ch.getTag())) {
                     UserReference u = new UserReference();
-                    noteRecord.getUserReferences(true).add(u);
+                    loadInto.getUserReferences(true).add(u);
                     new UserReferenceParser(gedcomParser, ch, u).parse();
                 } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
-                    noteRecord.setRecIdNumber(parseStringWithCustomFacts(ch));
+                    loadInto.setRecIdNumber(parseStringWithCustomFacts(ch));
                 } else if (Tag.CHANGED_DATETIME.equalsText(ch.getTag())) {
                     ChangeDate changeDate = new ChangeDate();
-                    noteRecord.setChangeDate(changeDate);
+                    loadInto.setChangeDate(changeDate);
                     new ChangeDateParser(gedcomParser, ch, changeDate).parse();
                 } else {
-                    unknownTag(ch, noteRecord);
+                    unknownTag(ch, loadInto);
                 }
             }
         }

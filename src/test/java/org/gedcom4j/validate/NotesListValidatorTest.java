@@ -44,7 +44,7 @@ public class NotesListValidatorTest extends AbstractValidatorTestCase {
     public void testNullNotesList() {
         Options.setCollectionInitializationEnabled(true);
         new NoteStructureListValidator(validator, gedcom.getHeader()).validate();
-        assertFindingsContain(Severity.INFO, gedcom.getHeader(), ProblemCode.UNINITIALIZED_COLLECTION.getCode(), "notes");
+        assertFindingsContain(Severity.INFO, gedcom.getHeader(), ProblemCode.UNINITIALIZED_COLLECTION.getCode(), "noteStructures");
         Options.setCollectionInitializationEnabled(false);
     }
 

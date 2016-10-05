@@ -60,7 +60,7 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
     /**
      * Notes about this object
      */
-    private List<NoteStructure> notes = getNoteStructures(Options.isCollectionInitializationEnabled());
+    private List<NoteStructure> noteStructures = getNoteStructures(Options.isCollectionInitializationEnabled());
 
     /**
      * The prefix for the name
@@ -112,9 +112,9 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
             nickname = new StringWithCustomFacts(other.nickname);
         }
         if (other.getNoteStructures() != null) {
-            notes = new ArrayList<>();
+            noteStructures = new ArrayList<>();
             for (NoteStructure n : other.getNoteStructures()) {
-                notes.add(new NoteStructure(n));
+                noteStructures.add(new NoteStructure(n));
             }
         }
         if (other.prefix != null) {
@@ -172,11 +172,11 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
         } else if (!nickname.equals(other.nickname)) {
             return false;
         }
-        if (notes == null) {
-            if (other.notes != null) {
+        if (noteStructures == null) {
+            if (other.noteStructures != null) {
                 return false;
             }
-        } else if (!notes.equals(other.notes)) {
+        } else if (!noteStructures.equals(other.noteStructures)) {
             return false;
         }
         if (prefix == null) {
@@ -275,7 +275,7 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      */
     @Override
     public List<NoteStructure> getNoteStructures() {
-        return notes;
+        return noteStructures;
     }
 
     /**
@@ -288,10 +288,10 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      */
     @Override
     public List<NoteStructure> getNoteStructures(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<>(0);
+        if (initializeIfNeeded && noteStructures == null) {
+            noteStructures = new ArrayList<>(0);
         }
-        return notes;
+        return noteStructures;
     }
 
     /**
@@ -343,7 +343,7 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
         result = prime * result + (citations == null ? 0 : citations.hashCode());
         result = prime * result + (givenName == null ? 0 : givenName.hashCode());
         result = prime * result + (nickname == null ? 0 : nickname.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (noteStructures == null ? 0 : noteStructures.hashCode());
         result = prime * result + (prefix == null ? 0 : prefix.hashCode());
         result = prime * result + (suffix == null ? 0 : suffix.hashCode());
         result = prime * result + (surname == null ? 0 : surname.hashCode());
@@ -495,9 +495,9 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
             builder.append(nickname);
             builder.append(", ");
         }
-        if (notes != null) {
-            builder.append("notes=");
-            builder.append(notes);
+        if (noteStructures != null) {
+            builder.append("noteStructures=");
+            builder.append(noteStructures);
             builder.append(", ");
         }
         if (prefix != null) {
