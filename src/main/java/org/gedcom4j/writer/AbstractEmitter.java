@@ -33,6 +33,7 @@ import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.HasCustomFacts;
+import org.gedcom4j.model.MultiStringWithCustomFacts;
 import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.enumerations.SupportedVersion;
 
@@ -110,6 +111,29 @@ abstract class AbstractEmitter<T> {
      */
     protected void emitLinesOfText(int level, String startingTag, List<String> linesOfText) {
         emitLinesOfText(level, null, startingTag, linesOfText);
+    }
+
+    /**
+     * Convenience method for emitting lines of text when there is no xref, so you don't have to pass null all the time
+     * 
+     * @param level
+     *            the level we are starting at. Continuation lines will be one level deeper than this value
+     * @param startingTag
+     *            the tag to use for the first line of the text. All subsequent lines will be "CONT" lines.
+     * @param multiLine
+     *            the lines of text
+     * @throws GedcomWriterException
+     *             if the data is malformed and cannot be written
+     * @throws WriterCancelledException
+     *             if cancellation was requested during the operation
+     */
+    protected void emitLinesOfText(int level, String startingTag, MultiStringWithCustomFacts multiLine)
+            throws WriterCancelledException, GedcomWriterException {
+        if (multiLine == null) {
+            return;
+        }
+        emitLinesOfText(level, null, startingTag, multiLine.getLines());
+        emitCustomFacts(level + 1, multiLine);
     }
 
     /**

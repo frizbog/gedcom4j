@@ -30,6 +30,7 @@ import java.util.List;
 
 import org.gedcom4j.model.ChangeDate;
 import org.gedcom4j.model.EventRecorded;
+import org.gedcom4j.model.MultiStringWithCustomFacts;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.RepositoryCitation;
@@ -69,15 +70,23 @@ class SourceParser extends AbstractParser<Source> {
                     loadInto.setData(new SourceData());
                     loadSourceData(ch, loadInto.getData());
                 } else if (Tag.TITLE.equalsText(ch.getTag())) {
-                    loadMultiLinesOfText(ch, loadInto.getTitle(true), loadInto);
+                    MultiStringWithCustomFacts title = new MultiStringWithCustomFacts();
+                    loadInto.setTitle(title);
+                    loadMultiStringWithCustomFacts(ch, title);
                 } else if (Tag.PUBLICATION_FACTS.equalsText(ch.getTag())) {
-                    loadMultiLinesOfText(ch, loadInto.getPublicationFacts(true), loadInto);
+                    MultiStringWithCustomFacts publicationFacts = new MultiStringWithCustomFacts();
+                    loadInto.setPublicationFacts(publicationFacts);
+                    loadMultiStringWithCustomFacts(ch, publicationFacts);
                 } else if (Tag.TEXT.equalsText(ch.getTag())) {
-                    loadMultiLinesOfText(ch, loadInto.getSourceText(true), loadInto);
+                    MultiStringWithCustomFacts srcText = new MultiStringWithCustomFacts();
+                    loadInto.setSourceText(srcText);
+                    loadMultiStringWithCustomFacts(ch, srcText);
                 } else if (Tag.ABBREVIATION.equalsText(ch.getTag())) {
                     loadInto.setSourceFiledBy(parseStringWithCustomFacts(ch));
                 } else if (Tag.AUTHORS.equalsText(ch.getTag())) {
-                    loadMultiLinesOfText(ch, loadInto.getOriginatorsAuthors(true), loadInto);
+                    MultiStringWithCustomFacts originatorsAuthors = new MultiStringWithCustomFacts();
+                    loadInto.setOriginatorsAuthors(originatorsAuthors);
+                    loadMultiStringWithCustomFacts(ch, originatorsAuthors);
                 } else if (Tag.REPOSITORY.equalsText(ch.getTag())) {
                     loadInto.setRepositoryCitation(loadRepositoryCitation(ch));
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
@@ -183,7 +192,7 @@ class SourceParser extends AbstractParser<Source> {
                 } else if (Tag.PLACE.equalsText(ch.getTag())) {
                     e.setJurisdiction(parseStringWithCustomFacts(ch));
                 } else {
-                    unknownTag(ch, sourceData);
+                    unknownTag(ch, e);
                 }
             }
         }

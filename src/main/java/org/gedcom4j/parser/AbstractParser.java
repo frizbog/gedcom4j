@@ -34,6 +34,7 @@ import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.HasCustomFacts;
 import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.MultiStringWithCustomFacts;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.NoteRecord;
 import org.gedcom4j.model.Repository;
@@ -265,6 +266,43 @@ abstract class AbstractParser<T> {
                     }
                 } else {
                     unknownTag(ch, element);
+                }
+            }
+        }
+    }
+
+    /**
+     * Load multiple (continued) lines of text from a string tree node along with custom facts from that node
+     * 
+     * @param stringTreeWithLinesOfText
+     *            the string tree with lots of lines of text
+     * @param multiString
+     *            the multi-line object (with custom facts) that we're loading into
+     */
+    protected void loadMultiStringWithCustomFacts(StringTree stringTreeWithLinesOfText, MultiStringWithCustomFacts multiString) {
+        List<String> listOfString = multiString.getLines(true);
+        if (stringTreeWithLinesOfText.getValue() != null) {
+            listOfString.add(stringTreeWithLinesOfText.getValue());
+        }
+        if (stringTreeWithLinesOfText.getChildren() != null) {
+            for (StringTree ch : stringTreeWithLinesOfText.getChildren()) {
+                if (Tag.CONTINUATION.equalsText(ch.getTag())) {
+                    if (ch.getValue() == null) {
+                        listOfString.add("");
+                    } else {
+                        listOfString.add(ch.getValue());
+                    }
+                } else if (Tag.CONCATENATION.equalsText(ch.getTag())) {
+                    // If there's no value to concatenate, ignore it
+                    if (ch.getValue() != null) {
+                        if (listOfString.isEmpty()) {
+                            listOfString.add(ch.getValue());
+                        } else {
+                            listOfString.set(listOfString.size() - 1, listOfString.get(listOfString.size() - 1) + ch.getValue());
+                        }
+                    }
+                } else {
+                    unknownTag(ch, multiString);
                 }
             }
         }

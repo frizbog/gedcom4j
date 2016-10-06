@@ -44,9 +44,9 @@ public class EventRecorded extends AbstractElement {
     private StringWithCustomFacts datePeriod;
 
     /**
-     * The event type (tag)
+     * The event types recorded in the source
      */
-    private String eventType;
+    private StringWithCustomFacts eventType;
 
     /**
      * The jurisdiction of the source. Corresponds to SOURCE_JURISDICTION_PLACE in the GEDCOM spec.
@@ -128,7 +128,7 @@ public class EventRecorded extends AbstractElement {
      *
      * @return the event type
      */
-    public String getEventType() {
+    public StringWithCustomFacts getEventType() {
         return eventType;
     }
 
@@ -181,6 +181,20 @@ public class EventRecorded extends AbstractElement {
      *            the new event type
      */
     public void setEventType(String eventType) {
+        if (this.eventType == null) {
+            this.eventType = new StringWithCustomFacts(eventType);
+        } else {
+            this.eventType.setValue(eventType);
+        }
+    }
+
+    /**
+     * Sets the event type.
+     *
+     * @param eventType
+     *            the new event type
+     */
+    public void setEventType(StringWithCustomFacts eventType) {
         this.eventType = eventType;
     }
 

@@ -71,12 +71,16 @@ class SourceEmitter extends AbstractEmitter<Collection<Source>> {
             if (d != null) {
                 emitTag(1, "DATA");
                 for (EventRecorded e : d.getEventsRecorded()) {
-                    emitTagWithOptionalValue(2, "EVEN", e.getEventType());
+                    if (e.getEventType() != null) {
+                        emitTagWithOptionalValue(2, "EVEN", e.getEventType().getValue());
+                    }
                     emitTagIfValueNotNull(3, "DATE", e.getDatePeriod());
                     emitTagIfValueNotNull(3, "PLAC", e.getJurisdiction());
+                    emitCustomFacts(3, e.getCustomFacts());
                 }
                 emitTagIfValueNotNull(2, "AGNC", d.getRespAgency());
                 new NoteStructureEmitter(baseWriter, 2, d.getNoteStructures()).emit();
+                emitCustomFacts(2, d.getCustomFacts());
             }
             emitLinesOfText(1, "AUTH", s.getOriginatorsAuthors());
             emitLinesOfText(1, "TITL", s.getTitle());

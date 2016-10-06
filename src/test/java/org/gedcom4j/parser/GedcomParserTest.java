@@ -150,8 +150,8 @@ public class GedcomParserTest {
         // shown
         assertEquals(2, g.getSources().size());
         for (Source s : g.getSources().values()) {
-            assertTrue(s.getTitle().get(0).equals("William Barnett Family.FTW") || s.getTitle().get(0).equals(
-                    "Warrick County, IN WPA Indexes"));
+            assertTrue(s.getTitle().getLines(true).get(0).equals("William Barnett Family.FTW") || s.getTitle().getLines(true).get(0)
+                    .equals("Warrick County, IN WPA Indexes"));
         }
 
         assertEquals(17, g.getFamilies().size());

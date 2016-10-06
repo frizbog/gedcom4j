@@ -62,7 +62,7 @@ class UserReferenceParser extends AbstractParser<UserReference> {
                 if (Tag.TYPE.equalsText(ch.getTag())) {
                     loadInto.setType(parseStringWithCustomFacts(ch));
                 } else {
-                    unknownTag(ch, loadInto);
+                    unknownTag(ch, loadInto.getReferenceNum());
                 }
             }
         }

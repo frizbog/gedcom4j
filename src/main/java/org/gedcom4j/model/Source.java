@@ -61,12 +61,12 @@ public class Source extends AbstractNotesElement implements HasXref {
     /**
      * The originators/authors
      */
-    private List<String> originatorsAuthors = getOriginatorsAuthors(Options.isCollectionInitializationEnabled());
+    private MultiStringWithCustomFacts originatorsAuthors;
 
     /**
      * Publication facts on this source
      */
-    private List<String> publicationFacts = getPublicationFacts(Options.isCollectionInitializationEnabled());
+    private MultiStringWithCustomFacts publicationFacts;
 
     /**
      * The record ID number
@@ -86,12 +86,12 @@ public class Source extends AbstractNotesElement implements HasXref {
     /**
      * Text from the source
      */
-    private List<String> sourceText = getSourceText(Options.isCollectionInitializationEnabled());
+    private MultiStringWithCustomFacts sourceText;
 
     /**
      * The title text
      */
-    private List<String> title = getTitle(Options.isCollectionInitializationEnabled());
+    private MultiStringWithCustomFacts title;
 
     /**
      * The user references for this submitter
@@ -129,10 +129,10 @@ public class Source extends AbstractNotesElement implements HasXref {
             }
         }
         if (other.originatorsAuthors != null) {
-            originatorsAuthors = new ArrayList<>(other.originatorsAuthors);
+            originatorsAuthors = new MultiStringWithCustomFacts(other.originatorsAuthors);
         }
         if (other.publicationFacts != null) {
-            publicationFacts = new ArrayList<>(other.publicationFacts);
+            publicationFacts = new MultiStringWithCustomFacts(other.publicationFacts);
         }
 
         if (other.recIdNumber != null) {
@@ -145,11 +145,11 @@ public class Source extends AbstractNotesElement implements HasXref {
             sourceFiledBy = new StringWithCustomFacts(other.sourceFiledBy);
         }
         if (other.sourceText != null) {
-            sourceText = new ArrayList<>(other.sourceText);
+            sourceText = new MultiStringWithCustomFacts(other.sourceText);
         }
 
         if (other.title != null) {
-            title = new ArrayList<>(other.title);
+            title = new MultiStringWithCustomFacts(other.title);
         }
         if (other.userReferences != null) {
             userReferences = new ArrayList<>();
@@ -321,21 +321,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      *
      * @return the originators authors
      */
-    public List<String> getOriginatorsAuthors() {
-        return originatorsAuthors;
-    }
-
-    /**
-     * Get the originators authors
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the originators authors
-     */
-    public List<String> getOriginatorsAuthors(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && originatorsAuthors == null) {
-            originatorsAuthors = new ArrayList<>(0);
-        }
+    public MultiStringWithCustomFacts getOriginatorsAuthors() {
         return originatorsAuthors;
     }
 
@@ -344,21 +330,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      *
      * @return the publication facts
      */
-    public List<String> getPublicationFacts() {
-        return publicationFacts;
-    }
-
-    /**
-     * Get the publication facts
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the publication facts
-     */
-    public List<String> getPublicationFacts(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && publicationFacts == null) {
-            publicationFacts = new ArrayList<>(0);
-        }
+    public MultiStringWithCustomFacts getPublicationFacts() {
         return publicationFacts;
     }
 
@@ -394,21 +366,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      *
      * @return the source text
      */
-    public List<String> getSourceText() {
-        return sourceText;
-    }
-
-    /**
-     * Get the source text
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the source text
-     */
-    public List<String> getSourceText(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && sourceText == null) {
-            sourceText = new ArrayList<>(0);
-        }
+    public MultiStringWithCustomFacts getSourceText() {
         return sourceText;
     }
 
@@ -417,21 +375,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      *
      * @return the title
      */
-    public List<String> getTitle() {
-        return title;
-    }
-
-    /**
-     * Get the title
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the title
-     */
-    public List<String> getTitle(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && title == null) {
-            title = new ArrayList<>(0);
-        }
+    public MultiStringWithCustomFacts getTitle() {
         return title;
     }
 
@@ -511,6 +455,26 @@ public class Source extends AbstractNotesElement implements HasXref {
     }
 
     /**
+     * Set the originatorsAuthors
+     * 
+     * @param originatorsAuthors
+     *            the originatorsAuthors to set
+     */
+    public void setOriginatorsAuthors(MultiStringWithCustomFacts originatorsAuthors) {
+        this.originatorsAuthors = originatorsAuthors;
+    }
+
+    /**
+     * Set the publicationFacts
+     * 
+     * @param publicationFacts
+     *            the publicationFacts to set
+     */
+    public void setPublicationFacts(MultiStringWithCustomFacts publicationFacts) {
+        this.publicationFacts = publicationFacts;
+    }
+
+    /**
      * Sets the rec id number.
      *
      * @param recIdNumber
@@ -558,6 +522,26 @@ public class Source extends AbstractNotesElement implements HasXref {
      */
     public void setSourceFiledBy(StringWithCustomFacts sourceFiledBy) {
         this.sourceFiledBy = sourceFiledBy;
+    }
+
+    /**
+     * Set the sourceText
+     * 
+     * @param sourceText
+     *            the sourceText to set
+     */
+    public void setSourceText(MultiStringWithCustomFacts sourceText) {
+        this.sourceText = sourceText;
+    }
+
+    /**
+     * Set the title
+     * 
+     * @param title
+     *            the title to set
+     */
+    public void setTitle(MultiStringWithCustomFacts title) {
+        this.title = title;
     }
 
     /**
