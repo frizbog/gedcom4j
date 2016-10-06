@@ -57,6 +57,7 @@ public class Header extends AbstractNotesElement {
     /**
      * Copyright information for the GEDCOM file.
      */
+    // TODO - convert this to a MultiStringWithCustomFacts
     private List<String> copyrightData = getCopyrightData(Options.isCollectionInitializationEnabled());
 
     /**

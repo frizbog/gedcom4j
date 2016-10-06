@@ -62,9 +62,9 @@ public class HeaderSourceDataTest {
         assertFalse(h1.equals(h2));
         h2.setName("Frying Pan");
         assertEquals(h1, h2);
-        h1.setName(null);
+        h1.setName((String) null);
         assertFalse(h1.equals(h2));
-        h2.setName(null);
+        h2.setName((String) null);
         assertEquals(h1, h2);
 
         h1.setPublishDate("Frying Pan");
@@ -102,9 +102,9 @@ public class HeaderSourceDataTest {
         assertFalse(h1.hashCode() == h2.hashCode());
         h2.setName("Frying Pan");
         assertEquals(h1.hashCode(), h2.hashCode());
-        h1.setName(null);
+        h1.setName((String) null);
         assertFalse(h1.hashCode() == h2.hashCode());
-        h2.setName(null);
+        h2.setName((String) null);
         assertEquals(h1.hashCode(), h2.hashCode());
 
         h1.setPublishDate("Frying Pan");

@@ -32,7 +32,6 @@ import org.gedcom4j.model.Corporation;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.HeaderSourceData;
 import org.gedcom4j.model.SourceSystem;
-import org.gedcom4j.model.StringWithCustomFacts;
 
 /**
  * Emitter for {@link Header} objects
@@ -128,12 +127,14 @@ class HeaderEmitter extends AbstractEmitter<Header> {
             emitStringsWithCustomFacts(3, corporation.getFaxNumbers(), "FAX");
             emitStringsWithCustomFacts(3, corporation.getWwwUrls(), "WWW");
             emitStringsWithCustomFacts(3, corporation.getEmails(), "EMAIL");
+            emitCustomFacts(3, corporation);
         }
         HeaderSourceData sourceData = sourceSystem.getSourceData();
         if (sourceData != null) {
-            emitTagIfValueNotNull(2, "DATA", new StringWithCustomFacts(sourceData.getName()));
+            emitTagIfValueNotNull(2, "DATA", sourceData.getName());
             emitTagIfValueNotNull(3, "DATE", sourceData.getPublishDate());
             emitTagIfValueNotNull(3, "COPR", sourceData.getCopyright());
+            emitCustomFacts(3, sourceData);
         }
         emitCustomFacts(2, sourceSystem.getCustomFacts());
     }

@@ -52,7 +52,7 @@ public class HeaderSourceData extends AbstractElement {
     /**
      * The name of the source data. This field must be valued to pass validation, so the default value is "UNSPECIFIED".
      */
-    private String name = "UNSPECIFIED";
+    private StringWithCustomFacts name = new StringWithCustomFacts("UNSPECIFIED");
 
     /**
      * The publish date
@@ -134,7 +134,7 @@ public class HeaderSourceData extends AbstractElement {
      *
      * @return the name
      */
-    public String getName() {
+    public StringWithCustomFacts getName() {
         return name;
     }
 
@@ -187,6 +187,20 @@ public class HeaderSourceData extends AbstractElement {
      *            the new name
      */
     public void setName(String name) {
+        if (this.name != null) {
+            this.name.setValue(name);
+        } else {
+            this.name = new StringWithCustomFacts(name);
+        }
+    }
+
+    /**
+     * Sets the name.
+     *
+     * @param name
+     *            the new name
+     */
+    public void setName(StringWithCustomFacts name) {
         this.name = name;
     }
 

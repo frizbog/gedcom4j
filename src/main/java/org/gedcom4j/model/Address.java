@@ -66,6 +66,7 @@ public class Address extends AbstractElement {
     /**
      * The lines of the address
      */
+    // TODO - convert this to a MultiStringWithCustomFacts
     private List<String> lines = getLines(Options.isCollectionInitializationEnabled());
 
     /**

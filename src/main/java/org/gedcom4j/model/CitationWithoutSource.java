@@ -46,6 +46,7 @@ public class CitationWithoutSource extends AbstractCitation {
     /**
      * Lines of text describing this citation
      */
+    // TODO - convert this to a MultiStringWithCustomFacts
     private List<String> description = getDescription(Options.isCollectionInitializationEnabled());
 
     /**
