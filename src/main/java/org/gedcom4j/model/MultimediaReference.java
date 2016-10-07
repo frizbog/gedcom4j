@@ -27,12 +27,12 @@
 package org.gedcom4j.model;
 
 /**
- * A reference to an submitter, which may have custom facts on the reference that are not custom facts about the submitter
+ * A reference to an multimedia, which may have custom facts on the reference that are not custom facts about the multimedia
  * themselves.
  * 
  * @author frizbog
  */
-public class SubmitterReference extends AbstractElement {
+public class MultimediaReference extends AbstractElement {
 
     /**
      * Serial version UID
@@ -40,37 +40,37 @@ public class SubmitterReference extends AbstractElement {
     private static final long serialVersionUID = -1855269504871281907L;
 
     /**
-     * The submitter referred to
+     * The multimedia referred to
      */
-    Submitter submitter;
+    Multimedia multimedia;
 
     /**
      * Default constructor
      */
-    public SubmitterReference() {
+    public MultimediaReference() {
         // Default constructor does nothing
     }
 
     /**
-     * Create a new SubmitterReference object
+     * Create a new MultimediaReference object
      * 
-     * @param submitter
-     *            the submitter being referred to
+     * @param multimedia
+     *            the multimedia being referred to
      */
-    public SubmitterReference(Submitter submitter) {
-        this.submitter = submitter;
+    public MultimediaReference(Multimedia multimedia) {
+        this.multimedia = multimedia;
     }
 
     /**
      * Copy constructor.
      * 
      * @param other
-     *            the other SubmitterReference being copied
+     *            the other MultimediaReference being copied
      */
-    public SubmitterReference(SubmitterReference other) {
+    public MultimediaReference(MultimediaReference other) {
         super(other);
-        if (other.submitter != null) {
-            submitter = new Submitter(other.submitter);
+        if (other.multimedia != null) {
+            multimedia = new Multimedia(other.multimedia);
         }
     }
 
@@ -85,27 +85,27 @@ public class SubmitterReference extends AbstractElement {
         if (!super.equals(obj)) {
             return false;
         }
-        if (!(obj instanceof SubmitterReference)) {
+        if (!(obj instanceof MultimediaReference)) {
             return false;
         }
-        SubmitterReference other = (SubmitterReference) obj;
-        if (submitter == null) {
-            if (other.submitter != null) {
+        MultimediaReference other = (MultimediaReference) obj;
+        if (multimedia == null) {
+            if (other.multimedia != null) {
                 return false;
             }
-        } else if (!submitter.equals(other.submitter)) {
+        } else if (!multimedia.equals(other.multimedia)) {
             return false;
         }
         return true;
     }
 
     /**
-     * Get the submitter
+     * Get the multimedia
      * 
-     * @return the submitter
+     * @return the multimedia
      */
-    public Submitter getSubmitter() {
-        return submitter;
+    public Multimedia getMultimedia() {
+        return multimedia;
     }
 
     /**
@@ -115,18 +115,18 @@ public class SubmitterReference extends AbstractElement {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((submitter == null) ? 0 : submitter.hashCode());
+        result = prime * result + ((multimedia == null) ? 0 : multimedia.hashCode());
         return result;
     }
 
     /**
-     * Set the submitter
+     * Set the multimedia
      * 
-     * @param submitter
-     *            the submitter to set
+     * @param multimedia
+     *            the multimedia to set
      */
-    public void setSubmitter(Submitter submitter) {
-        this.submitter = submitter;
+    public void setMultimedia(Multimedia multimedia) {
+        this.multimedia = multimedia;
     }
 
     /**
@@ -135,10 +135,10 @@ public class SubmitterReference extends AbstractElement {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder(25);
-        builder.append("SubmitterReference [");
-        if (submitter != null) {
-            builder.append("submitter=");
-            builder.append(submitter);
+        builder.append("MultimediaReference [");
+        if (multimedia != null) {
+            builder.append("multimedia=");
+            builder.append(multimedia);
             builder.append(", ");
         }
         if (customFacts != null) {

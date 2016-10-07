@@ -30,7 +30,7 @@ import java.util.List;
 
 import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.IndividualAttribute;
-import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.MultimediaReference;
 import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.enumerations.IndividualAttributeType;
 
@@ -113,12 +113,15 @@ public class IndividualAttributeValidator extends AbstractValidator {
      */
     private void checkMultimedia() {
         checkUninitializedCollection(ia, "multimedia");
-        List<Multimedia> multimedia = ia.getMultimedia();
+        List<MultimediaReference> multimedia = ia.getMultimedia();
         if (multimedia != null) {
             checkListOfModelElementsForDups(ia, "multimedia");
             checkListOfModelElementsForNulls(ia, "multimedia");
-            for (Multimedia m : multimedia) {
-                new MultimediaValidator(getValidator(), m).validate();
+            for (MultimediaReference mRef : multimedia) {
+                if (mRef == null) {
+                    continue;
+                }
+                new MultimediaValidator(getValidator(), mRef.getMultimedia()).validate();
             }
         }
     }

@@ -134,7 +134,7 @@ public class IndividualCopyTest extends AbstractCopyTest {
         orig.getLdsIndividualOrdinances(true).add(lio);
         Multimedia m = new Multimedia();
         m.setXref("@M1@");
-        orig.getMultimedia(true).add(m);
+        orig.getMultimedia(true).add(new MultimediaReference(m));
         PersonalName pn = new PersonalName();
         pn.setBasic("Gloria /Gleeson/");
         orig.getNames(true).add(pn);

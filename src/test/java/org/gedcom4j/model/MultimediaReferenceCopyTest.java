@@ -29,32 +29,31 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 
-import org.gedcom4j.model.enumerations.FamilyEventType;
 import org.junit.Test;
 
 /**
- * Test copy constructor for {@link FamilyEvent}
+ * Test copy constructor for {@link MultimediaReference}
  * 
  * @author frizbog
  */
-public class FamilyEventCopyTest extends AbstractCopyTest {
+public class MultimediaReferenceCopyTest extends AbstractCopyTest {
 
     /**
-     * Test copying a null {@link FamilyEvent}, which should never work
+     * Test copying a null {@link MultimediaReference}, which should never work
      */
     @SuppressWarnings("unused")
     @Test(expected = NullPointerException.class)
     public void testCopyNull() {
-        new FamilyEvent(null);
+        new MultimediaReference((MultimediaReference) null);
     }
 
     /**
-     * Test the simplest possible scenario - copy a new default {@link FamilyEvent}
+     * Test the simplest possible scenario - copy a new default {@link MultimediaReference}
      */
     @Test
     public void testSimplestPossible() {
-        FamilyEvent orig = new FamilyEvent();
-        FamilyEvent copy = new FamilyEvent(orig);
+        MultimediaReference orig = new MultimediaReference();
+        MultimediaReference copy = new MultimediaReference(orig);
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
@@ -64,38 +63,20 @@ public class FamilyEventCopyTest extends AbstractCopyTest {
      */
     @Test
     public void testWithValues() {
-        FamilyEvent orig = new FamilyEvent();
-        orig.setAddress(getTestAddress());
-        orig.getNoteStructures(true).add(getTestNoteStructure());
-        orig.getFaxNumbers(true).add(new StringWithCustomFacts("555-1212"));
-        orig.getPhoneNumbers(true).add(new StringWithCustomFacts("555-1313"));
-        orig.getWwwUrls(true).add(new StringWithCustomFacts("www.nowhere.com"));
-        orig.getEmails(true).add(new StringWithCustomFacts("nobody@nowwhere.com"));
-        orig.setAge("1");
-        orig.setCause("Just because");
-        orig.setDate("03 MAR 1903");
-        orig.setDescription("That thing with the stuff");
-        orig.setHusbandAge("123");
-        Place p = new Place();
-        p.setPlaceName("Right there");
-        orig.setPlace(p);
-        orig.setReligiousAffiliation("None");
-        orig.setRespAgency("The Avengers");
-        orig.setRestrictionNotice("Don't tell anyone....sssssshhh!");
-        orig.setSubType("mnbvcxz");
-        orig.setType(FamilyEventType.EVENT);
-        orig.getCitations(true).add(getTestCitation());
-        orig.getCustomFacts(true).add(getTestCustomFact());
-        orig.setWifeAge("124");
-        orig.setYNull("Y");
-        Multimedia m = new Multimedia();
-        m.setXref("@M123@");
-        orig.getMultimedia(true).add(new MultimediaReference(m));
+        MultimediaReference orig = new MultimediaReference();
+        orig.multimedia = new Multimedia();
+        orig.multimedia.setEmbeddedTitle("Foo");
+        CustomFact ct = new CustomFact("_RRR");
+        ct.setDescription("SSS");
+        ct.setXref("@TTT@");
+        orig.getCustomFacts(true).add(ct);
 
-        FamilyEvent copy = new FamilyEvent(orig);
+        MultimediaReference copy = new MultimediaReference(orig);
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
         assertEquals(orig.toString(), copy.toString());
-    }
 
+        orig.setMultimedia(new Multimedia());
+        assertEquals("Copy should not change if original does", "Foo", copy.getMultimedia().getEmbeddedTitle().getValue());
+    }
 }

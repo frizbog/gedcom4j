@@ -67,7 +67,7 @@ public class MultimediaCopyTest extends AbstractCopyTest {
         ChangeDate cd = new ChangeDate();
         cd.setDate("1 JAN 1911");
         orig.setChangeDate(cd);
-        orig.setContinuedObject(new Multimedia());
+        orig.setContinuedObject(new MultimediaReference(new Multimedia()));
         orig.setEmbeddedMediaFormat("MPG");
         orig.setEmbeddedTitle("Movie.mpg");
         orig.setRecIdNumber("123");

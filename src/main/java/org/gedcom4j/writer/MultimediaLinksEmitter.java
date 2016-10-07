@@ -33,13 +33,14 @@ import org.gedcom4j.exception.GedcomWriterVersionDataMismatchException;
 import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.model.FileReference;
 import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.MultimediaReference;
 
 /**
  * Emitter for multimedia links
  * 
  * @author frizbog
  */
-class MultimediaLinksEmitter extends AbstractEmitter<List<Multimedia>> {
+class MultimediaLinksEmitter extends AbstractEmitter<List<MultimediaReference>> {
 
     /**
      * Constructor
@@ -53,7 +54,8 @@ class MultimediaLinksEmitter extends AbstractEmitter<List<Multimedia>> {
      * @throws WriterCancelledException
      *             if cancellation was requested during the operation
      */
-    MultimediaLinksEmitter(GedcomWriter baseWriter, int startLevel, List<Multimedia> writeFrom) throws WriterCancelledException {
+    MultimediaLinksEmitter(GedcomWriter baseWriter, int startLevel, List<MultimediaReference> writeFrom)
+            throws WriterCancelledException {
         super(baseWriter, startLevel, writeFrom);
     }
 
@@ -65,7 +67,14 @@ class MultimediaLinksEmitter extends AbstractEmitter<List<Multimedia>> {
         if (writeFrom == null) {
             return;
         }
-        for (Multimedia m : writeFrom) {
+        for (MultimediaReference mr : writeFrom) {
+            if (mr == null) {
+                continue;
+            }
+            Multimedia m = mr.getMultimedia();
+            if (m == null) {
+                continue;
+            }
             if (m.getXref() == null) {
                 // Link to referenced form
                 if (g55()) {
@@ -106,7 +115,7 @@ class MultimediaLinksEmitter extends AbstractEmitter<List<Multimedia>> {
                 // Link to the embedded form
                 emitTagWithRequiredValue(startLevel, "OBJE", m.getXref());
             }
-            emitCustomFacts(startLevel + 1, m.getCustomFacts());
+            emitCustomFacts(startLevel + 1, mr.getCustomFacts());
         }
     }
 

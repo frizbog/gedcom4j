@@ -67,9 +67,9 @@ public class SourceTest {
         s2.setData(new SourceData());
         assertEquals(s1, s2);
 
-        s1.getMultimedia(true).add(new Multimedia());
+        s1.getMultimedia(true).add(new MultimediaReference(new Multimedia()));
         assertTrue(s1.hashCode() != s2.hashCode());
-        s2.getMultimedia(true).add(new Multimedia());
+        s2.getMultimedia(true).add(new MultimediaReference(new Multimedia()));
         assertEquals(s1, s2);
 
         s1.getNoteStructures(true).add(new NoteStructure());
@@ -166,9 +166,9 @@ public class SourceTest {
         s2.setData(new SourceData());
         assertEquals(s1.hashCode(), s2.hashCode());
 
-        s1.getMultimedia(true).add(new Multimedia());
+        s1.getMultimedia(true).add(new MultimediaReference(new Multimedia()));
         assertFalse(s1.hashCode() == s2.hashCode());
-        s2.getMultimedia(true).add(new Multimedia());
+        s2.getMultimedia(true).add(new MultimediaReference(new Multimedia()));
         assertEquals(s1.hashCode(), s2.hashCode());
 
         s1.getNoteStructures(true).add(new NoteStructure());

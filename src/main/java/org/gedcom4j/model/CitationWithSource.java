@@ -66,7 +66,7 @@ public class CitationWithSource extends AbstractCitation {
     /**
      * Multimedia links for this source citation
      */
-    private List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
+    private List<MultimediaReference> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
 
     /**
      * The role in the event cited
@@ -110,8 +110,8 @@ public class CitationWithSource extends AbstractCitation {
         }
         if (other.multimedia != null) {
             multimedia = new ArrayList<>();
-            for (Multimedia m : other.multimedia) {
-                multimedia.add(new Multimedia(m));
+            for (MultimediaReference m : other.multimedia) {
+                multimedia.add(new MultimediaReference(m));
             }
         }
         if (other.roleInEvent != null) {
@@ -245,7 +245,7 @@ public class CitationWithSource extends AbstractCitation {
      *
      * @return the multimedia
      */
-    public List<Multimedia> getMultimedia() {
+    public List<MultimediaReference> getMultimedia() {
         return multimedia;
     }
 
@@ -256,7 +256,7 @@ public class CitationWithSource extends AbstractCitation {
      *            true if this collection should be created on-the-fly if it is currently null
      * @return the multimedia
      */
-    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
+    public List<MultimediaReference> getMultimedia(boolean initializeIfNeeded) {
         if (initializeIfNeeded && multimedia == null) {
             multimedia = new ArrayList<>(0);
         }

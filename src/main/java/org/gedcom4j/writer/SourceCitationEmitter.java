@@ -34,6 +34,7 @@ import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.CitationData;
 import org.gedcom4j.model.CitationWithSource;
 import org.gedcom4j.model.CitationWithoutSource;
+import org.gedcom4j.model.MultiStringWithCustomFacts;
 import org.gedcom4j.model.Source;
 
 /**
@@ -122,9 +123,10 @@ class SourceCitationEmitter extends AbstractEmitter<List<AbstractCitation>> {
             emitTag(level + 1, "DATA");
             for (CitationData cd : cws.getData()) {
                 emitTagIfValueNotNull(level + 2, "DATE", cd.getEntryDate());
-                for (List<String> linesOfText : cd.getSourceText()) {
+                for (MultiStringWithCustomFacts linesOfText : cd.getSourceText()) {
                     emitLinesOfText(level + 2, "TEXT", linesOfText);
                 }
+                emitCustomFacts(level + 2, cd);
             }
         }
         emitTagIfValueNotNull(level + 1, "QUAY", cws.getCertainty());

@@ -46,6 +46,8 @@ enum Tag {
     ADDRESS_1("ADR1"),
     /** Address 2 */
     ADDRESS_2("ADR2"),
+    /** Address line 3 */
+    ADDRESS_3("ADR3"),
     /** Adoption */
     ADOPTION("ADOP"),
     /** Age */

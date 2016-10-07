@@ -29,7 +29,7 @@ package org.gedcom4j.validate;
 import java.util.List;
 
 import org.gedcom4j.model.EventRecorded;
-import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.MultimediaReference;
 import org.gedcom4j.model.RepositoryCitation;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.SourceCallNumber;
@@ -97,8 +97,11 @@ class SourceValidator extends AbstractValidator {
         if (source.getMultimedia() != null) {
             checkListOfModelElementsForDups(source, "multimedia");
             checkListOfModelElementsForNulls(source, "multimedia");
-            for (Multimedia mm : source.getMultimedia()) {
-                new MultimediaValidator(getValidator(), mm).validate();
+            for (MultimediaReference mRef : source.getMultimedia()) {
+                if (mRef == null) {
+                    continue;
+                }
+                new MultimediaValidator(getValidator(), mRef.getMultimedia()).validate();
             }
         }
         new NoteStructureListValidator(getValidator(), source).validate();

@@ -50,7 +50,7 @@ public class CitationData extends AbstractElement {
     /**
      * The source text - one or more lines of it
      */
-    private List<List<String>> sourceText = getSourceText(Options.isCollectionInitializationEnabled());
+    private List<MultiStringWithCustomFacts> sourceText = getSourceText(Options.isCollectionInitializationEnabled());
 
     /** Default constructor */
     public CitationData() {
@@ -70,8 +70,8 @@ public class CitationData extends AbstractElement {
         }
         if (other.sourceText != null) {
             sourceText = new ArrayList<>();
-            for (List<String> st : other.sourceText) {
-                sourceText.add(new ArrayList<>(st));
+            for (MultiStringWithCustomFacts st : other.sourceText) {
+                sourceText.add(new MultiStringWithCustomFacts(st));
             }
         }
     }
@@ -122,7 +122,7 @@ public class CitationData extends AbstractElement {
      *
      * @return the source text
      */
-    public List<List<String>> getSourceText() {
+    public List<MultiStringWithCustomFacts> getSourceText() {
         return sourceText;
     }
 
@@ -133,7 +133,7 @@ public class CitationData extends AbstractElement {
      *            true if this collection should be created on-the-fly if it is currently null
      * @return the source text
      */
-    public List<List<String>> getSourceText(boolean initializeIfNeeded) {
+    public List<MultiStringWithCustomFacts> getSourceText(boolean initializeIfNeeded) {
         if (initializeIfNeeded && sourceText == null) {
             sourceText = new ArrayList<>(0);
         }

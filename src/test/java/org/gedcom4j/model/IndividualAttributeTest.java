@@ -99,9 +99,9 @@ public class IndividualAttributeTest {
         i2.getFaxNumbers(true).add(new StringWithCustomFacts("Six"));
         assertEquals(i1, i2);
 
-        i1.getMultimedia(true).add(new Multimedia());
+        i1.getMultimedia(true).add(new MultimediaReference(new Multimedia()));
         assertFalse(i1.equals(i2));
-        i2.getMultimedia(true).add(new Multimedia());
+        i2.getMultimedia(true).add(new MultimediaReference(new Multimedia()));
         assertEquals(i1, i2);
 
         i1.getNoteStructures(true).add(new NoteStructure());
@@ -213,9 +213,9 @@ public class IndividualAttributeTest {
         i2.getFaxNumbers(true).add(new StringWithCustomFacts("Six"));
         assertEquals(i1.hashCode(), i2.hashCode());
 
-        i1.getMultimedia(true).add(new Multimedia());
+        i1.getMultimedia(true).add(new MultimediaReference(new Multimedia()));
         assertTrue(i1.hashCode() != i2.hashCode());
-        i2.getMultimedia(true).add(new Multimedia());
+        i2.getMultimedia(true).add(new MultimediaReference(new Multimedia()));
         assertEquals(i1.hashCode(), i2.hashCode());
 
         i1.getNoteStructures(true).add(new NoteStructure());
@@ -287,7 +287,7 @@ public class IndividualAttributeTest {
         i.setDescription("Four");
         i.getEmails(true).add(new StringWithCustomFacts("Five"));
         i.getFaxNumbers(true).add(new StringWithCustomFacts("Six"));
-        i.getMultimedia(true).add(new Multimedia());
+        i.getMultimedia(true).add(new MultimediaReference(new Multimedia()));
         i.getNoteStructures(true).add(new NoteStructure());
         i.getPhoneNumbers(true).add(new StringWithCustomFacts("Seven"));
         i.setPlace(new Place());
@@ -299,11 +299,11 @@ public class IndividualAttributeTest {
         i.getWwwUrls(true).add(new StringWithCustomFacts("Twelve"));
         i.setYNull("Thirteen");
 
-        assertEquals("IndividualAttribute [type=Fact, age=One, cause=Two, "
-                + "citations=[CitationWithoutSource []], date=Three, description=Four, multimedia=[Multimedia []], "
-                + "noteStructures=[NoteStructure []], place=Place [], religiousAffiliation=Eight, respAgency=Nine, restrictionNotice=Ten, "
-                + "subType=Eleven, yNull=Thirteen, address=Address [], emails=[Five], faxNumbers=[Six], phoneNumbers=[Seven], "
-                + "wwwUrls=[Twelve], customFacts=[CustomFact [tag=_FOO, ]]]", i.toString());
+        assertEquals("IndividualAttribute [type=Fact, age=One, cause=Two, citations=[CitationWithoutSource []], date=Three, "
+                + "description=Four, multimedia=[MultimediaReference [multimedia=Multimedia [], ]], "
+                + "noteStructures=[NoteStructure []], place=Place [], religiousAffiliation=Eight, respAgency=Nine, "
+                + "restrictionNotice=Ten, subType=Eleven, yNull=Thirteen, address=Address [], emails=[Five], faxNumbers=[Six], "
+                + "phoneNumbers=[Seven], wwwUrls=[Twelve], customFacts=[CustomFact [tag=_FOO, ]]]", i.toString());
     }
 
 }

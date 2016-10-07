@@ -29,12 +29,15 @@ package org.gedcom4j.validate;
 import org.gedcom4j.Options;
 import org.junit.Test;
 
+import net.jcip.annotations.NotThreadSafe;
+
 /**
  * Test for {@link NoteStructureListValidator}
  * 
  * @author frizbog
  *
  */
+@NotThreadSafe
 public class NotesListValidatorTest extends AbstractValidatorTestCase {
 
     /**

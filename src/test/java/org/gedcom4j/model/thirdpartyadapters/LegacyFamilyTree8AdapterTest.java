@@ -181,7 +181,7 @@ public class LegacyFamilyTree8AdapterTest {
      */
     @Test
     public void testGetSetMultimediaDate() {
-        Multimedia mm = will.getMultimedia().get(0);
+        Multimedia mm = will.getMultimedia().get(0).getMultimedia();
 
         String s = lfta.getMultimediaDate(mm);
         assertEquals("4 Apr 2013", s);
@@ -199,7 +199,7 @@ public class LegacyFamilyTree8AdapterTest {
      */
     @Test
     public void testGetSetMultimediaPrimaryFlag() {
-        Multimedia mm = will.getMultimedia().get(0);
+        Multimedia mm = will.getMultimedia().get(0).getMultimedia();
 
         String s = lfta.getMultimediaPrimaryFlag(mm);
         assertEquals("Alarm01.wav", s);
@@ -217,7 +217,7 @@ public class LegacyFamilyTree8AdapterTest {
      */
     @Test
     public void testGetSetMultimediaScrapbookTag() {
-        Multimedia mm = will.getMultimedia().get(0);
+        Multimedia mm = will.getMultimedia().get(0).getMultimedia();
 
         String s = lfta.getMultimediaScrapbookTag(mm);
         assertEquals("Y", s);
@@ -235,7 +235,7 @@ public class LegacyFamilyTree8AdapterTest {
      */
     @Test
     public void testGetSetMultimediaSound() {
-        Multimedia mm = will.getMultimedia().get(0);
+        Multimedia mm = will.getMultimedia().get(0).getMultimedia();
 
         String s = lfta.getMultimediaSound(mm);
         assertEquals("Alarm01.wav", s);
@@ -253,7 +253,7 @@ public class LegacyFamilyTree8AdapterTest {
      */
     @Test
     public void testGetSetMultimediaType() {
-        Multimedia mm = will.getMultimedia().get(0);
+        Multimedia mm = will.getMultimedia().get(0).getMultimedia();
 
         String s = lfta.getMultimediaType(mm);
         assertEquals("PHOTO", s);

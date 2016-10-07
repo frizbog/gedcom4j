@@ -29,9 +29,6 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
 
 /**
@@ -68,10 +65,10 @@ public class CitationDataCopyTest extends AbstractCopyTest {
     public void testWithValues() {
         CitationData orig = new CitationData();
         orig.setEntryDate("1 JAN 1990");
-        List<String> ls = new ArrayList<>();
-        ls.add("Line 1");
-        ls.add("Line 2");
-        ls.add("Line 5 (no 3!)");
+        MultiStringWithCustomFacts ls = new MultiStringWithCustomFacts();
+        ls.getLines(true).add("Line 1");
+        ls.getLines().add("Line 2");
+        ls.getLines().add("Line 5 (no 3!)");
         orig.getSourceText(true).add(ls);
         orig.getCustomFacts(true).add(getTestCustomFact());
 

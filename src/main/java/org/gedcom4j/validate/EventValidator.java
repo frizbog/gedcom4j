@@ -32,7 +32,7 @@ import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.FamilyEvent;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.ModelElement;
-import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.MultimediaReference;
 import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.enumerations.FamilyEventType;
@@ -155,12 +155,15 @@ class EventValidator extends AbstractValidator {
      */
     private void checkMultimedia() {
         checkUninitializedCollection(e, "multimedia");
-        List<Multimedia> multimedia = e.getMultimedia();
+        List<MultimediaReference> multimedia = e.getMultimedia();
         if (multimedia != null) {
             checkListOfModelElementsForDups(e, "multimedia");
             checkListOfModelElementsForNulls(e, "multimedia");
-            for (Multimedia m : multimedia) {
-                new MultimediaValidator(getValidator(), m).validate();
+            for (MultimediaReference mRef : multimedia) {
+                if (mRef == null) {
+                    continue;
+                }
+                new MultimediaValidator(getValidator(), mRef.getMultimedia()).validate();
             }
         }
     }

@@ -81,7 +81,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
     /**
      * Multimedia links for this source citation
      */
-    private List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
+    private List<MultimediaReference> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
 
     /**
      * The number of children
@@ -184,8 +184,8 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
         }
         if (other.multimedia != null) {
             multimedia = new ArrayList<>();
-            for (Multimedia m : other.multimedia) {
-                multimedia.add(new Multimedia(m));
+            for (MultimediaReference m : other.multimedia) {
+                multimedia.add(new MultimediaReference(m));
             }
         }
         if (other.numChildren != null) {
@@ -466,7 +466,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the multimedia
      */
-    public List<Multimedia> getMultimedia() {
+    public List<MultimediaReference> getMultimedia() {
         return multimedia;
     }
 
@@ -477,7 +477,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *            true if this collection should be created on-the-fly if it is currently null
      * @return the multimedia
      */
-    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
+    public List<MultimediaReference> getMultimedia(boolean initializeIfNeeded) {
         if (initializeIfNeeded && multimedia == null) {
             multimedia = new ArrayList<>(0);
         }

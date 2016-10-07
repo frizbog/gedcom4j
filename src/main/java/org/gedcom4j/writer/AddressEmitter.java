@@ -64,6 +64,7 @@ class AddressEmitter extends AbstractEmitter<Address> {
         emitLinesOfText(startLevel, "ADDR", writeFrom.getLines());
         emitTagIfValueNotNull(startLevel + 1, "ADR1", writeFrom.getAddr1());
         emitTagIfValueNotNull(startLevel + 1, "ADR2", writeFrom.getAddr2());
+        emitTagIfValueNotNull(startLevel + 1, "ADR3", writeFrom.getAddr3());
         emitTagIfValueNotNull(startLevel + 1, "CITY", writeFrom.getCity());
         emitTagIfValueNotNull(startLevel + 1, "STAE", writeFrom.getStateProvince());
         emitTagIfValueNotNull(startLevel + 1, "POST", writeFrom.getPostalCode());

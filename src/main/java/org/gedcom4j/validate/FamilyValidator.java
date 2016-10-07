@@ -32,7 +32,7 @@ import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.IndividualReference;
 import org.gedcom4j.model.LdsSpouseSealing;
-import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.MultimediaReference;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.SubmitterReference;
 import org.gedcom4j.model.enumerations.RestrictionNoticeType;
@@ -138,12 +138,15 @@ class FamilyValidator extends AbstractValidator {
      */
     private void checkMultimedia() {
         checkUninitializedCollection(f, "multimedia");
-        List<Multimedia> multimedia = f.getMultimedia();
+        List<MultimediaReference> multimedia = f.getMultimedia();
         if (multimedia != null) {
             checkListOfModelElementsForDups(f, "multimedia");
             checkListOfModelElementsForNulls(f, "multimedia");
-            for (Multimedia m : multimedia) {
-                new MultimediaValidator(getValidator(), m).validate();
+            for (MultimediaReference mRef : multimedia) {
+                if (mRef == null) {
+                    continue;
+                }
+                new MultimediaValidator(getValidator(), mRef.getMultimedia()).validate();
             }
         }
     }

@@ -61,7 +61,7 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
     /**
      * The multimedia for this submitter
      */
-    private List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
+    private List<MultimediaReference> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
 
     /**
      * The name of this submitter
@@ -125,8 +125,8 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
         }
         if (other.multimedia != null) {
             multimedia = new ArrayList<>();
-            for (Multimedia m : other.multimedia) {
-                multimedia.add(new Multimedia(m));
+            for (MultimediaReference m : other.multimedia) {
+                multimedia.add(new MultimediaReference(m));
             }
         }
         if (other.name != null) {
@@ -258,7 +258,7 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
      *
      * @return the multimedia
      */
-    public List<Multimedia> getMultimedia() {
+    public List<MultimediaReference> getMultimedia() {
         return multimedia;
     }
 
@@ -269,7 +269,7 @@ public class Submitter extends AbstractAddressableElement implements HasXref {
      *            initialize the collection, if needed?
      * @return the multimedia
      */
-    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
+    public List<MultimediaReference> getMultimedia(boolean initializeIfNeeded) {
         if (initializeIfNeeded && multimedia == null) {
             multimedia = new ArrayList<>(0);
         }

@@ -401,7 +401,7 @@ public class GedcomParserTest {
         assertEquals(1, citWithSource.getNoteStructures().size());
 
         // Name 1 - Multimedia 0
-        multimedia = citWithSource.getMultimedia().get(0);
+        multimedia = citWithSource.getMultimedia().get(0).getMultimedia();
         if (Options.isCollectionInitializationEnabled()) {
             assertEquals(0, multimedia.getCitations().size());
         } else {

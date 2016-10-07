@@ -30,6 +30,7 @@ import java.util.List;
 
 import org.gedcom4j.model.FileReference;
 import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.MultimediaReference;
 import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.StringWithCustomFacts;
@@ -38,7 +39,7 @@ import org.gedcom4j.model.StringWithCustomFacts;
  * @author frizbog
  *
  */
-class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
+class MultimediaLinkParser extends AbstractParser<List<MultimediaReference>> {
 
     /**
      * Constructor
@@ -50,7 +51,7 @@ class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
      * @param loadInto
      *            the object we are loading data into
      */
-    MultimediaLinkParser(GedcomParser gedcomParser, StringTree stringTree, List<Multimedia> loadInto) {
+    MultimediaLinkParser(GedcomParser gedcomParser, StringTree stringTree, List<MultimediaReference> loadInto) {
         super(gedcomParser, stringTree, loadInto);
     }
 
@@ -60,14 +61,17 @@ class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
     @Override
     void parse() {
         Multimedia m;
+        MultimediaReference mr;
         if (referencesAnotherNode(stringTree)) {
             m = getMultimedia(stringTree.getValue());
-            // TODO - change to a multimedia reference and get custom tags
+            mr = new MultimediaReference(m);
+            remainingChildrenAreCustomTags(stringTree, mr);
         } else {
             m = new Multimedia();
             loadFileReferences(m, stringTree);
+            mr = new MultimediaReference(m);
         }
-        loadInto.add(m);
+        loadInto.add(mr);
     }
 
     /**

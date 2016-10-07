@@ -104,7 +104,7 @@ public class SubmitterCopyTest extends AbstractCopyTest {
         Multimedia m = new Multimedia();
         m.setXref("@M123@");
         m.setRecIdNumber("987");
-        orig.getMultimedia(true).add(m);
+        orig.getMultimedia(true).add(new MultimediaReference(m));
         UserReference u = new UserReference();
         u.setReferenceNum("555");
         orig.getUserReferences(true).add(u);

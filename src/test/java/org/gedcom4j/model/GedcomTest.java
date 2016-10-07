@@ -35,10 +35,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import net.jcip.annotations.NotThreadSafe;
+
 /**
  * @author frizbog1
  * 
  */
+@NotThreadSafe
 public class GedcomTest {
 
     /**

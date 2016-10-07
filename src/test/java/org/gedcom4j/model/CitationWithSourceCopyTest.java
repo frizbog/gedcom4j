@@ -29,9 +29,6 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
 
 /**
@@ -75,9 +72,9 @@ public class CitationWithSourceCopyTest extends AbstractCopyTest {
         orig.setSource(s);
         orig.setWhereInSource("Page 394");
         CitationData cd = new CitationData();
-        List<String> ls = new ArrayList<>();
-        ls.add("line 1");
-        ls.add("line 2");
+        MultiStringWithCustomFacts ls = new MultiStringWithCustomFacts();
+        ls.getLines(true).add("line 1");
+        ls.getLines().add("line 2");
         cd.getSourceText(true).add(ls);
         cd.getCustomFacts(true).add(getTestCustomFact());
         cd.setEntryDate("30 Jun 1998");

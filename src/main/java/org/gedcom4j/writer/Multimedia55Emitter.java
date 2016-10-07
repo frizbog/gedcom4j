@@ -74,8 +74,9 @@ class Multimedia55Emitter extends AbstractEmitter<Collection<Multimedia>> {
             for (String b : m.getBlob()) {
                 emitTagWithRequiredValue(2, "CONT", b);
             }
-            if (m.getContinuedObject() != null && m.getContinuedObject().getXref() != null) {
-                emitTagWithRequiredValue(1, "OBJE", m.getContinuedObject().getXref());
+            if (m.getContinuedObject() != null && m.getContinuedObject().getMultimedia() != null && m.getContinuedObject()
+                    .getMultimedia().getXref() != null) {
+                emitTagWithRequiredValue(1, "OBJE", m.getContinuedObject().getMultimedia().getXref());
             }
             if (m.getUserReferences() != null) {
                 for (UserReference u : m.getUserReferences()) {

@@ -78,7 +78,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      * The next object in the chain holding binary data if it needs to be continued due to size. This field should always be null
      * for 5.5.1 files.
      */
-    private Multimedia continuedObject;
+    private MultimediaReference continuedObject;
 
     /**
      * The format of the multimedia object - only for 5.5 style multimedia files, and should be null for 5.5.1 files.
@@ -140,7 +140,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
             }
         }
         if (other.continuedObject != null) {
-            continuedObject = new Multimedia(other.continuedObject);
+            continuedObject = new MultimediaReference(other.continuedObject);
         }
         if (other.embeddedMediaFormat != null) {
             embeddedMediaFormat = new StringWithCustomFacts(other.embeddedMediaFormat);
@@ -317,7 +317,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      *
      * @return the continued object
      */
-    public Multimedia getContinuedObject() {
+    public MultimediaReference getContinuedObject() {
         return continuedObject;
     }
 
@@ -437,11 +437,11 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
     /**
      * Sets the continued object.
      *
-     * @param continuedObject
+     * @param multimediaReference
      *            the new continued object
      */
-    public void setContinuedObject(Multimedia continuedObject) {
-        this.continuedObject = continuedObject;
+    public void setContinuedObject(MultimediaReference multimediaReference) {
+        continuedObject = multimediaReference;
     }
 
     /**

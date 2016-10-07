@@ -33,6 +33,7 @@ import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.ChangeDate;
 import org.gedcom4j.model.FileReference;
 import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.MultimediaReference;
 import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.UserReference;
@@ -119,7 +120,7 @@ class MultimediaParser extends AbstractParser<Multimedia> {
                                 + "Data will be loaded but will not be writeable unless GEDCOM version is changed to 5.5.1");
                     }
                 } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
-                    List<Multimedia> continuedObjects = new ArrayList<>();
+                    List<MultimediaReference> continuedObjects = new ArrayList<>();
                     new MultimediaLinkParser(gedcomParser, ch, continuedObjects).parse();
                     loadInto.setContinuedObject(continuedObjects.get(0));
                     if (!g55()) {

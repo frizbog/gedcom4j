@@ -217,8 +217,9 @@ class MultimediaValidator extends AbstractValidator {
         checkChangeDate(mm.getChangeDate(), mm);
         checkUserReferences();
         checkCitations(mm);
-        if (mm.getContinuedObject() != null) {
-            new MultimediaValidator(getValidator(), mm.getContinuedObject()).validate();
+        if (mm.getContinuedObject() != null && mm.getContinuedObject().getMultimedia() != null) {
+            new MultimediaValidator(getValidator(), mm.getContinuedObject().getMultimedia()).validate();
+            checkCustomFacts(mm.getContinuedObject());
         }
         checkUninitializedCollection(mm, "blob");
         new NoteStructureListValidator(getValidator(), mm).validate();

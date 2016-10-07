@@ -27,6 +27,7 @@
 package org.gedcom4j.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,8 +38,6 @@ import java.util.regex.Pattern;
 import org.gedcom4j.Options;
 import org.gedcom4j.model.enumerations.IndividualAttributeType;
 import org.gedcom4j.model.enumerations.IndividualEventType;
-
-import java.util.Collections;
 
 /**
  * An individual person. Corresponds to the INDIVIDUAL_RECORD structure in the GEDCOM specification.
@@ -117,7 +116,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
     /**
      * Multimedia links for this source citation
      */
-    private List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
+    private List<MultimediaReference> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
 
     /**
      * A list of names for this individual
@@ -258,8 +257,8 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
         }
         if (other.multimedia != null) {
             multimedia = new ArrayList<>();
-            for (Multimedia m : other.multimedia) {
-                multimedia.add(new Multimedia(m));
+            for (MultimediaReference m : other.multimedia) {
+                multimedia.add(new MultimediaReference(m));
             }
         }
         if (other.names != null) {
@@ -795,7 +794,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *
      * @return the multimedia
      */
-    public List<Multimedia> getMultimedia() {
+    public List<MultimediaReference> getMultimedia() {
         return multimedia;
     }
 
@@ -806,7 +805,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *            true if this collection should be created on-the-fly if it is currently null
      * @return the multimedia
      */
-    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
+    public List<MultimediaReference> getMultimedia(boolean initializeIfNeeded) {
         if (initializeIfNeeded && multimedia == null) {
             multimedia = new ArrayList<>(0);
         }

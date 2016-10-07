@@ -37,6 +37,7 @@ import org.gedcom4j.Options;
  * 
  * @author frizbog1
  */
+@SuppressWarnings("PMD.GodClass")
 public class Address extends AbstractElement {
     /**
      * Serial Version UID
@@ -54,6 +55,11 @@ public class Address extends AbstractElement {
     private StringWithCustomFacts addr2;
 
     /**
+     * Line three of the address
+     */
+    private StringWithCustomFacts addr3;
+
+    /**
      * City
      */
     private StringWithCustomFacts city;
@@ -64,9 +70,8 @@ public class Address extends AbstractElement {
     private StringWithCustomFacts country;
 
     /**
-     * The lines of the address
+     * The lines of the address description
      */
-    // TODO - convert this to a MultiStringWithCustomFacts
     private List<String> lines = getLines(Options.isCollectionInitializationEnabled());
 
     /**
@@ -144,6 +149,13 @@ public class Address extends AbstractElement {
         } else if (!addr2.equals(other.addr2)) {
             return false;
         }
+        if (addr3 == null) {
+            if (other.addr3 != null) {
+                return false;
+            }
+        } else if (!addr3.equals(other.addr3)) {
+            return false;
+        }
         if (city == null) {
             if (other.city != null) {
                 return false;
@@ -198,6 +210,15 @@ public class Address extends AbstractElement {
      */
     public StringWithCustomFacts getAddr2() {
         return addr2;
+    }
+
+    /**
+     * Get the addr3
+     * 
+     * @return the addr3
+     */
+    public StringWithCustomFacts getAddr3() {
+        return addr3;
     }
 
     /**
@@ -269,6 +290,7 @@ public class Address extends AbstractElement {
         int result = super.hashCode();
         result = prime * result + (addr1 == null ? 0 : addr1.hashCode());
         result = prime * result + (addr2 == null ? 0 : addr2.hashCode());
+        result = prime * result + (addr3 == null ? 0 : addr3.hashCode());
         result = prime * result + (city == null ? 0 : city.hashCode());
         result = prime * result + (country == null ? 0 : country.hashCode());
         result = prime * result + (lines == null ? 0 : lines.hashCode());
@@ -284,7 +306,11 @@ public class Address extends AbstractElement {
      *            the new addr line 1
      */
     public void setAddr1(String addr1) {
-        this.addr1 = new StringWithCustomFacts(addr1);
+        if (this.addr1 == null) {
+            this.addr1 = new StringWithCustomFacts(addr1);
+        } else {
+            this.addr1.setValue(addr1);
+        }
     }
 
     /**
@@ -304,7 +330,11 @@ public class Address extends AbstractElement {
      *            the new addr line 2
      */
     public void setAddr2(String addr2) {
-        this.addr2 = new StringWithCustomFacts(addr2);
+        if (this.addr2 == null) {
+            this.addr2 = new StringWithCustomFacts(addr2);
+        } else {
+            this.addr2.setValue(addr2);
+        }
     }
 
     /**
@@ -318,13 +348,41 @@ public class Address extends AbstractElement {
     }
 
     /**
+     * Set the address line 3
+     * 
+     * @param addr3
+     *            the new address line 3
+     */
+    public void setAddr3(String addr3) {
+        if (this.addr3 == null) {
+            this.addr3 = new StringWithCustomFacts(addr3);
+        } else {
+            this.addr3.setValue(addr3);
+        }
+    }
+
+    /**
+     * Set the address line 3
+     * 
+     * @param addr3
+     *            the new address line 3
+     */
+    public void setAddr3(StringWithCustomFacts addr3) {
+        this.addr3 = addr3;
+    }
+
+    /**
      * Sets the city.
      *
      * @param city
      *            the new city
      */
     public void setCity(String city) {
-        this.city = new StringWithCustomFacts(city);
+        if (this.city == null) {
+            this.city = new StringWithCustomFacts(city);
+        } else {
+            this.city.setValue(city);
+        }
     }
 
     /**
@@ -344,7 +402,11 @@ public class Address extends AbstractElement {
      *            the new country
      */
     public void setCountry(String country) {
-        this.country = new StringWithCustomFacts(country);
+        if (this.country == null) {
+            this.country = new StringWithCustomFacts(country);
+        } else {
+            this.country.setValue(country);
+        }
     }
 
     /**
@@ -364,7 +426,11 @@ public class Address extends AbstractElement {
      *            the new postal code
      */
     public void setPostalCode(String postalCode) {
-        this.postalCode = new StringWithCustomFacts(postalCode);
+        if (this.postalCode == null) {
+            this.postalCode = new StringWithCustomFacts(postalCode);
+        } else {
+            this.postalCode.setValue(postalCode);
+        }
     }
 
     /**
@@ -384,7 +450,11 @@ public class Address extends AbstractElement {
      *            the new state province
      */
     public void setStateProvince(String stateProvince) {
-        this.stateProvince = new StringWithCustomFacts(stateProvince);
+        if (this.stateProvince == null) {
+            this.stateProvince = new StringWithCustomFacts(stateProvince);
+        } else {
+            this.stateProvince.setValue(stateProvince);
+        }
     }
 
     /**
@@ -412,6 +482,11 @@ public class Address extends AbstractElement {
         if (addr2 != null) {
             builder.append("addr2=");
             builder.append(addr2);
+            builder.append(", ");
+        }
+        if (addr3 != null) {
+            builder.append("addr3=");
+            builder.append(addr3);
             builder.append(", ");
         }
         if (city != null) {

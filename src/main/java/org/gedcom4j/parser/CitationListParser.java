@@ -33,7 +33,8 @@ import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.CitationData;
 import org.gedcom4j.model.CitationWithSource;
 import org.gedcom4j.model.CitationWithoutSource;
-import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.MultiStringWithCustomFacts;
+import org.gedcom4j.model.MultimediaReference;
 import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.StringTree;
@@ -73,7 +74,6 @@ class CitationListParser extends AbstractParser<List<AbstractCitation>> {
             loadCitationWithoutSource(stringTree, citation);
         }
         loadInto.add(citation);
-
     }
 
     /**
@@ -90,15 +90,14 @@ class CitationListParser extends AbstractParser<List<AbstractCitation>> {
                 if (Tag.DATE.equalsText(ch.getTag())) {
                     d.setEntryDate(parseStringWithCustomFacts(ch));
                 } else if (Tag.TEXT.equalsText(ch.getTag())) {
-                    List<String> ls = new ArrayList<>();
-                    d.getSourceText(true).add(ls);
-                    loadMultiLinesOfText(ch, ls, d);
+                    MultiStringWithCustomFacts ms = new MultiStringWithCustomFacts();
+                    d.getSourceText(true).add(ms);
+                    loadMultiStringWithCustomFacts(ch, ms);
                 } else {
                     unknownTag(ch, d);
                 }
             }
         }
-
     }
 
     /**
@@ -178,7 +177,7 @@ class CitationListParser extends AbstractParser<List<AbstractCitation>> {
                     List<NoteStructure> notes = cws.getNoteStructures(true);
                     new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
-                    List<Multimedia> multimedia = cws.getMultimedia(true);
+                    List<MultimediaReference> multimedia = cws.getMultimedia(true);
                     new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
                 } else {
                     unknownTag(ch, citation);

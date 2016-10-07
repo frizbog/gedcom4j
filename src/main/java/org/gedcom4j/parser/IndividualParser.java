@@ -39,7 +39,7 @@ import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualAttribute;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.LdsIndividualOrdinance;
-import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.MultimediaReference;
 import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.StringTree;
@@ -134,7 +134,7 @@ class IndividualParser extends AbstractParser<Individual> {
                 } else if (Tag.REGISTRATION_FILE_NUMBER.equalsText(ch.getTag())) {
                     loadInto.setPermanentRecFileNumber(parseStringWithCustomFacts(ch));
                 } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
-                    List<Multimedia> multimedia = loadInto.getMultimedia(true);
+                    List<MultimediaReference> multimedia = loadInto.getMultimedia(true);
                     new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
                 } else if (Tag.RESTRICTION.equalsText(ch.getTag())) {
                     loadInto.setRestrictionNotice(parseStringWithCustomFacts(ch));

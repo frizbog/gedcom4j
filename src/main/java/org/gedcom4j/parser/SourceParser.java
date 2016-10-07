@@ -31,7 +31,7 @@ import java.util.List;
 import org.gedcom4j.model.ChangeDate;
 import org.gedcom4j.model.EventRecorded;
 import org.gedcom4j.model.MultiStringWithCustomFacts;
-import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.MultimediaReference;
 import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.RepositoryCitation;
 import org.gedcom4j.model.Source;
@@ -93,7 +93,7 @@ class SourceParser extends AbstractParser<Source> {
                     List<NoteStructure> notes = loadInto.getNoteStructures(true);
                     new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
-                    List<Multimedia> multimedia = loadInto.getMultimedia(true);
+                    List<MultimediaReference> multimedia = loadInto.getMultimedia(true);
                     new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
                 } else if (Tag.REFERENCE.equalsText(ch.getTag())) {
                     UserReference u = new UserReference();

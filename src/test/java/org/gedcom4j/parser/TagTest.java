@@ -43,7 +43,7 @@ public class TagTest {
     /**
      * The expected number of items in the {@link Tag} enum
      */
-    private static final int EXPECTED_TAG_COUNT = 92;
+    private static final int EXPECTED_TAG_COUNT = 93;
 
     /**
      * Test for {@link Tag#equals(Object)}

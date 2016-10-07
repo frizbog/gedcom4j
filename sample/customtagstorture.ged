@@ -126,6 +126,26 @@
 2 _FFF Custom tag on number of children
 1 RESN privacy
 2 __DD Custom tag on restriction notice on family
+1 SOUR @S0015@
+2 PAGE 1
+3 __SS Custom tag on source page
+2 EVEN BIRT
+3 __SS Custom tag on source event
+3 ROLE Observer
+4 __SS Custom tag on source event role
+2 DATA
+3 DATE 6 OCT 2016
+4 __SS Custom tag on source date
+3 TEXT Quoth the Raven, "Nevermore."
+4 __SS Custom tag on source text
+3 __SS Custom tag on source data
+2 QUAY 2
+3 __SS Custom tag on source citation quality/certainty assessment
+2 OBJE @M1@
+3 __SS Custom tag on multimedia reference on source
+2 NOTE Do, re, mi
+3 __SS Custom tag on source citation note
+2 __SS Custom tag on source
 1 REFN 123
 2 _FFF Custom tag on reference number
 2 TYPE Some sort of number
@@ -137,6 +157,49 @@
 3 ___C custom tag on date part of change date on family
 2 ___C custom tag on change date root (not the date record) on family
 1 _FFF Custom tag on family with 1 husb, 1 wife, 1 kid
+0 @M1@ OBJE
+0 @REPO1@ REPO
+1 NAME Reggie's Repository of Records
+2 __RR Custom tag on Repository name
+1 ADDR 123 Main St
+2 CONT Suite 123
+2 CONT Next to the mailbox
+2 ADR1 This is line 1
+3 __RR Custom tag on repo addr line 1
+2 ADR2 This is line 2
+3 __RR Custom tag on repo addr line 2
+2 ADR3 This is line 3
+3 __RR Custom tag on repo addr line 3
+2 CITY Boston
+3 __RR Custom tag on repo city
+2 STAE MA
+3 __RR Custom tag on repo state
+2 POST 02134
+3 __RR Custom tag on repo postal code
+2 CTRY USA
+3 __RR Custom tag on repo country
+2 __RR Custom tag on repo address
+1 NOTE This is a note, so take note.
+2 __RR Custom tag on repo note
+1 REFN 8675309
+2 __RR Custom tag on repo ref num
+2 TYPE Jenny
+3 __RR Custom tag on repo ref num type
+1 RIN 90125
+2 __RR Custom tag on repo record id
+1 PHON 888-867-5309
+2 __RR Custom tag on repo phone
+1 WWW http://internet.org
+2 __RR Custom tag on repo web
+1 FAX 800-867-5309
+2 __RR Custom tag on repo fax
+1 EMAIL jenny@internet.org
+2 __RR Custom tag on repo email
+1 CHAN
+2 DATE 06 Oct 2016
+3 __RR Custom tag on repo change date
+2 __RR Custom tag on repo change
+1 __RR Custom tag on repo
 0 @S0015@ SOUR
 1 DATA
 2 EVEN BIRT, DEAT, MARR

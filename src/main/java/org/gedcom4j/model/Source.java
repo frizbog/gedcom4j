@@ -56,7 +56,7 @@ public class Source extends AbstractNotesElement implements HasXref {
     /**
      * Multimedia links for this source citation
      */
-    private List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
+    private List<MultimediaReference> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
 
     /**
      * The originators/authors
@@ -124,8 +124,8 @@ public class Source extends AbstractNotesElement implements HasXref {
         }
         if (other.multimedia != null) {
             multimedia = new ArrayList<>();
-            for (Multimedia m : other.multimedia) {
-                multimedia.add(new Multimedia(m));
+            for (MultimediaReference m : other.multimedia) {
+                multimedia.add(new MultimediaReference(m));
             }
         }
         if (other.originatorsAuthors != null) {
@@ -298,7 +298,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      *
      * @return the multimedia
      */
-    public List<Multimedia> getMultimedia() {
+    public List<MultimediaReference> getMultimedia() {
         return multimedia;
     }
 
@@ -309,7 +309,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      *            true if this collection should be created on-the-fly if it is currently null
      * @return the multimedia
      */
-    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
+    public List<MultimediaReference> getMultimedia(boolean initializeIfNeeded) {
         if (initializeIfNeeded && multimedia == null) {
             multimedia = new ArrayList<>(0);
         }

@@ -30,7 +30,7 @@ import java.util.List;
 
 import org.gedcom4j.model.Address;
 import org.gedcom4j.model.ChangeDate;
-import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.MultimediaReference;
 import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.Submitter;
@@ -96,7 +96,7 @@ class SubmitterParser extends AbstractParser<Submitter> {
                     loadInto.setChangeDate(changeDate);
                     new ChangeDateParser(gedcomParser, ch, changeDate).parse();
                 } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
-                    List<Multimedia> multimedia = loadInto.getMultimedia(true);
+                    List<MultimediaReference> multimedia = loadInto.getMultimedia(true);
                     new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
                 } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
                     loadInto.setRecIdNumber(parseStringWithCustomFacts(ch));

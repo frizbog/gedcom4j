@@ -65,6 +65,8 @@ class AddressParser extends AbstractParser<Address> {
                     loadInto.setAddr1(parseStringWithCustomFacts(ch));
                 } else if (Tag.ADDRESS_2.equalsText(ch.getTag())) {
                     loadInto.setAddr2(parseStringWithCustomFacts(ch));
+                } else if (Tag.ADDRESS_3.equalsText(ch.getTag())) {
+                    loadInto.setAddr3(parseStringWithCustomFacts(ch));
                 } else if (Tag.CITY.equalsText(ch.getTag())) {
                     loadInto.setCity(parseStringWithCustomFacts(ch));
                 } else if (Tag.STATE.equalsText(ch.getTag())) {

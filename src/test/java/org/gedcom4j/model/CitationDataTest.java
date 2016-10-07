@@ -38,12 +38,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import net.jcip.annotations.NotThreadSafe;
+
 /**
  * Test for {@link CitationData}
  * 
  * @author frizbog1
  * 
  */
+@NotThreadSafe
 public class CitationDataTest {
 
     /**
@@ -94,9 +97,9 @@ public class CitationDataTest {
             assertFalse(c1.equals(c2));
         }
 
-        c1.getSourceText(true).add(new ArrayList<String>());
+        c1.getSourceText(true).add(new MultiStringWithCustomFacts());
         assertFalse(c1.equals(c2));
-        c2.getSourceText(true).add(new ArrayList<String>());
+        c2.getSourceText(true).add(new MultiStringWithCustomFacts());
         if (Options.isCollectionInitializationEnabled()) {
             assertEquals(c1, c2);
         } else {
@@ -137,9 +140,9 @@ public class CitationDataTest {
             assertTrue(c1.hashCode() != c2.hashCode());
         }
 
-        c1.getSourceText(true).add(new ArrayList<String>());
+        c1.getSourceText(true).add(new MultiStringWithCustomFacts());
         assertFalse(c1.hashCode() == c2.hashCode());
-        c2.getSourceText(true).add(new ArrayList<String>());
+        c2.getSourceText(true).add(new MultiStringWithCustomFacts());
         if (Options.isCollectionInitializationEnabled()) {
             assertEquals(c1.hashCode(), c2.hashCode());
         } else {
@@ -159,9 +162,9 @@ public class CitationDataTest {
 
         c1.customFacts = null;
         c1.setEntryDate("Frying Pan");
-        c1.getSourceText(true).add(new ArrayList<String>());
+        c1.getSourceText(true).add(new MultiStringWithCustomFacts());
 
-        assertEquals("CitationData [entryDate=Frying Pan, sourceText=[[]], ]", c1.toString());
+        assertEquals("CitationData [entryDate=Frying Pan, sourceText=[MultiStringWithCustomFacts []], ]", c1.toString());
     }
 
     /**
@@ -175,8 +178,9 @@ public class CitationDataTest {
 
         c1.customFacts = null;
         c1.setEntryDate("Frying Pan");
-        c1.getSourceText(true).add(new ArrayList<String>());
+        c1.getSourceText(true).add(new MultiStringWithCustomFacts());
 
-        assertEquals("CitationData [entryDate=Frying Pan, sourceText=[[]], ]", c1.toString());
+        assertEquals("CitationData [entryDate=Frying Pan, sourceText=[MultiStringWithCustomFacts [lines=[], customFacts=[]]], ]", c1
+                .toString());
     }
 }

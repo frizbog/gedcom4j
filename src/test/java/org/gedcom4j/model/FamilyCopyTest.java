@@ -113,9 +113,10 @@ public class FamilyCopyTest extends AbstractCopyTest {
         LdsSpouseSealing lss = new LdsSpouseSealing();
         lss.setStatus("Complete");
         orig.getLdsSpouseSealings(true).add(lss);
-        Multimedia m = new Multimedia();
-        m.getBlob(true).add("qwpeoklskfsekrpweoalksfnsleorpwqoewklsfjlskjfpoeriwpeori");
-        orig.getMultimedia(true).add(m);
+        Multimedia mm = new Multimedia();
+        mm.getBlob(true).add("qwpeoklskfsekrpweoalksfnsleorpwqoewklsfjlskjfpoeriwpeori");
+        MultimediaReference mr = new MultimediaReference(mm);
+        orig.getMultimedia(true).add(mr);
         orig.getNoteStructures(true).add(getTestNoteStructure());
         Submitter s = new Submitter();
         s.setName("Eloise /King/");
