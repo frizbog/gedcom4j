@@ -53,6 +53,8 @@ Issues from Github (https://github.com/frizbog/gedcom4j/issues):
 - Issue #160 - Validating enumerated values
 - Issue #161 - CustomTags are not preserved on the references to Individuals in Family objects
 - Issue #167 - Many custom tags don't load or write
+- Issue #168 - Notes are a strange amalgam of NOTE_RECORD and NOTE_STRUCTURE
+- Issue #169 - PersonalName does not support the TYPE tag
 
 
 29 SEP 2016 - v3.2.2

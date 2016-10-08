@@ -61,7 +61,6 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      * The binary (blob) for this multimedia item. Encoded as string data. This field should always be an empty list for 5.5.1
      * files.
      */
-    // TODO - convert this to a MultiStringWithCustomFacts
     private List<String> blob = getBlob(Options.isCollectionInitializationEnabled());
 
     /**

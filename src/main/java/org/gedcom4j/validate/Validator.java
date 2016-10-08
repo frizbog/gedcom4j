@@ -822,8 +822,8 @@ public class Validator implements Serializable {
                     vf.addRepair(new AutoRepair(null, gv));
                 }
                 StringWithCustomFacts vn = gv.getVersionNumber();
-                if (vn == null || vn.getValue() == null || !(SupportedVersion.V5_5.equals(vn.getValue()) || SupportedVersion.V5_5_1
-                        .equals(vn.getValue()))) {
+                if (vn == null || vn.getValue() == null || !(SupportedVersion.V5_5.toString().equals(vn.getValue())
+                        || SupportedVersion.V5_5_1.toString().equals(vn.getValue()))) {
                     gv.setVersionNumber(SupportedVersion.V5_5_1.toString());
                     vf.addRepair(new AutoRepair(vn, gv.getVersionNumber()));
                 }

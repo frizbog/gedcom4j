@@ -154,7 +154,6 @@ class CitationListParser extends AbstractParser<List<AbstractCitation>> {
         Source src = null;
         if (referencesAnotherNode(sour)) {
             src = getSource(sour.getValue());
-            // TODO - change to a source reference and get custom tags
         }
         cws.setSource(src);
         if (sour.getChildren() != null) {
