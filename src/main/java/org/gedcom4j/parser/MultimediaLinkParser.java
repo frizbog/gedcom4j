@@ -33,7 +33,6 @@ import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.MultimediaReference;
 import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomFacts;
 
 /**
  * @author frizbog
@@ -177,7 +176,7 @@ class MultimediaLinkParser extends AbstractParser<List<MultimediaReference>> {
                 } else if (Tag.TITLE.equalsText(ch.getTag())) {
                     if (m.getFileReferences() != null) {
                         for (FileReference fr : m.getFileReferences()) {
-                            fr.setTitle(new StringWithCustomFacts(ch.getValue()));
+                            fr.setTitle(parseStringWithCustomFacts(ch));
                         }
                     }
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {

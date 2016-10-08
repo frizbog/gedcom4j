@@ -67,7 +67,7 @@ class FileReference551Parser extends AbstractParser<FileReference> {
                 } else if (Tag.TITLE.equalsText(fileChild.getTag())) {
                     loadInto.setTitle(parseStringWithCustomFacts(fileChild));
                 } else {
-                    unknownTag(fileChild, loadInto);
+                    unknownTag(fileChild, loadInto.getReferenceToFile());
                 }
             }
         }
@@ -97,7 +97,7 @@ class FileReference551Parser extends AbstractParser<FileReference> {
                     loadInto.setMediaType(parseStringWithCustomFacts(formChild));
                     typeCount++;
                 } else {
-                    unknownTag(formChild, loadInto);
+                    unknownTag(formChild, loadInto.getFormat());
                 }
             }
             if (typeCount > 1) {

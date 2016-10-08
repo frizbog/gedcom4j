@@ -76,7 +76,7 @@ class MultimediaLinksEmitter extends AbstractEmitter<List<MultimediaReference>> 
                 continue;
             }
             if (m.getXref() == null) {
-                // Link to referenced form
+                // This is an inline multimedia reference, not to one of the root-level multimedia records
                 emitTag(startLevel, "OBJE");
                 if (g55()) {
                     // GEDCOM 5.5 format
@@ -112,9 +112,10 @@ class MultimediaLinksEmitter extends AbstractEmitter<List<MultimediaReference>> 
                     }
                 }
             } else {
-                // Link to the embedded form
+                // This is an multimedia reference to one of the root-level multimedia records
                 emitTagWithRequiredValue(startLevel, "OBJE", m.getXref());
             }
+            emitCustomFacts(startLevel + 1, m.getCustomFacts());
             emitCustomFacts(startLevel + 1, mr.getCustomFacts());
         }
     }
