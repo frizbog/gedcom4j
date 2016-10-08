@@ -75,6 +75,12 @@ class PersonalNameValidator extends AbstractValidator {
         mustHaveValueOrBeOmitted(pn, "surname");
         mustHaveValueOrBeOmitted(pn, "surnamePrefix");
 
+        if (!getValidator().isV551()) {
+            mustNotHaveValue(pn, "type");
+        } else {
+            mustHaveValueOrBeOmitted(pn, "type");
+        }
+
         new NoteStructureListValidator(getValidator(), pn).validate();
 
         checkPhoneticVariations();
@@ -87,6 +93,10 @@ class PersonalNameValidator extends AbstractValidator {
     private void checkPhoneticVariations() {
         checkUninitializedCollection(pn, "phonetic");
         if (pn.getPhonetic() == null) {
+            return;
+        }
+        if (!getValidator().isV551()) {
+            mustNotHaveValue(pn, "phonetic");
             return;
         }
         checkListOfModelElementsForDups(pn, "phonetic");
@@ -102,6 +112,10 @@ class PersonalNameValidator extends AbstractValidator {
     private void checkRomanizedVariations() {
         checkUninitializedCollection(pn, "romanized");
         if (pn.getRomanized() == null) {
+            return;
+        }
+        if (!getValidator().isV551()) {
+            mustNotHaveValue(pn, "romanized");
             return;
         }
         checkListOfModelElementsForDups(pn, "romanized");

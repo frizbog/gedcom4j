@@ -279,6 +279,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
         if (names != null) {
             for (PersonalName n : names) {
                 emitTagWithOptionalValue(level, "NAME", n.getBasic());
+                emitTagIfValueNotNull(level + 1, "TYPE", n.getType());
                 emitTagIfValueNotNull(level + 1, "NPFX", n.getPrefix());
                 emitTagIfValueNotNull(level + 1, "GIVN", n.getGivenName());
                 emitTagIfValueNotNull(level + 1, "NICK", n.getNickname());

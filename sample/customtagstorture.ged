@@ -81,10 +81,33 @@
 1 NAME Alyson /Allison/
 1 FAMS @F7@
 0 @I00@ INDI
-1 NAME Charlie Accented /ANSEL/
+1 RESN privacy
+1 NAME Peter /Paulson/
+2 TYPE assumed
+3 _CTAG Custom tag on I00's name type
+2 NPFX Mr.
+3 _CTAG Custom tag on I00's name prefix
+2 GIVN Peter
+3 _CTAG Custom tag on I00's given name
+2 NICK Pete
+3 _CTAG Custom tag on I00's nick name
+2 SPFX van
+3 _CTAG Custom tag on I00's surname prefix
+2 SURN Paulson
+3 _CTAG Custom tag on I00's surname
+2 NSFX Jr.
+3 _CTAG Custom tag on I00's name suffix
+2 SOUR Personal interview
+3 _CTAG Custom tag on I00's name source citation
+2 NOTE Can you believe it? Another note!
+3 _CTAG Custom tag on I00's name note
 2 _CTAG Custom tag on I00's name
 1 SEX M
 2 _CTAG Custom tag on I00's sex
+2 _CTAG And another custom tag on I00's sex
+2 _CTAG and another
+2 _CTAG and yet another
+2 _CTAG and yes, another still
 1 BIRT
 2 DATE 15 JUN 1900
 3 _CTAG Custom tag on I00's birth date
@@ -136,9 +159,14 @@
 3 CONC ed source citation in the title area for the new source record.
 2 OBJE
 3 FILE thefile.gif
+4 _SCM custom tag on source citation media filename
 4 FORM gif
+5 _SCM custom tag on source citation media format
 5 MEDI fiche
+6 _SCM custom tag on source citation media format media
 3 TITL This is one swell file, man.
+4 _SCM custom tag on source citation media title
+3 _SCM custom tag on source citation media
 2 OBJE @M1@
 2 NOTE This is a note! Hooray!
 3 __SS custom tag on inline source citation note
@@ -177,15 +205,25 @@
 1 _FFF Custom tag on family with 1 husb, 1 wife, 1 kid
 0 @M1@ OBJE
 1 FILE thefile.jpg
+2 __MM Custom tag on media file name
 2 FORM jpg
+3 __MM Custom tag on media format
 3 TYPE image
+4 __MM Custom tag on media type
 2 TITL "The File"
+3 __MM Custom tag on media title
 1 REFN 444
+2 __MM Custom tag on media ref num
 2 TYPE A three digit number
+3 __MM Custom tag on media ref num type
 1 SOUR @S0015@
+2 __MM Custom tag on media source citation
 1 NOTE Yet another note
+2 __MM Custom tag on media note
 1 CHAN
 2 DATE 06 OCT 2016
+3 __MM Custom tag on media change date
+2 __MM Custom tag on media change
 0 @REPO1@ REPO
 1 NAME Reggie's Repository of Records
 2 __RR Custom tag on Repository name

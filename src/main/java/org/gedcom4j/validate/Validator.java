@@ -41,15 +41,18 @@ import org.gedcom4j.Options;
 import org.gedcom4j.exception.ValidationException;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.ModelElement;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.NoteRecord;
 import org.gedcom4j.model.Repository;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.Trailer;
+import org.gedcom4j.model.enumerations.SupportedVersion;
 
 /**
  * <p>
@@ -460,6 +463,11 @@ public class Validator implements Serializable {
     private final Set<Class<? extends AbstractValidator>> supplementaryValidators = new HashSet<>();
 
     /**
+     * Is the gedcom being validated a version 5.5.1 file? Defaults to true unless we see a version of 5.5 in the file.
+     */
+    private boolean v551 = true;
+
+    /**
      * Instantiates a new validator.
      *
      * @param gedcom
@@ -467,11 +475,14 @@ public class Validator implements Serializable {
      * @throws IllegalArgumentException
      *             if a null Gedcom is passed in.
      */
+    @SuppressWarnings("PMD.ConstructorCallsOverridableMethod")
     public Validator(Gedcom gedcom) {
         if (gedcom == null) {
             throw new IllegalArgumentException("gedcom is a required argument");
         }
         this.gedcom = gedcom;
+
+        determineGedcomSpecVersion(gedcom);
 
         supplementaryValidators.add(DifferentSurnamesThanParentsValidator.class);
         supplementaryValidators.add(BirthsToYoungParentsValidator.class);
@@ -638,6 +649,15 @@ public class Validator implements Serializable {
     }
 
     /**
+     * Get whether the file being validated is a 5.5.1 file (and thus should be validated to the 5.5.1 spec)
+     * 
+     * @return whether the file being validated is a 5.5.1 file (and thus should be validated to the 5.5.1 spec)
+     */
+    protected boolean isV551() {
+        return v551;
+    }
+
+    /**
      * Check individuals.
      */
     void checkIndividuals() {
@@ -775,6 +795,43 @@ public class Validator implements Serializable {
                 }
             } else {
                 new SubmitterValidator(this, entry.getValue()).validate();
+            }
+        }
+    }
+
+    /**
+     * Determine the GEDCOM spec to use for validation, based on what the file says
+     * 
+     * @param g
+     *            the gedcom structure being validated
+     */
+    private void determineGedcomSpecVersion(Gedcom g) {
+        Header h = g.getHeader();
+        if (h == null || h.getGedcomVersion() == null || h.getGedcomVersion().getVersionNumber() == null) {
+            Finding vf = newFinding(h, Severity.INFO, ProblemCode.UNABLE_TO_DETERMINE_GEDCOM_VERSION, null);
+            if (mayRepair(vf)) {
+                if (h == null) {
+                    h = new Header();
+                    g.setHeader(h);
+                    vf.addRepair(new AutoRepair(null, h));
+                }
+                GedcomVersion gv = h.getGedcomVersion();
+                if (h.getGedcomVersion() == null) {
+                    gv = new GedcomVersion();
+                    h.setGedcomVersion(gv);
+                    vf.addRepair(new AutoRepair(null, gv));
+                }
+                StringWithCustomFacts vn = gv.getVersionNumber();
+                if (vn == null || vn.getValue() == null || !(SupportedVersion.V5_5.equals(vn.getValue()) || SupportedVersion.V5_5_1
+                        .equals(vn.getValue()))) {
+                    gv.setVersionNumber(SupportedVersion.V5_5_1.toString());
+                    vf.addRepair(new AutoRepair(vn, gv.getVersionNumber()));
+                }
+            }
+        } else {
+            StringWithCustomFacts gedcomVersion = g.getHeader().getGedcomVersion().getVersionNumber();
+            if (SupportedVersion.V5_5.toString().equals(gedcomVersion.getValue())) {
+                v551 = false;
             }
         }
     }

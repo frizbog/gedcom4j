@@ -85,6 +85,8 @@ class PersonalNameParser extends AbstractParser<PersonalName> {
                     PersonalNameVariation pnv = new PersonalNameVariation();
                     loadInto.getPhonetic(true).add(pnv);
                     loadPersonalNameVariation(ch, pnv);
+                } else if (Tag.TYPE.equalsText(ch.getTag())) {
+                    loadInto.setType(parseStringWithCustomFacts(ch));
                 } else {
                     unknownTag(ch, loadInto);
                 }

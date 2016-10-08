@@ -87,6 +87,15 @@ class MultimediaValidator extends AbstractValidator {
     }
 
     /**
+     * Convenience method to determine if GEDCOM standard in use is v5.5.1
+     * 
+     * @return true if and only if GEDCOM standard in use is 5.5.1
+     */
+    protected boolean v551() {
+        return SupportedVersion.V5_5_1.toString().equals(gedcomVersion.getValue());
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -140,15 +149,6 @@ class MultimediaValidator extends AbstractValidator {
         if (getValidator().getGedcom().getMultimedia().get(mm.getXref()) != mm) {
             newFinding(mm, Severity.ERROR, ProblemCode.CROSS_REFERENCE_NOT_FOUND, "xref");
         }
-    }
-
-    /**
-     * Convenience method to determine if GEDCOM standard in use is v5.5.1
-     * 
-     * @return true if and only if GEDCOM standard in use is 5.5.1
-     */
-    private boolean v551() {
-        return SupportedVersion.V5_5_1.toString().equals(gedcomVersion.getValue());
     }
 
     /**

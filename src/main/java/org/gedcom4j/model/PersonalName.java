@@ -94,6 +94,11 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      */
     private StringWithCustomFacts surnamePrefix;
 
+    /**
+     * Name type - for example the name issued or assumed as an immigrant
+     */
+    private StringWithCustomFacts type;
+
     /** Default constructor */
     public PersonalName() {
         // Default constructor does nothing
@@ -147,6 +152,9 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
         }
         if (other.surnamePrefix != null) {
             surnamePrefix = new StringWithCustomFacts(other.surnamePrefix);
+        }
+        if (other.type != null) {
+            type = new StringWithCustomFacts(other.type);
         }
     }
 
@@ -233,6 +241,13 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
                 return false;
             }
         } else if (!phonetic.equals(other.phonetic)) {
+            return false;
+        }
+        if (type == null) {
+            if (other.type != null) {
+                return false;
+            }
+        } else if (!type.equals(other.type)) {
             return false;
         }
         return true;
@@ -374,6 +389,15 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
     }
 
     /**
+     * Get the type
+     * 
+     * @return the type
+     */
+    public StringWithCustomFacts getType() {
+        return type;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -390,6 +414,7 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
         result = prime * result + (surnamePrefix == null ? 0 : surnamePrefix.hashCode());
         result = prime * result + (romanized == null ? 0 : romanized.hashCode());
         result = prime * result + (phonetic == null ? 0 : phonetic.hashCode());
+        result = prime * result + (type == null ? 0 : type.hashCode());
         return result;
     }
 
@@ -410,7 +435,11 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      *            the new given name
      */
     public void setGivenName(String givenName) {
-        this.givenName = givenName == null ? null : new StringWithCustomFacts(givenName);
+        if (this.givenName == null) {
+            this.givenName = new StringWithCustomFacts(givenName);
+        } else {
+            this.givenName.setValue(givenName);
+        }
     }
 
     /**
@@ -430,7 +459,11 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      *            the new nickname
      */
     public void setNickname(String nickname) {
-        this.nickname = nickname == null ? null : new StringWithCustomFacts(nickname);
+        if (this.nickname == null) {
+            this.nickname = new StringWithCustomFacts(nickname);
+        } else {
+            this.nickname.setValue(nickname);
+        }
     }
 
     /**
@@ -450,7 +483,11 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      *            the new prefix
      */
     public void setPrefix(String prefix) {
-        this.prefix = prefix == null ? null : new StringWithCustomFacts(prefix);
+        if (this.prefix == null) {
+            this.prefix = new StringWithCustomFacts(prefix);
+        } else {
+            this.prefix.setValue(prefix);
+        }
     }
 
     /**
@@ -470,7 +507,11 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      *            the new suffix
      */
     public void setSuffix(String suffix) {
-        this.suffix = suffix == null ? null : new StringWithCustomFacts(suffix);
+        if (this.suffix == null) {
+            this.suffix = new StringWithCustomFacts(suffix);
+        } else {
+            this.suffix.setValue(suffix);
+        }
     }
 
     /**
@@ -490,7 +531,11 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      *            the new surname
      */
     public void setSurname(String surname) {
-        this.surname = surname == null ? null : new StringWithCustomFacts(surname);
+        if (this.surname == null) {
+            this.surname = new StringWithCustomFacts(surname);
+        } else {
+            this.surname.setValue(surname);
+        }
     }
 
     /**
@@ -510,7 +555,11 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      *            the new surname prefix
      */
     public void setSurnamePrefix(String surnamePrefix) {
-        this.surnamePrefix = surnamePrefix == null ? null : new StringWithCustomFacts(surnamePrefix);
+        if (this.surnamePrefix == null) {
+            this.surnamePrefix = new StringWithCustomFacts(surnamePrefix);
+        } else {
+            this.surnamePrefix.setValue(surnamePrefix);
+        }
     }
 
     /**
@@ -521,6 +570,30 @@ public class PersonalName extends AbstractNotesElement implements HasCitations {
      */
     public void setSurnamePrefix(StringWithCustomFacts surnamePrefix) {
         this.surnamePrefix = surnamePrefix;
+    }
+
+    /**
+     * Set the type
+     * 
+     * @param type
+     *            the type to set
+     */
+    public void setType(String type) {
+        if (this.type == null) {
+            this.type = new StringWithCustomFacts(type);
+        } else {
+            this.type.setValue(type);
+        }
+    }
+
+    /**
+     * Set the type
+     * 
+     * @param type
+     *            the type to set
+     */
+    public void setType(StringWithCustomFacts type) {
+        this.type = type;
     }
 
     /**
