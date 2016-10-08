@@ -64,15 +64,6 @@ class FileReference551Parser extends AbstractParser<FileReference> {
             for (StringTree fileChild : fileChildren) {
                 if (Tag.FORM.equalsText(fileChild.getTag())) {
                     loadForm(fileChild);
-                    if (fileChild.getChildren() != null) {
-                        for (StringTree gch : fileChild.getChildren()) {
-                            if (Tag.TYPE.equalsText(gch.getTag())) {
-                                loadInto.setMediaType(parseStringWithCustomFacts(gch));
-                            } else {
-                                unknownTag(gch, loadInto.getFormat());
-                            }
-                        }
-                    }
                 } else if (Tag.TITLE.equalsText(fileChild.getTag())) {
                     loadInto.setTitle(parseStringWithCustomFacts(fileChild));
                 } else {
@@ -102,12 +93,15 @@ class FileReference551Parser extends AbstractParser<FileReference> {
                 if (Tag.TYPE.equalsText(formChild.getTag())) {
                     loadInto.setMediaType(parseStringWithCustomFacts(formChild));
                     typeCount++;
+                } else if (Tag.MEDIA.equalsText(formChild.getTag())) {
+                    loadInto.setMediaType(parseStringWithCustomFacts(formChild));
+                    typeCount++;
                 } else {
                     unknownTag(formChild, loadInto);
                 }
             }
             if (typeCount > 1) {
-                addError("TYPE was specified more than once for the FORM tag on line " + form.getLineNum());
+                addError("Media type was specified more than once for the FORM tag on line " + form.getLineNum());
             }
         }
     }

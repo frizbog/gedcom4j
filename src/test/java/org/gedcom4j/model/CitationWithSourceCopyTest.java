@@ -53,7 +53,7 @@ public class CitationWithSourceCopyTest extends AbstractCopyTest {
     @Test
     public void testSimplestPossible() {
         CitationWithSource orig = new CitationWithSource();
-        CitationWithSource copy = new CitationWithSource(orig);
+        AbstractCitation copy = new CitationWithSource(orig);
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
@@ -80,7 +80,7 @@ public class CitationWithSourceCopyTest extends AbstractCopyTest {
         cd.setEntryDate("30 Jun 1998");
         orig.getData(true).add(cd);
 
-        CitationWithSource copy = new CitationWithSource(orig);
+        AbstractCitation copy = new CitationWithSource(orig);
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
         assertEquals(orig.toString(), copy.toString());

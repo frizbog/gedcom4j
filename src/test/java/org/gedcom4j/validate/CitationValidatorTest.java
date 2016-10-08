@@ -26,6 +26,7 @@
  */
 package org.gedcom4j.validate;
 
+import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.CitationWithSource;
 import org.gedcom4j.model.CitationWithoutSource;
 import org.gedcom4j.model.NoteStructure;
@@ -71,7 +72,7 @@ public class CitationValidatorTest extends AbstractValidatorTestCase {
     public void testValidateWithSourceNoSource() {
         NoteStructure n = new NoteStructure();
         n.getLines(true).add("Frying Pan");
-        CitationWithSource c = new CitationWithSource();
+        AbstractCitation c = new CitationWithSource();
         c.getNoteStructures(true).add(n);
         AbstractValidator cv = new CitationValidator(validator, c);
         cv.validate();

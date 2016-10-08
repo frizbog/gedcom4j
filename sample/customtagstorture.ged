@@ -102,7 +102,7 @@
 1 RIN 1
 2 _CTAG Custom tag on I00's Record ID
 1 CHAN
-2 DATE 11 Jan 2001
+2 DATE 11 JAN 2001
 3 _CTAG Custom tag on I00's Change Date
 3 TIME 16:00:06
 4 _CTAG Custom tag on I00's Change Time
@@ -126,6 +126,24 @@
 2 _FFF Custom tag on number of children
 1 RESN privacy
 2 __DD Custom tag on restriction notice on family
+1 SOUR This source-citation does not refer to a source record so it's inline. Lorem ipsum dolor sit amet, consectetur adipiscing
+2 CONC  elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ull
+2 CONC amco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolo
+2 CONC re eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
+2 TEXT Systems that do not use a (SOURCE_RECORD) must use the non-preferred second SOURce citation structure option. When system
+3 CONC s that support the zero level source record format encounters a source citation that does not contain pointers to source records
+3 CONC , then that system needs to create a SOURCE_RECORD format and store the source description information found in the non-structur
+3 CONC ed source citation in the title area for the new source record.
+2 OBJE
+3 FILE thefile.gif
+4 FORM gif
+5 MEDI fiche
+3 TITL This is one swell file, man.
+2 OBJE @M1@
+2 NOTE This is a note! Hooray!
+3 __SS custom tag on inline source citation note
+2 QUAY 3
+3 __SS custom tag on inline source citation quality assessment
 1 SOUR @S0015@
 2 PAGE 1
 3 __SS Custom tag on source page
@@ -158,6 +176,16 @@
 2 ___C custom tag on change date root (not the date record) on family
 1 _FFF Custom tag on family with 1 husb, 1 wife, 1 kid
 0 @M1@ OBJE
+1 FILE thefile.jpg
+2 FORM jpg
+3 TYPE image
+2 TITL "The File"
+1 REFN 444
+2 TYPE A three digit number
+1 SOUR @S0015@
+1 NOTE Yet another note
+1 CHAN
+2 DATE 06 OCT 2016
 0 @REPO1@ REPO
 1 NAME Reggie's Repository of Records
 2 __RR Custom tag on Repository name

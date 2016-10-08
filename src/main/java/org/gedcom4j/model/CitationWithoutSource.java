@@ -89,7 +89,7 @@ public class CitationWithoutSource extends AbstractCitation {
         if (!super.equals(obj)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof CitationWithoutSource)) {
             return false;
         }
         CitationWithoutSource other = (CitationWithoutSource) obj;
@@ -98,13 +98,6 @@ public class CitationWithoutSource extends AbstractCitation {
                 return false;
             }
         } else if (!description.equals(other.description)) {
-            return false;
-        }
-        if (getNoteStructures() == null) {
-            if (other.getNoteStructures() != null) {
-                return false;
-            }
-        } else if (!getNoteStructures().equals(other.getNoteStructures())) {
             return false;
         }
         if (textFromSource == null) {
@@ -170,9 +163,8 @@ public class CitationWithoutSource extends AbstractCitation {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + (description == null ? 0 : description.hashCode());
-        result = prime * result + (getNoteStructures() == null ? 0 : getNoteStructures().hashCode());
-        result = prime * result + (textFromSource == null ? 0 : textFromSource.hashCode());
+        result = prime * result + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((textFromSource == null) ? 0 : textFromSource.hashCode());
         return result;
     }
 
@@ -183,9 +175,19 @@ public class CitationWithoutSource extends AbstractCitation {
     public String toString() {
         StringBuilder builder = new StringBuilder(50);
         builder.append("CitationWithoutSource [");
+        if (certainty != null) {
+            builder.append("certainty=");
+            builder.append(certainty);
+            builder.append(", ");
+        }
         if (description != null) {
             builder.append("description=");
             builder.append(description);
+            builder.append(", ");
+        }
+        if (multimedia != null) {
+            builder.append("multimedia=");
+            builder.append(multimedia);
             builder.append(", ");
         }
         if (textFromSource != null) {
@@ -194,22 +196,22 @@ public class CitationWithoutSource extends AbstractCitation {
             builder.append(", ");
         }
         if (getDescription() != null) {
-            builder.append("getDescription()=");
+            builder.append("description()=");
             builder.append(getDescription());
             builder.append(", ");
         }
         if (getTextFromSource() != null) {
-            builder.append("getTextFromSource()=");
+            builder.append("textFromSource()=");
             builder.append(getTextFromSource());
             builder.append(", ");
         }
         if (getNoteStructures() != null) {
-            builder.append("getNotes()=");
+            builder.append("notes()=");
             builder.append(getNoteStructures());
             builder.append(", ");
         }
         if (getCustomFacts() != null) {
-            builder.append("getCustomFacts()=");
+            builder.append("customFacts()=");
             builder.append(getCustomFacts());
         }
         builder.append("]");

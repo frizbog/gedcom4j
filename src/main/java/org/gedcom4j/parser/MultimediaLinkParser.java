@@ -177,7 +177,7 @@ class MultimediaLinkParser extends AbstractParser<List<MultimediaReference>> {
                 } else if (Tag.TITLE.equalsText(ch.getTag())) {
                     if (m.getFileReferences() != null) {
                         for (FileReference fr : m.getFileReferences()) {
-                            fr.setTitle(new StringWithCustomFacts(ch.getTag().intern()));
+                            fr.setTitle(new StringWithCustomFacts(ch.getValue()));
                         }
                     }
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {

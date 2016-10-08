@@ -48,11 +48,6 @@ public class CitationWithSource extends AbstractCitation {
     private static final long serialVersionUID = 1886846774727359828L;
 
     /**
-     * The quality of this citation. Supposed to be 0, 1, 2, or 3, but stored as a string since we're not doing math on it.
-     */
-    private StringWithCustomFacts certainty;
-
-    /**
      * A list of citation data entries
      */
     private List<CitationData> data = getData(Options.isCollectionInitializationEnabled());
@@ -62,11 +57,6 @@ public class CitationWithSource extends AbstractCitation {
      * {@link FamilyEventType}, {@link IndividualEventType}, {@link IndividualAttributeType}.
      */
     private StringWithCustomFacts eventCited;
-
-    /**
-     * Multimedia links for this source citation
-     */
-    private List<MultimediaReference> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
 
     /**
      * The role in the event cited
@@ -136,17 +126,10 @@ public class CitationWithSource extends AbstractCitation {
         if (!super.equals(obj)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof CitationWithSource)) {
             return false;
         }
         CitationWithSource other = (CitationWithSource) obj;
-        if (certainty == null) {
-            if (other.certainty != null) {
-                return false;
-            }
-        } else if (!certainty.equals(other.certainty)) {
-            return false;
-        }
         if (data == null) {
             if (other.data != null) {
                 return false;
@@ -159,20 +142,6 @@ public class CitationWithSource extends AbstractCitation {
                 return false;
             }
         } else if (!eventCited.equals(other.eventCited)) {
-            return false;
-        }
-        if (multimedia == null) {
-            if (other.multimedia != null) {
-                return false;
-            }
-        } else if (!multimedia.equals(other.multimedia)) {
-            return false;
-        }
-        if (getNoteStructures() == null) {
-            if (other.getNoteStructures() != null) {
-                return false;
-            }
-        } else if (!getNoteStructures().equals(other.getNoteStructures())) {
             return false;
         }
         if (roleInEvent == null) {
@@ -197,15 +166,6 @@ public class CitationWithSource extends AbstractCitation {
             return false;
         }
         return true;
-    }
-
-    /**
-     * Gets the certainty.
-     *
-     * @return the certainty
-     */
-    public StringWithCustomFacts getCertainty() {
-        return certainty;
     }
 
     /**
@@ -238,29 +198,6 @@ public class CitationWithSource extends AbstractCitation {
      */
     public StringWithCustomFacts getEventCited() {
         return eventCited;
-    }
-
-    /**
-     * Gets the multimedia.
-     *
-     * @return the multimedia
-     */
-    public List<MultimediaReference> getMultimedia() {
-        return multimedia;
-    }
-
-    /**
-     * Get the multimedia
-     * 
-     * @param initializeIfNeeded
-     *            true if this collection should be created on-the-fly if it is currently null
-     * @return the multimedia
-     */
-    public List<MultimediaReference> getMultimedia(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && multimedia == null) {
-            multimedia = new ArrayList<>(0);
-        }
-        return multimedia;
     }
 
     /**
@@ -297,35 +234,12 @@ public class CitationWithSource extends AbstractCitation {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + (certainty == null ? 0 : certainty.hashCode());
-        result = prime * result + (data == null ? 0 : data.hashCode());
-        result = prime * result + (eventCited == null ? 0 : eventCited.hashCode());
-        result = prime * result + (multimedia == null ? 0 : multimedia.hashCode());
-        result = prime * result + (getNoteStructures() == null ? 0 : getNoteStructures().hashCode());
-        result = prime * result + (roleInEvent == null ? 0 : roleInEvent.hashCode());
-        result = prime * result + (source == null ? 0 : source.hashCode());
-        result = prime * result + (whereInSource == null ? 0 : whereInSource.hashCode());
+        result = prime * result + ((data == null) ? 0 : data.hashCode());
+        result = prime * result + ((eventCited == null) ? 0 : eventCited.hashCode());
+        result = prime * result + ((roleInEvent == null) ? 0 : roleInEvent.hashCode());
+        result = prime * result + ((source == null) ? 0 : source.hashCode());
+        result = prime * result + ((whereInSource == null) ? 0 : whereInSource.hashCode());
         return result;
-    }
-
-    /**
-     * Sets the certainty.
-     *
-     * @param certainty
-     *            the new certainty
-     */
-    public void setCertainty(String certainty) {
-        this.certainty = certainty == null ? null : new StringWithCustomFacts(certainty);
-    }
-
-    /**
-     * Sets the certainty.
-     *
-     * @param certainty
-     *            the new certainty
-     */
-    public void setCertainty(StringWithCustomFacts certainty) {
-        this.certainty = certainty;
     }
 
     /**

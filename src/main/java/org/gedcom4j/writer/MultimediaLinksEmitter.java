@@ -77,9 +77,9 @@ class MultimediaLinksEmitter extends AbstractEmitter<List<MultimediaReference>> 
             }
             if (m.getXref() == null) {
                 // Link to referenced form
+                emitTag(startLevel, "OBJE");
                 if (g55()) {
                     // GEDCOM 5.5 format
-                    emitTag(startLevel, "OBJE");
                     if (m.getFileReferences().size() > 1) {
                         throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but multimedia link references "
                                 + "multiple files, which is only allowed in GEDCOM 5.5.1");

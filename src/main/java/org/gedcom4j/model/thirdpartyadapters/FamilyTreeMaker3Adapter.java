@@ -28,7 +28,7 @@ package org.gedcom4j.model.thirdpartyadapters;
 
 import java.util.List;
 
-import org.gedcom4j.model.CitationWithSource;
+import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Individual;
@@ -67,7 +67,7 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * @return the certainty justification information for the individual. Although the entries in the result list are modifiable,
      *         the list itself is not.
      */
-    public List<CustomFact> getCertaintyJustification(CitationWithSource cws) {
+    public List<CustomFact> getCertaintyJustification(AbstractCitation cws) {
         return cws.getCustomFactsWithTag("_JUST");
     }
 
@@ -314,7 +314,7 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      *            citation with source
      * @return the web link(s) for the citation. Although the entries in the result list are modifiable, the list itself is not.
      */
-    public List<CustomFact> getWebLink(CitationWithSource cws) {
+    public List<CustomFact> getWebLink(AbstractCitation cws) {
         return cws.getCustomFactsWithTag("_LINK");
     }
 
@@ -567,7 +567,7 @@ public class FamilyTreeMaker3Adapter extends AbstractThirdPartyAdapter {
      * @param justifications
      *            the certainty justification information for the citation
      */
-    public void setCertaintyJustification(CitationWithSource cws, List<CustomFact> justifications) {
+    public void setCertaintyJustification(AbstractCitation cws, List<CustomFact> justifications) {
         replaceAllCustomFactsOfTypeWithNewFacts(cws, "_WEIG", justifications);
     }
 

@@ -394,7 +394,7 @@ abstract class AbstractEmitter<T> {
                 emitAndSplit(level, line.toString());
 
                 new ChangeDateEmitter(baseWriter, level + 1, cf.getChangeDate()).emit();
-                new SourceCitationEmitter(baseWriter, level + 1, cf.getCitations()).emit();
+                new CitationEmitter(baseWriter, level + 1, cf.getCitations()).emit();
                 emitTagIfValueNotNull(level + 1, "DATE", cf.getDate());
                 new NoteStructureEmitter(baseWriter, level + 1, cf.getNoteStructures()).emit();
                 new PlaceEmitter(baseWriter, level + 1, cf.getPlace()).emit();

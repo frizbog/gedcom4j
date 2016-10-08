@@ -42,7 +42,7 @@ import org.gedcom4j.model.Source;
  * 
  * @author frizbog
  */
-class SourceCitationEmitter extends AbstractEmitter<List<AbstractCitation>> {
+class CitationEmitter extends AbstractEmitter<List<AbstractCitation>> {
 
     /**
      * Constructor
@@ -56,7 +56,7 @@ class SourceCitationEmitter extends AbstractEmitter<List<AbstractCitation>> {
      * @throws WriterCancelledException
      *             if cancellation was requested during the operation
      */
-    protected SourceCitationEmitter(GedcomWriter baseWriter, int startLevel, List<AbstractCitation> writeFrom)
+    protected CitationEmitter(GedcomWriter baseWriter, int startLevel, List<AbstractCitation> writeFrom)
             throws WriterCancelledException {
         super(baseWriter, startLevel, writeFrom);
     }
@@ -96,7 +96,9 @@ class SourceCitationEmitter extends AbstractEmitter<List<AbstractCitation>> {
                 emitLinesOfText(level + 1, "TEXT", linesOfText);
             }
         }
+        new MultimediaLinksEmitter(baseWriter, level + 1, cws.getMultimedia()).emit();
         new NoteStructureEmitter(baseWriter, level + 1, cws.getNoteStructures()).emit();
+        emitTagIfValueNotNull(level + 1, "QUAY", cws.getCertainty());
         emitCustomFacts(level + 1, cws.getCustomFacts());
     }
 

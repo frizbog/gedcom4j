@@ -129,6 +129,11 @@ class CitationListParser extends AbstractParser<List<AbstractCitation>> {
                     loadMultiLinesOfText(ch, ls, cws);
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
                     new NoteStructureListParser(gedcomParser, ch, cws.getNoteStructures(true)).parse();
+                } else if (Tag.QUALITY.equalsText(ch.getTag())) {
+                    cws.setCertainty(parseStringWithCustomFacts(ch));
+                } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
+                    List<MultimediaReference> multimedia = cws.getMultimedia(true);
+                    new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
                 } else {
                     unknownTag(ch, citation);
                 }

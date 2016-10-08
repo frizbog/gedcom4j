@@ -85,7 +85,7 @@ class NoteRecordEmitter extends AbstractEmitter<Collection<NoteRecord>> {
             throw new GedcomWriterException(NoteRecord.class.getName() + " has no xref");
         }
         emitLinesOfText(0, note.getXref(), "NOTE", note.getLines());
-        new SourceCitationEmitter(baseWriter, 1, note.getCitations()).emit();
+        new CitationEmitter(baseWriter, 1, note.getCitations()).emit();
         if (note.getUserReferences() != null) {
             for (UserReference u : note.getUserReferences()) {
                 emitTagWithRequiredValue(1, "REFN", u.getReferenceNum());

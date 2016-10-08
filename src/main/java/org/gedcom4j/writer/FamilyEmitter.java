@@ -108,7 +108,7 @@ class FamilyEmitter extends AbstractEmitter<Collection<Family>> {
                 }
             }
             emitTagIfValueNotNull(1, "RESN", f.getRestrictionNotice());
-            new SourceCitationEmitter(baseWriter, 1, f.getCitations()).emit();
+            new CitationEmitter(baseWriter, 1, f.getCitations()).emit();
             new MultimediaLinksEmitter(baseWriter, 1, f.getMultimedia()).emit();
             new NoteStructureEmitter(baseWriter, 1, f.getNoteStructures()).emit();
             if (f.getUserReferences() != null) {
@@ -162,7 +162,7 @@ class FamilyEmitter extends AbstractEmitter<Collection<Family>> {
         emitTagIfValueNotNull(level + 1, "DATE", sealings.getDate());
         emitTagIfValueNotNull(level + 1, "TEMP", sealings.getTemple());
         emitTagIfValueNotNull(level + 1, "PLAC", sealings.getPlace());
-        new SourceCitationEmitter(baseWriter, level + 1, sealings.getCitations()).emit();
+        new CitationEmitter(baseWriter, level + 1, sealings.getCitations()).emit();
         new NoteStructureEmitter(baseWriter, level + 1, sealings.getNoteStructures()).emit();
         emitCustomFacts(level + 1, sealings.getCustomFacts());
     }

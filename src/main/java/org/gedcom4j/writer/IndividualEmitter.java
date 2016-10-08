@@ -108,7 +108,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                     emitTagWithRequiredValue(1, "DESI", s.getXref());
                 }
             }
-            new SourceCitationEmitter(baseWriter, 1, i.getCitations()).emit();
+            new CitationEmitter(baseWriter, 1, i.getCitations()).emit();
             new MultimediaLinksEmitter(baseWriter, 1, i.getMultimedia()).emit();
             new NoteStructureEmitter(baseWriter, 1, i.getNoteStructures()).emit();
             emitTagIfValueNotNull(1, "RFN", i.getPermanentRecFileNumber());
@@ -143,7 +143,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                 emitTagWithRequiredValue(level + 1, "TYPE", a.getAssociatedEntityType());
                 emitTagWithRequiredValue(level + 1, "RELA", a.getRelationship());
                 new NoteStructureEmitter(baseWriter, level + 1, a.getNoteStructures()).emit();
-                new SourceCitationEmitter(baseWriter, level + 1, a.getCitations()).emit();
+                new CitationEmitter(baseWriter, level + 1, a.getCitations()).emit();
                 emitCustomFacts(level + 1, a.getCustomFacts());
             }
         }
@@ -258,7 +258,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                     }
                     emitTagWithRequiredValue(level + 1, "FAMC", o.getFamilyWhereChild().getFamily().getXref());
                 }
-                new SourceCitationEmitter(baseWriter, level + 1, o.getCitations()).emit();
+                new CitationEmitter(baseWriter, level + 1, o.getCitations()).emit();
                 new NoteStructureEmitter(baseWriter, level + 1, o.getNoteStructures()).emit();
                 emitCustomFacts(level + 1, o.getCustomFacts());
             }
@@ -295,7 +295,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                         emitPersonalNameVariation(level + 1, "FONE", pnv);
                     }
                 }
-                new SourceCitationEmitter(baseWriter, level + 1, n.getCitations()).emit();
+                new CitationEmitter(baseWriter, level + 1, n.getCitations()).emit();
                 new NoteStructureEmitter(baseWriter, level + 1, n.getNoteStructures()).emit();
                 emitCustomFacts(level + 1, n.getCustomFacts());
             }
@@ -322,7 +322,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
         emitTagIfValueNotNull(level + 1, "SPFX", pnv.getSurnamePrefix());
         emitTagIfValueNotNull(level + 1, "SURN", pnv.getSurname());
         emitTagIfValueNotNull(level + 1, "NSFX", pnv.getSuffix());
-        new SourceCitationEmitter(baseWriter, level + 1, pnv.getCitations()).emit();
+        new CitationEmitter(baseWriter, level + 1, pnv.getCitations()).emit();
         new NoteStructureEmitter(baseWriter, level + 1, pnv.getNoteStructures()).emit();
         emitCustomFacts(level + 1, pnv.getCustomFacts());
     }
