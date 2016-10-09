@@ -30,8 +30,12 @@ import java.util.List;
 
 import org.gedcom4j.model.Address;
 import org.gedcom4j.model.CustomFact;
+import org.gedcom4j.model.Family;
+import org.gedcom4j.model.FamilyEvent;
 import org.gedcom4j.model.HasCustomFacts;
 import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.IndividualReference;
 import org.gedcom4j.model.Multimedia;
 
 /**
@@ -45,6 +49,7 @@ import org.gedcom4j.model.Multimedia;
  * 
  * @author frizbog
  */
+@SuppressWarnings("PMD.GodClass")
 public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
 
     /**
@@ -67,6 +72,28 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get the email on the address
+     * 
+     * @param address
+     *            the address
+     * @return the email on the address
+     */
+    public String getAddressEmail(Address address) {
+        return getDescriptionForCustomTag(address, "_EMAIL");
+    }
+
+    /**
+     * Get the private flag on the address
+     * 
+     * @param address
+     *            the address
+     * @return the private flag on the address
+     */
+    public String getAddressPrivateFlag(Address address) {
+        return getDescriptionForCustomTag(address, "_PRIV");
+    }
+
+    /**
      * Get the value used for sorting an address
      * 
      * @param addr
@@ -75,6 +102,60 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      */
     public String getAddressSortValue(Address addr) {
         return getDescriptionForCustomTag(addr, "_SORT");
+    }
+
+    /**
+     * Get the private flag on the family event
+     * 
+     * @param famEvent
+     *            the family event
+     * @return the private flag on the family event
+     */
+    public String getFamilyEventPrivateFlag(FamilyEvent famEvent) {
+        return getDescriptionForCustomTag(famEvent, "_PRIV");
+    }
+
+    /**
+     * Get the preferred flag on a member of a family
+     * 
+     * @param family
+     *            the familyMember item
+     * @param individual
+     *            the individual in the family
+     * @return the primary flag on the familyMember item
+     */
+    public String getFamilyMemberPreferredFlag(Family family, Individual individual) {
+        if (family == null) {
+            throw new IllegalArgumentException("family is required");
+        }
+        if (individual == null) {
+            throw new IllegalArgumentException("individual is required");
+        }
+        if (family.getWife() != null && family.getWife().getIndividual().equals(individual)) {
+            return getDescriptionForCustomTag(family.getWife(), "_PREF");
+        }
+        if (family.getHusband() != null && family.getHusband().getIndividual().equals(individual)) {
+            return getDescriptionForCustomTag(family.getHusband(), "_PREF");
+        }
+        if (family.getChildren() != null) {
+            for (IndividualReference iRef : family.getChildren()) {
+                if (iRef != null && individual.equals(iRef.getIndividual())) {
+                    return getDescriptionForCustomTag(iRef, "_PREF");
+                }
+            }
+        }
+        throw new IllegalArgumentException("Individual was not found in the supplied family");
+    }
+
+    /**
+     * Get the private flag on the individual event
+     * 
+     * @param indEvent
+     *            the individual event
+     * @return the private flag on the individual event
+     */
+    public String getIndividualEventPrivateFlag(IndividualEvent indEvent) {
+        return getDescriptionForCustomTag(indEvent, "_PRIV");
     }
 
     /**
@@ -107,7 +188,7 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      * @return the primary flag on the multimedia item
      */
     public String getMultimediaPrimaryFlag(Multimedia mm) {
-        return getDescriptionForCustomTag(mm, "_SOUND");
+        return getDescriptionForCustomTag(mm, "_PRIM");
     }
 
     /**
@@ -169,6 +250,20 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get the to-do closed date
+     * 
+     * @param toDo
+     *            the to-do custom fact
+     * @return the closed date for the to-do
+     */
+    public String getToDoClosedDate(CustomFact toDo) {
+        if (!isNonNullAndHasRequiredTag(toDo, "_TODO")) {
+            throw new IllegalArgumentException("toDo is required and must have correct custom tag");
+        }
+        return getDescriptionForCustomTag(toDo, "_CDATE");
+    }
+
+    /**
      * Get the to-do description
      * 
      * @param toDo
@@ -179,7 +274,35 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
         if (!isNonNullAndHasRequiredTag(toDo, "_TODO")) {
             throw new IllegalArgumentException("toDo is required and must have correct custom tag");
         }
-        return getDescriptionForCustomTag(toDo, "_CAT");
+        return getDescriptionForCustomTag(toDo, "DESC");
+    }
+
+    /**
+     * Get the to-do locality
+     * 
+     * @param toDo
+     *            the to-do custom fact
+     * @return the locality for the to-do
+     */
+    public String getToDoLocality(CustomFact toDo) {
+        if (!isNonNullAndHasRequiredTag(toDo, "_TODO")) {
+            throw new IllegalArgumentException("toDo is required and must have correct custom tag");
+        }
+        return getDescriptionForCustomTag(toDo, "_LOCL");
+    }
+
+    /**
+     * Get the to-do reminder date
+     * 
+     * @param toDo
+     *            the to-do custom fact
+     * @return the reminder date for the to-do
+     */
+    public String getToDoReminderDate(CustomFact toDo) {
+        if (!isNonNullAndHasRequiredTag(toDo, "_TODO")) {
+            throw new IllegalArgumentException("toDo is required and must have correct custom tag");
+        }
+        return getDescriptionForCustomTag(toDo, "_RDATE");
     }
 
     /**
@@ -242,6 +365,30 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Set the address email
+     * 
+     * @param address
+     *            the address
+     * @param email
+     *            the email on the address. Optional; pass null to remove the email.
+     */
+    public void setAddressEmail(Address address, String email) {
+        setDescriptionForCustomTag(address, "_EMAIL", email);
+    }
+
+    /**
+     * Set the address private flag
+     * 
+     * @param address
+     *            the address
+     * @param privateFlag
+     *            the private flag on the address. Optional; pass null to remove the private flag.
+     */
+    public void setAddressPrivateFlag(Address address, String privateFlag) {
+        setDescriptionForCustomTag(address, "_PRIV", privateFlag);
+    }
+
+    /**
      * Set the value used for sorting an address
      * 
      * @param addr
@@ -251,6 +398,66 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      */
     public void setAddressSortValue(Address addr, String nameAtAddress) {
         setDescriptionForCustomTag(addr, "_SORT", nameAtAddress);
+    }
+
+    /**
+     * Set the family event private flag
+     * 
+     * @param famEvent
+     *            the family event
+     * @param privateFlag
+     *            the private flag on the multimedia. Optional; pass null to remove the private flag.
+     */
+    public void setFamilyEventPrivateFlag(FamilyEvent famEvent, String privateFlag) {
+        setDescriptionForCustomTag(famEvent, "_PRIV", privateFlag);
+    }
+
+    /**
+     * Set the family member preferred flag
+     * 
+     * @param family
+     *            the reference to the family
+     * @param individual
+     *            the individual
+     * @param familyMemberPreferredFlag
+     *            the primary flag on the familyMember. Optional; pass null to remove the primary flag.
+     */
+    public void setFamilyMemberPreferredFlag(Family family, Individual individual, String familyMemberPreferredFlag) {
+        if (family == null) {
+            throw new IllegalArgumentException("family is required");
+        }
+        if (individual == null) {
+            throw new IllegalArgumentException("individual is required");
+        }
+        if (family.getWife() != null && family.getWife().getIndividual().equals(individual)) {
+            setDescriptionForCustomTag(family.getWife(), "_PREF", familyMemberPreferredFlag);
+            return;
+        }
+        if (family.getHusband() != null && family.getHusband().getIndividual().equals(individual)) {
+            setDescriptionForCustomTag(family.getHusband(), "_PREF", familyMemberPreferredFlag);
+            return;
+        }
+        if (family.getChildren() != null) {
+            for (IndividualReference iRef : family.getChildren()) {
+                if (iRef != null && individual.equals(iRef.getIndividual())) {
+                    setDescriptionForCustomTag(iRef, "_PREF", familyMemberPreferredFlag);
+                    return;
+                }
+            }
+        }
+        throw new IllegalArgumentException("Individual was not found in the supplied family");
+    }
+
+    /**
+     * Set the individual event private flag
+     * 
+     * @param indEvent
+     *            the individual event
+     * @param privateFlag
+     *            the private flag on the individual event. Optional; pass null to remove the private flag.
+     */
+    public void setIndividualEventPrivateFlag(IndividualEvent indEvent, String privateFlag) {
+        setDescriptionForCustomTag(indEvent, "_PRIV", privateFlag);
     }
 
     /**
@@ -286,7 +493,7 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      *            the primary flag on the multimedia. Optional; pass null to remove the primary flag.
      */
     public void setMultimediaPrimaryFlag(Multimedia mm, String multimediaPrimaryFlag) {
-        setDescriptionForCustomTag(mm, "_SOUND", multimediaPrimaryFlag);
+        setDescriptionForCustomTag(mm, "_PRIM", multimediaPrimaryFlag);
     }
 
     /**
@@ -353,6 +560,21 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Sets the to do closed date.
+     *
+     * @param toDo
+     *            the to-do custom fact
+     * @param closedDate
+     *            the closed date
+     */
+    public void setToDoClosedDate(CustomFact toDo, String closedDate) {
+        if (!isNonNullAndHasRequiredTag(toDo, "_TODO")) {
+            throw new IllegalArgumentException("toDo is required and must have correct custom tag");
+        }
+        setDescriptionForCustomTag(toDo, "_CDATE", closedDate);
+    }
+
+    /**
      * Sets the to do description.
      *
      * @param toDo
@@ -364,7 +586,37 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
         if (!isNonNullAndHasRequiredTag(toDo, "_TODO")) {
             throw new IllegalArgumentException("toDo is required and must have correct custom tag");
         }
-        setDescriptionForCustomTag(toDo, "_CAT", description);
+        setDescriptionForCustomTag(toDo, "DESC", description);
+    }
+
+    /**
+     * Sets the to do locality.
+     *
+     * @param toDo
+     *            the to do
+     * @param locality
+     *            the locality
+     */
+    public void setToDoLocality(CustomFact toDo, String locality) {
+        if (!isNonNullAndHasRequiredTag(toDo, "_TODO")) {
+            throw new IllegalArgumentException("toDo is required and must have correct custom tag");
+        }
+        setDescriptionForCustomTag(toDo, "_LOCL", locality);
+    }
+
+    /**
+     * Sets the to do reminder date.
+     *
+     * @param toDo
+     *            the to-do custom fact
+     * @param reminderDate
+     *            the reminder date
+     */
+    public void setToDoReminderDate(CustomFact toDo, String reminderDate) {
+        if (!isNonNullAndHasRequiredTag(toDo, "_TODO")) {
+            throw new IllegalArgumentException("toDo is required and must have correct custom tag");
+        }
+        setDescriptionForCustomTag(toDo, "_RDATE", reminderDate);
     }
 
 }

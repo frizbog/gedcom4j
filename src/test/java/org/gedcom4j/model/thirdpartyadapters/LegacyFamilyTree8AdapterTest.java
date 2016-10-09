@@ -37,6 +37,8 @@ import java.util.List;
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Address;
 import org.gedcom4j.model.CustomFact;
+import org.gedcom4j.model.Family;
+import org.gedcom4j.model.FamilyEvent;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
@@ -176,6 +178,138 @@ public class LegacyFamilyTree8AdapterTest {
     }
 
     /**
+     * Test for {@link LegacyFamilyTree8Adapter#getAddressEmail(Address)} and
+     * {@link LegacyFamilyTree8Adapter#setAddressEmail(Address, String)}
+     */
+    @Test
+    public void testGetSetAddressEmail() {
+        Address addr = will.getEventsOfType(IndividualEventType.DEATH).get(0).getAddress();
+
+        String s = lfta.getAddressEmail(addr);
+        assertEquals("matt@gedcom4j.org", s);
+
+        lfta.setAddressEmail(addr, null);
+        assertNull(lfta.getAddressEmail(addr));
+
+        lfta.setAddressEmail(addr, "support@gedcom4j.org");
+        assertEquals("support@gedcom4j.org", lfta.getAddressEmail(addr));
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getAddressPrivateFlag(Address)} and
+     * {@link LegacyFamilyTree8Adapter#setAddressPrivateFlag(Address, String)}
+     */
+    @Test
+    public void testGetSetAddressPrivateFlag() {
+        Address addr = will.getEventsOfType(IndividualEventType.DEATH).get(0).getAddress();
+
+        String s = lfta.getAddressPrivateFlag(addr);
+        assertEquals("Y", s);
+
+        lfta.setAddressPrivateFlag(addr, null);
+        assertNull(lfta.getAddressPrivateFlag(addr));
+
+        lfta.setAddressPrivateFlag(addr, "N");
+        assertEquals("N", lfta.getAddressPrivateFlag(addr));
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getFamilyEventPrivateFlag(FamilyEvent)} and
+     * {@link LegacyFamilyTree8Adapter#setFamilyEventPrivateFlag(FamilyEvent, String)}
+     */
+    @Test
+    public void testGetSetFamilyEventPrivateFlag() {
+        FamilyEvent marriage = gedcomWithCustomTags.getFamilies().get("@F1@").getEvents().get(0);
+
+        String s = lfta.getFamilyEventPrivateFlag(marriage);
+        assertEquals("Y", s);
+
+        lfta.setFamilyEventPrivateFlag(marriage, null);
+        assertNull(lfta.getFamilyEventPrivateFlag(marriage));
+
+        lfta.setFamilyEventPrivateFlag(marriage, "N");
+        assertEquals("N", lfta.getFamilyEventPrivateFlag(marriage));
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getFamilyMemberPreferredFlag(Family, Individual)} and
+     * {@link LegacyFamilyTree8Adapter#setFamilyMemberPreferredFlag(Family, Individual, String)}
+     */
+    @Test
+    public void testGetSetFamilyMemberPreferredFlagDad() {
+        Family f = gedcomWithCustomTags.getFamilies().get("@F3@");
+        Individual dad = f.getHusband().getIndividual();
+
+        String s = lfta.getFamilyMemberPreferredFlag(f, dad);
+        assertEquals("Y", s);
+
+        lfta.setFamilyMemberPreferredFlag(f, dad, null);
+        assertNull(lfta.getFamilyMemberPreferredFlag(f, dad));
+
+        lfta.setFamilyMemberPreferredFlag(f, dad, "N");
+        assertEquals("N", lfta.getFamilyMemberPreferredFlag(f, dad));
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getFamilyMemberPreferredFlag(Family, Individual)} and
+     * {@link LegacyFamilyTree8Adapter#setFamilyMemberPreferredFlag(Family, Individual, String)}
+     */
+    @Test
+    public void testGetSetFamilyMemberPreferredFlagKid() {
+        Family f = gedcomWithCustomTags.getFamilies().get("@F1@");
+        Individual kid1 = f.getChildren().get(0).getIndividual();
+        Individual kid2 = f.getChildren().get(1).getIndividual();
+
+        assertEquals("Y", lfta.getFamilyMemberPreferredFlag(f, kid1));
+        assertNull(lfta.getFamilyMemberPreferredFlag(f, kid2));
+
+        lfta.setFamilyMemberPreferredFlag(f, kid1, null);
+        assertNull(lfta.getFamilyMemberPreferredFlag(f, kid1));
+        assertNull(lfta.getFamilyMemberPreferredFlag(f, kid2));
+
+        lfta.setFamilyMemberPreferredFlag(f, kid1, "N");
+        assertEquals("N", lfta.getFamilyMemberPreferredFlag(f, kid1));
+        assertNull(lfta.getFamilyMemberPreferredFlag(f, kid2));
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getFamilyMemberPreferredFlag(Family, Individual)} and
+     * {@link LegacyFamilyTree8Adapter#setFamilyMemberPreferredFlag(Family, Individual, String)}
+     */
+    @Test
+    public void testGetSetFamilyMemberPreferredFlagMom() {
+        Family f = gedcomWithCustomTags.getFamilies().get("@F3@");
+        Individual mom = f.getWife().getIndividual();
+
+        String s = lfta.getFamilyMemberPreferredFlag(f, mom);
+        assertEquals("Y", s);
+
+        lfta.setFamilyMemberPreferredFlag(f, mom, null);
+        assertNull(lfta.getFamilyMemberPreferredFlag(f, mom));
+
+        lfta.setFamilyMemberPreferredFlag(f, mom, "N");
+        assertEquals("N", lfta.getFamilyMemberPreferredFlag(f, mom));
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getIndividualEventPrivateFlag(IndividualEvent)} and
+     * {@link LegacyFamilyTree8Adapter#setIndividualEventPrivateFlag(IndividualEvent, String)}
+     */
+    @Test
+    public void testGetSetIndividualEventPrivateFlag() {
+        IndividualEvent birth = will.getEventsOfType(IndividualEventType.BIRTH).get(0);
+
+        String s = lfta.getIndividualEventPrivateFlag(birth);
+        assertEquals("Y", s);
+
+        lfta.setIndividualEventPrivateFlag(birth, null);
+        assertNull(lfta.getIndividualEventPrivateFlag(birth));
+
+        lfta.setIndividualEventPrivateFlag(birth, "N");
+        assertEquals("N", lfta.getIndividualEventPrivateFlag(birth));
+    }
+
+    /**
      * Test for {@link LegacyFamilyTree8Adapter#getMultimediaDate(Multimedia)} and
      * {@link LegacyFamilyTree8Adapter#setMultimediaDate(Multimedia, String)}
      */
@@ -202,7 +336,7 @@ public class LegacyFamilyTree8AdapterTest {
         Multimedia mm = will.getMultimedia().get(0).getMultimedia();
 
         String s = lfta.getMultimediaPrimaryFlag(mm);
-        assertEquals("Alarm01.wav", s);
+        assertEquals("Y", s);
 
         lfta.setMultimediaPrimaryFlag(mm, null);
         assertNull(lfta.getMultimediaPrimaryFlag(mm));
@@ -346,23 +480,70 @@ public class LegacyFamilyTree8AdapterTest {
     }
 
     /**
+     * Test for {@link LegacyFamilyTree8Adapter#getToDoClosedDate(CustomFact)} and
+     * {@link LegacyFamilyTree8Adapter#setToDoClosedDate(CustomFact, String)}
+     */
+    @Test
+    public void testToDoClosedDate() {
+        CustomFact toDo = lfta.newToDo();
+        assertNull(lfta.getToDoClosedDate(toDo));
+
+        lfta.setToDoClosedDate(toDo, "08 OCT 2016");
+        assertEquals("08 OCT 2016", lfta.getToDoClosedDate(toDo));
+
+        assertEquals("1 Oct 2016", lfta.getToDoClosedDate(lfta.getToDos(will).get(1)));
+    }
+
+    /**
      * Test for {@link LegacyFamilyTree8Adapter#getToDoDescription(CustomFact)} and
      * {@link LegacyFamilyTree8Adapter#setToDoDescription(CustomFact, String)}. Note that Legacy Family Tree 8 puts the description
      * of the to-do in a child "DESC" tag (without the leading underscore - a tag normally reserved for DESCendands) and not in the
-     * value to the right of the tag.
+     * value to the right of the tag (which is represented in the {@link CustomFact#getDescription()} field, which could be a source
+     * of confusion)
      */
     @Test
     public void testToDoDescription() {
         CustomFact toDo = lfta.newToDo();
-        assertNull(lfta.getToDoDescription(toDo));
-        assertNull(toDo.getDescription());
+        assertNull(lfta.getToDoDescription(toDo)); // The ToDo description child element
+        assertNull(toDo.getDescription()); // Note: NOT the custom tag description (value to right of tag)
 
         lfta.setToDoDescription(toDo, "License");
         assertEquals("License", lfta.getToDoDescription(toDo));
         assertNull(toDo.getDescription());
 
         CustomFact willToDo1 = lfta.getToDos(will).get(0);
-        assertEquals("Birth Certificate", lfta.getToDoDescription(willToDo1));
+        assertEquals("Obtain", lfta.getToDoDescription(willToDo1));
         assertNull(willToDo1.getDescription());
     }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getToDoLocality(CustomFact)} and
+     * {@link LegacyFamilyTree8Adapter#setToDoLocality(CustomFact, String)}
+     */
+    @Test
+    public void testToDoLocality() {
+        CustomFact toDo = lfta.newToDo();
+        assertNull(lfta.getToDoLocality(toDo));
+
+        lfta.setToDoLocality(toDo, "Cucamonga");
+        assertEquals("Cucamonga", lfta.getToDoLocality(toDo));
+
+        assertEquals("Somewhere over the rainbow", lfta.getToDoLocality(lfta.getToDos(will).get(0)));
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getToDoReminderDate(CustomFact)} and
+     * {@link LegacyFamilyTree8Adapter#setToDoReminderDate(CustomFact, String)}
+     */
+    @Test
+    public void testToDoReminderDate() {
+        CustomFact toDo = lfta.newToDo();
+        assertNull(lfta.getToDoReminderDate(toDo));
+
+        lfta.setToDoReminderDate(toDo, "08 OCT 2016");
+        assertEquals("08 OCT 2016", lfta.getToDoReminderDate(toDo));
+
+        assertEquals("30 Sep 2016", lfta.getToDoReminderDate(lfta.getToDos(will).get(0)));
+    }
+
 }

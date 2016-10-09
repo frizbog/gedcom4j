@@ -26,6 +26,7 @@
 2 SURN Williams
 1 SEX M
 1 BIRT
+2 _PRIV Y
 2 DATE 9 Sep 1999
 2 PLAC Palo Alto, CA
 2 SOUR @S2@
@@ -34,6 +35,9 @@
 3 DATE 29 Sep 2016
 1 DEAT Y
 2 CAUS Septisemia/Decapitation
+2 ADDR 4144 Elm Street
+3 _EMAIL matt@gedcom4j.org
+3 _PRIV Y
 1 EVEN Air Force
 2 TYPE Military Service
 2 DATE 2 Feb 2000
@@ -119,6 +123,27 @@
 2 GIVN Private
 1 SEX F
 1 FAMS @F3@
+0 @F1@ FAM
+1 MARR
+2 DATE 08 OCT 2016
+2 _PRIV Y
+1 HUSB @I10@
+1 WIFE @I11@
+1 CHIL @I12@
+2 _PREF Y
+1 CHIL @I13@
+0 @I10@ INDI
+1 NAME Peter /Peters/
+1 SEX M
+0 @I11@ INDI
+1 NAME Laura /Lawrence/
+1 SEX F
+0 @I12@ INDI
+1 NAME Paul /Peters/
+1 SEX F
+0 @I13@ INDI
+1 NAME Patricia /Peters/
+1 SEX F
 0 @F3@ FAM
 1 HUSB @I2@
 2 _PREF Y
