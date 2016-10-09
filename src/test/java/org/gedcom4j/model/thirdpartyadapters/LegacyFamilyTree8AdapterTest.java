@@ -27,9 +27,11 @@
 package org.gedcom4j.model.thirdpartyadapters;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.List;
@@ -43,6 +45,7 @@ import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.Source;
 import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.gedcom4j.parser.GedcomParser;
 import org.junit.Before;
@@ -400,6 +403,44 @@ public class LegacyFamilyTree8AdapterTest {
     }
 
     /**
+     * Test {@link LegacyFamilyTree8Adapter#getSourceInItalicsFlag(Source)} and
+     * {@link LegacyFamilyTree8Adapter#setSourceInItalicsFlag(Source, String)}
+     */
+    @Test
+    public void testGetSetSourceInItalics() {
+        Source src = gedcomWithCustomTags.getSources().get("@S2@");
+
+        String s = lfta.getSourceInItalicsFlag(src);
+        assertEquals("Y", s);
+
+        lfta.setSourceInItalicsFlag(src, null);
+        assertNull(lfta.getSourceInItalicsFlag(src));
+
+        lfta.setSourceInItalicsFlag(src, "N");
+        assertEquals("N", lfta.getSourceInItalicsFlag(src));
+
+    }
+
+    /**
+     * Test {@link LegacyFamilyTree8Adapter#getSourceInParensFlag(Source)} and
+     * {@link LegacyFamilyTree8Adapter#setSourceInParensFlag(Source, String)}
+     */
+    @Test
+    public void testGetSetSourceInParens() {
+        Source src = gedcomWithCustomTags.getSources().get("@S2@");
+
+        String s = lfta.getSourceInParensFlag(src);
+        assertEquals("Y", s);
+
+        lfta.setSourceInParensFlag(src, null);
+        assertNull(lfta.getSourceInParensFlag(src));
+
+        lfta.setSourceInParensFlag(src, "N");
+        assertEquals("N", lfta.getSourceInParensFlag(src));
+
+    }
+
+    /**
      * Test {@link LegacyFamilyTree8Adapter#getToDos(org.gedcom4j.model.HasCustomFacts)}
      */
     @Test(expected = UnsupportedOperationException.class)
@@ -431,6 +472,23 @@ public class LegacyFamilyTree8AdapterTest {
         assertNull(lfta.getIndividualUID(will));
         lfta.setIndividualUID(will, "12345678-1234-1234-1234-1234567890AB");
         assertEquals("12345678-1234-1234-1234-1234567890AB", lfta.getIndividualUID(will));
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#isFamilyHadNoChildren(Family)} and
+     * {@link LegacyFamilyTree8Adapter#setFamilyHadNoChildren(Family, boolean)}
+     */
+    @Test
+    public void testIsSetFamilyHadNoChildren() {
+        Family family = gedcomWithCustomTags.getFamilies().get("@F3@");
+
+        assertTrue(lfta.isFamilyHadNoChildren(family));
+
+        lfta.setFamilyHadNoChildren(family, false);
+        assertFalse(lfta.isFamilyHadNoChildren(family));
+
+        lfta.setFamilyHadNoChildren(family, true);
+        assertTrue(lfta.isFamilyHadNoChildren(family));
     }
 
     /**
@@ -529,21 +587,6 @@ public class LegacyFamilyTree8AdapterTest {
         assertEquals("Cucamonga", lfta.getToDoLocality(toDo));
 
         assertEquals("Somewhere over the rainbow", lfta.getToDoLocality(lfta.getToDos(will).get(0)));
-    }
-
-    /**
-     * Test for {@link LegacyFamilyTree8Adapter#getToDoReminderDate(CustomFact)} and
-     * {@link LegacyFamilyTree8Adapter#setToDoReminderDate(CustomFact, String)}
-     */
-    @Test
-    public void testToDoReminderDate() {
-        CustomFact toDo = lfta.newToDo();
-        assertNull(lfta.getToDoReminderDate(toDo));
-
-        lfta.setToDoReminderDate(toDo, "08 OCT 2016");
-        assertEquals("08 OCT 2016", lfta.getToDoReminderDate(toDo));
-
-        assertEquals("30 Sep 2016", lfta.getToDoReminderDate(lfta.getToDos(will).get(0)));
     }
 
 }

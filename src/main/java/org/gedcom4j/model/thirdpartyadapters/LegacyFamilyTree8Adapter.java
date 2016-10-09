@@ -37,6 +37,7 @@ import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.IndividualReference;
 import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.Source;
 
 /**
  * <p>
@@ -49,7 +50,7 @@ import org.gedcom4j.model.Multimedia;
  * 
  * @author frizbog
  */
-@SuppressWarnings("PMD.GodClass")
+@SuppressWarnings({ "PMD.GodClass", "PMD.ExcessivePublicCount" })
 public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
 
     /**
@@ -236,6 +237,28 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get the flag indicating a source is to be put in italics
+     * 
+     * @param src
+     *            the source
+     * @return the flag indicating a source is to be put in italics
+     */
+    public String getSourceInItalicsFlag(Source src) {
+        return getDescriptionForCustomTag(src, "_ITALIC");
+    }
+
+    /**
+     * Get the flag indicating a source is to be put in parentheses
+     * 
+     * @param src
+     *            the source
+     * @return the flag indicating a source is to be put in parentheses
+     */
+    public String getSourceInParensFlag(Source src) {
+        return getDescriptionForCustomTag(src, "_PAREN");
+    }
+
+    /**
      * Get the to-do category
      * 
      * @param toDo
@@ -315,6 +338,18 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      */
     public List<CustomFact> getToDos(HasCustomFacts hasCustomFacts) {
         return hasCustomFacts.getCustomFactsWithTag("_TODO");
+    }
+
+    /**
+     * Get the had-no-children flag on the family
+     * 
+     * @param family
+     *            the family
+     * @return the had-no-children flag on the family
+     */
+    public boolean isFamilyHadNoChildren(Family family) {
+        List<CustomFact> cfs = family.getCustomFactsWithTag("_NONE");
+        return (cfs != null && !cfs.isEmpty());
     }
 
     /**
@@ -410,6 +445,22 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      */
     public void setFamilyEventPrivateFlag(FamilyEvent famEvent, String privateFlag) {
         setDescriptionForCustomTag(famEvent, "_PRIV", privateFlag);
+    }
+
+    /**
+     * Set the family event had-no-children flag
+     * 
+     * @param family
+     *            the family event
+     * @param hadNoChildren
+     *            the had-no-children flag on the multimedia. Optional; pass null to remove the had-no-children flag.
+     */
+    public void setFamilyHadNoChildren(Family family, boolean hadNoChildren) {
+        clearCustomTagsOfType(family, "_NONE");
+        if (hadNoChildren) {
+            CustomFact cf = new CustomFact("_NONE");
+            family.getCustomFacts(true).add(cf);
+        }
     }
 
     /**
@@ -542,6 +593,30 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      */
     public void setNameAtAddress(Address addr, String nameAtAddress) {
         setDescriptionForCustomTag(addr, "_NAME", nameAtAddress);
+    }
+
+    /**
+     * Set the flag indicating a source is to be put in italics
+     * 
+     * @param src
+     *            the source
+     * @param italicsFlag
+     *            the flag indicating a source is to be put in italics. Optional; pass in null to remove the flag.
+     */
+    public void setSourceInItalicsFlag(Source src, String italicsFlag) {
+        setDescriptionForCustomTag(src, "_ITALIC", italicsFlag);
+    }
+
+    /**
+     * Set the flag indicating a source is to be put in parentheses
+     * 
+     * @param src
+     *            the source
+     * @param parensFlag
+     *            the flag indicating a source is to be put in parentheses. Optional; pass in null to remove the flag.
+     */
+    public void setSourceInParensFlag(Source src, String parensFlag) {
+        setDescriptionForCustomTag(src, "_PAREN", parensFlag);
     }
 
     /**
