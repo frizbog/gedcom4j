@@ -21,6 +21,7 @@
 1 EMAIL matt@gecom4j.org
 1 WWW http://gedcom4j.org
 0 @I2@ INDI
+1 _TAG
 1 NAME William /Williams/
 2 GIVN William
 2 SURN Williams
@@ -33,6 +34,21 @@
 3 PAGE 666, It's so detailed!.
 3 QUAY 2
 3 DATE 29 Sep 2016
+3 NOTE I met a man with seven wives
+3 DATA
+4 TEXT On the way to St. Ives
+3 _TEXT YES
+3 _NOTE YES
+2 ADDR William Williams
+3 _NAME William Williams
+3 _SORT Williams, William
+3 _LIST1 Y
+3 _LIST2 Y
+3 _LIST3 Y
+3 _LIST4 Y
+3 _LIST5 Y
+3 _LIST6 Y
+3 _TAG
 1 DEAT Y
 2 CAUS Septisemia/Decapitation
 2 ADDR 4144 Elm Street
@@ -195,4 +211,5 @@
 1 REPO @R1@
 1 _ITALIC Y
 1 _PAREN Y
+1 _QUOTED Y
 0 TRLR

@@ -47,6 +47,7 @@ import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.enumerations.IndividualEventType;
+import org.gedcom4j.model.thirdpartyadapters.LegacyFamilyTree8Adapter.AddressMailingList;
 import org.gedcom4j.parser.GedcomParser;
 import org.junit.Before;
 import org.junit.Test;
@@ -196,6 +197,27 @@ public class LegacyFamilyTree8AdapterTest {
 
         lfta.setAddressEmail(addr, "support@gedcom4j.org");
         assertEquals("support@gedcom4j.org", lfta.getAddressEmail(addr));
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getAddressListFlag(Address, AddressMailingList)} and
+     * {@link LegacyFamilyTree8Adapter#setAddressListFlag(Address, AddressMailingList, String)}
+     */
+    @Test
+    public void testGetSetAddressListFlag() {
+        Address addr = will.getEventsOfType(IndividualEventType.BIRTH).get(0).getAddress();
+
+        for (AddressMailingList ml : AddressMailingList.values()) {
+
+            String s = lfta.getAddressListFlag(addr, ml);
+            assertEquals("Y", s);
+
+            lfta.setAddressListFlag(addr, ml, null);
+            assertNull(lfta.getAddressListFlag(addr, ml));
+
+            lfta.setAddressListFlag(addr, ml, "N");
+            assertEquals("N", lfta.getAddressListFlag(addr, ml));
+        }
     }
 
     /**
@@ -441,6 +463,25 @@ public class LegacyFamilyTree8AdapterTest {
     }
 
     /**
+     * Test {@link LegacyFamilyTree8Adapter#getSourceInQuotesFlag(Source)} and
+     * {@link LegacyFamilyTree8Adapter#setSourceInQuotesFlag(Source, String)}
+     */
+    @Test
+    public void testGetSetSourceInQuotes() {
+        Source src = gedcomWithCustomTags.getSources().get("@S2@");
+
+        String s = lfta.getSourceInQuotesFlag(src);
+        assertEquals("Y", s);
+
+        lfta.setSourceInQuotesFlag(src, null);
+        assertNull(lfta.getSourceInQuotesFlag(src));
+
+        lfta.setSourceInQuotesFlag(src, "N");
+        assertEquals("N", lfta.getSourceInQuotesFlag(src));
+
+    }
+
+    /**
      * Test {@link LegacyFamilyTree8Adapter#getToDos(org.gedcom4j.model.HasCustomFacts)}
      */
     @Test(expected = UnsupportedOperationException.class)
@@ -475,6 +516,24 @@ public class LegacyFamilyTree8AdapterTest {
     }
 
     /**
+     * Test for {@link LegacyFamilyTree8Adapter#isAddressTagged(Address)} and
+     * {@link LegacyFamilyTree8Adapter#setAddressTagged(Address, boolean)}
+     */
+    @Test
+    public void testIsSetAddressTag() {
+        Address addr = will.getEventsOfType(IndividualEventType.BIRTH).get(0).getAddress();
+
+        assertTrue(lfta.isAddressTagged(addr));
+
+        lfta.setAddressTagged(addr, false);
+        assertFalse(lfta.isAddressTagged(addr));
+        assertEquals(0, addr.getCustomFactsWithTag("_TAG").size());
+
+        lfta.setAddressTagged(addr, true);
+        assertTrue(lfta.isAddressTagged(addr));
+    }
+
+    /**
      * Test for {@link LegacyFamilyTree8Adapter#isFamilyHadNoChildren(Family)} and
      * {@link LegacyFamilyTree8Adapter#setFamilyHadNoChildren(Family, boolean)}
      */
@@ -489,6 +548,22 @@ public class LegacyFamilyTree8AdapterTest {
 
         lfta.setFamilyHadNoChildren(family, true);
         assertTrue(lfta.isFamilyHadNoChildren(family));
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#isIndividualTagged(Individual)} and
+     * {@link LegacyFamilyTree8Adapter#setIndividualTagged(Individual, boolean)}
+     */
+    @Test
+    public void testIsSetIndividualTag() {
+        assertTrue(lfta.isIndividualTagged(will));
+
+        lfta.setIndividualTagged(will, false);
+        assertFalse(lfta.isIndividualTagged(will));
+        assertEquals(0, will.getCustomFactsWithTag("_TAG").size());
+
+        lfta.setIndividualTagged(will, true);
+        assertTrue(lfta.isIndividualTagged(will));
     }
 
     /**

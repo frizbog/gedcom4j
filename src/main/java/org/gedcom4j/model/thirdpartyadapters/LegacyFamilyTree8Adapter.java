@@ -44,6 +44,61 @@ import org.gedcom4j.model.Source;
  * A custom tag adapter for Legacy Family Tree 8.
  * </p>
  * <p>
+ * The following custom tags are supported:
+ * </p>
+ * <ul>
+ * <li>_CAT = The Category of a To-Do item (under a _TODO record).</li>
+ * <li>_CDATE = Closed Date of a To-Do item (under a _TODO record).</li>
+ * <li>_TODO = Indicates the start of a To-Do record that describes the item to be done.</li>
+ * <li>_NAME = The name of an individual as part of an address (under an ADDR block).</li>
+ * <li>_TYPE = The type of a multimedia object: Photo, Sound, or Video (under an OBJE block).</li>
+ * <li>_SCBK = Indicates that a Picture is tagged to be included in a scrapbook report (under an OBJE block).</li>
+ * <li>_SOUND = A sound file name that is attached to a picture (under an OBJE block).</li>
+ * <li>_PRIM = Means a multimedia object, usually a picture, is the Primary object (the one that is shown on a report) (under an
+ * OBJE block).</li>
+ * <li>_SORT = The spelling of a name to be used when sorting addresses for a report (under an ADDR block).</li>
+ * <li>_UID = A Unique Identification Number given to each individual in a family file.</li>
+ * <li>_DATE = A date associated with a multimedia object, usually a picture or video (under an OBJE block).</li>
+ * <li>_RDATE = Reminder date on to-do items. (Under a _TODO record.)</li>
+ * <li>_LOCL = The Locality of a To-Do item (under a _TODO record).</li>
+ * <li>_PREF = Indicates a Preferred spouse, child or parents.</li>
+ * <li>_PRIV = Indicates that an address or event is marked as Private.</li>
+ * <li>_EMAIL = An email address (under an ADDR block).</li>
+ * <li>_NONE = Indicates that a couple had no children (under a FAM record).</li>
+ * <li>_PAREN = Indicates that the Publication Facts of a source should be printed within parentheses on a report (under a SOUR
+ * record).</li>
+ * <li>_QUOTED Y = Indicates that a source title should be printed within quotes on a report (under a SOUR record).</li>
+ * <li>_ITALIC Y = Indicates that a source title should be printed on a report in italics (under a SOUR record).</li>
+ * <li>_LIST1 YES = Indicates that a person's address is part of the Newsletter grouping (under an ADDR block).</li>
+ * <li>_LIST2 YES = Indicates that a person's address is part of the Family Association grouping (under an ADDR block).</li>
+ * <li>_LIST3 YES = Indicates that a person's address is part of the Birthday grouping (under an ADDR block).</li>
+ * <li>_LIST4 YES = Indicates that a person's address is part of the Research grouping (under an ADDR block).</li>
+ * <li>_LIST5 YES = Indicates that a person's address is part of the Christmas grouping (under an ADDR block).</li>
+ * <li>_LIST6 YES = Indicates that a person's address is part of the Holiday grouping (under an ADDR block).</li>
+ * <li>_TAG = Indicates that an address, or place has been tagged. Also used for Tag 1 selection for an individual.</li>
+ * </ul>
+ * <p>
+ * Several tags are not supported, even though they are documented:
+ * </p>
+ * <ul>
+ * <li>_EVENT_DEFN and _PLACE_DEFN structures and all their subtags</li>
+ * <li>_FREL = The Relationship of a child to the Father (under a CHIL block under a FAM record).</li>
+ * <li>_MREL = The Relationship of a child to the Mother (under a CHIL block under a FAM record).</li>
+ * <li>_OVER = An event sentence override (under an EVEN block).</li>
+ * <li>_STAT = The Status of a marriage (Married, Unmarried, etc.). Also the Status of a child (Twin, Triplet, etc.). (The marriage
+ * status of Divorced is exported using a DIV tag.)</li>
+ * <li>_TAG NO - When used under a SOUR record, indicates to exclude the source citation detail on reports.</li>
+ * <li>_TAG2 - TAG9 = When under an INDI record, indicates that an individual has been given certain tag marks.</li>
+ * <li>_TAG2 NO - When used under a SOUR record, indicates to exclude the source citation on reports.</li>
+ * <li>_TAG3 YES - When used under a SOUR record, indicates to include the source citation detail text on reports.</li>
+ * <li>_TAG4 YES - When used under a SOUR record, indicates to include the source citation detail notes on reports.</li>
+ * <li>_URL = An Internet address (under an INDI record).</li>
+ * <li>_VERI = Indicates that a source citation or place name has a checkmark in the Verified column.</li>
+ * </ul>
+ * 
+ * 
+ * 
+ * <p>
  * As of 1 Oct 2016, Legacy&copy; is a registered trademark of Millennia Corporation, Surprise, AZ 85374. This software is neither
  * written nor endorsed by the authors and copyright holders of Family Historian.
  * </p>
@@ -52,6 +107,26 @@ import org.gedcom4j.model.Source;
  */
 @SuppressWarnings({ "PMD.GodClass", "PMD.ExcessivePublicCount" })
 public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
+
+    /**
+     * Mailing lists that can be checked on or off for an an address in Legacy Family Tree 8.
+     * 
+     * @author frizbog
+     */
+    public enum AddressMailingList {
+        /** Newsletter mailing list */
+        NEWSLETTER,
+        /** Family association mailing list */
+        FAMILY_ASSOCIATION,
+        /** Birthday mailing list */
+        BIRTHDAY,
+        /** Research mailing list */
+        RESEARCH,
+        /** Christmas mailing list */
+        CHRISTMAS,
+        /** Holiday mailing list */
+        HOLIDAY
+    }
 
     /**
      * Add a Todo custom fact to the supplied object
@@ -81,6 +156,19 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      */
     public String getAddressEmail(Address address) {
         return getDescriptionForCustomTag(address, "_EMAIL");
+    }
+
+    /**
+     * Get the mailing list flag on the address
+     * 
+     * @param address
+     *            the address
+     * @param listNum
+     *            which flag to get for the address
+     * @return the mailing list flag on the address
+     */
+    public String getAddressListFlag(Address address, AddressMailingList listNum) {
+        return getDescriptionForCustomTag(address, "_LIST" + (1 + listNum.ordinal()));
     }
 
     /**
@@ -259,6 +347,17 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get the flag indicating a source is to be put in quotes
+     * 
+     * @param src
+     *            the source
+     * @return the flag indicating a source is to be put in quotes
+     */
+    public String getSourceInQuotesFlag(Source src) {
+        return getDescriptionForCustomTag(src, "_QUOTED");
+    }
+
+    /**
      * Get the to-do category
      * 
      * @param toDo
@@ -341,6 +440,18 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Get whether the address is tagged
+     * 
+     * @param address
+     *            the address
+     * @return true if the address is tagged
+     */
+    public boolean isAddressTagged(Address address) {
+        List<CustomFact> cfs = address.getCustomFactsWithTag("_TAG");
+        return (cfs != null && !cfs.isEmpty());
+    }
+
+    /**
      * Get the had-no-children flag on the family
      * 
      * @param family
@@ -349,6 +460,18 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      */
     public boolean isFamilyHadNoChildren(Family family) {
         List<CustomFact> cfs = family.getCustomFactsWithTag("_NONE");
+        return (cfs != null && !cfs.isEmpty());
+    }
+
+    /**
+     * Get whether the individual is tagged
+     * 
+     * @param individual
+     *            the individual
+     * @return true if the individual was tagged
+     */
+    public boolean isIndividualTagged(Individual individual) {
+        List<CustomFact> cfs = individual.getCustomFactsWithTag("_TAG");
         return (cfs != null && !cfs.isEmpty());
     }
 
@@ -412,6 +535,20 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
     }
 
     /**
+     * Set the address mailing list flag
+     * 
+     * @param address
+     *            the address
+     * @param listNum
+     *            which flag to set for the address
+     * @param listFlag
+     *            the flag value to put on the address. Optional; pass null to remove the list flag.
+     */
+    public void setAddressListFlag(Address address, AddressMailingList listNum, String listFlag) {
+        setDescriptionForCustomTag(address, "_LIST" + (1 + listNum.ordinal()), listFlag);
+    }
+
+    /**
      * Set the address private flag
      * 
      * @param address
@@ -433,6 +570,22 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      */
     public void setAddressSortValue(Address addr, String nameAtAddress) {
         setDescriptionForCustomTag(addr, "_SORT", nameAtAddress);
+    }
+
+    /**
+     * Set the family event had-no-children flag
+     * 
+     * @param family
+     *            the family event
+     * @param hadNoChildren
+     *            the had-no-children flag on the multimedia. Optional; pass null to remove the had-no-children flag.
+     */
+    public void setAddressTagged(Address family, boolean hadNoChildren) {
+        clearCustomTagsOfType(family, "_TAG");
+        if (hadNoChildren) {
+            CustomFact cf = new CustomFact("_TAG");
+            family.getCustomFacts(true).add(cf);
+        }
     }
 
     /**
@@ -509,6 +662,22 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      */
     public void setIndividualEventPrivateFlag(IndividualEvent indEvent, String privateFlag) {
         setDescriptionForCustomTag(indEvent, "_PRIV", privateFlag);
+    }
+
+    /**
+     * Set tag on individual
+     * 
+     * @param individual
+     *            the individual
+     * @param tagged
+     *            the had-no-children flag on the multimedia. Optional; pass null to remove the had-no-children flag.
+     */
+    public void setIndividualTagged(Individual individual, boolean tagged) {
+        clearCustomTagsOfType(individual, "_TAG");
+        if (tagged) {
+            CustomFact cf = new CustomFact("_TAG");
+            individual.getCustomFacts(true).add(cf);
+        }
     }
 
     /**
@@ -617,6 +786,18 @@ public class LegacyFamilyTree8Adapter extends AbstractThirdPartyAdapter {
      */
     public void setSourceInParensFlag(Source src, String parensFlag) {
         setDescriptionForCustomTag(src, "_PAREN", parensFlag);
+    }
+
+    /**
+     * Set the flag indicating a source is to be put in quotes
+     * 
+     * @param src
+     *            the source
+     * @param quotesFlag
+     *            the flag indicating a source is to be put in quotes. Optional; pass in null to remove the flag.
+     */
+    public void setSourceInQuotesFlag(Source src, String quotesFlag) {
+        setDescriptionForCustomTag(src, "_QUOTED", quotesFlag);
     }
 
     /**
