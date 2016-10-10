@@ -44,11 +44,12 @@ import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteRecord;
 import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.StringTree;
 import org.gedcom4j.model.Submission;
+import org.gedcom4j.model.SubmissionReference;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.Trailer;
 import org.gedcom4j.parser.event.ParseProgressEvent;
@@ -72,8 +73,8 @@ import org.gedcom4j.parser.event.ParseProgressListener;
  * data while parsing. Most commonly, the <code>warnings</code> collection will have information about tags from GEDCOM 5.5.1 that
  * were specified in a file that was designated as a GEDCOM 5.5 file. When this occurs, the data is loaded, but will not be able to
  * be written by {@link org.gedcom4j.writer.GedcomWriter} until the version number in the <code>gedcomVersion</code> field of
- * {@link Gedcom#header} is updated to {@link org.gedcom4j.model.SupportedVersion#V5_5_1}, or the 5.5.1-specific data is cleared
- * from the data.
+ * {@link Gedcom#header} is updated to {@link org.gedcom4j.model.enumerations.SupportedVersion#V5_5_1}, or the 5.5.1-specific data
+ * is cleared from the data.
  * </p>
  * <p>
  * The parser takes a "forgiving" approach where it tries to load as much data as possible, including 5.5.1 data in a file that says
@@ -112,11 +113,14 @@ public class GedcomParser extends AbstractParser<Gedcom> {
 
     /**
      * Indicates whether handling of custom tags should be strict - that is, must an unrecognized tag begin with an underscore to be
-     * loaded into the custom tags collection? If false, unrecognized tags will be treated as custom tags even if they don't begin
+     * loaded into the custom facts collection? If false, unrecognized tags will be treated as custom tags even if they don't begin
      * with underscores, and no errors will be issued. If true, unrecognized tags that do not begin with underscores will be
      * discarded, with errors added to the errors collection.
      */
     private boolean strictCustomTags = true;
+
+    /** Should the parser ignore custom tags? */
+    private boolean ignoreCustomTags = false;
 
     /**
      * Indicates whether non-compliant GEDCOM files with actual line breaks in text values (rather than CONT tags) should be parsed
@@ -163,6 +167,11 @@ public class GedcomParser extends AbstractParser<Gedcom> {
      * The 1-based line number that we've most recently read, so starts at zero (when we haven't read any lines yet)
      */
     private int lineNum;
+
+    /**
+     * Are we currently parsing somewhere inside a custom tag?
+     */
+    private boolean insideCustomTag;
 
     /**
      * Default constructor
@@ -251,6 +260,15 @@ public class GedcomParser extends AbstractParser<Gedcom> {
      */
     public boolean isCancelled() {
         return cancelled;
+    }
+
+    /**
+     * Are custom tags being ignored by the parser?
+     * 
+     * @return true if the parser is ignoring custom tags
+     */
+    public boolean isIgnoreCustomTags() {
+        return ignoreCustomTags;
     }
 
     /**
@@ -376,6 +394,16 @@ public class GedcomParser extends AbstractParser<Gedcom> {
     }
 
     /**
+     * Set whether the parser is ignoring custom tgs
+     * 
+     * @param ignoreCustomTags
+     *            true if the parser is to ignore custom tags
+     */
+    public void setIgnoreCustomTags(boolean ignoreCustomTags) {
+        this.ignoreCustomTags = ignoreCustomTags;
+    }
+
+    /**
      * Set the parse notification rate (the number of items that get parsed between each notification, if listening)
      * 
      * @param parseNotificationRate
@@ -470,6 +498,15 @@ public class GedcomParser extends AbstractParser<Gedcom> {
     }
 
     /**
+     * Are we currently inside a custom tag?
+     * 
+     * @return the insideCustomTag
+     */
+    boolean isInsideCustomTag() {
+        return insideCustomTag;
+    }
+
+    /**
      * {@inheritDoc}
      * <p>
      * Note: Not implemented in this base {@link GedcomParser} class. Things in this class are handled by the
@@ -478,6 +515,16 @@ public class GedcomParser extends AbstractParser<Gedcom> {
     @Override
     void parse() {
         // Do nothing
+    }
+
+    /**
+     * Set the insideCustomTag
+     * 
+     * @param insideCustomTag
+     *            the insideCustomTag to set
+     */
+    void setInsideCustomTag(boolean insideCustomTag) {
+        this.insideCustomTag = insideCustomTag;
     }
 
     /**
@@ -497,45 +544,42 @@ public class GedcomParser extends AbstractParser<Gedcom> {
             }
             new HeaderParser(this, rootLevelItem, header).parse();
         } else if (Tag.SUBMITTER.equalsText(rootLevelItem.getTag())) {
-            Submitter submitter = getSubmitter(rootLevelItem.getId());
+            Submitter submitter = getSubmitter(rootLevelItem.getXref());
             new SubmitterParser(this, rootLevelItem, submitter).parse();
         } else if (Tag.INDIVIDUAL.equalsText(rootLevelItem.getTag())) {
-            Individual i = getIndividual(rootLevelItem.getId());
+            Individual i = getIndividual(rootLevelItem.getXref());
             new IndividualParser(this, rootLevelItem, i).parse();
         } else if (Tag.SUBMISSION.equalsText(rootLevelItem.getTag())) {
-            Submission s = new Submission(rootLevelItem.getId());
+            Submission s = new Submission(rootLevelItem.getXref());
             gedcom.setSubmission(s);
             if (gedcom.getHeader() == null) {
                 gedcom.setHeader(new Header());
             }
-            if (gedcom.getHeader().getSubmission() == null) {
+            if (gedcom.getHeader().getSubmissionReference() == null) {
                 /*
                  * The GEDCOM spec puts a cross reference to the root-level SUBN element in the HEAD structure. Now that we have a
                  * submission object, represent that cross reference in the header object
                  */
-                gedcom.getHeader().setSubmission(s);
+                gedcom.getHeader().setSubmissionReference(new SubmissionReference(s));
             }
             new SubmissionParser(this, rootLevelItem, s).parse();
         } else if (Tag.NOTE.equalsText(rootLevelItem.getTag())) {
-            List<Note> dummyList = new ArrayList<>();
-            new NoteListParser(this, rootLevelItem, dummyList).parse();
-            if (!dummyList.isEmpty()) {
-                throw new GedcomParserException("At root level NOTE structures should have @ID@'s");
-            }
+            NoteRecord nr = getNoteRecord(rootLevelItem.getXref());
+            new NoteRecordParser(this, rootLevelItem, nr).parse();
         } else if (Tag.FAMILY.equalsText(rootLevelItem.getTag())) {
-            Family f = getFamily(rootLevelItem.getId());
+            Family f = getFamily(rootLevelItem.getXref());
             new FamilyParser(this, rootLevelItem, f).parse();
         } else if (Tag.TRAILER.equalsText(rootLevelItem.getTag())) {
             gedcom.setTrailer(new Trailer());
         } else if (Tag.SOURCE.equalsText(rootLevelItem.getTag())) {
-            Source s = getSource(rootLevelItem.getId());
+            Source s = getSource(rootLevelItem.getXref());
             new SourceParser(this, rootLevelItem, s).parse();
         } else if (Tag.REPOSITORY.equalsText(rootLevelItem.getTag())) {
-            Repository r = getRepository(rootLevelItem.getId());
+            Repository r = getRepository(rootLevelItem.getXref());
             new RepositoryParser(this, rootLevelItem, r).parse();
         } else if (Tag.OBJECT_MULTIMEDIA.equalsText(rootLevelItem.getTag())) {
-            Multimedia multimedia = getMultimedia(rootLevelItem.getId());
-            new MultimediaRecordParser(this, rootLevelItem, multimedia).parse();
+            Multimedia multimedia = getMultimedia(rootLevelItem.getXref());
+            new MultimediaParser(this, rootLevelItem, multimedia).parse();
         } else {
             unknownTag(rootLevelItem, gedcom);
         }

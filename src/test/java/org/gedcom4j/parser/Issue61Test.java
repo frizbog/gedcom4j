@@ -35,9 +35,9 @@ import java.io.IOException;
 
 import org.gedcom4j.Options;
 import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.StringTree;
 import org.junit.Test;
 
 /**
@@ -66,17 +66,17 @@ public class Issue61Test {
         assertTrue(gp.getErrors().isEmpty());
         for (Individual i : g.getIndividuals().values()) {
             assertNotNull(i);
-            assertNotNull(i.getCustomTags());
-            assertFalse("Individual " + i + " has no custom tags", i.getCustomTags().isEmpty());
-            for (StringTree ct : i.getCustomTags()) {
-                assertTrue("Custom tag should be WAND or MUGL, but is " + ct.getValue(), "WAND".equals(ct.getTag()) || "MUGL"
+            assertNotNull(i.getCustomFacts());
+            assertFalse("Individual " + i + " has no custom facts", i.getCustomFacts().isEmpty());
+            for (CustomFact ct : i.getCustomFacts()) {
+                assertTrue("Custom tag should be WAND or MUGL, but is " + ct.getDescription(), "WAND".equals(ct.getTag()) || "MUGL"
                         .equals(ct.getTag()));
                 if ("WAND".equals(ct.getTag())) {
-                    assertNotNull(ct.getValue());
-                    assertFalse(ct.getValue().trim().length() == 0);
+                    assertNotNull(ct.getDescription());
+                    assertFalse(ct.getDescription().trim().length() == 0);
                 }
                 if ("MUGL".equals(ct.getTag())) {
-                    assertNull(ct.getValue());
+                    assertNull(ct.getDescription());
                 }
             }
         }
@@ -105,10 +105,10 @@ public class Issue61Test {
         for (Individual i : g.getIndividuals().values()) {
             assertNotNull(i);
             if (Options.isCollectionInitializationEnabled()) {
-                assertNotNull(i.getCustomTags());
-                assertTrue(i.getCustomTags().isEmpty());
+                assertNotNull(i.getCustomFacts());
+                assertTrue(i.getCustomFacts().isEmpty());
             } else {
-                assertNull(i.getCustomTags());
+                assertNull(i.getCustomFacts());
             }
         }
     }

@@ -34,7 +34,9 @@ import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.io.writer.NullOutputStream;
+import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.parser.GedcomParser;
+import org.gedcom4j.validate.Validator;
 import org.gedcom4j.writer.event.ConstructProgressEvent;
 import org.gedcom4j.writer.event.ConstructProgressListener;
 import org.junit.Test;
@@ -87,7 +89,12 @@ public class GedcomWriterConstructionProgressAndCancellationTest implements Cons
     public void testCancellation() throws IOException, GedcomParserException, GedcomWriterException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-ascii.ged");
-        gw = new GedcomWriter(gp.getGedcom());
+        Gedcom g = gp.getGedcom();
+        Validator gv = new Validator(g);
+        gv.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
+        gv.validate(); // Cleanup whatever can be cleaned up
+        gw = new GedcomWriter(g);
+        gw.setValidationSuppressed(true);
         gw.registerConstructObserver(this);
         cancelAfter = 5;
         gw.write(new NullOutputStream());
@@ -108,7 +115,12 @@ public class GedcomWriterConstructionProgressAndCancellationTest implements Cons
     public void testNoCancellation() throws IOException, GedcomParserException, GedcomWriterException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-ascii.ged");
-        gw = new GedcomWriter(gp.getGedcom());
+        Gedcom g = gp.getGedcom();
+        Validator gv = new Validator(g);
+        gv.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
+        gv.validate(); // Cleanup whatever can be cleaned up
+        gw = new GedcomWriter(g);
+        gw.setValidationSuppressed(true);
         gw.registerConstructObserver(this);
         gw.write(new NullOutputStream());
         assertEquals(40, notificationCount);

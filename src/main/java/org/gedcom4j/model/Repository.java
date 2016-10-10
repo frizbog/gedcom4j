@@ -51,12 +51,12 @@ public class Repository extends AbstractAddressableElement implements HasXref {
     /**
      * The name of this repository
      */
-    private StringWithCustomTags name;
+    private StringWithCustomFacts name;
 
     /**
      * The record ID number
      */
-    private StringWithCustomTags recIdNumber;
+    private StringWithCustomFacts recIdNumber;
 
     /**
      * The user references for this submitter
@@ -67,6 +67,37 @@ public class Repository extends AbstractAddressableElement implements HasXref {
      * The xref for this submitter
      */
     private String xref;
+
+    /** Default constructor */
+    public Repository() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public Repository(Repository other) {
+        super(other);
+        if (other.changeDate != null) {
+            changeDate = new ChangeDate(other.changeDate);
+        }
+        if (other.name != null) {
+            name = new StringWithCustomFacts(other.name);
+        }
+        if (other.recIdNumber != null) {
+            recIdNumber = new StringWithCustomFacts(other.recIdNumber);
+        }
+        if (other.userReferences != null) {
+            userReferences = new ArrayList<>();
+            for (UserReference ur : other.userReferences) {
+                userReferences.add(new UserReference(ur));
+            }
+        }
+        xref = other.xref;
+    }
 
     /**
      * {@inheritDoc}
@@ -135,7 +166,7 @@ public class Repository extends AbstractAddressableElement implements HasXref {
      *
      * @return the name
      */
-    public StringWithCustomTags getName() {
+    public StringWithCustomFacts getName() {
         return name;
     }
 
@@ -144,7 +175,7 @@ public class Repository extends AbstractAddressableElement implements HasXref {
      *
      * @return the rec id number
      */
-    public StringWithCustomTags getRecIdNumber() {
+    public StringWithCustomFacts getRecIdNumber() {
         return recIdNumber;
     }
 
@@ -176,6 +207,7 @@ public class Repository extends AbstractAddressableElement implements HasXref {
      *
      * @return the xref
      */
+    @Override
     public String getXref() {
         return xref;
     }
@@ -187,11 +219,11 @@ public class Repository extends AbstractAddressableElement implements HasXref {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((changeDate == null) ? 0 : changeDate.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((recIdNumber == null) ? 0 : recIdNumber.hashCode());
-        result = prime * result + ((userReferences == null) ? 0 : userReferences.hashCode());
-        result = prime * result + ((xref == null) ? 0 : xref.hashCode());
+        result = prime * result + (changeDate == null ? 0 : changeDate.hashCode());
+        result = prime * result + (name == null ? 0 : name.hashCode());
+        result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
+        result = prime * result + (userReferences == null ? 0 : userReferences.hashCode());
+        result = prime * result + (xref == null ? 0 : xref.hashCode());
         return result;
     }
 
@@ -211,7 +243,17 @@ public class Repository extends AbstractAddressableElement implements HasXref {
      * @param name
      *            the new name
      */
-    public void setName(StringWithCustomTags name) {
+    public void setName(String name) {
+        this.name = name == null ? null : new StringWithCustomFacts(name);
+    }
+
+    /**
+     * Sets the name.
+     *
+     * @param name
+     *            the new name
+     */
+    public void setName(StringWithCustomFacts name) {
         this.name = name;
     }
 
@@ -221,7 +263,17 @@ public class Repository extends AbstractAddressableElement implements HasXref {
      * @param recIdNumber
      *            the new rec id number
      */
-    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+    public void setRecIdNumber(String recIdNumber) {
+        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomFacts(recIdNumber);
+    }
+
+    /**
+     * Sets the rec id number.
+     *
+     * @param recIdNumber
+     *            the new rec id number
+     */
+    public void setRecIdNumber(StringWithCustomFacts recIdNumber) {
         this.recIdNumber = recIdNumber;
     }
 

@@ -26,18 +26,13 @@
  */
 package org.gedcom4j.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.gedcom4j.Options;
-
 /**
  * Indicates an individual's membership, as a spouse, in a family
  * 
  * @author frizbog1
  * 
  */
-public class FamilySpouse extends AbstractElement {
+public class FamilySpouse extends AbstractNotesElement {
     /**
      * Serial Version UID
      */
@@ -48,10 +43,37 @@ public class FamilySpouse extends AbstractElement {
      */
     private Family family;
 
+    /** Default constructor */
+    public FamilySpouse() {
+        // Default constructor does nothing
+    }
+
     /**
-     * Notes about this object
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
      */
-    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
+    public FamilySpouse(FamilySpouse other) {
+        this(other, true);
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     * @param deep
+     *            pass in true if a full, deep copy of the family should be created. If false, the family will be copied but will
+     *            not contain back-references to the individuals in it (husband, wife, children). This allows preventing infinite
+     *            recursion.
+     */
+    public FamilySpouse(FamilySpouse other, boolean deep) {
+        super(other);
+        if (other.family != null) {
+            family = new Family(other.family, deep);
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -86,13 +108,6 @@ public class FamilySpouse extends AbstractElement {
                 }
             }
         }
-        if (notes == null) {
-            if (other.notes != null) {
-                return false;
-            }
-        } else if (!notes.equals(other.notes)) {
-            return false;
-        }
         return true;
     }
 
@@ -106,30 +121,6 @@ public class FamilySpouse extends AbstractElement {
     }
 
     /**
-     * Gets the notes.
-     *
-     * @return the notes
-     */
-    public List<Note> getNotes() {
-        return notes;
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection if needed?
-     * 
-     * @return the notes
-     */
-    public List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<>(0);
-        }
-        return notes;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -137,7 +128,6 @@ public class FamilySpouse extends AbstractElement {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + (family == null || family.getXref() == null ? 0 : family.getXref().hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
         return result;
     }
 
@@ -163,14 +153,9 @@ public class FamilySpouse extends AbstractElement {
             builder.append(family);
             builder.append(", ");
         }
-        if (notes != null) {
-            builder.append("notes=");
-            builder.append(notes);
-            builder.append(", ");
-        }
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("customFacts=");
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

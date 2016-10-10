@@ -72,27 +72,36 @@ class HeaderEmitter extends AbstractEmitter<Header> {
             emitTagIfValueNotNull(1, "DATE", header.getDate());
             emitTagIfValueNotNull(2, "TIME", header.getTime());
         }
-        if (header.getSubmitter() != null) {
-            emitTagWithRequiredValue(1, "SUBM", header.getSubmitter().getXref());
+        if (header.getSubmitterReference() != null) {
+            emitTagWithRequiredValue(1, "SUBM", header.getSubmitterReference().getSubmitter().getXref());
+            emitCustomFacts(2, header.getSubmitterReference());
         }
-        if (header.getSubmission() != null) {
-            emitTagWithRequiredValue(1, "SUBN", header.getSubmission().getXref());
+        if (header.getSubmissionReference() != null) {
+            emitTagWithRequiredValue(1, "SUBN", header.getSubmissionReference().getSubmission().getXref());
+            emitCustomFacts(2, header.getSubmissionReference());
         }
+
         emitTagIfValueNotNull(1, "FILE", header.getFileName());
+
         emitLinesOfText(1, "COPR", header.getCopyrightData());
+
         emitTag(1, "GEDC");
         emitTagWithRequiredValue(2, "VERS", header.getGedcomVersion().getVersionNumber().toString());
+        emitCustomFacts(3, header.getGedcomVersion().getVersionNumber());
+
         emitTagWithRequiredValue(2, "FORM", header.getGedcomVersion().getGedcomForm());
+        emitCustomFacts(2, header.getGedcomVersion());
+
         emitTagWithRequiredValue(1, "CHAR", header.getCharacterSet().getCharacterSetName());
-        emitTagIfValueNotNull(2, "VERS", header.getCharacterSet().getVersionNum());
+
         emitTagIfValueNotNull(1, "LANG", header.getLanguage());
         if (header.getPlaceHierarchy() != null && header.getPlaceHierarchy().getValue() != null && header.getPlaceHierarchy()
                 .getValue().length() > 0) {
             emitTag(1, "PLAC");
             emitTagWithRequiredValue(2, "FORM", header.getPlaceHierarchy());
         }
-        new NotesEmitter(baseWriter, 1, header.getNotes()).emit();
-        emitCustomTags(1, header.getCustomTags());
+        new NoteStructureEmitter(baseWriter, 1, header.getNoteStructures()).emit();
+        emitCustomFacts(1, header.getCustomFacts());
     }
 
     /**
@@ -114,18 +123,20 @@ class HeaderEmitter extends AbstractEmitter<Header> {
         if (corporation != null) {
             emitTagWithOptionalValue(2, "CORP", corporation.getBusinessName());
             new AddressEmitter(baseWriter, 3, corporation.getAddress()).emit();
-            emitStringsWithCustomTags(3, corporation.getPhoneNumbers(), "PHON");
-            emitStringsWithCustomTags(3, corporation.getFaxNumbers(), "FAX");
-            emitStringsWithCustomTags(3, corporation.getWwwUrls(), "WWW");
-            emitStringsWithCustomTags(3, corporation.getEmails(), "EMAIL");
+            emitStringsWithCustomFacts(3, corporation.getPhoneNumbers(), "PHON");
+            emitStringsWithCustomFacts(3, corporation.getFaxNumbers(), "FAX");
+            emitStringsWithCustomFacts(3, corporation.getWwwUrls(), "WWW");
+            emitStringsWithCustomFacts(3, corporation.getEmails(), "EMAIL");
+            emitCustomFacts(3, corporation);
         }
         HeaderSourceData sourceData = sourceSystem.getSourceData();
         if (sourceData != null) {
             emitTagIfValueNotNull(2, "DATA", sourceData.getName());
             emitTagIfValueNotNull(3, "DATE", sourceData.getPublishDate());
             emitTagIfValueNotNull(3, "COPR", sourceData.getCopyright());
+            emitCustomFacts(3, sourceData);
         }
-        emitCustomTags(1, sourceSystem.getCustomTags());
+        emitCustomFacts(2, sourceSystem.getCustomFacts());
     }
 
 }

@@ -26,18 +26,18 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submission;
+import org.gedcom4j.model.SubmissionReference;
 import org.gedcom4j.model.Submitter;
-import org.gedcom4j.model.SupportedVersion;
+import org.gedcom4j.model.SubmitterReference;
+import org.gedcom4j.model.enumerations.SupportedVersion;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test for {@link GedcomValidator}
+ * Test for {@link MultimediaValidator}
  * 
  * @author frizbog1
  */
@@ -53,17 +53,15 @@ public class MultimediaValidatorTest extends AbstractValidatorTestCase {
      */
     @Before
     public void setUp() {
-        Gedcom g = new Gedcom();
-        rootValidator.gedcom = g;
-        rootValidator.setAutorepairEnabled(false);
+        validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
-        s.setName(new StringWithCustomTags("test"));
-        g.getSubmitters().put(s.getXref(), s);
-        g.setSubmission(new Submission("@SUBN0001@"));
-        Header h = g.getHeader();
-        h.setSubmitter(s);
-        h.setSubmission(g.getSubmission());
+        s.setName("test");
+        gedcom.getSubmitters().put(s.getXref(), s);
+        gedcom.setSubmission(new Submission("@SUBN0001@"));
+        Header h = gedcom.getHeader();
+        h.setSubmitterReference(new SubmitterReference(s));
+        h.setSubmissionReference(new SubmissionReference(gedcom.getSubmission()));
 
         mm = new Multimedia();
     }
@@ -74,31 +72,31 @@ public class MultimediaValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testEmbeddedMedia() {
         mm.setXref("@MM001@");
-        rootValidator.gedcom.getMultimedia().put(mm.getXref(), mm);
+        gedcom.getMultimedia().put(mm.getXref(), mm);
 
         // Blob can be empty in 5.5.1
-        rootValidator.gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
-        rootValidator.validate();
+        gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
+        validator.validate();
         assertNoIssues();
 
         // Blob must be populated in v5.5, and must have a format
-        rootValidator.gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "blob", "empty");
+        gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, mm, ProblemCode.MISSING_REQUIRED_VALUE, "blob");
         mm.getBlob(true).add("foo");
-        mm.setEmbeddedMediaFormat(new StringWithCustomTags("gif"));
-        rootValidator.validate();
+        mm.setEmbeddedMediaFormat("gif");
+        validator.validate();
         assertNoIssues();
 
         // Blob must be empty in 5.5.1, and embedded media format must be null
-        rootValidator.gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "blob", "populated", "5.5.1");
-        assertFindingsContain(Severity.ERROR, "embedded", "media", "format", "5.5.1");
+        gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, mm, ProblemCode.NOT_ALLOWED_IN_GEDCOM_551, "blob");
+        assertFindingsContain(Severity.ERROR, mm, ProblemCode.NOT_ALLOWED_IN_GEDCOM_551, "embeddedMediaFormat");
 
         mm.getBlob().clear();
-        mm.setEmbeddedMediaFormat(null);
-        rootValidator.validate();
+        mm.setEmbeddedMediaFormat((String) null);
+        validator.validate();
         assertNoIssues();
 
     }

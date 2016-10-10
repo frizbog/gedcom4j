@@ -28,17 +28,23 @@ package org.gedcom4j.validate;
 
 import java.util.List;
 
-import org.gedcom4j.Options;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.enumerations.LanguageID;
+import org.gedcom4j.validate.Validator.Finding;
 
 /**
- * Validate a {@link Submitter} object. See {@link GedcomValidator} for usage information.
+ * Validate a {@link Submitter} object. See {@link Validator} for usage information.
  * 
  * @author frizbog1
  * 
  */
 class SubmitterValidator extends AbstractValidator {
+
+    /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 3930055974247055871L;
 
     /**
      * The submitter being validated
@@ -48,13 +54,13 @@ class SubmitterValidator extends AbstractValidator {
     /**
      * Constructor
      * 
-     * @param rootValidator
+     * @param validator
      *            the root validator containing among other things the findings collection
      * @param submitter
      *            the submitter being validated
      */
-    SubmitterValidator(GedcomValidator rootValidator, Submitter submitter) {
-        this.rootValidator = rootValidator;
+    SubmitterValidator(Validator validator, Submitter submitter) {
+        super(validator);
         this.submitter = submitter;
     }
 
@@ -63,40 +69,41 @@ class SubmitterValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        if (submitter == null) {
-            addError("Submitter being validated is null");
-            return;
-        }
-        checkXref(submitter);
-        checkRequiredString(submitter.getName(), "name", submitter);
+        xrefMustBePresentAndWellFormed(submitter);
+        mustHaveValue(submitter, "name");
         checkLanguagePreferences();
-        checkOptionalString(submitter.getRecIdNumber(), "record id number", submitter);
-        checkOptionalString(submitter.getRegFileNumber(), "submitter registered rfn", submitter);
+        mustHaveValueOrBeOmitted(submitter, "recIdNumber");
+        mustHaveValueOrBeOmitted(submitter, "regFileNumber");
         if (submitter.getAddress() != null) {
-            new AddressValidator(rootValidator, submitter.getAddress()).validate();
+            new AddressValidator(getValidator(), submitter.getAddress()).validate();
         }
-        new NotesValidator(rootValidator, submitter, submitter.getNotes()).validate();
+        new NoteStructureListValidator(getValidator(), submitter).validate();
     }
 
     /**
      * Check the language preferences
      */
     private void checkLanguagePreferences() {
-        List<StringWithCustomTags> languagePref = submitter.getLanguagePref();
-        if (rootValidator.isAutorepairEnabled()) {
-            int dups = new DuplicateEliminator<>(languagePref).process();
-            if (dups > 0) {
-                rootValidator.addInfo(dups + " duplicate language preferences found and removed", submitter);
+        checkUninitializedCollection(submitter, "languagePref");
+        List<StringWithCustomFacts> languagePref = submitter.getLanguagePref();
+        if (languagePref == null) {
+            return;
+        }
+        DuplicateHandler<StringWithCustomFacts> dh = new DuplicateHandler<>(languagePref);
+        int dups = dh.count();
+        if (dups > 0) {
+            Finding finding = newFinding(submitter, Severity.ERROR, ProblemCode.DUPLICATE_VALUE, "languagePref");
+            if (mayRepair(finding)) {
+                Submitter before = new Submitter(submitter);
+                dh.remove();
+                finding.addRepair(new AutoRepair(before, new Submitter(submitter)));
             }
         }
-
-        if (submitter.getLanguagePref(Options.isCollectionInitializationEnabled()) != null) {
-            if (languagePref.size() > 3) {
-                addError("Submitter exceeds limit on language preferences (3)", submitter);
-            }
-            for (StringWithCustomTags s : languagePref) {
-                checkRequiredString(s, "language pref", submitter);
-            }
+        if (languagePref.size() > 3) {
+            newFinding(submitter, Severity.ERROR, ProblemCode.TOO_MANY_VALUES, "languagePref");
+        }
+        for (StringWithCustomFacts s : languagePref) {
+            mustBeInEnumIfSpecified(LanguageID.class, s, "value");
         }
     }
 }

@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.model;
 
+import org.gedcom4j.model.enumerations.SupportedVersion;
+
 /**
  * Information about the version of the GEDCOM spec used
  * 
@@ -41,12 +43,31 @@ public class GedcomVersion extends AbstractElement {
     /**
      * The form
      */
-    private StringWithCustomTags gedcomForm = new StringWithCustomTags("LINEAGE-LINKED");
+    private StringWithCustomFacts gedcomForm = new StringWithCustomFacts("LINEAGE-LINKED");
 
     /**
      * The version number for this GEDCOM
      */
-    private SupportedVersion versionNumber = SupportedVersion.V5_5_1;
+    private StringWithCustomFacts versionNumber = new StringWithCustomFacts(SupportedVersion.V5_5_1.toString());
+
+    /** Default constructor */
+    public GedcomVersion() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public GedcomVersion(GedcomVersion other) {
+        super(other);
+        if (other.gedcomForm != null) {
+            gedcomForm = new StringWithCustomFacts(other.gedcomForm);
+        }
+        versionNumber = other.versionNumber;
+    }
 
     /**
      * {@inheritDoc}
@@ -85,7 +106,7 @@ public class GedcomVersion extends AbstractElement {
      *
      * @return the gedcom form
      */
-    public StringWithCustomTags getGedcomForm() {
+    public StringWithCustomFacts getGedcomForm() {
         return gedcomForm;
     }
 
@@ -94,7 +115,7 @@ public class GedcomVersion extends AbstractElement {
      *
      * @return the version number
      */
-    public SupportedVersion getVersionNumber() {
+    public StringWithCustomFacts getVersionNumber() {
         return versionNumber;
     }
 
@@ -116,7 +137,17 @@ public class GedcomVersion extends AbstractElement {
      * @param gedcomForm
      *            the new gedcom form
      */
-    public void setGedcomForm(StringWithCustomTags gedcomForm) {
+    public void setGedcomForm(String gedcomForm) {
+        this.gedcomForm = gedcomForm == null ? null : new StringWithCustomFacts(gedcomForm);
+    }
+
+    /**
+     * Sets the gedcom form.
+     *
+     * @param gedcomForm
+     *            the new gedcom form
+     */
+    public void setGedcomForm(StringWithCustomFacts gedcomForm) {
         this.gedcomForm = gedcomForm;
     }
 
@@ -126,8 +157,36 @@ public class GedcomVersion extends AbstractElement {
      * @param versionNumber
      *            the new version number
      */
-    public void setVersionNumber(SupportedVersion versionNumber) {
+    public void setVersionNumber(String versionNumber) {
+        if (versionNumber != null) {
+            this.versionNumber = new StringWithCustomFacts(versionNumber);
+        } else {
+            this.versionNumber = null;
+        }
+    }
+
+    /**
+     * Sets the version number.
+     *
+     * @param versionNumber
+     *            the new version number
+     */
+    public void setVersionNumber(StringWithCustomFacts versionNumber) {
         this.versionNumber = versionNumber;
+    }
+
+    /**
+     * Sets the version number.
+     *
+     * @param versionNumber
+     *            the new version number
+     */
+    public void setVersionNumber(SupportedVersion versionNumber) {
+        if (versionNumber != null) {
+            this.versionNumber = new StringWithCustomFacts(versionNumber.toString());
+        } else {
+            this.versionNumber = null;
+        }
     }
 
     /**
@@ -147,9 +206,9 @@ public class GedcomVersion extends AbstractElement {
             builder.append(versionNumber);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("customFacts=");
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

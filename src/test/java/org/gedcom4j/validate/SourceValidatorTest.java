@@ -29,7 +29,6 @@ package org.gedcom4j.validate;
 import org.gedcom4j.model.EventRecorded;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.SourceData;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.junit.Test;
 
 /**
@@ -44,12 +43,11 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testBadSource1() {
         Source src = new Source("bad xref");
-        src.setRecIdNumber(new StringWithCustomTags(""));
-        AbstractValidator av = new SourceValidator(rootValidator, src);
+        src.setRecIdNumber("");
+        AbstractValidator av = new SourceValidator(validator, src);
         av.validate();
-        assertFindingsContain(Severity.ERROR, "record id", "source", "blank");
-        assertFindingsContain(Severity.ERROR, "xref", "source", "start", "at", "sign");
-        assertFindingsContain(Severity.ERROR, "xref", "source", "end", "at", "sign");
+        assertFindingsContain(Severity.ERROR, src, ProblemCode.MISSING_REQUIRED_VALUE, "recIdNumber");
+        assertFindingsContain(Severity.ERROR, src, ProblemCode.XREF_INVALID, "xref");
     }
 
     /**
@@ -60,9 +58,9 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
         Source src = new Source("@Test@");
         src.setData(new SourceData());
         EventRecorded e = new EventRecorded();
-        e.setDatePeriod(new StringWithCustomTags("anytime"));
+        e.setDatePeriod("anytime");
         src.getData().getEventsRecorded(true).add(e);
-        AbstractValidator av = new SourceValidator(rootValidator, src);
+        AbstractValidator av = new SourceValidator(validator, src);
         av.validate();
         assertNoIssues();
     }
@@ -72,19 +70,18 @@ public class SourceValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testDefault() {
-        Source src = new Source(null);
-        AbstractValidator av = new SourceValidator(rootValidator, src);
+        Source src = new Source((String) null);
+        AbstractValidator av = new SourceValidator(validator, src);
         av.validate();
-        assertFindingsContain(Severity.ERROR, "xref", "required", "null", "blank");
+        assertFindingsContain(Severity.ERROR, src, ProblemCode.MISSING_REQUIRED_VALUE, "xref");
     }
 
     /**
      * Test when source is null
      */
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testNullSource() {
-        AbstractValidator av = new SourceValidator(rootValidator, null);
+        AbstractValidator av = new SourceValidator(validator, null);
         av.validate();
-        assertFindingsContain(Severity.ERROR, "source", "null");
     }
 }

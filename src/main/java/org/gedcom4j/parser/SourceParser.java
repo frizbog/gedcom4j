@@ -30,14 +30,15 @@ import java.util.List;
 
 import org.gedcom4j.model.ChangeDate;
 import org.gedcom4j.model.EventRecorded;
-import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.MultiStringWithCustomFacts;
+import org.gedcom4j.model.MultimediaReference;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.RepositoryCitation;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.SourceCallNumber;
 import org.gedcom4j.model.SourceData;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.UserReference;
 
 /**
@@ -69,29 +70,37 @@ class SourceParser extends AbstractParser<Source> {
                     loadInto.setData(new SourceData());
                     loadSourceData(ch, loadInto.getData());
                 } else if (Tag.TITLE.equalsText(ch.getTag())) {
-                    loadMultiLinesOfText(ch, loadInto.getTitle(true), loadInto);
+                    MultiStringWithCustomFacts title = new MultiStringWithCustomFacts();
+                    loadInto.setTitle(title);
+                    loadMultiStringWithCustomFacts(ch, title);
                 } else if (Tag.PUBLICATION_FACTS.equalsText(ch.getTag())) {
-                    loadMultiLinesOfText(ch, loadInto.getPublicationFacts(true), loadInto);
+                    MultiStringWithCustomFacts publicationFacts = new MultiStringWithCustomFacts();
+                    loadInto.setPublicationFacts(publicationFacts);
+                    loadMultiStringWithCustomFacts(ch, publicationFacts);
                 } else if (Tag.TEXT.equalsText(ch.getTag())) {
-                    loadMultiLinesOfText(ch, loadInto.getSourceText(true), loadInto);
+                    MultiStringWithCustomFacts srcText = new MultiStringWithCustomFacts();
+                    loadInto.setSourceText(srcText);
+                    loadMultiStringWithCustomFacts(ch, srcText);
                 } else if (Tag.ABBREVIATION.equalsText(ch.getTag())) {
-                    loadInto.setSourceFiledBy(new StringWithCustomTags(ch));
+                    loadInto.setSourceFiledBy(parseStringWithCustomFacts(ch));
                 } else if (Tag.AUTHORS.equalsText(ch.getTag())) {
-                    loadMultiLinesOfText(ch, loadInto.getOriginatorsAuthors(true), loadInto);
+                    MultiStringWithCustomFacts originatorsAuthors = new MultiStringWithCustomFacts();
+                    loadInto.setOriginatorsAuthors(originatorsAuthors);
+                    loadMultiStringWithCustomFacts(ch, originatorsAuthors);
                 } else if (Tag.REPOSITORY.equalsText(ch.getTag())) {
                     loadInto.setRepositoryCitation(loadRepositoryCitation(ch));
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = loadInto.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = loadInto.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
-                    List<Multimedia> multimedia = loadInto.getMultimedia(true);
+                    List<MultimediaReference> multimedia = loadInto.getMultimedia(true);
                     new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
                 } else if (Tag.REFERENCE.equalsText(ch.getTag())) {
                     UserReference u = new UserReference();
                     loadInto.getUserReferences(true).add(u);
                     new UserReferenceParser(gedcomParser, ch, u).parse();
                 } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
-                    loadInto.setRecIdNumber(new StringWithCustomTags(ch));
+                    loadInto.setRecIdNumber(parseStringWithCustomFacts(ch));
                 } else if (Tag.CHANGED_DATETIME.equalsText(ch.getTag())) {
                     ChangeDate changeDate = new ChangeDate();
                     loadInto.setChangeDate(changeDate);
@@ -116,16 +125,16 @@ class SourceParser extends AbstractParser<Source> {
         if (repo.getChildren() != null) {
             for (StringTree ch : repo.getChildren()) {
                 if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = r.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = r.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.CALL_NUMBER.equalsText(ch.getTag())) {
                     SourceCallNumber scn = new SourceCallNumber();
                     r.getCallNumbers(true).add(scn);
-                    scn.setCallNumber(new StringWithCustomTags(ch.getValue()));
+                    scn.setCallNumber(new StringWithCustomFacts(ch.getValue()));
                     if (ch.getChildren() != null) {
                         for (StringTree gch : ch.getChildren()) {
                             if (Tag.MEDIA.equalsText(gch.getTag())) {
-                                scn.setMediaType(new StringWithCustomTags(gch));
+                                scn.setMediaType(parseStringWithCustomFacts(gch));
                             } else {
                                 unknownTag(gch, scn.getCallNumber());
                             }
@@ -153,10 +162,10 @@ class SourceParser extends AbstractParser<Source> {
                 if (Tag.EVENT.equalsText(ch.getTag())) {
                     loadSourceDataEventRecorded(ch, sourceData);
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = sourceData.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = sourceData.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.AGENCY.equalsText(ch.getTag())) {
-                    sourceData.setRespAgency(new StringWithCustomTags(ch));
+                    sourceData.setRespAgency(parseStringWithCustomFacts(ch));
                 } else {
                     unknownTag(ch, sourceData);
                 }
@@ -179,11 +188,11 @@ class SourceParser extends AbstractParser<Source> {
         if (dataNode.getChildren() != null) {
             for (StringTree ch : dataNode.getChildren()) {
                 if (Tag.DATE.equalsText(ch.getTag())) {
-                    e.setDatePeriod(new StringWithCustomTags(ch));
+                    e.setDatePeriod(parseStringWithCustomFacts(ch));
                 } else if (Tag.PLACE.equalsText(ch.getTag())) {
-                    e.setJurisdiction(new StringWithCustomTags(ch));
+                    e.setJurisdiction(parseStringWithCustomFacts(ch));
                 } else {
-                    unknownTag(ch, sourceData);
+                    unknownTag(ch, e);
                 }
             }
         }

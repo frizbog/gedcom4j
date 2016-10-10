@@ -171,7 +171,7 @@ class StringTreeBuilder {
     private void addNewNode() throws GedcomParserException {
         LinePieces lp = new LinePieces(line, lineNum);
         treeForCurrentLine.setLevel(lp.level);
-        treeForCurrentLine.setId(lp.id);
+        treeForCurrentLine.setXref(lp.id);
         treeForCurrentLine.setTag(lp.tag.intern());
         treeForCurrentLine.setValue(canonizer.getCanonicalVersion(lp.remainder));
         lp = null;

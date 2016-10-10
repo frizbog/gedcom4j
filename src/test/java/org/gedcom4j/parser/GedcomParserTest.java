@@ -46,10 +46,9 @@ import org.gedcom4j.model.FileReference;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.Source;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
 import org.junit.Test;
 
@@ -94,7 +93,6 @@ public class GedcomParserTest {
     public void testLoad1() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/TGC551.ged");
-        assertTrue(gp.getErrors().isEmpty());
         checkTGC551LF(gp);
     }
 
@@ -113,8 +111,8 @@ public class GedcomParserTest {
         gp.load("sample/allged.ged");
         assertTrue(gp.getErrors().isEmpty());
         assertTrue(gp.getWarnings().isEmpty());
-        assertEquals("There is exactly 1 custom tag on the file as a whole", 1, gp.getGedcom().getCustomTags().size());
-        assertEquals("There is exactly 1 custom tag in the header", 1, gp.getGedcom().getHeader().getCustomTags().size());
+        assertEquals("There is exactly 1 custom tag on the file as a whole", 1, gp.getGedcom().getCustomFacts().size());
+        assertEquals("There is exactly 1 custom tag in the header", 1, gp.getGedcom().getHeader().getCustomFacts().size());
         Gedcom g = gp.getGedcom();
         assertFalse(g.getSubmitters().isEmpty());
         Submitter submitter = g.getSubmitters().values().iterator().next();
@@ -142,7 +140,7 @@ public class GedcomParserTest {
         assertFalse(g.getSubmitters().isEmpty());
         Submitter submitter = g.getSubmitters().values().iterator().next();
         assertNotNull(submitter);
-        assertEquals(new StringWithCustomTags("UNSPECIFIED"), submitter.getName());
+        assertEquals("UNSPECIFIED", submitter.getName().getValue());
 
         // Check header
         assertEquals("6.00", g.getHeader().getSourceSystem().getVersionNum().getValue());
@@ -152,8 +150,8 @@ public class GedcomParserTest {
         // shown
         assertEquals(2, g.getSources().size());
         for (Source s : g.getSources().values()) {
-            assertTrue(s.getTitle().get(0).equals("William Barnett Family.FTW") || s.getTitle().get(0).equals(
-                    "Warrick County, IN WPA Indexes"));
+            assertTrue(s.getTitle().getLines(true).get(0).equals("William Barnett Family.FTW") || s.getTitle().getLines(true).get(0)
+                    .equals("Warrick County, IN WPA Indexes"));
         }
 
         assertEquals(17, g.getFamilies().size());
@@ -163,8 +161,10 @@ public class GedcomParserTest {
         Family family = g.getFamilies().get("@F1428@");
         assertNotNull(family);
         assertEquals(3, family.getChildren().size());
-        assertEquals("Lawrence Henry /Barnett/", family.getHusband().getNames().get(0).getBasic());
-        assertEquals("Velma //", family.getWife().getNames().get(0).getBasic());
+        Individual h = family.getHusband().getIndividual();
+        assertEquals("Lawrence Henry /Barnett/", h.getNames().get(0).getBasic());
+        Individual w = family.getWife().getIndividual();
+        assertEquals("Velma //", w.getNames().get(0).getBasic());
 
     }
 
@@ -296,8 +296,6 @@ public class GedcomParserTest {
      *            the {@link GedcomParser}
      */
     private void checkTGC551LF(GedcomParser gp) {
-        assertTrue(gp.getErrors().isEmpty());
-        assertTrue(gp.getWarnings().isEmpty());
         Gedcom g = gp.getGedcom();
         assertNotNull(g.getHeader());
         assertEquals(3, g.getSubmitters().size());
@@ -322,15 +320,13 @@ public class GedcomParserTest {
     private void checkTGC55C(GedcomParser gp) {
         Individual indi;
         PersonalName name;
-        Note note;
+        NoteStructure note;
         Multimedia multimedia;
         FileReference fileReference;
         CitationWithSource citWithSource;
         CitationWithoutSource citWithoutSource;
         Source source;
 
-        assertTrue(gp.getErrors().isEmpty());
-        assertTrue(gp.getWarnings().isEmpty());
         Gedcom g = gp.getGedcom();
         assertNotNull(g.getHeader());
         assertEquals(3, g.getSubmitters().size());
@@ -352,7 +348,7 @@ public class GedcomParserTest {
 
         assertEquals(3, indi.getCitations().size());
         assertEquals(2, indi.getNames().size());
-        assertEquals(2, indi.getNotes().size());
+        assertEquals(2, indi.getNoteStructures().size());
 
         // Name 0
         name = indi.getNames().get(0);
@@ -360,7 +356,7 @@ public class GedcomParserTest {
         assertEquals("Torture, Joseph \"Joe\"", name.toString());
 
         assertEquals(1, name.getCitations().size());
-        assertEquals(1, name.getNotes().size());
+        assertEquals(1, name.getNoteStructures().size());
 
         // Name 0 - Citation 0
         assertTrue(name.getCitations().get(0) instanceof CitationWithSource);
@@ -372,14 +368,14 @@ public class GedcomParserTest {
 
         if (Options.isCollectionInitializationEnabled()) {
             assertEquals(0, citWithSource.getMultimedia().size());
-            assertEquals(0, citWithSource.getNotes().size());
+            assertEquals(0, citWithSource.getNoteStructures().size());
         } else {
             assertNull(citWithSource.getMultimedia());
-            assertNull(citWithSource.getNotes());
+            assertNull(citWithSource.getNoteStructures());
         }
 
         // Name 0 - Note 0
-        note = name.getNotes().get(0);
+        note = name.getNoteStructures().get(0);
         assertEquals(5, note.getLines().size());
         assertEquals(
                 "These are notes about the first NAME structure in this record. These notes are embedded in the INDIVIDUAL record itself.",
@@ -391,7 +387,7 @@ public class GedcomParserTest {
         assertEquals("William John /Smith/", name.toString());
 
         assertEquals(1, name.getCitations().size());
-        assertEquals(1, name.getNotes().size());
+        assertEquals(1, name.getNoteStructures().size());
 
         // Name 1 - Citation 0
         assertTrue(name.getCitations().get(0) instanceof CitationWithSource);
@@ -402,17 +398,17 @@ public class GedcomParserTest {
         assertEquals("55", citWithSource.getWhereInSource().toString());
 
         assertEquals(1, citWithSource.getMultimedia().size());
-        assertEquals(1, citWithSource.getNotes().size());
+        assertEquals(1, citWithSource.getNoteStructures().size());
 
         // Name 1 - Multimedia 0
-        multimedia = citWithSource.getMultimedia().get(0);
+        multimedia = citWithSource.getMultimedia().get(0).getMultimedia();
         if (Options.isCollectionInitializationEnabled()) {
             assertEquals(0, multimedia.getCitations().size());
         } else {
             assertNull(multimedia.getCitations());
         }
         assertEquals(1, multimedia.getFileReferences().size());
-        assertEquals(1, multimedia.getNotes().size());
+        assertEquals(1, multimedia.getNoteStructures().size());
 
         // Name 1 - Multimedia 0 - FileReference 0
         fileReference = multimedia.getFileReferences().get(0);
@@ -422,32 +418,34 @@ public class GedcomParserTest {
         assertEquals(null, fileReference.getTitle());
 
         // Name 1 - Multimedia 0 - Note 0
-        note = multimedia.getNotes().get(0);
-        assertEquals(1, note.getLines().size());
-        assertEquals("These are some notes of this multimedia link in the NAME structure.", note.getLines().get(0));
+        note = multimedia.getNoteStructures().get(0);
+        assertEquals(1, note.getNoteReference().getLines().size());
+        assertEquals("These are some notes of this multimedia link in the NAME structure.", note.getNoteReference().getLines().get(
+                0));
 
         // Name 1 - Citation 0 - Note 0
-        note = citWithSource.getNotes().get(0);
+        note = citWithSource.getNoteStructures().get(0);
         assertNotNull(note);
-        assertNotNull(note.getLines());
-        assertEquals(3, note.getLines().size());
+        assertNotNull(note.getNoteReference());
+        assertNotNull(note.getNoteReference().getLines());
+        assertEquals(3, note.getNoteReference().getLines().size());
         assertEquals("This source citation has all fields possible in a source citation to a separate SOURCE record. "
                 + "Besides the link to the SOURCE record there are possible fields about this citation (e.g., PAGE, TEXT, etc.)",
-                note.getLines().get(0));
+                note.getNoteReference().getLines().get(0));
 
         // Name 1 - Note 0
-        note = name.getNotes().get(0);
+        note = name.getNoteStructures().get(0);
         assertEquals(3, note.getLines().size());
         assertEquals("This is a second personal NAME structure in a single INDIVIDUAL record which is allowed in GEDCOM. "
                 + "This second NAME structure has all possible fields for a NAME structure.", note.getLines().get(0));
 
         // Note 0
-        note = indi.getNotes().get(0);
-        assertEquals(40, note.getLines().size());
-        assertEquals("Comments on \"Joseph Tag Torture\" INDIVIDUAL Record.", note.getLines().get(0));
+        note = indi.getNoteStructures().get(0);
+        assertEquals(40, note.getNoteReference().getLines().size());
+        assertEquals("Comments on \"Joseph Tag Torture\" INDIVIDUAL Record.", note.getNoteReference().getLines().get(0));
 
         // Note 1
-        note = indi.getNotes().get(1);
+        note = indi.getNoteStructures().get(1);
         assertEquals(3, note.getLines().size());
         assertEquals("This is a second set of notes for this single individual record. "
                 + "It is embedded in the INDIVIDUAL record instead of being in a separate NOTE record.", note.getLines().get(0));
@@ -461,10 +459,10 @@ public class GedcomParserTest {
         assertEquals("42", citWithSource.getWhereInSource().toString());
 
         assertEquals(0, citWithSource.getMultimedia(true).size());
-        assertEquals(1, citWithSource.getNotes().size());
+        assertEquals(1, citWithSource.getNoteStructures().size());
 
         // Citation 0 - Note 0
-        note = citWithSource.getNotes().get(0);
+        note = citWithSource.getNoteStructures().get(0);
         assertEquals(1, note.getLines().size());
         assertEquals("A source note.", note.getLines().get(0));
 
@@ -477,24 +475,25 @@ public class GedcomParserTest {
         assertEquals(null, citWithSource.getWhereInSource());
 
         assertEquals(0, citWithSource.getMultimedia(true).size());
-        assertEquals(1, citWithSource.getNotes().size());
+        assertEquals(1, citWithSource.getNoteStructures().size());
 
         // Citation 1 - Note 0
-        note = citWithSource.getNotes().get(0);
-        assertEquals(1, note.getLines().size());
-        assertEquals("This is a second source citation in this record.", note.getLines().get(0));
+        note = citWithSource.getNoteStructures().get(0);
+        assertEquals(1, note.getNoteReference().getLines().size());
+        assertEquals("This is a second source citation in this record.", note.getNoteReference().getLines().get(0));
 
         // Citation 2
         assertTrue(indi.getCitations().get(2) instanceof CitationWithoutSource);
         citWithoutSource = (CitationWithoutSource) indi.getCitations().get(2);
 
-        assertEquals(1, citWithoutSource.getNotes().size());
+        assertEquals(1, citWithoutSource.getNoteStructures().size());
 
         // Citation 2 - Note 0
-        note = citWithoutSource.getNotes().get(0);
-        assertEquals(1, note.getLines().size());
+        note = citWithoutSource.getNoteStructures().get(0);
+        assertEquals(1, note.getNoteReference().getLines().size());
         assertEquals(
                 "How does software handle embedded SOURCE records on import? Such source citations are common in old GEDCOM files. "
-                        + "More modern GEDCOM files should use source citations to SOURCE records.", note.getLines().get(0));
+                        + "More modern GEDCOM files should use source citations to SOURCE records.", note.getNoteReference()
+                                .getLines().get(0));
     }
 }

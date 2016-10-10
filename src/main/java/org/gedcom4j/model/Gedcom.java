@@ -38,16 +38,16 @@ import java.util.Map;
  * 
  * <p>
  * Note that if you are creating a Gedcom object graph programmatically from scratch (as opposed to by parsing a GEDCOM file), you
- * will (probably) want to do the following things...some are required for the structure to pass validation, and the results of
- * autorepair (if enabled) may not be what you want (see {@link org.gedcom4j.validate.GedcomValidator}).
+ * will (probably) want to do the following things. (Some are required for the structure to pass validation, and the results of
+ * autorepair (if enabled) may not be what you want - see {@link org.gedcom4j.validate.Validator}).
  * </p>
  * <ol type="1">
  * <li>Define a {@link Submitter} and add it to the {@link Gedcom#submitters} map. Autorepair will make a fake submitter record with
  * a name of "UNSPECIFIED" and add it to the map during validation if validation is turned on, but this submitter record may not be
  * what you want.</li>
- * <li>Specify which Submitter in the submitters map is the primary submitter and set the {@link Header#submitter} reference to that
- * instance. If no primary submitter is specified in the header, auto-repair will select the first value in the submitters map and
- * use that.</li>
+ * <li>Specify which Submitter in the submitters map is the primary submitter and set the {@link Header#getSubmitterReference()} to
+ * that instance. If no primary submitter is specified in the header, auto-repair will select the first value in the submitters map
+ * and use that.</li>
  * <li>Override default values for the Source System and its components in {@link Header#sourceSystem}
  * <ol type="a">
  * <li>Specify, or override the default value of the {@link SourceSystem#systemId} field to an application-specific value. If it is
@@ -123,7 +123,7 @@ public class Gedcom extends AbstractElement {
     /**
      * A map of notes. The map is keyed with cross-reference numbers and the notes themselves are the values.
      */
-    private final Map<String, Note> notes = new HashMap<>(0);
+    private final Map<String, NoteRecord> notes = new HashMap<>(0);
 
     /**
      * A map of all the source repositories in the GEDCOM file. The map is keyed on the repository cross-reference numbers, and the
@@ -152,6 +152,49 @@ public class Gedcom extends AbstractElement {
      * The trailer of the file
      */
     private Trailer trailer = new Trailer();
+
+    /** Default constructor */
+    public Gedcom() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public Gedcom(Gedcom other) {
+        super(other);
+        for (Family f : other.families.values()) {
+            families.put(f.getXref(), new Family(f));
+        }
+        if (other.header != null) {
+            header = new Header(other.header);
+        }
+        for (Individual i : other.individuals.values()) {
+            individuals.put(i.getXref(), new Individual(i));
+        }
+        for (Multimedia m : other.multimedia.values()) {
+            multimedia.put(m.getXref(), new Multimedia(m));
+        }
+        for (NoteRecord n : other.notes.values()) {
+            notes.put(n.getXref(), new NoteRecord(n));
+        }
+        for (Repository r : other.repositories.values()) {
+            repositories.put(r.getXref(), new Repository(r));
+        }
+        for (Source r : other.sources.values()) {
+            sources.put(r.getXref(), new Source(r));
+        }
+        if (other.submission != null) {
+            submission = new Submission(other.submission);
+        }
+        for (Submitter s : other.submitters.values()) {
+            submitters.put(s.getXref(), new Submitter(s));
+        }
+        // All trailers are the same, and it's already initialized
+    }
 
     /**
      * {@inheritDoc}
@@ -282,7 +325,7 @@ public class Gedcom extends AbstractElement {
      *
      * @return the notes
      */
-    public Map<String, Note> getNotes() {
+    public Map<String, NoteRecord> getNotes() {
         return notes;
     }
 
@@ -410,7 +453,7 @@ public class Gedcom extends AbstractElement {
             builder.append(", ");
         }
         if (notes != null) {
-            builder.append("notes=");
+            builder.append("noteStructures=");
             builder.append(toStringLimitCollection(notes.entrySet(), maxLen));
             builder.append(", ");
         }

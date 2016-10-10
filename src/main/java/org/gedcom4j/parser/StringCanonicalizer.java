@@ -240,8 +240,8 @@ class StringCanonicalizer {
             }
         }
         int after = stringPool.size();
-        numEvictedCumulative += (before - after);
-        if ((before - after) < 2) {
+        numEvictedCumulative += before - after;
+        if (before - after < 2) {
             maxedOut = true;
         }
         // System.out.println((before - after) + " item(s) evicted from string pool - was " + before + ", now " +

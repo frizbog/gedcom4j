@@ -35,10 +35,10 @@ import org.gedcom4j.model.Corporation;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.SourceSystem;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.Submitter;
-import org.gedcom4j.model.SupportedVersion;
 import org.gedcom4j.model.TestHelper;
+import org.gedcom4j.model.enumerations.SupportedVersion;
 import org.junit.Test;
 
 /**
@@ -66,11 +66,11 @@ public class GedcomWriter551EmailTest {
         Corporation c = new Corporation();
         g.getHeader().getSourceSystem().setCorporation(c);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // Email addresses
-        c.getEmails(true).add(new StringWithCustomTags("Not allowed under 5.5"));
+        c.getEmails(true).add(new StringWithCustomFacts("Not allowed under 5.5"));
 
         // Switch to 5.5.1, all should be fine
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
@@ -95,11 +95,11 @@ public class GedcomWriter551EmailTest {
         Corporation c = new Corporation();
         g.getHeader().getSourceSystem().setCorporation(c);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // Email addresses
-        c.getEmails(true).add(new StringWithCustomTags("Not allowed under 5.5"));
+        c.getEmails(true).add(new StringWithCustomFacts("Not allowed under 5.5"));
         gw.write("tmp/delete-me.ged");
     }
 
@@ -120,7 +120,7 @@ public class GedcomWriter551EmailTest {
         Corporation c = new Corporation();
         g.getHeader().getSourceSystem().setCorporation(c);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // No emails, should be ok
@@ -143,11 +143,11 @@ public class GedcomWriter551EmailTest {
         r.setXref("@R1@");
         g.getRepositories().put(r.getXref(), r);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // Email addresses
-        r.getEmails(true).add(new StringWithCustomTags("Not allowed under 5.5"));
+        r.getEmails(true).add(new StringWithCustomFacts("Not allowed under 5.5"));
 
         // Switch to 5.5.1, all should be fine
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
@@ -170,11 +170,11 @@ public class GedcomWriter551EmailTest {
         r.setXref("@R1@");
         g.getRepositories().put(r.getXref(), r);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // Email addresses
-        r.getEmails(true).add(new StringWithCustomTags("Not allowed under 5.5"));
+        r.getEmails(true).add(new StringWithCustomFacts("Not allowed under 5.5"));
         gw.write("tmp/delete-me.ged");
     }
 
@@ -194,7 +194,7 @@ public class GedcomWriter551EmailTest {
         r.setXref("@R1@");
         g.getRepositories().put(r.getXref(), r);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // No emails on Repository, all should be ok
@@ -214,15 +214,15 @@ public class GedcomWriter551EmailTest {
         Gedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         Submitter s = new Submitter();
-        s.setName(new StringWithCustomTags("test"));
+        s.setName("test");
         s.setXref("@S1@");
         g.getSubmitters().put(s.getXref(), s);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // Email addresses
-        s.getEmails(true).add(new StringWithCustomTags("Not allowed under 5.5"));
+        s.getEmails(true).add(new StringWithCustomFacts("Not allowed under 5.5"));
 
         // Switch to 5.5.1, all should be fine
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
@@ -242,15 +242,15 @@ public class GedcomWriter551EmailTest {
         Gedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         Submitter s = new Submitter();
-        s.setName(new StringWithCustomTags("test"));
+        s.setName("test");
         s.setXref("@S1@");
         g.getSubmitters().put(s.getXref(), s);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // Email addresses
-        s.getEmails(true).add(new StringWithCustomTags("Not allowed under 5.5"));
+        s.getEmails(true).add(new StringWithCustomFacts("Not allowed under 5.5"));
         gw.write("tmp/delete-me.ged");
     }
 
@@ -267,11 +267,11 @@ public class GedcomWriter551EmailTest {
         Gedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         Submitter s = new Submitter();
-        s.setName(new StringWithCustomTags("test"));
+        s.setName("test");
         s.setXref("@S1@");
         g.getSubmitters().put(s.getXref(), s);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // No emails on submitter, should be good

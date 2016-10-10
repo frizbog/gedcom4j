@@ -1,0 +1,327 @@
+0 HEAD
+1 SOUR 0
+2 VERS Version 1
+3 _H Custom tag for source system version in header
+2 NAME gedcom4j
+3 _H Custom tag for source system name in header
+2 CORP Matthew R. Harrah
+3 ADDR 4209 Rivercliff Cres E
+4 CITY Suffolk
+5 _H Custom tag for cty of source system in header
+4 STAE Virginia
+5 _H Custom tag for state of source system in header
+4 POST 23435
+5 _H Custom tag for postal code of source system in header
+4 CTRY USA
+5 _H Custom tag for country of source system in header
+4 _H Custom tag for address line 1
+3 WWW http://gedcom4j.org
+4 _H Custom tag for web URL of source system in header
+3 EMAIL matt@gedcom4j.org
+4 _H Custom tag for email of source system in header
+3 _H Custom tag for corporation name in header
+2 DATA Wrote it by hand, can get at Github
+3 DATE 05 Oct 2016
+4 _H Custom tag on date of source system data in header
+3 COPR Copyright (c) 2009-2016 Matthew R. Harrah
+4 CONT
+4 CONT MIT License
+4 CONT
+4 CONT Permission is hereby granted, free of charge, to any person
+4 CONT obtaining a copy of this software and associated documentation
+4 CONT files (the "Software"), to deal in the Software without
+4 CONT restriction, including without limitation the rights to use,
+4 CONT copy, modify, merge, publish, distribute, sublicense, and/or sell
+4 CONT copies of the Software, and to permit persons to whom the
+4 CONT Software is furnished to do so, subject to the following
+4 CONT conditions:
+4 CONT
+4 CONT The above copyright notice and this permission notice shall be
+4 CONT included in all copies or substantial portions of the Software.4 CONT 
+4 CONT
+4 CONT THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+4 CONT EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+4 CONT OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+4 CONT NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+4 CONT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+4 CONT WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+4 CONT FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+4 CONT OTHER DEALINGS IN THE SOFTWARE.
+4 _H Custom tag on copyright notice in header
+3 _H Custom tag on source system data in header
+2 ______WIERD custom tag for source in header
+1 DEST gedcom4j
+1 _H Custom tag on the header itself
+1 SUBM @SUBM001@
+2 _AAA Custom tag for the reference to the submitter, which is a root level item
+1 SUBN @SUBMISSION@
+2 _BBB Custom tag for the reference to the submission, which is a root level item
+1 FILE customtagstorture.ged
+2 _ZZZ Custom tag for file name
+1 GEDC
+2 VERS 5.5.1
+3 _XXX Custom tag under gedcom version
+2 FORM LINEAGE-LINKED
+2 _COMMENT weird custom comment about the GEDC 
+1 CHAR ANSEL
+2 VERS 12345
+3 _YYY Custom tag under character version
+2 _COMMENT UTF-8 is more modern
+1 LANG English
+2 _COMMENT Comment under english
+2 _LONG This is an extraordinarily long comment that was split up because the spec says lines that exceed a certain length shoul
+3 CONC d get broken into a CONT line, or maybe a CONC line, but either way it should get split up. Note: There are special consideratio
+3 CONC ns required when using the CONC tag. The usage is to provide a note string that can be concatenated together so that the display
+3 CONC  program can do its own word wrapping according to its display window size.
+0 @SUBMISSION@ SUBN
+1 _RRR Custom thing under the root level submission
+0 @I01@ INDI
+1 NAME Paul /Paulson/
+1 FAMS @F7@
+1 _ICT Custom tag on individual
+0 @I02@ INDI
+1 NAME Alyson /Allison/
+1 FAMS @F7@
+1 _ICT Custom tag on individual
+0 @I00@ INDI
+1 RESN privacy
+1 NAME Peter /Paulson/
+2 TYPE assumed
+3 _CTAG Custom tag on I00's name type
+2 NPFX Mr.
+3 _CTAG Custom tag on I00's name prefix
+2 GIVN Peter
+3 _CTAG Custom tag on I00's given name
+2 NICK Pete
+3 _CTAG Custom tag on I00's nick name
+2 SPFX van
+3 _CTAG Custom tag on I00's surname prefix
+2 SURN Paulson
+3 _CTAG Custom tag on I00's surname
+2 NSFX Jr.
+3 _CTAG Custom tag on I00's name suffix
+2 SOUR Personal interview
+3 _CTAG Custom tag on I00's name source citation
+2 NOTE Can you believe it? Another note!
+3 _CTAG Custom tag on I00's name note
+2 _CTAG Custom tag on I00's name
+1 SEX M
+2 _CTAG Custom tag on I00's sex
+2 _CTAG And another custom tag on I00's sex
+2 _CTAG and another
+2 _CTAG and yet another
+2 _CTAG and yes, another still
+1 BIRT
+2 DATE 15 JUN 1900
+3 _CTAG Custom tag on I00's birth date
+2 _CTAG Custom tag on I00's birth
+1 DEAT
+2 DATE 5 JUL 1974
+3 _CTAG Custom tag on I00's death date
+2 _CTAG Custom tag on I00's death
+1 FAMC @F7@
+2 _CTAG Custom tag on I00's FAMC
+1 FAMS @F6@
+2 _CTAG Custom tag on I00's FAMS
+1 NOTE @N24@
+2 _CTAG Custom tag on I00's Note Reference
+1 RIN 1
+2 _CTAG Custom tag on I00's Record ID
+1 CHAN
+2 DATE 11 JAN 2001
+3 _CTAG Custom tag on I00's Change Date
+3 TIME 16:00:06
+4 _CTAG Custom tag on I00's Change Time
+2 _CTAG Custom tag on I00's Change
+1 _ICT Custom tag on individual
+0 @F6@ FAM
+1 HUSB @I00@
+2 _BBB Custom tag on husband in family with no wife or children
+1 _AAA Custom tag on family with no wife or children
+0 @F7@ FAM
+1 MARR
+2 DATE 4 APR 1999
+3 __DD Custom tag on marriage date
+2 __DD Custom tag on marriage event
+1 HUSB @I01@
+2 _FFF Custom tag on husband in family with 1 husb, 1 wife, 1 kid
+1 WIFE @I02@
+2 _FFF Custom tag on wife in family with 1 husb, 1 wife, 1 kid
+1 CHIL @I00@
+2 _FFF Custom tag on child in family with 1 husb, 1 wife, 1 kid
+1 NCHI 2
+2 _FFF Custom tag on number of children
+1 RESN privacy
+2 __DD Custom tag on restriction notice on family
+1 SOUR This source-citation does not refer to a source record so it's inline. Lorem ipsum dolor sit amet, consectetur adipiscing
+2 CONC  elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ull
+2 CONC amco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolo
+2 CONC re eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
+2 TEXT Systems that do not use a (SOURCE_RECORD) must use the non-preferred second SOURce citation structure option. When system
+3 CONC s that support the zero level source record format encounters a source citation that does not contain pointers to source records
+3 CONC , then that system needs to create a SOURCE_RECORD format and store the source description information found in the non-structur
+3 CONC ed source citation in the title area for the new source record.
+2 OBJE
+3 FILE thefile.gif
+4 _SCM custom tag on source citation media filename
+4 FORM gif
+5 _SCM custom tag on source citation media format
+5 MEDI fiche
+6 _SCM custom tag on source citation media format media
+3 TITL This is one swell file, man.
+4 _SCM custom tag on source citation media title
+3 _SCM custom tag on source citation media
+2 OBJE @M1@
+2 NOTE This is a note! Hooray!
+3 __SS custom tag on inline source citation note
+2 QUAY 3
+3 __SS custom tag on inline source citation quality assessment
+1 SOUR @S0015@
+2 PAGE 1
+3 __SS Custom tag on source page
+2 EVEN BIRT
+3 __SS Custom tag on source event
+3 ROLE Observer
+4 __SS Custom tag on source event role
+2 DATA
+3 DATE 6 OCT 2016
+4 __SS Custom tag on source date
+3 TEXT Quoth the Raven, "Nevermore."
+4 __SS Custom tag on source text
+3 __SS Custom tag on source data
+2 QUAY 2
+3 __SS Custom tag on source citation quality/certainty assessment
+2 OBJE @M1@
+3 __SS Custom tag on multimedia reference on source
+2 NOTE Do, re, mi
+3 __SS Custom tag on source citation note
+2 __SS Custom tag on source
+1 REFN 123
+2 _FFF Custom tag on reference number
+2 TYPE Some sort of number
+3 _FFF Custom tag on reference number type
+1 RIN 13579
+2 _FFF Custom tag on automated record id (RIN)
+1 CHAN
+2 DATE 5 OCT 2016
+3 ___C custom tag on date part of change date on family
+2 ___C custom tag on change date root (not the date record) on family
+1 _FFF Custom tag on family with 1 husb, 1 wife, 1 kid
+0 @M1@ OBJE
+1 FILE thefile.jpg
+2 __MM Custom tag on media file name
+2 FORM jpg
+3 __MM Custom tag on media format
+3 TYPE image
+4 __MM Custom tag on media type
+2 TITL "The File"
+3 __MM Custom tag on media title
+1 REFN 444
+2 __MM Custom tag on media ref num
+2 TYPE A three digit number
+3 __MM Custom tag on media ref num type
+1 SOUR @S0015@
+2 __MM Custom tag on media source citation
+1 NOTE Yet another note
+2 __MM Custom tag on media note
+1 CHAN
+2 DATE 06 OCT 2016
+3 __MM Custom tag on media change date
+2 __MM Custom tag on media change
+0 @REPO1@ REPO
+1 NAME Reggie's Repository of Records
+2 __RR Custom tag on Repository name
+1 ADDR 123 Main St
+2 CONT Suite 123
+2 CONT Next to the mailbox
+2 ADR1 This is line 1
+3 __RR Custom tag on repo addr line 1
+2 ADR2 This is line 2
+3 __RR Custom tag on repo addr line 2
+2 ADR3 This is line 3
+3 __RR Custom tag on repo addr line 3
+2 CITY Boston
+3 __RR Custom tag on repo city
+2 STAE MA
+3 __RR Custom tag on repo state
+2 POST 02134
+3 __RR Custom tag on repo postal code
+2 CTRY USA
+3 __RR Custom tag on repo country
+2 __RR Custom tag on repo address
+1 NOTE This is a note, so take note.
+2 __RR Custom tag on repo note
+1 REFN 8675309
+2 __RR Custom tag on repo ref num
+2 TYPE Jenny
+3 __RR Custom tag on repo ref num type
+1 RIN 90125
+2 __RR Custom tag on repo record id
+1 PHON 888-867-5309
+2 __RR Custom tag on repo phone
+1 WWW http://internet.org
+2 __RR Custom tag on repo web
+1 FAX 800-867-5309
+2 __RR Custom tag on repo fax
+1 EMAIL jenny@internet.org
+2 __RR Custom tag on repo email
+1 CHAN
+2 DATE 06 Oct 2016
+3 __RR Custom tag on repo change date
+2 __RR Custom tag on repo change
+1 __RR Custom tag on repo
+0 @S0015@ SOUR
+1 DATA
+2 EVEN BIRT, DEAT, MARR
+3 DATE 3 MAR 1980
+4 __SCT Custom tag for source date
+3 PLAC Richmond, VA
+4 __SCT Custom tag for source place
+3 __SCT Custom tag for source events
+2 AGNC Agency One
+3 __SCT Custom tag for the source agency
+3 NOTE Note for source agency
+4 __SCT Custom tag on source agency note
+2 __SCT Custom tag for source data
+1 AUTH The author of this was cool.
+2 CONT Too cool, in fact, to fit on a single line.
+2 __SCT Custom tag for the source author
+1 TITL The Great, Illustrious, and much-sought-after Oak Parish Register in which there are many things recorded including the v
+2 CONC arious births, deaths, and marriages that occurred within the jurisdiction of Oak Parish (a lovely spot that is popular with peo
+2 CONC ple who enjoy fishing, potatoes, and mayonnaise)
+2 __SCT Custom tag on source title
+1 ABBR OPR
+2 __SCT Custom tag for the source abbreviation
+1 PUBL Published in some place.
+2 __SCT Custom tag for source publication facts
+1 TEXT This was the text that was in the source.
+2 __SCT Custom tag for source text
+1 REPO @REPO1@
+2 __SCT Custom tag for source reference to repository
+1 REFN 999
+2 __SCT Custom tag for source reference number
+2 TYPE Some type
+3 __SCT Custom tag for source reference number type
+1 RIN 888
+2 __SCT Custom tag for source automated record id number
+1 __SCT Custom tag on root-level source
+0 @SUBM001@ SUBM
+1 NAME Matt /Harrah/
+2 GIVN Matt
+3 _QQQQ This is a custom tag under a given name
+2 SURN Harrah
+3 _RRRR Custom tag under surname
+4 _TTTTT Custom tag under custom _RRRR tag under surname
+1 _SSS Custom thing under the root level submitter
+0 _ROOT Root element
+0 _ROOT2
+1 CHAN
+2 DATE 2 OCT 2016
+3 _MMM custom tag for change date on root 2 element
+3 TIME 15:25:00
+4 _NNN custom tag for the change time on root 2 element
+2 NOTE This is a note.
+3 _EEE custom tag on note
+2 NOTE This is another note
+1 _DESC This is a custom description of the root2 element
+0 TRLR

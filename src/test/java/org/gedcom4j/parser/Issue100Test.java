@@ -37,7 +37,7 @@ import java.util.List;
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.query.Finder;
 import org.junit.Test;
 
@@ -74,9 +74,9 @@ public class Issue100Test {
         List<Individual> matches = f.findByName(null, "Soprano", "Anthony John", "Sr.");
         assertEquals(1, matches.size());
         Individual i = matches.get(0);
-        assertNotNull(i.getNotes());
-        assertEquals(1, i.getNotes().size());
-        Note n = i.getNotes().get(0);
+        assertNotNull(i.getNoteStructures());
+        assertEquals(1, i.getNoteStructures().size());
+        NoteStructure n = i.getNoteStructures().get(0);
         assertNotNull(n.getLines());
         assertEquals(3, n.getLines().size());
         assertEquals("This note was deliberately hand-edited to put a line break in the text without a CONT line.", n.getLines()

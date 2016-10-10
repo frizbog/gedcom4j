@@ -28,9 +28,11 @@ package org.gedcom4j.validate;
 
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualReference;
 import org.gedcom4j.model.LdsSpouseSealing;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.TestHelper;
+import org.gedcom4j.model.enumerations.LdsSpouseSealingDateStatus;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -51,8 +53,8 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     @Before
     public void setUp() {
         gedcom = TestHelper.getMinimalGedcom();
-        rootValidator.gedcom = gedcom;
-        rootValidator.setAutorepairEnabled(false);
+        validator = new Validator(gedcom);
+        validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
 
         final Individual dad = new Individual();
         dad.setXref("@I00001@");
@@ -68,12 +70,12 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
 
         f = new Family();
         f.setXref("@F0001@");
-        f.setHusband(dad);
-        f.setWife(mom);
-        f.getChildren(true).add(jr);
+        f.setHusband(new IndividualReference(dad));
+        f.setWife(new IndividualReference(mom));
+        f.getChildren(true).add(new IndividualReference(jr));
         gedcom.getFamilies().put(f.getXref(), f);
 
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
     }
 
@@ -86,20 +88,20 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
         f.getLdsSpouseSealings(true).add(s);
 
         s.getCitations(true).clear();
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
     }
 
     /**
-     * Test when custom tags are messed up
+     * Test when custom facts are messed up
      */
     @Test
-    public void testCustomTags() {
+    public void testCustomFacts() {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.getLdsSpouseSealings(true).add(s);
 
-        s.getCustomTags(true).clear();
-        rootValidator.validate();
+        s.getCustomFacts(true).clear();
+        validator.validate();
         assertNoIssues();
     }
 
@@ -110,20 +112,28 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     public void testDate() {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.getLdsSpouseSealings(true).add(s);
-        s.setDate(new StringWithCustomTags((String) null));
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "date", "no value");
+        s.setDate((String) null);
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.ILLEGAL_VALUE, "date");
 
-        s.setDate(new StringWithCustomTags(""));
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "date", "no value");
+        s.setDate("");
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.ILLEGAL_VALUE, "date");
 
-        s.setDate(new StringWithCustomTags("              "));
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "date", "no value");
+        s.setDate("              ");
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.ILLEGAL_VALUE, "date");
 
-        s.setDate(new StringWithCustomTags("Frying Pan"));
-        rootValidator.validate();
+        s.setDate("Frying Pan");
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.ILLEGAL_VALUE, "date");
+
+        s.setDate("01 JAN 1901");
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.ILLEGAL_VALUE, "date");
+
+        s.setStatus(LdsSpouseSealingDateStatus.COMPLETED.getCode());
+        validator.validate();
         assertNoIssues();
     }
 
@@ -135,8 +145,8 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.getLdsSpouseSealings(true).add(s);
 
-        s.getNotes(true).clear();
-        rootValidator.validate();
+        s.getNoteStructures(true).clear();
+        validator.validate();
         assertNoIssues();
     }
 
@@ -146,7 +156,7 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testNullList() {
         f.getLdsSpouseSealings(true).clear();
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
     }
 
@@ -157,20 +167,20 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     public void testPlace() {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.getLdsSpouseSealings(true).add(s);
-        s.setPlace(new StringWithCustomTags((String) null));
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "place", "no value");
+        s.setPlace(new StringWithCustomFacts((String) null));
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "place");
 
-        s.setPlace(new StringWithCustomTags(""));
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "place", "no value");
+        s.setPlace("");
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "place");
 
-        s.setPlace(new StringWithCustomTags("              "));
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "place", "no value");
+        s.setPlace("              ");
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "place");
 
-        s.setPlace(new StringWithCustomTags("Frying Pan"));
-        rootValidator.validate();
+        s.setPlace("Frying Pan");
+        validator.validate();
         assertNoIssues();
     }
 
@@ -181,20 +191,28 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     public void testStatus() {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.getLdsSpouseSealings(true).add(s);
-        s.setStatus(new StringWithCustomTags((String) null));
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "status", "no value");
+        s.setStatus(new StringWithCustomFacts((String) null));
+        validator.validate();
+        assertNoIssues();
 
-        s.setStatus(new StringWithCustomTags(""));
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "status", "no value");
+        s.setStatus("");
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.ILLEGAL_VALUE, "status");
 
-        s.setStatus(new StringWithCustomTags("              "));
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "status", "no value");
+        s.setStatus("              ");
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.ILLEGAL_VALUE, "status");
 
-        s.setStatus(new StringWithCustomTags("Frying Pan"));
-        rootValidator.validate();
+        s.setStatus("Frying Pan");
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.ILLEGAL_VALUE, "status");
+
+        s.setStatus(LdsSpouseSealingDateStatus.DNS_CAN.getCode());
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "date");
+
+        s.setDate("1 JAN 1990");
+        validator.validate();
         assertNoIssues();
     }
 
@@ -205,20 +223,20 @@ public class LdsSpouseSealingValidatorTest extends AbstractValidatorTestCase {
     public void testTemple() {
         LdsSpouseSealing s = new LdsSpouseSealing();
         f.getLdsSpouseSealings(true).add(s);
-        s.setTemple(new StringWithCustomTags((String) null));
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "temple", "no value");
+        s.setTemple(new StringWithCustomFacts((String) null));
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "temple");
 
-        s.setTemple(new StringWithCustomTags(""));
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "temple", "no value");
+        s.setTemple("");
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "temple");
 
-        s.setTemple(new StringWithCustomTags("              "));
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "temple", "no value");
+        s.setTemple("              ");
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, s, ProblemCode.MISSING_REQUIRED_VALUE, "temple");
 
-        s.setTemple(new StringWithCustomTags("Frying Pan"));
-        rootValidator.validate();
+        s.setTemple("Frying Pan");
+        validator.validate();
         assertNoIssues();
     }
 }

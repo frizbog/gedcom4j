@@ -29,9 +29,9 @@ package org.gedcom4j.parser;
 import java.util.List;
 
 import org.gedcom4j.model.ChangeDate;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 
 /**
  * A parser for {@link ChangeDate} objects
@@ -61,13 +61,19 @@ class ChangeDateParser extends AbstractParser<ChangeDate> {
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.DATE.equalsText(ch.getTag())) {
-                    loadInto.setDate(new StringWithCustomTags(ch.getValue()));
-                    if (ch.getChildren() != null && !ch.getChildren().isEmpty()) {
-                        loadInto.setTime(new StringWithCustomTags(ch.getChildren().get(0)));
+                    loadInto.setDate(new StringWithCustomFacts(ch.getValue()));
+                    if (ch.getChildren() != null) {
+                        for (StringTree gch : ch.getChildren()) {
+                            if ("TIME".equals(gch.getTag())) {
+                                loadInto.setTime(parseStringWithCustomFacts(gch));
+                            } else {
+                                unknownTag(gch, loadInto.getDate());
+                            }
+                        }
                     }
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = loadInto.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = loadInto.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else {
                     unknownTag(ch, loadInto);
                 }

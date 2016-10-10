@@ -40,12 +40,35 @@ public class UserReference extends AbstractElement {
     /**
      * The reference number
      */
-    private StringWithCustomTags referenceNum;
+    private StringWithCustomFacts referenceNum;
 
     /**
      * The type of reference
      */
-    private StringWithCustomTags type;
+    private StringWithCustomFacts type;
+
+    /**
+     * Default constructor
+     */
+    public UserReference() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            the other object to copy
+     */
+    public UserReference(UserReference other) {
+        super(other);
+        if (other.referenceNum != null) {
+            referenceNum = new StringWithCustomFacts(other.referenceNum);
+        }
+        if (other.type != null) {
+            type = new StringWithCustomFacts(other.type);
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -84,7 +107,7 @@ public class UserReference extends AbstractElement {
      *
      * @return the reference num
      */
-    public StringWithCustomTags getReferenceNum() {
+    public StringWithCustomFacts getReferenceNum() {
         return referenceNum;
     }
 
@@ -93,7 +116,7 @@ public class UserReference extends AbstractElement {
      *
      * @return the type
      */
-    public StringWithCustomTags getType() {
+    public StringWithCustomFacts getType() {
         return type;
     }
 
@@ -115,7 +138,17 @@ public class UserReference extends AbstractElement {
      * @param referenceNum
      *            the new reference num
      */
-    public void setReferenceNum(StringWithCustomTags referenceNum) {
+    public void setReferenceNum(String referenceNum) {
+        this.referenceNum = referenceNum == null ? null : new StringWithCustomFacts(referenceNum);
+    }
+
+    /**
+     * Sets the reference num.
+     *
+     * @param referenceNum
+     *            the new reference num
+     */
+    public void setReferenceNum(StringWithCustomFacts referenceNum) {
         this.referenceNum = referenceNum;
     }
 
@@ -125,7 +158,17 @@ public class UserReference extends AbstractElement {
      * @param type
      *            the new type
      */
-    public void setType(StringWithCustomTags type) {
+    public void setType(String type) {
+        this.type = type == null ? null : new StringWithCustomFacts(type);
+    }
+
+    /**
+     * Sets the type.
+     *
+     * @param type
+     *            the new type
+     */
+    public void setType(StringWithCustomFacts type) {
         this.type = type;
     }
 
@@ -146,9 +189,9 @@ public class UserReference extends AbstractElement {
             builder.append(type);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("customFacts=");
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

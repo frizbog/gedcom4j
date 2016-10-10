@@ -27,14 +27,12 @@
 package org.gedcom4j.validate;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.PersonalName;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
+import org.gedcom4j.validate.Validator.Finding;
 import org.junit.Test;
 
 /**
@@ -51,7 +49,7 @@ public class Issue111Test {
     public void testRemoveDupNames() {
         Gedcom g = new Gedcom();
         Submitter subm = new Submitter();
-        subm.setName(new StringWithCustomTags("Sean /Connery/"));
+        subm.setName("Sean /Connery/");
         subm.setXref("@SUBM@");
         g.getSubmitters().put("@SUBM@", subm);
         Individual i = new Individual();
@@ -63,13 +61,15 @@ public class Issue111Test {
         pn2.setBasic("Duncan /Highlander/");
         i.getNames().add(pn2);
         g.getIndividuals().put(i.getXref(), i);
-        GedcomValidator gv = new GedcomValidator(g);
+
+        Validator gv = new Validator(g);
+        gv.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gv.validate();
-        assertFalse(gv.hasErrors());
-        assertFalse(gv.hasWarnings());
-        assertTrue(gv.hasInfo());
-        assertEquals(1, gv.getFindings().size());
-        assertEquals("INFO: 1 duplicate names found and removed (Duncan /Highlander/)", gv.getFindings().get(0).toString());
+        assertEquals(1, gv.getResults().getAllFindings().size());
+        Finding f = gv.getResults().getAllFindings().get(0);
+        assertEquals(Severity.ERROR, f.getSeverity());
+        assertEquals(ProblemCode.DUPLICATE_VALUE.getCode(), f.getProblemCode());
+        assertEquals("names", f.getFieldNameOfConcern());
         assertEquals("There can be only one", 1, i.getNames().size());
     }
 

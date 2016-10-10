@@ -213,7 +213,7 @@ public class RelationshipCalculatorTest {
         assertEquals(steven, r.getIndividual1());
         assertEquals(nancy, r.getIndividual2());
         assertNotNull(r.getChain());
-        assertEquals("The relationship length should be two hops long after collapsing", 1, r.getChain().size());
+        assertEquals("The relationship length should be 1 hop long after collapsing", 1, r.getChain().size());
         assertEquals("The relationship should be a great-grandfather/great-granddaughter one", GREAT_GRANDDAUGHTER, r.getChain()
                 .get(0).getName());
     }
@@ -261,7 +261,7 @@ public class RelationshipCalculatorTest {
         assertEquals(steven, r.getIndividual1());
         assertEquals(alex, r.getIndividual2());
         assertNotNull(r.getChain());
-        assertEquals("The relationship length should be two hops long after collapsing", 1, r.getChain().size());
+        assertEquals("The relationship length should be one hop long after collapsing", 1, r.getChain().size());
         assertEquals("The relationship should be a great-great-grandfather/great-great-grandfather one", GREAT_GREAT_GRANDSON, r
                 .getChain().get(0).getName());
     }
@@ -309,7 +309,7 @@ public class RelationshipCalculatorTest {
         assertEquals(kenneth, r.getIndividual1());
         assertEquals(alex, r.getIndividual2());
         assertNotNull(r.getChain());
-        assertEquals("The relationship length should be two hops long after collapsing", 1, r.getChain().size());
+        assertEquals("The relationship length should be 1 hops long after collapsing", 1, r.getChain().size());
         assertEquals("The relationship should be a great-great-great-grandfather/great-great-great-grandfather one",
                 GREAT_GREAT_GREAT_GRANDSON, r.getChain().get(0).getName());
     }
@@ -357,7 +357,7 @@ public class RelationshipCalculatorTest {
         assertEquals(abigail, r.getIndividual1());
         assertEquals(alex, r.getIndividual2());
         assertNotNull(r.getChain());
-        assertEquals("The relationship length should be four hops long (after collapsing)", 1, r.getChain().size());
+        assertEquals("The relationship length should be one hops long (after collapsing)", 1, r.getChain().size());
         assertEquals("The relationship should be an great-great-grandmother/great-great-grandson one", GREAT_GREAT_GRANDSON, r
                 .getChain().get(0).getName());
 

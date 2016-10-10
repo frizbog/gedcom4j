@@ -28,13 +28,12 @@ package org.gedcom4j.parser;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Gedcom;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteRecord;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -63,7 +62,6 @@ public class StressFileSpecialCharacterReadTest {
     public static void setUpClass() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/TGC551.ged");
-        assertTrue(gp.getErrors().isEmpty());
         g = gp.getGedcom();
     }
 
@@ -80,7 +78,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsE0() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // E0 (Unicode: hook above, 0309) low rising tone mark
@@ -100,7 +98,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsE1() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // E1 (Unicode: grave, 0300) grave accent
@@ -120,7 +118,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsE2() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // E2 (Unicode: acute, 0301) acute accent
@@ -140,7 +138,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsE3() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
         // E3 (Unicode: circumflex, 0302) circumflex accent
         assertEqualsCharByChar("     \u00C2B\u0302\u0108D\u0302\u00CAF\u0302\u011C\u0124\u00CE\u0134K\u0302L\u0302M\u0302", note
@@ -159,7 +157,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsE4() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // E4 (Unicode: tilde, 0303) tilde
@@ -179,7 +177,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsE5() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // E5 (Unicode: macron, 0304) macron
@@ -199,7 +197,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsE6() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // E6 (Unicode: breve, 0306) breve
@@ -219,7 +217,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsE7() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // E7 (Unicode: dot above, 0307) dot above
@@ -239,7 +237,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsE8() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // E8 (Unicode: diaeresis, 0308) umlaut (dieresis)
@@ -259,7 +257,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsE9() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // E9 (Unicode: caron, 030C) hacek - some fonts render this like an upper right apostrophe instead of a normal
@@ -280,7 +278,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsEA() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // EA (Unicode: ring above, 030A) circle above (angstrom)
@@ -300,7 +298,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsEB() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // EB (Unicode: ligature left half, FE20) ligature, left half
@@ -320,7 +318,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsEC() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // EC (Unicode: ligature right half, FE21) ligature, right half
@@ -340,7 +338,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsED() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // ED (Unicode: comma above right, 0315) high comma, off center
@@ -360,7 +358,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsEE() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // EE (Unicode: double acute, 030B) double acute accent
@@ -380,7 +378,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsEF() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // EF (Unicode: candrabindu, 0310) candrabindu
@@ -400,7 +398,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsF0() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // F0 (Unicode: cedilla, 0327) cedilla
@@ -420,7 +418,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsF1() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // F1 (Unicode: ogonek, 0328) right hook
@@ -440,7 +438,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsF2() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // F2 (Unicode: dot below, 0323) dot below
@@ -460,7 +458,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsF3() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // F3 (Unicode: diaeresis below, 0324) double dot below
@@ -480,7 +478,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsF4() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // F4 (Unicode: ring below, 0325) circle below
@@ -500,7 +498,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsF5() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // F5 (Unicode: double low line, 0333) double underscore
@@ -520,7 +518,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsF6() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // F6 (Unicode: line below, 0332) underscore
@@ -540,7 +538,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsF7() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // F7 (Unicode: comma below, 0326) left hook
@@ -560,7 +558,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsF8() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // F8 (Unicode: left half ring below, 031C) right cedilla
@@ -580,7 +578,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsF9() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // F9 (Unicode: breve below, 032E) half circle below
@@ -600,7 +598,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsFA() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // FA (Unicode: double tilde left half, FE22) double tilde, left half
@@ -620,7 +618,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsFB() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // FB (Unicode: double tilde right half, FE23) double tilde, right half
@@ -640,7 +638,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void testDiacriticsFE() {
-        Note note = g.getNotes().get("@N24@");
+        NoteRecord note = g.getNotes().get("@N24@");
         assertEquals(179, note.getLines().size());
 
         // FE (Unicode: comma above, 0313) high comma, centered
@@ -667,7 +665,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @Test
     public void textExtended() {
-        Note note = g.getNotes().get("@N25@"); // This one has lots of extended characters
+        NoteRecord note = g.getNotes().get("@N25@"); // This one has lots of extended characters
         assertEquals(43, note.getLines().size());
         assertEqualsCharByChar("A1 slash l - uppercase (\u0141)", note.getLines().get(4));
         assertEqualsCharByChar("A2 slash o - uppercase (\u00D8)", note.getLines().get(5));

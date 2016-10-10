@@ -41,9 +41,30 @@ public abstract class AbstractNotesElement extends AbstractElement implements Ha
     private static final long serialVersionUID = 2539148787102235445L;
 
     /**
-     * Notes on this element
+     * NoteStructure structures on this element
      */
-    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
+    private List<NoteStructure> noteStructures = getNoteStructures(Options.isCollectionInitializationEnabled());
+
+    /** Default constructor */
+    public AbstractNotesElement() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            the other object being copeied
+     */
+    public AbstractNotesElement(AbstractNotesElement other) {
+        super(other);
+        if (other.getNoteStructures() != null) {
+            noteStructures = new ArrayList<>();
+            for (NoteStructure n : other.getNoteStructures()) {
+                noteStructures.add(new NoteStructure(n));
+            }
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -60,37 +81,39 @@ public abstract class AbstractNotesElement extends AbstractElement implements Ha
             return false;
         }
         AbstractNotesElement other = (AbstractNotesElement) obj;
-        if (notes == null) {
-            if (other.notes != null) {
+        if (noteStructures == null) {
+            if (other.noteStructures != null) {
                 return false;
             }
-        } else if (!notes.equals(other.notes)) {
+        } else if (!noteStructures.equals(other.noteStructures)) {
             return false;
         }
         return true;
     }
 
     /**
-     * Gets the notes.
+     * Gets the noteStructures.
      *
-     * @return the notes
+     * @return the noteStructures
      */
-    public List<Note> getNotes() {
-        return notes;
+    @Override
+    public List<NoteStructure> getNoteStructures() {
+        return noteStructures;
     }
 
     /**
-     * Get the notes
+     * Get the noteStructures
      * 
      * @param initializeIfNeeded
      *            true if this collection should be created on-the-fly if it is currently null
-     * @return the notes
+     * @return the noteStructures
      */
-    public List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<>(0);
+    @Override
+    public List<NoteStructure> getNoteStructures(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && noteStructures == null) {
+            noteStructures = new ArrayList<>(0);
         }
-        return notes;
+        return noteStructures;
     }
 
     /**
@@ -100,19 +123,8 @@ public abstract class AbstractNotesElement extends AbstractElement implements Ha
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((notes == null) ? 0 : notes.hashCode());
+        result = prime * result + (noteStructures == null ? 0 : noteStructures.hashCode());
         return result;
-    }
-
-    /**
-     * Set the notes
-     * 
-     * @param theNotes
-     *            the notes to set
-     */
-    public void setNotes(List<Note> theNotes) {
-        getNotes(true).clear();
-        notes.addAll(theNotes);
     }
 
     /**
@@ -122,14 +134,14 @@ public abstract class AbstractNotesElement extends AbstractElement implements Ha
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append(getClass().getSimpleName()).append(" [");
-        if (notes != null) {
-            builder.append("notes=");
-            builder.append(notes);
+        if (noteStructures != null) {
+            builder.append("noteStructures=");
+            builder.append(noteStructures);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("customFacts=");
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

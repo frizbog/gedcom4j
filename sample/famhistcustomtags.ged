@@ -1,0 +1,202 @@
+0 HEAD
+1 SOUR FAMILY_HISTORIAN
+2 VERS 6.2.2
+2 NAME Family Historian
+2 CORP Calico Pie Limited
+1 FILE famhistcustomtags.ged
+1 GEDC
+2 VERS 5.5
+2 FORM LINEAGE-LINKED
+2 _VAR DSR
+1 CHAR UTF-8
+1 _UID {C2159006-9E8E-4149-87DB-36E5F6D08A37}
+1 _ROOT @I1@
+1 _LIST Key Individuals
+2 _FLAG E
+2 _NOTE Named List Note in Properties 
+2 _IDS I3,I2
+3 _NOTE Named List Note for Record I2
+2 _IDS I19,I15
+0 @SUBM001@ SUBM
+1 NAME Matt /Harrah/
+1 _EMAIL info@internet.com
+1 _WEB http://www.internet.com
+0 @R0000@ REPO
+1 NAME National Archives
+1 _EMAIL info@internet.com
+1 _WEB http://www.internet.com
+0 @I1@ INDI
+1 NAME Tom /Thompson/
+2 _USED Tony
+1 SEX M
+1 _ATTR wasd
+2 TYPE Ordinance
+2 DATE 12 MAR 1934
+1 BIRT
+2 _EMAIL info@internet.com
+2 _WEB http://www.internet.com
+2 DATE 1 JAN 1940
+2 PLAC Ansted, WV, USA
+2 _SHAN Wally Witness
+3 ROLE Disinterested Observer
+3 NOTE It was sorta awkward
+2 _SHAR @I3@
+3 ROLE Birthing Coach
+3 NOTE Passed out during delivery
+1 _ATTR xxx
+2 TYPE DNA Markers
+2 DATE 2 FEB 1942
+2 PLAC Charleston, WV, USA
+2 _EMAIL info@internet.com
+2 _WEB http://www.internet.com
+1 _ATTR grand poobah
+2 TYPE Elected
+2 DATE 3 MAR 1943
+2 PLAC rhode island
+1 FACT
+2 TYPE Tomato
+2 _SENT He was {a/an value} {place} {age}
+2 _EMAIL info@internet.com
+2 _WEB http://www.internet.com
+1 EMIG
+2 PLAC Liverpool
+2 _PLAC America
+1 IMMI
+2 PLAC America
+2 _PLAC Liverpool
+1 _ATTR waiter
+2 TYPE Employment
+2 DATE 5 MAY 1945
+2 PLAC Montana
+1 _ATTR 5' 1"
+2 TYPE Height
+2 DATE 6 JUN 1946
+2 PLAC Maine
+1 _ATTR QWERTY
+2 TYPE Mission (LDS)
+2 DATE 7 AUG 1947
+2 PLAC Connecticut
+1 _ATTR Caries
+2 TYPE Medical Condition
+2 DATE 8 AUG 1948
+2 PLAC Florida
+1 _ATTR Coast Guard
+2 TYPE Military Service
+2 DATE 9 SEP 1949
+2 PLAC Kansas
+1 _ATTR YYY
+2 TYPE Destination
+2 DATE 4 APR 1950
+2 PLAC Lima, Peru
+2 NOTE Not the bean.
+1 _ATTR 99999
+2 TYPE Military ID
+2 DATE 10 OCT 1950
+2 PLAC North Carolina
+1 _ATTR Tom Thompson (a complete stranger)
+2 TYPE Namesake
+2 DATE 12 DEC 1952
+2 PLAC Nice, France
+1 NATI Martian
+2 NOTE asdf
+1 FAMC @F1@
+2 _PEDI Adopted (father)
+2 _PEDI Step (mother)
+1 SOUR @S1@
+2 PAGE The whole thing
+2 DATA
+3 DATE 1985
+3 TEXT See this?
+2 QUAY 3
+1 OBJE @O1@
+2 _ASID 1
+1 _FLGS
+2 __1871_CENSUS 1871 Census
+2 __1881_CENSUS 1881 Census
+1 CHAN
+2 DATE 27 SEP 2016
+3 TIME 21:29:01
+0 @I2@ INDI
+1 NAME Terry /Thompson/
+1 SEX M
+1 FAMS @F1@
+0 @I3@ INDI
+1 NAME Theresa /Taylor/
+1 SEX F
+1 FAMS @F1@
+0 @F1@ FAM
+1 HUSB @I2@
+1 WIFE @I3@
+1 CHIL @I1@
+1 _STAT Never Married
+0 @O1@ OBJE
+1 FORM jpeg
+1 TITL photo
+1 _NOTE Picture is a bit small and may not be him.
+1 _FILE photo.jpg
+1 FILE photo.jpg
+1 _DATE 7 JUL 1977
+1 _KEYS Picture
+1 NOTE This is a note
+2 _ASID 1
+2 _AREA {154,46,243,127}
+2 _EXCL ALL
+2 _CAPT Y
+1 CHAN
+2 DATE 27 SEP 2016
+3 TIME 21:31:06
+0 @S1@ SOUR
+1 AUTH Diedre
+1 TITL Rumor
+1 ABBR Diedre said
+1 _TYPE Hearsay
+1 TEXT This is his picture
+1 NOTE Diedre is known not to be very reliable
+1 CHAN
+2 DATE 27 SEP 2016
+3 TIME 21:28:11
+0 @P1@ _PLAC Ansted, WV, USA
+1 CHAN
+2 DATE 27 SEP 2016
+3 TIME 20:45:35
+0 @P2@ _PLAC Lima, Peru
+1 CHAN
+2 DATE 27 SEP 2016
+3 TIME 20:53:56
+0 @P3@ _PLAC Charleston, WV, USA
+1 CHAN
+2 DATE 27 SEP 2016
+3 TIME 20:54:36
+0 @P4@ _PLAC rhode island
+1 CHAN
+2 DATE 27 SEP 2016
+3 TIME 21:01:31
+0 @P5@ _PLAC Montana
+1 CHAN
+2 DATE 27 SEP 2016
+3 TIME 21:01:50
+0 @P6@ _PLAC Maine
+1 CHAN
+2 DATE 27 SEP 2016
+3 TIME 21:02:15
+0 @P7@ _PLAC Connecticut
+1 CHAN
+2 DATE 27 SEP 2016
+3 TIME 21:02:56
+0 @P8@ _PLAC Florida
+1 CHAN
+2 DATE 27 SEP 2016
+3 TIME 21:03:44
+0 @P9@ _PLAC North Carolina
+1 CHAN
+2 DATE 27 SEP 2016
+3 TIME 21:04:03
+0 @P10@ _PLAC Kansas
+1 CHAN
+2 DATE 27 SEP 2016
+3 TIME 21:04:23
+0 @P11@ _PLAC Nice, France
+1 CHAN
+2 DATE 27 SEP 2016
+3 TIME 21:05:21
+0 TRLR

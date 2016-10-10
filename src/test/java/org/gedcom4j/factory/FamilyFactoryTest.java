@@ -37,6 +37,7 @@ import java.util.Date;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualReference;
 import org.junit.Test;
 
 /**
@@ -71,10 +72,10 @@ public class FamilyFactoryTest {
         Family f2 = g.getFamilies().get(f.getXref());
         assertSame(f2, f);
 
-        assertSame(father, f.getHusband());
-        assertSame(mother, f.getWife());
-        assertTrue(f.getChildren().contains(kid1));
-        assertTrue(f.getChildren().contains(kid2));
+        assertSame(father, f.getHusband().getIndividual());
+        assertSame(mother, f.getWife().getIndividual());
+        assertTrue(f.getChildren().contains(new IndividualReference(kid1)));
+        assertTrue(f.getChildren().contains(new IndividualReference(kid2)));
         assertEquals(2, f.getChildren().size());
 
         assertSame(father.getFamiliesWhereSpouse().get(0).getFamily(), f);

@@ -66,9 +66,9 @@ public class StringTreeTest {
         st2.setLevel(1);
         assertEquals(st1, st2);
 
-        st1.setId("Frying Pan");
+        st1.setXref("Frying Pan");
         assertFalse(st1.equals(st2));
-        st2.setId("Frying Pan");
+        st2.setXref("Frying Pan");
         assertEquals(st1, st2);
 
         st1.setLineNum(2);
@@ -103,9 +103,9 @@ public class StringTreeTest {
         st2.setLevel(1);
         assertEquals(st1.hashCode(), st2.hashCode());
 
-        st1.setId("Frying Pan");
+        st1.setXref("Frying Pan");
         assertTrue(st1.hashCode() != st2.hashCode());
-        st2.setId("Frying Pan");
+        st2.setXref("Frying Pan");
         assertEquals(st1.hashCode(), st2.hashCode());
 
         st1.setLineNum(2);
@@ -129,7 +129,7 @@ public class StringTreeTest {
 
         st.getChildren(true).add(new StringTree());
         st.setLevel(1);
-        st.setId("Frying Pan");
+        st.setXref("Frying Pan");
         st.setLineNum(2);
         st.setValue("Test");
         assertEquals("Line 2: 1 Frying Pan (null tag) Test\nLine 0: 0 (null tag) (null value)", st.toString());
@@ -151,29 +151,29 @@ public class StringTreeTest {
         Gedcom g = gp.getGedcom();
 
         for (Family f : g.getFamilies().values()) {
-            assertNotNull(f.getCustomTags(true).toString());
-            assertFalse(0 == f.getCustomTags().hashCode());
+            assertNotNull(f.getCustomFacts(true).toString());
+            assertFalse(0 == f.getCustomFacts().hashCode());
 
             assertNotNull(f.toString());
             assertFalse(0 == f.hashCode());
         }
         for (Individual i : g.getIndividuals().values()) {
-            assertNotNull(i.getCustomTags(true).toString());
-            assertFalse(0 == i.getCustomTags().hashCode());
+            assertNotNull(i.getCustomFacts(true).toString());
+            assertFalse(0 == i.getCustomFacts().hashCode());
 
             assertNotNull(i.toString());
             assertFalse(0 == i.hashCode());
         }
         for (Multimedia m : g.getMultimedia().values()) {
-            assertNotNull(m.getCustomTags(true).toString());
-            assertFalse(0 == m.getCustomTags().hashCode());
+            assertNotNull(m.getCustomFacts(true).toString());
+            assertFalse(0 == m.getCustomFacts().hashCode());
 
             assertNotNull(m.toString());
             assertFalse(0 == m.hashCode());
         }
-        for (Note n : g.getNotes().values()) {
-            assertNotNull(n.getCustomTags(true).toString());
-            assertFalse(0 == n.getCustomTags().hashCode());
+        for (NoteRecord n : g.getNotes().values()) {
+            assertNotNull(n.getCustomFacts(true).toString());
+            assertFalse(0 == n.getCustomFacts().hashCode());
 
             assertNotNull(n.toString());
             assertFalse(0 == n.hashCode());

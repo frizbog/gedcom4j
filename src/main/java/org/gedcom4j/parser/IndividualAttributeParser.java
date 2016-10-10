@@ -31,12 +31,12 @@ import java.util.List;
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.Address;
 import org.gedcom4j.model.IndividualAttribute;
-import org.gedcom4j.model.IndividualAttributeType;
-import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.MultimediaReference;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.Place;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
+import org.gedcom4j.model.enumerations.IndividualAttributeType;
 
 /**
  * Parser for {@link IndividualAttribute} objects
@@ -67,44 +67,44 @@ class IndividualAttributeParser extends AbstractParser<IndividualAttribute> {
                     + ", but FACT was not added until 5.5.1."
                     + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
         }
-        loadInto.setDescription(new StringWithCustomTags(stringTree.getValue()));
+        loadInto.setDescription(new StringWithCustomFacts(stringTree.getValue()));
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.TYPE.equalsText(ch.getTag())) {
-                    loadInto.setSubType(new StringWithCustomTags(ch));
+                    loadInto.setSubType(parseStringWithCustomFacts(ch));
                 } else if (Tag.DATE.equalsText(ch.getTag())) {
-                    loadInto.setDate(new StringWithCustomTags(ch));
+                    loadInto.setDate(parseStringWithCustomFacts(ch));
                 } else if (Tag.PLACE.equalsText(ch.getTag())) {
                     Place place = new Place();
                     loadInto.setPlace(place);
                     new PlaceParser(gedcomParser, ch, place).parse();
                 } else if (Tag.AGE.equalsText(ch.getTag())) {
-                    loadInto.setAge(new StringWithCustomTags(ch));
+                    loadInto.setAge(parseStringWithCustomFacts(ch));
                 } else if (Tag.CAUSE.equalsText(ch.getTag())) {
-                    loadInto.setCause(new StringWithCustomTags(ch));
+                    loadInto.setCause(parseStringWithCustomFacts(ch));
                 } else if (Tag.SOURCE.equalsText(ch.getTag())) {
                     List<AbstractCitation> citations = loadInto.getCitations(true);
                     new CitationListParser(gedcomParser, ch, citations).parse();
                 } else if (Tag.AGENCY.equalsText(ch.getTag())) {
-                    loadInto.setRespAgency(new StringWithCustomTags(ch));
+                    loadInto.setRespAgency(parseStringWithCustomFacts(ch));
                 } else if (Tag.PHONE.equalsText(ch.getTag())) {
-                    loadInto.getPhoneNumbers(true).add(new StringWithCustomTags(ch));
+                    loadInto.getPhoneNumbers(true).add(parseStringWithCustomFacts(ch));
                 } else if (Tag.WEB_ADDRESS.equalsText(ch.getTag())) {
-                    loadInto.getWwwUrls(true).add(new StringWithCustomTags(ch));
+                    loadInto.getWwwUrls(true).add(parseStringWithCustomFacts(ch));
                     if (g55()) {
                         addWarning("GEDCOM version is 5.5 but WWW URL was specified for " + loadInto.getType()
                                 + " attribute on line " + ch.getLineNum() + ", which is a GEDCOM 5.5.1 feature."
                                 + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.FAX.equalsText(ch.getTag())) {
-                    loadInto.getFaxNumbers(true).add(new StringWithCustomTags(ch));
+                    loadInto.getFaxNumbers(true).add(parseStringWithCustomFacts(ch));
                     if (g55()) {
                         addWarning("GEDCOM version is 5.5 but fax was specified for " + loadInto.getType() + " attribute on line "
                                 + ch.getLineNum() + ", which is a GEDCOM 5.5.1 feature."
                                 + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.EMAIL.equalsText(ch.getTag())) {
-                    loadInto.getEmails(true).add(new StringWithCustomTags(ch));
+                    loadInto.getEmails(true).add(parseStringWithCustomFacts(ch));
                     if (g55()) {
                         addWarning("GEDCOM version is 5.5 but email was specified for " + loadInto.getType() + " attribute on line "
                                 + ch.getLineNum() + ", which is a GEDCOM 5.5.1 feature."
@@ -115,14 +115,14 @@ class IndividualAttributeParser extends AbstractParser<IndividualAttribute> {
                     loadInto.setAddress(address);
                     new AddressParser(gedcomParser, ch, address).parse();
                 } else if (Tag.OBJECT_MULTIMEDIA.equalsText(ch.getTag())) {
-                    List<Multimedia> multimedia = loadInto.getMultimedia(true);
+                    List<MultimediaReference> multimedia = loadInto.getMultimedia(true);
                     new MultimediaLinkParser(gedcomParser, ch, multimedia).parse();
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = loadInto.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = loadInto.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.CONCATENATION.equalsText(ch.getTag())) {
                     if (loadInto.getDescription() == null) {
-                        loadInto.setDescription(new StringWithCustomTags(ch));
+                        loadInto.setDescription(parseStringWithCustomFacts(ch));
                     } else {
                         loadInto.getDescription().setValue(loadInto.getDescription().getValue() + ch.getValue());
                     }

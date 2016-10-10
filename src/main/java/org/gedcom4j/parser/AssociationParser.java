@@ -30,9 +30,8 @@ import java.util.List;
 
 import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.Association;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * @author frizbog
@@ -63,15 +62,15 @@ class AssociationParser extends AbstractParser<Association> {
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.RELATIONSHIP.equalsText(ch.getTag())) {
-                    loadInto.setRelationship(new StringWithCustomTags(ch));
+                    loadInto.setRelationship(parseStringWithCustomFacts(ch));
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = loadInto.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = loadInto.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.SOURCE.equalsText(ch.getTag())) {
                     List<AbstractCitation> citations = loadInto.getCitations(true);
                     new CitationListParser(gedcomParser, ch, citations).parse();
                 } else if (Tag.TYPE.equalsText(ch.getTag())) {
-                    loadInto.setAssociatedEntityType(new StringWithCustomTags(ch));
+                    loadInto.setAssociatedEntityType(parseStringWithCustomFacts(ch));
                 } else {
                     unknownTag(ch, loadInto);
                 }

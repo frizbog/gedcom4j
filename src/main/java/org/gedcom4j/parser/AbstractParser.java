@@ -29,16 +29,20 @@ package org.gedcom4j.parser;
 import java.util.List;
 
 import org.gedcom4j.model.AbstractElement;
+import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.HasCustomFacts;
 import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.MultiStringWithCustomFacts;
 import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.NoteRecord;
 import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.Submitter;
-import org.gedcom4j.model.SupportedVersion;
+import org.gedcom4j.model.enumerations.SupportedVersion;
 
 /**
  * A base class for all Parser subclasses.
@@ -47,6 +51,7 @@ import org.gedcom4j.model.SupportedVersion;
  *            The type of object this parser can load into
  * @author frizbog
  */
+@SuppressWarnings("PMD.GodClass")
 abstract class AbstractParser<T> {
     /** The {@link StringTree} to be parsed */
     protected final StringTree stringTree;
@@ -68,7 +73,7 @@ abstract class AbstractParser<T> {
      *            the object we are loading data into
      */
     AbstractParser(GedcomParser gedcomParser, StringTree stringTree, T loadInto) {
-        this.gedcomParser = (gedcomParser == null && this instanceof GedcomParser) ? ((GedcomParser) this) : gedcomParser;
+        this.gedcomParser = gedcomParser == null && this instanceof GedcomParser ? (GedcomParser) this : gedcomParser;
         this.stringTree = stringTree;
         this.loadInto = loadInto;
     }
@@ -100,8 +105,9 @@ abstract class AbstractParser<T> {
      */
     protected final boolean g55() {
         Gedcom g = gedcomParser.getGedcom();
-        return g != null && g.getHeader() != null && g.getHeader().getGedcomVersion() != null && SupportedVersion.V5_5.equals(g
-                .getHeader().getGedcomVersion().getVersionNumber());
+        return g != null && g.getHeader() != null && g.getHeader().getGedcomVersion() != null && g.getHeader().getGedcomVersion()
+                .getVersionNumber() != null && SupportedVersion.V5_5.toString().equals(g.getHeader().getGedcomVersion()
+                        .getVersionNumber().getValue());
     }
 
     /**
@@ -158,6 +164,23 @@ abstract class AbstractParser<T> {
     }
 
     /**
+     * Get a note record by their xref, adding them to the gedcom collection of {@link NoteRecord}s if needed.
+     * 
+     * @param xref
+     *            the xref of the note record
+     * @return the note record with the specified xref
+     */
+    protected NoteRecord getNoteRecord(String xref) {
+        NoteRecord nr;
+        nr = gedcomParser.getGedcom().getNotes().get(xref);
+        if (nr == null) {
+            nr = new NoteRecord(xref);
+            gedcomParser.getGedcom().getNotes().put(xref, nr);
+        }
+        return nr;
+    }
+
+    /**
      * Get a repository by its xref, adding it to the gedcom collection of repositories if needed.
      * 
      * @param xref
@@ -203,7 +226,7 @@ abstract class AbstractParser<T> {
         s = gedcomParser.getGedcom().getSubmitters().get(xref);
         if (s == null) {
             s = new Submitter();
-            s.setName(new StringWithCustomTags("UNSPECIFIED"));
+            s.setName("UNSPECIFIED");
             s.setXref(xref);
             gedcomParser.getGedcom().getSubmitters().put(xref, s);
         }
@@ -249,6 +272,64 @@ abstract class AbstractParser<T> {
     }
 
     /**
+     * Load multiple (continued) lines of text from a string tree node along with custom facts from that node
+     * 
+     * @param stringTreeWithLinesOfText
+     *            the string tree with lots of lines of text
+     * @param multiString
+     *            the multi-line object (with custom facts) that we're loading into
+     */
+    protected void loadMultiStringWithCustomFacts(StringTree stringTreeWithLinesOfText, MultiStringWithCustomFacts multiString) {
+        List<String> listOfString = multiString.getLines(true);
+        if (stringTreeWithLinesOfText.getValue() != null) {
+            listOfString.add(stringTreeWithLinesOfText.getValue());
+        }
+        if (stringTreeWithLinesOfText.getChildren() != null) {
+            for (StringTree ch : stringTreeWithLinesOfText.getChildren()) {
+                if (Tag.CONTINUATION.equalsText(ch.getTag())) {
+                    if (ch.getValue() == null) {
+                        listOfString.add("");
+                    } else {
+                        listOfString.add(ch.getValue());
+                    }
+                } else if (Tag.CONCATENATION.equalsText(ch.getTag())) {
+                    // If there's no value to concatenate, ignore it
+                    if (ch.getValue() != null) {
+                        if (listOfString.isEmpty()) {
+                            listOfString.add(ch.getValue());
+                        } else {
+                            listOfString.set(listOfString.size() - 1, listOfString.get(listOfString.size() - 1) + ch.getValue());
+                        }
+                    }
+                } else {
+                    unknownTag(ch, multiString);
+                }
+            }
+        }
+    }
+
+    /**
+     * Helper method to take a string tree and all its children and load them into a StringWithCustomFacts object
+     * 
+     * @param ch
+     *            the string tree
+     * @return the constructed {@link StringWithCustomFacts}, with all the {@link CustomFact} objects built from the string tree's
+     *         children
+     */
+    protected StringWithCustomFacts parseStringWithCustomFacts(StringTree ch) {
+        StringWithCustomFacts swcf = new StringWithCustomFacts(ch.getValue());
+        if (ch.getChildren() != null) {
+            for (StringTree gch : ch.getChildren()) {
+                CustomFact cf = new CustomFact(gch.getTag());
+                swcf.getCustomFacts(true).add(cf);
+                cf.setXref(gch.getXref());
+                new CustomFactParser(gedcomParser, gch, cf).parse();
+            }
+        }
+        return swcf;
+    }
+
+    /**
      * Returns true if the node passed in uses a cross-reference to another node
      * 
      * @param st
@@ -268,16 +349,36 @@ abstract class AbstractParser<T> {
     }
 
     /**
+     * Load all the remaining children of this tag as custom tags
+     * 
+     * @param st
+     *            the string tree we're parsing
+     * @param into
+     *            what we're parsing all the custom tags into
+     */
+    protected void remainingChildrenAreCustomTags(StringTree st, HasCustomFacts into) {
+        if (st == null || st.getChildren() == null) {
+            return;
+        }
+        for (StringTree ch : st.getChildren()) {
+            unknownTag(ch, into);
+        }
+    }
+
+    /**
      * <p>
      * Default handler for a tag that the parser was not expecting to see.
      * </p>
      * <ul>
-     * <li>If the tag begins with an underscore, it is a user-defined tag, which is stored in the customTags collection of the
+     * <li>If custom tags are ignored in the parser (see {@link GedcomParser#isIgnoreCustomTags()}), the custom/unknown tag and all
+     * its children will be ignored, regardless of the value of the strict custom tags setting (because it doesn't make sense to be
+     * strict about tags that are being ignored).
+     * <li>If the tag begins with an underscore, it is a user-defined tag, which is stored in the customFacts collection of the
      * passed in element, and returns.</li>
      * <li>If {@link GedcomParser#isStrictCustomTags()} parsing is turned off (i.e., == false), it is treated as a user-defined tag
      * (despite the lack of beginning underscore) and treated like any other user-defined tag.</li>
      * <li>If {@link GedcomParser#isStrictCustomTags()} parsing is turned on (i.e., == true), it is treated as bad tag and an error
-     * is logged in the {@link GedcomParser#getErrors()} collection.</li>
+     * is logged in the {@link GedcomParser#getErrors()} collection, and then the tag and its children are ignored.</li>
      * </ul>
      * 
      * @param node
@@ -286,9 +387,22 @@ abstract class AbstractParser<T> {
      *            the element that the node is part of, so if it's a custom tag, this unknown tag can be added to this node's
      *            collection of custom tags
      */
-    protected void unknownTag(StringTree node, AbstractElement element) {
-        if (node.getTag().length() > 0 && (node.getTag().charAt(0) == '_') || !gedcomParser.isStrictCustomTags()) {
-            element.getCustomTags(true).add(node);
+    protected void unknownTag(StringTree node, HasCustomFacts element) {
+        if (gedcomParser.isIgnoreCustomTags()) {
+            return;
+        }
+        boolean beginsWithUnderscore = node.getTag().length() > 0 && node.getTag().charAt(0) == '_';
+        if (beginsWithUnderscore || !gedcomParser.isStrictCustomTags() || gedcomParser.isInsideCustomTag()) {
+            CustomFact cf = new CustomFact(node.getTag());
+            element.getCustomFacts(true).add(cf);
+            cf.setXref(node.getXref());
+            cf.setDescription(node.getValue());
+            // Save current value
+            boolean saveIsInsideCustomTag = gedcomParser.isInsideCustomTag();
+            gedcomParser.setInsideCustomTag(true);
+            new CustomFactParser(gedcomParser, node, cf).parse();
+            // Restore prior value
+            gedcomParser.setInsideCustomTag(saveIsInsideCustomTag);
             return;
         }
 
@@ -299,8 +413,8 @@ abstract class AbstractParser<T> {
         while (st.getParent() != null) {
             st = st.getParent();
             sb.append(", child of ").append(st.getTag() == null ? null : st.getTag());
-            if (st.getId() != null) {
-                sb.append(" ").append(st.getId());
+            if (st.getXref() != null) {
+                sb.append(" ").append(st.getXref());
             }
             sb.append(" on line ").append(st.getLineNum());
         }
@@ -311,4 +425,5 @@ abstract class AbstractParser<T> {
      * Parse the string tree passed into the constructor, and load it into the object model
      */
     abstract void parse();
+
 }

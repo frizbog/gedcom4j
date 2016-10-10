@@ -37,6 +37,7 @@ import org.gedcom4j.Options;
  * 
  * @author frizbog1
  */
+@SuppressWarnings("PMD.GodClass")
 public class Address extends AbstractElement {
     /**
      * Serial Version UID
@@ -46,37 +47,78 @@ public class Address extends AbstractElement {
     /**
      * Line one of the address
      */
-    private StringWithCustomTags addr1;
+    private StringWithCustomFacts addr1;
 
     /**
      * Line two of the address
      */
-    private StringWithCustomTags addr2;
+    private StringWithCustomFacts addr2;
+
+    /**
+     * Line three of the address
+     */
+    private StringWithCustomFacts addr3;
 
     /**
      * City
      */
-    private StringWithCustomTags city;
+    private StringWithCustomFacts city;
 
     /**
      * Country
      */
-    private StringWithCustomTags country;
+    private StringWithCustomFacts country;
 
     /**
-     * The lines of the address
+     * The lines of the address description
      */
     private List<String> lines = getLines(Options.isCollectionInitializationEnabled());
 
     /**
      * Postal code
      */
-    private StringWithCustomTags postalCode;
+    private StringWithCustomFacts postalCode;
 
     /**
      * State/province
      */
-    private StringWithCustomTags stateProvince;
+    private StringWithCustomFacts stateProvince;
+
+    /** Default constructor */
+    public Address() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public Address(Address other) {
+        super(other);
+        if (other.addr1 != null) {
+            addr1 = new StringWithCustomFacts(other.addr1);
+        }
+        if (other.addr2 != null) {
+            addr2 = new StringWithCustomFacts(other.addr2);
+        }
+        if (other.city != null) {
+            city = new StringWithCustomFacts(other.city);
+        }
+        if (other.country != null) {
+            country = new StringWithCustomFacts(other.country);
+        }
+        if (other.lines != null) {
+            lines = new ArrayList<>(other.lines);
+        }
+        if (other.postalCode != null) {
+            postalCode = new StringWithCustomFacts(other.postalCode);
+        }
+        if (other.stateProvince != null) {
+            stateProvince = new StringWithCustomFacts(other.stateProvince);
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -105,6 +147,13 @@ public class Address extends AbstractElement {
                 return false;
             }
         } else if (!addr2.equals(other.addr2)) {
+            return false;
+        }
+        if (addr3 == null) {
+            if (other.addr3 != null) {
+                return false;
+            }
+        } else if (!addr3.equals(other.addr3)) {
             return false;
         }
         if (city == null) {
@@ -150,7 +199,7 @@ public class Address extends AbstractElement {
      *
      * @return the addr line 1
      */
-    public StringWithCustomTags getAddr1() {
+    public StringWithCustomFacts getAddr1() {
         return addr1;
     }
 
@@ -159,8 +208,17 @@ public class Address extends AbstractElement {
      *
      * @return the addr line 2
      */
-    public StringWithCustomTags getAddr2() {
+    public StringWithCustomFacts getAddr2() {
         return addr2;
+    }
+
+    /**
+     * Get the addr3
+     * 
+     * @return the addr3
+     */
+    public StringWithCustomFacts getAddr3() {
+        return addr3;
     }
 
     /**
@@ -168,7 +226,7 @@ public class Address extends AbstractElement {
      *
      * @return the city
      */
-    public StringWithCustomTags getCity() {
+    public StringWithCustomFacts getCity() {
         return city;
     }
 
@@ -177,7 +235,7 @@ public class Address extends AbstractElement {
      *
      * @return the country
      */
-    public StringWithCustomTags getCountry() {
+    public StringWithCustomFacts getCountry() {
         return country;
     }
 
@@ -210,7 +268,7 @@ public class Address extends AbstractElement {
      *
      * @return the postal code
      */
-    public StringWithCustomTags getPostalCode() {
+    public StringWithCustomFacts getPostalCode() {
         return postalCode;
     }
 
@@ -219,7 +277,7 @@ public class Address extends AbstractElement {
      *
      * @return the state province
      */
-    public StringWithCustomTags getStateProvince() {
+    public StringWithCustomFacts getStateProvince() {
         return stateProvince;
     }
 
@@ -232,6 +290,7 @@ public class Address extends AbstractElement {
         int result = super.hashCode();
         result = prime * result + (addr1 == null ? 0 : addr1.hashCode());
         result = prime * result + (addr2 == null ? 0 : addr2.hashCode());
+        result = prime * result + (addr3 == null ? 0 : addr3.hashCode());
         result = prime * result + (city == null ? 0 : city.hashCode());
         result = prime * result + (country == null ? 0 : country.hashCode());
         result = prime * result + (lines == null ? 0 : lines.hashCode());
@@ -246,7 +305,21 @@ public class Address extends AbstractElement {
      * @param addr1
      *            the new addr line 1
      */
-    public void setAddr1(StringWithCustomTags addr1) {
+    public void setAddr1(String addr1) {
+        if (this.addr1 == null) {
+            this.addr1 = new StringWithCustomFacts(addr1);
+        } else {
+            this.addr1.setValue(addr1);
+        }
+    }
+
+    /**
+     * Sets the addr line 1.
+     *
+     * @param addr1
+     *            the new addr line 1
+     */
+    public void setAddr1(StringWithCustomFacts addr1) {
         this.addr1 = addr1;
     }
 
@@ -256,8 +329,46 @@ public class Address extends AbstractElement {
      * @param addr2
      *            the new addr line 2
      */
-    public void setAddr2(StringWithCustomTags addr2) {
+    public void setAddr2(String addr2) {
+        if (this.addr2 == null) {
+            this.addr2 = new StringWithCustomFacts(addr2);
+        } else {
+            this.addr2.setValue(addr2);
+        }
+    }
+
+    /**
+     * Sets the addr line 2.
+     *
+     * @param addr2
+     *            the new addr line 2
+     */
+    public void setAddr2(StringWithCustomFacts addr2) {
         this.addr2 = addr2;
+    }
+
+    /**
+     * Set the address line 3
+     * 
+     * @param addr3
+     *            the new address line 3
+     */
+    public void setAddr3(String addr3) {
+        if (this.addr3 == null) {
+            this.addr3 = new StringWithCustomFacts(addr3);
+        } else {
+            this.addr3.setValue(addr3);
+        }
+    }
+
+    /**
+     * Set the address line 3
+     * 
+     * @param addr3
+     *            the new address line 3
+     */
+    public void setAddr3(StringWithCustomFacts addr3) {
+        this.addr3 = addr3;
     }
 
     /**
@@ -266,7 +377,21 @@ public class Address extends AbstractElement {
      * @param city
      *            the new city
      */
-    public void setCity(StringWithCustomTags city) {
+    public void setCity(String city) {
+        if (this.city == null) {
+            this.city = new StringWithCustomFacts(city);
+        } else {
+            this.city.setValue(city);
+        }
+    }
+
+    /**
+     * Sets the city.
+     *
+     * @param city
+     *            the new city
+     */
+    public void setCity(StringWithCustomFacts city) {
         this.city = city;
     }
 
@@ -276,7 +401,21 @@ public class Address extends AbstractElement {
      * @param country
      *            the new country
      */
-    public void setCountry(StringWithCustomTags country) {
+    public void setCountry(String country) {
+        if (this.country == null) {
+            this.country = new StringWithCustomFacts(country);
+        } else {
+            this.country.setValue(country);
+        }
+    }
+
+    /**
+     * Sets the country.
+     *
+     * @param country
+     *            the new country
+     */
+    public void setCountry(StringWithCustomFacts country) {
         this.country = country;
     }
 
@@ -286,7 +425,21 @@ public class Address extends AbstractElement {
      * @param postalCode
      *            the new postal code
      */
-    public void setPostalCode(StringWithCustomTags postalCode) {
+    public void setPostalCode(String postalCode) {
+        if (this.postalCode == null) {
+            this.postalCode = new StringWithCustomFacts(postalCode);
+        } else {
+            this.postalCode.setValue(postalCode);
+        }
+    }
+
+    /**
+     * Sets the postal code.
+     *
+     * @param postalCode
+     *            the new postal code
+     */
+    public void setPostalCode(StringWithCustomFacts postalCode) {
         this.postalCode = postalCode;
     }
 
@@ -296,7 +449,21 @@ public class Address extends AbstractElement {
      * @param stateProvince
      *            the new state province
      */
-    public void setStateProvince(StringWithCustomTags stateProvince) {
+    public void setStateProvince(String stateProvince) {
+        if (this.stateProvince == null) {
+            this.stateProvince = new StringWithCustomFacts(stateProvince);
+        } else {
+            this.stateProvince.setValue(stateProvince);
+        }
+    }
+
+    /**
+     * Sets the state province.
+     *
+     * @param stateProvince
+     *            the new state province
+     */
+    public void setStateProvince(StringWithCustomFacts stateProvince) {
         this.stateProvince = stateProvince;
     }
 
@@ -315,6 +482,11 @@ public class Address extends AbstractElement {
         if (addr2 != null) {
             builder.append("addr2=");
             builder.append(addr2);
+            builder.append(", ");
+        }
+        if (addr3 != null) {
+            builder.append("addr3=");
+            builder.append(addr3);
             builder.append(", ");
         }
         if (city != null) {
@@ -342,9 +514,9 @@ public class Address extends AbstractElement {
             builder.append(stateProvince);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("customFacts=");
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

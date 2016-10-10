@@ -67,10 +67,10 @@ class EventEmitter extends AbstractEmitter<AbstractEvent> {
         emitTagIfValueNotNull(startLevel, "CAUS", writeFrom.getCause());
         emitTagIfValueNotNull(startLevel, "RELI", writeFrom.getReligiousAffiliation());
         emitTagIfValueNotNull(startLevel, "RESN", writeFrom.getRestrictionNotice());
-        new SourceCitationEmitter(baseWriter, startLevel, writeFrom.getCitations()).emit();
+        new CitationEmitter(baseWriter, startLevel, writeFrom.getCitations()).emit();
         new MultimediaLinksEmitter(baseWriter, startLevel, writeFrom.getMultimedia()).emit();
-        new NotesEmitter(baseWriter, startLevel, writeFrom.getNotes()).emit();
-        emitCustomTags(startLevel, writeFrom.getCustomTags());
+        new NoteStructureEmitter(baseWriter, startLevel, writeFrom.getNoteStructures()).emit();
+        emitCustomFacts(startLevel, writeFrom.getCustomFacts());
     }
 
 }

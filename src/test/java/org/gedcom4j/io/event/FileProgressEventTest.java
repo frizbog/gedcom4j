@@ -53,6 +53,7 @@ public class FileProgressEventTest {
         assertEquals(5, e.getBytesProcessed());
         assertTrue(e.isComplete());
         assertSame(this, e.getSource());
+        assertEquals("FileProgressEvent [complete=true, linesProcessed=-1, bytesProcessed=5]", e.toString());
     }
 
     /**
@@ -66,6 +67,7 @@ public class FileProgressEventTest {
         assertEquals(Integer.MIN_VALUE, e.getBytesProcessed());
         assertFalse(e.isComplete());
         assertSame(this, e.getSource());
+        assertEquals("FileProgressEvent [complete=false, linesProcessed=50, bytesProcessed=-2147483648]", e.toString());
     }
 
 }

@@ -28,21 +28,26 @@ package org.gedcom4j.validate;
 
 import java.util.List;
 
-import org.gedcom4j.Options;
 import org.gedcom4j.model.EventRecorded;
-import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.MultimediaReference;
 import org.gedcom4j.model.RepositoryCitation;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.SourceCallNumber;
 import org.gedcom4j.model.SourceData;
+import org.gedcom4j.validate.Validator.Finding;
 
 /**
- * A validator for {@link Source} objects. See {@link GedcomValidator} for usage information.
+ * A validator for {@link Source} objects. See {@link Validator} for usage information.
  * 
  * @author frizbog1
  * 
  */
 class SourceValidator extends AbstractValidator {
+
+    /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -1329075355558483196L;
 
     /**
      * The source being validated
@@ -52,13 +57,13 @@ class SourceValidator extends AbstractValidator {
     /**
      * Constructor
      * 
-     * @param rootValidator
+     * @param validator
      *            the root validator
      * @param source
      *            the source being validated
      */
-    SourceValidator(GedcomValidator rootValidator, Source source) {
-        this.rootValidator = rootValidator;
+    SourceValidator(Validator validator, Source source) {
+        super(validator);
         this.source = source;
     }
 
@@ -67,73 +72,51 @@ class SourceValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        if (source == null) {
-            addError("Source is null and cannot be validated");
-            return;
-        }
-        checkXref(source);
+        xrefMustBePresentAndWellFormed(source);
         checkChangeDate(source.getChangeDate(), source);
         if (source.getData() != null) {
             SourceData sd = source.getData();
-            new NotesValidator(rootValidator, sd, sd.getNotes()).validate();
-            checkOptionalString(sd.getRespAgency(), "responsible agency", sd);
+            new NoteStructureListValidator(getValidator(), sd).validate();
+            mustHaveValueOrBeOmitted(sd, "respAgency");
             List<EventRecorded> eventsRecorded = sd.getEventsRecorded();
             if (eventsRecorded == null) {
-                if (rootValidator.isAutorepairEnabled()) {
-                    sd.getEventsRecorded(true).clear();
-                    addInfo("Collection of recorded events in source data structure was null - autorepaired", sd);
-                } else {
-                    addError("Collection of recorded events in source data structure is null", sd);
-                }
+                Finding vf = newFinding(sd, Severity.INFO, ProblemCode.UNINITIALIZED_COLLECTION, "eventsRecorded");
+                initializeCollectionIfAllowed(vf);
             } else {
-                if (rootValidator.isAutorepairEnabled()) {
-                    int dups = new DuplicateEliminator<>(eventsRecorded).process();
-                    if (dups > 0) {
-                        rootValidator.addInfo(dups + " duplicate recorded events found and removed", sd);
-                    }
-                }
+                checkListOfModelElementsForDups(sd, "eventsRecorded");
+                checkListOfModelElementsForNulls(sd, "eventsRecorded");
 
                 for (EventRecorded er : eventsRecorded) {
-                    checkOptionalString(er.getDatePeriod(), "date period", er);
-                    checkOptionalString(er.getEventType(), "event type", er);
-                    checkOptionalString(er.getJurisdiction(), "jurisdiction", er);
+                    mustHaveValueOrBeOmitted(er, "datePeriod");
+                    mustHaveValueOrBeOmitted(er, "eventType");
+                    mustHaveValueOrBeOmitted(er, "jurisdiction");
                 }
             }
         }
-        List<Multimedia> multimedia = source.getMultimedia();
-        if (multimedia == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
-                source.getMultimedia(true).clear();
-                addInfo("Multimedia collection on source was null - autorepaired", source);
-            }
-            addError("Multimedia collection on source is null", source);
-        } else {
-            if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(multimedia).process();
-                if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate multimedia found and removed", source);
+        checkUninitializedCollection(source, "multimedia");
+        if (source.getMultimedia() != null) {
+            checkListOfModelElementsForDups(source, "multimedia");
+            checkListOfModelElementsForNulls(source, "multimedia");
+            for (MultimediaReference mRef : source.getMultimedia()) {
+                if (mRef == null) {
+                    continue;
                 }
-            }
-
-            if (multimedia != null) {
-                for (Multimedia mm : multimedia) {
-                    new MultimediaValidator(rootValidator, mm).validate();
-                }
+                new MultimediaValidator(getValidator(), mRef.getMultimedia()).validate();
             }
         }
-        new NotesValidator(rootValidator, source, source.getNotes()).validate();
-        checkStringList(source.getOriginatorsAuthors(), "originators/authors", false);
-        checkStringList(source.getPublicationFacts(), "publication facts", false);
-        checkOptionalString(source.getRecIdNumber(), "automated record id", source);
-        checkStringList(source.getSourceText(), "source text", true);
-        checkOptionalString(source.getSourceFiledBy(), "source filed by", source);
-        checkStringList(source.getTitle(), "title", true);
+        new NoteStructureListValidator(getValidator(), source).validate();
+        checkStringList(source, "originatorsAuthors", false);
+        checkStringList(source, "publicationFacts", false);
+        mustHaveValueOrBeOmitted(source, "recIdNumber");
+        checkStringList(source, "sourceText", true);
+        mustHaveValueOrBeOmitted(source, "sourceFiledBy");
+        checkStringList(source, "title", true);
         checkUserReferences(source.getUserReferences(), source);
 
         RepositoryCitation c = source.getRepositoryCitation();
         if (c != null) {
-            new NotesValidator(rootValidator, c, c.getNotes()).validate();
-            checkRequiredString(c.getRepositoryXref(), "repository xref", c);
+            new NoteStructureListValidator(getValidator(), c).validate();
+            mustHaveValue(c, "repositoryXref");
             checkCallNumbers(c);
         }
     }
@@ -145,31 +128,18 @@ class SourceValidator extends AbstractValidator {
      *            the citation to check the call numbers on
      */
     private void checkCallNumbers(RepositoryCitation citation) {
-        List<SourceCallNumber> callNumbers = citation.getCallNumbers();
-        if (callNumbers == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
-                citation.getCallNumbers(true).clear();
-                addInfo("Call numbers collection on repository citation was null - autorepaired", citation);
-            } else {
-                addError("Call numbers collection on repository citation is null", citation);
-            }
-        } else {
-            if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(callNumbers).process();
-                if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate source call numbers found and removed", citation);
-                }
-            }
-            if (callNumbers != null) {
-                for (SourceCallNumber scn : callNumbers) {
-                    checkOptionalString(scn.getCallNumber(), "call number", scn);
-                    if (scn.getCallNumber() == null) {
-                        if (scn.getMediaType() != null) {
-                            addError("You cannot specify media type without a call number in a SourceCallNumber structure", scn);
-                        }
-                    } else {
-                        checkOptionalString(scn.getMediaType(), "media type", scn);
+        checkUninitializedCollection(citation, "callNumbers");
+        if (citation.getCallNumbers() != null) {
+            checkListOfModelElementsForDups(citation, "callNumbers");
+            checkListOfModelElementsForNulls(citation, "callNumbers");
+            for (SourceCallNumber scn : citation.getCallNumbers()) {
+                mustHaveValueOrBeOmitted(scn, "callNumber");
+                if (scn.getCallNumber() == null) {
+                    if (scn.getMediaType() != null) {
+                        newFinding(scn, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, "mediaType");
                     }
+                } else {
+                    mustHaveValueOrBeOmitted(scn, "mediaType");
                 }
             }
         }

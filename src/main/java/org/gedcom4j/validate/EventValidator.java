@@ -28,11 +28,17 @@ package org.gedcom4j.validate;
 
 import java.util.List;
 
-import org.gedcom4j.Options;
-import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.AbstractEvent;
-import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.FamilyEvent;
+import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.ModelElement;
+import org.gedcom4j.model.MultimediaReference;
+import org.gedcom4j.model.NoteStructure;
+import org.gedcom4j.model.StringWithCustomFacts;
+import org.gedcom4j.model.enumerations.FamilyEventType;
+import org.gedcom4j.model.enumerations.IndividualEventType;
+import org.gedcom4j.model.enumerations.RestrictionNoticeType;
+import org.gedcom4j.validate.Validator.Finding;
 
 /**
  * Validator for events
@@ -42,6 +48,17 @@ import org.gedcom4j.model.StringWithCustomTags;
 class EventValidator extends AbstractValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -1272765738333620248L;
+
+    /**
+     * Regexes that match the age formats defined in AGE_AT_EVENT structure
+     */
+    private static final String[] AGE_FORMATS = { "CHILD", "INFANT", "STILLBORN", "[<>]?\\s?\\d+y", "[<>]?\\s?\\d+m",
+            "[<>]\\s?\\d+d", "[<>]\\s?\\d+y \\d+m \\d+d", "[<>]\\s?\\d+y \\d+m", "[<>]\\s?\\d+y \\d+d", "[<>]\\s?\\d+m \\d+d" };
+
+    /**
      * The event being validated
      */
     private final AbstractEvent e;
@@ -49,13 +66,13 @@ class EventValidator extends AbstractValidator {
     /**
      * Constructor
      * 
-     * @param rootValidator
-     *            the root {@link GedcomValidator} that contains the findings and the settings
+     * @param validator
+     *            the {@link Validator} that contains the findings and the settings
      * @param e
      *            the event beign validated
      */
-    EventValidator(GedcomValidator rootValidator, AbstractEvent e) {
-        this.rootValidator = rootValidator;
+    EventValidator(Validator validator, AbstractEvent e) {
+        super(validator);
         this.e = e;
     }
 
@@ -65,197 +82,112 @@ class EventValidator extends AbstractValidator {
     @Override
     @SuppressWarnings("PMD.ExcessiveMethodLength")
     protected void validate() {
-        if (e == null) {
-            addError("Event is null and cannot be validated or autorepaired");
-            return;
+        if (e instanceof IndividualEvent) {
+            IndividualEvent ie = (IndividualEvent) e;
+            mustHaveValue(ie, "type");
+            if (ie.getType() == IndividualEventType.BIRTH || ie.getType() == IndividualEventType.CHRISTENING || ie
+                    .getType() == IndividualEventType.DEATH) {
+                mustHaveValueOrBeOmitted(ie, "yNull");
+            } else {
+                mustNotHaveValue(ie, "yNull");
+            }
+            if (ie.getType() != IndividualEventType.BIRTH && ie.getType() != IndividualEventType.CHRISTENING && ie
+                    .getType() != IndividualEventType.ADOPTION) {
+                mustNotHaveValue(ie, "family");
+            }
+        } else if (e instanceof FamilyEvent) {
+            FamilyEvent fe = (FamilyEvent) e;
+            mustHaveValue(fe, "type");
+            if (fe.getType() == FamilyEventType.MARRIAGE) {
+                mustHaveValueOrBeOmitted(fe, "yNull");
+            } else {
+                mustNotHaveValue(fe, "yNull");
+            }
+            if (fe.getType() == FamilyEventType.EVENT) {
+                mustHaveValueOrBeOmitted(fe, "description");
+            } else {
+                mustNotHaveValue(fe, "description");
+            }
+            mustBeAgeFormatIfSpecified(fe, fe.getHusbandAge(), "husbandAge");
+            mustBeAgeFormatIfSpecified(fe, fe.getWifeAge(), "husbandAge");
+            mustNotHaveValue(fe, "age");
         }
         if (e.getAddress() != null) {
-            new AddressValidator(rootValidator, e.getAddress()).validate();
+            new AddressValidator(getValidator(), e.getAddress()).validate();
         }
-        checkOptionalString(e.getAge(), "age", e);
-        checkOptionalString(e.getCause(), "cause", e);
-        checkCitations();
-        checkCustomTags(e);
-        checkOptionalString(e.getDate(), "date", e);
-        if (e.getDescription() != null && e.getDescription().trim().length() != 0) {
-            rootValidator.addError(
-                    "Event has description, which is non-standard. Remove this value, or move it (perhaps to a Note).", e);
+        mustBeAgeFormatIfSpecified(e, e.getAge(), "age");
+        mustHaveValueOrBeOmitted(e, "cause");
+        checkCitations(e);
+        checkCustomFacts(e);
+        mustHaveValueOrBeOmitted(e, "date");
+        mustBeDateIfSpecified(e, "date");
+        if (e.getDescription() != null && e.getDescription().trim().length() != 0 && !"Y".equals(e.getDescription().trim())) {
+            Finding vf = newFinding(e, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, "description");
+            if (mayRepair(vf)) {
+                ModelElement before = makeCopy(e);
+                NoteStructure n = new NoteStructure();
+                n.getLines(true).add(e.getDescription().getValue());
+                e.getNoteStructures(true).add(n);
+                e.getDescription().setValue(null);
+                vf.addRepair(new AutoRepair(before, makeCopy(e)));
+            }
         }
-        checkEmails();
-        checkFaxNumbers();
+        checkEmails(e);
+        checkFaxNumbers(e);
         checkMultimedia();
-        new NotesValidator(rootValidator, e, e.getNotes()).validate();
-        checkPhoneNumbers();
-        checkOptionalString(e.getReligiousAffiliation(), "religious affiliation", e);
-        checkOptionalString(e.getRespAgency(), "responsible agency", e);
-        checkOptionalString(e.getRestrictionNotice(), "restriction notice", e);
-        checkOptionalString(e.getSubType(), "subtype", e);
-        checkWwwUrls();
-
-    }
-
-    /**
-     * Check the citations
-     */
-    private void checkCitations() {
-        List<AbstractCitation> citations = e.getCitations();
-        if (citations == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
-                e.getCitations(true).clear();
-                rootValidator.addInfo("Event had null list of citations - repaired", e);
-            } else {
-                rootValidator.addError("Event has null list of citations", e);
-            }
-        } else {
-            if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(citations).process();
-                if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate source citations found and removed", e);
-                }
-            }
-            if (citations != null) {
-                for (AbstractCitation c : citations) {
-                    new CitationValidator(rootValidator, c).validate();
-                }
-            }
+        new NoteStructureListValidator(getValidator(), e).validate();
+        checkPhoneNumbers(e);
+        mustHaveValueOrBeOmitted(e, "religiousAffiliation");
+        mustHaveValueOrBeOmitted(e, "respAgency");
+        mustHaveValueOrBeOmitted(e, "restrictionNotice");
+        if (e.getRestrictionNotice() != null) {
+            mustBeInEnumIfSpecified(RestrictionNoticeType.class, e, "restrictionNotice");
         }
-    }
-
-    /**
-     * Check the emails
-     */
-    private void checkEmails() {
-        List<StringWithCustomTags> emails = e.getEmails();
-        if (emails == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
-                e.getEmails(true).clear();
-                rootValidator.addInfo("Event had null list of emails - repaired", e);
-            } else {
-                rootValidator.addError("Event has null list of emails", e);
-            }
-        } else {
-            if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(emails).process();
-                if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate emails found and removed", e);
-                }
-            }
-            if (emails != null) {
-                for (StringWithCustomTags swct : emails) {
-                    checkRequiredString(swct, "email", e);
-                }
-            }
+        if (e.getPlace() != null) {
+            new PlaceValidator(getValidator(), e.getPlace()).validate();
         }
-    }
+        checkWwwUrls(e);
 
-    /**
-     * Check the fax numbers
-     */
-    private void checkFaxNumbers() {
-        List<StringWithCustomTags> faxNumbers = e.getFaxNumbers();
-        if (faxNumbers == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
-                e.getFaxNumbers(true).clear();
-                rootValidator.addInfo("Event had null list of fax numbers - repaired", e);
-            } else {
-                rootValidator.addError("Event has null list of fax numbers", e);
-            }
-        } else {
-            if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(faxNumbers).process();
-                if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate fax numbers found and removed", e);
-                }
-            }
-            if (faxNumbers != null) {
-                for (StringWithCustomTags swct : faxNumbers) {
-                    checkRequiredString(swct, "fax number", e);
-                }
-            }
-        }
     }
 
     /**
      * Check the multimedia
      */
     private void checkMultimedia() {
-        List<Multimedia> multimedia = e.getMultimedia();
-        if (multimedia == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
-                e.getMultimedia(true).clear();
-                rootValidator.addInfo("Event had null list of multimedia - repaired", e);
-            } else {
-                rootValidator.addError("Event has null list of multimedia", e);
-            }
-        } else {
-            if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(multimedia).process();
-                if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate multimedia found and removed", e);
+        checkUninitializedCollection(e, "multimedia");
+        List<MultimediaReference> multimedia = e.getMultimedia();
+        if (multimedia != null) {
+            checkListOfModelElementsForDups(e, "multimedia");
+            checkListOfModelElementsForNulls(e, "multimedia");
+            for (MultimediaReference mRef : multimedia) {
+                if (mRef == null) {
+                    continue;
                 }
-            }
-            if (multimedia != null) {
-                for (Multimedia m : multimedia) {
-                    new MultimediaValidator(rootValidator, m).validate();
-                }
+                new MultimediaValidator(getValidator(), mRef.getMultimedia()).validate();
             }
         }
     }
 
     /**
-     * Check the phone numbers
+     * Age values must be in proper format if specified
+     * 
+     * @param ev
+     *            the event
+     * @param val
+     *            the age value to be checked
+     * @param fieldName
+     *            the name of the age field
      */
-    private void checkPhoneNumbers() {
-        List<StringWithCustomTags> phoneNumbers = e.getPhoneNumbers();
-        if (phoneNumbers == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
-                e.getPhoneNumbers(true).clear();
-                rootValidator.addInfo("Event had null list of phone numbers - repaired", e);
-            } else {
-                rootValidator.addError("Event has null list of phone numbers", e);
-            }
-        } else {
-            if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(phoneNumbers).process();
-                if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate phone numbers found and removed", e);
-                }
-            }
-            if (phoneNumbers != null) {
-                for (StringWithCustomTags swct : phoneNumbers) {
-                    checkRequiredString(swct, "phone number", e);
-                }
+    private void mustBeAgeFormatIfSpecified(AbstractEvent ev, StringWithCustomFacts val, String fieldName) {
+        if (val == null || !isSpecified(val.getValue())) {
+            return;
+        }
+        String s = val.getValue().trim();
+        for (String regex : AGE_FORMATS) {
+            if (regex.matches(s)) {
+                return;
             }
         }
-        if (e.getPlace() != null) {
-            new PlaceValidator(rootValidator, e.getPlace()).validate();
-        }
-    }
-
-    /**
-     * Check the www urls
-     */
-    private void checkWwwUrls() {
-        List<StringWithCustomTags> wwwUrls = e.getWwwUrls();
-        if (wwwUrls == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
-                e.getWwwUrls(true).clear();
-                rootValidator.addInfo("Event had null list of www urls - repaired", e);
-            } else {
-                rootValidator.addError("Event has null list of www url", e);
-            }
-        } else {
-            if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(wwwUrls).process();
-                if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate web URLs found and removed", e);
-                }
-            }
-            if (wwwUrls != null) {
-                for (StringWithCustomTags swct : wwwUrls) {
-                    checkRequiredString(swct, "www url", e);
-                }
-            }
-        }
+        newFinding(ev, Severity.ERROR, ProblemCode.ILLEGAL_VALUE, fieldName);
     }
 }

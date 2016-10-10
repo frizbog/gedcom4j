@@ -26,13 +26,12 @@
  */
 package org.gedcom4j.factory;
 
-import java.util.Arrays;
-
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyChild;
 import org.gedcom4j.model.FamilySpouse;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.IndividualReference;
 
 /**
  * Class to build a {@link Family} object
@@ -82,10 +81,12 @@ public class FamilyFactory {
         }
 
         // Put the people in the Family record
-        result.setHusband(father);
-        result.setWife(mother);
-        if (children != null && children.length > 0) {
-            result.getChildren(true).addAll(Arrays.asList(children));
+        result.setHusband(new IndividualReference(father));
+        result.setWife(new IndividualReference(mother));
+        if (children != null) {
+            for (Individual child : children) {
+                result.getChildren(true).add(new IndividualReference(child));
+            }
         }
 
         // And add the family record to the people

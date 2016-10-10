@@ -29,11 +29,10 @@ package org.gedcom4j.parser;
 import java.util.List;
 
 import org.gedcom4j.model.AbstractCitation;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.PersonalNameVariation;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * @author frizbog
@@ -61,23 +60,23 @@ class PersonalNameParser extends AbstractParser<PersonalName> {
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.NAME_PREFIX.equalsText(ch.getTag())) {
-                    loadInto.setPrefix(new StringWithCustomTags(ch));
+                    loadInto.setPrefix(parseStringWithCustomFacts(ch));
                 } else if (Tag.GIVEN_NAME.equalsText(ch.getTag())) {
-                    loadInto.setGivenName(new StringWithCustomTags(ch));
+                    loadInto.setGivenName(parseStringWithCustomFacts(ch));
                 } else if (Tag.NICKNAME.equalsText(ch.getTag())) {
-                    loadInto.setNickname(new StringWithCustomTags(ch));
+                    loadInto.setNickname(parseStringWithCustomFacts(ch));
                 } else if (Tag.SURNAME_PREFIX.equalsText(ch.getTag())) {
-                    loadInto.setSurnamePrefix(new StringWithCustomTags(ch));
+                    loadInto.setSurnamePrefix(parseStringWithCustomFacts(ch));
                 } else if (Tag.SURNAME.equalsText(ch.getTag())) {
-                    loadInto.setSurname(new StringWithCustomTags(ch));
+                    loadInto.setSurname(parseStringWithCustomFacts(ch));
                 } else if (Tag.NAME_SUFFIX.equalsText(ch.getTag())) {
-                    loadInto.setSuffix(new StringWithCustomTags(ch));
+                    loadInto.setSuffix(parseStringWithCustomFacts(ch));
                 } else if (Tag.SOURCE.equalsText(ch.getTag())) {
                     List<AbstractCitation> citations = loadInto.getCitations(true);
                     new CitationListParser(gedcomParser, ch, citations).parse();
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = loadInto.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = loadInto.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.ROMANIZED.equalsText(ch.getTag())) {
                     PersonalNameVariation pnv = new PersonalNameVariation();
                     loadInto.getRomanized(true).add(pnv);
@@ -86,6 +85,8 @@ class PersonalNameParser extends AbstractParser<PersonalName> {
                     PersonalNameVariation pnv = new PersonalNameVariation();
                     loadInto.getPhonetic(true).add(pnv);
                     loadPersonalNameVariation(ch, pnv);
+                } else if (Tag.TYPE.equalsText(ch.getTag())) {
+                    loadInto.setType(parseStringWithCustomFacts(ch));
                 } else {
                     unknownTag(ch, loadInto);
                 }
@@ -107,25 +108,25 @@ class PersonalNameParser extends AbstractParser<PersonalName> {
         if (romnOrPhon.getChildren() != null) {
             for (StringTree ch : romnOrPhon.getChildren()) {
                 if (Tag.NAME_PREFIX.equalsText(ch.getTag())) {
-                    pnv.setPrefix(new StringWithCustomTags(ch));
+                    pnv.setPrefix(parseStringWithCustomFacts(ch));
                 } else if (Tag.GIVEN_NAME.equalsText(ch.getTag())) {
-                    pnv.setGivenName(new StringWithCustomTags(ch));
+                    pnv.setGivenName(parseStringWithCustomFacts(ch));
                 } else if (Tag.NICKNAME.equalsText(ch.getTag())) {
-                    pnv.setNickname(new StringWithCustomTags(ch));
+                    pnv.setNickname(parseStringWithCustomFacts(ch));
                 } else if (Tag.SURNAME_PREFIX.equalsText(ch.getTag())) {
-                    pnv.setSurnamePrefix(new StringWithCustomTags(ch));
+                    pnv.setSurnamePrefix(parseStringWithCustomFacts(ch));
                 } else if (Tag.SURNAME.equalsText(ch.getTag())) {
-                    pnv.setSurname(new StringWithCustomTags(ch));
+                    pnv.setSurname(parseStringWithCustomFacts(ch));
                 } else if (Tag.NAME_SUFFIX.equalsText(ch.getTag())) {
-                    pnv.setSuffix(new StringWithCustomTags(ch));
+                    pnv.setSuffix(parseStringWithCustomFacts(ch));
                 } else if (Tag.SOURCE.equalsText(ch.getTag())) {
                     List<AbstractCitation> citations = pnv.getCitations(true);
                     new CitationListParser(gedcomParser, ch, citations).parse();
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = pnv.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = pnv.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else if (Tag.TYPE.equalsText(ch.getTag())) {
-                    pnv.setVariationType(new StringWithCustomTags(ch));
+                    pnv.setVariationType(parseStringWithCustomFacts(ch));
                 } else {
                     unknownTag(ch, pnv);
                 }

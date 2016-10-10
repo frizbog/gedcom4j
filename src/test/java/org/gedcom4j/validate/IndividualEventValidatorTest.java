@@ -30,9 +30,8 @@ import org.gedcom4j.model.Address;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
-import org.gedcom4j.model.IndividualEventType;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.TestHelper;
+import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.junit.Test;
 
 /**
@@ -49,8 +48,8 @@ public class IndividualEventValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testValidator() {
         Gedcom g = TestHelper.getMinimalGedcom();
-        rootValidator.setAutorepairEnabled(false);
-        rootValidator.gedcom = g;
+        validator = new Validator(g);
+        validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
 
         Individual i = new Individual();
         i.setXref("@I0001@");
@@ -58,36 +57,36 @@ public class IndividualEventValidatorTest extends AbstractValidatorTestCase {
 
         IndividualEvent e = new IndividualEvent();
         i.getEvents(true).add(e);
-        rootValidator.validate();
-        assertFindingsContain(Severity.ERROR, "event", "requires", "type");
+        validator.validate();
+        assertFindingsContain(Severity.ERROR, e, ProblemCode.MISSING_REQUIRED_VALUE, "type");
 
         e.setType(IndividualEventType.BIRTH);
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         e.getCitations(true).clear();
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         e.getEmails(true).clear();
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         e.getWwwUrls(true).clear();
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         e.getFaxNumbers(true).clear();
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         e.getPhoneNumbers(true).clear();
-        rootValidator.validate();
+        validator.validate();
         assertNoIssues();
 
         e.setAddress(new Address());
-        e.getAddress().setCity(new StringWithCustomTags("FryingPanVille"));
-        rootValidator.validate();
+        e.getAddress().setCity("FryingPanVille");
+        validator.validate();
         assertNoIssues();
     }
 }

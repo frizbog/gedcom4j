@@ -33,10 +33,10 @@ import java.util.Locale;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
-import org.gedcom4j.model.IndividualEventType;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.Place;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
+import org.gedcom4j.model.enumerations.IndividualEventType;
 
 /**
  * @author frizbog
@@ -56,11 +56,11 @@ public class IndividualFactory {
      * @param sex
      *            the sex of the new individual - optional
      * @param birth
-     *            the birthdate of the new individual - optional
+     *            the birthdate of the new individual, from an actual {@link Date} - optional
      * @param birthPlace
      *            the place of birth for the new individual - optional
      * @param death
-     *            the death date of the new individual - optional
+     *            the death date of the new individual, from an actual {@link Date} - optional
      * @param deathPlace
      *            the place of death for the new individual - optional
      * @return the individual. As a side effect, the individual is already added to the gedcom for you.
@@ -68,6 +68,42 @@ public class IndividualFactory {
     @SuppressWarnings("checkstyle:ParameterNumber")
     public Individual create(Gedcom g, String givenName, String surname, Sex sex, Date birth, String birthPlace, Date death,
             String deathPlace) {
+        String deathDateString = null;
+        if (death != null) {
+            deathDateString = new SimpleDateFormat("d MMM yyyy", Locale.US).format(death).toUpperCase(Locale.US);
+        }
+        String birthDateString = null;
+        if (birth != null) {
+            birthDateString = new SimpleDateFormat("d MMM yyyy", Locale.US).format(birth).toUpperCase(Locale.US);
+        }
+        return create(g, givenName, surname, sex, birthDateString, birthPlace, deathDateString, deathPlace);
+    }
+
+    /**
+     * Create an {@link Individual} and add them to the {@link Gedcom}
+     * 
+     * @param g
+     *            the gedcom to add the individual to
+     * @param givenName
+     *            the given name of the new individual - optional
+     * @param surname
+     *            the surname of the new individual - optional
+     * @param sex
+     *            the sex of the new individual - optional
+     * @param birthDateString
+     *            the birthdate string of the new individual - optional
+     * @param birthPlace
+     *            the place of birth for the new individual - optional
+     * @param deathDateString
+     *            the death date of the new individual - optional
+     * @param deathPlace
+     *            the place of death for the new individual - optional
+     * @return the individual. As a side effect, the individual is already added to the gedcom for you.
+     */
+    @SuppressWarnings("checkstyle:ParameterNumber")
+    public Individual create(Gedcom g, String givenName, String surname, Sex sex, String birthDateString, String birthPlace,
+            String deathDateString, String deathPlace) {
+
         Individual result = new Individual();
 
         // Make an xref and add to gedcom
@@ -79,7 +115,7 @@ public class IndividualFactory {
 
         // Set sex
         if (sex != null) {
-            result.setSex(new StringWithCustomTags(sex.getCode()));
+            result.setSex(new StringWithCustomFacts(sex.getCode()));
         }
 
         // Set name
@@ -96,12 +132,11 @@ public class IndividualFactory {
         result.getNames(true).add(n);
 
         // Set birth event
-        if (birth != null || birthPlace != null) {
+        if (birthDateString != null || birthPlace != null) {
             IndividualEvent b = new IndividualEvent();
             b.setType(IndividualEventType.BIRTH);
-            if (birth != null) {
-                b.setDate(new StringWithCustomTags(new SimpleDateFormat("d MMM yyyy", Locale.US).format(birth).toUpperCase(
-                        Locale.US)));
+            if (birthDateString != null) {
+                b.setDate(new StringWithCustomFacts(birthDateString));
             }
             if (birthPlace != null) {
                 Place place = new Place();
@@ -112,12 +147,11 @@ public class IndividualFactory {
         }
 
         // Set death event
-        if (death != null || deathPlace != null) {
+        if (deathDateString != null || deathPlace != null) {
             IndividualEvent b = new IndividualEvent();
             b.setType(IndividualEventType.DEATH);
-            if (death != null) {
-                b.setDate(new StringWithCustomTags(new SimpleDateFormat("d MMM yyyy", Locale.US).format(death).toUpperCase(
-                        Locale.US)));
+            if (deathDateString != null) {
+                b.setDate(new StringWithCustomFacts(deathDateString));
             }
             if (deathPlace != null) {
                 Place place = new Place();

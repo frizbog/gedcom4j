@@ -28,7 +28,7 @@ package org.gedcom4j.parser;
 
 import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 
 /**
  * A base class for an event parser.
@@ -58,14 +58,14 @@ public abstract class AbstractEventParser<T extends AbstractEvent> extends Abstr
      */
     protected void parseYNull() {
         if ("Y".equals(stringTree.getValue())) {
-            loadInto.setyNull(stringTree.getValue());
-            loadInto.setDescription(null);
+            loadInto.setYNull(stringTree.getValue());
+            loadInto.setDescription((String) null);
         } else if (stringTree.getValue() == null || stringTree.getValue().trim().length() == 0) {
-            loadInto.setyNull(null);
-            loadInto.setDescription(null);
+            loadInto.setYNull(null);
+            loadInto.setDescription((String) null);
         } else {
-            loadInto.setyNull(null);
-            loadInto.setDescription(new StringWithCustomTags(stringTree.getValue()));
+            loadInto.setYNull(null);
+            loadInto.setDescription(new StringWithCustomFacts(stringTree.getValue()));
             addWarning(stringTree.getTag() + " tag had description rather than [Y|<NULL>] - violates standard");
         }
     }

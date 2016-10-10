@@ -71,12 +71,16 @@ class SourceEmitter extends AbstractEmitter<Collection<Source>> {
             if (d != null) {
                 emitTag(1, "DATA");
                 for (EventRecorded e : d.getEventsRecorded()) {
-                    emitTagWithOptionalValue(2, "EVEN", e.getEventType());
+                    if (e.getEventType() != null) {
+                        emitTagWithOptionalValue(2, "EVEN", e.getEventType().getValue());
+                    }
                     emitTagIfValueNotNull(3, "DATE", e.getDatePeriod());
                     emitTagIfValueNotNull(3, "PLAC", e.getJurisdiction());
+                    emitCustomFacts(3, e.getCustomFacts());
                 }
                 emitTagIfValueNotNull(2, "AGNC", d.getRespAgency());
-                new NotesEmitter(baseWriter, 2, d.getNotes()).emit();
+                new NoteStructureEmitter(baseWriter, 2, d.getNoteStructures()).emit();
+                emitCustomFacts(2, d.getCustomFacts());
             }
             emitLinesOfText(1, "AUTH", s.getOriginatorsAuthors());
             emitLinesOfText(1, "TITL", s.getTitle());
@@ -85,7 +89,7 @@ class SourceEmitter extends AbstractEmitter<Collection<Source>> {
             emitLinesOfText(1, "TEXT", s.getSourceText());
             emitRepositoryCitation(1, s.getRepositoryCitation());
             new MultimediaLinksEmitter(baseWriter, 1, s.getMultimedia()).emit();
-            new NotesEmitter(baseWriter, 1, s.getNotes()).emit();
+            new NoteStructureEmitter(baseWriter, 1, s.getNoteStructures()).emit();
             if (s.getUserReferences() != null) {
                 for (UserReference u : s.getUserReferences()) {
                     emitTagWithRequiredValue(1, "REFN", u.getReferenceNum());
@@ -94,7 +98,7 @@ class SourceEmitter extends AbstractEmitter<Collection<Source>> {
             }
             emitTagIfValueNotNull(1, "RIN", s.getRecIdNumber());
             new ChangeDateEmitter(baseWriter, 1, s.getChangeDate()).emit();
-            emitCustomTags(1, s.getCustomTags());
+            emitCustomFacts(1, s.getCustomFacts());
         }
     }
 
@@ -114,14 +118,14 @@ class SourceEmitter extends AbstractEmitter<Collection<Source>> {
                 throw new GedcomWriterException("Repository Citation has null repository reference");
             }
             emitTagWithRequiredValue(level, "REPO", repositoryCitation.getRepositoryXref());
-            new NotesEmitter(baseWriter, level + 1, repositoryCitation.getNotes()).emit();
+            new NoteStructureEmitter(baseWriter, level + 1, repositoryCitation.getNoteStructures()).emit();
             if (repositoryCitation.getCallNumbers() != null) {
                 for (SourceCallNumber scn : repositoryCitation.getCallNumbers()) {
                     emitTagWithRequiredValue(level + 1, "CALN", scn.getCallNumber());
                     emitTagIfValueNotNull(level + 2, "MEDI", scn.getMediaType());
                 }
             }
-            emitCustomTags(level + 1, repositoryCitation.getCustomTags());
+            emitCustomFacts(level + 1, repositoryCitation.getCustomFacts());
         }
 
     }

@@ -92,7 +92,7 @@ final class UnicodeBigEndianReader extends AbstractEncodingSpecificReader {
             }
 
             // If it's a byte order marker at the beginning of the file, discard it
-            if (beginningOfFile && (currChar1 == 0xFE && currChar2 == 0xFF)) {
+            if (beginningOfFile && currChar1 == 0xFE && currChar2 == 0xFF) {
                 beginningOfFile = false;
                 lineBuffer.setLength(0);
                 continue;
@@ -108,7 +108,7 @@ final class UnicodeBigEndianReader extends AbstractEncodingSpecificReader {
             }
 
             // Check for carriage returns or line feeds after some data - signify EOL
-            if (((currChar1 == 0x00 && currChar2 == 0x0D) || (currChar1 == 0x00 && currChar2 == 0x0A)) && lineBuffer.length() > 0) {
+            if ((currChar1 == 0x00 && currChar2 == 0x0D || currChar1 == 0x00 && currChar2 == 0x0A) && lineBuffer.length() > 0) {
                 if (lineBuffer.length() > 0) {
                     result = lineBuffer.toString();
                     lineBuffer.setLength(0);

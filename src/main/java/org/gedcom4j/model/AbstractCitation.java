@@ -26,6 +26,11 @@
  */
 package org.gedcom4j.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.gedcom4j.Options;
+
 /**
  * An abstract base class for other source citations (both with and without source)
  * 
@@ -37,4 +42,79 @@ public abstract class AbstractCitation extends AbstractNotesElement {
      * Serial Version UID
      */
     private static final long serialVersionUID = 5842672179681957413L;
+    /**
+     * The quality of this citation. Supposed to be 0, 1, 2, or 3, but stored as a string since we're not doing math on it.
+     */
+    protected StringWithCustomFacts certainty;
+    /**
+     * Multimedia links for this source citation
+     */
+    protected List<MultimediaReference> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
+
+    /** Default constructor */
+    public AbstractCitation() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public AbstractCitation(AbstractCitation other) {
+        super(other);
+    }
+
+    /**
+     * Gets the certainty.
+     *
+     * @return the certainty
+     */
+    public StringWithCustomFacts getCertainty() {
+        return certainty;
+    }
+
+    /**
+     * Sets the certainty.
+     *
+     * @param certainty
+     *            the new certainty
+     */
+    public void setCertainty(String certainty) {
+        this.certainty = certainty == null ? null : new StringWithCustomFacts(certainty);
+    }
+
+    /**
+     * Sets the certainty.
+     *
+     * @param certainty
+     *            the new certainty
+     */
+    public void setCertainty(StringWithCustomFacts certainty) {
+        this.certainty = certainty;
+    }
+
+    /**
+     * Gets the multimedia.
+     *
+     * @return the multimedia
+     */
+    public List<MultimediaReference> getMultimedia() {
+        return multimedia;
+    }
+
+    /**
+     * Get the multimedia
+     * 
+     * @param initializeIfNeeded
+     *            true if this collection should be created on-the-fly if it is currently null
+     * @return the multimedia
+     */
+    public List<MultimediaReference> getMultimedia(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && multimedia == null) {
+            multimedia = new ArrayList<>(0);
+        }
+        return multimedia;
+    }
 }

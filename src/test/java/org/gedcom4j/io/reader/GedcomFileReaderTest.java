@@ -35,6 +35,7 @@ import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -237,6 +238,23 @@ public class GedcomFileReaderTest {
             if (s != null) {
                 s.close();
             }
+        }
+    }
+
+    /**
+     * Try reading an Ascii file
+     * 
+     * @throws IOException
+     *             if the file cannot be read
+     * @throws GedcomParserException
+     *             if the file cannot be parsed
+     */
+    @Test
+    public void testAscii() throws IOException, GedcomParserException {
+        try (InputStream is = new FileInputStream("sample/willis-ascii.ged");
+                BufferedInputStream bis = new BufferedInputStream(is)) {
+            GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(), bis);
+            assertNotNull(gfr.nextLine());
         }
     }
 

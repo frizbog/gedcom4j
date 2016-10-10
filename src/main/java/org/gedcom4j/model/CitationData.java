@@ -45,12 +45,36 @@ public class CitationData extends AbstractElement {
     /**
      * The date of the entry
      */
-    private StringWithCustomTags entryDate;
+    private StringWithCustomFacts entryDate;
 
     /**
      * The source text - one or more lines of it
      */
-    private List<List<String>> sourceText = getSourceText(Options.isCollectionInitializationEnabled());
+    private List<MultiStringWithCustomFacts> sourceText = getSourceText(Options.isCollectionInitializationEnabled());
+
+    /** Default constructor */
+    public CitationData() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public CitationData(CitationData other) {
+        super(other);
+        if (other.entryDate != null) {
+            entryDate = new StringWithCustomFacts(other.entryDate);
+        }
+        if (other.sourceText != null) {
+            sourceText = new ArrayList<>();
+            for (MultiStringWithCustomFacts st : other.sourceText) {
+                sourceText.add(new MultiStringWithCustomFacts(st));
+            }
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -89,7 +113,7 @@ public class CitationData extends AbstractElement {
      *
      * @return the entry date
      */
-    public StringWithCustomTags getEntryDate() {
+    public StringWithCustomFacts getEntryDate() {
         return entryDate;
     }
 
@@ -98,7 +122,7 @@ public class CitationData extends AbstractElement {
      *
      * @return the source text
      */
-    public List<List<String>> getSourceText() {
+    public List<MultiStringWithCustomFacts> getSourceText() {
         return sourceText;
     }
 
@@ -109,7 +133,7 @@ public class CitationData extends AbstractElement {
      *            true if this collection should be created on-the-fly if it is currently null
      * @return the source text
      */
-    public List<List<String>> getSourceText(boolean initializeIfNeeded) {
+    public List<MultiStringWithCustomFacts> getSourceText(boolean initializeIfNeeded) {
         if (initializeIfNeeded && sourceText == null) {
             sourceText = new ArrayList<>(0);
         }
@@ -134,7 +158,17 @@ public class CitationData extends AbstractElement {
      * @param entryDate
      *            the new entry date
      */
-    public void setEntryDate(StringWithCustomTags entryDate) {
+    public void setEntryDate(String entryDate) {
+        this.entryDate = entryDate == null ? null : new StringWithCustomFacts(entryDate);
+    }
+
+    /**
+     * Sets the entry date.
+     *
+     * @param entryDate
+     *            the new entry date
+     */
+    public void setEntryDate(StringWithCustomFacts entryDate) {
         this.entryDate = entryDate;
     }
 
@@ -155,9 +189,9 @@ public class CitationData extends AbstractElement {
             builder.append(sourceText);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("customFacts=");
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

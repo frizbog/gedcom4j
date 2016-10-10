@@ -44,7 +44,8 @@ import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyChild;
 import org.gedcom4j.model.FamilySpouse;
 import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.IndividualReference;
+import org.gedcom4j.model.StringWithCustomFacts;
 
 /**
  * <p>
@@ -265,11 +266,12 @@ public class RelationshipCalculator {
             if (personBeingExamined.getFamiliesWhereChild() != null) {
                 for (FamilyChild fc : personBeingExamined.getFamiliesWhereChild()) {
                     Family family = fc.getFamily();
-                    if (!lookedAt.contains(family.getHusband())) {
-                        examineFather(personBeingExamined, family.getHusband());
+                    if (!lookedAt.contains((family.getHusband() == null ? null : family.getHusband().getIndividual()))) {
+                        examineFather(personBeingExamined, (family.getHusband() == null ? null
+                                : family.getHusband().getIndividual()));
                     }
-                    if (!lookedAt.contains(family.getWife())) {
-                        examineMother(personBeingExamined, family.getWife());
+                    if (!lookedAt.contains((family.getWife() == null ? null : family.getWife().getIndividual()))) {
+                        examineMother(personBeingExamined, (family.getWife() == null ? null : family.getWife().getIndividual()));
                     }
                 }
             }
@@ -277,32 +279,35 @@ public class RelationshipCalculator {
             if (personBeingExamined.getFamiliesWhereSpouse() != null) {
                 for (FamilySpouse fs : personBeingExamined.getFamiliesWhereSpouse()) {
                     Family family = fs.getFamily();
-                    if (family.getHusband() == personBeingExamined) {
-                        if (lookedAt.contains(family.getWife())) {
+                    Individual h = family.getHusband() == null ? null : family.getHusband().getIndividual();
+                    if (h == personBeingExamined) { // NOPMD - deliberately using ==
+                        if (lookedAt.contains((family.getWife() == null ? null : family.getWife().getIndividual()))) {
                             continue;
                         }
                         examineWife(personBeingExamined, fs);
-                    } else if (family.getWife() == personBeingExamined) {
-                        if (lookedAt.contains(family.getHusband())) {
-                            continue;
+                    } else {
+                        Individual w = family.getWife() == null ? null : family.getWife().getIndividual();
+                        if (w == personBeingExamined) { // NOPMD - deliberately using ==
+                            if (lookedAt.contains((family.getHusband() == null ? null : family.getHusband().getIndividual()))) {
+                                continue;
+                            }
+                            examineHusband(personBeingExamined, fs);
                         }
-                        examineHusband(personBeingExamined, fs);
                     }
                     /* and check the children */
                     if (family.getChildren() != null) {
-                        for (Individual c : family.getChildren()) {
-                            if (lookedAt.contains(c)) {
+                        for (IndividualReference c : family.getChildren()) {
+                            if (lookedAt.contains(c.getIndividual())) {
                                 continue;
                             }
-                            if (family.getHusband() == personBeingExamined) { // NOPMD - deliberately using ==, want to
-                                                                              // check if
-                                // same instance
-                                examineChild(personBeingExamined, c, FATHER);
-                            } else if (family.getWife() == personBeingExamined) { // NOPMD - deliberately using ==, want
-                                                                                  // to
-                                                                                  // check
-                                // if same instance
-                                examineChild(personBeingExamined, c, MOTHER);
+                            Individual h2 = family.getHusband() == null ? null : family.getHusband().getIndividual();
+                            if (h2 == personBeingExamined) { // NOPMD - deliberately using ==
+                                examineChild(personBeingExamined, c.getIndividual(), FATHER);
+                            } else {
+                                Individual w2 = family.getWife() == null ? null : family.getWife().getIndividual();
+                                if (w2 == personBeingExamined) { // NOPMD - deliberately using ==
+                                    examineChild(personBeingExamined, c.getIndividual(), MOTHER);
+                                }
                             }
                         }
                     }
@@ -378,7 +383,7 @@ public class RelationshipCalculator {
     private void examineHusband(Individual personBeingExamined, FamilySpouse fs) {
         SimpleRelationship r = new SimpleRelationship();
         r.setIndividual1(personBeingExamined);
-        r.setIndividual2(fs.getFamily().getHusband());
+        r.setIndividual2(fs.getFamily().getHusband() == null ? null : fs.getFamily().getHusband().getIndividual());
         r.setName(HUSBAND);
         currentChain.add(r);
         examine(r.getIndividual2());
@@ -423,7 +428,7 @@ public class RelationshipCalculator {
     private void examineWife(Individual personBeingExamined, FamilySpouse fs) {
         SimpleRelationship r = new SimpleRelationship();
         r.setIndividual1(personBeingExamined);
-        r.setIndividual2(fs.getFamily().getWife());
+        r.setIndividual2(fs.getFamily().getWife() == null ? null : fs.getFamily().getWife().getIndividual());
         r.setName(WIFE);
         currentChain.add(r);
         examine(r.getIndividual2());
@@ -441,7 +446,7 @@ public class RelationshipCalculator {
      *            the sex of original person
      * @return what the relationship would be back to the original person
      */
-    private RelationshipName getReverseRelationship(RelationshipName relationship, StringWithCustomTags sex) {
+    private RelationshipName getReverseRelationship(RelationshipName relationship, StringWithCustomFacts sex) {
         if (sex == null) {
             return relationship.reverseForUnknown;
         }

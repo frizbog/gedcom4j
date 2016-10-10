@@ -122,8 +122,8 @@ public class Issue115Test {
         gedcom.getFamilies().put(f.getXref(), f);
 
         // Set individual 1 to be the father of individual 2
-        f.setHusband(i1);
-        f.getChildren(true).add(i2);
+        f.setHusband(new IndividualReference(i1));
+        f.getChildren(true).add(new IndividualReference(i2));
 
         // Set the family on the parent
         FamilySpouse fs = new FamilySpouse();

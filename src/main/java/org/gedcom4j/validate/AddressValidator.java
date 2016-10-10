@@ -29,12 +29,17 @@ package org.gedcom4j.validate;
 import org.gedcom4j.model.Address;
 
 /**
- * Validator for an {@link Address}. See {@link GedcomValidator} for usage information.
+ * Validator for an {@link Address}. See {@link Validator} for usage information.
  * 
  * @author frizbog1
  * 
  */
 class AddressValidator extends AbstractValidator {
+
+    /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 3107623401886842041L;
 
     /**
      * The address being validated
@@ -44,14 +49,14 @@ class AddressValidator extends AbstractValidator {
     /**
      * Constructor
      * 
-     * @param rootValidator
+     * @param validator
      *            the root validator
      * @param address
      *            the address being validated
      * 
      */
-    AddressValidator(GedcomValidator rootValidator, Address address) {
-        this.rootValidator = rootValidator;
+    AddressValidator(Validator validator, Address address) {
+        super(validator);
         this.address = address;
     }
 
@@ -60,13 +65,13 @@ class AddressValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        checkStringList(address.getLines(), "address lines", false);
-        checkOptionalString(address.getAddr1(), "line 1", address);
-        checkOptionalString(address.getAddr2(), "line 2", address);
-        checkOptionalString(address.getCity(), "city", address);
-        checkOptionalString(address.getStateProvince(), "state/province", address);
-        checkOptionalString(address.getPostalCode(), "postal code", address);
-        checkOptionalString(address.getCountry(), "country", address);
+        checkStringList(address, "lines", false);
+        mustHaveValueOrBeOmitted(address, "addr1");
+        mustHaveValueOrBeOmitted(address, "addr2");
+        mustHaveValueOrBeOmitted(address, "city");
+        mustHaveValueOrBeOmitted(address, "stateProvince");
+        mustHaveValueOrBeOmitted(address, "postalCode");
+        mustHaveValueOrBeOmitted(address, "country");
     }
 
 }

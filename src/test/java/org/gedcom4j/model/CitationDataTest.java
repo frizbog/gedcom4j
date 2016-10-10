@@ -38,12 +38,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import net.jcip.annotations.NotThreadSafe;
+
 /**
  * Test for {@link CitationData}
  * 
  * @author frizbog1
  * 
  */
+@NotThreadSafe
 public class CitationDataTest {
 
     /**
@@ -72,31 +75,31 @@ public class CitationDataTest {
         assertNotSame(c1, c2);
         assertEquals(c1, c2);
 
-        c1.setCustomTags(null);
+        c1.customFacts = null;
         if (Options.isCollectionInitializationEnabled()) {
             assertFalse(c1.equals(c2));
         } else {
             assertEquals(c1, c2);
         }
-        c1.setCustomTags(new ArrayList<StringTree>());
-        if (Options.isCollectionInitializationEnabled()) {
-            assertEquals(c1, c2);
-        } else {
-            assertFalse(c1.equals(c2));
-        }
-
-        c1.setEntryDate(new StringWithCustomTags("Frying Pan"));
-        assertFalse(c1.equals(c2));
-        c2.setEntryDate(new StringWithCustomTags("Frying Pan"));
+        c1.getCustomFacts(true).addAll(new ArrayList<CustomFact>());
         if (Options.isCollectionInitializationEnabled()) {
             assertEquals(c1, c2);
         } else {
             assertFalse(c1.equals(c2));
         }
 
-        c1.getSourceText(true).add(new ArrayList<String>());
+        c1.setEntryDate("Frying Pan");
         assertFalse(c1.equals(c2));
-        c2.getSourceText(true).add(new ArrayList<String>());
+        c2.setEntryDate("Frying Pan");
+        if (Options.isCollectionInitializationEnabled()) {
+            assertEquals(c1, c2);
+        } else {
+            assertFalse(c1.equals(c2));
+        }
+
+        c1.getSourceText(true).add(new MultiStringWithCustomFacts());
+        assertFalse(c1.equals(c2));
+        c2.getSourceText(true).add(new MultiStringWithCustomFacts());
         if (Options.isCollectionInitializationEnabled()) {
             assertEquals(c1, c2);
         } else {
@@ -115,31 +118,31 @@ public class CitationDataTest {
         assertNotSame(c1.hashCode(), c2.hashCode());
         assertEquals(c1.hashCode(), c2.hashCode());
 
-        c1.setCustomTags(null);
+        c1.customFacts = null;
         if (Options.isCollectionInitializationEnabled()) {
             assertFalse(c1.hashCode() == c2.hashCode());
         } else {
             assertEquals(c1.hashCode(), c2.hashCode());
         }
-        c1.setCustomTags(new ArrayList<StringTree>());
+        c1.getCustomFacts(true).addAll(new ArrayList<CustomFact>());
         if (Options.isCollectionInitializationEnabled()) {
             assertEquals(c1.hashCode(), c2.hashCode());
         } else {
             assertTrue(c1.hashCode() != c2.hashCode());
         }
 
-        c1.setEntryDate(new StringWithCustomTags("Frying Pan"));
+        c1.setEntryDate("Frying Pan");
         assertFalse(c1.hashCode() == c2.hashCode());
-        c2.setEntryDate(new StringWithCustomTags("Frying Pan"));
+        c2.setEntryDate("Frying Pan");
         if (Options.isCollectionInitializationEnabled()) {
             assertEquals(c1.hashCode(), c2.hashCode());
         } else {
             assertTrue(c1.hashCode() != c2.hashCode());
         }
 
-        c1.getSourceText(true).add(new ArrayList<String>());
+        c1.getSourceText(true).add(new MultiStringWithCustomFacts());
         assertFalse(c1.hashCode() == c2.hashCode());
-        c2.getSourceText(true).add(new ArrayList<String>());
+        c2.getSourceText(true).add(new MultiStringWithCustomFacts());
         if (Options.isCollectionInitializationEnabled()) {
             assertEquals(c1.hashCode(), c2.hashCode());
         } else {
@@ -157,11 +160,11 @@ public class CitationDataTest {
         CitationData c1 = new CitationData();
         assertEquals("CitationData []", c1.toString());
 
-        c1.setCustomTags(null);
-        c1.setEntryDate(new StringWithCustomTags("Frying Pan"));
-        c1.getSourceText(true).add(new ArrayList<String>());
+        c1.customFacts = null;
+        c1.setEntryDate("Frying Pan");
+        c1.getSourceText(true).add(new MultiStringWithCustomFacts());
 
-        assertEquals("CitationData [entryDate=Frying Pan, sourceText=[[]], ]", c1.toString());
+        assertEquals("CitationData [entryDate=Frying Pan, sourceText=[MultiStringWithCustomFacts []], ]", c1.toString());
     }
 
     /**
@@ -171,12 +174,13 @@ public class CitationDataTest {
     public void testToStringPrepopulated() {
         Options.setCollectionInitializationEnabled(true);
         CitationData c1 = new CitationData();
-        assertEquals("CitationData [sourceText=[], customTags=[]]", c1.toString());
+        assertEquals("CitationData [sourceText=[], customFacts=[]]", c1.toString());
 
-        c1.setCustomTags(null);
-        c1.setEntryDate(new StringWithCustomTags("Frying Pan"));
-        c1.getSourceText(true).add(new ArrayList<String>());
+        c1.customFacts = null;
+        c1.setEntryDate("Frying Pan");
+        c1.getSourceText(true).add(new MultiStringWithCustomFacts());
 
-        assertEquals("CitationData [entryDate=Frying Pan, sourceText=[[]], ]", c1.toString());
+        assertEquals("CitationData [entryDate=Frying Pan, sourceText=[MultiStringWithCustomFacts [lines=[], customFacts=[]]], ]", c1
+                .toString());
     }
 }

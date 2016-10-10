@@ -50,12 +50,12 @@ public class Place extends AbstractNotesElement implements HasCitations {
     /**
      * Latitude. New for GEDCOM 5.5.1.
      */
-    private StringWithCustomTags latitude;
+    private StringWithCustomFacts latitude;
 
     /**
      * Longitude. New for GEDCOM 5.5.1.
      */
-    private StringWithCustomTags longitude;
+    private StringWithCustomFacts longitude;
 
     /**
      * Phonetic variations on the place name. New for GEDCOM 5.5.1.
@@ -65,7 +65,7 @@ public class Place extends AbstractNotesElement implements HasCitations {
     /**
      * The place format (hierarchy)
      */
-    private StringWithCustomTags placeFormat;
+    private StringWithCustomFacts placeFormat;
 
     /**
      * The place name (value)
@@ -76,6 +76,54 @@ public class Place extends AbstractNotesElement implements HasCitations {
      * Romanized variations on the place name. New for GEDCOM 5.5.1.
      */
     private List<AbstractNameVariation> romanized = getRomanized(Options.isCollectionInitializationEnabled());
+
+    /** Default constructor */
+    public Place() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public Place(Place other) {
+        super(other);
+        if (other.citations != null) {
+            citations = new ArrayList<>();
+            for (AbstractCitation ac : other.citations) {
+                if (ac instanceof CitationWithoutSource) {
+                    citations.add(new CitationWithoutSource((CitationWithoutSource) ac));
+                } else if (ac instanceof CitationWithSource) {
+                    citations.add(new CitationWithSource((CitationWithSource) ac));
+                }
+            }
+        }
+        if (other.latitude != null) {
+            latitude = new StringWithCustomFacts(other.latitude);
+        }
+        if (other.longitude != null) {
+            longitude = new StringWithCustomFacts(other.longitude);
+        }
+        if (other.phonetic != null) {
+            phonetic = new ArrayList<>();
+            for (AbstractNameVariation ph : other.phonetic) {
+                phonetic.add(new PlaceNameVariation((PlaceNameVariation) ph));
+            }
+        }
+        if (other.placeFormat != null) {
+            placeFormat = new StringWithCustomFacts(other.placeFormat);
+        }
+        placeName = other.placeName;
+        if (other.romanized != null) {
+            romanized = new ArrayList<>();
+            for (AbstractNameVariation ph : other.romanized) {
+                romanized.add(new PlaceNameVariation((PlaceNameVariation) ph));
+            }
+        }
+
+    }
 
     /**
      * {@inheritDoc}
@@ -149,6 +197,7 @@ public class Place extends AbstractNotesElement implements HasCitations {
      *
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations() {
         return citations;
     }
@@ -161,6 +210,7 @@ public class Place extends AbstractNotesElement implements HasCitations {
      * 
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
             citations = new ArrayList<>(0);
@@ -173,7 +223,7 @@ public class Place extends AbstractNotesElement implements HasCitations {
      *
      * @return the latitude
      */
-    public StringWithCustomTags getLatitude() {
+    public StringWithCustomFacts getLatitude() {
         return latitude;
     }
 
@@ -182,7 +232,7 @@ public class Place extends AbstractNotesElement implements HasCitations {
      *
      * @return the longitude
      */
-    public StringWithCustomTags getLongitude() {
+    public StringWithCustomFacts getLongitude() {
         return longitude;
     }
 
@@ -214,7 +264,7 @@ public class Place extends AbstractNotesElement implements HasCitations {
      *
      * @return the place format
      */
-    public StringWithCustomTags getPlaceFormat() {
+    public StringWithCustomFacts getPlaceFormat() {
         return placeFormat;
     }
 
@@ -273,7 +323,17 @@ public class Place extends AbstractNotesElement implements HasCitations {
      * @param latitude
      *            the new latitude
      */
-    public void setLatitude(StringWithCustomTags latitude) {
+    public void setLatitude(String latitude) {
+        this.latitude = latitude == null ? null : new StringWithCustomFacts(latitude);
+    }
+
+    /**
+     * Sets the latitude.
+     *
+     * @param latitude
+     *            the new latitude
+     */
+    public void setLatitude(StringWithCustomFacts latitude) {
         this.latitude = latitude;
     }
 
@@ -283,7 +343,17 @@ public class Place extends AbstractNotesElement implements HasCitations {
      * @param longitude
      *            the new longitude
      */
-    public void setLongitude(StringWithCustomTags longitude) {
+    public void setLongitude(String longitude) {
+        this.longitude = longitude == null ? null : new StringWithCustomFacts(longitude);
+    }
+
+    /**
+     * Sets the longitude.
+     *
+     * @param longitude
+     *            the new longitude
+     */
+    public void setLongitude(StringWithCustomFacts longitude) {
         this.longitude = longitude;
     }
 
@@ -293,7 +363,17 @@ public class Place extends AbstractNotesElement implements HasCitations {
      * @param placeFormat
      *            the new place format
      */
-    public void setPlaceFormat(StringWithCustomTags placeFormat) {
+    public void setPlaceFormat(String placeFormat) {
+        this.placeFormat = placeFormat == null ? null : new StringWithCustomFacts(placeFormat);
+    }
+
+    /**
+     * Sets the place format.
+     *
+     * @param placeFormat
+     *            the new place format
+     */
+    public void setPlaceFormat(StringWithCustomFacts placeFormat) {
         this.placeFormat = placeFormat;
     }
 
@@ -329,9 +409,9 @@ public class Place extends AbstractNotesElement implements HasCitations {
             builder.append(longitude);
             builder.append(", ");
         }
-        if (getNotes() != null) {
-            builder.append("notes=");
-            builder.append(getNotes());
+        if (getNoteStructures() != null) {
+            builder.append("noteStructures=");
+            builder.append(getNoteStructures());
             builder.append(", ");
         }
         if (phonetic != null) {
@@ -354,9 +434,9 @@ public class Place extends AbstractNotesElement implements HasCitations {
             builder.append(romanized);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("customFacts=");
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

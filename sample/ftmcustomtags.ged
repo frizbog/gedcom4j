@@ -1,0 +1,107 @@
+0 HEAD
+1 SOUR FTM
+2 VERS Family Tree Maker (22.2.5)
+2 NAME Family Tree Maker for Mac OS X
+2 CORP Ancestry.com
+3 ADDR 360 W 4800 N
+4 CONT Provo, UT 84604
+3 PHON (801) 705-7000
+1 DEST GED55
+1 DATE 20 SEP 2016
+1 CHAR UTF-8
+1 SUBN @SUBMISSION@
+1 FILE ftmcustomtags.ged
+1 SUBM @SUBM@
+1 GEDC
+2 VERS 5.5.1
+2 FORM LINEAGE-LINKED
+0 @SUBMISSION@ SUBN
+0 @SUBM@ SUBM
+1 NAME UNSPECIFIED
+0 @I1@ INDI
+1 NAME John /Johnson/
+1 SEX M
+1 _MISN It was swell
+2 DATE BET 01 JAN AND 31 AUG 1977
+2 PLAC Pocatello, Bannock, Idaho, USA
+1 _DNA 99% Human
+2 DATE 31 OCT 1990
+2 PLAC Poughkeepsie, Dutchess, New York, USA
+1 _FUN Nobody showed up
+2 DATE 04 JUL 2000
+2 PLAC Honolulu, Honolulu, Hawaii, USA
+1 _ORDI Frying pans were not involved
+2 DATE 09 SEP 1979
+2 PLAC Temecula, Riverside, California, USA
+1 _MILTID 1234567
+2 DATE 06 JUN 1966
+2 PLAC Walla Walla, Walla Walla, Washington, USA
+1 _EMPLOY Keeling moose and squirrel
+2 DATE 1981
+2 PLAC Frostbite Falls, Minnesota, USA
+1 _WEIG 165lb
+2 SOUR @S1@
+3 PAGE p1
+3 DATA
+4 TEXT “John weighs 165 lbs.”
+3 QUAY 3
+3 _JUST Because it was an awesome napkin.
+3 _LINK http://gedcom4j.org
+1 _INIT Wore a blue tie
+2 DATE 03 MAR 1970
+2 PLAC Kalamazoo, Kalamazoo, Michigan, USA
+1 _DEST Alpha Centauri
+1 _NAMS Mr. Phil Philanganes (the Phamous Photographer)
+1 _MDCL Decapitated, but recovered
+2 DATE 08 AUG 1978
+2 PLAC San Antonio, Bexar, Texas, USA
+1 _ELEC Mayor of Munchkin City
+2 DATE 08 NOV 1992
+2 PLAC Orlando, Brevard, Florida, USA
+1 _HEIG 6' 2"
+1 _CIRC Dr. Streck performed
+2 DATE 08 JAN 1950
+2 PLAC Colonial Heights, Independent Cities, Virginia, USA
+1 _ORIG Cabbage Patch
+1 BIRT
+2 DATE 01 JAN 1950
+1 _MILT Garbage Pail Scrubber
+2 DATE BET 06 JUN 1966 AND 07 JUL 1967
+2 PLAC Fort Bragg, Cumberland, North Carolina, USA
+1 _EXCM Church of the Flying Spaghetti Monster
+2 DATE 22 NOV 1982
+2 PLAC Washington City, District Of Columbia, District of Columbia, USA
+1 DEAT
+2 DATE 30 JUN 2000
+1 _DCAUSE Alien abduction
+1 _PHOTO @M1@
+1 OBJE @M1@
+1 FAMS @F2@
+1 FAMC @F1@
+0 @I3@ INDI
+1 NAME June /Smith/
+1 SEX F
+1 FAMS @F1@
+0 @I2@ INDI
+1 NAME Jesse /Johnson/
+1 SEX M
+1 FAMS @F1@
+0 @F1@ FAM
+1 HUSB @I2@
+1 WIFE @I3@
+1 CHIL @I1@
+2 _FREL Step
+2 _MREL Guardian
+1 _SEPR There was a big fight
+2 DATE 05 MAY 1955
+2 PLAC Glad Valley, Ziebach, South Dakota, USA
+0 @F2@ FAM
+1 HUSB @I1@
+0 @S1@ SOUR
+1 TITL Napkin Drawing
+0 @M1@ OBJE
+1 FILE Vitruvian_man.jpg
+2 FORM jpg
+2 TITL Vitruvian_man
+2 DATE 9/19/16, 11:40:36 AM
+0 TRLR

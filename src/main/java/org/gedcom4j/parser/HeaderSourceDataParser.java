@@ -28,7 +28,6 @@ package org.gedcom4j.parser;
 
 import org.gedcom4j.model.HeaderSourceData;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * parser for {@link HeaderSourceData} objects
@@ -61,9 +60,9 @@ class HeaderSourceDataParser extends AbstractParser<HeaderSourceData> {
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.DATE.equalsText(ch.getTag())) {
-                    loadInto.setPublishDate(new StringWithCustomTags(ch));
+                    loadInto.setPublishDate(parseStringWithCustomFacts(ch));
                 } else if (Tag.COPYRIGHT.equalsText(ch.getTag())) {
-                    loadInto.setCopyright(new StringWithCustomTags(ch));
+                    loadInto.setCopyright(parseStringWithCustomFacts(ch));
                 } else {
                     unknownTag(ch, loadInto);
                 }

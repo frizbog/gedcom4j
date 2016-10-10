@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.model;
 
+import org.gedcom4j.model.enumerations.FamilyEventType;
+
 /**
  * Represents a family event. Corresponds to the FAMILY_EVENT_STRUCTURE from the GEDCOM standard along with the two child elements
  * of the wife and husband ages.
@@ -42,7 +44,7 @@ public class FamilyEvent extends AbstractEvent {
     /**
      * Age of husband at time of event
      */
-    private StringWithCustomTags husbandAge;
+    private StringWithCustomFacts husbandAge;
 
     /**
      * The type of event. See FAMILY_EVENT_STRUCTURE in the GEDCOM standard for more info.
@@ -52,7 +54,29 @@ public class FamilyEvent extends AbstractEvent {
     /**
      * Age of wife at time of event
      */
-    private StringWithCustomTags wifeAge;
+    private StringWithCustomFacts wifeAge;
+
+    /** Default constructor */
+    public FamilyEvent() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public FamilyEvent(FamilyEvent other) {
+        super(other);
+        if (other.husbandAge != null) {
+            husbandAge = new StringWithCustomFacts(other.husbandAge);
+        }
+        type = other.type;
+        if (other.wifeAge != null) {
+            wifeAge = new StringWithCustomFacts(other.wifeAge);
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -94,7 +118,7 @@ public class FamilyEvent extends AbstractEvent {
      *
      * @return the husband's age
      */
-    public StringWithCustomTags getHusbandAge() {
+    public StringWithCustomFacts getHusbandAge() {
         return husbandAge;
     }
 
@@ -112,7 +136,7 @@ public class FamilyEvent extends AbstractEvent {
      *
      * @return the wife's age
      */
-    public StringWithCustomTags getWifeAge() {
+    public StringWithCustomFacts getWifeAge() {
         return wifeAge;
     }
 
@@ -135,7 +159,17 @@ public class FamilyEvent extends AbstractEvent {
      * @param husbandAge
      *            the new husband's age
      */
-    public void setHusbandAge(StringWithCustomTags husbandAge) {
+    public void setHusbandAge(String husbandAge) {
+        this.husbandAge = husbandAge == null ? null : new StringWithCustomFacts(husbandAge);
+    }
+
+    /**
+     * Sets the husband's age.
+     *
+     * @param husbandAge
+     *            the new husband's age
+     */
+    public void setHusbandAge(StringWithCustomFacts husbandAge) {
         this.husbandAge = husbandAge;
     }
 
@@ -155,7 +189,17 @@ public class FamilyEvent extends AbstractEvent {
      * @param wifeAge
      *            the new wife's age
      */
-    public void setWifeAge(StringWithCustomTags wifeAge) {
+    public void setWifeAge(String wifeAge) {
+        this.wifeAge = wifeAge == null ? null : new StringWithCustomFacts(wifeAge);
+    }
+
+    /**
+     * Sets the wife's age.
+     *
+     * @param wifeAge
+     *            the new wife's age
+     */
+    public void setWifeAge(StringWithCustomFacts wifeAge) {
         this.wifeAge = wifeAge;
     }
 

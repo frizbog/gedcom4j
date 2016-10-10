@@ -36,7 +36,7 @@ import java.io.IOException;
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyEvent;
-import org.gedcom4j.model.FamilyEventType;
+import org.gedcom4j.model.enumerations.FamilyEventType;
 import org.junit.Test;
 
 /**
@@ -72,7 +72,7 @@ public class Issue87Test {
         assertEquals(1, family.getEvents().size());
         FamilyEvent marriage = family.getEvents().get(0);
         assertEquals(FamilyEventType.MARRIAGE, marriage.getType());
-        assertNull(marriage.getNotes());
+        assertNull(marriage.getNoteStructures());
     }
 
 }

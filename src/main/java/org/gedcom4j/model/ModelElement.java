@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Mark A. Sikes
+ * Copyright (c) 2016 Mark A. Sikes and Matthew R Harrah
  *
  * MIT License
  *
@@ -26,10 +26,13 @@
  */
 package org.gedcom4j.model;
 
+import java.io.Serializable;
+
 /**
  * Marks an object in the Gedcom4j object model
  * 
  * @author Mark A Sikes
+ * @author frizbog
  */
-public interface ModelElement {
+public interface ModelElement extends Serializable {
 }

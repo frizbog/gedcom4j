@@ -56,6 +56,7 @@ public class IndividualByLastNameFirstNameComparator implements Serializable, Co
      * @return -1 if i1 &lt; i2, 0 if i1 == i2, 1 if i1 &gt; i2
      * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
      */
+    @Override
     public int compare(Individual i1, Individual i2) {
         String s1 = "-unknown-";
         String s2 = "-unknown-";

@@ -51,22 +51,66 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
     /**
      * The emails for this submitter. New for GEDCOM 5.5.1
      */
-    protected List<StringWithCustomTags> emails = getEmails(Options.isCollectionInitializationEnabled());
+    protected List<StringWithCustomFacts> emails = getEmails(Options.isCollectionInitializationEnabled());
 
     /**
      * Fax numbers. New for GEDCOM 5.5.1.
      */
-    protected List<StringWithCustomTags> faxNumbers = getFaxNumbers(Options.isCollectionInitializationEnabled());
+    protected List<StringWithCustomFacts> faxNumbers = getFaxNumbers(Options.isCollectionInitializationEnabled());
 
     /**
      * The phone numbers for this submitter
      */
-    protected List<StringWithCustomTags> phoneNumbers = getPhoneNumbers(Options.isCollectionInitializationEnabled());
+    protected List<StringWithCustomFacts> phoneNumbers = getPhoneNumbers(Options.isCollectionInitializationEnabled());
 
     /**
      * Web URL's. New for GEDCOM 5.5.1.
      */
-    protected List<StringWithCustomTags> wwwUrls = getWwwUrls(Options.isCollectionInitializationEnabled());
+    protected List<StringWithCustomFacts> wwwUrls = getWwwUrls(Options.isCollectionInitializationEnabled());
+
+    /** Default constructor */
+    public AbstractAddressableElement() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public AbstractAddressableElement(AbstractAddressableElement other) {
+        super(other);
+
+        if (other.address != null) {
+            address = new Address(other.address);
+        }
+        if (other.emails != null) {
+            emails = new ArrayList<>();
+            for (StringWithCustomFacts e : other.emails) {
+                emails.add(new StringWithCustomFacts(e));
+            }
+        }
+        if (other.faxNumbers != null) {
+            faxNumbers = new ArrayList<>();
+            for (StringWithCustomFacts swct : other.faxNumbers) {
+                faxNumbers.add(new StringWithCustomFacts(swct));
+            }
+        }
+        if (other.phoneNumbers != null) {
+            phoneNumbers = new ArrayList<>();
+            for (StringWithCustomFacts swct : other.phoneNumbers) {
+                phoneNumbers.add(new StringWithCustomFacts(swct));
+            }
+        }
+        if (other.wwwUrls != null) {
+            wwwUrls = new ArrayList<>();
+            for (StringWithCustomFacts swct : other.wwwUrls) {
+                wwwUrls.add(new StringWithCustomFacts(swct));
+            }
+        }
+
+    }
 
     /**
      * {@inheritDoc}
@@ -133,7 +177,7 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
      * {@inheritDoc}
      */
     @Override
-    public List<StringWithCustomTags> getEmails() {
+    public List<StringWithCustomFacts> getEmails() {
         return emails;
     }
 
@@ -141,7 +185,7 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
      * {@inheritDoc}
      */
     @Override
-    public List<StringWithCustomTags> getEmails(boolean initializeIfNeeded) {
+    public List<StringWithCustomFacts> getEmails(boolean initializeIfNeeded) {
         if (initializeIfNeeded && emails == null) {
             emails = new ArrayList<>(0);
         }
@@ -153,7 +197,7 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
      * {@inheritDoc}
      */
     @Override
-    public List<StringWithCustomTags> getFaxNumbers() {
+    public List<StringWithCustomFacts> getFaxNumbers() {
         return faxNumbers;
     }
 
@@ -161,7 +205,7 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
      * {@inheritDoc}
      */
     @Override
-    public List<StringWithCustomTags> getFaxNumbers(boolean initializeIfNeeded) {
+    public List<StringWithCustomFacts> getFaxNumbers(boolean initializeIfNeeded) {
         if (initializeIfNeeded && faxNumbers == null) {
             faxNumbers = new ArrayList<>(0);
         }
@@ -172,7 +216,7 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
      * {@inheritDoc}
      */
     @Override
-    public List<StringWithCustomTags> getPhoneNumbers() {
+    public List<StringWithCustomFacts> getPhoneNumbers() {
         return phoneNumbers;
     }
 
@@ -180,7 +224,7 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
      * {@inheritDoc}
      */
     @Override
-    public List<StringWithCustomTags> getPhoneNumbers(boolean initializeIfNeeded) {
+    public List<StringWithCustomFacts> getPhoneNumbers(boolean initializeIfNeeded) {
         if (initializeIfNeeded && phoneNumbers == null) {
             phoneNumbers = new ArrayList<>(0);
         }
@@ -191,7 +235,7 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
      * {@inheritDoc}
      */
     @Override
-    public List<StringWithCustomTags> getWwwUrls() {
+    public List<StringWithCustomFacts> getWwwUrls() {
         return wwwUrls;
     }
 
@@ -199,7 +243,7 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
      * {@inheritDoc}
      */
     @Override
-    public List<StringWithCustomTags> getWwwUrls(boolean initializeIfNeeded) {
+    public List<StringWithCustomFacts> getWwwUrls(boolean initializeIfNeeded) {
         if (initializeIfNeeded && wwwUrls == null) {
             wwwUrls = new ArrayList<>(0);
         }
@@ -213,11 +257,11 @@ public abstract class AbstractAddressableElement extends AbstractNotesElement im
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((address == null) ? 0 : address.hashCode());
-        result = prime * result + ((emails == null) ? 0 : emails.hashCode());
-        result = prime * result + ((faxNumbers == null) ? 0 : faxNumbers.hashCode());
-        result = prime * result + ((phoneNumbers == null) ? 0 : phoneNumbers.hashCode());
-        result = prime * result + ((wwwUrls == null) ? 0 : wwwUrls.hashCode());
+        result = prime * result + (address == null ? 0 : address.hashCode());
+        result = prime * result + (emails == null ? 0 : emails.hashCode());
+        result = prime * result + (faxNumbers == null ? 0 : faxNumbers.hashCode());
+        result = prime * result + (phoneNumbers == null ? 0 : phoneNumbers.hashCode());
+        result = prime * result + (wwwUrls == null ? 0 : wwwUrls.hashCode());
         return result;
     }
 

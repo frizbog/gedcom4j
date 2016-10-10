@@ -46,7 +46,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
     /**
      * The automated record ID number
      */
-    private StringWithCustomTags automatedRecordId;
+    private StringWithCustomFacts automatedRecordId;
 
     /**
      * The change date information for this family record
@@ -56,7 +56,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
     /**
      * A list of the children in the family
      */
-    private List<Individual> children = getChildren(Options.isCollectionInitializationEnabled());
+    private List<IndividualReference> children = getChildren(Options.isCollectionInitializationEnabled());
 
     /**
      * The citations for this object
@@ -71,7 +71,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
     /**
      * The husband in the family
      */
-    private Individual husband;
+    private IndividualReference husband;
 
     /**
      * The LDS Spouse Sealings for this family
@@ -81,28 +81,28 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
     /**
      * Multimedia links for this source citation
      */
-    private List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
+    private List<MultimediaReference> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
 
     /**
      * The number of children
      */
-    private StringWithCustomTags numChildren;
+    private StringWithCustomFacts numChildren;
 
     /**
      * The permanent record file number
      */
-    private StringWithCustomTags recFileNumber;
+    private StringWithCustomFacts recFileNumber;
 
     /**
      * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be "confidential",
      * "locked", or "privacy" but this implementation allows any value.
      */
-    private StringWithCustomTags restrictionNotice;
+    private StringWithCustomFacts restrictionNotice;
 
     /**
      * A list of the submitters for this family
      */
-    private List<Submitter> submitters = getSubmitters(Options.isCollectionInitializationEnabled());
+    private List<SubmitterReference> submitters = getSubmitters(Options.isCollectionInitializationEnabled());
 
     /**
      * The user references for this submitter
@@ -112,12 +112,108 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
     /**
      * The wife in the family
      */
-    private Individual wife;
+    private IndividualReference wife;
 
     /**
      * The xref for this submitter
      */
     private String xref;
+
+    /** Default Constructor */
+    public Family() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            the other object to copy
+     */
+    public Family(Family other) {
+        this(other, true);
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            the other object to copy
+     * @param deep
+     *            pass in true if a full, deep copy of the family should be created. If false, the family is copied without
+     *            references to the individuals in it (the husband, wife, and children).
+     */
+    public Family(Family other, boolean deep) {
+        super(other);
+        if (other.automatedRecordId != null) {
+            automatedRecordId = new StringWithCustomFacts(other.automatedRecordId);
+        }
+        if (other.changeDate != null) {
+            changeDate = new ChangeDate(other.changeDate);
+        }
+        if (deep && other.children != null) {
+            children = new ArrayList<>();
+            for (IndividualReference c : other.children) {
+                children.add(new IndividualReference(c, false));
+            }
+        }
+        if (other.citations != null) {
+            citations = new ArrayList<>();
+            for (AbstractCitation ac : other.citations) {
+                if (ac instanceof CitationWithoutSource) {
+                    citations.add(new CitationWithoutSource((CitationWithoutSource) ac));
+                } else if (ac instanceof CitationWithSource) {
+                    citations.add(new CitationWithSource((CitationWithSource) ac));
+                }
+            }
+        }
+        if (other.events != null) {
+            events = new ArrayList<>();
+            for (FamilyEvent e : other.events) {
+                events.add(new FamilyEvent(e));
+            }
+        }
+        if (deep && other.husband != null) {
+            husband = new IndividualReference(other.husband, false);
+        }
+        if (other.ldsSpouseSealings != null) {
+            ldsSpouseSealings = new ArrayList<>();
+            for (LdsSpouseSealing lss : other.ldsSpouseSealings) {
+                ldsSpouseSealings.add(new LdsSpouseSealing(lss));
+            }
+        }
+        if (other.multimedia != null) {
+            multimedia = new ArrayList<>();
+            for (MultimediaReference m : other.multimedia) {
+                multimedia.add(new MultimediaReference(m));
+            }
+        }
+        if (other.numChildren != null) {
+            numChildren = new StringWithCustomFacts(other.numChildren);
+        }
+        if (other.recFileNumber != null) {
+            recFileNumber = new StringWithCustomFacts(other.recFileNumber);
+        }
+        if (other.restrictionNotice != null) {
+            restrictionNotice = new StringWithCustomFacts(other.restrictionNotice);
+        }
+        if (other.submitters != null) {
+            submitters = new ArrayList<>();
+            for (SubmitterReference s : other.submitters) {
+                submitters.add(new SubmitterReference(s));
+            }
+        }
+        if (other.userReferences != null) {
+            userReferences = new ArrayList<>();
+            for (UserReference ur : other.userReferences) {
+                userReferences.add(new UserReference(ur));
+            }
+        }
+        if (deep && other.wife != null) {
+            wife = new IndividualReference(other.wife, false);
+        }
+        xref = other.xref;
+    }
 
     /**
      * {@inheritDoc}
@@ -248,7 +344,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the automated record id
      */
-    public StringWithCustomTags getAutomatedRecordId() {
+    public StringWithCustomFacts getAutomatedRecordId() {
         return automatedRecordId;
     }
 
@@ -266,7 +362,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the children
      */
-    public List<Individual> getChildren() {
+    public List<IndividualReference> getChildren() {
         return children;
     }
 
@@ -277,7 +373,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *            initialize the collection, if needed?
      * @return the children
      */
-    public List<Individual> getChildren(boolean initializeIfNeeded) {
+    public List<IndividualReference> getChildren(boolean initializeIfNeeded) {
         if (initializeIfNeeded && children == null) {
             children = new ArrayList<>(0);
         }
@@ -289,6 +385,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations() {
         return citations;
     }
@@ -301,6 +398,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      * 
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
             citations = new ArrayList<>(0);
@@ -336,7 +434,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the husband
      */
-    public Individual getHusband() {
+    public IndividualReference getHusband() {
         return husband;
     }
 
@@ -368,7 +466,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the multimedia
      */
-    public List<Multimedia> getMultimedia() {
+    public List<MultimediaReference> getMultimedia() {
         return multimedia;
     }
 
@@ -379,7 +477,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *            true if this collection should be created on-the-fly if it is currently null
      * @return the multimedia
      */
-    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
+    public List<MultimediaReference> getMultimedia(boolean initializeIfNeeded) {
         if (initializeIfNeeded && multimedia == null) {
             multimedia = new ArrayList<>(0);
         }
@@ -391,7 +489,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the number of children
      */
-    public StringWithCustomTags getNumChildren() {
+    public StringWithCustomFacts getNumChildren() {
         return numChildren;
     }
 
@@ -400,7 +498,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the rec file number
      */
-    public StringWithCustomTags getRecFileNumber() {
+    public StringWithCustomFacts getRecFileNumber() {
         return recFileNumber;
     }
 
@@ -409,7 +507,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the restriction notice
      */
-    public StringWithCustomTags getRestrictionNotice() {
+    public StringWithCustomFacts getRestrictionNotice() {
         return restrictionNotice;
     }
 
@@ -418,7 +516,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the submitters
      */
-    public List<Submitter> getSubmitters() {
+    public List<SubmitterReference> getSubmitters() {
         return submitters;
     }
 
@@ -429,7 +527,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *            initialize the collection, if needed?
      * @return the submitters
      */
-    public List<Submitter> getSubmitters(boolean initializeIfNeeded) {
+    public List<SubmitterReference> getSubmitters(boolean initializeIfNeeded) {
         if (initializeIfNeeded && submitters == null) {
             submitters = new ArrayList<>(0);
         }
@@ -464,7 +562,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the wife
      */
-    public Individual getWife() {
+    public IndividualReference getWife() {
         return wife;
     }
 
@@ -473,6 +571,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      *
      * @return the xref
      */
+    @Override
     public String getXref() {
         return xref;
     }
@@ -508,7 +607,17 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      * @param automatedRecordId
      *            the new automated record id
      */
-    public void setAutomatedRecordId(StringWithCustomTags automatedRecordId) {
+    public void setAutomatedRecordId(String automatedRecordId) {
+        this.automatedRecordId = automatedRecordId == null ? null : new StringWithCustomFacts(automatedRecordId);
+    }
+
+    /**
+     * Sets the automated record id.
+     *
+     * @param automatedRecordId
+     *            the new automated record id
+     */
+    public void setAutomatedRecordId(StringWithCustomFacts automatedRecordId) {
         this.automatedRecordId = automatedRecordId;
     }
 
@@ -528,7 +637,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      * @param husband
      *            the new husband
      */
-    public void setHusband(Individual husband) {
+    public void setHusband(IndividualReference husband) {
         this.husband = husband;
     }
 
@@ -538,7 +647,17 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      * @param numChildren
      *            the new number of children
      */
-    public void setNumChildren(StringWithCustomTags numChildren) {
+    public void setNumChildren(String numChildren) {
+        this.numChildren = numChildren == null ? null : new StringWithCustomFacts(numChildren);
+    }
+
+    /**
+     * Sets the number of children.
+     *
+     * @param numChildren
+     *            the new number of children
+     */
+    public void setNumChildren(StringWithCustomFacts numChildren) {
         this.numChildren = numChildren;
     }
 
@@ -548,7 +667,17 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      * @param recFileNumber
      *            the new rec file number
      */
-    public void setRecFileNumber(StringWithCustomTags recFileNumber) {
+    public void setRecFileNumber(String recFileNumber) {
+        this.recFileNumber = recFileNumber == null ? null : new StringWithCustomFacts(recFileNumber);
+    }
+
+    /**
+     * Sets the rec file number.
+     *
+     * @param recFileNumber
+     *            the new rec file number
+     */
+    public void setRecFileNumber(StringWithCustomFacts recFileNumber) {
         this.recFileNumber = recFileNumber;
     }
 
@@ -558,7 +687,17 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      * @param restrictionNotice
      *            the new restriction notice
      */
-    public void setRestrictionNotice(StringWithCustomTags restrictionNotice) {
+    public void setRestrictionNotice(String restrictionNotice) {
+        this.restrictionNotice = restrictionNotice == null ? null : new StringWithCustomFacts(restrictionNotice);
+    }
+
+    /**
+     * Sets the restriction notice.
+     *
+     * @param restrictionNotice
+     *            the new restriction notice
+     */
+    public void setRestrictionNotice(StringWithCustomFacts restrictionNotice) {
         this.restrictionNotice = restrictionNotice;
     }
 
@@ -568,7 +707,7 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
      * @param wife
      *            the new wife
      */
-    public void setWife(Individual wife) {
+    public void setWife(IndividualReference wife) {
         this.wife = wife;
     }
 
@@ -629,9 +768,9 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
             builder.append(multimedia);
             builder.append(", ");
         }
-        if (getNotes() != null) {
-            builder.append("notes=");
-            builder.append(getNotes());
+        if (getNoteStructures() != null) {
+            builder.append("noteStructures=");
+            builder.append(getNoteStructures());
             builder.append(", ");
         }
         if (numChildren != null) {
@@ -669,9 +808,9 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
             builder.append(xref);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("customFacts=");
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

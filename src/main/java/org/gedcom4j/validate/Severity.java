@@ -27,7 +27,7 @@
 package org.gedcom4j.validate;
 
 /**
- * The severity of a problem found during validation
+ * The severity of a problem found during validation.
  * 
  * @author frizbog1
  * 

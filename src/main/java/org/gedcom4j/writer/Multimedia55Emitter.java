@@ -69,13 +69,14 @@ class Multimedia55Emitter extends AbstractEmitter<Collection<Multimedia>> {
             emitTag(0, m.getXref(), "OBJE");
             emitTagWithRequiredValue(1, "FORM", m.getEmbeddedMediaFormat());
             emitTagIfValueNotNull(1, "TITL", m.getEmbeddedTitle());
-            new NotesEmitter(baseWriter, 1, m.getNotes()).emit();
+            new NoteStructureEmitter(baseWriter, 1, m.getNoteStructures()).emit();
             emitTag(1, "BLOB");
             for (String b : m.getBlob()) {
                 emitTagWithRequiredValue(2, "CONT", b);
             }
-            if (m.getContinuedObject() != null && m.getContinuedObject().getXref() != null) {
-                emitTagWithRequiredValue(1, "OBJE", m.getContinuedObject().getXref());
+            if (m.getContinuedObject() != null && m.getContinuedObject().getMultimedia() != null && m.getContinuedObject()
+                    .getMultimedia().getXref() != null) {
+                emitTagWithRequiredValue(1, "OBJE", m.getContinuedObject().getMultimedia().getXref());
             }
             if (m.getUserReferences() != null) {
                 for (UserReference u : m.getUserReferences()) {
@@ -90,7 +91,7 @@ class Multimedia55Emitter extends AbstractEmitter<Collection<Multimedia>> {
                         "GEDCOM version is 5.5, but found file references in multimedia object " + m.getXref()
                                 + " which are not allowed until GEDCOM 5.5.1");
             }
-            emitCustomTags(1, m.getCustomTags());
+            emitCustomFacts(1, m.getCustomFacts());
         }
     }
 

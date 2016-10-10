@@ -32,14 +32,16 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
-import org.gedcom4j.model.IndividualEventType;
+import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.gedcom4j.parser.GedcomParser;
+import org.gedcom4j.validate.Validator.Finding;
 import org.junit.Test;
 
 /**
@@ -78,13 +80,13 @@ public class EventsWithDescriptionsTest {
         IndividualEvent eBefore = iBefore.getEvents().get(0); // The birth event
         assertNotNull(eBefore);
         assertEquals(IndividualEventType.BIRTH, eBefore.getType());
-        assertNull(eBefore.getyNull());
+        assertNull(eBefore.getYNull());
         assertNotNull(eBefore.getDescription());
 
         // Write the file back out in standard format
         String fn = "tmp/" + this.getClass().getName() + ".ged";
         GedcomWriter gw = new GedcomWriter(gBefore);
-        gw.validationSuppressed = true;
+        gw.setValidationSuppressed(true);
         gw.write(fn);
 
         // Read the file we just wrote back in. The non-standard part should be removed.
@@ -102,7 +104,7 @@ public class EventsWithDescriptionsTest {
         IndividualEvent eAfter = iAfter.getEvents().get(0); // The birth event
         assertNotNull(eAfter);
         assertEquals(IndividualEventType.BIRTH, eAfter.getType());
-        assertNull(eAfter.getyNull());
+        assertNull(eAfter.getYNull());
 
         // And the big payoff...
         assertNull(eAfter.getDescription());
@@ -137,7 +139,7 @@ public class EventsWithDescriptionsTest {
         IndividualEvent eBefore = iBefore.getEvents().get(0); // The birth event
         assertNotNull(eBefore);
         assertEquals(IndividualEventType.BIRTH, eBefore.getType());
-        assertNull(eBefore.getyNull());
+        assertNull(eBefore.getYNull());
         assertNotNull(eBefore.getDescription());
 
         // Attempt to write the file back out in standard format
@@ -147,7 +149,30 @@ public class EventsWithDescriptionsTest {
             gw.write(fn);
             fail("Expected a writer exception due to validation failures");
         } catch (@SuppressWarnings("unused") GedcomWriterException expected) {
-            assertEquals(2, gw.getValidationFindings().size());
+            List<Finding> allFindings = gw.getValidator().getResults().getAllFindings();
+            assertEquals(3, allFindings.size());
+
+            // Finding 0 is because there's a description on a Birth event
+            Finding f0 = allFindings.get(0);
+            assertEquals("description", f0.getFieldNameOfConcern());
+            IndividualEvent ie = (IndividualEvent) f0.getItemOfConcern();
+            assertEquals(IndividualEventType.BIRTH, ie.getType());
+            assertNotNull(ie.getDescription());
+
+            // Finding 1 is because there's a Y|Null value of Y on a Cremation event
+            Finding f1 = allFindings.get(1);
+            assertEquals("yNull", f1.getFieldNameOfConcern());
+            ie = (IndividualEvent) f1.getItemOfConcern();
+            assertEquals(IndividualEventType.CREMATION, ie.getType());
+            assertNotNull(ie.getYNull());
+
+            // Finding 2 is because there's a description on a Burial event
+            Finding f2 = allFindings.get(2);
+            assertEquals("description", f2.getFieldNameOfConcern());
+            ie = (IndividualEvent) f2.getItemOfConcern();
+            assertEquals(IndividualEventType.BURIAL, ie.getType());
+            assertNotNull(ie.getDescription());
+
         }
     }
 }

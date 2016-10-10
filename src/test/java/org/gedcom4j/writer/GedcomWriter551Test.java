@@ -40,17 +40,17 @@ import org.gedcom4j.model.FileReference;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
-import org.gedcom4j.model.IndividualEventType;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.PersonalNameVariation;
 import org.gedcom4j.model.Place;
-import org.gedcom4j.model.StringWithCustomTags;
-import org.gedcom4j.model.SupportedVersion;
 import org.gedcom4j.model.TestHelper;
+import org.gedcom4j.model.enumerations.IndividualEventType;
+import org.gedcom4j.model.enumerations.SupportedVersion;
 import org.gedcom4j.parser.GedcomParser;
-import org.gedcom4j.validate.GedcomValidationFinding;
 import org.gedcom4j.validate.Severity;
+import org.gedcom4j.validate.Validator;
+import org.gedcom4j.validate.Validator.Finding;
 import org.junit.Test;
 
 /**
@@ -74,29 +74,29 @@ public class GedcomWriter551Test {
     public void testBlobWith551() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
-        gw.setAutorepair(false);
+        gw.setValidationSuppressed(false);
+        gw.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
         assertTrue(gw.lines.isEmpty());
 
         Multimedia m = new Multimedia();
-        m.setEmbeddedMediaFormat(new StringWithCustomTags("bmp"));
+        m.setEmbeddedMediaFormat("bmp");
         m.setXref("@M1@");
         g.getMultimedia().put(m.getXref(), m);
         m.getBlob(true).add("Blob data only allowed with 5.5");
         try {
             gw.write("tmp/delete-me.ged");
-            if (!gw.getValidationFindings().isEmpty()) {
-                System.out.println(this.getClass().getName() + " found " + gw.getValidationFindings().size()
+            if (!gw.getValidator().getResults().getAllFindings().isEmpty()) {
+                System.out.println(this.getClass().getName() + " found " + gw.getValidator().getResults().getAllFindings().size()
                         + " validation findings:");
-                for (GedcomValidationFinding f : gw.getValidationFindings()) {
+                for (Finding f : gw.getValidator().getResults().getAllFindings()) {
                     System.out.println(f);
                 }
             }
             fail("Should have gotten a GedcomException about the blob data");
         } catch (@SuppressWarnings("unused") GedcomWriterException expectedAndIgnored) {
             boolean foundBlobError = false;
-            for (GedcomValidationFinding f : gw.getValidationFindings()) {
-                if (f.getSeverity() == Severity.ERROR && f.getProblemDescription().toLowerCase().contains("blob")) {
+            for (Finding f : gw.getValidator().getResults().getAllFindings()) {
+                if (f.getSeverity() == Severity.ERROR && f.getFieldNameOfConcern().contains("blob")) {
                     foundBlobError = true;
                 }
             }
@@ -111,7 +111,7 @@ public class GedcomWriter551Test {
         // be fine
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         m.getBlob().clear();
-        m.setEmbeddedMediaFormat(null);
+        m.setEmbeddedMediaFormat((String) null);
         gw.write("tmp/delete-me.ged");
 
     }
@@ -132,7 +132,7 @@ public class GedcomWriter551Test {
         Gedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
         Individual i = new Individual();
         i.setXref("@I1@");
@@ -145,8 +145,8 @@ public class GedcomWriter551Test {
         e.setType(IndividualEventType.BIRTH);
         e.setPlace(new Place());
         e.getPlace().setPlaceName("Krakow, Poland");
-        e.getPlace().setLatitude(new StringWithCustomTags("+50\u00B0 3' 1.49\""));
-        e.getPlace().setLongitude(new StringWithCustomTags("+19\u00B0 56' 21.48\""));
+        e.getPlace().setLatitude("+50\u00B0 3' 1.49\"");
+        e.getPlace().setLongitude("+19\u00B0 56' 21.48\"");
 
         // Write the test data
         gw.write("tmp/writertest551.ged");
@@ -191,7 +191,7 @@ public class GedcomWriter551Test {
         g.getHeader().getCopyrightData(true).add("One line is ok");
         g.getHeader().getCopyrightData(true).add("Two lines is bad");
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // Switch to 5.5.1, all should be fine
@@ -215,7 +215,7 @@ public class GedcomWriter551Test {
         g.getHeader().getCopyrightData(true).add("One line is ok");
         g.getHeader().getCopyrightData(true).add("Two lines is bad");
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
         gw.write("tmp/delete-me.ged");
 
@@ -235,7 +235,7 @@ public class GedcomWriter551Test {
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().getCopyrightData(true).add("One line is ok");
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         assertTrue(gw.lines.isEmpty());
 
         // Only one line of copyright data, should be fine
@@ -262,15 +262,15 @@ public class GedcomWriter551Test {
         m1.setXref("@M0@");
         g1.getMultimedia().put(m1.getXref(), m1);
         FileReference fr = new FileReference();
-        fr.setReferenceToFile(new StringWithCustomTags("C:/foo.gif"));
-        fr.setTitle(new StringWithCustomTags("Foo"));
-        fr.setFormat(new StringWithCustomTags("gif"));
-        fr.setMediaType(new StringWithCustomTags("disk"));
+        fr.setReferenceToFile("C:/foo.gif");
+        fr.setTitle("Foo");
+        fr.setFormat("gif");
+        fr.setMediaType("disk");
         m1.getFileReferences(true).add(fr);
         fr = new FileReference();
-        fr.setReferenceToFile(new StringWithCustomTags("C:/bar.png"));
-        fr.setFormat(new StringWithCustomTags("png"));
-        fr.setTitle(new StringWithCustomTags("Bar"));
+        fr.setReferenceToFile("C:/bar.png");
+        fr.setFormat("png");
+        fr.setTitle("Bar");
         m1.getFileReferences(true).add(fr);
 
         // Write it
@@ -289,7 +289,7 @@ public class GedcomWriter551Test {
         assertNotNull(m2);
         assertNull(m2.getEmbeddedMediaFormat());
         assertNull(m2.getChangeDate());
-        assertTrue(m2.getNotes(true).isEmpty());
+        assertTrue(m2.getNoteStructures(true).isEmpty());
         assertEquals(2, m2.getFileReferences().size());
 
         fr = m2.getFileReferences().get(0);
@@ -325,7 +325,7 @@ public class GedcomWriter551Test {
         i.getNames(true).add(pn);
 
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = true;
+        gw.setValidationSuppressed(true);
         assertTrue(gw.lines.isEmpty());
 
         // Try basic scenario first before perturbing name with variations
@@ -344,7 +344,7 @@ public class GedcomWriter551Test {
         pnv.setVariation("Byorn /Yorgen/");
         gw.write("tmp/delete-me.ged");
         // Now fiddle with it further
-        pnv.setVariationType(new StringWithCustomTags("Typed it like it sounds, duh"));
+        pnv.setVariationType("Typed it like it sounds, duh");
         gw.write("tmp/delete-me.ged");
 
         // Add a bad romanized variation
@@ -360,7 +360,7 @@ public class GedcomWriter551Test {
         pnv.setVariation("Bjorn /Jorgen/");
         gw.write("tmp/delete-me.ged");
         // Now fiddle with it further
-        pnv.setVariationType(new StringWithCustomTags("Removed the slashes from the O's"));
+        pnv.setVariationType("Removed the slashes from the O's");
         gw.write("tmp/delete-me.ged");
 
     }
@@ -377,9 +377,9 @@ public class GedcomWriter551Test {
     public void testUtf8With551() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        g.getHeader().getCharacterSet().setCharacterSetName(new StringWithCustomTags("UTF-8"));
+        g.getHeader().getCharacterSet().setCharacterSetName("UTF-8");
         assertTrue(gw.lines.isEmpty());
 
         // Switch to 5.5.1, all should be fine
@@ -399,9 +399,9 @@ public class GedcomWriter551Test {
     public void testUtf8With55Bad() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
-        g.getHeader().getCharacterSet().setCharacterSetName(new StringWithCustomTags("UTF-8"));
+        g.getHeader().getCharacterSet().setCharacterSetName("UTF-8");
         assertTrue(gw.lines.isEmpty());
         gw.write("tmp/delete-me.ged");
     }
@@ -418,7 +418,7 @@ public class GedcomWriter551Test {
     public void testUtf8With55Good() throws IOException, GedcomWriterException {
         Gedcom g = TestHelper.getMinimalGedcom();
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         assertTrue(gw.lines.isEmpty());
 

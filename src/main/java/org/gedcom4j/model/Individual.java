@@ -31,8 +31,13 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.gedcom4j.Options;
+import org.gedcom4j.model.enumerations.IndividualAttributeType;
+import org.gedcom4j.model.enumerations.IndividualEventType;
 
 /**
  * An individual person. Corresponds to the INDIVIDUAL_RECORD structure in the GEDCOM specification.
@@ -50,7 +55,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
     /**
      * Aliases for the current individual.
      */
-    private List<StringWithCustomTags> aliases = getAliases(Options.isCollectionInitializationEnabled());
+    private List<StringWithCustomFacts> aliases = getAliases(Options.isCollectionInitializationEnabled());
 
     /**
      * A list of submitter(s) who are interested in the ancestry of this individual.
@@ -60,7 +65,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
     /**
      * The Ancestral File Number of this individual.
      */
-    private StringWithCustomTags ancestralFileNumber;
+    private StringWithCustomFacts ancestralFileNumber;
 
     /**
      * A list of associations to which this individual belongs/belonged.
@@ -111,7 +116,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
     /**
      * Multimedia links for this source citation
      */
-    private List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
+    private List<MultimediaReference> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
 
     /**
      * A list of names for this individual
@@ -119,29 +124,24 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
     private List<PersonalName> names = getNames(Options.isCollectionInitializationEnabled());
 
     /**
-     * Notes about this object
-     */
-    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
-
-    /**
      * The permanent record file number for this individual
      */
-    private StringWithCustomTags permanentRecFileNumber;
+    private StringWithCustomFacts permanentRecFileNumber;
 
     /**
      * The record ID number
      */
-    private StringWithCustomTags recIdNumber;
+    private StringWithCustomFacts recIdNumber;
 
     /**
      * The restriction notice (if any) for this individual
      */
-    private StringWithCustomTags restrictionNotice;
+    private StringWithCustomFacts restrictionNotice;
 
     /**
      * The sex of this individual
      */
-    private StringWithCustomTags sex;
+    private StringWithCustomFacts sex;
 
     /**
      * A list of submitter(s) of this individual
@@ -158,7 +158,142 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      */
     private String xref;
 
-    // CHECKSTYLE:OFF for method length
+    /** Default constructor */
+    public Individual() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public Individual(Individual other) {
+        this(other, true);
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     * @param deep
+     *            pass in true if a full, deep copy should be made for any families the individual is in. If false, the families
+     *            will be copied but will not contain back-references to the individuals in it (husband, wife, children). This
+     *            allows preventing infinite recursion.
+     */
+    public Individual(Individual other, boolean deep) {
+        super(other);
+        if (other.aliases != null) {
+            aliases = new ArrayList<>();
+            for (StringWithCustomFacts swct : other.aliases) {
+                aliases.add(new StringWithCustomFacts(swct));
+            }
+        }
+        if (other.ancestorInterest != null) {
+            ancestorInterest = new ArrayList<>();
+            for (Submitter ai : other.ancestorInterest) {
+                ancestorInterest.add(new Submitter(ai));
+            }
+        }
+        if (other.ancestralFileNumber != null) {
+            ancestralFileNumber = new StringWithCustomFacts(other.ancestralFileNumber);
+        }
+        if (other.associations != null) {
+            associations = new ArrayList<>();
+            for (Association a : other.associations) {
+                associations.add(new Association(a));
+            }
+        }
+        if (other.attributes != null) {
+            attributes = new ArrayList<>();
+            for (IndividualAttribute ia : other.attributes) {
+                attributes.add(new IndividualAttribute(ia));
+            }
+        }
+        if (other.changeDate != null) {
+            changeDate = new ChangeDate(other.changeDate);
+        }
+        if (other.citations != null) {
+            citations = new ArrayList<>();
+            for (AbstractCitation ac : other.citations) {
+                if (ac instanceof CitationWithoutSource) {
+                    citations.add(new CitationWithoutSource((CitationWithoutSource) ac));
+                } else if (ac instanceof CitationWithSource) {
+                    citations.add(new CitationWithSource((CitationWithSource) ac));
+                }
+            }
+        }
+        if (other.descendantInterest != null) {
+            descendantInterest = new ArrayList<>();
+            for (Submitter ai : other.descendantInterest) {
+                descendantInterest.add(new Submitter(ai));
+            }
+        }
+        if (other.events != null) {
+            events = new ArrayList<>();
+            for (IndividualEvent e : other.events) {
+                events.add(new IndividualEvent(e));
+            }
+        }
+        if (other.familiesWhereChild != null) {
+            familiesWhereChild = new ArrayList<>();
+            for (FamilyChild fc : other.familiesWhereChild) {
+                familiesWhereChild.add(new FamilyChild(fc, deep));
+            }
+        }
+        if (other.familiesWhereSpouse != null) {
+            familiesWhereSpouse = new ArrayList<>();
+            for (FamilySpouse fs : other.familiesWhereSpouse) {
+                familiesWhereSpouse.add(new FamilySpouse(fs, deep));
+            }
+        }
+        if (other.ldsIndividualOrdinances != null) {
+            ldsIndividualOrdinances = new ArrayList<>();
+            for (LdsIndividualOrdinance lio : other.ldsIndividualOrdinances) {
+                ldsIndividualOrdinances.add(new LdsIndividualOrdinance(lio));
+            }
+        }
+        if (other.multimedia != null) {
+            multimedia = new ArrayList<>();
+            for (MultimediaReference m : other.multimedia) {
+                multimedia.add(new MultimediaReference(m));
+            }
+        }
+        if (other.names != null) {
+            names = new ArrayList<>();
+            for (PersonalName pn : other.names) {
+                names.add(new PersonalName(pn));
+            }
+        }
+        if (other.permanentRecFileNumber != null) {
+            permanentRecFileNumber = new StringWithCustomFacts(other.permanentRecFileNumber);
+        }
+        if (other.recIdNumber != null) {
+            recIdNumber = new StringWithCustomFacts(other.recIdNumber);
+        }
+        if (other.restrictionNotice != null) {
+            restrictionNotice = new StringWithCustomFacts(other.restrictionNotice);
+        }
+        if (other.sex != null) {
+            sex = new StringWithCustomFacts(other.sex);
+        }
+        if (other.submitters != null) {
+            submitters = new ArrayList<>();
+            for (Submitter s : other.submitters) {
+                submitters.add(new Submitter(s));
+            }
+        }
+        if (other.userReferences != null) {
+            userReferences = new ArrayList<>();
+            for (UserReference ur : other.userReferences) {
+                userReferences.add(new UserReference(ur));
+            }
+        }
+        xref = other.xref;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -273,13 +408,6 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
         } else if (!names.equals(other.names)) {
             return false;
         }
-        if (notes == null) {
-            if (other.notes != null) {
-                return false;
-            }
-        } else if (!notes.equals(other.notes)) {
-            return false;
-        }
         if (permanentRecFileNumber == null) {
             if (other.permanentRecFileNumber != null) {
                 return false;
@@ -333,14 +461,12 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
         return true;
     }
 
-    // CHECKSTYLE:ON
-
     /**
      * Gets the aliases.
      *
      * @return the aliases
      */
-    public List<StringWithCustomTags> getAliases() {
+    public List<StringWithCustomFacts> getAliases() {
         return aliases;
     }
 
@@ -351,7 +477,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *            initialize the collection if needed?
      * @return the aliases
      */
-    public List<StringWithCustomTags> getAliases(boolean initializeIfNeeded) {
+    public List<StringWithCustomFacts> getAliases(boolean initializeIfNeeded) {
         if (initializeIfNeeded && aliases == null) {
             aliases = new ArrayList<>(0);
         }
@@ -397,7 +523,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *
      * @return the ancestral file number
      */
-    public StringWithCustomTags getAncestralFileNumber() {
+    public StringWithCustomFacts getAncestralFileNumber() {
         return ancestralFileNumber;
     }
 
@@ -479,6 +605,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations() {
         return citations;
     }
@@ -491,6 +618,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      * 
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
             citations = new ArrayList<>(0);
@@ -666,7 +794,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *
      * @return the multimedia
      */
-    public List<Multimedia> getMultimedia() {
+    public List<MultimediaReference> getMultimedia() {
         return multimedia;
     }
 
@@ -677,7 +805,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *            true if this collection should be created on-the-fly if it is currently null
      * @return the multimedia
      */
-    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
+    public List<MultimediaReference> getMultimedia(boolean initializeIfNeeded) {
         if (initializeIfNeeded && multimedia == null) {
             multimedia = new ArrayList<>(0);
         }
@@ -708,37 +836,11 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
     }
 
     /**
-     * Gets the notes.
-     *
-     * @return the notes
-     */
-    @Override
-    public List<Note> getNotes() {
-        return notes;
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection if needed?
-     * 
-     * @return the notes
-     */
-    @Override
-    public List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<>(0);
-        }
-        return notes;
-    }
-
-    /**
      * Gets the permanent rec file number.
      *
      * @return the permanent rec file number
      */
-    public StringWithCustomTags getPermanentRecFileNumber() {
+    public StringWithCustomFacts getPermanentRecFileNumber() {
         return permanentRecFileNumber;
     }
 
@@ -747,7 +849,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *
      * @return the rec id number
      */
-    public StringWithCustomTags getRecIdNumber() {
+    public StringWithCustomFacts getRecIdNumber() {
         return recIdNumber;
     }
 
@@ -756,7 +858,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *
      * @return the restriction notice
      */
-    public StringWithCustomTags getRestrictionNotice() {
+    public StringWithCustomFacts getRestrictionNotice() {
         return restrictionNotice;
     }
 
@@ -765,7 +867,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *
      * @return the sex
      */
-    public StringWithCustomTags getSex() {
+    public StringWithCustomFacts getSex() {
         return sex;
     }
 
@@ -779,11 +881,11 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
         if (familiesWhereSpouse != null) {
             for (FamilySpouse f : familiesWhereSpouse) {
                 Family fam = f.getFamily();
-                if (this != fam.getHusband() && fam.getHusband() != null) {
-                    result.add(fam.getHusband());
+                if (fam.getHusband() != null && this != fam.getHusband().getIndividual()) {
+                    result.add(fam.getHusband().getIndividual());
                 }
-                if (this != fam.getWife() && fam.getWife() != null) {
-                    result.add(fam.getWife());
+                if (fam.getWife() != null && this != fam.getWife().getIndividual()) {
+                    result.add(fam.getWife().getIndividual());
                 }
             }
         }
@@ -814,6 +916,32 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
     }
 
     /**
+     * Gets the surnames from individual.
+     *
+     * @return the surnames from individual
+     */
+    public Set<String> getSurnames() {
+        TreeSet<String> result = new TreeSet<>();
+        Pattern pattern = Pattern.compile(".*\\/(.*)\\/.*");
+        for (PersonalName pn : getNames()) {
+            if ("<No /name>/".equals(pn.getBasic())) {
+                result.add("");
+                continue;
+            }
+            if (pn.getSurname() != null) {
+                result.add(pn.getSurname().getValue());
+            }
+            if (pn.getBasic() != null) {
+                Matcher matcher = pattern.matcher(pn.getBasic());
+                while (matcher.find()) {
+                    result.add(matcher.group(1));
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
      * Gets the user references.
      *
      * @return the user references
@@ -841,6 +969,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      *
      * @return the xref
      */
+    @Override
     public String getXref() {
         return xref;
     }
@@ -870,7 +999,6 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
         result = prime * result + (ldsIndividualOrdinances == null ? 0 : ldsIndividualOrdinances.hashCode());
         result = prime * result + (multimedia == null ? 0 : multimedia.hashCode());
         result = prime * result + (names == null ? 0 : names.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
         result = prime * result + (permanentRecFileNumber == null ? 0 : permanentRecFileNumber.hashCode());
         result = prime * result + (recIdNumber == null ? 0 : recIdNumber.hashCode());
         result = prime * result + (restrictionNotice == null ? 0 : restrictionNotice.hashCode());
@@ -886,7 +1014,17 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      * @param ancestralFileNumber
      *            the new ancestral file number
      */
-    public void setAncestralFileNumber(StringWithCustomTags ancestralFileNumber) {
+    public void setAncestralFileNumber(String ancestralFileNumber) {
+        this.ancestralFileNumber = ancestralFileNumber == null ? null : new StringWithCustomFacts(ancestralFileNumber);
+    }
+
+    /**
+     * Sets the ancestral file number.
+     *
+     * @param ancestralFileNumber
+     *            the new ancestral file number
+     */
+    public void setAncestralFileNumber(StringWithCustomFacts ancestralFileNumber) {
         this.ancestralFileNumber = ancestralFileNumber;
     }
 
@@ -906,7 +1044,17 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      * @param permanentRecFileNumber
      *            the new permanent rec file number
      */
-    public void setPermanentRecFileNumber(StringWithCustomTags permanentRecFileNumber) {
+    public void setPermanentRecFileNumber(String permanentRecFileNumber) {
+        this.permanentRecFileNumber = permanentRecFileNumber == null ? null : new StringWithCustomFacts(permanentRecFileNumber);
+    }
+
+    /**
+     * Sets the permanent rec file number.
+     *
+     * @param permanentRecFileNumber
+     *            the new permanent rec file number
+     */
+    public void setPermanentRecFileNumber(StringWithCustomFacts permanentRecFileNumber) {
         this.permanentRecFileNumber = permanentRecFileNumber;
     }
 
@@ -916,7 +1064,17 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      * @param recIdNumber
      *            the new rec id number
      */
-    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+    public void setRecIdNumber(String recIdNumber) {
+        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomFacts(recIdNumber);
+    }
+
+    /**
+     * Sets the rec id number.
+     *
+     * @param recIdNumber
+     *            the new rec id number
+     */
+    public void setRecIdNumber(StringWithCustomFacts recIdNumber) {
         this.recIdNumber = recIdNumber;
     }
 
@@ -926,7 +1084,17 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      * @param restrictionNotice
      *            the new restriction notice
      */
-    public void setRestrictionNotice(StringWithCustomTags restrictionNotice) {
+    public void setRestrictionNotice(String restrictionNotice) {
+        this.restrictionNotice = restrictionNotice == null ? null : new StringWithCustomFacts(restrictionNotice);
+    }
+
+    /**
+     * Sets the restriction notice.
+     *
+     * @param restrictionNotice
+     *            the new restriction notice
+     */
+    public void setRestrictionNotice(StringWithCustomFacts restrictionNotice) {
         this.restrictionNotice = restrictionNotice;
     }
 
@@ -936,7 +1104,17 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
      * @param sex
      *            the new sex
      */
-    public void setSex(StringWithCustomTags sex) {
+    public void setSex(String sex) {
+        this.sex = sex == null ? null : new StringWithCustomFacts(sex);
+    }
+
+    /**
+     * Sets the sex.
+     *
+     * @param sex
+     *            the new sex
+     */
+    public void setSex(StringWithCustomFacts sex) {
         this.sex = sex;
     }
 
@@ -958,7 +1136,7 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
         StringBuilder sb = new StringBuilder(64);
         sb.append(getFormattedName());
         if (aliases != null) {
-            for (StringWithCustomTags n : aliases) {
+            for (StringWithCustomFacts n : aliases) {
                 if (sb.length() > 0) {
                     sb.append(" aka ");
                 }
@@ -971,15 +1149,15 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
         if (familiesWhereSpouse != null) {
             for (FamilySpouse f : familiesWhereSpouse) {
                 Family fam = f.getFamily();
-                if (fam.getHusband() == this) {
-                    if (fam.getWife() != null) {
+                if (fam.getHusband() != null && fam.getHusband().getIndividual() == this) {
+                    if (fam.getWife() != null && fam.getWife().getIndividual() != null) {
                         sb.append(", spouse of ");
-                        sb.append(fam.getWife().getFormattedName());
+                        sb.append(fam.getWife().getIndividual().getFormattedName());
                     }
                 } else {
-                    if (fam.getHusband() != null) {
+                    if (fam.getHusband() != null && fam.getHusband().getIndividual() != null) {
                         sb.append(", spouse of ");
-                        sb.append(fam.getHusband().getFormattedName());
+                        sb.append(fam.getHusband().getIndividual().getFormattedName());
                     }
                 }
             }
@@ -987,14 +1165,14 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
         if (familiesWhereChild != null) {
             for (FamilyChild f : familiesWhereChild) {
                 sb.append(", child of ");
-                if (f.getFamily().getWife() != null) {
-                    sb.append(f.getFamily().getWife().getFormattedName());
+                if (f.getFamily().getWife() != null && f.getFamily().getWife().getIndividual() != null) {
+                    sb.append(f.getFamily().getWife().getIndividual().getFormattedName());
                     sb.append(" and ");
                 }
-                if (f.getFamily().getHusband() == null) {
+                if (f.getFamily().getHusband() == null || f.getFamily().getHusband().getIndividual() == null) {
                     sb.append("unknown");
                 } else {
-                    sb.append(f.getFamily().getHusband().getFormattedName());
+                    sb.append(f.getFamily().getHusband().getIndividual().getFormattedName());
                 }
             }
         }
@@ -1042,7 +1220,10 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
                 if (f == null) {
                     continue;
                 }
-                Individual husband = f.getFamily().getHusband();
+                Individual husband = null;
+                if (f.getFamily() != null && f.getFamily().getHusband() != null) {
+                    husband = f.getFamily().getHusband().getIndividual();
+                }
                 if (husband != null && !seenSoFar.contains(husband)) {
                     result.add(husband);
                     seenSoFar.add(husband);
@@ -1050,7 +1231,10 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
                     result.addAll(husbandsAncestors);
                     seenSoFar.addAll(husbandsAncestors);
                 }
-                Individual wife = f.getFamily().getWife();
+                Individual wife = null;
+                if (f.getFamily() != null && f.getFamily().getWife() != null) {
+                    wife = f.getFamily().getWife().getIndividual();
+                }
                 if (wife != null && !seenSoFar.contains(wife)) {
                     result.add(wife);
                     seenSoFar.add(wife);
@@ -1076,13 +1260,14 @@ public class Individual extends AbstractAddressableElement implements HasCitatio
         if (familiesWhereSpouse != null) {
             for (FamilySpouse f : familiesWhereSpouse) {
                 if (f.getFamily().getChildren() != null) {
-                    for (Individual i : f.getFamily().getChildren()) {
-                        if (i == null) {
+                    for (IndividualReference iRef : f.getFamily().getChildren()) {
+                        if (iRef == null) {
                             continue;
                         }
+                        Individual i = iRef.getIndividual();
                         // Recurse if we have not seen this person before in the results already, and they have spouses
-                        boolean notSeenAlready = i != this && !seenSoFar.contains(i);
-                        boolean hasSpouses = i.familiesWhereSpouse != null && !i.familiesWhereSpouse.isEmpty();
+                        boolean notSeenAlready = (i != this && !seenSoFar.contains(i));
+                        boolean hasSpouses = i.getFamiliesWhereSpouse() != null && !i.getFamiliesWhereSpouse().isEmpty();
                         if (notSeenAlready && hasSpouses) {
                             seenSoFar.add(i);
                             Set<Individual> d = i.addGenerationOfDescendants(seenSoFar);

@@ -26,10 +26,6 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.List;
-
-import org.gedcom4j.Options;
-import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.AbstractNameVariation;
 import org.gedcom4j.model.Place;
 
@@ -42,6 +38,11 @@ import org.gedcom4j.model.Place;
 class PlaceValidator extends AbstractValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 3340140076536125787L;
+
+    /**
      * The place being validated
      */
     private final Place place;
@@ -49,13 +50,13 @@ class PlaceValidator extends AbstractValidator {
     /**
      * Constructor
      * 
-     * @param rootValidator
+     * @param validator
      *            the gedcom validator that holds all the findings
      * @param place
      *            the {@link Place} begin validated
      */
-    PlaceValidator(GedcomValidator rootValidator, Place place) {
-        this.rootValidator = rootValidator;
+    PlaceValidator(Validator validator, Place place) {
+        super(validator);
         this.place = place;
     }
 
@@ -64,81 +65,49 @@ class PlaceValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        if (place == null) {
-            addError("Place is null and cannot be validated or repaired");
+        checkCitations(place);
+        checkCustomFacts(place);
+
+        mustHaveValueOrBeOmitted(place, "latitude");
+        mustHaveValueOrBeOmitted(place, "longitude");
+        new NoteStructureListValidator(getValidator(), place).validate();
+        mustHaveValueOrBeOmitted(place, "placeFormat");
+        if (place.getPlaceName() == null) {
+            newFinding(place, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "placeName");
+        }
+
+        checkPhoneticVariations();
+        checkRomanizedVariations();
+    }
+
+    /**
+     * Check the phonetic variations on the place name
+     */
+    private void checkPhoneticVariations() {
+        checkUninitializedCollection(place, "phonetic");
+        if (place.getPhonetic() == null) {
             return;
         }
-        if (place.getCitations() == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
-                place.getCitations(true).clear();
-                rootValidator.addInfo("Event had null list of citations - repaired", place);
-            } else {
-                rootValidator.addError("Event has null list of citations", place);
-            }
+        checkListOfModelElementsForDups(place, "phonetic");
+        checkListOfModelElementsForNulls(place, "phonetic");
+        for (AbstractNameVariation nv : place.getPhonetic()) {
+            new NameVariationValidator(getValidator(), nv).validate();
         }
-        if (place.getCitations() != null) {
-            for (AbstractCitation c : place.getCitations()) {
-                new CitationValidator(rootValidator, c).validate();
-            }
-        }
-        checkCustomTags(place);
+    }
 
-        checkOptionalString(place.getLatitude(), "latitude", place);
-        checkOptionalString(place.getLongitude(), "longitude", place);
-        new NotesValidator(rootValidator, place, place.getNotes()).validate();
-        checkOptionalString(place.getPlaceFormat(), "place format", place);
-        if (place.getPlaceName() == null) {
-            if (rootValidator.isAutorepairEnabled()) {
-                addError("Place name was unspecified and cannot be repaired");
-            } else {
-                addError("Place name was unspecified");
-            }
+    /**
+     * Check the romanized variations on the place name
+     */
+    private void checkRomanizedVariations() {
+        checkUninitializedCollection(place, "romanized");
+        if (place.getRomanized() == null) {
+            return;
         }
-
-        List<AbstractNameVariation> phonetic = place.getPhonetic();
-        if (phonetic == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
-                place.getPhonetic(true).clear();
-                rootValidator.addInfo("Event had null list of phonetic name variations - repaired", place);
-            } else {
-                rootValidator.addError("Event has null list of phonetic name variations", place);
-            }
+        checkListOfModelElementsForDups(place, "romanized");
+        checkListOfModelElementsForNulls(place, "romanized");
+        for (AbstractNameVariation nv : place.getRomanized()) {
+            new NameVariationValidator(getValidator(), nv).validate();
         }
-        if (phonetic != null) {
-            if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(phonetic).process();
-                if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate phonetic variations found and removed", place);
-                }
-            }
-
-            for (AbstractNameVariation nv : phonetic) {
-                new NameVariationValidator(rootValidator, nv).validate();
-            }
-        }
-
-        List<AbstractNameVariation> romanized = place.getRomanized();
-        if (romanized == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
-                place.getRomanized(true).clear();
-                rootValidator.addInfo("Event had null list of romanized name variations - repaired", place);
-            } else {
-                rootValidator.addError("Event has null list of romanized name variations", place);
-            }
-        }
-        if (rootValidator.isAutorepairEnabled()) {
-            int dups = new DuplicateEliminator<>(romanized).process();
-            if (dups > 0) {
-                rootValidator.addInfo(dups + " duplicate romanized variations found and removed", place);
-            }
-        }
-
-        if (romanized != null) {
-            for (AbstractNameVariation nv : romanized) {
-                new NameVariationValidator(rootValidator, nv).validate();
-            }
-        }
-
     }
 
 }

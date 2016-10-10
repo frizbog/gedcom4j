@@ -33,13 +33,14 @@ import org.gedcom4j.exception.GedcomWriterVersionDataMismatchException;
 import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.model.FileReference;
 import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.MultimediaReference;
 
 /**
  * Emitter for multimedia links
  * 
  * @author frizbog
  */
-class MultimediaLinksEmitter extends AbstractEmitter<List<Multimedia>> {
+class MultimediaLinksEmitter extends AbstractEmitter<List<MultimediaReference>> {
 
     /**
      * Constructor
@@ -53,7 +54,8 @@ class MultimediaLinksEmitter extends AbstractEmitter<List<Multimedia>> {
      * @throws WriterCancelledException
      *             if cancellation was requested during the operation
      */
-    MultimediaLinksEmitter(GedcomWriter baseWriter, int startLevel, List<Multimedia> writeFrom) throws WriterCancelledException {
+    MultimediaLinksEmitter(GedcomWriter baseWriter, int startLevel, List<MultimediaReference> writeFrom)
+            throws WriterCancelledException {
         super(baseWriter, startLevel, writeFrom);
     }
 
@@ -65,12 +67,19 @@ class MultimediaLinksEmitter extends AbstractEmitter<List<Multimedia>> {
         if (writeFrom == null) {
             return;
         }
-        for (Multimedia m : writeFrom) {
+        for (MultimediaReference mr : writeFrom) {
+            if (mr == null) {
+                continue;
+            }
+            Multimedia m = mr.getMultimedia();
+            if (m == null) {
+                continue;
+            }
             if (m.getXref() == null) {
-                // Link to referenced form
+                // This is an inline multimedia reference, not to one of the root-level multimedia records
+                emitTag(startLevel, "OBJE");
                 if (g55()) {
                     // GEDCOM 5.5 format
-                    emitTag(startLevel, "OBJE");
                     if (m.getFileReferences().size() > 1) {
                         throw new GedcomWriterVersionDataMismatchException("GEDCOM version is 5.5, but multimedia link references "
                                 + "multiple files, which is only allowed in GEDCOM 5.5.1");
@@ -88,7 +97,7 @@ class MultimediaLinksEmitter extends AbstractEmitter<List<Multimedia>> {
                         emitTagWithRequiredValue(startLevel + 1, "FORM", m.getEmbeddedMediaFormat());
                         emitTagIfValueNotNull(startLevel + 1, "TITL", m.getEmbeddedTitle());
                     }
-                    new NotesEmitter(baseWriter, startLevel + 1, m.getNotes()).emit();
+                    new NoteStructureEmitter(baseWriter, startLevel + 1, m.getNoteStructures()).emit();
                 } else {
                     // GEDCOM 5.5.1 format
                     for (FileReference fr : m.getFileReferences()) {
@@ -97,16 +106,17 @@ class MultimediaLinksEmitter extends AbstractEmitter<List<Multimedia>> {
                         emitTagIfValueNotNull(startLevel + 3, "MEDI", fr.getMediaType());
                         emitTagIfValueNotNull(startLevel + 1, "TITL", fr.getTitle());
                     }
-                    if (!m.getNotes().isEmpty()) {
+                    if (m.getNoteStructures() != null && !m.getNoteStructures().isEmpty()) {
                         throw new GedcomWriterVersionDataMismatchException(
                                 "GEDCOM version is 5.5.1, but multimedia link has notes which are no longer allowed in 5.5");
                     }
                 }
             } else {
-                // Link to the embedded form
+                // This is an multimedia reference to one of the root-level multimedia records
                 emitTagWithRequiredValue(startLevel, "OBJE", m.getXref());
             }
-            emitCustomTags(startLevel + 1, m.getCustomTags());
+            emitCustomFacts(startLevel + 1, m.getCustomFacts());
+            emitCustomFacts(startLevel + 1, mr.getCustomFacts());
         }
     }
 

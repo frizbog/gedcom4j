@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.model;
 
+import org.gedcom4j.model.enumerations.LdsIndividualOrdinanceType;
+
 /**
  * An LDS Ordinance for an individual
  * 
@@ -51,6 +53,26 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
      * Allows for a Y or null to be processed after the type. Not strictly part of the GEDCOM, but allows for flexibility
      */
     private String yNull;
+
+    /** Default constructor */
+    public LdsIndividualOrdinance() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public LdsIndividualOrdinance(LdsIndividualOrdinance other) {
+        super(other);
+        if (other.familyWhereChild != null) {
+            familyWhereChild = new FamilyChild(other.familyWhereChild);
+        }
+        type = other.type;
+        yNull = other.yNull;
+    }
 
     /**
      * {@inheritDoc}
@@ -110,7 +132,7 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
      * 
      * @return the yNull
      */
-    public String getyNull() {
+    public String getYNull() {
         return yNull;
     }
 
@@ -153,7 +175,8 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
      * @param yNull
      *            the yNull to set
      */
-    public void setyNull(String yNull) {
+    @SuppressWarnings("checkstyle:HiddenField")
+    public void setYNull(String yNull) {
         this.yNull = yNull;
     }
 
@@ -189,9 +212,9 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
             builder.append(date);
             builder.append(", ");
         }
-        if (getNotes() != null) {
-            builder.append("notes=");
-            builder.append(getNotes());
+        if (getNoteStructures() != null) {
+            builder.append("noteStructures=");
+            builder.append(getNoteStructures());
             builder.append(", ");
         }
         if (place != null) {
@@ -209,9 +232,9 @@ public class LdsIndividualOrdinance extends AbstractLdsOrdinance {
             builder.append(temple);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("customFacts=");
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

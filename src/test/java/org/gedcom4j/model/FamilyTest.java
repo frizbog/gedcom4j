@@ -59,33 +59,33 @@ public class FamilyTest {
         FamilySpouse fs1 = new FamilySpouse();
         fs1.setFamily(family1);
 
-        family1.setHusband(new Individual());
+        family1.setHusband(new IndividualReference(new Individual()));
         PersonalName hn1 = new PersonalName();
         hn1.setBasic("Fred /Astaire/");
-        family1.getHusband().getNames(true).add(hn1);
-        family1.getHusband().getFamiliesWhereSpouse(true).add(fs1);
+        family1.getHusband().getIndividual().getNames(true).add(hn1);
+        family1.getHusband().getIndividual().getFamiliesWhereSpouse(true).add(fs1);
 
-        family1.setWife(new Individual());
+        family1.setWife(new IndividualReference(new Individual()));
         PersonalName wn1 = new PersonalName();
         wn1.setBasic("Ginger /Rogers/");
-        family1.getWife().getNames(true).add(wn1);
-        family1.getWife().getFamiliesWhereSpouse(true).add(fs1);
+        family1.getWife().getIndividual().getNames(true).add(wn1);
+        family1.getWife().getIndividual().getFamiliesWhereSpouse(true).add(fs1);
 
         family2 = new Family();
         FamilySpouse fs2 = new FamilySpouse();
         fs2.setFamily(family2);
 
-        family2.setHusband(new Individual());
+        family2.setHusband(new IndividualReference(new Individual()));
         PersonalName hn2 = new PersonalName();
         hn2.setBasic("Fred /Astaire/");
-        family2.getHusband().getNames(true).add(hn2);
-        family2.getHusband().getFamiliesWhereSpouse(true).add(fs2);
+        family2.getHusband().getIndividual().getNames(true).add(hn2);
+        family2.getHusband().getIndividual().getFamiliesWhereSpouse(true).add(fs2);
 
-        family2.setWife(new Individual());
+        family2.setWife(new IndividualReference(new Individual()));
         PersonalName wn2 = new PersonalName();
         wn2.setBasic("Ginger /Rogers/");
-        family2.getWife().getNames(true).add(wn2);
-        family2.getWife().getFamiliesWhereSpouse(true).add(fs2);
+        family2.getWife().getIndividual().getNames(true).add(wn2);
+        family2.getWife().getIndividual().getFamiliesWhereSpouse(true).add(fs2);
     }
 
     /**
@@ -164,8 +164,8 @@ public class FamilyTest {
      */
     @Test
     public void testToString() {
-        assertEquals("Family [husband=Fred /Astaire/, spouse of Ginger /Rogers/, wife=Ginger /Rogers/, spouse of Fred /Astaire/, ]",
-                family1.toString());
+        assertEquals("Family [husband=IndividualReference [individual=Fred /Astaire/, spouse of Ginger /Rogers/, ], "
+                + "wife=IndividualReference [individual=Ginger /Rogers/, spouse of Fred /Astaire/, ], ]", family1.toString());
     }
 
     /**

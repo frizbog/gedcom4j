@@ -37,6 +37,11 @@ import org.gedcom4j.model.AbstractNameVariation;
 class NameVariationValidator extends AbstractValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -7681092157410982602L;
+
+    /**
      * The name variation being validated
      */
     protected AbstractNameVariation nv;
@@ -44,13 +49,13 @@ class NameVariationValidator extends AbstractValidator {
     /**
      * Constructor
      * 
-     * @param rootValidator
-     *            the root {@link GedcomValidator} that contains all the findings and settings
+     * @param validator
+     *            the root {@link Validator} that contains all the findings and settings
      * @param nv
      *            the name variation being validated
      */
-    NameVariationValidator(GedcomValidator rootValidator, AbstractNameVariation nv) {
-        this.rootValidator = rootValidator;
+    NameVariationValidator(Validator validator, AbstractNameVariation nv) {
+        super(validator);
         this.nv = nv;
     }
 
@@ -59,13 +64,8 @@ class NameVariationValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        if (nv == null) {
-            addError("Name variation is null and cannot be validated");
-            return;
-        }
-        checkCustomTags(nv);
-        checkRequiredString(nv.getVariation(), "variation on a personal name", nv);
-        checkOptionalString(nv.getVariationType(), "type of variation on a personal name", nv);
-
+        checkCustomFacts(nv);
+        mustHaveValue(nv, "variation");
+        mustHaveValueOrBeOmitted(nv, "variationType");
     }
 }

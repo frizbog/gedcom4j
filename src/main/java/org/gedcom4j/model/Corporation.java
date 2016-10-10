@@ -50,6 +50,22 @@ public class Corporation extends AbstractAddressableElement {
      */
     private String businessName = "UNSPECIFIED";
 
+    /** Default constructor */
+    public Corporation() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public Corporation(Corporation other) {
+        super(other);
+        businessName = other.businessName;
+    }
+
     /**
      * {@inheritDoc}
      */

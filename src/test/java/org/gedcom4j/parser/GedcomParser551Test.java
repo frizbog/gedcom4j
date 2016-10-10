@@ -41,17 +41,17 @@ import org.gedcom4j.model.Corporation;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyChild;
 import org.gedcom4j.model.FamilyEvent;
-import org.gedcom4j.model.FamilyEventType;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualAttribute;
-import org.gedcom4j.model.IndividualAttributeType;
 import org.gedcom4j.model.IndividualEvent;
-import org.gedcom4j.model.IndividualEventType;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.Place;
 import org.gedcom4j.model.PlaceNameVariation;
 import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.enumerations.FamilyEventType;
+import org.gedcom4j.model.enumerations.IndividualAttributeType;
+import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.gedcom4j.query.Finder;
 import org.junit.Test;
 
@@ -235,8 +235,8 @@ public class GedcomParser551Test {
         assertNotNull(e.getPlace());
         Place p = e.getPlace();
         assertEquals("Tarnowie, Krak\u00F3w, Poland", p.getPlaceName());
-        assertNotNull(p.getNotes());
-        assertEquals(1, p.getNotes().size());
+        assertNotNull(p.getNoteStructures());
+        assertEquals(1, p.getNoteStructures().size());
         assertNotNull(p.getPhonetic());
         assertEquals(1, p.getPhonetic().size());
         AbstractNameVariation nv = p.getPhonetic().get(0);
@@ -271,8 +271,8 @@ public class GedcomParser551Test {
         assertNotNull(e.getPlace());
         Place p = e.getPlace();
         assertEquals("Tarnowie, Krak\u00F3w, Poland", e.getPlace().getPlaceName());
-        assertNotNull(p.getNotes());
-        assertEquals(1, p.getNotes().size());
+        assertNotNull(p.getNoteStructures());
+        assertEquals(1, p.getNoteStructures().size());
 
         assertEquals("+50\u00B0 3' 1.49\"", p.getLatitude().toString());
         assertEquals("+19\u00B0 56' 21.48\"", p.getLongitude().toString());
@@ -293,7 +293,6 @@ public class GedcomParser551Test {
 
         // 5.5 data, has a blob - OK
         gp.load("sample/TGC551.ged");
-        assertTrue(gp.getErrors().isEmpty());
         // Any warnings issued should NOT be about BLOBs
         for (String w : gp.getWarnings()) {
             assertTrue(!w.contains("BLOB"));
@@ -362,9 +361,13 @@ public class GedcomParser551Test {
      * 
      */
     @Test
+    @SuppressWarnings("PMD.SystemPrintln")
     public void testMultimediaFileRef() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/5.5.1 sample 5.ged");
+        for (String e : gp.getErrors()) {
+            System.out.println(e);
+        }
         assertTrue(gp.getErrors().isEmpty());
     }
 
@@ -565,8 +568,8 @@ public class GedcomParser551Test {
         assertNotNull(e.getPlace());
         Place p = e.getPlace();
         assertEquals("Tarnowie, Krak\u00F3w, Poland", e.getPlace().getPlaceName());
-        assertNotNull(p.getNotes());
-        assertEquals(1, p.getNotes().size());
+        assertNotNull(p.getNoteStructures());
+        assertEquals(1, p.getNoteStructures().size());
         assertNotNull(p.getRomanized());
         assertEquals(1, p.getRomanized().size());
         AbstractNameVariation nv = p.getRomanized().get(0);
@@ -639,4 +642,5 @@ public class GedcomParser551Test {
         assertEquals(2, s.getWwwUrls().size());
         assertEquals("https://www.facebook.com/Gedcom4j", s.getWwwUrls().get(1).getValue());
     }
+
 }

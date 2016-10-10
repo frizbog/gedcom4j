@@ -121,7 +121,7 @@ public class Issue62Test {
      */
     @Test
     public void testBirthYNull() {
-        assertNull("", birth.getyNull());
+        assertNull("", birth.getYNull());
     }
 
     /**
@@ -139,7 +139,7 @@ public class Issue62Test {
      */
     @Test
     public void testBurialYNull() {
-        assertNull(burial.getyNull());
+        assertNull(burial.getYNull());
     }
 
     /**
@@ -156,7 +156,7 @@ public class Issue62Test {
      */
     @Test
     public void testCremationYNull() {
-        assertEquals("Y", cremation.getyNull());
+        assertEquals("Y", cremation.getYNull());
     }
 
     /**
@@ -174,6 +174,6 @@ public class Issue62Test {
      */
     @Test
     public void testDeathYNull() {
-        assertNull(death.getyNull());
+        assertNull(death.getYNull());
     }
 }

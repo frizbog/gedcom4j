@@ -37,14 +37,14 @@ import org.gedcom4j.model.FamilySpouse;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualAttribute;
 import org.gedcom4j.model.IndividualEvent;
-import org.gedcom4j.model.IndividualEventType;
 import org.gedcom4j.model.LdsIndividualOrdinance;
-import org.gedcom4j.model.LdsIndividualOrdinanceType;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.PersonalNameVariation;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.UserReference;
+import org.gedcom4j.model.enumerations.IndividualEventType;
+import org.gedcom4j.model.enumerations.LdsIndividualOrdinanceType;
 
 /**
  * @author frizbog
@@ -94,7 +94,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
             }
             emitAssociationStructures(1, i.getAssociations());
             if (i.getAliases() != null) {
-                for (StringWithCustomTags s : i.getAliases()) {
+                for (StringWithCustomFacts s : i.getAliases()) {
                     emitTagWithRequiredValue(1, "ALIA", s);
                 }
             }
@@ -108,9 +108,9 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                     emitTagWithRequiredValue(1, "DESI", s.getXref());
                 }
             }
-            new SourceCitationEmitter(baseWriter, 1, i.getCitations()).emit();
+            new CitationEmitter(baseWriter, 1, i.getCitations()).emit();
             new MultimediaLinksEmitter(baseWriter, 1, i.getMultimedia()).emit();
-            new NotesEmitter(baseWriter, 1, i.getNotes()).emit();
+            new NoteStructureEmitter(baseWriter, 1, i.getNoteStructures()).emit();
             emitTagIfValueNotNull(1, "RFN", i.getPermanentRecFileNumber());
             emitTagIfValueNotNull(1, "AFN", i.getAncestralFileNumber());
             if (i.getUserReferences() != null) {
@@ -121,7 +121,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
             }
             emitTagIfValueNotNull(1, "RIN", i.getRecIdNumber());
             new ChangeDateEmitter(baseWriter, 1, i.getChangeDate()).emit();
-            emitCustomTags(1, i.getCustomTags());
+            emitCustomFacts(1, i.getCustomFacts());
         }
 
     }
@@ -142,9 +142,9 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                 emitTagWithRequiredValue(level, "ASSO", a.getAssociatedEntityXref());
                 emitTagWithRequiredValue(level + 1, "TYPE", a.getAssociatedEntityType());
                 emitTagWithRequiredValue(level + 1, "RELA", a.getRelationship());
-                new NotesEmitter(baseWriter, level + 1, a.getNotes()).emit();
-                new SourceCitationEmitter(baseWriter, level + 1, a.getCitations()).emit();
-                emitCustomTags(level + 1, a.getCustomTags());
+                new NoteStructureEmitter(baseWriter, level + 1, a.getNoteStructures()).emit();
+                new CitationEmitter(baseWriter, level + 1, a.getCitations()).emit();
+                emitCustomFacts(level + 1, a.getCustomFacts());
             }
         }
     }
@@ -171,8 +171,8 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                 emitTagWithRequiredValue(level, "FAMC", familyChild.getFamily().getXref());
                 emitTagIfValueNotNull(level + 1, "PEDI", familyChild.getPedigree());
                 emitTagIfValueNotNull(level + 1, "STAT", familyChild.getStatus());
-                new NotesEmitter(baseWriter, level + 1, familyChild.getNotes()).emit();
-                emitCustomTags(level + 1, i.getCustomTags());
+                new NoteStructureEmitter(baseWriter, level + 1, familyChild.getNoteStructures()).emit();
+                emitCustomFacts(level + 1, familyChild.getCustomFacts());
             }
         }
     }
@@ -193,10 +193,10 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                 emitTagWithOptionalValueAndCustomSubtags(level, a.getType().getTag(), a.getDescription());
                 new EventEmitter(baseWriter, level + 1, a).emit();
                 new AddressEmitter(baseWriter, level + 1, a.getAddress()).emit();
-                emitStringsWithCustomTags(level + 1, a.getPhoneNumbers(), "PHON");
-                emitStringsWithCustomTags(level + 1, a.getWwwUrls(), "WWW");
-                emitStringsWithCustomTags(level + 1, a.getFaxNumbers(), "FAX");
-                emitStringsWithCustomTags(level + 1, a.getEmails(), "EMAIL");
+                emitStringsWithCustomFacts(level + 1, a.getPhoneNumbers(), "PHON");
+                emitStringsWithCustomFacts(level + 1, a.getWwwUrls(), "WWW");
+                emitStringsWithCustomFacts(level + 1, a.getFaxNumbers(), "FAX");
+                emitStringsWithCustomFacts(level + 1, a.getEmails(), "EMAIL");
             }
         }
     }
@@ -214,7 +214,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
     private void emitIndividualEvents(int level, List<IndividualEvent> events) throws GedcomWriterException {
         if (events != null) {
             for (IndividualEvent e : events) {
-                emitTagWithOptionalValue(level, e.getType().getTag(), e.getyNull());
+                emitTagWithOptionalValue(level, e.getType().getTag(), e.getYNull());
                 new EventEmitter(baseWriter, level + 1, e).emit();
                 if (e.getType() == IndividualEventType.BIRTH || e.getType() == IndividualEventType.CHRISTENING) {
                     if (e.getFamily() != null && e.getFamily().getFamily() != null && e.getFamily().getFamily().getXref() != null) {
@@ -243,7 +243,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
             throws GedcomWriterException {
         if (ldsIndividualOrdinances != null) {
             for (LdsIndividualOrdinance o : ldsIndividualOrdinances) {
-                emitTagWithOptionalValue(level, o.getType().getTag(), o.getyNull());
+                emitTagWithOptionalValue(level, o.getType().getTag(), o.getYNull());
                 emitTagIfValueNotNull(level + 1, "STAT", o.getStatus());
                 emitTagIfValueNotNull(level + 1, "DATE", o.getDate());
                 emitTagIfValueNotNull(level + 1, "TEMP", o.getTemple());
@@ -258,9 +258,9 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                     }
                     emitTagWithRequiredValue(level + 1, "FAMC", o.getFamilyWhereChild().getFamily().getXref());
                 }
-                new SourceCitationEmitter(baseWriter, level + 1, o.getCitations()).emit();
-                new NotesEmitter(baseWriter, level + 1, o.getNotes()).emit();
-                emitCustomTags(level + 1, o.getCustomTags());
+                new CitationEmitter(baseWriter, level + 1, o.getCitations()).emit();
+                new NoteStructureEmitter(baseWriter, level + 1, o.getNoteStructures()).emit();
+                emitCustomFacts(level + 1, o.getCustomFacts());
             }
         }
     }
@@ -279,6 +279,7 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
         if (names != null) {
             for (PersonalName n : names) {
                 emitTagWithOptionalValue(level, "NAME", n.getBasic());
+                emitTagIfValueNotNull(level + 1, "TYPE", n.getType());
                 emitTagIfValueNotNull(level + 1, "NPFX", n.getPrefix());
                 emitTagIfValueNotNull(level + 1, "GIVN", n.getGivenName());
                 emitTagIfValueNotNull(level + 1, "NICK", n.getNickname());
@@ -295,9 +296,9 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                         emitPersonalNameVariation(level + 1, "FONE", pnv);
                     }
                 }
-                new SourceCitationEmitter(baseWriter, level + 1, n.getCitations()).emit();
-                new NotesEmitter(baseWriter, level + 1, n.getNotes()).emit();
-                emitCustomTags(level + 1, n.getCustomTags());
+                new CitationEmitter(baseWriter, level + 1, n.getCitations()).emit();
+                new NoteStructureEmitter(baseWriter, level + 1, n.getNoteStructures()).emit();
+                emitCustomFacts(level + 1, n.getCustomFacts());
             }
         }
     }
@@ -322,9 +323,9 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
         emitTagIfValueNotNull(level + 1, "SPFX", pnv.getSurnamePrefix());
         emitTagIfValueNotNull(level + 1, "SURN", pnv.getSurname());
         emitTagIfValueNotNull(level + 1, "NSFX", pnv.getSuffix());
-        new SourceCitationEmitter(baseWriter, level + 1, pnv.getCitations()).emit();
-        new NotesEmitter(baseWriter, level + 1, pnv.getNotes()).emit();
-        emitCustomTags(level + 1, pnv.getCustomTags());
+        new CitationEmitter(baseWriter, level + 1, pnv.getCitations()).emit();
+        new NoteStructureEmitter(baseWriter, level + 1, pnv.getNoteStructures()).emit();
+        emitCustomFacts(level + 1, pnv.getCustomFacts());
     }
 
     /**
@@ -347,8 +348,8 @@ class IndividualEmitter extends AbstractEmitter<Collection<Individual>> {
                     throw new GedcomWriterException("Family in which " + i + " was a spouse had a null family reference");
                 }
                 emitTagWithRequiredValue(level, "FAMS", familySpouse.getFamily().getXref());
-                new NotesEmitter(baseWriter, level + 1, familySpouse.getNotes()).emit();
-                emitCustomTags(level + 1, familySpouse.getCustomTags());
+                new NoteStructureEmitter(baseWriter, level + 1, familySpouse.getNoteStructures()).emit();
+                emitCustomFacts(level + 1, familySpouse.getCustomFacts());
             }
         }
     }

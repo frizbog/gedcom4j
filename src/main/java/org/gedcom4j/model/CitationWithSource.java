@@ -30,6 +30,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.gedcom4j.Options;
+import org.gedcom4j.model.enumerations.FamilyEventType;
+import org.gedcom4j.model.enumerations.IndividualAttributeType;
+import org.gedcom4j.model.enumerations.IndividualEventType;
 
 /**
  * A citation with a source. Corresponds to the first (preferred) form of the SOURCE_CITATION structure (which you'd do in Pascal
@@ -45,11 +48,6 @@ public class CitationWithSource extends AbstractCitation {
     private static final long serialVersionUID = 1886846774727359828L;
 
     /**
-     * The quality of this citation. Supposed to be 0, 1, 2, or 3, but stored as a string since we're not doing math on it.
-     */
-    private StringWithCustomTags certainty;
-
-    /**
      * A list of citation data entries
      */
     private List<CitationData> data = getData(Options.isCollectionInitializationEnabled());
@@ -58,17 +56,12 @@ public class CitationWithSource extends AbstractCitation {
      * The type of event or attribute cited from. Will be the tag from one of the the following three enum types:
      * {@link FamilyEventType}, {@link IndividualEventType}, {@link IndividualAttributeType}.
      */
-    private StringWithCustomTags eventCited;
-
-    /**
-     * Multimedia links for this source citation
-     */
-    private List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
+    private StringWithCustomFacts eventCited;
 
     /**
      * The role in the event cited
      */
-    private StringWithCustomTags roleInEvent;
+    private StringWithCustomFacts roleInEvent;
 
     /**
      * A reference to the cited source
@@ -78,7 +71,49 @@ public class CitationWithSource extends AbstractCitation {
     /**
      * Where within the source is the information being cited
      */
-    private StringWithCustomTags whereInSource;
+    private StringWithCustomFacts whereInSource;
+
+    /** Default constructor */
+    public CitationWithSource() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public CitationWithSource(CitationWithSource other) {
+        super(other);
+        if (other.certainty != null) {
+            certainty = new StringWithCustomFacts(other.certainty);
+        }
+        if (other.data != null) {
+            data = new ArrayList<>();
+            for (CitationData d : other.data) {
+                data.add(new CitationData(d));
+            }
+        }
+        if (other.eventCited != null) {
+            eventCited = new StringWithCustomFacts(other.eventCited);
+        }
+        if (other.multimedia != null) {
+            multimedia = new ArrayList<>();
+            for (MultimediaReference m : other.multimedia) {
+                multimedia.add(new MultimediaReference(m));
+            }
+        }
+        if (other.roleInEvent != null) {
+            roleInEvent = new StringWithCustomFacts(other.roleInEvent);
+        }
+        if (other.source != null) {
+            source = new Source(other.source);
+        }
+        if (other.whereInSource != null) {
+            whereInSource = new StringWithCustomFacts(other.whereInSource);
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -91,17 +126,10 @@ public class CitationWithSource extends AbstractCitation {
         if (!super.equals(obj)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof CitationWithSource)) {
             return false;
         }
         CitationWithSource other = (CitationWithSource) obj;
-        if (certainty == null) {
-            if (other.certainty != null) {
-                return false;
-            }
-        } else if (!certainty.equals(other.certainty)) {
-            return false;
-        }
         if (data == null) {
             if (other.data != null) {
                 return false;
@@ -114,20 +142,6 @@ public class CitationWithSource extends AbstractCitation {
                 return false;
             }
         } else if (!eventCited.equals(other.eventCited)) {
-            return false;
-        }
-        if (multimedia == null) {
-            if (other.multimedia != null) {
-                return false;
-            }
-        } else if (!multimedia.equals(other.multimedia)) {
-            return false;
-        }
-        if (getNotes() == null) {
-            if (other.getNotes() != null) {
-                return false;
-            }
-        } else if (!getNotes().equals(other.getNotes())) {
             return false;
         }
         if (roleInEvent == null) {
@@ -152,15 +166,6 @@ public class CitationWithSource extends AbstractCitation {
             return false;
         }
         return true;
-    }
-
-    /**
-     * Gets the certainty.
-     *
-     * @return the certainty
-     */
-    public StringWithCustomTags getCertainty() {
-        return certainty;
     }
 
     /**
@@ -191,31 +196,8 @@ public class CitationWithSource extends AbstractCitation {
      *
      * @return the event cited
      */
-    public StringWithCustomTags getEventCited() {
+    public StringWithCustomFacts getEventCited() {
         return eventCited;
-    }
-
-    /**
-     * Gets the multimedia.
-     *
-     * @return the multimedia
-     */
-    public List<Multimedia> getMultimedia() {
-        return multimedia;
-    }
-
-    /**
-     * Get the multimedia
-     * 
-     * @param initializeIfNeeded
-     *            true if this collection should be created on-the-fly if it is currently null
-     * @return the multimedia
-     */
-    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && multimedia == null) {
-            multimedia = new ArrayList<>(0);
-        }
-        return multimedia;
     }
 
     /**
@@ -223,7 +205,7 @@ public class CitationWithSource extends AbstractCitation {
      *
      * @return the role in event
      */
-    public StringWithCustomTags getRoleInEvent() {
+    public StringWithCustomFacts getRoleInEvent() {
         return roleInEvent;
     }
 
@@ -241,7 +223,7 @@ public class CitationWithSource extends AbstractCitation {
      *
      * @return where in source
      */
-    public StringWithCustomTags getWhereInSource() {
+    public StringWithCustomFacts getWhereInSource() {
         return whereInSource;
     }
 
@@ -252,25 +234,12 @@ public class CitationWithSource extends AbstractCitation {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + (certainty == null ? 0 : certainty.hashCode());
-        result = prime * result + (data == null ? 0 : data.hashCode());
-        result = prime * result + (eventCited == null ? 0 : eventCited.hashCode());
-        result = prime * result + (multimedia == null ? 0 : multimedia.hashCode());
-        result = prime * result + (getNotes() == null ? 0 : getNotes().hashCode());
-        result = prime * result + (roleInEvent == null ? 0 : roleInEvent.hashCode());
-        result = prime * result + (source == null ? 0 : source.hashCode());
-        result = prime * result + (whereInSource == null ? 0 : whereInSource.hashCode());
+        result = prime * result + ((data == null) ? 0 : data.hashCode());
+        result = prime * result + ((eventCited == null) ? 0 : eventCited.hashCode());
+        result = prime * result + ((roleInEvent == null) ? 0 : roleInEvent.hashCode());
+        result = prime * result + ((source == null) ? 0 : source.hashCode());
+        result = prime * result + ((whereInSource == null) ? 0 : whereInSource.hashCode());
         return result;
-    }
-
-    /**
-     * Sets the certainty.
-     *
-     * @param certainty
-     *            the new certainty
-     */
-    public void setCertainty(StringWithCustomTags certainty) {
-        this.certainty = certainty;
     }
 
     /**
@@ -279,7 +248,17 @@ public class CitationWithSource extends AbstractCitation {
      * @param eventCited
      *            the new event cited
      */
-    public void setEventCited(StringWithCustomTags eventCited) {
+    public void setEventCited(String eventCited) {
+        this.eventCited = eventCited == null ? null : new StringWithCustomFacts(eventCited);
+    }
+
+    /**
+     * Sets the event cited.
+     *
+     * @param eventCited
+     *            the new event cited
+     */
+    public void setEventCited(StringWithCustomFacts eventCited) {
         this.eventCited = eventCited;
     }
 
@@ -289,7 +268,17 @@ public class CitationWithSource extends AbstractCitation {
      * @param roleInEvent
      *            the new role in event
      */
-    public void setRoleInEvent(StringWithCustomTags roleInEvent) {
+    public void setRoleInEvent(String roleInEvent) {
+        this.roleInEvent = roleInEvent == null ? null : new StringWithCustomFacts(roleInEvent);
+    }
+
+    /**
+     * Sets the role in event.
+     *
+     * @param roleInEvent
+     *            the new role in event
+     */
+    public void setRoleInEvent(StringWithCustomFacts roleInEvent) {
         this.roleInEvent = roleInEvent;
     }
 
@@ -309,7 +298,17 @@ public class CitationWithSource extends AbstractCitation {
      * @param whereInSource
      *            where in the source is being cited
      */
-    public void setWhereInSource(StringWithCustomTags whereInSource) {
+    public void setWhereInSource(String whereInSource) {
+        this.whereInSource = whereInSource == null ? null : new StringWithCustomFacts(whereInSource);
+    }
+
+    /**
+     * Sets where in the source is being cited
+     *
+     * @param whereInSource
+     *            where in the source is being cited
+     */
+    public void setWhereInSource(StringWithCustomFacts whereInSource) {
         this.whereInSource = whereInSource;
     }
 
@@ -355,14 +354,14 @@ public class CitationWithSource extends AbstractCitation {
             builder.append(whereInSource);
             builder.append(", ");
         }
-        if (getNotes() != null) {
-            builder.append("notes=");
-            builder.append(getNotes());
+        if (getNoteStructures() != null) {
+            builder.append("noteStructures=");
+            builder.append(getNoteStructures());
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("customFacts=");
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

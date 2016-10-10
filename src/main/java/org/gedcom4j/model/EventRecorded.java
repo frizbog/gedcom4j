@@ -41,17 +41,39 @@ public class EventRecorded extends AbstractElement {
     /**
      * The date period covered in the source
      */
-    private StringWithCustomTags datePeriod;
+    private StringWithCustomFacts datePeriod;
 
     /**
-     * The event type (tag)
+     * The event types recorded in the source
      */
-    private String eventType;
+    private StringWithCustomFacts eventType;
 
     /**
      * The jurisdiction of the source. Corresponds to SOURCE_JURISDICTION_PLACE in the GEDCOM spec.
      */
-    private StringWithCustomTags jurisdiction;
+    private StringWithCustomFacts jurisdiction;
+
+    /** Default constructor */
+    public EventRecorded() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public EventRecorded(EventRecorded other) {
+        super(other);
+        if (other.datePeriod != null) {
+            datePeriod = new StringWithCustomFacts(other.datePeriod);
+        }
+        eventType = other.eventType;
+        if (other.jurisdiction != null) {
+            jurisdiction = new StringWithCustomFacts(other.jurisdiction);
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -97,7 +119,7 @@ public class EventRecorded extends AbstractElement {
      *
      * @return the date period
      */
-    public StringWithCustomTags getDatePeriod() {
+    public StringWithCustomFacts getDatePeriod() {
         return datePeriod;
     }
 
@@ -106,7 +128,7 @@ public class EventRecorded extends AbstractElement {
      *
      * @return the event type
      */
-    public String getEventType() {
+    public StringWithCustomFacts getEventType() {
         return eventType;
     }
 
@@ -115,7 +137,7 @@ public class EventRecorded extends AbstractElement {
      *
      * @return the jurisdiction
      */
-    public StringWithCustomTags getJurisdiction() {
+    public StringWithCustomFacts getJurisdiction() {
         return jurisdiction;
     }
 
@@ -138,7 +160,17 @@ public class EventRecorded extends AbstractElement {
      * @param datePeriod
      *            the new date period
      */
-    public void setDatePeriod(StringWithCustomTags datePeriod) {
+    public void setDatePeriod(String datePeriod) {
+        this.datePeriod = datePeriod == null ? null : new StringWithCustomFacts(datePeriod);
+    }
+
+    /**
+     * Sets the date period.
+     *
+     * @param datePeriod
+     *            the new date period
+     */
+    public void setDatePeriod(StringWithCustomFacts datePeriod) {
         this.datePeriod = datePeriod;
     }
 
@@ -149,6 +181,20 @@ public class EventRecorded extends AbstractElement {
      *            the new event type
      */
     public void setEventType(String eventType) {
+        if (this.eventType == null) {
+            this.eventType = new StringWithCustomFacts(eventType);
+        } else {
+            this.eventType.setValue(eventType);
+        }
+    }
+
+    /**
+     * Sets the event type.
+     *
+     * @param eventType
+     *            the new event type
+     */
+    public void setEventType(StringWithCustomFacts eventType) {
         this.eventType = eventType;
     }
 
@@ -158,7 +204,17 @@ public class EventRecorded extends AbstractElement {
      * @param jurisdiction
      *            the new jurisdiction
      */
-    public void setJurisdiction(StringWithCustomTags jurisdiction) {
+    public void setJurisdiction(String jurisdiction) {
+        this.jurisdiction = jurisdiction == null ? null : new StringWithCustomFacts(jurisdiction);
+    }
+
+    /**
+     * Sets the jurisdiction.
+     *
+     * @param jurisdiction
+     *            the new jurisdiction
+     */
+    public void setJurisdiction(StringWithCustomFacts jurisdiction) {
         this.jurisdiction = jurisdiction;
     }
 
@@ -184,9 +240,9 @@ public class EventRecorded extends AbstractElement {
             builder.append(jurisdiction);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("customFacts=");
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

@@ -30,7 +30,7 @@ import java.util.List;
 
 import org.gedcom4j.model.FileReference;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 
 /**
  * Parser for GEDCOM 5.5.1 style FILE references
@@ -58,16 +58,16 @@ class FileReference551Parser extends AbstractParser<FileReference> {
      */
     @Override
     void parse() {
-        loadInto.setReferenceToFile(new StringWithCustomTags(stringTree));
+        loadInto.setReferenceToFile(new StringWithCustomFacts(stringTree.getValue()));
         List<StringTree> fileChildren = stringTree.getChildren();
         if (fileChildren != null) {
             for (StringTree fileChild : fileChildren) {
                 if (Tag.FORM.equalsText(fileChild.getTag())) {
                     loadForm(fileChild);
                 } else if (Tag.TITLE.equalsText(fileChild.getTag())) {
-                    loadInto.setTitle(new StringWithCustomTags(fileChild));
+                    loadInto.setTitle(parseStringWithCustomFacts(fileChild));
                 } else {
-                    unknownTag(fileChild, loadInto);
+                    unknownTag(fileChild, loadInto.getReferenceToFile());
                 }
             }
         }
@@ -85,20 +85,23 @@ class FileReference551Parser extends AbstractParser<FileReference> {
      *            the form string tree
      */
     private void loadForm(StringTree form) {
-        loadInto.setFormat(new StringWithCustomTags(form.getValue()));
+        loadInto.setFormat(new StringWithCustomFacts(form.getValue()));
         List<StringTree> formChildren = form.getChildren();
         if (formChildren != null) {
             int typeCount = 0;
             for (StringTree formChild : formChildren) {
                 if (Tag.TYPE.equalsText(formChild.getTag())) {
-                    loadInto.setMediaType(new StringWithCustomTags(formChild));
+                    loadInto.setMediaType(parseStringWithCustomFacts(formChild));
+                    typeCount++;
+                } else if (Tag.MEDIA.equalsText(formChild.getTag())) {
+                    loadInto.setMediaType(parseStringWithCustomFacts(formChild));
                     typeCount++;
                 } else {
-                    unknownTag(formChild, loadInto);
+                    unknownTag(formChild, loadInto.getFormat());
                 }
             }
             if (typeCount > 1) {
-                addError("TYPE was specified more than once for the FORM tag on line " + form.getLineNum());
+                addError("Media type was specified more than once for the FORM tag on line " + form.getLineNum());
             }
         }
     }

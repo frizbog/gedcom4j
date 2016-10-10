@@ -64,7 +64,7 @@ class RepositoryEmitter extends AbstractEmitter<Collection<Repository>> {
             emitTag(0, r.getXref(), "REPO");
             emitTagIfValueNotNull(1, "NAME", r.getName());
             new AddressEmitter(baseWriter, 1, r.getAddress()).emit();
-            new NotesEmitter(baseWriter, 1, r.getNotes()).emit();
+            new NoteStructureEmitter(baseWriter, 1, r.getNoteStructures()).emit();
             if (r.getUserReferences() != null) {
                 for (UserReference u : r.getUserReferences()) {
                     emitTagWithRequiredValue(1, "REFN", u.getReferenceNum());
@@ -72,12 +72,12 @@ class RepositoryEmitter extends AbstractEmitter<Collection<Repository>> {
                 }
             }
             emitTagIfValueNotNull(1, "RIN", r.getRecIdNumber());
-            emitStringsWithCustomTags(1, r.getPhoneNumbers(), "PHON");
-            emitStringsWithCustomTags(1, r.getWwwUrls(), "WWW");
-            emitStringsWithCustomTags(1, r.getFaxNumbers(), "FAX");
-            emitStringsWithCustomTags(1, r.getEmails(), "EMAIL");
+            emitStringsWithCustomFacts(1, r.getPhoneNumbers(), "PHON");
+            emitStringsWithCustomFacts(1, r.getWwwUrls(), "WWW");
+            emitStringsWithCustomFacts(1, r.getFaxNumbers(), "FAX");
+            emitStringsWithCustomFacts(1, r.getEmails(), "EMAIL");
             new ChangeDateEmitter(baseWriter, 1, r.getChangeDate()).emit();
-            emitCustomTags(1, r.getCustomTags());
+            emitCustomFacts(1, r.getCustomFacts());
         }
     }
 

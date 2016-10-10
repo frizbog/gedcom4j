@@ -48,7 +48,7 @@ import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.NoteRecord;
 import org.gedcom4j.parser.GedcomParser;
 import org.junit.Before;
 import org.junit.Test;
@@ -69,12 +69,6 @@ public class GedcomWriterTest {
      * The name of the file used for stress-testing the parser
      */
     private static final String SAMPLE_STRESS_TEST_FILENAME = "sample/TGC551.ged";
-
-    /**
-     * Determines whether to write noise out to System.out. Useful to change to true temporarily for debugging this test but should
-     * be always set to false when checked into repository.
-     */
-    private static boolean verbose = false;
 
     /**
      * The original gedcom structure read in from the torture test file.
@@ -106,11 +100,10 @@ public class GedcomWriterTest {
         // Load a file
         GedcomParser p = new GedcomParser();
         p.load(SAMPLE_STRESS_TEST_FILENAME);
-        assertTrue(p.getErrors().isEmpty());
         gedcomOrig = p.getGedcom();
 
         GedcomWriter gw = new GedcomWriter(gedcomOrig);
-        gw.validationSuppressed = true;
+        gw.setValidationSuppressed(true);
         File tmpDir = new File("tmp");
         tmpDir.mkdirs();
         File tempFile = new File("tmp/gedcom4j.writertest.ged");
@@ -154,7 +147,6 @@ public class GedcomWriterTest {
         // Make sure we actually have test fixtures to work with
         assertNotNull(gedcomOrig);
         assertNotNull(gedcomReadback);
-        verbose = false;
     }
 
     /**
@@ -249,8 +241,8 @@ public class GedcomWriterTest {
                 "0 @N19@ NOTE A note about this LDS spouse sealing source.", "1 CHAN", "2 DATE 12 Mar 2000", "3 TIME 12:32:13");
         assertEquals(gedcomOrig.getNotes().keySet(), gedcomReadback.getNotes().keySet());
         for (String xref : gedcomOrig.getNotes().keySet()) {
-            Note n1 = gedcomOrig.getNotes().get(xref);
-            Note n2 = gedcomReadback.getNotes().get(xref);
+            NoteRecord n1 = gedcomOrig.getNotes().get(xref);
+            NoteRecord n2 = gedcomReadback.getNotes().get(xref);
             assertEquals(n1.getLines().size(), n2.getLines().size());
             String prevLine = null;
             for (int i = 0; i < n1.getLines().size(); i++) {
@@ -382,14 +374,14 @@ public class GedcomWriterTest {
         // Write an empty file
         Gedcom g = new Gedcom();
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = true;
+        gw.setValidationSuppressed(true);
         File tempFile = new File("tmp/gedcom4j.emptywritertest.ged");
         gw.write(tempFile);
 
         // Read back the empty file and check its contents
         assertLineSequence("Empty file contents not as expected", readBack(tempFile), "0 HEAD", "1 SOUR UNSPECIFIED",
-                "1 FILE gedcom4j.emptywritertest.ged", "1 GEDC", "2 VERS 5.5.1", "2 FORM LINEAGE-LINKED", "1 CHAR ANSEL",
-                "0 @SUBMISSION@ SUBN", "0 TRLR");
+                "1 SUBM @SUBMITTER@", "1 FILE gedcom4j.emptywritertest.ged", "1 GEDC", "2 VERS 5.5.1", "2 FORM LINEAGE-LINKED",
+                "1 CHAR ANSEL", "0 @SUBMISSION@ SUBN", "0 TRLR");
 
     }
 
@@ -409,7 +401,7 @@ public class GedcomWriterTest {
     @SuppressWarnings("PMD.SystemPrintln")
     private void assertLineSequence(String failureMessage, List<String> lookIn, String... lookFor) {
         int indexOf = lookIn.indexOf(lookFor[0]);
-        if (verbose && indexOf < 0) {
+        if (indexOf < 0) {
             System.out.println("\n====");
             System.out.println("Looking for: ");
             System.out.println(lookFor[0]);
@@ -429,7 +421,7 @@ public class GedcomWriterTest {
             }
         }
 
-        if (verbose && !matches) {
+        if (!matches) {
             System.out.println("\n----------------------------------");
             System.out.println(failureMessage);
             System.out.println("Line sequence mismatch");

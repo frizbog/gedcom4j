@@ -26,25 +26,26 @@
  */
 package org.gedcom4j.writer;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.ByteArrayOutputStream;
 
 import org.gedcom4j.exception.GedcomWriterException;
+import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Gedcom;
-import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submission;
+import org.gedcom4j.model.SubmissionReference;
 import org.gedcom4j.model.Submitter;
-import org.gedcom4j.validate.GedcomValidationFinding;
+import org.gedcom4j.model.SubmitterReference;
+import org.gedcom4j.validate.Validator.Finding;
 import org.junit.Test;
-
-import junit.framework.TestCase;
 
 /**
  * Test for issue 89 where custom tags are not being emitted by the GedcomWriter
  * 
  * @author frizbog
  */
-public class Issue89Test extends TestCase {
+public class Issue89Test {
 
     /**
      * Test for issue 89 where custom tags are not being emitted by the GedcomWriter
@@ -57,48 +58,42 @@ public class Issue89Test extends TestCase {
     public void testIssue89() throws GedcomWriterException {
         Gedcom g = new Gedcom();
         g.setSubmission(new Submission("@SUBN0001@"));
-        g.getHeader().setSubmission(g.getSubmission());
+        g.getHeader().setSubmissionReference(new SubmissionReference(g.getSubmission()));
         Submitter s = new Submitter();
         s.setXref("@SUBM0001@");
-        s.setName(new StringWithCustomTags("Joe Tester"));
+        s.setName("Joe Tester");
         g.getSubmitters().put(s.getXref(), s);
-        g.getHeader().setSubmitter(s);
+        g.getHeader().setSubmitterReference(new SubmitterReference(s));
 
-        StringTree sct = new StringTree();
-        sct.setId("@CT001@");
-        sct.setTag("_CUSTSB");
-        sct.setValue("Custom Submitter Tag");
-        s.getCustomTags(true).add(sct);
+        CustomFact cf = new CustomFact("_CUSTSB");
+        cf.setXref("@CT001@");
+        cf.setDescription("Custom Submitter Tag");
+        s.getCustomFacts(true).add(cf);
 
-        StringTree nct = new StringTree();
-        /* Note the level value gets ignored when writing */
-        nct.setLevel(999);
+        CustomFact cf2 = new CustomFact("_CUSTNM");
         // No ID on this tag
-        nct.setTag("_CUSTNM");
-        nct.setValue("Custom Name Tag");
-        s.getName().getCustomTags(true).add(nct);
+        cf2.setDescription("Custom Name Tag");
+        s.getName().getCustomFacts(true).add(cf2);
 
-        StringTree hct = new StringTree();
-        hct.setId("@CT003@");
-        hct.setTag("_CUSTHD");
-        hct.setValue("Custom Header Tag");
-        g.getHeader().getCustomTags(true).add(hct);
+        CustomFact cf3 = new CustomFact("_CUSTHD");
+        cf3.setXref("@CT003@");
+        cf3.setDescription("Custom Header Tag");
+        g.getHeader().getCustomFacts(true).add(cf3);
 
-        StringTree hct2 = new StringTree();
-        hct2.setId("@CT004@");
-        hct2.setTag("_CUSTHD2");
-        hct2.setValue("Custom Inner Tag inside Custom Header Tag");
-        hct.getChildren(true).add(hct2);
+        CustomFact cf4 = new CustomFact("_CUSTHD2");
+        cf4.setXref("@CT004@");
+        cf4.setDescription("Custom Inner Tag inside Custom Header Tag");
+        cf3.getCustomFacts(true).add(cf4);
 
         GedcomWriter gw = new GedcomWriter(g);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             gw.write(baos);
         } catch (GedcomWriterException e) {
-            if (!gw.getValidationFindings().isEmpty()) {
-                System.out.println(this.getClass().getName() + " found " + gw.getValidationFindings().size()
+            if (!gw.getValidator().getResults().getAllFindings().isEmpty()) {
+                System.out.println(this.getClass().getName() + " found " + gw.getValidator().getResults().getAllFindings().size()
                         + " validation findings:");
-                for (GedcomValidationFinding f : gw.getValidationFindings()) {
+                for (Finding f : gw.getValidator().getResults().getAllFindings()) {
                     System.out.println(f);
                 }
             }

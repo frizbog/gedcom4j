@@ -356,7 +356,7 @@ final class AnselMapping {
      * @return true iff the character is one of the supported combining diacritic characters, in UNICODE form.
      */
     public static boolean isUnicodeCombiningDiacritic(char c) {
-        return (c >= 0x0300 && c <= 0x0333) || (c >= 0xFE20 && c <= 0xFE23);
+        return c >= 0x0300 && c <= 0x0333 || c >= 0xFE20 && c <= 0xFE23;
     }
 
     /**

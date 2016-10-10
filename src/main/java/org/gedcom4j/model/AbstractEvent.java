@@ -47,12 +47,12 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
     /**
      * The age of the person to whom this event is attached at the time it occurred
      */
-    private StringWithCustomTags age;
+    private StringWithCustomFacts age;
 
     /**
      * The cause of the event
      */
-    private StringWithCustomTags cause;
+    private StringWithCustomFacts cause;
 
     /**
      * The citations for this object
@@ -62,17 +62,17 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
     /**
      * The date of this event
      */
-    private StringWithCustomTags date;
+    private StringWithCustomFacts date;
 
     /**
      * A description of this event
      */
-    private StringWithCustomTags description;
+    private StringWithCustomFacts description;
 
     /**
      * Multimedia links for this source citation
      */
-    private List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
+    private List<MultimediaReference> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
 
     /**
      * The place where this event occurred
@@ -82,28 +82,88 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
     /**
      * The religious affiliation of this event. New for GEDCOM 5.5.1.
      */
-    private StringWithCustomTags religiousAffiliation;
+    private StringWithCustomFacts religiousAffiliation;
 
     /**
      * The responsible agency for this event
      */
-    private StringWithCustomTags respAgency;
+    private StringWithCustomFacts respAgency;
 
     /**
      * A notification that this record is in some way restricted. New for GEDCOM 5.5.1. Values are supposed to be "confidential",
      * "locked", or "privacy" but this implementation allows any value.
      */
-    private StringWithCustomTags restrictionNotice;
+    private StringWithCustomFacts restrictionNotice;
 
     /**
      * A subtype that further qualifies the type
      */
-    private StringWithCustomTags subType;
+    private StringWithCustomFacts subType;
 
     /**
      * Either a Y or a null after the event type;
      */
     private String yNull;
+
+    /** Default constructor */
+    public AbstractEvent() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public AbstractEvent(AbstractEvent other) {
+        super(other);
+
+        if (other.age != null) {
+            age = new StringWithCustomFacts(other.age);
+        }
+        if (other.cause != null) {
+            cause = new StringWithCustomFacts(other.cause);
+        }
+        if (other.citations != null) {
+            citations = new ArrayList<>();
+            for (AbstractCitation ac : other.citations) {
+                if (ac instanceof CitationWithoutSource) {
+                    citations.add(new CitationWithoutSource((CitationWithoutSource) ac));
+                } else if (ac instanceof CitationWithSource) {
+                    citations.add(new CitationWithSource((CitationWithSource) ac));
+                }
+            }
+        }
+        if (other.date != null) {
+            date = new StringWithCustomFacts(other.date);
+        }
+        if (other.description != null) {
+            description = new StringWithCustomFacts(other.description);
+        }
+        if (other.multimedia != null) {
+            multimedia = new ArrayList<>();
+            for (MultimediaReference m : other.multimedia) {
+                multimedia.add(new MultimediaReference(m));
+            }
+        }
+        if (other.place != null) {
+            place = new Place(other.place);
+        }
+        if (other.religiousAffiliation != null) {
+            religiousAffiliation = new StringWithCustomFacts(other.religiousAffiliation);
+        }
+        if (other.respAgency != null) {
+            respAgency = new StringWithCustomFacts(other.respAgency);
+        }
+        if (other.restrictionNotice != null) {
+            restrictionNotice = new StringWithCustomFacts(other.restrictionNotice);
+        }
+        if (other.subType != null) {
+            subType = new StringWithCustomFacts(other.subType);
+        }
+        yNull = other.yNull;
+    }
 
     /**
      * {@inheritDoc}
@@ -249,7 +309,7 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      *
      * @return the age
      */
-    public StringWithCustomTags getAge() {
+    public StringWithCustomFacts getAge() {
         return age;
     }
 
@@ -258,7 +318,7 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      *
      * @return the cause
      */
-    public StringWithCustomTags getCause() {
+    public StringWithCustomFacts getCause() {
         return cause;
     }
 
@@ -267,6 +327,7 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      *
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations() {
         return citations;
     }
@@ -279,6 +340,7 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      * 
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
             citations = new ArrayList<>(0);
@@ -291,7 +353,7 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      *
      * @return the date
      */
-    public StringWithCustomTags getDate() {
+    public StringWithCustomFacts getDate() {
         return date;
     }
 
@@ -300,7 +362,7 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      *
      * @return the description
      */
-    public StringWithCustomTags getDescription() {
+    public StringWithCustomFacts getDescription() {
         return description;
     }
 
@@ -309,7 +371,7 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      *
      * @return the multimedia
      */
-    public List<Multimedia> getMultimedia() {
+    public List<MultimediaReference> getMultimedia() {
         return multimedia;
     }
 
@@ -320,7 +382,7 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      *            true if this collection should be created on-the-fly if it is currently null
      * @return the multimedia
      */
-    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
+    public List<MultimediaReference> getMultimedia(boolean initializeIfNeeded) {
         if (initializeIfNeeded && multimedia == null) {
             multimedia = new ArrayList<>(0);
         }
@@ -341,7 +403,7 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      *
      * @return the religious affiliation
      */
-    public StringWithCustomTags getReligiousAffiliation() {
+    public StringWithCustomFacts getReligiousAffiliation() {
         return religiousAffiliation;
     }
 
@@ -350,7 +412,7 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      *
      * @return the resp agency
      */
-    public StringWithCustomTags getRespAgency() {
+    public StringWithCustomFacts getRespAgency() {
         return respAgency;
     }
 
@@ -359,7 +421,7 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      *
      * @return the restriction notice
      */
-    public StringWithCustomTags getRestrictionNotice() {
+    public StringWithCustomFacts getRestrictionNotice() {
         return restrictionNotice;
     }
 
@@ -368,16 +430,16 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      *
      * @return the sub type
      */
-    public StringWithCustomTags getSubType() {
+    public StringWithCustomFacts getSubType() {
         return subType;
     }
 
     /**
-     * Get the yNull
+     * Get the Y or Null flag
      * 
-     * @return the yNull
+     * @return the Y or Null flag
      */
-    public String getyNull() {
+    public String getYNull() {
         return yNull;
     }
 
@@ -414,7 +476,17 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      * @param age
      *            the new age
      */
-    public void setAge(StringWithCustomTags age) {
+    public void setAge(String age) {
+        this.age = age == null ? null : new StringWithCustomFacts(age);
+    }
+
+    /**
+     * Sets the age.
+     *
+     * @param age
+     *            the new age
+     */
+    public void setAge(StringWithCustomFacts age) {
         this.age = age;
     }
 
@@ -424,7 +496,17 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      * @param cause
      *            the new cause
      */
-    public void setCause(StringWithCustomTags cause) {
+    public void setCause(String cause) {
+        this.cause = cause == null ? null : new StringWithCustomFacts(cause);
+    }
+
+    /**
+     * Sets the cause.
+     *
+     * @param cause
+     *            the new cause
+     */
+    public void setCause(StringWithCustomFacts cause) {
         this.cause = cause;
     }
 
@@ -434,7 +516,17 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      * @param date
      *            the new date
      */
-    public void setDate(StringWithCustomTags date) {
+    public void setDate(String date) {
+        this.date = date == null ? null : new StringWithCustomFacts(date);
+    }
+
+    /**
+     * Sets the date.
+     *
+     * @param date
+     *            the new date
+     */
+    public void setDate(StringWithCustomFacts date) {
         this.date = date;
     }
 
@@ -444,7 +536,17 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      * @param description
      *            the new description
      */
-    public void setDescription(StringWithCustomTags description) {
+    public void setDescription(String description) {
+        this.description = description == null ? null : new StringWithCustomFacts(description);
+    }
+
+    /**
+     * Sets the description.
+     *
+     * @param description
+     *            the new description
+     */
+    public void setDescription(StringWithCustomFacts description) {
         this.description = description;
     }
 
@@ -464,7 +566,17 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      * @param religiousAffiliation
      *            the new religious affiliation
      */
-    public void setReligiousAffiliation(StringWithCustomTags religiousAffiliation) {
+    public void setReligiousAffiliation(String religiousAffiliation) {
+        this.religiousAffiliation = religiousAffiliation == null ? null : new StringWithCustomFacts(religiousAffiliation);
+    }
+
+    /**
+     * Sets the religious affiliation.
+     *
+     * @param religiousAffiliation
+     *            the new religious affiliation
+     */
+    public void setReligiousAffiliation(StringWithCustomFacts religiousAffiliation) {
         this.religiousAffiliation = religiousAffiliation;
     }
 
@@ -474,7 +586,17 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      * @param respAgency
      *            the new resp agency
      */
-    public void setRespAgency(StringWithCustomTags respAgency) {
+    public void setRespAgency(String respAgency) {
+        this.respAgency = respAgency == null ? null : new StringWithCustomFacts(respAgency);
+    }
+
+    /**
+     * Sets the resp agency.
+     *
+     * @param respAgency
+     *            the new resp agency
+     */
+    public void setRespAgency(StringWithCustomFacts respAgency) {
         this.respAgency = respAgency;
     }
 
@@ -484,7 +606,17 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      * @param restrictionNotice
      *            the new restriction notice
      */
-    public void setRestrictionNotice(StringWithCustomTags restrictionNotice) {
+    public void setRestrictionNotice(String restrictionNotice) {
+        this.restrictionNotice = restrictionNotice == null ? null : new StringWithCustomFacts(restrictionNotice);
+    }
+
+    /**
+     * Sets the restriction notice.
+     *
+     * @param restrictionNotice
+     *            the new restriction notice
+     */
+    public void setRestrictionNotice(StringWithCustomFacts restrictionNotice) {
         this.restrictionNotice = restrictionNotice;
     }
 
@@ -494,17 +626,28 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
      * @param subType
      *            the new sub type
      */
-    public void setSubType(StringWithCustomTags subType) {
+    public void setSubType(String subType) {
+        this.subType = subType == null ? null : new StringWithCustomFacts(subType);
+    }
+
+    /**
+     * Sets the sub type.
+     *
+     * @param subType
+     *            the new sub type
+     */
+    public void setSubType(StringWithCustomFacts subType) {
         this.subType = subType;
     }
 
     /**
-     * Set the yNull
+     * Set the Y or Null flag
      * 
      * @param yNull
-     *            the yNull to set
+     *            the Y or Null flag to set
      */
-    public void setyNull(String yNull) {
+    @SuppressWarnings("checkstyle:HiddenField")
+    public void setYNull(String yNull) {
         this.yNull = yNull;
     }
 
@@ -559,9 +702,9 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
             builder.append(multimedia);
             builder.append(", ");
         }
-        if (getNotes() != null) {
-            builder.append("notes=");
-            builder.append(getNotes());
+        if (getNoteStructures() != null) {
+            builder.append("noteStructures=");
+            builder.append(getNoteStructures());
             builder.append(", ");
         }
         if (place != null) {
@@ -595,9 +738,9 @@ public abstract class AbstractEvent extends AbstractAddressableElement implement
             builder.append(", ");
         }
         appendAddressFields(builder, true);
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("customFacts=");
+            builder.append(customFacts);
         }
         return builder;
     }

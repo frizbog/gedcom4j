@@ -49,31 +49,31 @@ public class HeaderSourceDataTest {
         HeaderSourceData h2 = new HeaderSourceData();
         assertEquals(h1, h2);
 
-        h1.setCopyright(new StringWithCustomTags("Frying Pan"));
+        h1.setCopyright("Frying Pan");
         assertFalse(h1.equals(h2));
-        h2.setCopyright(new StringWithCustomTags("Frying Pan"));
+        h2.setCopyright("Frying Pan");
         assertEquals(h1, h2);
-        h1.setCopyright(null);
+        h1.setCopyright((String) null);
         assertFalse(h1.equals(h2));
-        h2.setCopyright(null);
+        h2.setCopyright((String) null);
         assertEquals(h1, h2);
 
         h1.setName("Frying Pan");
         assertFalse(h1.equals(h2));
         h2.setName("Frying Pan");
         assertEquals(h1, h2);
-        h1.setName(null);
+        h1.setName((String) null);
         assertFalse(h1.equals(h2));
-        h2.setName(null);
+        h2.setName((String) null);
         assertEquals(h1, h2);
 
-        h1.setPublishDate(new StringWithCustomTags("Frying Pan"));
+        h1.setPublishDate("Frying Pan");
         assertFalse(h1.equals(h2));
-        h2.setPublishDate(new StringWithCustomTags("Frying Pan"));
+        h2.setPublishDate("Frying Pan");
         assertEquals(h1, h2);
-        h1.setPublishDate(null);
+        h1.setPublishDate((String) null);
         assertFalse(h1.equals(h2));
-        h2.setPublishDate(null);
+        h2.setPublishDate((String) null);
         assertEquals(h1, h2);
 
         assertFalse(h1.equals(null));
@@ -89,31 +89,31 @@ public class HeaderSourceDataTest {
         HeaderSourceData h2 = new HeaderSourceData();
         assertEquals(h1.hashCode(), h2.hashCode());
 
-        h1.setCopyright(new StringWithCustomTags("Frying Pan"));
+        h1.setCopyright("Frying Pan");
         assertFalse(h1.hashCode() == h2.hashCode());
-        h2.setCopyright(new StringWithCustomTags("Frying Pan"));
+        h2.setCopyright("Frying Pan");
         assertEquals(h1.hashCode(), h2.hashCode());
-        h1.setCopyright(null);
+        h1.setCopyright((String) null);
         assertFalse(h1.hashCode() == h2.hashCode());
-        h2.setCopyright(null);
+        h2.setCopyright((String) null);
         assertEquals(h1.hashCode(), h2.hashCode());
 
         h1.setName("Frying Pan");
         assertFalse(h1.hashCode() == h2.hashCode());
         h2.setName("Frying Pan");
         assertEquals(h1.hashCode(), h2.hashCode());
-        h1.setName(null);
+        h1.setName((String) null);
         assertFalse(h1.hashCode() == h2.hashCode());
-        h2.setName(null);
+        h2.setName((String) null);
         assertEquals(h1.hashCode(), h2.hashCode());
 
-        h1.setPublishDate(new StringWithCustomTags("Frying Pan"));
+        h1.setPublishDate("Frying Pan");
         assertFalse(h1.hashCode() == h2.hashCode());
-        h2.setPublishDate(new StringWithCustomTags("Frying Pan"));
+        h2.setPublishDate("Frying Pan");
         assertEquals(h1.hashCode(), h2.hashCode());
-        h1.setPublishDate(null);
+        h1.setPublishDate((String) null);
         assertFalse(h1.hashCode() == h2.hashCode());
-        h2.setPublishDate(null);
+        h2.setPublishDate((String) null);
         assertEquals(h1.hashCode(), h2.hashCode());
     }
 

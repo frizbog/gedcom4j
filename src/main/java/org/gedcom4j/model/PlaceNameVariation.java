@@ -38,4 +38,19 @@ public class PlaceNameVariation extends AbstractNameVariation {
      */
     private static final long serialVersionUID = -3017908016142199411L;
 
+    /** Default constructor */
+    public PlaceNameVariation() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public PlaceNameVariation(PlaceNameVariation other) {
+        super(other);
+    }
+
 }

@@ -67,49 +67,49 @@ public class RepositoryTest {
         r2.setChangeDate(null);
         assertEquals(r1, r2);
 
-        r1.getEmails(true).add(new StringWithCustomTags("Frying Pan"));
+        r1.getEmails(true).add(new StringWithCustomFacts("Frying Pan"));
         assertFalse(r1.equals(r2));
-        r2.getEmails(true).add(new StringWithCustomTags("Frying Pan"));
+        r2.getEmails(true).add(new StringWithCustomFacts("Frying Pan"));
         assertEquals(r1, r2);
         r1.getEmails().clear();
         assertFalse(r1.equals(r2));
         r2.getEmails().clear();
         assertEquals(r1, r2);
 
-        r1.setName(new StringWithCustomTags("Frying Pan"));
+        r1.setName("Frying Pan");
         assertFalse(r1.equals(r2));
-        r2.setName(new StringWithCustomTags("Frying Pan"));
+        r2.setName("Frying Pan");
         assertEquals(r1, r2);
-        r1.setName(null);
+        r1.setName((String) null);
         assertFalse(r1.equals(r2));
-        r2.setName(null);
-        assertEquals(r1, r2);
-
-        r1.getNotes(true).add(new Note());
-        assertFalse(r1.equals(r2));
-        r2.getNotes(true).add(new Note());
-        assertEquals(r1, r2);
-        r1.getNotes().clear();
-        assertFalse(r1.equals(r2));
-        r2.getNotes().clear();
+        r2.setName((String) null);
         assertEquals(r1, r2);
 
-        r1.getPhoneNumbers(true).add(new StringWithCustomTags("Frying Pan"));
+        r1.getNoteStructures(true).add(new NoteStructure());
         assertFalse(r1.equals(r2));
-        r2.getPhoneNumbers(true).add(new StringWithCustomTags("Frying Pan"));
+        r2.getNoteStructures(true).add(new NoteStructure());
+        assertEquals(r1, r2);
+        r1.getNoteStructures().clear();
+        assertFalse(r1.equals(r2));
+        r2.getNoteStructures().clear();
+        assertEquals(r1, r2);
+
+        r1.getPhoneNumbers(true).add(new StringWithCustomFacts("Frying Pan"));
+        assertFalse(r1.equals(r2));
+        r2.getPhoneNumbers(true).add(new StringWithCustomFacts("Frying Pan"));
         assertEquals(r1, r2);
         r1.getPhoneNumbers().clear();
         assertFalse(r1.equals(r2));
         r2.getPhoneNumbers().clear();
         assertEquals(r1, r2);
 
-        r1.setRecIdNumber(new StringWithCustomTags("Frying Pan"));
+        r1.setRecIdNumber("Frying Pan");
         assertFalse(r1.equals(r2));
-        r2.setRecIdNumber(new StringWithCustomTags("Frying Pan"));
+        r2.setRecIdNumber("Frying Pan");
         assertEquals(r1, r2);
-        r1.setRecIdNumber(null);
+        r1.setRecIdNumber((String) null);
         assertFalse(r1.equals(r2));
-        r2.setRecIdNumber(null);
+        r2.setRecIdNumber((String) null);
         assertEquals(r1, r2);
 
         assertFalse(r1.equals(null));
@@ -143,49 +143,49 @@ public class RepositoryTest {
         r2.setChangeDate(null);
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1.getEmails(true).add(new StringWithCustomTags("Frying Pan"));
+        r1.getEmails(true).add(new StringWithCustomFacts("Frying Pan"));
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.getEmails(true).add(new StringWithCustomTags("Frying Pan"));
+        r2.getEmails(true).add(new StringWithCustomFacts("Frying Pan"));
         assertEquals(r1.hashCode(), r2.hashCode());
         r1.getEmails().clear();
         assertFalse(r1.hashCode() == r2.hashCode());
         r2.getEmails().clear();
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1.setName(new StringWithCustomTags("Frying Pan"));
+        r1.setName("Frying Pan");
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.setName(new StringWithCustomTags("Frying Pan"));
+        r2.setName("Frying Pan");
         assertEquals(r1.hashCode(), r2.hashCode());
-        r1.setName(null);
+        r1.setName((String) null);
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.setName(null);
-        assertEquals(r1.hashCode(), r2.hashCode());
-
-        r1.getNotes(true).add(new Note());
-        assertFalse(r1.hashCode() == r2.hashCode());
-        r2.getNotes(true).add(new Note());
-        assertEquals(r1.hashCode(), r2.hashCode());
-        r1.getNotes().clear();
-        assertFalse(r1.hashCode() == r2.hashCode());
-        r2.getNotes().clear();
+        r2.setName((String) null);
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1.getPhoneNumbers(true).add(new StringWithCustomTags("Frying Pan"));
+        r1.getNoteStructures(true).add(new NoteStructure());
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.getPhoneNumbers(true).add(new StringWithCustomTags("Frying Pan"));
+        r2.getNoteStructures(true).add(new NoteStructure());
+        assertEquals(r1.hashCode(), r2.hashCode());
+        r1.getNoteStructures().clear();
+        assertFalse(r1.hashCode() == r2.hashCode());
+        r2.getNoteStructures().clear();
+        assertEquals(r1.hashCode(), r2.hashCode());
+
+        r1.getPhoneNumbers(true).add(new StringWithCustomFacts("Frying Pan"));
+        assertFalse(r1.hashCode() == r2.hashCode());
+        r2.getPhoneNumbers(true).add(new StringWithCustomFacts("Frying Pan"));
         assertEquals(r1.hashCode(), r2.hashCode());
         r1.getPhoneNumbers().clear();
         assertFalse(r1.hashCode() == r2.hashCode());
         r2.getPhoneNumbers().clear();
         assertEquals(r1.hashCode(), r2.hashCode());
 
-        r1.setRecIdNumber(new StringWithCustomTags("Frying Pan"));
+        r1.setRecIdNumber("Frying Pan");
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.setRecIdNumber(new StringWithCustomTags("Frying Pan"));
+        r2.setRecIdNumber("Frying Pan");
         assertEquals(r1.hashCode(), r2.hashCode());
-        r1.setRecIdNumber(null);
+        r1.setRecIdNumber((String) null);
         assertFalse(r1.hashCode() == r2.hashCode());
-        r2.setRecIdNumber(null);
+        r2.setRecIdNumber((String) null);
         assertEquals(r1.hashCode(), r2.hashCode());
 
         assertFalse(r1.equals(Integer.valueOf(hashCode())));

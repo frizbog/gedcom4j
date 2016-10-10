@@ -30,11 +30,16 @@ import org.gedcom4j.model.Address;
 import org.gedcom4j.model.Repository;
 
 /**
- * A validator for a {@link Repository} structure. See {@link GedcomValidator} for usage information.
+ * A validator for a {@link Repository} structure. See {@link Validator} for usage information.
  * 
  * @author frizbog1
  */
 class RepositoryValidator extends AbstractValidator {
+    /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 7390239858953711209L;
+
     /**
      * The individul being validated
      */
@@ -43,13 +48,13 @@ class RepositoryValidator extends AbstractValidator {
     /**
      * Constructor
      * 
-     * @param gedcomValidator
-     *            the root validator
+     * @param validator
+     *            the main {@link Validator} class that holds all the validation results
      * @param repository
      *            the repository being validated
      */
-    RepositoryValidator(GedcomValidator gedcomValidator, Repository repository) {
-        rootValidator = gedcomValidator;
+    RepositoryValidator(Validator validator, Repository repository) {
+        super(validator);
         this.repository = repository;
     }
 
@@ -58,22 +63,18 @@ class RepositoryValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        if (repository == null) {
-            addError("Repository being validated is null");
-            return;
-        }
-        checkXref(repository);
-        checkOptionalString(repository.getName(), "name", repository);
+        xrefMustBePresentAndWellFormed(repository);
+        mustHaveValueOrBeOmitted(repository, "name");
         checkChangeDate(repository.getChangeDate(), repository);
-        checkStringTagList(repository.getEmails(), "email list", false);
+        checkStringList(repository, "emails", false);
         checkUserReferences(repository.getUserReferences(), repository);
-        checkOptionalString(repository.getRecIdNumber(), "automated record id", repository);
-        checkStringTagList(repository.getPhoneNumbers(), "phone numbers", false);
-        new NotesValidator(rootValidator, repository, repository.getNotes()).validate();
+        mustHaveValueOrBeOmitted(repository, "recIdNumber");
+        checkStringList(repository, "phoneNumbers", false);
+        new NoteStructureListValidator(getValidator(), repository).validate();
 
         Address a = repository.getAddress();
         if (a != null) {
-            new AddressValidator(rootValidator, a).validate();
+            new AddressValidator(getValidator(), a).validate();
         }
 
     }

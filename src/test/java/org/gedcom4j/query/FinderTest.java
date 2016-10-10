@@ -38,7 +38,7 @@ import java.util.Set;
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
-import org.gedcom4j.model.IndividualEventType;
+import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.gedcom4j.parser.GedcomParser;
 import org.junit.Before;
 import org.junit.Test;
@@ -72,7 +72,7 @@ public class FinderTest {
     }
 
     /**
-     * Test for {@link Finder#findByEvent(org.gedcom4j.model.IndividualEventType, java.util.Date, java.util.Date)}
+     * Test for {@link Finder#findByEvent(org.gedcom4j.model.enumerations.IndividualEventType, java.util.Date, java.util.Date)}
      */
     @Test
     public void testFindByEventIndividualEventTypeDateDate() {
@@ -88,7 +88,7 @@ public class FinderTest {
     }
 
     /**
-     * Test for {@link Finder#findByEvent(org.gedcom4j.model.IndividualEventType, String, String)}
+     * Test for {@link Finder#findByEvent(org.gedcom4j.model.enumerations.IndividualEventType, String, String)}
      */
     @Test
     public void testFindByEventIndividualEventTypeStringString() {

@@ -30,9 +30,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
-import org.gedcom4j.model.IndividualEventType;
 import org.gedcom4j.model.PersonalName;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
+import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.gedcom4j.parser.DateParser.ImpreciseDatePreference;
 import org.junit.Before;
 import org.junit.Test;
@@ -71,7 +71,7 @@ public class IndividualByEventDateLastNameFirstNameComparatorTest {
     private static void addBirthDate(Individual i, String birthDateString) {
         IndividualEvent bd = new IndividualEvent();
         bd.setType(IndividualEventType.BIRTH);
-        bd.setDate(new StringWithCustomTags(birthDateString));
+        bd.setDate(new StringWithCustomFacts(birthDateString));
         i.getEvents(true).add(bd);
     }
 

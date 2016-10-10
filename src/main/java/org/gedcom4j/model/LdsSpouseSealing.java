@@ -38,6 +38,21 @@ public class LdsSpouseSealing extends AbstractLdsOrdinance {
      */
     private static final long serialVersionUID = -6357595096472920377L;
 
+    /** Default constructor */
+    public LdsSpouseSealing() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public LdsSpouseSealing(LdsSpouseSealing other) {
+        super(other);
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -55,9 +70,9 @@ public class LdsSpouseSealing extends AbstractLdsOrdinance {
             builder.append(date);
             builder.append(", ");
         }
-        if (getNotes() != null) {
-            builder.append("notes=");
-            builder.append(getNotes());
+        if (getNoteStructures() != null) {
+            builder.append("noteStructures=");
+            builder.append(getNoteStructures());
             builder.append(", ");
         }
         if (place != null) {
@@ -75,9 +90,9 @@ public class LdsSpouseSealing extends AbstractLdsOrdinance {
             builder.append(temple);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("customFacts=");
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

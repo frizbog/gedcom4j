@@ -26,6 +26,11 @@
  */
 package org.gedcom4j.validate;
 
+import org.gedcom4j.model.AbstractCitation;
+import org.gedcom4j.model.CitationWithSource;
+import org.gedcom4j.model.CitationWithoutSource;
+import org.gedcom4j.model.NoteStructure;
+import org.gedcom4j.model.Source;
 import org.junit.Test;
 
 /**
@@ -37,10 +42,58 @@ public class CitationValidatorTest extends AbstractValidatorTestCase {
      * Test method for {@link org.gedcom4j.validate.CitationValidator#validate()}.
      */
     @Test
-    public void testValidate() {
-        CitationValidator cv = new CitationValidator(rootValidator, null);
+    public void testValidateWithoutSourceNoNoteLines() {
+        NoteStructure n = new NoteStructure();
+        CitationWithoutSource c = new CitationWithoutSource();
+        c.getNoteStructures(true).add(n);
+        AbstractValidator cv = new CitationValidator(validator, c);
         cv.validate();
-        assertFindingsContain(Severity.ERROR, "citation", "null");
+        assertFindingsContain(Severity.ERROR, n, ProblemCode.MISSING_REQUIRED_VALUE.getCode(), "lines");
+    }
+
+    /**
+     * Test method for {@link org.gedcom4j.validate.CitationValidator#validate()}.
+     */
+    @Test
+    public void testValidateWithoutSourceSimple() {
+        NoteStructure n = new NoteStructure();
+        n.getLines(true).add("Frying Pan");
+        CitationWithoutSource c = new CitationWithoutSource();
+        c.getNoteStructures(true).add(n);
+        AbstractValidator cv = new CitationValidator(validator, c);
+        cv.validate();
+        assertNoIssues();
+    }
+
+    /**
+     * Test method for {@link org.gedcom4j.validate.CitationValidator#validate()}.
+     */
+    @Test
+    public void testValidateWithSourceNoSource() {
+        NoteStructure n = new NoteStructure();
+        n.getLines(true).add("Frying Pan");
+        AbstractCitation c = new CitationWithSource();
+        c.getNoteStructures(true).add(n);
+        AbstractValidator cv = new CitationValidator(validator, c);
+        cv.validate();
+        assertFindingsContain(Severity.ERROR, c, ProblemCode.MISSING_REQUIRED_VALUE.getCode(), "source");
+    }
+
+    /**
+     * Test method for {@link org.gedcom4j.validate.CitationValidator#validate()}.
+     */
+    @Test
+    public void testValidateWithSourceSimple() {
+        NoteStructure n = new NoteStructure();
+        n.getLines(true).add("Frying Pan");
+        CitationWithSource c = new CitationWithSource();
+        c.getNoteStructures(true).add(n);
+        Source source = new Source();
+        c.setSource(source);
+
+        AbstractValidator cv = new CitationValidator(validator, c);
+        cv.validate();
+        assertNoIssues();
     }
 
 }

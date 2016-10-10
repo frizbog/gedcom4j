@@ -26,9 +26,6 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.List;
-
-import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.PersonalNameVariation;
 
 /**
@@ -39,15 +36,20 @@ import org.gedcom4j.model.PersonalNameVariation;
 class PersonalNameVariationValidator extends NameVariationValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -1410145014070374415L;
+
+    /**
      * Constructor
      * 
-     * @param rootValidator
-     *            the root {@link GedcomValidator} that contains the findings and the settings
+     * @param validator
+     *            the {@link Validator} that contains the findings and the settings
      * @param pnv
      *            the personal name variation to be validated
      */
-    PersonalNameVariationValidator(GedcomValidator rootValidator, PersonalNameVariation pnv) {
-        super(rootValidator, pnv);
+    PersonalNameVariationValidator(Validator validator, PersonalNameVariation pnv) {
+        super(validator, pnv);
     }
 
     /**
@@ -59,37 +61,15 @@ class PersonalNameVariationValidator extends NameVariationValidator {
         if (nv == null) {
             return;
         }
-        if (!(nv instanceof PersonalNameVariation)) {
-            addError("Name variation on person is not a PersonalNameVariation");
-            return;
-        }
         PersonalNameVariation pnv = (PersonalNameVariation) nv;
-        List<AbstractCitation> citations = pnv.getCitations();
-        if (citations == null) {
-            if (rootValidator.isAutorepairEnabled()) {
-                pnv.getCitations(true).clear();
-                addInfo("citations collection for personal name was null - autorepaired", pnv);
-            } else {
-                addError("citations collection for personal name is null", pnv);
-            }
-        } else {
-            if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(citations).process();
-                if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate citations found and removed", pnv);
-                }
-            }
-
-            for (AbstractCitation c : citations) {
-                new CitationValidator(rootValidator, c).validate();
-            }
-        }
-        checkOptionalString(pnv.getGivenName(), "given name", pnv);
-        checkOptionalString(pnv.getNickname(), "nickname", pnv);
-        checkOptionalString(pnv.getPrefix(), "prefix", pnv);
-        checkOptionalString(pnv.getSuffix(), "suffix", pnv);
-        checkOptionalString(pnv.getSurname(), "surname", pnv);
-        checkOptionalString(pnv.getSurnamePrefix(), "surname prefix", pnv);
-        new NotesValidator(rootValidator, pnv, pnv.getNotes()).validate();
+        checkCitations(pnv);
+        mustHaveValueOrBeOmitted(pnv, "givenName");
+        mustHaveValueOrBeOmitted(pnv, "nickname");
+        mustHaveValueOrBeOmitted(pnv, "prefix");
+        mustHaveValueOrBeOmitted(pnv, "suffix");
+        mustHaveValueOrBeOmitted(pnv, "surname");
+        mustHaveValueOrBeOmitted(pnv, "surnamePrefix");
+        new NoteStructureListValidator(getValidator(), pnv).validate();
     }
+
 }

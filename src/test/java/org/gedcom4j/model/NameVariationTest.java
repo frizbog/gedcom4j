@@ -51,11 +51,11 @@ public class NameVariationTest {
         assertNotSame(nv1, nv2);
         assertEquals(nv1, nv2);
 
-        nv1.getCustomTags(true).add(new StringTree());
+        nv1.getCustomFacts(true).add(new CustomFact("_FOO"));
         assertFalse(nv1.equals(nv2));
-        nv1.getCustomTags().clear();
+        nv1.getCustomFacts().clear();
         assertFalse(nv1.equals(nv2));
-        nv2.getCustomTags(true).clear();
+        nv2.getCustomFacts(true).clear();
         assertEquals(nv1, nv2);
 
         nv1.variation = "Yo";
@@ -63,7 +63,7 @@ public class NameVariationTest {
         nv1.variation = null;
         assertEquals(nv1, nv2);
 
-        nv1.variationType = new StringWithCustomTags("Yo");
+        nv1.variationType = new StringWithCustomFacts("Yo");
         assertFalse(nv1.equals(nv2));
         nv1.variationType = null;
         assertEquals(nv1, nv2);
@@ -81,11 +81,11 @@ public class NameVariationTest {
         assertNotSame(nv1, nv2);
         assertEquals(nv1.hashCode(), nv2.hashCode());
 
-        nv1.getCustomTags(true).add(new StringTree());
+        nv1.getCustomFacts(true).add(new CustomFact("_FOO"));
         assertFalse(nv1.hashCode() == nv2.hashCode());
-        nv1.getCustomTags().clear();
+        nv1.getCustomFacts().clear();
         assertFalse(nv1.hashCode() == nv2.hashCode());
-        nv2.getCustomTags(true).clear();
+        nv2.getCustomFacts(true).clear();
         assertEquals(nv1.hashCode(), nv2.hashCode());
 
         nv1.variation = "Yo";
@@ -93,7 +93,7 @@ public class NameVariationTest {
         nv1.variation = null;
         assertEquals(nv1.hashCode(), nv2.hashCode());
 
-        nv1.variationType = new StringWithCustomTags("Yo");
+        nv1.variationType = new StringWithCustomFacts("Yo");
         assertFalse(nv1.hashCode() == nv2.hashCode());
         nv1.variationType = null;
         assertEquals(nv1.hashCode(), nv2.hashCode());
@@ -108,11 +108,10 @@ public class NameVariationTest {
         AbstractNameVariation nv = new PersonalNameVariation();
         assertEquals("PersonalNameVariation []", nv.toString());
         nv.variation = "Frying Pan";
-        nv.getCustomTags(true).add(new StringTree());
-        nv.variationType = new StringWithCustomTags("All");
-        assertEquals(
-                "PersonalNameVariation [variation=Frying Pan, variationType=All, customTags=[Line 0: 0 (null tag) (null value)]]",
-                nv.toString());
+        nv.getCustomFacts(true).add(new CustomFact("_FOO"));
+        nv.variationType = new StringWithCustomFacts("All");
+        assertEquals("PersonalNameVariation [variation=Frying Pan, variationType=All, customFacts=[CustomFact [tag=_FOO, ]]]", nv
+                .toString());
 
     }
 }

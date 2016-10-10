@@ -50,37 +50,86 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
     /**
      * The given (aka "Christian" or "first") names
      */
-    private StringWithCustomTags givenName;
+    private StringWithCustomFacts givenName;
 
     /**
      * Nickname
      */
-    private StringWithCustomTags nickname;
+    private StringWithCustomFacts nickname;
 
     /**
      * Notes about this object
      */
-    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
+    private List<NoteStructure> noteStructures = getNoteStructures(Options.isCollectionInitializationEnabled());
 
     /**
      * The prefix for the name
      */
-    private StringWithCustomTags prefix;
+    private StringWithCustomFacts prefix;
 
     /**
      * The suffix
      */
-    private StringWithCustomTags suffix;
+    private StringWithCustomFacts suffix;
 
     /**
      * The surname (aka "family" or "last" name)
      */
-    private StringWithCustomTags surname;
+    private StringWithCustomFacts surname;
 
     /**
      * Surname prefix
      */
-    private StringWithCustomTags surnamePrefix;
+    private StringWithCustomFacts surnamePrefix;
+
+    /** Default constructor */
+    public PersonalNameVariation() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public PersonalNameVariation(PersonalNameVariation other) {
+        super(other);
+        if (other.citations != null) {
+            citations = new ArrayList<>();
+            for (AbstractCitation ac : other.citations) {
+                if (ac instanceof CitationWithoutSource) {
+                    citations.add(new CitationWithoutSource((CitationWithoutSource) ac));
+                } else if (ac instanceof CitationWithSource) {
+                    citations.add(new CitationWithSource((CitationWithSource) ac));
+                }
+            }
+        }
+        if (other.givenName != null) {
+            givenName = new StringWithCustomFacts(other.givenName);
+        }
+        if (other.nickname != null) {
+            nickname = new StringWithCustomFacts(other.nickname);
+        }
+        if (other.getNoteStructures() != null) {
+            noteStructures = new ArrayList<>();
+            for (NoteStructure n : other.getNoteStructures()) {
+                noteStructures.add(new NoteStructure(n));
+            }
+        }
+        if (other.prefix != null) {
+            prefix = new StringWithCustomFacts(other.prefix);
+        }
+        if (other.suffix != null) {
+            suffix = new StringWithCustomFacts(other.suffix);
+        }
+        if (other.surname != null) {
+            surname = new StringWithCustomFacts(other.surname);
+        }
+        if (other.surnamePrefix != null) {
+            surnamePrefix = new StringWithCustomFacts(other.surnamePrefix);
+        }
+    }
 
     /**
      * Determine if this object is equal to another
@@ -123,11 +172,11 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
         } else if (!nickname.equals(other.nickname)) {
             return false;
         }
-        if (notes == null) {
-            if (other.notes != null) {
+        if (noteStructures == null) {
+            if (other.noteStructures != null) {
                 return false;
             }
-        } else if (!notes.equals(other.notes)) {
+        } else if (!noteStructures.equals(other.noteStructures)) {
             return false;
         }
         if (prefix == null) {
@@ -180,6 +229,7 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      *
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations() {
         return citations;
     }
@@ -192,6 +242,7 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      * 
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
             citations = new ArrayList<>(0);
@@ -204,7 +255,7 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      *
      * @return the given name
      */
-    public StringWithCustomTags getGivenName() {
+    public StringWithCustomFacts getGivenName() {
         return givenName;
     }
 
@@ -213,7 +264,7 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      *
      * @return the nickname
      */
-    public StringWithCustomTags getNickname() {
+    public StringWithCustomFacts getNickname() {
         return nickname;
     }
 
@@ -222,8 +273,9 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      *
      * @return the notes
      */
-    public List<Note> getNotes() {
-        return notes;
+    @Override
+    public List<NoteStructure> getNoteStructures() {
+        return noteStructures;
     }
 
     /**
@@ -234,11 +286,12 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      * 
      * @return the notes
      */
-    public List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<>(0);
+    @Override
+    public List<NoteStructure> getNoteStructures(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && noteStructures == null) {
+            noteStructures = new ArrayList<>(0);
         }
-        return notes;
+        return noteStructures;
     }
 
     /**
@@ -246,7 +299,7 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      *
      * @return the prefix
      */
-    public StringWithCustomTags getPrefix() {
+    public StringWithCustomFacts getPrefix() {
         return prefix;
     }
 
@@ -255,7 +308,7 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      *
      * @return the suffix
      */
-    public StringWithCustomTags getSuffix() {
+    public StringWithCustomFacts getSuffix() {
         return suffix;
     }
 
@@ -264,7 +317,7 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      *
      * @return the surname
      */
-    public StringWithCustomTags getSurname() {
+    public StringWithCustomFacts getSurname() {
         return surname;
     }
 
@@ -273,7 +326,7 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      *
      * @return the surname prefix
      */
-    public StringWithCustomTags getSurnamePrefix() {
+    public StringWithCustomFacts getSurnamePrefix() {
         return surnamePrefix;
     }
 
@@ -290,7 +343,7 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
         result = prime * result + (citations == null ? 0 : citations.hashCode());
         result = prime * result + (givenName == null ? 0 : givenName.hashCode());
         result = prime * result + (nickname == null ? 0 : nickname.hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
+        result = prime * result + (noteStructures == null ? 0 : noteStructures.hashCode());
         result = prime * result + (prefix == null ? 0 : prefix.hashCode());
         result = prime * result + (suffix == null ? 0 : suffix.hashCode());
         result = prime * result + (surname == null ? 0 : surname.hashCode());
@@ -306,7 +359,17 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      * @param givenName
      *            the new given name
      */
-    public void setGivenName(StringWithCustomTags givenName) {
+    public void setGivenName(String givenName) {
+        this.givenName = givenName == null ? null : new StringWithCustomFacts(givenName);
+    }
+
+    /**
+     * Sets the given name.
+     *
+     * @param givenName
+     *            the new given name
+     */
+    public void setGivenName(StringWithCustomFacts givenName) {
         this.givenName = givenName;
     }
 
@@ -316,7 +379,17 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      * @param nickname
      *            the new nickname
      */
-    public void setNickname(StringWithCustomTags nickname) {
+    public void setNickname(String nickname) {
+        this.nickname = nickname == null ? null : new StringWithCustomFacts(nickname);
+    }
+
+    /**
+     * Sets the nickname.
+     *
+     * @param nickname
+     *            the new nickname
+     */
+    public void setNickname(StringWithCustomFacts nickname) {
         this.nickname = nickname;
     }
 
@@ -326,7 +399,17 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      * @param prefix
      *            the new prefix
      */
-    public void setPrefix(StringWithCustomTags prefix) {
+    public void setPrefix(String prefix) {
+        this.prefix = prefix == null ? null : new StringWithCustomFacts(prefix);
+    }
+
+    /**
+     * Sets the prefix.
+     *
+     * @param prefix
+     *            the new prefix
+     */
+    public void setPrefix(StringWithCustomFacts prefix) {
         this.prefix = prefix;
     }
 
@@ -336,7 +419,17 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      * @param suffix
      *            the new suffix
      */
-    public void setSuffix(StringWithCustomTags suffix) {
+    public void setSuffix(String suffix) {
+        this.suffix = suffix == null ? null : new StringWithCustomFacts(suffix);
+    }
+
+    /**
+     * Sets the suffix.
+     *
+     * @param suffix
+     *            the new suffix
+     */
+    public void setSuffix(StringWithCustomFacts suffix) {
         this.suffix = suffix;
     }
 
@@ -346,7 +439,17 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      * @param surname
      *            the new surname
      */
-    public void setSurname(StringWithCustomTags surname) {
+    public void setSurname(String surname) {
+        this.surname = surname == null ? null : new StringWithCustomFacts(surname);
+    }
+
+    /**
+     * Sets the surname.
+     *
+     * @param surname
+     *            the new surname
+     */
+    public void setSurname(StringWithCustomFacts surname) {
         this.surname = surname;
     }
 
@@ -356,7 +459,17 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
      * @param surnamePrefix
      *            the new surname prefix
      */
-    public void setSurnamePrefix(StringWithCustomTags surnamePrefix) {
+    public void setSurnamePrefix(String surnamePrefix) {
+        this.surnamePrefix = surnamePrefix == null ? null : new StringWithCustomFacts(surnamePrefix);
+    }
+
+    /**
+     * Sets the surname prefix.
+     *
+     * @param surnamePrefix
+     *            the new surname prefix
+     */
+    public void setSurnamePrefix(StringWithCustomFacts surnamePrefix) {
         this.surnamePrefix = surnamePrefix;
     }
 
@@ -382,9 +495,9 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
             builder.append(nickname);
             builder.append(", ");
         }
-        if (notes != null) {
-            builder.append("notes=");
-            builder.append(notes);
+        if (noteStructures != null) {
+            builder.append("noteStructures=");
+            builder.append(noteStructures);
             builder.append(", ");
         }
         if (prefix != null) {
@@ -417,9 +530,9 @@ public class PersonalNameVariation extends AbstractNameVariation implements HasN
             builder.append(variationType);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("customFacts=");
+            builder.append(customFacts);
         }
         builder.append("]");
         return builder.toString();

@@ -52,7 +52,7 @@ public class SourceSystem extends AbstractElement {
     /**
      * The product name for this source system
      */
-    private StringWithCustomTags productName;
+    private StringWithCustomFacts productName;
 
     /**
      * Header source data for this source system.
@@ -67,7 +67,35 @@ public class SourceSystem extends AbstractElement {
     /**
      * The version number of this source system
      */
-    private StringWithCustomTags versionNum;
+    private StringWithCustomFacts versionNum;
+
+    /** Default constructor */
+    public SourceSystem() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public SourceSystem(SourceSystem other) {
+        super(other);
+        if (other.corporation != null) {
+            corporation = new Corporation(other.corporation);
+        }
+        if (other.productName != null) {
+            productName = new StringWithCustomFacts(other.productName);
+        }
+        if (other.sourceData != null) {
+            sourceData = new HeaderSourceData(other.sourceData);
+        }
+        systemId = other.systemId;
+        if (other.versionNum != null) {
+            versionNum = new StringWithCustomFacts(other.versionNum);
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -136,7 +164,7 @@ public class SourceSystem extends AbstractElement {
      *
      * @return the product name
      */
-    public StringWithCustomTags getProductName() {
+    public StringWithCustomFacts getProductName() {
         return productName;
     }
 
@@ -163,7 +191,7 @@ public class SourceSystem extends AbstractElement {
      *
      * @return the version num
      */
-    public StringWithCustomTags getVersionNum() {
+    public StringWithCustomFacts getVersionNum() {
         return versionNum;
     }
 
@@ -198,7 +226,17 @@ public class SourceSystem extends AbstractElement {
      * @param productName
      *            the new product name
      */
-    public void setProductName(StringWithCustomTags productName) {
+    public void setProductName(String productName) {
+        this.productName = productName == null ? null : new StringWithCustomFacts(productName);
+    }
+
+    /**
+     * Sets the product name.
+     *
+     * @param productName
+     *            the new product name
+     */
+    public void setProductName(StringWithCustomFacts productName) {
         this.productName = productName;
     }
 
@@ -228,7 +266,17 @@ public class SourceSystem extends AbstractElement {
      * @param versionNum
      *            the new version num
      */
-    public void setVersionNum(StringWithCustomTags versionNum) {
+    public void setVersionNum(String versionNum) {
+        this.versionNum = versionNum == null ? null : new StringWithCustomFacts(versionNum);
+    }
+
+    /**
+     * Sets the version num.
+     *
+     * @param versionNum
+     *            the new version num
+     */
+    public void setVersionNum(StringWithCustomFacts versionNum) {
         this.versionNum = versionNum;
     }
 
@@ -264,9 +312,9 @@ public class SourceSystem extends AbstractElement {
             builder.append(versionNum);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("customFacts=");
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

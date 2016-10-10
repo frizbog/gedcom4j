@@ -50,7 +50,32 @@ public class SourceData extends AbstractNotesElement {
     /**
      * The responsible agency.
      */
-    private StringWithCustomTags respAgency;
+    private StringWithCustomFacts respAgency;
+
+    /** Default constructor */
+    public SourceData() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public SourceData(SourceData other) {
+        super(other);
+        if (other.eventsRecorded != null) {
+            eventsRecorded = new ArrayList<>();
+            for (EventRecorded e : other.eventsRecorded) {
+                eventsRecorded.add(new EventRecorded(e));
+            }
+        }
+        if (other.respAgency != null) {
+            respAgency = new StringWithCustomFacts(other.respAgency);
+        }
+
+    }
 
     /**
      * {@inheritDoc}
@@ -112,7 +137,7 @@ public class SourceData extends AbstractNotesElement {
      *
      * @return the resp agency
      */
-    public StringWithCustomTags getRespAgency() {
+    public StringWithCustomFacts getRespAgency() {
         return respAgency;
     }
 
@@ -134,7 +159,17 @@ public class SourceData extends AbstractNotesElement {
      * @param respAgency
      *            the new resp agency
      */
-    public void setRespAgency(StringWithCustomTags respAgency) {
+    public void setRespAgency(String respAgency) {
+        this.respAgency = respAgency == null ? null : new StringWithCustomFacts(respAgency);
+    }
+
+    /**
+     * Sets the resp agency.
+     *
+     * @param respAgency
+     *            the new resp agency
+     */
+    public void setRespAgency(StringWithCustomFacts respAgency) {
         this.respAgency = respAgency;
     }
 
@@ -150,9 +185,9 @@ public class SourceData extends AbstractNotesElement {
             builder.append(eventsRecorded);
             builder.append(", ");
         }
-        if (getNotes() != null) {
-            builder.append("notes=");
-            builder.append(getNotes());
+        if (getNoteStructures() != null) {
+            builder.append("noteStructures=");
+            builder.append(getNoteStructures());
             builder.append(", ");
         }
         if (respAgency != null) {
@@ -160,9 +195,9 @@ public class SourceData extends AbstractNotesElement {
             builder.append(respAgency);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("customFacts=");
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

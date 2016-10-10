@@ -26,13 +26,8 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.List;
-
-import org.gedcom4j.Options;
-import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.AbstractNameVariation;
 import org.gedcom4j.model.PersonalName;
-import org.gedcom4j.model.PersonalNameVariation;
 
 /**
  * Validator for {@link PersonalName} objects
@@ -42,6 +37,11 @@ import org.gedcom4j.model.PersonalNameVariation;
 class PersonalNameValidator extends AbstractValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -2718066344479251436L;
+
+    /**
      * The personal name being validated
      */
     private final PersonalName pn;
@@ -49,13 +49,13 @@ class PersonalNameValidator extends AbstractValidator {
     /**
      * Constructor
      * 
-     * @param rootValidator
-     *            the root {@link GedcomValidator} that contains all the findings and options
+     * @param validator
+     *            the {@link Validator} that contains all the findings and options
      * @param pn
      *            the personal name being validated
      */
-    PersonalNameValidator(GedcomValidator rootValidator, PersonalName pn) {
-        this.rootValidator = rootValidator;
+    PersonalNameValidator(Validator validator, PersonalName pn) {
+        super(validator);
         this.pn = pn;
     }
 
@@ -64,80 +64,64 @@ class PersonalNameValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        if (pn == null) {
-            addError("Personal name was null - cannot validate");
+        mustHaveValue(pn, "basic");
+        checkCitations(pn);
+        checkCitations(pn);
+        checkCustomFacts(pn);
+        mustHaveValueOrBeOmitted(pn, "givenName");
+        mustHaveValueOrBeOmitted(pn, "nickname");
+        mustHaveValueOrBeOmitted(pn, "prefix");
+        mustHaveValueOrBeOmitted(pn, "suffix");
+        mustHaveValueOrBeOmitted(pn, "surname");
+        mustHaveValueOrBeOmitted(pn, "surnamePrefix");
+
+        if (!getValidator().isV551()) {
+            mustNotHaveValue(pn, "type");
+        } else {
+            mustHaveValueOrBeOmitted(pn, "type");
+        }
+
+        new NoteStructureListValidator(getValidator(), pn).validate();
+
+        checkPhoneticVariations();
+        checkRomanizedVariations();
+    }
+
+    /**
+     * Check the phonetic variations on the place name
+     */
+    private void checkPhoneticVariations() {
+        checkUninitializedCollection(pn, "phonetic");
+        if (pn.getPhonetic() == null) {
             return;
         }
-        checkRequiredString(pn.getBasic(), "basic name", pn);
-        if (pn.getCitations() == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
-                pn.getCitations(true).clear();
-                addInfo("citations collection for personal name was null - autorepaired", pn);
-            } else {
-                addError("citations collection for personal name is null", pn);
-            }
+        if (!getValidator().isV551()) {
+            mustNotHaveValue(pn, "phonetic");
+            return;
         }
-        if (pn.getCitations() != null) {
-            for (AbstractCitation c : pn.getCitations()) {
-                new CitationValidator(rootValidator, c).validate();
-            }
-        }
-        checkCustomTags(pn);
-        checkOptionalString(pn.getGivenName(), "given name", pn);
-        checkOptionalString(pn.getNickname(), "nickname", pn);
-        checkOptionalString(pn.getPrefix(), "prefix", pn);
-        checkOptionalString(pn.getSuffix(), "suffix", pn);
-        checkOptionalString(pn.getSurname(), "surname", pn);
-        checkOptionalString(pn.getSurnamePrefix(), "surname prefix", pn);
-
-        new NotesValidator(rootValidator, pn, pn.getNotes()).validate();
-        List<PersonalNameVariation> phonetic = pn.getPhonetic();
-        if (phonetic == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
-                pn.getPhonetic(true).clear();
-                rootValidator.addInfo("PersonalNameValidator had null list of phonetic name variations - repaired", pn);
-            } else {
-                rootValidator.addError("PersonalNamevalidator has null list of phonetic name variations", pn);
-            }
-        } else {
-            if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(phonetic).process();
-                if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate phonetic found and removed", pn);
-                }
-            }
-
-            if (phonetic != null) {
-                for (AbstractNameVariation nv : phonetic) {
-                    PersonalNameVariation pnv = (PersonalNameVariation) nv;
-                    new PersonalNameVariationValidator(rootValidator, pnv).validate();
-                }
-            }
-        }
-
-        List<PersonalNameVariation> romanized = pn.getRomanized();
-        if (romanized == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
-                pn.getRomanized(true).clear();
-                rootValidator.addInfo("Event had null list of romanized name variations - repaired", pn);
-            } else {
-                rootValidator.addError("Event has null list of romanized name variations", pn);
-            }
-        } else {
-            if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(romanized).process();
-                if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate romanized variations found and removed", pn);
-                }
-            }
-
-            if (romanized != null) {
-                for (AbstractNameVariation nv : romanized) {
-                    PersonalNameVariation pnv = (PersonalNameVariation) nv;
-                    new PersonalNameVariationValidator(rootValidator, pnv).validate();
-                }
-            }
+        checkListOfModelElementsForDups(pn, "phonetic");
+        checkListOfModelElementsForNulls(pn, "phonetic");
+        for (AbstractNameVariation nv : pn.getPhonetic()) {
+            new NameVariationValidator(getValidator(), nv).validate();
         }
     }
 
+    /**
+     * Check the romanized variations on the place name
+     */
+    private void checkRomanizedVariations() {
+        checkUninitializedCollection(pn, "romanized");
+        if (pn.getRomanized() == null) {
+            return;
+        }
+        if (!getValidator().isV551()) {
+            mustNotHaveValue(pn, "romanized");
+            return;
+        }
+        checkListOfModelElementsForDups(pn, "romanized");
+        checkListOfModelElementsForNulls(pn, "romanized");
+        for (AbstractNameVariation nv : pn.getRomanized()) {
+            new NameVariationValidator(getValidator(), nv).validate();
+        }
+    }
 }

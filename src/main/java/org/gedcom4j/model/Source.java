@@ -56,22 +56,22 @@ public class Source extends AbstractNotesElement implements HasXref {
     /**
      * Multimedia links for this source citation
      */
-    private List<Multimedia> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
+    private List<MultimediaReference> multimedia = getMultimedia(Options.isCollectionInitializationEnabled());
 
     /**
      * The originators/authors
      */
-    private List<String> originatorsAuthors = getOriginatorsAuthors(Options.isCollectionInitializationEnabled());
+    private MultiStringWithCustomFacts originatorsAuthors;
 
     /**
      * Publication facts on this source
      */
-    private List<String> publicationFacts = getPublicationFacts(Options.isCollectionInitializationEnabled());
+    private MultiStringWithCustomFacts publicationFacts;
 
     /**
      * The record ID number
      */
-    private StringWithCustomTags recIdNumber;
+    private StringWithCustomFacts recIdNumber;
 
     /**
      * A repository Citation
@@ -81,17 +81,17 @@ public class Source extends AbstractNotesElement implements HasXref {
     /**
      * Who filed the source
      */
-    private StringWithCustomTags sourceFiledBy;
+    private StringWithCustomFacts sourceFiledBy;
 
     /**
      * Text from the source
      */
-    private List<String> sourceText = getSourceText(Options.isCollectionInitializationEnabled());
+    private MultiStringWithCustomFacts sourceText;
 
     /**
      * The title text
      */
-    private List<String> title = getTitle(Options.isCollectionInitializationEnabled());
+    private MultiStringWithCustomFacts title;
 
     /**
      * The user references for this submitter
@@ -102,6 +102,63 @@ public class Source extends AbstractNotesElement implements HasXref {
      * The xref for this submitter
      */
     private String xref;
+
+    /** Default constructor */
+    public Source() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public Source(Source other) {
+        super(other);
+        if (other.changeDate != null) {
+            changeDate = new ChangeDate(other.changeDate);
+        }
+        if (other.data != null) {
+            data = new SourceData(other.data);
+        }
+        if (other.multimedia != null) {
+            multimedia = new ArrayList<>();
+            for (MultimediaReference m : other.multimedia) {
+                multimedia.add(new MultimediaReference(m));
+            }
+        }
+        if (other.originatorsAuthors != null) {
+            originatorsAuthors = new MultiStringWithCustomFacts(other.originatorsAuthors);
+        }
+        if (other.publicationFacts != null) {
+            publicationFacts = new MultiStringWithCustomFacts(other.publicationFacts);
+        }
+
+        if (other.recIdNumber != null) {
+            recIdNumber = new StringWithCustomFacts(other.recIdNumber);
+        }
+        if (other.repositoryCitation != null) {
+            repositoryCitation = new RepositoryCitation(other.repositoryCitation);
+        }
+        if (other.sourceFiledBy != null) {
+            sourceFiledBy = new StringWithCustomFacts(other.sourceFiledBy);
+        }
+        if (other.sourceText != null) {
+            sourceText = new MultiStringWithCustomFacts(other.sourceText);
+        }
+
+        if (other.title != null) {
+            title = new MultiStringWithCustomFacts(other.title);
+        }
+        if (other.userReferences != null) {
+            userReferences = new ArrayList<>();
+            for (UserReference ur : other.userReferences) {
+                userReferences.add(new UserReference(ur));
+            }
+        }
+        xref = other.xref;
+    }
 
     /**
      * Constructor, takes required xref value
@@ -241,7 +298,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      *
      * @return the multimedia
      */
-    public List<Multimedia> getMultimedia() {
+    public List<MultimediaReference> getMultimedia() {
         return multimedia;
     }
 
@@ -252,7 +309,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      *            true if this collection should be created on-the-fly if it is currently null
      * @return the multimedia
      */
-    public List<Multimedia> getMultimedia(boolean initializeIfNeeded) {
+    public List<MultimediaReference> getMultimedia(boolean initializeIfNeeded) {
         if (initializeIfNeeded && multimedia == null) {
             multimedia = new ArrayList<>(0);
         }
@@ -264,21 +321,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      *
      * @return the originators authors
      */
-    public List<String> getOriginatorsAuthors() {
-        return originatorsAuthors;
-    }
-
-    /**
-     * Get the originators authors
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the originators authors
-     */
-    public List<String> getOriginatorsAuthors(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && originatorsAuthors == null) {
-            originatorsAuthors = new ArrayList<>(0);
-        }
+    public MultiStringWithCustomFacts getOriginatorsAuthors() {
         return originatorsAuthors;
     }
 
@@ -287,21 +330,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      *
      * @return the publication facts
      */
-    public List<String> getPublicationFacts() {
-        return publicationFacts;
-    }
-
-    /**
-     * Get the publication facts
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the publication facts
-     */
-    public List<String> getPublicationFacts(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && publicationFacts == null) {
-            publicationFacts = new ArrayList<>(0);
-        }
+    public MultiStringWithCustomFacts getPublicationFacts() {
         return publicationFacts;
     }
 
@@ -310,7 +339,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      *
      * @return the rec id number
      */
-    public StringWithCustomTags getRecIdNumber() {
+    public StringWithCustomFacts getRecIdNumber() {
         return recIdNumber;
     }
 
@@ -328,7 +357,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      *
      * @return the source filed by
      */
-    public StringWithCustomTags getSourceFiledBy() {
+    public StringWithCustomFacts getSourceFiledBy() {
         return sourceFiledBy;
     }
 
@@ -337,21 +366,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      *
      * @return the source text
      */
-    public List<String> getSourceText() {
-        return sourceText;
-    }
-
-    /**
-     * Get the source text
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the source text
-     */
-    public List<String> getSourceText(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && sourceText == null) {
-            sourceText = new ArrayList<>(0);
-        }
+    public MultiStringWithCustomFacts getSourceText() {
         return sourceText;
     }
 
@@ -360,21 +375,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      *
      * @return the title
      */
-    public List<String> getTitle() {
-        return title;
-    }
-
-    /**
-     * Get the title
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection, if needed?
-     * @return the title
-     */
-    public List<String> getTitle(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && title == null) {
-            title = new ArrayList<>(0);
-        }
+    public MultiStringWithCustomFacts getTitle() {
         return title;
     }
 
@@ -406,6 +407,7 @@ public class Source extends AbstractNotesElement implements HasXref {
      *
      * @return the xref
      */
+    @Override
     public String getXref() {
         return xref;
     }
@@ -453,12 +455,42 @@ public class Source extends AbstractNotesElement implements HasXref {
     }
 
     /**
+     * Set the originatorsAuthors
+     * 
+     * @param originatorsAuthors
+     *            the originatorsAuthors to set
+     */
+    public void setOriginatorsAuthors(MultiStringWithCustomFacts originatorsAuthors) {
+        this.originatorsAuthors = originatorsAuthors;
+    }
+
+    /**
+     * Set the publicationFacts
+     * 
+     * @param publicationFacts
+     *            the publicationFacts to set
+     */
+    public void setPublicationFacts(MultiStringWithCustomFacts publicationFacts) {
+        this.publicationFacts = publicationFacts;
+    }
+
+    /**
      * Sets the rec id number.
      *
      * @param recIdNumber
      *            the new rec id number
      */
-    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+    public void setRecIdNumber(String recIdNumber) {
+        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomFacts(recIdNumber);
+    }
+
+    /**
+     * Sets the rec id number.
+     *
+     * @param recIdNumber
+     *            the new rec id number
+     */
+    public void setRecIdNumber(StringWithCustomFacts recIdNumber) {
         this.recIdNumber = recIdNumber;
     }
 
@@ -478,8 +510,38 @@ public class Source extends AbstractNotesElement implements HasXref {
      * @param sourceFiledBy
      *            the new source filed by
      */
-    public void setSourceFiledBy(StringWithCustomTags sourceFiledBy) {
+    public void setSourceFiledBy(String sourceFiledBy) {
+        this.sourceFiledBy = sourceFiledBy == null ? null : new StringWithCustomFacts(sourceFiledBy);
+    }
+
+    /**
+     * Sets the source filed by.
+     *
+     * @param sourceFiledBy
+     *            the new source filed by
+     */
+    public void setSourceFiledBy(StringWithCustomFacts sourceFiledBy) {
         this.sourceFiledBy = sourceFiledBy;
+    }
+
+    /**
+     * Set the sourceText
+     * 
+     * @param sourceText
+     *            the sourceText to set
+     */
+    public void setSourceText(MultiStringWithCustomFacts sourceText) {
+        this.sourceText = sourceText;
+    }
+
+    /**
+     * Set the title
+     * 
+     * @param title
+     *            the title to set
+     */
+    public void setTitle(MultiStringWithCustomFacts title) {
+        this.title = title;
     }
 
     /**
@@ -514,9 +576,9 @@ public class Source extends AbstractNotesElement implements HasXref {
             builder.append(multimedia);
             builder.append(", ");
         }
-        if (getNotes() != null) {
-            builder.append("notes=");
-            builder.append(getNotes());
+        if (getNoteStructures() != null) {
+            builder.append("noteStructures=");
+            builder.append(getNoteStructures());
             builder.append(", ");
         }
         if (originatorsAuthors != null) {
@@ -564,9 +626,9 @@ public class Source extends AbstractNotesElement implements HasXref {
             builder.append(xref);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("customFacts=");
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

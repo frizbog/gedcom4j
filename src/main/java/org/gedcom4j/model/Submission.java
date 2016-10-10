@@ -40,27 +40,27 @@ public class Submission extends AbstractElement implements HasXref {
     /**
      * The number of ancestor generations
      */
-    private StringWithCustomTags ancestorsCount;
+    private StringWithCustomFacts ancestorsCount;
 
     /**
      * The number of descendant generations
      */
-    private StringWithCustomTags descendantsCount;
+    private StringWithCustomFacts descendantsCount;
 
     /**
      * The name of the family file
      */
-    private StringWithCustomTags nameOfFamilyFile;
+    private StringWithCustomFacts nameOfFamilyFile;
 
     /**
      * The ordinance process flag
      */
-    private StringWithCustomTags ordinanceProcessFlag;
+    private StringWithCustomFacts ordinanceProcessFlag;
 
     /**
      * The record ID number
      */
-    private StringWithCustomTags recIdNumber;
+    private StringWithCustomFacts recIdNumber;
 
     /**
      * The submitter of this submission
@@ -70,12 +70,17 @@ public class Submission extends AbstractElement implements HasXref {
     /**
      * The temple code for this submission
      */
-    private StringWithCustomTags templeCode;
+    private StringWithCustomFacts templeCode;
 
     /**
      * The xref for this submitter
      */
     private String xref;
+
+    /** Default constructor */
+    public Submission() {
+        // Default constructor does nothing
+    }
 
     /**
      * Constructor, takes required xref value
@@ -85,6 +90,39 @@ public class Submission extends AbstractElement implements HasXref {
      */
     public Submission(String xref) {
         this.xref = xref;
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public Submission(Submission other) {
+        super(other);
+        if (other.ancestorsCount != null) {
+            ancestorsCount = new StringWithCustomFacts(other.ancestorsCount);
+        }
+        if (other.descendantsCount != null) {
+            descendantsCount = new StringWithCustomFacts(other.descendantsCount);
+        }
+        if (other.nameOfFamilyFile != null) {
+            nameOfFamilyFile = new StringWithCustomFacts(other.nameOfFamilyFile);
+        }
+        if (other.ordinanceProcessFlag != null) {
+            ordinanceProcessFlag = new StringWithCustomFacts(other.ordinanceProcessFlag);
+        }
+        if (other.recIdNumber != null) {
+            recIdNumber = new StringWithCustomFacts(other.recIdNumber);
+        }
+        if (other.submitter != null) {
+            submitter = new Submitter(other.submitter);
+        }
+        if (other.templeCode != null) {
+            templeCode = new StringWithCustomFacts(other.templeCode);
+        }
+        xref = other.xref;
+
     }
 
     /**
@@ -166,7 +204,7 @@ public class Submission extends AbstractElement implements HasXref {
      *
      * @return the ancestors count
      */
-    public StringWithCustomTags getAncestorsCount() {
+    public StringWithCustomFacts getAncestorsCount() {
         return ancestorsCount;
     }
 
@@ -175,7 +213,7 @@ public class Submission extends AbstractElement implements HasXref {
      *
      * @return the descendants count
      */
-    public StringWithCustomTags getDescendantsCount() {
+    public StringWithCustomFacts getDescendantsCount() {
         return descendantsCount;
     }
 
@@ -184,7 +222,7 @@ public class Submission extends AbstractElement implements HasXref {
      *
      * @return the name of family file
      */
-    public StringWithCustomTags getNameOfFamilyFile() {
+    public StringWithCustomFacts getNameOfFamilyFile() {
         return nameOfFamilyFile;
     }
 
@@ -193,7 +231,7 @@ public class Submission extends AbstractElement implements HasXref {
      *
      * @return the ordinance process flag
      */
-    public StringWithCustomTags getOrdinanceProcessFlag() {
+    public StringWithCustomFacts getOrdinanceProcessFlag() {
         return ordinanceProcessFlag;
     }
 
@@ -202,7 +240,7 @@ public class Submission extends AbstractElement implements HasXref {
      *
      * @return the rec id number
      */
-    public StringWithCustomTags getRecIdNumber() {
+    public StringWithCustomFacts getRecIdNumber() {
         return recIdNumber;
     }
 
@@ -220,7 +258,7 @@ public class Submission extends AbstractElement implements HasXref {
      *
      * @return the temple code
      */
-    public StringWithCustomTags getTempleCode() {
+    public StringWithCustomFacts getTempleCode() {
         return templeCode;
     }
 
@@ -229,6 +267,7 @@ public class Submission extends AbstractElement implements HasXref {
      *
      * @return the xref
      */
+    @Override
     public String getXref() {
         return xref;
     }
@@ -257,7 +296,17 @@ public class Submission extends AbstractElement implements HasXref {
      * @param ancestorsCount
      *            the new ancestors count
      */
-    public void setAncestorsCount(StringWithCustomTags ancestorsCount) {
+    public void setAncestorsCount(String ancestorsCount) {
+        this.ancestorsCount = ancestorsCount == null ? null : new StringWithCustomFacts(ancestorsCount);
+    }
+
+    /**
+     * Sets the ancestors count.
+     *
+     * @param ancestorsCount
+     *            the new ancestors count
+     */
+    public void setAncestorsCount(StringWithCustomFacts ancestorsCount) {
         this.ancestorsCount = ancestorsCount;
     }
 
@@ -267,7 +316,17 @@ public class Submission extends AbstractElement implements HasXref {
      * @param descendantsCount
      *            the new descendants count
      */
-    public void setDescendantsCount(StringWithCustomTags descendantsCount) {
+    public void setDescendantsCount(String descendantsCount) {
+        this.descendantsCount = descendantsCount == null ? null : new StringWithCustomFacts(descendantsCount);
+    }
+
+    /**
+     * Sets the descendants count.
+     *
+     * @param descendantsCount
+     *            the new descendants count
+     */
+    public void setDescendantsCount(StringWithCustomFacts descendantsCount) {
         this.descendantsCount = descendantsCount;
     }
 
@@ -277,7 +336,17 @@ public class Submission extends AbstractElement implements HasXref {
      * @param nameOfFamilyFile
      *            the new name of family file
      */
-    public void setNameOfFamilyFile(StringWithCustomTags nameOfFamilyFile) {
+    public void setNameOfFamilyFile(String nameOfFamilyFile) {
+        this.nameOfFamilyFile = nameOfFamilyFile == null ? null : new StringWithCustomFacts(nameOfFamilyFile);
+    }
+
+    /**
+     * Sets the name of family file.
+     *
+     * @param nameOfFamilyFile
+     *            the new name of family file
+     */
+    public void setNameOfFamilyFile(StringWithCustomFacts nameOfFamilyFile) {
         this.nameOfFamilyFile = nameOfFamilyFile;
     }
 
@@ -287,7 +356,17 @@ public class Submission extends AbstractElement implements HasXref {
      * @param ordinanceProcessFlag
      *            the new ordinance process flag
      */
-    public void setOrdinanceProcessFlag(StringWithCustomTags ordinanceProcessFlag) {
+    public void setOrdinanceProcessFlag(String ordinanceProcessFlag) {
+        this.ordinanceProcessFlag = ordinanceProcessFlag == null ? null : new StringWithCustomFacts(ordinanceProcessFlag);
+    }
+
+    /**
+     * Sets the ordinance process flag.
+     *
+     * @param ordinanceProcessFlag
+     *            the new ordinance process flag
+     */
+    public void setOrdinanceProcessFlag(StringWithCustomFacts ordinanceProcessFlag) {
         this.ordinanceProcessFlag = ordinanceProcessFlag;
     }
 
@@ -297,7 +376,17 @@ public class Submission extends AbstractElement implements HasXref {
      * @param recIdNumber
      *            the new rec id number
      */
-    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+    public void setRecIdNumber(String recIdNumber) {
+        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomFacts(recIdNumber);
+    }
+
+    /**
+     * Sets the rec id number.
+     *
+     * @param recIdNumber
+     *            the new rec id number
+     */
+    public void setRecIdNumber(StringWithCustomFacts recIdNumber) {
         this.recIdNumber = recIdNumber;
     }
 
@@ -317,7 +406,17 @@ public class Submission extends AbstractElement implements HasXref {
      * @param templeCode
      *            the new temple code
      */
-    public void setTempleCode(StringWithCustomTags templeCode) {
+    public void setTempleCode(String templeCode) {
+        this.templeCode = templeCode == null ? null : new StringWithCustomFacts(templeCode);
+    }
+
+    /**
+     * Sets the temple code.
+     *
+     * @param templeCode
+     *            the new temple code
+     */
+    public void setTempleCode(StringWithCustomFacts templeCode) {
         this.templeCode = templeCode;
     }
 
@@ -378,9 +477,9 @@ public class Submission extends AbstractElement implements HasXref {
             builder.append(xref);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("customFacts=");
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

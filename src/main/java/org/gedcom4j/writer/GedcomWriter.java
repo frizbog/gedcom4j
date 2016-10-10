@@ -49,15 +49,16 @@ import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualAttribute;
-import org.gedcom4j.model.IndividualAttributeType;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Repository;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.Submitter;
-import org.gedcom4j.model.SupportedVersion;
-import org.gedcom4j.validate.GedcomValidationFinding;
-import org.gedcom4j.validate.GedcomValidator;
+import org.gedcom4j.model.enumerations.IndividualAttributeType;
+import org.gedcom4j.model.enumerations.SupportedVersion;
+import org.gedcom4j.validate.AutoRepairResponder;
 import org.gedcom4j.validate.Severity;
+import org.gedcom4j.validate.Validator;
+import org.gedcom4j.validate.Validator.Finding;
 import org.gedcom4j.writer.event.ConstructProgressEvent;
 import org.gedcom4j.writer.event.ConstructProgressListener;
 
@@ -109,10 +110,9 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     List<String> lines = new ArrayList<>();
 
     /**
-     * Are we suppressing the call to the validator? Deliberately package-private so unit tests can fiddle with it to make testing
-     * easy.
+     * The auto repair responder.
      */
-    boolean validationSuppressed = false;
+    private AutoRepairResponder autoRepairResponder;
 
     /**
      * Has this writer been cancelled?
@@ -145,25 +145,24 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     private int lastLineCountNotified = 0;
 
     /**
-     * Whether to use little-endian unicode
-     */
-    private boolean useLittleEndianForUnicode = true;
-
-    /**
-     * A list of things found during validation of the gedcom data prior to writing it. If the data cannot be written due to an
-     * exception caused by failure to validate, this collection will describe the issues encountered.
-     */
-    private List<GedcomValidationFinding> validationFindings;
-
-    /**
      * The line terminator to use
      */
     private LineTerminator lineTerminator = LineTerminator.getDefaultLineTerminator();
 
     /**
-     * Whether or not we will automatically repair errors in the data model, if possible, prior to writing
+     * Whether to use little-endian unicode
      */
-    private boolean autorepair;
+    private boolean useLittleEndianForUnicode = true;
+
+    /**
+     * Are we suppressing the call to the validator?
+     */
+    private boolean validationSuppressed = false;
+
+    /**
+     * The validator.
+     */
+    private Validator validator;
 
     /**
      * Constructor
@@ -183,6 +182,15 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
      */
     public void cancel() {
         cancelled = true;
+    }
+
+    /**
+     * Get the autoRepairResponder
+     * 
+     * @return the autoRepairResponder
+     */
+    public AutoRepairResponder getAutoRepairResponder() {
+        return autoRepairResponder;
     }
 
     /**
@@ -213,12 +221,12 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     }
 
     /**
-     * Get the validationFindings
+     * Get the validator
      * 
-     * @return the validationFindings
+     * @return the validator
      */
-    public List<GedcomValidationFinding> getValidationFindings() {
-        return validationFindings;
+    public Validator getValidator() {
+        return validator;
     }
 
     /**
@@ -237,6 +245,15 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
      */
     public boolean isUseLittleEndianForUnicode() {
         return useLittleEndianForUnicode;
+    }
+
+    /**
+     * Get whether validation is suppressed
+     * 
+     * @return whether validation is suppressed or not
+     */
+    public boolean isValidationSuppressed() {
+        return validationSuppressed;
     }
 
     /**
@@ -282,11 +299,13 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     }
 
     /**
-     * @param autorepair
-     *            whether to auto-repair before writing or not.
+     * Set the autoRepairResponder
+     * 
+     * @param autoRepairResponder
+     *            the autoRepairResponder to set
      */
-    public void setAutorepair(boolean autorepair) {
-        this.autorepair = autorepair;
+    public void setAutoRepairResponder(AutoRepairResponder autoRepairResponder) {
+        this.autoRepairResponder = autoRepairResponder;
     }
 
     /**
@@ -334,6 +353,16 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
      */
     public void setUseLittleEndianForUnicode(boolean useLittleEndianForUnicode) {
         this.useLittleEndianForUnicode = useLittleEndianForUnicode;
+    }
+
+    /**
+     * Set whether validation is suppressed or not
+     * 
+     * @param validationSuppressed
+     *            set to true to suppress validation
+     */
+    public void setValidationSuppressed(boolean validationSuppressed) {
+        this.validationSuppressed = validationSuppressed;
     }
 
     /**
@@ -386,7 +415,11 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
      */
     public void write(File file) throws IOException, GedcomWriterException {
         // Automatically replace the contents of the filename in the header
-        writeFrom.getHeader().setFileName(new StringWithCustomTags(file.getName()));
+        if (writeFrom.getHeader().getFileName() != null) {
+            writeFrom.getHeader().getFileName().setValue(file.getName());
+        } else {
+            writeFrom.getHeader().setFileName(new StringWithCustomFacts(file.getName()));
+        }
 
         // If the file doesn't exist yet, we have to create it, otherwise a FileNotFoundException will be thrown
         if (!file.exists() && !file.getCanonicalFile().getParentFile().exists() && !file.getCanonicalFile().getParentFile().mkdirs()
@@ -442,19 +475,18 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     @Override
     protected void emit() throws GedcomWriterException {
         if (!validationSuppressed) {
-            GedcomValidator gv = new GedcomValidator(writeFrom);
-            gv.setAutorepairEnabled(autorepair);
-            gv.validate();
-            validationFindings = gv.getFindings();
-            int numErrorFindings = 0;
-            for (GedcomValidationFinding f : validationFindings) {
-                if (f.getSeverity() == Severity.ERROR) {
-                    numErrorFindings++;
+            validator = new Validator(writeFrom);
+            validator.setAutoRepairResponder(getAutoRepairResponder());
+            validator.validate();
+            int numUnrepairedErrorFindings = 0;
+            for (Finding f : validator.getResults().getAllFindings()) {
+                if (f.getSeverity() == Severity.ERROR && (f.getRepairs() == null || f.getRepairs().isEmpty())) {
+                    numUnrepairedErrorFindings++;
                 }
             }
-            if (numErrorFindings > 0) {
-                throw new GedcomWriterException("Cannot write file - " + numErrorFindings
-                        + " error(s) found during validation.  Review the validation findings to determine root cause.");
+            if (numUnrepairedErrorFindings > 0) {
+                throw new GedcomWriterException("Cannot write file - " + numUnrepairedErrorFindings
+                        + " error(s) found during validation requiring repair.  Review the validation findings to determine root cause.");
             }
         }
         checkVersionCompatibility();
@@ -467,19 +499,19 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
         } else {
             new Multimedia551Emitter(baseWriter, 0, writeFrom.getMultimedia().values()).emit();
         }
-        new NotesEmitter(baseWriter, 0, writeFrom.getNotes().values()).emit();
+        new NoteRecordEmitter(baseWriter, 0, writeFrom.getNotes().values()).emit();
         new RepositoryEmitter(baseWriter, 0, writeFrom.getRepositories().values()).emit();
         new SourceEmitter(baseWriter, 0, writeFrom.getSources().values()).emit();
         new SubmittersEmitter(this, 0, writeFrom.getSubmitters().values()).emit();
+        emitCustomFacts(0, writeFrom.getCustomFacts());
         emitTrailer();
-        emitCustomTags(1, writeFrom.getCustomTags());
     }
 
     /**
      * Notify construct observers if more than 100 lines have been constructed since last time we notified them
      */
     void notifyConstructObserversIfNeeded() {
-        if ((lines.size() - lastLineCountNotified) > constructionNotificationRate) {
+        if (lines.size() - lastLineCountNotified > constructionNotificationRate) {
             notifyConstructObservers(new ConstructProgressEvent(this, lines.size(), true));
         }
     }
@@ -497,7 +529,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
             // 5.5.1
             writeFrom.getHeader().setGedcomVersion(new GedcomVersion());
         }
-        if (SupportedVersion.V5_5.equals(writeFrom.getHeader().getGedcomVersion().getVersionNumber())) {
+        if (SupportedVersion.V5_5.toString().equals(writeFrom.getHeader().getGedcomVersion().getVersionNumber().getValue())) {
             checkVersionCompatibility55();
         } else {
             checkVersionCompatibility551();
@@ -669,4 +701,5 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
             }
         }
     }
+
 }

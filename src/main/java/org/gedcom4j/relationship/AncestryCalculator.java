@@ -134,10 +134,10 @@ public class AncestryCalculator {
      *            the family/child object we're working from
      */
     private void addFatherAndAllHisWives(Set<Individual> result, FamilyChild fc) {
-        Individual dad = fc.getFamily().getHusband();
+        Individual dad = (fc.getFamily().getHusband() == null ? null : fc.getFamily().getHusband().getIndividual());
         if (dad != null && dad.getFamiliesWhereSpouse() != null) {
             for (FamilySpouse fs : dad.getFamiliesWhereSpouse()) {
-                Individual dadsWife = fs.getFamily().getWife();
+                Individual dadsWife = (fs.getFamily().getWife() == null ? null : fs.getFamily().getWife().getIndividual());
                 addIndividualAndFamilies(result, dadsWife);
             }
         }
@@ -205,12 +205,14 @@ public class AncestryCalculator {
         if (individual.getFamiliesWhereChild() != null) {
             for (FamilyChild fc : individual.getFamiliesWhereChild()) {
                 // First check dad
-                if (!checkedAlready.contains(fc.getFamily().getHusband())) {
-                    checkParent(level, set, fc.getFamily().getHusband());
+                Individual dad = fc.getFamily().getHusband() == null ? null : fc.getFamily().getHusband().getIndividual();
+                if (!checkedAlready.contains(dad)) {
+                    checkParent(level, set, dad);
                 }
                 // Now check mom
-                if (!checkedAlready.contains(fc.getFamily().getWife())) {
-                    checkParent(level, set, fc.getFamily().getWife());
+                Individual mom = fc.getFamily().getWife() == null ? null : fc.getFamily().getWife().getIndividual();
+                if (!checkedAlready.contains(mom)) {
+                    checkParent(level, set, mom);
                 }
             }
         }
@@ -218,11 +220,11 @@ public class AncestryCalculator {
         // If we didn't find any common ancestors, recurse up this individual's parents
         if (!addedAnyCommonAncestors && individual.getFamiliesWhereChild() != null) {
             for (FamilyChild fc : individual.getFamiliesWhereChild()) {
-                Individual dad = fc.getFamily().getHusband();
+                Individual dad = (fc.getFamily().getHusband() == null ? null : fc.getFamily().getHusband().getIndividual());
                 if (dad != null && !checkedAlready.contains(dad)) {
                     addLowestCommonAncestorsToSet(dad, set, level + 1);
                 }
-                Individual mom = fc.getFamily().getWife();
+                Individual mom = (fc.getFamily().getWife() == null ? null : fc.getFamily().getWife().getIndividual());
                 if (mom != null && !checkedAlready.contains(mom)) {
                     addLowestCommonAncestorsToSet(mom, set, level + 1);
                 }
@@ -239,10 +241,10 @@ public class AncestryCalculator {
      *            the family/child object we're working from
      */
     private void addMotherAndAllHerHusbands(Set<Individual> result, FamilyChild fc) {
-        Individual mom = fc.getFamily().getWife();
+        Individual mom = (fc.getFamily().getWife() == null ? null : fc.getFamily().getWife().getIndividual());
         if (mom != null && mom.getFamiliesWhereSpouse() != null) {
             for (FamilySpouse fs : mom.getFamiliesWhereSpouse()) {
-                Individual momsHusband = fs.getFamily().getHusband();
+                Individual momsHusband = (fs.getFamily().getHusband() == null ? null : fs.getFamily().getHusband().getIndividual());
                 if (momsHusband != null) {
                     addIndividualAndFamilies(result, momsHusband);
                 }
@@ -325,11 +327,11 @@ public class AncestryCalculator {
      */
     private Individual getSpouse(FamilySpouse fs, Individual i) {
         Family fam = fs.getFamily();
-        if (fam.getHusband() == i) {
-            return fam.getWife();
+        if (fam.getHusband() != null && fam.getHusband().getIndividual() == i) {
+            return (fam.getWife() == null ? null : fam.getWife().getIndividual());
         }
-        if (fam.getWife() == i) {
-            return fam.getHusband();
+        if (fam.getWife() != null && fam.getWife().getIndividual() == i) {
+            return (fam.getHusband() == null ? null : fam.getHusband().getIndividual());
         }
         return null;
     }
@@ -361,13 +363,15 @@ public class AncestryCalculator {
         if (person != null && person.getFamiliesWhereChild() != null) {
             for (FamilyChild fc : person.getFamiliesWhereChild()) {
                 Family f = fc.getFamily();
-                if (ancestor.equals(f.getHusband()) || ancestor.equals(f.getWife())) {
+                Individual w = f.getWife() == null ? null : f.getWife().getIndividual();
+                Individual h = f.getHusband() == null ? null : f.getHusband().getIndividual();
+                if (ancestor.equals(h) || ancestor.equals(w)) {
                     genCount = 1;
                     return true;
-                } else if (lookForAncestor(f.getHusband(), ancestor)) {
+                } else if (lookForAncestor(h, ancestor)) {
                     genCount++;
                     return true;
-                } else if (lookForAncestor(f.getWife(), ancestor)) {
+                } else if (lookForAncestor(w, ancestor)) {
                     genCount++;
                     return true;
                 } else {

@@ -26,7 +26,6 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.Options;
 import org.gedcom4j.io.encoding.Encoding;
 import org.gedcom4j.model.CharacterSet;
 import org.gedcom4j.model.Corporation;
@@ -34,16 +33,24 @@ import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.HeaderSourceData;
 import org.gedcom4j.model.SourceSystem;
-import org.gedcom4j.model.StringWithCustomTags;
-import org.gedcom4j.model.SupportedVersion;
+import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.SubmitterReference;
+import org.gedcom4j.model.enumerations.LanguageID;
+import org.gedcom4j.model.enumerations.SupportedVersion;
+import org.gedcom4j.validate.Validator.Finding;
 
 /**
- * Validator for a {@link Header}. See {@link GedcomValidator} for usage information.
+ * Validator for a {@link Header}. See {@link Validator} for usage information.
  * 
  * @author frizbog1
  * 
  */
 class HeaderValidator extends AbstractValidator {
+
+    /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 6219406585813356753L;
 
     /**
      * The {@link Header} being validated
@@ -53,13 +60,13 @@ class HeaderValidator extends AbstractValidator {
     /**
      * Constructor.
      * 
-     * @param gedcomValidator
+     * @param validator
      *            the main validator
      * @param header
      *            the {@link Header} being validated
      */
-    HeaderValidator(GedcomValidator gedcomValidator, Header header) {
-        rootValidator = gedcomValidator;
+    HeaderValidator(Validator validator, Header header) {
+        super(validator);
         this.header = header;
     }
 
@@ -71,65 +78,24 @@ class HeaderValidator extends AbstractValidator {
     @Override
     protected void validate() {
         checkCharacterSet();
-        if (header.getCopyrightData() == null && Options.isCollectionInitializationEnabled()) {
-            if (rootValidator.isAutorepairEnabled()) {
-                header.getCopyrightData(true).clear();
-                rootValidator.addInfo("Copyright data collection was null - repaired", header);
-            } else {
-                rootValidator.addError("Copyright data collection is null - must be at least an empty collection", header);
-            }
-        }
-        checkCustomTags(header);
-        checkOptionalString(header.getDate(), "date", header);
-        checkOptionalString(header.getDestinationSystem(), "destination system", header);
+        checkUninitializedCollection(header, "copyrightData");
+        checkCustomFacts(header);
+        mustHaveValueOrBeOmitted(header, "date");
+        mustBeDateIfSpecified(header, "date");
+        mustHaveValueOrBeOmitted(header, "destinationSystem");
         /*
          * Filename is actually a required field -- but since the writer automatically fills in the filename if it's blank, treating
          * it as optional here
          */
-        checkOptionalString(header.getFileName(), "filename", header);
-        if (header.getGedcomVersion() == null) {
-            if (rootValidator.isAutorepairEnabled()) {
-                header.setGedcomVersion(new GedcomVersion());
-                rootValidator.addInfo("GEDCOM version in header was null - repaired", header);
-            } else {
-                rootValidator.addError("GEDCOM version in header must be specified", header);
-                return;
-            }
-        }
-        if (header.getGedcomVersion().getVersionNumber() == null) {
-            if (rootValidator.isAutorepairEnabled()) {
-                header.getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
-                rootValidator.addInfo("GEDCOM version number in header was null - repaired", header);
-            } else {
-                rootValidator.addError("GEDCOM version number in header must be specified", header);
-                return;
-            }
-        }
-        checkCustomTags(header.getGedcomVersion());
-        checkOptionalString(header.getLanguage(), "language", header);
-        new NotesValidator(rootValidator, header, header.getNotes()).validate();
-        checkOptionalString(header.getPlaceHierarchy(), "place hierarchy", header);
+        mustHaveValueOrBeOmitted(header, "fileName");
+        checkGedcomVersion();
+        mustHaveValueOrBeOmitted(header, "language");
+        mustBeInEnumIfSpecified(LanguageID.class, header, "language");
+        new NoteStructureListValidator(getValidator(), header).validate();
+        mustHaveValueOrBeOmitted(header, "placeHierarchy");
         checkSourceSystem();
-        if (header.getSubmitter() == null) {
-            if (rootValidator.isAutorepairEnabled()) {
-                if (rootValidator.gedcom.getSubmitters() == null || rootValidator.gedcom.getSubmitters().isEmpty()) {
-                    rootValidator.addError("Submitter not specified in header, and autorepair could not "
-                            + "find a submitter to select as default", header);
-                } else {
-                    // Take the first submitter from the collection and set that
-                    // as the primary submitter in the header
-                    header.setSubmitter(rootValidator.gedcom.getSubmitters().values().iterator().next());
-                }
-            } else {
-                rootValidator.addError("Submitter not specified in header", header);
-            }
-            return;
-        }
-        new SubmitterValidator(rootValidator, header.getSubmitter()).validate();
-        if (header.getSubmission() != null) {
-            rootValidator.validateSubmission(header.getSubmission());
-        }
-        checkOptionalString(header.getTime(), "time", header);
+        checkSubmitter();
+        mustHaveValueOrBeOmitted(header, "time");
     }
 
     /**
@@ -137,30 +103,57 @@ class HeaderValidator extends AbstractValidator {
      */
     private void checkCharacterSet() {
         if (header.getCharacterSet() == null) {
-            if (rootValidator.isAutorepairEnabled()) {
+            Finding vf = newFinding(header, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "characterSet");
+            if (mayRepair(vf)) {
+                Header before = new Header(header);
                 header.setCharacterSet(new CharacterSet());
-                rootValidator.addInfo("Header did not have a character set defined - corrected.", header);
+                vf.addRepair(new AutoRepair(before, new Header(header)));
             } else {
-                rootValidator.addError("Header has no character set defined", header);
                 return;
             }
         }
         if (header.getCharacterSet().getCharacterSetName() == null) {
-            if (rootValidator.isAutorepairEnabled()) {
-                header.getCharacterSet().setCharacterSetName(new StringWithCustomTags("ANSEL"));
-                rootValidator.addInfo("Character set name was not defined", header.getCharacterSet());
+            Finding vf = newFinding(header.getCharacterSet(), Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE,
+                    "characterSetName");
+            if (mayRepair(vf)) {
+                CharacterSet before = new CharacterSet(header.getCharacterSet());
+                header.getCharacterSet().setCharacterSetName("ANSEL");
+                vf.addRepair(new AutoRepair(before, new CharacterSet(header.getCharacterSet())));
             } else {
-                rootValidator.addError("Character set name was not defined", header.getCharacterSet());
                 return;
             }
         }
         if (!Encoding.isValidCharacterSetName(header.getCharacterSet().getCharacterSetName().getValue())) {
-            rootValidator.addError("Character set name is not one of the supported encodings (" + Encoding
-                    .getSupportedCharacterSetNames() + ")", header.getCharacterSet().getCharacterSetName());
+            newFinding(header.getCharacterSet().getCharacterSetName(), Severity.ERROR, ProblemCode.ILLEGAL_VALUE, "value");
         }
-        checkOptionalString(header.getCharacterSet().getCharacterSetName(), "character set name", header.getCharacterSet());
-        checkOptionalString(header.getCharacterSet().getVersionNum(), "character set version number", header.getCharacterSet());
-        checkCustomTags(header.getCharacterSet());
+        mustHaveValueOrBeOmitted(header.getCharacterSet(), "characterSetName");
+        mustHaveValueOrBeOmitted(header.getCharacterSet(), "versionNum");
+        checkCustomFacts(header.getCharacterSet());
+    }
+
+    /**
+     * Check the gedcom version
+     */
+    private void checkGedcomVersion() {
+        GedcomVersion gv = header.getGedcomVersion();
+        if (gv == null) {
+            Finding vf = newFinding(header, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "gedcomVersion");
+            if (mayRepair(vf)) {
+                Header before = new Header(header);
+                header.setGedcomVersion(new GedcomVersion());
+                vf.addRepair(new AutoRepair(before, new Header(header)));
+            }
+        } else {
+            if (gv.getVersionNumber() == null) {
+                Finding vf = newFinding(gv, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "versionNumber");
+                if (mayRepair(vf)) {
+                    GedcomVersion before = new GedcomVersion(gv);
+                    gv.setVersionNumber(SupportedVersion.V5_5_1);
+                    vf.addRepair(new AutoRepair(before, new GedcomVersion(gv)));
+                }
+            }
+            checkCustomFacts(gv);
+        }
     }
 
     /**
@@ -169,57 +162,77 @@ class HeaderValidator extends AbstractValidator {
     private void checkSourceSystem() {
         SourceSystem ss = header.getSourceSystem();
         if (ss == null) {
-            if (rootValidator.isAutorepairEnabled()) {
+            Finding vf = newFinding(header, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "sourceSystem");
+            if (mayRepair(vf)) {
+                Header before = new Header(header);
                 ss = new SourceSystem();
                 header.setSourceSystem(ss);
-                rootValidator.addInfo("No source system specified in header - repaired", header);
+                vf.addRepair(new AutoRepair(before, new Header(header)));
             } else {
-                rootValidator.addError("No source system specified in header", header);
                 return;
             }
         }
-        checkCustomTags(ss);
+        checkCustomFacts(ss);
         if (ss.getCorporation() != null) {
             Corporation c = ss.getCorporation();
-            checkCustomTags(c);
+            checkCustomFacts(c);
             if (c.getAddress() != null) {
-                new AddressValidator(rootValidator, c.getAddress()).validate();
+                new AddressValidator(getValidator(), c.getAddress()).validate();
             }
-            if (c.getBusinessName() == null || c.getBusinessName().trim().length() == 0) {
-                if (rootValidator.isAutorepairEnabled()) {
+            if (c.getBusinessName() == null || !isSpecified(c.getBusinessName())) {
+                Finding vf = newFinding(c, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "businessName");
+                if (mayRepair(vf)) {
+                    Corporation before = new Corporation(c);
                     c.setBusinessName("UNSPECIFIED");
-                    rootValidator.addInfo("Corporation for source system exists but had no name - repaired", c);
-                } else {
-                    rootValidator.addError("Corporation for source system exists but has no name", c);
+                    vf.addRepair(new AutoRepair(before, new Corporation(c)));
                 }
             }
         }
-        checkOptionalString(ss.getProductName(), "product name", ss);
+        mustHaveValueOrBeOmitted(ss, "productName");
         if (ss.getSourceData() != null) {
             HeaderSourceData sd = ss.getSourceData();
             if (sd.getName() == null || sd.getName().trim().length() == 0) {
-                if (rootValidator.isAutorepairEnabled()) {
+                Finding vf = newFinding(sd, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "name");
+                if (mayRepair(vf)) {
+                    HeaderSourceData before = new HeaderSourceData(sd);
                     sd.setName("UNSPECIFIED");
-                    rootValidator.addInfo("Source data was specified for source system, "
-                            + "but name of source data was not specified - repaired", sd);
-                } else {
-                    rootValidator.addError("Source data is specified for source system, "
-                            + "but name of source data is not specified", sd);
+                    vf.addRepair(new AutoRepair(before, new HeaderSourceData(sd)));
                 }
-
             }
-            checkOptionalString(sd.getCopyright(), "copyright", sd);
-            checkOptionalString(sd.getPublishDate(), "publish date", sd);
-            checkCustomTags(sd);
+            mustHaveValueOrBeOmitted(sd, "copyright");
+            mustBeDateIfSpecified(sd, "publishDate");
+            checkCustomFacts(sd);
         }
         if (ss.getSystemId() == null) {
-            if (rootValidator.isAutorepairEnabled()) {
+            Finding vf = newFinding(ss, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "systemId");
+            if (mayRepair(vf)) {
+                SourceSystem before = new SourceSystem(ss);
                 ss.setSystemId("UNSPECIFIED");
-                rootValidator.addInfo("System ID was not specified in source system in header - repaired", ss);
-            } else {
-                rootValidator.addError("System ID must be specified in source system in header", ss);
+                vf.addRepair(new AutoRepair(before, new SourceSystem(ss)));
             }
         }
-        checkOptionalString(ss.getVersionNum(), "source system version number", ss);
+        mustHaveValueOrBeOmitted(ss, "versionNum");
     }
+
+    /**
+     * Check if the submitter is present and ok
+     */
+    private void checkSubmitter() {
+        if (header.getSubmitterReference() == null) {
+            Finding vf = newFinding(header, Severity.ERROR, ProblemCode.MISSING_REQUIRED_VALUE, "submitter");
+            Submitter submitter = null;
+            if (getValidator().getGedcom().getSubmitters() != null && !getValidator().getGedcom().getSubmitters().isEmpty()) {
+                submitter = getValidator().getGedcom().getSubmitters().values().iterator().next();
+            }
+            if (submitter != null && mayRepair(vf)) {
+                Header before = new Header(header);
+                header.setSubmitterReference(new SubmitterReference(submitter));
+                vf.addRepair(new AutoRepair(before, new Header(header)));
+            }
+        }
+        if (header.getSubmitterReference() != null) {
+            new SubmitterValidator(getValidator(), header.getSubmitterReference().getSubmitter()).validate();
+        }
+    }
+
 }

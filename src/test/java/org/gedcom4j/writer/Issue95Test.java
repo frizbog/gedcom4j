@@ -36,11 +36,11 @@ import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.GedcomWriterException;
+import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
-import org.gedcom4j.model.IndividualEventType;
-import org.gedcom4j.model.StringTree;
+import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.gedcom4j.parser.GedcomParser;
 import org.junit.Test;
 
@@ -64,6 +64,7 @@ public class Issue95Test {
      *             if the gedcom data cannot be written
      */
     @Test
+    @SuppressWarnings({ "PMD.AvoidPrintStackTrace", "PMD.SystemPrintln" })
     public void testIssue95() throws IOException, GedcomParserException, GedcomWriterException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/issue95.ged");
@@ -77,15 +78,14 @@ public class Issue95Test {
         assertEquals(2, i.getEvents().size());
         for (IndividualEvent ev : i.getEvents()) {
             if (ev.getType() == IndividualEventType.BIRTH) {
-                assertEquals("4 July 1776", ev.getDate().getValue());
-                assertEquals(1, ev.getCustomTags().size());
-                StringTree ct = ev.getCustomTags().get(0);
-                assertEquals("_METHOD", ct.getTag());
-                assertEquals("Hatched from egg", ct.getValue());
-                assertEquals(2, ct.getLevel());
+                assertEquals("4 JUL 1776", ev.getDate().getValue());
+                assertEquals(1, ev.getCustomFacts().size());
+                CustomFact cf = ev.getCustomFacts().get(0);
+                assertEquals("_METHOD", cf.getTag());
+                assertEquals("Hatched from egg", cf.getDescription().getValue());
             } else if (ev.getType() == IndividualEventType.DEATH) {
                 assertEquals("Suffolk, VA, USA", ev.getPlace().getPlaceName());
-                assertTrue(ev.getCustomTags() == null || ev.getCustomTags().isEmpty());
+                assertTrue(ev.getCustomFacts() == null || ev.getCustomFacts().isEmpty());
             } else {
                 fail("Unexpected Individual Event type " + ev.getType());
             }
@@ -94,7 +94,12 @@ public class Issue95Test {
         // Now let's write the gedcom to a string for examination
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         GedcomWriter gw = new GedcomWriter(g);
-        gw.write(baos);
+        try {
+            gw.write(baos);
+        } catch (GedcomWriterException e) {
+            e.printStackTrace();
+            System.out.println(gw.getValidator().getResults());
+        }
         String gcAsString = baos.toString();
 
         // Custom tag should appear once, as should birth date

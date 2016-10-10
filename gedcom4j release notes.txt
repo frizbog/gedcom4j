@@ -2,6 +2,61 @@
 GEDCOM4J RELEASE NOTES
 ==============================
 
+10 OCT 2016 - v4.0.0
+====================
+v4.0.0 is a major release. Most users, particularly those who used the validation framework or used custom tags, will need to make changes to accommodate API changes.
+
+Upgrade tips:
+- References to StringWithCustomTags will need to be changed to references to StringWithCustomFacts instead.
+- References to GedcomValidator should be replaced with Validator - but this is only if you are directly accessing the validator.  Generally it's only accessed implicitly in the GedcomWriter, and using the writer hasn't really changed...although the validation findings have changed their formats.
+- Most of the enums in the library have been moved to the org.gedcom4j.model.enumerations package, so you may need to touch up your imports.
+- References from Family objects to the Individuals in it now have an intermediate object called an IndividualReference, so there's a place to store custom tag data on those relationships.  Direct references didn't allow this, so data in GEDCOM files was going unparsed and ignored. 
+
+Summary of changes:
+- The id property on StringTree has been renamed xref (along with the getters and setters)
+- All enums in the model are now moved to the new org.gedcom4j.model.enumerations package.
+- The org.gedcom4j.model.Note class is replaced by NoteRecord and NoteStructure.  NoteRecord is for root-level notes with xrefs in the Gedcom's notes map, and NoteStructures are either inline notes or references to root-level NoteRecords.
+- Model classes that used enum values now use StringWithCustomFact values instead in order to allow custom tags on those values.  The enums still exist but are best used for building new StringWithCustomFacts objects.
+- Model classes that had fields/properties of type List<String> now use a MultiStringWithCustomFacts type instead.  This allows parsing and tracking custom tags on fields with multiple lines of text.
+- Model classes that used to return plain Strings now return StringWithCustomTags objects in most cases. 
+- Families no longer directly link to the individuals in them, but use an intermediary IndividualReference class that can hold custom facts.
+- CustomTags are completely reworked to be CustomFacts. A CustomFact object represents a custom tag but has built-in first order support for Dates, Places, Notes, and Citations.
+- Validation framework was almost entirely rebuilt. You can now also write your own validators and register them have them executed during validation (see the Validator.getSupplementaryValidators() method).
+- There are now adapter classes for providing assistance with processing custom tags for Family Tree Maker 3, Family Historian, and Legacy Family Tree. This will enable users to work with the custom tags those programs a bit more easily than working directly with the custom facts structures.
+
+Issues from Github (https://github.com/frizbog/gedcom4j/issues):
+- Issue #129 - Add option to ignore all custom tags
+- Issue #133 - Fine-grained control over auto-repair during validation
+- Issue #135 - Validation findings should only reference gedcom4j objects, not java.lang.Object
+- Issue #136 - Validation findings should include an optional name of the field/property with the finding
+- Issue #137 - Validation findings should be serializable
+- Issue #138 - Validators should use DateParser to validate date strings
+- Issue #139 - Auto-repair should be tracked and examinable by caller
+- Issue #140 - Support for well-known custom tag sets
+- Issue #141 - Steal validations from gedantic
+- Issue #142 - Add Validation: Children of Elderly Parents
+- Issue #143 - Add validation: Children of young parents
+- Issue #144 - Add validation: Children with different surnames than parents
+- Issue #145 - Add validation: family multiple children with same given names
+- Issue #146 - Add validation: Cyclical Ancestral Relationship
+- Issue #147 - Add validation: Couples with large age differences
+- Issue #148 - Add validation: Born before ancestors
+- Issue #149 - Add validation: future birth and death
+- Issue #150 - Add validation: Male Wives and Female Husbands
+- Issue #151 - Add validation: Married at young age
+- Issue #152 - Add validation: Multiple births (quads, quints, and more)
+- Issue #153 - Add validation: Simultaneous births in multiple locations
+- Issue #154 - Validation findings should have problem codes along with problem descriptions
+- Issue #155 - Validation findings should support representation of related items
+- Issue #156 - ModelElements need copy constructors or clone() implementation or something like it
+- Issue #158 - All StringWithCustomTags fields should have overloaded setters that accept Strings
+- Issue #159 - Validation findings should be grouped by object with the issue
+- Issue #160 - Validating enumerated values
+- Issue #161 - CustomTags are not preserved on the references to Individuals in Family objects
+- Issue #167 - Many custom tags don't load or write
+- Issue #168 - Notes are a strange amalgam of NOTE_RECORD and NOTE_STRUCTURE
+- Issue #169 - PersonalName does not support the TYPE tag
+
 
 29 SEP 2016 - v3.2.2
 ====================

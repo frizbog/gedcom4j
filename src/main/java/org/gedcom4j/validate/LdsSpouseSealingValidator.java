@@ -26,11 +26,8 @@
  */
 package org.gedcom4j.validate;
 
-import java.util.List;
-
-import org.gedcom4j.Options;
-import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.LdsSpouseSealing;
+import org.gedcom4j.model.enumerations.LdsSpouseSealingDateStatus;
 
 /**
  * Validator for {@link LdsSpouseSealing} objects
@@ -41,6 +38,11 @@ import org.gedcom4j.model.LdsSpouseSealing;
 class LdsSpouseSealingValidator extends AbstractValidator {
 
     /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -7894442750246320800L;
+
+    /**
      * The sealing being validated
      */
     private final LdsSpouseSealing s;
@@ -48,13 +50,13 @@ class LdsSpouseSealingValidator extends AbstractValidator {
     /**
      * Constructor
      * 
-     * @param rootValidator
-     *            root {@link GedcomValidator} that contains findings and settings
+     * @param validator
+     *            the {@link Validator} that contains findings and settings
      * @param s
      *            the sealing being validated
      */
-    LdsSpouseSealingValidator(GedcomValidator rootValidator, LdsSpouseSealing s) {
-        this.rootValidator = rootValidator;
+    LdsSpouseSealingValidator(Validator validator, LdsSpouseSealing s) {
+        super(validator);
         this.s = s;
     }
 
@@ -63,37 +65,18 @@ class LdsSpouseSealingValidator extends AbstractValidator {
      */
     @Override
     protected void validate() {
-        if (s == null) {
-            addError("LDS Spouse Sealing is null and cannot be validated");
-            return;
-        }
-        List<AbstractCitation> citations = s.getCitations();
-        if (Options.isCollectionInitializationEnabled() && citations == null) {
-            if (rootValidator.isAutorepairEnabled()) {
-                s.getCitations(true).clear();
-                addInfo("citations collection for lds spouse sealing was null - rootValidator.autorepaired", s);
-            } else {
-                addError("citations collection for lds spouse sealing is null", s);
-            }
+        checkCitations(s);
+        checkCustomFacts(s);
+        new NoteStructureListValidator(getValidator(), s).validate();
+        mustHaveValueOrBeOmitted(s, "place");
+        mustBeInEnumIfSpecified(LdsSpouseSealingDateStatus.class, s, "status");
+        if (s.getStatus() != null && isSpecified(s.getStatus().getValue())) {
+            mustHaveValue(s, "date");
+            mustBeDateIfSpecified(s, "date");
         } else {
-            if (rootValidator.isAutorepairEnabled()) {
-                int dups = new DuplicateEliminator<>(citations).process();
-                if (dups > 0) {
-                    rootValidator.addInfo(dups + " duplicate citations found and removed", s);
-                }
-            }
-            if (citations != null) {
-                for (AbstractCitation c : citations) {
-                    new CitationValidator(rootValidator, c).validate();
-                }
-            }
+            mustNotHaveValue(s, "date");
         }
-        checkCustomTags(s);
-        checkOptionalString(s.getDate(), "date", s);
-        new NotesValidator(rootValidator, s, s.getNotes()).validate();
-        checkOptionalString(s.getPlace(), "place", s);
-        checkOptionalString(s.getStatus(), "status", s);
-        checkOptionalString(s.getTemple(), "temple", s);
+        mustHaveValueOrBeOmitted(s, "temple");
     }
 
 }

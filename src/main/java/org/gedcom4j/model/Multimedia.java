@@ -77,17 +77,17 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      * The next object in the chain holding binary data if it needs to be continued due to size. This field should always be null
      * for 5.5.1 files.
      */
-    private Multimedia continuedObject;
+    private MultimediaReference continuedObject;
 
     /**
      * The format of the multimedia object - only for 5.5 style multimedia files, and should be null for 5.5.1 files.
      */
-    private StringWithCustomTags embeddedMediaFormat;
+    private StringWithCustomFacts embeddedMediaFormat;
 
     /**
      * The title of this multimedia item. This field should ONLY be used when the spec is 5.5 and should be null for 5.5.1 files.
      */
-    private StringWithCustomTags embeddedTitle;
+    private StringWithCustomFacts embeddedTitle;
 
     /**
      * The file reference for this multimedia item
@@ -97,7 +97,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
     /**
      * The record ID number
      */
-    private StringWithCustomTags recIdNumber;
+    private StringWithCustomFacts recIdNumber;
 
     /**
      * The user references for this submitter
@@ -108,6 +108,62 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      * The xref for this submitter
      */
     private String xref;
+
+    /** Default constructor */
+    public Multimedia() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public Multimedia(Multimedia other) {
+        super(other);
+        if (other.blob != null) {
+            blob = new ArrayList<>(other.blob);
+        }
+        if (other.changeDate != null) {
+            changeDate = new ChangeDate(other.changeDate);
+        }
+        if (other.citations != null) {
+            citations = new ArrayList<>();
+            for (AbstractCitation ac : other.citations) {
+                if (ac instanceof CitationWithoutSource) {
+                    citations.add(new CitationWithoutSource((CitationWithoutSource) ac));
+                } else if (ac instanceof CitationWithSource) {
+                    citations.add(new CitationWithSource((CitationWithSource) ac));
+                }
+            }
+        }
+        if (other.continuedObject != null) {
+            continuedObject = new MultimediaReference(other.continuedObject);
+        }
+        if (other.embeddedMediaFormat != null) {
+            embeddedMediaFormat = new StringWithCustomFacts(other.embeddedMediaFormat);
+        }
+        if (other.embeddedTitle != null) {
+            embeddedTitle = new StringWithCustomFacts(other.embeddedTitle);
+        }
+        if (other.fileReferences != null) {
+            fileReferences = new ArrayList<>();
+            for (FileReference fr : other.fileReferences) {
+                fileReferences.add(new FileReference(fr));
+            }
+        }
+        if (other.recIdNumber != null) {
+            recIdNumber = new StringWithCustomFacts(other.recIdNumber);
+        }
+        if (other.userReferences != null) {
+            userReferences = new ArrayList<>();
+            for (UserReference ur : other.userReferences) {
+                userReferences.add(new UserReference(ur));
+            }
+        }
+        xref = other.xref;
+    }
 
     /**
      * {@inheritDoc}
@@ -234,6 +290,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      *
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations() {
         return citations;
     }
@@ -246,6 +303,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      * 
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
             citations = new ArrayList<>(0);
@@ -258,7 +316,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      *
      * @return the continued object
      */
-    public Multimedia getContinuedObject() {
+    public MultimediaReference getContinuedObject() {
         return continuedObject;
     }
 
@@ -267,7 +325,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      *
      * @return the embedded media format
      */
-    public StringWithCustomTags getEmbeddedMediaFormat() {
+    public StringWithCustomFacts getEmbeddedMediaFormat() {
         return embeddedMediaFormat;
     }
 
@@ -276,7 +334,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      *
      * @return the embedded title
      */
-    public StringWithCustomTags getEmbeddedTitle() {
+    public StringWithCustomFacts getEmbeddedTitle() {
         return embeddedTitle;
     }
 
@@ -308,7 +366,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      *
      * @return the rec id number
      */
-    public StringWithCustomTags getRecIdNumber() {
+    public StringWithCustomFacts getRecIdNumber() {
         return recIdNumber;
     }
 
@@ -340,6 +398,7 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      *
      * @return the xref
      */
+    @Override
     public String getXref() {
         return xref;
     }
@@ -377,11 +436,11 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
     /**
      * Sets the continued object.
      *
-     * @param continuedObject
+     * @param multimediaReference
      *            the new continued object
      */
-    public void setContinuedObject(Multimedia continuedObject) {
-        this.continuedObject = continuedObject;
+    public void setContinuedObject(MultimediaReference multimediaReference) {
+        continuedObject = multimediaReference;
     }
 
     /**
@@ -390,7 +449,17 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      * @param embeddedMediaFormat
      *            the new embedded media format
      */
-    public void setEmbeddedMediaFormat(StringWithCustomTags embeddedMediaFormat) {
+    public void setEmbeddedMediaFormat(String embeddedMediaFormat) {
+        this.embeddedMediaFormat = embeddedMediaFormat == null ? null : new StringWithCustomFacts(embeddedMediaFormat);
+    }
+
+    /**
+     * Sets the embedded media format.
+     *
+     * @param embeddedMediaFormat
+     *            the new embedded media format
+     */
+    public void setEmbeddedMediaFormat(StringWithCustomFacts embeddedMediaFormat) {
         this.embeddedMediaFormat = embeddedMediaFormat;
     }
 
@@ -400,7 +469,17 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      * @param embeddedTitle
      *            the new embedded title
      */
-    public void setEmbeddedTitle(StringWithCustomTags embeddedTitle) {
+    public void setEmbeddedTitle(String embeddedTitle) {
+        this.embeddedTitle = embeddedTitle == null ? null : new StringWithCustomFacts(embeddedTitle);
+    }
+
+    /**
+     * Sets the embedded title.
+     *
+     * @param embeddedTitle
+     *            the new embedded title
+     */
+    public void setEmbeddedTitle(StringWithCustomFacts embeddedTitle) {
         this.embeddedTitle = embeddedTitle;
     }
 
@@ -410,7 +489,17 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
      * @param recIdNumber
      *            the new rec id number
      */
-    public void setRecIdNumber(StringWithCustomTags recIdNumber) {
+    public void setRecIdNumber(String recIdNumber) {
+        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomFacts(recIdNumber);
+    }
+
+    /**
+     * Sets the rec id number.
+     *
+     * @param recIdNumber
+     *            the new rec id number
+     */
+    public void setRecIdNumber(StringWithCustomFacts recIdNumber) {
         this.recIdNumber = recIdNumber;
     }
 
@@ -466,9 +555,9 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
             builder.append(fileReferences);
             builder.append(", ");
         }
-        if (getNotes() != null) {
-            builder.append("notes=");
-            builder.append(getNotes());
+        if (getNoteStructures() != null) {
+            builder.append("noteStructures=");
+            builder.append(getNoteStructures());
             builder.append(", ");
         }
         if (recIdNumber != null) {
@@ -486,9 +575,9 @@ public class Multimedia extends AbstractNotesElement implements HasCitations, Ha
             builder.append(xref);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("customFacts=");
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

@@ -30,15 +30,15 @@ import java.util.List;
 
 import org.gedcom4j.model.FileReference;
 import org.gedcom4j.model.Multimedia;
-import org.gedcom4j.model.Note;
+import org.gedcom4j.model.MultimediaReference;
+import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * @author frizbog
  *
  */
-class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
+class MultimediaLinkParser extends AbstractParser<List<MultimediaReference>> {
 
     /**
      * Constructor
@@ -50,7 +50,7 @@ class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
      * @param loadInto
      *            the object we are loading data into
      */
-    MultimediaLinkParser(GedcomParser gedcomParser, StringTree stringTree, List<Multimedia> loadInto) {
+    MultimediaLinkParser(GedcomParser gedcomParser, StringTree stringTree, List<MultimediaReference> loadInto) {
         super(gedcomParser, stringTree, loadInto);
     }
 
@@ -60,13 +60,17 @@ class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
     @Override
     void parse() {
         Multimedia m;
+        MultimediaReference mr;
         if (referencesAnotherNode(stringTree)) {
             m = getMultimedia(stringTree.getValue());
+            mr = new MultimediaReference(m);
+            remainingChildrenAreCustomTags(stringTree, mr);
         } else {
             m = new Multimedia();
             loadFileReferences(m, stringTree);
+            mr = new MultimediaReference(m);
         }
-        loadInto.add(m);
+        loadInto.add(mr);
     }
 
     /**
@@ -137,14 +141,14 @@ class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
         if (objeChildren != null) {
             for (StringTree ch : objeChildren) {
                 if (Tag.FORM.equalsText(ch.getTag())) {
-                    currentFileRef.setFormat(new StringWithCustomTags(ch));
+                    currentFileRef.setFormat(parseStringWithCustomFacts(ch));
                 } else if (Tag.TITLE.equalsText(ch.getTag())) {
-                    m.setEmbeddedTitle(new StringWithCustomTags(ch));
+                    m.setEmbeddedTitle(parseStringWithCustomFacts(ch));
                 } else if (Tag.FILE.equalsText(ch.getTag())) {
-                    currentFileRef.setReferenceToFile(new StringWithCustomTags(ch));
+                    currentFileRef.setReferenceToFile(parseStringWithCustomFacts(ch));
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = m.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = m.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                 } else {
                     unknownTag(ch, m);
                 }
@@ -172,12 +176,12 @@ class MultimediaLinkParser extends AbstractParser<List<Multimedia>> {
                 } else if (Tag.TITLE.equalsText(ch.getTag())) {
                     if (m.getFileReferences() != null) {
                         for (FileReference fr : m.getFileReferences()) {
-                            fr.setTitle(new StringWithCustomTags(ch.getTag().intern()));
+                            fr.setTitle(parseStringWithCustomFacts(ch));
                         }
                     }
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    List<Note> notes = m.getNotes(true);
-                    new NoteListParser(gedcomParser, ch, notes).parse();
+                    List<NoteStructure> notes = m.getNoteStructures(true);
+                    new NoteStructureListParser(gedcomParser, ch, notes).parse();
                     if (!g55()) {
                         addWarning("Gedcom version was 5.5.1, but a NOTE was found on a multimedia link on line " + ch.getLineNum()
                                 + ", which is no longer supported. "

@@ -31,7 +31,8 @@ import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.SourceSystem;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.SubmissionReference;
+import org.gedcom4j.model.SubmitterReference;
 
 /**
  * A parser for {@link Header} objects
@@ -54,6 +55,9 @@ class HeaderParser extends AbstractParser<Header> {
         super(gedcomParser, stringTree, loadInto);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     void parse() {
         if (stringTree.getChildren() != null) {
@@ -63,24 +67,39 @@ class HeaderParser extends AbstractParser<Header> {
                     loadInto.setSourceSystem(sourceSystem);
                     new SourceSystemParser(gedcomParser, ch, sourceSystem).parse();
                 } else if (Tag.DESTINATION.equalsText(ch.getTag())) {
-                    loadInto.setDestinationSystem(new StringWithCustomTags(ch));
+                    loadInto.setDestinationSystem(parseStringWithCustomFacts(ch));
+                    // remainingChildrenAreCustomTags(ch, loadInto.getDestinationSystem());
                 } else if (Tag.DATE.equalsText(ch.getTag())) {
-                    loadInto.setDate(new StringWithCustomTags(ch));
+                    loadInto.setDate(parseStringWithCustomFacts(ch));
                     // one optional time subitem is the only possibility here
-                    if (ch.getChildren() != null && !ch.getChildren().isEmpty()) {
-                        loadInto.setTime(new StringWithCustomTags(ch.getChildren().get(0)));
+                    if (ch.getChildren() != null) {
+                        for (StringTree gch : ch.getChildren()) {
+                            if ("TIME".equals(gch.getTag())) {
+                                loadInto.setTime(parseStringWithCustomFacts(gch));
+                            } else {
+                                unknownTag(gch, loadInto.getDate());
+                            }
+                        }
                     }
                 } else if (Tag.CHARACTER_SET.equalsText(ch.getTag())) {
                     loadInto.setCharacterSet(new CharacterSet());
-                    loadInto.getCharacterSet().setCharacterSetName(new StringWithCustomTags(ch));
-                    // one optional version subitem is the only possibility here
+                    loadInto.getCharacterSet().setCharacterSetName(parseStringWithCustomFacts(ch));
+                    // one optional version subitem is the only standard possibility here, but there can be custom tags
                     if (ch.getChildren() != null && !ch.getChildren().isEmpty()) {
-                        loadInto.getCharacterSet().setVersionNum(new StringWithCustomTags(ch.getChildren().get(0)));
+                        for (StringTree gch : ch.getChildren()) {
+                            if ("VERS".equals(gch.getTag())) {
+                                loadInto.getCharacterSet().setVersionNum(parseStringWithCustomFacts(gch));
+                            } else {
+                                unknownTag(gch, loadInto.getCharacterSet());
+                            }
+                        }
                     }
+
                 } else if (Tag.SUBMITTER.equalsText(ch.getTag())) {
-                    loadInto.setSubmitter(getSubmitter(ch.getValue()));
+                    loadInto.setSubmitterReference(new SubmitterReference(getSubmitter(ch.getValue())));
+                    remainingChildrenAreCustomTags(ch, loadInto.getSubmitterReference());
                 } else if (Tag.FILE.equalsText(ch.getTag())) {
-                    loadInto.setFileName(new StringWithCustomTags(ch));
+                    loadInto.setFileName(parseStringWithCustomFacts(ch));
                 } else if (Tag.GEDCOM_VERSION.equalsText(ch.getTag())) {
                     GedcomVersion gedcomVersion = new GedcomVersion();
                     loadInto.setGedcomVersion(gedcomVersion);
@@ -93,20 +112,21 @@ class HeaderParser extends AbstractParser<Header> {
                                         + "  Data loaded but cannot be re-written unless GEDCOM version changes.");
                     }
                 } else if (Tag.SUBMISSION.equalsText(ch.getTag())) {
-                    if (loadInto.getSubmission() == null) {
+                    if (loadInto.getSubmissionReference() == null) {
                         /*
                          * There can only be one SUBMISSION record per GEDCOM, and it's found at the root level, but the HEAD
                          * structure has a cross-reference to that root-level structure, so we're setting it here (if it hasn't
                          * already been loaded, which it probably isn't yet)
                          */
-                        loadInto.setSubmission(gedcomParser.getGedcom().getSubmission());
+                        loadInto.setSubmissionReference(new SubmissionReference(gedcomParser.getGedcom().getSubmission()));
+                        remainingChildrenAreCustomTags(ch, loadInto.getSubmissionReference());
                     }
                 } else if (Tag.LANGUAGE.equalsText(ch.getTag())) {
-                    loadInto.setLanguage(new StringWithCustomTags(ch));
+                    loadInto.setLanguage(parseStringWithCustomFacts(ch));
                 } else if (Tag.PLACE.equalsText(ch.getTag())) {
-                    loadInto.setPlaceHierarchy(new StringWithCustomTags(ch.getChildren().get(0)));
+                    loadInto.setPlaceHierarchy(parseStringWithCustomFacts(ch.getChildren().get(0)));
                 } else if (Tag.NOTE.equalsText(ch.getTag())) {
-                    new NoteListParser(gedcomParser, ch, loadInto.getNotes(true)).parse();
+                    new NoteStructureListParser(gedcomParser, ch, loadInto.getNoteStructures(true)).parse();
                 } else {
                     unknownTag(ch, loadInto);
                 }

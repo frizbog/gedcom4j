@@ -26,17 +26,14 @@
  */
 package org.gedcom4j.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.gedcom4j.Options;
+import org.gedcom4j.model.enumerations.AdoptedByWhichParent;
 
 /**
  * Represent's an individuals membership, as a child, in a family
  * 
  * @author frizbog1
  */
-public class FamilyChild extends AbstractElement {
+public class FamilyChild extends AbstractNotesElement {
     /**
      * Serial Version UID
      */
@@ -45,7 +42,7 @@ public class FamilyChild extends AbstractElement {
     /**
      * Who did the adopting.
      */
-    private AdoptedByWhichParent adoptedBy;
+    private StringWithCustomFacts adoptedBy;
 
     /**
      * The family to which the child belonged
@@ -53,20 +50,55 @@ public class FamilyChild extends AbstractElement {
     private Family family;
 
     /**
-     * Notes about this object
-     */
-    private List<Note> notes = getNotes(Options.isCollectionInitializationEnabled());
-
-    /**
      * Pedigree information
      */
-    private StringWithCustomTags pedigree;
+    private StringWithCustomFacts pedigree;
 
     /**
-     * The status of this Family/Child relationship. New for GEDCOM 5.5.1. Supposed to be "challenged", "disproven", or "proven",
-     * but this implementation allows any value.
+     * The status of this Family/Child relationship. New for GEDCOM 5.5.1.
      */
-    private StringWithCustomTags status;
+    private StringWithCustomFacts status;
+
+    /** Default constructor */
+    public FamilyChild() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public FamilyChild(FamilyChild other) {
+        this(other, true);
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     * @param deep
+     *            pass in true if a full, deep copy of the family should be created. If false, the family will be copied but will
+     *            not contain back-references to the individuals in it (husband, wife, children). This allows preventing infinite
+     *            recursion.
+     */
+    public FamilyChild(FamilyChild other, boolean deep) {
+        super(other);
+        if (other.adoptedBy != null) {
+            adoptedBy = other.adoptedBy;
+        }
+        if (other.family != null) {
+            family = new Family(other.family, deep);
+        }
+        if (other.pedigree != null) {
+            pedigree = new StringWithCustomFacts(other.pedigree);
+        }
+        if (other.status != null) {
+            status = new StringWithCustomFacts(other.status);
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -108,13 +140,6 @@ public class FamilyChild extends AbstractElement {
                 }
             }
         }
-        if (notes == null) {
-            if (other.notes != null) {
-                return false;
-            }
-        } else if (!notes.equals(other.notes)) {
-            return false;
-        }
         if (pedigree == null) {
             if (other.pedigree != null) {
                 return false;
@@ -137,7 +162,7 @@ public class FamilyChild extends AbstractElement {
      *
      * @return the parent who did the adopting
      */
-    public AdoptedByWhichParent getAdoptedBy() {
+    public StringWithCustomFacts getAdoptedBy() {
         return adoptedBy;
     }
 
@@ -151,35 +176,11 @@ public class FamilyChild extends AbstractElement {
     }
 
     /**
-     * Gets the notes.
-     *
-     * @return the notes
-     */
-    public List<Note> getNotes() {
-        return notes;
-    }
-
-    /**
-     * Get the notes
-     * 
-     * @param initializeIfNeeded
-     *            initialize the collection if needed?
-     * 
-     * @return the notes
-     */
-    public List<Note> getNotes(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && notes == null) {
-            notes = new ArrayList<>(0);
-        }
-        return notes;
-    }
-
-    /**
      * Gets the pedigree.
      *
      * @return the pedigree
      */
-    public StringWithCustomTags getPedigree() {
+    public StringWithCustomFacts getPedigree() {
         return pedigree;
     }
 
@@ -188,7 +189,7 @@ public class FamilyChild extends AbstractElement {
      *
      * @return the status
      */
-    public StringWithCustomTags getStatus() {
+    public StringWithCustomFacts getStatus() {
         return status;
     }
 
@@ -201,7 +202,6 @@ public class FamilyChild extends AbstractElement {
         int result = super.hashCode();
         result = prime * result + (adoptedBy == null ? 0 : adoptedBy.hashCode());
         result = prime * result + (family == null || family.getXref() == null ? 0 : family.getXref().hashCode());
-        result = prime * result + (notes == null ? 0 : notes.hashCode());
         result = prime * result + (pedigree == null ? 0 : pedigree.hashCode());
         result = prime * result + (status == null ? 0 : status.hashCode());
         return result;
@@ -214,6 +214,26 @@ public class FamilyChild extends AbstractElement {
      *            the new adopted by
      */
     public void setAdoptedBy(AdoptedByWhichParent adoptedBy) {
+        this.adoptedBy = new StringWithCustomFacts(adoptedBy.toString());
+    }
+
+    /**
+     * Sets the adopted by.
+     *
+     * @param adoptedBy
+     *            the new adopted by
+     */
+    public void setAdoptedBy(String adoptedBy) {
+        this.adoptedBy = new StringWithCustomFacts(adoptedBy);
+    }
+
+    /**
+     * Sets the adopted by.
+     *
+     * @param adoptedBy
+     *            the new adopted by
+     */
+    public void setAdoptedBy(StringWithCustomFacts adoptedBy) {
         this.adoptedBy = adoptedBy;
     }
 
@@ -233,7 +253,17 @@ public class FamilyChild extends AbstractElement {
      * @param pedigree
      *            the new pedigree
      */
-    public void setPedigree(StringWithCustomTags pedigree) {
+    public void setPedigree(String pedigree) {
+        this.pedigree = pedigree == null ? null : new StringWithCustomFacts(pedigree);
+    }
+
+    /**
+     * Sets the pedigree.
+     *
+     * @param pedigree
+     *            the new pedigree
+     */
+    public void setPedigree(StringWithCustomFacts pedigree) {
         this.pedigree = pedigree;
     }
 
@@ -243,7 +273,17 @@ public class FamilyChild extends AbstractElement {
      * @param status
      *            the new status
      */
-    public void setStatus(StringWithCustomTags status) {
+    public void setStatus(String status) {
+        this.status = status == null ? null : new StringWithCustomFacts(status);
+    }
+
+    /**
+     * Sets the status.
+     *
+     * @param status
+     *            the new status
+     */
+    public void setStatus(StringWithCustomFacts status) {
         this.status = status;
     }
 
@@ -264,11 +304,6 @@ public class FamilyChild extends AbstractElement {
             builder.append(family);
             builder.append(", ");
         }
-        if (notes != null) {
-            builder.append("notes=");
-            builder.append(notes);
-            builder.append(", ");
-        }
         if (pedigree != null) {
             builder.append("pedigree=");
             builder.append(pedigree);
@@ -279,9 +314,9 @@ public class FamilyChild extends AbstractElement {
             builder.append(status);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("customFacts=");
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

@@ -72,7 +72,7 @@ class SubmissionEmitter extends AbstractEmitter<Submission> {
         emitTagIfValueNotNull(1, "DESC", writeFrom.getDescendantsCount());
         emitTagIfValueNotNull(1, "ORDI", writeFrom.getOrdinanceProcessFlag());
         emitTagIfValueNotNull(1, "RIN", writeFrom.getRecIdNumber());
-        emitCustomTags(1, writeFrom.getCustomTags());
+        emitCustomFacts(1, writeFrom.getCustomFacts());
     }
 
 }

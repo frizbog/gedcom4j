@@ -30,7 +30,7 @@ import java.util.Collection;
 
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
-import org.gedcom4j.model.StringWithCustomTags;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.Submitter;
 
 /**
@@ -69,18 +69,18 @@ class SubmittersEmitter extends AbstractEmitter<Collection<Submitter>> {
             new AddressEmitter(baseWriter, 1, s.getAddress()).emit();
             new MultimediaLinksEmitter(baseWriter, 1, s.getMultimedia()).emit();
             if (s.getLanguagePref() != null) {
-                for (StringWithCustomTags l : s.getLanguagePref()) {
+                for (StringWithCustomFacts l : s.getLanguagePref()) {
                     emitTagWithRequiredValue(1, "LANG", l);
                 }
             }
-            emitStringsWithCustomTags(1, s.getPhoneNumbers(), "PHON");
-            emitStringsWithCustomTags(1, s.getWwwUrls(), "WWW");
-            emitStringsWithCustomTags(1, s.getFaxNumbers(), "FAX");
-            emitStringsWithCustomTags(1, s.getEmails(), "EMAIL");
+            emitStringsWithCustomFacts(1, s.getPhoneNumbers(), "PHON");
+            emitStringsWithCustomFacts(1, s.getWwwUrls(), "WWW");
+            emitStringsWithCustomFacts(1, s.getFaxNumbers(), "FAX");
+            emitStringsWithCustomFacts(1, s.getEmails(), "EMAIL");
             emitTagIfValueNotNull(1, "RFN", s.getRegFileNumber());
             emitTagIfValueNotNull(1, "RIN", s.getRecIdNumber());
             new ChangeDateEmitter(baseWriter, 1, s.getChangeDate()).emit();
-            emitCustomTags(1, s.getCustomTags());
+            emitCustomFacts(1, s.getCustomFacts());
         }
     }
 

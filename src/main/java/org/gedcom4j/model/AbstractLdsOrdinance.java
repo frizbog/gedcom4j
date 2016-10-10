@@ -52,22 +52,59 @@ public abstract class AbstractLdsOrdinance extends AbstractNotesElement implemen
     /**
      * The date
      */
-    protected StringWithCustomTags date;
+    protected StringWithCustomFacts date;
 
     /**
      * The place
      */
-    protected StringWithCustomTags place;
+    protected StringWithCustomFacts place;
 
     /**
      * The status
      */
-    protected StringWithCustomTags status;
+    protected StringWithCustomFacts status;
 
     /**
      * The temple code
      */
-    protected StringWithCustomTags temple;
+    protected StringWithCustomFacts temple;
+
+    /** Default constructor */
+    public AbstractLdsOrdinance() {
+        // Default constructor does nothing
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            object being copied
+     */
+    public AbstractLdsOrdinance(AbstractLdsOrdinance other) {
+        super(other);
+        if (other.citations != null) {
+            citations = new ArrayList<>();
+            for (AbstractCitation ac : other.citations) {
+                if (ac instanceof CitationWithoutSource) {
+                    citations.add(new CitationWithoutSource((CitationWithoutSource) ac));
+                } else if (ac instanceof CitationWithSource) {
+                    citations.add(new CitationWithSource((CitationWithSource) ac));
+                }
+            }
+        }
+        if (other.date != null) {
+            date = new StringWithCustomFacts(other.date);
+        }
+        if (other.place != null) {
+            place = new StringWithCustomFacts(other.place);
+        }
+        if (other.status != null) {
+            status = new StringWithCustomFacts(other.status);
+        }
+        if (other.temple != null) {
+            temple = new StringWithCustomFacts(other.temple);
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -127,6 +164,7 @@ public abstract class AbstractLdsOrdinance extends AbstractNotesElement implemen
      *
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations() {
         return citations;
     }
@@ -138,6 +176,7 @@ public abstract class AbstractLdsOrdinance extends AbstractNotesElement implemen
      *            initialize the collection if needed
      * @return the citations
      */
+    @Override
     public List<AbstractCitation> getCitations(boolean initializeIfNeeded) {
         if (initializeIfNeeded && citations == null) {
             citations = new ArrayList<>();
@@ -150,7 +189,7 @@ public abstract class AbstractLdsOrdinance extends AbstractNotesElement implemen
      *
      * @return the date
      */
-    public StringWithCustomTags getDate() {
+    public StringWithCustomFacts getDate() {
         return date;
     }
 
@@ -159,7 +198,7 @@ public abstract class AbstractLdsOrdinance extends AbstractNotesElement implemen
      *
      * @return the place
      */
-    public StringWithCustomTags getPlace() {
+    public StringWithCustomFacts getPlace() {
         return place;
     }
 
@@ -168,7 +207,7 @@ public abstract class AbstractLdsOrdinance extends AbstractNotesElement implemen
      *
      * @return the status
      */
-    public StringWithCustomTags getStatus() {
+    public StringWithCustomFacts getStatus() {
         return status;
     }
 
@@ -177,7 +216,7 @@ public abstract class AbstractLdsOrdinance extends AbstractNotesElement implemen
      *
      * @return the temple
      */
-    public StringWithCustomTags getTemple() {
+    public StringWithCustomFacts getTemple() {
         return temple;
     }
 
@@ -202,7 +241,17 @@ public abstract class AbstractLdsOrdinance extends AbstractNotesElement implemen
      * @param date
      *            the new date
      */
-    public void setDate(StringWithCustomTags date) {
+    public void setDate(String date) {
+        this.date = new StringWithCustomFacts(date);
+    }
+
+    /**
+     * Sets the date.
+     *
+     * @param date
+     *            the new date
+     */
+    public void setDate(StringWithCustomFacts date) {
         this.date = date;
     }
 
@@ -212,7 +261,17 @@ public abstract class AbstractLdsOrdinance extends AbstractNotesElement implemen
      * @param place
      *            the new place
      */
-    public void setPlace(StringWithCustomTags place) {
+    public void setPlace(String place) {
+        this.place = new StringWithCustomFacts(place);
+    }
+
+    /**
+     * Sets the place.
+     *
+     * @param place
+     *            the new place
+     */
+    public void setPlace(StringWithCustomFacts place) {
         this.place = place;
     }
 
@@ -222,7 +281,17 @@ public abstract class AbstractLdsOrdinance extends AbstractNotesElement implemen
      * @param status
      *            the new status
      */
-    public void setStatus(StringWithCustomTags status) {
+    public void setStatus(String status) {
+        this.status = new StringWithCustomFacts(status);
+    }
+
+    /**
+     * Sets the status.
+     *
+     * @param status
+     *            the new status
+     */
+    public void setStatus(StringWithCustomFacts status) {
         this.status = status;
     }
 
@@ -232,7 +301,17 @@ public abstract class AbstractLdsOrdinance extends AbstractNotesElement implemen
      * @param temple
      *            the new temple
      */
-    public void setTemple(StringWithCustomTags temple) {
+    public void setTemple(String temple) {
+        this.temple = new StringWithCustomFacts(temple);
+    }
+
+    /**
+     * Sets the temple.
+     *
+     * @param temple
+     *            the new temple
+     */
+    public void setTemple(StringWithCustomFacts temple) {
         this.temple = temple;
     }
 
@@ -253,9 +332,9 @@ public abstract class AbstractLdsOrdinance extends AbstractNotesElement implemen
             builder.append(date);
             builder.append(", ");
         }
-        if (getNotes() != null) {
-            builder.append("notes=");
-            builder.append(getNotes());
+        if (getNoteStructures() != null) {
+            builder.append("noteStructures=");
+            builder.append(getNoteStructures());
             builder.append(", ");
         }
         if (place != null) {
@@ -273,9 +352,9 @@ public abstract class AbstractLdsOrdinance extends AbstractNotesElement implemen
             builder.append(temple);
             builder.append(", ");
         }
-        if (getCustomTags() != null) {
-            builder.append("customTags=");
-            builder.append(getCustomTags());
+        if (getCustomFacts() != null) {
+            builder.append("customFacts=");
+            builder.append(getCustomFacts());
         }
         builder.append("]");
         return builder.toString();

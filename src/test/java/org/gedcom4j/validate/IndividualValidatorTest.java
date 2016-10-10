@@ -30,11 +30,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Map;
-
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.TestHelper;
+import org.gedcom4j.validate.Validator.Finding;
 import org.junit.Test;
 
 /**
@@ -51,14 +50,14 @@ public class IndividualValidatorTest extends AbstractValidatorTestCase {
     @Test
     public void testValidateIndividual() {
         Individual i = new Individual();
-        AbstractValidator v = new IndividualValidator(rootValidator, i);
+        AbstractValidator v = new IndividualValidator(validator, i);
         v.validate();
-        assertFindingsContain(Severity.ERROR, "xref", "null");
+        assertFindingsContain(Severity.ERROR, i, ProblemCode.MISSING_REQUIRED_VALUE, "xref");
     }
 
     /**
-     * Test for {@link GedcomValidator#validateIndividuals()} with a malformed xref on an individual, which does not match its key
-     * in the individuals map
+     * Test for {@link Validator#checkIndividuals()} with a malformed xref on an individual, which does not match its key in the
+     * individuals map
      */
     @Test
     public void testValidateIndividuals2() {
@@ -70,18 +69,18 @@ public class IndividualValidatorTest extends AbstractValidatorTestCase {
         g.getIndividuals().put("WrongKey", i);
 
         // Go validate
-        rootValidator = new GedcomValidator(g);
-        verbose = true;
-        rootValidator.validate();
+        validator = new Validator(g);
+        validator.validate();
 
         // Assert stuff
         int errorsCount = 0;
-        for (GedcomValidationFinding f : rootValidator.getFindings()) {
+        for (Finding f : validator.getResults().getAllFindings()) {
             assertNotNull(f);
-            assertNotNull("The finding should have an object attached", f.getItemWithProblem());
+            assertNotNull("The finding should have an object attached", f.getItemOfConcern());
             if (f.getSeverity() == Severity.ERROR) {
                 errorsCount++;
-                assertTrue("The object attached should be a Map entry", f.getItemWithProblem() instanceof Map.Entry);
+                assertTrue("The " + f.getItemOfConcern().getClass().getName() + " object attached should be a Map entry", f
+                        .getItemOfConcern() instanceof Individual);
             }
         }
         assertEquals("There should be one finding of severity ERROR", 1, errorsCount);

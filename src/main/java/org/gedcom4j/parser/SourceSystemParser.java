@@ -30,7 +30,6 @@ import org.gedcom4j.model.Corporation;
 import org.gedcom4j.model.HeaderSourceData;
 import org.gedcom4j.model.SourceSystem;
 import org.gedcom4j.model.StringTree;
-import org.gedcom4j.model.StringWithCustomTags;
 
 /**
  * A parser for {@link SourceSystem} objects
@@ -62,9 +61,9 @@ class SourceSystemParser extends AbstractParser<SourceSystem> {
         if (stringTree.getChildren() != null) {
             for (StringTree ch : stringTree.getChildren()) {
                 if (Tag.VERSION.equalsText(ch.getTag())) {
-                    loadInto.setVersionNum(new StringWithCustomTags(ch));
+                    loadInto.setVersionNum(parseStringWithCustomFacts(ch));
                 } else if (Tag.NAME.equalsText(ch.getTag())) {
-                    loadInto.setProductName(new StringWithCustomTags(ch));
+                    loadInto.setProductName(parseStringWithCustomFacts(ch));
                 } else if (Tag.CORPORATION.equalsText(ch.getTag())) {
                     Corporation corporation = new Corporation();
                     loadInto.setCorporation(corporation);

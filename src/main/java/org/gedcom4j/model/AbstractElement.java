@@ -26,8 +26,8 @@
  */
 package org.gedcom4j.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.gedcom4j.Options;
@@ -38,16 +38,41 @@ import org.gedcom4j.Options;
  * 
  * @author frizbog
  */
-public abstract class AbstractElement implements Serializable, HasCustomTags {
+public abstract class AbstractElement implements HasCustomFacts {
     /**
      * Serial Version UID
      */
     private static final long serialVersionUID = -983667065483378388L;
 
     /**
-     * A list of custom tags on this item.
+     * A list of custom facts on this item.
      */
-    private List<StringTree> customTags = getCustomTags(Options.isCollectionInitializationEnabled());
+    protected List<CustomFact> customFacts = getCustomFacts(Options.isCollectionInitializationEnabled());
+
+    /**
+     * Default constructor
+     */
+    public AbstractElement() {
+        super();
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param other
+     *            the other object to copy
+     */
+    public AbstractElement(AbstractElement other) {
+        super();
+        if (other.customFacts != null) {
+            customFacts = new ArrayList<>();
+            for (CustomFact cf : other.customFacts) {
+                if (cf != null) {
+                    customFacts.add(new CustomFact(cf));
+                }
+            }
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -64,37 +89,60 @@ public abstract class AbstractElement implements Serializable, HasCustomTags {
             return false;
         }
         AbstractElement other = (AbstractElement) obj;
-        if (getCustomTags() == null) {
-            if (other.getCustomTags() != null) {
+        if (getCustomFacts() == null) {
+            if (other.getCustomFacts() != null) {
                 return false;
             }
-        } else if (!getCustomTags().equals(other.getCustomTags())) {
+        } else if (!getCustomFacts().equals(other.getCustomFacts())) {
             return false;
         }
         return true;
     }
 
     /**
-     * Gets the custom tags.
+     * Gets the custom facts.
      *
-     * @return the custom tags
+     * @return the custom facts
      */
-    public List<StringTree> getCustomTags() {
-        return customTags;
+    @Override
+    public List<CustomFact> getCustomFacts() {
+        return customFacts;
     }
 
     /**
-     * Get the custom tags
+     * Get the custom facts
      * 
      * @param initializeIfNeeded
      *            initialize the collection if needed
-     * @return the customTags
+     * @return the customFacts
      */
-    public List<StringTree> getCustomTags(boolean initializeIfNeeded) {
-        if (initializeIfNeeded && customTags == null) {
-            customTags = new ArrayList<>(0);
+    @Override
+    public List<CustomFact> getCustomFacts(boolean initializeIfNeeded) {
+        if (initializeIfNeeded && customFacts == null) {
+            customFacts = new ArrayList<>(0);
         }
-        return customTags;
+        return customFacts;
+    }
+
+    /**
+     * Gets the custom facts that have a tag that matches the one supplied
+     * 
+     * @param tag
+     *            the tag we are looking for
+     * @return a list of custom facts that have the desired tag. Always returns a list but it might be empty. Although the entries
+     *         in the result list are modifiable, the list itself is not.
+     */
+    @Override
+    public List<CustomFact> getCustomFactsWithTag(String tag) {
+        List<CustomFact> result = new ArrayList<>();
+        if (customFacts != null) {
+            for (CustomFact cf : customFacts) {
+                if (cf.getTag() != null && cf.getTag().equals(tag)) {
+                    result.add(cf);
+                }
+            }
+        }
+        return Collections.unmodifiableList(result);
     }
 
     /**
@@ -104,7 +152,7 @@ public abstract class AbstractElement implements Serializable, HasCustomTags {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (getCustomTags() == null ? 0 : getCustomTags().hashCode());
+        result = prime * result + (getCustomFacts() == null ? 0 : getCustomFacts().hashCode());
         return result;
     }
 
@@ -115,21 +163,12 @@ public abstract class AbstractElement implements Serializable, HasCustomTags {
     public String toString() {
         StringBuilder builder = new StringBuilder(32);
         builder.append("AbstractElement [");
-        if (customTags != null) {
-            builder.append("customTags=");
-            builder.append(customTags);
+        if (customFacts != null) {
+            builder.append("customFacts=");
+            builder.append(customFacts);
         }
         builder.append("]");
         return builder.toString();
     }
 
-    /**
-     * Set the custom tags
-     * 
-     * @param theCustomTags
-     *            the custom tags
-     */
-    protected void setCustomTags(List<StringTree> theCustomTags) {
-        customTags = theCustomTags;
-    }
 }

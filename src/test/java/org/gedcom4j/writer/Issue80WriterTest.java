@@ -34,10 +34,10 @@ import org.gedcom4j.io.writer.NullOutputStream;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
-import org.gedcom4j.model.IndividualEventType;
 import org.gedcom4j.model.Place;
-import org.gedcom4j.model.StringWithCustomTags;
 import org.gedcom4j.model.Submitter;
+import org.gedcom4j.model.SubmitterReference;
+import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.junit.Test;
 
 /**
@@ -61,8 +61,8 @@ public class Issue80WriterTest {
         // Set up a place with a lat and long
         Place p = new Place();
         p.setPlaceName("Walla Walla, Washington");
-        p.setLatitude(new StringWithCustomTags("123"));
-        p.setLongitude(new StringWithCustomTags("3.14159"));
+        p.setLatitude("123");
+        p.setLongitude("3.14159");
 
         IndividualEvent b = new IndividualEvent();
         b.setType(IndividualEventType.BIRTH);
@@ -78,13 +78,13 @@ public class Issue80WriterTest {
         // Gedcoms require a submitter
         Submitter s = new Submitter();
         s.setXref("@SUBM@"); // Some unique xref for a submitter
-        s.setName(new StringWithCustomTags("Matt /Harrah/"));
-        g.getHeader().setSubmitter(s);
+        s.setName("Matt /Harrah/");
+        g.getHeader().setSubmitterReference(new SubmitterReference(s));
         g.getSubmitters().put(s.getXref(), s); // Use the xref as the map key
 
         // Write to null output stream
         GedcomWriter gw = new GedcomWriter(g);
-        gw.validationSuppressed = false;
+        gw.setValidationSuppressed(false);
         gw.setUseLittleEndianForUnicode(false);
         gw.write(new NullOutputStream());
 
