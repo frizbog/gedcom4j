@@ -51,6 +51,7 @@
 3 _H Custom tag on source system data in header
 2 ______WIERD custom tag for source in header
 1 DEST gedcom4j
+1 _H Custom tag on the header itself
 1 SUBM @SUBM001@
 2 _AAA Custom tag for the reference to the submitter, which is a root level item
 1 SUBN @SUBMISSION@
@@ -77,9 +78,11 @@
 0 @I01@ INDI
 1 NAME Paul /Paulson/
 1 FAMS @F7@
+1 _ICT Custom tag on individual
 0 @I02@ INDI
 1 NAME Alyson /Allison/
 1 FAMS @F7@
+1 _ICT Custom tag on individual
 0 @I00@ INDI
 1 RESN privacy
 1 NAME Peter /Paulson/
@@ -130,6 +133,7 @@
 3 TIME 16:00:06
 4 _CTAG Custom tag on I00's Change Time
 2 _CTAG Custom tag on I00's Change
+1 _ICT Custom tag on individual
 0 @F6@ FAM
 1 HUSB @I00@
 2 _BBB Custom tag on husband in family with no wife or children

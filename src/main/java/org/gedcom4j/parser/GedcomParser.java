@@ -119,6 +119,9 @@ public class GedcomParser extends AbstractParser<Gedcom> {
      */
     private boolean strictCustomTags = true;
 
+    /** Should the parser ignore custom tags? */
+    private boolean ignoreCustomTags = false;
+
     /**
      * Indicates whether non-compliant GEDCOM files with actual line breaks in text values (rather than CONT tags) should be parsed
      * (with some loss of data) rather than fail with an exception.
@@ -260,6 +263,15 @@ public class GedcomParser extends AbstractParser<Gedcom> {
     }
 
     /**
+     * Are custom tags being ignored by the parser?
+     * 
+     * @return true if the parser is ignoring custom tags
+     */
+    public boolean isIgnoreCustomTags() {
+        return ignoreCustomTags;
+    }
+
+    /**
      * Get the strictCustomTags
      * 
      * @return the strictCustomTags
@@ -379,6 +391,16 @@ public class GedcomParser extends AbstractParser<Gedcom> {
      */
     public void registerParseObserver(ParseProgressListener observer) {
         parseObservers.add(new WeakReference<>(observer));
+    }
+
+    /**
+     * Set whether the parser is ignoring custom tgs
+     * 
+     * @param ignoreCustomTags
+     *            true if the parser is to ignore custom tags
+     */
+    public void setIgnoreCustomTags(boolean ignoreCustomTags) {
+        this.ignoreCustomTags = ignoreCustomTags;
     }
 
     /**

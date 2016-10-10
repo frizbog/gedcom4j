@@ -25,6 +25,7 @@ Summary of changes:
 - There are now adapter classes for providing assistance with processing custom tags for Family Tree Maker 3, Family Historian, and Legacy Family Tree. This will enable users to work with the custom tags those programs a bit more easily than working directly with the custom facts structures.
 
 Issues from Github (https://github.com/frizbog/gedcom4j/issues):
+- Issue #129 - Add option to ignore all custom tags
 - Issue #133 - Fine-grained control over auto-repair during validation
 - Issue #135 - Validation findings should only reference gedcom4j objects, not java.lang.Object
 - Issue #136 - Validation findings should include an optional name of the field/property with the finding

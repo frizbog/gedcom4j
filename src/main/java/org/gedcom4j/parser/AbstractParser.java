@@ -370,6 +370,9 @@ abstract class AbstractParser<T> {
      * Default handler for a tag that the parser was not expecting to see.
      * </p>
      * <ul>
+     * <li>If custom tags are ignored in the parser (see {@link GedcomParser#isIgnoreCustomTags()}), the custom/unknown tag and all
+     * its children will be ignored, regardless of the value of the strict custom tags setting (because it doesn't make sense to be
+     * strict about tags that are being ignored).
      * <li>If the tag begins with an underscore, it is a user-defined tag, which is stored in the customFacts collection of the
      * passed in element, and returns.</li>
      * <li>If {@link GedcomParser#isStrictCustomTags()} parsing is turned off (i.e., == false), it is treated as a user-defined tag
@@ -385,6 +388,9 @@ abstract class AbstractParser<T> {
      *            collection of custom tags
      */
     protected void unknownTag(StringTree node, HasCustomFacts element) {
+        if (gedcomParser.isIgnoreCustomTags()) {
+            return;
+        }
         boolean beginsWithUnderscore = node.getTag().length() > 0 && node.getTag().charAt(0) == '_';
         if (beginsWithUnderscore || !gedcomParser.isStrictCustomTags() || gedcomParser.isInsideCustomTag()) {
             CustomFact cf = new CustomFact(node.getTag());
