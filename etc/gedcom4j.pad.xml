@@ -38,10 +38,10 @@ http://www.xmlblueprint.com/documents/PAD-Portable-Application-Description.xsd">
 	</Company_Info>
 	<Program_Info>
 		<Program_Name>gedcom4j</Program_Name>
-		<Program_Version>2.2.2</Program_Version>
-		<Program_Release_Month>09</Program_Release_Month>
-		<Program_Release_Day>18</Program_Release_Day>
-		<Program_Release_Year>2015</Program_Release_Year>
+		<Program_Version>4.0.0</Program_Version>
+		<Program_Release_Month>10</Program_Release_Month>
+		<Program_Release_Day>08</Program_Release_Day>
+		<Program_Release_Year>2016</Program_Release_Year>
 		<Program_Cost_Dollars>0</Program_Cost_Dollars>
 		<Program_Cost_Other_Code>USD</Program_Cost_Other_Code>
 		<Program_Cost_Other></Program_Cost_Other>
@@ -51,9 +51,9 @@ http://www.xmlblueprint.com/documents/PAD-Portable-Application-Description.xsd">
 		<Program_OS_Support>Multiple</Program_OS_Support>
 		<Program_Language>Multiple</Program_Language>
 		<File_Info>
-			<File_Size_Bytes>188964</File_Size_Bytes>
-			<File_Size_K>184.5</File_Size_K>
-			<File_Size_MB>0.18</File_Size_MB>
+			<File_Size_Bytes>497919</File_Size_Bytes>
+			<File_Size_K>498</File_Size_K>
+			<File_Size_MB>0.48</File_Size_MB>
 		</File_Info>
 		<Expire_Info>
 			<Has_Expire_Info></Has_Expire_Info>
@@ -66,7 +66,7 @@ http://www.xmlblueprint.com/documents/PAD-Portable-Application-Description.xsd">
 		</Expire_Info>
 		<Program_Change_Info></Program_Change_Info>
 		<Program_Category_Class>Home &amp; Hobby::Genealogy</Program_Category_Class>
-		<Program_System_Requirements>Java 6 or higher</Program_System_Requirements>
+		<Program_System_Requirements>Java 7 or higher</Program_System_Requirements>
 	</Program_Info>
 	<Program_Descriptions>
 		<English>
@@ -89,7 +89,7 @@ Please note that gedcom4j is not an application. It is a library (jar file) that
 			<Application_XML_File_URL>http://gedcom4j.org/gedcom4j.pad.xml</Application_XML_File_URL>
 		</Application_URLs>
 		<Download_URLs>
-			<Primary_Download_URL>http://gedcom4j.org/main/sites/default/files/gedcom4j-2.1.5.jar</Primary_Download_URL>
+			<Primary_Download_URL>http://gedcom4j.org/main/sites/default/files/gedcom4j-4.0.0.jar</Primary_Download_URL>
 			<Secondary_Download_URL></Secondary_Download_URL>
 			<Additional_Download_URL_1></Additional_Download_URL_1>
 			<Additional_Download_URL_2></Additional_Download_URL_2>
