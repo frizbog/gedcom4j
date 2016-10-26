@@ -67,7 +67,7 @@ public abstract class AbstractCopyTest {
         result.setCity("Anytown");
         result.setStateProvince("ME");
         result.setCountry("USA");
-        result.getLines(true).add("XXX");
+        result.getLines(true).add("ABC");
         result.getCustomFacts(true).add(getTestCustomFact());
         return result;
     }

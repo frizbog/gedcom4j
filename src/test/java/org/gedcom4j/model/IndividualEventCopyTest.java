@@ -71,7 +71,7 @@ public class IndividualEventCopyTest extends AbstractCopyTest {
         orig.setDate("04 SEP 1905");
         orig.setDescription("It was glorious.");
         FamilyChild fc = new FamilyChild();
-        fc.setStatus("XXX");
+        fc.setStatus("ABC");
         orig.setFamily(fc);
         orig.getNoteStructures(true).add(getTestNoteStructure());
         orig.getFaxNumbers(true).add(new StringWithCustomFacts("555-1212"));
@@ -81,7 +81,7 @@ public class IndividualEventCopyTest extends AbstractCopyTest {
         Place p = new Place();
         p.setPlaceName("Charleston, WV");
         orig.setPlace(p);
-        orig.setReligiousAffiliation("XXX");
+        orig.setReligiousAffiliation("ABC");
         orig.setRespAgency("YYY");
         orig.setRestrictionNotice("ZZZ");
         orig.setSubType("!@#");

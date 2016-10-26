@@ -68,7 +68,7 @@ public class AddressCopyTest extends AbstractCopyTest {
         orig.setCity("Anytown");
         orig.setStateProvince("ME");
         orig.setCountry("USA");
-        orig.getLines(true).add("XXX");
+        orig.getLines(true).add("ABC");
         orig.getCustomFacts(true).add(getTestCustomFact());
 
         Address copy = new Address(orig);

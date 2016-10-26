@@ -73,7 +73,7 @@ public class HeaderCopyTest extends AbstractCopyTest {
         orig.setDestinationSystem("Black Hole");
         orig.setFileName("foo.ged");
         GedcomVersion gv = new GedcomVersion();
-        gv.setGedcomForm("XXX");
+        gv.setGedcomForm("ABC");
         gv.setVersionNumber(SupportedVersion.V5_5_1);
         orig.setGedcomVersion(gv);
         orig.setLanguage("Klingon");

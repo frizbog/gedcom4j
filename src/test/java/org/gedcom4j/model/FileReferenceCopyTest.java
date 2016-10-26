@@ -76,7 +76,7 @@ public class FileReferenceCopyTest extends AbstractCopyTest {
         assertNotSame(orig, copy);
         assertEquals(orig.toString(), copy.toString());
 
-        orig.setTitle("XXX");
+        orig.setTitle("ABC");
         assertFalse("Copy shouldn't match if original changes", orig.equals(copy));
     }
 

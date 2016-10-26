@@ -67,7 +67,7 @@ public class CorporationCopyTest extends AbstractCopyTest {
         Address a = new Address();
         a.setAddr1("ZZZ");
         a.setCity("YYY");
-        a.setStateProvince("XXX");
+        a.setStateProvince("ABC");
         a.setCountry("WWW");
         orig.setAddress(a);
         orig.setBusinessName("Bob's Genalogy Shop");
