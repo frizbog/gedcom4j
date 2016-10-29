@@ -54,7 +54,6 @@ import org.junit.Test;
 
 /**
  * @author frizbog1
- * 
  */
 public class RelationshipCalculatorTest {
 

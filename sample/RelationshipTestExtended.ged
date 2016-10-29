@@ -1,0 +1,549 @@
+0 HEAD
+1 SOUR FTM
+2 VERS Family Tree Maker (22.2.5)
+2 NAME Family Tree Maker for Mac OS X
+2 CORP Ancestry.com
+3 ADDR 360 W 4800 N
+4 CONT Provo, UT 84604
+3 PHON (801) 705-7000
+1 DEST GED55
+1 DATE 29 OCT 2016
+1 CHAR UTF-8
+1 FILE /Users/frizbog/Documents/workspace/gedcom4j/sample/RelationshipTestExtended.ged
+1 SUBM @SUBM@
+1 GEDC
+2 VERS 5.5
+2 FORM LINEAGE-LINKED
+0 @SUBM@ SUBM
+0 @I1@ INDI
+1 NAME Alex /Zucco/
+1 SEX M
+1 FAMS @F19@
+1 FAMC @F9@
+0 @I63@ INDI
+1 NAME Robert /Sullivan/
+1 SEX M
+1 FAMS @F28@
+0 @I62@ INDI
+1 NAME Jennifer /Struthers/
+1 SEX F
+1 FAMS @F28@
+1 FAMC @F27@
+0 @I61@ INDI
+1 NAME Karen /Reed/
+1 SEX F
+1 FAMS @F27@
+0 @I60@ INDI
+1 NAME Brian /Struthers/
+1 SEX M
+1 FAMS @F27@
+1 FAMC @F26@
+0 @I59@ INDI
+1 NAME Christina /Mathers/
+1 SEX F
+1 FAMS @F26@
+0 @I58@ INDI
+1 NAME Jason /Struthers/
+1 SEX M
+1 FAMC @F25@
+0 @I57@ INDI
+1 NAME Mary /Struthers/
+1 SEX F
+1 FAMC @F25@
+0 @I56@ INDI
+1 NAME David /Struthers/
+1 SEX M
+1 FAMS @F26@
+1 FAMC @F25@
+0 @I55@ INDI
+1 NAME Kelly /Jones/
+1 SEX F
+1 FAMS @F25@
+0 @I54@ INDI
+1 NAME Sampson /Struthers/
+1 SEX M
+1 FAMS @F25@
+1 FAMC @F14@
+0 @I53@ INDI
+1 NAME Nina /Willis/
+1 SEX F
+1 FAMS @F24@
+0 @I52@ INDI
+1 NAME Harold /Andrews/
+1 SEX M
+1 FAMS @F24@
+1 FAMC @F7@
+0 @I51@ INDI
+1 NAME Philip /Blaine/
+1 SEX M
+1 FAMS @F23@
+0 @I50@ INDI
+1 NAME Pat /Green/
+1 SEX U
+1 FAMC @F22@
+0 @I49@ INDI
+1 NAME Julia /Green/
+1 SEX F
+1 FAMC @F22@
+0 @I48@ INDI
+1 NAME Victor /Green/
+1 SEX M
+1 FAMC @F22@
+0 @I47@ INDI
+1 NAME Oliver /Green/
+1 SEX M
+1 FAMS @F22@
+0 @I46@ INDI
+1 NAME Elizabeth /Queen/
+1 SEX F
+1 FAMS @F21@
+0 @I45@ INDI
+1 NAME Kenneth /Borges/
+1 SEX M
+1 FAMS @F20@
+0 @I44@ INDI
+1 NAME Denise /Polanski/
+1 SEX F
+1 FAMS @F19@
+1 FAMC @F29@
+0 @I43@ INDI
+1 NAME Isaac /Knight/
+1 SEX M
+1 FAMC @F1@
+0 @I42@ INDI
+1 NAME Kelly /Knight/
+1 SEX F
+1 FAMS @F5@
+1 FAMC @F1@
+0 @I41@ INDI
+1 NAME Robert /Andrews/
+1 SEX M
+1 FAMS @F7@
+1 FAMS @F17@
+1 FAMC @F6@
+0 @I40@ INDI
+1 NAME Hannah /Smith/
+1 SEX F
+1 ALIA UnknownFather
+1 FAMS @F8@
+1 FAMC @F15@
+0 @I39@ INDI
+1 NAME Henry /Zucco/
+1 SEX M
+1 FAMS @F13@
+1 FAMC @F8@
+0 @I38@ INDI
+1 NAME George /Zucco/
+1 SEX M
+1 ALIA UnknownMother
+1 FAMS @F8@
+1 FAMC @F16@
+0 @I37@ INDI
+1 NAME Penny /Struthers/
+1 SEX F
+1 FAMS @F2@
+0 @I36@ INDI
+1 NAME Gladys /Knight/
+1 SEX F
+1 FAMS @F14@
+1 FAMC @F10@
+0 @I35@ INDI
+1 NAME Kenneth /Struthers/
+1 SEX M
+1 FAMS @F2@
+0 @I34@ INDI
+1 NAME Jerome /Knight/
+1 SEX M
+1 FAMS @F1@
+1 FAMC @F18@
+0 @I33@ INDI
+1 NAME Sammy /Struthers/
+1 SEX M
+1 FAMC @F14@
+0 @I32@ INDI
+1 NAME Olivia /Underwood/
+1 SEX F
+1 FAMS @F18@
+0 @I31@ INDI
+1 NAME Steven /Struthers/
+1 SEX M
+1 FAMS @F14@
+1 FAMC @F2@
+0 @I30@ INDI
+1 NAME Sally /Struthers/
+1 SEX F
+1 FAMS @F6@
+1 FAMC @F14@
+0 @I29@ INDI
+1 NAME Abigail /Wood/
+1 SEX F
+1 FAMS @F3@
+0 @I28@ INDI
+1 NAME James /Andrews/
+1 SEX M
+1 FAMS @F6@
+0 @I27@ INDI
+1 NAME Edward /Knight/
+1 SEX M
+1 FAMS @F18@
+1 FAMC @F11@
+0 @I26@ INDI
+1 NAME Ulysses /Jackson/
+1 SEX M
+1 FAMS @F3@
+0 @I25@ INDI
+1 NAME Linda /Knight/
+1 SEX F
+1 FAMC @F11@
+0 @I24@ INDI
+1 NAME William /Knight/
+1 SEX U
+1 FAMC @F11@
+0 @I23@ INDI
+1 NAME Charlie /Zucco/
+1 SEX M
+1 FAMS @F21@
+1 FAMC @F9@
+0 @I22@ INDI
+1 NAME Betsy /Zucco/
+1 SEX F
+1 FAMS @F20@
+1 FAMC @F9@
+0 @I21@ INDI
+1 NAME Theresa /Andrews/
+1 SEX F
+1 ALIA Sonia's natural daughter but Sylvia's Stepdaughter
+1 FAMS @F23@
+1 FAMC @F7@
+1 FAMC @F17@
+0 @I20@ INDI
+1 NAME Nancy /Andrews/
+1 SEX F
+1 FAMS @F9@
+1 FAMC @F17@
+0 @I19@ INDI
+1 NAME Terrence /Jackson/
+1 SEX M
+1 FAMS @F4@
+1 FAMC @F3@
+0 @I18@ INDI
+1 NAME Sonia /Smothers/
+1 SEX F
+1 ALIA Bob Andrews' Second Wife
+1 FAMS @F7@
+0 @I17@ INDI
+1 NAME Richard /Zucco/
+1 SEX M
+1 FAMC @F12@
+0 @I16@ INDI
+1 NAME Roberta /King/
+1 SEX F
+1 FAMS @F11@
+0 @I15@ INDI
+1 NAME Olivia /Zucco/
+1 SEX F
+1 FAMS @F12@
+1 FAMC @F13@
+0 @I14@ INDI
+1 NAME Ulysses /Knight/
+1 SEX U
+1 FAMC @F10@
+0 @I13@ INDI
+1 NAME Michael /Zucco/
+1 SEX M
+1 FAMS @F9@
+1 FAMC @F8@
+0 @I12@ INDI
+1 NAME Quincy /Queen/
+1 SEX M
+1 FAMS @F5@
+0 @I11@ INDI
+1 NAME Patty /Klinghoffer/
+1 SEX F
+1 ALIA NoHusband
+1 ALIA NoHusband
+1 FAMS @F15@
+0 @I10@ INDI
+1 NAME Fred /Zucco/
+1 SEX M
+1 ALIA NoWife
+1 FAMS @F16@
+0 @I9@ INDI
+1 NAME Peter /Zucco/
+1 SEX M
+1 FAMC @F13@
+0 @I8@ INDI
+1 NAME Sylvia /Jackson/
+1 SEX F
+1 FAMS @F17@
+1 FAMC @F4@
+0 @I7@ INDI
+1 NAME Robert /Knight/
+1 SEX M
+1 FAMS @F11@
+1 FAMC @F10@
+0 @I70@ INDI
+1 NAME Winnifred /Bex/
+1 SEX F
+1 FAMS @F31@
+0 @I6@ INDI
+1 NAME Henrietta /Holcomb/
+1 SEX F
+1 FAMS @F13@
+0 @I69@ INDI
+1 NAME Oscar /Olds/
+1 SEX M
+1 FAMS @F31@
+0 @I5@ INDI
+1 NAME Yvonne /Johnson/
+1 SEX F
+1 FAMS @F10@
+0 @I68@ INDI
+1 NAME Indira /Burns/
+1 SEX F
+1 FAMS @F30@
+0 @I4@ INDI
+1 NAME Julie /Zucco/
+1 SEX F
+1 FAMS @F22@
+1 FAMC @F8@
+0 @I67@ INDI
+1 NAME Todd /Polanski/
+1 SEX M
+1 FAMS @F30@
+0 @I3@ INDI
+1 NAME Pat /Knight/
+1 SEX U
+1 FAMC @F1@
+0 @I66@ INDI
+1 NAME Zoe /Olds/
+1 SEX F
+1 FAMS @F29@
+1 FAMC @F31@
+0 @I2@ INDI
+1 NAME Lawrence /Knight/
+1 SEX M
+1 FAMS @F10@
+0 @I65@ INDI
+1 NAME Peter /Polanski/
+1 SEX M
+1 FAMS @F29@
+1 FAMC @F30@
+0 @I64@ INDI
+1 NAME Abraham /Sullivan/
+1 SEX M
+1 FAMC @F28@
+0 @F30@ FAM
+1 HUSB @I67@
+1 WIFE @I68@
+1 CHIL @I65@
+2 _FREL Natural
+2 _MREL Natural
+0 @F19@ FAM
+1 HUSB @I1@
+1 WIFE @I44@
+0 @F8@ FAM
+1 HUSB @I38@
+1 WIFE @I40@
+1 CHIL @I13@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I4@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I39@
+2 _FREL Natural
+2 _MREL Natural
+0 @F27@ FAM
+1 HUSB @I60@
+1 WIFE @I61@
+1 CHIL @I62@
+2 _FREL Natural
+2 _MREL Natural
+0 @F16@ FAM
+1 HUSB @I10@
+1 CHIL @I38@
+2 _FREL Natural
+0 @F5@ FAM
+1 HUSB @I12@
+1 WIFE @I42@
+0 @F24@ FAM
+1 HUSB @I52@
+1 WIFE @I53@
+0 @F13@ FAM
+1 HUSB @I39@
+1 WIFE @I6@
+1 CHIL @I9@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I15@
+2 _FREL Natural
+2 _MREL Natural
+0 @F2@ FAM
+1 HUSB @I35@
+1 WIFE @I37@
+1 CHIL @I31@
+2 _FREL Natural
+2 _MREL Natural
+0 @F21@ FAM
+1 HUSB @I23@
+1 WIFE @I46@
+0 @F10@ FAM
+1 HUSB @I2@
+1 WIFE @I5@
+1 CHIL @I14@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I7@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I36@
+2 _FREL Natural
+2 _MREL Natural
+0 @F29@ FAM
+1 HUSB @I65@
+1 WIFE @I66@
+1 CHIL @I44@
+2 _FREL Natural
+2 _MREL Natural
+0 @F18@ FAM
+1 HUSB @I27@
+1 WIFE @I32@
+1 CHIL @I34@
+2 _FREL Natural
+2 _MREL Natural
+0 @F7@ FAM
+1 HUSB @I41@
+1 WIFE @I18@
+1 CHIL @I21@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I52@
+2 _FREL Natural
+2 _MREL Natural
+0 @F26@ FAM
+1 HUSB @I56@
+1 WIFE @I59@
+1 CHIL @I60@
+2 _FREL Natural
+2 _MREL Natural
+0 @F15@ FAM
+1 WIFE @I11@
+1 CHIL @I40@
+2 _MREL Natural
+0 @F4@ FAM
+1 HUSB @I19@
+1 CHIL @I8@
+2 _FREL Natural
+0 @F23@ FAM
+1 HUSB @I51@
+1 WIFE @I21@
+0 @F12@ FAM
+1 WIFE @I15@
+1 CHIL @I17@
+2 _MREL Natural
+0 @F1@ FAM
+1 HUSB @I34@
+1 CHIL @I3@
+2 _FREL Natural
+1 CHIL @I43@
+2 _FREL Natural
+1 CHIL @I42@
+2 _FREL Natural
+0 @F31@ FAM
+1 HUSB @I69@
+1 WIFE @I70@
+1 CHIL @I66@
+2 _FREL Natural
+2 _MREL Natural
+0 @F20@ FAM
+1 HUSB @I45@
+1 WIFE @I22@
+0 @F9@ FAM
+1 HUSB @I13@
+1 WIFE @I20@
+1 CHIL @I23@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I22@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I1@
+2 _FREL Natural
+2 _MREL Natural
+0 @F28@ FAM
+1 HUSB @I63@
+1 WIFE @I62@
+1 CHIL @I64@
+2 _FREL Natural
+2 _MREL Natural
+0 @F17@ FAM
+1 HUSB @I41@
+1 WIFE @I8@
+1 CHIL @I21@
+2 _FREL Natural
+2 _MREL Step
+1 CHIL @I20@
+2 _FREL Natural
+2 _MREL Natural
+0 @F6@ FAM
+1 HUSB @I28@
+1 WIFE @I30@
+1 CHIL @I41@
+2 _FREL Natural
+2 _MREL Natural
+0 @F25@ FAM
+1 HUSB @I54@
+1 WIFE @I55@
+1 CHIL @I56@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I57@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I58@
+2 _FREL Natural
+2 _MREL Natural
+0 @F14@ FAM
+1 HUSB @I31@
+1 WIFE @I36@
+1 CHIL @I30@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I33@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I54@
+2 _FREL Natural
+2 _MREL Natural
+0 @F3@ FAM
+1 HUSB @I26@
+1 WIFE @I29@
+1 CHIL @I19@
+2 _FREL Natural
+2 _MREL Natural
+0 @F22@ FAM
+1 HUSB @I47@
+1 WIFE @I4@
+1 CHIL @I48@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I49@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I50@
+2 _FREL Natural
+2 _MREL Natural
+0 @F11@ FAM
+1 HUSB @I7@
+1 WIFE @I16@
+1 CHIL @I24@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I27@
+2 _FREL Natural
+2 _MREL Natural
+1 CHIL @I25@
+2 _FREL Natural
+2 _MREL Natural
+0 TRLR

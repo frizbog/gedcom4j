@@ -25,10 +25,8 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 /**
- * Classes related to calculating and representing the relationships between individuals. Not entirely complete, but basic support
- * is here.
+ * Classes related to calculating and representing the relationships between individuals.
  * 
  * @author frizbog
- * @deprecated the org.gedcom4j.validator package is the new hotness
  */
 package org.gedcom4j.relationship;

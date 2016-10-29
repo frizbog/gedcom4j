@@ -315,6 +315,16 @@ public class AncestryCalculatorTest {
     }
 
     /**
+     * Test when people are the same person.
+     */
+    @Test
+    public void testSamePerson() {
+        Individual sally = getPerson("Struthers", "Sally");
+        assertNotNull(sally);
+        assertEquals(0, anc.getGenerationCount(sally, sally));
+    }
+
+    /**
      * Helper method that dumps out a set of individuals
      * 
      * @param people

@@ -98,10 +98,14 @@ public class AncestryCalculator {
     public int getGenerationCount(Individual descendant, Individual ancestor) {
         genCount = 0;
 
-        if (lookForAncestor(descendant, ancestor) && genCount > 0) {
+        if (descendant.equals(ancestor)) {
+            return 0;
+        }
+
+        if (lookForAncestor(descendant, ancestor)) {
             return genCount;
         }
-        throw new IllegalArgumentException("Ancestor/descendant relationship not found for " + ancestor + " and  " + descendant);
+        throw new IllegalArgumentException("Ancestor/descendant relationship not found for " + ancestor + " and " + descendant);
     }
 
     /**
