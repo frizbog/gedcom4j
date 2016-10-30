@@ -2,6 +2,16 @@
 GEDCOM4J RELEASE NOTES
 ==============================
 
+
+?? ??? 2016 - v4.0.1
+====================
+v4.0.0 is a minor release. It includes a new class, KinshipNameCalculator, that determines a name for the relationship between two individuals, and largely makes the RelationshipCalculator class obsolete (but that class still remains).
+
+Issues from Github (https://github.com/frizbog/gedcom4j/issues):
+- Issue #44 - RelationshipCalculator has nothing yet about cousins
+- Issue #45 - RelationshipCalculator needs to go to 4th-great-grandparent and beyond
+
+
 10 OCT 2016 - v4.0.0
 ====================
 v4.0.0 is a major release. Most users, particularly those who used the validation framework or used custom tags, will need to make changes to accommodate API changes.
