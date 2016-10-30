@@ -105,6 +105,7 @@ public class AncestryCalculator {
         if (lookForAncestor(descendant, ancestor)) {
             return genCount;
         }
+
         throw new IllegalArgumentException("Ancestor/descendant relationship not found for " + ancestor + " and " + descendant);
     }
 
@@ -372,14 +373,12 @@ public class AncestryCalculator {
                 if (ancestor.equals(h) || ancestor.equals(w)) {
                     genCount = 1;
                     return true;
-                } else if (lookForAncestor(h, ancestor)) {
+                } else if (h != null && lookForAncestor(h, ancestor)) {
                     genCount++;
                     return true;
-                } else if (lookForAncestor(w, ancestor)) {
+                } else if (w != null && lookForAncestor(w, ancestor)) {
                     genCount++;
                     return true;
-                } else {
-                    return false;
                 }
             }
         }

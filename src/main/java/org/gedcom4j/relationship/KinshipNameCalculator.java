@@ -204,8 +204,6 @@ public class KinshipNameCalculator {
         Individual nca;
         Set<Individual> spousesOfIndividual2 = getSpousesOf(individual2);
 
-        AncestryCalculator ac = new AncestryCalculator();
-
         // See if either individual is an ancestor or spouse of each other before looking for a third person
         if (individual1.getAncestors().contains(individual2)) {
             nca = individual2;
@@ -215,7 +213,7 @@ public class KinshipNameCalculator {
             return bundle.getString("relationship.0.0." + getSexCode(individual2) + ".spouse");
         } else {
             // Find a nearest common ancestor.
-            Set<Individual> lcas = ac.getLowestCommonAncestors(individual1, individual2);
+            Set<Individual> lcas = new AncestryCalculator().getLowestCommonAncestors(individual1, individual2);
             if (lcas.isEmpty()) {
                 // If we could not find a common ancestor between ind1 and ind2 and ind2's spouses, there's nothing more we can do.
                 return null;
@@ -230,8 +228,8 @@ public class KinshipNameCalculator {
         }
 
         // Build up the property key
-        int gensFrom1toNca = ac.getGenerationCount(individual1, nca);
-        int gensFrom2toNca = ac.getGenerationCount(individual2, nca);
+        int gensFrom1toNca = new AncestryCalculator().getGenerationCount(individual1, nca);
+        int gensFrom2toNca = new AncestryCalculator().getGenerationCount(individual2, nca);
         StringBuilder propertyName = new StringBuilder("relationship.");
         propertyName.append(gensFrom1toNca);
         propertyName.append(".");
