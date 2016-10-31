@@ -200,47 +200,58 @@ public class KinshipNameCalculator {
             return bundle.getString("relationship.0.0." + getSexCode(individual2));
         }
 
-        // Need to find the nearest common ancestor of the two people.
-        Individual nca;
+        // Need to find the nearest common ancestor(s) of the two people.
+        Set<Individual> nca = new HashSet<>();
         Set<Individual> spousesOfIndividual2 = getSpousesOf(individual2);
 
         // See if either individual is an ancestor or spouse of each other before looking for a third person
         if (individual1.getAncestors().contains(individual2)) {
-            nca = individual2;
+            nca.add(individual2);
         } else if (individual2.getAncestors().contains(individual1)) {
-            nca = individual1;
+            nca.add(individual1);
         } else if (spousesOfIndividual2.contains(individual1)) {
             return bundle.getString("relationship.0.0." + getSexCode(individual2) + ".spouse");
         } else {
             // Find a nearest common ancestor.
-            Set<Individual> lcas = new AncestryCalculator().getLowestCommonAncestors(individual1, individual2);
-            if (lcas.isEmpty()) {
-                // If we could not find a common ancestor between ind1 and ind2 and ind2's spouses, there's nothing more we can do.
-                return null;
-            }
-            // Get a nearest common ancestor from the set. The first one will do as well as any other in the set.
-            nca = lcas.iterator().next();
+            nca.addAll(new AncestryCalculator().getLowestCommonAncestors(individual1, individual2));
         }
 
         // Last check - if no nearest common ancestor, can't do anything
-        if (nca == null) {
+        if (nca.isEmpty()) {
             return null;
         }
 
-        // Build up the property key
-        int gensFrom1toNca = new AncestryCalculator().getGenerationCount(individual1, nca);
-        int gensFrom2toNca = new AncestryCalculator().getGenerationCount(individual2, nca);
-        StringBuilder propertyName = new StringBuilder("relationship.");
-        propertyName.append(gensFrom1toNca);
-        propertyName.append(".");
-        propertyName.append(gensFrom2toNca);
-        propertyName.append(".");
-        propertyName.append(getSexCode(individual2));
-        if (individual2IsSpouse) {
-            // individual 2 is a spouse of a blood relative, not a blood relative themselves
-            propertyName.append(".spouse");
+        for (Individual commonAncestor : nca) {
+            // Build up the property key
+            int gensFrom1toNca;
+            try {
+                gensFrom1toNca = new GenerationCounter().getGenerationCount(individual1, commonAncestor);
+            } catch (@SuppressWarnings("unused") IllegalArgumentException e) {
+                continue;
+            }
+            int gensFrom2toNca;
+            try {
+                gensFrom2toNca = new GenerationCounter().getGenerationCount(individual2, commonAncestor);
+            } catch (@SuppressWarnings("unused") IllegalArgumentException e) {
+                continue;
+            }
+
+            StringBuilder propertyName = new StringBuilder("relationship.");
+            propertyName.append(gensFrom1toNca);
+            propertyName.append(".");
+            propertyName.append(gensFrom2toNca);
+            propertyName.append(".");
+            propertyName.append(getSexCode(individual2));
+            if (individual2IsSpouse) {
+                // individual 2 is a spouse of a blood relative, not a blood relative themselves
+                propertyName.append(".spouse");
+            }
+            String result = bundle.getString(propertyName.toString());
+            if (result != null) {
+                return result;
+            }
         }
-        return bundle.getString(propertyName.toString());
+        return null;
     }
 
     /**

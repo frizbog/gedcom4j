@@ -40,7 +40,7 @@ import org.gedcom4j.model.Individual;
  * @author frizbog1
  * 
  */
-@SuppressWarnings("PMD.GodClass")
+@SuppressWarnings({ "PMD.GodClass", "PMD.TooManyMethods" })
 public class AncestryCalculator {
 
     /**
@@ -63,13 +63,8 @@ public class AncestryCalculator {
     private Set<Individual> targetList;
 
     /**
-     * A count of generations
-     */
-    private int genCount;
-
-    /**
      * Get the "extended ancestry" of an individual. This is defined (for this method's purposes) as the individual's parents (and
-     * step-parents), recursively. Should not include the individual themselves.
+     * step-parents), recursively. Will not include the individual themselves.
      * 
      * @param individual
      *            the individual whose extended ancestry is desired
@@ -85,28 +80,20 @@ public class AncestryCalculator {
     }
 
     /**
-     * Counts the number of generations between the ancestor and descendant.
+     * See {@link GenerationCounter#getGenerationCount(Individual, Individual)}. This method delegates to its replacement, and will
+     * eventually be removed.
      * 
      * @param descendant
-     *            the descendant individual
-     * @param ancestor
-     *            the ancestor of the descendant
-     * @return the number of generations separating descendant from ancestor. A parent-child relationship would be 1; a
-     *         grandparent-child relationship would be 2. This method should always return a positive integer, or throw an
-     *         exception.
+     *            the individual whose extended ancestry is desired
+     * @param lookingFor
+     *            the ancestor we are looking for
+     * @return the number of generations separating the individual from the person we are looking for. Returns -1 if the person we
+     *         are looking for is not an ancestor (or spouse of an ancestor) of the individual.
+     * @deprecated Use {@link GenerationCounter} instead.
      */
-    public int getGenerationCount(Individual descendant, Individual ancestor) {
-        genCount = 0;
-
-        if (descendant.equals(ancestor)) {
-            return 0;
-        }
-
-        if (lookForAncestor(descendant, ancestor)) {
-            return genCount;
-        }
-
-        throw new IllegalArgumentException("Ancestor/descendant relationship not found for " + ancestor + " and " + descendant);
+    @Deprecated
+    public int getGenerationCount(Individual descendant, Individual lookingFor) {
+        return new GenerationCounter().getGenerationCount(descendant, lookingFor);
     }
 
     /**
@@ -121,11 +108,11 @@ public class AncestryCalculator {
     public Set<Individual> getLowestCommonAncestors(Individual individual1, Individual individual2) {
         Set<Individual> result = new HashSet<>();
 
-        // Initialize the first iteration of using the lowest-common-ancestor
-        // process
+        // Initialize the first iteration of using the lowest-common-ancestor process
         initializeLcaSearch(individual1);
-        // All set up, get the lowest common ancestors
-        addLowestCommonAncestorsToSet(individual2, result, 0);
+
+        // All set up, get the nearest common ancestors
+        addNearestCommonAncestorsToSet(individual2, result, 0);
 
         return result;
     }
@@ -173,6 +160,28 @@ public class AncestryCalculator {
     }
 
     /**
+     * Add mother and all her husbands
+     * 
+     * @param result
+     *            the result we are adding to
+     * @param fc
+     *            the family/child object we're working from
+     */
+    private void addMotherAndAllHerHusbands(Set<Individual> result, FamilyChild fc) {
+        Individual mom = (fc.getFamily().getWife() == null ? null : fc.getFamily().getWife().getIndividual());
+        if (mom != null && mom.getFamiliesWhereSpouse() != null) {
+            for (FamilySpouse fs : mom.getFamiliesWhereSpouse()) {
+                Individual momsHusband = (fs.getFamily().getHusband() == null ? null : fs.getFamily().getHusband().getIndividual());
+                if (momsHusband != null) {
+                    addIndividualAndFamilies(result, momsHusband);
+                }
+            }
+        }
+        // And include her extended ancestry as well (recursively)
+        addIndividualAndFamilies(result, mom);
+    }
+
+    /**
      * <p>
      * Get a set of common ancestors between a specific individual and a person who we checked earlier.
      * </p>
@@ -193,7 +202,7 @@ public class AncestryCalculator {
      * @param level
      *            the level of recursion we're at
      */
-    private void addLowestCommonAncestorsToSet(Individual individual, Set<Individual> set, int level) {
+    private void addNearestCommonAncestorsToSet(Individual individual, Set<Individual> set, int level) {
 
         if (individual == null) {
             return;
@@ -227,36 +236,14 @@ public class AncestryCalculator {
             for (FamilyChild fc : individual.getFamiliesWhereChild()) {
                 Individual dad = (fc.getFamily().getHusband() == null ? null : fc.getFamily().getHusband().getIndividual());
                 if (dad != null && !checkedAlready.contains(dad)) {
-                    addLowestCommonAncestorsToSet(dad, set, level + 1);
+                    addNearestCommonAncestorsToSet(dad, set, level + 1);
                 }
                 Individual mom = (fc.getFamily().getWife() == null ? null : fc.getFamily().getWife().getIndividual());
                 if (mom != null && !checkedAlready.contains(mom)) {
-                    addLowestCommonAncestorsToSet(mom, set, level + 1);
+                    addNearestCommonAncestorsToSet(mom, set, level + 1);
                 }
             }
         }
-    }
-
-    /**
-     * Add mother and all her husbands
-     * 
-     * @param result
-     *            the result we are adding to
-     * @param fc
-     *            the family/child object we're working from
-     */
-    private void addMotherAndAllHerHusbands(Set<Individual> result, FamilyChild fc) {
-        Individual mom = (fc.getFamily().getWife() == null ? null : fc.getFamily().getWife().getIndividual());
-        if (mom != null && mom.getFamiliesWhereSpouse() != null) {
-            for (FamilySpouse fs : mom.getFamiliesWhereSpouse()) {
-                Individual momsHusband = (fs.getFamily().getHusband() == null ? null : fs.getFamily().getHusband().getIndividual());
-                if (momsHusband != null) {
-                    addIndividualAndFamilies(result, momsHusband);
-                }
-            }
-        }
-        // And include her extended ancestry as well (recursively)
-        addIndividualAndFamilies(result, mom);
     }
 
     /**
@@ -314,7 +301,7 @@ public class AncestryCalculator {
                 } else if (!checkedAlready.contains(spouse) && spouse.getFamiliesWhereChild() != null && !spouse
                         .getFamiliesWhereChild().isEmpty()) {
                     Set<Individual> s = new HashSet<>();
-                    addLowestCommonAncestorsToSet(spouse, s, level + 1);
+                    addNearestCommonAncestorsToSet(spouse, s, level + 1);
                     addToResultSet(set, s);
                 }
             }
@@ -351,38 +338,5 @@ public class AncestryCalculator {
         targetList = getExtendedAncestry(individual1);
         checkedAlready = new HashSet<>();
         addedAnyCommonAncestors = false;
-    }
-
-    /**
-     * A recursive method for counting generations between a specific person and an ancestor. Used as the workhorse for
-     * {@link #getGenerationCount(Individual, Individual)}. Upon return, {@link #genCount} will equal the number of generations
-     * between <code>person</code> and <code>ancestor</code>
-     * 
-     * @param person
-     *            the person currently being examined
-     * @param ancestor
-     *            the ancestor we are looking for and which stops the recursion
-     * @return true if and only if the ancestor has been found for person
-     */
-    private boolean lookForAncestor(Individual person, Individual ancestor) {
-        if (person != null && person.getFamiliesWhereChild() != null) {
-            for (FamilyChild fc : person.getFamiliesWhereChild()) {
-                Family f = fc.getFamily();
-                Individual w = f.getWife() == null ? null : f.getWife().getIndividual();
-                Individual h = f.getHusband() == null ? null : f.getHusband().getIndividual();
-                if (ancestor.equals(h) || ancestor.equals(w)) {
-                    genCount = 1;
-                    return true;
-                } else if (h != null && lookForAncestor(h, ancestor)) {
-                    genCount++;
-                    return true;
-                } else if (w != null && lookForAncestor(w, ancestor)) {
-                    genCount++;
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 }

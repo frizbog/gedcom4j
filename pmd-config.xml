@@ -49,7 +49,6 @@
 	<rule ref="rulesets/java/coupling.xml/CouplingBetweenObjects" />
 	<rule ref="rulesets/java/coupling.xml/ExcessiveImports" />
 	<rule ref="rulesets/java/coupling.xml/LooseCoupling" />
-	<!--<rule ref="rulesets/java/design.xml/UseSingleton" /> -->
 	<rule ref="rulesets/java/design.xml/SimplifyBooleanReturns" />
 	<rule ref="rulesets/java/design.xml/SimplifyBooleanExpressions" />
 	<rule ref="rulesets/java/design.xml/SwitchStmtsShouldHaveDefault" />
@@ -66,7 +65,6 @@
 	<rule ref="rulesets/java/design.xml/OptimizableToArrayCall" />
 	<rule ref="rulesets/java/design.xml/BadComparison" />
 	<rule ref="rulesets/java/design.xml/EqualsNull" />
-	<!-- <rule ref="rulesets/java/design.xml/ConfusingTernary" /> -->
 	<rule ref="rulesets/java/design.xml/InstantiationToGetClass" />
 	<rule ref="rulesets/java/design.xml/IdempotentOperations" />
 	<rule ref="rulesets/java/design.xml/SimpleDateFormatNeedsLocale" />
@@ -97,7 +95,6 @@
 	<rule ref="rulesets/java/design.xml/TooFewBranchesForASwitchStatement" />
 	<rule ref="rulesets/java/design.xml/LogicInversion" />
 	<rule ref="rulesets/java/design.xml/UseVarargs" />
-	<!-- <rule ref="rulesets/java/design.xml/FieldDeclarationsShouldBeAtStartOfClass" /> -->
 	<rule ref="rulesets/java/design.xml/GodClass" />
 	<rule ref="rulesets/java/empty.xml/EmptyCatchBlock" />
 	<rule ref="rulesets/java/empty.xml/EmptyIfStmt" />
@@ -195,7 +192,6 @@
 	<rule ref="rulesets/java/unnecessary.xml/UselessOverridingMethod" />
 	<rule ref="rulesets/java/unnecessary.xml/UselessOperationOnImmutable" />
 	<rule ref="rulesets/java/unnecessary.xml/UnusedNullCheckInEquals" />
-	<!-- <rule ref="rulesets/java/unnecessary.xml/UselessParentheses" /> -->
 	<rule ref="rulesets/java/unusedcode.xml/UnusedPrivateField" />
 	<rule ref="rulesets/java/unusedcode.xml/UnusedLocalVariable" />
 	<rule ref="rulesets/java/unusedcode.xml/UnusedPrivateMethod" />
