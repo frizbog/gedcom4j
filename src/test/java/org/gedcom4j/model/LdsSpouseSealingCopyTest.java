@@ -70,6 +70,9 @@ public class LdsSpouseSealingCopyTest extends AbstractCopyTest {
         orig.setPlace("B");
         orig.setStatus("C");
         orig.setStatus("D");
+        orig.setTemple("E");
+        orig.getCitations(true).add(new CitationWithoutSource());
+        orig.getCitations(true).add(new CitationWithSource());
         orig.getNoteStructures(true);
         orig.customFacts = null;
 

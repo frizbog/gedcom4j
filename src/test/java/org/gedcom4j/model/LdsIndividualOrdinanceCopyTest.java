@@ -67,6 +67,9 @@ public class LdsIndividualOrdinanceCopyTest extends AbstractCopyTest {
     public void testValues() {
         LdsIndividualOrdinance orig = new LdsIndividualOrdinance();
         orig.setDate("A");
+        orig.setTemple("T");
+        orig.getCitations(true).add(new CitationWithoutSource());
+        orig.getCitations(true).add(new CitationWithSource());
         FamilyChild fc = new FamilyChild();
         fc.setStatus("B");
         fc.setPedigree("C");
@@ -81,7 +84,7 @@ public class LdsIndividualOrdinanceCopyTest extends AbstractCopyTest {
         assertEquals(orig.toString(), copy.toString());
 
         orig.getFamilyWhereChild().setAdoptedBy((String) null);
-        assertFalse("Copy shoul not match if original is changed", orig.equals(copy));
+        assertFalse("Copy should not match if original is changed", orig.equals(copy));
     }
 
 }
