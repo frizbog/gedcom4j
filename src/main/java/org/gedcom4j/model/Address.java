@@ -103,6 +103,9 @@ public class Address extends AbstractElement {
         if (other.addr2 != null) {
             addr2 = new StringWithCustomFacts(other.addr2);
         }
+        if (other.addr3 != null) {
+            addr3 = new StringWithCustomFacts(other.addr3);
+        }
         if (other.city != null) {
             city = new StringWithCustomFacts(other.city);
         }

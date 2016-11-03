@@ -74,6 +74,8 @@ public class PersonalNameCopyTest extends AbstractCopyTest {
         orig.setSurnamePrefix("[]");
         orig.setType("immigrant");
         orig.getSurnamePrefix().getCustomFacts(true).add(getTestCustomFact());
+        orig.getPhonetic(true).add(new PersonalNameVariation());
+        orig.getRomanized(true).add(new PersonalNameVariation());
         orig.getCitations(true).add(getTestCitation());
 
         PersonalName copy = new PersonalName(orig);

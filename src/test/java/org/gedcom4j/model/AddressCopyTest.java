@@ -65,9 +65,12 @@ public class AddressCopyTest extends AbstractCopyTest {
     public void testWithValues() {
         Address orig = new Address();
         orig.setAddr1("123 Main St.");
+        orig.setAddr2("Apt. 456");
+        orig.setAddr3("Room A");
         orig.setCity("Anytown");
         orig.setStateProvince("ME");
         orig.setCountry("USA");
+        orig.setPostalCode("12345");
         orig.getLines(true).add("ABC");
         orig.getCustomFacts(true).add(getTestCustomFact());
 
