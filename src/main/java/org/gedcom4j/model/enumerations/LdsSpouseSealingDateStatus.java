@@ -35,21 +35,21 @@ import org.gedcom4j.model.LdsSpouseSealing;
  */
 public enum LdsSpouseSealingDateStatus {
     /** Cancelled */
-    CANCELED("CANCELED", "Canceled and considered invalid"),
+    CANCELED("CANCELED", "Canceled and considered invalid."),
     /** Completed */
-    COMPLETED("COMPLETED", "Completed but the date is not known"),
+    COMPLETED("COMPLETED", "Completed but the date is not known."),
     /** Excluded from submission */
-    EXCLUDED("EXCLUDED", "Patron excluded this ordinance from being cleared in this submission"),
+    EXCLUDED("EXCLUDED", "Patron excluded this ordinance from being cleared in this submission."),
     /** Do not submit - not authorized */
-    DNS("DNS", "This ordinance is not authorized"),
+    DNS("DNS", "This ordinance is not authorized."),
     /** Not authorized, previous sealing cancelled */
-    DNS_CAN("DNS/CAN", "This ordinance is not authorized, previous sealing cancelled"),
+    DNS_CAN("DNS/CAN", "This ordinance is not authorized, previous sealing cancelled."),
     /** Pre-1970 so assumed complete */
-    PRE_1970("PRE-1970", "From before 1970, assumed complete"),
+    PRE_1970("PRE-1970", "From before 1970, assumed complete."),
     /** Previously submitted */
-    SUBMITTED("SUBMITTED", "Ordinance was previously submitted"),
+    SUBMITTED("SUBMITTED", "Ordinance was previously submitted."),
     /** Not cleared (insufficient data) */
-    UNCLEARED("UNCLEARED", "Data for clearing ordinance request was insufficient");
+    UNCLEARED("UNCLEARED", "Data for clearing ordinance request was insufficient.");
 
     /**
      * Gets the value by its code
