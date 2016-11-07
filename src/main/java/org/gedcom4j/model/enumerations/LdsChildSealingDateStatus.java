@@ -34,7 +34,7 @@ package org.gedcom4j.model.enumerations;
 public enum LdsChildSealingDateStatus {
 
     /** Born in covenant */
-    BIC("BIC", "Born in the covenant receiving blessing of child to parent sealing"),
+    BIC("BIC", "Born in the covenant receiving blessing of child to parent sealing."),
 
     /** completed */
     COMPLETED("COMPLETED", "Completed but the date is not known."),
@@ -43,7 +43,7 @@ public enum LdsChildSealingDateStatus {
     EXCLUDED("EXCLUDED", "Patron excluded this ordinance from being cleared in this submission."),
 
     /** Do not submit */
-    DNS("DNS", "This ordinance is not authorized"),
+    DNS("DNS", "This ordinance is not authorized."),
 
     /** pre 1970 */
     PRE_1970("PRE-1970", "Ordinance from temple records of work completed before 1970, assumed complete."),
