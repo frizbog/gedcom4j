@@ -37,9 +37,9 @@ import org.junit.Test;
  * 
  * @author reckenrod
  */
-public class FamilyReferenceCopyTest extends AbstractCopyTest{
-	
-     /**
+public class FamilyReferenceCopyTest extends AbstractCopyTest {
+
+    /**
      * Test copying a {@link FamilyReference} with no Family, which should never work
      */
     @SuppressWarnings("unused")
@@ -64,7 +64,7 @@ public class FamilyReferenceCopyTest extends AbstractCopyTest{
         assertNotSame(orig, copy);
         assertEquals(orig.toString(), copy.toString());
         assertEquals(orig.hashCode(), copy.hashCode());
-        
+
         orig.getFamily().setNumChildren("2");
         assertFalse("Copy shouldn't match if original changes", orig.equals(copy));
     }
