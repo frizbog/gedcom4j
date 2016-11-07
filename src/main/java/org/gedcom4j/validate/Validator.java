@@ -60,8 +60,8 @@ import org.gedcom4j.model.enumerations.SupportedVersion;
  * </p>
  * <p>
  * Does a deep traversal over the items in the {@link Gedcom} structure and checks them for problems, errors, etc, which are
- * represented as {@link Finding} objects. These objects contain problem codes, descriptions, severity ratings, and references to
- * the objects that have problems.
+ * represented as {@link Validator.Finding} objects. These objects contain problem codes, descriptions, severity ratings, and
+ * references to the objects that have problems.
  * </p>
  * <p>
  * Typical usage is to instantiate a Validator with the Gedcom being validated, call the {@link #validate()} method, then examine
@@ -134,10 +134,9 @@ public class Validator implements Serializable {
         private final String stackTrace;
 
         /**
-         * Default constructor
+         * Default constructor. Deliberately package-private.
          */
         Finding() {
-            // Default constructor does nothing
             Writer result = new StringWriter();
             PrintWriter printWriter = new PrintWriter(result);
             new ValidationException().printStackTrace(printWriter);
