@@ -27,6 +27,7 @@
 package org.gedcom4j.io.encoding;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -41,6 +42,21 @@ public class AnselHandlerTest {
      * The class being tested
      */
     AnselHandler classUnderTest = new AnselHandler();
+
+    /**
+     * Test broken down glyph and combined glyph -the combined glyph should be reconstructable from any given broken down glyph
+     */
+    @Test
+    public void testGetBrokenDownGlyphAndCombinedGlyph() {
+        for (char c = 'z'; c < '\u1F00'; c++) {
+            char[] brokenDownGlyph = classUnderTest.getBrokenDownGlyph(c);
+            if (brokenDownGlyph != null) {
+                assertTrue(brokenDownGlyph.length > 0);
+                assertTrue(brokenDownGlyph.length < 4);
+                assertEquals(c, classUnderTest.getCombinedGlyph(brokenDownGlyph[0], brokenDownGlyph[1], brokenDownGlyph[2]));
+            }
+        }
+    }
 
     /**
      * This is a longer read test with diacriticals

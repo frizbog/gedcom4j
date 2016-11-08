@@ -239,7 +239,7 @@ public class AnselHandler {
      *         that character is not part of the mapping.
      */
     @SuppressWarnings({ "PMD.ExcessiveMethodLength", "PMD.NcssMethodCount", "checkstyle:methodlength" })
-    private char[] getBrokenDownGlyph(Character c) {
+    char[] getBrokenDownGlyph(Character c) {
         switch (c) {
             case '\u1EA2': {
                 /* LATIN CAPITAL LETTER A WITH HOOK ABOVE */
@@ -1880,7 +1880,7 @@ public class AnselHandler {
      * @return a single character that combines the base and the diacritic(s), or a zero if no such character exists
      */
     @SuppressWarnings({ "PMD.ExcessiveMethodLength", "PMD.NcssMethodCount", "checkstyle:methodlength" })
-    private char getCombinedGlyph(char baseChar, char modifier1, char modifier2) {
+    char getCombinedGlyph(char baseChar, char modifier1, char modifier2) {
 
         if (baseChar == 'A') {
             if (modifier1 == '\u00E0' /* HOOK ABOVE */) {

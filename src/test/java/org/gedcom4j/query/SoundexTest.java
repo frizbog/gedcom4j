@@ -28,6 +28,13 @@ package org.gedcom4j.query;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 import org.junit.Test;
 
@@ -37,6 +44,38 @@ import org.junit.Test;
  * @author frizbog
  */
 public class SoundexTest {
+
+    /**
+     * Test that the constructor is private
+     * 
+     * @throws NoSuchMethodException
+     *             if the method can't be found
+     * @throws IllegalAccessException
+     *             if the method cannot be accessed
+     * @throws InvocationTargetException
+     *             the reflected target throws an exception
+     * @throws InstantiationException
+     *             if the class can't be instantiated
+     */
+    @Test
+    public void testConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException,
+            InstantiationException {
+        Class<Soundex> clazz = Soundex.class;
+        assertTrue("class must be final", Modifier.isFinal(clazz.getModifiers()));
+        assertEquals("There must be only one constructor", 1, clazz.getDeclaredConstructors().length);
+        final Constructor<Soundex> constructor = clazz.getDeclaredConstructor();
+        if (constructor.isAccessible() || !Modifier.isPrivate(constructor.getModifiers())) {
+            fail("constructor is not private");
+        }
+        constructor.setAccessible(true);
+        constructor.newInstance();
+        constructor.setAccessible(false);
+        for (final Method method : clazz.getMethods()) {
+            if (!Modifier.isStatic(method.getModifiers()) && method.getDeclaringClass().equals(clazz)) {
+                fail("there exists a non-static method:" + method);
+            }
+        }
+    }
 
     /**
      * Negative test case for {@link Soundex#soundex(String)}
@@ -54,6 +93,9 @@ public class SoundexTest {
      */
     @Test
     public void testPositiveExtraNonAlphacharacters() {
+        assertEquals("B000", Soundex.soundex("!bbbb!"));
+        assertEquals("B000", Soundex.soundex("{bbbb}"));
+        assertEquals("B000", Soundex.soundex(" { bbbb } "));
         assertEquals("A161", Soundex.soundex("Ab er fo rth"));
         assertEquals("A100", Soundex.soundex("A b e"));
         assertEquals("B100", Soundex.soundex("Bu bba"));

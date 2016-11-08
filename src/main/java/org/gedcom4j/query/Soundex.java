@@ -103,7 +103,7 @@ public final class Soundex {
 
             prevChar = thisChar;
             // First char isn't mapped to a digit
-            if (i == 0) {
+            if (result.length() == 0) {
                 result.append(Character.toUpperCase(thisChar));
             } else {
                 char mappedValue = CHARACTER_MAP[thisChar - 'a'];

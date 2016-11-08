@@ -35,6 +35,7 @@ import java.util.List;
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.parser.GedcomParser;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,12 +45,18 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public class FinderSoundsLikeTest {
 
     /**
      * Class under test
      */
     private Finder classUnderTest;
+
+    /**
+     * The GEDCOM we're loading
+     */
+    private Gedcom gedcom;
 
     /**
      * Set up test fixtures
@@ -63,8 +70,39 @@ public class FinderSoundsLikeTest {
     public void setUp() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/5.5.1 sample 1.ged");
-        Gedcom gedcom = gp.getGedcom();
+        gedcom = gp.getGedcom();
         classUnderTest = new Finder(gedcom);
+    }
+
+    /**
+     * Test for {@link Finder#findByNameSoundsLike(String, String)} with some prefix stuff to ignore using name portion fields
+     */
+    @Test
+    public void testFindByNameStringStringComplex() {
+        gedcom.getIndividuals().clear();
+        Individual newGuy = new Individual();
+        PersonalName pn = new PersonalName();
+        pn.setPrefix("Dr.");
+        pn.setGivenName("Peter");
+        pn.setSurname("Peterson");
+        pn.setSuffix("III");
+        newGuy.getNames(true).add(pn);
+        newGuy.setXref("@I0000999@");
+        gedcom.getIndividuals().put(newGuy.getXref(), newGuy);
+        List<Individual> matches = classUnderTest.findByNameSoundsLike("Peterson", "Peter");
+        assertNotNull(matches);
+        assertEquals(1, matches.size());
+        assertEquals(newGuy, matches.get(0));
+    }
+
+    /**
+     * Test for {@link Finder#findByNameSoundsLike(String, String)}
+     */
+    @Test
+    public void testFindByNameStringStringEmptyStrings() {
+        List<Individual> matches = classUnderTest.findByNameSoundsLike("", "");
+        assertNotNull(matches);
+        assertEquals(0, matches.size());
     }
 
     /**
@@ -73,6 +111,26 @@ public class FinderSoundsLikeTest {
     @Test
     public void testFindByNameStringStringNegative() {
         List<Individual> matches = classUnderTest.findByNameSoundsLike("Willis", "Edmund Henry");
+        assertNotNull(matches);
+        assertEquals(0, matches.size());
+    }
+
+    /**
+     * Test for {@link Finder#findByNameSoundsLike(String, String)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testFindByNameStringStringNullGivenName() {
+        List<Individual> matches = classUnderTest.findByNameSoundsLike("", null);
+        assertNotNull(matches);
+        assertEquals(0, matches.size());
+    }
+
+    /**
+     * Test for {@link Finder#findByNameSoundsLike(String, String)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testFindByNameStringStringNullSurname() {
+        List<Individual> matches = classUnderTest.findByNameSoundsLike(null, "");
         assertNotNull(matches);
         assertEquals(0, matches.size());
     }
@@ -122,6 +180,42 @@ public class FinderSoundsLikeTest {
         if ("@I48@".equals(m2.getXref())) {
             assertEquals("Richard Pedley /Walley/, Jp", m2.getNames().get(0).getBasic());
         }
+    }
+
+    /**
+     * Test for {@link Finder#findByNameSoundsLike(String, String)} with some prefix stuff to ignore using basic name
+     */
+    @Test
+    public void testFindByNameStringStringPrefixBasic1() {
+        gedcom.getIndividuals().clear();
+        Individual newGuy = new Individual();
+        PersonalName pn = new PersonalName();
+        pn.setBasic("Dr. Peter /Peterson/ III");
+        newGuy.getNames(true).add(pn);
+        newGuy.setXref("@I0000999@");
+        gedcom.getIndividuals().put(newGuy.getXref(), newGuy);
+        List<Individual> matches = classUnderTest.findByNameSoundsLike("Peterson", "Peter");
+        assertNotNull(matches);
+        assertEquals(1, matches.size());
+        assertEquals(newGuy, matches.get(0));
+    }
+
+    /**
+     * Test for {@link Finder#findByNameSoundsLike(String, String)} with some prefix stuff to ignore using basic name
+     */
+    @Test
+    public void testFindByNameStringStringPrefixBasic2() {
+        gedcom.getIndividuals().clear();
+        Individual newGuy = new Individual();
+        PersonalName pn = new PersonalName();
+        pn.setBasic("Mrs. Paula /Peterson/ LCSW");
+        newGuy.getNames(true).add(pn);
+        newGuy.setXref("@I0000999@");
+        gedcom.getIndividuals().put(newGuy.getXref(), newGuy);
+        List<Individual> matches = classUnderTest.findByNameSoundsLike("Peterson", "Paula");
+        assertNotNull(matches);
+        assertEquals(1, matches.size());
+        assertEquals(newGuy, matches.get(0));
     }
 
     /**

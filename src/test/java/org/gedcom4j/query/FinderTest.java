@@ -48,6 +48,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public class FinderTest {
 
     /**
@@ -88,6 +89,41 @@ public class FinderTest {
     }
 
     /**
+     * Test for {@link Finder#findByEvent(org.gedcom4j.model.enumerations.IndividualEventType, java.util.Date, java.util.Date)}
+     */
+    @Test
+    public void testFindByEventIndividualEventTypeDateDateCrazyDates() {
+        @SuppressWarnings("deprecation")
+        Date d1 = new Date(1525 - 1900, Calendar.MARCH, 28);
+        @SuppressWarnings("deprecation")
+        Date d2 = new Date(1525 - 1900, Calendar.MARCH, 30);
+        Set<Individual> matches = classUnderTest.findByEvent(IndividualEventType.BIRTH, d1, d2);
+        assertNotNull(matches);
+        assertEquals(0, matches.size());
+    }
+
+    /**
+     * Test for {@link Finder#findByEvent(org.gedcom4j.model.enumerations.IndividualEventType, java.util.Date, java.util.Date)}
+     */
+    @Test
+    public void testFindByEventIndividualEventTypeDateDateNullDates() {
+        Set<Individual> matches = classUnderTest.findByEvent(IndividualEventType.BIRTH, (Date) null, (Date) null);
+        assertNotNull(matches);
+        assertEquals(340, matches.size());
+
+        @SuppressWarnings("deprecation")
+        Date d1 = new Date(1825 - 1900, Calendar.MARCH, 28);
+
+        matches = classUnderTest.findByEvent(IndividualEventType.BIRTH, d1, (Date) null);
+        assertNotNull(matches);
+        assertEquals(296, matches.size());
+
+        matches = classUnderTest.findByEvent(IndividualEventType.BIRTH, (Date) null, d1);
+        assertNotNull(matches);
+        assertEquals(26, matches.size());
+    }
+
+    /**
      * Test for {@link Finder#findByEvent(org.gedcom4j.model.enumerations.IndividualEventType, String, String)}
      */
     @Test
@@ -97,6 +133,22 @@ public class FinderTest {
         assertEquals(1, matches.size());
         Individual i = matches.iterator().next();
         assertEquals("Stephen /Walley/", i.getNames().get(0).getBasic());
+    }
+
+    /**
+     * Test for {@link Finder#findByEvent(org.gedcom4j.model.enumerations.IndividualEventType, String, String)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testFindByEventIndividualEventTypeStringStringBadEndDate() {
+        classUnderTest.findByEvent(IndividualEventType.BIRTH, "01 OCT 1900", "Bad Date");
+    }
+
+    /**
+     * Test for {@link Finder#findByEvent(org.gedcom4j.model.enumerations.IndividualEventType, String, String)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testFindByEventIndividualEventTypeStringStringBadStartDate() {
+        classUnderTest.findByEvent(IndividualEventType.BIRTH, "Bad Date", "01 OCT 1900");
     }
 
     /**

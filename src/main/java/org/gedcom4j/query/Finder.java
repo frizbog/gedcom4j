@@ -272,8 +272,7 @@ public class Finder {
                         || extractedGiven.startsWith("Ms. "))) {
                     extractedGiven = extractedGiven.substring(4);
                 }
-                if (extractedGiven.length() > 5 && (extractedGiven.startsWith("Mr. ") || extractedGiven.startsWith("Dr. ")
-                        || extractedGiven.startsWith("Mrs. "))) {
+                if (extractedGiven.length() > 5 && extractedGiven.startsWith("Mrs. ")) {
                     extractedGiven = extractedGiven.substring(5);
                 }
                 String extractedSurname = n.getBasic().substring(matcher.start() + 1, matcher.end() - 1);

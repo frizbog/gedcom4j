@@ -116,6 +116,142 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
+     * Test for DNA markers with null dna fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddDnaMarkersBadDna() {
+        CustomFact bad = new CustomFact("_WRONGTAG");
+        fha.addDnaMarker(new Individual(), bad);
+    }
+
+    /**
+     * Test for DNA markers with null dna fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddDnaMarkersNullDna() {
+        fha.addDnaMarker(new Individual(), null);
+    }
+
+    /**
+     * Test for elected custom fact with bad fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddElectedBadFact() {
+        CustomFact bad = new CustomFact("_WRONGTAG");
+        fha.addElected(new Individual(), bad);
+    }
+
+    /**
+     * Test for elected custom fact with null fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddElectedNullFact() {
+        fha.addElected(new Individual(), null);
+    }
+
+    /**
+     * Test for employment custom fact with bad fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddEmploymentBadFact() {
+        CustomFact bad = new CustomFact("_WRONGTAG");
+        fha.addEmployment(new Individual(), bad);
+    }
+
+    /**
+     * Test for employment custom fact with null fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddEmploymentNullFact() {
+        fha.addEmployment(new Individual(), null);
+    }
+
+    /**
+     * Test for height custom fact with bad fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddHeightBadFact() {
+        CustomFact bad = new CustomFact("_WRONGTAG");
+        fha.addHeight(new Individual(), bad);
+    }
+
+    /**
+     * Test for height custom fact with null fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddHeightNullFact() {
+        fha.addHeight(new Individual(), null);
+    }
+
+    /**
+     * Test for medical condition custom fact with bad fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddMedicalConditionBadFact() {
+        CustomFact bad = new CustomFact("_WRONGTAG");
+        fha.addMedicalCondition(new Individual(), bad);
+    }
+
+    /**
+     * Test for medical condition custom fact with null fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddMedicalConditionNullFact() {
+        fha.addMedicalCondition(new Individual(), null);
+    }
+
+    /**
+     * Test for military ID custom fact with bad fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddMilitaryIdBadFact() {
+        CustomFact bad = new CustomFact("_WRONGTAG");
+        fha.addMilitaryId(new Individual(), bad);
+    }
+
+    /**
+     * Test for military ID custom fact with null fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddMilitaryIdNullFact() {
+        fha.addMilitaryId(new Individual(), null);
+    }
+
+    /**
+     * Test for military service custom fact with bad fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddMilitaryServiceBadFact() {
+        CustomFact bad = new CustomFact("_WRONGTAG");
+        fha.addMilitaryService(new Individual(), bad);
+    }
+
+    /**
+     * Test for military service custom fact with null fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddMilitaryServiceNullFact() {
+        fha.addMilitaryService(new Individual(), null);
+    }
+
+    /**
+     * Test for mission custom fact with bad fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddMissionBadFact() {
+        CustomFact bad = new CustomFact("_WRONGTAG");
+        fha.addMission(new Individual(), bad);
+    }
+
+    /**
+     * Test for mission custom fact with null fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddMissionNullFact() {
+        fha.addMission(new Individual(), null);
+    }
+
+    /**
      * Test for {@link FamilyHistorianAdapter#addNamedList(Gedcom, CustomFact)}
      */
     @Test
@@ -134,6 +270,108 @@ public class FamilyHistorianAdapterTest {
         lists = fha.getNamedList(gedcomWithoutCustomTags, "Frying Pans");
         assertNotNull(lists);
         assertEquals(1, lists.size());
+    }
+
+    /**
+     * Test for named list custom fact with bad fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddNamedListBadFact() {
+        CustomFact bad = new CustomFact("_WRONGTAG");
+        fha.addNamedList(gedcomWithCustomTags, bad);
+    }
+
+    /**
+     * Test for named list custom fact with null fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddNamedListNullFact() {
+        fha.addNamedList(gedcomWithCustomTags, null);
+    }
+
+    /**
+     * Test for namesake custom fact with bad fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddNamesakeBadFact() {
+        CustomFact bad = new CustomFact("_WRONGTAG");
+        fha.addNamesake(new Individual(), bad);
+    }
+
+    /**
+     * Test for namesake custom fact with null fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddNamesakeNullFact() {
+        fha.addNamesake(new Individual(), null);
+    }
+
+    /**
+     * Test for ordinance custom fact with bad fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddOrdinanceBadFact() {
+        CustomFact bad = new CustomFact("_WRONGTAG");
+        fha.addOrdinance(new Individual(), bad);
+    }
+
+    /**
+     * Test for ordinance custom fact with null fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddOrdinanceNullFact() {
+        fha.addOrdinance(new Individual(), null);
+    }
+
+    /**
+     * Test for place custom fact with bad fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddPlaceBadFact() {
+        CustomFact bad = new CustomFact("_WRONGTAG");
+        fha.addPlaceRecord(gedcomWithCustomTags, bad);
+    }
+
+    /**
+     * Test for place custom fact with null fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddPlaceNullFact() {
+        fha.addPlaceRecord(gedcomWithCustomTags, null);
+    }
+
+    /**
+     * Test for unrelated witness custom fact with bad fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddUnrelatedWitnessBadFact() {
+        CustomFact bad = new CustomFact("_WRONGTAG");
+        fha.addUnrelatedWitness(new IndividualEvent(), bad);
+    }
+
+    /**
+     * Test for unrelated witness custom fact with null fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddUnrelatedWitnessNullFact() {
+        fha.addUnrelatedWitness(new IndividualEvent(), null);
+    }
+
+    /**
+     * Test for witness reference custom fact with bad fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddWitnessReferenceBadFact() {
+        CustomFact bad = new CustomFact("_WRONGTAG");
+        fha.addWitnessReference(gedcomWithCustomTags, new IndividualEvent(), bad);
+    }
+
+    /**
+     * Test for witness reference custom fact with null fact
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddWitnessReferenceNullFact() {
+        fha.addWitnessReference(gedcomWithCustomTags, new IndividualEvent(), null);
     }
 
     /**
@@ -285,6 +523,19 @@ public class FamilyHistorianAdapterTest {
     @Test
     public void testFamilyStatusNegative() {
         Family family = gedcomWithoutCustomTags.getFamilies().get("@F1@");
+        assertNull(fha.getFamilyStatus(family));
+        fha.setFamilyStatus(family, "Common Law");
+        assertEquals("Common Law", fha.getFamilyStatus(family));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getFamilyStatus(Family)} and
+     * {@link FamilyHistorianAdapter#setFamilyStatus(Family, String)}
+     */
+    @Test
+    public void testFamilyStatusNegative2() {
+        Family family = gedcomWithoutCustomTags.getFamilies().get("@F1@");
+        family.getCustomFacts(true).add(new CustomFact("_STAT")); // Force a bad family status
         assertNull(fha.getFamilyStatus(family));
         fha.setFamilyStatus(family, "Common Law");
         assertEquals("Common Law", fha.getFamilyStatus(family));
@@ -606,6 +857,14 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
+     * Negative test for {@link FamilyHistorianAdapter#getNamedList(Gedcom, String)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetNamedListNegativeNullListName() {
+        fha.getNamedList(gedcomWithoutCustomTags, null);
+    }
+
+    /**
      * Positive test for {@link FamilyHistorianAdapter#getNamedList(Gedcom, String)}
      */
     @Test
@@ -725,6 +984,15 @@ public class FamilyHistorianAdapterTest {
      * Test for {@link FamilyHistorianAdapter#getOtherPlaceName(IndividualEvent)} and
      * {@link FamilyHistorianAdapter#setOtherPlaceName(IndividualEvent, String)}
      */
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetSetOtherPlaceNameNegative() {
+        assertNull(fha.getOtherPlaceName(null));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getOtherPlaceName(IndividualEvent)} and
+     * {@link FamilyHistorianAdapter#setOtherPlaceName(IndividualEvent, String)}
+     */
     @Test
     public void testGetSetOtherPlaceNamePositive() {
         Place here = new Place();
@@ -753,6 +1021,8 @@ public class FamilyHistorianAdapterTest {
         CustomFact cf = new CustomFact("_ATTR");
         cf.setType(new StringWithCustomFacts("Victory"));
 
+        cf.getCustomFacts(true).add(new CustomFact("_UNRELATED"));
+
         assertNull(fha.getFactSetSentenceTemplate(cf));
 
         fha.setFactSetSentenceTemplate(cf, "The quick brown fox jumps over the lazy dog.");
@@ -770,6 +1040,8 @@ public class FamilyHistorianAdapterTest {
     public void testGetSetSentenceFamilyEvent() {
         FamilyEvent fe = new FamilyEvent();
         fe.setType(FamilyEventType.EVENT);
+
+        fe.getCustomFacts(true).add(new CustomFact("_UNRELATED"));
 
         assertNull(fha.getFactSetSentenceTemplate(fe));
 
@@ -789,6 +1061,8 @@ public class FamilyHistorianAdapterTest {
         IndividualAttribute ia = new IndividualAttribute();
         ia.setType(IndividualAttributeType.FACT);
 
+        ia.getCustomFacts(true).add(new CustomFact("_UNRELATED"));
+
         assertNull(fha.getFactSetSentenceTemplate(ia));
 
         fha.setFactSetSentenceTemplate(ia, "The quick brown fox jumps over the lazy dog.");
@@ -806,6 +1080,8 @@ public class FamilyHistorianAdapterTest {
     public void testGetSetSentenceIndividualEvent() {
         IndividualEvent ie = new IndividualEvent();
         ie.setType(IndividualEventType.EVENT);
+
+        ie.getCustomFacts(true).add(new CustomFact("_UNRELATED"));
 
         assertNull(fha.getFactSetSentenceTemplate(ie));
 
@@ -1068,6 +1344,23 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
+     * Test for {@link FamilyHistorianAdapter#getMultimediaDate(Multimedia)} and
+     * {@link FamilyHistorianAdapter#setMultimediaDate(Multimedia, String)}
+     */
+    @Test
+    public void testMultimediaDateNegative() {
+        Multimedia mm = gedcomWithCustomTags.getMultimedia().get("@O1@");
+        mm.getCustomFacts(true).add(new CustomFact("_DATE")); // Add a bad date custom fact without description
+        assertEquals("7 JUL 1977", fha.getMultimediaDate(mm));
+
+        fha.setMultimediaDate(mm, null);
+        assertNull(fha.getMultimediaDate(mm));
+
+        fha.setMultimediaDate(mm, "4 JUL 1976");
+        assertEquals("4 JUL 1976", fha.getMultimediaDate(mm));
+    }
+
+    /**
      * Test for {@link FamilyHistorianAdapter#getMultimediaFile(Multimedia)} and
      * {@link FamilyHistorianAdapter#setMultimediaFile(Multimedia, String)}
      */
@@ -1084,6 +1377,23 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
+     * Test for {@link FamilyHistorianAdapter#getMultimediaFile(Multimedia)} and
+     * {@link FamilyHistorianAdapter#setMultimediaFile(Multimedia, String)}
+     */
+    @Test
+    public void testMultimediaFileNegative() {
+        Multimedia mm = gedcomWithCustomTags.getMultimedia().get("@O1@");
+        mm.getCustomFacts(true).add(new CustomFact("_FILE")); // Add a bad file custom fact without description
+        assertEquals("photo.jpg", fha.getMultimediaFile(mm));
+
+        fha.setMultimediaFile(mm, null);
+        assertNull(fha.getMultimediaFile(mm));
+
+        fha.setMultimediaFile(mm, "picture.png");
+        assertEquals("picture.png", fha.getMultimediaFile(mm));
+    }
+
+    /**
      * Test for {@link FamilyHistorianAdapter#getMultimediaKeys(Multimedia)} and
      * {@link FamilyHistorianAdapter#setMultimediaKeys(Multimedia, String)}
      */
@@ -1097,6 +1407,23 @@ public class FamilyHistorianAdapterTest {
 
         fha.setMultimediaKeys(mm, "Movie");
         assertEquals("Movie", fha.getMultimediaKeys(mm));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getMultimediaKeys(Multimedia)} and
+     * {@link FamilyHistorianAdapter#setMultimediaKeys(Multimedia, String)}
+     */
+    @Test
+    public void testMultimediaKeysNegative() {
+        Multimedia mm = gedcomWithCustomTags.getMultimedia().get("@O1@");
+        mm.getCustomFacts(true).add(new CustomFact("_KEYS")); // Add a bad keys custom fact without description
+        assertEquals("Picture", fha.getMultimediaKeys(mm));
+
+        fha.setMultimediaKeys(mm, null);
+        assertNull(fha.getMultimediaKeys(mm));
+
+        fha.setMultimediaKeys(mm, "Photo");
+        assertEquals("Photo", fha.getMultimediaKeys(mm));
     }
 
     /**
@@ -1197,6 +1524,23 @@ public class FamilyHistorianAdapterTest {
 
         fha.setMultimediaNoteExclusion(n, "Synchronicity");
         assertEquals("Synchronicity", fha.getMultimediaNoteExclusion(n));
+    }
+
+    /**
+     * Test for {@link FamilyHistorianAdapter#getMultimediaNote(Multimedia)} and
+     * {@link FamilyHistorianAdapter#setMultimediaNote(Multimedia, String)}
+     */
+    @Test
+    public void testMultimediaNoteNegative() {
+        Multimedia mm = gedcomWithCustomTags.getMultimedia().get("@O1@");
+        mm.getCustomFacts(true).add(new CustomFact("_NOTE")); // Add a bad note custom fact without description
+        assertEquals("Picture is a bit small and may not be him.", fha.getMultimediaNote(mm));
+
+        fha.setMultimediaNote(mm, null);
+        assertNull(fha.getMultimediaNote(mm));
+
+        fha.setMultimediaNote(mm, "This is a note");
+        assertEquals("This is a note", fha.getMultimediaNote(mm));
     }
 
     /**

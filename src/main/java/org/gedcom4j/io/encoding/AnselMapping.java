@@ -363,7 +363,7 @@ final class AnselMapping {
      * Private constructor prevents instantiation and subclassing
      */
     private AnselMapping() {
-        super();
+        // Nothing to do
     }
 
 }
