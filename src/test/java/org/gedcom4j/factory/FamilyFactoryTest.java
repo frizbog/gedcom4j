@@ -28,6 +28,7 @@ package org.gedcom4j.factory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
@@ -53,7 +54,7 @@ public class FamilyFactoryTest {
      */
     @SuppressWarnings("deprecation")
     @Test
-    public void test() {
+    public void testFullFamily() {
         Gedcom g = new Gedcom();
         Individual father = new IndividualFactory().create(g, "Robert", "Tarantino", Sex.MALE, new Date(67, Calendar.MAY, 1),
                 "Idaho", new Date(99, Calendar.OCTOBER, 31), "Virginia");
@@ -84,4 +85,123 @@ public class FamilyFactoryTest {
         assertSame(kid2.getFamiliesWhereChild().get(0).getFamily(), f);
     }
 
+    /**
+     * Test for {@link FamilyFactory#create(Gedcom, Individual, Individual, Individual...)}
+     */
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testNoFather() {
+        Gedcom g = new Gedcom();
+        Individual mother = new IndividualFactory().create(g, "Theresa", "Guliani", Sex.FEMALE, new Date(68, Calendar.SEPTEMBER,
+                15), "Idaho", null, null);
+        Individual kid1 = new IndividualFactory().create(g, "Bernardo", "Tarantino", Sex.MALE, new Date(93, Calendar.APRIL, 5),
+                "Idaho", null, null);
+        Individual kid2 = new IndividualFactory().create(g, "Angela", "Tarantino", Sex.MALE, new Date(95, Calendar.DECEMBER, 8),
+                "Idaho", null, null);
+
+        Family f = new FamilyFactory().create(g, null, mother, kid1, kid2);
+
+        assertNotNull(f);
+        assertNotNull(f.getXref());
+
+        Family f2 = g.getFamilies().get(f.getXref());
+        assertSame(f2, f);
+
+        assertSame(mother, f.getWife().getIndividual());
+        assertTrue(f.getChildren().contains(new IndividualReference(kid1)));
+        assertTrue(f.getChildren().contains(new IndividualReference(kid2)));
+        assertEquals(2, f.getChildren().size());
+
+        assertSame(mother.getFamiliesWhereSpouse().get(0).getFamily(), f);
+        assertSame(kid1.getFamiliesWhereChild().get(0).getFamily(), f);
+        assertSame(kid2.getFamiliesWhereChild().get(0).getFamily(), f);
+    }
+
+    /**
+     * Test for {@link FamilyFactory#create(Gedcom, Individual, Individual, Individual...)}
+     */
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testNoKids() {
+        Gedcom g = new Gedcom();
+        Individual father = new IndividualFactory().create(g, "Robert", "Tarantino", Sex.MALE, new Date(67, Calendar.MAY, 1),
+                "Idaho", new Date(99, Calendar.OCTOBER, 31), "Virginia");
+        Individual mother = new IndividualFactory().create(g, "Theresa", "Guliani", Sex.FEMALE, new Date(68, Calendar.SEPTEMBER,
+                15), "Idaho", null, null);
+
+        Family f = new FamilyFactory().create(g, father, mother);
+
+        assertNotNull(f);
+        assertNotNull(f.getXref());
+
+        Family f2 = g.getFamilies().get(f.getXref());
+        assertSame(f2, f);
+
+        assertSame(father, f.getHusband().getIndividual());
+        assertSame(mother, f.getWife().getIndividual());
+        assertNull(f.getChildren());
+
+        assertSame(father.getFamiliesWhereSpouse().get(0).getFamily(), f);
+    }
+
+    /**
+     * Test for {@link FamilyFactory#create(Gedcom, Individual, Individual, Individual...)}
+     */
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testNoMother() {
+        Gedcom g = new Gedcom();
+        Individual father = new IndividualFactory().create(g, "Robert", "Tarantino", Sex.MALE, new Date(67, Calendar.MAY, 1),
+                "Idaho", new Date(99, Calendar.OCTOBER, 31), "Virginia");
+        Individual kid1 = new IndividualFactory().create(g, "Bernardo", "Tarantino", Sex.MALE, new Date(93, Calendar.APRIL, 5),
+                "Idaho", null, null);
+        Individual kid2 = new IndividualFactory().create(g, "Angela", "Tarantino", Sex.MALE, new Date(95, Calendar.DECEMBER, 8),
+                "Idaho", null, null);
+
+        Family f = new FamilyFactory().create(g, father, null, kid1, kid2);
+
+        assertNotNull(f);
+        assertNotNull(f.getXref());
+
+        Family f2 = g.getFamilies().get(f.getXref());
+        assertSame(f2, f);
+
+        assertSame(father, f.getHusband().getIndividual());
+        assertNotNull(f.getWife());
+        assertNull(f.getWife().getIndividual());
+        assertTrue(f.getChildren().contains(new IndividualReference(kid1)));
+        assertTrue(f.getChildren().contains(new IndividualReference(kid2)));
+        assertEquals(2, f.getChildren().size());
+
+        assertSame(father.getFamiliesWhereSpouse().get(0).getFamily(), f);
+        assertSame(kid1.getFamiliesWhereChild().get(0).getFamily(), f);
+        assertSame(kid2.getFamiliesWhereChild().get(0).getFamily(), f);
+    }
+
+    /**
+     * Test for {@link FamilyFactory#create(Gedcom, Individual, Individual, Individual...)}
+     */
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testNullKids() {
+        Gedcom g = new Gedcom();
+        Individual father = new IndividualFactory().create(g, "Robert", "Tarantino", Sex.MALE, new Date(67, Calendar.MAY, 1),
+                "Idaho", new Date(99, Calendar.OCTOBER, 31), "Virginia");
+        Individual mother = new IndividualFactory().create(g, "Theresa", "Guliani", Sex.FEMALE, new Date(68, Calendar.SEPTEMBER,
+                15), "Idaho", null, null);
+
+        Family f = new FamilyFactory().create(g, father, mother, null, null, null);
+
+        assertNotNull(f);
+        assertNotNull(f.getXref());
+
+        Family f2 = g.getFamilies().get(f.getXref());
+        assertSame(f2, f);
+
+        assertSame(father, f.getHusband().getIndividual());
+        assertSame(mother, f.getWife().getIndividual());
+        assertNull(f.getChildren());
+
+        assertSame(father.getFamiliesWhereSpouse().get(0).getFamily(), f);
+    }
 }

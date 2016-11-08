@@ -64,7 +64,7 @@ public class FamilyFactory {
         }
         if (children != null) {
             for (Individual kid : children) {
-                if (!g.getIndividuals().containsKey(kid.getXref())) {
+                if (kid != null && !g.getIndividuals().containsKey(kid.getXref())) {
                     throw new IllegalArgumentException("Child could not be found by xref in supplied gedcom object: " + kid
                             .getXref());
                 }
@@ -74,18 +74,21 @@ public class FamilyFactory {
         Family result = new Family();
 
         // Make an xref and add to gedcom
-        for (int xref = g.getFamilies().size(); !g.getFamilies().containsKey("@F" + xref + "@") && result
-                .getXref() == null; xref++) {
-            result.setXref("@F" + xref + "@");
-            g.getFamilies().put(result.getXref(), result);
+        int xref = g.getFamilies().size();
+        while (g.getFamilies().containsKey("@F" + xref + "@")) {
+            xref++;
         }
+        result.setXref("@F" + xref + "@");
+        g.getFamilies().put(result.getXref(), result);
 
         // Put the people in the Family record
         result.setHusband(new IndividualReference(father));
         result.setWife(new IndividualReference(mother));
         if (children != null) {
             for (Individual child : children) {
-                result.getChildren(true).add(new IndividualReference(child));
+                if (child != null) {
+                    result.getChildren(true).add(new IndividualReference(child));
+                }
             }
         }
 
@@ -102,9 +105,11 @@ public class FamilyFactory {
         }
         if (children != null) {
             for (Individual kid : children) {
-                FamilyChild famc = new FamilyChild();
-                famc.setFamily(result);
-                kid.getFamiliesWhereChild(true).add(famc);
+                if (kid != null) {
+                    FamilyChild famc = new FamilyChild();
+                    famc.setFamily(result);
+                    kid.getFamiliesWhereChild(true).add(famc);
+                }
             }
         }
 

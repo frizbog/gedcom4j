@@ -39,7 +39,7 @@ import org.junit.Test;
  * @author frizbog1
  * 
  */
-public class IndividualByLastNameFirstNameComparatorTest {
+public class IndividualByComplexLastNameFirstNameComparatorTest {
 
     /**
      * The comparator being tested
@@ -72,24 +72,13 @@ public class IndividualByLastNameFirstNameComparatorTest {
      */
     @Test
     public void testBothHaveMultipleNames() {
-        addBasicName(i1, "Bob /Martin/");
-        addBasicName(i1, "Aaron /Aardvark/");
-        addBasicName(i2, "Bob /Marley/");
-        addBasicName(i2, "Ziggy /Zoots/");
+        addComplexName(i1, "Bob", "Martin");
+        addComplexName(i1, "Aaron", "Aardvark");
+        addComplexName(i2, "Bob", "Marley");
+        addComplexName(i2, "Ziggy", "Zoots");
 
         assertTrue("Bob Martin comes after Bob Marley, and Ziggy Zoots and Aaron Aardvark get ignored", c.compare(i1, i2) > 0);
         assertTrue("Bob Marley comes before Bob Martin, and Ziggy Zoots and Aaron Aardvark get ignored", c.compare(i2, i1) < 0);
-    }
-
-    /**
-     * Test for {@link IndividualByLastNameFirstNameComparator#compare(Individual, Individual)} . Tests when last names differ.
-     */
-    @Test
-    public void testEmptyLists() {
-        i1.getNames(true);
-        i2.getNames(true);
-        assertTrue(c.compare(i1, i2) == 0);
-        assertTrue(c.compare(i2, i1) == 0);
     }
 
     /**
@@ -108,9 +97,9 @@ public class IndividualByLastNameFirstNameComparatorTest {
      */
     @Test
     public void testOneHasMultipleNames() {
-        addBasicName(i1, "Bob /Martin/");
-        addBasicName(i2, "Bob /Marley/");
-        addBasicName(i2, "Ziggy /Zoots/");
+        addComplexName(i1, "Bob", "Martin");
+        addComplexName(i2, "Bob", "Marley");
+        addComplexName(i2, "Ziggy", "Zoots");
 
         assertTrue("Bob Martin comes after Bob Marley, and Ziggy Zoots gets ignored", c.compare(i1, i2) > 0);
         assertTrue("Bob Marley comes before Bob Martin, and Ziggy Zoots gets ignored", c.compare(i2, i1) < 0);
@@ -122,7 +111,7 @@ public class IndividualByLastNameFirstNameComparatorTest {
      */
     @Test
     public void testOneHasNoName() {
-        addBasicName(i1, "Bob /Marley/");
+        addComplexName(i1, "Bob", "Marley");
 
         assertTrue("The individual with a name should always come after the individual with no names", c.compare(i1, i2) > 0);
         assertTrue("The individual with a name should always come after the individual with no names", c.compare(i2, i1) < 0);
@@ -133,8 +122,8 @@ public class IndividualByLastNameFirstNameComparatorTest {
      */
     @Test
     public void testSurnamesDiffer() {
-        addBasicName(i1, "Bob /Martin/");
-        addBasicName(i2, "Bob /Marley/");
+        addComplexName(i1, "Bob", "Martin");
+        addComplexName(i2, "Bob", "Marley");
 
         assertTrue("Bob Martin comes after Bob Marley", c.compare(i1, i2) > 0);
         assertTrue("Bob Marley comes before Bob Martin", c.compare(i2, i1) < 0);
@@ -145,8 +134,8 @@ public class IndividualByLastNameFirstNameComparatorTest {
      */
     @Test
     public void testSurnamesSame() {
-        addBasicName(i1, "Ziggy /Marley/");
-        addBasicName(i2, "Bob /Marley/");
+        addComplexName(i1, "Ziggy", "Marley");
+        addComplexName(i2, "Bob", "Marley");
 
         assertTrue("Ziggy Marley comes after Bob Marley", c.compare(i1, i2) > 0);
         assertTrue("Bob Marley comes before Ziggy Marley", c.compare(i2, i1) < 0);
@@ -157,12 +146,15 @@ public class IndividualByLastNameFirstNameComparatorTest {
      * 
      * @param i
      *            the individual who is getting their name added
-     * @param string
-     *            the basic name to add to the individual
+     * @param givenName
+     *            the given name to add to the individual
+     * @param surname
+     *            the surname to add to the individual
      */
-    private void addBasicName(Individual i, String string) {
+    private void addComplexName(Individual i, String givenName, String surname) {
         PersonalName n = new PersonalName();
-        n.setBasic(string);
+        n.setGivenName(givenName);
+        n.setSurname(surname);
         i.getNames(true).add(n);
     }
 

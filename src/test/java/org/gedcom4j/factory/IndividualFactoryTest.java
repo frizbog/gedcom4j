@@ -28,7 +28,9 @@ package org.gedcom4j.factory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -67,6 +69,68 @@ public class IndividualFactoryTest {
 
         assertEquals("1 MAY 1967", i.getEventsOfType(IndividualEventType.BIRTH).get(0).getDate().getValue());
         assertEquals("31 OCT 1999", i.getEventsOfType(IndividualEventType.DEATH).get(0).getDate().getValue());
+    }
+
+    /**
+     * Test for
+     * {@link IndividualFactory#create(org.gedcom4j.model.Gedcom, String, String, Sex, java.util.Date, String, java.util.Date, String)}
+     */
+    @Test
+    public void testCreateNulls() {
+        Gedcom g = new Gedcom();
+        Individual i = new IndividualFactory().create(g, null, null, null, (String) null, null, null, null);
+
+        assertNotNull(i);
+        assertNotNull(i.getXref());
+
+        Individual i2 = g.getIndividuals().get(i.getXref());
+        assertNotNull(i2);
+        assertSame(i, i2);
+
+        assertNull(i.getSex());
+
+        assertTrue(i.getEventsOfType(IndividualEventType.BIRTH).isEmpty());
+        assertTrue(i.getEventsOfType(IndividualEventType.DEATH).isEmpty());
+    }
+
+    /**
+     * Test for
+     * {@link IndividualFactory#create(org.gedcom4j.model.Gedcom, String, String, Sex, java.util.Date, String, java.util.Date, String)}
+     */
+    @Test
+    public void testCreateSkipXrefs() {
+        Gedcom g = new Gedcom();
+
+        // Skip every other index number, to add 5 individuals to map
+        for (int i = 0; i < 10; i += 2) {
+            Individual ind = new Individual();
+            ind.setXref("@I" + i + "@");
+            g.getIndividuals().put(ind.getXref(), ind);
+        }
+
+        assertEquals(5, g.getIndividuals().size());
+
+        /*
+         * We expect to start at I5 because there are 5 items in the map already, and I5 is not in use. Expect to skip I6 and I8
+         * because they're already in the map, but I7, I9, I10, and I11 are all free. Note that it picks up sequentially at I9.
+         */
+        String[] expectedKeys = { "@I5@", "@I7@", "@I9@", "@I10@", "@I11@" };
+        for (int j = 0; j < 5; j++) {
+            Individual i = new IndividualFactory().create(g, "Robert", "Tarantino", null, (String) null, null, null, null);
+
+            assertNotNull(i);
+            assertNotNull(i.getXref());
+            assertEquals(expectedKeys[j], i.getXref());
+
+            Individual i2 = g.getIndividuals().get(i.getXref());
+            assertNotNull(i2);
+            assertSame(i, i2);
+
+            assertNull(i.getSex());
+
+            assertTrue(i.getEventsOfType(IndividualEventType.BIRTH).isEmpty());
+            assertTrue(i.getEventsOfType(IndividualEventType.DEATH).isEmpty());
+        }
     }
 
 }

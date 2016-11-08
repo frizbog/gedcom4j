@@ -107,11 +107,12 @@ public class IndividualFactory {
         Individual result = new Individual();
 
         // Make an xref and add to gedcom
-        for (int xref = g.getIndividuals().size(); !g.getIndividuals().containsKey("@I" + xref + "@") && result
-                .getXref() == null; xref++) {
-            result.setXref("@I" + xref + "@");
-            g.getIndividuals().put(result.getXref(), result);
+        int xref = g.getIndividuals().size();
+        while (g.getIndividuals().containsKey("@I" + xref + "@")) {
+            xref++;
         }
+        result.setXref("@I" + xref + "@");
+        g.getIndividuals().put(result.getXref(), result);
 
         // Set sex
         if (sex != null) {

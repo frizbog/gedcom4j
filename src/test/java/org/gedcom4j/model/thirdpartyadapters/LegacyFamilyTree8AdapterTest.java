@@ -42,8 +42,10 @@ import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyEvent;
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.Header;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
+import org.gedcom4j.model.IndividualReference;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.enumerations.IndividualEventType;
@@ -57,7 +59,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({ "PMD.TooManyMethods", "PMD.ExcessivePublicCount", "PMD.GodClass" })
 public class LegacyFamilyTree8AdapterTest {
 
     /**
@@ -108,7 +110,15 @@ public class LegacyFamilyTree8AdapterTest {
     }
 
     /**
-     * 
+     * Test adding bad todo
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddBadTodo() {
+        lfta.addToDo(new Header(), new CustomFact("_WRONGTAG"));
+    }
+
+    /**
+     * Test adding, removing todo's
      */
     @Test
     public void testAddNewRemoveRemoveAllToDos() {
@@ -151,6 +161,14 @@ public class LegacyFamilyTree8AdapterTest {
     }
 
     /**
+     * Test adding null todo
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddNullTodo() {
+        lfta.addToDo(new Header(), null);
+    }
+
+    /**
      * Negative test for {@link LegacyFamilyTree8Adapter#getAddressSortValue(Address)}
      */
     @Test
@@ -179,6 +197,42 @@ public class LegacyFamilyTree8AdapterTest {
         assertNull(lfta.getAddressSortValue(addr));
         lfta.setAddressSortValue(addr, "zzzzzSortMeLastzzzzzz");
         assertEquals("zzzzzSortMeLastzzzzzz", lfta.getAddressSortValue(addr));
+    }
+
+    /**
+     * Test adding todo to null
+     */
+    @Test(expected = NullPointerException.class)
+    public void testAddTodoToNull() {
+        CustomFact todo = new CustomFact("_TODO");
+        lfta.addToDo(null, todo);
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getFamilyMemberPreferredFlag(Family, Individual)} and
+     * {@link LegacyFamilyTree8Adapter#setFamilyMemberPreferredFlag(Family, Individual, String)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetFamilyMemberPreferredFlagIndividualNotInFamily() {
+        lfta.getFamilyMemberPreferredFlag(new Family(), new Individual());
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getFamilyMemberPreferredFlag(Family, Individual)} and
+     * {@link LegacyFamilyTree8Adapter#setFamilyMemberPreferredFlag(Family, Individual, String)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetFamilyMemberPreferredFlagNullFamily() {
+        lfta.getFamilyMemberPreferredFlag(null, new Individual());
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getFamilyMemberPreferredFlag(Family, Individual)} and
+     * {@link LegacyFamilyTree8Adapter#setFamilyMemberPreferredFlag(Family, Individual, String)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetFamilyMemberPreferredFlagNullIndividual() {
+        lfta.getFamilyMemberPreferredFlag(new Family(), null);
     }
 
     /**
@@ -482,6 +536,52 @@ public class LegacyFamilyTree8AdapterTest {
     }
 
     /**
+     * Test for {@link LegacyFamilyTree8Adapter#getToDoCategory(CustomFact)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetToDoCategoryBadTodo() {
+        CustomFact toDo = new CustomFact("_WRONGTAG");
+        lfta.getToDoCategory(toDo);
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getToDoClosedDate(CustomFact)} and
+     * {@link LegacyFamilyTree8Adapter#setToDoCategory(CustomFact, String)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetToDoClosedDateBadTodo() {
+        CustomFact toDo = new CustomFact("_WRONGTAG");
+        lfta.getToDoClosedDate(toDo);
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getToDoDescription(CustomFact)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetToDoDescriptionBadTodo() {
+        CustomFact toDo = new CustomFact("_WRONGTAG");
+        lfta.getToDoDescription(toDo);
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getToDoLocality(CustomFact)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetToDoLocalityBadTodo() {
+        CustomFact toDo = new CustomFact("_WRONGTAG");
+        lfta.getToDoLocality(toDo);
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getToDoReminderDate(CustomFact)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetToDoReminderDateBadTodo() {
+        CustomFact toDo = new CustomFact("_WRONGTAG");
+        lfta.getToDoReminderDate(toDo);
+    }
+
+    /**
      * Test {@link LegacyFamilyTree8Adapter#getToDos(org.gedcom4j.model.HasCustomFacts)}
      */
     @Test(expected = UnsupportedOperationException.class)
@@ -598,6 +698,103 @@ public class LegacyFamilyTree8AdapterTest {
     }
 
     /**
+     * Test for {@link LegacyFamilyTree8Adapter#setFamilyMemberPreferredFlag(Family, Individual, String)}
+     */
+    @Test
+    public void testSetFamilyMemberPreferredFlagDadEmptyParents1() {
+        Family f = new Family();
+        f.setWife(null);
+        f.setHusband(null);
+        Individual kid = new Individual();
+        f.getChildren(true).add(new IndividualReference(kid));
+        lfta.setFamilyMemberPreferredFlag(f, kid, "Foo");
+        assertEquals("Foo", lfta.getFamilyMemberPreferredFlag(f, kid));
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#setFamilyMemberPreferredFlag(Family, Individual, String)}
+     */
+    @Test
+    public void testSetFamilyMemberPreferredFlagDadEmptyParents2() {
+        Family f = new Family();
+
+        Individual mom = new Individual();
+        mom.setXref("@I1@");
+        f.setWife(new IndividualReference(mom));
+
+        Individual dad = new Individual();
+        dad.setXref("@I2@");
+        f.setHusband(new IndividualReference(dad));
+
+        Individual kid = new Individual();
+        f.getChildren(true).add(new IndividualReference(kid));
+
+        lfta.setFamilyMemberPreferredFlag(f, kid, "Foo");
+        assertEquals("Foo", lfta.getFamilyMemberPreferredFlag(f, kid));
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#setFamilyMemberPreferredFlag(Family, Individual, String)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetFamilyMemberPreferredFlagDadNullFamily() {
+        lfta.setFamilyMemberPreferredFlag(null, new Individual(), "Foo");
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#setFamilyMemberPreferredFlag(Family, Individual, String)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetFamilyMemberPreferredFlagDadNullIndividual() {
+        lfta.setFamilyMemberPreferredFlag(new Family(), null, "Foo");
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#setToDoCategory(CustomFact, String)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetToDoCategoryBadTodo() {
+        CustomFact toDo = new CustomFact("_WRONGTAG");
+        lfta.setToDoCategory(toDo, "Doesn't matter");
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#setToDoCategory(CustomFact, String)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetToDoClosedDateBadTodo() {
+        CustomFact toDo = new CustomFact("_WRONGTAG");
+        lfta.setToDoClosedDate(toDo, "doesn't matter");
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#setToDoDescription(CustomFact, String)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetToDoDescriptionBadTodo() {
+        CustomFact toDo = new CustomFact("_WRONGTAG");
+        lfta.setToDoDescription(toDo, "Doesn't matter");
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#setToDoCategory(CustomFact, String)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetToDoLocalityBadTodo() {
+        CustomFact toDo = new CustomFact("_WRONGTAG");
+        lfta.setToDoLocality(toDo, "doesn't matter");
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#setToDoCategory(CustomFact, String)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetToDoReminderDateBadTodo() {
+        CustomFact toDo = new CustomFact("_WRONGTAG");
+        lfta.setToDoReminderDate(toDo, "doesn't matter");
+    }
+
+    /**
      * Test for {@link LegacyFamilyTree8Adapter#getToDoCategory(CustomFact)} and
      * {@link LegacyFamilyTree8Adapter#setToDoCategory(CustomFact, String)}
      */
@@ -662,6 +859,21 @@ public class LegacyFamilyTree8AdapterTest {
         assertEquals("Cucamonga", lfta.getToDoLocality(toDo));
 
         assertEquals("Somewhere over the rainbow", lfta.getToDoLocality(lfta.getToDos(will).get(0)));
+    }
+
+    /**
+     * Test for {@link LegacyFamilyTree8Adapter#getToDoReminderDate(CustomFact)} and
+     * {@link LegacyFamilyTree8Adapter#setToDoReminderDate(CustomFact, String)}
+     */
+    @Test
+    public void testToDoReminderDate() {
+        CustomFact toDo = lfta.newToDo();
+        assertNull(lfta.getToDoReminderDate(toDo));
+
+        lfta.setToDoReminderDate(toDo, "08 OCT 2016");
+        assertEquals("08 OCT 2016", lfta.getToDoReminderDate(toDo));
+
+        assertEquals("30 Sep 2016", lfta.getToDoReminderDate(lfta.getToDos(will).get(0)));
     }
 
 }
