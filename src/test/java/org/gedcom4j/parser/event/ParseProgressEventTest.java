@@ -54,6 +54,13 @@ public class ParseProgressEventTest {
         assertEquals("ParseProgressEvent [complete=false, linesParsed=100, familiesProcessed=0, individualsProcessed=0, "
                 + "multimediaProcessed=0, notesProcessed=0, repositoriesProcessed=0, sourcesProcessed=0, submittersProcessed=0]",
                 ppe.toString());
+        assertEquals(0, ppe.getFamiliesProcessed());
+        assertEquals(0, ppe.getIndividualsProcessed());
+        assertEquals(0, ppe.getMultimediaProcessed());
+        assertEquals(0, ppe.getNotesProcessed());
+        assertEquals(0, ppe.getRepositoriesProcessed());
+        assertEquals(0, ppe.getSourcesProcessed());
+        assertEquals(0, ppe.getSubmittersProcessed());
 
     }
 

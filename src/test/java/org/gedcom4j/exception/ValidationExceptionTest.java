@@ -30,13 +30,20 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
+ * Test for {@link ValidationException}
+ * 
  * @author frizbog1
  */
 @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
 public class ValidationExceptionTest {
 
     /**
-     * Test method for {@link org.gedcom4j.exception.ValidationException#ValidationException()} .
+     * Value for exception message
+     */
+    private static final String TEST_STRING = "Foo Bar Baz Bat";
+
+    /**
+     * Test method for {@link ValidationException#ValidationException()} .
      */
     @Test
     public void testValidationException() {
@@ -50,22 +57,21 @@ public class ValidationExceptionTest {
     }
 
     /**
-     * Test method for {@link org.gedcom4j.exception.ValidationException#ValidationException(java.lang.String)} .
+     * Test method for {@link ValidationException#ValidationException(java.lang.String)} .
      */
     @Test
     public void testValidationExceptionString() {
         try {
-            throw new ValidationException("Yo");
+            throw new ValidationException(TEST_STRING);
         } catch (ValidationException e) {
             Assert.assertNotNull(e);
-            Assert.assertEquals("Yo", e.getMessage());
+            Assert.assertEquals(TEST_STRING, e.getMessage());
             Assert.assertNull(e.getCause());
         }
     }
 
     /**
-     * Test method for {@link org.gedcom4j.exception.ValidationException#ValidationException(java.lang.String, java.lang.Throwable)}
-     * .
+     * Test method for {@link ValidationException#ValidationException(java.lang.String, java.lang.Throwable)} .
      */
     @Test
     public void testValidationExceptionStringThrowable() {
@@ -79,15 +85,15 @@ public class ValidationExceptionTest {
     }
 
     /**
-     * Test method for {@link org.gedcom4j.exception.ValidationException#ValidationException(java.lang.Throwable)} .
+     * Test method for {@link ValidationException#ValidationException(java.lang.Throwable)} .
      */
     @Test
     public void testValidationExceptionThrowable() {
         try {
-            throw new ValidationException("Yo", new RuntimeException());
+            throw new ValidationException(TEST_STRING, new RuntimeException());
         } catch (ValidationException e) {
             Assert.assertNotNull(e);
-            Assert.assertEquals("Yo", e.getMessage());
+            Assert.assertEquals(TEST_STRING, e.getMessage());
             Assert.assertNotNull(e.getCause());
         }
     }

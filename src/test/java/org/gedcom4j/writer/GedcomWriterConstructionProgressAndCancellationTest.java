@@ -39,6 +39,7 @@ import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.validate.Validator;
 import org.gedcom4j.writer.event.ConstructProgressEvent;
 import org.gedcom4j.writer.event.ConstructProgressListener;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -69,6 +70,8 @@ public class GedcomWriterConstructionProgressAndCancellationTest implements Cons
     @Override
     public void progressNotification(ConstructProgressEvent e) {
         notificationCount++;
+        Assert.assertTrue(e.isComplete());
+        Assert.assertTrue(e.toString().startsWith("ConstructProgressEvent"));
         if (notificationCount >= cancelAfter) {
             gw.cancel();
         }

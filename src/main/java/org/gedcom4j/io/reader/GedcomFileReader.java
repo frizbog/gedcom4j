@@ -119,9 +119,10 @@ public final class GedcomFileReader {
         }
         String result = encodingSpecificReader.nextLine();
         linesProcessed++;
-        if (linesProcessed % parser.getReadNotificationRate() == 0 || result == null) {
-            parser.notifyFileObservers(new FileProgressEvent(this, linesProcessed, encodingSpecificReader.bytesRead,
-                    result == null));
+        if (result == null) {
+            parser.notifyFileObservers(new FileProgressEvent(this, linesProcessed, encodingSpecificReader.bytesRead, true));
+        } else if (linesProcessed % parser.getReadNotificationRate() == 0) {
+            parser.notifyFileObservers(new FileProgressEvent(this, linesProcessed, encodingSpecificReader.bytesRead, false));
         }
         return result;
     }

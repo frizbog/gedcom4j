@@ -99,6 +99,31 @@ public class ValidatorTest implements AutoRepairResponder {
     }
 
     /**
+     * Test method for {@link Validator#toString()}.
+     */
+    @Test
+    public void testNullItems() {
+        Gedcom g = new Gedcom();
+        g.setHeader(null);
+        g.setTrailer(null);
+        g.setSubmission(null);
+        g.getFamilies().put(null, null);
+        g.getIndividuals().put(null, null);
+        g.getMultimedia().put(null, null);
+        g.getSources().put(null, null);
+        g.getRepositories().put(null, null);
+        g.getNotes().put(null, null);
+        g.getSubmitters().put(null, null);
+
+        Validator v = new Validator(g);
+        assertEquals("Validator [results=ValidationResults [allFindings=["
+                + "Finding [itemOfConcern=Gedcom [families=[null=null], individuals=[null=null], multimedia=[null=null], "
+                + "noteStructures=[null=null], repositories=[null=null], sources=[null=null], submitters=[null=null], ], "
+                + "severity=INFO, problemCode=10, problemDescription=Unable to determine GEDCOM version - assuming v5.5.1, ]]], "
+                + "autoRepairResponder=AUTO_REPAIR_NONE]", v.toString());
+    }
+
+    /**
      * Test method for {@link Validator#setAutoRepairResponder(AutoRepairResponder)}.
      */
     @Test
@@ -108,6 +133,16 @@ public class ValidatorTest implements AutoRepairResponder {
         assertSame(Validator.AUTO_REPAIR_NONE, v.getAutoRepairResponder());
         v.setAutoRepairResponder(this);
         assertSame(this, v.getAutoRepairResponder());
+    }
+
+    /**
+     * Test method for {@link Validator#toString()}.
+     */
+    @Test
+    public void testToString() {
+        Gedcom g = new Gedcom();
+        Validator v = new Validator(g);
+        assertEquals("Validator [results=ValidationResults [allFindings=[]], autoRepairResponder=AUTO_REPAIR_NONE]", v.toString());
     }
 
 }

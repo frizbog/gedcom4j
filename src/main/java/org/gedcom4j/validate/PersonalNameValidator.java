@@ -26,8 +26,8 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.model.AbstractNameVariation;
 import org.gedcom4j.model.PersonalName;
+import org.gedcom4j.model.PersonalNameVariation;
 
 /**
  * Validator for {@link PersonalName} objects
@@ -101,8 +101,8 @@ class PersonalNameValidator extends AbstractValidator {
         }
         checkListOfModelElementsForDups(pn, "phonetic");
         checkListOfModelElementsForNulls(pn, "phonetic");
-        for (AbstractNameVariation nv : pn.getPhonetic()) {
-            new NameVariationValidator(getValidator(), nv).validate();
+        for (PersonalNameVariation nv : pn.getPhonetic()) {
+            new PersonalNameVariationValidator(getValidator(), nv).validate();
         }
     }
 
@@ -120,8 +120,8 @@ class PersonalNameValidator extends AbstractValidator {
         }
         checkListOfModelElementsForDups(pn, "romanized");
         checkListOfModelElementsForNulls(pn, "romanized");
-        for (AbstractNameVariation nv : pn.getRomanized()) {
-            new NameVariationValidator(getValidator(), nv).validate();
+        for (PersonalNameVariation nv : pn.getRomanized()) {
+            new PersonalNameVariationValidator(getValidator(), nv).validate();
         }
     }
 }

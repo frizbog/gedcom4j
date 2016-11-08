@@ -49,6 +49,7 @@ import org.gedcom4j.model.HasXref;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.ModelElement;
+import org.gedcom4j.model.MultiStringWithCustomFacts;
 import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.UserReference;
 import org.gedcom4j.model.enumerations.IndividualEventType;
@@ -410,11 +411,14 @@ abstract class AbstractValidator implements Serializable {
         if (o == null) {
             return;
         }
-        if (!(o instanceof List)) {
+        if (!(o instanceof List) && !(o instanceof MultiStringWithCustomFacts)) {
             throw new ValidationException("Field " + listName + " on object of type " + modelElement.getClass().getName()
                     + " is not a List");
         }
-        if (modelElement instanceof HasCustomFacts) {
+        if (o instanceof MultiStringWithCustomFacts) {
+            MultiStringWithCustomFacts ms = (MultiStringWithCustomFacts) o;
+            checkCustomFacts(ms);
+        } else if (modelElement instanceof HasCustomFacts) {
             List<StringWithCustomFacts> list = (List<StringWithCustomFacts>) o;
             int i = 0;
             while (i < list.size()) {

@@ -116,6 +116,16 @@ public class ValidationResultsTest {
     }
 
     /**
+     * Test method for {@link ValidationResults#getByCode(int)}
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetByProblemCodeIntNull() {
+        Validator v = new Validator(g);
+        ValidationResults vr = v.getResults();
+        vr.getByCode(null);
+    }
+
+    /**
      * Test method for {@link ValidationResults#getBySeverity(Severity)}.
      */
     @Test
@@ -158,6 +168,16 @@ public class ValidationResultsTest {
         assertEquals(1, vr.getFindingsForObject(g.getIndividuals().get("@I3@")).size());
         assertEquals(0, vr.getFindingsForObject(g.getIndividuals().get("@I4@")).size());
         assertEquals(0, vr.getFindingsForObject(g.getFamilies().get("@F1@")).size());
+    }
+
+    /**
+     * Test {@link ValidationResults#toString()}
+     */
+    @Test
+    public void testToString() {
+        Validator v = new Validator(g);
+        ValidationResults vr = v.getResults();
+        assertEquals("ValidationResults [allFindings=[]]", vr.toString());
     }
 
 }

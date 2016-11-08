@@ -34,6 +34,8 @@ import java.util.ArrayList;
 
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.ModelElement;
+import org.gedcom4j.model.Place;
+import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.validate.Validator.Finding;
 import org.junit.Test;
 
@@ -120,6 +122,33 @@ public class ValidatorFindingTest {
     }
 
     /**
+     * Test method for {@link Validator.Finding#setProblemCode(int)}.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetSetProblemCodeBad1() {
+        Finding f = new Validator.Finding();
+        f.setProblemCode(999);
+    }
+
+    /**
+     * Test method for {@link Validator.Finding#setProblemCode(int)}.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetSetProblemCodeBad2() {
+        Finding f = new Validator.Finding();
+        f.setProblemCode(-1);
+    }
+
+    /**
+     * Test method for {@link Validator.Finding#setProblemCode(int)}.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetSetProblemCodeBad3() {
+        Finding f = new Validator.Finding();
+        f.setProblemCode(-1000);
+    }
+
+    /**
      * Test method for {@link Validator.Finding#setProblemDescription(String)}.
      */
     @Test
@@ -131,6 +160,7 @@ public class ValidatorFindingTest {
         assertNull(f.getProblemDescription());
         f.setProblemDescription("FRYING PAN");
         assertEquals("FRYING PAN", f.getProblemDescription());
+        assertNotNull(f.getStackTrace());
     }
 
     /**
@@ -188,8 +218,15 @@ public class ValidatorFindingTest {
     public void testToString() {
         Finding f = new Validator.Finding();
         f.setProblem(ProblemCode.CROSS_REFERENCE_NOT_FOUND);
-        assertEquals("Finding [problemCode=0, problemDescription=Cross-referenced item could not be found in the GEDCOM, ]", f
-                .toString());
+        f.setFieldNameOfConcern("QQQ");
+        f.setItemOfConcern(new Place());
+        f.getRelatedItems(true).add(new StringWithCustomFacts("EEE"));
+        AutoRepair ar = new AutoRepair(new StringWithCustomFacts("QQQ"), new StringWithCustomFacts("qqq"));
+        f.getRepairs(true).add(ar);
+        f.setSeverity(Severity.WARNING);
+        assertEquals("Finding [fieldNameOfConcern=QQQ, itemOfConcern=Place [], severity=WARNING, problemCode=0, "
+                + "problemDescription=Cross-referenced item could not be found in the GEDCOM, relatedItems=[EEE], "
+                + "repairs=[AutoRepair [before=QQQ, after=qqq]]]", f.toString());
     }
 
 }
