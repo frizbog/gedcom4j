@@ -60,30 +60,31 @@ public class CircularAncestryValidator extends AbstractValidator {
     protected void validate() {
         RelationshipCalculator rc = new RelationshipCalculator();
         for (Individual i : getValidator().getGedcom().getIndividuals().values()) {
-            if (i.getFamiliesWhereChild() != null) {
-                for (FamilyChild fc : i.getFamiliesWhereChild()) {
-                    Family f = fc.getFamily();
+            if (i == null || i.getFamiliesWhereChild() == null) {
+                continue;
+            }
+            for (FamilyChild fc : i.getFamiliesWhereChild()) {
+                Family f = fc.getFamily();
 
-                    // Check father's side
-                    Individual father = (f.getHusband() == null ? null : f.getHusband().getIndividual());
-                    if (father != null && father.getAncestors().contains(i)) {
-                        Finding finding = newFinding(i, Severity.ERROR, ProblemCode.CIRCULAR_ANCESTRAL_RELATIONSHIP,
-                                "familiesWhereChild");
-                        rc.calculateRelationships(father, i, false);
-                        for (Relationship r : rc.getRelationshipsFound()) {
-                            finding.getRelatedItems(true).add(r.getIndividual2());
-                        }
+                // Check father's side
+                Individual father = (f.getHusband() == null ? null : f.getHusband().getIndividual());
+                if (father != null && father.getAncestors().contains(i)) {
+                    Finding finding = newFinding(i, Severity.ERROR, ProblemCode.CIRCULAR_ANCESTRAL_RELATIONSHIP,
+                            "familiesWhereChild");
+                    rc.calculateRelationships(father, i, false);
+                    for (Relationship r : rc.getRelationshipsFound()) {
+                        finding.getRelatedItems(true).add(r.getIndividual2());
                     }
+                }
 
-                    // Check mother's side
-                    Individual mother = (f.getWife() == null ? null : f.getWife().getIndividual());
-                    if (mother != null && mother.getAncestors().contains(i)) {
-                        Finding finding = newFinding(i, Severity.ERROR, ProblemCode.CIRCULAR_ANCESTRAL_RELATIONSHIP,
-                                "familiesWhereChild");
-                        rc.calculateRelationships(mother, i, false);
-                        for (Relationship r : rc.getRelationshipsFound()) {
-                            finding.getRelatedItems(true).add(r.getIndividual2());
-                        }
+                // Check mother's side
+                Individual mother = (f.getWife() == null ? null : f.getWife().getIndividual());
+                if (mother != null && mother.getAncestors().contains(i)) {
+                    Finding finding = newFinding(i, Severity.ERROR, ProblemCode.CIRCULAR_ANCESTRAL_RELATIONSHIP,
+                            "familiesWhereChild");
+                    rc.calculateRelationships(mother, i, false);
+                    for (Relationship r : rc.getRelationshipsFound()) {
+                        finding.getRelatedItems(true).add(r.getIndividual2());
                     }
                 }
             }

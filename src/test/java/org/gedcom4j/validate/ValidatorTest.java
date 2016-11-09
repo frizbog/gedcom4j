@@ -27,10 +27,25 @@
 package org.gedcom4j.validate;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
+
+import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.GedcomVersion;
+import org.gedcom4j.model.Header;
+import org.gedcom4j.model.Individual;
+import org.gedcom4j.model.Multimedia;
+import org.gedcom4j.model.NoteRecord;
+import org.gedcom4j.model.Repository;
+import org.gedcom4j.model.Source;
+import org.gedcom4j.model.Submitter;
+import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.validate.Validator.Finding;
 import org.junit.Test;
 
@@ -40,6 +55,7 @@ import org.junit.Test;
  * 
  * @author frizbog
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public class ValidatorTest implements AutoRepairResponder {
 
     /**
@@ -99,6 +115,94 @@ public class ValidatorTest implements AutoRepairResponder {
     }
 
     /**
+     * Test with a goofy gedcom structure full of nulls and stuff
+     */
+    @Test
+    public void testGoofyGedcom() {
+        Gedcom g = new Gedcom();
+        g.getIndividuals().put("Foo", null);
+        g.getIndividuals().put(null, new Individual());
+        g.getFamilies().put("Foo", null);
+        g.getFamilies().put(null, new Family());
+        g.getSubmitters().put("Foo", null);
+        g.getSubmitters().put(null, new Submitter());
+        g.getRepositories().put("Foo", null);
+        g.getRepositories().put(null, new Repository());
+        g.getNotes().put("Foo", null);
+        g.getNotes().put(null, new NoteRecord("Foo"));
+        g.getSources().put("Foo", null);
+        g.getSources().put(null, new Source());
+        g.getMultimedia().put("Foo", null);
+        g.getMultimedia().put(null, new Multimedia());
+        g.setSubmission(null);
+
+        g.setHeader(null);
+
+        Validator v = new Validator(g);
+        v.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
+        v.validate();
+        assertEquals(15, v.getResults().getAllFindings().size());
+
+        v.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
+        v.validate();
+        assertEquals(15, v.getResults().getAllFindings().size());
+
+        v.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
+        v.validate();
+        assertEquals(4, v.getResults().getAllFindings().size());
+    }
+
+    /**
+     * Test with a goofy gedcom structure full of nulls and stuff
+     */
+    @Test
+    public void testGoofyGedcomHeader() {
+        Gedcom g = new Gedcom();
+        g.setHeader(null);
+
+        Validator v = new Validator(g);
+        v.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
+        v.validate();
+        assertEquals(0, v.getResults().getAllFindings().size());
+
+        Header h = new Header();
+        h.setGedcomVersion(null);
+        g.setHeader(h);
+        v.validate();
+        assertEquals(1, v.getResults().getAllFindings().size());
+        v.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
+        v.validate();
+        assertEquals(1, v.getResults().getAllFindings().size());
+
+        h = new Header();
+        GedcomVersion gv = new GedcomVersion();
+        gv.setVersionNumber((String) null);
+        h.setGedcomVersion(gv);
+        g.setHeader(h);
+        v.validate();
+        assertEquals(1, v.getResults().getAllFindings().size());
+        v.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
+        v.validate();
+        assertEquals(0, v.getResults().getAllFindings().size());
+    }
+
+    /**
+     * Test {@link Validator#isSpecified(String)}
+     */
+    @Test
+    public void testIsSpecified() {
+        Validator v = new Validator(new Gedcom());
+        assertTrue(v.isSpecified("Foo"));
+        assertTrue(v.isSpecified("Trailing Space        "));
+        assertTrue(v.isSpecified("            Leading Space"));
+        assertFalse(v.isSpecified(null));
+        assertFalse(v.isSpecified(""));
+        assertFalse(v.isSpecified("      "));
+        assertFalse(v.isSpecified("  \t \n \r  "));
+
+    }
+
+    /**
      * Test method for {@link Validator#toString()}.
      */
     @Test
@@ -137,12 +241,47 @@ public class ValidatorTest implements AutoRepairResponder {
 
     /**
      * Test method for {@link Validator#toString()}.
+     * 
+     * @throws GedcomParserException
+     *             if the sample file cannot be parsed
+     * @throws IOException
+     *             if the sample file cannot be read
      */
     @Test
-    public void testToString() {
+    public void testToString() throws IOException, GedcomParserException {
         Gedcom g = new Gedcom();
         Validator v = new Validator(g);
         assertEquals("Validator [results=ValidationResults [allFindings=[]], autoRepairResponder=AUTO_REPAIR_NONE]", v.toString());
-    }
 
+        GedcomParser gp = new GedcomParser();
+        gp.load("sample/RelationshipTest.ged");
+        g = gp.getGedcom();
+        v = new Validator(g);
+        v.validate();
+        assertEquals("Validator [results=ValidationResults [allFindings=["
+                + "Finding [fieldNameOfConcern=value, itemOfConcern=ANSI, severity=ERROR, problemCode=2, "
+                + "problemDescription=Value supplied is not allowed, ], "
+                + "Finding [fieldNameOfConcern=aliases, itemOfConcern=Patty /Klinghoffer/ aka NoHusband aka NoHusband, "
+                + "severity=ERROR, problemCode=1, problemDescription=Value is a duplicate, ], "
+                + "Finding [fieldNameOfConcern=aliases, itemOfConcern=Patty /Klinghoffer/ aka NoHusband aka NoHusband, "
+                + "severity=ERROR, problemCode=1, problemDescription=Value is a duplicate, ], "
+                + "Finding [fieldNameOfConcern=surnames, itemOfConcern=Hannah /Smith/ aka UnknownFather, spouse of George /Zucco/, "
+                + "child of Patty /Klinghoffer/ and unknown, severity=WARNING, problemCode=14, "
+                + "problemDescription=Child has surname(s) that do not match those of either parent, "
+                + "relatedItems=[Patty /Klinghoffer/ aka NoHusband aka NoHusband], ]]], autoRepairResponder=AUTO_REPAIR_NONE]", v
+                        .toString());
+
+        v.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
+        v.validate();
+        assertEquals("Validator [results=ValidationResults [allFindings=["
+                + "Finding [fieldNameOfConcern=value, itemOfConcern=ANSI, severity=ERROR, problemCode=2, "
+                + "problemDescription=Value supplied is not allowed, ], "
+                + "Finding [fieldNameOfConcern=aliases, itemOfConcern=Patty /Klinghoffer/ aka NoHusband, severity=ERROR, problemCode=1, "
+                + "problemDescription=Value is a duplicate, "
+                + "repairs=[AutoRepair [before=Patty /Klinghoffer/ aka NoHusband aka NoHusband, after=Patty /Klinghoffer/ aka NoHusband]]], "
+                + "Finding [fieldNameOfConcern=surnames, itemOfConcern=Hannah /Smith/ aka UnknownFather, spouse of George /Zucco/, "
+                + "child of Patty /Klinghoffer/ and unknown, severity=WARNING, problemCode=14, "
+                + "problemDescription=Child has surname(s) that do not match those of either parent, "
+                + "relatedItems=[Patty /Klinghoffer/ aka NoHusband], ]]], autoRepairResponder=AUTO_REPAIR_ALL]", v.toString());
+    }
 }

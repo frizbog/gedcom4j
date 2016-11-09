@@ -26,6 +26,8 @@
  */
 package org.gedcom4j.validate;
 
+import static org.junit.Assert.assertEquals;
+
 import org.gedcom4j.model.CitationWithSource;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.NoteRecord;
@@ -81,6 +83,38 @@ public class NoteRecordValidatorTest extends AbstractValidatorTestCase {
         u.setReferenceNum("Foo");
         validator.validate();
         assertNoIssues();
+    }
+
+    /**
+     * Test method for {@link org.gedcom4j.validate.NoteRecordValidator#validate()} with some weird values for {@link NoteRecord}
+     * objects
+     */
+    @Test
+    public void testWonkyNoteRecords() {
+        Gedcom g = TestHelper.getMinimalGedcom();
+        validator = new Validator(g);
+        validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
+
+        NoteRecord n = new NoteRecord("@N0001@");
+        g.getNotes().put(n.getXref(), n);
+        assertNoIssues();
+
+        n.setXref(null);
+        validator.validate();
+        assertEquals(6, validator.getResults().getAllFindings().size());
+        assertFindingsContain(Severity.ERROR, NoteRecord.class, ProblemCode.MISSING_REQUIRED_VALUE.getCode(), "xref");
+
+        n.getLines(true).clear();
+        validator.validate();
+        assertEquals(6, validator.getResults().getAllFindings().size());
+        assertFindingsContain(Severity.ERROR, NoteRecord.class, ProblemCode.MISSING_REQUIRED_VALUE.getCode(), "xref");
+        assertFindingsContain(Severity.ERROR, NoteRecord.class, ProblemCode.MISSING_REQUIRED_VALUE.getCode(), "lines");
+
+        n.setXref("BadFormatForXref");
+        validator.validate();
+        assertEquals(2, validator.getResults().getAllFindings().size());
+        assertFindingsContain(Severity.ERROR, NoteRecord.class, ProblemCode.MISSING_REQUIRED_VALUE.getCode(), "xref");
+
     }
 
 }

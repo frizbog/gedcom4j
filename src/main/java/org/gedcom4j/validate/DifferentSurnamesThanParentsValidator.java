@@ -62,7 +62,7 @@ public class DifferentSurnamesThanParentsValidator extends AbstractValidator {
     @Override
     protected void validate() {
         for (Individual i : getValidator().getGedcom().getIndividuals().values()) {
-            if (i.getFamiliesWhereChild() == null || i.getFamiliesWhereChild().isEmpty()) {
+            if (i == null || i.getFamiliesWhereChild() == null || i.getFamiliesWhereChild().isEmpty()) {
                 continue;
             }
             Set<String> personSurnames = i.getSurnames();

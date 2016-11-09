@@ -217,6 +217,8 @@ public class ValidatorFindingTest {
     @Test
     public void testToString() {
         Finding f = new Validator.Finding();
+        assertEquals("Finding [problemCode=0, ]", f.toString());
+
         f.setProblem(ProblemCode.CROSS_REFERENCE_NOT_FOUND);
         f.setFieldNameOfConcern("QQQ");
         f.setItemOfConcern(new Place());
@@ -227,6 +229,7 @@ public class ValidatorFindingTest {
         assertEquals("Finding [fieldNameOfConcern=QQQ, itemOfConcern=Place [], severity=WARNING, problemCode=0, "
                 + "problemDescription=Cross-referenced item could not be found in the GEDCOM, relatedItems=[EEE], "
                 + "repairs=[AutoRepair [before=QQQ, after=qqq]]]", f.toString());
+
     }
 
 }

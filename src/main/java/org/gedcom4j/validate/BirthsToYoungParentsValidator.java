@@ -72,7 +72,7 @@ public class BirthsToYoungParentsValidator extends AbstractValidator {
         DateParser dp = new DateParser();
         for (Family f : getValidator().getGedcom().getFamilies().values()) {
             // No kids? Not interested
-            if (f.getChildren() == null || f.getChildren().isEmpty()) {
+            if (f == null || f.getChildren() == null || f.getChildren().isEmpty()) {
                 continue;
             }
 

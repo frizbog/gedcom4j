@@ -71,7 +71,7 @@ public class QuadrupletsAndMoreValidator extends AbstractValidator {
         for (Family f : getValidator().getGedcom().getFamilies().values()) {
 
             // If there aren't at least 4 children there's nothing to do with this family
-            if (f.getChildren() == null || f.getChildren().size() < 4) {
+            if (f == null || f.getChildren() == null || f.getChildren().size() < 4) {
                 continue;
             }
 

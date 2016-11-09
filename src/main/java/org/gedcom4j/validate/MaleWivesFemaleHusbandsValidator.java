@@ -58,6 +58,9 @@ public class MaleWivesFemaleHusbandsValidator extends AbstractValidator {
     @Override
     protected void validate() {
         for (Family f : getValidator().getGedcom().getFamilies().values()) {
+            if (f == null) {
+                continue;
+            }
             Individual w = (f.getWife() == null ? null : f.getWife().getIndividual());
             Individual h = (f.getHusband() == null ? null : f.getHusband().getIndividual());
             if (w != null && w.getSex() != null && "M".equals(w.getSex().getValue())) {

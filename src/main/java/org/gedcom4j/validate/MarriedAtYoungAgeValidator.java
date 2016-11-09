@@ -78,7 +78,7 @@ public class MarriedAtYoungAgeValidator extends AbstractValidator {
     protected void validate() {
 
         for (Family f : getValidator().getGedcom().getFamilies().values()) {
-            if (f.getHusband() == null || f.getWife() == null || f.getEvents() == null || f.getEvents().isEmpty()) {
+            if (f == null || f.getHusband() == null || f.getWife() == null || f.getEvents() == null || f.getEvents().isEmpty()) {
                 continue;
             }
 

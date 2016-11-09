@@ -70,7 +70,7 @@ public class CouplesWithLargeAgeDifferencesValidator extends AbstractValidator {
         DateParser dp = new DateParser();
 
         for (Family f : getValidator().getGedcom().getFamilies().values()) {
-            if (f.getHusband() == null || f.getWife() == null) {
+            if (f == null || f.getHusband() == null || f.getWife() == null) {
                 continue;
             }
 

@@ -33,7 +33,9 @@ import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -660,12 +662,14 @@ public class Validator implements Serializable {
      * Check individuals.
      */
     void checkIndividuals() {
-        for (Entry<String, Individual> entry : gedcom.getIndividuals().entrySet()) {
+        Iterator<Map.Entry<String, Individual>> itr = gedcom.getIndividuals().entrySet().iterator();
+        while (itr.hasNext()) {
+            Entry<String, Individual> entry = itr.next();
             if (entry.getValue() == null || entry.getKey() == null) {
                 Finding vf = newFinding(gedcom, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, "individuals");
                 if (mayRepair(vf)) {
                     vf.addRepair(new AutoRepair(null, null));
-                    gedcom.getIndividuals().remove(entry.getKey());
+                    itr.remove();
                 }
             } else {
                 new IndividualValidator(this, entry.getValue()).validate();
@@ -710,12 +714,14 @@ public class Validator implements Serializable {
      * Check families.
      */
     private void checkFamilies() {
-        for (Entry<String, Family> entry : gedcom.getFamilies().entrySet()) {
+        Iterator<Map.Entry<String, Family>> itr = gedcom.getFamilies().entrySet().iterator();
+        while (itr.hasNext()) {
+            Entry<String, Family> entry = itr.next();
             if (entry.getValue() == null || entry.getKey() == null) {
                 Finding vf = newFinding(gedcom, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, "submitter");
                 if (mayRepair(vf)) {
                     vf.addRepair(new AutoRepair(null, null));
-                    gedcom.getFamilies().remove(entry.getKey());
+                    itr.remove();
                 }
             } else {
                 new FamilyValidator(this, entry.getValue()).validate();
@@ -738,12 +744,14 @@ public class Validator implements Serializable {
      * Check multimedia.
      */
     private void checkMultimedia() {
-        for (Entry<String, Multimedia> entry : gedcom.getMultimedia().entrySet()) {
+        Iterator<Map.Entry<String, Multimedia>> itr = gedcom.getMultimedia().entrySet().iterator();
+        while (itr.hasNext()) {
+            Entry<String, Multimedia> entry = itr.next();
             if (entry.getValue() == null || entry.getKey() == null) {
                 Finding vf = newFinding(gedcom, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, "multimedia");
                 if (mayRepair(vf)) {
                     vf.addRepair(new AutoRepair(null, null));
-                    gedcom.getMultimedia().remove(entry.getKey());
+                    itr.remove();
                 }
             } else {
                 new MultimediaValidator(this, entry.getValue()).validate();
@@ -772,12 +780,14 @@ public class Validator implements Serializable {
      * Check all the repositories in the gedcom
      */
     private void checkRepositories() {
-        for (Entry<String, Repository> entry : gedcom.getRepositories().entrySet()) {
+        Iterator<Entry<String, Repository>> itr = gedcom.getRepositories().entrySet().iterator();
+        while (itr.hasNext()) {
+            Entry<String, Repository> entry = itr.next();
             if (entry.getValue() == null || entry.getKey() == null) {
                 Finding vf = newFinding(gedcom, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, "repositories");
                 if (mayRepair(vf)) {
                     vf.addRepair(new AutoRepair(null, null));
-                    gedcom.getRepositories().remove(entry.getKey());
+                    itr.remove();
                 }
             } else {
                 new RepositoryValidator(this, entry.getValue()).validate();
@@ -804,12 +814,14 @@ public class Validator implements Serializable {
      * Check all the submitters in the gedcom
      */
     private void checkSubmitters() {
-        for (Entry<String, Submitter> entry : gedcom.getSubmitters().entrySet()) {
+        Iterator<Entry<String, Submitter>> itr = gedcom.getSubmitters().entrySet().iterator();
+        while (itr.hasNext()) {
+            Entry<String, Submitter> entry = itr.next();
             if (entry.getValue() == null || entry.getKey() == null) {
                 Finding vf = newFinding(gedcom, Severity.ERROR, ProblemCode.LIST_WITH_NULL_VALUE, "submitter");
                 if (mayRepair(vf)) {
                     vf.addRepair(new AutoRepair(null, null));
-                    gedcom.getSubmitters().remove(entry.getKey());
+                    itr.remove();
                 }
             } else {
                 new SubmitterValidator(this, entry.getValue()).validate();

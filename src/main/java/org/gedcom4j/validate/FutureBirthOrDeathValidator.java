@@ -73,6 +73,9 @@ public class FutureBirthOrDeathValidator extends AbstractValidator {
     @Override
     protected void validate() {
         for (Individual i : getValidator().getGedcom().getIndividuals().values()) {
+            if (i == null) {
+                continue;
+            }
             List<IndividualEvent> births = i.getEventsOfType(IndividualEventType.BIRTH);
             for (IndividualEvent b : births) {
                 if (b.getDate() != null && b.getDate().getValue() != null && !b.getDate().getValue().isEmpty()) {

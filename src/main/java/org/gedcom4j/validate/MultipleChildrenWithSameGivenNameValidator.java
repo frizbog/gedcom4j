@@ -79,7 +79,7 @@ public class MultipleChildrenWithSameGivenNameValidator extends AbstractValidato
     @Override
     protected void validate() {
         for (Family f : getValidator().getGedcom().getFamilies().values()) {
-            if (f.getChildren() == null) {
+            if (f == null || f.getChildren() == null) {
                 continue;
             }
 

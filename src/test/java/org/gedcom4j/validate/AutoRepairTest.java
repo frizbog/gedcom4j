@@ -32,6 +32,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.Header;
 import org.gedcom4j.model.Source;
 import org.junit.Test;
 
@@ -70,20 +71,103 @@ public class AutoRepairTest {
     }
 
     /**
+     * Test {@link AutoRepair#AutoRepair(org.gedcom4j.model.ModelElement, org.gedcom4j.model.ModelElement)} with differing types in
+     * the parameters
+     */
+    @SuppressWarnings("unused")
+    @Test(expected = IllegalArgumentException.class)
+    public void testConstructorDifferentClasses() {
+        new AutoRepair(new Header(), new Gedcom());
+    }
+
+    /**
+     * Test {@link AutoRepair#equals(Object)}
+     */
+    @Test
+    @SuppressWarnings("PMD.EqualsNull")
+    public void testEquals() {
+        AutoRepair ar1 = new AutoRepair(new Gedcom(), new Gedcom());
+        assertEquals(ar1, ar1);
+        assertFalse(ar1.equals(null));
+
+        AutoRepair ar2 = new AutoRepair(new Gedcom(), new Gedcom());
+        assertEquals(ar1, ar2);
+
+        ar2 = new AutoRepair(new Header(), new Header());
+        assertFalse(ar1.equals(ar2));
+        ar1 = new AutoRepair(new Header(), new Header());
+        assertEquals(ar1, ar2);
+
+        ar1 = new AutoRepair(null, null);
+        ar2 = new AutoRepair(null, null);
+        assertEquals(ar1, ar2);
+    }
+
+    /**
      * Test {@link AutoRepair#equals(Object)}, {@link AutoRepair#hashCode()}, and {@link AutoRepair#toString()}
      */
     @Test
     public void testEqualsHashcodeToString() {
         AutoRepair ar1 = new AutoRepair(new Gedcom(), new Gedcom());
+        assertEquals("AutoRepair [before=Gedcom [families=[], header=Header [characterSet=CharacterSet [characterSetName=ANSEL, ], "
+                + "gedcomVersion=GedcomVersion [gedcomForm=LINEAGE-LINKED, versionNumber=5.5.1, ], "
+                + "sourceSystem=SourceSystem [systemId=UNSPECIFIED, ], submitter=SubmitterReference ["
+                + "submitter=Submitter [name=UNSPECIFIED, xref=@SUBMITTER@, ], ], ], "
+                + "individuals=[], multimedia=[], noteStructures=[], repositories=[], sources=[], "
+                + "submission=Submission [xref=@SUBMISSION@, ], submitters=[], trailer=Trailer []], "
+                + "after=Gedcom [families=[], header=Header [characterSet=CharacterSet [characterSetName=ANSEL, ], "
+                + "gedcomVersion=GedcomVersion [gedcomForm=LINEAGE-LINKED, versionNumber=5.5.1, ], "
+                + "sourceSystem=SourceSystem [systemId=UNSPECIFIED, ], submitter=SubmitterReference ["
+                + "submitter=Submitter [name=UNSPECIFIED, xref=@SUBMITTER@, ], ], ], individuals=[], "
+                + "multimedia=[], noteStructures=[], repositories=[], sources=[], submission=Submission ["
+                + "xref=@SUBMISSION@, ], submitters=[], trailer=Trailer []]]", ar1.toString());
+
+        ar1 = new AutoRepair(new Header(), new Header());
+        assertEquals("AutoRepair [before=Header [characterSet=CharacterSet [characterSetName=ANSEL, ], gedcomVersion=GedcomVersion "
+                + "[gedcomForm=LINEAGE-LINKED, versionNumber=5.5.1, ], sourceSystem=SourceSystem [systemId=UNSPECIFIED, ], "
+                + "submitter=SubmitterReference [submitter=Submitter [name=UNSPECIFIED, xref=@SUBMITTER@, ], ], ], "
+                + "after=Header [characterSet=CharacterSet [characterSetName=ANSEL, ], gedcomVersion=GedcomVersion "
+                + "[gedcomForm=LINEAGE-LINKED, versionNumber=5.5.1, ], sourceSystem=SourceSystem [systemId=UNSPECIFIED, ], "
+                + "submitter=SubmitterReference [submitter=Submitter [name=UNSPECIFIED, xref=@SUBMITTER@, ], ], ]]", ar1
+                        .toString());
+
+        ar1 = new AutoRepair(null, null);
+        assertEquals("AutoRepair []", ar1.toString());
+
+        ar1 = new AutoRepair(null, new Gedcom());
+        assertEquals("AutoRepair [after=Gedcom [families=[], header=Header [characterSet=CharacterSet [characterSetName=ANSEL, ], "
+                + "gedcomVersion=GedcomVersion [gedcomForm=LINEAGE-LINKED, versionNumber=5.5.1, ], sourceSystem=SourceSystem ["
+                + "systemId=UNSPECIFIED, ], submitter=SubmitterReference [submitter=Submitter [name=UNSPECIFIED, xref=@SUBMITTER@, "
+                + "], ], ], individuals=[], multimedia=[], noteStructures=[], repositories=[], sources=[], submission=Submission ["
+                + "xref=@SUBMISSION@, ], submitters=[], trailer=Trailer []]]", ar1.toString());
+
+        ar1 = new AutoRepair(new Header(), null);
+        assertEquals(
+                "AutoRepair [before=Header [characterSet=CharacterSet [characterSetName=ANSEL, ], gedcomVersion=GedcomVersion ["
+                        + "gedcomForm=LINEAGE-LINKED, versionNumber=5.5.1, ], sourceSystem=SourceSystem [systemId=UNSPECIFIED, ], "
+                        + "submitter=SubmitterReference [submitter=Submitter [name=UNSPECIFIED, xref=@SUBMITTER@, ], ], ], ]", ar1
+                                .toString());
+    }
+
+    /**
+     * Test {@link AutoRepair#hashCode()}
+     */
+    @Test
+    public void testHashCode() {
+        AutoRepair ar1 = new AutoRepair(new Gedcom(), new Gedcom());
         AutoRepair ar2 = new AutoRepair(new Gedcom(), new Gedcom());
-
-        assertEquals(ar1, ar2);
         assertEquals(ar1.hashCode(), ar2.hashCode());
-        assertEquals(ar1.toString(), ar2.toString());
 
-        ar2 = new AutoRepair(new Family(), new Family());
-        assertFalse(ar1.equals(ar2));
+        ar2 = new AutoRepair(new Header(), new Header());
         assertFalse(ar1.hashCode() == ar2.hashCode());
-        assertFalse(ar1.toString().equals(ar2.toString()));
+
+        ar1 = new AutoRepair(null, null);
+        ar2 = new AutoRepair(null, null);
+        assertEquals(ar1.hashCode(), ar2.hashCode());
+
+        ar1 = new AutoRepair(null, new Gedcom());
+        assertFalse(ar1.hashCode() == ar2.hashCode());
+        ar2 = new AutoRepair(new Header(), null);
+        assertFalse(ar1.hashCode() == ar2.hashCode());
     }
 }
