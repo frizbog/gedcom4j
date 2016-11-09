@@ -44,7 +44,7 @@ public class HeaderTest {
      * Test for {@link Header#equals(Object)}
      */
     @Test
-    @SuppressWarnings({ "PMD.EqualsNull", "PMD.ExcessiveMethodLength" })
+    @SuppressWarnings({ "PMD.EqualsNull", "PMD.ExcessiveMethodLength", "PMD.NcssMethodCount" })
     public void testEquals() {
         Header h1 = new Header();
         assertFalse(h1.equals(null));
@@ -72,26 +72,32 @@ public class HeaderTest {
         h2.setCharacterSet(new CharacterSet());
         assertEquals(h1, h2);
 
-        h1.setDate((String) null);
+        h1.setDate((StringWithCustomFacts) null);
         h2.setDate("Foo");
         assertFalse(h1.equals(h2));
         h1.setDate("Bar");
         assertFalse(h1.equals(h2));
+        h1.setDate((String) null);
+        assertFalse(h1.equals(h2));
         h1.setDate("Foo");
         assertEquals(h1, h2);
 
-        h1.setDestinationSystem((String) null);
+        h1.setDestinationSystem((StringWithCustomFacts) null);
         h2.setDestinationSystem("Foo");
         assertFalse(h1.equals(h2));
         h1.setDestinationSystem("Bar");
         assertFalse(h1.equals(h2));
+        h1.setDestinationSystem((String) null);
+        assertFalse(h1.equals(h2));
         h1.setDestinationSystem("Foo");
         assertEquals(h1, h2);
 
-        h1.setFileName((String) null);
+        h1.setFileName((StringWithCustomFacts) null);
         h2.setFileName("Foo");
         assertFalse(h1.equals(h2));
         h1.setFileName("Bar");
+        assertFalse(h1.equals(h2));
+        h1.setFileName((String) null);
         assertFalse(h1.equals(h2));
         h1.setFileName("Foo");
         assertEquals(h1, h2);
@@ -100,19 +106,27 @@ public class HeaderTest {
         assertFalse(h1.equals(h2));
         h1.setGedcomVersion(null);
         assertEquals(h1, h2);
+        h2.setGedcomVersion(new GedcomVersion());
+        assertFalse(h1.equals(h2));
+        h1.setGedcomVersion(new GedcomVersion());
+        assertEquals(h1, h2);
 
-        h1.setLanguage((String) null);
+        h1.setLanguage((StringWithCustomFacts) null);
         h2.setLanguage("Bar");
         assertFalse(h1.equals(h2));
         h1.setLanguage("Foo");
         assertFalse(h1.equals(h2));
+        h1.setLanguage((String) null);
+        assertFalse(h1.equals(h2));
         h1.setLanguage("Bar");
         assertEquals(h1, h2);
 
-        h1.setPlaceHierarchy((String) null);
+        h1.setPlaceHierarchy((StringWithCustomFacts) null);
         h2.setPlaceHierarchy("Baz");
         assertFalse(h1.equals(h2));
         h1.setPlaceHierarchy("Foo");
+        assertFalse(h1.equals(h2));
+        h1.setPlaceHierarchy((String) null);
         assertFalse(h1.equals(h2));
         h1.setPlaceHierarchy("Baz");
         assertEquals(h1, h2);
@@ -120,6 +134,10 @@ public class HeaderTest {
         h2.setSourceSystem(null);
         assertFalse(h1.equals(h2));
         h1.setSourceSystem(null);
+        assertEquals(h1, h2);
+        h2.setSourceSystem(new SourceSystem());
+        assertFalse(h1.equals(h2));
+        h1.setSourceSystem(new SourceSystem());
         assertEquals(h1, h2);
 
         h1.setSubmissionReference(null);
@@ -142,10 +160,12 @@ public class HeaderTest {
         h1.setSubmitterReference(null);
         assertEquals(h1, h2);
 
-        h1.setTime((String) null);
+        h1.setTime((StringWithCustomFacts) null);
         h2.setTime("Bat");
         assertFalse(h1.equals(h2));
         h1.setTime("Foo");
+        assertFalse(h1.equals(h2));
+        h1.setTime((String) null);
         assertFalse(h1.equals(h2));
         h1.setTime("Bat");
         assertEquals(h1, h2);
@@ -161,6 +181,10 @@ public class HeaderTest {
         assertEquals(h1.hashCode(), h1.hashCode());
 
         Header h2 = new Header();
+        assertEquals(h1.hashCode(), h2.hashCode());
+
+        h2 = new Header(h1);
+        assertEquals(h1, h2);
         assertEquals(h1.hashCode(), h2.hashCode());
 
         h1.getCopyrightData(true).add("Foo");
@@ -196,6 +220,10 @@ public class HeaderTest {
         assertFalse(h1.hashCode() == h2.hashCode());
         h1.setGedcomVersion(new GedcomVersion());
         assertEquals(h1.hashCode(), h2.hashCode());
+        h2.setGedcomVersion(null);
+        assertFalse(h1.hashCode() == h2.hashCode());
+        h1.setGedcomVersion(null);
+        assertEquals(h1.hashCode(), h2.hashCode());
 
         h2.setLanguage("Bar");
         assertFalse(h1.hashCode() == h2.hashCode());
@@ -214,6 +242,10 @@ public class HeaderTest {
         h2.setSourceSystem(new SourceSystem());
         assertFalse(h1.hashCode() == h2.hashCode());
         h1.setSourceSystem(new SourceSystem());
+        assertEquals(h1.hashCode(), h2.hashCode());
+        h2.setSourceSystem(null);
+        assertFalse(h1.hashCode() == h2.hashCode());
+        h1.setSourceSystem(null);
         assertEquals(h1.hashCode(), h2.hashCode());
 
         h2.setSubmissionReference(new SubmissionReference());
@@ -237,6 +269,10 @@ public class HeaderTest {
         h2.setTime("Bat");
         assertFalse(h1.hashCode() == h2.hashCode());
         h1.setTime("Bat");
+        assertEquals(h1.hashCode(), h2.hashCode());
+
+        h2 = new Header(h1);
+        assertEquals(h1, h2);
         assertEquals(h1.hashCode(), h2.hashCode());
     }
 

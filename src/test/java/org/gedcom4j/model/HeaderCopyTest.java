@@ -49,6 +49,20 @@ public class HeaderCopyTest extends AbstractCopyTest {
     }
 
     /**
+     * Test the a new default {@link Header} with specific fields nulled out
+     */
+    @Test
+    public void testNulledOut() {
+        Header orig = new Header();
+        orig.setCharacterSet(null);
+        orig.setGedcomVersion(null);
+        orig.setSubmitterReference(null);
+        Header copy = new Header(orig);
+        assertEquals(orig, copy);
+        assertNotSame(orig, copy);
+    }
+
+    /**
      * Test the simplest possible scenario - copy a new default {@link Header}
      */
     @Test

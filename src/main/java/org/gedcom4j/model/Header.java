@@ -124,39 +124,63 @@ public class Header extends AbstractNotesElement {
         super(other);
         if (other.characterSet != null) {
             characterSet = new CharacterSet(other.characterSet);
+        } else {
+            characterSet = null;
         }
         if (other.copyrightData != null) {
             copyrightData = new ArrayList<>(other.copyrightData);
+        } else {
+            copyrightData = null;
         }
         if (other.date != null) {
             date = new StringWithCustomFacts(other.date);
+        } else {
+            date = null;
         }
         if (other.destinationSystem != null) {
             destinationSystem = new StringWithCustomFacts(other.destinationSystem);
+        } else {
+            destinationSystem = null;
         }
         if (other.fileName != null) {
             fileName = new StringWithCustomFacts(other.fileName);
+        } else {
+            fileName = null;
         }
         if (other.gedcomVersion != null) {
             gedcomVersion = new GedcomVersion(other.gedcomVersion);
+        } else {
+            gedcomVersion = null;
         }
         if (other.language != null) {
             language = new StringWithCustomFacts(other.language);
+        } else {
+            language = null;
         }
         if (other.placeHierarchy != null) {
             placeHierarchy = new StringWithCustomFacts(other.placeHierarchy);
+        } else {
+            placeHierarchy = null;
         }
         if (other.sourceSystem != null) {
             sourceSystem = new SourceSystem(other.sourceSystem);
+        } else {
+            sourceSystem = null;
         }
         if (other.submissionReference != null) {
             submissionReference = new SubmissionReference(other.submissionReference);
+        } else {
+            submissionReference = null;
         }
         if (other.submitterReference != null) {
             submitterReference = new SubmitterReference(other.submitterReference);
+        } else {
+            submitterReference = null;
         }
         if (other.time != null) {
             time = new StringWithCustomFacts(other.time);
+        } else {
+            time = null;
         }
     }
 
@@ -170,9 +194,6 @@ public class Header extends AbstractNotesElement {
             return true;
         }
         if (!super.equals(obj)) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
             return false;
         }
         Header other = (Header) obj;
