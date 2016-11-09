@@ -349,6 +349,59 @@ public class GedcomWriterVersionCompatibilityTest {
     }
 
     /**
+     * Test combining GEDCOM 5.5 and initialized collections/fields that should be ok as long as they are empty
+     * 
+     * @throws GedcomWriterVersionDataMismatchException
+     *             if there's a version compatibility problem
+     */
+    @Test
+    public void testGedcom55InitializedButEmptyForbiddenValues() throws GedcomWriterVersionDataMismatchException {
+        GedcomVersion gv = new GedcomVersion();
+        gv.setVersionNumber(SupportedVersion.V5_5);
+        g.getHeader().setGedcomVersion(gv);
+
+        Corporation corp = new Corporation();
+        corp.getWwwUrls(true);
+        corp.getFaxNumbers(true);
+        corp.getEmails(true);
+        SourceSystem ss = new SourceSystem();
+        ss.setCorporation(corp);
+        g.getHeader().setSourceSystem(ss);
+
+        Individual father = new IndividualFactory().create(g, "Dad", "Smith", Sex.MALE, (Date) null, null, (Date) null, null);
+        Individual mother = new IndividualFactory().create(g, "Mom", "Smith", Sex.MALE, (Date) null, null, (Date) null, null);
+        Individual child = new IndividualFactory().create(g, "Kid", "Smith", Sex.MALE, (Date) null, null, (Date) null, null);
+        new FamilyFactory().create(g, father, mother, child);
+
+        father.getWwwUrls(true);
+        father.getFaxNumbers(true);
+        father.getEmails(true);
+
+        IndividualEvent ie = new IndividualEvent();
+        ie.getWwwUrls(true);
+        ie.getFaxNumbers(true);
+        ie.getEmails(true);
+        father.getEvents(true).add(ie);
+
+        Repository r = new Repository();
+        r.getWwwUrls(true);
+        r.getFaxNumbers(true);
+        r.getEmails(true);
+        g.getRepositories().put("@R1@", r);
+
+        Submitter s = new Submitter();
+        s.getWwwUrls(true);
+        s.getFaxNumbers(true);
+        s.getEmails(true);
+        g.getSubmitters().put("@S1@", s);
+
+        CharacterSet cs = new CharacterSet();
+        g.getHeader().setCharacterSet(cs);
+
+        classUnderTest.checkVersionCompatibility55();
+    }
+
+    /**
      * Test combining GEDCOM 5.5 and no character set
      * 
      * @throws GedcomWriterVersionDataMismatchException
