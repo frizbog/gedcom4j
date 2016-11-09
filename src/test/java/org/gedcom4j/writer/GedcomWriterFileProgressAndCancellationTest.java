@@ -572,6 +572,66 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
     }
 
     /**
+     * Test registering/unregistering observers.
+     *
+     * @throws WriterCancelledException
+     *             the writer cancelled exception
+     */
+    @Test
+    public void testRegisterUnregisterObservers() throws WriterCancelledException {
+        ConstructProgressListener c = new ConstructProgressListener() {
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void progressNotification(ConstructProgressEvent e) {
+                // Do nothing
+            }
+        };
+        FileProgressListener f = new FileProgressListener() {
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void progressNotification(FileProgressEvent e) {
+                // Do nothing
+            }
+        };
+        gw = new GedcomWriter(new Gedcom());
+        assertEquals(0, gw.constructObservers.size());
+        assertEquals(0, gw.fileObservers.size());
+        gw.registerConstructObserver(c);
+        assertEquals(1, gw.constructObservers.size());
+        assertEquals(0, gw.fileObservers.size());
+        gw.unregisterConstructObserver(c);
+        assertEquals(0, gw.constructObservers.size());
+        assertEquals(0, gw.fileObservers.size());
+
+        gw.registerFileObserver(f);
+        assertEquals(0, gw.constructObservers.size());
+        assertEquals(1, gw.fileObservers.size());
+        gw.unregisterFileObserver(f);
+        assertEquals(0, gw.constructObservers.size());
+        assertEquals(0, gw.fileObservers.size());
+
+        // Unregistering observers that aren't observing does nothing, silently
+        gw.unregisterConstructObserver(c);
+        gw.unregisterFileObserver(f);
+
+    }
+
+    /**
+     * Try setting the notification rate below the minimum value
+     * 
+     * @throws WriterCancelledException
+     *             if the writer gets cancelled, which won't happen in this test
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetFileNotificationRateNegativeTest() throws WriterCancelledException {
+        new GedcomWriter(new Gedcom()).setFileNotificationRate(0);
+    }
+
+    /**
      * Helper method to clean up bad data in the GEDCOM so it writes ok
      * 
      * @param gp
@@ -601,5 +661,4 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
             }
         }
     }
-
 }

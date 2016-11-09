@@ -127,7 +127,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     /**
      * The list of observers on string construction
      */
-    private final List<WeakReference<ConstructProgressListener>> constructObservers = new CopyOnWriteArrayList<>();
+    final List<WeakReference<ConstructProgressListener>> constructObservers = new CopyOnWriteArrayList<>();
 
     /**
      * Send a notification whenever more than this many lines are written to a file
@@ -137,7 +137,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     /**
      * The list of observers on file operations
      */
-    private final List<WeakReference<FileProgressListener>> fileObservers = new CopyOnWriteArrayList<>();
+    final List<WeakReference<FileProgressListener>> fileObservers = new CopyOnWriteArrayList<>();
 
     /**
      * The number of lines constructed as last reported to the observers
@@ -381,7 +381,6 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
                 i++;
             }
         }
-        constructObservers.add(new WeakReference<>(observer));
     }
 
     /**
@@ -400,7 +399,6 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
                 i++;
             }
         }
-        fileObservers.add(new WeakReference<>(observer));
     }
 
     /**
@@ -508,42 +506,12 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
     }
 
     /**
-     * Notify construct observers if more than 100 lines have been constructed since last time we notified them
-     */
-    void notifyConstructObserversIfNeeded() {
-        if (lines.size() - lastLineCountNotified > constructionNotificationRate) {
-            notifyConstructObservers(new ConstructProgressEvent(this, lines.size(), true));
-        }
-    }
-
-    /**
-     * Checks that the gedcom version specified is compatible with the data in the model. Not a perfect exhaustive check.
-     * 
-     * @throws GedcomWriterException
-     *             if data is detected that is incompatible with the selected version
-     */
-    private void checkVersionCompatibility() throws GedcomWriterException {
-
-        if (writeFrom.getHeader().getGedcomVersion() == null) {
-            // If there's not one specified, set up a default one that specifies
-            // 5.5.1
-            writeFrom.getHeader().setGedcomVersion(new GedcomVersion());
-        }
-        if (SupportedVersion.V5_5.toString().equals(writeFrom.getHeader().getGedcomVersion().getVersionNumber().getValue())) {
-            checkVersionCompatibility55();
-        } else {
-            checkVersionCompatibility551();
-        }
-
-    }
-
-    /**
      * Check that the data is compatible with 5.5 style Gedcom files
      * 
      * @throws GedcomWriterVersionDataMismatchException
      *             if a data point is detected that is incompatible with the 5.5 standard
      */
-    private void checkVersionCompatibility55() throws GedcomWriterVersionDataMismatchException {
+    void checkVersionCompatibility55() throws GedcomWriterVersionDataMismatchException {
         // Now that we know if we're working with a 5.5.1 file or not, let's
         // check some data points
         if (writeFrom.getHeader().getCopyrightData() != null && writeFrom.getHeader().getCopyrightData().size() > 1) {
@@ -597,6 +565,35 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
                 throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Repository " + r.getXref()
                         + " has emails");
             }
+        }
+    }
+
+    /**
+     * Notify construct observers if more than 100 lines have been constructed since last time we notified them
+     */
+    void notifyConstructObserversIfNeeded() {
+        if (lines.size() - lastLineCountNotified > constructionNotificationRate) {
+            notifyConstructObservers(new ConstructProgressEvent(this, lines.size(), true));
+        }
+    }
+
+    /**
+     * Checks that the gedcom version specified is compatible with the data in the model. Not a perfect exhaustive check.
+     * 
+     * @throws GedcomWriterException
+     *             if data is detected that is incompatible with the selected version
+     */
+    private void checkVersionCompatibility() throws GedcomWriterException {
+
+        if (writeFrom.getHeader().getGedcomVersion() == null) {
+            // If there's not one specified, set up a default one that specifies
+            // 5.5.1
+            writeFrom.getHeader().setGedcomVersion(new GedcomVersion());
+        }
+        if (SupportedVersion.V5_5.toString().equals(writeFrom.getHeader().getGedcomVersion().getVersionNumber().getValue())) {
+            checkVersionCompatibility55();
+        } else {
+            checkVersionCompatibility551();
         }
     }
 
