@@ -109,18 +109,16 @@ public class AutoRepairTest {
     @Test
     public void testEqualsHashcodeToString() {
         AutoRepair ar1 = new AutoRepair(new Gedcom(), new Gedcom());
-        assertEquals("AutoRepair [before=Gedcom [families=[], header=Header [characterSet=CharacterSet [characterSetName=ANSEL, ], "
-                + "gedcomVersion=GedcomVersion [gedcomForm=LINEAGE-LINKED, versionNumber=5.5.1, ], "
-                + "sourceSystem=SourceSystem [systemId=UNSPECIFIED, ], submitter=SubmitterReference ["
-                + "submitter=Submitter [name=UNSPECIFIED, xref=@SUBMITTER@, ], ], ], "
-                + "individuals=[], multimedia=[], noteStructures=[], repositories=[], sources=[], "
-                + "submission=Submission [xref=@SUBMISSION@, ], submitters=[], trailer=Trailer []], "
-                + "after=Gedcom [families=[], header=Header [characterSet=CharacterSet [characterSetName=ANSEL, ], "
-                + "gedcomVersion=GedcomVersion [gedcomForm=LINEAGE-LINKED, versionNumber=5.5.1, ], "
-                + "sourceSystem=SourceSystem [systemId=UNSPECIFIED, ], submitter=SubmitterReference ["
-                + "submitter=Submitter [name=UNSPECIFIED, xref=@SUBMITTER@, ], ], ], individuals=[], "
-                + "multimedia=[], noteStructures=[], repositories=[], sources=[], submission=Submission ["
-                + "xref=@SUBMISSION@, ], submitters=[], trailer=Trailer []]]", ar1.toString());
+        assertEquals("AutoRepair [before=Gedcom [header=Header [characterSet=CharacterSet [characterSetName=ANSEL, ], "
+                + "gedcomVersion=GedcomVersion [gedcomForm=LINEAGE-LINKED, versionNumber=5.5.1, ], sourceSystem=SourceSystem "
+                + "[systemId=UNSPECIFIED, ], submitter=SubmitterReference [submitter=Submitter [name=UNSPECIFIED, "
+                + "xref=@SUBMITTER@, ], ], ], families=[], individuals=[], multimedia=[], noteStructures=[], repositories=[], "
+                + "sources=[], submission=Submission [xref=@SUBMISSION@, ], submitters=[], trailer=Trailer []], after=Gedcom "
+                + "[header=Header [characterSet=CharacterSet [characterSetName=ANSEL, ], gedcomVersion=GedcomVersion "
+                + "[gedcomForm=LINEAGE-LINKED, versionNumber=5.5.1, ], sourceSystem=SourceSystem [systemId=UNSPECIFIED, ], "
+                + "submitter=SubmitterReference [submitter=Submitter [name=UNSPECIFIED, xref=@SUBMITTER@, ], ], ], "
+                + "families=[], individuals=[], multimedia=[], noteStructures=[], repositories=[], sources=[], "
+                + "submission=Submission [xref=@SUBMISSION@, ], submitters=[], trailer=Trailer []]]", ar1.toString());
 
         ar1 = new AutoRepair(new Header(), new Header());
         assertEquals("AutoRepair [before=Header [characterSet=CharacterSet [characterSetName=ANSEL, ], gedcomVersion=GedcomVersion "
@@ -135,11 +133,11 @@ public class AutoRepairTest {
         assertEquals("AutoRepair []", ar1.toString());
 
         ar1 = new AutoRepair(null, new Gedcom());
-        assertEquals("AutoRepair [after=Gedcom [families=[], header=Header [characterSet=CharacterSet [characterSetName=ANSEL, ], "
-                + "gedcomVersion=GedcomVersion [gedcomForm=LINEAGE-LINKED, versionNumber=5.5.1, ], sourceSystem=SourceSystem ["
-                + "systemId=UNSPECIFIED, ], submitter=SubmitterReference [submitter=Submitter [name=UNSPECIFIED, xref=@SUBMITTER@, "
-                + "], ], ], individuals=[], multimedia=[], noteStructures=[], repositories=[], sources=[], submission=Submission ["
-                + "xref=@SUBMISSION@, ], submitters=[], trailer=Trailer []]]", ar1.toString());
+        assertEquals("AutoRepair [after=Gedcom [header=Header [characterSet=CharacterSet [characterSetName=ANSEL, ], "
+                + "gedcomVersion=GedcomVersion [gedcomForm=LINEAGE-LINKED, versionNumber=5.5.1, ], sourceSystem=SourceSystem "
+                + "[systemId=UNSPECIFIED, ], submitter=SubmitterReference [submitter=Submitter [name=UNSPECIFIED, "
+                + "xref=@SUBMITTER@, ], ], ], families=[], individuals=[], multimedia=[], noteStructures=[], repositories=[], "
+                + "sources=[], submission=Submission [xref=@SUBMISSION@, ], submitters=[], trailer=Trailer []]]", ar1.toString());
 
         ar1 = new AutoRepair(new Header(), null);
         assertEquals(
