@@ -27,6 +27,7 @@
 package org.gedcom4j.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 
 import java.io.IOException;
@@ -53,6 +54,19 @@ public class GedcomCopyTest extends AbstractCopyTest {
     @Test(expected = NullPointerException.class)
     public void testCopyNull() {
         new Gedcom(null);
+    }
+
+    /**
+     * Test with nulled-out fields
+     */
+    @Test
+    public void testNulledFields() {
+        Gedcom orig = new Gedcom();
+        Gedcom copy = new Gedcom(orig);
+        orig.setHeader(null);
+        orig.setSubmission(null);
+        assertFalse(orig.equals(copy));
+        assertNotSame(orig, copy);
     }
 
     /**

@@ -83,6 +83,69 @@ public class GedcomTest {
     }
 
     /**
+     * Test method for {@link org.gedcom4j.model.Gedcom#equals(java.lang.Object)}.
+     */
+    @Test
+    @SuppressWarnings("PMD.EqualsNull")
+    public void testEqualsObject2() {
+        Gedcom g1 = new Gedcom();
+        assertEquals(g1, g1);
+        assertFalse(g1.equals(new Header()));
+
+        Gedcom g2 = new Gedcom();
+        assertEquals(g1, g2);
+
+        g1.getIndividuals().put("X", new Individual());
+        assertFalse(g1.equals(g2));
+        g2.getIndividuals().put("X", new Individual());
+        assertEquals(g2, g2);
+
+        g1.getFamilies().put("X", new Family());
+        assertFalse(g1.equals(g2));
+        g2.getFamilies().put("X", new Family());
+        assertEquals(g2, g2);
+
+        g1.getNotes().put("X", new NoteRecord("X"));
+        assertFalse(g1.equals(g2));
+        g2.getNotes().put("X", new NoteRecord("X"));
+        assertEquals(g2, g2);
+
+        g1.getMultimedia().put("X", new Multimedia());
+        assertFalse(g1.equals(g2));
+        g2.getMultimedia().put("X", new Multimedia());
+        assertEquals(g2, g2);
+
+        g1.getRepositories().put("X", new Repository());
+        assertFalse(g1.equals(g2));
+        g2.getRepositories().put("X", new Repository());
+        assertEquals(g2, g2);
+
+        g1.getSources().put("X", new Source());
+        assertFalse(g1.equals(g2));
+        g2.getSources().put("X", new Source());
+        assertEquals(g2, g2);
+
+        g1.getSubmitters().put("X", new Submitter());
+        assertFalse(g1.equals(g2));
+        g2.getSubmitters().put("X", new Submitter());
+        assertEquals(g2, g2);
+
+        g1.setSubmission(new Submission());
+        assertFalse(g1.equals(g2));
+        g2.setSubmission(new Submission());
+        assertEquals(g2, g2);
+
+        g2.setTrailer(null);
+        assertFalse(g1.equals(g2));
+        g1.setTrailer(null);
+        assertEquals(g2, g2);
+        g2.setTrailer(new Trailer());
+        assertFalse(g1.equals(g2));
+        g1.setTrailer(new Trailer());
+        assertEquals(g2, g2);
+    }
+
+    /**
      * Test method for {@link org.gedcom4j.model.Gedcom#hashCode()}.
      */
     @Test
@@ -98,6 +161,66 @@ public class GedcomTest {
         assertFalse("objects are no longer equal, so hashcodes should no longer equal", g1.hashCode() == g2.hashCode());
         g2.getIndividuals().put("FryingPan", new Individual());
         assertEquals("objects are equal again, so hashcodes should equal again", g1.hashCode(), g2.hashCode());
+    }
+
+    /**
+     * Test for {@link Gedcom#hashCode()}
+     */
+    @Test
+    public void testHashCode2() {
+        Gedcom g1 = new Gedcom();
+        Gedcom g2 = new Gedcom();
+        assertEquals(g2.hashCode(), g2.hashCode());
+
+        g1.getIndividuals().put("X", new Individual());
+        assertFalse(g1.hashCode() == g2.hashCode());
+        g2.getIndividuals().put("X", new Individual());
+        assertEquals(g2.hashCode(), g2.hashCode());
+
+        g1.getFamilies().put("X", new Family());
+        assertFalse(g1.hashCode() == g2.hashCode());
+        g2.getFamilies().put("X", new Family());
+        assertEquals(g2.hashCode(), g2.hashCode());
+
+        g1.getNotes().put("X", new NoteRecord("X"));
+        assertFalse(g1.hashCode() == g2.hashCode());
+        g2.getNotes().put("X", new NoteRecord("X"));
+        assertEquals(g2.hashCode(), g2.hashCode());
+
+        g1.getMultimedia().put("X", new Multimedia());
+        assertFalse(g1.hashCode() == g2.hashCode());
+        g2.getMultimedia().put("X", new Multimedia());
+        assertEquals(g2.hashCode(), g2.hashCode());
+
+        g1.getRepositories().put("X", new Repository());
+        assertFalse(g1.hashCode() == g2.hashCode());
+        g2.getRepositories().put("X", new Repository());
+        assertEquals(g2.hashCode(), g2.hashCode());
+
+        g1.getSources().put("X", new Source());
+        assertFalse(g1.hashCode() == g2.hashCode());
+        g2.getSources().put("X", new Source());
+        assertEquals(g2.hashCode(), g2.hashCode());
+
+        g1.getSubmitters().put("X", new Submitter());
+        assertFalse(g1.hashCode() == g2.hashCode());
+        g2.getSubmitters().put("X", new Submitter());
+        assertEquals(g2.hashCode(), g2.hashCode());
+
+        g1.setSubmission(new Submission());
+        assertFalse(g1.hashCode() == g2.hashCode());
+        g2.setSubmission(new Submission());
+        assertEquals(g2.hashCode(), g2.hashCode());
+
+        g2.setTrailer(null);
+        assertFalse(g1.hashCode() == g2.hashCode());
+        g1.setTrailer(null);
+        assertEquals(g2.hashCode(), g2.hashCode());
+        g2.setTrailer(new Trailer());
+        assertFalse(g1.hashCode() == g2.hashCode());
+        g1.setTrailer(new Trailer());
+        assertEquals(g2.hashCode(), g2.hashCode());
+
     }
 
     /**
