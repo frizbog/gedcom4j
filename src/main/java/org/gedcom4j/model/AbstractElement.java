@@ -130,14 +130,14 @@ public abstract class AbstractElement implements HasCustomFacts {
      * @param tag
      *            the tag we are looking for
      * @return a list of custom facts that have the desired tag. Always returns a list but it might be empty. Although the entries
-     *         in the result list are modifiable, the list itself is not.
+     *         in the result list are modifiable, the list itself is not. List will never contain null elements.
      */
     @Override
     public List<CustomFact> getCustomFactsWithTag(String tag) {
         List<CustomFact> result = new ArrayList<>();
         if (customFacts != null) {
             for (CustomFact cf : customFacts) {
-                if (cf.getTag() != null && cf.getTag().equals(tag)) {
+                if (cf != null && cf.getTag() != null && cf.getTag().equals(tag)) {
                     result.add(cf);
                 }
             }

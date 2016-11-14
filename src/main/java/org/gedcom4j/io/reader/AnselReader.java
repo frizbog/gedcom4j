@@ -207,7 +207,7 @@ final class AnselReader extends AbstractEncodingSpecificReader {
      *             if the line level can't be determined, because the file doesn't begin with a 1 or 2 digit number followed by a
      *             space.
      */
-    private int getLevelFromLine(String line) throws GedcomParserException {
+    int getLevelFromLine(String line) throws GedcomParserException {
         int level = -1;
         char[] lineChars = line.toCharArray();
         if (Character.isDigit(lineChars[0])) {
