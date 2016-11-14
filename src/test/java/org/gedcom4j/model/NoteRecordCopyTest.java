@@ -77,7 +77,10 @@ public class NoteRecordCopyTest extends AbstractCopyTest {
         orig.getLines(true).add("Line 3");
 
         orig.getCitations(true).add(getTestCitation());
+        orig.getCitations(true).add(new CitationWithSource());
         orig.getCustomFacts(true).add(getTestCustomFact());
+
+        orig.getUserReferences(true).add(new UserReference());
 
         // Copy and compare
         NoteRecord copy = new NoteRecord(orig);

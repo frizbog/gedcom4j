@@ -29,7 +29,6 @@ package org.gedcom4j.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -44,97 +43,145 @@ public class SourceTest {
      * Test for {@link Source#equals(Object)}
      */
     @Test
+    @SuppressWarnings({ "PMD.ExcessiveMethodLength", "PMD.NcssMethodCount" })
     public void testEqualsObject() {
         Source s1 = new Source("Foo");
         Source s2 = new Source("Foo");
         assertNotSame(s1, s2);
         assertEquals(s1, s2);
 
+        ChangeDate cd = new ChangeDate();
+        s2.setChangeDate(cd);
+        assertFalse(s1.equals(s2));
         s1.setChangeDate(new ChangeDate());
-        assertTrue(s1.hashCode() != s2.hashCode());
-        s2.setChangeDate(new ChangeDate());
+        assertEquals(s1, s2);
+        cd.setDate("01 OCT 1900");
+        assertFalse(s1.equals(s2));
+        cd.setDate((StringWithCustomFacts) null);
         assertEquals(s1, s2);
 
         s1.customFacts = null;
         assertEquals(s1, s2);
         s1.getCustomFacts(true).clear();
-        assertTrue(s1.hashCode() != s2.hashCode());
+        assertFalse(s1.equals(s2));
         s2.getCustomFacts(true).clear();
         assertEquals(s1, s2);
+        s1.getCustomFacts(true).add(new CustomFact("_X"));
+        assertFalse(s1.equals(s2));
+        s1.getCustomFacts(true).clear();
+        assertEquals(s1, s2);
 
+        s2.setData(new SourceData());
+        assertFalse(s1.equals(s2));
         s1.setData(new SourceData());
-        assertTrue(s1.hashCode() != s2.hashCode());
+        assertEquals(s1, s2);
+        s2.setData(null);
+        assertFalse(s1.equals(s2));
         s2.setData(new SourceData());
         assertEquals(s1, s2);
 
+        s2.getMultimedia(true);
+        assertFalse(s1.equals(s2));
+        s1.getMultimedia(true);
+        assertEquals(s1, s2);
         s1.getMultimedia(true).add(new MultimediaReference(new Multimedia()));
-        assertTrue(s1.hashCode() != s2.hashCode());
+        assertFalse(s1.equals(s2));
         s2.getMultimedia(true).add(new MultimediaReference(new Multimedia()));
         assertEquals(s1, s2);
 
         s1.getNoteStructures(true).add(new NoteStructure());
-        assertTrue(s1.hashCode() != s2.hashCode());
+        assertFalse(s1.equals(s2));
         s2.getNoteStructures(true).add(new NoteStructure());
         assertEquals(s1, s2);
 
-        s1.setOriginatorsAuthors(new MultiStringWithCustomFacts());
-        assertTrue(s1.hashCode() != s2.hashCode());
         s2.setOriginatorsAuthors(new MultiStringWithCustomFacts());
+        assertFalse(s1.equals(s2));
+        s1.setOriginatorsAuthors(new MultiStringWithCustomFacts());
         assertEquals(s1, s2);
-
+        s2.setOriginatorsAuthors(null);
+        assertFalse(s1.equals(s2));
+        s2.setOriginatorsAuthors(new MultiStringWithCustomFacts());
         s1.getOriginatorsAuthors().getLines(true).add("qweqwe");
-        assertTrue(s1.hashCode() != s2.hashCode());
+        assertFalse(s1.equals(s2));
         s2.getOriginatorsAuthors().getLines(true).add("qweqwe");
         assertEquals(s1, s2);
 
         s1.setPublicationFacts(new MultiStringWithCustomFacts());
-        assertTrue(s1.hashCode() != s2.hashCode());
+        assertFalse(s1.equals(s2));
         s2.setPublicationFacts(new MultiStringWithCustomFacts());
         assertEquals(s1, s2);
-
+        s1.setPublicationFacts(null);
+        assertFalse(s1.equals(s2));
+        s1.setPublicationFacts(new MultiStringWithCustomFacts());
         s1.getPublicationFacts().getLines(true).add("foo");
-        assertTrue(s1.hashCode() != s2.hashCode());
+        assertFalse(s1.equals(s2));
         s2.getPublicationFacts().getLines(true).add("foo");
         assertEquals(s1, s2);
 
         s1.setRecIdNumber("Foo");
-        assertTrue(s1.hashCode() != s2.hashCode());
+        assertFalse(s1.equals(s2));
         s2.setRecIdNumber("Foo");
         assertEquals(s1, s2);
-
+        s1.setRecIdNumber((StringWithCustomFacts) null);
+        assertFalse(s1.equals(s2));
+        s1.setRecIdNumber("Foo");
+        assertEquals(s1, s2);
         s1.setRepositoryCitation(new RepositoryCitation());
-        assertTrue(s1.hashCode() != s2.hashCode());
+        assertFalse(s1.equals(s2));
         s2.setRepositoryCitation(new RepositoryCitation());
+        assertEquals(s1, s2);
+        s1.setRepositoryCitation(null);
+        assertFalse(s1.equals(s2));
+        s1.setRepositoryCitation(new RepositoryCitation());
         assertEquals(s1, s2);
 
         s1.setSourceFiledBy("Bar");
-        assertTrue(s1.hashCode() != s2.hashCode());
+        assertFalse(s1.equals(s2));
         s2.setSourceFiledBy("Bar");
+        assertEquals(s1, s2);
+        s1.setSourceFiledBy((StringWithCustomFacts) null);
+        assertFalse(s1.equals(s2));
+        s1.setSourceFiledBy("Bar");
         assertEquals(s1, s2);
 
         s1.setSourceText(new MultiStringWithCustomFacts());
-        assertTrue(s1.hashCode() != s2.hashCode());
+        assertFalse(s1.equals(s2));
         s2.setSourceText(new MultiStringWithCustomFacts());
         assertEquals(s1, s2);
-
+        s1.setSourceText(null);
+        assertFalse(s1.equals(s2));
+        s1.setSourceText(new MultiStringWithCustomFacts());
         s1.getSourceText().getLines(true).add("bar");
-        assertTrue(s1.hashCode() != s2.hashCode());
+        assertFalse(s1.equals(s2));
         s2.getSourceText().getLines(true).add("bar");
         assertEquals(s1, s2);
 
-        s1.setTitle(new MultiStringWithCustomFacts());
-        assertTrue(s1.hashCode() != s2.hashCode());
         s2.setTitle(new MultiStringWithCustomFacts());
+        assertFalse(s1.equals(s2));
+        s1.setTitle(new MultiStringWithCustomFacts());
         assertEquals(s1, s2);
-
         s1.getTitle().getLines(true).add("baz");
-        assertTrue(s1.hashCode() != s2.hashCode());
+        assertFalse(s1.equals(s2));
         s2.getTitle().getLines(true).add("baz");
         assertEquals(s1, s2);
 
-        s1.getUserReferences(true).add(new UserReference());
-        assertTrue(s1.hashCode() != s2.hashCode());
+        s2.getUserReferences(true);
+        assertFalse(s1.equals(s2));
+        s1.getUserReferences(true);
+        assertEquals(s1, s2);
         s2.getUserReferences(true).add(new UserReference());
+        assertFalse(s1.equals(s2));
+        s1.getUserReferences(true).add(new UserReference());
+        assertEquals(s1, s2);
+
+        s1.setXref(null);
+        s2.setXref("@S1@");
+        assertFalse(s1.equals(s2));
+        s1.setXref("@S1@");
+        assertEquals(s1, s2);
+        s2.setXref("@S5@");
+        assertFalse(s1.equals(s2));
+        s1.setXref("@S5@");
         assertEquals(s1, s2);
 
     }

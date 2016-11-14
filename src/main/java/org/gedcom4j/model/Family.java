@@ -227,9 +227,6 @@ public class Family extends AbstractNotesElement implements HasCitations, HasXre
         if (!super.equals(obj)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
         Family other = (Family) obj;
         if (automatedRecordId == null) {
             if (other.automatedRecordId != null) {

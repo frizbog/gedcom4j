@@ -184,9 +184,6 @@ public class Source extends AbstractNotesElement implements HasXref {
         if (!super.equals(obj)) {
             return false;
         }
-        if (!(obj instanceof Source)) {
-            return false;
-        }
         Source other = (Source) obj;
         if (changeDate == null) {
             if (other.changeDate != null) {
