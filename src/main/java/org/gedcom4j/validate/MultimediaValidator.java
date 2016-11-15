@@ -73,8 +73,8 @@ class MultimediaValidator extends AbstractValidator {
             throw new ValidationException("Validator passed in to MultimediaValidator constructor was null");
         }
         mm = multimedia;
-        if (validator.getGedcom() == null || validator.getGedcom().getHeader() == null || validator.getGedcom().getHeader()
-                .getGedcomVersion() == null || validator.getGedcom().getHeader().getGedcomVersion().getVersionNumber() == null) {
+        if (validator.getGedcom().getHeader() == null || validator.getGedcom().getHeader().getGedcomVersion() == null || validator
+                .getGedcom().getHeader().getGedcomVersion().getVersionNumber() == null) {
             Finding vf = newFinding(mm, Severity.INFO, ProblemCode.UNABLE_TO_DETERMINE_GEDCOM_VERSION, null);
             if (mayRepair(vf)) {
                 Multimedia before = new Multimedia(mm);
@@ -92,7 +92,7 @@ class MultimediaValidator extends AbstractValidator {
      * @return true if and only if GEDCOM standard in use is 5.5.1
      */
     protected boolean v551() {
-        return SupportedVersion.V5_5_1.toString().equals(gedcomVersion.getValue());
+        return gedcomVersion != null && SupportedVersion.V5_5_1.toString().equals(gedcomVersion.getValue());
     }
 
     /**
@@ -160,7 +160,7 @@ class MultimediaValidator extends AbstractValidator {
 
         // Validate the citations - only allowed in 5.5.1
         if (mm.getCitations() != null && !mm.getCitations().isEmpty()) {
-            Finding vf = newFinding(mm, Severity.ERROR, ProblemCode.NOT_ALLOWED_IN_GEDCOM_55, "");
+            Finding vf = newFinding(mm, Severity.ERROR, ProblemCode.NOT_ALLOWED_IN_GEDCOM_55, "citations");
             if (mayRepair(vf)) {
                 Multimedia before = new Multimedia(mm);
                 before.getCitations().clear();

@@ -33,6 +33,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -63,7 +64,7 @@ import org.gedcom4j.validate.Validator.Finding;
  * @author frizbog1
  * 
  */
-@SuppressWarnings({ "PMD.TooManyMethods", "PMD.GodClass" })
+@SuppressWarnings({ "PMD.TooManyMethods", "PMD.GodClass", "PMD.ExcessiveImports" })
 abstract class AbstractValidator implements Serializable {
 
     /**
@@ -233,7 +234,7 @@ abstract class AbstractValidator implements Serializable {
         for (StringWithCustomFacts swct : itemWithAddresses.getEmails()) {
             mustHaveValue(swct, "value");
             if (swct.getValue() != null && !EMAIL_PATTERN.matcher(swct.getValue()).matches()) {
-                validator.newFinding(swct, Severity.WARNING, org.gedcom4j.validate.ProblemCode.NOT_VALID_EMAIL_ADDRESS, "value");
+                validator.newFinding(swct, Severity.WARNING, ProblemCode.NOT_VALID_EMAIL_ADDRESS, "value");
             }
         }
     }
@@ -419,63 +420,34 @@ abstract class AbstractValidator implements Serializable {
             MultiStringWithCustomFacts ms = (MultiStringWithCustomFacts) o;
             checkCustomFacts(ms);
         } else if (modelElement instanceof HasCustomFacts) {
-            List<StringWithCustomFacts> list = (List<StringWithCustomFacts>) o;
-            int i = 0;
-            while (i < list.size()) {
-                Object s = list.get(i);
+            Iterator<?> itr = ((List<?>) o).iterator();
+            while (itr.hasNext()) {
+                Object s = itr.next();
                 if (s instanceof StringWithCustomFacts) {
-                    StringWithCustomFacts swct = list.get(i);
-                    if (swct != null && (blankStringsAllowed || isSpecified(swct.getValue()))) {
+                    StringWithCustomFacts swct = (StringWithCustomFacts) s;
+                    if (blankStringsAllowed || isSpecified(swct.getValue())) {
                         checkCustomFacts(swct);
-                        i++;
-                    } else {
-                        Finding vf = validator.newFinding(modelElement, Severity.ERROR,
-                                org.gedcom4j.validate.ProblemCode.LIST_WITH_NULL_VALUE, listName);
-                        if (validator.mayRepair(vf)) {
-                            ModelElement before = makeCopy(modelElement);
-                            list.remove(i);
-                            vf.addRepair(new AutoRepair(before, makeCopy(modelElement)));
-                        } else {
-                            i++;
-                        }
+                        continue;
                     }
-                } else if (s instanceof String) {
-                    String st = (String) s;
-                    if (blankStringsAllowed || isSpecified(st)) {
-                        i++;
-                    } else {
-                        Finding vf = validator.newFinding(modelElement, Severity.ERROR,
-                                org.gedcom4j.validate.ProblemCode.LIST_WITH_NULL_VALUE, listName);
-                        if (validator.mayRepair(vf)) {
-                            ModelElement before = makeCopy(modelElement);
-                            list.remove(i);
-                            vf.addRepair(new AutoRepair(before, makeCopy(modelElement)));
-                        } else {
-                            i++;
-                        }
-                    }
-                }
-            }
-        } else {
-            if (blankStringsAllowed) {
-                return;
-            }
-            List<String> list = (List<String>) o;
-            int i = 0;
-            while (i < list.size()) {
-                String s = list.get(i);
-                if (!isSpecified(s)) {
                     Finding vf = validator.newFinding(modelElement, Severity.ERROR,
                             org.gedcom4j.validate.ProblemCode.LIST_WITH_NULL_VALUE, listName);
                     if (validator.mayRepair(vf)) {
                         ModelElement before = makeCopy(modelElement);
-                        list.remove(i);
+                        itr.remove();
                         vf.addRepair(new AutoRepair(before, makeCopy(modelElement)));
-                    } else {
-                        i++;
                     }
-                } else {
-                    i++;
+                } else if (s instanceof String) {
+                    String st = (String) s;
+                    if (blankStringsAllowed || isSpecified(st)) {
+                        continue;
+                    }
+                    Finding vf = validator.newFinding(modelElement, Severity.ERROR,
+                            org.gedcom4j.validate.ProblemCode.LIST_WITH_NULL_VALUE, listName);
+                    if (validator.mayRepair(vf)) {
+                        ModelElement before = makeCopy(modelElement);
+                        itr.remove();
+                        vf.addRepair(new AutoRepair(before, makeCopy(modelElement)));
+                    }
                 }
             }
         }
