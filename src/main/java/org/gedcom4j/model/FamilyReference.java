@@ -86,9 +86,6 @@ public class FamilyReference extends AbstractElement {
         if (!super.equals(obj)) {
             return false;
         }
-        if (!(obj instanceof FamilyReference)) {
-            return false;
-        }
         FamilyReference other = (FamilyReference) obj;
         if (family == null) {
             if (other.family != null) {

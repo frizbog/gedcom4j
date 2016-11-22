@@ -131,9 +131,6 @@ public class NoteRecord extends AbstractElement implements HasCitations, HasXref
         if (!super.equals(obj)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
         NoteRecord other = (NoteRecord) obj;
         if (changeDate == null) {
             if (other.changeDate != null) {

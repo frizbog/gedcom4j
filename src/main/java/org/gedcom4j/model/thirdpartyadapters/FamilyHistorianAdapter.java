@@ -76,11 +76,11 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
             throw new IllegalArgumentException("The dnaMarker argument is required.");
         }
         if (!isNonNullAndHasRequiredTag(dnaMarker, "_ATTR")) {
-            throw new IllegalArgumentException("The dnaMarker argument had the wrong tag value; expected _DNA, found " + dnaMarker
+            throw new IllegalArgumentException("The dnaMarker argument had the wrong tag value; expected _ATTR, found " + dnaMarker
                     .getTag());
         }
         StringWithCustomFacts type = dnaMarker.getType();
-        if (type != null && !"DNA Markers".equals(type.getValue())) {
+        if (type == null || !"DNA Markers".equals(type.getValue())) {
             throw new IllegalArgumentException("The dnaMarker argument had the wrong type value; expected 'DNA Markers', found '"
                     + type + "'");
         }
@@ -106,7 +106,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
                     .getTag());
         }
         StringWithCustomFacts type = elected.getType();
-        if (type != null && !"Elected".equals(type.getValue())) {
+        if (type == null || !"Elected".equals(type.getValue())) {
             throw new IllegalArgumentException("The elected argument had the wrong type value; expected 'Elected', found '" + type
                     + "'");
         }
@@ -192,7 +192,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
                     + employment.getTag());
         }
         StringWithCustomFacts type = employment.getType();
-        if (type != null && !"Employment".equals(type.getValue())) {
+        if (type == null || !"Employment".equals(type.getValue())) {
             throw new IllegalArgumentException("The employment argument had the wrong type value; expected 'Employment', found '"
                     + type + "'");
         }
@@ -218,7 +218,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
                     .getTag());
         }
         StringWithCustomFacts type = height.getType();
-        if (type != null && !"Height".equals(type.getValue())) {
+        if (type == null || !"Height".equals(type.getValue())) {
             throw new IllegalArgumentException("The height argument had the wrong type value; expected 'Height', found '" + type
                     + "'");
         }
@@ -245,7 +245,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
                     + medicalCondition.getTag());
         }
         StringWithCustomFacts type = medicalCondition.getType();
-        if (type != null && !"Medical Condition".equals(type.getValue())) {
+        if (type == null || !"Medical Condition".equals(type.getValue())) {
             throw new IllegalArgumentException(
                     "The medicalCondition argument had the wrong type value; expected 'Medical Condition', found '" + type + "'");
         }
@@ -271,7 +271,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
                     + militaryId.getTag());
         }
         StringWithCustomFacts type = militaryId.getType();
-        if (type != null && !"Military ID".equals(type.getValue())) {
+        if (type == null || !"Military ID".equals(type.getValue())) {
             throw new IllegalArgumentException("The militaryId argument had the wrong type value; expected 'Military ID', found '"
                     + type + "'");
         }
@@ -298,7 +298,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
                     + militaryService.getTag());
         }
         StringWithCustomFacts type = militaryService.getType();
-        if (type != null && !"Military Service".equals(type.getValue())) {
+        if (type == null || !"Military Service".equals(type.getValue())) {
             throw new IllegalArgumentException(
                     "The militaryService argument had the wrong type value; expected 'Military Service', found '" + type + "'");
         }
@@ -324,7 +324,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
                     .getTag());
         }
         StringWithCustomFacts type = mission.getType();
-        if (type != null && !"Mission (LDS)".equals(type.getValue())) {
+        if (type == null || !"Mission (LDS)".equals(type.getValue())) {
             throw new IllegalArgumentException("The mission argument had the wrong type value; expected 'Mission (LDS)', found '"
                     + type + "'");
         }
@@ -369,7 +369,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
                     .getTag());
         }
         StringWithCustomFacts type = namesake.getType();
-        if (type != null && !"Namesake".equals(type.getValue())) {
+        if (type == null || !"Namesake".equals(type.getValue())) {
             throw new IllegalArgumentException("The namesake argument had the wrong type value; expected 'Namesake', found '" + type
                     + "'");
         }
@@ -395,7 +395,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
                     .getTag());
         }
         StringWithCustomFacts type = ordinance.getType();
-        if (type != null && !"Ordinance".equals(type.getValue())) {
+        if (type == null || !"Ordinance".equals(type.getValue())) {
             throw new IllegalArgumentException("The ordinance argument had the wrong type value; expected 'Ordinance', found '"
                     + type + "'");
         }
@@ -571,7 +571,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     public List<String> getEmails(AbstractEvent event) {
         List<String> result = new ArrayList<>();
         for (CustomFact cf : event.getCustomFactsWithTag("_EMAIL")) {
-            if (cf != null && cf.getDescription() != null) {
+            if (cf.getDescription() != null) {
                 result.add(cf.getDescription().getValue());
             }
         }
@@ -588,7 +588,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     public List<String> getEmails(CustomFact customFact) {
         List<String> result = new ArrayList<>();
         for (CustomFact cf : customFact.getCustomFactsWithTag("_EMAIL")) {
-            if (cf != null && cf.getDescription() != null) {
+            if (cf.getDescription() != null) {
                 result.add(cf.getDescription().getValue());
             }
         }
@@ -605,7 +605,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     public List<String> getEmails(Repository repository) {
         List<String> result = new ArrayList<>();
         for (CustomFact cf : repository.getCustomFactsWithTag("_EMAIL")) {
-            if (cf != null && cf.getDescription() != null) {
+            if (cf.getDescription() != null) {
                 result.add(cf.getDescription().getValue());
             }
         }
@@ -622,7 +622,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     public List<String> getEmails(Submitter submitter) {
         List<String> result = new ArrayList<>();
         for (CustomFact cf : submitter.getCustomFactsWithTag("_EMAIL")) {
-            if (cf != null && cf.getDescription() != null) {
+            if (cf.getDescription() != null) {
                 result.add(cf.getDescription().getValue());
             }
         }
@@ -976,7 +976,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
                     + " was supplied");
         }
         for (CustomFact cf : immigrationOrEmigrationEvent.getCustomFactsWithTag("_PLAC")) {
-            if (cf != null && cf.getDescription() != null) {
+            if (cf.getDescription() != null) {
                 return cf.getDescription().getValue();
             }
         }
@@ -1022,7 +1022,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      */
     public Individual getRootIndividual(Gedcom gedcom) {
         List<CustomFact> cfs = gedcom.getHeader().getCustomFactsWithTag("_ROOT");
-        if (cfs != null && !cfs.isEmpty()) {
+        if (!cfs.isEmpty()) {
             CustomFact root = cfs.get(0);
             if (root != null && root.getDescription() != null) {
                 return gedcom.getIndividuals().get(root.getDescription().getValue());
@@ -1056,7 +1056,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      */
     public String getUID(Gedcom gedcom) {
         List<CustomFact> customFactsWithTag = gedcom.getHeader().getCustomFactsWithTag("_UID");
-        if (customFactsWithTag != null && customFactsWithTag.size() == 1 && customFactsWithTag.get(0).getDescription() != null) {
+        if (customFactsWithTag.size() == 1 && customFactsWithTag.get(0).getDescription() != null) {
             return customFactsWithTag.get(0).getDescription().getValue();
         }
         return null;
@@ -1099,7 +1099,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     public List<String> getWebUrls(AbstractEvent event) {
         List<String> result = new ArrayList<>();
         for (CustomFact cf : event.getCustomFactsWithTag("_WEB")) {
-            if (cf != null && cf.getDescription() != null) {
+            if (cf.getDescription() != null) {
                 result.add(cf.getDescription().getValue());
             }
         }
@@ -1116,7 +1116,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     public List<String> getWebUrls(CustomFact customFact) {
         List<String> result = new ArrayList<>();
         for (CustomFact cf : customFact.getCustomFactsWithTag("_WEB")) {
-            if (cf != null && cf.getDescription() != null) {
+            if (cf.getDescription() != null) {
                 result.add(cf.getDescription().getValue());
             }
         }
@@ -1133,7 +1133,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     public List<String> getWebUrls(Repository repository) {
         List<String> result = new ArrayList<>();
         for (CustomFact cf : repository.getCustomFactsWithTag("_WEB")) {
-            if (cf != null && cf.getDescription() != null) {
+            if (cf.getDescription() != null) {
                 result.add(cf.getDescription().getValue());
             }
         }
@@ -1150,7 +1150,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     public List<String> getWebUrls(Submitter submitter) {
         List<String> result = new ArrayList<>();
         for (CustomFact cf : submitter.getCustomFactsWithTag("_WEB")) {
-            if (cf != null && cf.getDescription() != null) {
+            if (cf.getDescription() != null) {
                 result.add(cf.getDescription().getValue());
             }
         }
@@ -1534,7 +1534,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      */
     public int removeNamedList(Gedcom gedcom, String listName) {
         if (listName == null) {
-            throw new IllegalArgumentException("listName is q required argument");
+            throw new IllegalArgumentException("listName is a required argument");
         }
         int result = 0;
         List<CustomFact> customFacts = gedcom.getHeader().getCustomFacts();

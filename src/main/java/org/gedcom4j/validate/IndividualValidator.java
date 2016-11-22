@@ -114,6 +114,11 @@ class IndividualValidator extends AbstractValidator {
         checkIndividualEvents();
         checkLdsIndividualOrdinances();
         checkNotes(individual);
+        checkCustomFacts(individual);
+        checkEmails(individual);
+        checkFaxNumbers(individual);
+        checkPhoneNumbers(individual);
+        checkWwwUrls(individual);
     }
 
     /**

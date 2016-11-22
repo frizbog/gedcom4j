@@ -207,17 +207,7 @@ public class Gedcom extends AbstractElement {
         if (!super.equals(obj)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
         Gedcom other = (Gedcom) obj;
-        if (families == null) {
-            if (other.families != null) {
-                return false;
-            }
-        } else if (!families.equals(other.families)) {
-            return false;
-        }
         if (header == null) {
             if (other.header != null) {
                 return false;
@@ -225,53 +215,28 @@ public class Gedcom extends AbstractElement {
         } else if (!header.equals(other.header)) {
             return false;
         }
-        if (individuals == null) {
-            if (other.individuals != null) {
-                return false;
-            }
-        } else if (!individuals.equals(other.individuals)) {
+        if (!families.equals(other.families)) {
             return false;
         }
-        if (multimedia == null) {
-            if (other.multimedia != null) {
-                return false;
-            }
-        } else if (!multimedia.equals(other.multimedia)) {
+        if (!individuals.equals(other.individuals)) {
             return false;
         }
-        if (getNotes() == null) {
-            if (other.getNotes() != null) {
-                return false;
-            }
-        } else if (!getNotes().equals(other.getNotes())) {
+        if (!multimedia.equals(other.multimedia)) {
             return false;
         }
-        if (repositories == null) {
-            if (other.repositories != null) {
-                return false;
-            }
-        } else if (!repositories.equals(other.repositories)) {
+        if (!getNotes().equals(other.getNotes())) {
             return false;
         }
-        if (sources == null) {
-            if (other.sources != null) {
-                return false;
-            }
-        } else if (!sources.equals(other.sources)) {
+        if (!repositories.equals(other.repositories)) {
             return false;
         }
-        if (submission == null) {
-            if (other.submission != null) {
-                return false;
-            }
-        } else if (!submission.equals(other.submission)) {
+        if (!sources.equals(other.sources)) {
             return false;
         }
-        if (submitters == null) {
-            if (other.submitters != null) {
-                return false;
-            }
-        } else if (!submitters.equals(other.submitters)) {
+        if (!submission.equals(other.submission)) {
+            return false;
+        }
+        if (!submitters.equals(other.submitters)) {
             return false;
         }
         if (trailer == null) {
@@ -432,51 +397,28 @@ public class Gedcom extends AbstractElement {
         final int maxLen = 3;
         StringBuilder builder = new StringBuilder(128);
         builder.append("Gedcom [");
-        if (families != null) {
-            builder.append("families=");
-            builder.append(toStringLimitCollection(families.entrySet(), maxLen));
-            builder.append(", ");
-        }
         if (header != null) {
             builder.append("header=");
             builder.append(header);
             builder.append(", ");
         }
-        if (individuals != null) {
-            builder.append("individuals=");
-            builder.append(toStringLimitCollection(individuals.entrySet(), maxLen));
-            builder.append(", ");
-        }
-        if (multimedia != null) {
-            builder.append("multimedia=");
-            builder.append(toStringLimitCollection(multimedia.entrySet(), maxLen));
-            builder.append(", ");
-        }
-        if (notes != null) {
-            builder.append("noteStructures=");
-            builder.append(toStringLimitCollection(notes.entrySet(), maxLen));
-            builder.append(", ");
-        }
-        if (repositories != null) {
-            builder.append("repositories=");
-            builder.append(toStringLimitCollection(repositories.entrySet(), maxLen));
-            builder.append(", ");
-        }
-        if (sources != null) {
-            builder.append("sources=");
-            builder.append(toStringLimitCollection(sources.entrySet(), maxLen));
-            builder.append(", ");
-        }
-        if (submission != null) {
-            builder.append("submission=");
-            builder.append(submission);
-            builder.append(", ");
-        }
-        if (submitters != null) {
-            builder.append("submitters=");
-            builder.append(toStringLimitCollection(submitters.entrySet(), maxLen));
-            builder.append(", ");
-        }
+        builder.append("families=");
+        builder.append(toStringLimitCollection(families.entrySet(), maxLen));
+        builder.append(", individuals=");
+        builder.append(toStringLimitCollection(individuals.entrySet(), maxLen));
+        builder.append(", multimedia=");
+        builder.append(toStringLimitCollection(multimedia.entrySet(), maxLen));
+        builder.append(", noteStructures=");
+        builder.append(toStringLimitCollection(notes.entrySet(), maxLen));
+        builder.append(", repositories=");
+        builder.append(toStringLimitCollection(repositories.entrySet(), maxLen));
+        builder.append(", sources=");
+        builder.append(toStringLimitCollection(sources.entrySet(), maxLen));
+        builder.append(", submission=");
+        builder.append(submission);
+        builder.append(", submitters=");
+        builder.append(toStringLimitCollection(submitters.entrySet(), maxLen));
+        builder.append(", ");
         if (trailer != null) {
             builder.append("trailer=");
             builder.append(trailer);

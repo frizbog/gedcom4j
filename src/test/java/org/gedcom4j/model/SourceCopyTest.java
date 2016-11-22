@@ -91,6 +91,12 @@ public class SourceCopyTest extends AbstractCopyTest {
         orig.setChangeDate(changeDate);
         orig.setRecIdNumber("A");
         orig.setXref("B");
+        orig.setSourceFiledBy("foo");
+        orig.setSourceText(new MultiStringWithCustomFacts());
+        orig.getUserReferences(true).add(new UserReference());
+        MultimediaReference m = new MultimediaReference();
+        orig.getMultimedia(true).add(m);
+
         SourceData data = new SourceData();
         data.getNoteStructures(true).add(getTestNoteStructure());
         orig.setData(data);

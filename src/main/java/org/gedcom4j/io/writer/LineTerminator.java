@@ -57,6 +57,17 @@ public enum LineTerminator {
     public static LineTerminator getDefaultLineTerminator() {
         String jvmLineTerm = System.getProperty("line.separator");
 
+        return getFromSystemProperty(jvmLineTerm);
+    }
+
+    /**
+     * Get the line terminator enum from a string obtained from the system property
+     * 
+     * @param jvmLineTerm
+     *            the JVM line terminator
+     * @return the line terminator enum
+     */
+    static LineTerminator getFromSystemProperty(String jvmLineTerm) {
         if (Character.toString((char) 0x0D).equals(jvmLineTerm)) {
             return LineTerminator.CR_ONLY;
         } else if (Character.toString((char) 0x0A).equals(jvmLineTerm)) {

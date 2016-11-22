@@ -220,11 +220,11 @@ public class ValidatorTest implements AutoRepairResponder {
         g.getSubmitters().put(null, null);
 
         Validator v = new Validator(g);
-        assertEquals("Validator [results=ValidationResults [allFindings=["
-                + "Finding [itemOfConcern=Gedcom [families=[null=null], individuals=[null=null], multimedia=[null=null], "
-                + "noteStructures=[null=null], repositories=[null=null], sources=[null=null], submitters=[null=null], ], "
-                + "severity=INFO, problemCode=10, problemDescription=Unable to determine GEDCOM version - assuming v5.5.1, ]]], "
-                + "autoRepairResponder=AUTO_REPAIR_NONE]", v.toString());
+        assertEquals("Validator [results=ValidationResults [allFindings=[Finding [itemOfConcern=Gedcom [families=[null=null], "
+                + "individuals=[null=null], multimedia=[null=null], noteStructures=[null=null], repositories=[null=null], "
+                + "sources=[null=null], submission=null, submitters=[null=null], ], severity=INFO, problemCode=10, "
+                + "problemDescription=Unable to determine GEDCOM version - assuming v5.5.1, ]]], autoRepairResponder=AUTO_REPAIR_NONE]",
+                v.toString());
     }
 
     /**
