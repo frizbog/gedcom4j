@@ -117,12 +117,201 @@ public class IndividualTest {
     @Test
     public void testEqualsObject() {
         Individual i1 = new Individual();
+        assertFalse(i1.equals(null));
+        assertFalse(i1.equals(new Corporation()));
+        assertEquals(i1, i1);
+
         Individual i2 = new Individual();
-        assertTrue(i1.equals(i2));
-        i1.setAddress(new Address());
+        assertEquals(i1, i2);
+
+        i2.getAliases(true).add(new StringWithCustomFacts("Tim"));
         assertFalse(i1.equals(i2));
-        i2.setAddress(new Address());
-        assertTrue(i1.equals(i2));
+        i1.getAliases(true).add(new StringWithCustomFacts("Tim"));
+        assertEquals(i1, i2);
+        i1.getAliases().clear();
+        assertFalse(i1.equals(i2));
+        i2.getAliases().clear();
+        assertEquals(i1, i2);
+
+        i2.getAncestorInterest(true).add(new Submitter());
+        assertFalse(i1.equals(i2));
+        i1.getAncestorInterest(true).add(new Submitter());
+        assertEquals(i1, i2);
+        i1.getAncestorInterest().clear();
+        assertFalse(i1.equals(i2));
+        i2.getAncestorInterest().clear();
+        assertEquals(i1, i2);
+
+        i2.setAncestralFileNumber("i1");
+        assertFalse(i1.equals(i2));
+        i1.setAncestralFileNumber("i1");
+        assertEquals(i1, i2);
+        i2.setAncestralFileNumber((String) null);
+        assertFalse(i1.equals(i2));
+        i1.setAncestralFileNumber((String) null);
+        assertEquals(i1, i2);
+
+        i2.getAssociations(true).add(new Association());
+        assertFalse(i1.equals(i2));
+        i1.getAssociations(true).add(new Association());
+        assertEquals(i1, i2);
+        i1.getAssociations().clear();
+        assertFalse(i1.equals(i2));
+        i2.getAssociations().clear();
+        assertEquals(i1, i2);
+
+        i2.getAttributes(true).add(new IndividualAttribute());
+        assertFalse(i1.equals(i2));
+        i1.getAttributes(true).add(new IndividualAttribute());
+        assertEquals(i1, i2);
+        i1.getAttributes().clear();
+        assertFalse(i1.equals(i2));
+        i2.getAttributes().clear();
+        assertEquals(i1, i2);
+
+        i2.setChangeDate(new ChangeDate());
+        assertFalse(i1.equals(i2));
+        i1.setChangeDate(new ChangeDate());
+        assertEquals(i1, i2);
+        i2.setChangeDate((ChangeDate) null);
+        assertFalse(i1.equals(i2));
+        i1.setChangeDate((ChangeDate) null);
+        assertEquals(i1, i2);
+
+        i2.getCitations(true).add(new CitationWithSource());
+        assertFalse(i1.equals(i2));
+        i1.getCitations(true).add(new CitationWithSource());
+        assertEquals(i1, i2);
+        i1.getCitations().clear();
+        assertFalse(i1.equals(i2));
+        i2.getCitations().clear();
+        assertEquals(i1, i2);
+
+        i2.getDescendantInterest(true).add(new Submitter());
+        assertFalse(i1.equals(i2));
+        i1.getDescendantInterest(true).add(new Submitter());
+        assertEquals(i1, i2);
+        i1.getDescendantInterest().clear();
+        assertFalse(i1.equals(i2));
+        i2.getDescendantInterest().clear();
+        assertEquals(i1, i2);
+
+        i2.getEvents(true).add(new IndividualEvent());
+        assertFalse(i1.equals(i2));
+        i1.getEvents(true).add(new IndividualEvent());
+        assertEquals(i1, i2);
+        i1.getEvents().clear();
+        assertFalse(i1.equals(i2));
+        i2.getEvents().clear();
+        assertEquals(i1, i2);
+
+        i2.getFamiliesWhereChild(true).add(new FamilyChild());
+        assertFalse(i1.equals(i2));
+        i1.getFamiliesWhereChild(true).add(new FamilyChild());
+        assertEquals(i1, i2);
+        i1.getFamiliesWhereChild().clear();
+        assertFalse(i1.equals(i2));
+        i2.getFamiliesWhereChild().clear();
+        assertEquals(i1, i2);
+
+        i2.getFamiliesWhereSpouse(true).add(new FamilySpouse());
+        assertFalse(i1.equals(i2));
+        i1.getFamiliesWhereSpouse(true).add(new FamilySpouse());
+        assertEquals(i1, i2);
+        i1.getFamiliesWhereSpouse().clear();
+        assertFalse(i1.equals(i2));
+        i2.getFamiliesWhereSpouse().clear();
+        assertEquals(i1, i2);
+
+        i2.getLdsIndividualOrdinances(true).add(new LdsIndividualOrdinance());
+        assertFalse(i1.equals(i2));
+        i1.getLdsIndividualOrdinances(true).add(new LdsIndividualOrdinance());
+        assertEquals(i1, i2);
+        i1.getLdsIndividualOrdinances().clear();
+        assertFalse(i1.equals(i2));
+        i2.getLdsIndividualOrdinances().clear();
+        assertEquals(i1, i2);
+
+        i2.getMultimedia(true).add(new MultimediaReference());
+        assertFalse(i1.equals(i2));
+        i1.getMultimedia(true).add(new MultimediaReference());
+        assertEquals(i1, i2);
+        i1.getMultimedia().clear();
+        assertFalse(i1.equals(i2));
+        i2.getMultimedia().clear();
+        assertEquals(i1, i2);
+
+        i2.getNames(true).add(new PersonalName());
+        assertFalse(i1.equals(i2));
+        i1.getNames(true).add(new PersonalName());
+        assertEquals(i1, i2);
+        i1.getNames().clear();
+        assertFalse(i1.equals(i2));
+        i2.getNames().clear();
+        assertEquals(i1, i2);
+
+        i2.setPermanentRecFileNumber("1");
+        assertFalse(i1.equals(i2));
+        i1.setPermanentRecFileNumber("1");
+        assertEquals(i1, i2);
+        i2.setPermanentRecFileNumber((String) null);
+        assertFalse(i1.equals(i2));
+        i1.setPermanentRecFileNumber((String) null);
+        assertEquals(i1, i2);
+
+        i2.setRecIdNumber("1");
+        assertFalse(i1.equals(i2));
+        i1.setRecIdNumber("1");
+        assertEquals(i1, i2);
+        i2.setRecIdNumber((String) null);
+        assertFalse(i1.equals(i2));
+        i1.setRecIdNumber((String) null);
+        assertEquals(i1, i2);
+
+        i2.setRestrictionNotice("none");
+        assertFalse(i1.equals(i2));
+        i1.setRestrictionNotice("none");
+        assertEquals(i1, i2);
+        i2.setRestrictionNotice((String) null);
+        assertFalse(i1.equals(i2));
+        i1.setRestrictionNotice((String) null);
+        assertEquals(i1, i2);
+
+        i2.setSex("Male");
+        assertFalse(i1.equals(i2));
+        i1.setSex("Male");
+        assertEquals(i1, i2);
+        i2.setSex((String) null);
+        assertFalse(i1.equals(i2));
+        i1.setSex((String) null);
+        assertEquals(i1, i2);
+
+        i2.getSubmitters(true).add(new Submitter());
+        assertFalse(i1.equals(i2));
+        i1.getSubmitters(true).add(new Submitter());
+        assertEquals(i1, i2);
+        i1.getSubmitters().clear();
+        assertFalse(i1.equals(i2));
+        i2.getSubmitters().clear();
+        assertEquals(i1, i2);
+
+        i2.getUserReferences(true).add(new UserReference());
+        assertFalse(i1.equals(i2));
+        i1.getUserReferences(true).add(new UserReference());
+        assertEquals(i1, i2);
+        i1.getUserReferences().clear();
+        assertFalse(i1.equals(i2));
+        i2.getUserReferences().clear();
+        assertEquals(i1, i2);
+
+        i2.setXref("23");
+        assertFalse(i1.equals(i2));
+        i1.setXref("23");
+        assertEquals(i1, i2);
+        i2.setXref((String) null);
+        assertFalse(i1.equals(i2));
+        i1.setXref((String) null);
+        assertEquals(i1, i2);
     }
 
     /**
