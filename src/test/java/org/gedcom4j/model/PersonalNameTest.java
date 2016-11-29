@@ -32,6 +32,8 @@ import static org.junit.Assert.assertFalse;
 import org.junit.Test;
 
 /**
+ * Test for {@link PersonalName}
+ *
  * @author reckenrod
  * 
  */

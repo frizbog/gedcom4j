@@ -65,6 +65,8 @@ public class CitationWithSourceCopyTest extends AbstractCopyTest {
     public void testWithValues() {
         CitationWithSource orig = new CitationWithSource();
         orig.setCertainty("High");
+        orig.getCustomFacts(true).add(getTestCustomFact());
+        orig.getMultimedia(true).add(new MultimediaReference());
         orig.setEventCited("You know, that thing that happened");
         orig.setRoleInEvent("You had to be there");
         Source s = new Source();
