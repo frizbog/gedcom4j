@@ -70,6 +70,8 @@ public class AssociationCopyTest extends AbstractCopyTest {
         orig.setRelationship("CCC");
         AbstractCitation c = getTestCitation();
         orig.getCitations(true).add(c);
+        orig.getCitations().add(new CitationWithSource());
+        orig.getCustomFacts(true).add(getTestCustomFact());
 
         Association copy = new Association(orig);
         assertEquals(orig, copy);

@@ -76,9 +76,9 @@ public class AssociationTest {
         a2.setRelationship((String) null);
         assertEquals(a1, a2);
 
-        a1.getCitations(true).add(new CitationWithSource());
-        assertFalse(a1.equals(a2));
         a2.getCitations(true).add(new CitationWithSource());
+        assertFalse(a1.equals(a2));
+        a1.getCitations(true).add(new CitationWithSource());
         assertEquals(a1, a2);
         a1.getCitations().clear();
         assertFalse(a1.equals(a2));
