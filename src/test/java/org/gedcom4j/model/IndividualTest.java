@@ -115,6 +115,7 @@ public class IndividualTest {
      * Test method for {@link org.gedcom4j.model.Individual#equals(java.lang.Object)} .
      */
     @Test
+    @SuppressWarnings({ "PMD.ExcessiveMethodLength", "PMD.NcssMethodCount", "PMD.EqualsNull", "checkstyle:MethodLength" })
     public void testEqualsObject() {
         Individual i1 = new Individual();
         assertFalse(i1.equals(null));

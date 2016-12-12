@@ -405,7 +405,7 @@ abstract class AbstractValidator implements Serializable {
      * @param blankStringsAllowed
      *            are blank/empty strings allowed in the string list?
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("checkstyle:WhitespaceAround")
     protected void checkStringList(ModelElement modelElement, String listName, boolean blankStringsAllowed) {
         checkUninitializedCollection(modelElement, listName);
         Object o = get(modelElement, listName);
