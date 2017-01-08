@@ -35,7 +35,7 @@ import java.io.IOException;
 import java.util.Set;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.query.Finder;
@@ -83,7 +83,7 @@ public class AncestryCalculatorTest {
         gp.load("sample/RelationshipTest.ged");
         assertTrue(gp.getErrors().isEmpty());
         assertTrue(gp.getWarnings().isEmpty());
-        final Gedcom g = gp.getGedcom();
+        final IGedcom g = gp.getGedcom();
         assertNotNull(g);
         assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g
                 .getIndividuals().size());

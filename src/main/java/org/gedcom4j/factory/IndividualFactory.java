@@ -31,6 +31,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.PersonalName;
@@ -66,7 +67,7 @@ public class IndividualFactory {
      * @return the individual. As a side effect, the individual is already added to the gedcom for you.
      */
     @SuppressWarnings("checkstyle:ParameterNumber")
-    public Individual create(Gedcom g, String givenName, String surname, Sex sex, Date birth, String birthPlace, Date death,
+    public Individual create(IGedcom g, String givenName, String surname, Sex sex, Date birth, String birthPlace, Date death,
             String deathPlace) {
         String deathDateString = null;
         if (death != null) {
@@ -101,7 +102,7 @@ public class IndividualFactory {
      * @return the individual. As a side effect, the individual is already added to the gedcom for you.
      */
     @SuppressWarnings("checkstyle:ParameterNumber")
-    public Individual create(Gedcom g, String givenName, String surname, Sex sex, String birthDateString, String birthPlace,
+    public Individual create(IGedcom g, String givenName, String surname, Sex sex, String birthDateString, String birthPlace,
             String deathDateString, String deathPlace) {
 
         Individual result = new Individual();

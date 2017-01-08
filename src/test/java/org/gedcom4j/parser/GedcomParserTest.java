@@ -43,7 +43,7 @@ import org.gedcom4j.model.CitationWithSource;
 import org.gedcom4j.model.CitationWithoutSource;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FileReference;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.NoteStructure;
@@ -113,7 +113,7 @@ public class GedcomParserTest {
         assertTrue(gp.getWarnings().isEmpty());
         assertEquals("There is exactly 1 custom tag on the file as a whole", 1, gp.getGedcom().getCustomFacts().size());
         assertEquals("There is exactly 1 custom tag in the header", 1, gp.getGedcom().getHeader().getCustomFacts().size());
-        Gedcom g = gp.getGedcom();
+        IGedcom g = gp.getGedcom();
         assertFalse(g.getSubmitters().isEmpty());
         Submitter submitter = g.getSubmitters().values().iterator().next();
         assertNotNull(submitter);
@@ -134,7 +134,7 @@ public class GedcomParserTest {
         gp.load("sample/a31486.ged");
         assertTrue(gp.getErrors().isEmpty());
         assertTrue(gp.getWarnings().isEmpty());
-        Gedcom g = gp.getGedcom();
+        IGedcom g = gp.getGedcom();
 
         // Check submitter
         assertFalse(g.getSubmitters().isEmpty());
@@ -203,7 +203,7 @@ public class GedcomParserTest {
         assertTrue(gp.getWarnings().isEmpty());
 
         // And the data is as we expected, right?
-        Gedcom g = gp.getGedcom();
+        IGedcom g = gp.getGedcom();
         assertNotNull(g);
         assertTrue(g.getIndividuals().isEmpty());
         assertTrue(g.getFamilies().isEmpty());
@@ -230,7 +230,7 @@ public class GedcomParserTest {
         assertTrue(gp.getWarnings().isEmpty());
 
         // And the data is as we expected, right?
-        Gedcom g = gp.getGedcom();
+        IGedcom g = gp.getGedcom();
         assertNotNull(g);
         assertTrue(g.getIndividuals().isEmpty());
         assertTrue(g.getFamilies().isEmpty());
@@ -296,7 +296,7 @@ public class GedcomParserTest {
      *            the {@link GedcomParser}
      */
     private void checkTGC551LF(GedcomParser gp) {
-        Gedcom g = gp.getGedcom();
+        IGedcom g = gp.getGedcom();
         assertNotNull(g.getHeader());
         assertEquals(3, g.getSubmitters().size());
         Submitter submitter = g.getSubmitters().get("@SUBMITTER@");
@@ -327,7 +327,7 @@ public class GedcomParserTest {
         CitationWithoutSource citWithoutSource;
         Source source;
 
-        Gedcom g = gp.getGedcom();
+        IGedcom g = gp.getGedcom();
         assertNotNull(g.getHeader());
         assertEquals(3, g.getSubmitters().size());
         Submitter submitter = g.getSubmitters().get("@SUBMITTER@");

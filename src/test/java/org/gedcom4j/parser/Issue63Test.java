@@ -33,7 +33,7 @@ import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Family;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.junit.Test;
 
 /**
@@ -56,7 +56,7 @@ public class Issue63Test {
     public void test() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/Issue 63.ged");
-        Gedcom g = gp.getGedcom();
+        IGedcom g = gp.getGedcom();
         assertNotNull(g);
         assertEquals(1, g.getFamilies().size());
         assertEquals(2, g.getIndividuals().size());

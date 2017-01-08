@@ -29,7 +29,7 @@ package org.gedcom4j.factory;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyChild;
 import org.gedcom4j.model.FamilySpouse;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualReference;
 
@@ -53,7 +53,7 @@ public class FamilyFactory {
      *            the children - optional, but if supplied, must already exist in the gedcom (by xref)
      * @return the family created and added to the gedcom
      */
-    public Family create(Gedcom g, Individual father, Individual mother, Individual... children) {
+    public Family create(IGedcom g, Individual father, Individual mother, Individual... children) {
 
         // Validate that the people passed in exist
         if (father != null && !g.getIndividuals().containsKey(father.getXref())) {

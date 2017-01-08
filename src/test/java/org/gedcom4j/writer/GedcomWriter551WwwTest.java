@@ -32,7 +32,7 @@ import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.model.Corporation;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Repository;
 import org.gedcom4j.model.SourceSystem;
 import org.gedcom4j.model.StringWithCustomFacts;
@@ -58,7 +58,7 @@ public class GedcomWriter551WwwTest {
      */
     @Test
     public void testCorpInSourceSystemWith551WwwGood() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        IGedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setSourceSystem(new SourceSystem());
         Corporation c = new Corporation();
@@ -86,7 +86,7 @@ public class GedcomWriter551WwwTest {
      */
     @Test(expected = GedcomWriterException.class)
     public void testCorpInSourceSystemWith55WwwBad() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        IGedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setSourceSystem(new SourceSystem());
         Corporation c = new Corporation();
@@ -110,7 +110,7 @@ public class GedcomWriter551WwwTest {
      */
     @Test
     public void testCorpInSourceSystemWith55WwwGood() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        IGedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setSourceSystem(new SourceSystem());
         Corporation c = new Corporation();
@@ -133,7 +133,7 @@ public class GedcomWriter551WwwTest {
      */
     @Test
     public void testRepositoryWith551WwwGood() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        IGedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         Repository r = new Repository();
         r.setXref("@R1@");
@@ -161,7 +161,7 @@ public class GedcomWriter551WwwTest {
      */
     @Test(expected = GedcomWriterException.class)
     public void testRepositoryWith55WwwBad() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        IGedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         Repository r = new Repository();
         r.setXref("@R1@");
@@ -185,7 +185,7 @@ public class GedcomWriter551WwwTest {
      */
     @Test
     public void testRepositoryWith55WwwGood() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        IGedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         Repository r = new Repository();
         r.setXref("@R1@");
@@ -208,7 +208,7 @@ public class GedcomWriter551WwwTest {
      */
     @Test
     public void testSubmitterWith551WwwGood() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        IGedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         Submitter s = new Submitter();
         s.setName("test");
@@ -236,7 +236,7 @@ public class GedcomWriter551WwwTest {
      */
     @Test(expected = GedcomWriterException.class)
     public void testSubmitterWith55WwwBad() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        IGedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         Submitter s = new Submitter();
         s.setName("test");
@@ -261,7 +261,7 @@ public class GedcomWriter551WwwTest {
      */
     @Test
     public void testSubmitterWith55WwwGood() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        IGedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         Submitter s = new Submitter();
         s.setName("test");

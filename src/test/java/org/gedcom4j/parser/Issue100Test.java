@@ -35,7 +35,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.NoteStructure;
 import org.gedcom4j.query.Finder;
@@ -62,7 +62,7 @@ public class Issue100Test {
         GedcomParser gp = new GedcomParser();
         gp.setStrictLineBreaks(false);
         gp.load("sample/Sopranos.ged");
-        Gedcom g = gp.getGedcom();
+        IGedcom g = gp.getGedcom();
         assertEquals(2, gp.getWarnings().size());
         assertTrue(gp.getWarnings().contains(
                 "Line 26 did not begin with a level and tag, so it was treated as a non-standard continuation of the previous line."));

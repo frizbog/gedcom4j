@@ -33,7 +33,7 @@ import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Family;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.Source;
 import org.junit.Test;
@@ -61,7 +61,7 @@ public class Issue129Test {
 
         // Load file full of custom tags
         gp.load("sample/customtagstorture.ged");
-        Gedcom g = gp.getGedcom();
+        IGedcom g = gp.getGedcom();
         assertNull(g.getHeader().getCustomFacts());
         assertNull(g.getHeader().getCharacterSet().getCustomFacts());
         for (Individual i : g.getIndividuals().values()) {
@@ -90,7 +90,7 @@ public class Issue129Test {
 
         // Load file full of custom tags
         gp.load("sample/customtagstorture.ged");
-        Gedcom g = gp.getGedcom();
+        IGedcom g = gp.getGedcom();
         assertNotNull(g.getHeader().getCustomFacts());
         assertNotNull(g.getHeader().getCharacterSet().getCustomFacts());
         for (Individual i : g.getIndividuals().values()) {

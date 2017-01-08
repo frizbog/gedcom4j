@@ -36,6 +36,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.enumerations.IndividualEventType;
 import org.junit.Test;
@@ -48,12 +49,11 @@ import org.junit.Test;
 public class IndividualFactoryTest {
 
     /**
-     * Test for
-     * {@link IndividualFactory#create(org.gedcom4j.model.Gedcom, String, String, Sex, java.util.Date, String, java.util.Date, String)}
+     * Test for {@link IndividualFactory#create(IGedcom, String, String, Sex, java.util.Date, String, java.util.Date, String)}
      */
     @Test
     public void testCreate() {
-        Gedcom g = new Gedcom();
+        IGedcom g = new Gedcom();
         @SuppressWarnings("deprecation")
         Individual i = new IndividualFactory().create(g, "Robert", "Tarantino", Sex.MALE, new Date(67, Calendar.MAY, 1), "Idaho",
                 new Date(99, Calendar.OCTOBER, 31), "Virginia");
@@ -72,12 +72,11 @@ public class IndividualFactoryTest {
     }
 
     /**
-     * Test for
-     * {@link IndividualFactory#create(org.gedcom4j.model.Gedcom, String, String, Sex, java.util.Date, String, java.util.Date, String)}
+     * Test for {@link IndividualFactory#create(IGedcom, String, String, Sex, java.util.Date, String, java.util.Date, String)}
      */
     @Test
     public void testCreateNulls() {
-        Gedcom g = new Gedcom();
+        IGedcom g = new Gedcom();
         Individual i = new IndividualFactory().create(g, null, null, null, (String) null, null, null, null);
 
         assertNotNull(i);
@@ -94,12 +93,11 @@ public class IndividualFactoryTest {
     }
 
     /**
-     * Test for
-     * {@link IndividualFactory#create(org.gedcom4j.model.Gedcom, String, String, Sex, java.util.Date, String, java.util.Date, String)}
+     * Test for {@link IndividualFactory#create(IGedcom, String, String, Sex, java.util.Date, String, java.util.Date, String)}
      */
     @Test
     public void testCreateSkipXrefs() {
-        Gedcom g = new Gedcom();
+        IGedcom g = new Gedcom();
 
         // Skip every other index number, to add 5 individuals to map
         for (int i = 0; i < 10; i += 2) {

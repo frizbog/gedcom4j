@@ -31,7 +31,7 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.junit.Test;
 
@@ -54,7 +54,7 @@ public class Issue166Test {
     public void testIndentedLines() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/Issue166.ged");
-        Gedcom g = gp.getGedcom();
+        IGedcom g = gp.getGedcom();
         assertNotNull(g);
         Individual i = g.getIndividuals().get("@I6000000047602801251@");
         assertNotNull(i);

@@ -62,7 +62,7 @@ public class GedcomCopyTest extends AbstractCopyTest {
     @Test
     public void testNulledFields() {
         Gedcom orig = new Gedcom();
-        Gedcom copy = new Gedcom(orig);
+        IGedcom copy = new Gedcom(orig);
         orig.setHeader(null);
         orig.setSubmission(null);
         assertFalse(orig.equals(copy));
@@ -75,7 +75,7 @@ public class GedcomCopyTest extends AbstractCopyTest {
     @Test
     public void testSimplestPossible() {
         Gedcom orig = new Gedcom();
-        Gedcom copy = new Gedcom(orig);
+        IGedcom copy = new Gedcom(orig);
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
@@ -91,7 +91,7 @@ public class GedcomCopyTest extends AbstractCopyTest {
     @Test
     public void testWithLoadedFile() throws IOException, GedcomParserException {
         Gedcom loadedGedcom = getLoadedGedcom();
-        Gedcom copy = new Gedcom(loadedGedcom);
+        IGedcom copy = new Gedcom(loadedGedcom);
         assertEquals(loadedGedcom, copy);
         assertNotSame(loadedGedcom, copy);
     }
@@ -145,7 +145,7 @@ public class GedcomCopyTest extends AbstractCopyTest {
         sbr.setName("Steve /Submitter/");
         orig.getSubmitters().put(sbr.getXref(), sbr);
 
-        Gedcom copy = new Gedcom(orig);
+        IGedcom copy = new Gedcom(orig);
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }

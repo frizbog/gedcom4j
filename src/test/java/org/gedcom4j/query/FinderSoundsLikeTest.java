@@ -33,7 +33,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.parser.GedcomParser;
@@ -56,7 +56,7 @@ public class FinderSoundsLikeTest {
     /**
      * The GEDCOM we're loading
      */
-    private Gedcom gedcom;
+    private IGedcom gedcom;
 
     /**
      * Set up test fixtures

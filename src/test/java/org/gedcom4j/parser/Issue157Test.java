@@ -32,7 +32,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.junit.Test;
 
 /**
@@ -54,7 +54,7 @@ public class Issue157Test {
     public void test() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/Issue157.ged");
-        Gedcom g = gp.getGedcom();
+        IGedcom g = gp.getGedcom();
         assertNotNull(g);
         assertTrue(gp.getWarnings().isEmpty());
         assertTrue(gp.getErrors().isEmpty());

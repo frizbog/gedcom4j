@@ -71,7 +71,7 @@ public class SubmitterCopyTest extends AbstractCopyTest {
      */
     @Test
     public void testWithLoadedFile() throws IOException, GedcomParserException {
-        Gedcom loadedGedcom = getLoadedGedcom();
+        IGedcom loadedGedcom = getLoadedGedcom();
 
         for (Submitter original : loadedGedcom.getSubmitters().values()) {
             Submitter copy = new Submitter(original);

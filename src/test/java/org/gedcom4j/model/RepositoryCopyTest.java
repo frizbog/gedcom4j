@@ -71,7 +71,7 @@ public class RepositoryCopyTest extends AbstractCopyTest {
      */
     @Test
     public void testWithLoadedFile() throws IOException, GedcomParserException {
-        Gedcom loadedGedcom = getLoadedGedcom();
+        IGedcom loadedGedcom = getLoadedGedcom();
 
         for (Repository original : loadedGedcom.getRepositories().values()) {
             Repository copy = new Repository(original);

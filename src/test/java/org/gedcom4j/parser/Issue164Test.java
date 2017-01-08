@@ -34,6 +34,7 @@ import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.junit.Test;
 
 /**
@@ -57,12 +58,12 @@ public class Issue164Test {
     public void test() throws IOException, GedcomParserException {
         GedcomParser oneParser = new GedcomParser();
         oneParser.load("sample/minimal55.ged");
-        Gedcom g1 = oneParser.getGedcom();
+        IGedcom g1 = oneParser.getGedcom();
         assertNotNull(g1);
 
         // Load file again
         oneParser.load("sample/minimal55.ged");
-        Gedcom g2 = oneParser.getGedcom();
+        IGedcom g2 = oneParser.getGedcom();
         assertNotNull(g2);
 
         // Moment of truth

@@ -66,7 +66,7 @@ import java.util.Map;
  * @author frizbog1
  */
 @SuppressWarnings("PMD.GodClass")
-public class Gedcom extends AbstractElement {
+public class Gedcom extends AbstractElement implements IGedcom {
     /**
      * Serial Version UID
      */
@@ -250,91 +250,81 @@ public class Gedcom extends AbstractElement {
     }
 
     /**
-     * Gets the families.
-     *
-     * @return the families
+     * {@inheritDoc}
      */
+    @Override
     public Map<String, Family> getFamilies() {
         return families;
     }
 
     /**
-     * Gets the header.
-     *
-     * @return the header
+     * {@inheritDoc}
      */
+    @Override
     public Header getHeader() {
         return header;
     }
 
     /**
-     * Gets the individuals.
-     *
-     * @return the individuals
+     * {@inheritDoc}
      */
+    @Override
     public Map<String, Individual> getIndividuals() {
         return individuals;
     }
 
     /**
-     * Gets the multimedia.
-     *
-     * @return the multimedia
+     * {@inheritDoc}
      */
+    @Override
     public Map<String, Multimedia> getMultimedia() {
         return multimedia;
     }
 
     /**
-     * Gets the notes.
-     *
-     * @return the notes
+     * {@inheritDoc}
      */
+    @Override
     public Map<String, NoteRecord> getNotes() {
         return notes;
     }
 
     /**
-     * Gets the repositories.
-     *
-     * @return the repositories
+     * {@inheritDoc}
      */
+    @Override
     public Map<String, Repository> getRepositories() {
         return repositories;
     }
 
     /**
-     * Gets the sources.
-     *
-     * @return the sources
+     * {@inheritDoc}
      */
+    @Override
     public Map<String, Source> getSources() {
         return sources;
     }
 
     /**
-     * Gets the submission.
-     *
-     * @return the submission
+     * {@inheritDoc}
      */
+    @Override
     public Submission getSubmission() {
         return submission;
     }
 
     /**
-     * Gets the submitters.
-     *
-     * @return the submitters
+     * {@inheritDoc}
      */
+    @Override
     public Map<String, Submitter> getSubmitters() {
         return submitters;
     }
 
     /**
-     * Gets the trailer.
-     *
-     * @return the trailer
+     * {@inheritDoc}
      */
+    @Override
     public Trailer getTrailer() {
         return trailer;
     }
@@ -360,31 +350,25 @@ public class Gedcom extends AbstractElement {
     }
 
     /**
-     * Sets the header.
-     *
-     * @param header
-     *            the new header
+     * {@inheritDoc}
      */
+    @Override
     public void setHeader(Header header) {
         this.header = header;
     }
 
     /**
-     * Sets the submission.
-     *
-     * @param submission
-     *            the new submission
+     * {@inheritDoc}
      */
+    @Override
     public void setSubmission(Submission submission) {
         this.submission = submission;
     }
 
     /**
-     * Sets the trailer.
-     *
-     * @param trailer
-     *            the new trailer
+     * {@inheritDoc}
      */
+    @Override
     public void setTrailer(Trailer trailer) {
         this.trailer = trailer;
     }

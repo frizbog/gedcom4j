@@ -148,7 +148,7 @@ public class StringTreeTest {
     public void testToStringBigFile() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/5.5.1 sample 1.ged");
-        Gedcom g = gp.getGedcom();
+        IGedcom g = gp.getGedcom();
 
         for (Family f : g.getFamilies().values()) {
             assertNotNull(f.getCustomFacts(true).toString());

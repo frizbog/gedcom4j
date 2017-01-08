@@ -43,6 +43,7 @@ import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyEvent;
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualAttribute;
 import org.gedcom4j.model.IndividualEvent;
@@ -413,7 +414,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Test for {@link FamilyHistorianAdapter#addNamedList(Gedcom, CustomFact)}
+     * Test for {@link FamilyHistorianAdapter#addNamedList(IGedcom, CustomFact)}
      */
     @Test
     public void testAddNamedList() {
@@ -1174,7 +1175,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Negative test for {@link FamilyHistorianAdapter#getNamedList(Gedcom, String)}
+     * Negative test for {@link FamilyHistorianAdapter#getNamedList(IGedcom, String)}
      */
     @Test
     public void testGetNamedListBad() {
@@ -1185,7 +1186,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Negative test for {@link FamilyHistorianAdapter#getNamedList(Gedcom, String)}
+     * Negative test for {@link FamilyHistorianAdapter#getNamedList(IGedcom, String)}
      */
     @Test
     public void testGetNamedListBad2() {
@@ -1198,7 +1199,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Positive test for {@link FamilyHistorianAdapter#getNamedList(Gedcom, String)}
+     * Positive test for {@link FamilyHistorianAdapter#getNamedList(IGedcom, String)}
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testGetNamedListImmutable() {
@@ -1209,7 +1210,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Negative test for {@link FamilyHistorianAdapter#getNamedList(Gedcom, String)}
+     * Negative test for {@link FamilyHistorianAdapter#getNamedList(IGedcom, String)}
      */
     @Test
     public void testGetNamedListNegative() {
@@ -1223,7 +1224,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Negative test for {@link FamilyHistorianAdapter#getNamedList(Gedcom, String)}
+     * Negative test for {@link FamilyHistorianAdapter#getNamedList(IGedcom, String)}
      */
     @Test(expected = IllegalArgumentException.class)
     public void testGetNamedListNegativeNullListName() {
@@ -1231,7 +1232,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Positive test for {@link FamilyHistorianAdapter#getNamedList(Gedcom, String)}
+     * Positive test for {@link FamilyHistorianAdapter#getNamedList(IGedcom, String)}
      */
     @Test
     public void testGetNamedListPositive() {
@@ -1242,7 +1243,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Positive test for {@link FamilyHistorianAdapter#getNamedLists(Gedcom)}
+     * Positive test for {@link FamilyHistorianAdapter#getNamedLists(IGedcom)}
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testGetNamedListsImmutable() {
@@ -1253,7 +1254,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Negative test for {@link FamilyHistorianAdapter#getNamedLists(Gedcom)}
+     * Negative test for {@link FamilyHistorianAdapter#getNamedLists(IGedcom)}
      */
     @Test
     public void testGetNamedListsNegative() {
@@ -1263,7 +1264,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Positive test for {@link FamilyHistorianAdapter#getNamedLists(Gedcom)}
+     * Positive test for {@link FamilyHistorianAdapter#getNamedLists(IGedcom)}
      */
     @Test
     public void testGetNamedListsPositive() {
@@ -1292,7 +1293,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Positive test for {@link FamilyHistorianAdapter#getRootIndividual(Gedcom)}
+     * Positive test for {@link FamilyHistorianAdapter#getRootIndividual(IGedcom)}
      */
     @Test
     public void testGetRootIndividualPositive() {
@@ -1508,8 +1509,8 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Negative test case for {@link FamilyHistorianAdapter#getUID(Gedcom)} and
-     * {@link FamilyHistorianAdapter#setUID(Gedcom, String)}
+     * Negative test case for {@link FamilyHistorianAdapter#getUID(IGedcom)} and
+     * {@link FamilyHistorianAdapter#setUID(IGedcom, String)}
      */
     @Test
     public void testGetSetUIDNegative() {
@@ -1519,8 +1520,8 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Positive test case for {@link FamilyHistorianAdapter#getUID(Gedcom)} and
-     * {@link FamilyHistorianAdapter#setUID(Gedcom, String)}
+     * Positive test case for {@link FamilyHistorianAdapter#getUID(IGedcom)} and
+     * {@link FamilyHistorianAdapter#setUID(IGedcom, String)}
      */
     @Test
     public void testGetSetUIDPositive() {
@@ -1530,8 +1531,8 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Negative test case for {@link FamilyHistorianAdapter#getVariantExportFormat(Gedcom)} and
-     * {@link FamilyHistorianAdapter#setVariantExportFormat(Gedcom, String)}
+     * Negative test case for {@link FamilyHistorianAdapter#getVariantExportFormat(IGedcom)} and
+     * {@link FamilyHistorianAdapter#setVariantExportFormat(IGedcom, String)}
      */
     @Test
     public void testGetSetVariantExportFormatNegative() {
@@ -1541,8 +1542,8 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Negative test case for {@link FamilyHistorianAdapter#getVariantExportFormat(Gedcom)} and
-     * {@link FamilyHistorianAdapter#setVariantExportFormat(Gedcom, String)}
+     * Negative test case for {@link FamilyHistorianAdapter#getVariantExportFormat(IGedcom)} and
+     * {@link FamilyHistorianAdapter#setVariantExportFormat(IGedcom, String)}
      */
     @Test
     public void testGetSetVariantExportFormatNegative2() {
@@ -1553,8 +1554,8 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Positive test case for {@link FamilyHistorianAdapter#getVariantExportFormat(Gedcom)} and
-     * {@link FamilyHistorianAdapter#setVariantExportFormat(Gedcom, String)}
+     * Positive test case for {@link FamilyHistorianAdapter#getVariantExportFormat(IGedcom)} and
+     * {@link FamilyHistorianAdapter#setVariantExportFormat(IGedcom, String)}
      */
     @Test
     public void testGetSetVariantExportFormatPositive() {
@@ -2172,10 +2173,11 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Test for {@link FamilyHistorianAdapter#getPlaceRecords(Gedcom)},
-     * {@link FamilyHistorianAdapter#getPlaceRecord(Gedcom, String)},
-     * {@link FamilyHistorianAdapter#removePlaceRecord(Gedcom, String)}, {@link FamilyHistorianAdapter#removePlaceRecords(Gedcom)},
-     * {@link FamilyHistorianAdapter#addPlaceRecord(Gedcom, CustomFact)}, and
+     * Test for {@link FamilyHistorianAdapter#getPlaceRecords(IGedcom)},
+     * {@link FamilyHistorianAdapter#getPlaceRecord(IGedcom, String)},
+     * {@link FamilyHistorianAdapter#removePlaceRecord(IGedcom, String)},
+     * {@link FamilyHistorianAdapter#removePlaceRecords(IGedcom)},
+     * {@link FamilyHistorianAdapter#addPlaceRecord(IGedcom, CustomFact)}, and
      * {@link FamilyHistorianAdapter#newPlace(String, String)}
      */
     @Test
@@ -2217,7 +2219,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Test for {@link FamilyHistorianAdapter#getPlaceRecords(Gedcom)}
+     * Test for {@link FamilyHistorianAdapter#getPlaceRecords(IGedcom)}
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testPlaceRecordsImmutable() {
@@ -2228,7 +2230,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Negative test for {@link FamilyHistorianAdapter#getPlaceRecord(Gedcom, String)}
+     * Negative test for {@link FamilyHistorianAdapter#getPlaceRecord(IGedcom, String)}
      */
     @Test
     public void testPlaceRecordsNegative() {
@@ -2237,7 +2239,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Test for {@link FamilyHistorianAdapter#removeNamedList(Gedcom, String)}
+     * Test for {@link FamilyHistorianAdapter#removeNamedList(IGedcom, String)}
      */
     @Test
     public void testRemoveNamedList() {
@@ -2253,7 +2255,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Test for {@link FamilyHistorianAdapter#removeNamedList(Gedcom, String)}
+     * Test for {@link FamilyHistorianAdapter#removeNamedList(IGedcom, String)}
      */
     @Test(expected = IllegalArgumentException.class)
     public void testRemoveNamedListNegative() {
@@ -2261,7 +2263,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Test for {@link FamilyHistorianAdapter#removeNamedList(Gedcom, String)}
+     * Test for {@link FamilyHistorianAdapter#removeNamedList(IGedcom, String)}
      */
     @Test
     public void testRemoveNamedListNegative2() {
@@ -2269,7 +2271,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Test for {@link FamilyHistorianAdapter#removeNamedList(Gedcom, String)}
+     * Test for {@link FamilyHistorianAdapter#removeNamedList(IGedcom, String)}
      */
     @Test
     public void testRemoveNamedListNegative3() {
@@ -2278,7 +2280,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Test for {@link FamilyHistorianAdapter#removeNamedLists(Gedcom)}
+     * Test for {@link FamilyHistorianAdapter#removeNamedLists(IGedcom)}
      */
     @Test
     public void testRemoveNamedLists() {
@@ -2294,7 +2296,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Negative test for {@link FamilyHistorianAdapter#removePlaceRecord(Gedcom, String)}
+     * Negative test for {@link FamilyHistorianAdapter#removePlaceRecord(IGedcom, String)}
      */
     @Test
     public void testRemovePlaceRecordNegative1() {
@@ -2302,7 +2304,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Negative test for {@link FamilyHistorianAdapter#removePlaceRecord(Gedcom, String)}
+     * Negative test for {@link FamilyHistorianAdapter#removePlaceRecord(IGedcom, String)}
      */
     @Test
     public void testRemovePlaceRecordNegative2() {
@@ -2311,7 +2313,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Negative test for {@link FamilyHistorianAdapter#removePlaceRecord(Gedcom, String)}
+     * Negative test for {@link FamilyHistorianAdapter#removePlaceRecord(IGedcom, String)}
      */
     @Test
     public void testRemovePlaceRecordNegative3() {
@@ -2320,7 +2322,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Negative test for {@link FamilyHistorianAdapter#removePlaceRecord(Gedcom, String)}
+     * Negative test for {@link FamilyHistorianAdapter#removePlaceRecord(IGedcom, String)}
      */
     @Test
     public void testRemovePlaceRecordNegative4() {
@@ -2366,8 +2368,8 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Negative test {@link FamilyHistorianAdapter#getRootIndividual(Gedcom)} and
-     * {@link FamilyHistorianAdapter#setRootIndividual(Gedcom, Individual)}
+     * Negative test {@link FamilyHistorianAdapter#getRootIndividual(IGedcom)} and
+     * {@link FamilyHistorianAdapter#setRootIndividual(IGedcom, Individual)}
      */
     @Test(expected = IllegalArgumentException.class)
     public void testSetRootIndividualNegative1() {
@@ -2378,8 +2380,8 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Negative test for {@link FamilyHistorianAdapter#getRootIndividual(Gedcom)} and positive test for
-     * {@link FamilyHistorianAdapter#setRootIndividual(Gedcom, Individual)}
+     * Negative test for {@link FamilyHistorianAdapter#getRootIndividual(IGedcom)} and positive test for
+     * {@link FamilyHistorianAdapter#setRootIndividual(IGedcom, Individual)}
      */
     @Test
     public void testSetRootIndividualNegative2() {
@@ -2394,7 +2396,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Negative test for {@link FamilyHistorianAdapter#setRootIndividual(Gedcom, Individual)}
+     * Negative test for {@link FamilyHistorianAdapter#setRootIndividual(IGedcom, Individual)}
      */
     @Test(expected = IllegalArgumentException.class)
     public void testSetRootIndividualNegative3() {
@@ -2402,7 +2404,7 @@ public class FamilyHistorianAdapterTest {
     }
 
     /**
-     * Negative test for {@link FamilyHistorianAdapter#setVariantExportFormat(Gedcom, String)}
+     * Negative test for {@link FamilyHistorianAdapter#setVariantExportFormat(IGedcom, String)}
      */
     @Test
     public void testSetVariantExportFormatNegative() {

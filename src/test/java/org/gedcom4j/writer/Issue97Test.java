@@ -32,6 +32,7 @@ import java.io.ByteArrayOutputStream;
 
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.SubmissionReference;
 import org.gedcom4j.model.Submitter;
@@ -54,7 +55,7 @@ public class Issue97Test {
      */
     @Test
     public void testIssue97() throws GedcomWriterException {
-        Gedcom g = new Gedcom();
+        IGedcom g = new Gedcom();
         g.setSubmission(new Submission("@SUBN0001@"));
         g.getHeader().setSubmissionReference(new SubmissionReference(g.getSubmission()));
         Submitter s = new Submitter();

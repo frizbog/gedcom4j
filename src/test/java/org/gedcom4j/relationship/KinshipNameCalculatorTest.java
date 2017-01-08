@@ -34,7 +34,7 @@ import java.io.IOException;
 import java.util.Locale;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.query.Finder;
@@ -79,7 +79,7 @@ public class KinshipNameCalculatorTest {
         assertTrue(gp.getErrors().isEmpty());
         assertTrue(gp.getWarnings().isEmpty());
 
-        final Gedcom g = gp.getGedcom();
+        final IGedcom g = gp.getGedcom();
         assertNotNull(g);
         assertEquals("There are supposed to be 70 people in the gedcom - are you using the right file/file version?", 70, g
                 .getIndividuals().size());

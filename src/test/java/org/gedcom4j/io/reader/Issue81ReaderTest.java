@@ -32,7 +32,7 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.NoteStructure;
@@ -51,7 +51,7 @@ public class Issue81ReaderTest {
     /**
      * The gedcom loaded from the sample file
      */
-    private Gedcom g;
+    private IGedcom g;
 
     /**
      * Load the gedcom, assert that everything loaded ok. We'll inspect things later.

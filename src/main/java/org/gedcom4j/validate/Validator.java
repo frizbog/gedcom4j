@@ -45,6 +45,7 @@ import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Header;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.ModelElement;
 import org.gedcom4j.model.Multimedia;
@@ -452,7 +453,7 @@ public class Validator implements Serializable {
     private AutoRepairResponder autoRepairResponder = AUTO_REPAIR_NONE;
 
     /** The gedcom being validated. */
-    private final Gedcom gedcom;
+    private final IGedcom gedcom;
 
     /** The results. */
     private final ValidationResults results = new ValidationResults();
@@ -471,19 +472,19 @@ public class Validator implements Serializable {
     /**
      * Instantiates a new validator.
      *
-     * @param gedcom
+     * @param writeFrom
      *            the gedcom being validated. Required.
      * @throws IllegalArgumentException
      *             if a null Gedcom is passed in.
      */
     @SuppressWarnings("PMD.ConstructorCallsOverridableMethod")
-    public Validator(Gedcom gedcom) {
-        if (gedcom == null) {
+    public Validator(IGedcom writeFrom) {
+        if (writeFrom == null) {
             throw new IllegalArgumentException("gedcom is a required argument");
         }
-        this.gedcom = gedcom;
+        gedcom = writeFrom;
 
-        determineGedcomSpecVersion(gedcom);
+        determineGedcomSpecVersion(writeFrom);
 
         supplementaryValidators.add(DifferentSurnamesThanParentsValidator.class);
         supplementaryValidators.add(BirthsToYoungParentsValidator.class);
@@ -513,7 +514,7 @@ public class Validator implements Serializable {
      * 
      * @return the gedcom
      */
-    public Gedcom getGedcom() {
+    public IGedcom getGedcom() {
         return gedcom;
     }
 
@@ -832,17 +833,17 @@ public class Validator implements Serializable {
     /**
      * Determine the GEDCOM spec to use for validation, based on what the file says
      * 
-     * @param g
+     * @param writeFrom
      *            the gedcom structure being validated
      */
-    private void determineGedcomSpecVersion(Gedcom g) {
-        Header h = g.getHeader();
+    private void determineGedcomSpecVersion(IGedcom writeFrom) {
+        Header h = writeFrom.getHeader();
         if (h == null || h.getGedcomVersion() == null || h.getGedcomVersion().getVersionNumber() == null) {
-            Finding vf = newFinding(g, Severity.INFO, ProblemCode.UNABLE_TO_DETERMINE_GEDCOM_VERSION, null);
+            Finding vf = newFinding(writeFrom, Severity.INFO, ProblemCode.UNABLE_TO_DETERMINE_GEDCOM_VERSION, null);
             if (mayRepair(vf)) {
                 if (h == null) {
                     h = new Header();
-                    g.setHeader(h);
+                    writeFrom.setHeader(h);
                     vf.addRepair(new AutoRepair(null, h));
                 }
                 GedcomVersion gv = h.getGedcomVersion();
@@ -859,7 +860,7 @@ public class Validator implements Serializable {
                 }
             }
         } else {
-            StringWithCustomFacts gedcomVersion = g.getHeader().getGedcomVersion().getVersionNumber();
+            StringWithCustomFacts gedcomVersion = writeFrom.getHeader().getGedcomVersion().getVersionNumber();
             if (SupportedVersion.V5_5.toString().equals(gedcomVersion.getValue())) {
                 v551 = false;
             }

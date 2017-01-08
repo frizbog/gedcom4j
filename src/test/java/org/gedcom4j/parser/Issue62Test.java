@@ -35,7 +35,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.junit.Before;
@@ -83,7 +83,7 @@ public class Issue62Test {
     public void setUp() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/Event Tag Test.ged");
-        Gedcom g = gp.getGedcom();
+        IGedcom g = gp.getGedcom();
         assertNotNull(g);
         assertTrue(gp.getErrors().isEmpty());
         assertEquals("Two tags had descriptions where [Y|<NULL>] belonged", 2, gp.getWarnings().size());

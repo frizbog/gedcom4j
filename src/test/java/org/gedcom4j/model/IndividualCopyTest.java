@@ -73,7 +73,7 @@ public class IndividualCopyTest extends AbstractCopyTest {
      */
     @Test
     public void testWithLoadedFile() throws IOException, GedcomParserException {
-        Gedcom loadedGedcom = getLoadedGedcom();
+        IGedcom loadedGedcom = getLoadedGedcom();
 
         for (Individual original : loadedGedcom.getIndividuals().values()) {
             Individual copy = new Individual(original);

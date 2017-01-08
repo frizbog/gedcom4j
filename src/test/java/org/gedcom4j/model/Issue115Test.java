@@ -44,7 +44,7 @@ public class Issue115Test {
     /**
      * The test fixture
      */
-    private final Gedcom g = getGedcomWithCyclicalData();
+    private final IGedcom g = getGedcomWithCyclicalData();
 
     /**
      * Test that we get no stack overflow error
@@ -70,8 +70,8 @@ public class Issue115Test {
      * 
      * @return a gedcom with intentionally cyclical relationship data, for test purposes
      */
-    private Gedcom getGedcomWithCyclicalData() {
-        Gedcom result = new Gedcom();
+    private IGedcom getGedcomWithCyclicalData() {
+        IGedcom result = new Gedcom();
 
         Individual i1 = makeIndividual(result, 1);
         Individual i2 = makeIndividual(result, 2);
@@ -94,7 +94,7 @@ public class Issue115Test {
      *            the generation number
      * @return the individual
      */
-    private Individual makeIndividual(Gedcom gedcom, int genNumber) {
+    private Individual makeIndividual(IGedcom gedcom, int genNumber) {
         Individual result = new Individual();
         PersonalName n = new PersonalName();
         n.setBasic("George /" + genNumber + "/");
@@ -114,7 +114,7 @@ public class Issue115Test {
      * @param i2
      *            individual 2, to be the child
      */
-    private void makeParentChild(Gedcom gedcom, Individual i1, Individual i2) {
+    private void makeParentChild(IGedcom gedcom, Individual i1, Individual i2) {
         int fnum = gedcom.getFamilies().size() + 1;
         // Add the family to the gedcom map
         Family f = new Family();

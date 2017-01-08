@@ -47,6 +47,7 @@ import org.gedcom4j.io.reader.GedcomFileReader;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Header;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.NoteRecord;
 import org.gedcom4j.parser.GedcomParser;
@@ -73,12 +74,12 @@ public class GedcomWriterTest {
     /**
      * The original gedcom structure read in from the torture test file.
      */
-    private final Gedcom gedcomOrig;
+    private final IGedcom gedcomOrig;
 
     /**
      * The read-back gedcom structure read in from the file we write as part of the test.
      */
-    private final Gedcom gedcomReadback;
+    private final IGedcom gedcomReadback;
 
     /**
      * Lines that are read back from the files we write during the test
@@ -303,7 +304,7 @@ public class GedcomWriterTest {
      */
     @Test
     public void testSplitLines() throws WriterCancelledException {
-        AbstractEmitter<Gedcom> gw = new GedcomWriter(null);
+        AbstractEmitter<IGedcom> gw = new GedcomWriter(null);
         List<String> original = new ArrayList<>();
         original.add("This is a test");
         List<String> result = gw.splitLinesOnBreakingCharacters(original);
@@ -372,7 +373,7 @@ public class GedcomWriterTest {
     @Test
     public void testWriteEmptyGedcom() throws IOException, GedcomWriterException, GedcomParserException {
         // Write an empty file
-        Gedcom g = new Gedcom();
+        IGedcom g = new Gedcom();
         GedcomWriter gw = new GedcomWriter(g);
         gw.setValidationSuppressed(true);
         File tempFile = new File("tmp/gedcom4j.emptywritertest.ged");

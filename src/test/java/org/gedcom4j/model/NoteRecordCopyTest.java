@@ -106,7 +106,7 @@ public class NoteRecordCopyTest extends AbstractCopyTest {
      */
     @Test
     public void testWithLoadedFile() throws IOException, GedcomParserException {
-        Gedcom loadedGedcom = getLoadedGedcom();
+        IGedcom loadedGedcom = getLoadedGedcom();
 
         for (NoteRecord original : loadedGedcom.getNotes().values()) {
             NoteRecord copy = new NoteRecord(original);

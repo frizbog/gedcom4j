@@ -38,6 +38,7 @@ import java.util.List;
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.SubmissionReference;
 import org.gedcom4j.model.Submitter;
@@ -933,7 +934,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testWriteFileWithName() throws IOException, GedcomWriterException {
         String fn = "tmp/gedcomfilewritertest.ged";
-        Gedcom g = new Gedcom();
+        IGedcom g = new Gedcom();
         g.setSubmission(new Submission("@SUBN0001@"));
         g.getHeader().setSubmissionReference(new SubmissionReference(g.getSubmission()));
         Submitter s = new Submitter();

@@ -33,7 +33,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.NoteRecord;
 import org.junit.Test;
 
@@ -64,7 +64,7 @@ public class Issue96Test {
         assertTrue(w.matches("NOTE line has both an XREF_ID \\(.*\\) and SUBMITTER_TEXT \\(.*\\) value between @ signs - "
                 + "treating SUBMITTER_TEXT as string, not a cross-reference"));
 
-        Gedcom g = gp.getGedcom();
+        IGedcom g = gp.getGedcom();
         assertNotNull(g);
         assertNotNull(g.getNotes());
         assertEquals(1, g.getNotes().size());

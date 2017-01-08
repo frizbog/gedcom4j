@@ -38,6 +38,7 @@ import org.gedcom4j.model.Corporation;
 import org.gedcom4j.model.FamilyChild;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.GedcomVersion;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualAttribute;
 import org.gedcom4j.model.IndividualEvent;
@@ -74,7 +75,7 @@ public class GedcomWriterVersionCompatibilityTest {
     /**
      * Test fixture Gedcom with the data
      */
-    private Gedcom g;
+    private IGedcom g;
 
     /**
      * Set up before each test

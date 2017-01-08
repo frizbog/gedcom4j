@@ -47,6 +47,7 @@ import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.FamilyChild;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.GedcomVersion;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualAttribute;
 import org.gedcom4j.model.Multimedia;
@@ -102,7 +103,7 @@ import org.gedcom4j.writer.event.ConstructProgressListener;
  *
  */
 @SuppressWarnings({ "PMD.GodClass", "PMD.TooManyMethods", "PMD.ExcessiveImports" })
-public class GedcomWriter extends AbstractEmitter<Gedcom> {
+public class GedcomWriter extends AbstractEmitter<IGedcom> {
     /**
      * The text lines of the GEDCOM file we're writing, which will be written using a {@link GedcomFileWriter}. Deliberately
      * package-private so tests can access it but others can't alter it.
@@ -172,7 +173,7 @@ public class GedcomWriter extends AbstractEmitter<Gedcom> {
      * @throws WriterCancelledException
      *             if cancellation was requested during the operation
      */
-    public GedcomWriter(Gedcom gedcom) throws WriterCancelledException {
+    public GedcomWriter(IGedcom gedcom) throws WriterCancelledException {
         super(null, 0, gedcom);
         baseWriter = this;
     }

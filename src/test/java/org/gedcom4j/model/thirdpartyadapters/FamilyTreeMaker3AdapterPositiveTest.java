@@ -41,7 +41,7 @@ import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.CitationWithSource;
 import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Family;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualReference;
 import org.gedcom4j.model.Multimedia;
@@ -61,7 +61,7 @@ public class FamilyTreeMaker3AdapterPositiveTest {
     /**
      * The gedcom test fixture we're going to work with
      */
-    private Gedcom g;
+    private IGedcom g;
 
     /** John, one of the people in the GEDCOM test file. */
     private Individual john;

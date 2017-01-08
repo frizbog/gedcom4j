@@ -71,7 +71,7 @@ public class SourceCopyTest extends AbstractCopyTest {
      */
     @Test
     public void testWithLoadedFile() throws IOException, GedcomParserException {
-        Gedcom loadedGedcom = getLoadedGedcom();
+        IGedcom loadedGedcom = getLoadedGedcom();
 
         for (Source original : loadedGedcom.getSources().values()) {
             Source copy = new Source(original);

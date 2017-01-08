@@ -37,7 +37,7 @@ import java.io.IOException;
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.model.FileReference;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.Multimedia;
@@ -72,7 +72,7 @@ public class GedcomWriter551Test {
     @Test
     @SuppressWarnings("PMD.SystemPrintln")
     public void testBlobWith551() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        IGedcom g = TestHelper.getMinimalGedcom();
         GedcomWriter gw = new GedcomWriter(g);
         gw.setValidationSuppressed(false);
         gw.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
@@ -129,7 +129,7 @@ public class GedcomWriter551Test {
     @Test
     public void testMapCoords() throws IOException, GedcomWriterException, GedcomParserException {
         // Build up the test data
-        Gedcom g = TestHelper.getMinimalGedcom();
+        IGedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         GedcomWriter gw = new GedcomWriter(g);
         gw.setValidationSuppressed(false);
@@ -186,7 +186,7 @@ public class GedcomWriter551Test {
      */
     @Test
     public void testMultilineCopyrightWith551Good() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        IGedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().getCopyrightData(true).add("One line is ok");
         g.getHeader().getCopyrightData(true).add("Two lines is bad");
@@ -210,7 +210,7 @@ public class GedcomWriter551Test {
      */
     @Test(expected = GedcomWriterException.class)
     public void testMultilineCopyrightWith55Bad() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        IGedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().getCopyrightData(true).add("One line is ok");
         g.getHeader().getCopyrightData(true).add("Two lines is bad");
@@ -231,7 +231,7 @@ public class GedcomWriter551Test {
      */
     @Test
     public void testMultilineCopyrightWith55Good() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        IGedcom g = TestHelper.getMinimalGedcom();
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().getCopyrightData(true).add("One line is ok");
         GedcomWriter gw = new GedcomWriter(g);
@@ -257,7 +257,7 @@ public class GedcomWriter551Test {
     @Test
     public void testMultimedia551() throws IOException, GedcomWriterException, GedcomParserException {
         // Create some data
-        Gedcom g1 = TestHelper.getMinimalGedcom();
+        IGedcom g1 = TestHelper.getMinimalGedcom();
         Multimedia m1 = new Multimedia();
         m1.setXref("@M0@");
         g1.getMultimedia().put(m1.getXref(), m1);
@@ -283,7 +283,7 @@ public class GedcomWriter551Test {
         assertNotNull(gp.getGedcom());
 
         // See if we read back what we originally built
-        Gedcom g2 = gp.getGedcom();
+        IGedcom g2 = gp.getGedcom();
         assertEquals(1, g2.getMultimedia().size());
         Multimedia m2 = g2.getMultimedia().get("@M0@");
         assertNotNull(m2);
@@ -316,7 +316,7 @@ public class GedcomWriter551Test {
      */
     @Test
     public void testPersonalNameVariations() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        IGedcom g = TestHelper.getMinimalGedcom();
         Individual i = new Individual();
         i.setXref("@I0001@");
         g.getIndividuals().put(i.getXref(), i);
@@ -375,7 +375,7 @@ public class GedcomWriter551Test {
      */
     @Test
     public void testUtf8With551() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        IGedcom g = TestHelper.getMinimalGedcom();
         GedcomWriter gw = new GedcomWriter(g);
         gw.setValidationSuppressed(false);
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
@@ -397,7 +397,7 @@ public class GedcomWriter551Test {
      */
     @Test(expected = GedcomWriterException.class)
     public void testUtf8With55Bad() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        IGedcom g = TestHelper.getMinimalGedcom();
         GedcomWriter gw = new GedcomWriter(g);
         gw.setValidationSuppressed(false);
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
@@ -416,7 +416,7 @@ public class GedcomWriter551Test {
      */
     @Test
     public void testUtf8With55Good() throws IOException, GedcomWriterException {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        IGedcom g = TestHelper.getMinimalGedcom();
         GedcomWriter gw = new GedcomWriter(g);
         gw.setValidationSuppressed(false);
         g.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);

@@ -32,6 +32,7 @@ import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.GedcomWriterVersionDataMismatchException;
 import org.gedcom4j.model.AbstractNameVariation;
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Place;
 import org.gedcom4j.model.PlaceNameVariation;
 import org.gedcom4j.model.enumerations.SupportedVersion;
@@ -65,7 +66,7 @@ public class PlaceEmitterTest {
         p.setVariation("Phoo");
         place.getPhonetic(true).add(p);
 
-        Gedcom gedcom = new Gedcom();
+        IGedcom gedcom = new Gedcom();
         gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         GedcomWriter baseWriter = new GedcomWriter(gedcom);
         new PlaceEmitter(baseWriter, 1, place).emit();
@@ -93,7 +94,7 @@ public class PlaceEmitterTest {
         place.setLatitude("X");
         place.setLongitude("Y");
 
-        Gedcom gedcom = new Gedcom();
+        IGedcom gedcom = new Gedcom();
         gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         GedcomWriter baseWriter = new GedcomWriter(gedcom);
         new PlaceEmitter(baseWriter, 1, place).emit();
@@ -114,7 +115,7 @@ public class PlaceEmitterTest {
         r.setVariation("Foo");
         place.getRomanized(true).add(r);
 
-        Gedcom gedcom = new Gedcom();
+        IGedcom gedcom = new Gedcom();
         gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         GedcomWriter baseWriter = new GedcomWriter(gedcom);
         new PlaceEmitter(baseWriter, 1, place).emit();
@@ -135,7 +136,7 @@ public class PlaceEmitterTest {
         p.setVariation("Phoo");
         place.getPhonetic(true).add(p);
 
-        Gedcom gedcom = new Gedcom();
+        IGedcom gedcom = new Gedcom();
         gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         GedcomWriter baseWriter = new GedcomWriter(gedcom);
         new PlaceEmitter(baseWriter, 1, place).emit();

@@ -66,9 +66,9 @@ public class GedcomTest {
     @Test
     @SuppressWarnings("PMD.EqualsNull")
     public void testEqualsObject() {
-        Gedcom g1 = new Gedcom();
+        IGedcom g1 = new Gedcom();
         assertEquals(g1, g1);
-        Gedcom g2 = new Gedcom();
+        IGedcom g2 = new Gedcom();
         assertEquals("objects are equal, so equals() should return true", g1, g2);
         g1.setTrailer(null);
         assertFalse("objects are no longer equal, so equals() should return false", g1.equals(g2));
@@ -88,11 +88,11 @@ public class GedcomTest {
     @Test
     @SuppressWarnings("PMD.EqualsNull")
     public void testEqualsObject2() {
-        Gedcom g1 = new Gedcom();
+        IGedcom g1 = new Gedcom();
         assertEquals(g1, g1);
         assertFalse(g1.equals(new Header()));
 
-        Gedcom g2 = new Gedcom();
+        IGedcom g2 = new Gedcom();
         assertEquals(g1, g2);
 
         g1.getIndividuals().put("X", new Individual());
@@ -150,8 +150,8 @@ public class GedcomTest {
      */
     @Test
     public void testHashCode() {
-        Gedcom g1 = new Gedcom();
-        Gedcom g2 = new Gedcom();
+        IGedcom g1 = new Gedcom();
+        IGedcom g2 = new Gedcom();
         assertEquals("objects are equal, so hashcodes should equal", g1.hashCode(), g2.hashCode());
         g1.setTrailer(null);
         assertFalse("objects are no longer equal, so hashcodes should no longer equal", g1.hashCode() == g2.hashCode());
@@ -168,8 +168,8 @@ public class GedcomTest {
      */
     @Test
     public void testHashCode2() {
-        Gedcom g1 = new Gedcom();
-        Gedcom g2 = new Gedcom();
+        IGedcom g1 = new Gedcom();
+        IGedcom g2 = new Gedcom();
         assertEquals(g2.hashCode(), g2.hashCode());
 
         g1.getIndividuals().put("X", new Individual());
@@ -229,7 +229,7 @@ public class GedcomTest {
     @Test
     public void testInitialized() {
         Options.setCollectionInitializationEnabled(true);
-        Gedcom g = new Gedcom();
+        IGedcom g = new Gedcom();
         assertNotNull(g);
         assertNotNull(g.getFamilies());
         assertNotNull(g.getIndividuals());

@@ -35,6 +35,7 @@ import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.GedcomWriterVersionDataMismatchException;
 import org.gedcom4j.model.FileReference;
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.MultimediaReference;
 import org.gedcom4j.model.enumerations.SupportedVersion;
@@ -81,7 +82,7 @@ public class Multimedia55EmitterTest {
      */
     @Test(expected = GedcomWriterVersionDataMismatchException.class)
     public void testFileReferences() throws GedcomWriterException {
-        Gedcom gedcom = new Gedcom();
+        IGedcom gedcom = new Gedcom();
         gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         GedcomWriter baseWriter = new GedcomWriter(gedcom);
 

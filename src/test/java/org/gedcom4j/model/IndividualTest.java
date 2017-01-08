@@ -105,7 +105,7 @@ public class IndividualTest {
      *            the given name of the person we want
      * @return the person
      */
-    private static Individual getPerson(Gedcom gedcom, String surname, String givenName) {
+    private static Individual getPerson(IGedcom gedcom, String surname, String givenName) {
         Individual result = new Finder(gedcom).findByName(surname, givenName).get(0);
         assertNotNull("Couldn't find " + givenName + " " + surname + " by name in the gedcom", result);
         return result;
@@ -341,7 +341,7 @@ public class IndividualTest {
         gp.load("sample/RelationshipTest.ged");
         assertTrue(gp.getErrors().isEmpty());
         assertTrue(gp.getWarnings().isEmpty());
-        Gedcom g = gp.getGedcom();
+        IGedcom g = gp.getGedcom();
         assertNotNull(g);
         assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g
                 .getIndividuals().size());
@@ -395,7 +395,7 @@ public class IndividualTest {
         gp.load("sample/RelationshipTest.ged");
         assertTrue(gp.getErrors().isEmpty());
         assertTrue(gp.getWarnings().isEmpty());
-        Gedcom g = gp.getGedcom();
+        IGedcom g = gp.getGedcom();
         assertNotNull(g);
         assertEquals("There are supposed to be 43 people in the gedcom - are you using the right file/file version?", 43, g
                 .getIndividuals().size());

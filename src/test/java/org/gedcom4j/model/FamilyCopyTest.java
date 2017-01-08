@@ -72,7 +72,7 @@ public class FamilyCopyTest extends AbstractCopyTest {
      */
     @Test
     public void testWithLoadedFile() throws IOException, GedcomParserException {
-        Gedcom loadedGedcom = getLoadedGedcom();
+        IGedcom loadedGedcom = getLoadedGedcom();
 
         for (Family original : loadedGedcom.getFamilies().values()) {
             Family copy = new Family(original);

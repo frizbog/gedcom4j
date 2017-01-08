@@ -41,8 +41,8 @@ import org.gedcom4j.model.Address;
 import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyEvent;
-import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Header;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.IndividualReference;
@@ -71,12 +71,12 @@ public class LegacyFamilyTree8AdapterTest {
      * The test gedcom we read from the sample file that HAS custom tags
      */
     @SuppressWarnings("PMD.SingularField")
-    private Gedcom gedcomWithCustomTags;
+    private IGedcom gedcomWithCustomTags;
 
     /**
      * The test gedcom we read from the sample file that DOES NOT have custom tags, for negative testing
      */
-    private Gedcom gedcomWithoutCustomTags;
+    private IGedcom gedcomWithoutCustomTags;
 
     /**
      * The main person in the test file

@@ -36,6 +36,7 @@ import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Header;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.Multimedia;
@@ -339,7 +340,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      * @param namedList
      *            the named list
      */
-    public void addNamedList(Gedcom gedcom, CustomFact namedList) {
+    public void addNamedList(IGedcom gedcom, CustomFact namedList) {
         if (namedList == null) {
             throw new IllegalArgumentException("namedList cannot be null");
         }
@@ -412,7 +413,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      * @throws IllegalArgumentException
      *             if the place supplied is null or doesn't have the right tag
      */
-    public void addPlaceRecord(Gedcom gedcom, CustomFact place) {
+    public void addPlaceRecord(IGedcom gedcom, CustomFact place) {
         if (place == null) {
             throw new IllegalArgumentException("place must be non-null");
         }
@@ -518,7 +519,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      *             if the witnessReference has the wrong tag, is null, or doesn't contain a valid xref to an individual in the
      *             gedcom
      */
-    public void addWitnessReference(Gedcom gedcom, IndividualEvent event, CustomFact witnessReference) {
+    public void addWitnessReference(IGedcom gedcom, IndividualEvent event, CustomFact witnessReference) {
         if (witnessReference == null) {
             throw new IllegalArgumentException("unrelatedWitness cannot be null");
         }
@@ -899,7 +900,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      * @return the named lists in the gedcom that have a name that matches the one you supplied. Always returns a list, though it
      *         may be empty. Usually will have zero or only one item in it.
      */
-    public List<CustomFact> getNamedList(Gedcom gedcom, String listName) {
+    public List<CustomFact> getNamedList(IGedcom gedcom, String listName) {
         if (listName == null) {
             throw new IllegalArgumentException("listName is a required argument");
         }
@@ -919,7 +920,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      *            the gedcom
      * @return all the named lists in the gedcom
      */
-    public List<CustomFact> getNamedLists(Gedcom gedcom) {
+    public List<CustomFact> getNamedLists(IGedcom gedcom) {
         return gedcom.getHeader().getCustomFactsWithTag("_LIST");
     }
 
@@ -992,7 +993,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      *            the xref of the root-level place record desired
      * @return the place record, or null if it could not be found
      */
-    public CustomFact getPlaceRecord(Gedcom gedcom, String xref) {
+    public CustomFact getPlaceRecord(IGedcom gedcom, String xref) {
         for (CustomFact cf : gedcom.getCustomFactsWithTag("_PLAC")) {
             if (cf.getXref() != null && cf.getXref().equals(xref)) {
                 return cf;
@@ -1008,7 +1009,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      *            the gedcom
      * @return the root-level place records
      */
-    public List<CustomFact> getPlaceRecords(Gedcom gedcom) {
+    public List<CustomFact> getPlaceRecords(IGedcom gedcom) {
         return gedcom.getCustomFactsWithTag("_PLAC");
     }
 
@@ -1020,7 +1021,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      * 
      * @return the root individual
      */
-    public Individual getRootIndividual(Gedcom gedcom) {
+    public Individual getRootIndividual(IGedcom gedcom) {
         List<CustomFact> cfs = gedcom.getHeader().getCustomFactsWithTag("_ROOT");
         if (!cfs.isEmpty()) {
             CustomFact root = cfs.get(0);
@@ -1054,7 +1055,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      *            the gedcom
      * @return the UID value for the supplied gedcom
      */
-    public String getUID(Gedcom gedcom) {
+    public String getUID(IGedcom gedcom) {
         List<CustomFact> customFactsWithTag = gedcom.getHeader().getCustomFactsWithTag("_UID");
         if (customFactsWithTag.size() == 1 && customFactsWithTag.get(0).getDescription() != null) {
             return customFactsWithTag.get(0).getDescription().getValue();
@@ -1081,7 +1082,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      *            the gedcom
      * @return the variant export format value for the supplied gedcom
      */
-    public String getVariantExportFormat(Gedcom gedcom) {
+    public String getVariantExportFormat(IGedcom gedcom) {
         GedcomVersion gv = gedcom.getHeader().getGedcomVersion();
         if (gv == null) {
             return null;
@@ -1532,7 +1533,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      *            the named list
      * @return the number of lists actually removed
      */
-    public int removeNamedList(Gedcom gedcom, String listName) {
+    public int removeNamedList(IGedcom gedcom, String listName) {
         if (listName == null) {
             throw new IllegalArgumentException("listName is a required argument");
         }
@@ -1559,7 +1560,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      * @param gedcom
      *            the gedcom
      */
-    public void removeNamedLists(Gedcom gedcom) {
+    public void removeNamedLists(IGedcom gedcom) {
         clearCustomTagsOfType(gedcom.getHeader(), "_LIST");
     }
 
@@ -1592,7 +1593,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      *            the xref of the record to remove
      * @return true if the record was removed, otherwise false
      */
-    public boolean removePlaceRecord(Gedcom gedcom, String xref) {
+    public boolean removePlaceRecord(IGedcom gedcom, String xref) {
         if (gedcom.getCustomFacts() == null) {
             return false;
         }
@@ -1615,7 +1616,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      * @param gedcom
      *            the gedcom
      */
-    public void removePlaceRecords(Gedcom gedcom) {
+    public void removePlaceRecords(IGedcom gedcom) {
         clearCustomTagsOfType(gedcom, "_PLAC");
     }
 
@@ -1934,7 +1935,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      * @param newRootIndividual
      *            the new root individual. Required, and must already exist in the gedcom supplied.
      */
-    public void setRootIndividual(Gedcom gedcom, Individual newRootIndividual) {
+    public void setRootIndividual(IGedcom gedcom, Individual newRootIndividual) {
         if (newRootIndividual == null) {
             throw new IllegalArgumentException("Individual being set as root individual is a required argument");
         }
@@ -1966,7 +1967,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      * @param uid
      *            the UID value to set. Optional.
      */
-    public void setUID(Gedcom gedcom, String uid) {
+    public void setUID(IGedcom gedcom, String uid) {
         setDescriptionForCustomTag(gedcom.getHeader(), "_UID", uid);
     }
 
@@ -1978,7 +1979,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
      * @param variantExportFormat
      *            the variant export format value to set
      */
-    public void setVariantExportFormat(Gedcom gedcom, String variantExportFormat) {
+    public void setVariantExportFormat(IGedcom gedcom, String variantExportFormat) {
         if (gedcom.getHeader().getGedcomVersion() == null) {
             gedcom.getHeader().setGedcomVersion(new GedcomVersion());
         }

@@ -35,6 +35,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.PersonalName;
@@ -55,7 +56,7 @@ public class Finder {
     /**
      * The gedcom object graph being searched
      */
-    private final Gedcom g;
+    private final IGedcom g;
 
     /**
      * Constructor. Requires a reference to the {@link Gedcom} object being searched.
@@ -63,7 +64,7 @@ public class Finder {
      * @param gedcom
      *            the {@link Gedcom} object being searched
      */
-    public Finder(Gedcom gedcom) {
+    public Finder(IGedcom gedcom) {
         g = gedcom;
     }
 

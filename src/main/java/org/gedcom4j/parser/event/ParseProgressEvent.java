@@ -28,7 +28,7 @@ package org.gedcom4j.parser.event;
 
 import java.util.EventObject;
 
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 
 /**
  * @author frizbog
@@ -103,7 +103,7 @@ public class ParseProgressEvent extends EventObject {
      * @param linesParsed
      *            the number of lines parsed so far
      */
-    public ParseProgressEvent(Object source, Gedcom g, boolean complete, int linesParsed) {
+    public ParseProgressEvent(Object source, IGedcom g, boolean complete, int linesParsed) {
         super(source);
         familiesProcessed = g.getFamilies().size();
         individualsProcessed = g.getIndividuals().size();

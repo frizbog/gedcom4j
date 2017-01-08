@@ -31,8 +31,8 @@ import java.util.List;
 import org.gedcom4j.model.AbstractElement;
 import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Family;
-import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.HasCustomFacts;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.MultiStringWithCustomFacts;
 import org.gedcom4j.model.Multimedia;
@@ -104,7 +104,7 @@ abstract class AbstractParser<T> {
      * @return true if and only if the Gedcom data says it is for the 5.5 standard.
      */
     protected final boolean g55() {
-        Gedcom g = gedcomParser.getGedcom();
+        IGedcom g = gedcomParser.getGedcom();
         return g != null && g.getHeader() != null && g.getHeader().getGedcomVersion() != null && g.getHeader().getGedcomVersion()
                 .getVersionNumber() != null && SupportedVersion.V5_5.toString().equals(g.getHeader().getGedcomVersion()
                         .getVersionNumber().getValue());

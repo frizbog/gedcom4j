@@ -32,7 +32,7 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.NoteRecord;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -48,7 +48,7 @@ public class StressFileSpecialCharacterReadTest {
     /**
      * The GEDCOM file loaded from the stress test
      */
-    private static Gedcom g;
+    private static IGedcom g;
 
     /**
      * Load the stress test file

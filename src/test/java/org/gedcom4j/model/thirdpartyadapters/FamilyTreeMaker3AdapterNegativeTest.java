@@ -37,7 +37,7 @@ import java.util.List;
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Family;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.Place;
@@ -72,7 +72,7 @@ public class FamilyTreeMaker3AdapterNegativeTest {
     public void setUp() throws IOException, GedcomParserException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/ftmcustomtags.ged");
-        final Gedcom g = gp.getGedcom();
+        final IGedcom g = gp.getGedcom();
 
         final Individual john = g.getIndividuals().get("@I1@");
         assertNotNull(john);

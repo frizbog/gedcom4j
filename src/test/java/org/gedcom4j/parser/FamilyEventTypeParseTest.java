@@ -35,6 +35,7 @@ import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyEvent;
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -48,7 +49,7 @@ public class FamilyEventTypeParseTest {
     /**
      * Test fixture - loaded GEDCOM
      */
-    private Gedcom g;
+    private IGedcom g;
 
     /**
      * Set up test fixture by loading stress test file into a {@link Gedcom} structure
