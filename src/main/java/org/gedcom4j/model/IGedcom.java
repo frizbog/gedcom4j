@@ -29,16 +29,18 @@ package org.gedcom4j.model;
 import java.util.Map;
 
 /**
- * Represents an entire GEDCOM - some store of data of some kind. Could be an in-memory object graph, could be a database, could be
- * a folder full of serialized objects, whatever. The important part is that through this interface you can get to all the objects
- * (Individuals, Families, etc.) in the GEDCOM.
+ * Represents an entire GEDCOM - some store of some kind for the data read from a GEDCOM. Could be an in-memory object graph (the
+ * default), could be a database, could be a folder full of serialized objects, whatever. The important part is that through this
+ * interface you can get to all the objects (Individuals, Families, etc.) in the GEDCOM.
+ * 
+ * @since v5.0.0
  */
 public interface IGedcom extends HasCustomFacts {
 
     /**
-     * Gets the families.
+     * Gets the families map.
      *
-     * @return the families
+     * @return the families map
      */
     Map<String, Family> getFamilies();
 
@@ -50,37 +52,37 @@ public interface IGedcom extends HasCustomFacts {
     Header getHeader();
 
     /**
-     * Gets the individuals.
+     * Gets the individuals map.
      *
-     * @return the individuals
+     * @return the individuals map.
      */
     Map<String, Individual> getIndividuals();
 
     /**
-     * Gets the multimedia.
+     * Gets the multimedia map.
      *
-     * @return the multimedia
+     * @return the multimedia map
      */
     Map<String, Multimedia> getMultimedia();
 
     /**
-     * Gets the notes.
+     * Gets the notes map.
      *
-     * @return the notes
+     * @return the notes map
      */
     Map<String, NoteRecord> getNotes();
 
     /**
-     * Gets the repositories.
+     * Gets the repositories map.
      *
-     * @return the repositories
+     * @return the repositories map
      */
     Map<String, Repository> getRepositories();
 
     /**
-     * Gets the sources.
+     * Gets the sources map.
      *
-     * @return the sources
+     * @return the sources map
      */
     Map<String, Source> getSources();
 
@@ -92,9 +94,9 @@ public interface IGedcom extends HasCustomFacts {
     Submission getSubmission();
 
     /**
-     * Gets the submitters.
+     * Gets the submitters map.
      *
-     * @return the submitters
+     * @return the submitters map
      */
     Map<String, Submitter> getSubmitters();
 
