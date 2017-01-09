@@ -43,7 +43,7 @@ import org.gedcom4j.model.CitationWithSource;
 import org.gedcom4j.model.CitationWithoutSource;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FileReference;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.Multimedia;
@@ -74,7 +74,7 @@ public class GedcomParserTest {
      */
     @Test
     public void testBadCustomTag() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/Bad_custom_tag.ged");
         assertNotNull(gp.getErrors());
         assertEquals(1, gp.getErrors().size());
@@ -92,7 +92,7 @@ public class GedcomParserTest {
      */
     @Test
     public void testLoad1() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/TGC551.ged");
         checkTGC551LF(gp);
     }
@@ -107,7 +107,7 @@ public class GedcomParserTest {
      */
     @Test
     public void testLoad2() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         assertTrue(gp.getErrors().isEmpty());
         gp.load("sample/allged.ged");
         assertTrue(gp.getErrors().isEmpty());
@@ -131,7 +131,7 @@ public class GedcomParserTest {
      */
     @Test
     public void testLoad3() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/a31486.ged");
         assertTrue(gp.getErrors().isEmpty());
         assertTrue(gp.getWarnings().isEmpty());
@@ -179,7 +179,7 @@ public class GedcomParserTest {
      */
     @Test
     public void testLoad4() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         // Different line end char seq than the other file
         gp.load("sample/TGC551LF.ged");
         checkTGC551LF(gp);
@@ -197,7 +197,7 @@ public class GedcomParserTest {
      */
     @Test
     public void testLoadIndentedMinimal55File() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/minimal55indented.ged");
         // No problems detected, right?
         assertTrue(gp.getErrors().isEmpty());
@@ -224,7 +224,7 @@ public class GedcomParserTest {
      */
     @Test
     public void testLoadMinimal55File() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/minimal55.ged");
         // No problems detected, right?
         assertTrue(gp.getErrors().isEmpty());
@@ -251,7 +251,7 @@ public class GedcomParserTest {
      */
     @Test
     public void testLoadStream() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         try (InputStream stream = new FileInputStream("sample/TGC551LF.ged");
                 BufferedInputStream bis = new BufferedInputStream(stream)) {
             gp.load(bis);
@@ -269,7 +269,7 @@ public class GedcomParserTest {
      */
     @Test
     public void testLoadTGC55C() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/TGC55C.ged");
         checkTGC55C(gp);
     }
@@ -284,7 +284,7 @@ public class GedcomParserTest {
      */
     @Test
     public void testLoadTGC55CLF() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/TGC55CLF.ged");
         checkTGC55C(gp);
     }

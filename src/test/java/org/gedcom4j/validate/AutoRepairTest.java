@@ -31,7 +31,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import org.gedcom4j.model.Family;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.Source;
 import org.junit.Test;
@@ -50,7 +50,7 @@ public class AutoRepairTest {
     @SuppressWarnings("unused")
     @Test(expected = IllegalArgumentException.class)
     public void mixedTypes() {
-        new AutoRepair(new Gedcom(), new Family());
+        new AutoRepair(new InMemoryGedcom(), new Family());
     }
 
     /**
@@ -77,7 +77,7 @@ public class AutoRepairTest {
     @SuppressWarnings("unused")
     @Test(expected = IllegalArgumentException.class)
     public void testConstructorDifferentClasses() {
-        new AutoRepair(new Header(), new Gedcom());
+        new AutoRepair(new Header(), new InMemoryGedcom());
     }
 
     /**
@@ -86,11 +86,11 @@ public class AutoRepairTest {
     @Test
     @SuppressWarnings("PMD.EqualsNull")
     public void testEquals() {
-        AutoRepair ar1 = new AutoRepair(new Gedcom(), new Gedcom());
+        AutoRepair ar1 = new AutoRepair(new InMemoryGedcom(), new InMemoryGedcom());
         assertEquals(ar1, ar1);
         assertFalse(ar1.equals(null));
 
-        AutoRepair ar2 = new AutoRepair(new Gedcom(), new Gedcom());
+        AutoRepair ar2 = new AutoRepair(new InMemoryGedcom(), new InMemoryGedcom());
         assertEquals(ar1, ar2);
 
         ar2 = new AutoRepair(new Header(), new Header());
@@ -108,12 +108,12 @@ public class AutoRepairTest {
      */
     @Test
     public void testEqualsHashcodeToString() {
-        AutoRepair ar1 = new AutoRepair(new Gedcom(), new Gedcom());
-        assertEquals("AutoRepair [before=Gedcom [header=Header [characterSet=CharacterSet [characterSetName=ANSEL, ], "
+        AutoRepair ar1 = new AutoRepair(new InMemoryGedcom(), new InMemoryGedcom());
+        assertEquals("AutoRepair [before=InMemoryGedcom [header=Header [characterSet=CharacterSet [characterSetName=ANSEL, ], "
                 + "gedcomVersion=GedcomVersion [gedcomForm=LINEAGE-LINKED, versionNumber=5.5.1, ], sourceSystem=SourceSystem "
                 + "[systemId=UNSPECIFIED, ], submitter=SubmitterReference [submitter=Submitter [name=UNSPECIFIED, "
                 + "xref=@SUBMITTER@, ], ], ], families=[], individuals=[], multimedia=[], noteStructures=[], repositories=[], "
-                + "sources=[], submission=Submission [xref=@SUBMISSION@, ], submitters=[], trailer=Trailer []], after=Gedcom "
+                + "sources=[], submission=Submission [xref=@SUBMISSION@, ], submitters=[], trailer=Trailer []], after=InMemoryGedcom "
                 + "[header=Header [characterSet=CharacterSet [characterSetName=ANSEL, ], gedcomVersion=GedcomVersion "
                 + "[gedcomForm=LINEAGE-LINKED, versionNumber=5.5.1, ], sourceSystem=SourceSystem [systemId=UNSPECIFIED, ], "
                 + "submitter=SubmitterReference [submitter=Submitter [name=UNSPECIFIED, xref=@SUBMITTER@, ], ], ], "
@@ -132,8 +132,8 @@ public class AutoRepairTest {
         ar1 = new AutoRepair(null, null);
         assertEquals("AutoRepair []", ar1.toString());
 
-        ar1 = new AutoRepair(null, new Gedcom());
-        assertEquals("AutoRepair [after=Gedcom [header=Header [characterSet=CharacterSet [characterSetName=ANSEL, ], "
+        ar1 = new AutoRepair(null, new InMemoryGedcom());
+        assertEquals("AutoRepair [after=InMemoryGedcom [header=Header [characterSet=CharacterSet [characterSetName=ANSEL, ], "
                 + "gedcomVersion=GedcomVersion [gedcomForm=LINEAGE-LINKED, versionNumber=5.5.1, ], sourceSystem=SourceSystem "
                 + "[systemId=UNSPECIFIED, ], submitter=SubmitterReference [submitter=Submitter [name=UNSPECIFIED, "
                 + "xref=@SUBMITTER@, ], ], ], families=[], individuals=[], multimedia=[], noteStructures=[], repositories=[], "
@@ -152,8 +152,8 @@ public class AutoRepairTest {
      */
     @Test
     public void testHashCode() {
-        AutoRepair ar1 = new AutoRepair(new Gedcom(), new Gedcom());
-        AutoRepair ar2 = new AutoRepair(new Gedcom(), new Gedcom());
+        AutoRepair ar1 = new AutoRepair(new InMemoryGedcom(), new InMemoryGedcom());
+        AutoRepair ar2 = new AutoRepair(new InMemoryGedcom(), new InMemoryGedcom());
         assertEquals(ar1.hashCode(), ar2.hashCode());
 
         ar2 = new AutoRepair(new Header(), new Header());
@@ -163,7 +163,7 @@ public class AutoRepairTest {
         ar2 = new AutoRepair(null, null);
         assertEquals(ar1.hashCode(), ar2.hashCode());
 
-        ar1 = new AutoRepair(null, new Gedcom());
+        ar1 = new AutoRepair(null, new InMemoryGedcom());
         assertFalse(ar1.hashCode() == ar2.hashCode());
         ar2 = new AutoRepair(new Header(), null);
         assertFalse(ar1.hashCode() == ar2.hashCode());

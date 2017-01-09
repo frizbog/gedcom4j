@@ -70,7 +70,7 @@ import org.gedcom4j.writer.event.ConstructProgressListener;
  * General usage is as follows:
  * </p>
  * <ul>
- * <li>Instantiate a <code>GedcomWriter</code>, passing the {@link Gedcom} to be written as a parameter to the constructor.</li>
+ * <li>Instantiate a <code>GedcomWriter</code>, passing the {@link InMemoryGedcom} to be written as a parameter to the constructor.</li>
  * <li>Call one of the variants of the <code>write</code> method to write the data</li>
  * <li>Optionally check the contents of the {@link #validationFindings} collection to see if there was anything problematic found in
  * your data.</li>
@@ -506,7 +506,7 @@ public class GedcomWriter extends AbstractEmitter<IGedcom> {
     }
 
     /**
-     * Check that the data is compatible with 5.5 style Gedcom files
+     * Check that the data is compatible with 5.5 style InMemoryGedcom files
      * 
      * @throws GedcomWriterVersionDataMismatchException
      *             if a data point is detected that is incompatible with the 5.5 standard
@@ -516,53 +516,53 @@ public class GedcomWriter extends AbstractEmitter<IGedcom> {
         // check some data points
         if (writeFrom.getHeader().getCopyrightData() != null && writeFrom.getHeader().getCopyrightData().size() > 1) {
             throw new GedcomWriterVersionDataMismatchException(
-                    "Gedcom version is 5.5, but has multi-line copyright data in header");
+                    "InMemoryGedcom version is 5.5, but has multi-line copyright data in header");
         }
         if (writeFrom.getHeader().getCharacterSet() != null && writeFrom.getHeader().getCharacterSet().getCharacterSetName() != null
                 && "UTF-8".equals(writeFrom.getHeader().getCharacterSet().getCharacterSetName().getValue())) {
-            throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but data is encoded using UTF-8");
+            throw new GedcomWriterVersionDataMismatchException("InMemoryGedcom version is 5.5, but data is encoded using UTF-8");
         }
         if (writeFrom.getHeader().getSourceSystem() != null && writeFrom.getHeader().getSourceSystem().getCorporation() != null) {
             AbstractAddressableElement c = writeFrom.getHeader().getSourceSystem().getCorporation();
             if (c.getWwwUrls() != null && !c.getWwwUrls().isEmpty()) {
                 throw new GedcomWriterVersionDataMismatchException(
-                        "Gedcom version is 5.5, but source system corporation has www urls");
+                        "InMemoryGedcom version is 5.5, but source system corporation has www urls");
             }
             if (c.getFaxNumbers() != null && !c.getFaxNumbers().isEmpty()) {
                 throw new GedcomWriterVersionDataMismatchException(
-                        "Gedcom version is 5.5, but source system corporation has fax numbers");
+                        "InMemoryGedcom version is 5.5, but source system corporation has fax numbers");
             }
             if (c.getEmails() != null && !c.getEmails().isEmpty()) {
                 throw new GedcomWriterVersionDataMismatchException(
-                        "Gedcom version is 5.5, but source system corporation has emails");
+                        "InMemoryGedcom version is 5.5, but source system corporation has emails");
             }
         }
         checkVersionCompatibility55Individuals();
         for (Submitter s : writeFrom.getSubmitters().values()) {
             if (s.getWwwUrls() != null && !s.getWwwUrls().isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Submitter " + s.getXref()
+                throw new GedcomWriterVersionDataMismatchException("InMemoryGedcom version is 5.5, but Submitter " + s.getXref()
                         + " has www urls");
             }
             if (s.getFaxNumbers() != null && !s.getFaxNumbers().isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Submitter " + s.getXref()
+                throw new GedcomWriterVersionDataMismatchException("InMemoryGedcom version is 5.5, but Submitter " + s.getXref()
                         + " has fax numbers");
             }
             if (s.getEmails() != null && !s.getEmails().isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Submitter " + s.getXref()
+                throw new GedcomWriterVersionDataMismatchException("InMemoryGedcom version is 5.5, but Submitter " + s.getXref()
                         + " has emails");
             }
         }
         for (Repository r : writeFrom.getRepositories().values()) {
             if (r.getWwwUrls() != null && !r.getWwwUrls().isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Repository " + r.getXref()
+                throw new GedcomWriterVersionDataMismatchException("InMemoryGedcom version is 5.5, but Repository " + r.getXref()
                         + " has www urls");
             }
             if (r.getFaxNumbers() != null && !r.getFaxNumbers().isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Repository " + r.getXref()
+                throw new GedcomWriterVersionDataMismatchException("InMemoryGedcom version is 5.5, but Repository " + r.getXref()
                         + " has fax numbers");
             }
             if (r.getEmails() != null && !r.getEmails().isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Repository " + r.getXref()
+                throw new GedcomWriterVersionDataMismatchException("InMemoryGedcom version is 5.5, but Repository " + r.getXref()
                         + " has emails");
             }
         }
@@ -598,7 +598,7 @@ public class GedcomWriter extends AbstractEmitter<IGedcom> {
     }
 
     /**
-     * Check that the data is compatible with 5.5.1 style Gedcom files
+     * Check that the data is compatible with 5.5.1 style InMemoryGedcom files
      * 
      * @throws GedcomWriterVersionDataMismatchException
      *             if a data point is detected that is incompatible with the 5.5.1 standard
@@ -607,14 +607,14 @@ public class GedcomWriter extends AbstractEmitter<IGedcom> {
     private void checkVersionCompatibility551() throws GedcomWriterVersionDataMismatchException {
         for (Multimedia m : writeFrom.getMultimedia().values()) {
             if (m.getBlob() != null && !m.getBlob().isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5.1, but multimedia item " + m.getXref()
+                throw new GedcomWriterVersionDataMismatchException("InMemoryGedcom version is 5.5.1, but multimedia item " + m.getXref()
                         + " contains BLOB data which is unsupported in 5.5.1");
             }
         }
     }
 
     /**
-     * Check that the data on individuals is compatible with 5.5 style Gedcom files
+     * Check that the data on individuals is compatible with 5.5 style InMemoryGedcom files
      * 
      * @throws GedcomWriterVersionDataMismatchException
      *             if a data point is detected that is incompatible with the 5.5 standard
@@ -622,29 +622,29 @@ public class GedcomWriter extends AbstractEmitter<IGedcom> {
     private void checkVersionCompatibility55Individuals() throws GedcomWriterVersionDataMismatchException {
         for (Individual i : writeFrom.getIndividuals().values()) {
             if (i.getWwwUrls() != null && !i.getWwwUrls().isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref()
+                throw new GedcomWriterVersionDataMismatchException("InMemoryGedcom version is 5.5, but Individual " + i.getXref()
                         + " has www urls");
             }
             if (i.getFaxNumbers() != null && !i.getFaxNumbers().isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref()
+                throw new GedcomWriterVersionDataMismatchException("InMemoryGedcom version is 5.5, but Individual " + i.getXref()
                         + " has fax numbers");
             }
             if (i.getEmails() != null && !i.getEmails().isEmpty()) {
-                throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref()
+                throw new GedcomWriterVersionDataMismatchException("InMemoryGedcom version is 5.5, but Individual " + i.getXref()
                         + " has emails");
             }
             if (i.getEvents() != null) {
                 for (AbstractEvent e : i.getEvents()) {
                     if (e.getWwwUrls() != null && !e.getWwwUrls().isEmpty()) {
-                        throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref()
+                        throw new GedcomWriterVersionDataMismatchException("InMemoryGedcom version is 5.5, but Individual " + i.getXref()
                                 + " has www urls on an event");
                     }
                     if (e.getFaxNumbers() != null && !e.getFaxNumbers().isEmpty()) {
-                        throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref()
+                        throw new GedcomWriterVersionDataMismatchException("InMemoryGedcom version is 5.5, but Individual " + i.getXref()
                                 + " has fax numbers on an event");
                     }
                     if (e.getEmails() != null && !e.getEmails().isEmpty()) {
-                        throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref()
+                        throw new GedcomWriterVersionDataMismatchException("InMemoryGedcom version is 5.5, but Individual " + i.getXref()
                                 + " has emails on an event");
                     }
                 }
@@ -652,7 +652,7 @@ public class GedcomWriter extends AbstractEmitter<IGedcom> {
             if (i.getAttributes() != null) {
                 for (IndividualAttribute a : i.getAttributes()) {
                     if (IndividualAttributeType.FACT.equals(a.getType())) {
-                        throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref()
+                        throw new GedcomWriterVersionDataMismatchException("InMemoryGedcom version is 5.5, but Individual " + i.getXref()
                                 + " has a FACT attribute");
                     }
                 }
@@ -660,8 +660,8 @@ public class GedcomWriter extends AbstractEmitter<IGedcom> {
             if (i.getFamiliesWhereChild() != null) {
                 for (FamilyChild fc : i.getFamiliesWhereChild()) {
                     if (fc.getStatus() != null) {
-                        throw new GedcomWriterVersionDataMismatchException("Gedcom version is 5.5, but Individual " + i.getXref()
-                                + " is in a family with a status specified (a Gedcom 5.5.1 only feature)");
+                        throw new GedcomWriterVersionDataMismatchException("InMemoryGedcom version is 5.5, but Individual " + i.getXref()
+                                + " is in a family with a status specified (a InMemoryGedcom 5.5.1 only feature)");
                     }
                 }
             }

@@ -183,7 +183,7 @@ class MultimediaLinkParser extends AbstractParser<List<MultimediaReference>> {
                     List<NoteStructure> notes = m.getNoteStructures(true);
                     new NoteStructureListParser(gedcomParser, ch, notes).parse();
                     if (!g55()) {
-                        addWarning("Gedcom version was 5.5.1, but a NOTE was found on a multimedia link on line " + ch.getLineNum()
+                        addWarning("InMemoryGedcom version was 5.5.1, but a NOTE was found on a multimedia link on line " + ch.getLineNum()
                                 + ", which is no longer supported. "
                                 + "Data will be loaded, but cannot be written back out unless the GEDCOM version is changed to 5.5");
                     }

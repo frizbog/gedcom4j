@@ -35,7 +35,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.NoteStructure;
@@ -60,7 +60,7 @@ public class Issue100Test {
      */
     @Test
     public void testRelaxed() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.setStrictLineBreaks(false);
         gp.load("sample/Sopranos.ged");
         IGedcom g = gp.getGedcom();
@@ -96,7 +96,7 @@ public class Issue100Test {
      */
     @Test
     public void testStrict() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.setStrictLineBreaks(true);
         try {
             gp.load("sample/Sopranos.ged");

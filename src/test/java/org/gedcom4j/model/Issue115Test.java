@@ -71,7 +71,7 @@ public class Issue115Test {
      * @return a gedcom with intentionally cyclical relationship data, for test purposes
      */
     private IGedcom getGedcomWithCyclicalData() {
-        IGedcom result = new Gedcom();
+        IGedcom result = new InMemoryGedcom();
 
         Individual i1 = makeIndividual(result, 1);
         Individual i2 = makeIndividual(result, 2);

@@ -37,7 +37,7 @@ import java.io.IOException;
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.model.FileReference;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
@@ -153,7 +153,7 @@ public class GedcomWriter551Test {
         gw.write("tmp/writertest551.ged");
 
         // Read it back
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("tmp/writertest551.ged");
         assertTrue(gp.getErrors().isEmpty());
         assertTrue(gp.getWarnings().isEmpty());
@@ -279,7 +279,7 @@ public class GedcomWriter551Test {
         gw.write("tmp/writertest551.ged");
 
         // Read it back
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("tmp/writertest551.ged");
         assertNotNull(gp.getGedcom());
 

@@ -36,7 +36,7 @@ import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.CustomFact;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.Submitter;
 import org.junit.Test;
 
@@ -68,7 +68,7 @@ public class Issue102Test {
     @Test
     @SuppressWarnings("PMD.SystemPrintln")
     public void test100LevelsRelaxed() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.setStrictLineBreaks(false);
         gp.load("sample/issue102_100levels.ged");
         for (String e : gp.getErrors()) {
@@ -96,7 +96,7 @@ public class Issue102Test {
      */
     @Test
     public void test100LevelsStrict() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.setStrictLineBreaks(true);
         try {
             gp.load("sample/issue102_100levels.ged");
@@ -118,7 +118,7 @@ public class Issue102Test {
      */
     @Test
     public void test99Levels() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/issue102_99levels.ged");
         assertTrue(gp.getErrors().isEmpty());
         assertTrue(gp.getWarnings().isEmpty());

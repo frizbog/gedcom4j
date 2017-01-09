@@ -35,7 +35,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.enumerations.IndividualEventType;
@@ -53,7 +53,7 @@ public class IndividualFactoryTest {
      */
     @Test
     public void testCreate() {
-        IGedcom g = new Gedcom();
+        IGedcom g = new InMemoryGedcom();
         @SuppressWarnings("deprecation")
         Individual i = new IndividualFactory().create(g, "Robert", "Tarantino", Sex.MALE, new Date(67, Calendar.MAY, 1), "Idaho",
                 new Date(99, Calendar.OCTOBER, 31), "Virginia");
@@ -76,7 +76,7 @@ public class IndividualFactoryTest {
      */
     @Test
     public void testCreateNulls() {
-        IGedcom g = new Gedcom();
+        IGedcom g = new InMemoryGedcom();
         Individual i = new IndividualFactory().create(g, null, null, null, (String) null, null, null, null);
 
         assertNotNull(i);
@@ -97,7 +97,7 @@ public class IndividualFactoryTest {
      */
     @Test
     public void testCreateSkipXrefs() {
-        IGedcom g = new Gedcom();
+        IGedcom g = new InMemoryGedcom();
 
         // Skip every other index number, to add 5 individuals to map
         for (int i = 0; i < 10; i += 2) {

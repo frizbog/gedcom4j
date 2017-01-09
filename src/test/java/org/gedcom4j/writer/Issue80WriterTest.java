@@ -31,7 +31,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.io.writer.NullOutputStream;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
@@ -73,7 +73,7 @@ public class Issue80WriterTest {
         i.setXref("@I001@");
         i.getEvents(true).add(b);
 
-        IGedcom g = new Gedcom();
+        IGedcom g = new InMemoryGedcom();
         g.getIndividuals().put("@I001@", i);
 
         // Gedcoms require a submitter

@@ -99,9 +99,9 @@ abstract class AbstractParser<T> {
     }
 
     /**
-     * Returns true if and only if the Gedcom data says it is for the 5.5 standard.
+     * Returns true if and only if the InMemoryGedcom data says it is for the 5.5 standard.
      * 
-     * @return true if and only if the Gedcom data says it is for the 5.5 standard.
+     * @return true if and only if the InMemoryGedcom data says it is for the 5.5 standard.
      */
     protected final boolean g55() {
         IGedcom g = gedcomParser.getGedcom();

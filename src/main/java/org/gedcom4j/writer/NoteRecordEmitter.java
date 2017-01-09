@@ -45,7 +45,7 @@ class NoteRecordEmitter extends AbstractEmitter<Collection<NoteRecord>> {
      * Constructor
      * 
      * @param baseWriter
-     *            The base Gedcom writer class this Emitter is partnering with to emit the entire file
+     *            The base InMemoryGedcom writer class this Emitter is partnering with to emit the entire file
      * @param startLevel
      *            write starting at this level
      * @param collection

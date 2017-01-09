@@ -44,13 +44,13 @@ public class IndividualReferenceTest {
     public void testEqualsObject() {
         IndividualReference fr1 = new IndividualReference();
         assertEquals(fr1, fr1);
-        assertFalse(fr1.equals(new Gedcom()));
+        assertFalse(fr1.equals(new InMemoryGedcom()));
 
         IndividualReference fr2 = new IndividualReference();
         assertEquals(fr1, fr2);
 
         fr1.setIndividual(new Individual());
-        assertFalse(fr1.equals(new Gedcom()));
+        assertFalse(fr1.equals(new InMemoryGedcom()));
         fr2.setIndividual(new Individual());
         assertEquals(fr1, fr2);
     }

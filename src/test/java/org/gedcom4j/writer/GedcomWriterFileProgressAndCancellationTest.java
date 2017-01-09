@@ -43,7 +43,7 @@ import org.gedcom4j.io.writer.NullOutputStream;
 import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.CharacterSet;
 import org.gedcom4j.model.Family;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
@@ -141,7 +141,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
     @SuppressWarnings("resource")
     @Test(expected = WriterCancelledException.class)
     public void testConstructionCancellation() throws IOException, GedcomParserException, GedcomWriterException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/willis-ascii.ged");
         gw = new GedcomWriter(gp.getGedcom());
         gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
@@ -165,7 +165,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
     @SuppressWarnings("resource")
     @Test(expected = WriterCancelledException.class)
     public void testFileCancellation() throws IOException, GedcomParserException, GedcomWriterException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/willis-ascii.ged");
         gw = new GedcomWriter(gp.getGedcom());
         gw.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
@@ -189,7 +189,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
     @SuppressWarnings({ "resource", "PMD.SystemPrintln" })
     @Test
     public void testNoCancellationAnselCrlf() throws IOException, GedcomParserException, GedcomWriterException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/willis-ansel.ged");
         cleanUpGedcom(gp, Encoding.ANSEL);
         IGedcom g = gp.getGedcom();
@@ -229,7 +229,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
     @SuppressWarnings({ "resource", "PMD.SystemPrintln" })
     @Test
     public void testNoCancellationAnselCrOnly() throws IOException, GedcomParserException, GedcomWriterException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/willis-ansel.ged");
         cleanUpGedcom(gp, Encoding.ANSEL);
         IGedcom g = gp.getGedcom();
@@ -268,7 +268,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
     @SuppressWarnings({ "resource", "PMD.SystemPrintln" })
     @Test
     public void testNoCancellationAsciiCrlf() throws IOException, GedcomParserException, GedcomWriterException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/willis-ascii.ged");
         cleanUpGedcom(gp, Encoding.ASCII);
         IGedcom g = gp.getGedcom();
@@ -308,7 +308,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
     @SuppressWarnings({ "resource", "PMD.SystemPrintln" })
     @Test
     public void testNoCancellationAsciiCrOnly() throws IOException, GedcomParserException, GedcomWriterException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/willis-ascii.ged");
         cleanUpGedcom(gp, Encoding.ASCII);
         IGedcom g = gp.getGedcom();
@@ -347,7 +347,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
     @SuppressWarnings({ "resource", "PMD.SystemPrintln" })
     @Test
     public void testNoCancellationUnicodeBigEndianCrlf() throws IOException, GedcomParserException, GedcomWriterException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/willis-unicode-bigendian.ged");
         cleanUpGedcom(gp, Encoding.UNICODE_BIG_ENDIAN);
         IGedcom g = gp.getGedcom();
@@ -386,7 +386,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
     @SuppressWarnings({ "resource", "PMD.SystemPrintln" })
     @Test
     public void testNoCancellationUnicodeBigEndianCrOnly() throws IOException, GedcomParserException, GedcomWriterException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/willis-unicode-bigendian.ged");
         cleanUpGedcom(gp, Encoding.UNICODE_BIG_ENDIAN);
         IGedcom g = gp.getGedcom();
@@ -425,7 +425,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
     @SuppressWarnings({ "resource", "PMD.SystemPrintln" })
     @Test
     public void testNoCancellationUnicodeLittleEndianCrlf() throws IOException, GedcomParserException, GedcomWriterException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/willis-unicode-littleendian.ged");
         cleanUpGedcom(gp, Encoding.UNICODE_LITTLE_ENDIAN);
         IGedcom g = gp.getGedcom();
@@ -464,7 +464,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
     @SuppressWarnings({ "resource", "PMD.SystemPrintln" })
     @Test
     public void testNoCancellationUnicodeLittleEndianCrOnly() throws IOException, GedcomParserException, GedcomWriterException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/willis-unicode-littleendian.ged");
         cleanUpGedcom(gp, Encoding.UNICODE_LITTLE_ENDIAN);
         IGedcom g = gp.getGedcom();
@@ -503,7 +503,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
     @SuppressWarnings({ "resource", "PMD.SystemPrintln" })
     @Test
     public void testNoCancellationUtf8Crlf() throws IOException, GedcomParserException, GedcomWriterException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/willis.ged");
         cleanUpGedcom(gp, Encoding.UTF_8);
         IGedcom g = gp.getGedcom();
@@ -544,7 +544,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
     @SuppressWarnings({ "resource", "PMD.SystemPrintln" })
     @Test
     public void testNoCancellationUtf8CrOnly() throws IOException, GedcomParserException, GedcomWriterException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/willis.ged");
         cleanUpGedcom(gp, Encoding.UTF_8);
         IGedcom g = gp.getGedcom();
@@ -598,7 +598,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
                 // Do nothing
             }
         };
-        gw = new GedcomWriter(new Gedcom());
+        gw = new GedcomWriter(new InMemoryGedcom());
         assertEquals(0, gw.constructObservers.size());
         assertEquals(0, gw.fileObservers.size());
         gw.registerConstructObserver(c);
@@ -629,7 +629,7 @@ public class GedcomWriterFileProgressAndCancellationTest implements ConstructPro
      */
     @Test(expected = IllegalArgumentException.class)
     public void testSetFileNotificationRateNegativeTest() throws WriterCancelledException {
-        new GedcomWriter(new Gedcom()).setFileNotificationRate(0);
+        new GedcomWriter(new InMemoryGedcom()).setFileNotificationRate(0);
     }
 
     /**

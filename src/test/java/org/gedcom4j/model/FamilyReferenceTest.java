@@ -45,13 +45,13 @@ public class FamilyReferenceTest {
     public void testEqualsObject() {
         FamilyReference fr1 = new FamilyReference();
         assertEquals(fr1, fr1);
-        assertFalse(fr1.equals(new Gedcom()));
+        assertFalse(fr1.equals(new InMemoryGedcom()));
 
         FamilyReference fr2 = new FamilyReference();
         assertEquals(fr1, fr2);
 
         fr1.setFamily(new Family());
-        assertFalse(fr1.equals(new Gedcom()));
+        assertFalse(fr1.equals(new InMemoryGedcom()));
         fr2.setFamily(new Family());
         assertEquals(fr1, fr2);
     }

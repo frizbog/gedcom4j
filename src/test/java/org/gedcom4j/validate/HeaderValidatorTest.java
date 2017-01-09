@@ -107,7 +107,7 @@ public class HeaderValidatorTest extends AbstractValidatorTestCase {
     }
 
     /**
-     * Test for Gedcom version in header
+     * Test for InMemoryGedcom version in header
      */
     @Test
     public void testGedcomVersion() {

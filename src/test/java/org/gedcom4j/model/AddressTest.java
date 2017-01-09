@@ -47,7 +47,7 @@ public class AddressTest {
     public void testEquals() {
         Address a1 = new Address();
         assertFalse(a1.equals(null));
-        assertFalse(a1.equals(new Gedcom()));
+        assertFalse(a1.equals(new InMemoryGedcom()));
         assertEquals(a1, a1);
 
         Address a2 = new Address();
@@ -137,7 +137,7 @@ public class AddressTest {
     @Test
     public void testHashCode() {
         Address a1 = new Address();
-        assertFalse(a1.hashCode() == new Gedcom().hashCode());
+        assertFalse(a1.hashCode() == new InMemoryGedcom().hashCode());
         assertEquals(a1.hashCode(), a1.hashCode());
 
         Address a2 = new Address();

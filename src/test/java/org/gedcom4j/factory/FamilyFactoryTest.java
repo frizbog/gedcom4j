@@ -36,7 +36,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.gedcom4j.model.Family;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualReference;
@@ -56,7 +56,7 @@ public class FamilyFactoryTest {
     @SuppressWarnings("deprecation")
     @Test
     public void testFullFamily() {
-        IGedcom g = new Gedcom();
+        IGedcom g = new InMemoryGedcom();
         Individual father = new IndividualFactory().create(g, "Robert", "Tarantino", Sex.MALE, new Date(67, Calendar.MAY, 1),
                 "Idaho", new Date(99, Calendar.OCTOBER, 31), "Virginia");
         Individual mother = new IndividualFactory().create(g, "Theresa", "Guliani", Sex.FEMALE, new Date(68, Calendar.SEPTEMBER,
@@ -92,7 +92,7 @@ public class FamilyFactoryTest {
     @SuppressWarnings("deprecation")
     @Test
     public void testNoFather() {
-        IGedcom g = new Gedcom();
+        IGedcom g = new InMemoryGedcom();
         Individual mother = new IndividualFactory().create(g, "Theresa", "Guliani", Sex.FEMALE, new Date(68, Calendar.SEPTEMBER,
                 15), "Idaho", null, null);
         Individual kid1 = new IndividualFactory().create(g, "Bernardo", "Tarantino", Sex.MALE, new Date(93, Calendar.APRIL, 5),
@@ -124,7 +124,7 @@ public class FamilyFactoryTest {
     @SuppressWarnings("deprecation")
     @Test
     public void testNoKids() {
-        IGedcom g = new Gedcom();
+        IGedcom g = new InMemoryGedcom();
         Individual father = new IndividualFactory().create(g, "Robert", "Tarantino", Sex.MALE, new Date(67, Calendar.MAY, 1),
                 "Idaho", new Date(99, Calendar.OCTOBER, 31), "Virginia");
         Individual mother = new IndividualFactory().create(g, "Theresa", "Guliani", Sex.FEMALE, new Date(68, Calendar.SEPTEMBER,
@@ -151,7 +151,7 @@ public class FamilyFactoryTest {
     @SuppressWarnings("deprecation")
     @Test
     public void testNoMother() {
-        IGedcom g = new Gedcom();
+        IGedcom g = new InMemoryGedcom();
         Individual father = new IndividualFactory().create(g, "Robert", "Tarantino", Sex.MALE, new Date(67, Calendar.MAY, 1),
                 "Idaho", new Date(99, Calendar.OCTOBER, 31), "Virginia");
         Individual kid1 = new IndividualFactory().create(g, "Bernardo", "Tarantino", Sex.MALE, new Date(93, Calendar.APRIL, 5),
@@ -185,7 +185,7 @@ public class FamilyFactoryTest {
     @SuppressWarnings("deprecation")
     @Test
     public void testNullKids() {
-        IGedcom g = new Gedcom();
+        IGedcom g = new InMemoryGedcom();
         Individual father = new IndividualFactory().create(g, "Robert", "Tarantino", Sex.MALE, new Date(67, Calendar.MAY, 1),
                 "Idaho", new Date(99, Calendar.OCTOBER, 31), "Virginia");
         Individual mother = new IndividualFactory().create(g, "Theresa", "Guliani", Sex.FEMALE, new Date(68, Calendar.SEPTEMBER,

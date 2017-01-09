@@ -41,19 +41,19 @@ import org.gedcom4j.parser.DateParser;
 import org.junit.Test;
 
 /**
- * Test copy constructor for {@link Gedcom}
+ * Test copy constructor for {@link InMemoryGedcom}
  * 
  * @author frizbog
  */
 public class GedcomCopyTest extends AbstractCopyTest {
 
     /**
-     * Test copying a null {@link Gedcom}, which should never work
+     * Test copying a null {@link InMemoryGedcom}, which should never work
      */
     @SuppressWarnings("unused")
     @Test(expected = NullPointerException.class)
     public void testCopyNull() {
-        new Gedcom(null);
+        new InMemoryGedcom(null);
     }
 
     /**
@@ -61,8 +61,8 @@ public class GedcomCopyTest extends AbstractCopyTest {
      */
     @Test
     public void testNulledFields() {
-        Gedcom orig = new Gedcom();
-        IGedcom copy = new Gedcom(orig);
+        InMemoryGedcom orig = new InMemoryGedcom();
+        IGedcom copy = new InMemoryGedcom(orig);
         orig.setHeader(null);
         orig.setSubmission(null);
         assertFalse(orig.equals(copy));
@@ -70,12 +70,12 @@ public class GedcomCopyTest extends AbstractCopyTest {
     }
 
     /**
-     * Test the simplest possible scenario - copy a new default {@link Gedcom}
+     * Test the simplest possible scenario - copy a new default {@link InMemoryGedcom}
      */
     @Test
     public void testSimplestPossible() {
-        Gedcom orig = new Gedcom();
-        IGedcom copy = new Gedcom(orig);
+        InMemoryGedcom orig = new InMemoryGedcom();
+        IGedcom copy = new InMemoryGedcom(orig);
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }
@@ -91,7 +91,7 @@ public class GedcomCopyTest extends AbstractCopyTest {
     @Test
     public void testWithLoadedFile() throws IOException, GedcomParserException {
         IGedcom loadedGedcom = getLoadedGedcom();
-        IGedcom copy = new Gedcom((Gedcom) loadedGedcom);
+        IGedcom copy = new InMemoryGedcom((InMemoryGedcom) loadedGedcom);
         assertEquals(loadedGedcom, copy);
         assertNotSame(loadedGedcom, copy);
     }
@@ -101,7 +101,7 @@ public class GedcomCopyTest extends AbstractCopyTest {
      */
     @Test
     public void testWithValues() {
-        Gedcom orig = new Gedcom();
+        InMemoryGedcom orig = new InMemoryGedcom();
         Header hdr = new Header();
         hdr.setLanguage("Pig Latin");
         orig.setHeader(hdr);
@@ -145,7 +145,7 @@ public class GedcomCopyTest extends AbstractCopyTest {
         sbr.setName("Steve /Submitter/");
         orig.getSubmitters().put(sbr.getXref(), sbr);
 
-        IGedcom copy = new Gedcom(orig);
+        IGedcom copy = new InMemoryGedcom(orig);
         assertEquals(orig, copy);
         assertNotSame(orig, copy);
     }

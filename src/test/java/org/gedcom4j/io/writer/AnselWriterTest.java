@@ -32,7 +32,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import org.gedcom4j.exception.WriterCancelledException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.writer.GedcomWriter;
 import org.junit.Test;
 
@@ -53,7 +53,7 @@ public class AnselWriterTest {
      */
     @Test
     public void testWriteLine() throws IOException, WriterCancelledException {
-        AnselWriter anselWriter = new AnselWriter(new GedcomWriter(new Gedcom()));
+        AnselWriter anselWriter = new AnselWriter(new GedcomWriter(new InMemoryGedcom()));
         anselWriter.terminator = LineTerminator.CRLF;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 

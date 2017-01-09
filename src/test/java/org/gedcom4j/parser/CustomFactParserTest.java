@@ -33,7 +33,7 @@ import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.CustomFact;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.junit.Test;
@@ -56,7 +56,7 @@ public class CustomFactParserTest {
     @Test
     @SuppressWarnings("PMD.SystemPrintln")
     public void test() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.setStrictCustomTags(false);
         gp.load("sample/ftmcustomtags.ged");
         IGedcom g = gp.getGedcom();

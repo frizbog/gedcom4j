@@ -32,7 +32,7 @@ import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.ParserCancelledException;
 import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.io.event.FileProgressListener;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.parser.GedcomParser;
 import org.junit.Test;
 
@@ -51,7 +51,7 @@ public class AnselReaderCancellationTest implements FileProgressListener {
     /**
      * GedcomParser test fixture
      */
-    private final GedcomParser gp = new GedcomParser(new Gedcom());
+    private final GedcomParser gp = new GedcomParser(new InMemoryGedcom());
 
     /**
      * {@inheritDoc}

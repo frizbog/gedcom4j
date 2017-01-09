@@ -42,7 +42,7 @@ import org.gedcom4j.Options;
  * @author frizbog1
  */
 @SuppressWarnings("PMD.GodClass")
-public class Gedcom extends AbstractElement implements IGedcom {
+public class InMemoryGedcom extends AbstractElement implements IGedcom {
     /**
      * Serial Version UID
      */
@@ -130,7 +130,7 @@ public class Gedcom extends AbstractElement implements IGedcom {
     private Trailer trailer = new Trailer();
 
     /** Default constructor */
-    public Gedcom() {
+    public InMemoryGedcom() {
         // Default constructor does nothing
     }
 
@@ -140,7 +140,7 @@ public class Gedcom extends AbstractElement implements IGedcom {
      * @param other
      *            object being copied
      */
-    public Gedcom(Gedcom other) {
+    public InMemoryGedcom(InMemoryGedcom other) {
         super(other);
         for (Family f : other.families.values()) {
             families.put(f.getXref(), new Family(f));
@@ -183,7 +183,7 @@ public class Gedcom extends AbstractElement implements IGedcom {
         if (!super.equals(obj)) {
             return false;
         }
-        Gedcom other = (Gedcom) obj;
+        InMemoryGedcom other = (InMemoryGedcom) obj;
         if (header == null) {
             if (other.header != null) {
                 return false;
@@ -378,7 +378,7 @@ public class Gedcom extends AbstractElement implements IGedcom {
     public String toString() {
         final int maxLen = 3;
         StringBuilder builder = new StringBuilder(128);
-        builder.append("Gedcom [");
+        builder.append("InMemoryGedcom [");
         if (header != null) {
             builder.append("header=");
             builder.append(header);

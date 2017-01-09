@@ -33,7 +33,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.junit.Test;
 
 /**
@@ -54,7 +54,7 @@ public class ParseAllSamplesTest {
     @Test
     @SuppressWarnings("PMD.SystemPrintln")
     public void testLoadAllSamples() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.setStrictCustomTags(false);
         gp.setStrictLineBreaks(false);
         File sampleFolder = new File("sample");

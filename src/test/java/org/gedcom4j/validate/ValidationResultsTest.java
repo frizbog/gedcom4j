@@ -31,7 +31,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.validate.Validator.Finding;
@@ -60,7 +60,7 @@ public class ValidationResultsTest {
      */
     @Before
     public void setUp() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/Harry_Potter.ged");
         g = gp.getGedcom();
     }

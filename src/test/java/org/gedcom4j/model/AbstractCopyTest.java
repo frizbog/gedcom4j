@@ -43,7 +43,7 @@ public abstract class AbstractCopyTest {
     /**
      * Load a gedcom from a file for finding objects to copy
      * 
-     * @return the Gedcom read from the sample file
+     * @return the InMemoryGedcom read from the sample file
      * 
      * @throws IOException
      *             if the file cannot be read
@@ -51,7 +51,7 @@ public abstract class AbstractCopyTest {
      *             if the file cannot be parsed
      */
     protected IGedcom getLoadedGedcom() throws IOException, GedcomParserException {
-        IGedcom g = new Gedcom();
+        IGedcom g = new InMemoryGedcom();
         GedcomParser gp = new GedcomParser(g);
         gp.load("sample/willis.ged");
         return gp.getGedcom();

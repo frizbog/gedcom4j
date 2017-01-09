@@ -36,7 +36,7 @@ import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Family;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.IGedcom;
@@ -86,7 +86,7 @@ public class ValidatorTest implements AutoRepairResponder {
      */
     @Test
     public void testGetAutoRepairResponder() {
-        Validator v = new Validator(new Gedcom());
+        Validator v = new Validator(new InMemoryGedcom());
         assertNotNull(v);
         assertSame(Validator.AUTO_REPAIR_NONE, v.getAutoRepairResponder());
     }
@@ -96,7 +96,7 @@ public class ValidatorTest implements AutoRepairResponder {
      */
     @Test
     public void testGetGedcom() {
-        Gedcom g = new Gedcom();
+        InMemoryGedcom g = new InMemoryGedcom();
         Validator v = new Validator(g);
         assertNotNull(v);
         assertSame(g, v.getGedcom());
@@ -107,7 +107,7 @@ public class ValidatorTest implements AutoRepairResponder {
      */
     @Test
     public void testGetResults() {
-        Gedcom g = new Gedcom();
+        InMemoryGedcom g = new InMemoryGedcom();
         Validator v = new Validator(g);
         assertNotNull(v.getResults().getAllFindings());
         assertEquals(0, v.getResults().getAllFindings().size());
@@ -120,7 +120,7 @@ public class ValidatorTest implements AutoRepairResponder {
      */
     @Test
     public void testGoofyGedcom() {
-        Gedcom g = new Gedcom();
+        InMemoryGedcom g = new InMemoryGedcom();
         g.getIndividuals().put("Foo", null);
         g.getIndividuals().put(null, new Individual());
         g.getFamilies().put("Foo", null);
@@ -158,7 +158,7 @@ public class ValidatorTest implements AutoRepairResponder {
      */
     @Test
     public void testGoofyGedcomHeader() {
-        Gedcom g = new Gedcom();
+        InMemoryGedcom g = new InMemoryGedcom();
         g.setHeader(null);
 
         Validator v = new Validator(g);
@@ -192,7 +192,7 @@ public class ValidatorTest implements AutoRepairResponder {
      */
     @Test
     public void testIsSpecified() {
-        Validator v = new Validator(new Gedcom());
+        Validator v = new Validator(new InMemoryGedcom());
         assertTrue(v.isSpecified("Foo"));
         assertTrue(v.isSpecified("Trailing Space        "));
         assertTrue(v.isSpecified("            Leading Space"));
@@ -208,7 +208,7 @@ public class ValidatorTest implements AutoRepairResponder {
      */
     @Test
     public void testNullItems() {
-        Gedcom g = new Gedcom();
+        InMemoryGedcom g = new InMemoryGedcom();
         g.setHeader(null);
         g.setTrailer(null);
         g.setSubmission(null);
@@ -221,7 +221,7 @@ public class ValidatorTest implements AutoRepairResponder {
         g.getSubmitters().put(null, null);
 
         Validator v = new Validator(g);
-        assertEquals("Validator [results=ValidationResults [allFindings=[Finding [itemOfConcern=Gedcom [families=[null=null], "
+        assertEquals("Validator [results=ValidationResults [allFindings=[Finding [itemOfConcern=InMemoryGedcom [families=[null=null], "
                 + "individuals=[null=null], multimedia=[null=null], noteStructures=[null=null], repositories=[null=null], "
                 + "sources=[null=null], submission=null, submitters=[null=null], ], severity=INFO, problemCode=10, "
                 + "problemDescription=Unable to determine GEDCOM version - assuming v5.5.1, ]]], autoRepairResponder=AUTO_REPAIR_NONE]",
@@ -233,7 +233,7 @@ public class ValidatorTest implements AutoRepairResponder {
      */
     @Test
     public void testSetAutoRepairResponder() {
-        Gedcom g = new Gedcom();
+        InMemoryGedcom g = new InMemoryGedcom();
         Validator v = new Validator(g);
         assertSame(Validator.AUTO_REPAIR_NONE, v.getAutoRepairResponder());
         v.setAutoRepairResponder(this);
@@ -250,11 +250,11 @@ public class ValidatorTest implements AutoRepairResponder {
      */
     @Test
     public void testToString() throws IOException, GedcomParserException {
-        IGedcom g = new Gedcom();
+        IGedcom g = new InMemoryGedcom();
         Validator v = new Validator(g);
         assertEquals("Validator [results=ValidationResults [allFindings=[]], autoRepairResponder=AUTO_REPAIR_NONE]", v.toString());
 
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/RelationshipTest.ged");
         g = gp.getGedcom();
         v = new Validator(g);

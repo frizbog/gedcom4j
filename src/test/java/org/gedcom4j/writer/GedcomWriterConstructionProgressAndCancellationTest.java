@@ -34,7 +34,7 @@ import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.io.writer.NullOutputStream;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.validate.Validator;
@@ -100,7 +100,7 @@ public class GedcomWriterConstructionProgressAndCancellationTest implements Cons
     @SuppressWarnings("resource")
     @Test(expected = WriterCancelledException.class)
     public void testCancellation() throws IOException, GedcomParserException, GedcomWriterException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/willis-ascii.ged");
         IGedcom g = gp.getGedcom();
         Validator gv = new Validator(g);
@@ -126,7 +126,7 @@ public class GedcomWriterConstructionProgressAndCancellationTest implements Cons
     @SuppressWarnings("resource")
     @Test(expected = WriterCancelledException.class)
     public void testChangingConstructionNotificationRate() throws IOException, GedcomParserException, GedcomWriterException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/willis-ascii.ged");
         IGedcom g = gp.getGedcom();
         Validator gv = new Validator(g);
@@ -154,7 +154,7 @@ public class GedcomWriterConstructionProgressAndCancellationTest implements Cons
     @SuppressWarnings("resource")
     @Test
     public void testNoCancellation() throws IOException, GedcomParserException, GedcomWriterException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/willis-ascii.ged");
         IGedcom g = gp.getGedcom();
         Validator gv = new Validator(g);
@@ -175,7 +175,7 @@ public class GedcomWriterConstructionProgressAndCancellationTest implements Cons
      */
     @Test(expected = IllegalArgumentException.class)
     public void testSetConstructionNotificationRateNegativeTest() throws WriterCancelledException {
-        new GedcomWriter(new Gedcom()).setConstructionNotificationRate(0);
+        new GedcomWriter(new InMemoryGedcom()).setConstructionNotificationRate(0);
     }
 
 }

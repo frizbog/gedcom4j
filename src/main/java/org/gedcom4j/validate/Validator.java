@@ -66,7 +66,7 @@ import org.gedcom4j.model.enumerations.SupportedVersion;
  * objects that have problems.
  * </p>
  * <p>
- * Typical usage is to instantiate a Validator with the Gedcom being validated, call the {@link #validate()} method, then examine
+ * Typical usage is to instantiate a Validator with the InMemoryGedcom being validated, call the {@link #validate()} method, then examine
  * the {@link ValidationResults} object obtained from the {@link #getResults()} method.
  * </p>
  * <p>
@@ -474,7 +474,7 @@ public class Validator implements Serializable {
      * @param writeFrom
      *            the gedcom being validated. Required.
      * @throws IllegalArgumentException
-     *             if a null Gedcom is passed in.
+     *             if a null InMemoryGedcom is passed in.
      */
     @SuppressWarnings("PMD.ConstructorCallsOverridableMethod")
     public Validator(IGedcom writeFrom) {

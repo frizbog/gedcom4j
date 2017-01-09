@@ -34,7 +34,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.writer.GedcomWriter;
@@ -57,7 +57,7 @@ public class CustomTagParseWriteTortureTest {
     @Test
     public void testCustomTags() throws Exception {
         // Read and parse the hand-made file
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/customtagstorture.ged");
 
         // Write the file back out to a temp file

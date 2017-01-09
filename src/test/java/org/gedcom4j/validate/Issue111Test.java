@@ -28,7 +28,7 @@ package org.gedcom4j.validate;
 
 import static org.junit.Assert.assertEquals;
 
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.Submitter;
@@ -47,7 +47,7 @@ public class Issue111Test {
      */
     @Test
     public void testRemoveDupNames() {
-        Gedcom g = new Gedcom();
+        InMemoryGedcom g = new InMemoryGedcom();
         Submitter subm = new Submitter();
         subm.setName("Sean /Connery/");
         subm.setXref("@SUBM@");

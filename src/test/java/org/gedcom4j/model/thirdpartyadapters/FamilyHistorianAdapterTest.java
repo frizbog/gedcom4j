@@ -42,7 +42,7 @@ import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyEvent;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualAttribute;
@@ -101,12 +101,12 @@ public class FamilyHistorianAdapterTest {
      */
     @Before
     public void setUp() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/famhistcustomtags.ged");
         gedcomWithCustomTags = gp.getGedcom();
         assertNotNull(gedcomWithCustomTags);
 
-        gp = new GedcomParser(new Gedcom());
+        gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/famhistnocustomtags.ged");
         gedcomWithoutCustomTags = gp.getGedcom();
         assertNotNull(gedcomWithoutCustomTags);

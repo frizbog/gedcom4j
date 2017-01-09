@@ -28,7 +28,7 @@ package org.gedcom4j.validate;
 
 import org.gedcom4j.factory.IndividualFactory;
 import org.gedcom4j.factory.Sex;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.NoteRecord;
 import org.gedcom4j.model.NoteStructure;
@@ -48,7 +48,7 @@ public class NoteStructureValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoteStructures() {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        InMemoryGedcom g = TestHelper.getMinimalGedcom();
         validator = new Validator(g);
         validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
 
@@ -68,7 +68,7 @@ public class NoteStructureValidatorTest extends AbstractValidatorTestCase {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testSetLinesWithReferenceFails() {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        InMemoryGedcom g = TestHelper.getMinimalGedcom();
         validator = new Validator(g);
         validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
 
@@ -87,7 +87,7 @@ public class NoteStructureValidatorTest extends AbstractValidatorTestCase {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testSetReferenceWithLinesFails() {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        InMemoryGedcom g = TestHelper.getMinimalGedcom();
         validator = new Validator(g);
         validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
 

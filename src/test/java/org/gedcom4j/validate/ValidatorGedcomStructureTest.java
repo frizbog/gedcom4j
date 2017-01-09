@@ -29,7 +29,7 @@ package org.gedcom4j.validate;
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.Submitter;
 import org.gedcom4j.model.SubmitterReference;
@@ -54,7 +54,7 @@ public class ValidatorGedcomStructureTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testEmptyGedcom() {
-        gedcom = new Gedcom();
+        gedcom = new InMemoryGedcom();
 
         // Go validate
         validator = new Validator(gedcom);
@@ -95,7 +95,7 @@ public class ValidatorGedcomStructureTest extends AbstractValidatorTestCase {
     @SuppressWarnings("PMD.SystemPrintln")
     public void testValidateStressTestFile() throws IOException, GedcomParserException {
         // Load a file
-        GedcomParser p = new GedcomParser(new Gedcom());
+        GedcomParser p = new GedcomParser(new InMemoryGedcom());
         p.load(SAMPLE_STRESS_TEST_FILENAME);
         validator = new Validator(p.getGedcom());
         validator.validate();

@@ -32,7 +32,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.gedcom4j.model.Association;
 import org.gedcom4j.model.CustomFact;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.StringWithCustomFacts;
 import org.gedcom4j.model.TestHelper;
@@ -146,7 +146,7 @@ public class IndividualValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testValidateIndividuals2() {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        InMemoryGedcom g = TestHelper.getMinimalGedcom();
 
         // Deliberately introduce a problem
         Individual i = new Individual();

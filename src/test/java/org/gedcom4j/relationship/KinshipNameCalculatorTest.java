@@ -34,7 +34,7 @@ import java.io.IOException;
 import java.util.Locale;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.parser.GedcomParser;
@@ -75,7 +75,7 @@ public class KinshipNameCalculatorTest {
      */
     @Before
     public void setUp() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/RelationshipTestExtended.ged");
         assertTrue(gp.getErrors().isEmpty());
         assertTrue(gp.getWarnings().isEmpty());

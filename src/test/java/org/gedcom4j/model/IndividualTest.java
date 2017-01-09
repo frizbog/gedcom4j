@@ -337,7 +337,7 @@ public class IndividualTest {
      */
     @Test
     public void testGetAncestors() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/RelationshipTest.ged");
         assertTrue(gp.getErrors().isEmpty());
         assertTrue(gp.getWarnings().isEmpty());
@@ -391,7 +391,7 @@ public class IndividualTest {
      */
     @Test
     public void testGetDescendants() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/RelationshipTest.ged");
         assertTrue(gp.getErrors().isEmpty());
         assertTrue(gp.getWarnings().isEmpty());

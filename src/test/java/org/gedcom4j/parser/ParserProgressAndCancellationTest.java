@@ -32,7 +32,7 @@ import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.ParserCancelledException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.parser.event.ParseProgressEvent;
 import org.gedcom4j.parser.event.ParseProgressListener;
 import org.junit.Test;
@@ -52,7 +52,7 @@ public class ParserProgressAndCancellationTest implements ParseProgressListener 
     /**
      * The parser being tested
      */
-    private GedcomParser gp = new GedcomParser(new Gedcom());
+    private GedcomParser gp = new GedcomParser(new InMemoryGedcom());
 
     /**
      * How many notifications to cancel after
@@ -80,7 +80,7 @@ public class ParserProgressAndCancellationTest implements ParseProgressListener 
      */
     @Test(expected = ParserCancelledException.class)
     public void testCancellation() throws IOException, GedcomParserException {
-        gp = new GedcomParser(new Gedcom());
+        gp = new GedcomParser(new InMemoryGedcom());
         cancelAfter = 5;
         gp.registerParseObserver(this);
         gp.load("sample/willis-ascii.ged");
@@ -96,7 +96,7 @@ public class ParserProgressAndCancellationTest implements ParseProgressListener 
      */
     @Test
     public void testNoCancellation() throws IOException, GedcomParserException {
-        gp = new GedcomParser(new Gedcom());
+        gp = new GedcomParser(new InMemoryGedcom());
         cancelAfter = Integer.MAX_VALUE;
         gp.registerParseObserver(this);
         gp.load("sample/willis-ascii.ged");

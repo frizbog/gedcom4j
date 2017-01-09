@@ -34,7 +34,7 @@ import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.AbstractEvent;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.Place;
@@ -58,7 +58,7 @@ public class Issue80ParserTest {
      */
     @Test
     public void testIssue80() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/Issue 80.ged");
         assertTrue(gp.getErrors().isEmpty());
         assertTrue(gp.getWarnings().isEmpty());

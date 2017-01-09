@@ -34,7 +34,7 @@ import java.util.Collection;
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.GedcomWriterVersionDataMismatchException;
 import org.gedcom4j.model.FileReference;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.MultimediaReference;
@@ -65,7 +65,7 @@ public class Multimedia55EmitterTest {
         m1.getBlob(true).add("xyz");
         m1.setContinuedObject(new MultimediaReference(m2));
         mm.add(m1);
-        GedcomWriter baseWriter = new GedcomWriter(new Gedcom());
+        GedcomWriter baseWriter = new GedcomWriter(new InMemoryGedcom());
         new Multimedia55Emitter(baseWriter, 1, mm).emit();
         assertEquals(4, baseWriter.lines.size());
         assertEquals("0 OBJE", baseWriter.lines.get(0));
@@ -82,7 +82,7 @@ public class Multimedia55EmitterTest {
      */
     @Test(expected = GedcomWriterVersionDataMismatchException.class)
     public void testFileReferences() throws GedcomWriterException {
-        IGedcom gedcom = new Gedcom();
+        IGedcom gedcom = new InMemoryGedcom();
         gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         GedcomWriter baseWriter = new GedcomWriter(gedcom);
 
@@ -105,7 +105,7 @@ public class Multimedia55EmitterTest {
      */
     @Test
     public void testNull() throws GedcomWriterException {
-        GedcomWriter baseWriter = new GedcomWriter(new Gedcom());
+        GedcomWriter baseWriter = new GedcomWriter(new InMemoryGedcom());
         new Multimedia55Emitter(baseWriter, 1, null).emit();
         assertEquals(0, baseWriter.lines.size());
     }

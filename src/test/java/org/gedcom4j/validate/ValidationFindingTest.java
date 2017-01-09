@@ -35,7 +35,7 @@ import java.util.ArrayList;
 
 import org.gedcom4j.Options;
 import org.gedcom4j.model.Family;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.ModelElement;
 import org.gedcom4j.validate.Validator.Finding;
@@ -54,7 +54,7 @@ public class ValidationFindingTest {
      */
     @Test
     public void testGetSetFieldNameOfConcern() {
-        Validator v = new Validator(new Gedcom());
+        Validator v = new Validator(new InMemoryGedcom());
         Finding vf = v.newFinding(new Header(), Severity.ERROR, ProblemCode.ILLEGAL_VALUE, null);
         assertNull(vf.getFieldNameOfConcern());
         vf.setFieldNameOfConcern("Foo");
@@ -66,11 +66,11 @@ public class ValidationFindingTest {
      */
     @Test
     public void testGetSetItemOfConcern() {
-        Validator v = new Validator(new Gedcom());
+        Validator v = new Validator(new InMemoryGedcom());
         Finding vf = v.newFinding(new Header(), Severity.ERROR, ProblemCode.ILLEGAL_VALUE, null);
         assertNotNull(vf.getItemOfConcern());
-        vf.setItemOfConcern(new Gedcom());
-        assertEquals(Gedcom.class, vf.getItemOfConcern().getClass());
+        vf.setItemOfConcern(new InMemoryGedcom());
+        assertEquals(InMemoryGedcom.class, vf.getItemOfConcern().getClass());
     }
 
     /**
@@ -78,7 +78,7 @@ public class ValidationFindingTest {
      */
     @Test
     public void testGetSetProblemCode() {
-        Validator v = new Validator(new Gedcom());
+        Validator v = new Validator(new InMemoryGedcom());
         Finding vf = v.newFinding(new Header(), Severity.ERROR, ProblemCode.ILLEGAL_VALUE, null);
         assertEquals(ProblemCode.ILLEGAL_VALUE.getCode(), vf.getProblemCode());
         vf.setProblemCode(1000);
@@ -90,7 +90,7 @@ public class ValidationFindingTest {
      */
     @Test
     public void testGetSetProblemDescription() {
-        Validator v = new Validator(new Gedcom());
+        Validator v = new Validator(new InMemoryGedcom());
         Finding vf = v.newFinding(new Header(), Severity.ERROR, ProblemCode.ILLEGAL_VALUE, null);
         vf.setProblemCode(1000); // Have to set at 1000 or higher to be able to set the description
         assertNotNull(vf.getProblemDescription());
@@ -103,7 +103,7 @@ public class ValidationFindingTest {
      */
     @Test
     public void testGetSetRelatedItems() {
-        Validator v = new Validator(new Gedcom());
+        Validator v = new Validator(new InMemoryGedcom());
         Finding vf = v.newFinding(new Header(), Severity.ERROR, ProblemCode.ILLEGAL_VALUE, null);
         assertNull(vf.getRelatedItems());
         assertNull(vf.getRelatedItems(false));
@@ -121,7 +121,7 @@ public class ValidationFindingTest {
     @Test
     public void testGetSetRepairs() {
         assertFalse(Options.isCollectionInitializationEnabled());
-        Validator v = new Validator(new Gedcom());
+        Validator v = new Validator(new InMemoryGedcom());
         Finding vf = v.newFinding(new Header(), Severity.ERROR, ProblemCode.ILLEGAL_VALUE, null);
         assertNull(vf.getRepairs());
         assertNull(vf.getRepairs(false));
@@ -138,7 +138,7 @@ public class ValidationFindingTest {
      */
     @Test
     public void testGetSetSeverity() {
-        Validator v = new Validator(new Gedcom());
+        Validator v = new Validator(new InMemoryGedcom());
         Finding vf = v.newFinding(new Header(), Severity.ERROR, ProblemCode.ILLEGAL_VALUE, null);
         assertNotNull(vf.getSeverity());
         vf.setSeverity(Severity.INFO);
@@ -150,10 +150,10 @@ public class ValidationFindingTest {
      */
     @Test
     public void testMultiArgConstructor() {
-        Validator v = new Validator(new Gedcom());
-        Finding vf = v.newFinding(new Gedcom(), Severity.INFO, ProblemCode.DUPLICATE_VALUE, null);
+        Validator v = new Validator(new InMemoryGedcom());
+        Finding vf = v.newFinding(new InMemoryGedcom(), Severity.INFO, ProblemCode.DUPLICATE_VALUE, null);
         assertNotNull(vf);
-        assertEquals(Gedcom.class, vf.getItemOfConcern().getClass());
+        assertEquals(InMemoryGedcom.class, vf.getItemOfConcern().getClass());
         assertEquals(Severity.INFO, vf.getSeverity());
         assertEquals(ProblemCode.DUPLICATE_VALUE.getCode(), vf.getProblemCode());
         assertEquals(ProblemCode.DUPLICATE_VALUE.getDescription(), vf.getProblemDescription());
@@ -164,7 +164,7 @@ public class ValidationFindingTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testMultiArgConstructorNegativeNullItemOfConcern() {
-        Validator v = new Validator(new Gedcom());
+        Validator v = new Validator(new InMemoryGedcom());
         v.newFinding(null, Severity.INFO, ProblemCode.DUPLICATE_VALUE, null); // Item of concern is null
     }
 
@@ -173,8 +173,8 @@ public class ValidationFindingTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testMultiArgConstructorNegativeNullProblemCode() {
-        Validator v = new Validator(new Gedcom());
-        v.newFinding(new Gedcom(), Severity.INFO, null, null); // Problem code is null
+        Validator v = new Validator(new InMemoryGedcom());
+        v.newFinding(new InMemoryGedcom(), Severity.INFO, null, null); // Problem code is null
     }
 
     /**
@@ -182,8 +182,8 @@ public class ValidationFindingTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testMultiArgConstructorNegativeNullSeverity() {
-        Validator v = new Validator(new Gedcom());
-        v.newFinding(new Gedcom(), null, ProblemCode.DUPLICATE_VALUE, null); // Severity is null
+        Validator v = new Validator(new InMemoryGedcom());
+        v.newFinding(new InMemoryGedcom(), null, ProblemCode.DUPLICATE_VALUE, null); // Severity is null
     }
 
     /**
@@ -191,8 +191,8 @@ public class ValidationFindingTest {
      */
     @Test
     public void testSetProblem() {
-        Validator v = new Validator(new Gedcom());
-        Finding vf = v.newFinding(new Gedcom(), Severity.INFO, ProblemCode.DUPLICATE_VALUE, null);
+        Validator v = new Validator(new InMemoryGedcom());
+        Finding vf = v.newFinding(new InMemoryGedcom(), Severity.INFO, ProblemCode.DUPLICATE_VALUE, null);
         vf.setProblem(ProblemCode.ILLEGAL_VALUE);
         assertEquals(ProblemCode.ILLEGAL_VALUE.getCode(), vf.getProblemCode());
         assertEquals(ProblemCode.ILLEGAL_VALUE.getDescription(), vf.getProblemDescription());
@@ -204,8 +204,8 @@ public class ValidationFindingTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testSetProblemDescriptionCodeBelow1000() {
-        Validator v = new Validator(new Gedcom());
-        Finding vf = v.newFinding(new Gedcom(), Severity.INFO, ProblemCode.DUPLICATE_VALUE, null);
+        Validator v = new Validator(new InMemoryGedcom());
+        Finding vf = v.newFinding(new InMemoryGedcom(), Severity.INFO, ProblemCode.DUPLICATE_VALUE, null);
         assertNotNull(vf.getProblemDescription());
         vf.setProblemDescription("Frying Pan"); // Boom, because code is less than 1000
     }
@@ -215,8 +215,8 @@ public class ValidationFindingTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testSetSeverityNull() {
-        Validator v = new Validator(new Gedcom());
-        Finding vf = v.newFinding(new Gedcom(), Severity.INFO, ProblemCode.DUPLICATE_VALUE, null);
+        Validator v = new Validator(new InMemoryGedcom());
+        Finding vf = v.newFinding(new InMemoryGedcom(), Severity.INFO, ProblemCode.DUPLICATE_VALUE, null);
         vf.setSeverity(null); // Boom
     }
 

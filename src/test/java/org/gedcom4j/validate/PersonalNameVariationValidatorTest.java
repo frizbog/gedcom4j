@@ -26,7 +26,7 @@
  */
 package org.gedcom4j.validate;
 
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.PersonalName;
 import org.gedcom4j.model.PersonalNameVariation;
@@ -46,7 +46,7 @@ public class PersonalNameVariationValidatorTest extends AbstractValidatorTestCas
      */
     @Test
     public void testOne() {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        InMemoryGedcom g = TestHelper.getMinimalGedcom();
         validator = new Validator(g);
 
         Individual i = new Individual();

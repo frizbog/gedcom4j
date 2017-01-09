@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.enumerations.IndividualEventType;
@@ -67,7 +67,7 @@ public class FinderTest {
      */
     @Before
     public void setUp() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/5.5.1 sample 1.ged");
         IGedcom gedcom = gp.getGedcom();
         classUnderTest = new Finder(gedcom);

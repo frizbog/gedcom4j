@@ -61,14 +61,14 @@ public class GedcomTest {
     }
 
     /**
-     * Test method for {@link org.gedcom4j.model.Gedcom#equals(java.lang.Object)}.
+     * Test method for {@link org.gedcom4j.model.InMemoryGedcom#equals(java.lang.Object)}.
      */
     @Test
     @SuppressWarnings("PMD.EqualsNull")
     public void testEqualsObject() {
-        IGedcom g1 = new Gedcom();
+        IGedcom g1 = new InMemoryGedcom();
         assertEquals(g1, g1);
-        IGedcom g2 = new Gedcom();
+        IGedcom g2 = new InMemoryGedcom();
         assertEquals("objects are equal, so equals() should return true", g1, g2);
         g1.setTrailer(null);
         assertFalse("objects are no longer equal, so equals() should return false", g1.equals(g2));
@@ -83,16 +83,16 @@ public class GedcomTest {
     }
 
     /**
-     * Test method for {@link org.gedcom4j.model.Gedcom#equals(java.lang.Object)}.
+     * Test method for {@link org.gedcom4j.model.InMemoryGedcom#equals(java.lang.Object)}.
      */
     @Test
     @SuppressWarnings("PMD.EqualsNull")
     public void testEqualsObject2() {
-        IGedcom g1 = new Gedcom();
+        IGedcom g1 = new InMemoryGedcom();
         assertEquals(g1, g1);
         assertFalse(g1.equals(new Header()));
 
-        IGedcom g2 = new Gedcom();
+        IGedcom g2 = new InMemoryGedcom();
         assertEquals(g1, g2);
 
         g1.getIndividuals().put("X", new Individual());
@@ -146,12 +146,12 @@ public class GedcomTest {
     }
 
     /**
-     * Test method for {@link org.gedcom4j.model.Gedcom#hashCode()}.
+     * Test method for {@link org.gedcom4j.model.InMemoryGedcom#hashCode()}.
      */
     @Test
     public void testHashCode() {
-        IGedcom g1 = new Gedcom();
-        IGedcom g2 = new Gedcom();
+        IGedcom g1 = new InMemoryGedcom();
+        IGedcom g2 = new InMemoryGedcom();
         assertEquals("objects are equal, so hashcodes should equal", g1.hashCode(), g2.hashCode());
         g1.setTrailer(null);
         assertFalse("objects are no longer equal, so hashcodes should no longer equal", g1.hashCode() == g2.hashCode());
@@ -164,12 +164,12 @@ public class GedcomTest {
     }
 
     /**
-     * Test for {@link Gedcom#hashCode()}
+     * Test for {@link InMemoryGedcom#hashCode()}
      */
     @Test
     public void testHashCode2() {
-        IGedcom g1 = new Gedcom();
-        IGedcom g2 = new Gedcom();
+        IGedcom g1 = new InMemoryGedcom();
+        IGedcom g2 = new InMemoryGedcom();
         assertEquals(g2.hashCode(), g2.hashCode());
 
         g1.getIndividuals().put("X", new Individual());
@@ -229,7 +229,7 @@ public class GedcomTest {
     @Test
     public void testInitialized() {
         Options.setCollectionInitializationEnabled(true);
-        IGedcom g = new Gedcom();
+        IGedcom g = new InMemoryGedcom();
         assertNotNull(g);
         assertNotNull(g.getFamilies());
         assertNotNull(g.getIndividuals());

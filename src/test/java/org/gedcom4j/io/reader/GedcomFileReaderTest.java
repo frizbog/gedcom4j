@@ -43,7 +43,7 @@ import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.UnsupportedGedcomCharsetException;
 import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.io.event.FileProgressListener;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.parser.GedcomParser;
 import org.junit.Test;
 
@@ -105,7 +105,7 @@ public class GedcomFileReaderTest implements FileProgressListener {
         byte[] anselData = { 0x30, 0x20, 0x48, /* CRLF begin */ 0x0D, 0x0A, /* CRLF end */ 0x6F };
 
         try (BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(anselData))) {
-            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(new Gedcom()), s);
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(new InMemoryGedcom()), s);
             List<String> lines = getLines(gr);
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -132,7 +132,7 @@ public class GedcomFileReaderTest implements FileProgressListener {
         byte[] anselData = { 0x30, 0x20, 0x48, 0x0D, 0x6F };
 
         try (BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(anselData))) {
-            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(new Gedcom()), s);
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(new InMemoryGedcom()), s);
             List<String> lines = getLines(gr);
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -159,7 +159,7 @@ public class GedcomFileReaderTest implements FileProgressListener {
         byte[] anselData = { 0x30, 0x20, 0x48, 0x65, (byte) 0xA1, (byte) 0xA1, 0x6F };
 
         try (BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(anselData))) {
-            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(new Gedcom()), s);
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(new InMemoryGedcom()), s);
             String l = gr.nextLine();
             assertNotNull(l);
             assertEquals("0 He\u0141\u0141o", l);
@@ -183,7 +183,7 @@ public class GedcomFileReaderTest implements FileProgressListener {
         byte[] anselData = { 0x30, 0x20, 0x48, 0x0A, 0x6F };
 
         try (BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(anselData))) {
-            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(new Gedcom()), s);
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(new InMemoryGedcom()), s);
             List<String> lines = getLines(gr);
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -205,7 +205,7 @@ public class GedcomFileReaderTest implements FileProgressListener {
     public void testAscii() throws IOException, GedcomParserException {
         try (InputStream is = new FileInputStream("sample/willis-ascii.ged");
                 BufferedInputStream bis = new BufferedInputStream(is)) {
-            GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(new Gedcom()), bis);
+            GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(new InMemoryGedcom()), bis);
             assertNotNull(gfr.nextLine());
         }
     }
@@ -224,7 +224,7 @@ public class GedcomFileReaderTest implements FileProgressListener {
         byte[] fileBytes = {};
 
         try (BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(fileBytes))) {
-            new GedcomFileReader(new GedcomParser(new Gedcom()), s);
+            new GedcomFileReader(new GedcomParser(new InMemoryGedcom()), s);
         }
     }
 
@@ -241,7 +241,7 @@ public class GedcomFileReaderTest implements FileProgressListener {
         byte[] fileBytes = "\n\n\n".getBytes();
 
         try (BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(fileBytes))) {
-            GedcomParser gp = new GedcomParser(new Gedcom());
+            GedcomParser gp = new GedcomParser(new InMemoryGedcom());
             gp.setReadNotificationRate(1); // Notify on every line read
             GedcomFileReader gr = new GedcomFileReader(gp, s);
             List<String> lines = getLines(gr);
@@ -260,7 +260,7 @@ public class GedcomFileReaderTest implements FileProgressListener {
     @Test
     public void testFirstNBytes() throws IOException, UnsupportedGedcomCharsetException {
         byte[] bytes = new byte[] { '0', ' ', 0x12, 0x34 };
-        GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(new Gedcom()), new BufferedInputStream(
+        GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(new InMemoryGedcom()), new BufferedInputStream(
                 new ByteArrayInputStream(bytes)));
         // Haven't save the first chunk yet
         assertNotNull(gfr.firstChunk);
@@ -283,7 +283,7 @@ public class GedcomFileReaderTest implements FileProgressListener {
         byte[] fileBytes = "0 TRLR".getBytes();
 
         try (BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(fileBytes))) {
-            GedcomParser gp = new GedcomParser(new Gedcom());
+            GedcomParser gp = new GedcomParser(new InMemoryGedcom());
             gp.setReadNotificationRate(1); // Notify on every line read
             GedcomFileReader gr = new GedcomFileReader(gp, s);
             List<String> lines = getLines(gr);
@@ -307,7 +307,7 @@ public class GedcomFileReaderTest implements FileProgressListener {
         byte[] unicodeData = { 0x00, 0x30, 0x00, 0x20, 0x00, 0x48, 0x00, 0x45, 0x00, 0x41, 0x00, 0x44, 0x00, 0x0d, 0x00, 0x0a, 0x00,
                 0x31, 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52 };
         try (BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(unicodeData));) {
-            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(new Gedcom()), s);
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(new InMemoryGedcom()), s);
             List<String> lines = getLines(gr);
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -333,7 +333,7 @@ public class GedcomFileReaderTest implements FileProgressListener {
         byte[] unicodeData = { 0x00, 0x30, 0x00, 0x20, 0x00, 0x48, 0x00, 0x45, 0x00, 0x41, 0x00, 0x44, 0x00, 0x0d, 0x00, 0x31, 0x00,
                 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52 };
         try (BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(unicodeData))) {
-            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(new Gedcom()), s);
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(new InMemoryGedcom()), s);
             List<String> lines = getLines(gr);
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -359,7 +359,7 @@ public class GedcomFileReaderTest implements FileProgressListener {
         byte[] unicodeData = { 0x00, 0x30, 0x00, 0x20, 0x00, 0x48, 0x00, 0x45, 0x00, 0x41, 0x00, 0x44, 0x00, 0x0a, 0x00, 0x31, 0x00,
                 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52 };
         try (BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(unicodeData))) {
-            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(new Gedcom()), s);
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(new InMemoryGedcom()), s);
             List<String> lines = getLines(gr);
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -385,7 +385,7 @@ public class GedcomFileReaderTest implements FileProgressListener {
         byte[] unicodeData = { 0x30, 0x00, 0x20, 0x00, 0x48, 0x00, 0x45, 0x00, 0x41, 0x00, 0x44, 0x00, 0x0d, 0x00, 0x0a, 0x00, 0x31,
                 0x00, 0x20, 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52, 0x00 };
         try (BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(unicodeData))) {
-            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(new Gedcom()), s);
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(new InMemoryGedcom()), s);
             List<String> lines = getLines(gr);
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -411,7 +411,7 @@ public class GedcomFileReaderTest implements FileProgressListener {
         byte[] unicodeData = { 0x30, 0x00, 0x20, 0x00, 0x48, 0x00, 0x45, 0x00, 0x41, 0x00, 0x44, 0x00, 0x0d, 0x00, 0x31, 0x00, 0x20,
                 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52, 0x00 };
         try (BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(unicodeData))) {
-            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(new Gedcom()), s);
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(new InMemoryGedcom()), s);
             List<String> lines = getLines(gr);
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -437,7 +437,7 @@ public class GedcomFileReaderTest implements FileProgressListener {
         byte[] unicodeData = { 0x30, 0x00, 0x20, 0x00, 0x48, 0x00, 0x45, 0x00, 0x41, 0x00, 0x44, 0x00, 0x0a, 0x00, 0x31, 0x00, 0x20,
                 0x00, 0x43, 0x00, 0x48, 0x00, 0x41, 0x00, 0x52, 0x00 };
         try (BufferedInputStream s = new BufferedInputStream(new ByteArrayInputStream(unicodeData))) {
-            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(new Gedcom()), s);
+            GedcomFileReader gr = new GedcomFileReader(new GedcomParser(new InMemoryGedcom()), s);
             List<String> lines = getLines(gr);
             assertNotNull(lines);
             assertFalse(lines.isEmpty());
@@ -516,7 +516,7 @@ public class GedcomFileReaderTest implements FileProgressListener {
         try (FileInputStream fileInputStream = new FileInputStream(fileName);
                 BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream)) {
 
-            GedcomParser gp = new GedcomParser(new Gedcom());
+            GedcomParser gp = new GedcomParser(new InMemoryGedcom());
             gp.registerFileObserver(this);
             gp.setReadNotificationRate(1); // Notification for every line
             GedcomFileReader gr = new GedcomFileReader(gp, bufferedInputStream);

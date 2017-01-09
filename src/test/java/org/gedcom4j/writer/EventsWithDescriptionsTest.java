@@ -36,7 +36,7 @@ import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.GedcomWriterException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
@@ -67,7 +67,7 @@ public class EventsWithDescriptionsTest {
     @Test
     public void testNonStdTagsNotWritten() throws IOException, GedcomParserException, GedcomWriterException {
         // Read original non-standard file, find non-standard birth event, assert some pre-conditions
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/Event Tag Test.ged");
         IGedcom gBefore = gp.getGedcom();
         assertNotNull(gBefore);
@@ -91,7 +91,7 @@ public class EventsWithDescriptionsTest {
         gw.write(fn);
 
         // Read the file we just wrote back in. The non-standard part should be removed.
-        gp = new GedcomParser(new Gedcom());
+        gp = new GedcomParser(new InMemoryGedcom());
         gp.load(fn);
         IGedcom gAfter = gp.getGedcom();
         assertNotNull(gBefore);
@@ -126,7 +126,7 @@ public class EventsWithDescriptionsTest {
     @Test
     public void testValidation() throws IOException, GedcomParserException, GedcomWriterException {
         // Read original non-standard file, find non-standard birth event, assert some pre-conditions
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/Event Tag Test.ged");
         IGedcom gBefore = gp.getGedcom();
         assertNotNull(gBefore);

@@ -36,7 +36,7 @@ import java.util.Map;
  * </p>
  * 
  * <p>
- * Note that if you are creating a Gedcom object graph programmatically from scratch (as opposed to by parsing a GEDCOM file), you
+ * Note that if you are creating a InMemoryGedcom object graph programmatically from scratch (as opposed to by parsing a GEDCOM file), you
  * will (probably) want to do the following things. Some are required for the structure to pass validation, and the results of
  * autorepair (if enabled) may not be what you want - see {@link org.gedcom4j.validate.Validator}.
  * </p>

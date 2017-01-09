@@ -36,7 +36,7 @@ import java.io.IOException;
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyEvent;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.enumerations.FamilyEventType;
 import org.junit.Test;
 
@@ -58,7 +58,7 @@ public class Issue87Test {
      */
     @Test
     public void testIssue87() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/Issue87.ged");
         assertTrue(gp.getWarnings().isEmpty());
 

@@ -177,7 +177,7 @@ public class HeaderTest {
     @Test
     public void testHashCode() {
         Header h1 = new Header();
-        assertFalse(h1.hashCode() == new Gedcom().hashCode());
+        assertFalse(h1.hashCode() == new InMemoryGedcom().hashCode());
         assertEquals(h1.hashCode(), h1.hashCode());
 
         Header h2 = new Header();

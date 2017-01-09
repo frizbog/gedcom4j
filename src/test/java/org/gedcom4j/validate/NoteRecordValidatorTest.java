@@ -29,7 +29,7 @@ package org.gedcom4j.validate;
 import static org.junit.Assert.assertEquals;
 
 import org.gedcom4j.model.CitationWithSource;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.NoteRecord;
 import org.gedcom4j.model.Source;
 import org.gedcom4j.model.TestHelper;
@@ -49,7 +49,7 @@ public class NoteRecordValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testNoteRecords() {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        InMemoryGedcom g = TestHelper.getMinimalGedcom();
         validator = new Validator(g);
         validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
 
@@ -91,7 +91,7 @@ public class NoteRecordValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testWonkyNoteRecords() {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        InMemoryGedcom g = TestHelper.getMinimalGedcom();
         validator = new Validator(g);
         validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
 

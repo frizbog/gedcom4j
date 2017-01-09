@@ -31,7 +31,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 import org.gedcom4j.exception.WriterCancelledException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.writer.GedcomWriter;
 import org.junit.Test;
 
@@ -53,7 +53,7 @@ public class Utf8WriterTest {
     @Test(expected = WriterCancelledException.class)
     public void testCancellation() throws WriterCancelledException, IOException {
         try (OutputStream nos = new NullOutputStream()) {
-            GedcomWriter gw = new GedcomWriter(new Gedcom());
+            GedcomWriter gw = new GedcomWriter(new InMemoryGedcom());
             gw.cancel();
             Utf8Writer w = new Utf8Writer(gw);
             w.gedcomLines = new ArrayList<>();
@@ -72,7 +72,7 @@ public class Utf8WriterTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testNegative1() throws WriterCancelledException, IOException {
-        Utf8Writer w = new Utf8Writer(new GedcomWriter(new Gedcom()));
+        Utf8Writer w = new Utf8Writer(new GedcomWriter(new InMemoryGedcom()));
         try (OutputStream nos = new NullOutputStream()) {
             w.writeLine(nos, "Foo");
         }
@@ -88,7 +88,7 @@ public class Utf8WriterTest {
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testNegative2() throws WriterCancelledException, IOException {
-        Utf8Writer w = new Utf8Writer(new GedcomWriter(new Gedcom()));
+        Utf8Writer w = new Utf8Writer(new GedcomWriter(new InMemoryGedcom()));
         try (OutputStream nos = new NullOutputStream()) {
             w.writeLineTerminator(nos);
         }

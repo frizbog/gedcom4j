@@ -63,7 +63,7 @@ abstract class AbstractEmitter<T> {
     protected final T writeFrom;
 
     /**
-     * The base Gedcom writer class this Emitter is partnering with to emit the entire file
+     * The base InMemoryGedcom writer class this Emitter is partnering with to emit the entire file
      */
     protected GedcomWriter baseWriter;
 
@@ -71,7 +71,7 @@ abstract class AbstractEmitter<T> {
      * Constructor
      * 
      * @param baseWriter
-     *            The base Gedcom writer class this Emitter is partnering with to emit the entire file
+     *            The base InMemoryGedcom writer class this Emitter is partnering with to emit the entire file
      * @param startLevel
      *            write starting at this level
      * @param writeFrom
@@ -334,9 +334,9 @@ abstract class AbstractEmitter<T> {
     }
 
     /**
-     * Returns true if and only if the Gedcom data says it is for the 5.5 standard.
+     * Returns true if and only if the InMemoryGedcom data says it is for the 5.5 standard.
      * 
-     * @return true if and only if the Gedcom data says it is for the 5.5 standard.
+     * @return true if and only if the InMemoryGedcom data says it is for the 5.5 standard.
      */
     protected boolean g55() {
         return baseWriter != null && baseWriter.writeFrom.getHeader() != null && baseWriter.writeFrom.getHeader()

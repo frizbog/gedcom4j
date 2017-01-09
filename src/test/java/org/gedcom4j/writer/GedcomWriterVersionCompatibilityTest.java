@@ -36,7 +36,7 @@ import org.gedcom4j.factory.Sex;
 import org.gedcom4j.model.CharacterSet;
 import org.gedcom4j.model.Corporation;
 import org.gedcom4j.model.FamilyChild;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
@@ -73,7 +73,7 @@ public class GedcomWriterVersionCompatibilityTest {
     private GedcomWriter classUnderTest;
 
     /**
-     * Test fixture Gedcom with the data
+     * Test fixture InMemoryGedcom with the data
      */
     private IGedcom g;
 
@@ -85,7 +85,7 @@ public class GedcomWriterVersionCompatibilityTest {
      */
     @Before
     public void setUp() throws WriterCancelledException {
-        g = new Gedcom();
+        g = new InMemoryGedcom();
         classUnderTest = new GedcomWriter(g);
         classUnderTest.setValidationSuppressed(true);
     }
@@ -102,7 +102,7 @@ public class GedcomWriterVersionCompatibilityTest {
         gv.setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setGedcomVersion(gv);
 
-        // Emails on the corporation and Gedcom 5.5 are not a valid combination
+        // Emails on the corporation and InMemoryGedcom 5.5 are not a valid combination
         Corporation c = new Corporation();
         c.getEmails(true).add(new StringWithCustomFacts("support@gedcom4j.org"));
         SourceSystem ss = new SourceSystem();
@@ -126,7 +126,7 @@ public class GedcomWriterVersionCompatibilityTest {
         gv.setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setGedcomVersion(gv);
 
-        // Fax Numbers on the corporation and Gedcom 5.5 are not a valid combination
+        // Fax Numbers on the corporation and InMemoryGedcom 5.5 are not a valid combination
         Corporation c = new Corporation();
         c.getFaxNumbers(true).add(new StringWithCustomFacts("800-555-1212"));
         SourceSystem ss = new SourceSystem();
@@ -150,7 +150,7 @@ public class GedcomWriterVersionCompatibilityTest {
         gv.setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setGedcomVersion(gv);
 
-        // WWW URLs on the corporation and Gedcom 5.5 are not a valid combination
+        // WWW URLs on the corporation and InMemoryGedcom 5.5 are not a valid combination
         Corporation c = new Corporation();
         c.getWwwUrls(true).add(new StringWithCustomFacts("http://gedcom4j.org"));
         SourceSystem ss = new SourceSystem();
@@ -199,7 +199,7 @@ public class GedcomWriterVersionCompatibilityTest {
         gv.setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setGedcomVersion(gv);
 
-        // Emails on the individual attribute and Gedcom 5.5 are not a valid combination
+        // Emails on the individual attribute and InMemoryGedcom 5.5 are not a valid combination
         IndividualAttribute ia = new IndividualAttribute();
         ia.setType(IndividualAttributeType.FACT);
         Individual i = new Individual();
@@ -223,7 +223,7 @@ public class GedcomWriterVersionCompatibilityTest {
         gv.setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setGedcomVersion(gv);
 
-        // Emails on the individual and Gedcom 5.5 are not a valid combination
+        // Emails on the individual and InMemoryGedcom 5.5 are not a valid combination
         Individual i = new Individual();
         i.getEmails(true).add(new StringWithCustomFacts("support@gedcom4j.org"));
         g.getIndividuals().put("@I1@", i);
@@ -245,7 +245,7 @@ public class GedcomWriterVersionCompatibilityTest {
         gv.setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setGedcomVersion(gv);
 
-        // Emails on the individual event and Gedcom 5.5 are not a valid combination
+        // Emails on the individual event and InMemoryGedcom 5.5 are not a valid combination
         IndividualEvent ie = new IndividualEvent();
         ie.getEmails(true).add(new StringWithCustomFacts("support@gedcom4j.org"));
         Individual i = new Individual();
@@ -269,7 +269,7 @@ public class GedcomWriterVersionCompatibilityTest {
         gv.setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setGedcomVersion(gv);
 
-        // Fax Numbers on the individual event and Gedcom 5.5 are not a valid combination
+        // Fax Numbers on the individual event and InMemoryGedcom 5.5 are not a valid combination
         IndividualEvent ie = new IndividualEvent();
         ie.getFaxNumbers(true).add(new StringWithCustomFacts("800-555-1212"));
         Individual i = new Individual();
@@ -293,7 +293,7 @@ public class GedcomWriterVersionCompatibilityTest {
         gv.setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setGedcomVersion(gv);
 
-        // WWW URLs on the individual event and Gedcom 5.5 are not a valid combination
+        // WWW URLs on the individual event and InMemoryGedcom 5.5 are not a valid combination
         IndividualEvent ie = new IndividualEvent();
         ie.getWwwUrls(true).add(new StringWithCustomFacts("http://gedcom4j.org"));
         Individual i = new Individual();
@@ -317,7 +317,7 @@ public class GedcomWriterVersionCompatibilityTest {
         gv.setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setGedcomVersion(gv);
 
-        // Fax Numbers on the individual and Gedcom 5.5 are not a valid combination
+        // Fax Numbers on the individual and InMemoryGedcom 5.5 are not a valid combination
         Individual i = new Individual();
         i.getFaxNumbers(true).add(new StringWithCustomFacts("800-555-1212"));
         g.getIndividuals().put("@I1@", i);
@@ -339,7 +339,7 @@ public class GedcomWriterVersionCompatibilityTest {
         gv.setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setGedcomVersion(gv);
 
-        // WWW URLs on the individual and Gedcom 5.5 are not a valid combination
+        // WWW URLs on the individual and InMemoryGedcom 5.5 are not a valid combination
         Individual i = new Individual();
         i.getWwwUrls(true).add(new StringWithCustomFacts("http://gedcom4j.org"));
         g.getIndividuals().put("@I1@", i);
@@ -449,7 +449,7 @@ public class GedcomWriterVersionCompatibilityTest {
         gv.setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setGedcomVersion(gv);
 
-        // Emails on the repository and Gedcom 5.5 are not a valid combination
+        // Emails on the repository and InMemoryGedcom 5.5 are not a valid combination
         Repository r = new Repository();
         r.getEmails(true).add(new StringWithCustomFacts("support@gedcom4j.org"));
         g.getRepositories().put("@SUBM1@", r);
@@ -471,7 +471,7 @@ public class GedcomWriterVersionCompatibilityTest {
         gv.setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setGedcomVersion(gv);
 
-        // Fax Numbers on the repository and Gedcom 5.5 are not a valid combination
+        // Fax Numbers on the repository and InMemoryGedcom 5.5 are not a valid combination
         Repository r = new Repository();
         r.getFaxNumbers(true).add(new StringWithCustomFacts("800-555-1212"));
         g.getRepositories().put("@SUBM1@", r);
@@ -493,7 +493,7 @@ public class GedcomWriterVersionCompatibilityTest {
         gv.setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setGedcomVersion(gv);
 
-        // WWW URLs on the repository and Gedcom 5.5 are not a valid combination
+        // WWW URLs on the repository and InMemoryGedcom 5.5 are not a valid combination
         Repository r = new Repository();
         r.getWwwUrls(true).add(new StringWithCustomFacts("http://gedcom4j.org"));
         g.getRepositories().put("@SUBM1@", r);
@@ -515,7 +515,7 @@ public class GedcomWriterVersionCompatibilityTest {
         gv.setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setGedcomVersion(gv);
 
-        // Emails on the submitter and Gedcom 5.5 are not a valid combination
+        // Emails on the submitter and InMemoryGedcom 5.5 are not a valid combination
         Submitter s = new Submitter();
         s.getEmails(true).add(new StringWithCustomFacts("support@gedcom4j.org"));
         g.getSubmitters().put("@SUBM1@", s);
@@ -537,7 +537,7 @@ public class GedcomWriterVersionCompatibilityTest {
         gv.setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setGedcomVersion(gv);
 
-        // Fax Numbers on the submitter and Gedcom 5.5 are not a valid combination
+        // Fax Numbers on the submitter and InMemoryGedcom 5.5 are not a valid combination
         Submitter s = new Submitter();
         s.getFaxNumbers(true).add(new StringWithCustomFacts("800-555-1212"));
         g.getSubmitters().put("@SUBM1@", s);
@@ -559,7 +559,7 @@ public class GedcomWriterVersionCompatibilityTest {
         gv.setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setGedcomVersion(gv);
 
-        // WWW URLs on the submitter and Gedcom 5.5 are not a valid combination
+        // WWW URLs on the submitter and InMemoryGedcom 5.5 are not a valid combination
         Submitter s = new Submitter();
         s.getWwwUrls(true).add(new StringWithCustomFacts("http://gedcom4j.org"));
         g.getSubmitters().put("@SUBM1@", s);
@@ -581,7 +581,7 @@ public class GedcomWriterVersionCompatibilityTest {
         gv.setVersionNumber(SupportedVersion.V5_5);
         g.getHeader().setGedcomVersion(gv);
 
-        // UTF-8 and Gedcom 5.5 are not a valid combination
+        // UTF-8 and InMemoryGedcom 5.5 are not a valid combination
         CharacterSet cs = new CharacterSet();
         cs.setCharacterSetName("UTF-8");
         g.getHeader().setCharacterSet(cs);

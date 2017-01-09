@@ -30,7 +30,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.IGedcom;
 import org.junit.Test;
 
@@ -46,7 +46,7 @@ public class ParseProgressEventTest {
      */
     @Test
     public void test() {
-        IGedcom g = new Gedcom();
+        IGedcom g = new InMemoryGedcom();
         ParseProgressEvent ppe = new ParseProgressEvent(this, g, false, 100);
         assertNotNull(ppe);
         assertEquals(this, ppe.getSource());

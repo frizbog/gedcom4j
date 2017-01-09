@@ -36,7 +36,7 @@ import java.io.IOException;
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.io.event.FileProgressListener;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.parser.GedcomParser;
 import org.junit.Test;
 
@@ -116,7 +116,7 @@ public abstract class AbstractReaderListenerTest implements FileProgressListener
     @Test
     public void testNotRegistered() throws IOException, GedcomParserException {
         eventCount = 0;
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load(fileName);
         assertNotNull(gp.getGedcom());
         assertEquals(0, eventCount);
@@ -134,7 +134,7 @@ public abstract class AbstractReaderListenerTest implements FileProgressListener
     @Test
     public void testRegistered() throws IOException, GedcomParserException {
         eventCount = 0;
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.registerFileObserver(this);
         gp.load(fileName);
         assertNotNull(gp.getGedcom());
@@ -156,7 +156,7 @@ public abstract class AbstractReaderListenerTest implements FileProgressListener
     @Test
     public void testUnregistered() throws IOException, GedcomParserException {
         eventCount = 0;
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load(fileName);
         assertNotNull(gp.getGedcom());
         assertEquals(0, eventCount);

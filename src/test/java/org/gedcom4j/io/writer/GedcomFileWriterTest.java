@@ -37,7 +37,7 @@ import java.util.List;
 
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Submission;
 import org.gedcom4j.model.SubmissionReference;
@@ -126,7 +126,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testEmptyLines() throws WriterCancelledException {
         List<String> lines = new ArrayList<>();
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         assertNotNull(gfw.getTerminator());
     }
 
@@ -143,7 +143,7 @@ public class GedcomFileWriterTest {
         List<String> lines = new ArrayList<>();
         lines.add("0 HEAD");
         lines.add("1 CHAR ANSEL");
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         gfw.write(new NullOutputStream());
         assertTrue(gfw.encodingSpecificWriter instanceof AnselWriter);
     }
@@ -161,7 +161,7 @@ public class GedcomFileWriterTest {
         List<String> lines = new ArrayList<>();
         lines.add("0 HEAD");
         lines.add("1 CHAR ASCII");
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         gfw.setUseLittleEndianForUnicode(true);
         gfw.write(new NullOutputStream());
         assertTrue(gfw.encodingSpecificWriter instanceof AsciiWriter);
@@ -183,7 +183,7 @@ public class GedcomFileWriterTest {
     public void testEncodingDetectionDefault() throws IOException, WriterCancelledException {
         List<String> lines = new ArrayList<>();
         lines.add("0 HEAD");
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         gfw.write(new NullOutputStream());
         assertTrue(gfw.encodingSpecificWriter instanceof AnselWriter);
         // Changing little-endian flag should have no effect since it's not unicode
@@ -205,7 +205,7 @@ public class GedcomFileWriterTest {
         List<String> lines = new ArrayList<>();
         lines.add("0 HEAD");
         lines.add("1 CHAR UNICODE");
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         gfw.write(new NullOutputStream());
         assertTrue(gfw.encodingSpecificWriter instanceof UnicodeLittleEndianWriter);
         gfw.setUseLittleEndianForUnicode(false);
@@ -226,7 +226,7 @@ public class GedcomFileWriterTest {
         List<String> lines = new ArrayList<>();
         lines.add("0 HEAD");
         lines.add("1 CHAR UTF-8");
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         gfw.write(new NullOutputStream());
         assertTrue(gfw.encodingSpecificWriter instanceof Utf8Writer);
         // Changing little-endian flag should have no effect since it's not unicode
@@ -247,7 +247,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testOutputAnselCrLf() throws IOException, WriterCancelledException {
         List<String> lines = getAnselGedcomLines();
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         gfw.setTerminator(LineTerminator.CRLF);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -283,7 +283,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testOutputAnselCrOnly() throws IOException, WriterCancelledException {
         List<String> lines = getAnselGedcomLines();
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         gfw.setTerminator(LineTerminator.CR_ONLY);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -317,7 +317,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testOutputAnselLfCr() throws IOException, WriterCancelledException {
         List<String> lines = getAnselGedcomLines();
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         gfw.setTerminator(LineTerminator.LFCR);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -354,7 +354,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testOutputAnselLfOnly() throws IOException, WriterCancelledException {
         List<String> lines = getAnselGedcomLines();
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         gfw.setTerminator(LineTerminator.LF_ONLY);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -387,7 +387,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testOutputAsciiCrLf() throws IOException, WriterCancelledException {
         List<String> lines = getAsciiGedcomLines();
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         gfw.setTerminator(LineTerminator.CRLF);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -422,7 +422,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testOutputAsciiCrOnly() throws IOException, WriterCancelledException {
         List<String> lines = getAsciiGedcomLines();
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         gfw.setTerminator(LineTerminator.CR_ONLY);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -455,7 +455,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testOutputAsciiLfCr() throws IOException, WriterCancelledException {
         List<String> lines = getAsciiGedcomLines();
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         gfw.setTerminator(LineTerminator.LFCR);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -490,7 +490,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testOutputAsciiLfOnly() throws IOException, WriterCancelledException {
         List<String> lines = getAsciiGedcomLines();
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         gfw.setTerminator(LineTerminator.LF_ONLY);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -523,7 +523,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testOutputUnicodeBigEndianCrLF() throws IOException, WriterCancelledException {
         List<String> lines = getUnicodeGedcomLines();
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         gfw.setUseLittleEndianForUnicode(false);
         gfw.setTerminator(LineTerminator.CRLF);
 
@@ -559,7 +559,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testOutputUnicodeBigEndianCrOnly() throws IOException, WriterCancelledException {
         List<String> lines = getUnicodeGedcomLines();
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         gfw.setUseLittleEndianForUnicode(false);
         gfw.setTerminator(LineTerminator.CR_ONLY);
 
@@ -593,7 +593,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testOutputUnicodeBigEndianLfCr() throws IOException, WriterCancelledException {
         List<String> lines = getUnicodeGedcomLines();
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         gfw.setUseLittleEndianForUnicode(false);
         gfw.setTerminator(LineTerminator.LFCR);
 
@@ -628,7 +628,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testOutputUnicodeBigEndianLfOnly() throws IOException, WriterCancelledException {
         List<String> lines = getUnicodeGedcomLines();
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         gfw.setUseLittleEndianForUnicode(false);
         gfw.setTerminator(LineTerminator.LF_ONLY);
 
@@ -662,7 +662,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testOutputUnicodeLittleEndianCrLf() throws IOException, WriterCancelledException {
         List<String> lines = getUnicodeGedcomLines();
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
 
         // Not necessary, little endian is default, but good for explicitness
         gfw.setUseLittleEndianForUnicode(true);
@@ -699,7 +699,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testOutputUnicodeLittleEndianCrOnly() throws IOException, WriterCancelledException {
         List<String> lines = getUnicodeGedcomLines();
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
 
         // Not necessary, little endian is default, but good for explicitness
         gfw.setUseLittleEndianForUnicode(true);
@@ -735,7 +735,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testOutputUnicodeLittleEndianLfCr() throws IOException, WriterCancelledException {
         List<String> lines = getUnicodeGedcomLines();
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
 
         // Not necessary, little endian is default, but good for explicitness
         gfw.setUseLittleEndianForUnicode(true);
@@ -772,7 +772,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testOutputUnicodeLittleEndianLfOnly() throws IOException, WriterCancelledException {
         List<String> lines = getUnicodeGedcomLines();
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
 
         // Not necessary, little endian is default, but good for explicitness
         gfw.setUseLittleEndianForUnicode(true);
@@ -808,7 +808,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testOutputUtf8CrLf() throws IOException, WriterCancelledException {
         List<String> lines = getUtf8GedcomLines();
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         gfw.setTerminator(LineTerminator.CRLF);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -840,7 +840,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testOutputUtf8CrOnly() throws IOException, WriterCancelledException {
         List<String> lines = getUtf8GedcomLines();
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         gfw.setTerminator(LineTerminator.CR_ONLY);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -871,7 +871,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testOutputUtf8LfCr() throws IOException, WriterCancelledException {
         List<String> lines = getUtf8GedcomLines();
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         gfw.setTerminator(LineTerminator.LFCR);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -903,7 +903,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testOutputUtf8LfOnly() throws IOException, WriterCancelledException {
         List<String> lines = getUtf8GedcomLines();
-        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new Gedcom()), lines);
+        GedcomFileWriter gfw = new GedcomFileWriter(new GedcomWriter(new InMemoryGedcom()), lines);
         gfw.setTerminator(LineTerminator.LF_ONLY);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -934,7 +934,7 @@ public class GedcomFileWriterTest {
     @Test
     public void testWriteFileWithName() throws IOException, GedcomWriterException {
         String fn = "tmp/gedcomfilewritertest.ged";
-        IGedcom g = new Gedcom();
+        IGedcom g = new InMemoryGedcom();
         g.setSubmission(new Submission("@SUBN0001@"));
         g.getHeader().setSubmissionReference(new SubmissionReference(g.getSubmission()));
         Submitter s = new Submitter();

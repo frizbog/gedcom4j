@@ -31,7 +31,7 @@ import static org.junit.Assert.assertEquals;
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.GedcomWriterVersionDataMismatchException;
 import org.gedcom4j.model.AbstractNameVariation;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Place;
 import org.gedcom4j.model.PlaceNameVariation;
@@ -66,7 +66,7 @@ public class PlaceEmitterTest {
         p.setVariation("Phoo");
         place.getPhonetic(true).add(p);
 
-        IGedcom gedcom = new Gedcom();
+        IGedcom gedcom = new InMemoryGedcom();
         gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5_1);
         GedcomWriter baseWriter = new GedcomWriter(gedcom);
         new PlaceEmitter(baseWriter, 1, place).emit();
@@ -94,7 +94,7 @@ public class PlaceEmitterTest {
         place.setLatitude("X");
         place.setLongitude("Y");
 
-        IGedcom gedcom = new Gedcom();
+        IGedcom gedcom = new InMemoryGedcom();
         gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         GedcomWriter baseWriter = new GedcomWriter(gedcom);
         new PlaceEmitter(baseWriter, 1, place).emit();
@@ -115,7 +115,7 @@ public class PlaceEmitterTest {
         r.setVariation("Foo");
         place.getRomanized(true).add(r);
 
-        IGedcom gedcom = new Gedcom();
+        IGedcom gedcom = new InMemoryGedcom();
         gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         GedcomWriter baseWriter = new GedcomWriter(gedcom);
         new PlaceEmitter(baseWriter, 1, place).emit();
@@ -136,7 +136,7 @@ public class PlaceEmitterTest {
         p.setVariation("Phoo");
         place.getPhonetic(true).add(p);
 
-        IGedcom gedcom = new Gedcom();
+        IGedcom gedcom = new InMemoryGedcom();
         gedcom.getHeader().getGedcomVersion().setVersionNumber(SupportedVersion.V5_5);
         GedcomWriter baseWriter = new GedcomWriter(gedcom);
         new PlaceEmitter(baseWriter, 1, place).emit();

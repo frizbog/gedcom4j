@@ -37,7 +37,7 @@ import java.io.IOException;
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.model.CustomFact;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
@@ -67,7 +67,7 @@ public class Issue95Test {
     @Test
     @SuppressWarnings({ "PMD.AvoidPrintStackTrace", "PMD.SystemPrintln" })
     public void testIssue95() throws IOException, GedcomParserException, GedcomWriterException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/issue95.ged");
         assertTrue(gp.getErrors().isEmpty());
         assertTrue(gp.getWarnings().isEmpty());

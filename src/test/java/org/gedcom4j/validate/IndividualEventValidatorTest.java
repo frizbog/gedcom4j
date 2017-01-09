@@ -27,7 +27,7 @@
 package org.gedcom4j.validate;
 
 import org.gedcom4j.model.Address;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
 import org.gedcom4j.model.TestHelper;
@@ -47,7 +47,7 @@ public class IndividualEventValidatorTest extends AbstractValidatorTestCase {
      */
     @Test
     public void testValidator() {
-        Gedcom g = TestHelper.getMinimalGedcom();
+        InMemoryGedcom g = TestHelper.getMinimalGedcom();
         validator = new Validator(g);
         validator.setAutoRepairResponder(Validator.AUTO_REPAIR_NONE);
 

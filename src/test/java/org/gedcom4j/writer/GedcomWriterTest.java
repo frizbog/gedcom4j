@@ -45,7 +45,7 @@ import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.io.reader.GedcomFileReader;
 import org.gedcom4j.model.Family;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
@@ -99,7 +99,7 @@ public class GedcomWriterTest {
     @SuppressWarnings("PMD.SystemPrintln")
     public GedcomWriterTest() throws IOException, GedcomParserException, GedcomWriterException {
         // Load a file
-        GedcomParser p = new GedcomParser(new Gedcom());
+        GedcomParser p = new GedcomParser(new InMemoryGedcom());
         p.load(SAMPLE_STRESS_TEST_FILENAME);
         gedcomOrig = p.getGedcom();
 
@@ -112,7 +112,7 @@ public class GedcomWriterTest {
 
         try (FileInputStream byteStream = new FileInputStream(tempFile);
                 BufferedInputStream bufferedInputStream = new BufferedInputStream(byteStream);) {
-            GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(new Gedcom()), bufferedInputStream);
+            GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(new InMemoryGedcom()), bufferedInputStream);
             readbackLines = new ArrayList<>();
             String s = gfr.nextLine();
             while (s != null) {
@@ -122,7 +122,7 @@ public class GedcomWriterTest {
         }
 
         // Reload the file we just wrote
-        p = new GedcomParser(new Gedcom());
+        p = new GedcomParser(new InMemoryGedcom());
         p.load(tempFile.getAbsolutePath());
         for (String s : p.getErrors()) {
             System.err.println(s);
@@ -373,7 +373,7 @@ public class GedcomWriterTest {
     @Test
     public void testWriteEmptyGedcom() throws IOException, GedcomWriterException, GedcomParserException {
         // Write an empty file
-        IGedcom g = new Gedcom();
+        IGedcom g = new InMemoryGedcom();
         GedcomWriter gw = new GedcomWriter(g);
         gw.setValidationSuppressed(true);
         File tempFile = new File("tmp/gedcom4j.emptywritertest.ged");
@@ -452,7 +452,7 @@ public class GedcomWriterTest {
      */
     private List<String> readBack(File fileToRead) throws IOException, GedcomParserException {
         try (FileInputStream fis = new FileInputStream(fileToRead); BufferedInputStream bis = new BufferedInputStream(fis);) {
-            GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(new Gedcom()), bis);
+            GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(new InMemoryGedcom()), bis);
             List<String> result = new ArrayList<>();
             String s = gfr.nextLine();
             while (s != null) {

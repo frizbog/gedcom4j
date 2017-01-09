@@ -34,7 +34,7 @@ import java.io.IOException;
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyEvent;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.InMemoryGedcom;
 import org.gedcom4j.model.IGedcom;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,7 +52,7 @@ public class FamilyEventTypeParseTest {
     private IGedcom g;
 
     /**
-     * Set up test fixture by loading stress test file into a {@link Gedcom} structure
+     * Set up test fixture by loading stress test file into a {@link InMemoryGedcom} structure
      * 
      * @throws GedcomParserException
      *             if the file cannot be parsed
@@ -61,7 +61,7 @@ public class FamilyEventTypeParseTest {
      */
     @Before
     public void setUp() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser(new Gedcom());
+        GedcomParser gp = new GedcomParser(new InMemoryGedcom());
         gp.load("sample/TGC551.ged");
         g = gp.getGedcom();
     }
