@@ -98,9 +98,9 @@ import org.gedcom4j.parser.event.ParseProgressListener;
  * </p>
  * 
  * <p>
- * <b>Note:</b> Prior to v5.0.0 of gedcom4j, this class created new instances of the {@link Gedcom} object graph when parsing, so
- * that it acted as a sort of factory class. This is no longer the case starting with v5.0.0, and the class that instantiates the
- * parser is expected to instantiate an {@link IGedcom} implementation that can receive the parsed data.
+ * <b>Note:</b> Prior to v5.0.0 of gedcom4j, this class created new instances of an in-memory object graph when parsing, so that it
+ * acted as a sort of factory class. This is no longer the case starting with v5.0.0, and the class that instantiates the parser is
+ * expected to instantiate an {@link IGedcom} implementation that can receive the parsed data.
  * </p>
  * 
  * @author frizbog1

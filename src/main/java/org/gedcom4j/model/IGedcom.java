@@ -41,7 +41,7 @@ import java.util.Map;
  * autorepair (if enabled) may not be what you want - see {@link org.gedcom4j.validate.Validator}.
  * </p>
  * <ol type="1">
- * <li>Define a {@link Submitter} and add it to the {@link Gedcom#submitters} map. Autorepair will make a fake submitter record with
+ * <li>Define a {@link Submitter} and add it to the {@link #getSubmitters()} map. Autorepair will make a fake submitter record with
  * a name of "UNSPECIFIED" and add it to the map during validation if validation is turned on, but this submitter record may not be
  * what you want.</li>
  * <li>Specify which Submitter in the submitters map is the primary submitter and set the {@link Header#getSubmitterReference()} to

@@ -57,8 +57,7 @@ public class CustomTagParseWriteTortureTest {
     @Test
     public void testCustomTags() throws Exception {
         // Read and parse the hand-made file
-        IGedcom g = new Gedcom();
-        GedcomParser gp = new GedcomParser(g);
+        GedcomParser gp = new GedcomParser(new Gedcom());
         gp.load("sample/customtagstorture.ged");
 
         // Write the file back out to a temp file

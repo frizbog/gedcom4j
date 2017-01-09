@@ -51,7 +51,7 @@ import org.junit.Test;
 public class FamilyFactoryTest {
 
     /**
-     * Test for {@link FamilyFactory#create(Gedcom, Individual, Individual, Individual...)}
+     * Test for {@link FamilyFactory#create(IGedcom, Individual, Individual, Individual...)}
      */
     @SuppressWarnings("deprecation")
     @Test
@@ -87,7 +87,7 @@ public class FamilyFactoryTest {
     }
 
     /**
-     * Test for {@link FamilyFactory#create(Gedcom, Individual, Individual, Individual...)}
+     * Test for {@link FamilyFactory#create(IGedcom, Individual, Individual, Individual...)}
      */
     @SuppressWarnings("deprecation")
     @Test
@@ -119,7 +119,7 @@ public class FamilyFactoryTest {
     }
 
     /**
-     * Test for {@link FamilyFactory#create(Gedcom, Individual, Individual, Individual...)}
+     * Test for {@link FamilyFactory#create(IGedcom, Individual, Individual, Individual...)}
      */
     @SuppressWarnings("deprecation")
     @Test
@@ -146,7 +146,7 @@ public class FamilyFactoryTest {
     }
 
     /**
-     * Test for {@link FamilyFactory#create(Gedcom, Individual, Individual, Individual...)}
+     * Test for {@link FamilyFactory#create(IGedcom, Individual, Individual, Individual...)}
      */
     @SuppressWarnings("deprecation")
     @Test
@@ -180,7 +180,7 @@ public class FamilyFactoryTest {
     }
 
     /**
-     * Test for {@link FamilyFactory#create(Gedcom, Individual, Individual, Individual...)}
+     * Test for {@link FamilyFactory#create(IGedcom, Individual, Individual, Individual...)}
      */
     @SuppressWarnings("deprecation")
     @Test
