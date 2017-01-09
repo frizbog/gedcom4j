@@ -26,42 +26,18 @@
  */
 package org.gedcom4j.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.gedcom4j.Options;
+
 /**
  * <p>
- * Main (root) class for an entire GEDCOM file.
+ * An implementation of the {@link IGedcom} interface that keeps all objects in-memory in an object graph.
  * </p>
- * 
- * <p>
- * Note that if you are creating a Gedcom object graph programmatically from scratch (as opposed to by parsing a GEDCOM file), you
- * will (probably) want to do the following things. (Some are required for the structure to pass validation, and the results of
- * autorepair (if enabled) may not be what you want - see {@link org.gedcom4j.validate.Validator}).
- * </p>
- * <ol type="1">
- * <li>Define a {@link Submitter} and add it to the {@link Gedcom#submitters} map. Autorepair will make a fake submitter record with
- * a name of "UNSPECIFIED" and add it to the map during validation if validation is turned on, but this submitter record may not be
- * what you want.</li>
- * <li>Specify which Submitter in the submitters map is the primary submitter and set the {@link Header#getSubmitterReference()} to
- * that instance. If no primary submitter is specified in the header, auto-repair will select the first value in the submitters map
- * and use that.</li>
- * <li>Override default values for the Source System and its components in {@link Header#sourceSystem}
- * <ol type="a">
- * <li>Specify, or override the default value of the {@link SourceSystem#systemId} field to an application-specific value. If it is
- * missing or blank, autorepair during validation will set it to the default value of "UNSPECIFIED" which is probably not
- * desirable.</li>
- * <li>If specifying a corporation, specify, or override the default value of the {@link Corporation#businessName} field to an
- * application-specific value (probably your company/org name). If it is missing or blank, autorepair during validation will set it
- * to the default value of "UNSPECIFIED" which is probably not desirable.</li>
- * <li>If specifying the source data for the source system, specify, or override the default value of the
- * {@link HeaderSourceData#name} field to an application-specific value. If it is missing or blank, autorepair during validation
- * will set it to the default value of "UNSPECIFIED" which is probably not desirable.</li>
- * </ol>
- * </li>
- * </ol>
  * 
  * @author frizbog1
  */
@@ -347,6 +323,28 @@ public class Gedcom extends AbstractElement implements IGedcom {
         result = prime * result + (submitters == null ? 0 : submitters.hashCode());
         result = prime * result + (trailer == null ? 0 : trailer.hashCode());
         return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void reset() {
+        families.clear();
+        header = new Header();
+        individuals.clear();
+        multimedia.clear();
+        notes.clear();
+        repositories.clear();
+        sources.clear();
+        submission = new Submission("@SUBMISSION@");
+        submitters.clear();
+        trailer = new Trailer();
+        if (Options.isCollectionInitializationEnabled()) {
+            customFacts = new ArrayList<>(0);
+        } else {
+            customFacts = null;
+        }
     }
 
     /**

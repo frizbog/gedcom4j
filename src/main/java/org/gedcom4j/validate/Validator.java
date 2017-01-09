@@ -42,7 +42,6 @@ import java.util.Set;
 import org.gedcom4j.Options;
 import org.gedcom4j.exception.ValidationException;
 import org.gedcom4j.model.Family;
-import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.IGedcom;
@@ -59,12 +58,12 @@ import org.gedcom4j.model.enumerations.SupportedVersion;
 
 /**
  * <p>
- * Validates {@link Gedcom} object graphs.
+ * Validates {@link IGedcom} data stores.
  * </p>
  * <p>
- * Does a deep traversal over the items in the {@link Gedcom} structure and checks them for problems, errors, etc, which are
- * represented as {@link Validator.Finding} objects. These objects contain problem codes, descriptions, severity ratings, and
- * references to the objects that have problems.
+ * Does a deep traversal over the items in the {@link IGedcom} data and checks them for problems, errors, etc, which are represented
+ * as {@link Validator.Finding} objects. These objects contain problem codes, descriptions, severity ratings, and references to the
+ * objects that have problems.
  * </p>
  * <p>
  * Typical usage is to instantiate a Validator with the Gedcom being validated, call the {@link #validate()} method, then examine
@@ -73,7 +72,7 @@ import org.gedcom4j.model.enumerations.SupportedVersion;
  * <p>
  * Users can extend the validation process by writing custom validators and registering them with this validator. To do this, write
  * a class that extends {@link AbstractValidator} and add it to the {@link #supplementaryValidators} collection. When writing a new
- * validator, implement its {@link AbstractValidator#validate()} method which examines the {@link Gedcom} being validated, and for
+ * validator, implement its {@link AbstractValidator#validate()} method which examines the {@link IGedcom} being validated, and for
  * anything that's problematic found, call {@link AbstractValidator#newFinding(ModelElement, Severity, ProblemCode, String)} from
  * there. When the {@link #validate()} method runs on this class, your validator will be called (along with the others in the
  * collection) and your results will be added to the full set of results.

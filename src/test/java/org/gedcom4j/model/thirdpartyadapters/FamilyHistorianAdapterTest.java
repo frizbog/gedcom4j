@@ -42,7 +42,6 @@ import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyEvent;
-import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualAttribute;
@@ -74,7 +73,7 @@ public class FamilyHistorianAdapterTest {
     /**
      * The test gedcom we read from the sample file that HAS custom tags
      */
-    private Gedcom gedcomWithCustomTags;
+    private IGedcom gedcomWithCustomTags;
 
     /**
      * The main person in the sample file with most of the custom facts
@@ -89,7 +88,7 @@ public class FamilyHistorianAdapterTest {
     /**
      * The test gedcom we read from the sample file that DOES NOT have custom tags, for negative testing
      */
-    private Gedcom gedcomWithoutCustomTags;
+    private IGedcom gedcomWithoutCustomTags;
 
     /**
      * Sets up each test

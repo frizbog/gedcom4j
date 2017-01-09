@@ -45,7 +45,6 @@ import org.gedcom4j.io.writer.LineTerminator;
 import org.gedcom4j.model.AbstractAddressableElement;
 import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.FamilyChild;
-import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
@@ -169,7 +168,7 @@ public class GedcomWriter extends AbstractEmitter<IGedcom> {
      * Constructor
      * 
      * @param gedcom
-     *            the {@link Gedcom} structure to write out
+     *            the {@link IGedcom} structure to write out
      * @throws WriterCancelledException
      *             if cancellation was requested during the operation
      */
@@ -403,7 +402,7 @@ public class GedcomWriter extends AbstractEmitter<IGedcom> {
     }
 
     /**
-     * Write the {@link Gedcom} data as a GEDCOM 5.5 file. Automatically fills in the value for the FILE tag in the HEAD structure.
+     * Write the {@link IGedcom} data as a GEDCOM file. Automatically fills in the value for the FILE tag in the HEAD structure.
      * 
      * @param file
      *            the {@link File} to write to
@@ -433,7 +432,7 @@ public class GedcomWriter extends AbstractEmitter<IGedcom> {
     }
 
     /**
-     * Write the {@link Gedcom} data in GEDCOM 5.5 format to an output stream
+     * Write the {@link IGedcom} data in GEDCOM format to an output stream
      * 
      * @param out
      *            the output stream we're writing to
@@ -454,7 +453,7 @@ public class GedcomWriter extends AbstractEmitter<IGedcom> {
     }
 
     /**
-     * Write the {@link Gedcom} data as a GEDCOM 5.5 file, with the supplied file name
+     * Write the {@link IGedcom} data as a GEDCOM file, with the supplied file name
      * 
      * @param filename
      *            the name of the file to write

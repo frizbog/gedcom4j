@@ -30,7 +30,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
@@ -46,7 +45,7 @@ import org.gedcom4j.model.enumerations.IndividualEventType;
 public class IndividualFactory {
 
     /**
-     * Create an {@link Individual} and add them to the {@link Gedcom}
+     * Create an {@link Individual} and add them to the {@link IGedcom}
      * 
      * @param g
      *            the gedcom to add the individual to
@@ -81,7 +80,7 @@ public class IndividualFactory {
     }
 
     /**
-     * Create an {@link Individual} and add them to the {@link Gedcom}
+     * Create an {@link Individual} and add them to the {@link IGedcom}
      * 
      * @param g
      *            the gedcom to add the individual to

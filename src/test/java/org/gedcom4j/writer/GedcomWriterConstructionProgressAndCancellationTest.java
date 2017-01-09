@@ -35,6 +35,7 @@ import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.io.writer.NullOutputStream;
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.validate.Validator;
 import org.gedcom4j.writer.event.ConstructProgressEvent;
@@ -101,7 +102,7 @@ public class GedcomWriterConstructionProgressAndCancellationTest implements Cons
     public void testCancellation() throws IOException, GedcomParserException, GedcomWriterException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-ascii.ged");
-        Gedcom g = gp.getGedcom();
+        IGedcom g = gp.getGedcom();
         Validator gv = new Validator(g);
         gv.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gv.validate(); // Cleanup whatever can be cleaned up
@@ -127,7 +128,7 @@ public class GedcomWriterConstructionProgressAndCancellationTest implements Cons
     public void testChangingConstructionNotificationRate() throws IOException, GedcomParserException, GedcomWriterException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-ascii.ged");
-        Gedcom g = gp.getGedcom();
+        IGedcom g = gp.getGedcom();
         Validator gv = new Validator(g);
         gv.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gv.validate(); // Cleanup whatever can be cleaned up
@@ -155,7 +156,7 @@ public class GedcomWriterConstructionProgressAndCancellationTest implements Cons
     public void testNoCancellation() throws IOException, GedcomParserException, GedcomWriterException {
         GedcomParser gp = new GedcomParser();
         gp.load("sample/willis-ascii.ged");
-        Gedcom g = gp.getGedcom();
+        IGedcom g = gp.getGedcom();
         Validator gv = new Validator(g);
         gv.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gv.validate(); // Cleanup whatever can be cleaned up

@@ -33,7 +33,6 @@ import java.util.List;
 import org.gedcom4j.model.AbstractEvent;
 import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Family;
-import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.IGedcom;
@@ -425,7 +424,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
-     * Add an unrelated witness to an event. Unrelated witnesses do not exist in the Individuals map in the {@link Gedcom}.
+     * Add an unrelated witness to an event. Unrelated witnesses do not exist in the Individuals map in the {@link IGedcom}.
      * 
      * @param event
      *            the event we are adding to
@@ -506,7 +505,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
 
     /**
      * Add an witness reference to an event. Witness references are for people who exist in the Individuals map in the
-     * {@link Gedcom}.
+     * {@link IGedcom}.
      * 
      * @param gedcom
      *            the gedcom we're working with
@@ -1064,7 +1063,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
-     * Get a list of witnesses to an event. These witnesses are people who do not exist in the {@link Gedcom} structure as
+     * Get a list of witnesses to an event. These witnesses are people who do not exist in the {@link IGedcom} structure as
      * {@link Individual}s.
      * 
      * @param event
@@ -1159,7 +1158,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
     }
 
     /**
-     * Get a list of witness references to an event. These witnesses are people who exist in the {@link Gedcom} structure as
+     * Get a list of witness references to an event. These witnesses are people who exist in the {@link IGedcom} structure as
      * {@link Individual}s.
      * 
      * @param event
@@ -1622,7 +1621,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
 
     /**
      * Remove the unrelated witnesses from an event. Unrelated witness means one who is not in the Individuals map in the
-     * {@link Gedcom}.
+     * {@link IGedcom}.
      * 
      * @param event
      *            the event
@@ -1673,7 +1672,7 @@ public class FamilyHistorianAdapter extends AbstractThirdPartyAdapter {
 
     /**
      * Remove the witness references from an event. Witness reference means the witness is someone who is in the Individuals map in
-     * the {@link Gedcom}.
+     * the {@link IGedcom}.
      * 
      * @param event
      *            the event

@@ -31,7 +31,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.validate.Validator.Finding;
 import org.junit.Before;
@@ -47,7 +47,7 @@ public class ValidationResultsTest {
     /**
      * Test fixture
      */
-    private Gedcom g;
+    private IGedcom g;
 
     /**
      * Set up the test fixtures

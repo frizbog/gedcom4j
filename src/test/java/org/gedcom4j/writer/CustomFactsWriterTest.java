@@ -38,7 +38,7 @@ import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.exception.GedcomWriterException;
-import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.validate.Validator;
 import org.junit.Test;
@@ -66,7 +66,7 @@ public class CustomFactsWriterTest {
         GedcomParser gp = new GedcomParser();
         gp.setStrictCustomTags(false);
         gp.load("sample/ftmcustomtags.ged");
-        Gedcom g = gp.getGedcom();
+        IGedcom g = gp.getGedcom();
         assertNotNull(g);
 
         assertTrue(gp.getErrors().isEmpty());

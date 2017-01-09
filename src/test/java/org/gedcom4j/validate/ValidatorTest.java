@@ -39,6 +39,7 @@ import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.GedcomVersion;
 import org.gedcom4j.model.Header;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.NoteRecord;
@@ -249,7 +250,7 @@ public class ValidatorTest implements AutoRepairResponder {
      */
     @Test
     public void testToString() throws IOException, GedcomParserException {
-        Gedcom g = new Gedcom();
+        IGedcom g = new Gedcom();
         Validator v = new Validator(g);
         assertEquals("Validator [results=ValidationResults [allFindings=[]], autoRepairResponder=AUTO_REPAIR_NONE]", v.toString());
 

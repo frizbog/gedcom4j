@@ -32,6 +32,7 @@ import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.Gedcom;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.ModelElement;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.validate.Validator.Finding;
@@ -51,7 +52,7 @@ public abstract class AbstractValidatorTestCase {
     /**
      * The test fixture gedcom structure
      */
-    protected Gedcom gedcom = new Gedcom();
+    protected IGedcom gedcom = new Gedcom();
 
     /**
      * Default constructor

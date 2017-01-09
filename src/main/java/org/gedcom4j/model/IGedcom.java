@@ -29,9 +29,38 @@ package org.gedcom4j.model;
 import java.util.Map;
 
 /**
+ * <p>
  * Represents an entire GEDCOM - some store of some kind for the data read from a GEDCOM. Could be an in-memory object graph (the
  * default), could be a database, could be a folder full of serialized objects, whatever. The important part is that through this
  * interface you can get to all the objects (Individuals, Families, etc.) in the GEDCOM.
+ * </p>
+ * 
+ * <p>
+ * Note that if you are creating a Gedcom object graph programmatically from scratch (as opposed to by parsing a GEDCOM file), you
+ * will (probably) want to do the following things. Some are required for the structure to pass validation, and the results of
+ * autorepair (if enabled) may not be what you want - see {@link org.gedcom4j.validate.Validator}.
+ * </p>
+ * <ol type="1">
+ * <li>Define a {@link Submitter} and add it to the {@link Gedcom#submitters} map. Autorepair will make a fake submitter record with
+ * a name of "UNSPECIFIED" and add it to the map during validation if validation is turned on, but this submitter record may not be
+ * what you want.</li>
+ * <li>Specify which Submitter in the submitters map is the primary submitter and set the {@link Header#getSubmitterReference()} to
+ * that instance. If no primary submitter is specified in the header, auto-repair will select the first value in the submitters map
+ * and use that.</li>
+ * <li>Override default values for the Source System and its components in {@link Header#sourceSystem}
+ * <ol type="a">
+ * <li>Specify, or override the default value of the {@link SourceSystem#systemId} field to an application-specific value. If it is
+ * missing or blank, autorepair during validation will set it to the default value of "UNSPECIFIED" which is probably not
+ * desirable.</li>
+ * <li>If specifying a corporation, specify, or override the default value of the {@link Corporation#businessName} field to an
+ * application-specific value (probably your company/org name). If it is missing or blank, autorepair during validation will set it
+ * to the default value of "UNSPECIFIED" which is probably not desirable.</li>
+ * <li>If specifying the source data for the source system, specify, or override the default value of the
+ * {@link HeaderSourceData#name} field to an application-specific value. If it is missing or blank, autorepair during validation
+ * will set it to the default value of "UNSPECIFIED" which is probably not desirable.</li>
+ * </ol>
+ * </li>
+ * </ol>
  * 
  * @since v5.0.0
  */
@@ -106,6 +135,11 @@ public interface IGedcom extends HasCustomFacts {
      * @return the trailer
      */
     Trailer getTrailer();
+
+    /**
+     * Clear out the entire IGedcom - reset all state to that of a new object.
+     */
+    void reset();
 
     /**
      * Sets the header.

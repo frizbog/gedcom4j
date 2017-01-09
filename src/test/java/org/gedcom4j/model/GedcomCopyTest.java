@@ -90,8 +90,8 @@ public class GedcomCopyTest extends AbstractCopyTest {
      */
     @Test
     public void testWithLoadedFile() throws IOException, GedcomParserException {
-        Gedcom loadedGedcom = getLoadedGedcom();
-        IGedcom copy = new Gedcom(loadedGedcom);
+        IGedcom loadedGedcom = getLoadedGedcom();
+        IGedcom copy = new Gedcom((Gedcom) loadedGedcom);
         assertEquals(loadedGedcom, copy);
         assertNotSame(loadedGedcom, copy);
     }

@@ -34,7 +34,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
@@ -59,10 +58,10 @@ public class Finder {
     private final IGedcom g;
 
     /**
-     * Constructor. Requires a reference to the {@link Gedcom} object being searched.
+     * Constructor. Requires a reference to the {@link IGedcom} object being searched.
      * 
      * @param gedcom
-     *            the {@link Gedcom} object being searched
+     *            the {@link IGedcom} object being searched
      */
     public Finder(IGedcom gedcom) {
         g = gedcom;

@@ -42,6 +42,7 @@ import org.gedcom4j.io.reader.GedcomFileReader;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Header;
+import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.Multimedia;
 import org.gedcom4j.model.NoteRecord;
@@ -57,7 +58,7 @@ import org.gedcom4j.parser.event.ParseProgressListener;
 
 /**
  * <p>
- * Class for parsing GEDCOM 5.5 files and creating a {@link Gedcom} structure from them.
+ * Class for parsing GEDCOM 5.5 files and creating a {@link IGedcom} structure from them.
  * </p>
  * <p>
  * General usage is as follows:
@@ -73,8 +74,8 @@ import org.gedcom4j.parser.event.ParseProgressListener;
  * data while parsing. Most commonly, the <code>warnings</code> collection will have information about tags from GEDCOM 5.5.1 that
  * were specified in a file that was designated as a GEDCOM 5.5 file. When this occurs, the data is loaded, but will not be able to
  * be written by {@link org.gedcom4j.writer.GedcomWriter} until the version number in the <code>gedcomVersion</code> field of
- * {@link Gedcom#header} is updated to {@link org.gedcom4j.model.enumerations.SupportedVersion#V5_5_1}, or the 5.5.1-specific data
- * is cleared from the data.
+ * {@link IGedcom#getHeader()} is updated to {@link org.gedcom4j.model.enumerations.SupportedVersion#V5_5_1}, or the 5.5.1-specific
+ * data is cleared from the data.
  * </p>
  * <p>
  * The parser takes a "forgiving" approach where it tries to load as much data as possible, including 5.5.1 data in a file that says
@@ -99,7 +100,7 @@ import org.gedcom4j.parser.event.ParseProgressListener;
  * 
  */
 @SuppressWarnings({ "PMD.TooManyMethods", "PMD.GodClass" })
-public class GedcomParser extends AbstractParser<Gedcom> {
+public class GedcomParser extends AbstractParser<IGedcom> {
 
     /**
      * The things that went wrong while parsing the gedcom file
@@ -109,7 +110,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
     /**
      * The content of the gedcom file
      */
-    private Gedcom gedcom = new Gedcom();
+    private IGedcom gedcom = null;
 
     /**
      * Indicates whether handling of custom tags should be strict - that is, must an unrecognized tag begin with an underscore to be
@@ -181,6 +182,25 @@ public class GedcomParser extends AbstractParser<Gedcom> {
          * This is the root level parser, so there are no parent or other root nodes to hook up to (yet)
          */
         super(null, null, null);
+        gedcom = new Gedcom();
+    }
+
+    /**
+     * Default constructor
+     * 
+     * @param gedcom
+     *            the gedcom we should load all the data into. If null, a new {@link Gedcom} object is created and used.
+     */
+    public GedcomParser(IGedcom gedcom) {
+        /*
+         * This is the root level parser, so there are no parent or other root nodes to hook up to (yet)
+         */
+        super(null, null, null);
+        if (gedcom == null) {
+            this.gedcom = new Gedcom();
+        } else {
+            this.gedcom = gedcom;
+        }
     }
 
     /**
@@ -213,7 +233,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
      * 
      * @return the gedcom
      */
-    public Gedcom getGedcom() {
+    public IGedcom getGedcom() {
         return gedcom;
     }
 
@@ -301,7 +321,7 @@ public class GedcomParser extends AbstractParser<Gedcom> {
      */
     public void load(BufferedInputStream bytes) throws IOException, GedcomParserException {
         // Reset counters and stuff
-        gedcom = new Gedcom();
+        gedcom.reset();
         lineNum = 0;
         errors.clear();
         warnings.clear();
