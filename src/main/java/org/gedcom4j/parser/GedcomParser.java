@@ -179,7 +179,7 @@ public class GedcomParser extends AbstractParser<IGedcom> {
      * Default constructor
      * 
      * @param gedcom
-     *            the gedcom we should load all the data into.
+     *            the {@link IGedcom} implementation we should load all the data into.
      */
     public GedcomParser(IGedcom gedcom) {
         /*
