@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.util.Set;
 
 import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.parser.GedcomParser;
@@ -78,7 +79,7 @@ public class AncestryCalculatorTest {
      */
     @Before
     public void setup() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser();
+        GedcomParser gp = new GedcomParser(new Gedcom());
 
         gp.load("sample/RelationshipTest.ged");
         assertTrue(gp.getErrors().isEmpty());
@@ -102,7 +103,7 @@ public class AncestryCalculatorTest {
      */
     @Test
     public void testCyclicalAncestry() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser();
+        GedcomParser gp = new GedcomParser(new Gedcom());
         gp.load("sample/problemFile.ged");
         Individual i1 = gp.getGedcom().getIndividuals().get("@I27@");
         assertNotNull(i1);

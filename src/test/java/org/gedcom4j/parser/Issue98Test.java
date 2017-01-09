@@ -31,6 +31,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.model.Gedcom;
 import org.junit.Test;
 
 /**
@@ -50,7 +51,7 @@ public class Issue98Test {
      */
     @Test
     public void testUtf16BigEndianWithByteOrderMarker() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser();
+        GedcomParser gp = new GedcomParser(new Gedcom());
         gp.load("sample/utf16be.ged");
         assertTrue(gp.getErrors().isEmpty());
         assertTrue(gp.getWarnings().isEmpty());
@@ -66,7 +67,7 @@ public class Issue98Test {
      */
     @Test
     public void testUtf16LittleEndianWithByteOrderMarker() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser();
+        GedcomParser gp = new GedcomParser(new Gedcom());
         gp.load("sample/utf16le.ged");
         assertTrue(gp.getErrors().isEmpty());
         assertTrue(gp.getWarnings().isEmpty());
@@ -82,7 +83,7 @@ public class Issue98Test {
      */
     @Test
     public void testUtf8WithByteOrderMarker() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser();
+        GedcomParser gp = new GedcomParser(new Gedcom());
         gp.load("sample/utf8.ged");
         assertTrue(gp.getErrors().isEmpty());
         assertTrue(gp.getWarnings().isEmpty());

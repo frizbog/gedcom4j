@@ -100,7 +100,7 @@ public class GedcomWriterConstructionProgressAndCancellationTest implements Cons
     @SuppressWarnings("resource")
     @Test(expected = WriterCancelledException.class)
     public void testCancellation() throws IOException, GedcomParserException, GedcomWriterException {
-        GedcomParser gp = new GedcomParser();
+        GedcomParser gp = new GedcomParser(new Gedcom());
         gp.load("sample/willis-ascii.ged");
         IGedcom g = gp.getGedcom();
         Validator gv = new Validator(g);
@@ -126,7 +126,7 @@ public class GedcomWriterConstructionProgressAndCancellationTest implements Cons
     @SuppressWarnings("resource")
     @Test(expected = WriterCancelledException.class)
     public void testChangingConstructionNotificationRate() throws IOException, GedcomParserException, GedcomWriterException {
-        GedcomParser gp = new GedcomParser();
+        GedcomParser gp = new GedcomParser(new Gedcom());
         gp.load("sample/willis-ascii.ged");
         IGedcom g = gp.getGedcom();
         Validator gv = new Validator(g);
@@ -154,7 +154,7 @@ public class GedcomWriterConstructionProgressAndCancellationTest implements Cons
     @SuppressWarnings("resource")
     @Test
     public void testNoCancellation() throws IOException, GedcomParserException, GedcomWriterException {
-        GedcomParser gp = new GedcomParser();
+        GedcomParser gp = new GedcomParser(new Gedcom());
         gp.load("sample/willis-ascii.ged");
         IGedcom g = gp.getGedcom();
         Validator gv = new Validator(g);

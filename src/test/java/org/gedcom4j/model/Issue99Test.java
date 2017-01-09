@@ -57,7 +57,7 @@ public class Issue99Test {
      */
     @Test
     public void testGetDescendants() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser();
+        GedcomParser gp = new GedcomParser(new Gedcom());
         gp.load("sample/willis.ged");
         assertEquals(761, gp.getGedcom().getIndividuals().size());
         Finder f = new Finder(gp.getGedcom());

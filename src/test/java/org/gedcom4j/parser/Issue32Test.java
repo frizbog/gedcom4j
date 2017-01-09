@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.NoteStructure;
 import org.junit.Test;
@@ -56,7 +57,7 @@ public class Issue32Test {
      */
     @Test
     public void test() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser();
+        GedcomParser gp = new GedcomParser(new Gedcom());
         gp.load("sample/issue32.ged");
         assertTrue(gp.getErrors().isEmpty());
         assertNotNull(gp.getGedcom());

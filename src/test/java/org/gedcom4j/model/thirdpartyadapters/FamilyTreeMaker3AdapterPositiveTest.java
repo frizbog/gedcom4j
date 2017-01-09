@@ -41,6 +41,7 @@ import org.gedcom4j.model.AbstractCitation;
 import org.gedcom4j.model.CitationWithSource;
 import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Family;
+import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualReference;
@@ -88,7 +89,7 @@ public class FamilyTreeMaker3AdapterPositiveTest {
      */
     @Before
     public void setUp() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser();
+        GedcomParser gp = new GedcomParser(new Gedcom());
         gp.load("sample/ftmcustomtags.ged");
         g = gp.getGedcom();
 

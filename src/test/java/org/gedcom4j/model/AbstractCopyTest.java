@@ -51,7 +51,8 @@ public abstract class AbstractCopyTest {
      *             if the file cannot be parsed
      */
     protected IGedcom getLoadedGedcom() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser();
+        IGedcom g = new Gedcom();
+        GedcomParser gp = new GedcomParser(g);
         gp.load("sample/willis.ged");
         return gp.getGedcom();
     }

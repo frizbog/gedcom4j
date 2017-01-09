@@ -146,7 +146,7 @@ public class StringTreeTest {
      */
     @Test
     public void testToStringBigFile() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser();
+        GedcomParser gp = new GedcomParser(new Gedcom());
         gp.load("sample/5.5.1 sample 1.ged");
         IGedcom g = gp.getGedcom();
 

@@ -29,6 +29,7 @@ package org.gedcom4j.parser;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
 
 import java.io.IOException;
 
@@ -38,11 +39,11 @@ import org.gedcom4j.model.IGedcom;
 import org.junit.Test;
 
 /**
- * Test for issue 164, where {@link GedcomParser#load(java.io.BufferedInputStream)} and {@link GedcomParser#load(String)} were not
- * returning a new {@link Gedcom} object upon successive executions.
+ * Originally Issue 164 at Github noted that successive calls to {@link GedcomParser} did not create new {@link Gedcom} objects on
+ * successive calls. Beginning with v5.0.0 of gedcom4j, GedcomParser no longer acts as a factory class, and the {@link IGedcom} that
+ * is populated with data is now supplied by the class that instantiates the parser.
  * 
  * @author frizbog
- *
  */
 public class Issue164Test {
 
@@ -56,7 +57,7 @@ public class Issue164Test {
      */
     @Test
     public void test() throws IOException, GedcomParserException {
-        GedcomParser oneParser = new GedcomParser();
+        GedcomParser oneParser = new GedcomParser(new Gedcom());
         oneParser.load("sample/minimal55.ged");
         IGedcom g1 = oneParser.getGedcom();
         assertNotNull(g1);
@@ -66,7 +67,14 @@ public class Issue164Test {
         IGedcom g2 = oneParser.getGedcom();
         assertNotNull(g2);
 
-        // Moment of truth
+        assertEquals(g1, g2);
+        assertSame(g1, g2);
+
+        GedcomParser anotherParser = new GedcomParser(new Gedcom());
+        anotherParser.load("sample/minimal55.ged");
+        g2 = anotherParser.getGedcom();
+        assertNotNull(g2);
+
         assertEquals(g1, g2);
         assertNotSame(g1, g2);
     }

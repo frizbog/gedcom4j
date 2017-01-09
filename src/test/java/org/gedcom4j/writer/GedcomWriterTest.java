@@ -99,7 +99,7 @@ public class GedcomWriterTest {
     @SuppressWarnings("PMD.SystemPrintln")
     public GedcomWriterTest() throws IOException, GedcomParserException, GedcomWriterException {
         // Load a file
-        GedcomParser p = new GedcomParser();
+        GedcomParser p = new GedcomParser(new Gedcom());
         p.load(SAMPLE_STRESS_TEST_FILENAME);
         gedcomOrig = p.getGedcom();
 
@@ -112,7 +112,7 @@ public class GedcomWriterTest {
 
         try (FileInputStream byteStream = new FileInputStream(tempFile);
                 BufferedInputStream bufferedInputStream = new BufferedInputStream(byteStream);) {
-            GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(), bufferedInputStream);
+            GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(new Gedcom()), bufferedInputStream);
             readbackLines = new ArrayList<>();
             String s = gfr.nextLine();
             while (s != null) {
@@ -122,7 +122,7 @@ public class GedcomWriterTest {
         }
 
         // Reload the file we just wrote
-        p = new GedcomParser();
+        p = new GedcomParser(new Gedcom());
         p.load(tempFile.getAbsolutePath());
         for (String s : p.getErrors()) {
             System.err.println(s);
@@ -452,7 +452,7 @@ public class GedcomWriterTest {
      */
     private List<String> readBack(File fileToRead) throws IOException, GedcomParserException {
         try (FileInputStream fis = new FileInputStream(fileToRead); BufferedInputStream bis = new BufferedInputStream(fis);) {
-            GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(), bis);
+            GedcomFileReader gfr = new GedcomFileReader(new GedcomParser(new Gedcom()), bis);
             List<String> result = new ArrayList<>();
             String s = gfr.nextLine();
             while (s != null) {

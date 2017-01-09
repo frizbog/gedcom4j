@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.parser.GedcomParser;
 import org.junit.Test;
 
@@ -56,7 +57,7 @@ public class Utf8ReaderTest {
      */
     @Test
     public void testEmptyNoByteOrderMark() throws IOException, GedcomParserException {
-        GedcomParser parser = new GedcomParser();
+        GedcomParser parser = new GedcomParser(new Gedcom());
 
         byte[] buf = new byte[] {};
         InputStream fis = new ByteArrayInputStream(buf);
@@ -75,7 +76,7 @@ public class Utf8ReaderTest {
      */
     @Test
     public void testEmptyStrings() throws IOException, GedcomParserException {
-        GedcomParser parser = new GedcomParser();
+        GedcomParser parser = new GedcomParser(new Gedcom());
 
         byte[] buf = "\n\n\n\n\n\n\n\n\n".getBytes();
         InputStream fis = new ByteArrayInputStream(buf);
@@ -94,7 +95,7 @@ public class Utf8ReaderTest {
      */
     @Test
     public void testEmptyWithByteOrderMark() throws IOException, GedcomParserException {
-        GedcomParser parser = new GedcomParser();
+        GedcomParser parser = new GedcomParser(new Gedcom());
 
         byte[] buf = new byte[] { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF };
         InputStream fis = new ByteArrayInputStream(buf);
@@ -113,7 +114,7 @@ public class Utf8ReaderTest {
      */
     @Test
     public void testLeadingWhitespaceStrings() throws IOException, GedcomParserException {
-        GedcomParser parser = new GedcomParser();
+        GedcomParser parser = new GedcomParser(new Gedcom());
 
         byte[] buf = "\t Foo\n Bar\n     Baz\n       \t     \t Bat\n".getBytes();
         InputStream fis = new ByteArrayInputStream(buf);
@@ -135,7 +136,7 @@ public class Utf8ReaderTest {
      */
     @Test(expected = FileNotFoundException.class)
     public void testNonExistentFile() throws IOException, GedcomParserException {
-        GedcomParser parser = new GedcomParser();
+        GedcomParser parser = new GedcomParser(new Gedcom());
 
         try (InputStream fis = new FileInputStream("I DON'T EXIST!!!")) {
             Utf8Reader r = new Utf8Reader(parser, fis);
@@ -154,7 +155,7 @@ public class Utf8ReaderTest {
      */
     @Test
     public void testTrailingWhitespaceStrings() throws IOException, GedcomParserException {
-        GedcomParser parser = new GedcomParser();
+        GedcomParser parser = new GedcomParser(new Gedcom());
 
         byte[] buf = "\tFoo \nBar  \nBaz   \nBat \t \t \n".getBytes();
         InputStream fis = new ByteArrayInputStream(buf);
@@ -176,7 +177,7 @@ public class Utf8ReaderTest {
      */
     @Test
     public void testWhitespaceStrings() throws IOException, GedcomParserException {
-        GedcomParser parser = new GedcomParser();
+        GedcomParser parser = new GedcomParser(new Gedcom());
 
         byte[] buf = "\t \n\t \n\t \n\t \n\t \n\t \n  \t \n \t \n\n".getBytes();
         InputStream fis = new ByteArrayInputStream(buf);

@@ -32,6 +32,7 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.NoteRecord;
 import org.junit.BeforeClass;
@@ -60,7 +61,7 @@ public class StressFileSpecialCharacterReadTest {
      */
     @BeforeClass
     public static void setUpClass() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser();
+        GedcomParser gp = new GedcomParser(new Gedcom());
         gp.load("sample/TGC551.ged");
         g = gp.getGedcom();
     }

@@ -38,7 +38,7 @@ import org.junit.Test;
  * 
  */
 public class AddressTest {
-    
+
     /**
      * Test for {@link Address#equals(Object)}
      */
@@ -49,15 +49,15 @@ public class AddressTest {
         assertFalse(a1.equals(null));
         assertFalse(a1.equals(new Gedcom()));
         assertEquals(a1, a1);
-        
+
         Address a2 = new Address();
         assertEquals(a1, a2);
-        
+
         a1.getCustomFacts(true).add(new CustomFact("TEST"));
         assertFalse(a1.equals(a2));
         a2.getCustomFacts(true).add(new CustomFact("TEST"));
         assertEquals(a1, a2);
-        
+
         a2.setAddr1("123 Main St.");
         assertFalse(a1.equals(a2));
         a1.setAddr1("123 Main St.");
@@ -66,7 +66,7 @@ public class AddressTest {
         assertFalse(a1.equals(a2));
         a2.setAddr1((String) null);
         assertEquals(a1, a2);
-        
+
         a2.setAddr2("Apt. 456");
         assertFalse(a1.equals(a2));
         a1.setAddr2("Apt. 456");
@@ -75,7 +75,7 @@ public class AddressTest {
         assertFalse(a1.equals(a2));
         a2.setAddr2((String) null);
         assertEquals(a1, a2);
-        
+
         a2.setAddr3("Room A");
         assertFalse(a1.equals(a2));
         a1.setAddr3("Room A");
@@ -84,7 +84,7 @@ public class AddressTest {
         assertFalse(a1.equals(a2));
         a2.setAddr3((String) null);
         assertEquals(a1, a2);
-        
+
         a2.setCity("Anytown");
         assertFalse(a1.equals(a2));
         a1.setCity("Anytown");
@@ -93,7 +93,7 @@ public class AddressTest {
         assertFalse(a1.equals(a2));
         a2.setCity((String) null);
         assertEquals(a1, a2);
-        
+
         a2.setCountry("USA");
         assertFalse(a1.equals(a2));
         a1.setCountry("USA");
@@ -102,7 +102,7 @@ public class AddressTest {
         assertFalse(a1.equals(a2));
         a2.setCountry((String) null);
         assertEquals(a1, a2);
-        
+
         a2.getLines(true).add("ABC");
         assertFalse(a1.equals(a2));
         a1.getLines(true).add("ABC");
@@ -111,7 +111,7 @@ public class AddressTest {
         assertFalse(a1.equals(a2));
         a2.getLines().clear();
         assertEquals(a1, a2);
-        
+
         a2.setPostalCode("12345");
         assertFalse(a1.equals(a2));
         a1.setPostalCode("12345");
@@ -120,7 +120,7 @@ public class AddressTest {
         assertFalse(a1.equals(a2));
         a2.setPostalCode((String) null);
         assertEquals(a1, a2);
-        
+
         a2.setStateProvince("ME");
         assertFalse(a1.equals(a2));
         a1.setStateProvince("ME");
@@ -128,9 +128,9 @@ public class AddressTest {
         a1.setStateProvince((String) null);
         assertFalse(a1.equals(a2));
         a2.setStateProvince((String) null);
-        assertEquals(a1, a2);     
+        assertEquals(a1, a2);
     }
-    
+
     /**
      * Test for {@link Address#hashCode()}
      */
@@ -155,32 +155,32 @@ public class AddressTest {
         assertFalse(a1.hashCode() == a2.hashCode());
         a2.getCustomFacts().add(null);
         assertEquals(a1.hashCode(), a2.hashCode());
-        
+
         a2.setAddr1("123 Main St.");
         assertFalse(a1.hashCode() == a2.hashCode());
         a1.setAddr1("123 Main St.");
         assertEquals(a1.hashCode(), a2.hashCode());
-        
+
         a2.setAddr2("Apt. 456");
         assertFalse(a1.hashCode() == a2.hashCode());
         a1.setAddr2("Apt. 456");
         assertEquals(a1.hashCode(), a2.hashCode());
-        
+
         a2.setAddr3("Room A");
         assertFalse(a1.hashCode() == a2.hashCode());
         a1.setAddr3("Room A");
         assertEquals(a1.hashCode(), a2.hashCode());
-        
+
         a2.setCity("Anytown");
         assertFalse(a1.hashCode() == a2.hashCode());
         a1.setCity("Anytown");
         assertEquals(a1.hashCode(), a2.hashCode());
-        
+
         a2.setCountry("USA");
         assertFalse(a1.hashCode() == a2.hashCode());
         a1.setCountry("USA");
         assertEquals(a1.hashCode(), a2.hashCode());
-        
+
         a2.getLines(true).add("ABC");
         assertFalse(a1.equals(a2));
         a1.getLines(true).add("ABC");
@@ -189,18 +189,18 @@ public class AddressTest {
         assertFalse(a1.hashCode() == a2.hashCode());
         a2.getLines().add(null);
         assertEquals(a1.hashCode(), a2.hashCode());
-        
+
         a2.setPostalCode("12345");
         assertFalse(a1.hashCode() == a2.hashCode());
         a1.setPostalCode("12345");
         assertEquals(a1.hashCode(), a2.hashCode());
-        
+
         a2.setStateProvince("ME");
         assertFalse(a1.hashCode() == a2.hashCode());
         a1.setStateProvince("ME");
         assertEquals(a1.hashCode(), a2.hashCode());
     }
-    
+
     /**
      * Test {@link Address#toString()}
      */

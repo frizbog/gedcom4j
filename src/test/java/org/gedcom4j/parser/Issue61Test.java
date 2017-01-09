@@ -36,6 +36,7 @@ import java.io.IOException;
 import org.gedcom4j.Options;
 import org.gedcom4j.exception.GedcomParserException;
 import org.gedcom4j.model.CustomFact;
+import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.junit.Test;
@@ -58,7 +59,7 @@ public class Issue61Test {
      */
     @Test
     public void testIssue61Loose() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser();
+        GedcomParser gp = new GedcomParser(new Gedcom());
         gp.setStrictCustomTags(false);
         gp.load("sample/Harry_Potter.ged");
         IGedcom g = gp.getGedcom();
@@ -92,7 +93,7 @@ public class Issue61Test {
      */
     @Test
     public void testIssue61Strict() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser();
+        GedcomParser gp = new GedcomParser(new Gedcom());
         gp.setStrictCustomTags(true);
         gp.load("sample/Harry_Potter.ged");
         IGedcom g = gp.getGedcom();

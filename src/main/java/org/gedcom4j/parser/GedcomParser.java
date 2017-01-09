@@ -58,15 +58,16 @@ import org.gedcom4j.parser.event.ParseProgressListener;
 
 /**
  * <p>
- * Class for parsing GEDCOM 5.5 files and creating a {@link IGedcom} structure from them.
+ * Class for parsing GEDCOM 5.5 or GEDCOM 5.5.1 files and creating a {@link IGedcom} structure from them.
  * </p>
  * <p>
  * General usage is as follows:
  * </p>
  * <ol>
- * <li>Instantiate a <code>GedcomParser</code> object</li>
+ * <li>Instantiate some concrete implementation of {@link IGedcom} to load data into</li>
+ * <li>Instantiate a <code>GedcomParser</code> object, passing the <code>IGedcom</code> as a parameter ot the constructor</li>
  * <li>Call the <code>GedcomParser.load()</code> method (in one of its various forms) to parse a file/stream</li>
- * <li>Access the parser's <code>gedcom</code> property to access the parsed data</li>
+ * <li>Access the data from the <code>IGedcom</code> you created.</li>
  * </ol>
  * <p>
  * It is <b>highly recommended</b> that after calling the <code>GedcomParser.load()</code> method, the user check the
@@ -92,8 +93,14 @@ import org.gedcom4j.parser.event.ParseProgressListener;
  * </p>
  * 
  * <p>
- * This approach was selected based on the presumption that most of the uses of GEDCOM4J will be to read GEDCOM files rather than to
+ * This approach was selected based on the presumption that most of the uses of gedcom4j will be to read GEDCOM files rather than to
  * write them, so this provides that use case with the lowest friction.
+ * </p>
+ * 
+ * <p>
+ * <b>Note:</b> Prior to v5.0.0 of gedcom4j, this class created new instances of the {@link Gedcom} object graph when parsing, so
+ * that it acted as a sort of factory class. This is no longer the case starting with v5.0.0, and the class that instantiates the
+ * parser is expected to instantiate an {@link IGedcom} implementation that can receive the parsed data.
  * </p>
  * 
  * @author frizbog1
@@ -106,11 +113,6 @@ public class GedcomParser extends AbstractParser<IGedcom> {
      * The things that went wrong while parsing the gedcom file
      */
     private final List<String> errors = new ArrayList<>();
-
-    /**
-     * The content of the gedcom file
-     */
-    private IGedcom gedcom = null;
 
     /**
      * Indicates whether handling of custom tags should be strict - that is, must an unrecognized tag begin with an underscore to be
@@ -176,17 +178,6 @@ public class GedcomParser extends AbstractParser<IGedcom> {
 
     /**
      * Default constructor
-     */
-    public GedcomParser() {
-        /*
-         * This is the root level parser, so there are no parent or other root nodes to hook up to (yet)
-         */
-        super(null, null, null);
-        gedcom = new Gedcom();
-    }
-
-    /**
-     * Default constructor
      * 
      * @param gedcom
      *            the gedcom we should load all the data into. If null, a new {@link Gedcom} object is created and used.
@@ -195,12 +186,7 @@ public class GedcomParser extends AbstractParser<IGedcom> {
         /*
          * This is the root level parser, so there are no parent or other root nodes to hook up to (yet)
          */
-        super(null, null, null);
-        if (gedcom == null) {
-            this.gedcom = new Gedcom();
-        } else {
-            this.gedcom = gedcom;
-        }
+        super(null, null, gedcom);
     }
 
     /**
@@ -229,12 +215,12 @@ public class GedcomParser extends AbstractParser<IGedcom> {
     }
 
     /**
-     * Get the gedcom
+     * Get the gedcom that the data is (or was) being loaded into.
      * 
      * @return the gedcom
      */
     public IGedcom getGedcom() {
-        return gedcom;
+        return loadInto;
     }
 
     /**
@@ -321,7 +307,7 @@ public class GedcomParser extends AbstractParser<IGedcom> {
      */
     public void load(BufferedInputStream bytes) throws IOException, GedcomParserException {
         // Reset counters and stuff
-        gedcom.reset();
+        loadInto.reset();
         lineNum = 0;
         errors.clear();
         warnings.clear();
@@ -347,7 +333,7 @@ public class GedcomParser extends AbstractParser<IGedcom> {
                 throw new ParserCancelledException("File load/parse is cancelled");
             }
             if (lineNum % parseNotificationRate == 0) {
-                notifyParseObservers(new ParseProgressEvent(this, gedcom, false, lineNum));
+                notifyParseObservers(new ParseProgressEvent(this, loadInto, false, lineNum));
             }
 
         }
@@ -557,10 +543,10 @@ public class GedcomParser extends AbstractParser<IGedcom> {
      */
     private void loadRootItem(StringTree rootLevelItem) throws GedcomParserException {
         if (Tag.HEADER.equalsText(rootLevelItem.getTag())) {
-            Header header = gedcom.getHeader();
+            Header header = loadInto.getHeader();
             if (header == null) {
                 header = new Header();
-                gedcom.setHeader(header);
+                loadInto.setHeader(header);
             }
             new HeaderParser(this, rootLevelItem, header).parse();
         } else if (Tag.SUBMITTER.equalsText(rootLevelItem.getTag())) {
@@ -571,16 +557,16 @@ public class GedcomParser extends AbstractParser<IGedcom> {
             new IndividualParser(this, rootLevelItem, i).parse();
         } else if (Tag.SUBMISSION.equalsText(rootLevelItem.getTag())) {
             Submission s = new Submission(rootLevelItem.getXref());
-            gedcom.setSubmission(s);
-            if (gedcom.getHeader() == null) {
-                gedcom.setHeader(new Header());
+            loadInto.setSubmission(s);
+            if (loadInto.getHeader() == null) {
+                loadInto.setHeader(new Header());
             }
-            if (gedcom.getHeader().getSubmissionReference() == null) {
+            if (loadInto.getHeader().getSubmissionReference() == null) {
                 /*
                  * The GEDCOM spec puts a cross reference to the root-level SUBN element in the HEAD structure. Now that we have a
                  * submission object, represent that cross reference in the header object
                  */
-                gedcom.getHeader().setSubmissionReference(new SubmissionReference(s));
+                loadInto.getHeader().setSubmissionReference(new SubmissionReference(s));
             }
             new SubmissionParser(this, rootLevelItem, s).parse();
         } else if (Tag.NOTE.equalsText(rootLevelItem.getTag())) {
@@ -590,7 +576,7 @@ public class GedcomParser extends AbstractParser<IGedcom> {
             Family f = getFamily(rootLevelItem.getXref());
             new FamilyParser(this, rootLevelItem, f).parse();
         } else if (Tag.TRAILER.equalsText(rootLevelItem.getTag())) {
-            gedcom.setTrailer(new Trailer());
+            loadInto.setTrailer(new Trailer());
         } else if (Tag.SOURCE.equalsText(rootLevelItem.getTag())) {
             Source s = getSource(rootLevelItem.getXref());
             new SourceParser(this, rootLevelItem, s).parse();
@@ -601,7 +587,7 @@ public class GedcomParser extends AbstractParser<IGedcom> {
             Multimedia multimedia = getMultimedia(rootLevelItem.getXref());
             new MultimediaParser(this, rootLevelItem, multimedia).parse();
         } else {
-            unknownTag(rootLevelItem, gedcom);
+            unknownTag(rootLevelItem, loadInto);
         }
     }
 

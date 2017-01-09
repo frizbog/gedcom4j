@@ -41,6 +41,7 @@ import org.gedcom4j.model.Address;
 import org.gedcom4j.model.CustomFact;
 import org.gedcom4j.model.Family;
 import org.gedcom4j.model.FamilyEvent;
+import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
@@ -93,12 +94,12 @@ public class LegacyFamilyTree8AdapterTest {
      */
     @Before
     public void setUp() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser();
+        GedcomParser gp = new GedcomParser(new Gedcom());
         gp.load("sample/legacycustomtags.ged");
         gedcomWithCustomTags = gp.getGedcom();
         assertNotNull(gedcomWithCustomTags);
 
-        gp = new GedcomParser();
+        gp = new GedcomParser(new Gedcom());
         gp.load("sample/legacynocustomtags.ged");
         gedcomWithoutCustomTags = gp.getGedcom();
         assertNotNull(gedcomWithoutCustomTags);

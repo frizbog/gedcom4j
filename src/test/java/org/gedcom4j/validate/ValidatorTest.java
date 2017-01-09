@@ -254,7 +254,7 @@ public class ValidatorTest implements AutoRepairResponder {
         Validator v = new Validator(g);
         assertEquals("Validator [results=ValidationResults [allFindings=[]], autoRepairResponder=AUTO_REPAIR_NONE]", v.toString());
 
-        GedcomParser gp = new GedcomParser();
+        GedcomParser gp = new GedcomParser(new Gedcom());
         gp.load("sample/RelationshipTest.ged");
         g = gp.getGedcom();
         v = new Validator(g);

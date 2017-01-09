@@ -35,6 +35,7 @@ import org.gedcom4j.exception.GedcomWriterException;
 import org.gedcom4j.exception.WriterCancelledException;
 import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.io.event.FileProgressListener;
+import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.parser.GedcomParser;
 import org.gedcom4j.validate.Validator;
@@ -82,10 +83,10 @@ public class AnselWriterCancellationTest implements FileProgressListener {
     @Test(expected = WriterCancelledException.class)
     @SuppressWarnings({ "resource", "PMD.SystemPrintln" })
     public void testRegistered() throws IOException, GedcomParserException, GedcomWriterException {
-        GedcomParser gp = new GedcomParser();
+        IGedcom g = new Gedcom();
+        GedcomParser gp = new GedcomParser(g);
         gp.load("sample/willis-ansel.ged");
         eventCount = 0;
-        IGedcom g = gp.getGedcom();
         Validator gv = new Validator(g);
         gv.setAutoRepairResponder(Validator.AUTO_REPAIR_ALL);
         gv.validate(); // Cleanup whatever can be cleaned up

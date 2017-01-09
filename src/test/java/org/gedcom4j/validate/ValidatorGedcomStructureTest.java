@@ -95,7 +95,7 @@ public class ValidatorGedcomStructureTest extends AbstractValidatorTestCase {
     @SuppressWarnings("PMD.SystemPrintln")
     public void testValidateStressTestFile() throws IOException, GedcomParserException {
         // Load a file
-        GedcomParser p = new GedcomParser();
+        GedcomParser p = new GedcomParser(new Gedcom());
         p.load(SAMPLE_STRESS_TEST_FILENAME);
         validator = new Validator(p.getGedcom());
         validator.validate();

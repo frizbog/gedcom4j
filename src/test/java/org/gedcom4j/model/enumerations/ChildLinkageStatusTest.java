@@ -39,6 +39,26 @@ import org.junit.Test;
 public class ChildLinkageStatusTest {
 
     /**
+     * Test for {@link ChildLinkageStatus#getCode()}
+     */
+    @Test
+    public void testGetCode() {
+        assertSame(ChildLinkageStatus.CHALLENGED.getCode(), "challenged");
+        assertSame(ChildLinkageStatus.DISPROVEN.getCode(), "disproven");
+        assertSame(ChildLinkageStatus.PROVEN.getCode(), "proven");
+    }
+
+    /**
+     * Test for {@link ChildLinkageStatus#getDescription()}
+     */
+    @Test
+    public void testGetDescription() {
+        assertSame(ChildLinkageStatus.CHALLENGED.getDescription(), "suspect but not proven or disproven");
+        assertSame(ChildLinkageStatus.DISPROVEN.getDescription(), "there has been a challenge but linkage was disproven");
+        assertSame(ChildLinkageStatus.PROVEN.getDescription(), "there has been a challenge but linkage was proven");
+    }
+
+    /**
      * Test for {@link ChildLinkageStatus#getForCode(String)}
      */
     @Test
@@ -50,27 +70,7 @@ public class ChildLinkageStatusTest {
         assertNull(ChildLinkageStatus.getForCode(null));
         assertNull(ChildLinkageStatus.getForCode(""));
     }
-    
-    /**
-     * Test for {@link ChildLinkageStatus#getCode()}
-     */
-    @Test
-    public void testGetCode() {
-        assertSame(ChildLinkageStatus.CHALLENGED.getCode(), "challenged");
-        assertSame(ChildLinkageStatus.DISPROVEN.getCode(), "disproven");
-        assertSame(ChildLinkageStatus.PROVEN.getCode(), "proven");
-    }
-    
-    /**
-     * Test for {@link ChildLinkageStatus#getDescription()}
-     */
-    @Test
-    public void testGetDescription() {
-        assertSame(ChildLinkageStatus.CHALLENGED.getDescription(), "suspect but not proven or disproven");
-        assertSame(ChildLinkageStatus.DISPROVEN.getDescription(), "there has been a challenge but linkage was disproven");
-        assertSame(ChildLinkageStatus.PROVEN.getDescription(), "there has been a challenge but linkage was proven");
-    }
-    
+
     /**
      * Test for {@link ChildLinkageStatus#toString()}
      */

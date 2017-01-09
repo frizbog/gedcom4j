@@ -159,7 +159,7 @@ public abstract class AbstractValidatorTestCase {
      *             if the file cannot be parsed
      */
     protected void loadFile(String fileName) throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser();
+        GedcomParser gp = new GedcomParser(new Gedcom());
         gp.load(fileName);
         gedcom = gp.getGedcom();
         validator = new Validator(gedcom);

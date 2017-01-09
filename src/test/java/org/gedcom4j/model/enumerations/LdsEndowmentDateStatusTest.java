@@ -39,6 +39,36 @@ import org.junit.Test;
 public class LdsEndowmentDateStatusTest {
 
     /**
+     * Test for {@link LdsEndowmentDateStatus#getCode()}
+     */
+    @Test
+    public void testGetCode() {
+        assertSame(LdsEndowmentDateStatus.CHILD.getCode(), "CHILD");
+        assertSame(LdsEndowmentDateStatus.COMPLETED.getCode(), "COMPLETED");
+        assertSame(LdsEndowmentDateStatus.EXCLUDED.getCode(), "EXCLUDED");
+        assertSame(LdsEndowmentDateStatus.PRE_1970.getCode(), "PRE-1970");
+        assertSame(LdsEndowmentDateStatus.STILLBORN.getCode(), "STILLBORN");
+        assertSame(LdsEndowmentDateStatus.SUBMITTED.getCode(), "SUBMITTED");
+        assertSame(LdsEndowmentDateStatus.UNCLEARED.getCode(), "UNCLEARED");
+    }
+
+    /**
+     * Test for {@link LdsEndowmentDateStatus#getDescription()}
+     */
+    @Test
+    public void testGetDescription() {
+        assertSame(LdsEndowmentDateStatus.CHILD.getDescription(), "Died before becoming eight years old.");
+        assertSame(LdsEndowmentDateStatus.COMPLETED.getDescription(), "Completed but the date is not known.");
+        assertSame(LdsEndowmentDateStatus.EXCLUDED.getDescription(),
+                "Patron excluded this ordinance from being cleared in this submission.");
+        assertSame(LdsEndowmentDateStatus.PRE_1970.getDescription(),
+                "Ordinance from temple records of work completed before 1970, assumed complete.");
+        assertSame(LdsEndowmentDateStatus.STILLBORN.getDescription(), "Stillborn, baptism not required.");
+        assertSame(LdsEndowmentDateStatus.SUBMITTED.getDescription(), "Ordinance was previously submitted.");
+        assertSame(LdsEndowmentDateStatus.UNCLEARED.getDescription(), "Data for clearing ordinance request was insufficient.");
+    }
+
+    /**
      * Test for {@link LdsEndowmentDateStatus#getForCode(String)}
      */
     @Test
@@ -54,35 +84,7 @@ public class LdsEndowmentDateStatusTest {
         assertNull(LdsEndowmentDateStatus.getForCode(null));
         assertNull(LdsEndowmentDateStatus.getForCode(""));
     }
-    
-    /**
-     * Test for {@link LdsEndowmentDateStatus#getCode()}
-     */
-    @Test
-    public void testGetCode() {
-        assertSame(LdsEndowmentDateStatus.CHILD.getCode(), "CHILD");
-        assertSame(LdsEndowmentDateStatus.COMPLETED.getCode(), "COMPLETED");
-        assertSame(LdsEndowmentDateStatus.EXCLUDED.getCode(), "EXCLUDED");
-        assertSame(LdsEndowmentDateStatus.PRE_1970.getCode(), "PRE-1970");
-        assertSame(LdsEndowmentDateStatus.STILLBORN.getCode(), "STILLBORN");
-        assertSame(LdsEndowmentDateStatus.SUBMITTED.getCode(), "SUBMITTED");
-        assertSame(LdsEndowmentDateStatus.UNCLEARED.getCode(), "UNCLEARED");
-    }
-    
-    /**
-     * Test for {@link LdsEndowmentDateStatus#getDescription()}
-     */
-    @Test
-    public void testGetDescription() {
-        assertSame(LdsEndowmentDateStatus.CHILD.getDescription(), "Died before becoming eight years old.");
-        assertSame(LdsEndowmentDateStatus.COMPLETED.getDescription(), "Completed but the date is not known.");
-        assertSame(LdsEndowmentDateStatus.EXCLUDED.getDescription(), "Patron excluded this ordinance from being cleared in this submission.");
-        assertSame(LdsEndowmentDateStatus.PRE_1970.getDescription(), "Ordinance from temple records of work completed before 1970, assumed complete.");
-        assertSame(LdsEndowmentDateStatus.STILLBORN.getDescription(), "Stillborn, baptism not required.");
-        assertSame(LdsEndowmentDateStatus.SUBMITTED.getDescription(), "Ordinance was previously submitted.");
-        assertSame(LdsEndowmentDateStatus.UNCLEARED.getDescription(), "Data for clearing ordinance request was insufficient.");
-    }
-    
+
     /**
      * Test for {@link LdsEndowmentDateStatus#toString()}
      */

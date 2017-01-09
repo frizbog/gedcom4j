@@ -32,6 +32,7 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
 import org.gedcom4j.model.IndividualEvent;
@@ -64,7 +65,7 @@ public class Issue81ReaderTest {
     @Before
     @SuppressWarnings("PMD.SystemPrintln")
     public void setUp() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser();
+        GedcomParser gp = new GedcomParser(new Gedcom());
         gp.load("sample/issue81.ged");
         for (String e : gp.getErrors()) {
             System.err.println(e);

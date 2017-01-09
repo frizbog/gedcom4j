@@ -39,6 +39,38 @@ import org.junit.Test;
 public class LdsSpouseSealingDateStatusTest {
 
     /**
+     * Test for {@link LdsSpouseSealingDateStatus#getCode()}
+     */
+    @Test
+    public void testGetCode() {
+        assertSame(LdsSpouseSealingDateStatus.CANCELED.getCode(), "CANCELED");
+        assertSame(LdsSpouseSealingDateStatus.COMPLETED.getCode(), "COMPLETED");
+        assertSame(LdsSpouseSealingDateStatus.EXCLUDED.getCode(), "EXCLUDED");
+        assertSame(LdsSpouseSealingDateStatus.DNS.getCode(), "DNS");
+        assertSame(LdsSpouseSealingDateStatus.DNS_CAN.getCode(), "DNS/CAN");
+        assertSame(LdsSpouseSealingDateStatus.PRE_1970.getCode(), "PRE-1970");
+        assertSame(LdsSpouseSealingDateStatus.SUBMITTED.getCode(), "SUBMITTED");
+        assertSame(LdsSpouseSealingDateStatus.UNCLEARED.getCode(), "UNCLEARED");
+    }
+
+    /**
+     * Test for {@link LdsSpouseSealingDateStatus#getDescription()}
+     */
+    @Test
+    public void testGetDescription() {
+        assertSame(LdsSpouseSealingDateStatus.CANCELED.getDescription(), "Canceled and considered invalid.");
+        assertSame(LdsSpouseSealingDateStatus.COMPLETED.getDescription(), "Completed but the date is not known.");
+        assertSame(LdsSpouseSealingDateStatus.EXCLUDED.getDescription(),
+                "Patron excluded this ordinance from being cleared in this submission.");
+        assertSame(LdsSpouseSealingDateStatus.DNS.getDescription(), "This ordinance is not authorized.");
+        assertSame(LdsSpouseSealingDateStatus.DNS_CAN.getDescription(),
+                "This ordinance is not authorized, previous sealing cancelled.");
+        assertSame(LdsSpouseSealingDateStatus.PRE_1970.getDescription(), "From before 1970, assumed complete.");
+        assertSame(LdsSpouseSealingDateStatus.SUBMITTED.getDescription(), "Ordinance was previously submitted.");
+        assertSame(LdsSpouseSealingDateStatus.UNCLEARED.getDescription(), "Data for clearing ordinance request was insufficient.");
+    }
+
+    /**
      * Test for {@link LdsSpouseSealingDateStatus#getForCode(String)}
      */
     @Test
@@ -55,37 +87,7 @@ public class LdsSpouseSealingDateStatusTest {
         assertNull(LdsSpouseSealingDateStatus.getForCode(null));
         assertNull(LdsSpouseSealingDateStatus.getForCode(""));
     }
-    
-    /**
-     * Test for {@link LdsSpouseSealingDateStatus#getCode()}
-     */
-    @Test
-    public void testGetCode() {
-        assertSame(LdsSpouseSealingDateStatus.CANCELED.getCode(), "CANCELED");
-        assertSame(LdsSpouseSealingDateStatus.COMPLETED.getCode(), "COMPLETED");
-        assertSame(LdsSpouseSealingDateStatus.EXCLUDED.getCode(), "EXCLUDED");
-        assertSame(LdsSpouseSealingDateStatus.DNS.getCode(), "DNS");
-        assertSame(LdsSpouseSealingDateStatus.DNS_CAN.getCode(), "DNS/CAN");
-        assertSame(LdsSpouseSealingDateStatus.PRE_1970.getCode(), "PRE-1970");
-        assertSame(LdsSpouseSealingDateStatus.SUBMITTED.getCode(), "SUBMITTED");
-        assertSame(LdsSpouseSealingDateStatus.UNCLEARED.getCode(), "UNCLEARED");
-    }
-    
-    /**
-     * Test for {@link LdsSpouseSealingDateStatus#getDescription()}
-     */
-    @Test
-    public void testGetDescription() {
-        assertSame(LdsSpouseSealingDateStatus.CANCELED.getDescription(), "Canceled and considered invalid.");
-        assertSame(LdsSpouseSealingDateStatus.COMPLETED.getDescription(), "Completed but the date is not known.");
-        assertSame(LdsSpouseSealingDateStatus.EXCLUDED.getDescription(), "Patron excluded this ordinance from being cleared in this submission.");
-        assertSame(LdsSpouseSealingDateStatus.DNS.getDescription(), "This ordinance is not authorized.");
-        assertSame(LdsSpouseSealingDateStatus.DNS_CAN.getDescription(), "This ordinance is not authorized, previous sealing cancelled.");
-        assertSame(LdsSpouseSealingDateStatus.PRE_1970.getDescription(), "From before 1970, assumed complete.");
-        assertSame(LdsSpouseSealingDateStatus.SUBMITTED.getDescription(), "Ordinance was previously submitted.");
-        assertSame(LdsSpouseSealingDateStatus.UNCLEARED.getDescription(), "Data for clearing ordinance request was insufficient.");
-    }
-    
+
     /**
      * Test for {@link LdsSpouseSealingDateStatus#toString()}
      */

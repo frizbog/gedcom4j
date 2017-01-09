@@ -32,6 +32,7 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 
 import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.model.Gedcom;
 import org.junit.Test;
 
 /**
@@ -51,7 +52,7 @@ public class Issue64Test {
      */
     @Test
     public void testIssue64() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser();
+        GedcomParser gp = new GedcomParser(new Gedcom());
         gp.load("sample/Issue 64.ged");
         assertNotNull(gp.getGedcom());
         assertEquals(2, gp.getGedcom().getIndividuals().size());

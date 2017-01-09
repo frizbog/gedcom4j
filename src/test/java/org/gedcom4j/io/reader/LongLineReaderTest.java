@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.gedcom4j.exception.GedcomParserException;
+import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.NoteRecord;
 import org.gedcom4j.parser.GedcomParser;
 import org.junit.Test;
@@ -59,7 +60,7 @@ public class LongLineReaderTest {
     @Test
     public void testAnsel() throws IOException, GedcomParserException {
         try (FileInputStream fis = new FileInputStream("sample/superlongline-ansel.ged");) {
-            GedcomParser gp = new GedcomParser();
+            GedcomParser gp = new GedcomParser(new Gedcom());
             AnselReader ar = new AnselReader(gp, fis);
 
             List<String> strings = new ArrayList<>();
@@ -78,7 +79,7 @@ public class LongLineReaderTest {
                     "1 CONC ines that are way too long like this one is, even though there are lots of programs that write non-standard GEDCOM files.",
                     strings.get(10));
 
-            gp = new GedcomParser();
+            gp = new GedcomParser(new Gedcom());
             gp.load("sample/superlongline-ansel.ged");
             assertTrue(gp.getErrors().isEmpty());
             assertEquals(1, gp.getWarnings().size());

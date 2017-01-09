@@ -61,7 +61,7 @@ public class FamilyEventTypeParseTest {
      */
     @Before
     public void setUp() throws IOException, GedcomParserException {
-        GedcomParser gp = new GedcomParser();
+        GedcomParser gp = new GedcomParser(new Gedcom());
         gp.load("sample/TGC551.ged");
         g = gp.getGedcom();
     }

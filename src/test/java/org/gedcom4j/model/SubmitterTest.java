@@ -115,7 +115,7 @@ public class SubmitterTest {
         assertFalse(s1.equals(s2));
         s2.getUserReferences().clear();
         assertEquals(s1, s2);
-        
+
         s2.setXref("23");
         assertFalse(s1.equals(s2));
         s1.setXref("23");
