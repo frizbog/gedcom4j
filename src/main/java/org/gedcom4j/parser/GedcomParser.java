@@ -40,7 +40,6 @@ import org.gedcom4j.io.event.FileProgressEvent;
 import org.gedcom4j.io.event.FileProgressListener;
 import org.gedcom4j.io.reader.GedcomFileReader;
 import org.gedcom4j.model.Family;
-import org.gedcom4j.model.Gedcom;
 import org.gedcom4j.model.Header;
 import org.gedcom4j.model.IGedcom;
 import org.gedcom4j.model.Individual;
@@ -180,7 +179,7 @@ public class GedcomParser extends AbstractParser<IGedcom> {
      * Default constructor
      * 
      * @param gedcom
-     *            the gedcom we should load all the data into. If null, a new {@link Gedcom} object is created and used.
+     *            the gedcom we should load all the data into.
      */
     public GedcomParser(IGedcom gedcom) {
         /*
