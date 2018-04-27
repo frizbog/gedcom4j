@@ -126,6 +126,12 @@ class IndividualAttributeParser extends AbstractParser<IndividualAttribute> {
                     } else {
                         loadInto.getDescription().setValue(loadInto.getDescription().getValue() + ch.getValue());
                     }
+                } else if (Tag.CONTINUATION.equalsText(ch.getTag())) {
+                    if (loadInto.getDescription() == null) {
+                        loadInto.setDescription(parseStringWithCustomFacts(ch));
+                    } else {
+                        loadInto.getDescription().setValue(loadInto.getDescription().getValue() + "\n" + ch.getValue());
+                    }
                 } else {
                     unknownTag(ch, loadInto);
                 }
