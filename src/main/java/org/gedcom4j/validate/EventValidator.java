@@ -184,7 +184,7 @@ class EventValidator extends AbstractValidator {
         }
         String s = val.getValue().trim();
         for (String regex : AGE_FORMATS) {
-            if (regex.matches(s)) {
+            if (s.matches(regex)) {
                 return;
             }
         }
