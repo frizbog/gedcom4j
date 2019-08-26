@@ -107,6 +107,22 @@ public class LinePiecesTest {
     }
 
     /**
+     * Test case when extra space before tag
+     *
+     * @throws GedcomParserException
+     *             if anything goes wrong
+     */
+    @Test
+    public void testLinePiecesWithExtraSpaceBeforeTag() throws GedcomParserException {
+        LinePieces lp = new LinePieces("4 @XREF@  TAGG extra space before tag", 5);
+        assertNotNull(lp);
+        assertEquals(4, lp.level);
+        assertEquals("@XREF@", lp.id);
+        assertEquals("TAGG", lp.tag);
+        assertEquals("extra space before tag", lp.remainder);
+    }
+
+    /**
      * Simple happy-path positive test for {@link LinePieces} constructor
      * 
      * @throws GedcomParserException

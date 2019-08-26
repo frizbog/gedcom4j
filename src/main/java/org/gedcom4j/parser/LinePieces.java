@@ -139,6 +139,12 @@ class LinePieces {
     private void processTag() throws GedcomParserException {
         // Parse the tag
         StringBuilder t = new StringBuilder();
+
+        // Check if current char is a space and if it's the last index
+        if (currCharIdx - 1 != chars.length && ' ' == chars[currCharIdx]) {
+            currCharIdx++;
+        }
+
         while (currCharIdx < chars.length && chars[currCharIdx] != ' ') {
             t.append(chars[currCharIdx++]);
         }
