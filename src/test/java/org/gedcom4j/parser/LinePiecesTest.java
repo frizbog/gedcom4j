@@ -123,6 +123,23 @@ public class LinePiecesTest {
     }
 
     /**
+     * Test case when the xref has spaces
+     *
+     * @throws GedcomParserException
+     *             if anything goes wrong
+     */
+
+    @Test
+    public void testLinePiecesXrefWithSpace() throws GedcomParserException {
+        LinePieces lp = new LinePieces("4 @XR EF@ TAGG additional stuff", 5);
+        assertNotNull(lp);
+        assertEquals(4, lp.level);
+        assertEquals("@XR EF@", lp.id);
+        assertEquals("TAGG", lp.tag);
+        assertEquals("additional stuff", lp.remainder);
+    }
+
+    /**
      * Simple happy-path positive test for {@link LinePieces} constructor
      * 
      * @throws GedcomParserException

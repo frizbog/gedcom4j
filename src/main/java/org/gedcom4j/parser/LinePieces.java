@@ -165,13 +165,22 @@ class LinePieces {
     private void processXrefId() throws GedcomParserException {
         // Take care of the id, if any
         StringBuilder i = null;
-        if ('@' == chars[currCharIdx]) {
-            while (currCharIdx < chars.length && chars[currCharIdx] != ' ') {
+
+        int startIndex = currCharIdx;
+
+        if ('@' == chars[startIndex]) {
+            while (currCharIdx < chars.length) {
                 if (i == null) {
                     i = new StringBuilder();
                 }
+
+                if ((chars[currCharIdx] == ' ') && chars[currCharIdx - 1] == '@') {
+                    break;
+                }
+
                 i.append(chars[currCharIdx++]);
             }
+
             currCharIdx++;
         }
 
