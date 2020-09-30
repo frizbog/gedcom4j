@@ -49,6 +49,11 @@ public class IndividualEvent extends AbstractEvent {
      */
     private IndividualEventType type;
 
+    /**
+     * The record ID number
+     */
+    private StringWithCustomFacts recIdNumber;
+
     /** Default constructor */
     public IndividualEvent() {
         // Default constructor does nothing
@@ -112,6 +117,15 @@ public class IndividualEvent extends AbstractEvent {
     }
 
     /**
+     * Gets the rec id number.
+     *
+     * @return the rec id number
+     */
+    public StringWithCustomFacts getRecIdNumber() {
+        return recIdNumber;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -144,6 +158,26 @@ public class IndividualEvent extends AbstractEvent {
     }
 
     /**
+     * Sets the rec id number.
+     *
+     * @param recIdNumber
+     *            the new rec id number
+     */
+    public void setRecIdNumber(String recIdNumber) {
+        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomFacts(recIdNumber);
+    }
+
+    /**
+     * Sets the rec id number.
+     *
+     * @param recIdNumber
+     *            the new rec id number
+     */
+    public void setRecIdNumber(StringWithCustomFacts recIdNumber) {
+        this.recIdNumber = recIdNumber;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -158,6 +192,11 @@ public class IndividualEvent extends AbstractEvent {
         if (type != null) {
             builder.append("type=");
             builder.append(type);
+            builder.append(", ");
+        }
+        if (recIdNumber != null) {
+            builder.append("recIdNumber=");
+            builder.append(recIdNumber);
             builder.append(", ");
         }
         buildAbstractEventToString(builder);

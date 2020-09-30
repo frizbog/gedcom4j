@@ -150,6 +150,8 @@ class IndividualEventParser extends AbstractEventParser<IndividualEvent> {
                     FamilyChild fc = new FamilyChild();
                     loadInto.setFamily(fc);
                     new FamilyChildParser(gedcomParser, ch, fc).parse();
+                } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
+                    loadInto.setRecIdNumber(parseStringWithCustomFacts(ch));
                 } else {
                     unknownTag(ch, loadInto);
                 }

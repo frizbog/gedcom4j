@@ -146,6 +146,8 @@ class FamilyEventParser extends AbstractEventParser<FamilyEvent> {
                     } else {
                         loadInto.getDescription().setValue(loadInto.getDescription().getValue() + "\n" + ch.getValue());
                     }
+                } else if (Tag.RECORD_ID_NUMBER.equalsText(ch.getTag())) {
+                    loadInto.setRecIdNumber(parseStringWithCustomFacts(ch));
                 } else {
                     unknownTag(ch, loadInto);
                 }

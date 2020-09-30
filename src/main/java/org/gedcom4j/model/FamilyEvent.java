@@ -56,6 +56,11 @@ public class FamilyEvent extends AbstractEvent {
      */
     private StringWithCustomFacts wifeAge;
 
+    /**
+     * The record ID number
+     */
+    private StringWithCustomFacts recIdNumber;
+
     /** Default constructor */
     public FamilyEvent() {
         // Default constructor does nothing
@@ -141,6 +146,15 @@ public class FamilyEvent extends AbstractEvent {
     }
 
     /**
+     * Gets the rec id number.
+     *
+     * @return the rec id number
+     */
+    public StringWithCustomFacts getRecIdNumber() {
+        return recIdNumber;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -194,6 +208,26 @@ public class FamilyEvent extends AbstractEvent {
     }
 
     /**
+     * Sets the rec id number.
+     *
+     * @param recIdNumber
+     *            the new rec id number
+     */
+    public void setRecIdNumber(String recIdNumber) {
+        this.recIdNumber = recIdNumber == null ? null : new StringWithCustomFacts(recIdNumber);
+    }
+
+    /**
+     * Sets the rec id number.
+     *
+     * @param recIdNumber
+     *            the new rec id number
+     */
+    public void setRecIdNumber(StringWithCustomFacts recIdNumber) {
+        this.recIdNumber = recIdNumber;
+    }
+
+    /**
      * Sets the wife's age.
      *
      * @param wifeAge
@@ -223,6 +257,11 @@ public class FamilyEvent extends AbstractEvent {
         if (wifeAge != null) {
             builder.append("wifeAge=");
             builder.append(wifeAge);
+            builder.append(", ");
+        }
+        if (recIdNumber != null) {
+            builder.append("recIdNumber=");
+            builder.append(recIdNumber);
             builder.append(", ");
         }
         buildAbstractEventToString(builder);
