@@ -45,7 +45,7 @@ package org.gedcom4j.io.encoding;
  * into pre-combined unicode characters when reading, and to reverse the process for writing.
  * </p>
  * <p>
- * For example - consider the lowercase a with an acute accent: <tt>&#x00E1;</tt>.
+ * For example - consider the lowercase a with an acute accent: <var>&#x00E1;</var>.
  * </p>
  * <ul>
  * <li>ANSEL should render this as 0xE2 0x61. 0xE2 is the acute accent, and 0x61 is the lowercase a. The two characters combine when

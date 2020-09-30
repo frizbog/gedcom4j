@@ -79,7 +79,7 @@ public class Gedcom extends AbstractElement {
      *            the collection
      * @param maxLen
      *            the max number of items to show from the collection
-     * @return a String representation of the first <tt>maxLen</tt> items in the collection
+     * @return a String representation of the first <var>maxLen</var> items in the collection
      */
     protected static String toStringLimitCollection(@SuppressWarnings("rawtypes") Collection collection, int maxLen) {
         StringBuilder builder = new StringBuilder();

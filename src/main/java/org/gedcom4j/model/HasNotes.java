@@ -47,7 +47,7 @@ public interface HasNotes extends ModelElement {
      * 
      * @param initializeIfNeeded
      *            set to true if you want the backing collection to be instantiated/initialized if it is currently null
-     * @return the notes on this object, or null if there are none and <tt>initializeIfNeeded</tt> is false
+     * @return the notes on this object, or null if there are none and <var>initializeIfNeeded</var> is false
      */
     List<NoteStructure> getNoteStructures(boolean initializeIfNeeded);
 }
