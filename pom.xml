@@ -169,6 +169,7 @@
 					<forkCount>2</forkCount>
 					<parallel>classes</parallel>
 					<useUnlimitedThreads>true</useUnlimitedThreads>
+					<disableXmlReport>${closeTestReports}</disableXmlReport>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -358,6 +359,7 @@
 	<!-- Set the encoding to UTF-8 in order to preserve platform independence -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<closeTestReports>true</closeTestReports>
 	</properties>
 
 	<reporting>
