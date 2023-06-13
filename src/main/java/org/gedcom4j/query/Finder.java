@@ -302,4 +302,29 @@ public class Finder {
         return sdx1 == null && sdx2 == null || sdx1 != null && sdx1.equals(sdx2);
     }
 
+  /**
+   * Find individual whose ID matches the parameters.
+   *
+   * @param anID
+   *            the ID for the person
+   *
+   * @return the {@link Individual} that has the ID supplied.
+   */
+  public Individual findByID(String anID)
+  {
+    Individual result = null;
+    for (Individual i : g.getIndividuals().values())
+    {
+      String xref = i.getXref();
+      if (xref != null)
+      {
+        if (xref.equals(anID))
+        {
+          result = i;
+          break;
+        }
+      }
+    }
+    return result;
+  }
 }
