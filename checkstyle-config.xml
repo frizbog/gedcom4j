@@ -14,7 +14,8 @@
     <property name="tabWidth" value="4"/>
     <module name="SuppressWarningsHolder"/>
     <module name="JavadocMethod">
-      <property name="suppressLoadErrors" value="true"/>
+      <!-- removed in newer versions -->
+      <!-- property name="suppressLoadErrors" value="true"/ -->
     </module>
     <module name="JavadocType"/>
     <module name="JavadocVariable"/>
@@ -34,9 +35,10 @@
     <module name="IllegalImport"/>
     <module name="RedundantImport"/>
     <module name="UnusedImports"/>
-    <module name="LineLength">
+    <!-- moved in newer versions -->
+    <!-- module name="LineLength">
       <property name="max" value="160"/>
-    </module>
+    </module -->
     <module name="MethodLength"/>
     <module name="ParameterNumber"/>
     <module name="EmptyForIteratorPad"/>
@@ -87,6 +89,10 @@
       <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
     </module>
     <module name="UpperEll"/>
+  </module>
+  <!-- moved in newer versions -->
+  <module name="LineLength">
+    <property name="max" value="160"/>
   </module>
   <module name="JavadocPackage">
     <property name="severity" value="ignore"/>
